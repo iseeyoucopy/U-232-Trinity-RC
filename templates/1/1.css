@@ -1,0 +1,85 @@
+.blackiconcolor {color:black;}
+.rediconcolor {color:red;}
+.greeniconcolor {color:green;}
+.blueiconcolor {color:blue;}
+.yellowiconcolor {color:yellow;}
+
+.corner-badge {
+    z-index:1;
+    position:absolute;
+    top:6px;
+    right:35px;
+    margin-right:-25px;
+}
+.login-container {
+	margin-top: 70px;
+	text-align: center;
+	}   
+.starter-template {padding: 40px 15px;text-align: center;}
+.shout-table {width: 100%;max-width: 100%;margin-bottom: 3px;overflow: hidden;border: none;height: 200px;}
+.chat-table {width: 100%;max-width: 100%;margin-bottom: 3px;overflow: hidden;border: 1px solid rgba(10, 10, 10, 0.25);height: 600px;}
+.shout-m-top{margin-top: -2px; }
+/* Torrent Module Badges */
+//[class^="tbadge-"],
+[class*=" tbadge-"] {display: inline-block;width: 14px;height: 14px;margin-right: .3em;line-height: 14px;vertical-align: text-top;
+background: url(/pic/module_badges.png);background-position: 14px 14px;background-repeat: no-repeat;margin-top: 1px;}
+.module {position:relative;}
+.module .tbadge {position:absolute;right:0;top:0;z-index:1;opacity:0.65;}
+.module .tbadge-hot {background-position:0 0;}
+.module .tbadge-top {background-position:0 -50px;}
+.module .tbadge-free {background-position:0 -100px;}
+.module .tbadge-new {background-position:0 -150px;}
+.tbadge{position:absolute;top:0px;right:0px;z-index:1}
+.tbadge { background: url(/pic/module_badges.png); }
+.tbadge{position:absolute;top:0px;right:0px;z-index:1}
+.tbadge{top:-5px;right:-5px;width:50px;height:50px}
+.tbadge-hot{background-position:0 0; margin-right: -3px; margin-top: -3px;}
+.tbadge-top{background-position:0 -50px; margin-right: -3px; margin-top: -3px;}
+.tbadge-free{background-position:0 -100px; margin-right: -3px; margin-top: -3px;}
+.tbadge-new{background-position:0 -150px; margin-right: -3px; margin-top: -3px;}
+/*Torrent Module Badge end*/
+ /*Donations start*/
+.donate-td{background: transparent;display: block;border: 2px;}
+.donate-td1{background: grey;display: block;border: 2px;}
+.donate-table{width: 140px;height: 20px;border: 2px;display: block;}
+/*Donations end*/
+/** Cpatcha Links Settings ------------------------------------------------------------ */
+.cimage {border: 1px solid #eee; }
+.captchaImage {margin:0 2px;}
+.captchaImages {margin: 5px auto;width:350px;text-align:center;}
+.simpleCaptchaSelected {border: 2px solid #999; border-radius: 3px; -webkit-border-radius: 3px; }
+
+@media only screen and (min-width:319px) and (max-width:479px) {
+.captchaImage {margin-left:-14%;margin-right:45px; padding-left:0px;}
+}
+/**
+@media only screen and (min-width:480px) and (max-width:599px) {
+//.captchaImage {margin-right:60%;}
+}**/
+@media only screen and (min-width:600px) and (max-width:800px) {
+.captchaImage {margin-right:9%;margin-left:-10%;}
+}
+/** End Cpatcha Links Settings ------------------------------------------------------------ */
+/* The switch - the box around the slider */
+
+.banners  {
+	width:auto;
+	height:200px;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+.chat-table {width: 100%;max-width: 100%;margin-bottom: 3px;overflow: hidden;border: 1px solid rgba(10, 10, 10, 0.25);height: 600px;}
+/* ================= pager start  ================== */
+td.pager {display: inline-block;padding: 5px 14px;background-color:  #2b2b2b;border-color: #1e1e1e;border-radius: 5px;}
+td.highlight {display: inline-block;padding: 5px 14px;background-color: #171717;border-color: #000000; border-radius: 5px;}
+td.pagebr {border: 0px; padding: 1px;}
+/* ================= pager end  ================== */
+/*	/-------------------------------------------------------------------------------------------\
+	| Information About This File --------------------------------------------------------------|
+	|-------------------------------------------------------------------------------------------|
+	| This file is part of installer09 sourcecode. Show us some respect for the free time that	|
+	| went into making this source code, please leave all credit in PLACE. ---------------------|
+	| By removing ANY credit from these files you will not get any help from our support forum.	|
+	|-------------------------------------------------------------------------------------------|
+	| Thanks for using this sourcecode.	--------------------------------------------------------|
+	\-------------------------------------------------------------------------------------------/ */

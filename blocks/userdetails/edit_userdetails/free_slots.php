@@ -1,0 +1,2 @@
+<?php
+$HTMLOUT.= "<div class='col-sm-1'>{$lang['userdetails_freeleech_slots']}</div><div class='col-sm-1'><input class='form-control' type='text' name='freeslots' value='" . (int)$user['freeslots'] . "'></div>";

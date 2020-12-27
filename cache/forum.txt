@@ -1,0 +1,1 @@
+a:1:{i:0;a:6:{s:2:"id";s:1:"1";s:8:"username";s:8:"Mindless";s:5:"class";s:1:"6";s:6:"warned";s:1:"0";s:5:"donor";s:2:"no";s:9:"anonymous";s:2:"no";}}

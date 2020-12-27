@@ -1,0 +1,75 @@
+
+#jd-chat{
+	position:fixed;
+	bottom:0;
+	float:right;
+	right:0;
+}
+
+#jd-chat .jd-user,.jd-online
+{	
+	margin-right:2px;	
+	width:200px;
+	display:inline-block;
+}
+
+#jd-chat .jd-online .light
+{
+	font-weight:bold;
+	text-decoration:none;
+	color:red;
+	text-transform:none;
+	float:right;
+	display:none;
+}
+
+#jd-chat .jd-header .close-this
+{
+	float:right;
+}
+#jd-chat .jd-header
+{
+	padding:5px;
+	background:black;
+	color:white;
+	overflow:hidden;
+	cursor:pointer;
+}
+
+#jd-chat .jd-body .jd-online_user
+{
+	display:block;
+	padding:5px;		
+	cursor:pointer;
+	border-bottom:solid 1px gray;
+}
+#jd-chat .jd-body
+{
+	min-height:250px;
+	background:#e6e0df;
+}
+
+#jd-chat .jd-body  span.me
+{
+	display:block;
+	color:green;
+}
+
+$jd-chat .jd-body span.other
+{
+	display:block;
+}
+
+#jd-chat .jd-footer
+{
+	
+	background:black;
+	color:white;
+	overflow:hidden;
+}
+
+#jd-chat .jd-footer input
+{
+	padding:5px;
+	width:100%;
+}
