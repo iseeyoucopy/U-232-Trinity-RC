@@ -42,16 +42,12 @@ if (isset($_POST['action2'])) {
     case 'change_pm':
         $change_pm_number = (isset($_POST['change_pm_number']) ? intval($_POST['change_pm_number']) : 20);
         sql_query('UPDATE users SET pms_per_page = ' . sqlesc($change_pm_number) . ' WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-        $cache->begin_transaction('user' . $CURUSER['id']);
-        $cache->update_row(false, array(
+        $cache->update_row('user' . $CURUSER['id'], [
             'pms_per_page' => $change_pm_number
-        ));
-        $cache->commit_transaction($INSTALLER09['expires']['user_cache']);
-        $cache->begin_transaction('MyUser_' . $CURUSER['id']);
-        $cache->update_row(false, array(
+        ], $INSTALLER09['expires']['user_cache']);
+        $cache->update_row('MyUser_' . $CURUSER['id'], [
             'pms_per_page' => $change_pm_number
-        ));
-        $cache->commit_transaction($INSTALLER09['expires']['curuser']);
+        ], $INSTALLER09['expires']['curuser']);
         header('Location: pm_system.php?action=edit_mailboxes&pm=1');
         die();
         break;
@@ -153,14 +149,10 @@ if (isset($_POST['action2'])) {
         $curuser_cache['notifs'] = $notifs;
         $user_cache['notifs'] = $notifs;
         if ($curuser_cache) {
-            $cache->begin_transaction('MyUser_' . $CURUSER['id']);
-            $cache->update_row(false, $curuser_cache);
-            $cache->commit_transaction($INSTALLER09['expires']['curuser']);
+            $cache->update_row('MyUser_' . $CURUSER['id'], $curuser_cache, $INSTALLER09['expires']['curuser']);
         }
         if ($user_cache) {
-            $cache->begin_transaction('user' . $CURUSER['id']);
-            $cache->update_row(false, $user_cache);
-            $cache->commit_transaction($INSTALLER09['expires']['user_cache']);
+            $cache->update_row('user' . $CURUSER['id'], $user_cache, $INSTALLER09['expires']['user_cache']);
         }
         sql_query('UPDATE users SET ' . implode(', ', $updateset) . ' WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
         $worked = '&pms=1';

@@ -62,21 +62,15 @@ function docleanup($data)
                 $modcom         = sqlesc($modcomment);
                 $msgs_buffer[]  = '(0,' . $userid . ', ' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $users_buffer[] = '(' . $userid . ', ' . $prev_class . ', ' . $modcom . ')';
-                $cache->begin_transaction('user' . $userid);
-                $cache->update_row(false, array(
+                $cache->update_row('user' . $userid, [
                     'class' => $prev_class
-                ));
-                $cache->commit_transaction($INSTALLER09['expires']['user_cache']);
-                $cache->begin_transaction('user_stats_' . $userid);
-                $cache->update_row(false, array(
+                ], $INSTALLER09['expires']['user_cache']);
+                $cache->update_row('user_stats_' . $userid, [
                     'modcomment' => $modcomment
-                ));
-                $cache->commit_transaction($INSTALLER09['expires']['user_stats']);
-                $cache->begin_transaction('MYuser_' . $userid);
-                $cache->update_row(false, array(
+                ], $INSTALLER09['expires']['user_stats']);
+                $cache->update_row('MYuser_' . $userid, [
                     'class' => $prev_class
-                ));
-                $cache->commit_transaction($INSTALLER09['expires']['curuser']);
+                ], $INSTALLER09['expires']['curuser']);
                 $cache->delete('inbox_new_' . $userid);
                 $cache->delete('inbox_new_sb_' . $userid);
             }

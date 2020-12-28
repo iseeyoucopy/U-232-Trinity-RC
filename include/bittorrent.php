@@ -511,24 +511,20 @@ function userlogin()
     // Allowed staff
     if ($row["class"] >= UC_STAFF) {
         $allowed_ID = $INSTALLER09['allowed_staff']['id'];
-        if (!in_array(((int)$row["id"]) , $allowed_ID, true)) {
-            $msg = "Fake Account Detected: Username: " . htmlsafechars($row["username"]) . " - UserID: " . (int)$row["id"] . " - UserIP : " . getip();
+        if (!in_array(((int) $row["id"]), $allowed_ID, true)) {
+            $msg = "Fake Account Detected: Username: " . htmlsafechars($row["username"]) . " - UserID: " . (int) $row["id"] . " - UserIP : " . getip();
             // Demote and disable
             sql_query("UPDATE users SET enabled = 'no', class = 0 WHERE id =" . sqlesc($row["id"])) or sqlerr(__file__, __line__);
-            $cache->begin_transaction('MyUser_' . $row['id']);
-            $cache->update_row(false, array(
+            $cache->update_row('MyUser_' . $row['id'], [
                 'enabled' => 'no',
                 'class' => 0
-            ));
-            $cache->commit_transaction($INSTALLER09['expires']['curuser']);
-            $cache->begin_transaction('user' . $row['id']);
-            $cache->update_row(false, array(
+            ], $INSTALLER09['expires']['curuser']);
+            $cache->update_row('user' . $row['id'], [
                 'enabled' => 'no',
                 'class' => 0
-            ));
-            $cache->commit_transaction($INSTALLER09['expires']['user_cache']);
+            ], $INSTALLER09['expires']['user_cache']);
             write_log($msg);
-            $salty = hash("tiger160,3", "Th15T3xtis5add3dto66uddy6he@water..." . $row['username'] . "");
+            $salty = md5("Th15T3xtis5add3dto66uddy6he@water..." . $row['username'] . "");
             header("Location: {$INSTALLER09['baseurl']}/logout.php?hash_please={$salty}");
             die;
         }

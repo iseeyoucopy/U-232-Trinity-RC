@@ -21,11 +21,9 @@ function docleanup($data)
     if (mysqli_num_rows($res) > 0) {
         while ($arr = mysqli_fetch_assoc($res)) {
             $Free_buffer[] = '(' . $arr['id'] . ', \'0\')';
-            $cache->begin_transaction('torrent_details_' . $arr['id']);
-            $cache->update_row(false, array(
+            $cache->update_row('torrent_details_' . $arr['id'], [
                 'free' => 0
-            ));
-            $cache->commit_transaction($INSTALLER09['expires']['torrent_details']);
+            ], $INSTALLER09['expires']['torrent_details']);
         }
         $count = count($Free_buffer);
         if ($count > 0) {

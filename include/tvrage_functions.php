@@ -79,18 +79,14 @@ function tvrage(&$torrents)
         if (count($tmp[1])) $tvrage_showinfo['genres'] = join(', ', array_map('strtolower', $tmp[1]));
         if (empty($torrents['newgenre'])) $row_update[] = 'newgenre = ' . sqlesc(ucwords($tvrage_showinfo['genres']));
         //==The torrent cache
-        $cache->begin_transaction('torrent_details_' . $torrents['id']);
-        $cache->update_row(false, array(
+        $cache->update_row('torrent_details_' . $torrents['id'], [
             'newgenre' => ucwords($tvrage_showinfo['genres'])
-        ));
-        $cache->commit_transaction(0);
+        ], 0);
         if (empty($torrents['poster'])) $row_update[] = 'poster = ' . sqlesc($tvrage_showinfo['image']);
         //==The torrent cache
-        $cache->begin_transaction('torrent_details_' . $torrents['id']);
-        $cache->update_row(false, array(
+        $cache->update_row('torrent_details_' . $torrents['id'], [
             'poster' => $tvrage_showinfo['image']
-        ));
-        $cache->commit_transaction(0);
+        ], 0);
         if (count($row_update)) sql_query('UPDATE torrents set ' . join(', ', $row_update) . ' WHERE id = ' . $torrents['id']) or sqlerr(__FILE__, __LINE__);
         $tvrage_showinfo = tvrage_format($tvrage_showinfo, 'show') . '<br/>';
         $cache->set($memkey, $tvrage_showinfo, 0);

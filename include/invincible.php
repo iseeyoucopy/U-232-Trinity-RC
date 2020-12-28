@@ -51,36 +51,30 @@ function invincible($id, $invincible = true, $bypass_bans = true)
     //'ipf'   => $ip,
     // update ip in caches
     //$cache->delete('user'.$id);
-    $cache->update_row(false, array(
+    $cache->update_row('user' . $id, [
         'ip' => $ip,
         'perms' => $row['perms']
-    ));
-    $cache->update_row(false, array(
+    ], $INSTALLER09['expires']['user_cache']);
+    $cache->update_row('MyUser_' . $id, [
         'ip' => $ip,
         'perms' => $row['perms']
-    ));
-    $cache->begin_transaction('user_stats_' . $id);
-    $cache->update_row(false, array(
+    ], $INSTALLER09['expires']['curuser']);
+    $cache->update_row('user_stats_' . $id, [
         'modcomment' => $modcomment
-    ));
+    ], $INSTALLER09['expires']['user_stats']);
     //'ipf'   => $ip,
     if ($id == $CURUSER['id']) {
-        $cache->begin_transaction('user' . $CURUSER['id']);
-        $cache->update_row(false, array(
+        $cache->update_row('user' . $CURUSER['id'], [
             'ip' => $ip,
             'perms' => $row['perms']
-        ));
-        $cache->commit_transaction($INSTALLER09['expires']['user_cache']);
-        $cache->begin_transaction('MyUser_' . $CURUSER['id']);
-        $cache->update_row(false, array(
+        ], $INSTALLER09['expires']['user_cache']);
+        $cache->update_row('MyUser_' . $CURUSER['id'], [
             'ip' => $ip,
             'perms' => $row['perms']
-        ));
-        $cache->commit_transaction($INSTALLER09['expires']['curuser']);
-        $cache->begin_transaction('user_stats_' . $CURUSER['id']);
-        $cache->update_row(false, array(
+        ], $INSTALLER09['expires']['curuser']);
+        $cache->update_row('user_stats_' . $CURUSER['id'], [
             'modcomment' => $modcomment
-        ));
+        ], $INSTALLER09['expires']['user_stats']);
     }
     write_log(''.$lang['invincible_member'].'[b][url=userdetails.php?id=' . $id . ']' . (htmlsafechars($row['username'])) . '[/url][/b]' . $lang['invincible_is'] . ' ' . $display . ' ' . $lang['invincible_thanks_to1'] . ' [b]' . $CURUSER['username'] . '[/b]');
     // header ouput

@@ -133,9 +133,7 @@ function freeleech_announce() {
       $fl['countdown']['amount'] = 43200;  // timestamp test
       ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = '.ann_sqlesc($fl['countdown']['var']).', amount = '.ann_sqlesc($fl['countdown']['amount']).' '.
                   'WHERE type = "countdown"') or ann_sqlerr(__FILE__, __LINE__);
-      $cache->begin_transaction('freeleech_countdown');
-      $cache->update_row(false, array('var' => $fl['countdown']['var'], 'amount' => $fl['countdown']['amount']));
-      $cache->commit_transaction(0);
+      $cache->update_row('freeleech_countdown', ['var' => $fl['countdown']['var'], 'amount' => $fl['countdown']['amount']], 0);
       }
       return false;
    }
@@ -148,11 +146,7 @@ function freeleech_announce() {
          //$ahead_by = readable_time(($fl['countdown']['var'] - 86400) - $fl['countdown']['amount']);
          ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = '.ann_sqlesc($fl['countdown']['var']).' '.
                      'WHERE type = "countdown"') or ann_sqlerr(__FILE__, __LINE__);
-
-         $cache->begin_transaction('freeleech_countdown');
-         $cache->update_row(false, array('var' => $fl['countdown']['var']));
-         $cache->commit_transaction(0);
-
+         $cache->update_row('freeleech_countdown', ['var' => $fl['countdown']['var']], 0);
          $free_message = 'It will last for xx ending on Monday 12:00 am GMT.';
          $text         = '[color=#33CCCC][b]Freeleech Activated![/b][/color]'."\n".$free_message;
          $text_parsed  = '<span style="color:#33CCCC;font-weight:bold;">Freeleech Activated!</span>'."\n".$free_message;

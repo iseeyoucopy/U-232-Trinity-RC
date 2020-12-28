@@ -37,11 +37,9 @@ function searchcloud_insert($word)
         $searchcloud[$word] = $howmuch;
         $cache->set('searchcloud', $searchcloud, 0);
     } else {
-        $cache->begin_transaction('searchcloud');
-        $cache->update_row(false, array(
+        $cache->update_row('searchcloud', [
             $word => $howmuch
-        ));
-        $cache->commit_transaction(0);
+        ], 0);
     }
     sql_query('INSERT INTO searchcloud(searchedfor,howmuch,ip) VALUES (' . sqlesc($word) . ',1,' . sqlesc($ip) . ') ON DUPLICATE KEY UPDATE howmuch=howmuch+1') or sqlerr(__FILE__, __LINE__);
 }

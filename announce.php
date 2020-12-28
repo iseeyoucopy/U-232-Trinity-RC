@@ -498,16 +498,16 @@ $seeder = 'no';
     }
 }
 if ($seeder == 'yes') {
-    if ($torrent['banned'] != 'yes') 
-		$torrent_updateset[] = 'visible = \'yes\'';
-	$torrent_updateset[] = 'last_action = ' . TIME_NOW;
-	$cache->update_row(false, array(
+    if ($torrent['banned'] != 'yes') {
+        $torrent_updateset[] = 'visible = \'yes\'';
+    }
+    $torrent_updateset[] = 'last_action = ' . TIME_NOW;
+    $cache->update_row('torrent_details_' . $torrentid, [
         'visible' => 'yes'
-    ));
-    $cache->update_row(false, array(
+    ], $INSTALLER09['expires']['torrent_details']);
+    $cache->update_row('last_action_' . $torrentid, [
         'lastseed' => TIME_NOW
-    ));
-    $cache->commit_transaction(1800);
+    ], 1800);
 }
 if (count($torrent_updateset)) 
 	ann_sql_query('UPDATE LOW_PRIORITY torrents SET ' . join(',', $torrent_updateset) . ' WHERE id = ' . ann_sqlesc($torrentid)) or ann_sqlerr(__FILE__, __LINE__);

@@ -23,21 +23,15 @@ function docleanup($data)
             //$users_buffer[] = '('.$arr['id'].',15728640,'.$INSTALLER09['autoclean_interval'].')'; // 15 mb
             $update['seedbonus'] = ($arr['seedbonus'] + 0.225);
             $update['irctotal'] = ($arr['irctotal'] + $INSTALLER09['autoclean_interval']);
-            $cache->begin_transaction('user' . $arr['id']);
-            $cache->update_row(false, array(
+            $cache->update_row('user' . $arr['id'], [
                 'irctotal' => $update['irctotal']
-            ));
-            $cache->commit_transaction($INSTALLER09['expires']['user_cache']);
-            $cache->begin_transaction('user_stats' . $arr['id']);
-            $cache->update_row(false, array(
+            ], $INSTALLER09['expires']['user_cache']);
+            $cache->update_row('user_stats' . $arr['id'], [
                 'seedbonus' => $update['seedbonus']
-            ));
-            $cache->commit_transaction($INSTALLER09['expires']['user_stats']);
-            $cache->begin_transaction('userstats_' . $arr['id']);
-            $cache->update_row(false, array(
+            ], $INSTALLER09['expires']['user_stats']);
+            $cache->update_row('userstats_' . $arr['id'], [
                 'seedbonus' => $update['seedbonus']
-            ));
-            $cache->commit_transaction($INSTALLER09['expires']['u_stats']);
+            ], $INSTALLER09['expires']['u_stats']);
         }
         $count = count($users_buffer);
         if ($count > 0) {

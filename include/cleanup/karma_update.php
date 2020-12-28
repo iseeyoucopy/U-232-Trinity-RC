@@ -30,19 +30,15 @@ function docleanup($data)
             /*if ($arr['tcount'] >= 5) $arr['tcount'] = 1;*/
             $Buffer_User = (XBT_TRACKER == true ? $arr['uid'] : $arr['userid']);
             if($arr['users_id']== $Buffer_User && $arr['users_id'] != NULL) {
-            $users_buffer[] = '(' . $Buffer_User . ', '.$INSTALLER09['bonus_per_duration'].' * ' . $arr['tcount'] . ')';
-            $update['seedbonus'] = ($arr['seedbonus'] + $INSTALLER09['bonus_per_duration'] * $arr['tcount']);
-            $cache->begin_transaction('userstats_' . $Buffer_User);
-            $cache->update_row(false, array(
-                'seedbonus' => $update['seedbonus']
-            ));
-            $cache->commit_transaction($INSTALLER09['expires']['u_stats']);
-            $cache->begin_transaction('user_stats_' . $Buffer_User);
-            $cache->update_row(false, array(
-                'seedbonus' => $update['seedbonus']
-            ));
-            $cache->commit_transaction($INSTALLER09['expires']['user_stats']);
-        }
+                $users_buffer[] = '(' . $Buffer_User . ', '.$INSTALLER09['bonus_per_duration'].' * ' . $arr['tcount'] . ')';
+                $update['seedbonus'] = ($arr['seedbonus'] + $INSTALLER09['bonus_per_duration'] * $arr['tcount']);
+                $cache->update_row('userstats_' . $Buffer_User, [
+                    'seedbonus' => $update['seedbonus']
+                ], $INSTALLER09['expires']['u_stats']);
+                $cache->update_row('user_stats_' . $Buffer_User, [
+                    'seedbonus' => $update['seedbonus']
+                ], $INSTALLER09['expires']['user_stats']);
+            }
         }
         $count = count($users_buffer);
         if ($count > 0) {

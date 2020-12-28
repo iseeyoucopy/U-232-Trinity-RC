@@ -72,23 +72,17 @@ function docleanup($data)
                 $msgs_buffer[]     = '(0,' . $userid . ', ' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $users_buffer[]    = '(' . $userid . ', ' . $class_value . ', 1, ' . $modcom . ')';
                 $update['invites'] = ($arr['invites'] + 1);
-                $cache->begin_transaction('user' . $userid);
-                $cache->update_row(false, array(
+                $cache->update_row('user' . $userid, [
                     'class' => $class_value,
                     'invites' => $update['invites']
-                ));
-                $cache->commit_transaction($INSTALLER09['expires']['user_cache']);
-                $cache->begin_transaction('user_stats_' . $userid);
-                $cache->update_row(false, array(
+                ], $INSTALLER09['expires']['user_cache']);
+                $cache->update_row('user_stats_' . $userid, [
                     'modcomment' => $modcomment
-                ));
-                $cache->commit_transaction($INSTALLER09['expires']['user_stats']);
-                $cache->begin_transaction('MyUser_' . $userid);
-                $cache->update_row(false, array(
+                ], $INSTALLER09['expires']['user_stats']);
+                $cache->update_row('MyUser_' . $userid, [
                     'class' => $class_value,
                     'invites' => $update['invites']
-                ));
-                $cache->commit_transaction($INSTALLER09['expires']['curuser']);
+                ], $INSTALLER09['expires']['curuser']);
                 $cache->delete('inbox_new_' . $userid);
                 $cache->delete('inbox_new_sb_' . $userid);
             }

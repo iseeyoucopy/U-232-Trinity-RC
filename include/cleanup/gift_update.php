@@ -21,16 +21,12 @@ function docleanup($data)
     if (mysqli_num_rows($res) > 0) {
         while ($arr = mysqli_fetch_assoc($res)) {
             $users_buffer[] = '(' . $arr['id'] . ', \'no\')';
-            $cache->begin_transaction('user' . $arr['id']);
-            $cache->update_row(false, array(
+            $cache->update_row('user' . $arr['id'], [
                 'gotgift' => 'no'
-            ));
-            $cache->commit_transaction($INSTALLER09['expires']['user_cache']);
-            $cache->begin_transaction('MyUser_' . $arr['id']);
-            $cache->update_row(false, array(
+            ], $INSTALLER09['expires']['user_cache']);
+            $cache->update_row('MyUser_' . $arr['id'], [
                 'gotgift' => 'no'
-            ));
-            $cache->commit_transaction($INSTALLER09['expires']['curuser']);
+            ], $INSTALLER09['expires']['curuser']);
         }
         $count = count($users_buffer);
         if ($count > 0) {

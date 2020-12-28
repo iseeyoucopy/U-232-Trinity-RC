@@ -42,30 +42,22 @@ function docleanup($data)
 	         sql_query("INSERT INTO users(id,hit_and_run_total,downloadpos,hnrwarn,modcomment) VALUES ".implode(',',$_users)." ON DUPLICATE key UPDATE hit_and_run_total=hit_and_run_total+values(hit_and_run_total),downloadpos=values(downloadpos),hnrwarn=values(hnrwarn),modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
 	         unset($_pms,$_users);
             $update['hit_and_run_total'] = ($arr_fuckers['hit_and_run_total'] + $arr_fuckers['poop']);
-            $cache->begin_transaction('user'.$arr_fuckers['userid']);
-            $cache->update_row(false, array(
+            $cache->update_row('user' . $arr_fuckers['userid'], [
                 'hit_and_run_total' => $update['hit_and_run_total'],
                 'downloadpos' => 0,
                 'hnrwarn' => 'yes'
-            ));
-            $cache->commit_transaction($INSTALLER09['expires']['user_cache']);
-            $cache->begin_transaction('user_stats_'.$arr_fuckers['userid']);
-            $cache->update_row(false, array(
+            ], $INSTALLER09['expires']['user_cache']);
+            $cache->update_row('user_stats_' . $arr_fuckers['userid'], [
                 'modcomment' => $modcomment
-            ));
-            $cache->commit_transaction($INSTALLER09['expires']['user_stats']);
-            $cache->begin_transaction('userstats_'.$arr_fuckers['userid']);
-            $cache->update_row(false, array(
+            ], $INSTALLER09['expires']['user_stats']);
+            $cache->update_row('userstats_' . $arr_fuckers['userid'], [
                 'modcomment' => $modcomment
-            ));
-            $cache->commit_transaction($INSTALLER09['expires']['user_stats']);
-            $cache->begin_transaction('MyUser_'.$arr_fuckers['userid']);
-            $cache->update_row(false, array(
+            ], $INSTALLER09['expires']['user_stats']);
+            $cache->update_row('MyUser_' . $arr_fuckers['userid'], [
                 'hit_and_run_total' => $update['hit_and_run_total'],
                 'downloadpos' => 0,
                 'hnrwarn' => 'yes'
-            ));
-            $cache->commit_transaction($INSTALLER09['expires']['curuser']);
+            ], $INSTALLER09['expires']['curuser']);
             $cache->delete('inbox_new_'.$arr_fuckers['userid']);
             $cache->delete('inbox_new_sb_'.$arr_fuckers['userid']);
         }
@@ -89,28 +81,20 @@ function docleanup($data)
 	         if(count($_users) > 0)
 	         sql_query("INSERT INTO users(id,downloadpos,hnrwarn,modcomment) VALUES ".implode(',',$_users)." ON DUPLICATE key UPDATE downloadpos=values(downloadpos),hnrwarn=values(hnrwarn),modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
 	         unset($_pms,$_users);
-            $cache->begin_transaction('user' . $arr_good_boy['id']);
-            $cache->update_row(false, array(
+             $cache->update_row('user' . $arr_good_boy['id'], [
                 'downloadpos' => 1,
                 'hnrwarn' => 'no'
-            ));
-            $cache->commit_transaction($INSTALLER09['expires']['user_cache']);
-            $cache->begin_transaction('user_stats' . $arr_good_boy['id']);
-            $cache->update_row(false, array(
+            ], $INSTALLER09['expires']['user_cache']);
+            $cache->update_row('user_stats' . $arr_good_boy['id'], [
                 'modcomment' => $modcomment
-            ));
-            $cache->commit_transaction($INSTALLER09['expires']['user_stats']);
-            $cache->begin_transaction('userstats_' . $arr_good_boy['id']);
-            $cache->update_row(false, array(
+            ], $INSTALLER09['expires']['user_stats']);
+            $cache->update_row('userstats_' . $arr_good_boy['id'], [
                 'modcomment' => $modcomment
-            ));
-            $cache->commit_transaction($INSTALLER09['expires']['user_stats']);
-            $cache->begin_transaction('MyUser_' . $arr_good_boy['id']);
-            $cache->update_row(false, array(
+            ], $INSTALLER09['expires']['user_stats']);
+            $cache->update_row('MyUser_' . $arr_good_boy['id'], [
                 'downloadpos' => 1,
                 'hnrwarn' => 'no'
-            ));
-            $cache->commit_transaction($INSTALLER09['expires']['curuser']);
+            ], $INSTALLER09['expires']['curuser']);
             $cache->delete('inbox_new_' . $arr_good_boy['id']);
             $cache->delete('inbox_new_sb_' . $arr_good_boy['id']);
         }

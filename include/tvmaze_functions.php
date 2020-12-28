@@ -93,21 +93,17 @@ function tvmaze(&$torrents) {
             $img = "img.php/tvmaze/$tvmaze_id.jpg";
         }
         //==The torrent cache
-        $cache->begin_transaction('torrent_details_' . $torrents['id']);
-        $cache->update_row(false, array(
+        $cache->update_row('torrent_details_' . $torrents['id'], [
             'newgenre' => ucwords($tvmaze_array['genres2']),
-        ));
-        $cache->commit_transaction(0);
+        ], 0);
         if (empty($torrents['poster'])) {
             $row_update[] = 'poster = ' . sqlesc($img);
         }
 
         //==The torrent cache
-        $cache->begin_transaction('torrent_details_' . $torrents['id']);
-        $cache->update_row(false, array(
+        $cache->update_row('torrent_details_' . $torrents['id'], [
             'poster' => $img,
-        ));
-        $cache->commit_transaction(0);
+        ], 0);
         if (count($row_update)) {
             sql_query('UPDATE torrents set ' . join(', ', $row_update) . ' WHERE id = ' . $torrents['id']) or sqlerr(__FILE__, __LINE__);
         }
