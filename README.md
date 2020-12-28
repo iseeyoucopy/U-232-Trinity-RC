@@ -122,7 +122,9 @@ Staff is automatically added to the same 2 files, but you have to make sure the 
 
 # Credits
 
-All Credit goes to the original code creators.
+All Respect goes to Mindless for keeping and coding all this versions
+
+All Credit goes to the original code creators
 
 The original coders of torrentbits and especially to CoLdFuSiOn for carrying on the legacy with Tbdev.
 
@@ -137,7 +139,9 @@ U-232 wants to thank everyone who helped make it what it is today; shaping and d
 
 # The Team
 
-Lead Coders iseeyoucopy, stonebreath, GodFather 
+Lead coder Mindless
+
+Coders iseeyoucopy, stonebreath, GodFather 
 
 Lead Designer iseeyoucopy
 
