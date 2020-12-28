@@ -26,9 +26,9 @@
     PHP-XML 
     PHP-ZIP 
     LIBAPACHE2-MOD-PHP Apache/2.4.38 or higher 
-    Mysql 10.4.13
+    MariaDB 10.4.13
  
- "Side note" make sure your strict mode is off " set global sql_mode=''; "
+ "Side note" temporary make sure your strict mode is off " set global sql_mode=''; " I will update the code to work even in strict mode
 
 # Instructions for XBT
       http://www.visigod.com/xbt-tracker
