@@ -139,12 +139,13 @@ U-232 wants to thank everyone who helped make it what it is today; shaping and d
 
 # The Team
 
-Lead coder Mindless
+Lead coder Mindless (he was and allways will be the leader of this source)
 
 Coders iseeyoucopy, stonebreath, GodFather 
 
 Lead Designer iseeyoucopy
 
 Designers Support Credit's to Kidvision & others for designs used in the v0+v1+v2 Installer projects. Credit's to Roguesurfer for all v3&v4 design - Your a credit to this team. Credit's to swizzles and mistero for their work on framework intergration and design layout for v4. Credit's to son for v5 design work.
+
 
 # 2020 U-232 Code Name Trinity Edition RC©
