@@ -124,6 +124,8 @@ Staff is automatically added to the same 2 files, but you have to make sure the 
 
 All Respect goes to Mindless for keeping and coding all this versions
 
+Thanks to darkalchemy for idea of scrapbook multicache
+
 All Credit goes to the original code creators
 
 The original coders of torrentbits and especially to CoLdFuSiOn for carrying on the legacy with Tbdev.
@@ -139,7 +141,7 @@ U-232 wants to thank everyone who helped make it what it is today; shaping and d
 
 # The Team
 
-Lead coder Mindless (he was and allways will be the leader of this source)
+Lead coder Mindless (he was been and allways will be the leader of this source)
 
 Coders iseeyoucopy, stonebreath, GodFather 
 
