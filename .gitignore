@@ -1,8 +1,6 @@
 foundation/
 include/ann_config.php
 include/config.php
-cache/staff_settings.php
-cache/staff_settings2.php
 phperr_logs/*log
 sqlerr_logs/*log
 include/backup/*sql.bz2
