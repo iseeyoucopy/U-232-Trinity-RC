@@ -25,7 +25,7 @@ $HTMLOUT.= "";
 		{$lang['latestposts_title']}
 	</div>
 	<div class='card-body'>
-				<table class='table table-hover table-bordered'>
+				<table class='hover'>
 					<thead>
 						<tr>
 							<th scope='col'>{$lang['latestposts_topic_title']}</th>
