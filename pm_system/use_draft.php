@@ -14,15 +14,25 @@ $preview = '';
 //=== don't allow direct access
 if (!defined('BUNNY_PM_SYSTEM')) {
     $HTMLOUT = '';
-    $HTMLOUT.= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-        <head>
-        <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
-        <title>ERROR</title>
-        </head><body>
-        <h1 style="text-align:center;">ERROR</h1>
-        <p style="text-align:center;">How did you get here? silly rabbit Trix are for kids!.</p>
-        </body></html>';
+    $HTMLOUT.= '<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ERROR</title>
+    <link rel="stylesheet" href="/../../foundation/dist/assets/css/app.css">
+  </head>
+  <body>
+  <div class="grid-container">
+        <div class="grid-x grid-padding-x align-center-middle text-center margin-top-3">
+        <div class="callout alert margin-top-3">
+          <h5>You are not allowed to enter in here</h5>
+          <p>Please go back to<a href="/../../index.php"> Homepage</a></p>
+        </div> 
+        </div>
+</div>
+  </body>
+</html>';
     echo $HTMLOUT;
     exit();
 }
