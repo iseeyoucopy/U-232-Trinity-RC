@@ -77,7 +77,7 @@
 		$user_opt_fields = implode(', ', array_merge($user_opt_str));
         $c1_sql = sql_query("SELECT {$user_opt_fields} FROM user_options WHERE userid = " . sqlesc($row['id'])) or sqlerr(__FILE__, __LINE__);
         if (mysqli_num_rows($c1_sql) == 0) {
-            sql_query('INSERT INTO user_options(userid) VALUES(' . sqlesc($row['id']) . ')');
+            sql_query('INSERT INTO user_options(userid) VALUES(' . sqlesc($row['id']) . ')') or sqlerr(__FILE__, __LINE__);
             header('Location: index.php');
             die();
         }		
@@ -85,5 +85,6 @@
         foreach ($user_opt_int as $ii) $user_row[$ii] = (int)$user_row[$ii];
         foreach ($user_opt_str as $ii) $user_row[$ii] = $user_row[$ii];
 		$cache->set($user_blocks_key, $user_row, $INSTALLER09['expires']['curuser']);
-        unset($c1_sql);
+		unset($c1_sql);
+	}
 		?>
