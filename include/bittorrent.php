@@ -1288,6 +1288,7 @@ function referer()
         sql_query("INSERT INTO referrers (browser, ip, referer, page, date) VALUES (" . sqlesc($http_agent) . ", " . sqlesc($ip) . ", " . sqlesc($http_referer) . ", " . sqlesc($http_page) . ", " . sqlesc(TIME_NOW) . ")");
     }
 }
+/*
 if (file_exists("install/index.php")) {
     $HTMLOUT = '';
     $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
@@ -1300,6 +1301,7 @@ if (file_exists("install/index.php")) {
     echo $HTMLOUT;
     exit();
 }
+*/
 function mysql_fetch_all($query, $default_value = Array())
 {
     $r = @sql_query($query);
