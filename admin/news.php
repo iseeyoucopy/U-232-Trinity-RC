@@ -66,7 +66,7 @@ if ($mode == 'delete') {
     if ($_GET['h'] != $hash) stderr($lang['news_error'], $lang['news_del_what']);
     function deletenewsid($newsid)
     {
-        global $CURUSER, $r1,$keys;
+        global $CURUSER, $cache,$keys;
         sql_query("DELETE FROM news WHERE id = " . sqlesc($newsid) . " AND userid = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
         $cache->delete_value($keys['latest_news']);
     }

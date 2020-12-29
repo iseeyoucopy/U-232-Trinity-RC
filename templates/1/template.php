@@ -13,7 +13,7 @@
  //==Template system by Terranova
 function stdhead($title = "", $msgalert = true, $stdhead = false)
 {
-    global $CURUSER, $INSTALLER09, $lang, $free, $_NO_COMPRESS, $query_stat, $querytime, $cache, $r1, $r2, $BLOCKS, $CURBLOCK, $mood, $blocks;
+    global $CURUSER, $INSTALLER09, $lang, $free, $_NO_COMPRESS, $query_stat, $querytime, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
     if (!$INSTALLER09['site_online']) die("Site is down for maintenance, please check back again later... thanks<br />");
     if ($title == "") $title = $INSTALLER09['site_name'] . (isset($_GET['tbv']) ? " (" . TBVERSION . ")" : '');
     else $title = $INSTALLER09['site_name'] . (isset($_GET['tbv']) ? " (" . TBVERSION . ")" : '') . " :: " . htmlsafechars($title);
@@ -120,7 +120,7 @@ $htmlout.= AlertBar();
 
 function stdfoot($stdfoot = false)
 {
-    global $CURUSER, $INSTALLER09, $start, $query_stat, $cache, $r1, $r2, $querytime, $lang, $rc;
+    global $CURUSER, $INSTALLER09, $start, $query_stat, $cache, $querytime, $lang, $rc;
 	$user_id = isset($CURUSER['id']) ? $CURUSER['id'] : '';
     $debug = (SQL_DEBUG && in_array($user_id, $INSTALLER09['allowed_staff']['id']) ? 1 : 0);
     $seconds = microtime(true) - $start;
@@ -207,7 +207,7 @@ return $htmlout;
 }
 function StatusBar()
 {
-    global $CURUSER, $INSTALLER09, $lang, $rep_is_on, $cache, $mysqli, $r1, $r2, $msgalert;
+    global $CURUSER, $INSTALLER09, $lang, $rep_is_on, $cache, $mysqli, $msgalert;
     if (!$CURUSER) return "";
     $upped = mksize($CURUSER['uploaded']);
     $downed = mksize($CURUSER['downloaded']);
