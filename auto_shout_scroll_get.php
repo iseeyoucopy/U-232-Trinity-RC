@@ -17,12 +17,12 @@ dbconn(true);
 loggedinorreturn();
 echo "";
 //Check for Auto Shouts and cache it
-//$cache->delete_value('auto_shoutbox_');
+//$cache->delete_value($keys['auto_shoutbox']);
 //== cache the data
-if (($shouts = $cache->get('auto_shoutbox_')) === false) {
+if (($shouts = $cache->get($keys['auto_shoutbox'])) === false) {
     $res = sql_query("SELECT text FROM shoutbox WHERE staff_shout ='no' AND autoshout ='yes' ORDER BY id DESC LIMIT 10") or sqlerr(__FILE__, __LINE__);
     while ($shout = mysqli_fetch_assoc($res)) $shouts[] = $shout;
-    $cache->set('auto_shoutbox_', $shouts, $INSTALLER09['expires']['shoutbox']);
+    $cache->set($keys['auto_shoutbox'], $shouts, $INSTALLER09['expires']['shoutbox']);
 }
 
 //Output the shouts

@@ -182,14 +182,12 @@ sql_query('UPDATE users SET browser=' . sqlesc($browser) . ', ip = ' . $ip_escap
 $cache->update_row('MyUser_' . $row['id'], [
     'browser' => $browser,
     'ip' => $ip,
-    'ssluse' => $ssluse,
     'last_access' => TIME_NOW,
     'last_login' => TIME_NOW
 ], $INSTALLER09['expires']['curuser']);
 $cache->update_row('user' . $row['id'], [
     'browser' => $browser,
     'ip' => $ip,
-    'ssluse' => $ssluse,
     'last_access' => TIME_NOW,
     'last_login' => TIME_NOW
 ], $INSTALLER09['expires']['user_cache']);
