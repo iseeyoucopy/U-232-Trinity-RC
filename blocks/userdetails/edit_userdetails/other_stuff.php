@@ -72,4 +72,4 @@ $HTMLOUT .="<div class=\"col-sm-8\">Forums List<br>".$forum_list."</div></div>";
     $HTMLOUT.= "<br><br><div class='row'><div class='col-sm-offset-5'><input type='submit' class='btn btn-default' value='{$lang['userdetails_okay']}'></div></div>";
     $HTMLOUT.= "</table>";
     $HTMLOUT.= "</form>";
-?
+?>
