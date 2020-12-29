@@ -47,7 +47,7 @@ function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
     $member_reputation = "";
     if ($rep_is_on) {
         include CACHE_DIR . '/rep_cache.php';
-        //require_once (CLASS_DIR . 'class_user_options.php');
+        require_once (CLASS_DIR . 'class_user_options.php');
         // ok long winded file checking, but it's much better than file_exists
         if (!isset($reputations) || !is_array($reputations) || count($reputations) < 1) {
             return '<span title="Cache doesn\'t exist or zero length">Reputation: Offline</span>';
@@ -71,27 +71,24 @@ function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
         $rep_power = $user['reputation'];
         $posneg = '';
         if ($user['reputation'] == 0) {
-            $rep_img = 'balance';
+            $rep_img = '<i class="fas fa-star" style="color:blue"></i>';
             $rep_power = $user['reputation'] * -1;
         } elseif ($user['reputation'] < 0) {
-            $rep_img = 'neg';
-            $rep_img_2 = 'highneg';
+            $rep_img = '<i class="fas fa-star" style="color:#ff0000"></i>';
+            $rep_img_2 = '<i class="fas fa-star" style="color:#ff0066"></i>';
             $rep_power = $user['reputation'] * -1;
         } else {
-            $rep_img = 'pos';
-            $rep_img_2 = 'highpos';
+            $rep_img = '<i class="fas fa-star" style="color:#009933"></i>';
+            $rep_img_2 = '<i class="fas fa-star" style="color:#66ff33"></i>';
         }
-        /**
          if( $rep_power > 500 )
          {
          // work out the bright green shiny bars, cos they cost 100 points, not the normal 100
          $rep_power = ( $rep_power - ($rep_power - 500) ) + ( ($rep_power - 500) / 2 );
          }
-         *
-         */
         // shiny, shiny, shiny boots...
         // ok, now we can work out the number of bars/pippy things
-        $pips = 12;
+        $pips = 5;
         switch ($mode) {
         case 'comments':
             $pips = 12;
@@ -106,7 +103,7 @@ function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
             $pips = 12;
             break;
         default:
-            $pips = 12; // statusbar
+            $pips = 5; // statusbar
         }
         $rep_bar = intval($rep_power / 100);
         if ($rep_bar > 10) {
@@ -114,15 +111,13 @@ function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
         }
         if ($user['g_rep_hide']) // can set this to a group option if required, via admin?
         {
-            $posneg = 'off';
-            $rep_level = 'rep_off';
+            $posneg = 'off<i class="fas fa-star" style="color:#ebebe0"></i>';
         } else { // it ain't off then, so get on with it! I wanna see shiny stuff!!
-            $rep_level = $user_reputation ? $user_reputation : 'rep_undefined'; // just incase
             for ($i = 0; $i <= $rep_bar; $i++) {
                 if ($i >= 5) {
-                    $posneg.= "<img src='pic/rep/reputation_$rep_img_2.gif' alt=\"Reputation Power $rep_power\n" . htmlsafechars($user['username']) . " $rep_level\" title=\"Reputation Power $rep_power " . htmlsafechars($user['username']) . " $rep_level\" />";
+                    $posneg.= $rep_img_2;
                 } else {
-                    $posneg.= "<img src='pic/rep/reputation_$rep_img.gif' alt=\"Reputation Power $rep_power\n" . htmlsafechars($user['username']) . " $rep_level\" title=\"Reputation Power $rep_power " . htmlsafechars($user['username']) . " $rep_level\" />";
+                    $posneg.= $rep_img;
                 }
             }
         }
