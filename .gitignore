@@ -1,4 +1,3 @@
-include/user_functions.php
 install/index.php
 install/extra/ann_config.phpsample.php
 install/extra/ann_config.xbtsample.php
