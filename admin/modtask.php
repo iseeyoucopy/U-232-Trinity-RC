@@ -970,7 +970,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
 	$updateset[] = "forum_mod=".sqlesc($forum_mod);
         $curuser_cache['forum_mod'] = $forum_mod;
         $user_cache['forum_mod'] = $forum_mod;
-        $cache -> delete_value('forummods');
+        $cache->delete('forummods');
 	$modcomment = get_date( TIME_NOW, 'DATE', 1 ) . " ".$CURUSER["username"]." ".$whatm." forum moderator rights\n" . $modcomment;
         }
 
@@ -984,7 +984,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
 	$updateset[] = "forums_mod =".sqlesc($foo);
         $curuser_cache['forums_mod'] = $foo;
         $user_cache['forums_mod'] = $foo;
-        $cache -> delete_value('forummods');
+        $cache->delete('forummods');
     }
     //== Add ModComment... (if we changed stuff we update otherwise we dont include this..)
     if (($CURUSER['class'] == UC_MAX && ($user['modcomment'] != $_POST['modcomment'] || $modcomment != $_POST['modcomment'])) || ($CURUSER['class'] < UC_MAX && $modcomment != $user['modcomment'])) $updateset[] = "modcomment = " . sqlesc($modcomment);

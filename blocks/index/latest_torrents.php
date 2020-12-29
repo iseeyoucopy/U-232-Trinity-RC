@@ -99,7 +99,7 @@ if ($top5torrents) {
     }
 }
 //==Last 5 begin
-//$cache->delete_value('last5_tor_');
+//$cache->delete('last5_tor_');
 if (($last5torrents = $cache->get('last5_tor_')) === false) {
     $sql = "SELECT id, seeders, poster, leechers, name, category FROM torrents WHERE visible='yes' ORDER BY added DESC LIMIT {$TRINITY20['latest_torrents_limit']}";
     $result = sql_query($sql) or sqlerr(__FILE__, __LINE__);

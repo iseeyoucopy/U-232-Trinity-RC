@@ -245,7 +245,7 @@ function get_torrent_from_hash($info_hash)
                 $cache->set($leech_key, $torrent['leechers'], $ttll);
                 $cache->set($comp_key, $torrent['times_completed'], $ttll);
             } else {
-                $cache->delete_value($key);
+                $cache->delete($key);
                 return false;
             }
         }

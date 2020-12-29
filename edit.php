@@ -24,7 +24,7 @@ if ((isset($_GET['unedit']) && $_GET['unedit'] == 1) && $CURUSER['class'] >= UC_
     $returl = "details.php?id=$id";
     if (isset($_POST["returnto"])) $returl.= "&returnto=" . urlencode($_POST["returnto"]);
     header("Refresh: 1; url=$returl");
-    $cache->delete_value('editedby_' . $id);
+    $cache->delete('editedby_' . $id);
     exit();
 }
 dbconn();

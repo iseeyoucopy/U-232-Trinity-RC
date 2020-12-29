@@ -68,7 +68,7 @@ if ($mode == 'delete') {
     {
         global $CURUSER, $cache,$keys;
         sql_query("DELETE FROM news WHERE id = " . sqlesc($newsid) . " AND userid = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-        $cache->delete_value($keys['latest_news']);
+        $cache->delete($keys['latest_news']);
     }
     $HTMLOUT.= deletenewsid($newsid);
     header("Refresh: 3; url=staffpanel.php?tool=news&mode=news");
@@ -87,7 +87,7 @@ if ($mode == 'add') {
     $added = isset($_POST["added"]) ? $_POST["added"] : '';
     if (!$added) $added = TIME_NOW;
     sql_query("INSERT INTO news (userid, added, body, title, sticky, anonymous) VALUES (" . sqlesc($CURUSER['id']) . "," . sqlesc($added) . ", " . sqlesc($body) . ", " . sqlesc($title) . ", " . sqlesc($sticky) . ", " . sqlesc($anonymous) . ")") or sqlerr(__FILE__, __LINE__);
-    $cache->delete_value($keys['latest_news']);
+    $cache->delete($keys['latest_news']);
     header("Refresh: 3; url=staffpanel.php?tool=news&mode=news");
     mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 1 ? stderr($lang['news_success'], $lang['news_add_success']) : stderr($lang['news_add_oopss'], $lang['news_add_something']);
 }
@@ -106,7 +106,7 @@ if ($mode == 'edit') {
         $title = htmlsafechars($_POST['title']);
         if ($title == "") stderr($lang['news_error'], $lang['news_edit_title']);
         sql_query("UPDATE news SET body=" . sqlesc($body) . ", sticky=" . sqlesc($sticky) . ", anonymous=" . sqlesc($anonymous) . ", title=" . sqlesc($title) . " WHERE id=" . sqlesc($newsid)) or sqlerr(__FILE__, __LINE__);
-        $cache->delete_value($keys['latest_news']);
+        $cache->delete($keys['latest_news']);
         header("Refresh: 3; url=staffpanel.php?tool=news&mode=news");
         stderr($lang['news_success'], $lang['news_edit_success']);
     } else {

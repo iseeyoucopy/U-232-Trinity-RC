@@ -39,7 +39,7 @@ if (happyHour('check') && happyCheck('checkid', $row['category']) && XBT_TRACKER
     $multiplier = happyHour('multiplier');
     happyLog($CURUSER['id'], $id, $multiplier);
     sql_query('INSERT INTO happyhour (userid, torrentid, multiplier ) VALUES (' . sqlesc($CURUSER['id']) . ',' . sqlesc($id) . ',' . sqlesc($multiplier) . ')') or sqlerr(__FILE__, __LINE__);
-    $cache->delete_value($CURUSER['id'] . '_happy');
+    $cache->delete($CURUSER['id'] . '_happy');
 }
 
 if (($CURUSER['seedbonus'] === 0 || $CURUSER['seedbonus'] < $TRINITY20['bonus_per_download']))
@@ -90,7 +90,7 @@ if (isset($_GET['slot'])) {
         elseif ($used_slot && $slot['free'] == 'no') sql_query('INSERT INTO freeslots (torrentid, userid, doubleup, addedup) VALUES (' . sqlesc($id) . ', ' . sqlesc($CURUSER['id']) . ', "yes", ' . $added . ')') or sqlerr(__FILE__, __LINE__);
         else sql_query('INSERT INTO freeslots (torrentid, userid, doubleup, addedup) VALUES (' . sqlesc($id) . ', ' . sqlesc($CURUSER['id']) . ', "yes", ' . $added . ')') or sqlerr(__FILE__, __LINE__);
     } else stderr('ERROR', 'What\'s up doc?');
-    $cache->delete_value('fllslot_' . $CURUSER['id']);
+    $cache->delete('fllslot_' . $CURUSER['id']);
     make_freeslots($CURUSER['id'], 'fllslot_');
     $user['freeslots'] = ($CURUSER['freeslots'] - 1);
     $cache->update_row('MyUser_' . $CURUSER['id'], [
@@ -101,10 +101,10 @@ if (isset($_GET['slot'])) {
     ], $TRINITY20['expires']['user_cache']);
 }
 /* end **/
-$cache->delete_value('MyPeers_' . $CURUSER['id']);
-$cache->delete_value('top5_tor_');
-$cache->delete_value('last5_tor_');
-$cache->delete_value('scroll_tor_');
+$cache->delete('MyPeers_' . $CURUSER['id']);
+$cache->delete('top5_tor_');
+$cache->delete('last5_tor_');
+$cache->delete('scroll_tor_');
 if (!isset($CURUSER['torrent_pass']) || strlen($CURUSER['torrent_pass']) != 32) {
     $xbt_config = mysqli_fetch_row(sql_query("SELECT value FROM xbt_config WHERE name='torrent_pass_private_key'")) or sqlerr(__FILE__, __LINE__);
     $site_key = $xbt_config['0']; // the value of torrent_pass_private_key that is stored in the xbt_config table

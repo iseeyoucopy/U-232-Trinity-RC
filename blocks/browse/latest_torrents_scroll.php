@@ -71,7 +71,7 @@ easing: "ease-in-out",
 </script>';
 
 //AND poster != ''
-//$cache->delete_value('scroll_tor_');
+//$cache->delete('scroll_tor_');
 if (($scroll_torrents = $cache->get('scroll_tor_')) === false) {
     $scroll = sql_query("SELECT id, seeders, leechers, name, poster FROM torrents WHERE seeders >= '1' ORDER BY added DESC LIMIT {$TRINITY20['latest_torrents_limit_scroll']}") or sqlerr(__FILE__, __LINE__);
     while ($scroll_torrent = mysqli_fetch_assoc($scroll)) $scroll_torrents[] = $scroll_torrent;

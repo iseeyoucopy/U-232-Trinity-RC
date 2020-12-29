@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $arr['name'];
     $res = sql_query("INSERT INTO releases (releasename, time, releasetime, section) VALUES (".sqlesc($name).", ".sqlesc($time).", ".sqlesc($time).", 'Site add')") or sqlerr(__FILE__, __LINE__);
     
-    $cache->delete_value('torrent_pretime_'.$tid);
+    $cache->delete('torrent_pretime_'.$tid);
     if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) != 1) stderr("{$lang['text_error']}", "{$lang['text_unable']}");
     stderr("{$lang['stderr_success']}", "{$lang['text_success']}");
 }

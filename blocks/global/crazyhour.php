@@ -44,7 +44,7 @@ WHERE type = "crazyhour"') or sqlerr(__FILE__, __LINE__);
             $text_parsed = '<b class="btn btn-success btn-sm">Next <span style="font-weight:bold;color:orange;">Crazyhour</span> is at ' . get_date($crazyhour['crazyhour']['var'] + ($CURUSER['time_offset'] - 3600) , 'LONG');
             sql_query('INSERT INTO shoutbox (userid, date, text, text_parsed) ' . '
 VALUES (2, ' . TIME_NOW . ', ' . sqlesc($text) . ', ' . sqlesc($text_parsed) . ')') or sqlerr(__FILE__, __LINE__);
-            $cache->delete_value('shoutbox_');
+            $cache->delete('shoutbox_');
         }
     } elseif (($crazyhour['crazyhour']['var'] < $crazy_hour) && ($crazyhour['crazyhour']['var'] >= TIME_NOW)) { // if crazyhour
         if ($crazyhour['crazyhour']['amount'] !== 1) {
@@ -58,7 +58,7 @@ WHERE type = "crazyhour"') or sqlerr(__FILE__, __LINE__);
                 $text = 'w00t! It\'s [color=orange][b]Crazyhour[/b][/color] :w00t:';
                 $text_parsed = 'w00t! It\'s <span style="font-weight:bold;color:orange;">Crazyhour</span> <img src="pic/smilies/w00t.gif" alt=":w00t:" />';
                 sql_query('INSERT INTO shoutbox (userid, date, text, text_parsed) ' . 'VALUES (2, ' . TIME_NOW . ', ' . sqlesc($text) . ', ' . sqlesc($text_parsed) . ')') or sqlerr(__FILE__, __LINE__);
-                $cache->delete_value('shoutbox_');
+                $cache->delete('shoutbox_');
             }
         }
         $crazyhour['remaining'] = ($crazyhour['crazyhour']['var'] - TIME_NOW);

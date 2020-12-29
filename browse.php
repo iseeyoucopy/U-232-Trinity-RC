@@ -433,6 +433,7 @@ if ($count) {
     }
 }
 $HTMLOUT.= "";
+/*
 $ip = getip();
 //== Start ip logger - Melvinmeow, Mindless, pdq
 $no_log_ip = ($CURUSER['perms'] & bt_options::PERMS_NO_IP);
@@ -445,12 +446,13 @@ if (!$no_log_ip) {
     $res = sql_query("SELECT * FROM ips WHERE ip = " . sqlesc($ip) . " AND userid = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
     if (mysqli_num_rows($res) == 0) {
         sql_query("INSERT INTO ips (userid, ip, lastbrowse, type) VALUES (" . sqlesc($userid) . ", " . sqlesc($ip) . ", $added, 'Browse')") or sqlerr(__FILE__, __LINE__);
-        $cache->delete_value('ip_history_' . $userid);
+        $cache->delete('ip_history_' . $userid);
     } else {
         sql_query("UPDATE ips SET lastbrowse = $added WHERE ip=" . sqlesc($ip) . " AND userid = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-        $cache->delete_value('ip_history_' . $userid);
+        $cache->delete('ip_history_' . $userid);
     }
 }
 //== End Ip logger
+*/
 echo stdhead($title, true, $stdhead) . $HTMLOUT . stdfoot($stdfoot);
 ?>

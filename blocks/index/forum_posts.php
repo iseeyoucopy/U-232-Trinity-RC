@@ -93,7 +93,7 @@ $HTMLOUT.= "";
     }
 	$HTMLOUT.="</div>";
 }
-//$cache->delete_value('last_posts_b_' . $CURUSER['class']);
+//$cache->delete('last_posts_b_' . $CURUSER['class']);
 //==End
 // End Class
 // End File

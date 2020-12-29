@@ -35,7 +35,7 @@ function deletetorrent($id)
 				 LEFT JOIN snatched ON snatched.torrentid = torrents.id
 				 WHERE torrents.id =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
     unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
-    $cache->delete_value('MyPeers_' . $CURUSER['id']);
+    $cache->delete('MyPeers_' . $CURUSER['id']);
 }
 function deletetorrent_xbt($id)
 {
@@ -52,7 +52,7 @@ function deletetorrent_xbt($id)
                                      LEFT JOIN thumbsup ON thumbsup.torrentid = xbt_files_users.fid
                                      WHERE xbt_files_users.fid =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
-        $cache->delete_value('MyPeers_XBT_' . $CURUSER['id']);
+        $cache->delete('MyPeers_XBT_' . $CURUSER['id']);
     }
 $res = sql_query("SELECT name, owner, seeders FROM torrents WHERE id =" . sqlesc($id));
 $row = mysqli_fetch_assoc($res);
@@ -77,12 +77,12 @@ deletetorrent_xbt($id);
 deletetorrent($id);
 remove_torrent_peers($id);
 }
-//$cache->delete_value('lastest_tor_');
-$cache->delete_value('top5_tor_');
-$cache->delete_value('last5_tor_');
-$cache->delete_value('scroll_tor_');
-$cache->delete_value('torrent_details_' . $id);
-$cache->delete_value('torrent_details_text' . $id);
+//$cache->delete('lastest_tor_');
+$cache->delete('top5_tor_');
+$cache->delete('last5_tor_');
+$cache->delete('scroll_tor_');
+$cache->delete('torrent_details_' . $id);
+$cache->delete('torrent_details_text' . $id);
 write_log("{$lang['delete_torrent']} $id ({$row['name']}){$lang['delete_deleted_by']}{$CURUSER['username']} ($reasonstr)\n");
 if ($TRINITY20['seedbonus_on'] == 1) {
     //===remove karma
@@ -103,8 +103,8 @@ if ($CURUSER["id"] != $row["owner"] AND $CURUSER['pm_on_delete'] == 'yes') {
     $pm_on = (int)$row["owner"];
     $message = "Torrent $id (" . htmlsafechars($row['name']) . ") has been deleted.\n  Reason: $reasonstr";
     sql_query("INSERT INTO messages (sender, receiver, msg, added) VALUES(0, " . sqlesc($pm_on) . "," . sqlesc($message) . ", $added)") or sqlerr(__FILE__, __LINE__);
-    $cache->delete_value('inbox_new_' . $pm_on);
-    $cache->delete_value('inbox_new_sb_' . $pm_on);
+    $cache->delete('inbox_new_' . $pm_on);
+    $cache->delete('inbox_new_sb_' . $pm_on);
 }
 if (isset($_POST["returnto"])) $ret = "<a href='" . htmlsafechars($_POST["returnto"]) . "'>{$lang['delete_go_back']}</a>";
 else $ret = "<a href='{$TRINITY20['baseurl']}/browse.php'>{$lang['delete_back_browse']}</a>";

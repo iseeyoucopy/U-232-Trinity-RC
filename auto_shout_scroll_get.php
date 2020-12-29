@@ -17,7 +17,7 @@ dbconn(true);
 loggedinorreturn();
 echo "";
 //Check for Auto Shouts and cache it
-//$cache->delete_value($keys['auto_shoutbox']);
+//$cache->delete($keys['auto_shoutbox']);
 //== cache the data
 if (($shouts = $cache->get($keys['auto_shoutbox'])) === false) {
     $res = sql_query("SELECT text FROM shoutbox WHERE staff_shout ='no' AND autoshout ='yes' ORDER BY id DESC LIMIT 10") or sqlerr(__FILE__, __LINE__);

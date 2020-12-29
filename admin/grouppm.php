@@ -106,8 +106,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $msg.= $lang['grouppm_this'] . join(', ', $sent2classes);
             foreach ($ids as $rid) $pms[] = "(" . $sender . "," . $rid . "," . TIME_NOW . "," . sqlesc($msg) . "," . sqlesc($subject) . ")";
             if (sizeof($pms) > 0) $r = sql_query("INSERT INTO messages(sender,receiver,added,msg,subject) VALUES " . join(",", $pms)) or sqlerr(__FILE__, __LINE__);
-            $cache->delete_value('inbox_new_' . $rid);
-            $cache->delete_value('inbox_new_sb_' . $rid);
+            $cache->delete('inbox_new_' . $rid);
+            $cache->delete('inbox_new_sb_' . $rid);
             $err[] = ($r ? $lang['grouppm_sent'] : $lang['grouppm_again']);
         } else $err[] = $lang['grouppm_nousers'];
     }

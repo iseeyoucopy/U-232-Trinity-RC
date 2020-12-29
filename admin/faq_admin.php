@@ -127,7 +127,7 @@ function Do_Faq_Delete()
     if (!count($id))
         stderr("Error", "No faq selected!");
     sql_query("DELETE FROM faq WHERE id IN( " . implode(',', $id) . " )") or sqlerr(__FILE__, __LINE__);
-    $cache -> delete_value('faqs__');
+    $cache->delete('faqs__');
     stderr("Info", "Faq successfully Deleted! <a href='staffpanel.php?tool=faq_admin'>Go Back To Faq Admin?</a>");
 }
 // ====end
@@ -144,7 +144,7 @@ or <a href='staffpanel.php?tool=faq_admin'><span style='font-weight: bold; color
     }
     sql_query("DELETE FROM faq WHERE type = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
     sql_query("DELETE FROM faq_cat WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $cache -> delete_value('faqs__');
+    $cache->delete('faqs__');
     stderr("Info", "Faq category deleted successfully! <a href='staffpanel.php?tool=faq_admin'>Go Back To Faq Admin?</a>");
 }
 function Show_Cat_Edit_Form()
@@ -247,7 +247,7 @@ function Do_Faq_Update()
     }
     if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == -1)
         stderr("SQL Error", "Update failed");
-    $cache -> delete_value('faqs__');
+    $cache->delete('faqs__');
     stderr("Info", "Updated successfully <a href='staffpanel.php?tool=faq_admin'>Go Back To Admin</a>");
 }
 function Do_Cat_Update()
@@ -265,7 +265,7 @@ function Do_Cat_Update()
     sql_query($sql) or sqlerr(__FILE__, __LINE__);
     if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == -1)
         stderr("Warning", "Could not carry out that request");
-    $cache -> delete_value('faqs__');
+    $cache->delete('faqs__');
     stderr("Info", "Updated successfully <a href='staffpanel.php?tool=faq_admin'>Go Back To Admin</a>");
 }
 function Do_Cat_Add()
@@ -283,7 +283,7 @@ function Do_Cat_Add()
     sql_query($sql) or sqlerr(__FILE__, __LINE__);
     if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == -1)
         stderr("Warning", "Couldn't forefill that request");
-    $cache -> delete_value('faqs__');
+    $cache->delete('faqs__');
     $htmlout .= New_Cat_Form(1);
     //return $htmlout;
     echo stdhead("Add New Title") . $htmlout . stdfoot();
@@ -303,7 +303,7 @@ function Do_Faq_Add()
     sql_query($sql) or sqlerr(__FILE__, __LINE__);
     if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == -1)
         stderr("Warning", "Couldn't complete that request");
-    $cache -> delete_value('faqs__');
+    $cache->delete('faqs__');
     New_Faq_Form(1);
     exit();
 }

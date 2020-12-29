@@ -97,7 +97,7 @@ if (!defined('IN_INSTALLER09_FORUM')) {
 	 sql_query("INSERT INTO posts (topic_id, user_id, added, body, anonymous, icon) VALUES(".sqlesc($topicid).", ".sqlesc($userid).", $added, $body, ".sqlesc($anonymous).",".sqlesc($posticon).")") or sqlerr(__FILE__, __LINE__);
 	  $postid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res) or stderr("Error", "No post ID returned!");
 	  update_topic_last_post($topicid);
-          $cache->delete_value($keys['last_postsb'] . $CURUSER['class']);
+          $cache->delete($keys['last_postsb'] . $CURUSER['class']);
          if ($TRINITY20['autoshout_on'] == 1) {
              if ($anonymous == 'yes') {
 	         $message = "[Anonymous*] Created a new forum thread [url={$TRINITY20['baseurl']}/forums.php?action=viewtopic&topicid=$topicid&page=last]{$subject}[/url]";
@@ -164,7 +164,7 @@ if (!defined('IN_INSTALLER09_FORUM')) {
                } else {
                      $message = $CURUSER['username'] . " replied to the thread [url={$TRINITY20['baseurl']}/forums.php?action=viewtopic&topicid=$topicid&page=last]{$subject}[/url]";
         }
-        $cache->delete_value($keys['last_postsb'] . $CURUSER['class']);
+        $cache->delete($keys['last_postsb'] . $CURUSER['class']);
         if (!in_array($forumid, $TRINITY20['staff_forums'])) {
             autoshout($message);
             $cache->delete('shoutbox_');

@@ -86,7 +86,7 @@ function move_cat()
     }
     //all go
     sql_query("UPDATE torrents SET category = " . sqlesc($new_cat_id) . " WHERE category = " . sqlesc($old_cat_id));
-    $cache->delete_value('genrelist');
+    $cache->delete('genrelist');
     if (-1 != mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
         header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=categories&action=categories");
     } else {
@@ -161,7 +161,7 @@ function add_cat()
     $cat_image = sqlesc($params['new_cat_image']);
     $min_class = sqlesc($params['new_cat_minclass']);
     sql_query("INSERT INTO categories (name, cat_desc, image, min_class) VALUES($cat_name, $cat_desc, $cat_image, $min_class)");
-    $cache->delete_value('genrelist');
+    $cache->delete('genrelist');
     if (-1 == mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     } else {
@@ -195,7 +195,7 @@ function delete_cat()
         sql_query("UPDATE torrents SET category = " . sqlesc($new_cat_id) . " WHERE category = " . sqlesc($old_cat_id));
     }
     sql_query("DELETE FROM categories WHERE id = " . sqlesc($old_cat_id));
-    $cache->delete_value('genrelist');
+    $cache->delete('genrelist');
     if (mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
         header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=categories&action=categories");
     } else {
@@ -287,7 +287,7 @@ function edit_cat()
     $min_class = sqlesc($params['edit_cat_minclass']);
     $cat_id = intval($params['id']);
     sql_query("UPDATE categories SET name = $cat_name, cat_desc = $cat_desc, image = $cat_image, min_class = $min_class WHERE id = $cat_id");
-    $cache->delete_value('genrelist');
+    $cache->delete('genrelist');
     if (-1 == mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     } else {
