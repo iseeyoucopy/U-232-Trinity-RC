@@ -47,6 +47,7 @@ $INSTALLER09['time_use_relative_format'] = '{--}, h:i A';
 $INSTALLER09['time_joined'] = 'j-F y';
 $INSTALLER09['time_short'] = 'jS F Y - h:i A';
 $INSTALLER09['time_long'] = 'M j Y, h:i A';
+$INSTALLER09['time_ttable'] = 'd-m-Y, H:i:s';
 $INSTALLER09['time_tiny'] = '';
 $INSTALLER09['time_date'] = '';
 //== DB setup
