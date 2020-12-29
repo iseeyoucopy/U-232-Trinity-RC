@@ -25,7 +25,7 @@ function get_parked()
 //== Auto Shout Function ==//
 function autoshout($msg)
 {
-    global $INSTALLER09, $r1;
+    global $INSTALLER09, $cache;
     require_once (INCL_DIR . 'bbcode_functions.php');
     //sql_query('INSERT INTO shoutbox(userid,date,text,text_parsed,autoshout)VALUES (' . $INSTALLER09['bot_id'] . ',' . TIME_NOW . ',' . sqlesc($msg) . ',' . sqlesc(format_comment($msg)) . ', "yes")');
     sql_query('INSERT INTO ajax_chat_messages(userID,userName,userRole,channel,dateTime,ip,text) VALUES (' . $INSTALLER09['bot_id'] . ',' . $INSTALLER09['bot_name'] .',' . $INSTALLER09['bot_role'] . ',"2",' . sqlesc(TIME_DATE) . ',' . sqlesc($_SERVER['REMOTE_ADDR']) . ',' . sqlesc($msg) . ')');
