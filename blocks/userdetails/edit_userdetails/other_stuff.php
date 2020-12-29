@@ -1,21 +1,15 @@
 <?php
-/*
- |--------------------------------------------------------------------------|
- |   https://github.com/iseeyoucopy/                                        |
- |--------------------------------------------------------------------------|
- |   Licence Info: WTFPL                                                    |
- |--------------------------------------------------------------------------|
- |   Copyright (C) 2020 U-232 Codename Trinity                              |
- |--------------------------------------------------------------------------|
- |   A bittorrent tracker source based on TBDev.net/tbsource/bytemonsoon.   |
- |--------------------------------------------------------------------------|
- |   Project Leaders: iseeyoucopy, stonebreath, GodFather                   |
- |--------------------------------------------------------------------------|
-  _   _   _   _   _     _   _   _   _   _   _     _   _   _   _
- / \ / \ / \ / \ / \   / \ / \ / \ / \ / \ / \   / \ / \ / \ / \
-( U | - | 2 | 3 | 2 )-( S | o | u | r | c | e )-( C | o | d | e )
- \_/ \_/ \_/ \_/ \_/   \_/ \_/ \_/ \_/ \_/ \_/   \_/ \_/ \_/ \_/
-*/
+/**
+ * -------   U-232 Codename Trinity   ----------*
+ * ---------------------------------------------*
+ * --------  @authors U-232 Team  --------------*
+ * ---------------------------------------------*
+ * -----  @site https://u-232.duckdns.org/  ----*
+ * ---------------------------------------------*
+ * -----  @copyright 2020 U-232 Team  ----------*
+ * ---------------------------------------------*
+ * ------------  @version V6  ------------------*
+ */
 $HTMLOUT.= '<div class="row"><div class="col-sm-1">'.$lang['userdetails_hnr'].'<br><input class="form-control" type="text" name="hit_and_run_total" value="' . (int)$user['hit_and_run_total'] . '"></div>
                  
 	<div class="col-sm-1">'.$lang['userdetails_suspended'].'<br><input name="suspended" value="yes" type="radio"'.($user['suspended'] == 'yes' ? ' checked="checked"' : '').'>'.$lang['userdetails_yes'].'
