@@ -23,7 +23,7 @@ if (isset($showpmbtn))
         <input type='submit' value='{$lang['userdetails_msg_btn']}' class='btn' />
       </form>
       </td></tr>";
-    $HTMLOUT.= "<form method='get' action='{$INSTALLER09['baseurl']}/pm_system.php?action=send_message'>
+    $HTMLOUT.= "<form method='get' action='{$TRINITY20['baseurl']}/pm_system.php?action=send_message'>
 		<input type='hidden' name='receiver' value='" . (int)$user["id"] . "'>
 		<input type='submit'class='btn btn-sm' value='{$lang['userdetails_sendmess']}' style='height: 23px'></form>";
     if ($CURUSER['class'] < UC_STAFF && $user["id"] != $CURUSER["id"]) {

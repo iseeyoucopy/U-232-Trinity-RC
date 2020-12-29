@@ -19,8 +19,8 @@
 	<li class='list-group-item'><a href='topmoods.php'>{$lang['usercp_lnk_top']}</a></li>
 	<li class='list-group-item'><a href='lottery.php'>{$lang['usercp_lnk_lott']}</a></li>";
     if ($CURUSER['class'] >= UC_POWER_USER) {
-        $HTMLOUT.= "<li class='list-group-item'><a href='blackjack.php'>{$INSTALLER09['site_name']} {$lang['usercp_lnk_black']}</a></li>";
-        $HTMLOUT.= "<li class='list-group-item'><a href='casino.php'>{$INSTALLER09['site_name']} {$lang['usercp_lnk_casi']}</a></li>
+        $HTMLOUT.= "<li class='list-group-item'><a href='blackjack.php'>{$TRINITY20['site_name']} {$lang['usercp_lnk_black']}</a></li>";
+        $HTMLOUT.= "<li class='list-group-item'><a href='casino.php'>{$TRINITY20['site_name']} {$lang['usercp_lnk_casi']}</a></li>
         </ul>
 						</div></div></div></div></div></div>";
     }

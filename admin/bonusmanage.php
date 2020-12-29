@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $sql = sql_query("UPDATE bonus SET points = ".sqlesc($points).", pointspool=".sqlesc($pointspool).", minpoints=".sqlesc($minpoints).", enabled = ".sqlesc($enabled).", description = ".sqlesc($descr)." WHERE id = ".sqlesc($id));
         if ($sql) {
-            header("Location: {$INSTALLER09['baseurl']}/staffpanel.php?tool=bonusmanage");
+            header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=bonusmanage");
         } else {
             stderr($lang['bonusmanager_oops'], "{$lang['bonusmanager_sql']}");
         }

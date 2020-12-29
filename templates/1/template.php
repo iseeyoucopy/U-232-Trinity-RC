@@ -13,14 +13,14 @@
  //==Template system by Terranova
 function stdhead($title = "", $msgalert = true, $stdhead = false)
 {
-    global $CURUSER, $INSTALLER09, $lang, $free, $_NO_COMPRESS, $query_stat, $querytime, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
-    if (!$INSTALLER09['site_online']) die("Site is down for maintenance, please check back again later... thanks<br />");
-    if ($title == "") $title = $INSTALLER09['site_name'] . (isset($_GET['tbv']) ? " (" . TBVERSION . ")" : '');
-    else $title = $INSTALLER09['site_name'] . (isset($_GET['tbv']) ? " (" . TBVERSION . ")" : '') . " :: " . htmlsafechars($title);
+    global $CURUSER, $TRINITY20, $lang, $free, $_NO_COMPRESS, $query_stat, $querytime, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
+    if (!$TRINITY20['site_online']) die("Site is down for maintenance, please check back again later... thanks<br />");
+    if ($title == "") $title = $TRINITY20['site_name'] . (isset($_GET['tbv']) ? " (" . TBVERSION . ")" : '');
+    else $title = $TRINITY20['site_name'] . (isset($_GET['tbv']) ? " (" . TBVERSION . ")" : '') . " :: " . htmlsafechars($title);
     if ($CURUSER) {
-        $INSTALLER09['stylesheet'] = isset($CURUSER['stylesheet']) ? "{$CURUSER['stylesheet']}.css" : $INSTALLER09['stylesheet'];
-        $INSTALLER09['categorie_icon'] = isset($CURUSER['categorie_icon']) ? "{$CURUSER['categorie_icon']}" : $INSTALLER09['categorie_icon'];
-        $INSTALLER09['language'] = isset($CURUSER['language']) ? "{$CURUSER['language']}" : $INSTALLER09['language'];
+        $TRINITY20['stylesheet'] = isset($CURUSER['stylesheet']) ? "{$CURUSER['stylesheet']}.css" : $TRINITY20['stylesheet'];
+        $TRINITY20['categorie_icon'] = isset($CURUSER['categorie_icon']) ? "{$CURUSER['categorie_icon']}" : $TRINITY20['categorie_icon'];
+        $TRINITY20['language'] = isset($CURUSER['language']) ? "{$CURUSER['language']}" : $TRINITY20['language'];
     }
 	$torrent_pass = isset($CURUSER['torrent_pass']) ? "{$CURUSER['torrent_pass']}" : '';
     /** ZZZZZZZZZZZZZZZZZZZZZZZZZZip it! */
@@ -31,15 +31,15 @@ if (!isset($_NO_COMPRESS)) if (!ob_start('ob_gzhandler')) ob_start();
     $js_incl = '';
     $js_incl.= '<!-- javascript goes here or in footer -->';
     if (!empty($stdhead['js'])) {
-        foreach ($stdhead['js'] as $JS) $js_incl.= "<script type='text/javascript' src='{$INSTALLER09['baseurl']}/scripts/" . $JS . ".js'></script>";
+        foreach ($stdhead['js'] as $JS) $js_incl.= "<script type='text/javascript' src='{$TRINITY20['baseurl']}/scripts/" . $JS . ".js'></script>";
     }
 
     //== Include css files needed only for the page being used by pdq
-    $stylez = ($CURUSER ? "{$CURUSER['stylesheet']}" : "{$INSTALLER09['stylesheet']}");
+    $stylez = ($CURUSER ? "{$CURUSER['stylesheet']}" : "{$TRINITY20['stylesheet']}");
     $css_incl = '';
     $css_incl.= '<!-- css goes in header -->';
     if (!empty($stdhead['css'])) {
-        foreach ($stdhead['css'] as $CSS) $css_incl.= "<link type='text/css' rel='stylesheet' href='{$INSTALLER09['baseurl']}/templates/{$stylez}/css/" . $CSS . ".css' />";
+        foreach ($stdhead['css'] as $CSS) $css_incl.= "<link type='text/css' rel='stylesheet' href='{$TRINITY20['baseurl']}/templates/{$stylez}/css/" . $CSS . ".css' />";
     }
 $htmlout .='<!DOCTYPE html>
   <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
@@ -97,8 +97,8 @@ $htmlout.='<div class="grid-x off-canvas-content" data-off-canvas-content>';
     require_once (BLOCK_DIR.'global/staff_tools.php');
     }
 		$htmlout.= '<div class="banners">';
-		$htmlout.= "<div class='margin-3 float-left'><a href='{$INSTALLER09['baseurl']}/index.php'><img src='{$INSTALLER09['pic_base_url']}logo.png'></a></div>";
-		$htmlout.= "<div class='margin-3 float-right'><a href='{$INSTALLER09['baseurl']}/donate.php'><img src='{$INSTALLER09['pic_base_url']}makedonation.gif'></a></div>";
+		$htmlout.= "<div class='margin-3 float-left'><a href='{$TRINITY20['baseurl']}/index.php'><img src='{$TRINITY20['pic_base_url']}logo.png'></a></div>";
+		$htmlout.= "<div class='margin-3 float-right'><a href='{$TRINITY20['baseurl']}/donate.php'><img src='{$TRINITY20['pic_base_url']}makedonation.gif'></a></div>";
 		$htmlout.= '</div>';
 		$htmlout.= StatusBar();
 		$htmlout.= '<div class="card">';
@@ -120,9 +120,9 @@ $htmlout.= AlertBar();
 
 function stdfoot($stdfoot = false)
 {
-    global $CURUSER, $INSTALLER09, $start, $query_stat, $cache, $querytime, $lang, $rc;
+    global $CURUSER, $TRINITY20, $start, $query_stat, $cache, $querytime, $lang, $rc;
 	$user_id = isset($CURUSER['id']) ? $CURUSER['id'] : '';
-    $debug = (SQL_DEBUG && in_array($user_id, $INSTALLER09['allowed_staff']['id']) ? 1 : 0);
+    $debug = (SQL_DEBUG && in_array($user_id, $TRINITY20['allowed_staff']['id']) ? 1 : 0);
     $seconds = microtime(true) - $start;
     $r_seconds = round($seconds, 5);
     $queries = (!empty($query_stat)); // sql query count by pdq
@@ -141,7 +141,7 @@ function stdfoot($stdfoot = false)
     if (!empty($stdfoot['js'])) {
         $htmlfoot.= '<!-- javascript goes here in footer -->';
         foreach ($stdfoot['js'] as $JS) $htmlfoot.= '
-		<script src="' . $INSTALLER09['baseurl'] . '/scripts/' . $JS . '.js"></script>';
+		<script src="' . $TRINITY20['baseurl'] . '/scripts/' . $JS . '.js"></script>';
     }
     $querytime = 0;
     $max_class = isset($CURUSER['class']) ? $CURUSER['class'] : '';
@@ -179,7 +179,7 @@ function stdfoot($stdfoot = false)
     }
         $htmlfoot.= "
 				<div class='callout primary float-left'>
-				" . $INSTALLER09['site_name'] . " {$lang['gl_stdfoot_querys_page']}" . $r_seconds . " {$lang['gl_stdfoot_querys_seconds']}<br />" . "
+				" . $TRINITY20['site_name'] . " {$lang['gl_stdfoot_querys_page']}" . $r_seconds . " {$lang['gl_stdfoot_querys_seconds']}<br />" . "
 				{$lang['gl_stdfoot_querys_server']}" . $queries . " {$lang['gl_stdfoot_querys_time']} " . ($queries != 1 ? "{$lang['gl_stdfoot_querys_times']}" : "") . "</br>
 				" . ($debug ? "{$lang['gl_stdfoot_uptime']} " . $uptime . "" : " ") . "
 				</div>
@@ -207,7 +207,7 @@ return $htmlout;
 }
 function StatusBar()
 {
-    global $CURUSER, $INSTALLER09, $lang, $rep_is_on, $cache, $mysqli, $msgalert;
+    global $CURUSER, $TRINITY20, $lang, $rep_is_on, $cache, $mysqli, $msgalert;
     if (!$CURUSER) return "";
     $upped = mksize($CURUSER['uploaded']);
     $downed = mksize($CURUSER['downloaded']);
@@ -259,7 +259,7 @@ if (XBT_TRACKER == true) {
             $seed[$key] = number_format(0 + $a['count']);
             $seed['conn'] = $a['connectable'] == 0 ? 1 : 2;
         }
-        $cache->set('MyPeers_XBT_'.$CURUSER['id'], $seed, $INSTALLER09['expires']['MyPeers_xbt_']);
+        $cache->set('MyPeers_XBT_'.$CURUSER['id'], $seed, $TRINITY20['expires']['MyPeers_xbt_']);
         //unset($result, $a);
     }
 	$seed = $MyPeersXbtCache;
@@ -311,7 +311,7 @@ if (XBT_TRACKER == true) {
     $member_reputation = get_reputation($CURUSER);
     $usrclass = $StatusBar = "";
     if ($CURUSER['override_class'] != 255) $usrclass = "&nbsp;<b>[" . get_user_class_name($CURUSER['class']) . "]</b>&nbsp;";
-    else if ($CURUSER['class'] >= UC_STAFF) $usrclass = "&nbsp;<a href='".$INSTALLER09['baseurl']."/setclass.php'><b>[" . get_user_class_name($CURUSER['class']) . "]</b></a>&nbsp;";
+    else if ($CURUSER['class'] >= UC_STAFF) $usrclass = "&nbsp;<a href='".$TRINITY20['baseurl']."/setclass.php'><b>[" . get_user_class_name($CURUSER['class']) . "]</b></a>&nbsp;";
 	$StatusBar.= '<div class="dropdown-pane padding-0" id="profile-dropdown" data-dropdown data-hover="true" data-hover-pane="true" data-close-on-click="true">
     <div class="grid-container">
       <div class="grid-x grid-margin-x">';
@@ -319,26 +319,26 @@ if (XBT_TRACKER == true) {
 		<dd class='text-center'>".(isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? get_user_class_name($CURUSER['class']) : $usrclass)."</dd>
 		<dd>{$lang['gl_act_torrents']}&nbsp;:&nbsp;
 
-		<dd>".($INSTALLER09['seedbonus_on'] ? "{$lang['gl_karma']}: <a href='".$INSTALLER09['baseurl']."/mybonus.php'>{$CURUSER['seedbonus']}</a>&nbsp;" : "")."</dd>
-		<dd>{$lang['gl_invites']}: <a href='".$INSTALLER09['baseurl']."/invite.php'>{$CURUSER['invites']}</a> | Free Slots: ".$CURUSER['freeslots']."</dd>
-		<dd>".($INSTALLER09['rep_sys_on'] ? "{$lang['gl_rep']}:{$member_reputation}&nbsp;" : "")."</dd>
-		<dd>{$lang['gl_shareratio']}". member_ratio($CURUSER['uploaded'], $INSTALLER09['ratio_free'] ? '0' : $CURUSER['downloaded'])."</dd>";
+		<dd>".($TRINITY20['seedbonus_on'] ? "{$lang['gl_karma']}: <a href='".$TRINITY20['baseurl']."/mybonus.php'>{$CURUSER['seedbonus']}</a>&nbsp;" : "")."</dd>
+		<dd>{$lang['gl_invites']}: <a href='".$TRINITY20['baseurl']."/invite.php'>{$CURUSER['invites']}</a> | Free Slots: ".$CURUSER['freeslots']."</dd>
+		<dd>".($TRINITY20['rep_sys_on'] ? "{$lang['gl_rep']}:{$member_reputation}&nbsp;" : "")."</dd>
+		<dd>{$lang['gl_shareratio']}". member_ratio($CURUSER['uploaded'], $TRINITY20['ratio_free'] ? '0' : $CURUSER['downloaded'])."</dd>";
 		
-		if ($INSTALLER09['ratio_free']) {
+		if ($TRINITY20['ratio_free']) {
     $StatusBar .= "<dd>{$lang['gl_uploaded']}:".$upped."</dd>";
     } else {
         $StatusBar .= "<dd>{$lang['gl_uploaded']}:{$upped}</dd>
 		<dd>{$lang['gl_downloaded']}:{$downed}</dd>
 		<dd>{$lang['gl_connectable']}:{$connectable}</dd>";
 }
-	$StatusBar .="<dd>{$lang['gl_hnr']}: <a href='".$INSTALLER09['baseurl']."/hnr.php?id=".$CURUSER['id']."'>{$hitnruns}</a>&nbsp;</dd>
-	<dd><a href='#' onclick='themes();'><i class='fas fa-palette blueiconcolor' title='{$lang['gl_theme']}'></i></a> | <a href='#' onclick='language_select();'><i class='fas fa-language' title='{$lang['gl_language_select']}'></i></a> | <a href='" . $INSTALLER09['baseurl'] . "/pm_system.php'><i class='far fa-envelope' title='{$lang['gl_pms']}'></i></a> | <a href='" . $INSTALLER09['baseurl'] . "/usercp.php'><i class='fas fa-user-edit' title='{$lang['gl_usercp']}'></i></a> | <a href='" . $INSTALLER09['baseurl'] . "/friends.php'><i class='fas fa-user-friends' title='{$lang['gl_friends']}'></i></a> | <a href='" . $INSTALLER09['baseurl'] . "/logout.php?hash_please={$salty}'><i class='fas fa-power-off rediconcolor' title='{$lang['gl_logout']}'></i></a></dd></dl>";
+	$StatusBar .="<dd>{$lang['gl_hnr']}: <a href='".$TRINITY20['baseurl']."/hnr.php?id=".$CURUSER['id']."'>{$hitnruns}</a>&nbsp;</dd>
+	<dd><a href='#' onclick='themes();'><i class='fas fa-palette blueiconcolor' title='{$lang['gl_theme']}'></i></a> | <a href='#' onclick='language_select();'><i class='fas fa-language' title='{$lang['gl_language_select']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/pm_system.php'><i class='far fa-envelope' title='{$lang['gl_pms']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/usercp.php'><i class='fas fa-user-edit' title='{$lang['gl_usercp']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/friends.php'><i class='fas fa-user-friends' title='{$lang['gl_friends']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/logout.php?hash_please={$salty}'><i class='fas fa-power-off rediconcolor' title='{$lang['gl_logout']}'></i></a></dd></dl>";
 	$StatusBar .= "</div></div></div></div>";
     return $StatusBar;
 }
 function GlobalAlert()
 {
-	global $CURUSER, $INSTALLER09, $lang, $free, $_NO_COMPRESS, $query_stat, $querytime, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
+	global $CURUSER, $TRINITY20, $lang, $free, $_NO_COMPRESS, $query_stat, $querytime, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
 	$htmlout = '';
 	if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_REPORTS && $BLOCKS['global_staff_report_on']) {
     require_once (BLOCK_DIR.'global/report.php');
@@ -377,7 +377,7 @@ function GlobalAlert()
 }
 function NavBar()
 {
-	global $CURUSER, $INSTALLER09, $lang;
+	global $CURUSER, $TRINITY20, $lang;
 	$NavBar ="";
 $NavBar .="<div class='cell medium-3 large-2 sticky-container' id='menu-bar' data-sticky-container>
     <div class='sticky' data-anchor='navbar' data-sticky data-margin-top='0'>
@@ -386,42 +386,42 @@ $NavBar .="<div class='cell medium-3 large-2 sticky-container' id='menu-bar' dat
 			<div class='card'>
 				<div class='card-divider padding-0'>{$lang['gl_general']}</div>
 				<div class='card-section'><dl>
-					<dd><a href='" . $INSTALLER09['baseurl'] . "/index.php'>{$lang['gl_home']}</a></dd>
-					<dd><a href='" . $INSTALLER09['baseurl'] . "/topten.php'>{$lang['gl_stats']}</a></dd>
-					<dd><a href='" . $INSTALLER09['baseurl'] . "/chat.php'>{$lang['gl_chat']}</a></dd>
-					<dd><a href='" . $INSTALLER09['baseurl'] . "/faq.php'>{$lang['gl_faq']}</a></dd>
-					<dd><a href='" . $INSTALLER09['baseurl'] . "/rules.php'>{$lang['gl_rules']}</a></dd>
-					<dd><a href='" . $INSTALLER09['baseurl'] . "/staff.php'>{$lang['gl_staff']}</a></dd>
-					<dd><a href='" . $INSTALLER09['baseurl'] . "/wiki.php'>{$lang['gl_wiki']}</a></dd>
+					<dd><a href='" . $TRINITY20['baseurl'] . "/index.php'>{$lang['gl_home']}</a></dd>
+					<dd><a href='" . $TRINITY20['baseurl'] . "/topten.php'>{$lang['gl_stats']}</a></dd>
+					<dd><a href='" . $TRINITY20['baseurl'] . "/chat.php'>{$lang['gl_chat']}</a></dd>
+					<dd><a href='" . $TRINITY20['baseurl'] . "/faq.php'>{$lang['gl_faq']}</a></dd>
+					<dd><a href='" . $TRINITY20['baseurl'] . "/rules.php'>{$lang['gl_rules']}</a></dd>
+					<dd><a href='" . $TRINITY20['baseurl'] . "/staff.php'>{$lang['gl_staff']}</a></dd>
+					<dd><a href='" . $TRINITY20['baseurl'] . "/wiki.php'>{$lang['gl_wiki']}</a></dd>
 					<dd><a href='#' onclick='radio();'>{$lang['gl_radio']}</a></dd>
-					<dd><a href='" . $INSTALLER09['baseurl'] . "/rsstfreak.php'>{$lang['gl_tfreak']}</a></dd>
-					<dd><a href='" . $INSTALLER09['baseurl'] . "/sitepot.php'>{$lang['gl_sitepot']}</a></dd>
-					<dd><a href='" . $INSTALLER09['baseurl'] . "/forums.php'>{$lang['gl_forums']}</a></dd>
-					<dd><a href='" . $INSTALLER09['baseurl'] . "/tv_guide.php'>Tv Guide</a></dd>
+					<dd><a href='" . $TRINITY20['baseurl'] . "/rsstfreak.php'>{$lang['gl_tfreak']}</a></dd>
+					<dd><a href='" . $TRINITY20['baseurl'] . "/sitepot.php'>{$lang['gl_sitepot']}</a></dd>
+					<dd><a href='" . $TRINITY20['baseurl'] . "/forums.php'>{$lang['gl_forums']}</a></dd>
+					<dd><a href='" . $TRINITY20['baseurl'] . "/tv_guide.php'>Tv Guide</a></dd>
 				</div>
 			</div>
 			<div class='card'>
-				" . (isset($CURUSER) && $CURUSER['class'] >= UC_POWER_USER ? "<div class='card-divider padding-0'>{$lang['gl_games']}</div><div class='card-section'>" : "")."" . (isset($CURUSER) && $CURUSER['class'] >= UC_POWER_USER ? "<dl><dd><a href='" . $INSTALLER09['baseurl'] . "/casino.php'>{$lang['gl_casino']}</a></dd>" : "") . "" . (isset($CURUSER) && $CURUSER['class'] >= UC_POWER_USER ? "<dd><a href='" . $INSTALLER09['baseurl'] . "/blackjack.php'>{$lang['gl_bjack']}</a></dd></dl>" : "") . "" . (isset($CURUSER) && $CURUSER['class'] >= UC_POWER_USER ? "</div>" : "") . "
+				" . (isset($CURUSER) && $CURUSER['class'] >= UC_POWER_USER ? "<div class='card-divider padding-0'>{$lang['gl_games']}</div><div class='card-section'>" : "")."" . (isset($CURUSER) && $CURUSER['class'] >= UC_POWER_USER ? "<dl><dd><a href='" . $TRINITY20['baseurl'] . "/casino.php'>{$lang['gl_casino']}</a></dd>" : "") . "" . (isset($CURUSER) && $CURUSER['class'] >= UC_POWER_USER ? "<dd><a href='" . $TRINITY20['baseurl'] . "/blackjack.php'>{$lang['gl_bjack']}</a></dd></dl>" : "") . "" . (isset($CURUSER) && $CURUSER['class'] >= UC_POWER_USER ? "</div>" : "") . "
 			</div>
 			<div class='card'>
 				<div class='card-divider padding-0'>{$lang['gl_torrent']}</div>
 				<div class='card-section'><dl>
-					<dd><a href='" . $INSTALLER09['baseurl'] . "/browse.php'>{$lang['gl_torrents']}</a></dd>
-					<dd><a href='" . $INSTALLER09['baseurl'] . "/requests.php'>{$lang['gl_requests']}</a></dd>
-					<dd><a href='" . $INSTALLER09['baseurl'] . "/offers.php'>{$lang['gl_offers']}</a></dd>
-					<dd><a href='" . $INSTALLER09['baseurl'] . "/needseed.php?needed=seeders'>{$lang['gl_nseeds']}</a></dd>" . (isset($CURUSER) && $CURUSER['class'] <= UC_VIP ? "
-					<dd><a href='" . $INSTALLER09['baseurl'] . "/uploadapp.php'>{$lang['gl_uapp']}</a></dd> " : "
-					<dd><a href='" . $INSTALLER09['baseurl'] . "/upload.php'>{$lang['gl_upload']}</a></dd>") . "" . (isset($CURUSER) && $CURUSER['class'] <= UC_VIP ? "" : "
-					<dd><a href='" . $INSTALLER09['baseurl'] . "/multiupload.php'>{$lang['gl_mupload']}</a></dd>") . "
-					<dd><a href='" . $INSTALLER09['baseurl'] . "/bookmarks.php'>{$lang['gl_bookmarks']}</a></dd></dl>
+					<dd><a href='" . $TRINITY20['baseurl'] . "/browse.php'>{$lang['gl_torrents']}</a></dd>
+					<dd><a href='" . $TRINITY20['baseurl'] . "/requests.php'>{$lang['gl_requests']}</a></dd>
+					<dd><a href='" . $TRINITY20['baseurl'] . "/offers.php'>{$lang['gl_offers']}</a></dd>
+					<dd><a href='" . $TRINITY20['baseurl'] . "/needseed.php?needed=seeders'>{$lang['gl_nseeds']}</a></dd>" . (isset($CURUSER) && $CURUSER['class'] <= UC_VIP ? "
+					<dd><a href='" . $TRINITY20['baseurl'] . "/uploadapp.php'>{$lang['gl_uapp']}</a></dd> " : "
+					<dd><a href='" . $TRINITY20['baseurl'] . "/upload.php'>{$lang['gl_upload']}</a></dd>") . "" . (isset($CURUSER) && $CURUSER['class'] <= UC_VIP ? "" : "
+					<dd><a href='" . $TRINITY20['baseurl'] . "/multiupload.php'>{$lang['gl_mupload']}</a></dd>") . "
+					<dd><a href='" . $TRINITY20['baseurl'] . "/bookmarks.php'>{$lang['gl_bookmarks']}</a></dd></dl>
 				</div>
 			</div>
 			<div class='card'>
 				<div class='card-divider padding-0'>Staff Tools</div>
 				<div class='card-section'><dl>
-					<dd>" . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "<a class='brand' href='" . $INSTALLER09['baseurl'] . "/bugs.php?action=add'>{$lang['gl_breport']}</a>" : "<a class='brand' href='" . $INSTALLER09['baseurl'] . "/bugs.php?action=bugs'>{$lang['gl_brespond']}</a>") . "</dd>
-					<dd> " . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "<a class='brand' href='" . $INSTALLER09['baseurl'] . "/contactstaff.php'>{$lang['gl_cstaff']}</a>" : "<a class='brand' href='" . $INSTALLER09['baseurl'] . "/staffbox.php'>{$lang['gl_smessages']}</a>") . "</dd>
-					" . (isset($CURUSER) && $CURUSER['class'] >= UC_STAFF ? "<dd><a href='" . $INSTALLER09['baseurl'] . "/staffpanel.php'>{$lang['gl_admin']}</a></dd>" : "") . "
+					<dd>" . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "<a class='brand' href='" . $TRINITY20['baseurl'] . "/bugs.php?action=add'>{$lang['gl_breport']}</a>" : "<a class='brand' href='" . $TRINITY20['baseurl'] . "/bugs.php?action=bugs'>{$lang['gl_brespond']}</a>") . "</dd>
+					<dd> " . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "<a class='brand' href='" . $TRINITY20['baseurl'] . "/contactstaff.php'>{$lang['gl_cstaff']}</a>" : "<a class='brand' href='" . $TRINITY20['baseurl'] . "/staffbox.php'>{$lang['gl_smessages']}</a>") . "</dd>
+					" . (isset($CURUSER) && $CURUSER['class'] >= UC_STAFF ? "<dd><a href='" . $TRINITY20['baseurl'] . "/staffpanel.php'>{$lang['gl_admin']}</a></dd>" : "") . "
 					" . (isset($CURUSER) && $CURUSER['class'] >= UC_STAFF ? "<dd><a data-toggle='StaffPanel'>Quick Links</a></dd>" : "") . "	
 				</dl></div>
 			</div>
@@ -440,7 +440,7 @@ return $NavBar;
 }
 function AlertBar()
 {	
-	global $CURUSER, $INSTALLER09, $lang, $cache;
+	global $CURUSER, $TRINITY20, $lang, $cache;
 	$htmlout = '';
 	$htmlout = '<div class="callout clearfix">
 		<a class="button small float-right" data-toggle="profile-dropdown">'.$CURUSER['username'] .'</a>';

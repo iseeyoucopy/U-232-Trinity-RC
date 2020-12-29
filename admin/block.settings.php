@@ -239,7 +239,7 @@ function template_out($matches)
 }
 function redirect($url, $text, $time = 2)
 {
-    global $INSTALLER09, $lang;
+    global $TRINITY20, $lang;
     $page_title = "{$lang['block_page_title']}";
     $page_detail = "<em>{$lang['block_redir']}</em>";
     $html = "
@@ -247,7 +247,7 @@ function redirect($url, $text, $time = 2)
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
-		<meta http-equiv='refresh' content=\"{$time}; url={$INSTALLER09['baseurl']}/{$url}\" />
+		<meta http-equiv='refresh' content=\"{$time}; url={$TRINITY20['baseurl']}/{$url}\" />
 		<title>{$lang['block_stdhead']}</title>
     <link rel='stylesheet' href='./templates/1/1.css' type='text/css' />
     </head>
@@ -258,7 +258,7 @@ function redirect($url, $text, $time = 2)
 		<div style='font-size:12px'>$text
 		<br />
 		<br />
-		<a href='{$INSTALLER09['baseurl']}/{$url}'>Click here if not redirected...</a>
+		<a href='{$TRINITY20['baseurl']}/{$url}'>Click here if not redirected...</a>
 		</div>
 		</div>
 		</div></body></html>";

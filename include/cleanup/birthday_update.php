@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(0);
     ignore_user_abort(1);
     //== Pm birthday users
@@ -28,10 +28,10 @@ function docleanup($data)
             $update['uploaded'] = ($arr['uploaded'] + 10737418240);
             $cache->update_row('userstats_' . $arr['id'], [
                 'uploaded' => $update['uploaded']
-            ], $INSTALLER09['expires']['u_stats']);
+            ], $TRINITY20['expires']['u_stats']);
             $cache->update_row('user_stats_' . $arr['id'], [
                 'uploaded' => $update['uploaded']
-            ], $INSTALLER09['expires']['user_stats']);
+            ], $TRINITY20['expires']['user_stats']);
         }
         $count = count($users_buffer);
         if ($count > 0) {

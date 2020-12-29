@@ -35,17 +35,17 @@ if (!defined('IN_INSTALLER09_FORUM')) {
          if ((isset($_POST[$action]) ? htmlsafechars($_POST[$action]) : '') == 'clear') {
             $topic_ids = (isset($_POST['topic_id']) ? $_POST['topic_id'] : array());
             if (empty($topic_ids)) {
-                header('Location: '.$INSTALLER09['baseurl'].'/forums.php?action='.$action);
+                header('Location: '.$TRINITY20['baseurl'].'/forums.php?action='.$action);
                 exit();
             }
             foreach ($topic_ids as $topic_id)
             if (!is_valid_id($topic_id))
                 stderr('Error...', 'Invalid ID!');
             $HTMLOUT .= catch_up($topic_ids);
-            header('Location: '.$INSTALLER09['baseurl'].'/forums.php?action='.$action);
+            header('Location: '.$TRINITY20['baseurl'].'/forums.php?action='.$action);
             exit();
         } else {
-            $added = (TIME_NOW - $INSTALLER09['readpost_expiry']);
+            $added = (TIME_NOW - $TRINITY20['readpost_expiry']);
             $res = sql_query('SELECT t.last_post, r.last_post_read, f.min_class_read ' . 'FROM topics AS t ' . 'LEFT JOIN posts AS p ON t.last_post=p.id ' . 'LEFT JOIN read_posts AS r ON r.user_id=' . sqlesc((int)$CURUSER['id']) . ' AND r.topic_id=t.id ' . 'LEFT JOIN forums AS f ON f.id=t.forum_id ' . 'WHERE p.added > ' . $added) or sqlerr(__FILE__, __LINE__);
             $count = 0;
             while ($arr = mysqli_fetch_assoc($res)) {
@@ -57,14 +57,14 @@ if (!defined('IN_INSTALLER09_FORUM')) {
             if ($count > 0)
 		        {
 			      $perpage = 25;
-            $pager = pager($perpage, $count, $INSTALLER09['baseurl'].'/forums.php?action='.$action.'&amp;');
+            $pager = pager($perpage, $count, $TRINITY20['baseurl'].'/forums.php?action='.$action.'&amp;');
          
-                if ($INSTALLER09['forums_online'] == 0)
+                if ($TRINITY20['forums_online'] == 0)
                 $HTMLOUT .= stdmsg('Warning', 'Forums are currently in maintainance mode');
              //   $HTMLOUT .= begin_main_frame();
                 //$HTMLOUT .="<h1 align='center'>Topics with unread posts</h1>";
 							   $HTMLOUT .="<div class='navigation'>
-				<a href='index.php'>" . $INSTALLER09["site_name"] . "</a> 
+				<a href='index.php'>" . $TRINITY20["site_name"] . "</a> 
 				&gt;
 				<a href='forums.php'>Forums</a>
 				<br><img src='templates/1/pic/carbon/nav_bit.png' alt=''>
@@ -96,7 +96,7 @@ if (!defined('IN_INSTALLER09_FORUM')) {
 			/*]]>*/
 			</script>";
 	
-			$HTMLOUT .= "<form method='post' action='{$INSTALLER09['baseurl']}/forums.php?action=viewunread'>
+			$HTMLOUT .= "<form method='post' action='{$TRINITY20['baseurl']}/forums.php?action=viewunread'>
 			<input type='hidden' name='viewunread' value='clear' />";
 		  $HTMLOUT .= "<br /><table class='table table-bordered'>
 		  	<tr>
@@ -120,7 +120,7 @@ if (!defined('IN_INSTALLER09_FORUM')) {
 						<span class='thread_status newfolder' title='New posts.'>&nbsp;</span>
 					</td>
 					<td class=row align='left'>
-						<a href='{$INSTALLER09['baseurl']}/forums.php?action=viewtopic&amp;topicid=".(int)$arr['id']."&amp;page=last#last'>".htmlsafechars($arr['topic_name'])."</a><br />in&nbsp;<font class='small'><a href='{$INSTALLER09['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$arr['forum_id']."'>". htmlsafechars($arr['name'])."</a></font>
+						<a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".(int)$arr['id']."&amp;page=last#last'>".htmlsafechars($arr['topic_name'])."</a><br />in&nbsp;<font class='small'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$arr['forum_id']."'>". htmlsafechars($arr['name'])."</a></font>
 					 </td>
 					<td class=row align='center'>
 						<input type='checkbox' name='topic_id[]' value='".htmlsafechars($arr['id'])."' />
@@ -139,12 +139,12 @@ if (!defined('IN_INSTALLER09_FORUM')) {
                $HTMLOUT .= "</table>";
                $HTMLOUT .= "</form>";
                $HTMLOUT .= $pager['pagerbottom'];
-               $HTMLOUT .= "<div align='center'><a href='{$INSTALLER09['baseurl']}/forums.php?catchup'>Mark all posts as read</a></div>";
+               $HTMLOUT .= "<div align='center'><a href='{$TRINITY20['baseurl']}/forums.php?catchup'>Mark all posts as read</a></div>";
            
                echo stdhead("Catch Up", true, $stdhead) . $HTMLOUT . stdfoot($stdfoot);
                die();
             } else
-                stderr("Sorry...", "There are no unread posts.<br /><br />Click <a href='{$INSTALLER09['baseurl']}/forums.php?action=getdaily'>here</a> to get today's posts (last 24h).")."<br>";
+                stderr("Sorry...", "There are no unread posts.<br /><br />Click <a href='{$TRINITY20['baseurl']}/forums.php?action=getdaily'>here</a> to get today's posts (last 24h).")."<br>";
 		
         }
     

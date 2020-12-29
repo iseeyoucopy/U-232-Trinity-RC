@@ -49,14 +49,14 @@ if ((isset($_GET['show_staffshout'])) && (($show_shout = htmlsafechars($_GET['sh
     // update caches
     $cache->update_row('MyUser_' . $CURUSER['id'], [
         'opt2' => $row['opt2']
-    ], $INSTALLER09['expires']['user_cache']);
+    ], $TRINITY20['expires']['user_cache']);
     $cache->update_row('user_' . $CURUSER['id'], [
         'opt2' => $row['opt2']
-    ], $INSTALLER09['expires']['user_cache']);
+    ], $TRINITY20['expires']['user_cache']);
     if (isset($_SERVER['HTTP_REFERER'])) {
         header("Location:" . $_SERVER['HTTP_REFERER']);
     } else {
-        header("Location:{$INSTALLER09['baseurl']}/index.php");
+        header("Location:{$TRINITY20['baseurl']}/index.php");
     }
 }
 // Delete single shout
@@ -254,7 +254,7 @@ if (isset($_GET['staff_sent']) && ($_GET['staff_sent'] == "yes")) {
     $text_parsed = format_comment($text);
     $system_pattern = '/(^\/system)\s([\w\W\s]+)/is';
     if (preg_match($system_pattern, $text, $out) && $CURUSER["class"] >= UC_STAFF) {
-        $userid = $INSTALLER09['bot_id'];
+        $userid = $TRINITY20['bot_id'];
         $text = $out[2];
         $text_parsed = format_comment($text);
     }
@@ -293,13 +293,13 @@ if (isset($_GET['staff_sent']) && ($_GET['staff_sent'] == "yes")) {
                 $query = "UPDATE users SET chatpost='0', modcomment = concat(" . sqlesc($modcomment) . ", modcomment) WHERE id = " . sqlesc($a[0]);
                 $cache->update_row('MyUser_' . $a[0], [
                     'chatpost' => 0
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $a[0], [
                     'chatpost' => 0
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('user_stats_' . $a[0], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 break;
 
             case "/UNGAG":
@@ -309,13 +309,13 @@ if (isset($_GET['staff_sent']) && ($_GET['staff_sent'] == "yes")) {
                 $query = "UPDATE users SET chatpost='1', modcomment = concat(" . sqlesc($modcomment) . ", modcomment) WHERE id = " . sqlesc($a[0]);
                 $cache->update_row('MyUser_' . $a[0], [
                     'chatpost' => 1
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $a[0], [
                     'chatpost' => 1
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('user_stats_' . $a[0], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 break;
 
             case "/WARN":
@@ -325,13 +325,13 @@ if (isset($_GET['staff_sent']) && ($_GET['staff_sent'] == "yes")) {
                 $query = "UPDATE users SET warned='1', modcomment = concat(" . sqlesc($modcomment) . ", modcomment) WHERE id = " . sqlesc($a[0]);
                 $cache->update_row('MyUser_' . $a[0], [
                     'warned' => 1
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $a[0], [
                     'warned' => 1
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('user_stats_' . $a[0], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 break;
 
             case "/UNWARN":
@@ -341,13 +341,13 @@ if (isset($_GET['staff_sent']) && ($_GET['staff_sent'] == "yes")) {
                 $query = "UPDATE users SET warned='0', modcomment = concat(" . sqlesc($modcomment) . ", modcomment) WHERE id = " . sqlesc($a[0]);
                 $cache->update_row('MyUser_' . $a[0], [
                     'warned' => 0
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $a[0], [
                     'warned' => 0
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('user_stats_' . $a[0], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 break;
 
             case "/DISABLE":
@@ -357,13 +357,13 @@ if (isset($_GET['staff_sent']) && ($_GET['staff_sent'] == "yes")) {
                 $query = "UPDATE users SET enabled='no', modcomment = concat(" . sqlesc($modcomment) . ", modcomment) WHERE id = " . sqlesc($a[0]);
                 $cache->update_row('MyUser_' . $a[0], [
                     'enabled' => 'no'
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $a[0], [
                     'enabled' => 'no'
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('user_stats_' . $a[0], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 break;
 
             case "/ENABLE":
@@ -373,13 +373,13 @@ if (isset($_GET['staff_sent']) && ($_GET['staff_sent'] == "yes")) {
                 $query = "UPDATE users SET enabled='yes', modcomment = concat(" . sqlesc($modcomment) . ", modcomment) WHERE id = " . sqlesc($a[0]);
                 $cache->update_row('MyUser_' . $a[0], [
                     'enabled' => 'yes'
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $a[0], [
                     'enabled' => 'yes'
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('user_stats_' . $a[0], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 break;
             }
             if (sql_query($query)) {
@@ -464,14 +464,14 @@ if (($shouts = $cache->get('staff_shoutbox_')) === false) {
     while ($shout = mysqli_fetch_assoc($res)) {
         $shouts[] = $shout;
     }
-    $cache->set('staff_shoutbox_', $shouts, $INSTALLER09['expires']['staff_shoutbox']);
+    $cache->set('staff_shoutbox_', $shouts, $TRINITY20['expires']['staff_shoutbox']);
 }
 if (count($shouts) > 0) {
     $HTMLOUT.= "<table class='small text-left' style='clear:both; border-collapse:collapse; width:100%;'>\n";
     $shout_pm_alert = mysqli_fetch_assoc(sql_query(" SELECT count(id) AS pms FROM messages WHERE receiver = " . sqlesc($CURUSER['id']) . " AND unread = 'yes' AND location = '1'")) or sqlerr(__FILE__, __LINE__);
     $gotpm = 0;
     if ($shout_pm_alert['pms'] > 0 && $gotpm == 0) {
-        $HTMLOUT.= '<tr><td clas=\'tex-center\'><a href=\'' . $INSTALLER09['baseurl'] . '/pm_system.php\' target=\'_parent\'><span style=\'color:red;\'>You have ' . (int) $shout_pm_alert['pms'] . ' new message' . ((int) $shout_pm_alert['pms'] > 1 ? 's' : '') . '</span></a></td></tr>';
+        $HTMLOUT.= '<tr><td clas=\'tex-center\'><a href=\'' . $TRINITY20['baseurl'] . '/pm_system.php\' target=\'_parent\'><span style=\'color:red;\'>You have ' . (int) $shout_pm_alert['pms'] . ' new message' . ((int) $shout_pm_alert['pms'] > 1 ? 's' : '') . '</span></a></td></tr>';
         $gotpm++;
     }
     if ($shouts) {
@@ -485,22 +485,22 @@ if (count($shouts) > 0) {
             if (($arr['to_user'] != $CURUSER['id'] && $arr['to_user'] != 0) && $arr['userid'] != $CURUSER['id']) {
                 continue;
             }
-            if ($INSTALLER09['shouts_to_show'] == $i) {
+            if ($TRINITY20['shouts_to_show'] == $i) {
                 break;
             }
             $private = '';
             if ($arr['to_user'] == $CURUSER['id'] && $arr['to_user'] > 0) {
-                $private = "<a href=\"javascript:window.top.private_reply('" . htmlsafechars($arr['username']) . "','staff_shbox','staff_shbox_text')\"><img src=\"{$INSTALLER09['pic_base_url']}private-shout.png\" alt=\"Private shout\" title=\"Private shout! click to reply to " . htmlsafechars($arr['username']) . "\" width=\"16\" style=\"padding-left:2px;padding-right:2px;\" border=\"0\" /></a>";
+                $private = "<a href=\"javascript:window.top.private_reply('" . htmlsafechars($arr['username']) . "','staff_shbox','staff_shbox_text')\"><img src=\"{$TRINITY20['pic_base_url']}private-shout.png\" alt=\"Private shout\" title=\"Private shout! click to reply to " . htmlsafechars($arr['username']) . "\" width=\"16\" style=\"padding-left:2px;padding-right:2px;\" border=\"0\" /></a>";
             }
-            $edit = ($CURUSER['class'] >= UC_STAFF || ($arr['userid'] == $CURUSER['id']) && ($CURUSER['class'] >= UC_POWER_USER && $CURUSER['class'] <= UC_STAFF) ? "<a href='{$INSTALLER09['baseurl']}/staff_shoutbox.php?edit=" . (int) $arr['id'] . "&amp;user=" . (int) $arr['userid'] . "'><img src='{$INSTALLER09['pic_base_url']}button_edit2.gif' alt=\"Edit Shout\"  title=\"Edit Shout\" /></a> " : "");
-            $del = ($CURUSER['class'] >= UC_STAFF ? "<a href='./staff_shoutbox.php?del=" . (int) $arr['id'] . "'><img src='{$INSTALLER09['pic_base_url']}button_delete2.gif' alt=\"Delete Single Shout\" title=\"Delete Single Shout\" /></a> " : "");
-            $delall = ($CURUSER['class'] == UC_MAX ? "<a href='./staff_shoutbox.php?delall' onclick=\"confirm_delete(); return false;\"><img src='{$INSTALLER09['pic_base_url']}del.png' alt=\"Empty Shout\" title=\"Empty Shout\" /></a> " : "");
+            $edit = ($CURUSER['class'] >= UC_STAFF || ($arr['userid'] == $CURUSER['id']) && ($CURUSER['class'] >= UC_POWER_USER && $CURUSER['class'] <= UC_STAFF) ? "<a href='{$TRINITY20['baseurl']}/staff_shoutbox.php?edit=" . (int) $arr['id'] . "&amp;user=" . (int) $arr['userid'] . "'><img src='{$TRINITY20['pic_base_url']}button_edit2.gif' alt=\"Edit Shout\"  title=\"Edit Shout\" /></a> " : "");
+            $del = ($CURUSER['class'] >= UC_STAFF ? "<a href='./staff_shoutbox.php?del=" . (int) $arr['id'] . "'><img src='{$TRINITY20['pic_base_url']}button_delete2.gif' alt=\"Delete Single Shout\" title=\"Delete Single Shout\" /></a> " : "");
+            $delall = ($CURUSER['class'] == UC_MAX ? "<a href='./staff_shoutbox.php?delall' onclick=\"confirm_delete(); return false;\"><img src='{$TRINITY20['pic_base_url']}del.png' alt=\"Empty Shout\" title=\"Empty Shout\" /></a> " : "");
             //$delall
-            $pm = ($CURUSER['id'] != $arr['userid'] ? "<span class='date' style=\"color:$dtcolor\"><a target='_blank' href='./pm_system.php?action=send_message&amp;receiver=" . (int) $arr['userid'] . "'><img src='{$INSTALLER09['pic_base_url']}button_pm2.gif' alt=\"Pm User\" title=\"Pm User\" /></a></span>\n" : "");
+            $pm = ($CURUSER['id'] != $arr['userid'] ? "<span class='date' style=\"color:$dtcolor\"><a target='_blank' href='./pm_system.php?action=send_message&amp;receiver=" . (int) $arr['userid'] . "'><img src='{$TRINITY20['pic_base_url']}button_pm2.gif' alt=\"Pm User\" title=\"Pm User\" /></a></span>\n" : "");
             $date = get_date($arr["date"], 0, 1);
-            $reply = ($CURUSER['id'] != $arr['userid'] ? "<a href=\"javascript:window.top.SmileIT('[b][i]=>&nbsp;[color=#" . get_user_class_color($arr['class']) . "]" . ($arr['perms'] & bt_options::PERMS_STEALTH ? "UnKnown" : htmlsafechars($arr['username'])) . "[/color]&nbsp;-[/i][/b]','staff_shbox','staff_shbox_text')\"><img height='10' src='{$INSTALLER09['pic_base_url']}reply.gif' title='Reply' alt='Reply' style='border:none;' /></a>" : "");
+            $reply = ($CURUSER['id'] != $arr['userid'] ? "<a href=\"javascript:window.top.SmileIT('[b][i]=>&nbsp;[color=#" . get_user_class_color($arr['class']) . "]" . ($arr['perms'] & bt_options::PERMS_STEALTH ? "UnKnown" : htmlsafechars($arr['username'])) . "[/color]&nbsp;-[/i][/b]','staff_shbox','staff_shbox_text')\"><img height='10' src='{$TRINITY20['pic_base_url']}reply.gif' title='Reply' alt='Reply' style='border:none;' /></a>" : "");
             $user_stuff = $arr;
-            $user_stuff['id'] = ($arr['perms'] & bt_options::PERMS_STEALTH ? "" . $user_stuff['id'] = $INSTALLER09['bot_id'] . "" : "" . $user_stuff['id'] = (int) $arr['userid'] . "");
+            $user_stuff['id'] = ($arr['perms'] & bt_options::PERMS_STEALTH ? "" . $user_stuff['id'] = $TRINITY20['bot_id'] . "" : "" . $user_stuff['id'] = (int) $arr['userid'] . "");
             $user_stuff['username'] = ($arr['perms'] & bt_options::PERMS_STEALTH ? "" . $user_stuff['username'] = 'UnKn0wn' . "" : "" . $user_stuff['username'] = htmlsafechars($arr['username']) . "");
             $HTMLOUT.= "<tr style='background-color:$bg;'><td><span class='size1' style='color:$fontcolor;'>[$date]</span>\n$del$edit$pm$reply$private " . format_username($user_stuff, true) . "<span class='size2' style='color:$fontcolor;'>" . format_comment($arr["text"]) . "\n</span></td></tr>\n";
             $i++;

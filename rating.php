@@ -39,19 +39,19 @@ if ($id > 0 && $rate >= 1 && $rate <= 5) {
             $cache->update_row('torrent_details_' . $id, [
                 'num_ratings' => $update['num_ratings'],
                 'rating_sum' => $update['rating_sum']
-            ], $INSTALLER09['expires']['torrent_details']);
+            ], $TRINITY20['expires']['torrent_details']);
         }
-        if ($INSTALLER09['seedbonus_on'] == 1) {
+        if ($TRINITY20['seedbonus_on'] == 1) {
             //===add karma
-            $amount = ($what == 'torrent' ? $INSTALLER09['bonus_per_rating'] : $INSTALLER09['bonus_per_topic']);
+            $amount = ($what == 'torrent' ? $TRINITY20['bonus_per_rating'] : $TRINITY20['bonus_per_topic']);
             sql_query("UPDATE users SET seedbonus = seedbonus+" . sqlesc($amount) . " WHERE id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
             $update['seedbonus'] = ($CURUSER['seedbonus'] + $amount);
             $cache->update_row('userstats_' . $CURUSER["id"], [
                 'seedbonus' => $update['seedbonus']
-            ], $INSTALLER09['expires']['u_stats']);
+            ], $TRINITY20['expires']['u_stats']);
             $cache->update_row('user_stats_' . $CURUSER["id"], [
                 'seedbonus' => $update['seedbonus']
-            ], $INSTALLER09['expires']['user_stats']);
+            ], $TRINITY20['expires']['user_stats']);
             //===end
         }
         if ($ajax) {

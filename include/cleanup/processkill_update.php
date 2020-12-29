@@ -12,13 +12,13 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries;
+    global $TRINITY20, $queries;
     set_time_limit(1200);
     ignore_user_abort(1);
     $sql = sql_query("SHOW PROCESSLIST");
     $cnt = 0;
     while ($arr = mysqli_fetch_assoc($sql)) {
-        if ($arr['db'] == $INSTALLER09['mysql_db'] AND $arr['Command'] == 'Sleep' AND $arr['Time'] > 60) {
+        if ($arr['db'] == $TRINITY20['mysql_db'] AND $arr['Command'] == 'Sleep' AND $arr['Time'] > 60) {
             sql_query("KILL {$arr['Id']}");
             $cnt++;
         }

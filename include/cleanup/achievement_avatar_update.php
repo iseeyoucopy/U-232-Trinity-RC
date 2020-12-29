@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(0);
     ignore_user_abort(1);
     // Updated Avatar Setter Achievement
@@ -20,7 +20,7 @@ function docleanup($data)
     $msg_buffer = $usersachiev_buffer = $achievements_buffer = array();
     if (mysqli_num_rows($res) > 0) {
         $subject = sqlesc("New Achievement Earned!");
-        $msg = sqlesc("Congratulations, you have just earned the [b]Avatar Setter[/b] achievement. :) [img]".$INSTALLER09['baseurl']."/pic/achievements/piratesheep.png[/img]");
+        $msg = sqlesc("Congratulations, you have just earned the [b]Avatar Setter[/b] achievement. :) [img]".$TRINITY20['baseurl']."/pic/achievements/piratesheep.png[/img]");
         while ($arr = mysqli_fetch_assoc($res)) {
             $dt = TIME_NOW;
             $points = rand(1, 3);

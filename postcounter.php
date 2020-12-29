@@ -22,5 +22,5 @@ $res = sql_query("SELECT COUNT(*) FROM posts WHERE user_id=" . sqlesc($CURUSER['
 $arr3 = mysqli_fetch_row($res);
 $forumposts = $arr3['0'];
 sql_query("UPDATE usersachiev SET forumposts=" . sqlesc($forumposts) . " WHERE id=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-header("Location: {$INSTALLER09['baseurl']}/index.php");
+header("Location: {$TRINITY20['baseurl']}/index.php");
 ?>

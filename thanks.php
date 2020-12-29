@@ -108,19 +108,19 @@ case 'add':
         }
     }
     header("Refresh: 0; url=details.php?id=$tid");
-    if ($INSTALLER09['seedbonus_on'] == 1) {
+    if ($TRINITY20['seedbonus_on'] == 1) {
         // ===add karma
-        sql_query("UPDATE users SET seedbonus = seedbonus+" . sqlesc($INSTALLER09['bonus_per_thanks']) . " WHERE id =" . sqlesc($uid)) or sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE users SET seedbonus = seedbonus+" . sqlesc($TRINITY20['bonus_per_thanks']) . " WHERE id =" . sqlesc($uid)) or sqlerr(__FILE__, __LINE__);
         $sql = sql_query('SELECT seedbonus ' . 'FROM users ' . 'WHERE id = ' . sqlesc($uid)) or sqlerr(__FILE__, __LINE__);
         $User = mysqli_fetch_assoc($sql);
-        $update['seedbonus'] = ($User['seedbonus'] + $INSTALLER09['bonus_per_thanks']);
+        $update['seedbonus'] = ($User['seedbonus'] + $TRINITY20['bonus_per_thanks']);
         //header("Refresh: 1; url=details.php?id=$id");
         $cache->update_row('userstats_' . $uid, [
             'seedbonus' => $update['seedbonus']
-        ], $INSTALLER09['expires']['u_stats']);
+        ], $TRINITY20['expires']['u_stats']);
         $cache->update_row('user_stats_' . $uid, [
             'seedbonus' => $update['seedbonus']
-        ], $INSTALLER09['expires']['user_stats']);
+        ], $TRINITY20['expires']['user_stats']);
         // ===end
     }
     break;

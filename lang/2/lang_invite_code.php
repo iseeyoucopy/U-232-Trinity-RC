@@ -57,7 +57,7 @@ $lang = array(
     'invites_mail_email' => "Email",
     'invites_mail_send' => "Envoyer Email",
     'invites_mail_err' => "Cette addresse Email est déjà utilisée!",
-    'invites_send_emailpart1' => "Vous avez été invité sur {$INSTALLER09['site_name']} par",
+    'invites_send_emailpart1' => "Vous avez été invité sur {$TRINITY20['site_name']} par",
 	'invites_send_emailpart2' => "\n\nVotre adresse Email ",
 	'invites_send_emailpart3' => "nous a été fourni par ce membre.\n
 Si vous ne connaissez pas cette personne, ignore cet email.\n
@@ -65,41 +65,41 @@ Merci de na pas répondre.
 
 Ce site est privé et vous devez agréer l'ensemble des règles avant d'en faire usage :\n
 
-- Règles Utilisateur :: {$INSTALLER09['baseurl']}/useragreement.php\n
+- Règles Utilisateur :: {$TRINITY20['baseurl']}/useragreement.php\n
 
-- Règles Générales :: {$INSTALLER09['baseurl']}/rules.php\n
+- Règles Générales :: {$TRINITY20['baseurl']}/rules.php\n
 
-- FAQ :: {$INSTALLER09['baseurl']}/faq.php\n
+- FAQ :: {$TRINITY20['baseurl']}/faq.php\n
 
 ------------------------------------------------------------
 
 Pour confirmer votre invitation, vous devez suivre ce lien et taper le code d'invitation suivant:
 
-{$INSTALLER09['baseurl']}/invite_signup.php
+{$TRINITY20['baseurl']}/invite_signup.php
 
 Code d'invitation : ",
 	'invites_send_emailpart4' => "\n
 ------------------------------------------------------------
 
 Après cela, votre 'tuteur' devra confirmer votre compte. 
-Nous insistons sur ce fait : bien lire les REGLES et les FAQs avant d'utiliser {$INSTALLER09['site_name']}.",
+Nous insistons sur ce fait : bien lire les REGLES et les FAQs avant d'utiliser {$TRINITY20['site_name']}.",
 	///
-	'invites_send_email1_ema' => "Vous avez été invité sur {$INSTALLER09['site_name']}",
-	'invites_send_email1_bod' => "De: {$INSTALLER09['site_email']}",
+	'invites_send_email1_ema' => "Vous avez été invité sur {$TRINITY20['site_name']}",
+	'invites_send_email1_bod' => "De: {$TRINITY20['site_email']}",
 	///
     'invites_send_email2' => "Salut :wave:
-Bienvenue sur {$INSTALLER09['site_name']}!\n
+Bienvenue sur {$TRINITY20['site_name']}!\n
 Nous avons modifié en profondeur le site, nous espèrons que cela vous plaira!\n 
-Nous avons travailler dur pour faire de {$INSTALLER09['site_name']} quelquechose de spécial!\n
-{$INSTALLER09['site_name']} rassemble une large communauté (jeter un coup d'oeil aux forums), et propose de nombreuse fonctions.\n
+Nous avons travailler dur pour faire de {$TRINITY20['site_name']} quelquechose de spécial!\n
+{$TRINITY20['site_name']} rassemble une large communauté (jeter un coup d'oeil aux forums), et propose de nombreuse fonctions.\n
 Nous espèrons que vous prendrez autant de plaisir que nous à naviguer dessus!\n
-Soyez sûr de lire les [url={$INSTALLER09['baseurl']}/rules.php]Règles[/url] comme les [url={$INSTALLER09['baseurl']}/faq.php]FAQs[/url] avant d'utiliser le site.\n
-Nous sommes une communauté bien soudée :D {$INSTALLER09['site_name']} est bien plus qu'un anuaire supplémentaire de torrents.\n
+Soyez sûr de lire les [url={$TRINITY20['baseurl']}/rules.php]Règles[/url] comme les [url={$TRINITY20['baseurl']}/faq.php]FAQs[/url] avant d'utiliser le site.\n
+Nous sommes une communauté bien soudée :D {$TRINITY20['site_name']} est bien plus qu'un anuaire supplémentaire de torrents.\n
 En cadeau de bienvenue, nous vous offrons 200.0 points bonus de Karma, et quelques GB histoire de se lancer sans crainte!\n 
 Alors, profitez!!!\n  
 Bien à vous,\n 
-{$INSTALLER09['site_name']} Le Staff.\n",
+{$TRINITY20['site_name']} Le Staff.\n",
 	///
-	'invites_send_email2_sub' => "Bienvenue sur {$INSTALLER09['site_name']} !"
+	'invites_send_email2_sub' => "Bienvenue sur {$TRINITY20['site_name']} !"
 );
 ?>

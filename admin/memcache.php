@@ -294,15 +294,15 @@ function bsize($s)
 // create menu entry
 function menu_entry($ob, $title)
 {
-    global $PHP_SELF, $INSTALLER09;
+    global $PHP_SELF, $TRINITY20;
     if ($ob == $_GET['op']) {
-        return "<li><a class=\"child_active\" href=\"{$INSTALLER09['baseurl']}/staffpanel.php?tool=memcache&amp;op=$ob\">$title</a></li>";
+        return "<li><a class=\"child_active\" href=\"{$TRINITY20['baseurl']}/staffpanel.php?tool=memcache&amp;op=$ob\">$title</a></li>";
     }
-    return "<li><a class=\"active\" href=\"{$INSTALLER09['baseurl']}/staffpanel.php?tool=memcache&amp;op=$ob\">$title</a></li>";
+    return "<li><a class=\"active\" href=\"{$TRINITY20['baseurl']}/staffpanel.php?tool=memcache&amp;op=$ob\">$title</a></li>";
 }
 function getHeader()
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     $header = <<<EOB
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -508,16 +508,16 @@ function getFooter()
 }
 function getMenu()
 {
-    global $PHP_SELF, $INSTALLER09;
+    global $PHP_SELF, $TRINITY20;
     echo "<ol class=menu>";
     if ($_GET['op'] != 4) {
         echo <<<EOB
-    <li><a href="{$INSTALLER09['baseurl']}/staffpanel.php?tool=memcache&amp;op={$_GET['op']}">Refresh Data</a></li>
+    <li><a href="{$TRINITY20['baseurl']}/staffpanel.php?tool=memcache&amp;op={$_GET['op']}">Refresh Data</a></li>
 EOB;
         
     } else {
         echo <<<EOB
-    <li><a href="{$INSTALLER09['baseurl']}/staffpanel.php?tool=memcache&amp;op=2">Back</a></li>
+    <li><a href="{$TRINITY20['baseurl']}/staffpanel.php?tool=memcache&amp;op=2">Back</a></li>
 EOB;
         
     }
@@ -686,13 +686,13 @@ EOB;
     $i = 0;
     if (!isset($_GET['singleout']) && count($MEMCACHE_SERVERS) > 1) {
         foreach ($MEMCACHE_SERVERS as $server) {
-            echo ($i + 1) . '. <a href="' . $INSTALLER09['baseurl'] . '/staffpanel.php?tool=memcache&amp;singleout=' . $i++ . '">' . $server . '</a><br/>';
+            echo ($i + 1) . '. <a href="' . $TRINITY20['baseurl'] . '/staffpanel.php?tool=memcache&amp;singleout=' . $i++ . '">' . $server . '</a><br/>';
         }
     } else {
         echo '1.' . $MEMCACHE_SERVERS[0];
     }
     if (isset($_GET['singleout'])) {
-        echo '<a href="' . $INSTALLER09['baseurl'] . '/staffpanel.php?tool=memcache">(all servers)</a><br/>';
+        echo '<a href="' . $TRINITY20['baseurl'] . '/staffpanel.php?tool=memcache">(all servers)</a><br/>';
     }
     echo "</td></tr>\n";
     echo "<tr class='tr-1'><td class='td-0'>Total Memcache Cache</td><td>" . bsize($memcacheStats['limit_maxbytes']) . "</td></tr>\n";
@@ -704,7 +704,7 @@ EOB;
 EOB;
     foreach ($MEMCACHE_SERVERS as $server) {
         echo '<table cellspacing="0"><tbody>';
-        echo '<tr class="tr-1"><td class="td-1">' . $server . '</td><td><a href="' . $INSTALLER09['baseurl'] . '/staffpanel.php?tool=memcache&amp;server=' . array_search($server, $MEMCACHE_SERVERS) . '&amp;op=6">[<b>Flush this server</b>]</a></td></tr>';
+        echo '<tr class="tr-1"><td class="td-1">' . $server . '</td><td><a href="' . $TRINITY20['baseurl'] . '/staffpanel.php?tool=memcache&amp;server=' . array_search($server, $MEMCACHE_SERVERS) . '&amp;op=6">[<b>Flush this server</b>]</a></td></tr>';
         echo '<tr class="tr-0"><td class="td-0">Start Time</td><td>', date(DATE_FORMAT, $memcacheStatsSingle[$server]['STAT']['time'] - $memcacheStatsSingle[$server]['STAT']['uptime']) , '</td></tr>';
         echo '<tr class="tr-1"><td class="td-0">Uptime</td><td>', duration($memcacheStatsSingle[$server]['STAT']['time'] - $memcacheStatsSingle[$server]['STAT']['uptime']) , '</td></tr>';
         echo '<tr class="tr-0"><td class="td-0">Memcached Server Version</td><td>' . $memcacheStatsSingle[$server]['STAT']['version'] . '</td></tr>';
@@ -725,7 +725,7 @@ EOB;
 		<td class="td-1">Hits &amp; Misses</td>
 		</tr>
 EOB;
-    echo graphics_avail() ? '<tr>' . "<td class='td-0'><img alt=\"\" $size src=\"{$INSTALLER09['baseurl']}/staffpanel.php?tool=memcache&amp;IMG=1&amp;" . (isset($_GET['singleout']) ? 'singleout=' . $_GET['singleout'] . '&amp;' : '') . "$time\"></td>" . "<td class='td-1'><img alt=\"\" $size src=\"{$INSTALLER09['baseurl']}/staffpanel.php?tool=memcache&amp;IMG=2&amp;" . (isset($_GET['singleout']) ? 'singleout=' . $_GET['singleout'] . '&amp;' : '') . "$time\"></td></tr>\n" : "", '<tr>', '<td class="td-0"><span class="green box">&nbsp;</span>Free: ', bsize($mem_avail) . sprintf(" (%.1f%%)", $mem_avail * 100 / $mem_size) , "</td>\n", '<td class="td-1"><span class="green box">&nbsp;</span>Hits: ', $hits . sprintf(" (%.1f%%)", $hits * 100 / ($hits + $misses)) , "</td>\n", '</tr>', '<tr>', '<td class="td-0"><span class="red box">&nbsp;</span>Used: ', bsize($mem_used) . sprintf(" (%.1f%%)", $mem_used * 100 / $mem_size) , "</td>\n", '<td class="td-1"><span class="red box">&nbsp;</span>Misses: ', $misses . sprintf(" (%.1f%%)", $misses * 100 / ($hits + $misses)) , "</td>\n";
+    echo graphics_avail() ? '<tr>' . "<td class='td-0'><img alt=\"\" $size src=\"{$TRINITY20['baseurl']}/staffpanel.php?tool=memcache&amp;IMG=1&amp;" . (isset($_GET['singleout']) ? 'singleout=' . $_GET['singleout'] . '&amp;' : '') . "$time\"></td>" . "<td class='td-1'><img alt=\"\" $size src=\"{$TRINITY20['baseurl']}/staffpanel.php?tool=memcache&amp;IMG=2&amp;" . (isset($_GET['singleout']) ? 'singleout=' . $_GET['singleout'] . '&amp;' : '') . "$time\"></td></tr>\n" : "", '<tr>', '<td class="td-0"><span class="green box">&nbsp;</span>Free: ', bsize($mem_avail) . sprintf(" (%.1f%%)", $mem_avail * 100 / $mem_size) , "</td>\n", '<td class="td-1"><span class="green box">&nbsp;</span>Hits: ', $hits . sprintf(" (%.1f%%)", $hits * 100 / ($hits + $misses)) , "</td>\n", '</tr>', '<tr>', '<td class="td-0"><span class="red box">&nbsp;</span>Used: ', bsize($mem_used) . sprintf(" (%.1f%%)", $mem_used * 100 / $mem_size) , "</td>\n", '<td class="td-1"><span class="red box">&nbsp;</span>Misses: ', $misses . sprintf(" (%.1f%%)", $misses * 100 / ($hits + $misses)) , "</td>\n";
     echo <<< EOB
 	</tr>
 	</tbody></table>
@@ -759,7 +759,7 @@ case 2: // variables
 			<tr><th>Slab Id</th><th>Info</th></tr>
 EOB;
         foreach ($entries as $slabId => $slab) {
-            $dumpUrl = $INSTALLER09['baseurl'] . '/staffpanel.php?tool=memcache&amp;op=2&amp;server=' . (array_search($server, $MEMCACHE_SERVERS)) . '&amp;dumpslab=' . $slabId;
+            $dumpUrl = $TRINITY20['baseurl'] . '/staffpanel.php?tool=memcache&amp;op=2&amp;server=' . (array_search($server, $MEMCACHE_SERVERS)) . '&amp;dumpslab=' . $slabId;
             echo "<tr class='tr-$m'>", "<td class='td-0'><center>", '<a href="', $dumpUrl, '">', $slabId, '</a>', "</center></td>", "<td class='td-last'><b>Item count:</b> ", $slab['number'], '<br/><b>Age:</b>', duration($time - $slab['age']) , '<br/> <b>Evicted:</b>', ((isset($slab['evicted']) && $slab['evicted'] == 1) ? 'Yes' : 'No');
             if ((isset($_GET['dumpslab']) && $_GET['dumpslab'] == $slabId) && (isset($_GET['server']) && $_GET['server'] == array_search($server, $MEMCACHE_SERVERS))) {
                 echo "<br/><b>Items: item</b><br/>";
@@ -768,7 +768,7 @@ EOB;
                 $i = 1;
                 foreach ($items['ITEM'] as $itemKey => $itemInfo) {
                     $itemInfo = trim($itemInfo, '[ ]');
-                    echo '<a href="', $INSTALLER09['baseurl'], '/staffpanel.php?tool=memcache&amp;op=4&amp;server=', (array_search($server, $MEMCACHE_SERVERS)) , '&amp;key=', base64_encode($itemKey) . '">', $itemKey, '</a>';
+                    echo '<a href="', $TRINITY20['baseurl'], '/staffpanel.php?tool=memcache&amp;op=4&amp;server=', (array_search($server, $MEMCACHE_SERVERS)) , '&amp;key=', base64_encode($itemKey) . '">', $itemKey, '</a>';
                     if ($i++ % 10 == 0) {
                         echo '<br/>';
                     } elseif ($i != $slab['number'] + 1) {
@@ -805,7 +805,7 @@ case 4: //item dump
         <div class="info"><table cellspacing="0"><tbody>
 			<tr><th>Server<th>Key</th><th>Value</th><th>Delete</th></tr>
 EOB;
-    echo "<tr><td class='td-0'>", $theserver, "</td><td class='td-0'>", $theKey, " <br/>flag:", $r['VALUE'][$theKey]['stat']['flag'], " <br/>Size:", bsize($r['VALUE'][$theKey]['stat']['size']) , "</td><td>", chunk_split($r['VALUE'][$theKey]['value'], 40) , "</td>", '<td><a href="', $INSTALLER09['baseurl'], '/staffpanel.php?tool=memcache&op=5&server=', (int)$_GET['server'], '&key=', base64_encode($theKey) , "\">Delete</a></td>", "</tr>";
+    echo "<tr><td class='td-0'>", $theserver, "</td><td class='td-0'>", $theKey, " <br/>flag:", $r['VALUE'][$theKey]['stat']['flag'], " <br/>Size:", bsize($r['VALUE'][$theKey]['stat']['size']) , "</td><td>", chunk_split($r['VALUE'][$theKey]['value'], 40) , "</td>", '<td><a href="', $TRINITY20['baseurl'], '/staffpanel.php?tool=memcache&op=5&server=', (int)$_GET['server'], '&key=', base64_encode($theKey) , "\">Delete</a></td>", "</tr>";
     echo <<<EOB
 			</tbody></table>
 			</div><hr/>

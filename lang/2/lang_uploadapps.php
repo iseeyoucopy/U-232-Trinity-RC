@@ -55,7 +55,7 @@ $lang = array(
 	'uploadapps_comm' => "Commentaire: ",
 	'uploadapps_return' => "Retour à la page des demandes",
 	'uploadapps_subject' => "Promotion Uploadeur",
-	'uploadapps_msg' => "Félicitations, votre demande de statut d'uploadeur a été acceptée! Votre classe est promue à Uploadeur et vous pouvez dorénavant uploader des torrents. Soyez sûr d'avoir lu le [url={$INSTALLER09['baseurl']}/rules.php]guide sur l'upload[/url] avant tout chose.",
+	'uploadapps_msg' => "Félicitations, votre demande de statut d'uploadeur a été acceptée! Votre classe est promue à Uploadeur et vous pouvez dorénavant uploader des torrents. Soyez sûr d'avoir lu le [url={$TRINITY20['baseurl']}/rules.php]guide sur l'upload[/url] avant tout chose.",
 	'uploadapps_msg_note' => "Note: ",
 	'uploadapps_msg_user' => "Le membre",
 	'uploadapps_msg_been' => "a été promu uploadeur par",

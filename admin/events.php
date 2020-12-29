@@ -109,9 +109,9 @@ if (!is_array($scheduled_events)) {
             if (gettype(strpos($key, "removeEvent_")) != 'boolean') {
                 $sql = "DELETE FROM `events` WHERE `id` = $id LIMIT 1;";
                 $res = sql_query($sql);
-                if (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) != 0) $HTMLOUT.= "<p>{$lang['events_err_del']}" . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . "<br />{$lang['events_click']} <a class='altlink' href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
+                if (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) != 0) $HTMLOUT.= "<p>{$lang['events_err_del']}" . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . "<br />{$lang['events_click']} <a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
                 else {
-                    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 0) $HTMLOUT.= "<p>{$lang['events_err_del']}" . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . "<br />{$lang['events_click']}<a class='altlink' href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a> {$lang['events_goback']}<br /></p>\n";
+                    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 0) $HTMLOUT.= "<p>{$lang['events_err_del']}" . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . "<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a> {$lang['events_goback']}<br /></p>\n";
                     else {
                         $HTMLOUT.= "<p>{$lang['events_deleted']}</p>\n";
                         header("Refresh: 2; url=staffpanel.php?tool=events");
@@ -148,9 +148,9 @@ if (!is_array($scheduled_events)) {
                 if ($id == - 1) $sql = "INSERT INTO `events`(`overlayText`, `startTime`, `endTime`, `displayDates`, `freeleechEnabled`, `duploadEnabled`, `hdownEnabled`, `userid`) VALUES ('$text', $start, $end, $showDates, $freeleech, $doubleupload, $halfdownload, $userid);";
                 else $sql = "UPDATE `events` SET `overlayText` = '$text',`startTime` = $start, `endTime` = $end, `displayDates` = $showDates, `freeleechEnabled` = $freeleech, `duploadEnabled` = $doubleupload, `hdownEnabled` = $halfdownload, `userid` = $userid  WHERE `id` = $id;";
                 $res = sql_query($sql);
-                if (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) != 0) $HTMLOUT.= "<p>{$lang['events_err_save']}" . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . "<br />{$lang['events_click']}<a class='altlink' href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
+                if (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) != 0) $HTMLOUT.= "<p>{$lang['events_err_save']}" . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . "<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
                 else {
-                    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 0) $HTMLOUT.= "<p>{$lang['events_err_nochange']}<br />{$lang['events_click']}<a class='altlink' href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
+                    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 0) $HTMLOUT.= "<p>{$lang['events_err_nochange']}<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
                     else {
                         $HTMLOUT.= "<p>{$lang['events_saved']}</p>\n";
                         header("Refresh: 2; url=staffpanel.php?tool=events");
@@ -178,25 +178,25 @@ if (!is_array($scheduled_events)) {
         $doubleUpload = (bool)(int)$scheduled_event['duploadEnabled'];
         $halfdownload = (bool)(int)$scheduled_event['hdownEnabled'];
         if ($freeleech) {
-            $freeleech = "<img src=\"{$INSTALLER09['pic_base_url']}on.gif\" alt=\"{$lang['events_fenable']}\" title=\"{$lang['events_enable']}\" />";
+            $freeleech = "<img src=\"{$TRINITY20['pic_base_url']}on.gif\" alt=\"{$lang['events_fenable']}\" title=\"{$lang['events_enable']}\" />";
         } else {
-            $freeleech = "<img src=\"{$INSTALLER09['pic_base_url']}off.gif\" alt=\"{$lang['events_fdisable']}\" title=\"{$lang['events_disable']}\" />";
+            $freeleech = "<img src=\"{$TRINITY20['pic_base_url']}off.gif\" alt=\"{$lang['events_fdisable']}\" title=\"{$lang['events_disable']}\" />";
         }
         if ($doubleUpload) {
-            $doubleUpload = "<img src=\"{$INSTALLER09['pic_base_url']}on.gif\" alt=\"{$lang['events_duenable']}\" title=\"{$lang['events_enable']}\" />";
+            $doubleUpload = "<img src=\"{$TRINITY20['pic_base_url']}on.gif\" alt=\"{$lang['events_duenable']}\" title=\"{$lang['events_enable']}\" />";
         } else {
-            $doubleUpload = "<img src=\"{$INSTALLER09['pic_base_url']}off.gif\" alt=\"{$lang['events_dudisable']}\" title=\"{$lang['events_disable']}\" />";
+            $doubleUpload = "<img src=\"{$TRINITY20['pic_base_url']}off.gif\" alt=\"{$lang['events_dudisable']}\" title=\"{$lang['events_disable']}\" />";
         }
         if ($halfdownload) {
-            $halfdownload = "<img src=\"{$INSTALLER09['pic_base_url']}on.gif\" alt=\"{$lang['events_henable']}\" title=\"{$lang['events_enable']}\" />";
+            $halfdownload = "<img src=\"{$TRINITY20['pic_base_url']}on.gif\" alt=\"{$lang['events_henable']}\" title=\"{$lang['events_enable']}\" />";
         } else {
-            $halfdownload = "<img src=\"{$INSTALLER09['pic_base_url']}off.gif\" alt=\"{$lang['events_hdisable']}\" title=\"{$lang['events_disable']}\" />";
+            $halfdownload = "<img src=\"{$TRINITY20['pic_base_url']}off.gif\" alt=\"{$lang['events_hdisable']}\" title=\"{$lang['events_disable']}\" />";
         }
         $showdates = (bool)(int)$scheduled_event['displayDates'];
         if ($showdates) {
-            $showdates = "<img src=\"{$INSTALLER09['pic_base_url']}on.gif\" alt=\"{$lang['events_daenable']}\" title=\"{$lang['events_enable']}\" />";
+            $showdates = "<img src=\"{$TRINITY20['pic_base_url']}on.gif\" alt=\"{$lang['events_daenable']}\" title=\"{$lang['events_enable']}\" />";
         } else {
-            $showdates = "<img src=\"{$INSTALLER09['pic_base_url']}off.gif\" alt=\"{$lang['events_dadisable']}\" title=\"{$lang['events_disable']}\" />";
+            $showdates = "<img src=\"{$TRINITY20['pic_base_url']}off.gif\" alt=\"{$lang['events_dadisable']}\" title=\"{$lang['events_disable']}\" />";
         }
         $HTMLOUT.= "<tr><td align=\"center\">{$username}</td><td align=\"center\">{$text}</td><td align=\"center\">{$start}</td><td align=\"center\">{$end}</td><td align=\"center\">{$freeleech}</td><td align=\"center\">{$doubleUpload}</td><td align=\"center\">{$halfdownload}</td><td align=\"center\">{$showdates}</td><td align=\"center\"><input type=\"submit\" name=\"editEvent_$id\" value=\"{$lang['events_edit']}\" /> <input type=\"submit\" onclick=\"return checkAllGood('$text')\" name=\"removeEvent_$id\" value=\"{$lang['events_remove']}\" /></td></tr>";
     }

@@ -24,11 +24,11 @@ if (isset($_GET['clear_new']) && $_GET['clear_new'] == 1) {
     sql_query("UPDATE users SET last_browse=" . TIME_NOW . " WHERE id=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
     $cache->update_row('MyUser_' . $CURUSER['id'], [
         'last_browse' => TIME_NOW
-    ], $INSTALLER09['expires']['curuser']);
+    ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user' . $CURUSER['id'], [
         'last_browse' => TIME_NOW
-    ], $INSTALLER09['expires']['user_cache']);
-    header("Location: {$INSTALLER09['baseurl']}/browse.php");
+    ], $TRINITY20['expires']['user_cache']);
+    header("Location: {$TRINITY20['baseurl']}/browse.php");
 }
 $stdfoot = array(
     /* include js **/
@@ -261,7 +261,7 @@ if (($count = $cache->get($where_key)) === false) {
     $res = sql_query("SELECT COUNT(id) FROM torrents $where") or sqlerr(__FILE__, __LINE__);
     $row = mysqli_fetch_row($res);
     $count = (int)$row[0];
-    $cache->set($where_key, $count, $INSTALLER09['expires']['browse_where']);
+    $cache->set($where_key, $count, $TRINITY20['expires']['browse_where']);
 }
 
 $torrentsperpage = ($CURUSER['torrentsperpage'] == 0) ?  15 : (int)$CURUSER['torrentsperpage'];
@@ -280,7 +280,7 @@ if ($count) {
 
     $pager = pager($torrentsperpage, $count, "browse.php?" . $addparam);
    
-    $query = "SELECT id, search_text, category, leechers, seeders, bump, tags, release_group, subs, name, times_completed, size, added, poster, descr, type, free, freetorrent, silver, comments, numfiles, filename, anonymous, sticky, nuked, vip, nukereason, newgenre, description, owner, username, youtube, checked_by, IF(nfo <> '', 1, 0) as nfoav," . "IF(num_ratings < {$INSTALLER09['minvotes']}, NULL, ROUND(rating_sum / num_ratings, 1)) AS rating " . "FROM torrents {$where} {$orderby} {$pager['limit']}";
+    $query = "SELECT id, search_text, category, leechers, seeders, bump, tags, release_group, subs, name, times_completed, size, added, poster, descr, type, free, freetorrent, silver, comments, numfiles, filename, anonymous, sticky, nuked, vip, nukereason, newgenre, description, owner, username, youtube, checked_by, IF(nfo <> '', 1, 0) as nfoav," . "IF(num_ratings < {$TRINITY20['minvotes']}, NULL, ROUND(rating_sum / num_ratings, 1)) AS rating " . "FROM torrents {$where} {$orderby} {$pager['limit']}";
     $res = sql_query($query) or sqlerr(__FILE__, __LINE__);
 } else {
     unset($query);
@@ -291,7 +291,7 @@ if (isset($cleansearchstr))
 else 
 	$title = '';
 //$HTMLOUT .= navigation_start();
-//$HTMLOUT .="<a href='index.php'>" . $INSTALLER09["site_name"] . "</a>";
+//$HTMLOUT .="<a href='index.php'>" . $TRINITY20["site_name"] . "</a>";
 //$HTMLOUT .= navigation_active("Torrents");
 //$HTMLOUT .= navigation_end();
 //$HTMLOUT.= "<div class='row'><div class='col-md-12 col-md-offset-1'>";
@@ -358,7 +358,7 @@ $HTMLOUT.= "<div class='grid-x grid-padding-x'>
             $HTMLOUT.= ($i) ? "" : "";
             $HTMLOUT.= "<div class='cell'>
       <input name='c" . (int)$cat['id'] . "'  type='checkbox' " . (in_array($cat['id'], $wherecatina) ? "checked='checked' " : "") . "value='1' >
-			 <a href='browse.php?cat=" . (int)$cat['id'] . "'> " . (($CURUSER['opt2'] & user_options_2::BROWSE_ICONS) ? "<img src='{$INSTALLER09['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($cat['image']) . "' alt='" . htmlsafechars($cat['name']) . "' title='" . htmlsafechars($cat['name']) . "' />" : "" . htmlsafechars($cat['name']) . "") . "</a></div>
+			 <a href='browse.php?cat=" . (int)$cat['id'] . "'> " . (($CURUSER['opt2'] & user_options_2::BROWSE_ICONS) ? "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($cat['image']) . "' alt='" . htmlsafechars($cat['name']) . "' title='" . htmlsafechars($cat['name']) . "' />" : "" . htmlsafechars($cat['name']) . "") . "</a></div>
              ";
             $i++;
         }
@@ -367,7 +367,7 @@ $HTMLOUT.= "<div class='grid-x grid-padding-x'>
 $only_free =((isset($_GET['only_free'])) ? intval($_GET['only_free']) : '');
 //=== checkbox for only free torrents
 $HTMLOUT.= '<div class="cell"><input type="checkbox" name="only_free" value="1"'.(isset($_GET['only_free']) ? ' checked="checked"' : '').'>
-<img src="'.$INSTALLER09['pic_base_url'].'/free.png" height="42" width="42"></div>';
+<img src="'.$TRINITY20['pic_base_url'].'/free.png" height="42" width="42"></div>';
 $HTMLOUT.= "</div></div></li></ul></div></div>";
 //== clear new tag manually
 if ($CURUSER['opt1'] & user_options::CLEAR_NEW_TAG_MANUALLY) {
@@ -377,10 +377,10 @@ if ($CURUSER['opt1'] & user_options::CLEAR_NEW_TAG_MANUALLY) {
     sql_query("UPDATE users SET last_browse=" . TIME_NOW . " where id=" . $CURUSER['id']);
     $cache->update_row('MyUser_' . $CURUSER['id'], [
         'last_browse' => TIME_NOW
-    ], $INSTALLER09['expires']['curuser']);
+    ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user' . $CURUSER['id'], [
         'last_browse' => TIME_NOW
-    ], $INSTALLER09['expires']['user_cache']);
+    ], $TRINITY20['expires']['user_cache']);
 }
 $deadcheck = "";
 $deadcheck.= "<select class='input-group-field' name='incldead'>
@@ -412,15 +412,15 @@ $HTMLOUT.= '<div class="input-group">
   </div>
 </div>';
 $HTMLOUT.= "
-<!--<a href='{$INSTALLER09["baseurl"]}/browse_catalogue.php' class='btn btn-default btn-default'>Alternative Browse</a>-->
-<!--<a href='{$INSTALLER09["baseurl"]}/catalogue.php' class='btn btn-default btn-default'>Search our Catalogue</a>-->
+<!--<a href='{$TRINITY20["baseurl"]}/browse_catalogue.php' class='btn btn-default btn-default'>Alternative Browse</a>-->
+<!--<a href='{$TRINITY20["baseurl"]}/catalogue.php' class='btn btn-default btn-default'>Search our Catalogue</a>-->
            </form><div class='res'></div>";
 $HTMLOUT.= "{$new_button}";
 if (isset($cleansearchstr)) {
     $HTMLOUT.= "<div class='row'><div class='col-md-6 col-md-offset-4'><h2>{$lang['browse_search']} " . htmlsafechars($searchstr, ENT_QUOTES) . "</h2></div></div>\n";
 }
 if ($count) {
-    $HTMLOUT.="<!--<br /><div class='row'><div class='col-md-3 col-md-offset-5'><div style='display:inline-block;width:4px';></div><a href='{$INSTALLER09["baseurl"]}/catalogue.php' class='btn btn-default btn-default'>Search our Catalogue</a></div></div><br /><br />-->";
+    $HTMLOUT.="<!--<br /><div class='row'><div class='col-md-3 col-md-offset-5'><div style='display:inline-block;width:4px';></div><a href='{$TRINITY20["baseurl"]}/catalogue.php' class='btn btn-default btn-default'>Search our Catalogue</a></div></div><br /><br />-->";
     $HTMLOUT.= torrenttable($res);
     $HTMLOUT.= $pager['pagerbottom']."<br />";
 } else {

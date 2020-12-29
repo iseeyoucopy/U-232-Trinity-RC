@@ -44,7 +44,7 @@ function getip()
 
 function check_bans($ip, &$reason = '')
 {
-    global $INSTALLER09, $cache;
+    global $TRINITY20, $cache;
     $key = 'bans:::' . $ip;
     if (($ban = $cache->get($key)) === false) {
         $nip = ip2long($ip);
@@ -122,10 +122,10 @@ $torrent_pass = isset($_GET['torrent_pass']) && ($_GET['torrent_pass'])  ? $_GET
 if (!$torrent_pass)
 	die('scrape error');
 
-if (!@($GLOBALS["___mysqli_ston"] = mysqli_connect($INSTALLER09['mysql_host'], $INSTALLER09['mysql_user'], $INSTALLER09['mysql_pass']))) {
+if (!@($GLOBALS["___mysqli_ston"] = mysqli_connect($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass']))) {
     exit();
 }
-@((bool)mysqli_query($GLOBALS["___mysqli_ston"], "USE {$INSTALLER09['mysql_db']}")) or exit();
+@((bool)mysqli_query($GLOBALS["___mysqli_ston"], "USE {$TRINITY20['mysql_db']}")) or exit();
 /*
 $numhash = is_array($_GET['info_hash']) && count($_GET['info_hash']);
 $torrents = array();

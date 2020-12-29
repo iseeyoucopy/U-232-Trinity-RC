@@ -100,10 +100,10 @@ if ($want_pot && (isset($pot_options[$want_pot]))) {
         //====Update the caches
         $cache->update_row('userstats_' . $CURUSER['id'], [
             'seedbonus' => $update['seedbonus_donator']
-        ], $INSTALLER09['expires']['u_stats']);
+        ], $TRINITY20['expires']['u_stats']);
         $cache->update_row('user_stats_' . $CURUSER['id'], [
             'seedbonus' => $update['seedbonus_donator']
-        ], $INSTALLER09['expires']['curuser']);
+        ], $TRINITY20['expires']['curuser']);
         $cache->delete('Sitepot_');
         write_log("Site Pot " . $CURUSER['username'] . " has donated " . $want_pot . " karma points to the site pot. {$Remaining} karma points remaining.");
         sql_query("UPDATE avps SET value_i = value_i + " . sqlesc($want_pot) . " 
@@ -111,7 +111,7 @@ if ($want_pot && (isset($pot_options[$want_pot]))) {
         $cache->delete('site_pot_counter');
         /** shoutbox announce **/
         require_once(INCL_DIR . 'bbcode_functions.php');
-        $msg = $CURUSER['username'] . " put " . $want_pot . " karma point" . ($want_pot > 1 ? 's' : '') . " into the site pot! * Only [b]" . $Remaining . "[/b] more karma point" . ($Remaining > 1 ? 's' : '') . " to go! * [color=green][b]Site Pot:[/b][/color] [url={$INSTALLER09['baseurl']}/sitepot.php]" . $give . "/" . $potsize . '[/url]';
+        $msg = $CURUSER['username'] . " put " . $want_pot . " karma point" . ($want_pot > 1 ? 's' : '') . " into the site pot! * Only [b]" . $Remaining . "[/b] more karma point" . ($Remaining > 1 ? 's' : '') . " to go! * [color=green][b]Site Pot:[/b][/color] [url={$TRINITY20['baseurl']}/sitepot.php]" . $give . "/" . $potsize . '[/url]';
         $cache->delete('shoutbox_');
         autoshout($msg);
         header('Location: sitepot.php');
@@ -125,10 +125,10 @@ if ($want_pot && (isset($pot_options[$want_pot]))) {
         //====Update the caches
         $cache->update_row('userstats_' . $CURUSER['id'], [
             'seedbonus' => $update['seedbonus_donator']
-        ], $INSTALLER09['expires']['u_stats']);
+        ], $TRINITY20['expires']['u_stats']);
         $cache->update_row('user_stats_' . $CURUSER['id'], [
             'seedbonus' => $update['seedbonus_donator']
-        ], $INSTALLER09['expires']['curuser']);
+        ], $TRINITY20['expires']['curuser']);
         $cache->delete('Sitepot_');
 
         write_log("Site Pot " . $CURUSER['username'] . " has donated " . $want_pot . " karma points to the site pot.");

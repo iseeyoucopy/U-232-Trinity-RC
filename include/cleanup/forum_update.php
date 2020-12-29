@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(0);
     ignore_user_abort(1);
     //=== delete from now viewing after 15 minutes

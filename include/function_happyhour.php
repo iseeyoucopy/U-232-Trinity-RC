@@ -14,7 +14,7 @@
 //==09 Edits
 function happyHour($action)
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     //generate happy hour
     if ($action == "generate") {
         $nextDay = date("Y-m-d", TIME_NOW + 86400);
@@ -28,7 +28,7 @@ function happyHour($action)
         $happyHour = $nextDay . " " . $nextHour . ":" . $nextMin . "";
         return $happyHour;
     }
-    $file = $INSTALLER09['happyhour'];
+    $file = $TRINITY20['happyhour'];
     $happy = unserialize(file_get_contents($file));
     $happyHour = strtotime($happy["time"]);
     $happyDate = $happyHour;
@@ -60,8 +60,8 @@ function happyHour($action)
 }
 function happyCheck($action, $id = NUll)
 {
-    global $INSTALLER09;
-    $file = $INSTALLER09['happyhour'];
+    global $TRINITY20;
+    $file = $TRINITY20['happyhour'];
     $happy = unserialize(file_get_contents($file));
     $happycheck = $happy["catid"];
     if ($action == "check") return $happycheck;
@@ -69,8 +69,8 @@ function happyCheck($action, $id = NUll)
 }
 function happyFile($act)
 {
-    global $INSTALLER09;
-    $file = $INSTALLER09['happyhour'];
+    global $TRINITY20;
+    $file = $TRINITY20['happyhour'];
     $happy = unserialize(file_get_contents($file));
     if ($act == "set") {
         $array_happy = array(
@@ -86,7 +86,7 @@ function happyFile($act)
         );
     }
     $array_happy = serialize($array_happy);
-    $file = $INSTALLER09['happyhour'];
+    $file = $TRINITY20['happyhour'];
     $file = fopen($file, 'w');
     ftruncate($file, 0);
     fwrite($file, $array_happy);

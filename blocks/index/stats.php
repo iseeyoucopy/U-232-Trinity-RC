@@ -38,7 +38,7 @@ if (($stats_cache = $cache->get($keys['site_stats'])) === false) {
     $stats_cache['moderators'] = (int)$stats_cache['moderators'];
     $stats_cache['administrators'] = (int)$stats_cache['administrators'];
     $stats_cache['sysops'] = (int)$stats_cache['sysops'];
-    $cache->set($keys['site_stats'], $stats_cache, $INSTALLER09['expires']['site_stats']);
+    $cache->set($keys['site_stats'], $stats_cache, $TRINITY20['expires']['site_stats']);
 }
 //==End
 //==Installer 09 stats
@@ -47,7 +47,7 @@ $HTMLOUT.= "<div class='callout'>
                                 <ul class='stats-list'>
 								<li>{$lang['index_stats_uinfo']}<span class='stats-list-label'>Total</span></li>
                                         <li>{$lang['index_stats_regged']}<span class='stats-list-label'>{$stats_cache['regusers']}</span></li>
-                                        <li>{$lang['index_stats_max']}<span class='stats-list-label'>{$INSTALLER09['maxusers']}</span></li>
+                                        <li>{$lang['index_stats_max']}<span class='stats-list-label'>{$TRINITY20['maxusers']}</span></li>
                                         <li>{$lang['index_stats_online']}<span class='stats-list-label'>{$stats_cache['numactive']}</span></li>
                                         <li>{$lang['index_stats_uncon']}<span class='stats-list-label'>{$stats_cache['unconusers']}</span></li>
                                         <li>{$lang['index_stats_gender_na']}<span class='stats-list-label'>{$stats_cache['gender_na']}</span></li>

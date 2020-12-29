@@ -34,13 +34,13 @@ if (!defined('IN_INSTALLER09_FORUM')) {
 //== Putyns post icons
 function post_icons($s = 0)
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     $body = "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"8\" >
 				 <tr><td width=\"20%\" valign=\"top\" align=\"right\"><strong>Post Icons</strong> <br/>
 				 <font class=\"small\">(Optional)</font></td>\n";
     $body .= "<td width=\"80%\" align=\"left\">\n";
     for($i = 1; $i < 15;$i++) {
-        $body .= "<input type=\"radio\" value=\"{$i}\" name=\"iconid\" ".($s == $i ? "checked=\"checked\"" : "")." />\n<img align=\"middle\" alt=\"Post icon\" src=\"{$INSTALLER09['pic_base_url']}post_icons/icon{$i}.gif\"/>\n";
+        $body .= "<input type=\"radio\" value=\"{$i}\" name=\"iconid\" ".($s == $i ? "checked=\"checked\"" : "")." />\n<img align=\"middle\" alt=\"Post icon\" src=\"{$TRINITY20['pic_base_url']}post_icons/icon{$i}.gif\"/>\n";
         if ($i == 14)
         $body .= "";
     }
@@ -51,10 +51,10 @@ function post_icons($s = 0)
 //-------- Inserts a compose frame
 function insert_quick_jump_menu($currentforum = 0)
 {
-	global $CURUSER, $INSTALLER09;
+	global $CURUSER, $TRINITY20;
 	$htmlout='';
 	$htmlout .="
-	<form method='get' action='{$INSTALLER09['baseurl']}/forums.php' name='jump'>
+	<form method='get' action='{$TRINITY20['baseurl']}/forums.php' name='jump'>
 	<input type='hidden' name='action' value='viewforum' />
 	<div align='right'>Quick jump:
 	<font color='black'><select  name='forumid' onchange=\"if(this.options[this.selectedIndex].value != -1){ forms['jump'].submit() }\">";
@@ -71,18 +71,18 @@ function insert_quick_jump_menu($currentforum = 0)
 // -------- Inserts a compose frame
     function insert_compose_frame($id, $newtopic = true, $quote = false, $attachment = false)
    {
-    global  $CURUSER, $INSTALLER09, $Multi_forum;
+    global  $CURUSER, $TRINITY20, $Multi_forum;
     $htmlout='';
     if ($newtopic) {
         $res = sql_query("SELECT name FROM forums WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         $arr = mysqli_fetch_assoc($res) or die("Bad forum ID!");
-       // $htmlout .="<h3>New topic in <a href='{$INSTALLER09['baseurl']}/forums.php?action=viewforum&amp;forumid=".$id."'>".htmlsafechars($arr["name"])."</a> forum</h3>";
+       // $htmlout .="<h3>New topic in <a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".$id."'>".htmlsafechars($arr["name"])."</a> forum</h3>";
         						   $htmlout .="<!--<div class='navigation'>
-				<a href='index.php'>" . $INSTALLER09["site_name"] . "</a> 
+				<a href='index.php'>" . $TRINITY20["site_name"] . "</a> 
 				&gt;
 				<a href='forums.php'>Forums</a>
 				&gt;
-				<a href='{$INSTALLER09['baseurl']}/forums.php?action=viewforum&amp;forumid=".$id."'>".htmlsafechars($arr["name"])."</a>
+				<a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".$id."'>".htmlsafechars($arr["name"])."</a>
 				<br><img src='templates/1/pic/carbon/nav_bit.png' alt=''>
 				<span class='active'>New Topic</span>
 				</div><br />-->";
@@ -106,17 +106,17 @@ function insert_quick_jump_menu($currentforum = 0)
 		    exit();
 		    }
 						   $htmlout .="<!--<div class='navigation'>
-				<a href='index.php'>" . $INSTALLER09["site_name"] . "</a> 
+				<a href='index.php'>" . $TRINITY20["site_name"] . "</a> 
 				&gt;
 				<a href='forums.php'>Forums</a>
 				&gt;
-				<a href='{$INSTALLER09['baseurl']}/forums.php?action=viewforum&amp;forumid=".$forumid."'>{$forum}</a>
+				<a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".$forumid."'>{$forum}</a>
 				&gt;
-				<a href='{$INSTALLER09['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$id."'>".htmlsafechars($arr["topic_name"])."</a>
+				<a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$id."'>".htmlsafechars($arr["topic_name"])."</a>
 				<br><img src='templates/1/pic/carbon/nav_bit.png' alt=''>
 				<span class='active'>Post Reply</span>
 				</div><br />-->";
-       // $htmlout .="<h3 align='center'>Reply to topic:<a href='{$INSTALLER09['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$id."'>".htmlsafechars($arr["topic_name"])."</a></h3>";
+       // $htmlout .="<h3 align='center'>Reply to topic:<a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$id."'>".htmlsafechars($arr["topic_name"])."</a></h3>";
     }
     $htmlout .="
     <script type='text/javascript'>
@@ -126,14 +126,14 @@ function insert_quick_jump_menu($currentforum = 0)
     document.compose.action = './forums.php?action=preview'
     document.compose.target = '_blank';
     document.compose.submit();
-    document.compose.action = '{$INSTALLER09['baseurl']}/forums.php';
+    document.compose.action = '{$TRINITY20['baseurl']}/forums.php';
     document.compose.target = '_self';
     return true;
     }
     /*]]>*/
     </script>";
     //$htmlout .= begin_frame("Compose", true);
-    $htmlout .="<form method='post' name='compose' action='{$INSTALLER09['baseurl']}/forums.php' enctype='multipart/form-data'>
+    $htmlout .="<form method='post' name='compose' action='{$TRINITY20['baseurl']}/forums.php' enctype='multipart/form-data'>
 	  <input type='hidden' name='action' value='post' />
 	  <input type='hidden' name='". ($newtopic ? 'forumid' : 'topicid')."' value='".$id."' />";
     //$htmlout .= begin_table(true);
@@ -216,7 +216,7 @@ function insert_quick_jump_menu($currentforum = 0)
     $htmlout .="<br />";
    // $htmlout .= end_frame();
     // ------ Get 10 last posts if this is a reply
-    if (!$newtopic && $INSTALLER09['show_last_10']) {
+    if (!$newtopic && $TRINITY20['show_last_10']) {
         $postres = sql_query("SELECT p.id, p.added, p.body, p.anonymous, u.id AS uid, u.enabled, u.class, u.donor, u.warned, u.chatpost, u.leechwarn, u.pirate, u.king, u.username, u.avatar, u.offensive_avatar " . "FROM posts AS p " . "LEFT JOIN users AS u ON u.id = p.user_id " . "WHERE p.topic_id=".sqlesc($id)." " . "ORDER BY p.id DESC LIMIT 10") or sqlerr(__FILE__, __LINE__);
         if (mysqli_num_rows($postres) > 0) {
             $htmlout .="<br />";
@@ -225,13 +225,13 @@ function insert_quick_jump_menu($currentforum = 0)
             //$avatar = ($CURUSER["avatars"] == "all" ? htmlsafechars($post["avatar"]) : ($CURUSER["avatars"] == "some" && $post["offavatar"] == "no" ? htmlsafechars($post["avatar"]) : ""));
             $avatar = ($CURUSER["avatars"] == "yes" ? avatar_stuff($post) : "");
              if ($post['anonymous'] == 'yes') {
-             $avatar = $INSTALLER09['pic_base_url'] . $Multi_forum['configs']['forum_pics']['default_avatar'];
+             $avatar = $TRINITY20['pic_base_url'] . $Multi_forum['configs']['forum_pics']['default_avatar'];
              }
              else {
              $avatar = ($CURUSER["avatars"] == "yes" ? avatar_stuff($post) : '');
              }
              if (empty($avatar))
-             $avatar = $INSTALLER09['pic_base_url'] . $Multi_forum['configs']['forum_pics']['default_avatar'];
+             $avatar = $TRINITY20['pic_base_url'] . $Multi_forum['configs']['forum_pics']['default_avatar'];
              $user_stuff = $post;
              $user_stuff['id'] = (int)$post['uid'];
              if ($post["anonymous"] == "yes")

@@ -116,14 +116,14 @@ function loadavg($return_all = false)
     <table class='table table-bordered'>
 		<tr><td align='center'>
 		<table class='table table-bordered'>
-    <tr><td style='padding: 0px; background-image: url({$INSTALLER09['pic_base_url']}loadbarbg.gif); background-repeat: repeat-x'>";
+    <tr><td style='padding: 0px; background-image: url({$TRINITY20['pic_base_url']}loadbarbg.gif); background-repeat: repeat-x'>";
     $perc = get_server_load();
     $percent = min(100, $perc);
     if ($percent <= 70) $pic = "loadbargreen.gif";
     elseif ($percent <= 90) $pic = "loadbaryellow.gif";
     else $pic = "loadbarred.gif";
     $width = $percent * 4;
-    $HTMLOUT .="<img height='15' width='$width' src=\"{$INSTALLER09['pic_base_url']}{$pic}\" alt='$percent&#37;' /><br />{$lang['index_load_curr']}{$percent}{$lang['index_load_cpu']}<br /></td></tr></table></td></tr></table></div><br />";
+    $HTMLOUT .="<img height='15' width='$width' src=\"{$TRINITY20['pic_base_url']}{$pic}\" alt='$percent&#37;' /><br />{$lang['index_load_curr']}{$percent}{$lang['index_load_cpu']}<br /></td></tr></table></td></tr></table></div><br />";
     //==End
 */
 //==Server Load linux
@@ -133,13 +133,13 @@ $HTMLOUT.= "
     <table class='table table-bordered'>
 			<tr><td align='center'>
 		    <table class='table table-bordered'>
-    			<tr><td style='padding: 0px; background-image: url({$INSTALLER09['pic_base_url']}loadbarbg.gif); background-repeat: repeat-x'>";
+    			<tr><td style='padding: 0px; background-image: url({$TRINITY20['pic_base_url']}loadbarbg.gif); background-repeat: repeat-x'>";
 $percent = min(100, round(exec('ps ax | grep -c apache') / 256 * 100));
 if ($percent <= 70) $pic = "loadbargreen.gif";
 elseif ($percent <= 90) $pic = "loadbaryellow.gif";
 else $pic = "loadbarred.gif";
 $width = $percent * 4;
-$HTMLOUT.= "<img height='15' width='$width' src=\"{$INSTALLER09['pic_base_url']}{$pic}\" alt='$percent&#37;' /><br />{$lang['index_load_curr']}{$percent}{$lang['index_load_cpu']}<br />";
+$HTMLOUT.= "<img height='15' width='$width' src=\"{$TRINITY20['pic_base_url']}{$pic}\" alt='$percent&#37;' /><br />{$lang['index_load_curr']}{$percent}{$lang['index_load_cpu']}<br />";
 //==End graphic
 $HTMLOUT.= "{$lang['index_load_uptime1']}" . uptime() . "";
 $loadinfo = loadavg(true);

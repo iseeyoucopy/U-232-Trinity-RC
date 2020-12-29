@@ -12,7 +12,7 @@
  */
 function parse_poll()
 {
-    global $CURUSER, $INSTALLER09, $cache;
+    global $CURUSER, $TRINITY20, $cache;
     $htmlout = "";
     $check = 0;
     $poll_footer = "";
@@ -36,7 +36,7 @@ function parse_poll()
         while ($row = mysqli_fetch_assoc($query)) {
             $poll_data = $row;
         }
-        $cache->set('poll_data_' . $CURUSER['id'], $poll_data, $INSTALLER09['expires']['poll_data']);
+        $cache->set('poll_data_' . $CURUSER['id'], $poll_data, $TRINITY20['expires']['poll_data']);
     }
     //return $poll_data;
     $member_voted = 0;
@@ -173,20 +173,20 @@ function parse_poll()
 ///////////////////////////////////////////////
 function poll_header($pid = "", $poll_q = "")
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     $htmlout= "<script type=\"text/javascript\">
     /*<![CDATA[*/
     function go_gadget_show()
     {
-      window.location = \"{$INSTALLER09['baseurl']}/index.php?pollid={$pid}&mode=show&st=main\";
+      window.location = \"{$TRINITY20['baseurl']}/index.php?pollid={$pid}&mode=show&st=main\";
     }
     function go_gadget_vote()
     {
-      window.location = \"{$INSTALLER09['baseurl']}/index.php?pollid={$pid}&st=main\";
+      window.location = \"{$TRINITY20['baseurl']}/index.php?pollid={$pid}&st=main\";
     }
     /*]]>*/
     </script>
-    <form action='{$INSTALLER09['baseurl']}/polls_take_vote.php?pollid={$pid}&amp;st=main&amp;addpoll=1' method='post'>
+    <form action='{$TRINITY20['baseurl']}/polls_take_vote.php?pollid={$pid}&amp;st=main&amp;addpoll=1' method='post'>
     
 
 ";
@@ -202,12 +202,12 @@ function poll_header($pid = "", $poll_q = "")
 }
 function poll_show_rendered_choice($choice_id = "", $votes = "", $id = "", $answer = "", $percentage = "", $width = "")
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     /*$htmlout= "<table style='cellpadding=4 cellspacing=0'><tr>
       <td style='width=25% colspan=2'>$answer</td>
       <td style='width=10% nowrap'> [ <b>$votes</b> ] </td>
       <td style='width=70% nowrap'>
-      <img src='{$INSTALLER09['pic_base_url']}polls/bar.gif' width='$width' height='11' style='vertical-align:center' alt='' />
+      <img src='{$TRINITY20['pic_base_url']}polls/bar.gif' width='$width' height='11' style='vertical-align:center' alt='' />
       &nbsp;[$percentage%]
       </td>
       </tr></table>";

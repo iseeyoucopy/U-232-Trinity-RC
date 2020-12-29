@@ -22,7 +22,7 @@ if (!defined('IN_INSTALLER09_ADMIN')) {
 <h1>Not Found</h1>
 <p>The requested URL ' . htmlsafechars($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], '/') + 1) . ' was not found on this server.</p>
 <hr />
-<address>' . $_SERVER['SERVER_SOFTWARE'] . ' Server at ' . $INSTALLER09['baseurl'] . ' Port 80</address>
+<address>' . $_SERVER['SERVER_SOFTWARE'] . ' Server at ' . $TRINITY20['baseurl'] . ' Port 80</address>
 </body></html>';
     echo $HTMLOUT;
     exit();
@@ -87,7 +87,7 @@ case 'upload_credit':
         $pm_buffer = $users_buffer = [];
         if (mysqli_num_rows($res_GB) > 0) {
             $subject = sqlesc($lang['bonusmanager_up_added']);
-            $msg = sqlesc($lang['bonusmanager_up_addedmsg'] . $bonus_added . $lang['bonusmanager_up_addedmsg1'] . $INSTALLER09['site_name'] . "{$lang['bonusmanager_up_addedmsg2']}{$lang['bonusmanager_up_addedmsg22']}" . $GB . " " . $GB_new . "");
+            $msg = sqlesc($lang['bonusmanager_up_addedmsg'] . $bonus_added . $lang['bonusmanager_up_addedmsg1'] . $TRINITY20['site_name'] . "{$lang['bonusmanager_up_addedmsg2']}{$lang['bonusmanager_up_addedmsg22']}" . $GB . " " . $GB_new . "");
             while ($arr_GB = mysqli_fetch_assoc($res_GB)) {
                 $GB_new = ($arr_GB['uploaded'] + $GB);
                 $modcomment = $arr_GB['modcomment'];
@@ -98,10 +98,10 @@ case 'upload_credit':
                 $cache->update_row('user_stats_' . $arr_GB['id'], [
                     'uploaded' => $GB_new,
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 $cache->update_row('userstats_' . $arr_GB['id'], [
                     'uploaded' => $GB_new
-                ], $INSTALLER09['expires']['u_stats']);
+                ], $TRINITY20['expires']['u_stats']);
                 $cache->delete('inbox_new_' . $arr_GB['id']);
                 $cache->delete('inbox_new_sb_' . $arr_GB['id']);
             }
@@ -122,7 +122,7 @@ case 'upload_credit':
                 $pm_buffer = $users_buffer = [];
                 if (mysqli_num_rows($res_GB) > 0) {
                     $subject = sqlesc($lang['bonusmanager_up_added']);
-                    $msg = sqlesc($lang['bonusmanager_up_addedmsg'] . $bonus_added . $lang['bonusmanager_up_addedmsg3'] . $INSTALLER09['site_name'] . $lang['bonusmanager_up_addedmsg2']);
+                    $msg = sqlesc($lang['bonusmanager_up_addedmsg'] . $bonus_added . $lang['bonusmanager_up_addedmsg3'] . $TRINITY20['site_name'] . $lang['bonusmanager_up_addedmsg2']);
                     while ($arr_GB = mysqli_fetch_assoc($res_GB)) {
                         $GB_new = ($arr_GB['uploaded'] + $GB);
                         $modcomment = $arr_GB['modcomment'];
@@ -133,10 +133,10 @@ case 'upload_credit':
                         $cache->update_row('user_stats_' . $arr_GB['id'], [
                             'uploaded' => $GB_new,
                             'modcomment' => $modcomment
-                        ], $INSTALLER09['expires']['user_stats']);
+                        ], $TRINITY20['expires']['user_stats']);
                         $cache->update_row('userstats_' . $arr_GB['id'], [
                             'uploaded' => $GB_new
-                        ], $INSTALLER09['expires']['u_stats']);
+                        ], $TRINITY20['expires']['u_stats']);
                         $cache->delete('inbox_new_' . $arr_GB['id']);
                         $cache->delete('inbox_new_sb_' . $arr_GB['id']);
                     }
@@ -166,7 +166,7 @@ case 'karma':
         $pm_buffer = $users_buffer = [];
         if (mysqli_num_rows($res_karma) > 0) {
             $subject = sqlesc($lang['bonusmanager_karma_added']);
-            $msg = sqlesc($lang['bonusmanager_karma_addedmsg'] . $karma . $lang['bonusmanager_karma_addedmsg1'] . $INSTALLER09['site_name'] . $lang['bonusmanager_karma_addedmsg2']);
+            $msg = sqlesc($lang['bonusmanager_karma_addedmsg'] . $karma . $lang['bonusmanager_karma_addedmsg1'] . $TRINITY20['site_name'] . $lang['bonusmanager_karma_addedmsg2']);
             while ($arr_karma = mysqli_fetch_assoc($res_karma)) {
                 $karma_new = ($arr_karma['seedbonus'] + $karma);
                 $modcomment = $arr_karma['modcomment'];
@@ -177,10 +177,10 @@ case 'karma':
                 $cache->update_row('user_stats_' . $arr_karma['id'], [
                     'seedbonus' => $karma_new,
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 $cache->update_row('userstats_' . $arr_karma['id'], [
                     'seedbonus' => $karma_new
-                ], $INSTALLER09['expires']['u_stats']);
+                ], $TRINITY20['expires']['u_stats']);
                 $cache->delete('inbox_new_' . $arr_karma['id']);
                 $cache->delete('inbox_new_sb_' . $arr_karma['id']);
             }
@@ -201,7 +201,7 @@ case 'karma':
                 $pm_buffer = $users_buffer = [];
                 if (mysqli_num_rows($res_karma) > 0) {
                     $subject = sqlesc($lang['bonusmanager_karma_added']);
-                    $msg = sqlesc($lang['bonusmanager_karma_addedmsg'] . $karma . $lang['bonusmanager_karma_addedmsg3'] . $INSTALLER09['site_name'] . $lang['bonusmanager_karma_addedmsg2']);
+                    $msg = sqlesc($lang['bonusmanager_karma_addedmsg'] . $karma . $lang['bonusmanager_karma_addedmsg3'] . $TRINITY20['site_name'] . $lang['bonusmanager_karma_addedmsg2']);
                     while ($arr_karma = mysqli_fetch_assoc($res_karma)) {
                         $karma_new = ($arr_karma['seedbonus'] + $karma);
                         $modcomment = $arr_karma['modcomment'];
@@ -212,10 +212,10 @@ case 'karma':
                         $cache->update_row('user_stats_' . $arr_karma['id'], [
                             'seedbonus' => $karma_new,
                             'modcomment' => $modcomment
-                        ], $INSTALLER09['expires']['user_stats']);
+                        ], $TRINITY20['expires']['user_stats']);
                         $cache->update_row('userstats_' . $arr_karma['id'], [
                             'seedbonus' => $karma_new
-                        ], $INSTALLER09['expires']['u_stats']);
+                        ], $TRINITY20['expires']['u_stats']);
                         $cache->delete('inbox_new_' . $arr_karma['id']);
                         $cache->delete('inbox_new_sb_' . $arr_karma['id']);
                     }
@@ -245,7 +245,7 @@ case 'freeslots':
         $pm_buffer = $users_buffer = [];
         if (mysqli_num_rows($res_freeslots) > 0) {
             $subject = sqlesc($lang['bonusmanager_freeslots_added']);
-            $msg = sqlesc($lang['bonusmanager_freeslots_addedmsg'] . $freeslots . $lang['bonusmanager_freeslots_addedmsg1'] . $INSTALLER09['site_name'] . $lang['bonusmanager_freeslots_addedmsg2']);
+            $msg = sqlesc($lang['bonusmanager_freeslots_addedmsg'] . $freeslots . $lang['bonusmanager_freeslots_addedmsg1'] . $TRINITY20['site_name'] . $lang['bonusmanager_freeslots_addedmsg2']);
             while ($arr_freeslots = mysqli_fetch_assoc($res_freeslots)) {
                 $freeslots_new = ($arr_freeslots['freeslots'] + $freeslots);
                 $modcomment = $arr_freeslots['modcomment'];
@@ -255,13 +255,13 @@ case 'freeslots':
                 $users_buffer[] = '(' . $arr_freeslots['id'] . ', ' . $freeslots_new . ', ' . $modcom . ')';
                 $cache->update_row('MyUser_' . $arr_freeslots['id'], [
                     'freeslots' => $freeslots_new
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $arr_freeslots['id'], [
                     'freeslots' => $freeslots_new
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('user_stats_' . $arr_freeslots['id'], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 $cache->delete('inbox_new_' . $arr_freeslots['id']);
                 $cache->delete('inbox_new_sb_' . $arr_freeslots['id']);
             }
@@ -282,7 +282,7 @@ case 'freeslots':
                 $pm_buffer = $users_buffer = [];
                 if (mysqli_num_rows($res_freeslots) > 0) {
                     $subject = sqlesc($lang['bonusmanager_freeslots_added']);
-                    $msg = sqlesc($lang['bonusmanager_freeslots_addedmsg'] . $freeslots . $lang['bonusmanager_freeslots_addedmsg3'] . $INSTALLER09['site_name'] . $lang['bonusmanager_freeslots_addedmsg2']);
+                    $msg = sqlesc($lang['bonusmanager_freeslots_addedmsg'] . $freeslots . $lang['bonusmanager_freeslots_addedmsg3'] . $TRINITY20['site_name'] . $lang['bonusmanager_freeslots_addedmsg2']);
                     while ($arr_freeslots = mysqli_fetch_assoc($res_freeslots)) {
                         $freeslots_new = ($arr_freeslots['freeslots'] + $freeslots);
                         $modcomment = $arr_freeslots['modcomment'];
@@ -292,13 +292,13 @@ case 'freeslots':
                         $users_buffer[] = '(' . $arr_freeslots['id'] . ', ' . $freeslots_new . ', ' . $modcom . ')';
                         $cache->update_row('MyUser_' . $arr_freeslots['id'], [
                             'freeslots' => $freeslots_new
-                        ], $INSTALLER09['expires']['curuser']);
+                        ], $TRINITY20['expires']['curuser']);
                         $cache->update_row('user' . $arr_freeslots['id'], [
                             'freeslots' => $freeslots_new
-                        ], $INSTALLER09['expires']['user_cache']);
+                        ], $TRINITY20['expires']['user_cache']);
                         $cache->update_row('user_stats_' . $arr_freeslots['id'], [
                             'modcomment' => $modcomment
-                        ], $INSTALLER09['expires']['user_stats']);
+                        ], $TRINITY20['expires']['user_stats']);
                         $cache->delete('inbox_new_' . $arr_freeslots['id']);
                         $cache->delete('inbox_new_sb_' . $arr_freeslots['id']);
                     }
@@ -328,7 +328,7 @@ case 'invite':
         $pm_buffer = $users_buffer = [];
         if (mysqli_num_rows($res_invites) > 0) {
             $subject = sqlesc($lang['bonusmanager_invite_added']);
-            $msg = sqlesc($lang['bonusmanager_invite_addedmsg'] . $invites . $lang['bonusmanager_invite_addedmsg1'] . $INSTALLER09['site_name'] . $lang['bonusmanager_invite_addedmsg2']);
+            $msg = sqlesc($lang['bonusmanager_invite_addedmsg'] . $invites . $lang['bonusmanager_invite_addedmsg1'] . $TRINITY20['site_name'] . $lang['bonusmanager_invite_addedmsg2']);
             while ($arr_invites = mysqli_fetch_assoc($res_invites)) {
                 $invites_new = ($arr_invites['invites'] + $invites);
                 $modcomment = $arr_invites['modcomment'];
@@ -338,13 +338,13 @@ case 'invite':
                 $users_buffer[] = '(' . $arr_invites['id'] . ', ' . $invites_new . ', ' . $modcom . ')';
                 $cache->update_row('MyUser_' . $arr_invites['id'], [
                     'invites' => $invites_new
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $arr_invites['id'], [
                     'invites' => $invites_new
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('user_stats_' . $arr_invites['id'], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 $cache->delete('inbox_new_' . $arr_invites['id']);
                 $cache->delete('inbox_new_sb_' . $arr_invites['id']);
             }
@@ -365,7 +365,7 @@ case 'invite':
                 $pm_buffer = $users_buffer = [];
                 if (mysqli_num_rows($res_invites) > 0) {
                     $subject = sqlesc($lang['bonusmanager_invite_added']);
-                    $msg = sqlesc($lang['bonusmanager_invite_addedmsg'] . $invites . $lang['bonusmanager_invite_addedmsg3'] . $INSTALLER09['site_name'] . $lang['bonusmanager_invite_addedmsg2']);
+                    $msg = sqlesc($lang['bonusmanager_invite_addedmsg'] . $invites . $lang['bonusmanager_invite_addedmsg3'] . $TRINITY20['site_name'] . $lang['bonusmanager_invite_addedmsg2']);
                     while ($arr_invites = mysqli_fetch_assoc($res_invites)) {
                         $invites_new = ($arr_invites['invites'] + $invites);
                         $modcomment = $arr_invites['modcomment'];
@@ -375,13 +375,13 @@ case 'invite':
                         $users_buffer[] = '(' . $arr_invites['id'] . ', ' . $invites_new . ', ' . $modcom . ')';
                         $cache->update_row('MyUser_' . $arr_invites['id'], [
                             'invites' => $invites_new
-                        ], $INSTALLER09['expires']['curuser']);
+                        ], $TRINITY20['expires']['curuser']);
                         $cache->update_row('user' . $arr_invites['id'], [
                             'invites' => $invites_new
-                        ], $INSTALLER09['expires']['user_cache']);
+                        ], $TRINITY20['expires']['user_cache']);
                         $cache->update_row('user_stats_' . $arr_invites['id'], [
                             'modcomment' => $modcomment
-                        ], $INSTALLER09['expires']['user_stats']);
+                        ], $TRINITY20['expires']['user_stats']);
                         $cache->delete('inbox_new_' . $arr_invites['id']);
                         $cache->delete('inbox_new_sb_' . $arr_invites['id']);
                     }
@@ -546,7 +546,7 @@ $h1_thingie.= (isset($_GET['karma']) ? ($_GET['karma'] === 1 ? '<h2>' . $lang['b
 $h1_thingie.= (isset($_GET['freeslots']) ? ($_GET['freeslots'] === 1 ? '<h2>' . $lang['bonusmanager_h1_freeslot'] . '<h2>' : '<h2>' . $lang['bonusmanager_h1_freeslot1'] . '</h2>') : '');
 $h1_thingie.= (isset($_GET['invites']) ? ($_GET['invites'] === 1 ? '<h2>' . $lang['bonusmanager_h1_invite'] . '</h2>' : '<h2>' . $lang['bonusmanager_h1_invite1'] . '</h2>') : '');
 $h1_thingie.= (isset($_GET['pm']) ? ($_GET['pm'] === 1 ? '<h2>' . $lang['bonusmanager_h1_pm'] . '</h2>' : '<h2>' . $lang['bonusmanager_h1_pm1'] . '</h2>') : '');
-$HTMLOUT.= '<h1>' . $INSTALLER09['site_name'] . ' ' . $lang['bonusmanager_mass_bonus'] . '</h1>' . $h1_thingie;
+$HTMLOUT.= '<h1>' . $TRINITY20['site_name'] . ' ' . $lang['bonusmanager_mass_bonus'] . '</h1>' . $h1_thingie;
 $HTMLOUT.= '<form name="inputform" method="post" action="staffpanel.php?tool=mass_bonus_for_members&amp;action=mass_bonus_for_members" enctype="multipart/form-data">
         <input type="hidden" id="action_2" name="action_2" value="" />
     <table class="table table-bordered">

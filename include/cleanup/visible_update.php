@@ -12,10 +12,10 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(0);
     ignore_user_abort(1);
-    $deadtime_tor = TIME_NOW - $INSTALLER09['max_dead_torrent_time'];
+    $deadtime_tor = TIME_NOW - $TRINITY20['max_dead_torrent_time'];
     $What_Time = (XBT_TRACKER == true ? 'mtime' : 'last_action'); 
     sql_query("UPDATE torrents SET visible='no' WHERE visible='yes' AND $What_Time < $deadtime_tor");
     if (XBT_TRACKER == true) {

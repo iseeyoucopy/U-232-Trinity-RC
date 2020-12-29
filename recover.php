@@ -30,8 +30,8 @@ $stdhead = array(
     )
 );
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!mkglobal('email' . ($INSTALLER09['captcha_on'] ? ":captchaSelection" : "") . '')) stderr("Oops", "Missing form data - You must fill all fields");
-    if ($INSTALLER09['captcha_on']) {
+    if (!mkglobal('email' . ($TRINITY20['captcha_on'] ? ":captchaSelection" : "") . '')) stderr("Oops", "Missing form data - You must fill all fields");
+    if ($TRINITY20['captcha_on']) {
         if (empty($captchaSelection) || $_SESSION['simpleCaptchaAnswer'] != $captchaSelection) {
             header('Location: recover.php');
             exit();
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"])) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_dberror']}");
     //$hash = md5($sec . $email . $arr["passhash"] . $sec);
 	//$to = $arr["email"];
-	$subject = "{$INSTALLER09['site_name']} {$lang['email_subjreset']}";
+	$subject = "{$TRINITY20['site_name']} {$lang['email_subjreset']}";
 	$body = 'Someone, hopefully you, requested a hint reminder
 The request originated from '.$_SERVER["REMOTE_ADDR"].'.
 
@@ -55,10 +55,10 @@ Your hint answer is '.$hintanswer.'
 
 If you did not do this please contact us at contact@u-232.servebeer.com
 
-'. $INSTALLER09['site_name'].' Team';
-    //$body = sprintf($lang['email_request'], , $_SERVER["REMOTE_ADDR"], $INSTALLER09['baseurl'], $arr["id"]) . $INSTALLER09['site_name'];
+'. $TRINITY20['site_name'].' Team';
+    //$body = sprintf($lang['email_request'], , $_SERVER["REMOTE_ADDR"], $TRINITY20['baseurl'], $arr["id"]) . $TRINITY20['site_name'];
 	// More headers
-	$headers = "From:{$INSTALLER09['site_email']}" . "\r\n";
+	$headers = "From:{$TRINITY20['site_email']}" . "\r\n";
     mail($email, $subject, $body, $headers) or stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_nomail']}");
     stderr($lang['stderr_successhead'], $lang['stderr_confmailsent']);
 } else {
@@ -74,7 +74,7 @@ If you did not do this please contact us at contact@u-232.servebeer.com
 <form class='form-horizontal  panel inverse' role='form' method='post' action='{$_SERVER['PHP_SELF']}'>
 <h2>{$lang['recover_unamepass']}</h2>
 <p>{$lang['recover_form']}</p>
-<div class='form-group'><div class='col-sm-10 col-sm-offset-1'>" . ($INSTALLER09['captcha_on'] ? "</div></div>
+<div class='form-group'><div class='col-sm-10 col-sm-offset-1'>" . ($TRINITY20['captcha_on'] ? "</div></div>
 <div class='form-group'><div class='col-sm-10 col-sm-offset-1' id='captcharec'></div></div>" : "") . "
 <div class='form-group'><div class='col-sm-10 col-sm-offset-1'><input class='form-control' type='text' placeholder='{$lang['recover_regdemail']}' name='email'></div></div>
 <div class='form-group'><div class='col-sm-10 col-sm-offset-5'><input type='submit' value='{$lang['recover_btn']}' class='btn btn-default active'></div></div>

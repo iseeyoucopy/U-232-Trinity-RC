@@ -12,7 +12,7 @@
  */
 function searchcloud($limit = 50)
 {
-    global $cache, $INSTALLER09;
+    global $cache, $TRINITY20;
     if (!($return = $cache->get('searchcloud'))) {
         $search_q = sql_query('SELECT searchedfor,howmuch FROM searchcloud ORDER BY id DESC ' . ($limit > 0 ? 'LIMIT ' . $limit : '')) or sqlerr(__FILE__, __LINE__);
         if (mysqli_num_rows($search_q)) {
@@ -29,7 +29,7 @@ function searchcloud($limit = 50)
 }
 function searchcloud_insert($word)
 {
-    global $cache, $INSTALLER09;
+    global $cache, $TRINITY20;
     $searchcloud = searchcloud();
     $ip = getip();
     $howmuch = isset($searchcloud[$word]) ? $searchcloud[$word] + 1 : 1;

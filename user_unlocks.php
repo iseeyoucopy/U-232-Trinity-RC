@@ -83,12 +83,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $row['perms'] = (int) $row['perms'];
         $cache->update_row('MyUser_' . $id, [
             'perms' => $row['perms']
-        ], $INSTALLER09['expires']['curuser']);
+        ], $TRINITY20['expires']['curuser']);
         $cache->update_row('user_' . $id, [
             'perms' => $row['perms']
-        ], $INSTALLER09['expires']['user_cache']);
+        ], $TRINITY20['expires']['user_cache']);
     }
-    header('Location: ' . $INSTALLER09['baseurl'] . '/user_unlocks.php');
+    header('Location: ' . $TRINITY20['baseurl'] . '/user_unlocks.php');
     exit();
 }
 $checkbox_unlock_moods = (($CURUSER['perms'] & bt_options::UNLOCK_MORE_MOODS) ? ' checked="checked"' : '');
@@ -99,7 +99,7 @@ $HTMLOUT.= begin_frame();
 $HTMLOUT.= '<div class="container"><form action="" method="post">        
         <fieldset><legend>' . $lang['uunlk_user_unlock_settings'] . '</legend></fieldset>
         <div class="row-fluid">
-        ' . ($INSTALLER09['mood_sys_on'] ? '<div class="span3 offset1">
+        ' . ($TRINITY20['mood_sys_on'] ? '<div class="span3 offset1">
         <table class="table table-bordered">
 	<tr>
         <td>

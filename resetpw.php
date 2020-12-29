@@ -16,7 +16,7 @@ require_once (INCL_DIR . 'password_functions.php');
 dbconn();
 global $CURUSER;
 if ($CURUSER) {
-    header("Location: {$INSTALLER09['baseurl']}/index.php");
+    header("Location: {$TRINITY20['baseurl']}/index.php");
     exit;
 }
 ini_set('session.use_trans_sid', '0');
@@ -24,7 +24,7 @@ session_start();
 get_template();
 $lang = array_merge(load_language('global') , load_language('passhint'));
 $stdfoot = '';
-if ($INSTALLER09['captcha_on'] === true)
+if ($TRINITY20['captcha_on'] === true)
 $stdfoot = array(
     /** include js **/
     'js' => array(
@@ -36,8 +36,8 @@ $HTMLOUT = '';
 $step = (isset($_GET["step"]) ? (int)$_GET["step"] : (isset($_POST["step"]) ? (int)$_POST["step"] : ''));
 if ($step == '1') {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (!mkglobal('email' . ($INSTALLER09['captcha_on'] ? ":captchaSelection" : "") . '')) stderr("Oops", "Missing form data - You must fill all fields");
-        if ($INSTALLER09['captcha_on']) {
+        if (!mkglobal('email' . ($TRINITY20['captcha_on'] ? ":captchaSelection" : "") . '')) stderr("Oops", "Missing form data - You must fill all fields");
+        if ($TRINITY20['captcha_on']) {
             if (empty($captchaSelection) || $_SESSION['simpleCaptchaAnswer'] != $captchaSelection) {
                 stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error2']}");
                 exit();
@@ -99,8 +99,8 @@ if ($step == '1') {
                     $sec = mksecret();
                     $sechash =  md5($sec.$fetch['id'].$fetch['hintanswer']);
                     sql_query("UPDATE users SET editsecret = ".sqlesc($sec)." WHERE id = ".sqlesc($id));
-                    $cache->update_row('MyUser_' . $fetch["id"], ['editsecret' => $sec], $INSTALLER09['expires']['curuser']);
-                    $cache->update_row('user' . $fetch["id"], ['editsecret' => $sec], $INSTALLER09['expires']['user_cache']);
+                    $cache->update_row('MyUser_' . $fetch["id"], ['editsecret' => $sec], $TRINITY20['expires']['curuser']);
+                    $cache->update_row('user' . $fetch["id"], ['editsecret' => $sec], $TRINITY20['expires']['user_cache']);
                     $HTMLOUT .= "<div class='grid-container'>
 				<div class='grid-x grid-padding-x align-center-middle text-center margin-top-3'>
 					<div class='callout margin-top-3'>
@@ -146,20 +146,20 @@ if ($step == '1') {
         'secret' => $secret,
         'editsecret' => '',
         'passhash' => $newpassword
-    ], $INSTALLER09['expires']['curuser']);
+    ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user' . $id, [
         'secret' => $secret,
         'editsecret' => '',
         'passhash' => $newpassword
-    ], $INSTALLER09['expires']['user_cache']);
+    ], $TRINITY20['expires']['user_cache']);
     if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"])) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error13']}");
     else { 
-	header("Refresh:3; url={$INSTALLER09['baseurl']}/login.php");
-	stderr("{$lang['stderr_successhead']}", "{$lang['stderr_error14']} <a href='{$INSTALLER09['baseurl']}/login.php' class='altlink'><b>{$lang['stderr_error15']}</b></a> {$lang['stderr_error16']}", FALSE);
+	header("Refresh:3; url={$TRINITY20['baseurl']}/login.php");
+	stderr("{$lang['stderr_successhead']}", "{$lang['stderr_error14']} <a href='{$TRINITY20['baseurl']}/login.php' class='altlink'><b>{$lang['stderr_error15']}</b></a> {$lang['stderr_error16']}", FALSE);
 	} 
 }
 	else {
-    $HTMLOUT.= "".($INSTALLER09['captcha_on'] ? "<script type='text/javascript'>
+    $HTMLOUT.= "".($TRINITY20['captcha_on'] ? "<script type='text/javascript'>
 	  /*<![CDATA[*/
 	  $(document).ready(function () {
 	  $('#captchareset').simpleCaptcha();
@@ -177,7 +177,7 @@ if ($step == '1') {
 			</span>
 			<input class='input-group-field' type='text' placeholder='{$lang['main_email_add']}' name='email'>
 		</div>
-" . ($INSTALLER09['captcha_on'] ? "<div class='form-group'><div class='col-sm-10 col-sm-offset-1' id='captchareset'></div></div>" : "") . "
+" . ($TRINITY20['captcha_on'] ? "<div class='form-group'><div class='col-sm-10 col-sm-offset-1' id='captchareset'></div></div>" : "") . "
 		<input type='submit' value='{$lang['main_recover']}' class='button float-right'>
 </form>
 </div></div></div>";

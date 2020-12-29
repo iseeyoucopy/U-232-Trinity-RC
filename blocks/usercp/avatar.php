@@ -9,8 +9,8 @@
     if (!($CURUSER["avatarpos"] == 0 OR $CURUSER["avatarpos"] != 1)) {
         $HTMLOUT.= "<tr><td class='rowhead'>{$lang['usercp_avatar']}</td><td><input name='avatar' size='50' value='" . htmlsafechars($CURUSER["avatar"]) . "' /><br />
     <font class='small'>{$lang['usercp_av_mess1']}\n<br />
-    {$lang['usercp_av_mess2']} <a href='{$INSTALLER09['baseurl']}/avatar/index.php'>{$lang['usercp_av_mess3']}</a>.<br />
-    {$lang['usercp_av_mess4']} <a href='{$INSTALLER09['baseurl']}/bitbucket.php'>{$lang['usercp_av_mess5']}</a>.</font>
+    {$lang['usercp_av_mess2']} <a href='{$TRINITY20['baseurl']}/avatar/index.php'>{$lang['usercp_av_mess3']}</a>.<br />
+    {$lang['usercp_av_mess4']} <a href='{$TRINITY20['baseurl']}/bitbucket.php'>{$lang['usercp_av_mess5']}</a>.</font>
     </td></tr>";
     } else {
         $HTMLOUT.= "<tr><td class='rowhead'>{$lang['usercp_avatar']}</td><td><input name='avatar' size='50' value='" . htmlsafechars($CURUSER["avatar"]) . "' readonly='readonly'/>

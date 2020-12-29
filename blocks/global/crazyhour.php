@@ -10,10 +10,10 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-if(XBT_TRACKER == false AND $INSTALLER09['crazy_hour'] == true) {
+if(XBT_TRACKER == false AND $TRINITY20['crazy_hour'] == true) {
 function crazyhour()
 {
-    global $CURUSER, $INSTALLER09, $cache, $lang;
+    global $CURUSER, $TRINITY20, $cache, $lang;
     $htmlout = $cz = '';
     $crazy_hour = (TIME_NOW + 3600);
     if (($crazyhour['crazyhour'] = $cache->get('crazyhour')) === false) {
@@ -28,7 +28,7 @@ WHERE type = "crazyhour"') or sqlerr(__FILE__, __LINE__);
         }
         $cache->set('crazyhour', $crazyhour['crazyhour'], 0);
     }
-    $cimg = '<img src="' . $INSTALLER09['pic_base_url'] . 'cat_free.gif" alt="FREE!" />';
+    $cimg = '<img src="' . $TRINITY20['pic_base_url'] . 'cat_free.gif" alt="FREE!" />';
     if ($crazyhour['crazyhour']['var'] < TIME_NOW) { // if crazyhour over
         $cz_lock = $cache->set('crazyhour_lock', 1, 10);
         if ($cz_lock !== false) {

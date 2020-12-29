@@ -75,14 +75,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         
 		$HTMLOUT .="<tr>
-    <td width='100%' align='left' ><a href='{$INSTALLER09['baseurl']}/forums.php?action=viewforum&amp;forumid=".((int)$a["subid"])."' >".(htmlsafechars($a["subname"]))."</a><br/>".(htmlsafechars($a["description"]))."</td>
-    <td nowrap='nowrap' align='center'><a href='{$INSTALLER09['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)($a["parrentid"])."' >".(htmlsafechars($a["parrentname"]))."</a></td>
+    <td width='100%' align='left' ><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".((int)$a["subid"])."' >".(htmlsafechars($a["subname"]))."</a><br/>".(htmlsafechars($a["description"]))."</td>
+    <td nowrap='nowrap' align='center'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)($a["parrentid"])."' >".(htmlsafechars($a["parrentname"]))."</a></td>
     <td nowrap='nowrap'>".(get_user_class_name($a['min_class_read']))."</td>
     <td nowrap='nowrap'>".(get_user_class_name($a['min_class_write']))."</td>
     <td nowrap='nowrap'>".(get_user_class_name($a['min_class_create']))."</td>
-		<td align='center' nowrap='nowrap' ><a href='{$INSTALLER09['baseurl']}/forums.php?action=deleteforum&amp;forumid=".(int)($a['subid'])."'>
-		<img src='{$INSTALLER09['pic_base_url']}del.png' alt='Delete Forum' title='Delete Forum' style='border:none;padding:2px;' /></a>
-		<a href='{$INSTALLER09['baseurl']}/forums.php?action=editforum&amp;forumid=".(int)($a['subid'])."'><img src='{$INSTALLER09['pic_base_url']}edit.png' alt='Edit Forum' title='Edit Forum' style='border:none;padding:2px;' /></a></td>
+		<td align='center' nowrap='nowrap' ><a href='{$TRINITY20['baseurl']}/forums.php?action=deleteforum&amp;forumid=".(int)($a['subid'])."'>
+		<img src='{$TRINITY20['pic_base_url']}del.png' alt='Delete Forum' title='Delete Forum' style='border:none;padding:2px;' /></a>
+		<a href='{$TRINITY20['baseurl']}/forums.php?action=editforum&amp;forumid=".(int)($a['subid'])."'><img src='{$TRINITY20['pic_base_url']}edit.png' alt='Edit Forum' title='Edit Forum' style='border:none;padding:2px;' /></a></td>
     </tr>";
     }
     

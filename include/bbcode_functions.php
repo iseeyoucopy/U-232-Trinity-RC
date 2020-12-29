@@ -45,7 +45,7 @@ function source_highlighter($source, $lang2geshi)
 }
 function _MediaTag($content, $type)
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     if ($content == '' OR $type == '') return;
     $return = '';
     switch ($type) {
@@ -146,16 +146,16 @@ function format_quotes($s)
 }
 function islocal($link)
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     $flag = false;
     $limit = 60;
-    $INSTALLER09['url'] = str_replace(array(
+    $TRINITY20['url'] = str_replace(array(
         'http://',
         'www',
         'http://www',
         'https://',
         'https://www'
-    ) , '', $INSTALLER09['baseurl']);
+    ) , '', $TRINITY20['baseurl']);
     if (false !== stristr($link[0], '[url=')) {
         $url = trim($link[1]);
         $title = trim($link[2]);
@@ -170,7 +170,7 @@ function islocal($link)
         $l[1] = substr($title, strlen($title) - round($limit / 3));
         $lshort = $l[0] . "..." . $l[1];
     } else $lshort = $title;
-    return "&nbsp;<a href=\"" . ((stristr($url, $INSTALLER09['url']) !== false) ? "" : "https://anonym.to/?") . $url . "\" target=\"_blank\">" . $lshort . "</a>";
+    return "&nbsp;<a href=\"" . ((stristr($url, $TRINITY20['url']) !== false) ? "" : "https://anonym.to/?") . $url . "\" target=\"_blank\">" . $lshort . "</a>";
 }
 function format_urls($s)
 {
@@ -179,13 +179,13 @@ function format_urls($s)
 
 function format_comment($text, $strip_html = true, $urls = true, $images = true)
 {
-    global $smilies, $staff_smilies, $customsmilies, $INSTALLER09, $CURUSER;
+    global $smilies, $staff_smilies, $customsmilies, $TRINITY20, $CURUSER;
     $s = $text;
     unset($text);
     $s = validate_imgs($s);
-    $INSTALLER09['url'] = str_replace(array('http://', 'www', 'http://www', 'https://', 'https://www'), '', $INSTALLER09['baseurl']);
-    if(isset($_SERVER['HTTPS']) && (bool)$_SERVER['HTTPS'] == true) $s = preg_replace('/http:\/\/((?:www\.)?'.$INSTALLER09['url'].')/i', 'https://$1', $s);
-    else $s = preg_replace('/https:\/\/((?:www\.)?'.$INSTALLER09['url'].')/i', 'http://$1', $s);
+    $TRINITY20['url'] = str_replace(array('http://', 'www', 'http://www', 'https://', 'https://www'), '', $TRINITY20['baseurl']);
+    if(isset($_SERVER['HTTPS']) && (bool)$_SERVER['HTTPS'] == true) $s = preg_replace('/http:\/\/((?:www\.)?'.$TRINITY20['url'].')/i', 'https://$1', $s);
+    else $s = preg_replace('/https:\/\/((?:www\.)?'.$TRINITY20['url'].')/i', 'http://$1', $s);
     // This fixes the extraneous ;) smilies problem. When there was an html escaped
     // char before a closing bracket - like >), "), ... - this would be encoded
     // to &xxx;), hence all the extra smilies. I created a new :wink: label, removed
@@ -307,15 +307,15 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
     $s = str_replace('  ', ' &nbsp;', $s);
     if (isset($smilies)) 
 		foreach ($smilies as $code => $url) {
-			$s = str_replace($code, "<img border='0' src=\"{$INSTALLER09['pic_base_url']}smilies/{$url}\" alt=\"\" />", $s);
+			$s = str_replace($code, "<img border='0' src=\"{$TRINITY20['pic_base_url']}smilies/{$url}\" alt=\"\" />", $s);
 			//$s = str_replace($code, '<span id="'.$attr.'"></span>', $s);
     }
     if (isset($staff_smilies)) foreach ($staff_smilies as $code => $url) {
-        $s = str_replace($code, "<img border='0' src=\"{$INSTALLER09['pic_base_url']}smilies/{$url}\" alt=\"\" />", $s);
+        $s = str_replace($code, "<img border='0' src=\"{$TRINITY20['pic_base_url']}smilies/{$url}\" alt=\"\" />", $s);
         //$s = str_replace($code, '<span id="'.$attr.'"></span>', $s);
     }
     if (isset($customsmilies)) foreach ($customsmilies as $code => $url) {
-        $s = str_replace($code, "<img border='0' src=\"{$INSTALLER09['pic_base_url']}smilies/{$url}\" alt=\"\" />", $s);
+        $s = str_replace($code, "<img border='0' src=\"{$TRINITY20['pic_base_url']}smilies/{$url}\" alt=\"\" />", $s);
         //$s = str_replace($code, '<span id="'.$attr.'"></span>', $s);
     }
     $s = format_quotes($s);
@@ -331,7 +331,7 @@ function get_smile()
 ////////////09 bbcode function by putyn///////////////
 function textbbcode($form, $text, $content = "")
 {
-    global $CURUSER, $INSTALLER09;
+    global $CURUSER, $TRINITY20;
     $custombutton = '';
     if (get_smile() != '0') $custombutton.= " <span style='font-weight:bold;font-size:8pt;'><a href=\"javascript:PopCustomSmiles('".$form."','".$text."')\">[ Custom Smilies ]</a></span>";
     $smilebutton = "<a href=\"javascript:PopMoreSmiles('".$form."','".$text."')\">[ More Smilies ]</a>";
@@ -397,37 +397,37 @@ HTML;
           <option value="7">7</option>
         </select>
 		<span style='font-weight:bold;font-size:8pt;'>{$smilebutton}</span>{$custombutton}
-		  <a href="javascript:em(':-)');"><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/smile1.gif" width="18" height="18"></a>
-		  <a href="javascript:em(':smile:');"><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/smile2.gif" width="18" height="18"></a>
-		  <a href="javascript:em(':-D');"><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/grin.gif" width="18" height="18"></a>
-		  <a href="javascript:em(':w00t:');"><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/w00t.gif" width="18" height="20"></a>
-		  <a href="javascript:em(':-P');"><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/tongue.gif" width="20" height="20"></a>
-		  <a href="javascript:em(';-)');"><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/wink.gif" width="20" height="20"></a>
-		  <a href="javascript:em(':-|');"><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/noexpression.gif" width="18" height="18"></a>
-		  <a href="javascript:em(':-/');"><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/confused.gif" width="18" height="18"></a>
-		  <a href="javascript:em(':-(');"><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/sad.gif" width="18" height="18"></a>
-		  <a href="javascript:em(':baby:');"><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/baby.gif" width="20" height="22"></a>
-		  <a href="javascript:em(':-O');"><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/ohmy.gif" width="18" height="18"></a>
-		  <a href="javascript:em('|-)');"><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/sleeping.gif" width="20" height="27"></a>
-		  <a href="javascript:em(':innocent:');"><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/innocent.gif" width="18" height="22"></a>
-		  <a href="javascript:em(':unsure:');"><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/unsure.gif" width="20" height="20"></a>
-		  <a href="javascript:em(':closedeyes:');"><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/closedeyes.gif" width="20" height="20">
-		  </a><a href="javascript:em(':cool:');"><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/cool2.gif" width="20" height="20"></a>
-		  <a href="javascript:em(':thumbsdown:');" ><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/thumbsdown.gif" width="27" height="18"></a>
-		  <a href="javascript:em(':blush:');" ><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/blush.gif" width="20" height="20"></a>
-		  <a href="javascript:em(':yes:');"><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/yes.gif" width="20" height="20" /></a><a href="javascript:em(':no:');" ><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/no.gif" width="20" height="20"></a>
-          <a href="javascript:em(':love:');" ><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/love.gif" width="19" height="19"></a>
-		  <a href="javascript:em(':?:');" ><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/question.gif" width="19" height="19"></a>
-		  <a href="javascript:em(':!:');" ><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/excl.gif" width="20" height="20"></a>
-		  <a href="javascript:em(':idea:');" ><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/idea.gif" width="19" height="19"></a>
-		  <a href="javascript:em(':arrow:');" ><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/arrow.gif" width="20" height="20"></a>
-		  <a href="javascript:em(':arrow2:');" ><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/arrow2.gif" width="20" height="20"></a>
-		  <a href="javascript:em(':hmm:');" ><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/hmm.gif" width="20" height="20"></a>
-		  <a href="javascript:em(':hmmm:');" ><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/hmmm.gif" width="25" height="23"></a>
-		  <a href="javascript:em(':huh:');" ><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/huh.gif" width="20" height="20"></a>
-		  <a href="javascript:em(':rolleyes:');" ><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/rolleyes.gif" width="20" height="20"></a>
-		  <a href="javascript:em(':kiss:');" ><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/kiss.gif" width="18" height="18"></a>
-		  <a href="javascript:em(':shifty:');" ><img border="0" alt="Smilies" src="{$INSTALLER09['pic_base_url']}smilies/shifty.gif" width="20" height="20"></a>
+		  <a href="javascript:em(':-)');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/smile1.gif" width="18" height="18"></a>
+		  <a href="javascript:em(':smile:');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/smile2.gif" width="18" height="18"></a>
+		  <a href="javascript:em(':-D');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/grin.gif" width="18" height="18"></a>
+		  <a href="javascript:em(':w00t:');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/w00t.gif" width="18" height="20"></a>
+		  <a href="javascript:em(':-P');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/tongue.gif" width="20" height="20"></a>
+		  <a href="javascript:em(';-)');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/wink.gif" width="20" height="20"></a>
+		  <a href="javascript:em(':-|');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/noexpression.gif" width="18" height="18"></a>
+		  <a href="javascript:em(':-/');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/confused.gif" width="18" height="18"></a>
+		  <a href="javascript:em(':-(');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/sad.gif" width="18" height="18"></a>
+		  <a href="javascript:em(':baby:');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/baby.gif" width="20" height="22"></a>
+		  <a href="javascript:em(':-O');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/ohmy.gif" width="18" height="18"></a>
+		  <a href="javascript:em('|-)');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/sleeping.gif" width="20" height="27"></a>
+		  <a href="javascript:em(':innocent:');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/innocent.gif" width="18" height="22"></a>
+		  <a href="javascript:em(':unsure:');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/unsure.gif" width="20" height="20"></a>
+		  <a href="javascript:em(':closedeyes:');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/closedeyes.gif" width="20" height="20">
+		  </a><a href="javascript:em(':cool:');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/cool2.gif" width="20" height="20"></a>
+		  <a href="javascript:em(':thumbsdown:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/thumbsdown.gif" width="27" height="18"></a>
+		  <a href="javascript:em(':blush:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/blush.gif" width="20" height="20"></a>
+		  <a href="javascript:em(':yes:');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/yes.gif" width="20" height="20" /></a><a href="javascript:em(':no:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/no.gif" width="20" height="20"></a>
+          <a href="javascript:em(':love:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/love.gif" width="19" height="19"></a>
+		  <a href="javascript:em(':?:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/question.gif" width="19" height="19"></a>
+		  <a href="javascript:em(':!:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/excl.gif" width="20" height="20"></a>
+		  <a href="javascript:em(':idea:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/idea.gif" width="19" height="19"></a>
+		  <a href="javascript:em(':arrow:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/arrow.gif" width="20" height="20"></a>
+		  <a href="javascript:em(':arrow2:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/arrow2.gif" width="20" height="20"></a>
+		  <a href="javascript:em(':hmm:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/hmm.gif" width="20" height="20"></a>
+		  <a href="javascript:em(':hmmm:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/hmmm.gif" width="25" height="23"></a>
+		  <a href="javascript:em(':huh:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/huh.gif" width="20" height="20"></a>
+		  <a href="javascript:em(':rolleyes:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/rolleyes.gif" width="20" height="20"></a>
+		  <a href="javascript:em(':kiss:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/kiss.gif" width="18" height="18"></a>
+		  <a href="javascript:em(':shifty:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/shifty.gif" width="20" height="20"></a>
       </div>
       <div class="off-canvas-content" style="min-height: 260px;" data-off-canvas-content>
 	  <a style="position: relative; top: 40px; left: -10px;" class="float-right" data-toggle="bbcode-canvas"><i class="fas fa-cogs"></i></a>
@@ -445,7 +445,7 @@ function user_key_codes($key)
 }
 function dynamic_user_vars($text)
 {
-    global $CURUSER, $INSTALLER09;
+    global $CURUSER, $TRINITY20;
     if (!isset($CURUSER)) return;
     $zone = 0; // GMT
     //$zone = 3600 * -5; // EST

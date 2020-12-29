@@ -13,7 +13,7 @@
 // pdq 2010
 function stealth($id, $stealth = true)
 {
-    global $CURUSER, $cache, $INSTALLER09;
+    global $CURUSER, $cache, $TRINITY20;
     $setbits = $clrbits = 0;
     if ($stealth) {
         $display = 'is';
@@ -35,23 +35,23 @@ function stealth($id, $stealth = true)
     // update caches
     $cache->update_row('user' . $id, [
         'perms' => $row['perms']
-    ], $INSTALLER09['expires']['user_cache']);
+    ], $TRINITY20['expires']['user_cache']);
     $cache->update_row('MyUser_' . $id, [
         'perms' => $row['perms']
-    ], $INSTALLER09['expires']['curuser']);
+    ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user_stats_' . $id, [
         'modcomment' => $modcomment
-    ], $INSTALLER09['expires']['user_stats']);
+    ], $TRINITY20['expires']['user_stats']);
     if ($id == $CURUSER['id']) {
         $cache->update_row('user' . $CURUSER['id'], [
             'perms' => $row['perms']
-        ], $INSTALLER09['expires']['user_cache']);
+        ], $TRINITY20['expires']['user_cache']);
         $cache->update_row('MyUser_' . $CURUSER['id'], [
             'perms' => $row['perms']
-        ], $INSTALLER09['expires']['curuser']);
+        ], $TRINITY20['expires']['curuser']);
         $cache->update_row('user_stats_' . $CURUSER['id'], [
             'modcomment' => $modcomment
-        ], $INSTALLER09['expires']['user_stats']);
+        ], $TRINITY20['expires']['user_stats']);
     }
     write_log('Member [b][url=userdetails.php?id=' . $id . ']' . (htmlsafechars($row['username'])) . '[/url][/b] ' . $display . ' in Stealth Mode thanks to [b]' . $CURUSER['username'] . '[/b]');
     // header ouput

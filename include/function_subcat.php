@@ -2,7 +2,7 @@
 
 function genrelist2()
 {
-    global $cache, $INSTALLER09;
+    global $cache, $TRINITY20;
     if (!($cats = $cache->get('categories'))) {
         $row = sql_query("SELECT id, name, image, parent_id, tabletype, min_class FROM categories ORDER BY name");
         while ($mysqlcats = mysqli_fetch_assoc($row))
@@ -34,19 +34,19 @@ function genrelist2()
                 $i++;
             }
         }
-        $cache->set('categories', $cats, $INSTALLER09['expires']['genrelist2']);
+        $cache->set('categories', $cats, $TRINITY20['expires']['genrelist2']);
     }
     return $cats;
 }
 
 function categories_table($cats, $wherecatina, $linkpage = '', $display = 'block')
 {
-    global $lang, $CURUSER, $INSTALLER09;
+    global $lang, $CURUSER, $TRINITY20;
     $html = "";
     $html .= "<div id=\"cats\" style=\"display: {$display};\"><table><tbody align=\"left\"><tr>";
     $i = 0;
     $ncats = count($cats);
-    $catsperrow = $INSTALLER09['catperrow'];
+    $catsperrow = $TRINITY20['catperrow'];
     if (!empty($ncats));
     foreach ($cats as $cat) {
         $html .= ($i && $i % $catsperrow == 0) ? "</tr><tr>" : "";
@@ -77,20 +77,20 @@ function categories_table($cats, $wherecatina, $linkpage = '', $display = 'block
 
 function subcategories_table($cats, $wherecatina = array(), $linkpage = '', $ncats)
 {
-    global $lang, $CURUSER, $INSTALLER09;
+    global $lang, $CURUSER, $TRINITY20;
     $html = "";
     $html .= "<div id=\"tabletype{$cats['tabletype']}\" style=\"display: none;\">";
     $subcats = $cats['subcategory'];
     $html .= "<table>";
     $html .= "<tbody align=\"left\"><tr>";
-    $catsperrow = $INSTALLER09['catperrow'];
+    $catsperrow = $TRINITY20['catperrow'];
     $i = 0;
     if (count($subcats) > 0)
         foreach ($subcats as $cat) {
             $html .= ($i && $i % $catsperrow == 0) ? "</tr><tr>" : "";
             $html .= "<td class=\"one\" style=\"padding-bottom: 2px;padding-left: 7px;white-space: nowrap;\">
     <input onclick=\"checkAllFields(2,{$cats['tabletype']});\" name=\"cats{$cats['tabletype']}[]\" value=\"{$cat['id']}\" type=\"checkbox\" " . (in_array($cat['id'], $wherecatina) ? "checked='checked'" : "") . " />
-    " . (($linkpage != '') ? "<a href=\"{$linkpage}?cats{$cats['tabletype']}[]={$cat['id']}\"><img src='{$INSTALLER09['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlspecialchars($cat['image']) . "' alt='" . htmlspecialchars($cat['name']) . "' title='" . htmlspecialchars($cat['name']) . "' /></a>" : htmlspecialchars($cat['name'])) . "</td>\n";
+    " . (($linkpage != '') ? "<a href=\"{$linkpage}?cats{$cats['tabletype']}[]={$cat['id']}\"><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlspecialchars($cat['image']) . "' alt='" . htmlspecialchars($cat['name']) . "' title='" . htmlspecialchars($cat['name']) . "' /></a>" : htmlspecialchars($cat['name'])) . "</td>\n";
             $i++;
         }
     $nsubcats = count($subcats);

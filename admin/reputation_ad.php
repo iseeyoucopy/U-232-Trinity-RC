@@ -453,10 +453,10 @@ function do_delete_rep()
     $update['rep'] = ($User['reputation'] - $r['reputation']);
     $cache->update_row('MyUser_' . $r['userid'], [
         'reputation' => $update['rep']
-    ], $INSTALLER09['expires']['curuser']);
+    ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user' . $r['userid'], [
         'reputation' => $update['rep']
-    ], $INSTALLER09['expires']['user_cache']);
+    ], $TRINITY20['expires']['user_cache']);
     redirect("staffpanel.php?tool=reputation_ad&amp;mode=list", $lang['rep_ad_delete_rep_success'], 5);
 }
 ///////////////////////////////////////////////
@@ -493,10 +493,10 @@ function do_edit_rep()
         $update['rep'] = ($User['reputation'] - $diff);
         $cache->update_row('MyUser_' . $r['userid'], [
             'reputation' => $update['rep']
-        ], $INSTALLER09['expires']['curuser']);
+        ], $TRINITY20['expires']['curuser']);
         $cache->update_row('user' . $r['userid'], [
             'reputation' => $update['rep']
-        ], $INSTALLER09['expires']['user_cache']);
+        ], $TRINITY20['expires']['user_cache']);
         $cache->delete('MyUser_' . $r['userid']);
         $cache->delete('user' . $r['userid']);
     }
@@ -518,14 +518,14 @@ function html_out($html = "", $title = "")
 }
 function redirect($url, $text, $time = 2)
 {
-    global $INSTALLER09, $lang;
+    global $TRINITY20, $lang;
     $page_title = $lang['rep_ad_redirect_title'];
     $page_detail = "<em>{$lang['rep_ad_redirect_redirect']}</em>";
     $html = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
-		<meta http-equiv='refresh' content=\"{$time}; url={$INSTALLER09['baseurl']}/{$url}\" />
+		<meta http-equiv='refresh' content=\"{$time}; url={$TRINITY20['baseurl']}/{$url}\" />
 		<title>{$lang['rep_ad_redirect_block']}</title>
     <link rel='stylesheet' href='./templates/1/1.css' type='text/css' />
     </head>
@@ -536,7 +536,7 @@ function redirect($url, $text, $time = 2)
 							 <div style='font-size:12px'>$text
 							 <br />
 							 <br />
-							 <center><a href='{$INSTALLER09['baseurl']}/{$url}'>{$lang['rep_ad_redirect_not']}</a></center>
+							 <center><a href='{$TRINITY20['baseurl']}/{$url}'>{$lang['rep_ad_redirect_not']}</a></center>
 							 </div>
 							</div>
 						   </div></body></html>";
@@ -581,7 +581,7 @@ function rep_cache()
     if (!mysqli_num_rows($query)) {
         stderr($lang['rep_ad_cache_cache'], $lang['rep_ad_cache_none']);
     }
-    $rep_cache_file = "{$INSTALLER09['baseurl']}/cache/rep_cache.php";
+    $rep_cache_file = "{$TRINITY20['baseurl']}/cache/rep_cache.php";
     $rep_out = "<" . "?php\n\n\$reputations = array(\n";
     while ($row = mysqli_fetch_assoc($query)) {
         $rep_out.= "\t{$row['minimumreputation']} => '{$row['level']}',\n";

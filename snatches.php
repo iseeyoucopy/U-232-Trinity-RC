@@ -42,7 +42,7 @@ $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "snatches.php?id=$id&amp;");
 if (!$count) stderr("No snatches", "It appears that there are currently no snatches for the torrent <a href='details.php?id=" . (int)$arr['id'] . "'>" . htmlsafechars($arr['name']) . "</a>.");
-$HTMLOUT.= "<h1>Snatches for torrent <a href='{$INSTALLER09['baseurl']}/details.php?id=" . (int)$arr['id'] . "'>" . htmlsafechars($arr['name']) . "</a></h1>\n";
+$HTMLOUT.= "<h1>Snatches for torrent <a href='{$TRINITY20['baseurl']}/details.php?id=" . (int)$arr['id'] . "'>" . htmlsafechars($arr['name']) . "</a></h1>\n";
 $HTMLOUT.= "<h2>Currently {$row['0']} snatch" . ($row[0] == 1 ? "" : "es") . "</h2>\n";
 if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
 $HTMLOUT.= "<table class='table table-bordered'>
@@ -51,8 +51,8 @@ $HTMLOUT.= "<table class='table table-bordered'>
 <td class='colhead' align='center'>{$lang['snatches_connectable']}</td>
 <td class='colhead' align='right'>{$lang['snatches_uploaded']}</td>
 <td class='colhead' align='right'>{$lang['snatches_upspeed']}</td>
-" . ($INSTALLER09['ratio_free'] ? "" : "<td class='colhead' align='right'>{$lang['snatches_downloaded']}</td>") . "
-" . ($INSTALLER09['ratio_free'] ? "" : "<td class='colhead' align='right'>{$lang['snatches_downspeed']}</td>") . "
+" . ($TRINITY20['ratio_free'] ? "" : "<td class='colhead' align='right'>{$lang['snatches_downloaded']}</td>") . "
+" . ($TRINITY20['ratio_free'] ? "" : "<td class='colhead' align='right'>{$lang['snatches_downspeed']}</td>") . "
 <td class='colhead' align='right'>{$lang['snatches_ratio']}</td>
 <td class='colhead' align='right'>{$lang['snatches_completed']}</td>
 <td class='colhead' align='right'>{$lang['snatches_seedtime']}</td>
@@ -77,8 +77,8 @@ while ($arr = mysqli_fetch_assoc($res)) {
   <td align='center'>" . ($arr["connectable"] == "yes" ? "<font color='green'>Yes</font>" : "<font color='red'>No</font>") . "</td>
   <td align='right'>" . mksize($arr["uploaded"]) . "</td>
   <td align='right'>" . htmlsafechars($upspeed) . "/s</td>
-  " . ($INSTALLER09['ratio_free'] ? "" : "<td align='right'>" . mksize($arr["downloaded"]) . "</td>") . "
-  " . ($INSTALLER09['ratio_free'] ? "" : "<td align='right'>" . htmlsafechars($downspeed) . "/s</td>") . "
+  " . ($TRINITY20['ratio_free'] ? "" : "<td align='right'>" . mksize($arr["downloaded"]) . "</td>") . "
+  " . ($TRINITY20['ratio_free'] ? "" : "<td align='right'>" . htmlsafechars($downspeed) . "/s</td>") . "
   <td align='right'>" . htmlsafechars($ratio) . "</td>
   <td align='right'>" . htmlsafechars($completed) . "</td>
   <td align='right'>" . mkprettytime($arr["seedtime"]) . "</td>

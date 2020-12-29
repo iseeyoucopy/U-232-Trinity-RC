@@ -54,7 +54,7 @@ if (!defined('TBVERSION')) { //cannot access this file directly
  */
 function class_check($class = 0, $staff = true, $pin = false)
 {
-    global $CURUSER, $INSTALLER09, $cache;
+    global $CURUSER, $TRINITY20, $cache;
     require_once (CACHE_DIR.'staff_settings2.php');
     /** basic checking **/
     if (!$CURUSER) {
@@ -67,7 +67,7 @@ function class_check($class = 0, $staff = true, $pin = false)
         /** require correct staff PIN **/
         if ($pin) {
             // not allowed staff!
-            if (!isset($INSTALLER09['staff']['allowed'][$CURUSER['username']])) {
+            if (!isset($TRINITY20['staff']['allowed'][$CURUSER['username']])) {
                 require_once '404.html';
                 //die('404 - Kiss my aRse !!');
                 exit();
@@ -76,9 +76,9 @@ function class_check($class = 0, $staff = true, $pin = false)
             // have sent a username/pass and are using their own username
             if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) && $_SERVER['PHP_AUTH_USER'] === ($CURUSER['username'])) {
                 // generate a passhash from the sent password
-                $hash = md5($INSTALLER09['site']['salt2'] . $_SERVER['PHP_AUTH_PW'] . $CURUSER['secret']);
+                $hash = md5($TRINITY20['site']['salt2'] . $_SERVER['PHP_AUTH_PW'] . $CURUSER['secret']);
                 // if the password is correct, exit this function
-                if (md5($INSTALLER09['site']['salt2'] . $INSTALLER09['staff']['staff_pin'] . $CURUSER['secret']) === $hash) $passed = true;
+                if (md5($TRINITY20['site']['salt2'] . $TRINITY20['staff']['staff_pin'] . $CURUSER['secret']) === $hash) $passed = true;
             }
             if (!$passed) {
                 // they're not allowed, the username doesn't match their own, the password is
@@ -101,8 +101,8 @@ function class_check($class = 0, $staff = true, $pin = false)
         if ($staff) { // staff class required
             
             /** do some checking **/
-            //if ((!valid_class($CURUSER['class'])) || (!isset($INSTALLER09['staff']['allowed'][strtolower($CURUSER['username'])]))) { // failed: illegal access ...
-            if (($CURUSER['class'] > UC_MAX) || (!isset($INSTALLER09['staff']['allowed'][$CURUSER['username']]))) { // failed: illegal access ...
+            //if ((!valid_class($CURUSER['class'])) || (!isset($TRINITY20['staff']['allowed'][strtolower($CURUSER['username'])]))) { // failed: illegal access ...
+            if (($CURUSER['class'] > UC_MAX) || (!isset($TRINITY20['staff']['allowed'][$CURUSER['username']]))) { // failed: illegal access ...
                 
                 /** user info **/
                 $ip = getip();
@@ -123,10 +123,10 @@ function class_check($class = 0, $staff = true, $pin = false)
                                ", Action: ".$_SERVER['REQUEST_URI'].
                                " Member has been disabled and demoted by class check system. - Kill the fuX0r");
                 */
-                $topicid = (int)$INSTALLER09['staff']['forumid'];
+                $topicid = (int)$TRINITY20['staff']['forumid'];
                 $added = TIME_NOW;
                 $icon = 1;
-                sql_query("INSERT INTO posts (topic_id, user_id, added, body, icon) " . "VALUES(".sqlesc($topicid)." , " . $INSTALLER09['bot_id'] . ", $added, $body, ".sqlesc($icon).")") or sqlerr(__file__, __line__);
+                sql_query("INSERT INTO posts (topic_id, user_id, added, body, icon) " . "VALUES(".sqlesc($topicid)." , " . $TRINITY20['bot_id'] . ", $added, $body, ".sqlesc($icon).")") or sqlerr(__file__, __line__);
                 /** get mysql_insert_id(); **/
                 $res = sql_query("SELECT id FROM posts WHERE topic_id = ".sqlesc($topicid)." 
                                   ORDER BY id DESC LIMIT 1") or sqlerr(__file__, __line__);
@@ -136,22 +136,22 @@ function class_check($class = 0, $staff = true, $pin = false)
                 /** PM Owner **/
                 $subject = sqlesc('Warning Class Check System!');
                 sql_query("INSERT INTO messages (sender, receiver, added, subject, msg) 
-                VALUES (0, " . $INSTALLER09['site']['owner'] . ", $added, $subject, $body)") or sqlerr(__file__, __line__);
+                VALUES (0, " . $TRINITY20['site']['owner'] . ", $added, $subject, $body)") or sqlerr(__file__, __line__);
                 /** punishments **/
                 //sql_query("UPDATE users SET enabled = 'no', class = 1 WHERE id = {$CURUSER['id']}") or sqlerr(__file__, __line__);
                 sql_query("UPDATE users SET class = 1 WHERE id = {$CURUSER['id']}") or sqlerr(__file__, __line__);
                 /** remove caches **/
                 $cache->update_row('user' . $CURUSER['id'], [
                     'class' => 1
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('MyUser_' . $CURUSER['id'], [
                     'class' => 1
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 //==
                 
                 /** log **/
                 //write_log("<span style='color:#FA0606;'>Class Check System Initialized</span><a href='forums.php?action=viewtopic&amp;topicid=$topicid&amp;page=last#$postid'>VIEW</a>", UC_SYSOP, false);
-                write_log('Class Check System Initialized [url=' . $INSTALLER09['baseurl'] . '/forums.php?action=view_topic&amp;topic_id=' . $topicid . '&amp;page=last#' . $postid . ']VIEW[/url]');
+                write_log('Class Check System Initialized [url=' . $TRINITY20['baseurl'] . '/forums.php?action=view_topic&amp;topic_id=' . $topicid . '&amp;page=last#' . $postid . ']VIEW[/url]');
                 //require_once(INCL_DIR.'user_functions.php');
                 //autoshout($body2);
                 $HTMLOUT = '';
@@ -183,7 +183,7 @@ function class_check($class = 0, $staff = true, $pin = false)
 //===== Auto Set Script Access Class by Mistero ================\\
 //===== Modded For V4 By Stoner ================\\
        function get_access($script) {
-            global $CURUSER, $INSTALLER09, $cache;
+            global $CURUSER, $TRINITY20, $cache;
             $ending = parse_url($script, PHP_URL_QUERY);
             $count = substr_count($ending, "&");
             $i = 0;

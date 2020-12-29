@@ -16,7 +16,7 @@ require_once (INCL_DIR . 'html_functions.php');
 dbconn();
 $lang = array_merge(load_language('global') , load_language('useragreement'));
 $HTMLOUT = '';
-$HTMLOUT.= "<h2 class='text-center'>" . $INSTALLER09['site_name'] . "&nbsp;{$lang['frame_usragrmnt']}</h2>";
+$HTMLOUT.= "<h2 class='text-center'>" . $TRINITY20['site_name'] . "&nbsp;{$lang['frame_usragrmnt']}</h2>";
 $HTMLOUT.= "<div class='panel'>{$lang['text_usragrmnt']}</div><br>";
 echo stdhead("{$lang['stdhead_usragrmnt']}") . $HTMLOUT . stdfoot();
 ?>

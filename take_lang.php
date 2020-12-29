@@ -27,10 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     $cache->update_row('MyUser_' . $CURUSER['id'], [
         'language' => $lid
-    ], $INSTALLER09['expires']['curuser']);
+    ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user' . $CURUSER['id'], [
         'language' => $lid
-    ], $INSTALLER09['expires']['user_cache']);
+    ], $TRINITY20['expires']['user_cache']);
     $HTMLOUT.= "<script language='javascript' type='text/javascript'>
         opener.location.reload(true);
         self.close();

@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(0);
     ignore_user_abort(1);
     //=== Clean silver
@@ -23,7 +23,7 @@ function docleanup($data)
             $Silver_buffer[] = '(' . $arr['id'] . ', \'0\')';
             $cache->update_row('torrent_details_' . $arr['id'], [
                 'silver' => 0
-            ], $INSTALLER09['expires']['torrent_details']);
+            ], $TRINITY20['expires']['torrent_details']);
         }
         $count = count($Silver_buffer);
         if ($count > 0) {

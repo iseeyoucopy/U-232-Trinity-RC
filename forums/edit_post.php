@@ -50,14 +50,14 @@ if (!defined('IN_INSTALLER09_FORUM')) {
 	      sql_query("UPDATE posts SET body=".sqlesc($body).", edit_date=".TIME_NOW.", edited_by=".sqlesc($CURUSER['id']).", icon=".sqlesc($posticon)." WHERE id=".sqlesc($postid)) or sqlerr(__FILE__, __LINE__);
         else
 	      sql_query("UPDATE posts SET body=".sqlesc($body).", icon=".sqlesc($posticon)." WHERE id=".sqlesc($postid)) or sqlerr(__FILE__, __LINE__);
-        header("Location: {$INSTALLER09['baseurl']}/forums.php?action=viewtopic&topicid=".(int)$arr['topic_id']."&page=p$postid#p$postid");
+        header("Location: {$TRINITY20['baseurl']}/forums.php?action=viewtopic&topicid=".(int)$arr['topic_id']."&page=p$postid#p$postid");
         exit();
     }
-    if ($INSTALLER09['forums_online'] == 0)
+    if ($TRINITY20['forums_online'] == 0)
     $HTMLOUT .= stdmsg('Warning', 'Forums are currently in maintainance mode');
     $HTMLOUT .= begin_main_frame();
 	 $HTMLOUT .="<h3>Edit Post</h3>";
-	 $HTMLOUT .="<form name='compose' method='post' action='{$INSTALLER09['baseurl']}/forums.php?action=editpost&amp;postid=".$postid."'>
+	 $HTMLOUT .="<form name='compose' method='post' action='{$TRINITY20['baseurl']}/forums.php?action=editpost&amp;postid=".$postid."'>
 	 <table border='1' cellspacing='0' cellpadding='5' width='100%'>
 	 <tr>
 	 <td class='rowhead' width='10%'>Body</td>

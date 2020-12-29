@@ -66,10 +66,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             foreach ($_uids as $uid) {                
                 $cache->update_row('MyUser_' . $uid, [
                 'enabled' => 'no'
-            ], $INSTALLER09['expires']['curuser']);
+            ], $TRINITY20['expires']['curuser']);
             $cache->update_row('user' . $uid, [
                 'enabled' => 'no'
-            ], $INSTALLER09['expires']['user_cache']);
+            ], $TRINITY20['expires']['user_cache']);
             }
             $d = mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
             header("Refresh: 2; url=" . $r);
@@ -81,10 +81,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         foreach ($_uids as $uid) {
             $cache->update_row('MyUser_' . $uid, [
                 'leechwarn' => 0
-            ], $INSTALLER09['expires']['curuser']);
+            ], $TRINITY20['expires']['curuser']);
             $cache->update_row('user' . $uid, [
                 'leechwarn' => 0
-            ], $INSTALLER09['expires']['user_cache']);
+            ], $TRINITY20['expires']['user_cache']);
         }
         $pms = array();
         foreach ($_uids as $id) $pms[] = "(0," . $id . "," . sqlesc($sub) . "," . sqlesc($body) . "," . sqlesc(TIME_NOW) . ")";

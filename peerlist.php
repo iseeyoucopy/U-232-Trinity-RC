@@ -22,7 +22,7 @@ if (!isset($id) || !is_valid_id($id)) stderr($lang['peerslist_user_error'], $lan
 $HTMLOUT = '';
 function dltable($name, $arr, $torrent)
 {
-    global $CURUSER, $lang, $INSTALLER09;
+    global $CURUSER, $lang, $TRINITY20;
     $htmlout = '';
     if (!count($arr)) return $htmlout = "<div class='grid-x grid-padding-x'><div class='column small-15 float-left'><table><thead><tr><th class='text-center'>{$lang['peerslist_no']} $name {$lang['peerslist_data_available']}</th></tr></thead></table></div></div>";
     $htmlout.= "<div class='table-scroll'>
@@ -32,8 +32,8 @@ function dltable($name, $arr, $torrent)
     <td class='text-center'><i class='fas fa-link' title='{$lang['peerslist_connectable']}'></i></td>
     <td class='text-center'><i class='fas fa-upload' title='{$lang['peerslist_uploaded']}'></i></td>
     <td class='text-center'><i class='fas fa-tachometer-alt' title='{$lang['peerslist_urate']}'></i></td>
-    " . ($INSTALLER09['ratio_free'] ? "" : "<td class='text-center'><i class='fas fa-download' title='{$lang['peerslist_downloaded']}'></i></td>") . "
-    " . ($INSTALLER09['ratio_free'] ? "" : "<td class='text-center'><i class='fas fa-tachometer-alt' title='{$lang['peerslist_drate']}'></i></td>") . "
+    " . ($TRINITY20['ratio_free'] ? "" : "<td class='text-center'><i class='fas fa-download' title='{$lang['peerslist_downloaded']}'></i></td>") . "
+    " . ($TRINITY20['ratio_free'] ? "" : "<td class='text-center'><i class='fas fa-tachometer-alt' title='{$lang['peerslist_drate']}'></i></td>") . "
     <td class='text-center'><i class='fa fa-percentage' title='{$lang['peerslist_ratio']}'></i></td>
     <td class='text-center'>{$lang['peerslist_complete']}</td>
     <td class='text-center'><i class='fas fa-user-clock' title='{$lang['peerslist_connected']}'></i></td>
@@ -48,9 +48,9 @@ function dltable($name, $arr, $torrent)
         $htmlout.= "<td align='center'>" . ($e['connectable'] == "yes" ? "{$lang['peerslist_yes']}" : "<font color='red'>{$lang['peerslist_no']}</font>") . "</td>";
         $htmlout.= "<td class='text-center'>" . mksize($e["uploaded"]) . "</td>";
         $htmlout.= "<td class='text-center' style='white-space: nowrap;'>" . mksize(($e["uploaded"] - $e["uploadoffset"]) / $secs) . "/s</td>";
-        $htmlout.= $INSTALLER09['ratio_free'] ? "" : "<td class='text-center'>" . mksize($e["downloaded"]) . "</td>";
-        $htmlout.= $INSTALLER09['ratio_free'] ? "" : "<td class='text-center' style='white-space: nowrap;'>". ($e["seeder"] == "no" ? (mksize(($e["downloaded"] - $e["downloadoffset"]) / $secs) . "/s") : (mksize(($e["downloaded"] - $e["downloadoffset"]) / max(1, $e["finishedat"] - $e['st'])) . "/s"))."</td>";
-        $htmlout.= "<td class='text-center'>" . member_ratio($e['uploaded'], $INSTALLER09['ratio_free'] ? "0" : $e['downloaded']) . "</td>";
+        $htmlout.= $TRINITY20['ratio_free'] ? "" : "<td class='text-center'>" . mksize($e["downloaded"]) . "</td>";
+        $htmlout.= $TRINITY20['ratio_free'] ? "" : "<td class='text-center' style='white-space: nowrap;'>". ($e["seeder"] == "no" ? (mksize(($e["downloaded"] - $e["downloadoffset"]) / $secs) . "/s") : (mksize(($e["downloaded"] - $e["downloadoffset"]) / max(1, $e["finishedat"] - $e['st'])) . "/s"))."</td>";
+        $htmlout.= "<td class='text-center'>" . member_ratio($e['uploaded'], $TRINITY20['ratio_free'] ? "0" : $e['downloaded']) . "</td>";
         $htmlout.= "<td class='text-center'>" . sprintf("%.2f%%", 100 * (1 - ($e["to_go"] / $torrent["size"]))) . "</td>";
         $htmlout.= "<td class='text-center'>" . mkprettytime($now - $e["st"]) . "</td>";
         $htmlout.= "<td class='text-center'>" . mkprettytime($now - $e["la"]) . "</td>";
@@ -98,7 +98,7 @@ $HTMLOUT.= "<div class='grid-x grid-padding-x'>
 <div class='column small-15 float-center'>
 <table class='striped'><thead><tr>
 <th class='text-center'>Peerlist for Torrent</th></tr></thead>
-<tbody><tr><td class='text-center'><a href='{$INSTALLER09['baseurl']}/details.php?id=$id'>" . htmlsafechars($row['name']) . "</a></td></tr></tbody>
+<tbody><tr><td class='text-center'><a href='{$TRINITY20['baseurl']}/details.php?id=$id'>" . htmlsafechars($row['name']) . "</a></td></tr></tbody>
 </table></div></div>";
 $HTMLOUT.= dltable("{$lang['peerslist_seeders']}<a name='seeders'></a>", $seeders, $row);
 $HTMLOUT.= dltable("{$lang['peerslist_leechers']}<a name='leechers'></a>", $downloaders, $row);

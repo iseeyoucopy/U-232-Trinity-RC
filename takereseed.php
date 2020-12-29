@@ -14,13 +14,13 @@
 require_once(__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
 dbconn();
 loggedinorreturn();
-global $INSTALLER09,$cache;
+global $TRINITY20,$cache;
 $pm_what = isset($_POST["pm_what"]) && $_POST["pm_what"] == "last10" ? "last10" : "owner";
 $reseedid = intval($_POST["reseedid"]);
 $uploader = intval($_POST["uploader"]);
 $use_subject = true;
 $subject = "Request reseed!";
-$pm_msg = "User " . $CURUSER["username"] . " asked for a reseed on torrent " . $INSTALLER09['baseurl'] . "/details.php?id=" . $reseedid . " !\nThank You!";
+$pm_msg = "User " . $CURUSER["username"] . " asked for a reseed on torrent " . $TRINITY20['baseurl'] . "/details.php?id=" . $reseedid . " !\nThank You!";
 $What_id = (XBT_TRACKER == true ? 'fid' : 'torrentid');
 $What_user_id = (XBT_TRACKER == true ? 'uid' : 'userid');
 $What_Table = (XBT_TRACKER == true ? 'xbt_files_users' : 'snatched');
@@ -45,17 +45,17 @@ if (count($pms) > 0) {
 sql_query("UPDATE torrents set last_reseed=" . TIME_NOW . " WHERE id=" . sqlesc($reseedid)) or sqlerr(__FILE__, __LINE__);
 $cache->update_row('torrent_details_' . $reseedid, [
     'last_reseed' => TIME_NOW
-], $INSTALLER09['expires']['torrent_details']);
-if ($INSTALLER09['seedbonus_on'] == 1) {
+], $TRINITY20['expires']['torrent_details']);
+if ($TRINITY20['seedbonus_on'] == 1) {
     //===remove karma
-    sql_query("UPDATE users SET seedbonus = seedbonus-{$INSTALLER09['bonus_per_reseed']} WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
-    $update['seedbonus'] = ($CURUSER['seedbonus'] - $INSTALLER09['bonus_per_reseed']);
+    sql_query("UPDATE users SET seedbonus = seedbonus-{$TRINITY20['bonus_per_reseed']} WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
+    $update['seedbonus'] = ($CURUSER['seedbonus'] - $TRINITY20['bonus_per_reseed']);
     $cache->update_row('userstats_' . $CURUSER["id"], [
         'seedbonus' => $update['seedbonus']
-    ], $INSTALLER09['expires']['u_stats']);
+    ], $TRINITY20['expires']['u_stats']);
     $cache->update_row('user_stats_' . $CURUSER["id"], [
         'seedbonus' => $update['seedbonus']
-    ], $INSTALLER09['expires']['user_stats']);
+    ], $TRINITY20['expires']['user_stats']);
     //===end
 }
 header("Refresh: 0; url=./details.php?id=$reseedid&reseed=1");

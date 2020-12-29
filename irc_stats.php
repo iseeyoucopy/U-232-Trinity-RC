@@ -50,7 +50,7 @@ if ($_hash === $hash) {
             $txt = $a["username"] . " is " . ((TIME_NOW - $a["last_access"]) < 300 ? "online" : "offline") . "\nJoined - " . get_date($a["added"], 'LONG', 0, 1) . "\nLast seen - " . get_date($a["last_access"], 'DATE', 0, 1) . "\nDownloaded - " . mksize($a["downloaded"]) . "\nUploaded - " . mksize($a["uploaded"]) . "\n";
             if ($a["status"] == "disabled") $txt.= "This user is disabled. Reason " . $a["disable_reason"] . "\n";
             if ($a["warned"] == "yes") $txt.= "This user is warned. Reason " . $a["warn_reason"] . "\n";
-            $txt.= $INSTALLER09['baseurl'] . "/userdetails.php?id=" . $a["id"];
+            $txt.= $TRINITY20['baseurl'] . "/userdetails.php?id=" . $a["id"];
             echo ($txt);
         } else exit("User \"" . $_user . "\" not found!");
         unset($txt);

@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(0);
     ignore_user_abort(1);
     do {
@@ -24,7 +24,7 @@ function docleanup($data)
         }
         if (!count($ar)) break;
 
-        $dp = opendir($INSTALLER09['torrent_dir']);
+        $dp = opendir($TRINITY20['torrent_dir']);
         if (!$dp) break;
 
         $ar2 = array();
@@ -33,7 +33,7 @@ function docleanup($data)
             $id = $m[1];
             $ar2[$id] = 1;
             if (isset($ar[$id]) && $ar[$id]) continue;
-            $ff = $INSTALLER09['torrent_dir'] . "/$file";
+            $ff = $TRINITY20['torrent_dir'] . "/$file";
             unlink($ff);
         }
         closedir($dp);

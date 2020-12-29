@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $CURUSER['class'] == UC_MAX) {
         $cache->delete_value($key);
     }
     sql_query("INSERT INTO bans (added, addedby, first, last, comment) VALUES($added, " . sqlesc($CURUSER['id']) . ", " . sqlesc($first) . ", " . sqlesc($last) . ", " . sqlesc($comment) . ")") or sqlerr(__FILE__, __LINE__);
-    header("Location: {$INSTALLER09['baseurl']}/staffpanel.php?tool=bans");
+    header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=bans");
     die;
 }
 $bc = sql_query('SELECT COUNT(*) FROM bans') or sqlerr(__FILE__, __LINE__);

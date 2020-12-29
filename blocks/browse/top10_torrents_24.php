@@ -18,7 +18,7 @@ foreach ($categorie as $key => $value) $change[$value['id']] = array(
 );
 //== Top 10 torrents in past 24 hours
 if (($top10torrents = $cache->get('top10_tor_')) === false) {
-    $res = sql_query("SELECT id, times_completed, seeders, poster, leechers, name, category from torrents ORDER BY seeders + leechers DESC LIMIT {$INSTALLER09['latest_torrents_limit']}") or sqlerr(__FILE__, __LINE__);
+    $res = sql_query("SELECT id, times_completed, seeders, poster, leechers, name, category from torrents ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}") or sqlerr(__FILE__, __LINE__);
     while ($top10torrent = mysqli_fetch_assoc($res)) 
 		$top10torrents[] = $top10torrent;
     $cache->set('top10_tor_', $top10torrents);
@@ -44,7 +44,7 @@ if (!empty($top10torrents)) {
             $HTMLOUT.= "
             <tbody><tr>
             <th scope='row'>". $counter++ ."</th>
-            <td><a href=\"{$INSTALLER09['baseurl']}/details.php?id=" . (int)$top10torrentarr['id'] . "&amp;hit=1\">{$torrname}</a></td>
+            <td><a href=\"{$TRINITY20['baseurl']}/details.php?id=" . (int)$top10torrentarr['id'] . "&amp;hit=1\">{$torrname}</a></td>
 			<td>" . (int)$top10torrentarr['times_completed'] . "</td>
             <td>" . (int)$top10torrentarr['seeders'] . "</td>
             <td>" . (int)$top10torrentarr['leechers'] . "</td>     

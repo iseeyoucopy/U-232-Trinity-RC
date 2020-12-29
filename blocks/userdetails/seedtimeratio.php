@@ -15,7 +15,7 @@ $What_Cache = (XBT_TRACKER == true ? 'share_ratio_xbt_' : 'share_ratio_');
 $What_Table = (XBT_TRACKER == true ? 'xbt_peers' : 'snatched');
 $What_String = (XBT_TRACKER == true ? 'tid' : 'id');
 $What_User_String = (XBT_TRACKER == true ? 'uid' : 'userid');
-$What_Expire = (XBT_TRACKER == true ? $INSTALLER09['expires']['share_ratio_xbt'] : $INSTALLER09['expires']['share_ratio']);
+$What_Expire = (XBT_TRACKER == true ? $TRINITY20['expires']['share_ratio_xbt'] : $TRINITY20['expires']['share_ratio']);
 if (($cache_share_ratio = $cache->get($What_Cache.$id)) === false) {
     $cache_share_ratio = mysqli_fetch_assoc(sql_query("SELECT SUM(seedtime) AS seed_time_total, COUNT($What_String) AS total_number FROM $What_Table WHERE seedtime > '0' AND $What_User_String =" . sqlesc($user['id'])));
     $cache_share_ratio['total_number'] = (int)$cache_share_ratio['total_number'];

@@ -31,11 +31,11 @@ require_once (CLASS_DIR . 'class.crypt.php');
 require_once (VENDOR_DIR . 'autoload.php');
 require_once (INCL_DIR . 'cache_config.php');
 require_once (CLASS_DIR . 'class_cacheM.php');
-global $INSTALLER09;
-$cache = new Cache($INSTALLER09);
+global $TRINITY20;
+$cache = new Cache($TRINITY20);
 
 //Object oriented style mysqli
-$mysqli = new mysqli($INSTALLER09['mysql_host'], $INSTALLER09['mysql_user'], $INSTALLER09['mysql_pass'], $INSTALLER09['mysql_db']);
+$mysqli = new mysqli($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass'], $TRINITY20['mysql_db']);
 // Check connection
 if ($mysqli -> connect_errno) {
   echo "Connection Problems" . PHP_EOL;
@@ -78,7 +78,7 @@ if (preg_match('/(?:\< *(?:java|script)|script\:|\+document\.)/i', serialize($_C
   die('Forbidden');
 
 //== New Database class
-$db = new mysqli($INSTALLER09['mysql_host'], $INSTALLER09['mysql_user'], $INSTALLER09['mysql_pass'], $INSTALLER09['mysql_db']);
+$db = new mysqli($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass'], $TRINITY20['mysql_db']);
 
 /* check connection */
 if ($db->connect_errno) {
@@ -104,17 +104,17 @@ function htmlsafechars($txt = '')
 }
 function PostKey($ids = array())
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     if (!is_array($ids)) return false;
-    return hash("tiger128,4", "" . $INSTALLER09['tracker_post_key'] . join('', $ids) . $INSTALLER09['tracker_post_key'] . "");
-	//return md5($INSTALLER09['tracker_post_key'] . join('', $ids) . $INSTALLER09['tracker_post_key']);
+    return hash("tiger128,4", "" . $TRINITY20['tracker_post_key'] . join('', $ids) . $TRINITY20['tracker_post_key'] . "");
+	//return md5($TRINITY20['tracker_post_key'] . join('', $ids) . $TRINITY20['tracker_post_key']);
 }
 function CheckPostKey($ids, $key)
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     if (!is_array($ids) OR !$key) return false;
-    return $key == hash("tiger128,4", "" . $INSTALLER09['tracker_post_key'] . join('', $ids) . $INSTALLER09['tracker_post_key'] . "");
-	//return $key == md5($INSTALLER09['tracker_post_key'] . join('', $ids) . $INSTALLER09['tracker_post_key']);
+    return $key == hash("tiger128,4", "" . $TRINITY20['tracker_post_key'] . join('', $ids) . $TRINITY20['tracker_post_key'] . "");
+	//return $key == md5($TRINITY20['tracker_post_key'] . join('', $ids) . $TRINITY20['tracker_post_key']);
 }
 /**** validip/getip courtesy of manolete <manolete@myway.com> ****/
 //== IP Validation
@@ -149,8 +149,8 @@ function getip() {
  }
 function dbconn($autoclean = false)
 {
-    global $INSTALLER09;
-    if (!@($GLOBALS["___mysqli_ston"] = mysqli_connect($INSTALLER09['mysql_host'], $INSTALLER09['mysql_user'], $INSTALLER09['mysql_pass']))) {
+    global $TRINITY20;
+    if (!@($GLOBALS["___mysqli_ston"] = mysqli_connect($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass']))) {
         switch (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false))) {
         case 1040:
         case 2002:
@@ -160,7 +160,7 @@ function dbconn($autoclean = false)
             die("[" . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)) . "] dbconn: mysql_connect: " . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
         }
     }
-    ((bool)mysqli_query($GLOBALS["___mysqli_ston"], "USE {$INSTALLER09['mysql_db']}")) or die('dbconn: mysql_select_db: ' . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+    ((bool)mysqli_query($GLOBALS["___mysqli_ston"], "USE {$TRINITY20['mysql_db']}")) or die('dbconn: mysql_select_db: ' . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
     userlogin();
     referer();
     if ($autoclean) register_shutdown_function("autoclean");
@@ -180,7 +180,7 @@ function make_hash_log($id, $passhash){
 //== check bans by djGrrr <3 pdq
 function check_bans($ip, &$reason = '')
 {
-    global $INSTALLER09, $cache, $c;
+    global $TRINITY20, $cache, $c;
     //$ip_decrypt = $c->decrypt($ip);
     $key = 'bans:::' . $ip;
     if (($ban = $cache->get($key)) === false && $ip != '127.0.0.1') { 
@@ -203,7 +203,7 @@ function check_bans($ip, &$reason = '')
 }
 function userlogin()
 {
-    global $INSTALLER09, $cache, $mysqli, $keys, $CURBLOCK, $mood, $whereis, $CURUSER, $USERBLOCKS, $c;
+    global $TRINITY20, $cache, $mysqli, $keys, $CURBLOCK, $mood, $whereis, $CURUSER, $USERBLOCKS, $c;
     unset($GLOBALS["CURUSER"]);
     $dt = TIME_NOW;
     $ip = getip();
@@ -211,7 +211,7 @@ function userlogin()
     $nip = ip2long($ip);
     $ipf = $_SERVER['REMOTE_ADDR'];
     if (isset($CURUSER)) return;
-    if (!$INSTALLER09['site_online'] || !get_mycookie('uid') || !get_mycookie('pass') || !get_mycookie('hashv') || !get_mycookie('log_uid')) return;
+    if (!$TRINITY20['site_online'] || !get_mycookie('uid') || !get_mycookie('pass') || !get_mycookie('hashv') || !get_mycookie('log_uid')) return;
     $id = intval(get_mycookie('uid'));
     if (!$id OR (strlen(get_mycookie('pass')) != 40) OR (get_mycookie('hashv') != hashit($id, get_mycookie('pass'))) OR (get_mycookie('log_uid') != make_hash_log($id, get_mycookie('pass')))) return;
     // let's cache $CURUSER - pdq - *Updated*
@@ -377,7 +377,7 @@ function userlogin()
         if (mysqli_num_rows($result) == 0) {
 			$salty_user = isset($row['username']) ? $row['username'] : '';
             $salty = hash("tiger160,3", "Th15T3xtis5add3dto66uddy6he@water..." . $row['username'] . "");
-            header("Location: {$INSTALLER09['baseurl']}/logout.php?hash_please={$salty}");
+            header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please={$salty}");
             //die;
             return;
         }
@@ -385,13 +385,13 @@ function userlogin()
         foreach ($user_fields_ar_int as $i) $row[$i] = (int)$row[$i];
         foreach ($user_fields_ar_float as $i) $row[$i] = (float)$row[$i];
         foreach ($user_fields_ar_str as $i) $row[$i] = $row[$i];
-        $cache->set($keys['my_userid'] . $id, $row, $INSTALLER09['expires']['curuser']);
+        $cache->set($keys['my_userid'] . $id, $row, $TRINITY20['expires']['curuser']);
         unset($result);
     }
     //==
     if (get_mycookie('pass') !== hash("ripemd160", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "")) {
         $salty = hash("tiger160,3", "Th15T3xtis5add3dto66uddy6he@water..." . $row['username'] . "");
-        header("Location: {$INSTALLER09['baseurl']}/logout.php?hash_please={$salty}");
+        header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please={$salty}");
         //die;
         return;
     }
@@ -437,10 +437,10 @@ function userlogin()
                 $add_set = ', curr_ann_id = ' . sqlesc($ann_row['main_id']);
                 $cache->update_row('user' . $CURUSER['id'], [
                     'curr_ann_id' => $ann_row['main_id']
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('MyUser_' . $CURUSER['id'], [
                     'curr_ann_id' => $ann_row['main_id']
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $status = 2;
             //$status = 0;
             } else {
@@ -448,10 +448,10 @@ function userlogin()
                 $add_set = ', curr_ann_last_check = ' . sqlesc($dt);
                 $cache->update_row('user' . $CURUSER['id'], [
                     'curr_ann_last_check' => $dt
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('MyUser_' . $CURUSER['id'], [
                     'curr_ann_last_check' => $dt
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $status = 1;
             }
             // Create or set status of process
@@ -479,10 +479,10 @@ function userlogin()
             $add_set = ', curr_ann_last_check = ' . sqlesc($dt);
             $cache->update_row('user' . $CURUSER['id'], [
                 'curr_ann_last_check' => $dt
-            ], $INSTALLER09['expires']['user_cache']);
+            ], $TRINITY20['expires']['user_cache']);
             $cache->update_row('MyUser_' . $CURUSER['id'], [
                 'curr_ann_last_check' => $dt
-            ], $INSTALLER09['expires']['curuser']);
+            ], $TRINITY20['expires']['curuser']);
         }
         unset($result, $ann_row);
     }
@@ -510,7 +510,7 @@ function userlogin()
     }
     // Allowed staff
     if ($row["class"] >= UC_STAFF) {
-        $allowed_ID = $INSTALLER09['allowed_staff']['id'];
+        $allowed_ID = $TRINITY20['allowed_staff']['id'];
         if (!in_array(((int) $row["id"]), $allowed_ID, true)) {
             $msg = "Fake Account Detected: Username: " . htmlsafechars($row["username"]) . " - UserID: " . (int) $row["id"] . " - UserIP : " . getip();
             // Demote and disable
@@ -518,21 +518,21 @@ function userlogin()
             $cache->update_row('MyUser_' . $row['id'], [
                 'enabled' => 'no',
                 'class' => 0
-            ], $INSTALLER09['expires']['curuser']);
+            ], $TRINITY20['expires']['curuser']);
             $cache->update_row('user' . $row['id'], [
                 'enabled' => 'no',
                 'class' => 0
-            ], $INSTALLER09['expires']['user_cache']);
+            ], $TRINITY20['expires']['user_cache']);
             write_log($msg);
             $salty = md5("Th15T3xtis5add3dto66uddy6he@water..." . $row['username'] . "");
-            header("Location: {$INSTALLER09['baseurl']}/logout.php?hash_please={$salty}");
+            header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please={$salty}");
             die;
         }
     }
     // user stats - *Updated*
     $What_Cache = (XBT_TRACKER == true ? 'userstats_xbt_' : 'userstats_');
     if (($stats = $cache->get($What_Cache.$id)) === false) {
-    $What_Expire = (XBT_TRACKER == true ? $INSTALLER09['expires']['u_stats_xbt'] : $INSTALLER09['expires']['u_stats']);
+    $What_Expire = (XBT_TRACKER == true ? $TRINITY20['expires']['u_stats_xbt'] : $TRINITY20['expires']['u_stats']);
         $stats_fields_ar_int = array(
             'uploaded',
             'downloaded'
@@ -564,7 +564,7 @@ function userlogin()
             'last_update' => 0,
             'archive' => ''
         );
-        $cache->set('userstatus_' . $id, $ustatus, $INSTALLER09['expires']['u_status']); // 30 days
+        $cache->set('userstatus_' . $id, $ustatus, $TRINITY20['expires']['u_status']); // 30 days
     }
     $row['last_status'] = $ustatus['last_status'];
     $row['last_update'] = $ustatus['last_update'];
@@ -670,7 +670,7 @@ function userlogin()
 		$user_block_options = mysqli_fetch_assoc($c1_sql);
         //foreach ($user_opt_int as $ub) $user_block_options[$ub] = (int)$user_block_options[$ub];
         foreach ($user_opt_str as $ub) $user_block_options[$ub] = $user_block_options[$ub];
-		$cache->set('MySettings_' . $row['id'], $user_block_options, $INSTALLER09['expires']['curuser']);
+		$cache->set('MySettings_' . $row['id'], $user_block_options, $TRINITY20['expires']['curuser']);
     }
     //== online time pdq, original code by superman
     $userupdate0 = 'onlinetime = onlinetime + 0';
@@ -693,14 +693,14 @@ function userlogin()
             'last_access_numb' => TIME_NOW,
             'where_is' => $whereis,
             'ip' => $ip
-        ], $INSTALLER09['expires']['curuser']);
+        ], $TRINITY20['expires']['curuser']);
         $cache->update_row('user' . $row['id'], [
             'last_access' => TIME_NOW,
             'onlinetime' => $update_time,
             'last_access_numb' => TIME_NOW,
             'where_is' => $whereis,
             'ip' => $ip
-        ], $INSTALLER09['expires']['user_cache']);
+        ], $TRINITY20['expires']['user_cache']);
     }
     //==
     if ($row['override_class'] < $row['class']) $row['class'] = $row['override_class']; // Override class and save in GLOBAL array below.
@@ -711,8 +711,8 @@ function userlogin()
 }
 function charset()
 {
-    global $CURUSER, $INSTALLER09;
-    $lang_charset = isset($CURUSER['language']) ? "{$CURUSER['language']}" : $INSTALLER09['language'];
+    global $CURUSER, $TRINITY20;
+    $lang_charset = isset($CURUSER['language']) ? "{$CURUSER['language']}" : $TRINITY20['language'];
     switch ($lang_charset) {
     case ($lang_charset == 2):
         return "UTF-8";
@@ -727,7 +727,7 @@ function charset()
 //== 2010 Tbdev Cleanup Manager by ColdFusion
 function autoclean()
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     $now = TIME_NOW;
     $sql = sql_query("SELECT * FROM cleanup WHERE clean_on = 1 AND clean_time <= {$now} ORDER BY clean_time ASC LIMIT 0,1");
     $row = mysqli_fetch_assoc($sql);
@@ -747,14 +747,14 @@ function autoclean()
 }
 function get_template()
 {
-    global $CURUSER, $INSTALLER09;
+    global $CURUSER, $TRINITY20;
     if (isset($CURUSER)) {
         if (file_exists(TEMPLATE_DIR . "{$CURUSER['stylesheet']}/template.php")) {
             require_once (TEMPLATE_DIR . "{$CURUSER['stylesheet']}/template.php");
         } else {
-            if (isset($INSTALLER09)) {
-                if (file_exists(TEMPLATE_DIR . "{$INSTALLER09['stylesheet']}/template.php")) {
-                    require_once (TEMPLATE_DIR . "{$INSTALLER09['stylesheet']}/template.php");
+            if (isset($TRINITY20)) {
+                if (file_exists(TEMPLATE_DIR . "{$TRINITY20['stylesheet']}/template.php")) {
+                    require_once (TEMPLATE_DIR . "{$TRINITY20['stylesheet']}/template.php");
                 } else {
                     echo "Sorry, Templates do not seem to be working properly and missing some code. Please report this to the programmers/owners.";
                 }
@@ -767,8 +767,8 @@ function get_template()
             }
         }
     } else {
-        if (file_exists(TEMPLATE_DIR . "{$INSTALLER09['stylesheet']}/template.php")) {
-            require_once (TEMPLATE_DIR . "{$INSTALLER09['stylesheet']}/template.php");
+        if (file_exists(TEMPLATE_DIR . "{$TRINITY20['stylesheet']}/template.php")) {
+            require_once (TEMPLATE_DIR . "{$TRINITY20['stylesheet']}/template.php");
         } else {
             echo "Sorry, Templates do not seem to be working properly and missing some code. Please report this to the programmers/owners.";
         }
@@ -807,7 +807,7 @@ function get_template()
 //free slots - pdq
 function make_freeslots($userid, $key)
 {
-    global $cache, $INSTALLER09;
+    global $cache, $TRINITY20;
     if (($slot = $cache->get($key . $userid)) === false) {
         $res_slots = sql_query('SELECT * FROM freeslots WHERE userid = ' . sqlesc($userid)) or sqlerr(__file__, __line__);
         $slot = array();
@@ -821,7 +821,7 @@ function make_freeslots($userid, $key)
 //bookmarks - pdq
 function make_bookmarks($userid, $key)
 {
-    global $cache, $INSTALLER09;
+    global $cache, $TRINITY20;
     if (($book = $cache->get($key . $userid)) === false) {
         $res_books = sql_query('SELECT * FROM bookmarks WHERE userid = ' . sqlesc($userid)) or sqlerr(__file__, __line__);
         $book = array();
@@ -835,19 +835,19 @@ function make_bookmarks($userid, $key)
 //genrelist - pdq
 function genrelist()
 {
-    global $cache, $INSTALLER09;
+    global $cache, $TRINITY20;
     if (($ret = $cache->get('genrelist')) == false) {
         $ret = array();
         $res = sql_query("SELECT id, image, name, min_class FROM categories ORDER BY name");
         while ($row = mysqli_fetch_assoc($res)) $ret[] = $row;
-        $cache->set('genrelist', $ret, $INSTALLER09['expires']['genrelist']);
+        $cache->set('genrelist', $ret, $TRINITY20['expires']['genrelist']);
     }
     return $ret;
 }
 // moods - pdq
 function create_moods($force = false)
 {
-    global $cache, $INSTALLER09;
+    global $cache, $TRINITY20;
     $key = 'moods';
     if (($mood = $cache->get($key)) === false || $force) {
         $res_moods = sql_query('SELECT * FROM moods ORDER BY id ASC') or sqlerr(__file__, __line__);
@@ -957,7 +957,7 @@ function logincookie($id, $passhash, $updatedb = 1, $expires = 0x7fffffff)
 }
 function set_mycookie($name, $value = "", $expires_in = 0, $sticky = 1)
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     if ($sticky == 1) {
         $expires = TIME_NOW + 60 * 60 * 24 * 365;
     } else if ($expires_in) {
@@ -965,23 +965,23 @@ function set_mycookie($name, $value = "", $expires_in = 0, $sticky = 1)
     } else {
         $expires = FALSE;
     }
-    $INSTALLER09['cookie_domain'] = $INSTALLER09['cookie_domain'] == "" ? "" : $INSTALLER09['cookie_domain'];
-    $INSTALLER09['cookie_path'] = $INSTALLER09['cookie_path'] == "" ? "/" : $INSTALLER09['cookie_path'];
+    $TRINITY20['cookie_domain'] = $TRINITY20['cookie_domain'] == "" ? "" : $TRINITY20['cookie_domain'];
+    $TRINITY20['cookie_path'] = $TRINITY20['cookie_path'] == "" ? "/" : $TRINITY20['cookie_path'];
     if (PHP_VERSION < 5.2) {
-        if ($INSTALLER09['cookie_domain']) {
-            @setcookie($INSTALLER09['cookie_prefix'] . $name, $value, $expires, $INSTALLER09['cookie_path'], $INSTALLER09['cookie_domain'] . '; HttpOnly');
+        if ($TRINITY20['cookie_domain']) {
+            @setcookie($TRINITY20['cookie_prefix'] . $name, $value, $expires, $TRINITY20['cookie_path'], $TRINITY20['cookie_domain'] . '; HttpOnly');
         } else {
-            @setcookie($INSTALLER09['cookie_prefix'] . $name, $value, $expires, $INSTALLER09['cookie_path']);
+            @setcookie($TRINITY20['cookie_prefix'] . $name, $value, $expires, $TRINITY20['cookie_path']);
         }
     } else {
-        @setcookie($INSTALLER09['cookie_prefix'] . $name, $value, $expires, $INSTALLER09['cookie_path'], $INSTALLER09['cookie_domain'], NULL, TRUE);
+        @setcookie($TRINITY20['cookie_prefix'] . $name, $value, $expires, $TRINITY20['cookie_path'], $TRINITY20['cookie_domain'], NULL, TRUE);
     }
 }
 function get_mycookie($name)
 {
-    global $INSTALLER09;
-    if (isset($_COOKIE[$INSTALLER09['cookie_prefix'] . $name]) AND !empty($_COOKIE[$INSTALLER09['cookie_prefix'] . $name])) {
-        return urldecode($_COOKIE[$INSTALLER09['cookie_prefix'] . $name]);
+    global $TRINITY20;
+    if (isset($_COOKIE[$TRINITY20['cookie_prefix'] . $name]) AND !empty($_COOKIE[$TRINITY20['cookie_prefix'] . $name])) {
+        return urldecode($_COOKIE[$TRINITY20['cookie_prefix'] . $name]);
     } else {
         return FALSE;
     }
@@ -994,9 +994,9 @@ function logoutcookie()
 }
 function loggedinorreturn()
 {
-    global $CURUSER, $INSTALLER09;
+    global $CURUSER, $TRINITY20;
     if (!$CURUSER) {
-        header("Location: {$INSTALLER09['baseurl']}/login.php?returnto=" . urlencode($_SERVER["REQUEST_URI"]));
+        header("Location: {$TRINITY20['baseurl']}/login.php?returnto=" . urlencode($_SERVER["REQUEST_URI"]));
         exit();
     }
 }
@@ -1032,12 +1032,12 @@ function stderr($heading, $text)
 // Basic MySQL error handler
 function sqlerr($file = '', $line = '')
 {
-    global $INSTALLER09, $CURUSER;
+    global $TRINITY20, $CURUSER;
     $the_error = ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
     $the_error_no = ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false));
     if (SQL_DEBUG == 0) {
         exit();
-    } else if ($INSTALLER09['sql_error_log'] AND SQL_DEBUG == 1) {
+    } else if ($TRINITY20['sql_error_log'] AND SQL_DEBUG == 1) {
         $_error_string = "\n===================================================";
         $_error_string.= "\n Date: " . date('r');
         $_error_string.= "\n Error Number: " . $the_error_no;
@@ -1048,7 +1048,7 @@ function sqlerr($file = '', $line = '')
 		$error_username = isset($CURUSER['username']) ? $CURUSER['username'] : '';
 		$error_userid = isset($CURUSER['id']) ? $CURUSER['id'] : '';
         $_error_string.= "\n Username: {$error_username}[{$error_userid}]";
-        if ($FH = @fopen($INSTALLER09['sql_error_log'], 'a')) {
+        if ($FH = @fopen($TRINITY20['sql_error_log'], 'a')) {
             @fwrite($FH, $_error_string);
             @fclose($FH);
         }
@@ -1101,11 +1101,11 @@ function unixstamp_to_human($unix = 0)
 /*
 function get_time_offset()
 {
-    global $CURUSER, $INSTALLER09;
+    global $CURUSER, $TRINITY20;
     $r = 0;
-    $r = (($CURUSER['time_offset'] != "") ? $CURUSER['time_offset'] : $INSTALLER09['time_offset']) * 3600;
-    if ($INSTALLER09['time_adjust']) {
-        $r+= ($INSTALLER09['time_adjust'] * 60);
+    $r = (($CURUSER['time_offset'] != "") ? $CURUSER['time_offset'] : $TRINITY20['time_offset']) * 3600;
+    if ($TRINITY20['time_adjust']) {
+        $r+= ($TRINITY20['time_adjust'] * 60);
     }
     if ($CURUSER['dst_in_use']) {
         $r+= 3600;
@@ -1115,13 +1115,13 @@ function get_time_offset()
 */
 function get_time_offset()
 {
-    global $CURUSER, $INSTALLER09;
+    global $CURUSER, $TRINITY20;
     $r = 0;
 	$user_t_offset = $CURUSER['time_offset'] ?? '';
 	$user_dst = $CURUSER['dst_in_use'] ?? '';
     $r = ($user_t_offset != "") * 3600;
-    if ($INSTALLER09['time_adjust']) {
-        $r+= ($INSTALLER09['time_adjust'] * 60);
+    if ($TRINITY20['time_adjust']) {
+        $r+= ($TRINITY20['time_adjust'] * 60);
     }
     if ($user_dst) {
         $r+= 3600;
@@ -1130,17 +1130,17 @@ function get_time_offset()
 }
 function get_date($date, $method, $norelative = 0, $full_relative = 0)
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     static $offset_set = 0;
     static $today_time = 0;
     static $yesterday_time = 0;
     $time_options = array(
-        'JOINED' => $INSTALLER09['time_joined'],
-        'SHORT' => $INSTALLER09['time_short'],
-        'LONG' => $INSTALLER09['time_long'],
-        'TTABLE' => $INSTALLER09['time_ttable'] ? $INSTALLER09['time_ttable'] : 'd-m-Y, H:i:s',
-        'TINY' => $INSTALLER09['time_tiny'] ? $INSTALLER09['time_tiny'] : 'j M Y - G:i',
-        'DATE' => $INSTALLER09['time_date'] ? $INSTALLER09['time_date'] : 'j M Y'
+        'JOINED' => $TRINITY20['time_joined'],
+        'SHORT' => $TRINITY20['time_short'],
+        'LONG' => $TRINITY20['time_long'],
+        'TTABLE' => $TRINITY20['time_ttable'] ? $TRINITY20['time_ttable'] : 'd-m-Y, H:i:s',
+        'TINY' => $TRINITY20['time_tiny'] ? $TRINITY20['time_tiny'] : 'j M Y - G:i',
+        'DATE' => $TRINITY20['time_date'] ? $TRINITY20['time_date'] : 'j M Y'
     );
     if (!$date) {
         return '--';
@@ -1150,13 +1150,13 @@ function get_date($date, $method, $norelative = 0, $full_relative = 0)
     }
     if ($offset_set == 0) {
         $GLOBALS['offset'] = get_time_offset();
-        if ($INSTALLER09['time_use_relative']) {
+        if ($TRINITY20['time_use_relative']) {
             $today_time = gmdate('d,m,Y', (TIME_NOW + $GLOBALS['offset']));
             $yesterday_time = gmdate('d,m,Y', ((TIME_NOW - 86400) + $GLOBALS['offset']));
         }
         $offset_set = 1;
     }
-    if ($INSTALLER09['time_use_relative'] == 3) {
+    if ($TRINITY20['time_use_relative'] == 3) {
         $full_relative = 1;
     }
     if ($full_relative and ($norelative != 1)) {
@@ -1182,9 +1182,9 @@ function get_date($date, $method, $norelative = 0, $full_relative = 0)
         } else {
             return gmdate($time_options[$method], ($date + $GLOBALS['offset']));
         }
-    } else if ($INSTALLER09['time_use_relative'] and ($norelative != 1)) {
+    } else if ($TRINITY20['time_use_relative'] and ($norelative != 1)) {
         $this_time = gmdate('d,m,Y', ($date + $GLOBALS['offset']));
-        if ($INSTALLER09['time_use_relative'] == 2) {
+        if ($TRINITY20['time_use_relative'] == 2) {
             $diff = TIME_NOW - $date;
             if ($diff < 3600) {
                 if ($diff < 120) {
@@ -1195,9 +1195,9 @@ function get_date($date, $method, $norelative = 0, $full_relative = 0)
             }
         }
         if ($this_time == $today_time) {
-            return str_replace('{--}', 'Today', gmdate($INSTALLER09['time_use_relative_format'], ($date + $GLOBALS['offset'])));
+            return str_replace('{--}', 'Today', gmdate($TRINITY20['time_use_relative_format'], ($date + $GLOBALS['offset'])));
         } else if ($this_time == $yesterday_time) {
-            return str_replace('{--}', 'Yesterday', gmdate($INSTALLER09['time_use_relative_format'], ($date + $GLOBALS['offset'])));
+            return str_replace('{--}', 'Yesterday', gmdate($TRINITY20['time_use_relative_format'], ($date + $GLOBALS['offset'])));
         } else {
             return gmdate($time_options[$method], ($date + $GLOBALS['offset']));
         }
@@ -1207,7 +1207,7 @@ function get_date($date, $method, $norelative = 0, $full_relative = 0)
 }
 function ratingpic($num)
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     $r = round($num * 2) / 2;
     if ($r < 1 || $r > 5) return;
     return "<img src=\"pic/ratings/{$r}.gif\" border=\"0\" alt=\"Rating: $num / 5\" title=\"Rating: $num / 5\" />";
@@ -1227,12 +1227,12 @@ function CutName_B($txt, $len = 20)
 }
 function load_language($file = '')
 {
-    global $INSTALLER09, $CURUSER;
+    global $TRINITY20, $CURUSER;
     if (!isset($GLOBALS['CURUSER']) OR empty($GLOBALS['CURUSER']['language'])) {
-        if (!file_exists(LANG_DIR . "{$INSTALLER09['language']}/lang_{$file}.php")) {
+        if (!file_exists(LANG_DIR . "{$TRINITY20['language']}/lang_{$file}.php")) {
             stderr('System Error', 'Can\'t find language files');
         }
-        require_once (LANG_DIR . "{$INSTALLER09['language']}/lang_{$file}.php");
+        require_once (LANG_DIR . "{$TRINITY20['language']}/lang_{$file}.php");
         return $lang;
     }
     if (!file_exists(LANG_DIR . "{$CURUSER['language']}/lang_{$file}.php")) {
@@ -1244,17 +1244,17 @@ function load_language($file = '')
 }
 function flood_limit($table)
 {
-    global $CURUSER, $INSTALLER09, $lang;
-    if (!file_exists($INSTALLER09['flood_file']) || !is_array($max = unserialize(file_get_contents($INSTALLER09['flood_file'])))) return;
+    global $CURUSER, $TRINITY20, $lang;
+    if (!file_exists($TRINITY20['flood_file']) || !is_array($max = unserialize(file_get_contents($TRINITY20['flood_file'])))) return;
     if (!isset($max[$CURUSER['class']])) return;
     $tb = array(
         'posts' => 'posts.user_id',
         'comments' => 'comments.user',
         'messages' => 'messages.sender'
     );
-    $q = sql_query('SELECT min(' . $table . '.added) as first_post, count(' . $table . '.id) as how_many FROM ' . $table . ' WHERE ' . $tb[$table] . ' = ' . $CURUSER['id'] . ' AND ' . TIME_NOW . ' - ' . $table . '.added < ' . $INSTALLER09['flood_time']);
+    $q = sql_query('SELECT min(' . $table . '.added) as first_post, count(' . $table . '.id) as how_many FROM ' . $table . ' WHERE ' . $tb[$table] . ' = ' . $CURUSER['id'] . ' AND ' . TIME_NOW . ' - ' . $table . '.added < ' . $TRINITY20['flood_time']);
     $a = mysqli_fetch_assoc($q);
-    if ($a['how_many'] > $max[$CURUSER['class']]) stderr($lang['gl_sorry'], $lang['gl_flood_msg'] . '' . mkprettytime($INSTALLER09['flood_time'] - (TIME_NOW - $a['first_post'])));
+    if ($a['how_many'] > $max[$CURUSER['class']]) stderr($lang['gl_sorry'], $lang['gl_flood_msg'] . '' . mkprettytime($TRINITY20['flood_time'] - (TIME_NOW - $a['first_post'])));
 }
 //== Sql query count by pdq
 function sql_query($query)
@@ -1319,7 +1319,7 @@ function write_bonus_log($userid, $amount, $type){
   sql_query("INSERT INTO bonuslog (id, donation, type, added_at) VALUES(".sqlesc($userid).", ".sqlesc($amount).", ".sqlesc($donation_type).", $added)") or sqlerr(__FILE__, __LINE__);
 }
 function get_script_access($script) {
-	global $CURUSER, $INSTALLER09, $cache;
+	global $CURUSER, $TRINITY20, $cache;
 	$ending = parse_url($script, PHP_URL_QUERY);
     $count = substr_count($ending, "&");
 	$i = 0;

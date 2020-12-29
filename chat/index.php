@@ -12,7 +12,7 @@
 error_reporting(E_ALL);
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php';
 dbconn();
-global $CURUSER, $INSTALLER09;
+global $CURUSER, $TRINITY20;
 
 // Include custom libraries and initialization code:
 require_once(AJAXCHAT_DIR . 'lib' . DIRECTORY_SEPARATOR . 'custom.php');

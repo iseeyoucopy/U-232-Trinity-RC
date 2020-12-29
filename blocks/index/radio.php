@@ -12,7 +12,7 @@
  */
 require_once ROOT_DIR . 'radio.php';
 $HTMLOUT.= "<div class='callout'>
-	<h4 class='subheader'>{$INSTALLER09['site_name']} Radio</h4>";
+	<h4 class='subheader'>{$TRINITY20['site_name']} Radio</h4>";
 	$HTMLOUT.= radioinfo($radio);
 $HTMLOUT.= "</div>";
 //==

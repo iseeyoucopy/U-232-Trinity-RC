@@ -54,13 +54,13 @@ $setbits = $clrbits = 0;
     }
     if (!empty($avatar)) {
         $img_size = @GetImageSize($avatar);
-        if ($img_size == FALSE || !in_array($img_size['mime'], $INSTALLER09['allowed_ext'])) stderr($lang['takeeditcp_user_error'], $lang['takeeditcp_image_error']);
+        if ($img_size == FALSE || !in_array($img_size['mime'], $TRINITY20['allowed_ext'])) stderr($lang['takeeditcp_user_error'], $lang['takeeditcp_image_error']);
         if ($img_size[0] < 5 || $img_size[1] < 5) stderr($lang['takeeditcp_user_error'], $lang['takeeditcp_small_image']);
         sql_query("UPDATE usersachiev SET avatarset=avatarset+1 WHERE id=" . sqlesc($CURUSER["id"]) . " AND avatarset = '0'") or sqlerr(__FILE__, __LINE__);
-        if (($img_size[0] > $INSTALLER09['av_img_width']) OR ($img_size[1] > $INSTALLER09['av_img_height'])) {
+        if (($img_size[0] > $TRINITY20['av_img_width']) OR ($img_size[1] > $TRINITY20['av_img_height'])) {
             $image = resize_image(array(
-                'max_width' => $INSTALLER09['av_img_width'],
-                'max_height' => $INSTALLER09['av_img_height'],
+                'max_width' => $TRINITY20['av_img_width'],
+                'max_height' => $TRINITY20['av_img_height'],
                 'cur_width' => $img_size[0],
                 'cur_height' => $img_size[1]
             ));
@@ -108,13 +108,13 @@ $setbits = $clrbits = 0;
     }
     if (!empty($signature)) {
         $img_size = @GetImageSize($signature);
-        if ($img_size == FALSE || !in_array($img_size['mime'], $INSTALLER09['allowed_ext'])) stderr($lang['takeeditcp_uerr'], $lang['takeeditcp_img_unsupported']);
+        if ($img_size == FALSE || !in_array($img_size['mime'], $TRINITY20['allowed_ext'])) stderr($lang['takeeditcp_uerr'], $lang['takeeditcp_img_unsupported']);
         if ($img_size[0] < 5 || $img_size[1] < 5) stderr($lang['takeeditcp_uerr'], $lang['takeeditcp_img_to_small']);
         sql_query("UPDATE usersachiev SET sigset=sigset+1 WHERE id=" . sqlesc($CURUSER["id"]) . " AND sigset = '0'") or sqlerr(__FILE__, __LINE__);
-        if (($img_size[0] > $INSTALLER09['sig_img_width']) OR ($img_size[1] > $INSTALLER09['sig_img_height'])) {
+        if (($img_size[0] > $TRINITY20['sig_img_width']) OR ($img_size[1] > $TRINITY20['sig_img_height'])) {
             $image = resize_image(array(
-                'max_width' => $INSTALLER09['sig_img_width'],
-                'max_height' => $INSTALLER09['sig_img_height'],
+                'max_width' => $TRINITY20['sig_img_width'],
+                'max_height' => $TRINITY20['sig_img_height'],
                 'cur_width' => $img_size[0],
                 'cur_height' => $img_size[1]
             ));
@@ -220,17 +220,17 @@ $setbits = $clrbits = 0;
             '<#CHANGE_LINK#>'
         ) , array(
             $CURUSER['username'],
-            $INSTALLER09['site_name'],
+            $TRINITY20['site_name'],
             $email,
             $_SERVER['REMOTE_ADDR'],
-            "{$INSTALLER09['baseurl']}/confirmemail.php?uid={$CURUSER['id']}&key=$hash&email=$obemail"
+            "{$TRINITY20['baseurl']}/confirmemail.php?uid={$CURUSER['id']}&key=$hash&email=$obemail"
         ) , $lang['takeeditcp_email_body']);
-        mail($email, "$thisdomain {$lang['takeeditcp_confirm']}", $body, "{$lang['takeeditcp_email_from']}{$INSTALLER09['site_email']}");
+        mail($email, "$thisdomain {$lang['takeeditcp_confirm']}", $body, "{$lang['takeeditcp_email_from']}{$TRINITY20['site_email']}");
         $emailquery = sql_query("SELECT id, username, email FROM users WHERE id=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
         $spm = mysqli_fetch_assoc($emailquery);
         $dt = TIME_NOW;
         $subject = sqlesc($lang['takeeditcp_email_alert']);
-        $msg = sqlesc("{$lang['takeeditcp_email_user']}[url={$INSTALLER09['baseurl']}/userdetails.php?id=" . (int)$spm['id'] . "][b]" . htmlsafechars($spm['username']) . "[/b][/url]{$lang['takeeditcp_email_changed']}{$lang['takeeditcp_email_old']}" . htmlsafechars($spm['email']) . "{$lang['takeeditcp_email_new']}$email{$lang['takeeditcp_email_check']}");
+        $msg = sqlesc("{$lang['takeeditcp_email_user']}[url={$TRINITY20['baseurl']}/userdetails.php?id=" . (int)$spm['id'] . "][b]" . htmlsafechars($spm['username']) . "[/b][/url]{$lang['takeeditcp_email_changed']}{$lang['takeeditcp_email_old']}" . htmlsafechars($spm['email']) . "{$lang['takeeditcp_email_new']}$email{$lang['takeeditcp_email_check']}");
         $pmstaff = sql_query('SELECT id FROM users WHERE class = ' . UC_ADMINISTRATOR) or sqlerr(__FILE__, __LINE__);
         while ($arr = mysqli_fetch_assoc($pmstaff)) sql_query("INSERT INTO messages(sender, receiver, added, msg, subject) VALUES(0, " . sqlesc($arr['id']) . ", $dt, $msg, $subject)") or sqlerr(__FILE__, __LINE__);
         $cache->delete('inbox_new_' . $arr['id']);
@@ -476,10 +476,10 @@ if (isset($_POST["google_talk"]) && ($google_talk = $_POST["google_talk"]) != $C
     //else $clrbits|= user_options_2::COMMENTPM;
 //== End == then update the sets :)
 if ($curuser_cache) {
-    $cache->update_row('MyUser_' . $CURUSER['id'], $curuser_cache, $INSTALLER09['expires']['curuser']);
+    $cache->update_row('MyUser_' . $CURUSER['id'], $curuser_cache, $TRINITY20['expires']['curuser']);
 }
 if ($user_cache) {
-    $cache->update_row('user' . $CURUSER['id'], $user_cache, $INSTALLER09['expires']['user_cache']);
+    $cache->update_row('user' . $CURUSER['id'], $user_cache, $TRINITY20['expires']['user_cache']);
 }
 if (sizeof($updateset) > 0) sql_query("UPDATE users SET " . implode(",", $updateset) . " WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
 if ($setbits || $clrbits) sql_query('UPDATE users SET opt1 = ((opt1 | ' . $setbits . ') & ~' . $clrbits . '), opt2 = ((opt2 | ' . $setbits . ') & ~' . $clrbits . ') WHERE id = ' . sqlesc($CURUSER["id"])) or sqlerr(__file__, __line__);
@@ -492,10 +492,10 @@ $row['opt2'] = (int)$row['opt2'];
 $cache->update_row('MyUser_' . $CURUSER["id"], [
     'opt1' => $row['opt1'],
     'opt2' => $row['opt2']
-], $INSTALLER09['expires']['curuser']);
+], $TRINITY20['expires']['curuser']);
 $cache->update_row('user_' . $CURUSER["id"], [
     'opt1' => $row['opt1'],
     'opt2' => $row['opt2']
-], $INSTALLER09['expires']['user_cache']);
-header("Location: {$INSTALLER09['baseurl']}/usercp.php?edited=1" . $urladd);
+], $TRINITY20['expires']['user_cache']);
+header("Location: {$TRINITY20['baseurl']}/usercp.php?edited=1" . $urladd);
 ?>

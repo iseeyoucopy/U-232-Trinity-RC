@@ -106,12 +106,12 @@ if (mysqli_num_rows($result) != 0) {
 <td class='colhead' align='center' width='1%'>{$lang['wpeers_torrent']}</td>
 <td class='colhead' align='center' width='1%'>{$lang['wpeers_ip']}</td>
 <td class='colhead' align='center' width='1%'>{$lang['wpeers_up']}</td>
-" . ($INSTALLER09['ratio_free'] == true ? "" : "<td class='colhead' align='center' width='1%'>{$lang['wpeers_dn']}</td>") . "
+" . ($TRINITY20['ratio_free'] == true ? "" : "<td class='colhead' align='center' width='1%'>{$lang['wpeers_dn']}</td>") . "
 <td class='colhead' align='center' width='1%'>{$lang['wpeers_pssky']}</td>
 <td class='colhead' align='center' width='1%'>{$lang['wpeers_seed']}</td>
 <td class='colhead' align='center' width='1%'>{$lang['wpeers_last']}</td>
 <td class='colhead' align='center' width='1%'>{$lang['wpeers_uspeed']}</td>
-" . ($INSTALLER09['ratio_free']  == true ? "" : "<td class='colhead' align='center' width='1%'>{$lang['wpeers_dspeed']}</td>") . "
+" . ($TRINITY20['ratio_free']  == true ? "" : "<td class='colhead' align='center' width='1%'>{$lang['wpeers_dspeed']}</td>") . "
 <td class='colhead' align='center' width='1%'>{$lang['wpeers_togo']}</td>
 </tr>";
     } else {
@@ -122,14 +122,14 @@ if (mysqli_num_rows($result) != 0) {
 <td class='colhead' align='center' width='1%'>{$lang['wpeers_ip']}</td>
 <td class='colhead' align='center' width='1%'>{$lang['wpeers_port']}</td>
 <td class='colhead' align='center' width='1%'>{$lang['wpeers_up']}</td>
-" . ($INSTALLER09['ratio_free'] == true ? "" : "<td class='colhead' align='center' width='1%'>{$lang['wpeers_dn']}</td>") . "
+" . ($TRINITY20['ratio_free'] == true ? "" : "<td class='colhead' align='center' width='1%'>{$lang['wpeers_dn']}</td>") . "
 <td class='colhead' align='center' width='1%'>{$lang['wpeers_pssky']}</td>
 <td class='colhead' align='center' width='1%'>{$lang['wpeers_con']}</td>
 <td class='colhead' align='center' width='1%'>{$lang['wpeers_seed']}</td>
 <td class='colhead' align='center' width='1%'>{$lang['wpeers_start']}</td>
 <td class='colhead' align='center' width='1%'>{$lang['wpeers_last']}</td>
 <td class='colhead' align='center' width='1%'>{$lang['wpeers_upoff']}</td>
-" . ($INSTALLER09['ratio_free'] == true ? "" : "<td class='colhead' align='center' width='1%'>{$lang['wpeers_dnoff']}</td>") . "
+" . ($TRINITY20['ratio_free'] == true ? "" : "<td class='colhead' align='center' width='1%'>{$lang['wpeers_dnoff']}</td>") . "
 <td class='colhead' align='center' width='1%'>{$lang['wpeers_togo']}</td>
 </tr>";
     }
@@ -148,12 +148,12 @@ if (mysqli_num_rows($result) != 0) {
 <td><a href="details.php?id=' . (int)($row['tid']) . '">' . $smallname . '</a></td>
 <td align="center">' . htmlsafechars($row['ipa']) . '</td>
 <td align="center">' . htmlsafechars(mksize($row['uploaded'])) . '</td>
-' . ($INSTALLER09['ratio_free'] == true ? '' : '<td align="center">' . htmlsafechars(mksize($row['downloaded'])) . '</td>') . '
+' . ($TRINITY20['ratio_free'] == true ? '' : '<td align="center">' . htmlsafechars(mksize($row['downloaded'])) . '</td>') . '
 <td align="center">' . htmlsafechars($row['torrent_pass']) . '</td>
-<td align="center">' . ($row['active'] >= 1 ? "<img src='" . $INSTALLER09['pic_base_url'] . "aff_tick.gif' alt='{$lang['wpeers_yes']}' title='{$lang['wpeers_yes']}' />" : "<img src='" . $INSTALLER09['pic_base_url'] . "aff_cross.gif' alt='{$lang['wpeers_no']}' title='{$lang['wpeers_no']}' />") . '</td>
+<td align="center">' . ($row['active'] >= 1 ? "<img src='" . $TRINITY20['pic_base_url'] . "aff_tick.gif' alt='{$lang['wpeers_yes']}' title='{$lang['wpeers_yes']}' />" : "<img src='" . $TRINITY20['pic_base_url'] . "aff_cross.gif' alt='{$lang['wpeers_no']}' title='{$lang['wpeers_no']}' />") . '</td>
 <td align="center">' . get_date($row['mtime'], 'DATE', 0, 1) . '</td>
 <td align="center">' . htmlsafechars(mksize($row['upspeed'])) . '/s</td>
-' . ($INSTALLER09['ratio_free'] == true ? '' : '<td align="center">' . htmlsafechars(mksize($row['downspeed'])) . '/s</td>') . '
+' . ($TRINITY20['ratio_free'] == true ? '' : '<td align="center">' . htmlsafechars(mksize($row['downspeed'])) . '/s</td>') . '
 <td align="center">' . htmlsafechars(mksize($row['left'])) . '</td>
 </tr>';
         } else {
@@ -163,14 +163,14 @@ if (mysqli_num_rows($result) != 0) {
 <td align="center">' . htmlsafechars($row['ip']) . '</td>
 <td align="center">' . htmlsafechars($row['port']) . '</td>
 <td align="center">' . htmlsafechars(mksize($row['uploaded'])) . '</td>
-' . ($INSTALLER09['ratio_free'] == true ? '' : '<td align="center">' . htmlsafechars(mksize($row['downloaded'])) . '</td>') . '
+' . ($TRINITY20['ratio_free'] == true ? '' : '<td align="center">' . htmlsafechars(mksize($row['downloaded'])) . '</td>') . '
 <td align="center">' . htmlsafechars($row['torrent_pass']) . '</td>
-<td align="center">' . ($row['connectable'] == 'yes' ? "<img src='" . $INSTALLER09['pic_base_url'] . "aff_tick.gif' alt='{$lang['wpeers_yes']}' title='{$lang['wpeers_yes']}' />" : "<img src='" . $INSTALLER09['pic_base_url'] . "aff_cross.gif' alt='{$lang['wpeers_no']}' title='{$lang['wpeers_no']}' />") . '</td>
-<td align="center">' . ($row['seeder'] == 'yes' ? "<img src='" . $INSTALLER09['pic_base_url'] . "aff_tick.gif' alt='{$lang['wpeers_yes']}' title='{$lang['wpeers_yes']}' />" : "<img src='" . $INSTALLER09['pic_base_url'] . "aff_cross.gif' alt='{$lang['wpeers_no']}' title='{$lang['wpeers_no']}' />") . '</td>
+<td align="center">' . ($row['connectable'] == 'yes' ? "<img src='" . $TRINITY20['pic_base_url'] . "aff_tick.gif' alt='{$lang['wpeers_yes']}' title='{$lang['wpeers_yes']}' />" : "<img src='" . $TRINITY20['pic_base_url'] . "aff_cross.gif' alt='{$lang['wpeers_no']}' title='{$lang['wpeers_no']}' />") . '</td>
+<td align="center">' . ($row['seeder'] == 'yes' ? "<img src='" . $TRINITY20['pic_base_url'] . "aff_tick.gif' alt='{$lang['wpeers_yes']}' title='{$lang['wpeers_yes']}' />" : "<img src='" . $TRINITY20['pic_base_url'] . "aff_cross.gif' alt='{$lang['wpeers_no']}' title='{$lang['wpeers_no']}' />") . '</td>
 <td align="center">' . get_date($row['started'], 'DATE') . '</td>
 <td align="center">' . get_date($row['last_action'], 'DATE', 0, 1) . '</td>
 <td align="center">' . htmlsafechars(mksize($row['uploadoffset'])) . '</td>
-' . ($INSTALLER09['ratio_free'] == true ? '' : '<td align="center">' . htmlsafechars(mksize($row['downloadoffset'])) . '</td>') . '
+' . ($TRINITY20['ratio_free'] == true ? '' : '<td align="center">' . htmlsafechars(mksize($row['downloadoffset'])) . '</td>') . '
 <td align="center">' . htmlsafechars(mksize($row['to_go'])) . '</td>
 </tr>';
         }

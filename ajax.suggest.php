@@ -57,7 +57,7 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
 }
 else
 {
-	header("Location: {$INSTALLER09['baseurl']}/index.php");
+	header("Location: {$TRINITY20['baseurl']}/index.php");
 }
 die(false);
 

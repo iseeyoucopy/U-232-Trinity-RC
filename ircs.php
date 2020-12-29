@@ -50,7 +50,7 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
             } elseif (isset($_GET['func']) && $_GET['func'] == "check") {
                 echo(htmlsafechars($arr['username']) . " - Seedbonus: (" . number_format($arr['seedbonus'], 1) . ")");
             } elseif (isset($_GET['func']) && $_GET['func'] == "ircbonus") {
-                $ircbonus = (!empty($arr['irctotal']) ? number_format($arr["irctotal"] / ($INSTALLER09['autoclean_interval'] * 4), 1) : '0.0');
+                $ircbonus = (!empty($arr['irctotal']) ? number_format($arr["irctotal"] / ($TRINITY20['autoclean_interval'] * 4), 1) : '0.0');
                 echo($arr['username'] . " - IRC Bonus: (" . $ircbonus . ")");
             } elseif (isset($_GET['func']) && $_GET['func'] == "irctotal") {
                 $irctotal = (!empty($arr['irctotal']) ? calctime($arr['irctotal']) : $arr['username'] . ' has never been on IRC!');
@@ -104,23 +104,23 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                 sql_query("UPDATE users SET username = $newname, modcomment = CONCAT($modcomment,modcomment) WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                 $cache->update_row('user' . $nsetusername['id'], [
                     'username' => $newname
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('MyUser_' . $nsetusername['id'], [
                     'username' => $newname
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('userstats_' . $nsetusername['id'], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['u_stats']);
+                ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $nsetusername['id'], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 echo $who . 's name was changed from: ' . $who . ' to ' . $newusername . ' by ' . $modd;
             }
         }
     } elseif (isset($_GET['topirc'])) {
         $res = sql_query("SELECT id, username, class, irctotal FROM users WHERE onirc = 'yes' GROUP BY class ORDER BY irctotal DESC") or sqlerr(__FILE__, __LINE__);
         while ($arr = mysqli_fetch_assoc($res)) {
-            $ircbonus = (!empty($arr['irctotal']) ? number_format($arr["irctotal"] / ($INSTALLER09['autoclean_interval'] * 4), 1) : '0.0');
+            $ircbonus = (!empty($arr['irctotal']) ? number_format($arr["irctotal"] / ($TRINITY20['autoclean_interval'] * 4), 1) : '0.0');
             $ircusers = (isset($ircusers) ? ($ircusers) : '');
             if ($ircusers) {
                 $ircusers.= ",\n";
@@ -168,10 +168,10 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                 sql_query("UPDATE users SET seedbonus = seedbonus+" . sqlesc($amount) . " WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                 $cache->update_row('userstats_' . $nbonus['id'], [
                     'seedbonus' => $nbonus['seedbonus'] + $amount
-                ], $INSTALLER09['expires']['u_stats']);
+                ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $nbonus['id'], [
                     'seedbonus' => $nbonus['seedbonus'] + $amount
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 $res1 = sql_query("SELECT seedbonus FROM users WHERE username = $whom LIMIT 1") or sqlerr(__FILE__, __LINE__);
                 $obonus = mysqli_fetch_assoc($res1);
                 $newbonus = $obonus['seedbonus'];
@@ -190,10 +190,10 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                 sql_query("UPDATE users SET invites = invites+" . sqlesc($amount) . " WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                 $cache->update_row('user' . $ninvites['id'], [
                     'invites' => $ninvites['invites'] + $amount
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('MyUser_' . $ninvites['id'], [
                     'invites' => $ninvites['invites'] + $amount
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $res4 = sql_query("SELECT invites FROM users WHERE username = $whom LIMIT 1") or sqlerr(__FILE__, __LINE__);
                 $oinvites = mysqli_fetch_assoc($res4);
                 $newinvites = 0 + $oinvites['invites'];
@@ -212,10 +212,10 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                 sql_query("UPDATE users SET freeslots = freeslots+" . sqlesc($amount) . " WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                 $cache->update_row('user' . $nfreeslots['id'], [
                     'freeslots' => $nfreeslots['freeslots'] + $amount
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('MyUser_' . $nfreeslots['id'], [
                     'freeslots' => $nfreeslots['freeslots'] + $amount
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $res6 = sql_query("SELECT freeslots FROM users WHERE username = $whom LIMIT 1") or sqlerr(__FILE__, __LINE__);
                 $ofreeslots = mysqli_fetch_assoc($res6);
                 $newfreeslots = 0 + $ofreeslots['freeslots'];
@@ -234,10 +234,10 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                 sql_query("UPDATE users SET reputation = reputation+" . sqlesc($amount) . " WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                 $cache->update_row('user' . $nreputation['id'], [
                     'reputation' => $nreputation['reputation'] + $amount
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('MyUser_' . $nreputation['id'], [
                     'reputation' => $nreputation['reputation'] + $amount
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $res4 = sql_query("SELECT reputation FROM users WHERE username = $whom LIMIT 1") or sqlerr(__FILE__, __LINE__);
                 $oreputation = mysqli_fetch_assoc($res4);
                 $newreputation = 0 + $oreputation['reputation'];
@@ -258,10 +258,10 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                 sql_query("UPDATE users SET seedbonus = seedbonus-" . sqlesc($amount) . " WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                 $cache->update_row('userstats_' . $nbonus['id'], [
                     'seedbonus' => $nbonus['seedbonus'] - $amount
-                ], $INSTALLER09['expires']['u_stats']);
+                ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $nbonus['id'], [
                     'seedbonus' => $nbonus['seedbonus'] - $amount
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 $res1 = sql_query("SELECT seedbonus FROM users WHERE username = $whom LIMIT 1") or sqlerr(__FILE__, __LINE__);
                 $obonus = mysqli_fetch_assoc($res1);
                 $newbonus = $obonus['seedbonus'];
@@ -280,10 +280,10 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                 sql_query("UPDATE users SET invites = invites-" . sqlesc($amount) . " WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                 $cache->update_row('user' . $ninvites['id'], [
                     'invites' => $ninvites['invites'] - $amount
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('MyUser_' . $ninvites['id'], [
                     'invites' => $ninvites['invites'] - $amount
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $res4 = sql_query("SELECT invites FROM users WHERE username = $whom LIMIT 1") or sqlerr(__FILE__, __LINE__);
                 $oinvites = mysqli_fetch_assoc($res4);
                 $newinvites = 0 + $oinvites['invites'];
@@ -302,10 +302,10 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                 sql_query("UPDATE users SET freeslots = freeslots-" . sqlesc($amount) . " WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                 $cache->update_row('user' . $nfreeslots['id'], [
                     'freeslots' => $nfreeslots['freeslots'] - $amount
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('MyUser_' . $nfreeslots['id'], [
                     'freeslots' => $nfreeslots['freeslots'] - $amount
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $res6 = sql_query("SELECT freeslots FROM users WHERE username = $whom LIMIT 1") or sqlerr(__FILE__, __LINE__);
                 $ofreeslots = mysqli_fetch_assoc($res6);
                 $newfreeslots = 0 + $ofreeslots['freeslots'];
@@ -324,10 +324,10 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                 sql_query("UPDATE users SET reputation = reputation-" . sqlesc($amount) . " WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                 $cache->update_row('user' . $nreputation['id'], [
                     'reputation' => $nreputation['reputation'] - $amount
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('MyUser_' . $nreputation['id'], [
                     'reputation' => $nreputation['reputation'] - $amount
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $res6 = sql_query("SELECT reputation FROM users WHERE username = $whom LIMIT 1") or sqlerr(__FILE__, __LINE__);
                 $oreputation = mysqli_fetch_assoc($res6);
                 $newreputation = 0 + $oreputation['reputation'];
@@ -357,16 +357,16 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                     sql_query("UPDATE users SET seedbonus = seedbonus+" . sqlesc($amount) . " WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                     $cache->update_row('userstats_' . $mebonus['id'], [
                         'seedbonus' => $mebonus['seedbonus'] - $amount
-                    ], $INSTALLER09['expires']['u_stats']);
+                    ], $TRINITY20['expires']['u_stats']);
                     $cache->update_row('user_stats_' . $mebonus['id'], [
                         'seedbonus' => $mebonus['seedbonus'] - $amount
-                    ], $INSTALLER09['expires']['user_stats']);
+                    ], $TRINITY20['expires']['user_stats']);
                     $cache->update_row('userstats_' . $whombonus['id'], [
                         'seedbonus' => $whombonus['seedbonus'] + $amount
-                    ], $INSTALLER09['expires']['u_stats']);
+                    ], $TRINITY20['expires']['u_stats']);
                     $cache->update_row('user_stats_' . $whombonus['id'], [
                         'seedbonus' => $whombonus['seedbonus'] + $amount
-                    ], $INSTALLER09['expires']['user_stats']);
+                    ], $TRINITY20['expires']['user_stats']);
                     $res1 = sql_query("SELECT seedbonus FROM users WHERE username = $me LIMIT 1") or sqlerr(__FILE__, __LINE__);
                     $meobonus = mysqli_fetch_assoc($res1);
                     $res2 = sql_query("SELECT seedbonus FROM users WHERE username = $whom LIMIT 1") or sqlerr(__FILE__, __LINE__);
@@ -398,16 +398,16 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                     sql_query("UPDATE users SET freeslots = freeslots+" . sqlesc($amount) . " WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                     $cache->update_row('user' . $mefreeslots['id'], [
                         'freeslots' => $mefreeslots['freeslots'] - $amount
-                    ], $INSTALLER09['expires']['user_cache']);
+                    ], $TRINITY20['expires']['user_cache']);
                     $cache->update_row('MyUser_' . $mefreeslots['id'], [
                         'freeslots' => $mefreeslots['freeslots'] - $amount
-                    ], $INSTALLER09['expires']['curuser']);
+                    ], $TRINITY20['expires']['curuser']);
                     $cache->update_row('user' . $whomfreeslots['id'], [
                         'freeslots' => $whomfreeslots['freeslots'] + $amount
-                    ], $INSTALLER09['expires']['user_cache']);
+                    ], $TRINITY20['expires']['user_cache']);
                     $cache->update_row('MyUser_' . $whomfreeslots['id'], [
                         'freeslots' => $whomfreeslots['freeslots'] + $amount
-                    ], $INSTALLER09['expires']['curuser']);
+                    ], $TRINITY20['expires']['curuser']);
                     $res1 = sql_query("SELECT freeslots FROM users WHERE username = $me LIMIT 1") or sqlerr(__FILE__, __LINE__);
                     $meofreeslots = mysqli_fetch_assoc($res1);
                     $res2 = sql_query("SELECT freeslots FROM users WHERE username = $whom LIMIT 1") or sqlerr(__FILE__, __LINE__);
@@ -439,16 +439,16 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                     sql_query("UPDATE users SET reputation = reputation+" . sqlesc($amount) . " WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                     $cache->update_row('user' . $mereputation['id'], [
                         'reputation' => $mereputation['reputation'] - $amount
-                    ], $INSTALLER09['expires']['user_cache']);
+                    ], $TRINITY20['expires']['user_cache']);
                     $cache->update_row('MyUser_' . $mereputation['id'], [
                         'reputation' => $mereputation['reputation'] - $amount
-                    ], $INSTALLER09['expires']['curuser']);
+                    ], $TRINITY20['expires']['curuser']);
                     $cache->update_row('user' . $whomreputation['id'], [
                         'reputation' => $whomreputation['reputation'] + $amount
-                    ], $INSTALLER09['expires']['user_cache']);
+                    ], $TRINITY20['expires']['user_cache']);
                     $cache->update_row('MyUser_' . $whomreputation['id'], [
                         'reputation' => $whomreputation['reputation'] + $amount
-                    ], $INSTALLER09['expires']['curuser']);
+                    ], $TRINITY20['expires']['curuser']);
                     $res1 = sql_query("SELECT reputation FROM users WHERE username = $me LIMIT 1") or sqlerr(__FILE__, __LINE__);
                     $meoreputation = mysqli_fetch_assoc($res1);
                     $res2 = sql_query("SELECT reputation FROM users WHERE username = $whom LIMIT 1") or sqlerr(__FILE__, __LINE__);
@@ -480,16 +480,16 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                     sql_query("UPDATE users SET invites = invites+" . sqlesc($amount) . " WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                     $cache->update_row('user' . $meinvite['id'], [
                         'invite' => $meinvite['invite'] - $amount
-                    ], $INSTALLER09['expires']['user_cache']);
+                    ], $TRINITY20['expires']['user_cache']);
                     $cache->update_row('MyUser_' . $meinvite['id'], [
                         'invite' => $meinvite['invite'] - $amount
-                    ], $INSTALLER09['expires']['curuser']);
+                    ], $TRINITY20['expires']['curuser']);
                     $cache->update_row('user' . $whominvite['id'], [
                         'invite' => $whominvite['invite'] + $amount
-                    ], $INSTALLER09['expires']['user_cache']);
+                    ], $TRINITY20['expires']['user_cache']);
                     $cache->update_row('MyUser_' . $whominvite['id'], [
                         'invite' => $whominvite['invite'] + $amount
-                    ], $INSTALLER09['expires']['curuser']);
+                    ], $TRINITY20['expires']['curuser']);
                     $res1 = sql_query("SELECT invites FROM users WHERE username = $me LIMIT 1") or sqlerr(__FILE__, __LINE__);
                     $meoinvites = mysqli_fetch_assoc($res1);
                     $res2 = sql_query("SELECT invites FROM users WHERE username = $whom LIMIT 1") or sqlerr(__FILE__, __LINE__);
@@ -518,16 +518,16 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                 sql_query("UPDATE users SET uploadpos = '$toggle', modcomment = CONCAT($modcomment,modcomment) WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                 $cache->update_row('user' . $upos['id'], [
                     'uploadpos' => $toggle
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('MyUser_' . $upos['id'], [
                     'uploadpos' => $toggle
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('userstats_' . $upos['id'], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['u_stats']);
+                ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $upos['id'], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 echo $who . 's uploadpos changed from: ' . $newpos . ' to ' . $toggle . ' by ' . $modd;
             }
         }
@@ -547,16 +547,16 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                 sql_query("UPDATE users SET downloadpos = '$toggle', modcomment = CONCAT($modcomment,modcomment) WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                 $cache->update_row('user' . $dpos['id'], [
                     'downloadpos' => $toggle
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('MyUser_' . $dpos['id'], [
                     'downloadpos' => $toggle
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('userstats_' . $dpos['id'], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['u_stats']);
+                ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $dpos['id'], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 echo $who . 's downloadpos changed from: ' . $newpos . ' to ' . $toggle . ' by ' . $modd;
             }
         }
@@ -576,16 +576,16 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                 sql_query("UPDATE users SET forum_post = '$toggle', modcomment = CONCAT($modcomment,modcomment) WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                 $cache->update_row('user' . $fpos['id'], [
                     'forum_post' => $toggle
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('MyUser_' . $fpos['id'], [
                     'forum_post' => $toggle
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('userstats_' . $fpos['id'], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['u_stats']);
+                ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $fpos['id'], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 echo $who . 's forumpost changed from: ' . $newpos . ' to ' . $toggle . ' by ' . $modd;
             }
         }
@@ -605,16 +605,16 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                 sql_query("UPDATE users SET chatpost = '$toggle', modcomment = CONCAT($modcomment,modcomment) WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                 $cache->update_row('user' . $cpos['id'], [
                     'chatpost' => $toggle
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('MyUser_' . $cpos['id'], [
                     'chatpost' => $toggle
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('userstats_' . $cpos['id'], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['u_stats']);
+                ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $cpos['id'], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 echo $who . 's chatpost changed from: ' . $newpos . ' to ' . $toggle . ' by ' . $modd;
             }
         }
@@ -634,16 +634,16 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                 sql_query("UPDATE users SET avatarpos = '$toggle', modcomment = CONCAT($modcomment,modcomment) WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                 $cache->update_row('user' . $apos['id'], [
                     'avatarpos' => $toggle
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('MyUser_' . $apos['id'], [
                     'avatarpos' => $toggle
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('userstats_' . $apos['id'], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['u_stats']);
+                ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $apos['id'], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 echo $who . 's avatarpos changed from: ' . $newpos . ' to ' . $toggle . ' by ' . $modd;
             }
         }
@@ -663,16 +663,16 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                 sql_query("UPDATE users SET invite_rights = '$toggle', modcomment = CONCAT($modcomment,modcomment) WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                 $cache->update_row('user' . $ipos['id'], [
                     'invite_rights' => $toggle
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('MyUser_' . $ipos['id'], [
                     'invite_rights' => $toggle
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('userstats_' . $ipos['id'], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['u_stats']);
+                ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $ipos['id'], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 echo $who . 's invite rights changed from: ' . $newpos . ' to ' . $toggle . ' by ' . $modd;
             }
         }
@@ -692,16 +692,16 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
                 sql_query("UPDATE users SET enabled = '$toggle', modcomment = CONCAT($modcomment,modcomment) WHERE username = $whom") or sqlerr(__FILE__, __LINE__);
                 $cache->update_row('user' . $epos['id'], [
                     'enabled' => $toggle
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('MyUser_' . $epos['id'], [
                     'enabled' => $toggle
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('userstats_' . $epos['id'], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['u_stats']);
+                ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $epos['id'], [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 echo $who . 's enabled changed from: ' . $newpos . ' to ' . $toggle . ' by ' . $modd;
             }
         }
@@ -723,17 +723,17 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
             $cache->update_row('user' . $support['id'], [
                 'support' => 'yes',
                 'supportfor' => $supportfors
-            ], $INSTALLER09['expires']['user_cache']);
+            ], $TRINITY20['expires']['user_cache']);
             $cache->update_row('MyUser_' . $support['id'], [
                 'support' => 'yes',
                 'supportfor' => $supportfors
-            ], $INSTALLER09['expires']['curuser']);
+            ], $TRINITY20['expires']['curuser']);
             $cache->update_row('userstats_' . $support['id'], [
                 'modcomment' => $modcomment
-            ], $INSTALLER09['expires']['u_stats']);
+            ], $TRINITY20['expires']['u_stats']);
             $cache->update_row('user_stats_' . $support['id'], [
                 'modcomment' => $modcomment
-            ], $INSTALLER09['expires']['user_stats']);
+            ], $TRINITY20['expires']['user_stats']);
             $cache->delete('MyUser_' . $whom);
             echo $who . 's support changed added to First line support to cover ' . $supportfors . ' by ' . $modd;
         }
@@ -741,4 +741,5 @@ if ((isset($_GET['pass']) && $_GET['pass'] == $password) && (isset($_GET['hash']
     //} from ' . $newsupp . ' to '. $toggle . ', //== from: " . $newsupp . " to ". $toggle . "
 } else {
     die('your actions have been logged!');
+}
 ?>

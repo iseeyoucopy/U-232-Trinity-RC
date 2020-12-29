@@ -46,7 +46,7 @@ if (!defined('IN_INSTALLER09_FORUM')) {
 		else
 		{
 			$perpage = 10;
-         $pager = pager($perpage, $count, $INSTALLER09['baseurl'].'/forums.php?action='.$action.'&keywords='.$keywords.'&');
+         $pager = pager($perpage, $count, $TRINITY20['baseurl'].'/forums.php?action='.$action.'&keywords='.$keywords.'&');
 			$res = sql_query("SELECT p.id, p.topic_id, p.user_id, p.added, t.forum_id, t.topic_name, f.name, f.min_class_read, u.username ".
 			"FROM posts AS p ".
 			"LEFT JOIN topics AS t ON t.id=p.topic_id ".
@@ -73,9 +73,9 @@ if (!defined('IN_INSTALLER09_FORUM')) {
 				        }
 				$HTMLOUT .="<tr>".
 					 	"<td align='center'>".(int)$post['id']."</td>".
-						"<td align=left width='100%'><a href='{$INSTALLER09['baseurl']}/forums.php?action=viewtopic&amp;highlight=$keywords&amp;topicid=".(int)$post['topic_id']."&amp;page=p".(int)$post['id']."#".(int)$post['id']."'><b>".htmlsafechars($post['topic_name'])."</b></a></td>".
-						"<td align=left style='white-space: nowrap;'>".(empty($post['name']) ? 'unknown['.(int)$post['forum_id'].']' : "<a href='{$INSTALLER09['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$post['forum_id']."'><b>".htmlsafechars($post['name'])."</b></a>")."</td>".
-						"<td align=left style='white-space: nowrap;'>".(empty($post['username']) ? 'unknown['.(int)$post['user_id'].']' : "<b><a href='{$INSTALLER09['baseurl']}/userdetails.php?id=".(int)$post['user_id']."'>".htmlsafechars($post['username'])."</a></b>")."<br />at ".get_date($post['added'], 'DATE',1,0)."</td>".
+						"<td align=left width='100%'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;highlight=$keywords&amp;topicid=".(int)$post['topic_id']."&amp;page=p".(int)$post['id']."#".(int)$post['id']."'><b>".htmlsafechars($post['topic_name'])."</b></a></td>".
+						"<td align=left style='white-space: nowrap;'>".(empty($post['name']) ? 'unknown['.(int)$post['forum_id'].']' : "<a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$post['forum_id']."'><b>".htmlsafechars($post['name'])."</b></a>")."</td>".
+						"<td align=left style='white-space: nowrap;'>".(empty($post['username']) ? 'unknown['.(int)$post['user_id'].']' : "<b><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$post['user_id']."'>".htmlsafechars($post['username'])."</a></b>")."<br />at ".get_date($post['added'], 'DATE',1,0)."</td>".
 					 "</tr>";
 			}
 			$HTMLOUT .= end_table();
@@ -86,7 +86,7 @@ if (!defined('IN_INSTALLER09_FORUM')) {
 	}
 	$HTMLOUT .="<div class='row'><div class='col-md-12'>
 	  <div align='center'><h1>Search on Forums</h1> ". ($error ? "[<b><font color='red'> Nothing Found</font></b> ]" : $found)."</div>
-	<form method='get' action='{$INSTALLER09['baseurl']}/forums.php' id='search_form' style='margin: 0pt; padding: 0pt; font-family: Tahoma,Arial,Helvetica,sans-serif; font-size: 11px;'>
+	<form method='get' action='{$TRINITY20['baseurl']}/forums.php' id='search_form' style='margin: 0pt; padding: 0pt; font-family: Tahoma,Arial,Helvetica,sans-serif; font-size: 11px;'>
 	<input type='hidden' name='action' value='search' />
 	<table class='table'>
 	<tbody>

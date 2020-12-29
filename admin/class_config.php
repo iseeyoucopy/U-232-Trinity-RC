@@ -28,7 +28,7 @@ require_once(CLASS_DIR . 'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_class_config'));
-if (!in_array($CURUSER['id'], $INSTALLER09['allowed_staff']['id'])) {
+if (!in_array($CURUSER['id'], $TRINITY20['allowed_staff']['id'])) {
     stderr($lang['classcfg_error'], $lang['classcfg_denied']);
 }
 //get the config from db - stoner/pdq
@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             while ($arr = mysqli_fetch_assoc($res)) {
                 $the_names.= "$arr[name] => '$arr[classname]',";
                 $the_colors.= "$arr[name] => '$arr[classcolor]',";
-                $the_images.= "$arr[name] => " . '$INSTALLER09[' . "'pic_base_url'" . ']' . ".'class/$arr[classpic]',";
+                $the_images.= "$arr[name] => " . '$TRINITY20[' . "'pic_base_url'" . ']' . ".'class/$arr[classpic]',";
             }
             $configfile.= get_cache_config_data($the_names, $the_colors, $the_images);
             $configfile.= "\n\n\n?" . ">";
@@ -146,8 +146,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $row1 = [];
                     $row1[]= $row;
                     foreach ($row1 as $row2) {
-                        $cache->update_row('MyUser_' . $row2['id'], ['class' => $row2['class']], $INSTALLER09['expires']['curuser']);
-                        $cache->update_row('user' . $row2['id'], ['class' => $row2['class']], $INSTALLER09['expires']['user_cache']);
+                        $cache->update_row('MyUser_' . $row2['id'], ['class' => $row2['class']], $TRINITY20['expires']['curuser']);
+                        $cache->update_row('user' . $row2['id'], ['class' => $row2['class']], $TRINITY20['expires']['user_cache']);
                     }
                 }
             }
@@ -168,8 +168,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $row1 = [];
                     $row1[]= $row;
                     foreach ($row1 as $row2) {
-                        $cache->update_row('MyUser_' . $row2['id'], ['class' => $row2['class']], $INSTALLER09['expires']['curuser']);
-                        $cache->update_row('user' . $row2['id'], ['class' => $row2['class']], $INSTALLER09['expires']['user_cache']);
+                        $cache->update_row('MyUser_' . $row2['id'], ['class' => $row2['class']], $TRINITY20['expires']['curuser']);
+                        $cache->update_row('user' . $row2['id'], ['class' => $row2['class']], $TRINITY20['expires']['user_cache']);
                     }
                 }
             }
@@ -187,7 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 while ($arr = mysqli_fetch_assoc($res)) {
                     $the_names.= "$arr[name] => '$arr[classname]',";
                     $the_colors.= "$arr[name] => '$arr[classcolor]',";
-                    $the_images.= "$arr[name] => " . '$INSTALLER09[' . "'pic_base_url'" . ']' . ".'class/$arr[classpic]',";
+                    $the_images.= "$arr[name] => " . '$TRINITY20[' . "'pic_base_url'" . ']' . ".'class/$arr[classpic]',";
                 }
                 $configfile.= get_cache_config_data($the_names, $the_colors, $the_images);
                 $configfile.= "\n\n\n?" . ">";
@@ -246,8 +246,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $row1 = [];
             $row1[]= $row;
             foreach ($row1 as $row2) {
-                $cache->update_row('MyUser_' . $row2['id'], ['class' => $row2['class']], $INSTALLER09['expires']['curuser']);
-                $cache->update_row('user' . $row2['id'], ['class' => $row2['class']], $INSTALLER09['expires']['user_cache']);
+                $cache->update_row('MyUser_' . $row2['id'], ['class' => $row2['class']], $TRINITY20['expires']['curuser']);
+                $cache->update_row('user' . $row2['id'], ['class' => $row2['class']], $TRINITY20['expires']['user_cache']);
             }
         }
         if (sql_query("DELETE FROM class_config WHERE name = " . sqlesc($name) . "")) {
@@ -264,7 +264,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             while ($arr = mysqli_fetch_assoc($res)) {
                 $the_names.= "$arr[name] => '$arr[classname]',";
                 $the_colors.= "$arr[name] => '$arr[classcolor]',";
-                $the_images.= "$arr[name] => " . '$INSTALLER09[' . "'pic_base_url'" . ']' . ".'class/$arr[classpic]',";
+                $the_images.= "$arr[name] => " . '$TRINITY20[' . "'pic_base_url'" . ']' . ".'class/$arr[classpic]',";
             }
             $configfile.= get_cache_config_data($the_names, $the_colors, $the_images);
             $configfile.= "\n\n\n?" . ">";

@@ -98,12 +98,12 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
 
 {$lang['pm_forwardpm_url']}
 
-{$INSTALLER09['baseurl']}/pm_system.php
+{$TRINITY20['baseurl']}/pm_system.php
 
 --
-{$INSTALLER09['site_name']}
+{$TRINITY20['site_name']}
 EOD;
-        @mail($user['email'], $lang['pm_forwardpm_pmfrom'] . $username . '!', $body, "{$lang['pm_forwardpm_from']}{$INSTALLER09['site_email']}");
+        @mail($user['email'], $lang['pm_forwardpm_pmfrom'] . $username . '!', $body, "{$lang['pm_forwardpm_from']}{$TRINITY20['site_email']}");
     }
     //=== if they don't want to keep the message they are replying to then delete it!
     if ($delete != 0) {

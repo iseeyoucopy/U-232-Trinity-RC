@@ -13,10 +13,10 @@
 //== Announce mysql error
 function ann_sqlerr($file = '', $line = '')
 {
-    global $INSTALLER09, $CURUSER;
+    global $TRINITY20, $CURUSER;
     $error = ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
     $error_no = ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false));
-    if ($INSTALLER09['ann_sql_error_log'] AND ANN_SQL_DEBUG == 1) {
+    if ($TRINITY20['ann_sql_error_log'] AND ANN_SQL_DEBUG == 1) {
         $_ann_sql_err = "\n===================================================";
         $_ann_sql_err.= "\n Date: " . date('r');
         $_ann_sql_err.= "\n Error Number: " . $error_no;
@@ -24,7 +24,7 @@ function ann_sqlerr($file = '', $line = '')
         $_ann_sql_err.= "\n IP Address: " . $_SERVER['REMOTE_ADDR'];
         $_ann_sql_err.= "\n in file " . $file . " on line " . $line;
         $_ann_sql_err.= "\n URL:" . $_SERVER['REQUEST_URI'];
-        if ($FH = @fopen($INSTALLER09['ann_sql_error_log'], 'a')) {
+        if ($FH = @fopen($TRINITY20['ann_sql_error_log'], 'a')) {
             @fwrite($FH, $_ann_sql_err);
             @fclose($FH);
         }
@@ -33,7 +33,7 @@ function ann_sqlerr($file = '', $line = '')
 //==Announce Sql query logging
 function ann_sql_query($a_query)
 {
-    global $a_query_stat, $INSTALLER09;
+    global $a_query_stat, $TRINITY20;
     $a_query_start_time = microtime(true); // Start time
     $result = mysqli_query($GLOBALS["___mysqli_ston"], $a_query);
     $a_query_end_time = microtime(true); // End time
@@ -49,7 +49,7 @@ function ann_sql_query($a_query)
         $_ann_sql.= "\n Executed in  : " . $value['seconds'];
         $_ann_sql.= "\n query ran : " . $value['query'];
         }
-        if ($FH = @fopen($INSTALLER09['ann_sql_log'], 'a')) {
+        if ($FH = @fopen($TRINITY20['ann_sql_log'], 'a')) {
             @fwrite($FH, $_ann_sql);
             @fclose($FH);
         }
@@ -59,7 +59,7 @@ function ann_sql_query($a_query)
 //== Crazyhour by pdq
 function crazyhour_announce()
 {
-    global $cache, $INSTALLER09;
+    global $cache, $TRINITY20;
     $crazy_hour = (TIME_NOW + 3600);
     if (($cz['crazyhour'] = $cache->get('crazyhour')) === false) {
         $cz['sql'] = ann_sql_query('SELECT var, amount FROM freeleech WHERE type = "crazyhour"') or ann_sqlerr(__FILE__, __LINE__);
@@ -110,7 +110,7 @@ function crazyhour_announce()
 }
 
 function freeleech_announce() {
-   global $cache, $INSTALLER09;  
+   global $cache, $TRINITY20;  
    if (($fl['countdown'] = $cache->get('freeleech_countdown')) === false) { // pot_of_gold
       $fl['sql'] = ann_sql_query('SELECT var, amount FROM freeleech WHERE type = "countdown"') or ann_sqlerr(__FILE__, __LINE__);
       $fl['countdown'] = array();   
@@ -167,7 +167,7 @@ function freeleech_announce() {
 
 function get_user_from_torrent_pass($torrent_pass)
 {
-    global $cache, $INSTALLER09;
+    global $cache, $TRINITY20;
     if (strlen($torrent_pass) != 32 || !bin2hex($torrent_pass)) return false;
     $key = 'user::torrent_pass:::' . $torrent_pass;
     if (($user = $cache->get($key)) === false) {
@@ -192,14 +192,14 @@ function get_user_from_torrent_pass($torrent_pass)
         $user = mysqli_fetch_assoc($user_query);
         foreach ($user_fields_ar_int as $i) $user[$i] = (int)$user[$i];
         foreach ($user_fields_ar_str as $i) $user[$i] = $user[$i];
-        $cache->set($key, $user, $INSTALLER09['expires']['user_passkey']);
+        $cache->set($key, $user, $TRINITY20['expires']['user_passkey']);
     } elseif (!$user) return false;
     return $user;
 }
 // get torrentfromhash by pdq
 function get_torrent_from_hash($info_hash)
 {
-    global $cache, $INSTALLER09;
+    global $cache, $TRINITY20;
     $key = 'torrent::hash:::' . md5($info_hash);
     $ttll = 21600; // 21600;
     if (($torrent = $cache->get($key)) === false) {

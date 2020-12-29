@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(0);
     ignore_user_abort(1);
     // *Updated* Forum Topic Achievements Mod by MelvinMeow
@@ -26,7 +26,7 @@ function docleanup($data)
             $topics = (int)$arr['forumtopics'];
             $lvl = (int)$arr['topicachiev'];
             if ($topics >= 1 && $lvl == 0) {
-                $msg = sqlesc("Congratulations, you have just earned the [b]Forum Topic Starter Level 1[/b] achievement. :) [img]".$INSTALLER09['baseurl']."/pic/achievements/ftopic1.png[/img]");
+                $msg = sqlesc("Congratulations, you have just earned the [b]Forum Topic Starter Level 1[/b] achievement. :) [img]".$TRINITY20['baseurl']."/pic/achievements/ftopic1.png[/img]");
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Forum Topic Starter LVL1\', \'ftopic1.png\' , \'Started at least 1 topic in the forums.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',1, ' . $points . ')';
@@ -36,7 +36,7 @@ function docleanup($data)
                 $var1 = 'topicachiev';
             }
             if ($topics >= 10 && $lvl == 1) {
-                $msg = sqlesc("Congratulations, you have just earned the [b]Forum Topic Starter Level 2[/b] achievement. :) [img]".$INSTALLER09['baseurl']."/pic/achievements/ftopic2.png[/img]");
+                $msg = sqlesc("Congratulations, you have just earned the [b]Forum Topic Starter Level 2[/b] achievement. :) [img]".$TRINITY20['baseurl']."/pic/achievements/ftopic2.png[/img]");
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Forum Topic Starter LVL2\', \'ftopic2.png\' , \'Started at least 10 topics in the forums.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',2, ' . $points . ')';
@@ -46,7 +46,7 @@ function docleanup($data)
                 $var1 = 'topicachiev';
             }
             if ($topics >= 25 && $lvl == 2) {
-                $msg = sqlesc("Congratulations, you have just earned the [b]Forum Topic Starter Level 3[/b] achievement. :) [img]".$INSTALLER09['baseurl']."/pic/achievements/ftopic3.png[/img]");
+                $msg = sqlesc("Congratulations, you have just earned the [b]Forum Topic Starter Level 3[/b] achievement. :) [img]".$TRINITY20['baseurl']."/pic/achievements/ftopic3.png[/img]");
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Forum Topic Starter LVL3\', \'ftopic3.png\' , \'Started at least 25 topics in the forums.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',3, ' . $points . ')';
@@ -56,7 +56,7 @@ function docleanup($data)
                 $var1 = 'topicachiev';
             }
             if ($topics >= 50 && $lvl == 3) {
-                $msg = sqlesc("Congratulations, you have just earned the [b]Forum Topic Starter Level 4[/b] achievement. :) [img]".$INSTALLER09['baseurl']."/pic/achievements/ftopic4.png[/img]");
+                $msg = sqlesc("Congratulations, you have just earned the [b]Forum Topic Starter Level 4[/b] achievement. :) [img]".$TRINITY20['baseurl']."/pic/achievements/ftopic4.png[/img]");
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Forum Topic Starter LVL4\', \'ftopic4.png\' , \'Started at least 50 topics in the forums.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',4, ' . $points . ')';
@@ -65,7 +65,7 @@ function docleanup($data)
                 $var1 = 'topicachiev';
             }
             if ($topics >= 75 && $lvl == 4) {
-                $msg = sqlesc("Congratulations, you have just earned the [b]Forum Topic Starter Level 5[/b] achievement. :) [img]".$INSTALLER09['baseurl']."/pic/achievements/ftopic5.png[/img]");
+                $msg = sqlesc("Congratulations, you have just earned the [b]Forum Topic Starter Level 5[/b] achievement. :) [img]".$TRINITY20['baseurl']."/pic/achievements/ftopic5.png[/img]");
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Forum Topic Starter LVL5\', \'ftopic5.png\' , \'Started at least 75 topics in the forums.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',5, ' . $points . ')';

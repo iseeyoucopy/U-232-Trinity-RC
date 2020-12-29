@@ -18,11 +18,11 @@ global $CURUSER;
 if (!$CURUSER) {
     get_template();
 } else {
-    header("Location: {$INSTALLER09['baseurl']}/index.php");
+    header("Location: {$TRINITY20['baseurl']}/index.php");
     exit();
 }
 ini_set('session.use_trans_sid', '0');
-if ($INSTALLER09['captcha_on'] === true){
+if ($TRINITY20['captcha_on'] === true){
 $stdfoot = array(
     /** include js **/
     'js' => array(
@@ -39,7 +39,7 @@ $stdfoot = array(
     )
 ); }
 $lang = array_merge(load_language('global') , load_language('signup'));
-if (!$INSTALLER09['openreg']) stderr($lang['stderr_errorhead'],  "{$lang['signup_inviteonly']}<a href='" . $INSTALLER09['baseurl'] . "/invite_signup.php'><b>&nbsp;{$lang['signup_here']}</b></a>");
+if (!$TRINITY20['openreg']) stderr($lang['stderr_errorhead'],  "{$lang['signup_inviteonly']}<a href='" . $TRINITY20['baseurl'] . "/invite_signup.php'><b>&nbsp;{$lang['signup_here']}</b></a>");
 $HTMLOUT = $year = $month = $day = $gender = '';
 $HTMLOUT.= "
     <script type='text/javascript'>
@@ -51,9 +51,9 @@ $HTMLOUT.= "
     </script>";
 $newpage = new page_verify();
 $newpage->create('tesu');
-if (get_row_count('users') >= $INSTALLER09['maxusers']) stderr($lang['stderr_errorhead'], sprintf($lang['stderr_ulimit'], $INSTALLER09['maxusers']));
+if (get_row_count('users') >= $TRINITY20['maxusers']) stderr($lang['stderr_errorhead'], sprintf($lang['stderr_ulimit'], $TRINITY20['maxusers']));
 //==timezone select
-$offset = (string)$INSTALLER09['time_offset'];
+$offset = (string)$TRINITY20['time_offset'];
 $time_select = "<select class='input-group-field' name='user_timezone'>";
 foreach ($TZ as $off => $words) {
     if (preg_match("/^time_(-?[\d\.]+)$/", $off, $match)) {
@@ -64,11 +64,11 @@ $time_select.= "</select>";
 //==country by pdq
 function countries()
 {
-    global $cache, $INSTALLER09;
+    global $cache, $TRINITY20;
     if (($ret = $cache->get('countries::arr')) === false) {
         $res = sql_query("SELECT id, name, flagpic FROM countries ORDER BY name ASC") or sqlerr(__FILE__, __LINE__);
         while ($row = mysqli_fetch_assoc($res)) $ret[] = $row;
-        $cache->set('countries::arr', $ret, $INSTALLER09['expires']['user_flag']);
+        $cache->set('countries::arr', $ret, $TRINITY20['expires']['user_flag']);
     }
     return $ret;
 }
@@ -152,7 +152,7 @@ foreach ($questions as $sph) {
     $passhint.= "<option value='" . $sph['id'] . "'>" . $sph['question'] . "</option>\n";
 }
 //==End Passhint
-$HTMLOUT.= "".($INSTALLER09['captcha_on'] ? "<script type='text/javascript'>
+$HTMLOUT.= "".($TRINITY20['captcha_on'] ? "<script type='text/javascript'>
 	  /*<![CDATA[*/
 	  $(document).ready(function () {
 	  $('#captchasignup').simpleCaptcha();
@@ -237,7 +237,7 @@ $HTMLOUT.= "".($INSTALLER09['captcha_on'] ? "<script type='text/javascript'>
 			<input type='checkbox' name='ageverify' value='yes' id='agecheck'>
 			<label for='agecheck' >{$lang['signup_age']}</label>
 		</div>
-	" . ($INSTALLER09['captcha_on'] ? "<div class='form-group text-center'><div id='captchasignup'></div></div>" : "") . "
+	" . ($TRINITY20['captcha_on'] ? "<div class='form-group text-center'><div id='captchasignup'></div></div>" : "") . "
 	<div class='form-group'>
 		<span><input name='submitme' type='submit' value='Register' class='button expanded'></span></div>";
 $HTMLOUT.= "</form></div></div></div>";

@@ -69,7 +69,7 @@ if (count($tvsched) > 0)
 $HTMLOUT .= "<div class='card'><div class='card-divider'><h4 class='subheader'>Upcoming " . $dcountry . " TV Schedule</h4></div><div class='card-section'><div class='grid-x grid-padding-x small-up-1 medium-up-3 large-up-4' data-equalizer data-equalizer data-equalize-by-row='true'  id='tv_equal'>";
 foreach ($tvsched as $key => $item){
 		$image = $item['show']['image']['original'] ?? '';
-        $airimg = ($image != '') ? "<img src='".$item['show']['image']['original']."'></img>":"<img src='" .$INSTALLER09['pic_base_url']."/noposter.png'></img>";
+        $airimg = ($image != '') ? "<img src='".$item['show']['image']['original']."'></img>":"<img src='" .$TRINITY20['pic_base_url']."/noposter.png'></img>";
 			//episode info    		
 			$unwantedChars = array(',', '!', '?', "'"); // create array with unwanted chars
           	$season = "";

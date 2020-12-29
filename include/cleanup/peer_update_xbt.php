@@ -13,11 +13,11 @@
 /** sync torrent counts - pdq **/
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(0);
     ignore_user_abort(1);
     $torrent_seeds = $torrent_leeches = array();
-    $deadtime = TIME_NOW - floor($INSTALLER09['announce_interval'] * 1.3);
+    $deadtime = TIME_NOW - floor($TRINITY20['announce_interval'] * 1.3);
     $dead_peers = sql_query('SELECT tid, uid, peer_id, `left`, `active` FROM xbt_peers WHERE mtime < ' . $deadtime);
     while ($dead_peer = mysqli_fetch_assoc($dead_peers)) {
         $torrentid = (int)$dead_peer['tid'];

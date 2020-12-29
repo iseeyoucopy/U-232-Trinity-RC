@@ -42,10 +42,10 @@ if (isset($mode) && $mode == 'change') {
         $change = sql_query("UPDATE users SET username=" . sqlesc($uname) . " WHERE id=" . sqlesc($uid)) or sqlerr(__FILE__, __LINE__);
         $cache->update_row('MyUser_' . $uid, [
             'username' => $uname
-        ], $INSTALLER09['expires']['curuser']);
+        ], $TRINITY20['expires']['curuser']);
         $cache->update_row('user' . $uid, [
             'username' => $uname
-        ], $INSTALLER09['expires']['user_cache']);
+        ], $TRINITY20['expires']['user_cache']);
         $added = TIME_NOW;
         $changed = sqlesc("{$lang['namechanger_changed_to']} $uname");
         $subject = sqlesc($lang['namechanger_changed']);

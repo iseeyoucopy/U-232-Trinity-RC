@@ -12,26 +12,26 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(0);
     ignore_user_abort(1);
     //==Irc idle mod - pdq
     $res = sql_query("SELECT id, seedbonus, irctotal FROM users WHERE onirc = 'yes'") or sqlerr(__FILE__, __LINE__);
     if (mysqli_num_rows($res) > 0) {
         while ($arr = mysqli_fetch_assoc($res)) {
-            $users_buffer[] = '(' . $arr['id'] . ',0.225,' . $INSTALLER09['autoclean_interval'] . ')'; // .250 karma
-            //$users_buffer[] = '('.$arr['id'].',15728640,'.$INSTALLER09['autoclean_interval'].')'; // 15 mb
+            $users_buffer[] = '(' . $arr['id'] . ',0.225,' . $TRINITY20['autoclean_interval'] . ')'; // .250 karma
+            //$users_buffer[] = '('.$arr['id'].',15728640,'.$TRINITY20['autoclean_interval'].')'; // 15 mb
             $update['seedbonus'] = ($arr['seedbonus'] + 0.225);
-            $update['irctotal'] = ($arr['irctotal'] + $INSTALLER09['autoclean_interval']);
+            $update['irctotal'] = ($arr['irctotal'] + $TRINITY20['autoclean_interval']);
             $cache->update_row('user' . $arr['id'], [
                 'irctotal' => $update['irctotal']
-            ], $INSTALLER09['expires']['user_cache']);
+            ], $TRINITY20['expires']['user_cache']);
             $cache->update_row('user_stats' . $arr['id'], [
                 'seedbonus' => $update['seedbonus']
-            ], $INSTALLER09['expires']['user_stats']);
+            ], $TRINITY20['expires']['user_stats']);
             $cache->update_row('userstats_' . $arr['id'], [
                 'seedbonus' => $update['seedbonus']
-            ], $INSTALLER09['expires']['u_stats']);
+            ], $TRINITY20['expires']['u_stats']);
         }
         $count = count($users_buffer);
         if ($count > 0) {

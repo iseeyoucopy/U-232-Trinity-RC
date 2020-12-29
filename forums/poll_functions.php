@@ -45,10 +45,10 @@ if (!defined('IN_INSTALLER09_FORUM')) {
 		  <tr><td class='colhead' align='left'><h2>Poll";
 		  if ($userid == $t_userid || $CURUSER['class'] >= UC_STAFF)
 		  {
-		  $HTMLOUT .="<font class='small'> - [<a href='{$INSTALLER09['baseurl']}/forums.php?action=makepoll&amp;subaction=edit&amp;pollid=".$pollid."'><b>Edit</b></a>]</font>";
+		  $HTMLOUT .="<font class='small'> - [<a href='{$TRINITY20['baseurl']}/forums.php?action=makepoll&amp;subaction=edit&amp;pollid=".$pollid."'><b>Edit</b></a>]</font>";
 	     if ($CURUSER['class'] >= UC_STAFF)
 		  {
-		  $HTMLOUT .="<font class='small'> - [<a href='{$INSTALLER09['baseurl']}/forums.php?action=deletepoll&amp;pollid=".$pollid."'><b>Delete</b></a>]</font>";
+		  $HTMLOUT .="<font class='small'> - [<a href='{$TRINITY20['baseurl']}/forums.php?action=deletepoll&amp;pollid=".$pollid."'><b>Delete</b></a>]</font>";
 		  }
 		  }
 		  $HTMLOUT .="</h2></td></tr>";
@@ -91,9 +91,9 @@ if (!defined('IN_INSTALLER09_FORUM')) {
 					$HTMLOUT .="<tr>";
 	            $HTMLOUT .="<td width='1%' style='padding:3px;white-space:nowrap;' class='embedded".$c."'>".htmlsafechars($a[1])."</td>
 					<td width='99%' class='embedded".$c."' align='center'>
-					<img src='{$INSTALLER09['pic_base_url']}bar_left.gif' alt='bar_left.gif' />
-					<img src='{$INSTALLER09['pic_base_url']}bar.gif' alt='bar.gif'  height='9' width='". ($p*3)."' />
-					<img src='{$INSTALLER09['pic_base_url']}bar_right.gif'  alt='bar_right.gif' />&nbsp;".$p."%</td>
+					<img src='{$TRINITY20['pic_base_url']}bar_left.gif' alt='bar_left.gif' />
+					<img src='{$TRINITY20['pic_base_url']}bar.gif' alt='bar.gif'  height='9' width='". ($p*3)."' />
+					<img src='{$TRINITY20['pic_base_url']}bar_right.gif'  alt='bar_right.gif' />&nbsp;".$p."%</td>
 					</tr>";
 				  }
 				  $HTMLOUT .="</table>
@@ -101,7 +101,7 @@ if (!defined('IN_INSTALLER09_FORUM')) {
 			    }
 		    	else
 			    {
-				  $HTMLOUT .="<form method='post' action='{$INSTALLER09['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$topicid."'>
+				  $HTMLOUT .="<form method='post' action='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$topicid."'>
 				  <input type='hidden' name='pollid' value='".$pollid."' />";
 				  for ($i=0; $a = $o[$i]; ++$i)
 				  $HTMLOUT .="<input type='radio' name='choice' value='$i' />".htmlsafechars($a)."<br />
@@ -113,7 +113,7 @@ if (!defined('IN_INSTALLER09_FORUM')) {
 			    if ($CURUSER['class'] >= UC_ADMINISTRATOR)
 			    {
 			    if (!$listvotes)
-			    $HTMLOUT .="[<font class='small'><a href='{$INSTALLER09['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid&amp;listvotes'>List Voters</a></font>]";
+			    $HTMLOUT .="[<font class='small'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid&amp;listvotes'>List Voters</a></font>]";
 				 else
 				 {
 				 $res_vv = sql_query("SELECT pa.userid, u.username, u.anonymous FROM postpollanswers AS pa LEFT JOIN users AS u ON u.id = pa.userid WHERE pa.pollid=".sqlesc($pollid)) or sqlerr(__FILE__, __LINE__);
@@ -126,12 +126,12 @@ if (!defined('IN_INSTALLER09_FORUM')) {
 				 if($CURUSER['class'] < UC_STAFF && $arr_vv["userid"] != $CURUSER["id"])
 				 $voters = "<i>Anonymous</i>";
          	 else
- 	          $voters = "<i>Anonymous</i>[<a href='{$INSTALLER09['baseurl']}/userdetails.php?id=".(int)$arr_vv['userid']."'><b>".htmlsafechars($arr_vv['username'])."</b></a>]";
+ 	          $voters = "<i>Anonymous</i>[<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr_vv['userid']."'><b>".htmlsafechars($arr_vv['username'])."</b></a>]";
  	          }
  	          else
-				 $voters .= "<a href='{$INSTALLER09['baseurl']}/userdetails.php?id=".(int)$arr_vv['userid']."'><b>".htmlsafechars($arr_vv['username'])."</b></a>";
+				 $voters .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr_vv['userid']."'><b>".htmlsafechars($arr_vv['username'])."</b></a>";
 				 }
-				 $HTMLOUT .= $voters."<br />[<font class='small'><a href='{$INSTALLER09['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid'>hide</a></font>]";
+				 $HTMLOUT .= $voters."<br />[<font class='small'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid'>hide</a></font>]";
 				 }
 			    }
 		       $HTMLOUT .="</td></tr></table>";

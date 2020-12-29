@@ -52,7 +52,7 @@ if ($action == 'add') {
         make_bookmarks($CURUSER['id'], 'bookmm_');
     }
     addbookmark($torrentid);
-    header("Refresh: 2; url={$INSTALLER09['baseurl']}/bookmarks.php");
+    header("Refresh: 2; url={$TRINITY20['baseurl']}/bookmarks.php");
     stderr("Added", "Bookmark added to your library. Redirecting...");
 } elseif ($action == 'delete') {
     if ((get_row_count("bookmarks", "WHERE userid=" . sqlesc($CURUSER['id']) . " AND torrentid = " . sqlesc($torrentid))) == 0) stderr($lang['bookmark_err'], $lang['bookmark_waydoing']);
@@ -66,7 +66,7 @@ if ($action == 'add') {
         make_bookmarks($CURUSER['id'], 'bookmm_');
     }
     deletebookmark($torrentid);
-    header("Refresh: 2; url={$INSTALLER09['baseurl']}/bookmarks.php");
+    header("Refresh: 2; url={$TRINITY20['baseurl']}/bookmarks.php");
     stderr("Deleted", "Bookmark deleted from your library. Redirecting...");
 } elseif ($action == 'public') {
     if ((get_row_count("bookmarks", "WHERE userid=" . sqlesc($CURUSER['id']) . " AND torrentid = " . sqlesc($torrentid))) == 0) stderr($lang['bookmark_err'], $lang['bookmark_waydoing']);
@@ -80,7 +80,7 @@ if ($action == 'add') {
         make_bookmarks($CURUSER['id'], 'bookmm_');
     }
     publickbookmark($torrentid);
-    header("Location: {$INSTALLER09['baseurl']}/bookmarks.php?action=viewsharemarks&id=".(int)$CURUSER['id']);
+    header("Location: {$TRINITY20['baseurl']}/bookmarks.php?action=viewsharemarks&id=".(int)$CURUSER['id']);
     exit();
 } elseif ($action == 'private') {
     if ((get_row_count("bookmarks", "WHERE userid=" . sqlesc($CURUSER['id']) . " AND torrentid = " . sqlesc($torrentid))) == 0) stderr($lang['bookmark_err'], $lang['bookmark_waydoing']);
@@ -95,7 +95,7 @@ if ($action == 'add') {
         make_bookmarks($CURUSER['id'], 'bookmm_');
     }
     privatebookmark($torrentid);
-    header("Location: {$INSTALLER09['baseurl']}/bookmarks.php");
+    header("Location: {$TRINITY20['baseurl']}/bookmarks.php");
     exit();
 } elseif ($action == 'viewbookmarks') {
 //==Bookmarks
@@ -108,13 +108,13 @@ $row = mysqli_fetch_array($res);
 $count = $row[0];
 if ($count == 0){
     $HTMLOUT.= "<h1>{$lang['bookmarks_my']}</h1>";
-    $HTMLOUT.= "<b>Sorry, you have no bookmarks. Click <a href='{$INSTALLER09["baseurl"]}/browse.php'>here</a> to go on torrents page.</b><br/><br/>";
+    $HTMLOUT.= "<b>Sorry, you have no bookmarks. Click <a href='{$TRINITY20["baseurl"]}/browse.php'>here</a> to go on torrents page.</b><br/><br/>";
     $HTMLOUT.= "<b><a href='bookmarks.php?action=viewsharemarks&amp;id=" . (int)$CURUSER['id'] . "'>{$lang['bookmarks_my_share']}</a></b><br/><br/>";
 } else {
 //==Bookmark Table
 function bookmarktable($res)
 {
-    global $INSTALLER09, $CURUSER, $lang;
+    global $TRINITY20, $CURUSER, $lang;
     $HTMLOUT = $wait = '';
     $HTMLOUT.= "<div class='table-scroll'>
     <span>{$lang['bookmarks_icon']}
@@ -129,7 +129,7 @@ function bookmarktable($res)
     <td class='text-left'>{$lang['torrenttable_name']}</td>
     <td class='text-center'><i class='fas fa-trash' title='{$lang['bookmarks_del2']}'></i></td>
     <td class='text-center'><i class='fas fa-save' title='{$lang['bookmarks_down2']}'></i></td>
-    ".($INSTALLER09['wait_times'] == 1 && $CURUSER['class'] < UC_VIP ? "<td class='text-center'><i class='fas fa-clock' title='Wait Time'></td>" : "")."
+    ".($TRINITY20['wait_times'] == 1 && $CURUSER['class'] < UC_VIP ? "<td class='text-center'><i class='fas fa-clock' title='Wait Time'></td>" : "")."
     <td class='text-center'><i class='fas fa-share-alt' title='{$lang['bookmarks_share']}'></i></td>
     <td class='text-center'><i class='far fa-folder-open' title='{$lang['torrenttable_files']}'></i></td>
     <td class='text-center'><i class='fas fa-comments' title='{$lang['torrenttable_comments']}'></i></td>
@@ -155,7 +155,7 @@ function bookmarktable($res)
         $HTMLOUT.= "<td class='text-center' style='padding: 0px'>";
         if (isset($row["cat_name"])) {
             $HTMLOUT.= '<a href="browse.php?cat=' . (int)$row['category'] . '">';
-            if (isset($row["cat_pic"]) && $row["cat_pic"] != "") $HTMLOUT.= "<img border='0' src='{$INSTALLER09['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($row['cat_pic']) . "' alt='" . htmlsafechars($row['cat_name']) . "' />";
+            if (isset($row["cat_pic"]) && $row["cat_pic"] != "") $HTMLOUT.= "<img border='0' src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($row['cat_pic']) . "' alt='" . htmlsafechars($row['cat_name']) . "' />";
             else {
                 $HTMLOUT.= htmlsafechars($row["cat_name"]);
             }
@@ -172,7 +172,7 @@ function bookmarktable($res)
         //DOWNLOAD
         $HTMLOUT.= "<td class='text-center'><a href='download.php?torrent={$id}'<i class='fas fa-save' title='{$lang['bookmarks_down3']}'></i></a></td>";
         //WAIT TIME
-        if ($CURUSER["class"] < UC_VIP && $INSTALLER09['wait_times'] == 1){
+        if ($CURUSER["class"] < UC_VIP && $TRINITY20['wait_times'] == 1){
             $gigs = $CURUSER["uploaded"] / (1024*1024*1024);
             $ratio = (($CURUSER["downloaded"] > 0) ? ($CURUSER["uploaded"] / $CURUSER["downloaded"]) : 0);
             if ($ratio < 0.5 || $gigs < 5) $wait = 48;
@@ -252,14 +252,14 @@ $res = sql_query("SELECT COUNT(id) FROM bookmarks WHERE private='no' AND userid 
 $row = mysqli_fetch_array($res);
 $count = $row[0];
 if ($count == 0){
-    header("Refresh: 3; url={$INSTALLER09['baseurl']}/bookmarks.php");
+    header("Refresh: 3; url={$TRINITY20['baseurl']}/bookmarks.php");
     stderr($lang['bookmarks_err'], "User ".htmlsafechars($arr['username'])." has no sharemarks");
 } else {
 $pagetitle = $lang['bookmarks_sharefor'] . htmlsafechars($arr['username']);
 //==Sharemarks Table
 function sharetable($res, $variant = "index")
 {
-    global $INSTALLER09, $CURUSER, $lang;
+    global $TRINITY20, $CURUSER, $lang;
     $HTMLOUT = '';
     $HTMLOUT.= "
     <span>{$lang['bookmarks_icon']}
@@ -301,7 +301,7 @@ function sharetable($res, $variant = "index")
         $HTMLOUT.= "<td align='center' style='padding: 0px'>";
         if (isset($row["cat_name"])) {
             $HTMLOUT.= "<a href='browse.php?cat=" . (int)$row['category'] . "'>";
-            if (isset($row["cat_pic"]) && $row["cat_pic"] != "") $HTMLOUT.= "<img border='0' src='{$INSTALLER09['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$row['cat_pic']}' alt='{$row['cat_name']}' />";
+            if (isset($row["cat_pic"]) && $row["cat_pic"] != "") $HTMLOUT.= "<img border='0' src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$row['cat_pic']}' alt='{$row['cat_name']}' />";
             else {
                 $HTMLOUT.= $row["cat_name"];
             }
@@ -316,10 +316,10 @@ function sharetable($res, $variant = "index")
         $HTMLOUT.= "id=$id";
         if ($variant == "index") $HTMLOUT.= "&amp;hit=1";
         $HTMLOUT.= "'><b>$dispname</b></a>&nbsp;</td>";
-        $HTMLOUT.= ($variant == "index" ? "<td align='center'><a href=\"download.php?torrent={$id}\"><img src='{$INSTALLER09['pic_base_url']}zip.gif' border='0' alt='Download Bookmark!' title='Download Bookmark!' /></a></td>" : "");
+        $HTMLOUT.= ($variant == "index" ? "<td align='center'><a href=\"download.php?torrent={$id}\"><img src='{$TRINITY20['pic_base_url']}zip.gif' border='0' alt='Download Bookmark!' title='Download Bookmark!' /></a></td>" : "");
         $bm = sql_query("SELECT * FROM bookmarks WHERE torrentid=" . sqlesc($id) . " AND userid=" . sqlesc($CURUSER['id']));
         $bms = mysqli_fetch_assoc($bm);
-        $bookmarked = (empty($bms) ? '<a href=\'bookmarks.php?torrent=' . $id . '&amp;action=add\'><img src=\'' . $INSTALLER09['pic_base_url'] . 'bookmark.gif\' border=\'0\' alt=\'Bookmark it!\' title=\'Bookmark it!\'></a>' : '<a href="bookmarks.php?torrent=' . $id . '&amp;action=delete"><img src=\'' . $INSTALLER09['pic_base_url'] . 'aff_cross.gif\' border=\'0\' alt=\'Delete Bookmark!\' title=\'Delete Bookmark!\' /></a>');
+        $bookmarked = (empty($bms) ? '<a href=\'bookmarks.php?torrent=' . $id . '&amp;action=add\'><img src=\'' . $TRINITY20['pic_base_url'] . 'bookmark.gif\' border=\'0\' alt=\'Bookmark it!\' title=\'Bookmark it!\'></a>' : '<a href="bookmarks.php?torrent=' . $id . '&amp;action=delete"><img src=\'' . $TRINITY20['pic_base_url'] . 'aff_cross.gif\' border=\'0\' alt=\'Delete Bookmark!\' title=\'Delete Bookmark!\' /></a>');
         $HTMLOUT.= ($variant == "index" ? "<td align='center'>{$bookmarked}</td>" : "");
         if ($variant == "mytorrents") $HTMLOUT.= "</td><td align='center'><a href='edit.php?returnto=" . urlencode($_SERVER["REQUEST_URI"]) . "&amp;id=" . (int)$row['id'] . "'>{$lang["torrenttable_edit"]}</a>\n";
         if ($variant == "mytorrents") {

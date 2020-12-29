@@ -16,7 +16,7 @@ dbconn(false);
 $HTMLOUT = '';
 $lang = array_merge(load_language('global'), load_language('usermood'));
 
-if ($INSTALLER09['mood_sys_on'] == false) {
+if ($TRINITY20['mood_sys_on'] == false) {
 stderr($lang['user_mood_err'], $lang['user_mood_off']);
 exit();
 }
@@ -31,12 +31,12 @@ if (isset($_GET['id'])) {
         sql_query('UPDATE users SET mood = ' . sqlesc($moodid) . ' WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
         $cache->update_row('MyUser_' . $CURUSER['id'], [
             'mood' => $moodid
-        ], $INSTALLER09['expires']['curuser']);
+        ], $TRINITY20['expires']['curuser']);
         $cache->update_row('user' . $CURUSER['id'], [
             'mood' => $moodid
-        ], $INSTALLER09['expires']['user_cache']);
+        ], $TRINITY20['expires']['user_cache']);
         $cache->delete('topmoods');
-        write_log('<b>' . $lang['user_mood_change']. '</b> ' . $CURUSER['username'] . ' ' . htmlsafechars($rmood['name']) . '<img src="' . $INSTALLER09['pic_base_url'] . 'smilies/' . htmlsafechars($rmood['image']) . '" alt="" />');
+        write_log('<b>' . $lang['user_mood_change']. '</b> ' . $CURUSER['username'] . ' ' . htmlsafechars($rmood['name']) . '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/' . htmlsafechars($rmood['image']) . '" alt="" />');
         $HTMLOUT.= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">		
       <html xmlns="http://www.w3.org/1999/xhtml">
@@ -70,7 +70,7 @@ while ($arr = mysqli_fetch_assoc($res)) {
     if ($count % 3 == 0) $HTMLOUT.= '<tr>';
     $HTMLOUT.= '<td>
          <a href="?id=' . (int)$arr['id'] . '">
-         <img src="' . $INSTALLER09['pic_base_url'] . 'smilies/' . htmlsafechars($arr['image']) . '" alt="" />' . htmlsafechars($arr['name']) . '
+         <img src="' . $TRINITY20['pic_base_url'] . 'smilies/' . htmlsafechars($arr['image']) . '" alt="" />' . htmlsafechars($arr['name']) . '
          </a>
          </td>';
     $count++;

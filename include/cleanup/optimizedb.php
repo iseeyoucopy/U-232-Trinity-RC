@@ -12,10 +12,10 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries;
+    global $TRINITY20, $queries;
     set_time_limit(1200);
     ignore_user_abort(1);
-    $sql = sql_query("SHOW TABLE STATUS FROM {$INSTALLER09['mysql_db']}");
+    $sql = sql_query("SHOW TABLE STATUS FROM {$TRINITY20['mysql_db']}");
     $oht = '';
     while ($row = mysqli_fetch_assoc($sql)) {
         if ($row['Data_free'] > 100) {

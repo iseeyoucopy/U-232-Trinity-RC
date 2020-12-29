@@ -46,8 +46,8 @@ $lang = array(
     'news_edit' => "Editer",
     'news_delete' => "Spprimer",
     //latest torrents
-    'latesttorrents' => $INSTALLER09['latest_torrents_limit'] . " derniers torrents",
-    'latesttorrents_title' => $INSTALLER09['latest_torrents_limit'] . " derniers torrents",
+    'latesttorrents' => $TRINITY20['latest_torrents_limit'] . " derniers torrents",
+    'latesttorrents_title' => $TRINITY20['latest_torrents_limit'] . " derniers torrents",
     'latesttorrents_type' => "Type",
     'latesttorrents_name' => "Nom",
     'latesttorrents_seeders' => "Seeders",
@@ -77,7 +77,7 @@ $lang = array(
     'clog_edit' => "Editer",
     'clog_delete' => "Supprimer",
     //latest forum posts
-    'latestposts_title' => $INSTALLER09['latest_posts_limit'] . " Dernières Publications du Forum",
+    'latestposts_title' => $TRINITY20['latest_posts_limit'] . " Dernières Publications du Forum",
     'latestposts_topic_title' => "Titre&nbsp;Sujet",
     'latestposts_replies' => "Réponses",
     'latestposts_views' => "Vues",

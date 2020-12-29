@@ -28,7 +28,7 @@ $res = sql_query("SELECT passhash, editsecret, status FROM users WHERE id =" . s
 $row = mysqli_fetch_assoc($res);
 if (!$row) stderr("{$lang['confirm_user_error']}", "{$lang['confirm_invalid_id']}");
 if ($row['status'] != 'pending') {
-    header("Refresh: 0; url={$INSTALLER09['baseurl']}/ok.php?type=confirmed");
+    header("Refresh: 0; url={$TRINITY20['baseurl']}/ok.php?type=confirmed");
     exit();
 }
 $sec = $row['editsecret'];
@@ -36,12 +36,12 @@ if ($md5 != $sec) stderr("{$lang['confirm_user_error']}", "{$lang['confirm_canno
 sql_query("UPDATE users SET status='confirmed', editsecret='' WHERE id=" . sqlesc($id) . " AND status='pending'");
 $cache->update_row('MyUser_' . $id, [
     'status' => 'confirmed'
-], $INSTALLER09['expires']['curuser']);
+], $TRINITY20['expires']['curuser']);
 $cache->update_row('user' . $id, [
     'status' => 'confirmed'
-], $INSTALLER09['expires']['user_cache']);
+], $TRINITY20['expires']['user_cache']);
 if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"])) stderr("{$lang['confirm_user_error']}", "{$lang['confirm_cannot_confirm']}");
 $passh = md5($row["passhash"] . $_SERVER["REMOTE_ADDR"]);
 logincookie($id, $passh);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/ok.php?type=confirm");
+header("Refresh: 0; url={$TRINITY20['baseurl']}/ok.php?type=confirm");
 ?>

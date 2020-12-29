@@ -78,9 +78,9 @@ if (!$port || $port > 0xffff)
 	err("invalid port");
 if (!isset($event)) $event = "";
 $seeder = ($left == 0) ? "yes" : "no";
-if (!($db = @($GLOBALS["___mysqli_ston"] = mysqli_connect($INSTALLER09['mysql_host'], $INSTALLER09['mysql_user'], $INSTALLER09['mysql_pass'])) AND $select = @((bool)mysqli_query($db, "USE {$INSTALLER09['mysql_db']}")))) err('Please call back later');
+if (!($db = @($GLOBALS["___mysqli_ston"] = mysqli_connect($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass'])) AND $select = @((bool)mysqli_query($db, "USE {$TRINITY20['mysql_db']}")))) err('Please call back later');
 $user = get_user_from_torrent_pass($torrent_pass);
-if (!$user) err('Invalid passkey. Please redownload the torrent from ' . $INSTALLER09['baseurl']);
+if (!$user) err('Invalid passkey. Please redownload the torrent from ' . $TRINITY20['baseurl']);
 $userid = (int)$user["id"];
 $user['perms'] = (int)$user['perms'];
 if ($user['enabled'] == 'no') err('Permission denied, you\'re not enabled');
@@ -113,7 +113,7 @@ $torrentid = (int)$torrent["id"];
 $torrent_modifier = get_slots($torrentid, $userid);
 $torrent['freeslot'] = $torrent_modifier['freeslot'];
 $torrent['doubleslot'] = $torrent_modifier['doubleslot'];
-$happy_multiplier = ($INSTALLER09['happy_hour'] ? get_happy($torrentid, $userid) : 0);
+$happy_multiplier = ($TRINITY20['happy_hour'] ? get_happy($torrentid, $userid) : 0);
 $fields = 'seeder, peer_id, ip, port, uploaded, downloaded, userid, last_action, (' . TIME_NOW . ' - last_action) AS announcetime, last_action AS ts, ' . TIME_NOW . ' AS nowts, prev_action AS prevts';
 //== Wantseeds - Retro
 $limit = '';
@@ -125,9 +125,9 @@ $res = ann_sql_query("SELECT $fields FROM peers WHERE torrent = $torrentid $want
 unset($wantseeds);
 //== compact mod
 if ($_GET['compact'] != 1) {
-    $resp = 'd' . benc_str("interval") . 'i' . $INSTALLER09['announce_interval'] . 'e' . benc_str("private") . 'i1e' . benc_str("peers") . 'l';
+    $resp = 'd' . benc_str("interval") . 'i' . $TRINITY20['announce_interval'] . 'e' . benc_str("private") . 'i1e' . benc_str("peers") . 'l';
 } else {
-    $resp = 'd' . benc_str("interval") . 'i' . $INSTALLER09['announce_interval'] . 'e' . benc_str("private") . 'i1e' . benc_str("min interval") . 'i' . 300 . 'e5:' . 'peers';
+    $resp = 'd' . benc_str("interval") . 'i' . $TRINITY20['announce_interval'] . 'e' . benc_str("private") . 'i1e' . benc_str("min interval") . 'i' . 300 . 'e5:' . 'peers';
 }
 $peer = array();
 $peer_num = 0;
@@ -210,9 +210,9 @@ $user_updateset = array();
 if (!isset($self)) {
     $valid = mysqli_fetch_row(ann_sql_query("SELECT COUNT(*) FROM peers WHERE torrent=" . ann_sqlesc($torrentid) . " AND torrent_pass=" . ann_sqlesc($torrent_pass))) or ann_sqlerr(__FILE__, __LINE__);
     if ($valid[0] >= 3 && $seeder == 'yes') err("Connection limit exceeded!");
-    if ($left > 0 && $user['class'] < UC_VIP && $INSTALLER09['wait_times'] || $INSTALLER09['max_slots']) {
+    if ($left > 0 && $user['class'] < UC_VIP && $TRINITY20['wait_times'] || $TRINITY20['max_slots']) {
     $ratio = (($user["downloaded"] > 0) ? ($user["uploaded"] / $user["downloaded"]) : 1);
-    if ($INSTALLER09['wait_times']) {
+    if ($TRINITY20['wait_times']) {
         $gigs = $user["uploaded"] / (1024*1024*1024);
         $elapsed = floor((TIME_NOW - $torrent["ts"]) / 3600);
         if ($ratio < 0.5 || $gigs < 5) $wait = 48;
@@ -223,7 +223,7 @@ if (!isset($self)) {
         if ($elapsed < $wait)
   		    err("Not authorized (" . ($wait - $elapsed) . "h) - READ THE FAQ!");
     }
-    if ($INSTALLER09['max_slots']) {
+    if ($TRINITY20['max_slots']) {
         if ($ratio < 0.95) {
         	switch (true) {
         		case ($ratio < 0.5):
@@ -258,7 +258,7 @@ if (!isset($self)) {
             if (($Slot_Query = $cache->get('max_slots_'.$userid)) === false) {
             $Slot_Q = sql_query("SELECT COUNT(*) AS num FROM peers WHERE userid=".sqlesc($userid)." AND seeder='no'") or ann_sqlerr(__FILE__, __LINE__);
             $Slot_Query = mysqli_fetch_assoc($Slot_Q);
-            $cache->set('max_slots_'.$userid, $Slot_Query, $INSTALLER09['expires']['max_slots']);
+            $cache->set('max_slots_'.$userid, $Slot_Query, $TRINITY20['expires']['max_slots']);
             }
             if ($Slot_Q['num'] >= $max) 
                 err("Access denied (Torrents Limit exceeded - $max) See FAQ!");
@@ -278,7 +278,7 @@ if (!isset($self)) {
         $Pq = ann_sql_query("SELECT  " . $Pot_query_fields . " FROM avps WHERE arg = 'sitepot'") or ann_sqlerr(__FILE__, __LINE__);
         $Pot_query = mysqli_fetch_assoc($Pq);
         foreach ($Pot_query_fields_ar_int as $i) $Pot_query[$i] = (int)$Pot_query[$i];
-        $cache->set('Sitepot_', $Pot_query, $INSTALLER09['expires']['sitepot']);
+        $cache->set('Sitepot_', $Pot_query, $TRINITY20['expires']['sitepot']);
     }
     if ($Pot_query["value_s"] == 1 && $Pot_query["value_i"] >= 10000) {
         $downthis = 0;
@@ -304,7 +304,7 @@ if (!isset($self)) {
         $contribution = mysqli_fetch_assoc($fc);
         foreach ($contribution_fields_ar_int as $i) $contribution[$i] = (int)$contribution[$i];
         foreach ($contribution_fields_ar_str as $i) $contribution[$i] = $contribution[$i];
-        $cache->set('freecontribution_', $contribution, $INSTALLER09['expires']['contribution']);
+        $cache->set('freecontribution_', $contribution, $TRINITY20['expires']['contribution']);
     }
     if ($contribution["startTime"] < TIME_NOW && $contribution["endTime"] > TIME_NOW) {
         if ($contribution['freeleechEnabled'] == 1) {
@@ -334,8 +334,8 @@ if (!isset($self)) {
             $downthis = $downthis / 2;
         }
         
-        $RatioFreeCondition = ($INSTALLER09['ratio_free'] ? "downloaded = downloaded + 0" : "downloaded = downloaded + $downthis");
-        $crazyhour_on = ($INSTALLER09['crazy_hour'] ? crazyhour_announce() : false);
+        $RatioFreeCondition = ($TRINITY20['ratio_free'] ? "downloaded = downloaded + 0" : "downloaded = downloaded + $downthis");
+        $crazyhour_on = ($TRINITY20['crazy_hour'] ? crazyhour_announce() : false);
         //$freecountdown_on = freeleech_announce();
         if ($downthis > 0) {
             if (!($crazyhour_on || $isfree || $user['free_switch'] != 0 || $torrent['free'] != 0 || $torrent['vip'] != 0 || ($torrent['freeslot'] != 0))) $user_updateset[] = $RatioFreeCondition;
@@ -361,7 +361,7 @@ if (!isset($self)) {
 //== Snatchlist and Hit and Run begin
 if (portblacklisted($port)) {
     err("Port $port is blacklisted.");
-} elseif ($INSTALLER09['connectable_check']) {
+} elseif ($TRINITY20['connectable_check']) {
     //== connectable checking - pdq
     $connkey = 'conn:' . md5($realip . ':' . $port);
     if (($connectable = $cache->get($connkey)) === false) {
@@ -383,7 +383,7 @@ $res_snatch = ann_sql_query("SELECT seedtime, uploaded, downloaded, finished, st
 if (mysqli_num_rows($res_snatch) > 0) {
     $a = mysqli_fetch_assoc($res_snatch);
 }
-if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"]) && $seeder == "no") ann_sql_query("INSERT LOW_PRIORITY INTO snatched (torrentid, userid, peer_id, ip, port, connectable, uploaded, downloaded, to_go, start_date, last_action, seeder, agent) VALUES (" . ann_sqlesc($torrentid) . ", " . ann_sqlesc($userid) . ", " . ann_sqlesc($peer_id) . ", " . ann_sqlesc($realip) . ", " . ann_sqlesc($port) . ", " . ann_sqlesc($connectable) . ", " . ann_sqlesc($uploaded) . ", " . ($INSTALLER09['ratio_free'] ? "0" : "" . ann_sqlesc($downloaded) . "") . ", " . ann_sqlesc($left) . ", " . TIME_NOW . ", " . TIME_NOW . ", " . ann_sqlesc($seeder) . ", " . ann_sqlesc($agent) . ")") or ann_sqlerr(__FILE__, __LINE__);
+if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"]) && $seeder == "no") ann_sql_query("INSERT LOW_PRIORITY INTO snatched (torrentid, userid, peer_id, ip, port, connectable, uploaded, downloaded, to_go, start_date, last_action, seeder, agent) VALUES (" . ann_sqlesc($torrentid) . ", " . ann_sqlesc($userid) . ", " . ann_sqlesc($peer_id) . ", " . ann_sqlesc($realip) . ", " . ann_sqlesc($port) . ", " . ann_sqlesc($connectable) . ", " . ann_sqlesc($uploaded) . ", " . ($TRINITY20['ratio_free'] ? "0" : "" . ann_sqlesc($downloaded) . "") . ", " . ann_sqlesc($left) . ", " . TIME_NOW . ", " . TIME_NOW . ", " . ann_sqlesc($seeder) . ", " . ann_sqlesc($agent) . ")") or ann_sqlerr(__FILE__, __LINE__);
 $torrent_updateset = $snatch_updateset = array();
 if (isset($self) && $event == "stopped") {
 $seeder = 'no';
@@ -396,22 +396,22 @@ $seeder = 'no';
         $HnR_time_seeded = ($a['seedtime'] + $self['announcetime']);
         //=== get times per class
         switch (true) {
-        case ($user['class'] <= $INSTALLER09['firstclass']):
-            $days_3 = $INSTALLER09['_3day_first'] * 3600; //== 1 days
-            $days_14 = $INSTALLER09['_14day_first'] * 3600; //== 1 days
-            $days_over_14 = $INSTALLER09['_14day_over_first'] * 3600; //== 1 day
+        case ($user['class'] <= $TRINITY20['firstclass']):
+            $days_3 = $TRINITY20['_3day_first'] * 3600; //== 1 days
+            $days_14 = $TRINITY20['_14day_first'] * 3600; //== 1 days
+            $days_over_14 = $TRINITY20['_14day_over_first'] * 3600; //== 1 day
             break;
 
-        case ($user['class'] < $INSTALLER09['secondclass']):
-            $days_3 = $INSTALLER09['_3day_second'] * 3600; //== 12 hours
-            $days_14 = $INSTALLER09['_14day_second'] * 3600; //== 12 hours
-            $days_over_14 = $INSTALLER09['_14day_over_second'] * 3600; //== 12 hours
+        case ($user['class'] < $TRINITY20['secondclass']):
+            $days_3 = $TRINITY20['_3day_second'] * 3600; //== 12 hours
+            $days_14 = $TRINITY20['_14day_second'] * 3600; //== 12 hours
+            $days_over_14 = $TRINITY20['_14day_over_second'] * 3600; //== 12 hours
             break;
 
-        case ($user['class'] >= $INSTALLER09['thirdclass']):
-            $days_3 = $INSTALLER09['_3day_third'] * 3600; //== 12 hours
-            $days_14 = $INSTALLER09['_14day_third'] * 3600; //== 12 hours
-            $days_over_14 = $INSTALLER09['_14day_over_third'] * 3600; //== 12 hours
+        case ($user['class'] >= $TRINITY20['thirdclass']):
+            $days_3 = $TRINITY20['_3day_third'] * 3600; //== 12 hours
+            $days_14 = $TRINITY20['_14day_third'] * 3600; //== 12 hours
+            $days_over_14 = $TRINITY20['_14day_over_third'] * 3600; //== 12 hours
             break;
 
 	default:
@@ -420,20 +420,20 @@ $seeder = 'no';
             $days_over_14 = 0; //== 12 hours
         }
         switch (true) {
-        case (($a['start_snatch'] - $torrent['ts']) < $INSTALLER09['torrentage1'] * 86400):
+        case (($a['start_snatch'] - $torrent['ts']) < $TRINITY20['torrentage1'] * 86400):
             $minus_ratio = ($days_3 - $HnR_time_seeded);
             break;
 
-        case (($a['start_snatch'] - $torrent['ts']) < $INSTALLER09['torrentage2'] * 86400):
+        case (($a['start_snatch'] - $torrent['ts']) < $TRINITY20['torrentage2'] * 86400):
             $minus_ratio = ($days_14 - $HnR_time_seeded);
             break;
 
-        case (($a['start_snatch'] - $torrent['ts']) >= $INSTALLER09['torrentage3'] * 86400):
+        case (($a['start_snatch'] - $torrent['ts']) >= $TRINITY20['torrentage3'] * 86400):
             $minus_ratio = ($days_over_14 - $HnR_time_seeded);
             break;
 
         }
-        $hit_and_run = (($INSTALLER09['hnr_online'] == 1 && $minus_ratio > 0 && ($a['uploaded'] + $upthis) < ($a['downloaded'] + $downthis)) ? "seeder='no', hit_and_run= '" . TIME_NOW . "'" : "hit_and_run = '0'");
+        $hit_and_run = (($TRINITY20['hnr_online'] == 1 && $minus_ratio > 0 && ($a['uploaded'] + $upthis) < ($a['downloaded'] + $downthis)) ? "seeder='no', hit_and_run= '" . TIME_NOW . "'" : "hit_and_run = '0'");
     } //=== end if not 1:1 ratio
     else $hit_and_run = "hit_and_run = '0'";
     //=== end hit and run
@@ -442,7 +442,7 @@ $seeder = 'no';
         else adjust_torrent_peers($torrentid, 0, -1, 0);
         $torrent_updateset[] = ($self["seeder"] == "yes" ? "seeders = seeders - 1" : "leechers = leechers - 1");
         if ($a) {
-            $snatch_updateset[] = "ip = " . ann_sqlesc($realip) . ", port = " . ann_sqlesc($port) . ", connectable = " . ann_sqlesc($connectable) . ", uploaded = uploaded + $upthis, " . ($INSTALLER09['ratio_free'] ? "downloaded = downloaded + 0" : "downloaded = downloaded + $downthis") . ", to_go = " . ann_sqlesc($left) . ", upspeed = " . ($upthis > 0 ? $upthis / $self["announcetime"] : 0) . ", downspeed = " . ($downthis > 0 ? $downthis / $self["announcetime"] : 0) . ", " . ($self["seeder"] == "yes" ? "seedtime = seedtime + {$self['announcetime']}" : "leechtime = leechtime + {$self['announcetime']}") . ", last_action = " . TIME_NOW . ", seeder = " . ann_sqlesc($seeder) . ", agent = " . ann_sqlesc($agent) . ", $hit_and_run";
+            $snatch_updateset[] = "ip = " . ann_sqlesc($realip) . ", port = " . ann_sqlesc($port) . ", connectable = " . ann_sqlesc($connectable) . ", uploaded = uploaded + $upthis, " . ($TRINITY20['ratio_free'] ? "downloaded = downloaded + 0" : "downloaded = downloaded + $downthis") . ", to_go = " . ann_sqlesc($left) . ", upspeed = " . ($upthis > 0 ? $upthis / $self["announcetime"] : 0) . ", downspeed = " . ($downthis > 0 ? $downthis / $self["announcetime"] : 0) . ", " . ($self["seeder"] == "yes" ? "seedtime = seedtime + {$self['announcetime']}" : "leechtime = leechtime + {$self['announcetime']}") . ", last_action = " . TIME_NOW . ", seeder = " . ann_sqlesc($seeder) . ", agent = " . ann_sqlesc($agent) . ", $hit_and_run";
         }
     }
 } elseif (isset($self)) {
@@ -453,14 +453,14 @@ $seeder = 'no';
         adjust_torrent_peers($torrentid, 0, 0, 1);
     }
     $prev_action = ann_sqlesc($self['ts']);
-    ann_sql_query("UPDATE LOW_PRIORITY peers SET connectable = " . ann_sqlesc($connectable) . ", uploaded = " . ann_sqlesc($uploaded) . ", " . ($INSTALLER09['ratio_free'] ? "downloaded = 0" : "downloaded = " . ann_sqlesc($downloaded) . "") . ", to_go = " . ann_sqlesc($left) . ", last_action = " . TIME_NOW . ", prev_action = $prev_action, seeder = " . ann_sqlesc($seeder) . ", agent = " . ann_sqlesc($agent) . " $finished WHERE $selfwhere") or ann_sqlerr(__FILE__, __LINE__);
+    ann_sql_query("UPDATE LOW_PRIORITY peers SET connectable = " . ann_sqlesc($connectable) . ", uploaded = " . ann_sqlesc($uploaded) . ", " . ($TRINITY20['ratio_free'] ? "downloaded = 0" : "downloaded = " . ann_sqlesc($downloaded) . "") . ", to_go = " . ann_sqlesc($left) . ", last_action = " . TIME_NOW . ", prev_action = $prev_action, seeder = " . ann_sqlesc($seeder) . ", agent = " . ann_sqlesc($agent) . " $finished WHERE $selfwhere") or ann_sqlerr(__FILE__, __LINE__);
     if (mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
         if ($seeder <> $self["seeder"]) {
             if ($seeder == "yes") adjust_torrent_peers($torrentid, 1, -1, 0);
             else adjust_torrent_peers($torrentid, -1, 1, 0);
             $torrent_updateset[] = ($seeder == "yes" ? "seeders = seeders + 1, leechers = leechers - 1" : "seeders = seeders - 1, leechers = leechers + 1");
         }
-        if ($a) $snatch_updateset[] = "ip = " . ann_sqlesc($realip) . ", port = " . ann_sqlesc($port) . ", connectable = " . ann_sqlesc($connectable) . ", uploaded = uploaded + $upthis, " . ($INSTALLER09['ratio_free'] ? "downloaded = downloaded + 0" : "downloaded = downloaded + $downthis") . ", to_go = " . ann_sqlesc($left) . ", upspeed = " . ($upthis > 0 ? $upthis / $self["announcetime"] : 0) . ", downspeed = " . ($downthis > 0 ? $downthis / $self["announcetime"] : 0) . ", " . ($self["seeder"] == "yes" ? "seedtime = seedtime + {$self['announcetime']}" : "leechtime = leechtime + {$self['announcetime']}") . ", last_action = " . TIME_NOW . ", seeder = " . ann_sqlesc($seeder) . ", agent = " . ann_sqlesc($agent) . ", timesann = timesann + 1";
+        if ($a) $snatch_updateset[] = "ip = " . ann_sqlesc($realip) . ", port = " . ann_sqlesc($port) . ", connectable = " . ann_sqlesc($connectable) . ", uploaded = uploaded + $upthis, " . ($TRINITY20['ratio_free'] ? "downloaded = downloaded + 0" : "downloaded = downloaded + $downthis") . ", to_go = " . ann_sqlesc($left) . ", upspeed = " . ($upthis > 0 ? $upthis / $self["announcetime"] : 0) . ", downspeed = " . ($downthis > 0 ? $downthis / $self["announcetime"] : 0) . ", " . ($self["seeder"] == "yes" ? "seedtime = seedtime + {$self['announcetime']}" : "leechtime = leechtime + {$self['announcetime']}") . ", last_action = " . TIME_NOW . ", seeder = " . ann_sqlesc($seeder) . ", agent = " . ann_sqlesc($agent) . ", timesann = timesann + 1";
     }
 } else {
     if ($user["parked"] == "yes") 
@@ -473,9 +473,9 @@ $seeder = 'no';
             .") VALUES (" 
 			. ann_sqlesc($torrentid) . ", " . ann_sqlesc($userid) . ", " . ann_sqlesc($peer_id) . ", " 
 			. ann_sqlesc($realip) . ", " . ann_sqlesc($port) . ", " . ann_sqlesc($connectable) . ", " 
-			. ann_sqlesc($uploaded) . ", " . ($INSTALLER09['ratio_free'] ? "0" : "" . ann_sqlesc($downloaded) . "") . ", " 
+			. ann_sqlesc($uploaded) . ", " . ($TRINITY20['ratio_free'] ? "0" : "" . ann_sqlesc($downloaded) . "") . ", " 
 			. ann_sqlesc($left) . ", " . TIME_NOW . ", " . TIME_NOW . ", " . ann_sqlesc($seeder) . ", " 
-			. ann_sqlesc($agent) . ", " . ($INSTALLER09['ratio_free'] ? "0" : "" . ann_sqlesc($downloaded) . "") . ", " 
+			. ann_sqlesc($agent) . ", " . ($TRINITY20['ratio_free'] ? "0" : "" . ann_sqlesc($downloaded) . "") . ", " 
 			. ann_sqlesc($uploaded) . ", " . ann_sqlesc($torrent_pass) . ")"
             . " ON DUPLICATE KEY UPDATE "
 			. " userid = "      . ann_sqlesc($userid) . ", " 
@@ -483,7 +483,7 @@ $seeder = 'no';
 			. " port = "        . ann_sqlesc($port) . ", " 
                         . " connectable = " . ann_sqlesc($connectable) . ", "
 			. " uploaded = "    . ann_sqlesc($uploaded) . ", " 
-			. " downloaded = "  . ($INSTALLER09['ratio_free'] ? "0" : "" . ann_sqlesc($downloaded) . "") . ", "
+			. " downloaded = "  . ($TRINITY20['ratio_free'] ? "0" : "" . ann_sqlesc($downloaded) . "") . ", "
 			. " to_go = "       . ann_sqlesc($left) . ", "
 			. " last_action = "   . TIME_NOW . ", "
 			. " seeder = "      . ann_sqlesc($seeder) . ", " 
@@ -504,7 +504,7 @@ if ($seeder == 'yes') {
     $torrent_updateset[] = 'last_action = ' . TIME_NOW;
     $cache->update_row('torrent_details_' . $torrentid, [
         'visible' => 'yes'
-    ], $INSTALLER09['expires']['torrent_details']);
+    ], $TRINITY20['expires']['torrent_details']);
     $cache->update_row('last_action_' . $torrentid, [
         'lastseed' => TIME_NOW
     ], 1800);

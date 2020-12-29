@@ -72,11 +72,11 @@ $HTMLOUT.= "
     </script>
     <form class='form-horizontal well' role='form' name='upload' enctype='multipart/form-data' action='./takemultiupload.php' method='post'>
  <div class='row'>
-<div class='col-sm-12'><input class='form-control' type='hidden' name='MAX_FILE_SIZE' value='{$INSTALLER09['max_torrent_size']}'></div>
+<div class='col-sm-12'><input class='form-control' type='hidden' name='MAX_FILE_SIZE' value='{$TRINITY20['max_torrent_size']}'></div>
 </div>
 <div class='row'>
 <div class='col-sm-3 col-sm-offset-1 text-right'>{$lang['upload_announce_url']}:</div>
-<div class='col-sm-5'><input type=\"text\" class=\"form-control textonly\" readonly value=\"" . $INSTALLER09['announce_urls'][0] . "\" onclick=\"select()\" /></div></div><br>";
+<div class='col-sm-5'><input type=\"text\" class=\"form-control textonly\" readonly value=\"" . $TRINITY20['announce_urls'][0] . "\" onclick=\"select()\" /></div></div><br>";
 $descr = strip_tags(isset($_POST['descr']) ? trim($_POST['descr']) : '');
 $HTMLOUT.= "<div class='torrent-seperator clone-me'>
 <div class='row'>

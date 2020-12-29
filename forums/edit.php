@@ -40,11 +40,11 @@ if (!defined('IN_INSTALLER09_FORUM')) {
         if (mysqli_num_rows($res) == 0)
         stderr('Error', 'No forum found with that ID!');
         $forum = mysqli_fetch_assoc($res);
-        if ($INSTALLER09['forums_online'] == 0)
+        if ($TRINITY20['forums_online'] == 0)
         $HTMLOUT .= stdmsg('Warning', 'Forums are currently in maintainance mode');
         $HTMLOUT .= begin_main_frame();
         $HTMLOUT .= begin_frame("Edit Forum", "center");
-        $HTMLOUT .="<form method='post' action='{$INSTALLER09['baseurl']}/forums.php?action=updateforum&amp;forumid=$forumid'>\n";
+        $HTMLOUT .="<form method='post' action='{$TRINITY20['baseurl']}/forums.php?action=updateforum&amp;forumid=$forumid'>\n";
         $HTMLOUT .= begin_table();
         $HTMLOUT .="<tr><td>Forum name</td>
         <td align='left' style='padding: 0px'><input type='text' size='60' maxlength='{$Multi_forum['configs']['maxsubjectlength']}' name='name' style='border: 0px; height: 19px' value=\"".htmlsafechars($forum['name'])."\" /></td></tr>

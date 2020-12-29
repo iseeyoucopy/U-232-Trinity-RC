@@ -16,7 +16,7 @@ $today = mktime(date("G") , date("i") , date("s") , date("m") , date("d") , date
 if ($CURUSER["gotgift"] == 'no' && $today <> $xmasday) {
 $HTMLOUT .= "<div class='callout'>
 <h4 class='subheader'>{$lang['index_xmas_gift']}</h4>
-<p><a href='{$INSTALLER09['baseurl']}/gift.php?open=1'><img src='{$INSTALLER09['pic_base_url']}gift.png' style='float: center;border-style: none;' alt='{$lang['index_xmas_gift']}' title='{$lang['index_xmas_gift']}' /></a></p>";
+<p><a href='{$TRINITY20['baseurl']}/gift.php?open=1'><img src='{$TRINITY20['pic_base_url']}gift.png' style='float: center;border-style: none;' alt='{$lang['index_xmas_gift']}' title='{$lang['index_xmas_gift']}' /></a></p>";
 $HTMLOUT .= "</div>";
 }
 //==End

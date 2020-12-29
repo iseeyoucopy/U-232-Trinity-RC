@@ -31,8 +31,8 @@ class_check($class);
 $lang = array_merge($lang, load_language('ad_poll_manager'));
 $params = array_merge($_GET, $_POST);
 $params['mode'] = isset($params['mode']) ? $params['mode'] : '';
-$INSTALLER09['max_poll_questions'] = 2;
-$INSTALLER09['max_poll_choices_per_question'] = 20;
+$TRINITY20['max_poll_questions'] = 2;
+$TRINITY20['max_poll_choices_per_question'] = 20;
 switch ($params['mode']) {
 case 'delete':
     delete_poll();
@@ -60,12 +60,12 @@ default:
 }
 function delete_poll()
 {
-    global $INSTALLER09, $CURUSER, $cache,$lang;
+    global $TRINITY20, $CURUSER, $cache,$lang;
     $total_votes = 0;
     if (!isset($_GET['pid']) OR !is_valid_id($_GET['pid'])) stderr($lang['poll_dp_usr_err'], $lang['poll_dp_no_poll']);
     $pid = intval($_GET['pid']);
     if (!isset($_GET['sure'])) stderr($lang['poll_dp_usr_warn'], "<h2>{$lang['poll_dp_forever']}</h2>
-      <a href='javascript:history.back()' title='{$lang['poll_dp_cancel']}' style='color:green;font-weight:bold'><span class='btn' style='padding:3px;'><img style='vertical-align:middle;' src='{$INSTALLER09['pic_base_url']}/polls/p_delete.gif' alt='{$lang['poll_dp_back']}' />{$lang['poll_dp_back']}</span></a>&nbsp;<a href=staffpanel.php?tool=polls_manager&amp;'action=polls_manager&amp;mode=delete&amp;pid={$pid}&amp;sure=1' title='{$lang['poll_dp_delete']}' style='color:green;font-weight:bold'><span class='btn' style='padding:3px;'><img style='vertical-align:middle;' src='{$INSTALLER09['pic_base_url']}/polls/p_tick.gif' alt='{$lang['poll_dp_delete']}' />{$lang['poll_dp_delete2']}</span></a>");
+      <a href='javascript:history.back()' title='{$lang['poll_dp_cancel']}' style='color:green;font-weight:bold'><span class='btn' style='padding:3px;'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_delete.gif' alt='{$lang['poll_dp_back']}' />{$lang['poll_dp_back']}</span></a>&nbsp;<a href=staffpanel.php?tool=polls_manager&amp;'action=polls_manager&amp;mode=delete&amp;pid={$pid}&amp;sure=1' title='{$lang['poll_dp_delete']}' style='color:green;font-weight:bold'><span class='btn' style='padding:3px;'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_tick.gif' alt='{$lang['poll_dp_delete']}' />{$lang['poll_dp_delete2']}</span></a>");
     sql_query("DELETE FROM polls WHERE pid = " . sqlesc($pid));
     sql_query("DELETE FROM poll_voters WHERE poll_id = " . sqlesc($pid));
     $cache->delete('poll_data_' . $CURUSER['id']);
@@ -73,7 +73,7 @@ function delete_poll()
 }
 function update_poll()
 {
-    global $INSTALLER09, $CURUSER, $cache, $lang;
+    global $TRINITY20, $CURUSER, $cache, $lang;
     $total_votes = 0;
     if (!isset($_POST['pid']) OR !is_valid_id($_POST['pid'])) stderr($lang['poll_up_usr_err'], $lang['poll_up_no_poll']);
     $pid = intval($_POST['pid']);
@@ -91,16 +91,16 @@ function update_poll()
     $cache->delete('poll_data_' . $CURUSER['id']);
     if (-1 == mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
         $msg = "<h2>{$lang['poll_up_error']}</h2>
-      <a href='javascript:history.back()' title='{$lang['poll_up_fix_it']}' style='color:green;font-weight:bold'><span class='btn' style='padding:3px;'><img style='vertical-align:middle;' src='{$INSTALLER09['pic_base_url']}/polls/p_delete.gif' alt='{$lang['poll_up_back']}' />{$lang['poll_up_back']}</span></a>";
+      <a href='javascript:history.back()' title='{$lang['poll_up_fix_it']}' style='color:green;font-weight:bold'><span class='btn' style='padding:3px;'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_delete.gif' alt='{$lang['poll_up_back']}' />{$lang['poll_up_back']}</span></a>";
     } else {
         $msg = "<h2>{$lang['poll_up_worked']}</h2>
-      <a href='staffpanel.php?tool=polls_manager&amp;action=polls_manager' title='{$lang['poll_up_return']}' style='color:green;font-weight:bold'><span class='btn' style='padding:3px;'><img style='vertical-align:middle;' src='{$INSTALLER09['pic_base_url']}/polls/p_tick.gif' alt='{$lang['poll_up_success']}' />{$lang['poll_up_success']}</span></a>";
+      <a href='staffpanel.php?tool=polls_manager&amp;action=polls_manager' title='{$lang['poll_up_return']}' style='color:green;font-weight:bold'><span class='btn' style='padding:3px;'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_tick.gif' alt='{$lang['poll_up_success']}' />{$lang['poll_up_success']}</span></a>";
     }
     echo stdhead($lang['poll_up_stdhead']) . $msg . stdfoot();
 }
 function insert_new_poll()
 {
-    global $INSTALLER09, $CURUSER, $cache, $lang;
+    global $TRINITY20, $CURUSER, $cache, $lang;
     if (!isset($_POST['poll_question']) OR empty($_POST['poll_question'])) stderr($lang['poll_inp_usr_err'], $lang['poll_inp_no_title']);
     $poll_title = sqlesc(htmlsafechars(strip_tags($_POST['poll_question']) , ENT_QUOTES));
     //get the main crux of the poll data
@@ -114,22 +114,22 @@ function insert_new_poll()
     $cache->delete('poll_data_' . $CURUSER['id']);
     if (false == ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res)) {
         $msg = "<h2>{$lang['poll_inp_error']}</h2>
-      <a href='javascript:history.back()' title='{$lang['poll_inp_fix_it']}' style='color:green;font-weight:bold'><span class='btn' style='padding:3px;'><img style='vertical-align:middle;' src='{$INSTALLER09['pic_base_url']}/polls/p_delete.gif' alt='{$lang['poll_inp_back']}' />{$lang['poll_inp_back']}</span></a>";
+      <a href='javascript:history.back()' title='{$lang['poll_inp_fix_it']}' style='color:green;font-weight:bold'><span class='btn' style='padding:3px;'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_delete.gif' alt='{$lang['poll_inp_back']}' />{$lang['poll_inp_back']}</span></a>";
     } else {
         $msg = "<h2>{$lang['poll_inp_worked']}</h2>
-      <a href='staffpanel.php?tool=polls_manager&amp;action=polls_manager' title='{$lang['poll_inp_return']}' style='color:green;font-weight:bold'><span class='btn' style='padding:3px;'><img style='vertical-align:middle;' src='{$INSTALLER09['pic_base_url']}/polls/p_tick.gif' alt='{$lang['poll_inp_success']}' />{$lang['poll_inp_success']}</span></a>";
+      <a href='staffpanel.php?tool=polls_manager&amp;action=polls_manager' title='{$lang['poll_inp_return']}' style='color:green;font-weight:bold'><span class='btn' style='padding:3px;'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_tick.gif' alt='{$lang['poll_inp_success']}' />{$lang['poll_inp_success']}</span></a>";
     }
     echo stdhead($lang['poll_inp_stdhead']) . $msg . "<br>" . stdfoot();
 }
 function show_poll_form()
 {
-    global $INSTALLER09, $lang;
-    $poll_box = "<div class='row'><div class='col-md-12'>". poll_box($INSTALLER09['max_poll_questions'], $INSTALLER09['max_poll_choices_per_question'], 'poll_new') . "</div></div><br>";
+    global $TRINITY20, $lang;
+    $poll_box = "<div class='row'><div class='col-md-12'>". poll_box($TRINITY20['max_poll_questions'], $TRINITY20['max_poll_choices_per_question'], 'poll_new') . "</div></div><br>";
     echo stdhead($lang['poll_spf_stdhead']) . $poll_box . stdfoot();
 }
 function edit_poll_form()
 {
-    global $INSTALLER09, $lang;
+    global $TRINITY20, $lang;
     $poll_questions = '';
     $poll_multi = '';
     $poll_choices = '';
@@ -155,22 +155,22 @@ function edit_poll_form()
     $poll_votes = preg_replace("#,(\n)?$#", "\\1", $poll_votes);
     $poll_question = $poll_data['poll_question'];
     $show_open = $poll_data['choices'] ? 1 : 0;
-    $poll_box = poll_box($INSTALLER09['max_poll_questions'], $INSTALLER09['max_poll_choices_per_question'], 'poll_update', $poll_questions, $poll_choices, $poll_votes, $show_open, $poll_question, $poll_multi);
+    $poll_box = poll_box($TRINITY20['max_poll_questions'], $TRINITY20['max_poll_choices_per_question'], 'poll_update', $poll_questions, $poll_choices, $poll_votes, $show_open, $poll_question, $poll_multi);
     echo stdhead($lang['poll_epf_stdhead']) . "<div class='row'><div class='col-md-8 col-md-offset-2'> " . $poll_box . "</div></div><br>" . stdfoot();
 }
 function show_poll_archive()
 {
-    global $INSTALLER09, $lang;
+    global $TRINITY20, $lang;
     $HTMLOUT = '';
     $query = sql_query("SELECT * FROM polls ORDER BY start_date DESC");
     if (false == mysqli_num_rows($query)) {
         $HTMLOUT = "<h2>{$lang['poll_spa_no_polls']}</h2>
       <br />
-      <a href='staffpanel.php?tool=polls_manager&amp;action=polls_manager&amp;mode=new'><span class='btn' style='padding:3px;' title='{$lang['poll_spa_add_title']}'><img style='vertical-align:top;' src='{$INSTALLER09['pic_base_url']}/polls/p_add.gif' alt='{$lang['poll_spa_add_alt']}' />&nbsp;{$lang['poll_spa_add']}</span></a>";
+      <a href='staffpanel.php?tool=polls_manager&amp;action=polls_manager&amp;mode=new'><span class='btn' style='padding:3px;' title='{$lang['poll_spa_add_title']}'><img style='vertical-align:top;' src='{$TRINITY20['pic_base_url']}/polls/p_add.gif' alt='{$lang['poll_spa_add_alt']}' />&nbsp;{$lang['poll_spa_add']}</span></a>";
     } else {
         $HTMLOUT.= "<div class='row'><div class='col-md-12'><h2>{$lang['poll_spa_manage']}</h2>
       <br /><br />
-      <a href='staffpanel.php?tool=polls_manager&amp;action=polls_manager&amp;mode=new'><span class='btn' style='padding:3px;' title='{$lang['poll_spa_add']}'><img style='vertical-align:top;' src='{$INSTALLER09['pic_base_url']}/polls/p_add.gif' alt='{$lang['poll_spa_add_alt']}' />&nbsp;{$lang['poll_spa_add']}</span></a>
+      <a href='staffpanel.php?tool=polls_manager&amp;action=polls_manager&amp;mode=new'><span class='btn' style='padding:3px;' title='{$lang['poll_spa_add']}'><img style='vertical-align:top;' src='{$TRINITY20['pic_base_url']}/polls/p_add.gif' alt='{$lang['poll_spa_add_alt']}' />&nbsp;{$lang['poll_spa_add']}</span></a>
       <br /><br />
       <table class='table table-bordered'>
       <tr>
@@ -189,8 +189,8 @@ function show_poll_archive()
           <td>" . (int)$row['votes'] . "</td>
           <td>" . htmlsafechars($row['start_date']) . "</td>
           <td><a href='userdetails.php?id=" . (int)$row['starter_id'] . "'>" . htmlsafechars($row['starter_name']) . "</a></td>
-          <td><a href='staffpanel.php?tool=polls_manager&amp;action=polls_manager&amp;mode=edit&amp;pid=" . (int)$row['pid'] . "'><span class='btn' title='{$lang['poll_spa_edit_title']}'><img style='vertical-align:middle;' src='{$INSTALLER09['pic_base_url']}/polls/p_edit.gif' alt='{$lang['poll_spa_edit']}' />&nbsp;{$lang['poll_spa_edit']}</span></a>&nbsp;
-          <a href='staffpanel.php?tool=polls_manager&amp;action=polls_manager&amp;mode=delete&amp;pid=" . (int)$row['pid'] . "'><span class='btn' title='{$lang['poll_spa_delete_title']}'><img style='vertical-align:middle;' src='{$INSTALLER09['pic_base_url']}/polls/p_delete.gif' alt='{$lang['poll_spa_delete']}' />&nbsp{$lang['poll_spa_delete']}</span></a></td>
+          <td><a href='staffpanel.php?tool=polls_manager&amp;action=polls_manager&amp;mode=edit&amp;pid=" . (int)$row['pid'] . "'><span class='btn' title='{$lang['poll_spa_edit_title']}'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_edit.gif' alt='{$lang['poll_spa_edit']}' />&nbsp;{$lang['poll_spa_edit']}</span></a>&nbsp;
+          <a href='staffpanel.php?tool=polls_manager&amp;action=polls_manager&amp;mode=delete&amp;pid=" . (int)$row['pid'] . "'><span class='btn' title='{$lang['poll_spa_delete_title']}'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_delete.gif' alt='{$lang['poll_spa_delete']}' />&nbsp{$lang['poll_spa_delete']}</span></a></td>
         </tr>";
         }
         $HTMLOUT.= "</table></div></div><br />";
@@ -199,7 +199,7 @@ function show_poll_archive()
 }
 function poll_box($max_poll_questions = "", $max_poll_choices = "", $form_type = '', $poll_questions = "", $poll_choices = "", $poll_votes = "", $show_open = "", $poll_question = "", $poll_multi = "")
 {
-    global $INSTALLER09, $lang;
+    global $TRINITY20, $lang;
     $pid = isset($_GET['pid']) ? intval($_GET['pid']) : 0;
     $form_type = ($form_type != '' ? $form_type : 'poll_update');
     $HTMLOUT = "";
@@ -223,15 +223,15 @@ function poll_box($max_poll_questions = "", $max_poll_choices = "", $form_type =
       var max_poll_choices   = parseInt(\"{$max_poll_choices}\");
       
       // HTML elements
-      var html_add_question = \"<div class='row'><div class='col-md-12'><a href='#' title='{$lang['poll_pb_add_q']}' style='color:green;font-weight:bold' onclick='return poll_add_question()'><span class='btn' style='padding:3px;'><img style='vertical-align:-30%;' src='{$INSTALLER09['pic_base_url']}/polls/p_plus.gif' alt='{$lang['poll_pb_add_q']}' />{$lang['poll_pb_add_q']}</span></a></div></div>\";
+      var html_add_question = \"<div class='row'><div class='col-md-12'><a href='#' title='{$lang['poll_pb_add_q']}' style='color:green;font-weight:bold' onclick='return poll_add_question()'><span class='btn' style='padding:3px;'><img style='vertical-align:-30%;' src='{$TRINITY20['pic_base_url']}/polls/p_plus.gif' alt='{$lang['poll_pb_add_q']}' />{$lang['poll_pb_add_q']}</span></a></div></div>\";
       
-      var html_add_choice = \"<div class='row'><div class='col-md-12'><li>&nbsp;<a href='#' title='{$lang['poll_pb_add_c']}' style='color:green;font-weight:bold' onclick='return poll_add_choice(\"+'\"'+'<%1>'+'\"'+\")'><span class='btn' style='padding:3px;'><img style='vertical-align:-30%;' src='{$INSTALLER09['pic_base_url']}/polls/p_plus.gif' alt='{$lang['poll_pb_add_c']}' />{$lang['poll_pb_add_c']}</span></a></li></div></div>\";
+      var html_add_choice = \"<div class='row'><div class='col-md-12'><li>&nbsp;<a href='#' title='{$lang['poll_pb_add_c']}' style='color:green;font-weight:bold' onclick='return poll_add_choice(\"+'\"'+'<%1>'+'\"'+\")'><span class='btn' style='padding:3px;'><img style='vertical-align:-30%;' src='{$TRINITY20['pic_base_url']}/polls/p_plus.gif' alt='{$lang['poll_pb_add_c']}' />{$lang['poll_pb_add_c']}</span></a></li></div></div>\";
       
-      var html_question_box = \"<div class='row'><div class='col-md-12'><input  class='form-control' type='text' id='question_<%1>' name='question[<%1>]'  value='<%2>' /> <a href='#' title='{$lang['poll_pb_remove_q']}' style='color:red;font-weight:bold' onclick='return poll_remove_question(\"+'\"'+'<%1>'+'\"'+\")'><img style='vertical-align:middle;' src='{$INSTALLER09['pic_base_url']}/polls/p_minus.gif' alt='{$lang['poll_pb_add_new']}' /></a></div></div><br /><input class='checkbox' type='checkbox' id='multi_<%1>' name='multi[<%1>]' value='1' <%3> /><br><span>{$lang['poll_pb_multiple']}</span>\";
+      var html_question_box = \"<div class='row'><div class='col-md-12'><input  class='form-control' type='text' id='question_<%1>' name='question[<%1>]'  value='<%2>' /> <a href='#' title='{$lang['poll_pb_remove_q']}' style='color:red;font-weight:bold' onclick='return poll_remove_question(\"+'\"'+'<%1>'+'\"'+\")'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_minus.gif' alt='{$lang['poll_pb_add_new']}' /></a></div></div><br /><input class='checkbox' type='checkbox' id='multi_<%1>' name='multi[<%1>]' value='1' <%3> /><br><span>{$lang['poll_pb_multiple']}</span>\";
       
       var html_votes_box = \"&nbsp;<input type='text' id='votes_<%1>_<%2>' name='votes[<%1>_<%2>]' size='5' class='input' value='<%3>' />\";
       
-      var html_choice_box = \"<li><input type='text' id='choice_<%1>_<%2>' name='choice[<%1>_<%2>]' size='35' class='input' value='<%3>' /><%4> <a href='#' title='{$lang['poll_pb_rem_choice']}' style='color:red;font-weight:bold' onclick='return poll_remove_choice(\"+'\"'+'<%1>_<%2>'+'\"'+\")'><img style='vertical-align:middle;' src='{$INSTALLER09['pic_base_url']}/polls/p_minus.gif' alt='{$lang['poll_pb_add_new']}' /></a></li>\";
+      var html_choice_box = \"<li><input type='text' id='choice_<%1>_<%2>' name='choice[<%1>_<%2>]' size='35' class='input' value='<%3>' /><%4> <a href='#' title='{$lang['poll_pb_rem_choice']}' style='color:red;font-weight:bold' onclick='return poll_remove_choice(\"+'\"'+'<%1>_<%2>'+'\"'+\")'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_minus.gif' alt='{$lang['poll_pb_add_new']}' /></a></li>\";
       
       var html_choice_wrap = \"<ol><%1></ol>\";
       var html_question_wrap = \"<div><%1></div>\";
@@ -247,7 +247,7 @@ function poll_box($max_poll_questions = "", $max_poll_choices = "", $form_type =
      <div class='row'><div class='col-md-12'>
      <h2>{$lang['poll_pb_editing']}</h2>
      <br />
-     <a href='staffpanel.php?tool=polls_manager&amp;action=polls_manager' title='{$lang['poll_pb_cancel']}' style='color:green;font-weight:bold'><span class='btn' style='padding:3px;'><img style='vertical-align:middle;' src='{$INSTALLER09['pic_base_url']}/polls/p_delete.gif' alt='{$lang['poll_pb_cancel']}' />{$lang['poll_pb_cancel']}</span></a>
+     <a href='staffpanel.php?tool=polls_manager&amp;action=polls_manager' title='{$lang['poll_pb_cancel']}' style='color:green;font-weight:bold'><span class='btn' style='padding:3px;'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_delete.gif' alt='{$lang['poll_pb_cancel']}' />{$lang['poll_pb_cancel']}</span></a>
      <br /><br />
      <form class='form-horizontal' id='postingform' action='staffpanel.php?tool=polls_manager&amp;action=polls_manager' method='post' name='inputform' enctype='multipart/form-data'>
      <input type='hidden' name='mode' value='{$form_type}' />
@@ -281,7 +281,7 @@ function poll_box($max_poll_questions = "", $max_poll_choices = "", $form_type =
 }
 function makepoll()
 {
-    global $INSTALLER09, $CURUSER;
+    global $TRINITY20, $CURUSER;
     $questions = array();
     $choices_count = 0;
     $poll_total_votes = 0;
@@ -326,10 +326,10 @@ function makepoll()
         }
     }
 
-    if (!empty($questions) && count((array) $questions) > $INSTALLER09['max_poll_questions']) {
+    if (!empty($questions) && count((array) $questions) > $TRINITY20['max_poll_questions']) {
         exit('poll_to_many');
     }
-    if (!empty($choices_count) && count((array) $choices_count) > ($INSTALLER09['max_poll_questions'] * $INSTALLER09['max_poll_choices_per_question'])) {
+    if (!empty($choices_count) && count((array) $choices_count) > ($TRINITY20['max_poll_questions'] * $TRINITY20['max_poll_choices_per_question'])) {
         exit('poll_to_many');
     }
     if (isset($_POST['mode']) AND $_POST['mode'] == 'poll_update') $questions['total_votes'] = $poll_total_votes;

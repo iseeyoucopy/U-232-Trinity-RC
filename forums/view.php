@@ -66,15 +66,15 @@ if (!defined('IN_INSTALLER09_FORUM')) {
             $menu2 .= "... \n";
             $lastspace = true;
         } else {
-            $menu2 .= "<a class='page-link' href='{$INSTALLER09['baseurl']}/forums.php?action=viewforum&amp;forumid=$forumid&amp;page=$i'>$i</a>";
+            $menu2 .= "<a class='page-link' href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=$forumid&amp;page=$i'>$i</a>";
             $lastspace = false;
         }
         if ($i < $pages)
             $menu2 .= "|";
     }
-    $menu1 .= ($page == 1 ? "" : "<a class='page-link' href='{$INSTALLER09['baseurl']}/forums.php?action=viewforum&amp;forumid=$forumid&amp;page=".($page - 1)."'>&lt;&lt;&nbsp;Prev</a>");
+    $menu1 .= ($page == 1 ? "" : "<a class='page-link' href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=$forumid&amp;page=".($page - 1)."'>&lt;&lt;&nbsp;Prev</a>");
     $mlb = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-    $menu3 = ($last == $num ? "" : "<a class='page-link' href='{$INSTALLER09['baseurl']}/forums.php?action=viewforum&amp;forumid=$forumid&amp;page=".($page + 1)."'>Next&nbsp;&gt;&gt;</a></ul>");
+    $menu3 = ($last == $num ? "" : "<a class='page-link' href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=$forumid&amp;page=".($page + 1)."'>Next&nbsp;&gt;&gt;</a></ul>");
     $offset = $first - 1;
     $topics_res = sql_query("SELECT t.id, t.user_id, t.views, t.locked, t.sticky" . ($Multi_forum['configs']['use_poll_mod'] ? ', t.poll_id' : '') . ", t.num_ratings, t.rating_sum, t.topic_name, t.anonymous,  u1.id AS uid1, u1.enabled, u1.class, u1.donor, u1.chatpost,  u1.warned, u1.leechwarn, u1.pirate, u1.king, u1.username, r.last_post_read, p.id AS p_id,p2.icon, p.user_id AS p_userid, p.anonymous as p_anon, p.added AS p_added, (SELECT COUNT(id) FROM posts WHERE topic_id=t.id) AS p_count, u2.id AS uid2, u2.enabled, u2.class, u2.donor, u2.chatpost,  u2.warned, u2.leechwarn, u2.pirate, u2.king, u2.username AS u2_username " . "FROM topics AS t " . "LEFT JOIN users AS u1 ON u1.id=t.user_id " . "LEFT JOIN read_posts AS r ON r.user_id = ".sqlesc($userid)." AND r.topic_id = t.id " . "LEFT JOIN posts AS p ON p.id = (SELECT MAX(id) FROM posts WHERE topic_id = t.id) " . "LEFT JOIN posts AS p2 ON p2.id = (SELECT MIN(id) FROM posts WHERE topic_id = t.id) " . "LEFT JOIN users AS u2 ON u2.id = p.user_id " . "WHERE t.forum_id=".sqlesc($forumid)." ORDER BY t.sticky, t.last_post DESC LIMIT $offset, $perpage") or sqlerr(__FILE__, __LINE__);
     // subforums
@@ -83,14 +83,14 @@ if (!defined('IN_INSTALLER09_FORUM')) {
 $HTMLOUT .= "<div class='container'><div class='card'>";
 $HTMLOUT .="<nav aria-label='You are here:' role='navigation'>
   <ul class='breadcrumbs'>
-    <li><a href='index.php'>" . $INSTALLER09["site_name"] . "</a></li>
+    <li><a href='index.php'>" . $TRINITY20["site_name"] . "</a></li>
     <li><a href='forums.php'>Forums</a></li>
     <li>
       <span class='show-for-sr'>Current: </span>". htmlsafechars($arr["forum_name"])."
     </li>
   </ul>
 </nav>";
-    if ($INSTALLER09['forums_online'] == 0)
+    if ($TRINITY20['forums_online'] == 0)
     $HTMLOUT .= stdmsg('Warning', 'Forums are currently in maintainance mode');
     if ($subforums > 0) {
 	$HTMLOUT .= begin_main_div();
@@ -159,7 +159,7 @@ $HTMLOUT .= begin_body_div("collapse".$forumid."");
 				++$tpages;
 			if ($tpages > 1)
 			{
-				$topicpages = "&nbsp;(<img src='".$INSTALLER09['pic_base_url']."multipage.gif' alt='Multiple pages' title='Multiple pages' />";
+				$topicpages = "&nbsp;(<img src='".$TRINITY20['pic_base_url']."multipage.gif' alt='Multiple pages' title='Multiple pages' />";
 				$split = ($tpages > 10) ? true : false;
 				$flag = false;
 				for ($i = 1; $i <= $tpages; ++$i)
@@ -173,7 +173,7 @@ $HTMLOUT .= begin_body_div("collapse".$forumid."");
 						}
 						continue;
 					}
-					$topicpages .= "&nbsp;<a href='{$INSTALLER09['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid&amp;page=$i'>$i</a>";
+					$topicpages .= "&nbsp;<a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid&amp;page=$i'>$i</a>";
 				}
 				$topicpages .= ")";
 			}
@@ -183,24 +183,24 @@ $HTMLOUT .= begin_body_div("collapse".$forumid."");
       if($CURUSER['class'] < UC_STAFF && $topic_arr["p_userid"] != $CURUSER["id"])
       $lpusername = "<i>Anonymous</i>";
       else
-      $lpusername = "<i>Anonymous</i><br />(<a href='{$INSTALLER09['baseurl']}/userdetails.php?id=".(int)$topic_arr['p_userid']."'><b>".format_username($user_stuff1, true)."</b></a>)";
+      $lpusername = "<i>Anonymous</i><br />(<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$topic_arr['p_userid']."'><b>".format_username($user_stuff1, true)."</b></a>)";
       }
       else
-      $lpusername = (is_valid_id($topic_arr['p_userid']) && !empty($topic_arr['u2_username']) ? "<a href='{$INSTALLER09['baseurl']}/userdetails.php?id=".(int)$topic_arr['p_userid']."'><b>".format_username($user_stuff1, true)."</b></a>" : "unknown[$topic_userid]");
+      $lpusername = (is_valid_id($topic_arr['p_userid']) && !empty($topic_arr['u2_username']) ? "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$topic_arr['p_userid']."'><b>".format_username($user_stuff1, true)."</b></a>" : "unknown[$topic_userid]");
       if ($topic_arr["anonymous"] == "yes") {
       if($CURUSER['class'] < UC_STAFF && $topic_arr["user_id"] != $CURUSER["id"])
       $lpauthor = "<i>Anonymous</i>";
       else
-      $lpauthor = "<i>Anonymous</i><br />[<a href='{$INSTALLER09['baseurl']}/userdetails.php?id=$topic_userid'><b>".format_username($user_stuff, true)."</b></a>]";
+      $lpauthor = "<i>Anonymous</i><br />[<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$topic_userid'><b>".format_username($user_stuff, true)."</b></a>]";
       }
       else
-      $lpauthor = (is_valid_id($topic_arr['user_id']) && !empty($topic_arr['username']) ? "<a href='{$INSTALLER09['baseurl']}/userdetails.php?id=$topic_userid'><b>".format_username($user_stuff, true)."</b></a>" : "unknown[$topic_userid]");
-			$new = ($topic_arr["p_added"] > (TIME_NOW - $INSTALLER09['readpost_expiry'])) ? ((int)$topic_arr['p_id'] > $topic_arr['last_post_read']) : 0;
+      $lpauthor = (is_valid_id($topic_arr['user_id']) && !empty($topic_arr['username']) ? "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$topic_userid'><b>".format_username($user_stuff, true)."</b></a>" : "unknown[$topic_userid]");
+			$new = ($topic_arr["p_added"] > (TIME_NOW - $TRINITY20['readpost_expiry'])) ? ((int)$topic_arr['p_id'] > $topic_arr['last_post_read']) : 0;
 			$topicpic = ($topic_arr['locked'] == "yes" ? ($new ? "<i class='far fa-file-excel'  style='color:#ea0f0f;'></i>" : "<i class='far fa-file-excel'  style='color:#ea0f0f;'>") : ($new ? "<i class='fas fa-file-alt'></i>" : "<i class='far fa-file'></i>"));
-			$post_icon = ($sticky ? "<i class='fas fa-thumbtack fa-rotate-90'></i>" : ($topic_arr["icon"] > 0 ? "<img src=\"".$INSTALLER09['pic_base_url']."post_icons/icon".htmlsafechars($topic_arr["icon"]).".gif\" alt=\"post icon\" title=\"post icon\" />" : "&nbsp;"));
+			$post_icon = ($sticky ? "<i class='fas fa-thumbtack fa-rotate-90'></i>" : ($topic_arr["icon"] > 0 ? "<img src=\"".$TRINITY20['pic_base_url']."post_icons/icon".htmlsafechars($topic_arr["icon"]).".gif\" alt=\"post icon\" title=\"post icon\" />" : "&nbsp;"));
       $HTMLOUT .="<tbody>
 		<tr>
-				<td><p>".$topicpic."".$post_icon."". ($pollim ? "Poll: " : '')."". ($sticky ? '' : '')."<a href='{$INSTALLER09['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$topicid."'>".htmlsafechars($topic_arr['topic_name'])."</a>{$topicpages}<div class='author smalltext'>". $lpauthor."</div></td>
+				<td><p>".$topicpic."".$post_icon."". ($pollim ? "Poll: " : '')."". ($sticky ? '' : '')."<a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$topicid."'>".htmlsafechars($topic_arr['topic_name'])."</a>{$topicpages}<div class='author smalltext'>". $lpauthor."</div></td>
 				<td>" . (getRate($topicid, "topic")) . "</td>
 				<td><span class='badge'>". max(0, $topic_arr['p_count'] - 1)."</span></td>
 				<td><span class='badge'>". number_format($topic_arr['views'])."</span></td>

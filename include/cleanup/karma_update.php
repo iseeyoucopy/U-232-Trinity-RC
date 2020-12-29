@@ -12,14 +12,14 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(0);
     ignore_user_abort(1);
     //=== Update karma seeding bonus... made nicer by devinkray :D
     //==   Updated and optimized by pdq :)
     //=== Using this option will work for multiple torrents UP TO 5!... change the 5 to whatever... 1 to give the karma for only 1 torrent at a time, or 100 to make it unlimited (almost) your choice :P /*if ($arr['tcount'] >= 5) $arr['tcount'] = 1;*/
     ///====== Seeding bonus per torrent
-    if ($INSTALLER09['seedbonus_on'] == 1) {
+    if ($TRINITY20['seedbonus_on'] == 1) {
      $What_id = (XBT_TRACKER == true ? 'tid' : 'torrent');
      $What_user_id = (XBT_TRACKER == true ? 'uid' : 'userid');
      $What_Table = (XBT_TRACKER == true ? 'xbt_peers' : 'peers');
@@ -30,14 +30,14 @@ function docleanup($data)
             /*if ($arr['tcount'] >= 5) $arr['tcount'] = 1;*/
             $Buffer_User = (XBT_TRACKER == true ? $arr['uid'] : $arr['userid']);
             if($arr['users_id']== $Buffer_User && $arr['users_id'] != NULL) {
-                $users_buffer[] = '(' . $Buffer_User . ', '.$INSTALLER09['bonus_per_duration'].' * ' . $arr['tcount'] . ')';
-                $update['seedbonus'] = ($arr['seedbonus'] + $INSTALLER09['bonus_per_duration'] * $arr['tcount']);
+                $users_buffer[] = '(' . $Buffer_User . ', '.$TRINITY20['bonus_per_duration'].' * ' . $arr['tcount'] . ')';
+                $update['seedbonus'] = ($arr['seedbonus'] + $TRINITY20['bonus_per_duration'] * $arr['tcount']);
                 $cache->update_row('userstats_' . $Buffer_User, [
                     'seedbonus' => $update['seedbonus']
-                ], $INSTALLER09['expires']['u_stats']);
+                ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $Buffer_User, [
                     'seedbonus' => $update['seedbonus']
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
             }
         }
         $count = count($users_buffer);

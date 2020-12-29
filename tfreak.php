@@ -12,7 +12,7 @@
  * ------------  @version V6  ------------------*
  */
 function rsstfreakinfo() {
-    global $INSTALLER09;
+    global $TRINITY20;
     $html = '';
     $use_limit = true;
     $limit = 5;

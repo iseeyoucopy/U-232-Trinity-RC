@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(1200);
     ignore_user_abort(1);
     //== 09 Auto invite by Bigjoos/pdq
@@ -22,7 +22,7 @@ function docleanup($data)
     $msgs_buffer = $users_buffer = array();
     if (mysqli_num_rows($res) > 0) {
         $subject = "Auto Invites";
-        $msg = "Congratulations, your user group met a set out criteria therefore you have been awarded 2 invites  :)\n Please use them carefully. Cheers " . $INSTALLER09['site_name'] . " staff.\n";
+        $msg = "Congratulations, your user group met a set out criteria therefore you have been awarded 2 invites  :)\n Please use them carefully. Cheers " . $TRINITY20['site_name'] . " staff.\n";
         while ($arr = mysqli_fetch_assoc($res)) {
             $ratio = number_format($arr['uploaded'] / $arr['downloaded'], 3);
             $modcomment = $arr['modcomment'];
@@ -33,13 +33,13 @@ function docleanup($data)
             $update['invites'] = ($arr['invites'] + 2); //== 2 in the user_buffer is award amount :)
             $cache->update_row('user' . $arr['id'], [
                 'invites' => $update['invites']
-            ], $INSTALLER09['expires']['user_cache']);
+            ], $TRINITY20['expires']['user_cache']);
             $cache->update_row('user_stats_' . $arr['id'], [
                 'modcomment' => $modcomment
-            ], $INSTALLER09['expires']['user_stats']);
+            ], $TRINITY20['expires']['user_stats']);
             $cache->update_row('MyUser_' . $arr['id'], [
                 'invites' => $update['invites']
-            ], $INSTALLER09['expires']['curuser']);
+            ], $TRINITY20['expires']['curuser']);
             $cache->delete('inbox_new_' . $arr['id']);
             $cache->delete('inbox_new_sb_' . $arr['id']);
         }

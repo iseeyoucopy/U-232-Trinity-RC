@@ -39,7 +39,7 @@ function tvmaze_format($tvmaze_data, $tvmaze_type) {
     return join('<br/><br/>', $tvmaze_display[$tvmaze_type]);
 }
 function tvmaze(&$torrents) {
-    global $cache, $INSTALLER09;
+    global $cache, $TRINITY20;
     $tvmaze_data = '';
     $row_update = array();
     if (preg_match("/^(.*)(?:\.| |_)(?:(?:S\d{1,2}(?:E\d{1,2})?)|20\d\d\.\d\d\.\d\d|Part.\d|CHapters)/i", $torrents['name'], $tmp)) {

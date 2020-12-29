@@ -39,7 +39,7 @@ $HTMLOUT.= "<table class='table table-bordered'>
  <td>{$lang['ipcheck_email']}</td>
  <td>{$lang['ipcheck_regged']}</td>
  <td>{$lang['ipcheck_lastacc']}</td>
- " . ($INSTALLER09['ratio_free'] ? "" : "<td>{$lang['ipcheck_dload']}</td>") . "
+ " . ($TRINITY20['ratio_free'] ? "" : "<td>{$lang['ipcheck_dload']}</td>") . "
  <td>{$lang['ipcheck_upped']}</td>
  <td>{$lang['ipcheck_ratio']}</td>
  <td>{$lang['ipcheck_ip']}</td></tr>\n";
@@ -66,9 +66,9 @@ while ($ras = mysqli_fetch_assoc($res)) {
                                   <td style='max-width:130px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;'>" . htmlsafechars($arr['email']) . "</td>
                                   <td>$added</td>
                                   <td>$last_access</td>
-                                  " . ($INSTALLER09['ratio_free'] ? "" : "<td align='center'>$downloaded</td>") . "
+                                  " . ($TRINITY20['ratio_free'] ? "" : "<td align='center'>$downloaded</td>") . "
                                   <td>$uploaded</td>
-                                  <td>" . member_ratio($arr['uploaded'], $INSTALLER09['ratio_free'] ? '0' : $arr['downloaded']) . "</td>
+                                  <td>" . member_ratio($arr['uploaded'], $TRINITY20['ratio_free'] ? '0' : $arr['downloaded']) . "</td>
                                   <td><span style=\"font-weight: bold;\">" . htmlsafechars($arr['ip']) . "</span></td>\n</tr>\n";
                 $ip = htmlsafechars($arr["ip"]);
             }

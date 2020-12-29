@@ -21,7 +21,7 @@ $htmlout.='<div class="off-canvas position-left" id="StaffPanel" data-off-canvas
  if (($mysql_data = $cache->get('is_staff_' . $CURUSER['class'])) === false) {
  $res = sql_query('SELECT * FROM staffpanel WHERE av_class <= ' . sqlesc($CURUSER['class']) . ' ORDER BY page_name ASC') or sqlerr(__FILE__, __LINE__);
   while ($arr = mysqli_fetch_assoc($res)) $mysql_data[] = $arr;
- $cache->set('is_staff_' . $CURUSER['class'], $mysql_data, $INSTALLER09['expires']['staff_check']);
+ $cache->set('is_staff_' . $CURUSER['class'], $mysql_data, $TRINITY20['expires']['staff_check']);
   }
   if ($mysql_data) { 
   $htmlout .= '<div class="card-divider">User</div><ul class="menu vertical">';

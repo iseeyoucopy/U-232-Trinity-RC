@@ -73,9 +73,9 @@ easing: "ease-in-out",
 //AND poster != ''
 //$cache->delete_value('scroll_tor_');
 if (($scroll_torrents = $cache->get('scroll_tor_')) === false) {
-    $scroll = sql_query("SELECT id, seeders, leechers, name, poster FROM torrents WHERE seeders >= '1' ORDER BY added DESC LIMIT {$INSTALLER09['latest_torrents_limit_scroll']}") or sqlerr(__FILE__, __LINE__);
+    $scroll = sql_query("SELECT id, seeders, leechers, name, poster FROM torrents WHERE seeders >= '1' ORDER BY added DESC LIMIT {$TRINITY20['latest_torrents_limit_scroll']}") or sqlerr(__FILE__, __LINE__);
     while ($scroll_torrent = mysqli_fetch_assoc($scroll)) $scroll_torrents[] = $scroll_torrent;
-    $cache->set('scroll_tor_', $scroll_torrents, $INSTALLER09['expires']['scroll_torrents']);
+    $cache->set('scroll_tor_', $scroll_torrents, $TRINITY20['expires']['scroll_torrents']);
 }
 
 if (!empty($scroll_torrents)) {
@@ -89,16 +89,16 @@ $HTMLOUT .='<div id="carousel-container" class="carousel-container">
 
 if ($scroll_torrents) {
         foreach ($scroll_torrents as $s_t) {
-            $i = $INSTALLER09['latest_torrents_limit_scroll'];
+            $i = $TRINITY20['latest_torrents_limit_scroll'];
             $id = (int)$s_t['id'];
             $name = htmlsafechars($s_t['name']);
-	    $poster = ($s_t['poster'] == '' ? ''.$INSTALLER09['pic_base_url'].'noposter.png' : $s_t['poster']);
+	    $poster = ($s_t['poster'] == '' ? ''.$TRINITY20['pic_base_url'].'noposter.png' : $s_t['poster']);
             $seeders = number_format((int)$s_t['seeders']);
             $leechers = number_format((int)$s_t['leechers']);
             $name = str_replace('_', ' ', $name);
             $name = str_replace('.', ' ', $name);
             $name = substr($name, 0, 50);
-            $HTMLOUT.= "<div class='slide'><a href='{$INSTALLER09['baseurl']}/details.php?id=$id'><img src='".htmlsafechars($poster)."' class='glossy tester' alt='{$name}' title='{$name} - Seeders : {$seeders} - Leechers : {$leechers}'border='0' /></a></div>";
+            $HTMLOUT.= "<div class='slide'><a href='{$TRINITY20['baseurl']}/details.php?id=$id'><img src='".htmlsafechars($poster)."' class='glossy tester' alt='{$name}' title='{$name} - Seeders : {$seeders} - Leechers : {$leechers}'border='0' /></a></div>";
 }
 $HTMLOUT .='</div></div></div></div>';
     } else {

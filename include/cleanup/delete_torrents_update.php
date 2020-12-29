@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(1200);
     ignore_user_abort(1);
     //==delete torrents by putyn
@@ -32,7 +32,7 @@ function docleanup($data)
                                  LEFT JOIN thumbsup ON thumbsup.torrentid = torrents.id
 				 LEFT JOIN snatched ON snatched.torrentid = torrents.id
 				 WHERE torrents.id = ".sqlesc($arr['id'])) or sqlerr(__FILE__, __LINE__);
-        @unlink("{$INSTALLER09['torrent_dir']}/{$arr['id']}.torrent");
+        @unlink("{$TRINITY20['torrent_dir']}/{$arr['id']}.torrent");
         write_log("Torrent ".(int)$arr['id']." (".htmlsafechars($arr['name']).") was deleted by system (older than $days days and no seeders)");
     }
     if ($queries > 0) write_log("Delete Old Torrents Clean -------------------- Delete Old Torrents cleanup Complete using $queries queries --------------------");

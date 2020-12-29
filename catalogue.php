@@ -22,12 +22,12 @@ $lang = array_merge(load_language('global'), load_language('catalogue'));
 $htmlout = '';
 function readMore($text, $char, $link)
 {
-    global $INSTALLER09, $lang;
+    global $TRINITY20, $lang;
     return (strlen($text) > $char ? substr(htmlsafechars($text), 0, $char - 1) . "...<br /><a href='$link'>{$lang['catol_read_more']}</a>" : htmlsafechars($text));
 }
 function peer_list($array)
 {
-    global $INSTALLER09, $lang;
+    global $TRINITY20, $lang;
     $htmlout = '';
     $htmlout .= "
             {$lang['catol_user']}            {$lang['catol_port']}&amp;{$lang['catol_ip']}            {$lang['catol_ratio']}            {$lang['catol_downloaded']}            {$lang['catol_uploaded']}            {$lang['catol_started']}            {$lang['catol_finished']}       </tr>-->";
@@ -98,7 +98,7 @@ $htmlout .= "</fieldset></div></div><br>";
 
 $htmlout .="<div class='container'>";
 if (count($rows) > 0) {
-    $htmlout .= "<div class='row'><div class='col-md-10'>" . $pager['pagerbottom'] ."</div><br><br><div class='col-md-2 col-md-push-0'><a class='btn btn-default btn-link' title='Back to Browse' href='" . $INSTALLER09['baseurl'] . "/browse.php'>Back to Browse</a></div></div>";
+    $htmlout .= "<div class='row'><div class='col-md-10'>" . $pager['pagerbottom'] ."</div><br><br><div class='col-md-2 col-md-push-0'><a class='btn btn-default btn-link' title='Back to Browse' href='" . $TRINITY20['baseurl'] . "/browse.php'>Back to Browse</a></div></div>";
     $htmlout .= "<h3 class='text-center'>{$lang['catol_std_head']}</h3>";
 $htmlout .="<div class='row'>";
     foreach ($rows as $row) {

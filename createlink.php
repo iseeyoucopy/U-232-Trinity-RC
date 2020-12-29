@@ -38,31 +38,31 @@ if ($action == 'reset') {
     sql_query("UPDATE users SET hash1 = " . sqlesc($hash1) . " WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
     $cache->update_row('user' . $id, [
         'hash1' => $hash1
-    ], $INSTALLER09['expires']['user_cache']);
+    ], $TRINITY20['expires']['user_cache']);
     $cache->update_row('MyUser_' . $id, [
         'hash1' => $hash1
-    ], $INSTALLER09['expires']['curuser']);
+    ], $TRINITY20['expires']['curuser']);
     $cache->update_row('hash1_' . $id, [
         'hash1' => $hash1
-    ], $INSTALLER09['expires']['user_hash']);
-    header("Refresh: 1; url={$INSTALLER09['baseurl']}/userdetails.php?id=$id");
+    ], $TRINITY20['expires']['user_hash']);
+    header("Refresh: 1; url={$TRINITY20['baseurl']}/userdetails.php?id=$id");
     stderr($lang['createlink_success'], $lang['createlink_your_login_link_was_reset_successfully']);
 } else {
     if ($arr['hash1'] === null || $arr['hash1'] === '') {
         sql_query("UPDATE users SET hash1 = " . sqlesc($hash1) . " WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-        header("Refresh: 2; url={$INSTALLER09['baseurl']}/userdetails.php?id=$id");
+        header("Refresh: 2; url={$TRINITY20['baseurl']}/userdetails.php?id=$id");
         $cache->update_row('user' . $id, [
             'hash1' => $hash1
-        ], $INSTALLER09['expires']['user_cache']);
+        ], $TRINITY20['expires']['user_cache']);
         $cache->update_row('MyUser_' . $id, [
             'hash1' => $hash1
-        ], $INSTALLER09['expires']['curuser']);
+        ], $TRINITY20['expires']['curuser']);
         $cache->update_row('hash1_' . $id, [
             'hash1' => $hash1
-        ], $INSTALLER09['expires']['user_hash']);
+        ], $TRINITY20['expires']['user_hash']);
         stderr('Success', $lang['createlink_your_login_link_was_created_successfully']);
     } else {
-        header("Refresh: 2; url={$INSTALLER09['baseurl']}/userdetails.php?id=$id");
+        header("Refresh: 2; url={$TRINITY20['baseurl']}/userdetails.php?id=$id");
         stderr($lang['gl_error'], $lang['createlink_you_have_already_created_your_login_link']);
     }
 }

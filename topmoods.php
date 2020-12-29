@@ -23,7 +23,7 @@ $stdhead = array(
     )
 );
 
-if ($INSTALLER09['mood_sys_on'] == false) {
+if ($TRINITY20['mood_sys_on'] == false) {
 stderr($lang['user_mood_err'], $lang['user_mood_off']);
 exit();
 }
@@ -48,7 +48,7 @@ if ($topmoods === false) {
     while ($arr = mysqli_fetch_assoc($res)) {
         $topmoods.= '<tr><td class="text-center">' . (int)$arr['moodcount'] . '</td>
                  <td class="text-center">' . htmlsafechars($arr['name']) . ' ' . ($arr['bonus'] == 1 ? '<a href="/mybonus.php" style="color:lime">(bonus)</a>' : '') . '</td>
-                 <td class="text-center"><img src="' . $INSTALLER09['pic_base_url'] . 'smilies/' . htmlsafechars($arr['image']) . '" alt="" /></td>
+                 <td class="text-center"><img src="' . $TRINITY20['pic_base_url'] . 'smilies/' . htmlsafechars($arr['image']) . '" alt="" /></td>
                  </tr>';
     }
     $cache->set($key, $topmoods, 0);

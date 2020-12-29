@@ -22,7 +22,7 @@ $news = $cache->get($keys['latest_news']);
 if ($news === false) {
     $res = sql_query("SELECT " . $prefix . ".id AS nid, " . $prefix . ".userid, " . $prefix . ".added, " . $prefix . ".title, " . $prefix . ".body, " . $prefix . ".sticky, " . $prefix . ".anonymous, u.username, u.id, u.class, u.warned, u.chatpost, u.pirate, u.king, u.leechwarn, u.enabled, u.donor FROM news AS " . $prefix . " LEFT JOIN users AS u ON u.id = " . $prefix . ".userid WHERE " . $prefix . ".added + ( 3600 *24 *45 ) > " . TIME_NOW . " ORDER BY sticky, " . $prefix . ".added DESC LIMIT 10") or sqlerr(__FILE__, __LINE__);
     while ($array = mysqli_fetch_assoc($res)) $news[] = $array;
-    $cache->set($keys['latest_news'], $news, $INSTALLER09['expires']['latest_news']);
+    $cache->set($keys['latest_news'], $news, $TRINITY20['expires']['latest_news']);
 }
 $news_flag = 0;
 if ($news) {

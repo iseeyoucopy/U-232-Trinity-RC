@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(1200);
     ignore_user_abort(1);
     //== Updated demote power users
@@ -64,13 +64,13 @@ function docleanup($data)
                 $users_buffer[] = '(' . $userid . ', ' . $prev_class . ', ' . $modcom . ')';
                 $cache->update_row('user' . $userid, [
                     'class' => $prev_class
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('user_stats_' . $userid, [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 $cache->update_row('MYuser_' . $userid, [
                     'class' => $prev_class
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->delete('inbox_new_' . $userid);
                 $cache->delete('inbox_new_sb_' . $userid);
             }

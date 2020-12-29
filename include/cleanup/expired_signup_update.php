@@ -12,10 +12,10 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(0);
     ignore_user_abort(1);
-    $deadtime = TIME_NOW - $INSTALLER09['signup_timeout'];
+    $deadtime = TIME_NOW - $TRINITY20['signup_timeout'];
     sql_query("DELETE FROM users WHERE status = 'pending' AND added < $deadtime AND last_login < $deadtime AND last_access < $deadtime");
     if ($queries > 0) write_log("Expired Signup clean-------------------- Expired Signup cleanup Complete using $queries queries --------------------");
     if (false !== mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {

@@ -81,7 +81,7 @@ function sql_get_version()
     $mysql_version = sprintf('%d%02d%02d', $tmp[0], $tmp[1], $tmp[2]);
     return $mysql_version . " (" . $true_version . ")";
 }
-$php_version = phpversion() . " (" . @php_sapi_name() . ") ( <a href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=system_view&amp;action=system_view&amp;phpinfo=1'>{$lang['system_phpinfo']}</a> )";
+$php_version = phpversion() . " (" . @php_sapi_name() . ") ( <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=system_view&amp;action=system_view&amp;phpinfo=1'>{$lang['system_phpinfo']}</a> )";
 $server_software = php_uname();
 // print $php_version ." ".$server_software;
 $load_limit = "--";

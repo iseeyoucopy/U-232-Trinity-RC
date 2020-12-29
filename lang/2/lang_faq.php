@@ -12,7 +12,7 @@
  */
 $lang = array(
     //FAQ
-    'faq_welcome' => "<b>Bienvenue sur {$INSTALLER09['site_name']}!</b><br />
+    'faq_welcome' => "<b>Bienvenue sur {$TRINITY20['site_name']}!</b><br />
     <br />
     Contacter le <a class='altlink' href='staff.php'>Staff</a> pour toute question relative à la FAQ<br />
     <br />
@@ -21,7 +21,7 @@ $lang = array(
     <br />
     Il y a seulement quelques points à respecter, alors pas de panique! Les règles nous aident simplement à être une meilleure communauté!!<br />
     <br />
-    Avant d'aller plus loin, vous devriez lire <a class='altlink' href='useragreement.php'>l'accord de l'utilisateur</a> {$INSTALLER09['site_name']}.
+    Avant d'aller plus loin, vous devriez lire <a class='altlink' href='useragreement.php'>l'accord de l'utilisateur</a> {$TRINITY20['site_name']}.
     <br />",
     'faq_contents_header' => "Table des matières",
     'faq_siteinfo_header' => "Informations sur le site",
@@ -37,18 +37,18 @@ $lang = array(
         <li><a href='#user2' class='altlink'>J'ai perdu mon nom d'utilisateur ou mot de passe! Pouvez-vous me l'envoyer?</a></li>
         <li><a href='#user3' class='altlink'>Pouvez-vous renommer mon compte?</a></li>
         <li><a href='#user4' class='altlink'>Pouvez-vous supprimer mon compte (confirmé)?</a>
-        <img src='{$INSTALLER09['pic_base_url']}updated.png' alt='Updated' width='46' height='11' /></li>
+        <img src='{$TRINITY20['pic_base_url']}updated.png' alt='Updated' width='46' height='11' /></li>
         <li><a href='#userb' class='altlink'>Alors, quel est mon ratio?</a></li>
         <li><a href='#user5' class='altlink'>Pourquoi mon IP est affiché sur ma page de détails?</a></li>
         <li><a href='#user6' class='altlink'>Au secours! Je ne peux pas me connecter!? (aka Login of Death)</a></li>
         <li><a href='#user7' class='altlink'>Mon adresse IP est dynamique. Comment puis-je rester connecté?</a>
-        <img src='{$INSTALLER09['pic_base_url']}updated.png' alt='Updated' width='46' height='11' /></li>
+        <img src='{$TRINITY20['pic_base_url']}updated.png' alt='Updated' width='46' height='11' /></li>
         <li><a href='#user8' class='altlink'>Pourquoi suis-je inscrit comme non connectable? (Et pourquoi s'en soucier?)</a></li>
         <li><a href='#user9' class='altlink'>Quelles sont les différentes classes d'utilisateurs?</a></li>
         <li><a href='#usera' class='altlink'>Comment fonctionne le système de promotion?</a></li>
         <li><a href='#usere' class='altlink'>Hey! J'ai vu des Power Users avec moins de 25Go uploadés!</a></li>
         <li><a href='#userc' class='altlink'>Comment un ami peut devenir membre?</a>
-        <img src='{$INSTALLER09['pic_base_url']}updated.png' alt='Updated' width='46' height='11' /></li>
+        <img src='{$TRINITY20['pic_base_url']}updated.png' alt='Updated' width='46' height='11' /></li>
         <li><a href='#userd' class='altlink'>Comment puis-je ajouter un avatar à mon profil?</a></li>
       </ul>
     <br />",
@@ -60,9 +60,9 @@ $lang = array(
         <li><a href='#stats4' class='altlink'>Pourquoi un torrent que je télécharge / upload est listé plusieurs fois sur mon profil?</a></li>
         <li><a href='#stats5' class='altlink'>J'ai terminé ou annulé un torrent. Pourquoi est-il toujours répertorié dans mon profil?</a></li>
         <li><a href='#stats6' class='altlink'>Pourquoi je vois parfois des torrents sur lesquels je ne suis pas en leech dans mon profil!?</a>
-        <img src='{$INSTALLER09['pic_base_url']}/updated.png' alt='Updated' width='46' height='11' /></li>
+        <img src='{$TRINITY20['pic_base_url']}/updated.png' alt='Updated' width='46' height='11' /></li>
         <li><a href='#stats7' class='altlink'>Plusieurs adresses IP (Puis-je me connecter à partir de différents ordinateurs?)</a>
-        <img src='{$INSTALLER09['pic_base_url']}updated.png' alt='Updated' width='46' height='11' /></li>
+        <img src='{$TRINITY20['pic_base_url']}updated.png' alt='Updated' width='46' height='11' /></li>
         <li><a href='#stats8' class='altlink'>Comment fonctionne le partage de connexion NAT ou ICS?</a></li>
         <li><a href='#stats9' class='altlink'>Pour ceux d'entre vous qui veulent approfondir (Anatomie d'une session de torrent)...</a></li>
       </ul>
@@ -72,7 +72,7 @@ $lang = array(
         <li><a href='#up1' class='altlink'>Pourquoi ne puis-je pas envoyer des torrents?</a> </li>
       <li><a href='#up2' class='altlink'>Quels critères faut-il remplir avant de pouvoir rejoindre l'équipe des Uploadeurs?</a></li>
       <li><a href='#up3' class='altlink'>Puis-je uploader les torrents sur d'autres trackers?</a>
-      <img src='{$INSTALLER09['pic_base_url']}new.png' alt='New' width='27' height='11' /></li>
+      <img src='{$TRINITY20['pic_base_url']}new.png' alt='New' width='27' height='11' /></li>
       </ul>
     <br />",
     'faq_downloading_header' => "Téléchargement",
@@ -80,19 +80,19 @@ $lang = array(
         <li><a href='#dl1' class='altlink'>Comment puis-je utiliser les fichiers que j'ai téléchargés?</a></li>
         <li><a href='#dl2' class='altlink'>Télécharger un film et comprendre ce que signifie les tags CAM / TS / TC / SCR?</a></li>
         <li><a href='#dl3' class='altlink'>Pourquoi un torrent actif a soudainement disparu?</a>
-        <img src='{$INSTALLER09['pic_base_url']}updated.png' alt='Updated' width='46' height='11' /></li>
+        <img src='{$TRINITY20['pic_base_url']}updated.png' alt='Updated' width='46' height='11' /></li>
         <li><a href='#dl4' class='altlink'>Comment puis-je reprendre un téléchargement ou un envoie?</a></li>
         <li><a href='#dl5' class='altlink'>Pourquoi mes téléchargements restent parfois bloqués à 99%?</a></li>
         <li><a href='#dl6' class='altlink'>Que signifie ces messages &quot;a piece has failed an hash check&quot; ?</a></li>
         <li><a href='#dl7' class='altlink'>Le torrent est supposé être de 100MB. Comment se fait-il que j'ai téléchargé 120MB?</a></li>
         <li><a href='#dl8' class='altlink'>Pourquoi ai-je &quot;Not authorized (xx h) - READ THE FAQ!&quot; error?</a>
-        <img src='{$INSTALLER09['pic_base_url']}new.png' alt='New' width='27' height='11' /></li>
+        <img src='{$TRINITY20['pic_base_url']}new.png' alt='New' width='27' height='11' /></li>
         <li><a href='#dl9' class='altlink'>Pourquoi ai-je &quot;rejected by tracker - Port xxxx is blacklisted&quot; error?</a>
-        <img src='{$INSTALLER09['pic_base_url']}new.png' alt='New' width='27' height='11' /></li>
+        <img src='{$TRINITY20['pic_base_url']}new.png' alt='New' width='27' height='11' /></li>
         <li><a href='#dla' class='altlink'>Qu'est-ce que c'est 'IOError - [Errno13] Permission denied' error?</a>
-        <img src='{$INSTALLER09['pic_base_url']}new.png' alt='New' width='27' height='11' /></li>
+        <img src='{$TRINITY20['pic_base_url']}new.png' alt='New' width='27' height='11' /></li>
         <li><a href='#dlb' class='altlink'>Qu'est-ce que c'est &quot;TTL&quot; in the browse page?</a>
-        <img src='{$INSTALLER09['pic_base_url']}new.png' alt='New' width='27' height='11' /></li>
+        <img src='{$TRINITY20['pic_base_url']}new.png' alt='New' width='27' height='11' /></li>
       </ul>
     <br />",
     'faq_improve_header' => "Comment puis-je améliorer ma vitesse de téléchargement?",
@@ -122,7 +122,7 @@ $lang = array(
         <li><a href='#conn2' class='altlink'>Peut-être que mon adresse est blacklistée?</a></li>
         <li><a href='#conn3' class='altlink'>Votre FAI bloque l'adresse du site</a></li>
       <li><a href='#conn4' class='altlink'>Port alternatif (81)</a>
-      <img src='{$INSTALLER09['pic_base_url']}updated.png' alt='Updated' width='46' height='11' /></li>
+      <img src='{$TRINITY20['pic_base_url']}updated.png' alt='Updated' width='46' height='11' /></li>
       </ul>
     <br />",
     'faq_problem' => "<b>Que faire si je ne peux pas trouver la réponse à mon problème ici?</b>",
@@ -134,13 +134,13 @@ $lang = array(
     <br />
     <b>Où va l'argent des donations?</b><a name='site2' id='site2'></a><br />
     <br />
-    {$INSTALLER09['site_name']} est située sur un serveur dédié en Californie USA.
+    {$TRINITY20['site_name']} est située sur un serveur dédié en Californie USA.
     Pour le moment nous avons tous les mois des frais de fonctionnement.<br />
     <br />
     <b>Où puis-je obtenir une copie du code source ?<a name='site4' id='site4'></a></b><br />
     <br />
     <p>
-    Nous ne fournissons pas le code source <a class='altlink' href='https://www.anonymous-tracker.me' TARGET=BLANK>{$INSTALLER09['site_name']}</a>.</p>",
+    Nous ne fournissons pas le code source <a class='altlink' href='https://www.anonymous-tracker.me' TARGET=BLANK>{$TRINITY20['site_name']}</a>.</p>",
     'faq_userinfo_body' => "<b>J'ai enregistré un compte mais je n'ai pas reçu la confirmation par e-mail!</b><a name='user1' id='user1'></a><br />
     <br />
     Vous pouvez contacter le staff du site via irc ou via un PM staff<br />
@@ -222,14 +222,14 @@ $lang = array(
       <td class='embedded'>Peut télécharger les torrents et afficher les fichiers NFO.</td>
     </tr>
     <tr>
-      <td class='embedded' bgcolor='#F5F4EA'>&nbsp;  <img src='{$INSTALLER09['pic_base_url']}star.gif' alt='Star' /></td>
+      <td class='embedded' bgcolor='#F5F4EA'>&nbsp;  <img src='{$TRINITY20['pic_base_url']}star.gif' alt='Star' /></td>
       <td class='embedded' width='5'>&nbsp;</td>
-      <td class='embedded'>DONATEUR pour {$INSTALLER09['site_name']} . </td>
+      <td class='embedded'>DONATEUR pour {$TRINITY20['site_name']} . </td>
     </tr>
     <tr>
       <td class='embedded' valign='top' bgcolor='#F5F4EA'>&nbsp; <b>VIP</b></td>
       <td class='embedded' width='5'>&nbsp;</td>
-      <td class='embedded' valign='top'>Mêmes privilèges que les Power Users, ils sont considéré comme des membres d'élite pour {$INSTALLER09['site_name']}. Immunité totale.</td>
+      <td class='embedded' valign='top'>Mêmes privilèges que les Power Users, ils sont considéré comme des membres d'élite pour {$TRINITY20['site_name']}. Immunité totale.</td>
     </tr>
     <tr>
       <td class='embedded' bgcolor='#F5F4EA'>&nbsp; <b><font color='#4040c0'>UPLOADER</font></b></td>
@@ -249,7 +249,7 @@ $lang = array(
     <tr>
       <td class='embedded' bgcolor='#F5F4EA'>&nbsp; <b><font color='#A83838'>SYSOP</font></b></td>
       <td class='embedded' width='5'>&nbsp;</td>
-      <td class='embedded'>Propriétaire du site {$INSTALLER09['site_name']}</td>
+      <td class='embedded'>Propriétaire du site {$TRINITY20['site_name']}</td>
     </tr>
     </table>
     <br />
@@ -264,14 +264,14 @@ $lang = array(
       si votre ratio descend en dessous de 0,95.</td>
     </tr>
     <tr>
-      <td class='embedded' bgcolor='#F5F4EA'>&nbsp; <img src='{$INSTALLER09['pic_base_url']}star.gif' alt='Star' /></td>
+      <td class='embedded' bgcolor='#F5F4EA'>&nbsp; <img src='{$TRINITY20['pic_base_url']}star.gif' alt='Star' /></td>
       <td class='embedded' width='5'>&nbsp;</td>
       <td class='embedded'>Seulement pour les donateurs, contacter le <a class='altlink' href='pm_system.php?action=send_message&amp;receiver=1'>SysOp</a> pour les détails.</td>
     </tr>
     <tr>
       <td class='embedded' bgcolor='#F5F4EA' valign='top'>&nbsp; <b>VIP</b></td>
       <td class='embedded' width='5'>&nbsp;</td>
-      <td class='embedded' valign='top'>Assigné aux utilisateurs qui contribue pour {$INSTALLER09['site_name']}.<br />
+      <td class='embedded' valign='top'>Assigné aux utilisateurs qui contribue pour {$TRINITY20['site_name']}.<br />
       (Toute personne demandant le statut VIP sera automatiquement disqualifiée.)</td>
     </tr>
     <tr>
@@ -395,7 +395,7 @@ $lang = array(
     <br />
     No. We are a closed, limited-membership community. Only registered users can use the TB tracker.
     Posting our torrents on other trackers is useless, since most people who attempt to download them will
-    be unable to connect with us. This generates a lot of frustration and bad-will against us at {$INSTALLER09['site_name']},
+    be unable to connect with us. This generates a lot of frustration and bad-will against us at {$TRINITY20['site_name']},
     and will therefore not be tolerated.<br />
     <br />
     Complaints from other sites' administrative staff about our torrents being posted on their sites will
@@ -535,7 +535,7 @@ $lang = array(
     Your client is reporting to the tracker that it uses one of the default bittorrent ports
     (6881-6889) or any other common p2p port for incoming connections.<br />
     <br />
-    {$INSTALLER09['site_name']} does not allow clients to use ports commonly associated with p2p protocols.
+    {$TRINITY20['site_name']} does not allow clients to use ports commonly associated with p2p protocols.
     The reason for this is that it is a common practice for ISPs to throttle those ports
     (that is, limit the bandwidth, hence the speed). <br />
     <br />
@@ -742,7 +742,7 @@ $lang = array(
     <br />
     <b>Why am I listed as not connectable even though I'm not NAT/Firewalled?</b><a name='prox3'></a><br />
     <br />
-    The {$INSTALLER09['site_name']} tracker is quite smart at finding your real IP, but it does need the proxy to send the HTTP header
+    The {$TRINITY20['site_name']} tracker is quite smart at finding your real IP, but it does need the proxy to send the HTTP header
     HTTP_X_FORWARDED_FOR. If your ISP's proxy does not then what happens is that the tracker will interpret the proxy's IP
     address as the client's IP address. So when you login and the tracker tries to connect to your client to see if you are
     NAT/firewalled it will actually try to connect to the proxy on the port your client reports to be using for
@@ -756,7 +756,7 @@ $lang = array(
     like <a href='redir.php?url=http://www.socks.permeo.com'>socks</a> and that is outside the scope of this FAQ.<br />
     <br />
     The site accepts connections on port 81 besides the usual 80, and using them may be enough to fool some proxies. So the first
-    thing to try should be connecting to {$INSTALLER09['baseurl']}:81. Note that even if this works your bt client will still try
+    thing to try should be connecting to {$TRINITY20['baseurl']}:81. Note that even if this works your bt client will still try
     to connect to port 80 unless you edit the announce url in the .torrent file.<br />
     <br />
     Otherwise you may try the following:<br />
@@ -773,7 +773,7 @@ $lang = array(
         <li>(Facultative) Visit <a href='redir.php?url=http://proxyjudge.org' class='altlink'>ProxyJudge</a>. If you see an HTTP_X_FORWARDED_FOR in
       the list followed by your IP then everything should be ok, otherwise choose another proxy and try again.<br /></li>
 
-        <li>Visit {$INSTALLER09['site_name']}. Hopefully the tracker will now pickup your real IP (check your profile to make sure).</li>
+        <li>Visit {$TRINITY20['site_name']}. Hopefully the tracker will now pickup your real IP (check your profile to make sure).</li>
     </ul>
     <br />
     Notice that now you will be doing all your browsing through a public proxy, which are typically quite slow.
@@ -795,7 +795,7 @@ $lang = array(
     <br />
     <b>Does this apply to other torrent sites?</b><a name='prox7'></a><br />
     <br />
-    This section was written for {$INSTALLER09['site_name']}, a closed, port 80-81 tracker. Other trackers may be open or closed, and many listen
+    This section was written for {$TRINITY20['site_name']}, a closed, port 80-81 tracker. Other trackers may be open or closed, and many listen
     on e.g. ports 6868 or 6969. The above does <b>not</b> necessarily apply to other trackers.<br />",
     'faq_blocked_title' => "Why can't I connect? Is the site blocking me?",
     'faq_blocked_body' => "<br />
@@ -834,11 +834,11 @@ $lang = array(
 
     You can easily solve this by editing the .torrent file yourself with any torrent editor, e.g.
     <a href='redir.php?url=http://sourceforge.net/projects/burst/' class='altlink'>MakeTorrent</a>,
-    and replacing the announce url {$INSTALLER09['baseurl']}:81 with {$INSTALLER09['site_name']}:80 or just {$INSTALLER09['site_name']}.<br />
+    and replacing the announce url {$TRINITY20['baseurl']}:81 with {$TRINITY20['site_name']}:80 or just {$TRINITY20['site_name']}.<br />
     <br />
     Editing the .torrent with Notepad is not recommended. It may look like a text file, but it is in fact
     a bencoded file. If for some reason you must use a plain text editor, change the announce url to
-    {$INSTALLER09['site_name']}:80, not {$INSTALLER09['site_name']}. (If you're thinking about changing the number before the
+    {$TRINITY20['site_name']}:80, not {$TRINITY20['site_name']}. (If you're thinking about changing the number before the
     announce url instead, you know too much to be reading this.)
     </div>
     </td></tr></table>

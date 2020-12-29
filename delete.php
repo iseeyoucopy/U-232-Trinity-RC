@@ -22,7 +22,7 @@ if (!is_valid_id($id)) stderr("{$lang['delete_failed']}", "{$lang['delete_missin
 //==delete torrents by putyn
 function deletetorrent($id)
 {
-    global $INSTALLER09, $cache, $CURUSER, $lang;
+    global $TRINITY20, $cache, $CURUSER, $lang;
     sql_query("DELETE peers.*, files.*, comments.*, snatched.*, thanks.*, bookmarks.*, coins.*, rating.*, thumbsup.*, torrents.* FROM torrents 
 				 LEFT JOIN peers ON peers.torrent = torrents.id
 				 LEFT JOIN files ON files.torrent = torrents.id
@@ -34,12 +34,12 @@ function deletetorrent($id)
                                  LEFT JOIN thumbsup ON thumbsup.torrentid = torrents.id
 				 LEFT JOIN snatched ON snatched.torrentid = torrents.id
 				 WHERE torrents.id =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    unlink("{$INSTALLER09['torrent_dir']}/$id.torrent");
+    unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
     $cache->delete_value('MyPeers_' . $CURUSER['id']);
 }
 function deletetorrent_xbt($id)
 {
-   global $INSTALLER09, $cache, $CURUSER, $lang;
+   global $TRINITY20, $cache, $CURUSER, $lang;
    sql_query("UPDATE torrents SET flags = 1 WHERE id = ".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
    sql_query("DELETE files.*, comments.*, thankyou.*, thanks.*, thumbsup.*, bookmarks.*, coins.*, rating.*, xbt_files_users.* FROM xbt_files_users
                                      LEFT JOIN files ON files.torrent = xbt_files_users.fid
@@ -51,7 +51,7 @@ function deletetorrent_xbt($id)
                                      LEFT JOIN rating ON rating.torrent = xbt_files_users.fid
                                      LEFT JOIN thumbsup ON thumbsup.torrentid = xbt_files_users.fid
                                      WHERE xbt_files_users.fid =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-        unlink("{$INSTALLER09['torrent_dir']}/$id.torrent");
+        unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
         $cache->delete_value('MyPeers_XBT_' . $CURUSER['id']);
     }
 $res = sql_query("SELECT name, owner, seeders FROM torrents WHERE id =" . sqlesc($id));
@@ -66,7 +66,7 @@ elseif ($rt == 2) $reasonstr = "{$lang['delete_dupe']}" . ($reason[0] ? (": " . 
 elseif ($rt == 3) $reasonstr = "{$lang['delete_nuked']}" . ($reason[1] ? (": " . trim($reason[1])) : "!");
 elseif ($rt == 4) {
     if (!$reason[2]) stderr("{$lang['delete_failed']}", "{$lang['delete_violated']}");
-    $reasonstr = $INSTALLER09['site_name'] . "{$lang['delete_rules']}" . trim($reason[2]);
+    $reasonstr = $TRINITY20['site_name'] . "{$lang['delete_rules']}" . trim($reason[2]);
 } else {
     if (!$reason[3]) stderr("{$lang['delete_failed']}", "{$lang['delete_reason']}");
     $reasonstr = trim($reason[3]);
@@ -84,17 +84,17 @@ $cache->delete_value('scroll_tor_');
 $cache->delete_value('torrent_details_' . $id);
 $cache->delete_value('torrent_details_text' . $id);
 write_log("{$lang['delete_torrent']} $id ({$row['name']}){$lang['delete_deleted_by']}{$CURUSER['username']} ($reasonstr)\n");
-if ($INSTALLER09['seedbonus_on'] == 1) {
+if ($TRINITY20['seedbonus_on'] == 1) {
     //===remove karma
-    sql_query("UPDATE users SET seedbonus = seedbonus-".sqlesc($INSTALLER09['bonus_per_delete'])." WHERE id = " . sqlesc($row["owner"])) or sqlerr(__FILE__, __LINE__);
-    $update['seedbonus'] = ($CURUSER['seedbonus'] - $INSTALLER09['bonus_per_delete']);
-    $update['seedbonus'] = ($CURUSER['seedbonus'] - $INSTALLER09['bonus_per_delete']);
+    sql_query("UPDATE users SET seedbonus = seedbonus-".sqlesc($TRINITY20['bonus_per_delete'])." WHERE id = " . sqlesc($row["owner"])) or sqlerr(__FILE__, __LINE__);
+    $update['seedbonus'] = ($CURUSER['seedbonus'] - $TRINITY20['bonus_per_delete']);
+    $update['seedbonus'] = ($CURUSER['seedbonus'] - $TRINITY20['bonus_per_delete']);
     $cache->update_row('userstats_' . $row["owner"], [
         'seedbonus' => $update['seedbonus']
-    ], $INSTALLER09['expires']['u_stats']);
+    ], $TRINITY20['expires']['u_stats']);
     $cache->update_row('user_stats_' . $row["owner"], [
         'seedbonus' => $update['seedbonus']
-    ], $INSTALLER09['expires']['user_stats']);
+    ], $TRINITY20['expires']['user_stats']);
     //===end
     
 }
@@ -107,7 +107,7 @@ if ($CURUSER["id"] != $row["owner"] AND $CURUSER['pm_on_delete'] == 'yes') {
     $cache->delete_value('inbox_new_sb_' . $pm_on);
 }
 if (isset($_POST["returnto"])) $ret = "<a href='" . htmlsafechars($_POST["returnto"]) . "'>{$lang['delete_go_back']}</a>";
-else $ret = "<a href='{$INSTALLER09['baseurl']}/browse.php'>{$lang['delete_back_browse']}</a>";
+else $ret = "<a href='{$TRINITY20['baseurl']}/browse.php'>{$lang['delete_back_browse']}</a>";
 $HTMLOUT = '';
 $HTMLOUT.= "<h2>{$lang['delete_deleted']}</h2>
     <p>$ret</p>";

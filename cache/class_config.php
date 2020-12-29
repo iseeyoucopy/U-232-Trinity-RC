@@ -41,13 +41,13 @@ UC_SYSOP => 'FF0000'
 
 
 $class_images = array(
-  UC_USER => $INSTALLER09['pic_base_url'].'class/user.gif',
-UC_POWER_USER => $INSTALLER09['pic_base_url'].'class/power.gif',
-UC_VIP => $INSTALLER09['pic_base_url'].'class/vip.gif',
-UC_UPLOADER => $INSTALLER09['pic_base_url'].'class/uploader.gif',
-UC_MODERATOR => $INSTALLER09['pic_base_url'].'class/moderator.gif',
-UC_ADMINISTRATOR => $INSTALLER09['pic_base_url'].'class/administrator.gif',
-UC_SYSOP => $INSTALLER09['pic_base_url'].'class/sysop.gif'										
+  UC_USER => $TRINITY20['pic_base_url'].'class/user.gif',
+UC_POWER_USER => $TRINITY20['pic_base_url'].'class/power.gif',
+UC_VIP => $TRINITY20['pic_base_url'].'class/vip.gif',
+UC_UPLOADER => $TRINITY20['pic_base_url'].'class/uploader.gif',
+UC_MODERATOR => $TRINITY20['pic_base_url'].'class/moderator.gif',
+UC_ADMINISTRATOR => $TRINITY20['pic_base_url'].'class/administrator.gif',
+UC_SYSOP => $TRINITY20['pic_base_url'].'class/sysop.gif'										
   );
 
 

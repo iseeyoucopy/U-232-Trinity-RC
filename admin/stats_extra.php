@@ -176,7 +176,7 @@ function show_views()
             $img_width.= '%';
             $htmlout.= "<tr>
     			<td valign='middle'>$date</td>
-    			<td valign='middle'><img src='{$INSTALLER09['pic_base_url']}/bar_left.gif' border='0' width='4' height='11' align='middle' alt='' /><img src='{$INSTALLER09['pic_base_url']}/bar.gif' border='0' width='$img_width' height='11' align='middle' alt='' /><img src='{$INSTALLER09['pic_base_url']}/bar_right.gif' border='0' width='4' height='11' align='middle' alt='' /></td>
+    			<td valign='middle'><img src='{$TRINITY20['pic_base_url']}/bar_left.gif' border='0' width='4' height='11' align='middle' alt='' /><img src='{$TRINITY20['pic_base_url']}/bar.gif' border='0' width='$img_width' height='11' align='middle' alt='' /><img src='{$TRINITY20['pic_base_url']}/bar_right.gif' border='0' width='4' height='11' align='middle' alt='' /></td>
 					<td valign='middle'><center>{$data['result_count']}</center></td>
 					</tr>";
         }
@@ -193,7 +193,7 @@ function show_views()
 }
 function result_screen($mode = 'reg')
 {
-    global $INSTALLER09, $inbound, $month_names, $lang;
+    global $TRINITY20, $inbound, $month_names, $lang;
     $page_title = $lang['stats_ex_center_result'];
     $page_detail = "&nbsp;";
     if (!checkdate($inbound['to_month'], $inbound['to_day'], $inbound['to_year'])) {
@@ -317,7 +317,7 @@ function result_screen($mode = 'reg')
             }
             $htmlout.= "<tr>
     			<td>$date</td>
-    			<td><img src='{$INSTALLER09['pic_base_url']}/bar_left.gif' border='0' width='4' height='11' align='middle' alt='' /><img src='{$INSTALLER09['pic_base_url']}/bar.gif' border='0' width='$img_width' height='11' align='middle' alt='' /><img src='{$INSTALLER09['pic_base_url']}/bar_right.gif' border='0' width='4' height='11' align='middle' alt='' /></td>
+    			<td><img src='{$TRINITY20['pic_base_url']}/bar_left.gif' border='0' width='4' height='11' align='middle' alt='' /><img src='{$TRINITY20['pic_base_url']}/bar.gif' border='0' width='$img_width' height='11' align='middle' alt='' /><img src='{$TRINITY20['pic_base_url']}/bar_right.gif' border='0' width='4' height='11' align='middle' alt='' /></td>
 					<td>{$data['result_count']}</td>
 					</tr>";
         }
@@ -334,7 +334,7 @@ function result_screen($mode = 'reg')
 }
 function main_screen($mode = 'reg')
 {
-    global $INSTALLER09, $lang;
+    global $TRINITY20, $lang;
     $page_title = $lang['stats_ex_center'];
     $page_detail = "{$lang['stats_ex_details_main']}<br />{$lang['stats_ex_details_main1']}";
     if ($mode == 'reg') {
@@ -367,7 +367,7 @@ function main_screen($mode = 'reg')
     $menu = make_side_menu();
     $htmlout = "
     <div class='well'><div class='row'><div class='col-md-12'><h2 class='text-center'>{$lang['stats_ex_center']}</h2></div></div><br><div class='row'><div class='col-md-12'>{$menu}</div></div><br><div class='row'><div class='col-md-12'>
-    <form action='{$INSTALLER09['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra' method='post' name='StatsForm'>
+    <form action='{$TRINITY20['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra' method='post' name='StatsForm'>
     <input name='mode' value='{$form_code}' type='hidden'>
     <div class='row'><div class='col-md-12'><h4 class='text-center'>{$table}</h4></div></div>
     <div class='row well'><div class='col-md-12'><fieldset><legend><strong>{$lang['stats_ex_infor']}</strong></legend>{$page_detail}</fieldset></div></div>
@@ -468,18 +468,18 @@ function make_select($name, $in = array() , $default = "")
 }
 function make_side_menu()
 {
-    global $INSTALLER09, $lang;
+    global $TRINITY20, $lang;
     $htmlout = "<div class='row'><div class='col-md-12'>
 		<div class='nav offset1'>
 		<ul class='nav nav-pills'>    
-    <li>&nbsp;&nbsp;<a href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra&amp;mode=reg' style='text-decoration: none;'>{$lang['stats_ex_menureg']}</a></li>
-    <li>&nbsp;&nbsp;<a href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra&amp;mode=topic' style='text-decoration: none;'>{$lang['stats_ex_menutopnew']}</a></li>
-    <li>&nbsp;&nbsp;<a href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra&amp;mode=post' style='text-decoration: none;'>{$lang['stats_ex_menuposts']}</a></li>
-    <li>&nbsp;&nbsp;<a href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra&amp;mode=msg' style='text-decoration: none;'>{$lang['stats_ex_menupm']}</a></li>
-    <li>&nbsp;&nbsp;<a href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra&amp;mode=views' style='text-decoration: none;'>{$lang['stats_ex_menutopic']}</a></li>
-    <li>&nbsp;&nbsp;<a href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra&amp;mode=comms' style='text-decoration: none;'>{$lang['stats_ex_menucomm']}</a></li>
-    <li>&nbsp;&nbsp;<a href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra&amp;mode=torrents' style='text-decoration: none;'>{$lang['stats_ex_menutorr']}</a></li>
-    <li>&nbsp;&nbsp;<a href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra&amp;mode=reps' style='text-decoration: none;'>{$lang['stats_ex_menurep']}</a></li>
+    <li>&nbsp;&nbsp;<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra&amp;mode=reg' style='text-decoration: none;'>{$lang['stats_ex_menureg']}</a></li>
+    <li>&nbsp;&nbsp;<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra&amp;mode=topic' style='text-decoration: none;'>{$lang['stats_ex_menutopnew']}</a></li>
+    <li>&nbsp;&nbsp;<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra&amp;mode=post' style='text-decoration: none;'>{$lang['stats_ex_menuposts']}</a></li>
+    <li>&nbsp;&nbsp;<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra&amp;mode=msg' style='text-decoration: none;'>{$lang['stats_ex_menupm']}</a></li>
+    <li>&nbsp;&nbsp;<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra&amp;mode=views' style='text-decoration: none;'>{$lang['stats_ex_menutopic']}</a></li>
+    <li>&nbsp;&nbsp;<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra&amp;mode=comms' style='text-decoration: none;'>{$lang['stats_ex_menucomm']}</a></li>
+    <li>&nbsp;&nbsp;<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra&amp;mode=torrents' style='text-decoration: none;'>{$lang['stats_ex_menutorr']}</a></li>
+    <li>&nbsp;&nbsp;<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra&amp;mode=reps' style='text-decoration: none;'>{$lang['stats_ex_menurep']}</a></li>
 </ul></div>
 </div></div>";
     return $htmlout;

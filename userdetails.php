@@ -195,14 +195,14 @@ if (($user = $cache->get('user' . $id)) === false) {
     foreach ($user_fields_ar_int as $i) $user[$i] = (int)$user[$i];
     foreach ($user_fields_ar_float as $i) $user[$i] = (float)$user[$i];
     foreach ($user_fields_ar_str as $i) $user[$i] = $user[$i];
-    $cache->set('user' . $id, $user, $INSTALLER09['expires']['user_cache']);
+    $cache->set('user' . $id, $user, $TRINITY20['expires']['user_cache']);
 }
 if ($user["status"] == "pending") 
 	stderr($lang['userdetails_error'], $lang['userdetails_still_pending']);
 // user stats
 $What_Cache = (XBT_TRACKER == true ? 'user_stats_xbt_' : 'user_stats_');
 if (($user_stats = $cache->get($What_Cache.$id)) === false) {
-    $What_Expire = (XBT_TRACKER == true ? $INSTALLER09['expires']['user_stats_xbt'] : $INSTALLER09['expires']['user_stats']);
+    $What_Expire = (XBT_TRACKER == true ? $TRINITY20['expires']['user_stats_xbt'] : $TRINITY20['expires']['user_stats']);
     $stats_fields_ar_int = array(
             'uploaded',
             'downloaded'
@@ -230,7 +230,7 @@ if (($user_status = $cache->get('user_status_' . $id)) === false) {
         'last_update' => 0,
         'archive' => ''
     );
-    $cache->set('user_status_' . $id, $user_status, $INSTALLER09['expires']['user_status']); // 30 days
+    $cache->set('user_status_' . $id, $user_status, $TRINITY20['expires']['user_status']); // 30 days
     
 }
 //=== delete H&R
@@ -271,18 +271,18 @@ if ((($user['class'] >= UC_STAFF OR $user['id'] == $CURUSER['id']) || ($user['cl
 //==country by pdq
 function countries()
 {
-    global $cache, $INSTALLER09;
+    global $cache, $TRINITY20;
     if (($ret = $cache->get('countries::arr')) === false) {
         $res = sql_query("SELECT id, name, flagpic FROM countries ORDER BY name ASC") or sqlerr(__FILE__, __LINE__);
         while ($row = mysqli_fetch_assoc($res)) $ret[] = $row;
-        $cache->set('countries::arr', $ret, $INSTALLER09['expires']['user_flag']);
+        $cache->set('countries::arr', $ret, $TRINITY20['expires']['user_flag']);
     }
     return $ret;
 }
 $country = '';
 $countries = countries();
 foreach ($countries as $cntry) if ($cntry['id'] == $user['country']) {
-    $country = "<img src=\"{$INSTALLER09['pic_base_url']}flag/{$cntry['flagpic']}\" alt=\"" . htmlsafechars($cntry['name']) . "\" style='margin-left: 8pt'>";
+    $country = "<img src=\"{$TRINITY20['pic_base_url']}flag/{$cntry['flagpic']}\" alt=\"" . htmlsafechars($cntry['name']) . "\" style='margin-left: 8pt'>";
     break;
 }
 //==userhits update by pdq
@@ -297,10 +297,10 @@ if (!(isset($_GET["hit"])) && $CURUSER["id"] <> $user["id"]) {
         $update['user_hits'] = ($user['hits'] + 1);
         $cache->update_row('MyUser_' . $id, [
             'hits' => $update['user_hits']
-        ], $INSTALLER09['expires']['curuser']);
+        ], $TRINITY20['expires']['curuser']);
         $cache->update_row('user' . $id, [
             'hits' => $update['user_hits']
-        ], $INSTALLER09['expires']['user_cache']);
+        ], $TRINITY20['expires']['user_cache']);
         sql_query("INSERT INTO userhits (userid, hitid, number, added) VALUES(" . sqlesc($CURUSER['id']) . ", " . sqlesc($id) . ", " . sqlesc($hitnumber) . ", " . sqlesc(TIME_NOW) . ")") or sqlerr(__FILE__, __LINE__);
     }
 }
@@ -344,7 +344,7 @@ else
 if (($shit_list = $cache->get('shit_list_' . $id)) === false) {
 	$check_if_theyre_shitty = sql_query("SELECT suspect FROM shit_list WHERE userid=" . sqlesc($CURUSER['id']) . " AND suspect=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
 	list($shit_list) = mysqli_fetch_row($check_if_theyre_shitty);
-	$cache->set('shit_list_' . $id, $shit_list, $INSTALLER09['expires']['shit_list']);
+	$cache->set('shit_list_' . $id, $shit_list, $TRINITY20['expires']['shit_list']);
 	}
 $HTMLOUT = $perms = $stealth = $suspended = $watched_user = '';
 if (($user['anonymous'] == 'yes') && ($CURUSER['class'] < UC_STAFF && $user["id"] != $CURUSER["id"])) {
@@ -356,9 +356,9 @@ if ($CURUSER["id"] <> $user["id"] && $CURUSER['class'] >= UC_STAFF)
 //== End Suspended ==//
 $where_is_now = $user['where_is'] ?? '';
 //== Avatar ==//
-//$user_avatar = $user['avatar'] ? "<img class='img-polaroid' src='" . htmlsafechars($user["avatar"]) . "' width='42' height='42'>" : "<img class='img-polaroid' src='{$INSTALLER09['pic_base_url']}forumicons/default_avatar.gif' width='42' height='42'>";
-$perms.= ($CURUSER['class'] >= UC_STAFF ? (($user['perms'] & bt_options::PERMS_NO_IP) ? '<img src="' . $INSTALLER09['pic_base_url'] . 'smilies/super.gif" alt="'.$lang['userdetails_invincible'].'"  title="'.$lang['userdetails_invincible'].'">' : '') : '');
-$stealth.= ($CURUSER['class'] >= UC_STAFF ? (($user['perms'] & bt_options::PERMS_STEALTH) ? '&nbsp;&nbsp;<img src="' . $INSTALLER09['pic_base_url'] . 'smilies/ninja.gif" alt="'.$lang['userdetails_stelth'].'"  title="'.$lang['userdetails_stelth'].'">' : '') : '');
+//$user_avatar = $user['avatar'] ? "<img class='img-polaroid' src='" . htmlsafechars($user["avatar"]) . "' width='42' height='42'>" : "<img class='img-polaroid' src='{$TRINITY20['pic_base_url']}forumicons/default_avatar.gif' width='42' height='42'>";
+$perms.= ($CURUSER['class'] >= UC_STAFF ? (($user['perms'] & bt_options::PERMS_NO_IP) ? '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/super.gif" alt="'.$lang['userdetails_invincible'].'"  title="'.$lang['userdetails_invincible'].'">' : '') : '');
+$stealth.= ($CURUSER['class'] >= UC_STAFF ? (($user['perms'] & bt_options::PERMS_STEALTH) ? '&nbsp;&nbsp;<img src="' . $TRINITY20['pic_base_url'] . 'smilies/ninja.gif" alt="'.$lang['userdetails_stelth'].'"  title="'.$lang['userdetails_stelth'].'">' : '') : '');
 $enabled = $user["enabled"] == 'yes';
 if ($user['opt1'] & user_options::PARKED) 
 	$HTMLOUT.= "<p>{$lang['userdetails_parked']}</p>";
@@ -387,9 +387,9 @@ $HTMLOUT.= ($CURUSER['class'] >= UC_STAFF || $user['show_email'] === 'yes') ? '<
 //== Link Report User - updated 2020 by iseeyoucopy
 $HTMLOUT.= "<a href='report.php?type=User&amp;id=" . (int)$user["id"] . "'><dd><i class='fas fa-comment-alt'></i>{$lang['userdetails_msg_btn']}</dd></a>"; 
 //== Link to usercp  - updated 2020 by iseeyoucopy
-$HTMLOUT.= "".($CURUSER['id'] == $user['id'] ? "<a href='{$INSTALLER09['baseurl']}/usercp.php?action=default'><dd>{$lang['userdetails_editself']}</dd></a>" : "");
- $HTMLOUT.= ($CURUSER['id'] == $user['id'] ? "<a href='{$INSTALLER09['baseurl']}/view_announce_history.php'><dd>{$lang['userdetails_announcements']}</dd></a>" : "") . "";
-$HTMLOUT.= ($CURUSER['id'] != $user['id']) ? "<a href='{$INSTALLER09['baseurl']}/bookmarks.php?action=viewsharemarks&amp;id=$id'><dd><i class='fas fa-bookmark'></i>{$lang['userdetails_sharemarks']}</dd></a>" : "";
+$HTMLOUT.= "".($CURUSER['id'] == $user['id'] ? "<a href='{$TRINITY20['baseurl']}/usercp.php?action=default'><dd>{$lang['userdetails_editself']}</dd></a>" : "");
+ $HTMLOUT.= ($CURUSER['id'] == $user['id'] ? "<a href='{$TRINITY20['baseurl']}/view_announce_history.php'><dd>{$lang['userdetails_announcements']}</dd></a>" : "") . "";
+$HTMLOUT.= ($CURUSER['id'] != $user['id']) ? "<a href='{$TRINITY20['baseurl']}/bookmarks.php?action=viewsharemarks&amp;id=$id'><dd><i class='fas fa-bookmark'></i>{$lang['userdetails_sharemarks']}</dd></a>" : "";
 //== links to make invincible method 1 (PERMS_NO_IP/ no log ip) - updated 2020 by iseeyoucopy
 if ($CURUSER['class'] == UC_MAX)	
 $HTMLOUT.= ($user['perms'] & bt_options::PERMS_NO_IP)  ? ' <a href="userdetails.php?id=' . $id . '&amp;invincible=no"><dd><i class="fas fa-user-secret"></i>'.$lang['userdetails_invincible_remove'].'</dd></a>' : '<a href="userdetails.php?id=' . $id . '&amp;invincible=yes"><dd><i class="fas fa-user-secret"></i>'.$lang['userdetails_make_invincible'].'</dd></a>';
@@ -411,7 +411,7 @@ if ($user["donor"] && $CURUSER["id"] == $user["id"] || $CURUSER["class"] == UC_S
 		$HTMLOUT.= "";
     else {
         $HTMLOUT.= "<b>{$lang['userdetails_donatedtill']} - " . get_date($user['donoruntil'], 'DATE') . "";
-        $HTMLOUT.= " [ " . mkprettytime($donoruntil - TIME_NOW) . " ] {$lang['userdetails_togo']}...</b>{$lang['userdetails_renew']}<a class='altlink' href='{$INSTALLER09['baseurl']}/donate.php'>{$lang['userdetails_here']}</a>";
+        $HTMLOUT.= " [ " . mkprettytime($donoruntil - TIME_NOW) . " ] {$lang['userdetails_togo']}...</b>{$lang['userdetails_renew']}<a class='altlink' href='{$TRINITY20['baseurl']}/donate.php'>{$lang['userdetails_here']}</a>";
     }
 }
 $HTMLOUT.= ($CURUSER['class'] >= UC_STAFF & $shit_list > 0) ? "<dd><b>{$lang['userdetails_shit1']} <a href='staffpanel.php?tool=shit_list&amp;action=shit_list'>{$lang['userdetails_here']}</a> {$lang['userdetails_shit2']}&nbsp;</b></dd>" : "";
@@ -528,12 +528,12 @@ if (curuser::$blocks['userdetails_page'] & block_userdetails::USERSTATUS && $BLO
 $HTMLOUT.= "</table></div>";
 
 $HTMLOUT.= "<div class='tabs-panel' id='activity'><table class='striped'>";
-if ($INSTALLER09['mood_sys_on']) {
+if ($TRINITY20['mood_sys_on']) {
 $moodname = (isset($mood['name'][$user['mood']]) ? htmlsafechars($mood['name'][$user['mood']]) : $lang['userdetails_neutral']);
 $moodpic = (isset($mood['image'][$user['mood']]) ? htmlsafechars($mood['image'][$user['mood']]) : 'noexpression.gif');
 $HTMLOUT.= '<tr><td class="rowhead">'.$lang['userdetails_currentmood'].'</td><td align="left"><span class="tool">
        <a href="javascript:;" onclick="PopUp(\'usermood.php\',\''.$lang['userdetails_mood'].'\',530,500,1,1);">
-       <img src="' . $INSTALLER09['pic_base_url'] . 'smilies/' . $moodpic . '" alt="' . $moodname . '" border="0">
+       <img src="' . $TRINITY20['pic_base_url'] . 'smilies/' . $moodpic . '" alt="' . $moodname . '" border="0">
        <span class="tip">' . htmlsafechars($user['username']) . ' ' . $moodname . ' !</span></a></span></td></tr>'; 
 }
 if (curuser::$blocks['userdetails_page'] & block_userdetails::SEEDBONUS && $BLOCKS['userdetails_seedbonus_on']) {
@@ -542,7 +542,7 @@ if (curuser::$blocks['userdetails_page'] & block_userdetails::SEEDBONUS && $BLOC
 if (curuser::$blocks['userdetails_page'] & block_userdetails::IRC_STATS && $BLOCKS['userdetails_irc_stats_on']) {
     require_once (BLOCK_DIR . 'userdetails/irc.php');
 }
-if (curuser::$blocks['userdetails_page'] & block_userdetails::REPUTATION && $BLOCKS['userdetails_reputation_on'] && $INSTALLER09['rep_sys_on']) {
+if (curuser::$blocks['userdetails_page'] & block_userdetails::REPUTATION && $BLOCKS['userdetails_reputation_on'] && $TRINITY20['rep_sys_on']) {
     require_once (BLOCK_DIR . 'userdetails/reputation.php');
 }
 if (curuser::$blocks['userdetails_page'] & block_userdetails::PROFILE_HITS && $BLOCKS['userdetails_profile_hits_on']) {

@@ -26,19 +26,19 @@ if (!defined('IN_INSTALLER09_ADMIN')) {
 }
 /*
   function deny_access($def) {
-        global $INSTALLER09;
+        global $TRINITY20;
     if (!defined($def)) {
         //== browsers and user agents that support xhtml
                 if (stristr($_SERVER['HTTP_ACCEPT'], 'application/xhtml+xml')) {
-                        header('Content-type: application/xhtml+xml; charset='.$INSTALLER09['char_set']);
-                        $doctype = '<?xml version="1.0" encoding="'.$INSTALLER09['char_set'].'" ?>'.
+                        header('Content-type: application/xhtml+xml; charset='.$TRINITY20['char_set']);
+                        $doctype = '<?xml version="1.0" encoding="'.$TRINITY20['char_set'].'" ?>'.
                                    '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" '.
                                '"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">'.
-                       '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="'.$INSTALLER09['language'].'">';
+                       '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="'.$TRINITY20['language'].'">';
                 }
                 //== browsers and user agents that DO NOT support xhtml
                 else {
-                header('Content-type: text/html; charset='.$INSTALLER09['char_set']);
+                header('Content-type: text/html; charset='.$TRINITY20['char_set']);
                         $doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" '.
                                    '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'.
                                        '<html xmlns="http://www.w3.org/1999/xhtml">';

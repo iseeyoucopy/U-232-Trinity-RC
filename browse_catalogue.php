@@ -25,11 +25,11 @@ if (isset($_GET['clear_new']) && $_GET['clear_new'] == 1) {
     sql_query("UPDATE users SET last_browse=" . TIME_NOW . " WHERE id=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
     $cache->update_row('MyUser_' . $CURUSER['id'], [
         'last_browse' => TIME_NOW
-    ], $INSTALLER09['expires']['curuser']);
+    ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user' . $CURUSER['id'], [
         'last_browse' => TIME_NOW
-    ], $INSTALLER09['expires']['user_cache']);
-    header("Location: {$INSTALLER09['baseurl']}/browse_catalogue.php");
+    ], $TRINITY20['expires']['user_cache']);
+    header("Location: {$TRINITY20['baseurl']}/browse_catalogue.php");
 }
 $stdfoot = [
     /** include js **/
@@ -269,7 +269,7 @@ if (($count = $cache->get($where_key)) === false) {
     $res = sql_query("SELECT COUNT(id) FROM torrents $where") or sqlerr(__FILE__, __LINE__);
     $row = mysqli_fetch_row($res);
     $count = (int) $row[0];
-    $cache->set($where_key, $count, $INSTALLER09['expires']['browse_where']);
+    $cache->set($where_key, $count, $TRINITY20['expires']['browse_where']);
 }
 $torrentsperpage = $CURUSER["torrentsperpage"];
 if (!$torrentsperpage) {
@@ -288,7 +288,7 @@ if ($count) {
         $addparam = $pagerlink;
     }
     $pager = pager($torrentsperpage, $count, "browse_catalogue.php?" . $addparam);
-    $query = "SELECT id, search_text, category, leechers, seeders, bump, release_group, subs, name, times_completed, size, added, poster, descr, type, free, freetorrent, silver, comments, numfiles, filename, anonymous, sticky, nuked, vip, nukereason, newgenre, description, owner, username, youtube, checked_by, IF(nfo <> '', 1, 0) as nfoav," . "IF(num_ratings < {$INSTALLER09['minvotes']}, NULL, ROUND(rating_sum / num_ratings, 1)) AS rating, url " . "FROM torrents {$where} {$orderby} {$pager['limit']}";
+    $query = "SELECT id, search_text, category, leechers, seeders, bump, release_group, subs, name, times_completed, size, added, poster, descr, type, free, freetorrent, silver, comments, numfiles, filename, anonymous, sticky, nuked, vip, nukereason, newgenre, description, owner, username, youtube, checked_by, IF(nfo <> '', 1, 0) as nfoav," . "IF(num_ratings < {$TRINITY20['minvotes']}, NULL, ROUND(rating_sum / num_ratings, 1)) AS rating, url " . "FROM torrents {$where} {$orderby} {$pager['limit']}";
     $res = sql_query($query) or sqlerr(__FILE__, __LINE__);
 } else {
     unset($query);
@@ -316,19 +316,19 @@ $HTMLOUT.= "<br><br>
 $i = 0;
     foreach ($cats as $cat) {
         if ($cat['min_class'] <= $CURUSER['class']) {
-            $HTMLOUT.= ($i && $i % $INSTALLER09['catsperrow'] == 0) ? "</tr><tr>" : "";
+            $HTMLOUT.= ($i && $i % $TRINITY20['catsperrow'] == 0) ? "</tr><tr>" : "";
             $HTMLOUT.= "<td style=\"padding-bottom: 2px;padding-left: 7px\">
-             <input name='c" . (int) $cat['id'] . "' class=\"styled\" type=\"checkbox\" " . (in_array($cat['id'], $wherecatina) ? "checked='checked' " : "") . "value='1' /><a class='catlink' href='browse_catalogue.php?cat=" . (int) $cat['id'] . "'> " . (($CURUSER['opt2'] & user_options_2::BROWSE_ICONS) ? "<img src='{$INSTALLER09['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($cat['image']) . "' alt='" . htmlsafechars($cat['name']) . "' title='" . htmlsafechars($cat['name']) . "' />" : "" . htmlsafechars($cat['name']) . "") . "</a></td>\n";
+             <input name='c" . (int) $cat['id'] . "' class=\"styled\" type=\"checkbox\" " . (in_array($cat['id'], $wherecatina) ? "checked='checked' " : "") . "value='1' /><a class='catlink' href='browse_catalogue.php?cat=" . (int) $cat['id'] . "'> " . (($CURUSER['opt2'] & user_options_2::BROWSE_ICONS) ? "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($cat['image']) . "' alt='" . htmlsafechars($cat['name']) . "' title='" . htmlsafechars($cat['name']) . "' />" : "" . htmlsafechars($cat['name']) . "") . "</a></td>\n";
             $i++;
         }
     }
 $alllink = "<div></div>";
 $ncats = count($cats);
-$nrows = ceil($ncats / $INSTALLER09['catsperrow']);
-$lastrowcols = $ncats % $INSTALLER09['catsperrow'];
+$nrows = ceil($ncats / $TRINITY20['catsperrow']);
+$lastrowcols = $ncats % $TRINITY20['catsperrow'];
 if ($lastrowcols != 0) {
-    if ($INSTALLER09['catsperrow'] - $lastrowcols != 1) {
-        $HTMLOUT.= "<td class='bottom' rowspan='" . ($INSTALLER09['catsperrow'] - $lastrowcols - 1) . "'>&nbsp;</td>";
+    if ($TRINITY20['catsperrow'] - $lastrowcols != 1) {
+        $HTMLOUT.= "<td class='bottom' rowspan='" . ($TRINITY20['catsperrow'] - $lastrowcols - 1) . "'>&nbsp;</td>";
     }
     $HTMLOUT.= "<td>$alllink</td>\n";
 }
@@ -338,7 +338,7 @@ $HTMLOUT.= "</tr>
     <td>
     <table>
     <tr>";
-if ($ncats % $INSTALLER09['catsperrow'] == 0) {
+if ($ncats % $TRINITY20['catsperrow'] == 0) {
     $HTMLOUT.= "<td>$alllink</td>\n";
 }
 $HTMLOUT.= "</tr>
@@ -354,10 +354,10 @@ if ($CURUSER['opt1'] & user_options::CLEAR_NEW_TAG_MANUALLY) {
     sql_query("UPDATE users SET last_browse=" . TIME_NOW . " where id=" . $CURUSER['id']);
     $cache->update_row('MyUser_' . $CURUSER['id'], [
         'last_browse' => TIME_NOW
-    ], $INSTALLER09['expires']['curuser']);
+    ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user' . $CURUSER['id'], [
         'last_browse' => TIME_NOW
-    ], $INSTALLER09['expires']['user_cache']);
+    ], $TRINITY20['expires']['user_cache']);
 }
 $HTMLOUT.= "</div></div><br>
 <div class='container'>
@@ -415,7 +415,7 @@ if (isset($cleansearchstr)) {
     $HTMLOUT.= "<div class='row'><div class='col-md-6 col-md-offset-4'><h2>{$lang['browse_search']} " . htmlsafechars($searchstr, ENT_QUOTES) . "</h2></div></div>\n";
 }
 if ($count) {
-    $HTMLOUT.="<br><div class='row'><div class='col-md-3 col-md-offset-5'><div style='display:inline-block;width:10px';></div><a href='{$INSTALLER09["baseurl"]}/browse.php' class='btn btn-default btn-default'>{$lang['old_school_b']}</a></div></div><br><br>" . $pager['pagertop'];
+    $HTMLOUT.="<br><div class='row'><div class='col-md-3 col-md-offset-5'><div style='display:inline-block;width:10px';></div><a href='{$TRINITY20["baseurl"]}/browse.php' class='btn btn-default btn-default'>{$lang['old_school_b']}</a></div></div><br><br>" . $pager['pagertop'];
     $HTMLOUT.= "<br >";
     $HTMLOUT.= torrenttable($res);
     $HTMLOUT.= "<br >";

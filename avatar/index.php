@@ -142,7 +142,7 @@ echo $CURUSER["username"] ?>" width="150" height="190" alt="Avatar" /></div>
       <table border="0" cellpadding="4" cellspacing="2" style="border-collapse:separate" align="center" class="avy_body">
         <tr>
           <td nowrap="nowrap" class="info"><input style="width:150px;" type="text" onclick="select();" value="<?php
-echo $INSTALLER09['baseurl'] ?>/avatar/settings/<?php
+echo $TRINITY20['baseurl'] ?>/avatar/settings/<?php
 echo strtolower($CURUSER["username"]) ?>.png" readonly="readonly"/>
           </td>
         </tr>

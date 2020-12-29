@@ -39,9 +39,9 @@ if (!defined('IN_INSTALLER09_FORUM')) {
     if ($CURUSER["class"] >= UC_STAFF || isMod($a["forum_id"], "forum")) {
         $sure = isset($_GET['sure']) && (int) $_GET['sure'];
         if (!$sure)
-            stderr("Sanity check...", "You are about to delete topic ".htmlsafechars($a["topic_name"]).". Click <a href='{$INSTALLER09['baseurl']}/forums.php?action=deletetopic&amp;topicid=$topicid&amp;sure=1'>here</a> if you are sure.");
+            stderr("Sanity check...", "You are about to delete topic ".htmlsafechars($a["topic_name"]).". Click <a href='{$TRINITY20['baseurl']}/forums.php?action=deletetopic&amp;topicid=$topicid&amp;sure=1'>here</a> if you are sure.");
         else {
-            write_log("topicdelete","Topic <b>".htmlsafechars($a["topic_name"])."</b> was deleted by <a href='{$INSTALLER09['baseurl']}/userdetails.php?id=".(int)$CURUSER['id']."'>".htmlsafechars($CURUSER['username'])."</a>.");
+            write_log("topicdelete","Topic <b>".htmlsafechars($a["topic_name"])."</b> was deleted by <a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$CURUSER['id']."'>".htmlsafechars($CURUSER['username'])."</a>.");
             if ($Multi_forum['configs']['use_attachment_mod']) {
                 $res = sql_query("SELECT attachments.file_name " . "FROM posts " . "LEFT JOIN attachments ON attachments.post_id = posts.id " . "WHERE posts.topic_id = ".sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
                 while ($arr = mysqli_fetch_assoc($res))
@@ -52,7 +52,7 @@ if (!defined('IN_INSTALLER09_FORUM')) {
                 ($Multi_forum['configs']['use_attachment_mod'] ? ", attachments, attachmentdownloads " : "") .
                 ($Multi_forum['configs']['use_poll_mod'] ? ", postpolls, postpollanswers " : "") . "FROM topics " . "LEFT JOIN posts ON posts.topic_id = topics.id " .
                 ($Multi_forum['configs']['use_attachment_mod'] ? "LEFT JOIN attachments ON attachments.post_id = posts.id " . "LEFT JOIN attachmentdownloads ON attachmentdownloads.file_id = attachments.id " : "") . ($Multi_forum['configs']['use_poll_mod'] ? "LEFT JOIN postpolls ON postpolls.id = topics.poll_id " . "LEFT JOIN postpollanswers ON postpollanswers.pollid = postpolls.id " : "") . "WHERE topics.id=".sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
-            header('Location: '.$INSTALLER09['baseurl'].'/forums.php?action=viewforum&forumid='.(int)$a["forumid"]);
+            header('Location: '.$TRINITY20['baseurl'].'/forums.php?action=viewforum&forumid='.(int)$a["forumid"]);
             exit();
         }
     }

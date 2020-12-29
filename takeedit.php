@@ -133,7 +133,7 @@ if ($CURUSER['class'] > UC_STAFF) {
  *
  */
 //== Subs
-if (in_array($category, $INSTALLER09['movie_cats'])) {
+if (in_array($category, $TRINITY20['movie_cats'])) {
     $subs = isset($_POST['subs']) ? implode(",", $_POST['subs']) : "";
     $updateset[] = "subs = " . sqlesc($subs);
     $torrent_cache['subs'] = $subs;
@@ -243,13 +243,13 @@ if ($genreaction != "keep") {
 //==End - now update the sets
 if (sizeof($updateset) > 0) sql_query('UPDATE torrents SET ' . implode(',', $updateset) . ' WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
 if ($torrent_cache) {
-    $cache->update_row('torrent_details_' . $id, $torrent_cache, $INSTALLER09['expires']['torrent_details']);
+    $cache->update_row('torrent_details_' . $id, $torrent_cache, $TRINITY20['expires']['torrent_details']);
     $cache->delete('top5_tor_');
     $cache->delete('last5_tor_');
     $cache->delete('scroll_tor_');
 }
 if ($torrent_txt_cache) {
-    $cache->update_row('torrent_details_txt' . $id, $torrent_txt_cache, $INSTALLER09['expires']['torrent_details_text']);
+    $cache->update_row('torrent_details_txt' . $id, $torrent_txt_cache, $TRINITY20['expires']['torrent_details_text']);
 }
 remove_torrent($infohash);
 write_log("torrent edited - " . htmlsafechars($name) . ' was edited by ' . (($fetch_assoc['anonymous'] == 'yes') ? 'Anonymous' : htmlsafechars($CURUSER['username'])) . "");

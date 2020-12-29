@@ -26,18 +26,18 @@ if (isset($_GET["action"]) && htmlsafechars($_GET["action"]) == "editclass") { /
     sql_query("UPDATE users SET override_class = " . sqlesc($newclass) . " WHERE id = " . sqlesc($CURUSER['id'])); // Set temporary class
     $cache->update_row('MyUser_' . $CURUSER['id'], [
         'override_class' => $newclass
-    ], $INSTALLER09['expires']['curuser']);
+    ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user' . $CURUSER['id'], [
         'override_class' => $newclass
-    ], $INSTALLER09['expires']['user_cache']);
-    header("Location: {$INSTALLER09['baseurl']}/" . $returnto);
+    ], $TRINITY20['expires']['user_cache']);
+    header("Location: {$TRINITY20['baseurl']}/" . $returnto);
     die();
 }
 // HTML Code to allow changes to current class
 $HTMLOUT.= "<div class='row'><div class='col-md-12'>
 <h2 class'text-center'><b>{$lang['set_class_allow']}</b></h2>
 <br>
-<form method='get' action='{$INSTALLER09['baseurl']}/setclass.php'>
+<form method='get' action='{$TRINITY20['baseurl']}/setclass.php'>
 	<input type='hidden' name='action' value='editclass' />
 	<input type='hidden' name='returnto' value='userdetails.php?id=" . (int) $CURUSER['id'] . "' />
 	<table class='table table-bordered'>

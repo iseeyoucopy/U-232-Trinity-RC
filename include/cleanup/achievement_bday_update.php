@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(0);
     ignore_user_abort(1);
     // *Updated* Birthday Achievements Mod by MelvinMeow
@@ -32,7 +32,7 @@ function docleanup($data)
             $bday = (int)$arr['bday'];
             $added = (int)$arr['added'];
             if ($bday == 0 && $added < $maxdt) {
-                $msg = sqlesc("Congratulations, you have just earned the [b]First Birthday[/b] achievement. :) [img]".$INSTALLER09['baseurl']."/pic/achievements/birthday1.png[/img]");
+                $msg = sqlesc("Congratulations, you have just earned the [b]First Birthday[/b] achievement. :) [img]".$TRINITY20['baseurl']."/pic/achievements/birthday1.png[/img]");
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'First Birthday\', \'birthday1.png\' , \'Been a member for at least 1 year.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',1, ' . $points . ')';

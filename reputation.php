@@ -185,7 +185,7 @@ if (isset($input['reason']) && !empty($input['reason'])) {
 }
 //$input['do'] = 'addrep';
 //$input['reputation'] = 1;
-//$INSTALLER09['baseurl'] ='';
+//$TRINITY20['baseurl'] ='';
 ///////////////////////////////////////////////
 //	Are we adding a rep or what?
 ///////////////////////////////////////////////
@@ -198,10 +198,10 @@ if (isset($input['do']) && $input['do'] == 'addrep') {
     sql_query("UPDATE users set reputation=" . sqlesc(intval($res['reputation'])) . " WHERE id=" . sqlesc($res['userid'])) or sqlerr(__FILE__, __LINE__);
     $cache->update_row('MyUser_' . $res['userid'], [
         'reputation' => $res['reputation']
-    ], $INSTALLER09['expires']['curuser']);
+    ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user' . $res['userid'], [
         'reputation' => $res['reputation']
-    ], $INSTALLER09['expires']['user_cache']);
+    ], $TRINITY20['expires']['user_cache']);
     $cache->delete('user_rep_' . $res['userid']);
     $save = [
         'reputation' => sqlesc($score),
@@ -215,7 +215,7 @@ if (isset($input['do']) && $input['do'] == 'addrep') {
     //print( join( ',', $save) );
     //print( join(',', array_keys($save)));
     sql_query("INSERT INTO reputation (" . join(',', array_keys($save)) . ") VALUES (" . join(',', $save) . ")") or sqlerr(__FILE__, __LINE__);
-    header("Location: {$INSTALLER09['baseurl']}/reputation.php?pid=" . intval($input['pid']) . "&done=1");
+    header("Location: {$TRINITY20['baseurl']}/reputation.php?pid=" . intval($input['pid']) . "&done=1");
 } // Move along, nothing to see here!
 else {
     if ($res['userid'] == $CURUSER['id']) { // same as him!
@@ -239,7 +239,7 @@ else {
                     $posneg = 'balance';
                 }
                 if ($GVARS['g_rep_seeown']) {
-                    $postrep['reason'] = htmlsafechars($postrep['reason']) . " <span class='desc'>{$lang["rep_left_by"]} <a href=\"{$INSTALLER09['baseurl']}/userdetails.php?id=" . intval($postrep['leftby_id']) . "\" target='_blank'>" . htmlspecialchars($postrep['leftby_name']) . "</a></span>";
+                    $postrep['reason'] = htmlsafechars($postrep['reason']) . " <span class='desc'>{$lang["rep_left_by"]} <a href=\"{$TRINITY20['baseurl']}/userdetails.php?id=" . intval($postrep['leftby_id']) . "\" target='_blank'>" . htmlspecialchars($postrep['leftby_name']) . "</a></span>";
                 }
                 $reasonbits.= "<tr>
 	<td class='row2' width='1%'><img src='./pic/rep/reputation_$posneg.gif' border='0' alt='' /></td>
@@ -273,25 +273,25 @@ else {
         }
         switch ($rep_locale) {
         case 'comments':
-            $rep_info = sprintf("Your reputation on <a href='{$INSTALLER09['baseurl']}/details.php?id=%d&amp;viewcomm=%d#comm%d' target='_blank'>this Comment</a> is %s<br />Total: %s points.", $res['locale'], $input['pid'], $input['pid'], $rep, $total);
+            $rep_info = sprintf("Your reputation on <a href='{$TRINITY20['baseurl']}/details.php?id=%d&amp;viewcomm=%d#comm%d' target='_blank'>this Comment</a> is %s<br />Total: %s points.", $res['locale'], $input['pid'], $input['pid'], $rep, $total);
             break;
 
         case 'torrents':
-            $rep_info = sprintf("Your reputation on <a href='{$INSTALLER09['baseurl']}/details.php?id=%d' target='_blank'>this Torrent</a> is %s<br />Total: %s points.", $input['pid'], $rep, $total);
+            $rep_info = sprintf("Your reputation on <a href='{$TRINITY20['baseurl']}/details.php?id=%d' target='_blank'>this Torrent</a> is %s<br />Total: %s points.", $input['pid'], $rep, $total);
             break;
 
         case 'users':
-            $rep_info = sprintf("Your reputation on <a href='{$INSTALLER09['baseurl']}/userdetails.php?id=%d' target='_blank'>your profile</a> is %s<br />Total: %s points.", $input['pid'], $rep, $total);
+            $rep_info = sprintf("Your reputation on <a href='{$TRINITY20['baseurl']}/userdetails.php?id=%d' target='_blank'>your profile</a> is %s<br />Total: %s points.", $input['pid'], $rep, $total);
             break;
 
         default:
-            $rep_info = sprintf("Your reputation on <a href='{$INSTALLER09['baseurl']}/forums.php?action=viewtopic&amp;topicid=%d&amp;page=p%d#%d' target='_blank'>this Post</a> is %s<br />Total: %s points.", $res['locale'], $input['pid'], $input['pid'], $rep, $total);
+            $rep_info = sprintf("Your reputation on <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=%d&amp;page=p%d#%d' target='_blank'>this Post</a> is %s<br />Total: %s points.", $res['locale'], $input['pid'], $input['pid'], $rep, $total);
         }
         ///////////////////////////////////////////////
         //	Compile some HTML for the 'own post'/ 'user view' reputation
         //	Feel free to do ya own html/css here
         ///////////////////////////////////////////////
-        //$rep_info = sprintf("".$lang["info_your_rep_on"]." <a href='{$INSTALLER09['baseurl']}/forums.php?action=viewtopic&amp;topicid=%d&amp;page=p%d#%d' target='_blank'>".$lang["info_this_post"]."</a> ".$lang["info_is"]." %s.", $res['topicid'], $input['pid'], $input['pid'], $rep );
+        //$rep_info = sprintf("".$lang["info_your_rep_on"]." <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=%d&amp;page=p%d#%d' target='_blank'>".$lang["info_this_post"]."</a> ".$lang["info_is"]." %s.", $res['topicid'], $input['pid'], $input['pid'], $rep );
         $rep_points = sprintf("" . $lang["info_you_have"] . " %d " . $lang["info_reputation_points"] . "", $CURUSER['reputation']);
         $html = "<tr><td class='darkrow1'>" . htmlsafechars($rep_info) . "</td></tr>
 						<tr>
@@ -365,7 +365,7 @@ else {
 ///////////////////////////////////////////////
 function rep_output($msg = "", $html = "")
 {
-    global $closewindow, $lang, $CURUSER, $INSTALLER09;
+    global $closewindow, $lang, $CURUSER, $TRINITY20;
     if ($msg && empty($html)) {
         $html = "<tr><td class='row'>$msg</td></tr>";
     } ?>
@@ -379,7 +379,7 @@ function rep_output($msg = "", $html = "")
         <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
         <link rel="stylesheet" href="css/global_media.css" type="text/css" />
 <link rel='stylesheet' href='<?php
-    echo $INSTALLER09['baseurl']; ?>/templates/<?php
+    echo $TRINITY20['baseurl']; ?>/templates/<?php
     echo $CURUSER['stylesheet']; ?>/<?php
     echo $CURUSER['stylesheet']; ?>.css' type='text/css' />
   

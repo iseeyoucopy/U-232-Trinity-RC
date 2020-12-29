@@ -20,7 +20,7 @@ dbconn(false);
 loggedinorreturn();
 $newpage = new page_verify();
 $newpage->check('takecounts');
-if ($INSTALLER09['achieve_sys_on'] == false) {
+if ($TRINITY20['achieve_sys_on'] == false) {
     stderr($lang['achbon_err'], $lang['achbon_off']);
     exit();
 }
@@ -58,10 +58,10 @@ if ($bonus_type == 1) {
         sql_query($sql) or sqlerr(__FILE__, __LINE__);
         $cache->update_row('userstats_' . $id, [
             'downloaded' => $down - $bonus_do
-        ], $INSTALLER09['expires']['u_stats']);
+        ], $TRINITY20['expires']['u_stats']);
         $cache->update_row('user_stats_' . $id, [
             'downloaded' => $down - $bonus_do
-        ], $INSTALLER09['expires']['user_stats']);
+        ], $TRINITY20['expires']['user_stats']);
     }
     if ($down < $bonus_do) {
         $msg = "{$lang['achbon_congratulations']}, {$lang['achbon_your_dl_been_reset_0']}";
@@ -71,10 +71,10 @@ if ($bonus_type == 1) {
         sql_query($sql) or sqlerr(__FILE__, __LINE__);
         $cache->update_row('userstats_' . $id, [
             'downloaded' => 0
-        ], $INSTALLER09['expires']['u_stats']);
+        ], $TRINITY20['expires']['u_stats']);
         $cache->update_row('user_stats_' . $id, [
             'downloaded' => 0
-        ], $INSTALLER09['expires']['user_stats']);
+        ], $TRINITY20['expires']['user_stats']);
     }
 }
 if ($bonus_type == 2) {
@@ -85,10 +85,10 @@ if ($bonus_type == 2) {
     sql_query($sql) or sqlerr(__FILE__, __LINE__);
     $cache->update_row('userstats_' . $id, [
         'uploaded' => $up + $bonus_do
-    ], $INSTALLER09['expires']['u_stats']);
+    ], $TRINITY20['expires']['u_stats']);
     $cache->update_row('user_stats_' . $id, [
         'uploaded' => $up + $bonus_do
-    ], $INSTALLER09['expires']['user_stats']);
+    ], $TRINITY20['expires']['user_stats']);
 }
 if ($bonus_type == 3) {
     $msg = "{$lang['achbon_congratulations']}, {$lang['achbon_you_hv_just_won']} $bonus_desc";
@@ -98,10 +98,10 @@ if ($bonus_type == 3) {
     sql_query($sql) or sqlerr(__FILE__, __LINE__);
     $cache->update_row('user' . $id, [
         'invites' => $invite + $bonus_do
-    ], $INSTALLER09['expires']['user_cache']);
+    ], $TRINITY20['expires']['user_cache']);
     $cache->update_row('MyUser_' . $id, [
         'invites' => $invite + $bonus_do
-    ], $INSTALLER09['expires']['curuser']);
+    ], $TRINITY20['expires']['curuser']);
 }
 if ($bonus_type == 4) {
     $msg = "{$lang['achbon_congratulations']}, {$lang['achbon_you_hv_just_won']} $bonus_desc";
@@ -111,10 +111,10 @@ if ($bonus_type == 4) {
     sql_query($sql) or sqlerr(__FILE__, __LINE__);
     $cache->update_row('userstats_' . $id, [
         'seedbonus' => $karma + $bonus_do
-    ], $INSTALLER09['expires']['u_stats']);
+    ], $TRINITY20['expires']['u_stats']);
     $cache->update_row('user_stats_' . $id, [
         'seedbonus' => $karma + $bonus_do
-    ], $INSTALLER09['expires']['user_stats']);
+    ], $TRINITY20['expires']['user_stats']);
 }
 if ($bonus_type == 5) {
     $rand_fail = rand(1, 5);

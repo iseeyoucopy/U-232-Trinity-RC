@@ -153,8 +153,8 @@ if (mysqli_num_rows($res) == 0) {
 
       <b> [ ' . get_user_class_name($shit_list['class']) . ' ]</b><br />
 
-      <a class="altlink" href="staffpanel.php?tool=shit_list&amp;action=shit_list&amp;action2=delete&amp;shit_list_id=' . (int)$shit_list['suspect_id'] . '" title="' . $lang['shitlist_remove1'] . '"><span class="btn" style="padding:1px;"><img style="vertical-align:middle;" src="' . $INSTALLER09['pic_base_url'] . '/polls/p_delete.gif">' . $lang['shitlist_remove2'] . '</span></a>
-      <a class="altlink" href="pm_system.php?action=send_message&receiver=' . (int)$shit_list['suspect_id'] . '" title="' . $lang['shitlist_send1'] . '"><span class="btn" style="padding:1px;"><img style="vertical-align:middle;" src="' . $INSTALLER09['pic_base_url'] . '/message.gif">' . $lang['shitlist_send2'] . '</span></a></td>
+      <a class="altlink" href="staffpanel.php?tool=shit_list&amp;action=shit_list&amp;action2=delete&amp;shit_list_id=' . (int)$shit_list['suspect_id'] . '" title="' . $lang['shitlist_remove1'] . '"><span class="btn" style="padding:1px;"><img style="vertical-align:middle;" src="' . $TRINITY20['pic_base_url'] . '/polls/p_delete.gif">' . $lang['shitlist_remove2'] . '</span></a>
+      <a class="altlink" href="pm_system.php?action=send_message&receiver=' . (int)$shit_list['suspect_id'] . '" title="' . $lang['shitlist_send1'] . '"><span class="btn" style="padding:1px;"><img style="vertical-align:middle;" src="' . $TRINITY20['pic_base_url'] . '/message.gif">' . $lang['shitlist_send2'] . '</span></a></td>
       <td class="' . (($i % 2 == 0) ? 'one' : 'two') . '" align="left" valign="top">' . $shit . '
       <b>' . $lang['shitlist_joined'] . '</b> ' . get_date($shit_list['added'], '') . '
       [ ' . get_date($shit_list['added'], '', 0, 1) . ' ]
@@ -166,6 +166,6 @@ if (mysqli_num_rows($res) == 0) {
     $i++;
 } //=== end while
 $HTMLOUT.= (($i % 2 == 0) ? '<td class="one" align="center" colspan="2"></td></tr>' : '');
-$HTMLOUT.= '</table><p align="center"><span class="btn" style="padding:3px;"><img style="vertical-align:middle;" src="' . $INSTALLER09['pic_base_url'] . '/btn_search.gif" /><a class="altlink" href="users.php">' . $lang['shitlist_find'] . '</span></a></p>';
+$HTMLOUT.= '</table><p align="center"><span class="btn" style="padding:3px;"><img style="vertical-align:middle;" src="' . $TRINITY20['pic_base_url'] . '/btn_search.gif" /><a class="altlink" href="users.php">' . $lang['shitlist_find'] . '</span></a></p>';
 echo stdhead($lang['shitlist_stdhead'] . htmlsafechars($CURUSER['username'])) . $HTMLOUT . stdfoot();
 ?>

@@ -20,7 +20,7 @@ fastdelete by Froggaard
 */
 $lang = array_merge( load_language('global'), load_language('fastdelete') );
      
- if (!in_array($CURUSER['id'], $INSTALLER09['allowed_staff']['id'])) stderr($lang['fastdelete_error'], $lang['fastdelete_no_acc']);
+ if (!in_array($CURUSER['id'], $TRINITY20['allowed_staff']['id'])) stderr($lang['fastdelete_error'], $lang['fastdelete_no_acc']);
 
  if (!isset($_GET['id']) || !is_valid_id($_GET['id']))
         stderr("{$lang['fastdelete_error']}", "{$lang['fastdelete_error_id']}");
@@ -29,7 +29,7 @@ $lang = array_merge( load_language('global'), load_language('fastdelete') );
 
     function deletetorrent($id)
 {
-    global $INSTALLER09, $cache, $CURUSER, $lang;
+    global $TRINITY20, $cache, $CURUSER, $lang;
     sql_query("DELETE peers.*, files.*, comments.*, snatched.*, thanks.*, bookmarks.*, coins.*, rating.*, thumbsup.*, torrents.* FROM torrents 
 				 LEFT JOIN peers ON peers.torrent = torrents.id
 				 LEFT JOIN files ON files.torrent = torrents.id
@@ -41,12 +41,12 @@ $lang = array_merge( load_language('global'), load_language('fastdelete') );
                                  LEFT JOIN thumbsup ON thumbsup.torrentid = torrents.id
 				 LEFT JOIN snatched ON snatched.torrentid = torrents.id
 				 WHERE torrents.id =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    unlink("{$INSTALLER09['torrent_dir']}/$id.torrent");
+    unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
     $cache->delete_value('MyPeers_' . $CURUSER['id']);
 }
 function deletetorrent_xbt($id)
 {
-   global $INSTALLER09, $cache, $CURUSER, $lang;
+   global $TRINITY20, $cache, $CURUSER, $lang;
    sql_query("UPDATE torrents SET flags = 1 WHERE id = ".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
    sql_query("DELETE files.*, comments.*, thankyou.*, thanks.*, thumbsup.*, bookmarks.*, coins.*, rating.*, xbt_files_users.* FROM xbt_files_users
                                      LEFT JOIN files ON files.torrent = xbt_files_users.fid
@@ -58,7 +58,7 @@ function deletetorrent_xbt($id)
                                      LEFT JOIN rating ON rating.torrent = xbt_files_users.fid
                                      LEFT JOIN thumbsup ON thumbsup.torrentid = xbt_files_users.fid
                                      WHERE xbt_files_users.fid =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-        unlink("{$INSTALLER09['torrent_dir']}/$id.torrent");
+        unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
         $cache->delete_value('MyPeers_XBT_' . $CURUSER['id']);
     }
      
@@ -88,23 +88,23 @@ function deletetorrent_xbt($id)
     sql_query("INSERT INTO messages (sender, receiver, added, msg) VALUES (0, ".sqlesc($q['owner']).", ".TIME_NOW.", {$msg})") or sqlerr(__FILE__, __LINE__);
     }
     write_log("{$lang['fastdelete_log_first']} {$q['name']} {$lang['fastdelete_log_last']} {$CURUSER['username']}");
-    if ($INSTALLER09['seedbonus_on'] == 1) {
+    if ($TRINITY20['seedbonus_on'] == 1) {
     //===remove karma
-    sql_query("UPDATE users SET seedbonus = seedbonus-".sqlesc($INSTALLER09['bonus_per_delete'])." WHERE id = " . sqlesc($q["owner"])) or sqlerr(__FILE__, __LINE__);
-    $update['seedbonus'] = ($CURUSER['seedbonus'] - $INSTALLER09['bonus_per_delete']);
+    sql_query("UPDATE users SET seedbonus = seedbonus-".sqlesc($TRINITY20['bonus_per_delete'])." WHERE id = " . sqlesc($q["owner"])) or sqlerr(__FILE__, __LINE__);
+    $update['seedbonus'] = ($CURUSER['seedbonus'] - $TRINITY20['bonus_per_delete']);
     $cache->update_row('userstats_' . $q["owner"], [
         'seedbonus' => $update['seedbonus']
-    ], $INSTALLER09['expires']['u_stats']);
+    ], $TRINITY20['expires']['u_stats']);
     $cache->update_row('user_stats_' . $q["owner"], [
         'seedbonus' => $update['seedbonus']
-    ], $INSTALLER09['expires']['user_stats']);
+    ], $TRINITY20['expires']['user_stats']);
     //===end
 }
 
     if (isset($_GET["returnto"]))
         $ret = "<a href='".htmlsafechars($_GET["returnto"])."'>{$lang['fastdelete_returnto']}</a>";
     else
-        $ret = "<a href='{$INSTALLER09['baseurl']}/index.php'>{$lang['fastdelete_index']}</a>";
+        $ret = "<a href='{$TRINITY20['baseurl']}/index.php'>{$lang['fastdelete_index']}</a>";
      
     $HTMLOUT = '';
     $HTMLOUT .= "<h2>{$lang['fastdelete_deleted']}</h2>

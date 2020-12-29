@@ -18,7 +18,7 @@ require_once INCL_DIR . 'function_ircbot.php';
 require_once INCL_DIR . 'function_memcache.php';
 dbconn();
 loggedinorreturn();
-ini_set('upload_max_filesize', $INSTALLER09['max_torrent_size']);
+ini_set('upload_max_filesize', $TRINITY20['max_torrent_size']);
 ini_set('memory_limit', '64M');
 //smth putyn
 //print_r($_POST);
@@ -34,7 +34,7 @@ if (!$gotkey) {
     $newpage->check('tamud');
 }
 if ($CURUSER['class'] < UC_UPLOADER or $CURUSER["uploadpos"] == 0 || $CURUSER["uploadpos"] > 1 || $CURUSER['suspended'] == 'yes') {
-    header("Location: {$INSTALLER09['baseurl']}/upload.php");
+    header("Location: {$TRINITY20['baseurl']}/upload.php");
     exit();
 }
 
@@ -134,7 +134,7 @@ foreach ($file_list as $key=>$f) {
 
 
 
-    $dict = bencdec::decode_file($tmpname, $INSTALLER09['max_torrent_size'], bencdec::OPTION_EXTENDED_VALIDATION);
+    $dict = bencdec::decode_file($tmpname, $TRINITY20['max_torrent_size'], bencdec::OPTION_EXTENDED_VALIDATION);
     if ($dict === false) {
         continue;
     }
@@ -223,7 +223,7 @@ foreach ($file_list as $key=>$f) {
     }
     //==
     $tmaker          = (isset($dict['created by']) && !empty($dict['created by'])) ? sqlesc($dict['created by']) : sqlesc($lang['takeupload_unkown']);
-    $dict['comment'] = ("In using this torrent you are bound by the {$INSTALLER09['site_name']} Confidentiality Agreement By Law"); // change torrent comment
+    $dict['comment'] = ("In using this torrent you are bound by the {$TRINITY20['site_name']} Confidentiality Agreement By Law"); // change torrent comment
     // Replace punctuation characters with spaces
     $visible         = (XBT_TRACKER == true ? "yes" : "no");
     $torrent         = str_replace("_", " ", $torrent);
@@ -280,14 +280,14 @@ foreach ($file_list as $key=>$f) {
     if ($id > 0) {
         $successful +=1;
     }
-    $messages = "{$INSTALLER09['site_name']} New Torrent: $torrent Uploaded By: $anon " . mksize($totallen) . " {$INSTALLER09['baseurl']}/details.php?id=$id";
-    $message = "New Torrent : Category = " . htmlsafechars($cats[$catid]) . ", [url={$INSTALLER09['baseurl']}/details.php?id=$id] " . htmlsafechars($torrent) . "[/url] Uploaded - Anonymous User";
+    $messages = "{$TRINITY20['site_name']} New Torrent: $torrent Uploaded By: $anon " . mksize($totallen) . " {$TRINITY20['baseurl']}/details.php?id=$id";
+    $message = "New Torrent : Category = " . htmlsafechars($cats[$catid]) . ", [url={$TRINITY20['baseurl']}/details.php?id=$id] " . htmlsafechars($torrent) . "[/url] Uploaded - Anonymous User";
 
     sql_query("DELETE FROM files WHERE torrent = " . sqlesc($id));
 
     sql_query("INSERT INTO files (torrent, filename, size) VALUES " . file_list($filelist, $id));
 
-    $dir = $INSTALLER09['torrent_dir'] . '/' . $id . '.torrent';
+    $dir = $TRINITY20['torrent_dir'] . '/' . $id . '.torrent';
     if (!bencdec::encode_file($dir, $dict)) {
         continue;
     }
@@ -296,7 +296,7 @@ foreach ($file_list as $key=>$f) {
 
 
 
-    if ($INSTALLER09['autoshout_on'] == 1) {
+    if ($TRINITY20['autoshout_on'] == 1) {
         autoshout($message);
         ircbot($messages);
         $cache->delete('shoutbox_');
@@ -304,7 +304,7 @@ foreach ($file_list as $key=>$f) {
 
     /* RSS feeds */
     if (($fd1 = @fopen("rss.xml", "w")) && ($fd2 = fopen("rssdd.xml", "w"))) {
-        $s = "<?xml version=\"1.0\" encoding=\"iso-8859-1\" ?>\n<rss version=\"0.91\">\n<channel>\n" . "<title>{$INSTALLER09['site_name']}</title>\n<description>Installer09 is the best!</description>\n<link>{$INSTALLER09['baseurl']}/</link>\n";
+        $s = "<?xml version=\"1.0\" encoding=\"iso-8859-1\" ?>\n<rss version=\"0.91\">\n<channel>\n" . "<title>{$TRINITY20['site_name']}</title>\n<description>Installer09 is the best!</description>\n<link>{$TRINITY20['baseurl']}/</link>\n";
         @fwrite($fd1, $s);
         @fwrite($fd2, $s);
         $r = sql_query("SELECT id,name,descr,filename,category FROM torrents ORDER BY added DESC LIMIT 15") or sqlerr(__FILE__, __LINE__);
@@ -313,9 +313,9 @@ foreach ($file_list as $key=>$f) {
             $s   = "<item>\n<title>" . htmlsafechars($a["name"] . " ($cat)") . "</title>\n" . "<description>" . htmlsafechars($a["descr"]) . "</description>\n";
             @fwrite($fd1, $s);
             @fwrite($fd2, $s);
-            @fwrite($fd1, "<link>{$INSTALLER09['baseurl']}/details.php?id=" . (int) $a['id'] . "&amp;hit=1</link>\n</item>\n");
+            @fwrite($fd1, "<link>{$TRINITY20['baseurl']}/details.php?id=" . (int) $a['id'] . "&amp;hit=1</link>\n</item>\n");
             $filename = htmlsafechars($a["filename"]);
-            @fwrite($fd2, "<link>{$INSTALLER09['baseurl']}/download.php?torrent=" . (int) $a['id'] . "/$filename</link>\n</item>\n");
+            @fwrite($fd2, "<link>{$TRINITY20['baseurl']}/download.php?torrent=" . (int) $a['id'] . "/$filename</link>\n</item>\n");
         }
         $s = "</channel>\n</rss>\n";
         @fwrite($fd1, $s);
@@ -334,18 +334,18 @@ $cache->delete('scroll_tor_');
 //==
 
 //==
-if ($INSTALLER09['seedbonus_on'] == 1) {
-    $bonus_val = ($INSTALLER09['bonus_per_upload']*$successful);
+if ($TRINITY20['seedbonus_on'] == 1) {
+    $bonus_val = ($TRINITY20['bonus_per_upload']*$successful);
     //===add karma
     sql_query("UPDATE users SET seedbonus=seedbonus+" . sqlesc($bonus_val) . ", numuploads=numuploads+1 WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
     //===end
     $update['seedbonus'] = ($CURUSER['seedbonus'] + $bonus_val);
     $cache->update_row('userstats_' . $CURUSER["id"], [
         'seedbonus' => $update['seedbonus']
-    ], $INSTALLER09['expires']['u_stats']);
+    ], $TRINITY20['expires']['u_stats']);
     $cache->update_row('user_stats_' . $CURUSER["id"], [
         'seedbonus' => $update['seedbonus']
-    ], $INSTALLER09['expires']['user_stats']);
+    ], $TRINITY20['expires']['user_stats']);
 }
 
 
@@ -376,10 +376,10 @@ $description
 
 You can use the URL below to download the torrent (you may have to login).
 
-{$INSTALLER09['baseurl']}/details.php?id=$id&hit=1
+{$TRINITY20['baseurl']}/details.php?id=$id&hit=1
 
 --
-{$INSTALLER09['site_name']}
+{$TRINITY20['site_name']}
 EOD;
 
 $to = "";
@@ -397,8 +397,8 @@ $to .= "," . $arr[0];
 ++$ntotal;
 if ($nthis == $nmax || $ntotal == $total)
 {
-if (!mail("Multiple recipients <{$INSTALLER09['site_email']}>", "New torrent - $torrent", $body,
-"From: {$INSTALLER09['site_email']}\r\nBcc: $to"))
+if (!mail("Multiple recipients <{$TRINITY20['site_email']}>", "New torrent - $torrent", $body,
+"From: {$TRINITY20['site_email']}\r\nBcc: $to"))
 stderr("Error", "Your torrent has been been uploaded. DO NOT RELOAD THE PAGE!\n" .
 "There was however a problem delivering the e-mail notifcations.\n" .
 "Please let an administrator know about this error!\n");
@@ -408,5 +408,5 @@ $nthis = 0;
  *******************/
 
 $ids = implode('&id[]=', $ids);
-header("Location: {$INSTALLER09['baseurl']}/multidetails.php?id[]=" . $ids);
+header("Location: {$TRINITY20['baseurl']}/multidetails.php?id[]=" . $ids);
 ?> 

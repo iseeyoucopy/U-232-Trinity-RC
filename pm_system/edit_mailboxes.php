@@ -44,10 +44,10 @@ if (isset($_POST['action2'])) {
         sql_query('UPDATE users SET pms_per_page = ' . sqlesc($change_pm_number) . ' WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
         $cache->update_row('user' . $CURUSER['id'], [
             'pms_per_page' => $change_pm_number
-        ], $INSTALLER09['expires']['user_cache']);
+        ], $TRINITY20['expires']['user_cache']);
         $cache->update_row('MyUser_' . $CURUSER['id'], [
             'pms_per_page' => $change_pm_number
-        ], $INSTALLER09['expires']['curuser']);
+        ], $TRINITY20['expires']['curuser']);
         header('Location: pm_system.php?action=edit_mailboxes&pm=1');
         die();
         break;
@@ -149,10 +149,10 @@ if (isset($_POST['action2'])) {
         $curuser_cache['notifs'] = $notifs;
         $user_cache['notifs'] = $notifs;
         if ($curuser_cache) {
-            $cache->update_row('MyUser_' . $CURUSER['id'], $curuser_cache, $INSTALLER09['expires']['curuser']);
+            $cache->update_row('MyUser_' . $CURUSER['id'], $curuser_cache, $TRINITY20['expires']['curuser']);
         }
         if ($user_cache) {
-            $cache->update_row('user' . $CURUSER['id'], $user_cache, $INSTALLER09['expires']['user_cache']);
+            $cache->update_row('user' . $CURUSER['id'], $user_cache, $TRINITY20['expires']['user_cache']);
         }
         sql_query('UPDATE users SET ' . implode(', ', $updateset) . ' WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
         $worked = '&pms=1';
@@ -221,7 +221,7 @@ $per_page_drop_down.= '</select>';
         $i = 0;
         while ($a = mysqli_fetch_assoc($r)) {
             $categories.= ($i && $i % 2 == 0) ? "</tr><tr>" : "";
-            $categories.= "<td class='bottom' style='padding-right: 5px'><input name='cat".(int)$a['id']."' type='checkbox' " . (strpos($CURUSER['notifs'], "[cat{$a['id']}]") !== false ? " checked='checked'" : "") . " value='yes' />&nbsp;<a class='catlink' href='browse.php?cat=".(int)$a['id']."'><img src='{$INSTALLER09['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($a['image']) . "' alt='" . htmlsafechars($a['name']) . "' title='" . htmlsafechars($a['name']) . "' /></a>&nbsp;" . htmlspecialchars($a["name"]) . "</td>\n";
+            $categories.= "<td class='bottom' style='padding-right: 5px'><input name='cat".(int)$a['id']."' type='checkbox' " . (strpos($CURUSER['notifs'], "[cat{$a['id']}]") !== false ? " checked='checked'" : "") . " value='yes' />&nbsp;<a class='catlink' href='browse.php?cat=".(int)$a['id']."'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($a['image']) . "' alt='" . htmlsafechars($a['name']) . "' title='" . htmlsafechars($a['name']) . "' /></a>&nbsp;" . htmlspecialchars($a["name"]) . "</td>\n";
             ++$i;
         }
         $categories.= "</tr></table>";

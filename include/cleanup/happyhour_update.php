@@ -12,17 +12,17 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(0);
     ignore_user_abort(1);
     require_once (INCL_DIR . 'function_happyhour.php');
     //==Putyns HappyHour
-    $f = $INSTALLER09['happyhour'];
+    $f = $TRINITY20['happyhour'];
     $happy = unserialize(file_get_contents($f));
     $happyHour = strtotime($happy["time"]);
     $curDate = TIME_NOW;
     $happyEnd = $happyHour + 3600;
-    if ($happy["status"] == 0 && $INSTALLER09['happy_hour'] == true) {
+    if ($happy["status"] == 0 && $TRINITY20['happy_hour'] == true) {
         write_log("Happy hour was @ " . get_date($happyHour, 'LONG', 1, 0) . " and Catid " . $happy["catid"] . " ");
         happyFile("set");
     } elseif (($curDate > $happyEnd) && $happy["status"] == 1) happyFile("reset");

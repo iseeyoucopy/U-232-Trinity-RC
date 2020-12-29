@@ -152,18 +152,18 @@ class McryptCipher
 
 
 
-$c = new McryptCipher($INSTALLER09['cipher_key']['key']);
+$c = new McryptCipher($TRINITY20['cipher_key']['key']);
 
 function encrypt_ip($ip) {
  
-         global $INSTALLER09, $c;
+         global $TRINITY20, $c;
          $ip = $c -> encrypt($ip);
          return $ip;
 }
 
 function decrypt_ip($ip) {
  
-         global $INSTALLER09, $c;
+         global $TRINITY20, $c;
          $ip = $c -> decrypt($ip);
          return $ip;
          
@@ -171,14 +171,14 @@ function decrypt_ip($ip) {
 
 function encrypt_email($email) {
  
-         global $INSTALLER09, $c;
+         global $TRINITY20, $c;
          $email = $c -> encrypt($email);
          return $email;
 }
 
 function decrypt_email($email) {
  
-         global $INSTALLER09, $c;
+         global $TRINITY20, $c;
          $email = $c -> decrypt($email);
          return $email;
          

@@ -283,7 +283,7 @@ if ($action == "index_options")
 	}
 if (sizeof($updateset) > 0) sql_query("UPDATE user_options SET " . implode(",", $updateset) . " WHERE userid = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
 //var_dump($updateset);
-header("Location: {$INSTALLER09['baseurl']}/user_blocks1.php?edited=1&action=$action");
+header("Location: {$TRINITY20['baseurl']}/user_blocks1.php?edited=1&action=$action");
 
 
 ?>

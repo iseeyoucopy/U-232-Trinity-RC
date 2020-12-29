@@ -30,7 +30,7 @@ $langs = array(
 );
 function radioinfo($radio)
 {
-    global $langs, $INSTALLER09, $cache, $CURUSER;
+    global $langs, $TRINITY20, $cache, $CURUSER;
     $xml = $html = $history = '';
     if ($hand = @fsockopen($radio['host'], $radio['port'], $errno, $errstr, 30)) {
         fputs($hand, "GET /admin.cgi?pass=" . $radio['password'] . "&mode=viewxml HTTP/1.1\nUser-Agent:Mozilla/5.0 " . "(Windows; U; Windows NT 6.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6\n\n");
@@ -57,7 +57,7 @@ function radioinfo($radio)
                 $cache->set('current_radio_song', $md5_current_song, 0);
             }
             $html = '<fieldset>
-                <legend>' . $INSTALLER09['site_name'] . ' radio</legend><ul>';
+                <legend>' . $TRINITY20['site_name'] . ' radio</legend><ul>';
             foreach ($data as $d) $html.= '<li><b>' . $d . '</b></li>';
             $html.= '<li><b>Playlist history: </b> ' . (count($history) > 0 ? join(', ', $history) : 'No playlist history') . '</li>';
             if (empty($users_ip) === false) {
@@ -72,8 +72,8 @@ function radioinfo($radio)
             $html.= '</ul></fieldset>';
             return $html;
         }
-    } else $html.= '<fieldset><legend>' . $INSTALLER09['site_name'] . ' radio</legend>
-    <font size="3" color="red"><img src="' . $INSTALLER09['pic_base_url'] . 'off1.gif" alt="Off" title="Off" border="0" /><br />
+    } else $html.= '<fieldset><legend>' . $TRINITY20['site_name'] . ' radio</legend>
+    <font size="3" color="red"><img src="' . $TRINITY20['pic_base_url'] . 'off1.gif" alt="Off" title="Off" border="0" /><br />
     <b>Sorry ' . $CURUSER['username'] . ' Radio is currently Offline</b></font></fieldset><br />';
     //echo strval ($STREAMSTATUS);
     return $html;

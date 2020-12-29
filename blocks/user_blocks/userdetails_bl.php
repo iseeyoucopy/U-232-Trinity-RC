@@ -26,7 +26,7 @@ $HTMLOUT.= '<fieldset><legend>'.$lang['user_b_title3'].'</legend></fieldset>
 </label><span>'.$lang['user_u_brw2'].'</span></div>        
         </td>
         </tr>   
-        '.($INSTALLER09['rep_sys_on'] ? '<tr><td><b>'.$lang['user_u_rep1'].'</b></td><td>
+        '.($TRINITY20['rep_sys_on'] ? '<tr><td><b>'.$lang['user_u_rep1'].'</b></td><td>
         <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_reputation" name="userdetails_reputation" value="yes"' . $checkbox_userdetails_reputation . '>
 </label><span>'.$lang['user_u_rep2'].'</span></div>        
         </td>

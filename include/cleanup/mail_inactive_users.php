@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(1200);
     ignore_user_abort(1);
     //== Mail to inactive user accounts ==
@@ -27,16 +27,16 @@ function docleanup($data)
             $email = $arr["email"];
 	    $added = get_date($arr["added"], 'DATE');
             $last_access = get_date($arr["last_access"], 'DATE');
-	    $subject = "Your account at {$INSTALLER09['site_name']} !";
+	    $subject = "Your account at {$TRINITY20['site_name']} !";
             $body = "Hey
-            Your account at {$INSTALLER09['site_name']} has been marked as inactive and will be deleted within 21 days. If you wish to remain a member at {$INSTALLER09['site_name']} please login.\n
+            Your account at {$TRINITY20['site_name']} has been marked as inactive and will be deleted within 21 days. If you wish to remain a member at {$TRINITY20['site_name']} please login.\n
             Your username is : $username\n
             And was created : $added\n
             Last accessed : $last_access\n
-            Login at : {$INSTALLER09['baseurl']}/login.php\n
-            If you have forgotten your password you can retrieve it at : {$INSTALLER09['baseurl']}/resetpw.php\n
-            Welcome back! {$INSTALLER09['baseurl']}";
-	    $headers = 'From: ' . $INSTALLER09['site_email'] . "\r\n" . 'Reply-To:' . $INSTALLER09['site_email'] . "\r\n" . 'X-Mailer: PHP/' . phpversion();
+            Login at : {$TRINITY20['baseurl']}/login.php\n
+            If you have forgotten your password you can retrieve it at : {$TRINITY20['baseurl']}/resetpw.php\n
+            Welcome back! {$TRINITY20['baseurl']}";
+	    $headers = 'From: ' . $TRINITY20['site_email'] . "\r\n" . 'Reply-To:' . $TRINITY20['site_email'] . "\r\n" . 'X-Mailer: PHP/' . phpversion();
             mail($email, $subject, $body, $headers);  
         }
             

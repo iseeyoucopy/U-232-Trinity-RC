@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(1200);
     ignore_user_abort(1);
     //== 09 Auto leech warn by Bigjoos/pdq
@@ -38,14 +38,14 @@ function docleanup($data)
             $cache->update_row('user' . $arr['id'], [
                 'leechwarn' => $update['leechwarn'],
                 'downloadpos' => 0
-            ], $INSTALLER09['expires']['user_cache']);
+            ], $TRINITY20['expires']['user_cache']);
             $cache->update_row('MyUser_' . $arr['id'], [
                 'leechwarn' => $update['leechwarn'],
                 'downloadpos' => 0
-            ], $INSTALLER09['expires']['curuser']);
+            ], $TRINITY20['expires']['curuser']);
             $cache->update_row('user_stats_' . $arr['id'], [
                 'modcomment' => $modcomment
-            ], $INSTALLER09['expires']['user_stats']);
+            ], $TRINITY20['expires']['user_stats']);
             $cache->delete('inbox_new_' . $arr['id']);
             $cache->delete('inbox_new_sb_' . $arr['id']);
         }
@@ -75,14 +75,14 @@ function docleanup($data)
             $cache->update_row('user' . $arr['id'], [
                 'leechwarn' => 0,
                 'downloadpos' => 1
-            ], $INSTALLER09['expires']['user_cache']);
+            ], $TRINITY20['expires']['user_cache']);
             $cache->update_row('MyUser_' . $arr['id'], [
                 'leechwarn' => 0,
                 'downloadpos' => 1
-            ], $INSTALLER09['expires']['curuser']);
+            ], $TRINITY20['expires']['curuser']);
             $cache->update_row('user_stats_' . $arr['id'], [
                 'modcomment' => $modcomment
-            ], $INSTALLER09['expires']['user_stats']);
+            ], $TRINITY20['expires']['user_stats']);
             $cache->delete('inbox_new_' . $arr['id']);
             $cache->delete('inbox_new_sb_' . $arr['id']);
         }
@@ -108,14 +108,14 @@ function docleanup($data)
             $cache->update_row('user' . $arr['id'], [
                 'leechwarn' => 0,
                 'enabled' => 'no'
-            ], $INSTALLER09['expires']['user_cache']);
+            ], $TRINITY20['expires']['user_cache']);
             $cache->update_row('user_stats_' . $arr['id'], [
                 'modcomment' => $modcomment
-            ], $INSTALLER09['expires']['user_stats']);
+            ], $TRINITY20['expires']['user_stats']);
             $cache->update_row('MyUser_' . $arr['id'], [
                 'leechwarn' => 0,
                 'enabled' => 'no'
-            ], $INSTALLER09['expires']['curuser']);
+            ], $TRINITY20['expires']['curuser']);
         }
         $count = count($users_buffer);
         if ($count > 0) {

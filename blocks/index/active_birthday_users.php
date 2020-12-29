@@ -23,7 +23,7 @@ if (($birthday_users_cache = $cache->get($keys['birthdayusers'])) === false) {
     }
     $birthday_users_cache['birthdayusers'] = $birthdayusers;
     $birthday_users_cache['actcount'] = $actcount;
-    $cache->set($keys['birthdayusers'], $birthday_users_cache, $INSTALLER09['expires']['birthdayusers']);
+    $cache->set($keys['birthdayusers'], $birthday_users_cache, $TRINITY20['expires']['birthdayusers']);
 }
 if (!$birthday_users_cache['birthdayusers']) $birthday_users_cache['birthdayusers'] = $lang['index_birthday_no'];
 $birthday_users ='<div class="card">

@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($action == "upload") {
             $file = $_FILES["sub"];
             if (!isset($file)) stderr($lang['subtitles_upload_failed'], $lang['subtitles_the_file_cant_be_empty']);
-            if ($file["size"] > $INSTALLER09['sub_max_size']) stderr($lang['subtitles_upload_failed'], $lang['subtitles_what_the_hell_did_you_upload']);
+            if ($file["size"] > $TRINITY20['sub_max_size']) stderr($lang['subtitles_upload_failed'], $lang['subtitles_what_the_hell_did_you_upload']);
             $fname = $file["name"];
             $temp_name = $file["tmp_name"];
             $ext = (substr($fname, -3));
@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $date,
                 $owner
             ))) . ")") or sqlerr(__FILE__, __LINE__);
-            move_uploaded_file($temp_name, "{$INSTALLER09['sub_up_dir']}/$filename");
+            move_uploaded_file($temp_name, "{$TRINITY20['sub_up_dir']}/$filename");
             $id = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
             header("Refresh: 0; url=subtitles.php?mode=details&id=$id");
         } //end upload
@@ -151,7 +151,7 @@ function checkext(upload_field)
 <form enctype='multipart/form-data' method='post' action='subtitles.php'>
 <table style='width:400px; border:solid 1px #000000;' align='center' cellpadding='5' cellspacing='0'>";
     if ($mode == "upload") {
-        $HTMLOUT.= "<tr><td colspan='2' align='center' class='colhead'><font color='red'><b>{$lang['subtitles_only_srt_sub_txt_file']}<br />{$lang['subtitles_max_file_size']} " . mksize($INSTALLER09['sub_max_size']) . "</b></font></td></tr>";
+        $HTMLOUT.= "<tr><td colspan='2' align='center' class='colhead'><font color='red'><b>{$lang['subtitles_only_srt_sub_txt_file']}<br />{$lang['subtitles_max_file_size']} " . mksize($TRINITY20['sub_max_size']) . "</b></font></td></tr>";
     }
     $HTMLOUT.= "<tr><td class='rowhead' style='border:none'>{$lang['subtitles_language']}&nbsp;<font color='red'>*</font></td><td style='border:none'><select name='language' title='{$lang['subtitles_select_the_subtitle_language']}'>
 	<option value=''>- {$lang['subtitles_select']} -</option>
@@ -219,7 +219,7 @@ elseif ($mode == "delete") {
         if ($sure == "no") stderr("{$lang['subtitles_sanity_check']}...", "{$lang['subtitles_your_are_about_to_delete_subtitle']} <b>" . htmlsafechars($arr["name"]) . "</b> . Click <a href='subtitles.php?mode=delete&amp;id=$id&amp;sure=yes'>{$lang['gl_stdfoot_here']}</a> {$lang['gl_if_you_are_sure']}.", false);
         else {
             sql_query("DELETE FROM subtitles WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-            $file = $INSTALLER09['sub_up_dir'] . '/' . $arr["filename"];
+            $file = $TRINITY20['sub_up_dir'] . '/' . $arr["filename"];
             @unlink($file);
             header("Refresh: 0; url=subtitles.php");
         }
@@ -280,7 +280,7 @@ elseif ($mode == "details") {
         $res = sql_query("SELECT id, name,filename FROM subtitles  WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         $arr = mysqli_fetch_assoc($res);
         if (mysqli_num_rows($res) == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
-        $file = $INSTALLER09['sub_up_dir'] . "/" . $arr["filename"];
+        $file = $TRINITY20['sub_up_dir'] . "/" . $arr["filename"];
         $fileContent = file_get_contents($file);
         $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">

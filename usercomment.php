@@ -82,7 +82,7 @@ if ($action == "add") {
         $editedat = sqlesc(TIME_NOW);
         sql_query("UPDATE usercomments SET text=" . sqlesc($body) . ", editedat={$editedat}, edit_name=".sqlesc($CURUSER['username']).", editedby=" . sqlesc($CURUSER['id']) . " WHERE id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
         if ($returnto) header("Location: $returnto");
-        else header("Location: {$INSTALLER09['baseurl']}/userdetails.php?id={$userid}");
+        else header("Location: {$TRINITY20['baseurl']}/userdetails.php?id={$userid}");
         die;
     }
     $HTMLOUT.= "<h1>Edit comment for \"" . htmlsafechars($arr["username"]) . "\"</h1>
@@ -113,7 +113,7 @@ if ($action == "add") {
     if ($userid && mysqli_affected_rows($GLOBALS["___mysqli_ston"]) > 0) sql_query("UPDATE users SET comments = comments - 1 WHERE id = " . sqlesc($userid));
     $returnto = htmlsafechars($_GET["returnto"]);
     if ($returnto) header("Location: $returnto");
-    else header("Location: {$INSTALLER09['baseurl']}/userdetails.php?id={$userid}");
+    else header("Location: {$TRINITY20['baseurl']}/userdetails.php?id={$userid}");
     die;
 } elseif ($action == "vieworiginal") {
     if ($CURUSER['class'] < UC_STAFF) stderr($lang['gl_error'], "{$lang['usercomment_permission_denied']}");

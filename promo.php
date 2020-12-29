@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
         $bonus_karma
     ))) . ") ") or sqlerr(__FILE__, __LINE__);
     if (!$q) stderr("Error", "Something wrong happned, please retry");
-    else stderr("Success", "The promo link <b>" . htmlsafechars($promoname) . "</b> was added! here is the link <br /><input type=\"text\" name=\"promo-link\" value=\"" . $INSTALLER09['baseurl'] . $_SERVER["PHP_SELF"] . "?do=signup&amp;link=" . $link . "\" size=\"80\" onclick=\"select();\"  /><br/><a href=\"" . $_SERVER["PHP_SELF"] . "\"><input type=\"button\" value=\"Back to Promos\" /></a>");
+    else stderr("Success", "The promo link <b>" . htmlsafechars($promoname) . "</b> was added! here is the link <br /><input type=\"text\" name=\"promo-link\" value=\"" . $TRINITY20['baseurl'] . $_SERVER["PHP_SELF"] . "?do=signup&amp;link=" . $link . "\" size=\"80\" onclick=\"select();\"  /><br/><a href=\"" . $_SERVER["PHP_SELF"] . "\"><input type=\"button\" value=\"Back to Promos\" /></a>");
 } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "signup") {
     //==err("w00t");
     $r_check = sql_query("SELECT * FROM promo WHERE link=" . sqlesc($link)) or sqlerr(__FILE__, __LINE__);
@@ -98,16 +98,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
             sql_query("update promo set accounts_made=accounts_made+1 , users=" . sqlesc($users) . " WHERE id=" . sqlesc($ar_check["id"])) or sqlerr(__FILE__, __LINE__);
             //==Email part :)
             $sec = $editsecret;
-            $subject = $INSTALLER09['site_name'] . " user registration confirmation";
+            $subject = $TRINITY20['site_name'] . " user registration confirmation";
             $message = "Hi!
-						You used the link from promo " . htmlsafechars($ar_check["name"]) . " and registred a new account at {$INSTALLER09['site_name']}
+						You used the link from promo " . htmlsafechars($ar_check["name"]) . " and registred a new account at {$TRINITY20['site_name']}
 							
 						To confirm your account click the link below
-						{$INSTALLER09['baseurl']}/confirm.php?id=" . (int)$userid . "&secret=$sec
+						{$TRINITY20['baseurl']}/confirm.php?id=" . (int)$userid . "&secret=$sec
 
 						Welcome and enjoy your stay 
-						Staff at {$INSTALLER09['site_name']}";
-            $headers = 'From: ' . $INSTALLER09['site_email'] . "\r\n" . 'Reply-To:' . $INSTALLER09['site_email'] . "\r\n" . 'X-Mailer: PHP/' . phpversion();
+						Staff at {$TRINITY20['site_name']}";
+            $headers = 'From: ' . $TRINITY20['site_email'] . "\r\n" . 'Reply-To:' . $TRINITY20['site_email'] . "\r\n" . 'X-Mailer: PHP/' . phpversion();
             $mail = @mail($email, $subject, $message, $headers);
             stderr("Success!", "Account was created! and an email was sent to <b>" . htmlsafechars($email) . "</b>, you can use your account once you confirm the email!");
         } else stderr("Error", "Something odd happned please retry");
@@ -270,7 +270,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
         while ($ar = mysqli_fetch_assoc($r)) {
             $active = (($ar["max_users"] == $ar["accounts_made"]) || (($ar["added"] + (86400 * $ar["days_valid"])) < TIME_NOW)) ? false : true;
             $HTMLOUT.= "<tr " . (!$active ? "title=\"This promo has ended\"" : "") . ">
-				<td nowrap='nowrap' align='center'>" . (htmlsafechars($ar["name"])) . "<br /><input type='text' " . (!$active ? "disabled=\"disabled\"" : "") . " value='" . ($INSTALLER09['baseurl'] . $_SERVER["PHP_SELF"] . "?do=signup&amp;link=" . $ar["link"]) . "' size='60' name='" . (htmlsafechars($ar["name"])) . "' onclick='select();' /></td>
+				<td nowrap='nowrap' align='center'>" . (htmlsafechars($ar["name"])) . "<br /><input type='text' " . (!$active ? "disabled=\"disabled\"" : "") . " value='" . ($TRINITY20['baseurl'] . $_SERVER["PHP_SELF"] . "?do=signup&amp;link=" . $ar["link"]) . "' size='60' name='" . (htmlsafechars($ar["name"])) . "' onclick='select();' /></td>
 				<td nowrap='nowrap' align='center'>" . (date("d/M-Y", $ar["added"])) . "</td>
 				<td nowrap='nowrap' align='center'>" . (date("d/M-Y", ($ar["added"] + (86400 * $ar["days_valid"])))) . "</td>
 				<td nowrap='nowrap' align='center'>" . ((int) $ar["max_users"]) . "</td>

@@ -16,11 +16,11 @@ require_once (INCL_DIR . 'password_functions.php');
 require_once (CLASS_DIR . 'page_verify.php');
 require_once (CLASS_DIR . 'class_browser.php');
 dbconn();
-global $CURUSER, $INSTALLER09;
+global $CURUSER, $TRINITY20;
 if (!$CURUSER) {
     get_template();
 } else {
-    header("Location: {$INSTALLER09['baseurl']}/index.php");
+    header("Location: {$TRINITY20['baseurl']}/index.php");
     exit();
 }
 session_start();
@@ -37,19 +37,19 @@ $lang = array_merge(load_language('global') , load_language('takelogin'));
 // 09 failed logins thanks to pdq - Retro
 function failedloginscheck()
 {
-    global $INSTALLER09, $lang;
+    global $TRINITY20, $lang;
     $total = 0;
     $ip = getip();
     $res = sql_query("SELECT SUM(attempts) FROM failedlogins WHERE ip=" . sqlesc($ip)) or sqlerr(__FILE__, __LINE__);
     list($total) = mysqli_fetch_row($res);
-    if ($total >= $INSTALLER09['failedlogins']) {
+    if ($total >= $TRINITY20['failedlogins']) {
         sql_query("UPDATE failedlogins SET banned = 'yes' WHERE ip=" . sqlesc($ip)) or sqlerr(__FILE__, __LINE__);
         stderr($lang['tlogin_locked'], "{$lang['tlogin_lockerr1']} . <b>(" . htmlsafechars($ip) . ")</b> . {$lang['tlogin_lockerr2']}");
     }
 } // End
-if (!mkglobal('username:password' . ($INSTALLER09['captcha_on'] ? (!$gotkey ? ":captchaSelection:" : ":") : ":") . 'submitme')) die("{$lang['tlogin_sww']}");
+if (!mkglobal('username:password' . ($TRINITY20['captcha_on'] ? (!$gotkey ? ":captchaSelection:" : ":") : ":") . 'submitme')) die("{$lang['tlogin_sww']}");
 if (!$submitme) stderr($lang['tlogin_err1'], $lang['tlogin_err2']);
-if ($INSTALLER09['captcha_on'] && !$gotkey) {
+if ($TRINITY20['captcha_on'] && !$gotkey) {
     if (empty($captchaSelection) || $_SESSION['simpleCaptchaAnswer'] != $captchaSelection) {
         header('Location: login.php');
         exit();
@@ -57,7 +57,7 @@ if ($INSTALLER09['captcha_on'] && !$gotkey) {
 }
 function bark($text = 'Username or password incorrect')
 {
-    global $lang, $INSTALLER09, $cache;
+    global $lang, $TRINITY20, $cache;
     $sha = sha1($_SERVER['REMOTE_ADDR']);
     $dict_key = 'dictbreaker:::' . $sha;
     $flood = $cache->get($dict_key);
@@ -79,7 +79,7 @@ if (!$row) {
     bark();
 }
 /*=== check for dupe account by GodFather ===*/
-if ($INSTALLER09['dupeaccount_check_on'] == 1) {
+if ($TRINITY20['dupeaccount_check_on'] == 1) {
 	if(!empty(get_mycookie('log_uid'))){
 		$check = sql_query("SELECT * FROM users WHERE loginhash=" . sqlesc(get_mycookie('log_uid')));
 		$check_class = mysqli_fetch_assoc($check);
@@ -91,7 +91,7 @@ if ($INSTALLER09['dupeaccount_check_on'] == 1) {
 			    if($r = mysqli_fetch_assoc($a)){
                     $message = "User " . $r['username'] . " has logged in on another account. Has logged with User: " . $username . " credentials.";
 				    write_log("User " . $r['username'] . " has logged in on another account. Has logged with User: " . $username . " credentials.");
-				    sql_query("INSERT INTO ajax_chat_messages (userID, userName, userRole, channel, dateTime, ip, text) VALUES (" . sqlesc($INSTALLER09['bot_id']) . "," . sqlesc($INSTALLER09['bot_name']) . "," . sqlesc($INSTALLER09['bot_role']) . ",'4'," . sqlesc(TIME_DATE) . "," . sqlesc($_SERVER['REMOTE_ADDR']) . "," . sqlesc($message) . ")") or sqlerr(__FILE__, __LINE__);
+				    sql_query("INSERT INTO ajax_chat_messages (userID, userName, userRole, channel, dateTime, ip, text) VALUES (" . sqlesc($TRINITY20['bot_id']) . "," . sqlesc($TRINITY20['bot_name']) . "," . sqlesc($TRINITY20['bot_role']) . ",'4'," . sqlesc(TIME_DATE) . "," . sqlesc($_SERVER['REMOTE_ADDR']) . "," . sqlesc($message) . ")") or sqlerr(__FILE__, __LINE__);
 			    }
 			
 		    }else if((!empty($row['loginhash'])) && (get_mycookie('log_uid') != $row['loginhash']) && (!password_verify($password, $row['passhash']))){
@@ -99,7 +99,7 @@ if ($INSTALLER09['dupeaccount_check_on'] == 1) {
 			    if($s = mysqli_fetch_assoc($b)){
                     $message = "User " . $s['username'] . " has tried to login on another account. Has tried to login with User: " . $username . " credentials.";
 				    write_log("User " . $s['username'] . " has tried to login on another account. Has tried to login with User: " . $username . " credentials.");
-				    sql_query("INSERT INTO ajax_chat_messages (userID, userName, userRole, channel, dateTime, ip, text) VALUES (" . sqlesc($INSTALLER09['bot_id']) . "," . sqlesc($INSTALLER09['bot_name']) . "," . sqlesc($INSTALLER09['bot_role']) . ",'4'," . sqlesc(TIME_DATE) . "," . sqlesc($_SERVER['REMOTE_ADDR']) . "," . sqlesc($message) . ")") or sqlerr(__FILE__, __LINE__);
+				    sql_query("INSERT INTO ajax_chat_messages (userID, userName, userRole, channel, dateTime, ip, text) VALUES (" . sqlesc($TRINITY20['bot_id']) . "," . sqlesc($TRINITY20['bot_name']) . "," . sqlesc($TRINITY20['bot_role']) . ",'4'," . sqlesc(TIME_DATE) . "," . sqlesc($_SERVER['REMOTE_ADDR']) . "," . sqlesc($message) . ")") or sqlerr(__FILE__, __LINE__);
 			    }	
 		    }		
         }			
@@ -184,13 +184,13 @@ $cache->update_row('MyUser_' . $row['id'], [
     'ip' => $ip,
     'last_access' => TIME_NOW,
     'last_login' => TIME_NOW
-], $INSTALLER09['expires']['curuser']);
+], $TRINITY20['expires']['curuser']);
 $cache->update_row('user' . $row['id'], [
     'browser' => $browser,
     'ip' => $ip,
     'last_access' => TIME_NOW,
     'last_login' => TIME_NOW
-], $INSTALLER09['expires']['user_cache']);
+], $TRINITY20['expires']['user_cache']);
 $passh = hash("ripemd160", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "");
 /*=== for dupe account ===*/
 $uid = $row['id'];
@@ -204,5 +204,5 @@ if((empty($row['loginhash'])) || ($row['loginhash'] != $hashlog)){
 }
 /*=== ===*/
 logincookie($row['id'], $passh);
-header("Location: {$INSTALLER09['baseurl']}/index.php");
+header("Location: {$TRINITY20['baseurl']}/index.php");
 ?>

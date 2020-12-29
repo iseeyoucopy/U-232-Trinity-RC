@@ -6,7 +6,7 @@
  * @license Modified MIT License
  * @link https://blueimp.net/ajax/
  */
-global $INSTALLER09;
+global $TRINITY20;
 // Define AJAX Chat user roles:
 define('AJAX_CHAT_GUEST',		   0);
 define('AJAX_CHAT_USER',           1);
@@ -24,13 +24,13 @@ $config = array();
 // Database connection values:
 $config['dbConnection'] = array();
 // Database hostname:
-$config['dbConnection']['host'] = $INSTALLER09['mysql_host'];
+$config['dbConnection']['host'] = $TRINITY20['mysql_host'];
 // Database username:
-$config['dbConnection']['user'] = $INSTALLER09['mysql_user'];
+$config['dbConnection']['user'] = $TRINITY20['mysql_user'];
 // Database password:
-$config['dbConnection']['pass'] = $INSTALLER09['mysql_pass'];
+$config['dbConnection']['pass'] = $TRINITY20['mysql_pass'];
 // Database name:
-$config['dbConnection']['name'] = $INSTALLER09['mysql_db'];
+$config['dbConnection']['name'] = $TRINITY20['mysql_db'];
 // Database type:
 $config['dbConnection']['type'] = null;
 // Database link:
@@ -74,13 +74,13 @@ $config['contentType'] = null;
 // Session name used to identify the session cookie:
 $config['sessionName'] = 'ajax_chat';
 // Prefix added to every session key:
-$config['sessionKeyPrefix'] = $INSTALLER09['cookie_prefix'];
+$config['sessionKeyPrefix'] = $TRINITY20['cookie_prefix'];
 // The lifetime of the language, style and setting cookies in days:
 $config['sessionCookieLifeTime'] = 365;
 // The path of the cookies, '/' allows to read the cookies from all directories:
-$config['sessionCookiePath'] = $INSTALLER09['cookie_path'];
+$config['sessionCookiePath'] = $TRINITY20['cookie_path'];
 // The domain of the cookies, defaults to the hostname of the server if set to null:
-$config['sessionCookieDomain'] = $INSTALLER09['cookie_domain'];
+$config['sessionCookieDomain'] = $TRINITY20['cookie_domain'];
 // If enabled, cookies must be sent over secure (SSL/TLS encrypted) connections:
 $config['sessionCookieSecure'] = null;
 
@@ -147,9 +147,9 @@ $config['changedNickSuffix'] = ')';
 $config['allowUserMessageDelete'] = true;
 
 // The userID used for ChatBot messages:
-$config['chatBotID'] = $INSTALLER09['bot_id'];
+$config['chatBotID'] = $TRINITY20['bot_id'];
 // The userName used for ChatBot messages
-$config['chatBotName'] = $INSTALLER09['bot_name'];
+$config['chatBotName'] = $TRINITY20['bot_name'];
 
 // Minutes until a user is declared inactive (last status update) - the minimum is 2 minutes:
 $config['inactiveTimeout'] = 2;

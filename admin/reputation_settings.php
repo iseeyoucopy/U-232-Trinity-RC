@@ -42,7 +42,7 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
 /////////////////////////////
 function rep_cache()
 {
-    global $rep_set_cache, $INSTALLER09, $lang;
+    global $rep_set_cache, $TRINITY20, $lang;
     $rep_out = "<" . "?php\n\n\$GVARS = array(\n";
     foreach ($_POST as $k => $v) {
         $rep_out.= ($k == 'rep_undefined') ? "\t'{$k}' => '" . htmlsafechars($v, ENT_QUOTES) . "',\n" : "\t'{$k}' => " . intval($v) . ",\n";
@@ -228,7 +228,7 @@ $HTMLOUT = preg_replace_callback("|<#(.*?)#>|", "template_out", $HTMLOUT);
 echo stdhead($lang['repset_stdhead']) . $HTMLOUT . stdfoot();
 function template_out($matches)
 {
-    global $GVARS, $INSTALLER09, $lang;
+    global $GVARS, $TRINITY20, $lang;
     if ($matches[1] == 'rep_is_online') {
         return '' . $lang['repset_yes'] . '<input name="rep_is_online" value="1" ' . ($GVARS['rep_is_online'] == 1 ? 'checked="checked"' : "") . ' type="radio">&nbsp;&nbsp;&nbsp;<input name="rep_is_online" value="0" ' . ($GVARS['rep_is_online'] == 1 ? "" : 'checked="checked"') . ' type="radio">' . $lang['repset_no'] . '';
     } else {
@@ -237,14 +237,14 @@ function template_out($matches)
 }
 function redirect($url, $text, $time = 2)
 {
-    global $INSTALLER09, $lang;
+    global $TRINITY20, $lang;
     $page_title = $lang['repset_adminredir'];
     $page_detail = "<em>{$lang['repset_redirecting']}</em>";
     $html = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
-		<meta http-equiv='refresh' content=\"{$time}; url={$INSTALLER09['baseurl']}/{$url}\" />
+		<meta http-equiv='refresh' content=\"{$time}; url={$TRINITY20['baseurl']}/{$url}\" />
 		<title>{$lang['repset_block']}</title>
     <link rel='stylesheet' href='./templates/1/1.css' type='text/css' />
     </head>
@@ -255,7 +255,7 @@ function redirect($url, $text, $time = 2)
 							 <div style='font-size:12px'>$text
 							 <br />
 							 <br />
-							 <center><a href='{$INSTALLER09['baseurl']}/{$url}'>{$lang['repset_clickredirect']}</a></center>
+							 <center><a href='{$TRINITY20['baseurl']}/{$url}'>{$lang['repset_clickredirect']}</a></center>
 							 </div>
 							</div>
 						   </div></body></html>";

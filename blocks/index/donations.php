@@ -14,11 +14,11 @@ $progress = '';
 if (($totalfunds_cache = $cache->get($keys['ttl_funds'])) === false) {
     $totalfunds_cache = mysqli_fetch_assoc(sql_query("SELECT sum(cash) as total_funds FROM funds"));
     $totalfunds_cache["total_funds"] = (int)$totalfunds_cache["total_funds"];
-    $cache->set($keys['ttl_funds'], $totalfunds_cache, $INSTALLER09['expires']['total_funds']);
+    $cache->set($keys['ttl_funds'], $totalfunds_cache, $TRINITY20['expires']['total_funds']);
 }
 $funds_so_far = (int)$totalfunds_cache["total_funds"];
-$funds_difference = $INSTALLER09['totalneeded'] - $funds_so_far;
-$Progress_so_far = number_format($funds_so_far / $INSTALLER09['totalneeded'] * 100, 1);
+$funds_difference = $TRINITY20['totalneeded'] - $funds_so_far;
+$Progress_so_far = number_format($funds_so_far / $TRINITY20['totalneeded'] * 100, 1);
 if ($Progress_so_far >= 100) $Progress_so_far = 100;
 $HTMLOUT.= "<div class='callout'>
 		<h5>{$lang['index_donations']}</h5>

@@ -74,11 +74,11 @@ switch ($params['mode']) {
 }
 function Do_show()
 {
-    global $INSTALLER09, $lang;
+    global $TRINITY20, $lang;
     $sql = sql_query("SELECT * FROM faq_cat") or sqlerr(__FILE__, __LINE__);
     if (!mysqli_num_rows($sql))
         stderr("Error", "There Are No Categories. <br /><br />
-        <span class='btn'><a href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_new'>Add Category</a></span>");
+        <span class='btn'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_new'>Add Category</a></span>");
     $htmlout = '';
     $htmlout .= "      
 <div class='container'>
@@ -87,7 +87,7 @@ function Do_show()
 <h2><b>{$lang['faq_cat_title']}</h2></b></div></div>
 <div class='row'>
       <div class='col-sm-col-4 col-sm-offset-2'>
-      <span class='btn btn-default'><a href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_new'>{$lang['faq_btn_newcat']}</a></span>&nbsp;<span class='btn'><a href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=faq_new'>{$lang['faq_btn_newrule']}</a></span>
+      <span class='btn btn-default'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_new'>{$lang['faq_btn_newcat']}</a></span>&nbsp;<span class='btn'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=faq_new'>{$lang['faq_btn_newrule']}</a></span>
       </div><br>      
  <div class='col-sm-8 col-sm-offset-2'>     
 <table class='table table-bordered table-striped'>
@@ -101,11 +101,11 @@ function Do_show()
         $htmlout .= "
      <tr>
      <td>" . intval($arr['id']) . "</td>
-     <td><a href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=faq_edit&amp;catid=" . intval($arr['id']) . "'>" . htmlsafechars($arr['name']) . "</a></td>
+     <td><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=faq_edit&amp;catid=" . intval($arr['id']) . "'>" . htmlsafechars($arr['name']) . "</a></td>
      <td>" . htmlsafechars($arr['shortcut']) . "</td>
      <td>" . htmlsafechars($arr['min_view']) . "</td>
-     <td><a href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_edit&amp;catid=" . intval($arr['id']) . "'><img src='{$INSTALLER09['pic_base_url']}button_edit2.gif' height='15px' width='14px' alt='{$lang['faq_edit']}' style='padding-right:3px' /></a>
-     <a href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_delete&amp;catid=" . intval($arr['id']) . "'><img src='{$INSTALLER09['pic_base_url']}button_delete2.gif' height='13px' width='13px' alt='{$lang['faq_delete']}' style='padding-left:3px' /></a></td>
+     <td><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_edit&amp;catid=" . intval($arr['id']) . "'><img src='{$TRINITY20['pic_base_url']}button_edit2.gif' height='15px' width='14px' alt='{$lang['faq_edit']}' style='padding-right:3px' /></a>
+     <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_delete&amp;catid=" . intval($arr['id']) . "'><img src='{$TRINITY20['pic_base_url']}button_delete2.gif' height='13px' width='13px' alt='{$lang['faq_delete']}' style='padding-left:3px' /></a></td>
      </tr>";
     }
     $htmlout .= "</table></div></div></div>";
@@ -270,7 +270,7 @@ function Do_Cat_Update()
 }
 function Do_Cat_Add()
 {
-    global $INSTALLER09, $cache;
+    global $TRINITY20, $cache;
     $htmlout = '';
     if (empty($_POST['name']) || strlen($_POST['name']) > 100)
         stderr("Error", "Field is blank or length too long!");
@@ -337,7 +337,7 @@ function New_Faq_Form()
     $sql = sql_query("SELECT * FROM faq_cat") or sqlerr(__FILE__, __LINE__);
     if (!mysqli_num_rows($sql))
         stderr("Error", "There Are No Categories. <br /><br />
-        <span class='btn'><a href='{$INSTALLER09['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_add'>Add Category</a></span>");
+        <span class='btn'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_add'>Add Category</a></span>");
     $htmlout .= "
 <div class='container'>
 <div class='row'>
@@ -360,8 +360,8 @@ function New_Faq_Form()
 }
 function Do_Info($text)
 {
-    global $INSTALLER09;
-    $info = "<div class='infohead'><img src='{$INSTALLER09['pic_base_url']}warned0.gif' alt='Info' title='Info' /> Info</div><div class='infobody'>\n";
+    global $TRINITY20;
+    $info = "<div class='infohead'><img src='{$TRINITY20['pic_base_url']}warned0.gif' alt='Info' title='Info' /> Info</div><div class='infobody'>\n";
     $info .= $text;
     $info .= "</div>";
     $info .= "<a href='staffpanel.php?tool=faq_admin'>Go Back To Admin</a> Or Add another?";
@@ -369,9 +369,9 @@ function Do_Info($text)
 }
 function Do_Error($heading, $text)
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     $htmlout = '';
-    $htmlout .= "<div class='errorhead'><img src='{$INSTALLER09['pic_base_url']}warned.gif' alt='Warned' /> $heading</div><div class='errorbody'>\n";
+    $htmlout .= "<div class='errorhead'><img src='{$TRINITY20['pic_base_url']}warned.gif' alt='Warned' /> $heading</div><div class='errorbody'>\n";
     $htmlout .= "$text\n";
     $htmlout .= "</div>";
     return $htmlout;

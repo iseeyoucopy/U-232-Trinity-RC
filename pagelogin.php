@@ -17,12 +17,12 @@ dbconn();
 //== 09 failed logins thanks to pdq - Retro
 function failedloginscheck()
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     $total = 0;
     $ip = getip();
     $res = sql_query("SELECT SUM(attempts) FROM failedlogins WHERE ip=" . sqlesc($ip)) or sqlerr(__FILE__, __LINE__);
     list($total) = mysqli_fetch_row($res);
-    if ($total >= $INSTALLER09['failedlogins']) {
+    if ($total >= $TRINITY20['failedlogins']) {
         sql_query("UPDATE failedlogins SET banned = 'yes' WHERE ip=" . sqlesc($ip)) or sqlerr(__FILE__, __LINE__);
         stderr("Login Locked!", "You have <b>Exceeded</b> the allowed maximum login attempts without successful login, therefore your ip address <b>(" . htmlsafechars($ip) . ")</b> has been locked out for 24 hours.");
     }
@@ -34,7 +34,7 @@ if (!mkglobal("qlogin") || (strlen($qlogin = $qlogin) != 96)) {
 }
 function bark($text = 'Username or password incorrect')
 {
-    global $lang, $INSTALLER09, $cache;
+    global $lang, $TRINITY20, $cache;
     $sha = sha1($_SERVER['REMOTE_ADDR']);
     $dict_key = 'dictbreaker:::' . $sha;
     $flood = $cache->get($dict_key);
@@ -73,7 +73,7 @@ $HTMLOUT.= "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN'
 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
 <html xmlns='http://www.w3.org/1999/xhtml'>
 <head>
-<title>{$INSTALLER09['site_name']} Redirecting</title>
+<title>{$TRINITY20['site_name']} Redirecting</title>
 <link rel='stylesheet' href='./templates/1/1.css' type='text/css' />
 <meta http-equiv='Refresh' content='1; URL=index.php' />
 </head>

@@ -50,7 +50,7 @@ function calctime($val)
 
 function delete_torrent($delete_array, $page)
 {
-    global $INSTALLER09, $CURUSER, $cache, $lang;
+    global $TRINITY20, $CURUSER, $cache, $lang;
     if (empty($delete_array)) return false;
     $delete = array();
     foreach ($delete_array as $remove) $delete[] = 0 + $remove;
@@ -65,7 +65,7 @@ function delete_torrent($delete_array, $page)
         $names[] = htmlsafechars($row['name']);
         $id = (int)$row['id'];
         /** unlink() **/
-        unlink("{$INSTALLER09['torrent_dir']}/$id.torrent");
+        unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
         // announce
         remove_torrent_peers($id);
         remove_torrent($row['info_hash']);

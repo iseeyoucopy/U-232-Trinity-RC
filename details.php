@@ -111,23 +111,23 @@ if (($torrents = $cache->get('torrent_details_' . $id)) === false) {
         'user_likes'
     );
     $tor_fields = implode(', ', array_merge($tor_fields_ar_int, $tor_fields_ar_str));
-    $result = sql_query("SELECT " . $tor_fields . ", (SELECT MAX(id) FROM torrents ) as max_id, (SELECT MIN(id) FROM torrents) as min_id, LENGTH(nfo) AS nfosz, IF(num_ratings < {$INSTALLER09['minvotes']}, NULL, ROUND(rating_sum / num_ratings, 1)) AS rating FROM torrents WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    $result = sql_query("SELECT " . $tor_fields . ", (SELECT MAX(id) FROM torrents ) as max_id, (SELECT MIN(id) FROM torrents) as min_id, LENGTH(nfo) AS nfosz, IF(num_ratings < {$TRINITY20['minvotes']}, NULL, ROUND(rating_sum / num_ratings, 1)) AS rating FROM torrents WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
     $torrents = mysqli_fetch_assoc($result);
     foreach ($tor_fields_ar_int as $i) $torrents[$i] = (int)$torrents[$i];
     foreach ($tor_fields_ar_str as $i) $torrents[$i] = $torrents[$i];
-    $cache->set('torrent_details_' . $id, $torrents, $INSTALLER09['expires']['torrent_details']);
+    $cache->set('torrent_details_' . $id, $torrents, $TRINITY20['expires']['torrent_details']);
 }
 	$tor_cat = isset($torrents['category']) ? $torrents['category'] : '';
    if ($change[$tor_cat]['min_class'] > $CURUSER['class']) stderr("{$lang['details_user_error']}", "{$lang['details_bad_id']}");
 //==
 if (($torrents_xbt = $cache->get('torrent_xbt_data_' . $id)) === false && XBT_TRACKER == true) {
     $torrents_xbt = mysqli_fetch_assoc(sql_query("SELECT seeders, leechers, times_completed FROM torrents WHERE id =" . sqlesc($id))) or sqlerr(__FILE__, __LINE__);
-    $cache->set('torrent_xbt_data_' . $id, $torrents_xbt, $INSTALLER09['expires']['torrent_xbt_data']);
+    $cache->set('torrent_xbt_data_' . $id, $torrents_xbt, $TRINITY20['expires']['torrent_xbt_data']);
 }
 //==
 if (($torrents_txt = $cache->get('torrent_details_txt' . $id)) === false) {
     $torrents_txt = mysqli_fetch_assoc(sql_query("SELECT descr FROM torrents WHERE id =" . sqlesc($id))) or sqlerr(__FILE__, __LINE__);
-    $cache->set('torrent_details_txt' . $id, $torrents_txt, $INSTALLER09['expires']['torrent_details_text']);
+    $cache->set('torrent_details_txt' . $id, $torrents_txt, $TRINITY20['expires']['torrent_details_text']);
 }
 //Memcache Pretime
 if (($pretime = $cache->get('torrent_pretime_'.$id)) === false) {
@@ -136,7 +136,7 @@ if (($pretime = $cache->get('torrent_pretime_'.$id)) === false) {
     $pret = mysqli_fetch_assoc($pre_q);
 	$pretimere = isset($pret['time']) ? $pret['time'] : '';
     $pretime['time'] = strtotime($pretimere);
-    $cache->set('torrent_pretime_'.$id, $pretime, $INSTALLER09['expires']['torrent_pretime']);
+    $cache->set('torrent_pretime_'.$id, $pretime, $TRINITY20['expires']['torrent_pretime']);
 }
 $newgenre = '';
 if (!empty($torrents['newgenre'])) {
@@ -151,8 +151,8 @@ if (isset($_GET["hit"])) {
     $update['views'] = ($torrents['views'] + 1);
     $cache->update_row('torrent_details_' . $id, [
         'views' => $update['views']
-    ], $INSTALLER09['expires']['torrent_details']);
-    header("Location: {$INSTALLER09['baseurl']}/details.php?id=$id");
+    ], $TRINITY20['expires']['torrent_details']);
+    header("Location: {$TRINITY20['baseurl']}/details.php?id=$id");
     exit();
 }
 $What_String = (XBT_TRACKER == true ? 'mtime' : 'last_action');
@@ -248,28 +248,28 @@ if ($CURUSER['class'] >= UC_STAFF) {
  $cache->update_row('torrent_details_' . $id, [
             'checked_by' => $CURUSER['username'],
             'checked_when' => TIME_NOW
-        ], $INSTALLER09['expires']['torrent_details']);
+        ], $TRINITY20['expires']['torrent_details']);
         $cache->delete('checked_by_' . $id);
-        write_log("Torrent <a href={$INSTALLER09['baseurl']}/details.php?id=$id>(" . htmlsafechars($torrents['name']) . ")</a>{$lang['details_add_chk']}{$CURUSER['username']}");
-        header("Location: {$INSTALLER09["baseurl"]}/details.php?id=$id&checked=done#Success");
+        write_log("Torrent <a href={$TRINITY20['baseurl']}/details.php?id=$id>(" . htmlsafechars($torrents['name']) . ")</a>{$lang['details_add_chk']}{$CURUSER['username']}");
+        header("Location: {$TRINITY20["baseurl"]}/details.php?id=$id&checked=done#Success");
     } elseif (isset($_GET["rechecked"]) && $_GET["rechecked"] == 1) {
         sql_query("UPDATE torrents SET checked_by = " . sqlesc($CURUSER['username']) . ",checked_when = ".TIME_NOW." WHERE id =" . sqlesc($id) . " LIMIT 1") or sqlerr(__FILE__, __LINE__);
         $cache->update_row('torrent_details_' . $id, [
             'checked_by' => $CURUSER['username'],
             'checked_when' => TIME_NOW
-        ], $INSTALLER09['expires']['torrent_details']);
+        ], $TRINITY20['expires']['torrent_details']);
         $cache->delete('checked_by_' . $id);
-        write_log("Torrent <a href={$INSTALLER09['baseurl']}/details.php?id=$id>(" . htmlsafechars($torrents['name']) . ")</a>{$lang['details_add_rchk']}{$CURUSER['username']}");
-        header("Location: {$INSTALLER09["baseurl"]}/details.php?id=$id&rechecked=done#Success");
+        write_log("Torrent <a href={$TRINITY20['baseurl']}/details.php?id=$id>(" . htmlsafechars($torrents['name']) . ")</a>{$lang['details_add_rchk']}{$CURUSER['username']}");
+        header("Location: {$TRINITY20["baseurl"]}/details.php?id=$id&rechecked=done#Success");
     } elseif (isset($_GET["clearchecked"]) && $_GET["clearchecked"] == 1) {
         sql_query("UPDATE torrents SET checked_by = '', checked_when='' WHERE id =" . sqlesc($id) . " LIMIT 1") or sqlerr(__FILE__, __LINE__);
         $cache->update_row('torrent_details_' . $id, [
             'checked_by' => '',
             'checked_when' => ''
-        ], $INSTALLER09['expires']['torrent_details']);
+        ], $TRINITY20['expires']['torrent_details']);
         $cache->delete('checked_by_' . $id);
-        write_log("Torrent <a href={$INSTALLER09["baseurl"]}/details.php?id=$id>(" . htmlsafechars($torrents['name']) . ")</a>{$lang['details_add_uchk']}{$CURUSER['username']}");
-        header("Location: {$INSTALLER09["baseurl"]}/details.php?id=$id&clearchecked=done#Success");
+        write_log("Torrent <a href={$TRINITY20["baseurl"]}/details.php?id=$id>(" . htmlsafechars($torrents['name']) . ")</a>{$lang['details_add_uchk']}{$CURUSER['username']}");
+        header("Location: {$TRINITY20["baseurl"]}/details.php?id=$id&clearchecked=done#Success");
     }
     if (isset($_GET["checked"]) && $_GET["checked"] == 'done') 
 		$HTMLOUT.= "<div class='alert alert-success span11' align='center'><h2><a name='Success'>{$lang['details_add_chksc']}{$CURUSER['username']}!</a></h2></div>";

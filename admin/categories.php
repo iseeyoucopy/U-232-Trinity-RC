@@ -70,7 +70,7 @@ default:
 }
 function move_cat()
 {
-    global $INSTALLER09, $params, $cache, $lang;
+    global $TRINITY20, $params, $cache, $lang;
     if ((!isset($params['id']) OR !is_valid_id($params['id'])) OR (!isset($params['new_cat_id']) OR !is_valid_id($params['new_cat_id']))) {
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
@@ -88,7 +88,7 @@ function move_cat()
     sql_query("UPDATE torrents SET category = " . sqlesc($new_cat_id) . " WHERE category = " . sqlesc($old_cat_id));
     $cache->delete_value('genrelist');
     if (-1 != mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
-        header("Location: {$INSTALLER09['baseurl']}/staffpanel.php?tool=categories&action=categories");
+        header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=categories&action=categories");
     } else {
         stderr($lang['categories_error'], $lang['categories_move_error4']);
     }
@@ -144,7 +144,7 @@ $htlmout .="</div></div>";
 }
 function add_cat()
 {
-    global $INSTALLER09, $params, $cache, $lang;
+    global $TRINITY20, $params, $cache, $lang;
     foreach (array(
         'new_cat_name',
         'new_cat_desc',
@@ -165,12 +165,12 @@ function add_cat()
     if (-1 == mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     } else {
-        header("Location: {$INSTALLER09['baseurl']}/staffpanel.php?tool=categories&action=categories");
+        header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=categories&action=categories");
     }
 }
 function delete_cat()
 {
-    global $INSTALLER09, $params, $cache, $lang;
+    global $TRINITY20, $params, $cache, $lang;
     if (!isset($params['id']) OR !is_valid_id($params['id'])) {
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
@@ -197,7 +197,7 @@ function delete_cat()
     sql_query("DELETE FROM categories WHERE id = " . sqlesc($old_cat_id));
     $cache->delete_value('genrelist');
     if (mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
-        header("Location: {$INSTALLER09['baseurl']}/staffpanel.php?tool=categories&action=categories");
+        header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=categories&action=categories");
     } else {
         stderr($lang['categories_error'], $lang['categories_del_error1']);
     }
@@ -266,7 +266,7 @@ $htlmout .="</div></div>";
 }
 function edit_cat()
 {
-    global $INSTALLER09, $params, $cache, $lang;
+    global $TRINITY20, $params, $cache, $lang;
     if (!isset($params['id']) OR !is_valid_id($params['id'])) {
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
@@ -291,12 +291,12 @@ function edit_cat()
     if (-1 == mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     } else {
-        header("Location: {$INSTALLER09['baseurl']}/staffpanel.php?tool=categories&action=categories");
+        header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=categories&action=categories");
     }
 }
 function edit_cat_form()
 {
-    global $INSTALLER09, $params, $lang;
+    global $TRINITY20, $params, $lang;
     if (!isset($params['id']) OR !is_valid_id($params['id'])) {
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
@@ -306,7 +306,7 @@ function edit_cat_form()
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
     $r = mysqli_fetch_assoc($q);
-    $dh = opendir($INSTALLER09['pic_base_url'] . 'caticons/1');
+    $dh = opendir($TRINITY20['pic_base_url'] . 'caticons/1');
     $files = array();
     while (false !== ($file = readdir($dh))) {
         if (($file != ".") && ($file != "..")) {
@@ -364,9 +364,9 @@ function edit_cat_form()
 }
 function show_categories()
 {
-    global $INSTALLER09, $lang, $minclass;
+    global $TRINITY20, $lang, $minclass;
     $htmlout = '';
-    $dh = opendir($INSTALLER09['pic_base_url'] . 'caticons/1');
+    $dh = opendir($TRINITY20['pic_base_url'] . 'caticons/1');
     $files = array();
     while (false !== ($file = readdir($dh))) {
         if (($file != ".") && ($file != "..")) {
@@ -451,7 +451,7 @@ function show_categories()
         $htmlout = '<h1>'.$lang['categories_show_oops'].'</h1>';
     } else {
         while ($row = mysqli_fetch_assoc($query)) {
-            $cat_image = file_exists($INSTALLER09['pic_base_url'] . 'caticons/1/' . $row['image']) ? "<img border='0' src='{$INSTALLER09['pic_base_url']}caticons/1/" . htmlsafechars($row['image']) . "' alt='" . (int)$row['id'] . "' />" : "{$lang['categories_show_no_image']}";
+            $cat_image = file_exists($TRINITY20['pic_base_url'] . 'caticons/1/' . $row['image']) ? "<img border='0' src='{$TRINITY20['pic_base_url']}caticons/1/" . htmlsafechars($row['image']) . "' alt='" . (int)$row['id'] . "' />" : "{$lang['categories_show_no_image']}";
             $htmlout.= "<tr>
           <td><b>{$lang['categories_show_id2']} (" . (int)$row['id'] . ")</b></td>	
           <td>" . htmlsafechars($row['name']) . "</td>
@@ -459,11 +459,11 @@ function show_categories()
           <td>" . htmlsafechars(get_user_class_name($row['min_class'])) . "</td>
           <td>$cat_image</td>
           <td ><a href='staffpanel.php?tool=categories&amp;action=categories&amp;mode=edit_cat&amp;id=" . (int)$row['id'] . "'>
-            <img src='{$INSTALLER09['pic_base_url']}aff_tick.gif' alt='{$lang['categories_show_edit2']}' title='{$lang['categories_show_edit']}' width='12' height='12' border='0' /></a></td>
+            <img src='{$TRINITY20['pic_base_url']}aff_tick.gif' alt='{$lang['categories_show_edit2']}' title='{$lang['categories_show_edit']}' width='12' height='12' border='0' /></a></td>
           <td><a href='staffpanel.php?tool=categories&amp;action=categories&amp;mode=del_cat&amp;id=" . (int)$row['id'] . "'>
-            <img src='{$INSTALLER09['pic_base_url']}aff_cross.gif' alt='{$lang['categories_show_delete2']}' title='{$lang['categories_show_delete']}' width='12' height='12' border='0' /></a></td>
+            <img src='{$TRINITY20['pic_base_url']}aff_cross.gif' alt='{$lang['categories_show_delete2']}' title='{$lang['categories_show_delete']}' width='12' height='12' border='0' /></a></td>
           <td><a href='staffpanel.php?tool=categories&amp;action=categories&amp;mode=move_cat&amp;id=" . (int)$row['id'] . "'>
-            <img src='{$INSTALLER09['pic_base_url']}plus.gif' alt='{$lang['categories_show_move2']}' title='{$lang['categories_show_move']}' width='12' height='12' border='0' /></a></td>
+            <img src='{$TRINITY20['pic_base_url']}plus.gif' alt='{$lang['categories_show_move2']}' title='{$lang['categories_show_move']}' width='12' height='12' border='0' /></a></td>
         </tr>";
         }
     } //endif

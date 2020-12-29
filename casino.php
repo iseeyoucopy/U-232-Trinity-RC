@@ -95,7 +95,7 @@ if ($CURUSER["downloaded"] > 0) {
 } else {
     $ratio = 0;
 }
-if ($INSTALLER09['ratio_free'] === false && $ratio < $required_ratio) {
+if ($TRINITY20['ratio_free'] === false && $ratio < $required_ratio) {
     stderr($lang['gl_sorry'], "" . htmlsafechars($CURUSER["username"]) . " {$lang['casino_your_ratio_is_under']} {$required_ratio}");
 }
 $global_down2 = sql_query("SELECT (sum(win)-sum(lost)) AS globaldown,(sum(deposit)) AS globaldeposit, sum(win) AS win, sum(lost) AS lost FROM casino") or sqlerr(__FILE__, __LINE__);
@@ -183,10 +183,10 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
         //==stats
         $cache->update_row('userstats_' . $CURUSER['id'], [
             'uploaded' => $update['uploaded']
-        ], $INSTALLER09['expires']['u_stats']);
+        ], $TRINITY20['expires']['u_stats']);
         $cache->update_row('user_stats_' . $CURUSER['id'], [
             'uploaded' => $update['uploaded']
-        ], $INSTALLER09['expires']['user_stats']);
+        ], $TRINITY20['expires']['user_stats']);
         stderr($lang['casino_yes'], "" . htmlsafechars($winner_was) . " {$lang['casino_is_the_result']} " . htmlsafechars($CURUSER["username"]) . " {$lang['casino_you_got_it_and_win']} " . htmlsafechars(mksize($win)) . "&nbsp;&nbsp;&nbsp;$goback");
     } else {
         if (isset($_POST["number"])) {
@@ -206,10 +206,10 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
         //==stats
         $cache->update_row('userstats_' . $CURUSER['id'], [
             'uploaded' => $update['uploaded_loser']
-        ], $INSTALLER09['expires']['u_stats']);
+        ], $TRINITY20['expires']['u_stats']);
         $cache->update_row('user_stats_' . $CURUSER['id'], [
             'uploaded' => $update['uploaded_loser']
-        ], $INSTALLER09['expires']['user_stats']);
+        ], $TRINITY20['expires']['user_stats']);
         stderr($lang['gl_sorry'], "" . htmlsafechars($fake_winner) . " {$lang['casino_is_the_winner_and_not']} " . htmlsafechars($winner_was) . ", " . htmlsafechars($CURUSER["username"]) . " {$lang['casino_you_lost']} " . htmlsafechars(mksize($betmb)) . "&nbsp;&nbsp;&nbsp;$goback");
     }
 } else {
@@ -261,10 +261,10 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
             //==stats
             $cache->update_row('userstats_' . $CURUSER['id'], [
                 'uploaded' => $update['uploaded']
-            ], $INSTALLER09['expires']['u_stats']);
+            ], $TRINITY20['expires']['u_stats']);
             $cache->update_row('user_stats_' . $CURUSER['id'], [
                 'uploaded' => $update['uploaded']
-            ], $INSTALLER09['expires']['user_stats']);
+            ], $TRINITY20['expires']['user_stats']);
             if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 0) {
                 sql_query("INSERT INTO casino (userid, date, deposit) VALUES (" . sqlesc($tbet['userid']) . ", $time, -" . sqlesc($tbet['amount']) . ")") or sqlerr(__FILE__, __LINE__);
             }
@@ -294,18 +294,18 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
             //==stats
             $cache->update_row('userstats_' . $CURUSER['id'], [
                 'uploaded' => $update['uploaded']
-            ], $INSTALLER09['expires']['u_stats']);
+            ], $TRINITY20['expires']['u_stats']);
             $cache->update_row('user_stats_' . $CURUSER['id'], [
                 'uploaded' => $update['uploaded']
-            ], $INSTALLER09['expires']['user_stats']);
+            ], $TRINITY20['expires']['user_stats']);
             $update['uploaded_2'] = ($User['uploaded'] + $newup2);
             //==stats
             $cache->update_row('userstats_' . $tbet['userid'], [
                 'uploaded' => $update['uploaded_2']
-            ], $INSTALLER09['expires']['u_stats']);
+            ], $TRINITY20['expires']['u_stats']);
             $cache->update_row('user_stats_' . $tbet['userid'], [
                 'uploaded' => $update['uploaded_2']
-            ], $INSTALLER09['expires']['user_stats']);
+            ], $TRINITY20['expires']['user_stats']);
             if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 0) {
                 sql_query("INSERT INTO casino (userid, date, deposit) VALUES (" . sqlesc($tbet['userid']) . ", $time, -" . sqlesc($tbet['amount']) . ")") or sqlerr(__FILE__, __LINE__);
             }
@@ -366,11 +366,11 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
         //==stats
         $cache->update_row('userstats_' . $CURUSER['id'], [
             'uploaded' => $update['uploaded']
-        ], $INSTALLER09['expires']['u_stats']);
+        ], $TRINITY20['expires']['u_stats']);
         $cache->update_row('user_stats_' . $CURUSER['id'], [
             'uploaded' => $update['uploaded']
-        ], $INSTALLER09['expires']['user_stats']);
-        if ($INSTALLER09['autoshout_on'] == 1 || $INSTALLER09['irc_autoshout_on'] == 1) {
+        ], $TRINITY20['expires']['user_stats']);
+        if ($TRINITY20['autoshout_on'] == 1 || $TRINITY20['irc_autoshout_on'] == 1) {
             autoshout($message);
             ircbot($messages);
             $cache->delete('shoutbox_');
@@ -400,7 +400,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
             <form class=\"form-horizontal\" name=\"p2p\" method=\"post\" action=\"casino.php\">
         <div class='panel panel-default'>
 	<div class='panel-heading'>
-	<h1 class='col-sm-offset-3'>{$INSTALLER09['site_name']} {$lang['casino_stdhead']} - {$lang['casino_bet_p2p_with_other_users']}:</h1></div>
+	<h1 class='col-sm-offset-3'>{$TRINITY20['site_name']} {$lang['casino_stdhead']} - {$lang['casino_bet_p2p_with_other_users']}:</h1></div>
 	<div class='panel-body'>
 	
             <div class='row'><div class='col-sm-6 col-sm-offset-3'><div class='panel'><table class='table'>";
@@ -500,7 +500,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
     $HTMLOUT .= "<div class='panel panel-default'><table class='table table-bordered'>";
     $HTMLOUT .= "<tr><td align=\"center\" class=\"colhead\" colspan=\"3\">{$CURUSER['username']}'s {$lang['casino_details']}</td></tr>
             <tr><td align='center'>
-            <h1>User @ {$INSTALLER09['site_name']} {$lang['casino_stdhead']}</h1>
+            <h1>User @ {$TRINITY20['site_name']} {$lang['casino_stdhead']}</h1>
             <table class='message table table-bordered' cellspacing='0'>";
     $HTMLOUT .= tr($lang['casino_you_can_win'], mksize($max_download_user), 1);
     $HTMLOUT .= tr($lang['casino_won'], mksize($user_win), 1);
@@ -525,5 +525,5 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
     $HTMLOUT .= tr($lang['casino_ratio'], $ratio);
     $HTMLOUT .= "</table></td></tr></table></div>";
 }
-echo stdhead("{$INSTALLER09['site_name']} {$lang['casino_stdhead']}") . $HTMLOUT . stdfoot();
+echo stdhead("{$TRINITY20['site_name']} {$lang['casino_stdhead']}") . $HTMLOUT . stdfoot();
 ?>

@@ -53,7 +53,7 @@ if ($do == 'view_page') {
         $HTMLOUT.= "<tr class='one'>
 <td align='center'><b>{$lang['invites_username']}</b></td>
 <td align='center'><b>{$lang['invites_uploaded']}</b></td>
-" . ($INSTALLER09['ratio_free'] ? "" : "<td align='center'><b>{$lang['invites_downloaded']}</b></td>") . "
+" . ($TRINITY20['ratio_free'] ? "" : "<td align='center'><b>{$lang['invites_downloaded']}</b></td>") . "
 <td align='center'><b>{$lang['invites_ratio']}</b></td>
 <td align='center'><b>{$lang['invites_status']}</b></td>
 <td align='center'><b>{$lang['invites_confirm']}</b></td>
@@ -61,13 +61,13 @@ if ($do == 'view_page') {
         for ($i = 0; $i < $rows; ++$i) {
             $arr = mysqli_fetch_assoc($query);
             if ($arr['status'] == 'pending') $user = "<td align='center'>" . htmlsafechars($arr['username']) . "</td>";
-            else $user = "<td align='center'><a href='{$INSTALLER09['baseurl']}/userdetails.php?id=" . (int)$arr['id'] . "'>" . format_username($arr) . "</a></td>";
-            $ratio = member_ratio($arr['uploaded'], $INSTALLER09['ratio_free'] ? '0' : $arr['downloaded']);
+            else $user = "<td align='center'><a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int)$arr['id'] . "'>" . format_username($arr) . "</a></td>";
+            $ratio = member_ratio($arr['uploaded'], $TRINITY20['ratio_free'] ? '0' : $arr['downloaded']);
             if ($arr["status"] == 'confirmed') $status = "<font color='#1f7309'>{$lang['invites_confirm1']}</font>";
             else $status = "<font color='#ca0226'>{$lang['invites_pend']}</font>";
-            $HTMLOUT.= "<tr class='one'>" . $user . "<td align='center'>" . mksize($arr['uploaded']) . "</td>" . ($INSTALLER09['ratio_free'] ? "" : "<td align='center'>" . mksize($arr['downloaded']) . "</td>") . "<td align='center'>" . $ratio . "</td><td align='center'>" . $status . "</td>";
+            $HTMLOUT.= "<tr class='one'>" . $user . "<td align='center'>" . mksize($arr['uploaded']) . "</td>" . ($TRINITY20['ratio_free'] ? "" : "<td align='center'>" . mksize($arr['downloaded']) . "</td>") . "<td align='center'>" . $ratio . "</td><td align='center'>" . $status . "</td>";
             if ($arr['status'] == 'pending') {
-                $HTMLOUT.= "<td align='center'><a href='?do=confirm_account&amp;userid=" . (int)$arr['id'] . "&amp;sender=" . (int)$CURUSER['id'] . "'><img src='{$INSTALLER09['pic_base_url']}confirm.png' alt='confirm' title='{$lang['invites_confirm']}' border='0' /></a></td></tr>";
+                $HTMLOUT.= "<td align='center'><a href='?do=confirm_account&amp;userid=" . (int)$arr['id'] . "&amp;sender=" . (int)$CURUSER['id'] . "'><img src='{$TRINITY20['pic_base_url']}confirm.png' alt='confirm' title='{$lang['invites_confirm']}' border='0' /></a></td></tr>";
             } else $HTMLOUT.= "<td align='center'>---</td></tr>";
         }
     }
@@ -82,9 +82,9 @@ if ($do == 'view_page') {
         for ($i = 0; $i < $num_row; ++$i) {
             $fetch_assoc = mysqli_fetch_assoc($select);
             $HTMLOUT.= "<tr class='one'>
-<td>" . htmlsafechars($fetch_assoc['code']) . " <a href='?do=send_email&amp;id=" . (int)$fetch_assoc['id'] . "'><img src='{$INSTALLER09['pic_base_url']}email.gif' border='0' alt='Email' title='Send Email' /></a></td>
+<td>" . htmlsafechars($fetch_assoc['code']) . " <a href='?do=send_email&amp;id=" . (int)$fetch_assoc['id'] . "'><img src='{$TRINITY20['pic_base_url']}email.gif' border='0' alt='Email' title='Send Email' /></a></td>
 <td>" . get_date($fetch_assoc['invite_added'], '', 0, 1) . "</td>";
-            $HTMLOUT.= "<td><a href='?do=delete_invite&amp;id=" . (int)$fetch_assoc['id'] . "&amp;sender=" . (int)$CURUSER['id'] . "'><img src='{$INSTALLER09['pic_base_url']}del.png' border='0' alt='Delete'/></a></td>
+            $HTMLOUT.= "<td><a href='?do=delete_invite&amp;id=" . (int)$fetch_assoc['id'] . "&amp;sender=" . (int)$CURUSER['id'] . "'><img src='{$TRINITY20['pic_base_url']}del.png' border='0' alt='Delete'/></a></td>
 <td>" . htmlsafechars($fetch_assoc['status']) . "</td></tr>";
         }
     }
@@ -105,7 +105,7 @@ elseif ($do == 'create_invite') {
     }
     $res = sql_query("SELECT COUNT(id) FROM users") or sqlerr(__FILE__, __LINE__);
     $arr = mysqli_fetch_row($res);
-    if ($arr[0] >= $INSTALLER09['invites']) {
+    if ($arr[0] >= $TRINITY20['invites']) {
         stderr($lang['invites_error'], $lang['invites_limit']);
     }
     $invite = md5(mksecret());
@@ -114,10 +114,10 @@ elseif ($do == 'create_invite') {
     $update['invites'] = ($CURUSER['invites'] - 1);
     $cache->update_row('MyUser_' . $CURUSER['id'], [
         'invites' => $update['invites']
-    ], $INSTALLER09['expires']['curuser']); // 15 mins
+    ], $TRINITY20['expires']['curuser']); // 15 mins
     $cache->update_row('user' . $CURUSER['id'], [
         'invites' => $update['invites']
-    ], $INSTALLER09['expires']['user_cache']); // 15 mins
+    ], $TRINITY20['expires']['user_cache']); // 15 mins
     header("Location: ?do=view_page");
 }
 /**
@@ -133,7 +133,7 @@ elseif ($do == 'send_email') {
         if (!validemail($email)) stderr($lang['invites_error'], $lang['invites_invalidemail']);
         $inviter = htmlsafechars($CURUSER['username']);
         $body = "{$lang['invites_send_emailpart1']} ".htmlsafechars($inviter)." {$lang['invites_send_emailpart2']} ".htmlsafechars($email)." {$lang['invites_send_emailpart3']} ".htmlsafechars($invite)." {$lang['invites_send_emailpart4']}";
-        $sendit = mail($email, "{$lang['invites_send_email1_ema']}", $body, "{$lang['invites_send_email1_bod']}", "-f{$INSTALLER09['site_email']}");
+        $sendit = mail($email, "{$lang['invites_send_email1_ema']}", $body, "{$lang['invites_send_email1_bod']}", "-f{$TRINITY20['site_email']}");
         if (!$sendit) stderr($lang['invites_error'], $lang['invites_unable']);
         else stderr('', $lang['invites_confirmation']);
     }
@@ -164,10 +164,10 @@ elseif ($do == 'delete_invite') {
     $update['invites'] = ($CURUSER['invites'] + 1);
     $cache->update_row('MyUser_' . $CURUSER['id'], [
         'invites' => $update['invites']
-    ], $INSTALLER09['expires']['curuser']); // 15 mins
+    ], $TRINITY20['expires']['curuser']); // 15 mins
     $cache->update_row('user' . $CURUSER['id'], [
         'invites' => $update['invites']
-    ], $INSTALLER09['expires']['user_cache']); // 15 mins
+    ], $TRINITY20['expires']['user_cache']); // 15 mins
     header("Location: ?do=view_page");
 }
 /**
@@ -184,10 +184,10 @@ elseif ($do = 'confirm_account') {
     sql_query('UPDATE users SET status = "confirmed" WHERE id = ' . sqlesc($userid) . ' AND invitedby = ' . sqlesc($CURUSER['id']) . ' AND status="pending"') or sqlerr(__FILE__, __LINE__);
     $cache->update_row('MyUser_' . $userid, [
         'status' => 'confirmed'
-    ], $INSTALLER09['expires']['curuser']); // 15 mins
+    ], $TRINITY20['expires']['curuser']); // 15 mins
     $cache->update_row('user' . $userid, [
         'status' => 'confirmed'
-    ], $INSTALLER09['expires']['user_cache']); // 15 mins
+    ], $TRINITY20['expires']['user_cache']); // 15 mins
     //==pm to new invitee/////
     $msg = sqlesc("".$lang['invites_send_email2']."");
     $id = (int)$assoc["id"];

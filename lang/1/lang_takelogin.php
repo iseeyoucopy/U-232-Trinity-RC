@@ -31,8 +31,8 @@ $lang = array(
     'tlogin_mess2' => " Somebody (probably you, ",
     'tlogin_mess3' => " !) tried to login but failed!",
     'tlogin_mess4' => "\nTheir [b]Ip Address [/b] was : ",
-    'tlogin_mess5' => "\n If this wasn't you please report this event to a {$INSTALLER09['site_name']} staff member\n - Thank you.\n",
-    'tlogin_forgot' => ": Username or password entry incorrect <br />Have you forgotten your password? <a href='{$INSTALLER09['baseurl']}/resetpw.php'><b>Recover</b></a> your password !",
-    'tlogin_header' => "Location: {$INSTALLER09['baseurl']}/index.php"
+    'tlogin_mess5' => "\n If this wasn't you please report this event to a {$TRINITY20['site_name']} staff member\n - Thank you.\n",
+    'tlogin_forgot' => ": Username or password entry incorrect <br />Have you forgotten your password? <a href='{$TRINITY20['baseurl']}/resetpw.php'><b>Recover</b></a> your password !",
+    'tlogin_header' => "Location: {$TRINITY20['baseurl']}/index.php"
 );
 ?>

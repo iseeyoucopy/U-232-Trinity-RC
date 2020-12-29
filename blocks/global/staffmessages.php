@@ -10,11 +10,11 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-if ($INSTALLER09['staffmsg_alert'] && $CURUSER['class'] >= UC_STAFF) {
+if ($TRINITY20['staffmsg_alert'] && $CURUSER['class'] >= UC_STAFF) {
     if (($answeredby = $cache->get('staff_mess_')) === false) {
         $res1 = sql_query("SELECT count(id) FROM staffmessages WHERE answeredby = 0");
         list($answeredby) = mysqli_fetch_row($res1);
-        $cache->set('staff_mess_', $answeredby, $INSTALLER09['expires']['alerts']);
+        $cache->set('staff_mess_', $answeredby, $TRINITY20['expires']['alerts']);
     }
     if ($answeredby > 0) {
         $htmlout.= "

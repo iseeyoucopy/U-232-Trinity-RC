@@ -42,15 +42,15 @@ if (!defined('IN_INSTALLER09_FORUM')) {
         $count = (int)$arr['post_count'];
         if (empty($count))
         stderr('Sorry', 'No posts in the last 24 hours.');
-        if ($INSTALLER09['forums_online'] == 0)
+        if ($TRINITY20['forums_online'] == 0)
         $HTMLOUT .= stdmsg('Warning', 'Forums are currently in maintainance mode');
         $HTMLOUT .= "<div class='row'><div class='col-md-12'>";
         $perpage = 20;
-        $pager = pager($perpage, $count, $INSTALLER09['baseurl'].'/forums.php?action='.$action.'&amp;');
+        $pager = pager($perpage, $count, $TRINITY20['baseurl'].'/forums.php?action='.$action.'&amp;');
 	$HTMLOUT .= "<h2 align='center'>Today Posts (Last 24 Hours)</h2>";
 	$HTMLOUT .= "<div class='row'><div class='col-sm-12 col-sm-offset-0'>";
 			   $HTMLOUT .="<div class='navigation'>
-				<a href='index.php'>" . $INSTALLER09["site_name"] . "</a> 
+				<a href='index.php'>" . $TRINITY20["site_name"] . "</a> 
 				&gt;
 				<a href='forums.php'>Forums</a>
 				<br><img src='templates/1/pic/carbon/nav_bit.png' alt=''>
@@ -85,14 +85,14 @@ if (!defined('IN_INSTALLER09_FORUM')) {
 		$posterid = (int)$getdaily['userpost'];
 		$HTMLOUT .= "<tr>
 			<td class='row forumdisplay_regular' align='left'>
-		  <a href='{$INSTALLER09['baseurl']}/forums.php?action=viewtopic&amp;topicid=".(int)$getdaily['tid']."&amp;page=".$postid."#".$postid ."'>".htmlsafechars($getdaily['topic_name'])."</a><br />
-      <b>In</b>&nbsp;<a href='{$INSTALLER09['baseurl']}/forums.php?action=viewforum&amp;forumid=". (int)$getdaily['forum_id']."'>". htmlsafechars($getdaily['name'])."</a>
+		  <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".(int)$getdaily['tid']."&amp;page=".$postid."#".$postid ."'>".htmlsafechars($getdaily['topic_name'])."</a><br />
+      <b>In</b>&nbsp;<a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=". (int)$getdaily['forum_id']."'>". htmlsafechars($getdaily['name'])."</a>
       </td>
       <td class='row forumdisplay_regular' align='center'>". number_format($getdaily['views'])."</td>
       <td class='row forumdisplay_regular' align='center'>";
 				if (!empty($getdaily['username']))
 				{
-				$HTMLOUT .= "<a href='{$INSTALLER09['baseurl']}/userdetails.php?id=".$posterid."'>".htmlsafechars($getdaily['username'])."</a>";
+				$HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".$posterid."'>".htmlsafechars($getdaily['username'])."</a>";
 				}
 				else
 				{

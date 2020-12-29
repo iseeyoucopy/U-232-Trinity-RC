@@ -60,7 +60,7 @@ if ($game) {
         foreach ($arr as $card_id) {
             $used_card = sql_query("SELECT * FROM cards WHERE id=" . sqlesc($card_id));
             $used_cards = mysqli_fetch_assoc($used_card);
-            $showcards .= "<img src='{$INSTALLER09['pic_base_url']}cards/" . htmlsafechars($used_cards["pic"]) . "' width='71' height='96' border='0' alt='{$lang['bj_cards']}' title='{$lang['bj_cards']}' />";
+            $showcards .= "<img src='{$TRINITY20['pic_base_url']}cards/" . htmlsafechars($used_cards["pic"]) . "' width='71' height='96' border='0' alt='{$lang['bj_cards']}' title='{$lang['bj_cards']}' />";
             if ($used_cards["points"] > 1) {
                 $points += $used_cards['points'];
             } else {
@@ -81,7 +81,7 @@ if ($game) {
             } else {
                 $ratio = 0;
             }
-            if ($INSTALLER09['ratio_free'] === false && $ratio < $required_ratio) {
+            if ($TRINITY20['ratio_free'] === false && $ratio < $required_ratio) {
                 stderr("{$lang['bj_sorry2']} " . $CURUSER["username"], "{$lang['bj_your_ratio_is_lower_req']} " . $required_ratio . "%.");
             }
             $res = sql_query("SELECT status, gameover FROM blackjack WHERE userid = " . sqlesc($CURUSER['id']));
@@ -107,7 +107,7 @@ if ($game) {
                 } else {
                     $aces++;
                 }
-                $showcards .= "<img src='{$INSTALLER09['pic_base_url']}cards/" . htmlsafechars($cardarr['pic']) . "' width='71' height='96' border='0' alt='{$lang['bj_cards']}' title='{$lang['bj_cards']}' />";
+                $showcards .= "<img src='{$TRINITY20['pic_base_url']}cards/" . htmlsafechars($cardarr['pic']) . "' width='71' height='96' border='0' alt='{$lang['bj_cards']}' title='{$lang['bj_cards']}' />";
                 $cardids2[] = $cardid;
             }
             for ($i = 0; $i < $aces; $i++) {
@@ -141,7 +141,7 @@ if ($game) {
             }
             $cardres = sql_query("SELECT points, pic FROM cards WHERE id='$cardid'");
             $cardarr = mysqli_fetch_assoc($cardres);
-            $showcards .= "<img src='{$INSTALLER09['pic_base_url']}cards/" . $cardarr['pic'] . "' width='71' height='96' border='0' alt='{$lang['bj_cards']}' title='{$lang['bj_cards']}' />";
+            $showcards .= "<img src='{$TRINITY20['pic_base_url']}cards/" . $cardarr['pic'] . "' width='71' height='96' border='0' alt='{$lang['bj_cards']}' title='{$lang['bj_cards']}' />";
             if ($cardarr["points"] > 1) {
                 $points += $cardarr["points"];
             } else {
@@ -178,29 +178,29 @@ if ($game) {
                     //==stats
                     $cache->update_row('userstats_' . $CURUSER['id'], [
                         'uploaded' => $update['uploaded']
-                    ], $INSTALLER09['expires']['u_stats']);
+                    ], $TRINITY20['expires']['u_stats']);
                     $cache->update_row('user_stats_' . $CURUSER['id'], [
                         'uploaded' => $update['uploaded']
-                    ], $INSTALLER09['expires']['user_stats']);
+                    ], $TRINITY20['expires']['user_stats']);
                     $cache->update_row('userstats_' . $a['userid'], [
                         'uploaded' => $update['uploaded_loser']
-                    ], $INSTALLER09['expires']['u_stats']);
+                    ], $TRINITY20['expires']['u_stats']);
                     $cache->update_row('user_stats_' . $a['userid'], [
                         'uploaded' => $update['uploaded_loser']
-                    ], $INSTALLER09['expires']['user_stats']);
+                    ], $TRINITY20['expires']['user_stats']);
                     //== curuser values
                     $cache->update_row('MyUser' . $CURUSER['id'], [
                         'bjwins' => $update['bjwins']
-                    ], $INSTALLER09['expires']['curuser']);
+                    ], $TRINITY20['expires']['curuser']);
                     $cache->update_row('user' . $CURUSER['id'], [
                         'bjwins' => $update['bjwins']
-                    ], $INSTALLER09['expires']['user_cache']);
+                    ], $TRINITY20['expires']['user_cache']);
                     $cache->update_row('MyUser' . $a['userid'], [
                         'bjlosses' => $update['bjlosses']
-                    ], $INSTALLER09['expires']['curuser']);
+                    ], $TRINITY20['expires']['curuser']);
                     $cache->update_row('user' . $a['userid'], [
                         'bjlosses' => $update['bjlosses']
-                    ], $INSTALLER09['expires']['user_cache']);
+                    ], $TRINITY20['expires']['user_cache']);
                     $msg = sqlesc("{$lang['bj_you_loss_to']} " . $CURUSER['username'] . " ({$lang['bj_you_had']} " . $a['points'] . " {$lang['bj_points2']}, " . $CURUSER['username'] . " {$lang['bj_had_21_points']}).\n\n");
                 } else {
                     $subject = sqlesc($lang['bj_blackjack_results']);
@@ -238,29 +238,29 @@ if ($game) {
                     //==stats
                     $cache->update_row('userstats_' . $a['userid'], [
                         'uploaded' => $update['uploaded']
-                    ], $INSTALLER09['expires']['u_stats']);
+                    ], $TRINITY20['expires']['u_stats']);
                     $cache->update_row('user_stats_' . $a['userid'], [
                         'uploaded' => $update['uploaded']
-                    ], $INSTALLER09['expires']['user_stats']);
+                    ], $TRINITY20['expires']['user_stats']);
                     $cache->update_row('userstats_' . $CURUSER['id'], [
                         'uploaded' => $update['uploaded_loser']
-                    ], $INSTALLER09['expires']['u_stats']);
+                    ], $TRINITY20['expires']['u_stats']);
                     $cache->update_row('user_stats_' . $CURUSER['id'], [
                         'uploaded' => $update['uploaded_loser']
-                    ], $INSTALLER09['expires']['user_stats']);
+                    ], $TRINITY20['expires']['user_stats']);
                     //== curuser values
                     $cache->update_row('MyUser' . $a['userid'], [
                         'bjwins' => $update['bjwins']
-                    ], $INSTALLER09['expires']['curuser']);
+                    ], $TRINITY20['expires']['curuser']);
                     $cache->update_row('user' . $a['userid'], [
                         'bjwins' => $update['bjwins']
-                    ], $INSTALLER09['expires']['user_cache']);
+                    ], $TRINITY20['expires']['user_cache']);
                     $cache->update_row('MyUser' . $CURUSER['id'], [
                         'bjlosses' => $update['bjlosses']
-                    ], $INSTALLER09['expires']['curuser']);
+                    ], $TRINITY20['expires']['curuser']);
                     $cache->update_row('user' . $CURUSER['id'], [
                         'bjlosses' => $update['bjlosses']
-                    ], $INSTALLER09['expires']['user_cache']);
+                    ], $TRINITY20['expires']['user_cache']);
                     $msg = sqlesc("{$lang['bj_you_beat']} " . $CURUSER['username'] . " ({$lang['bj_you_had']} " . $a['points'] . " {$lang['bj_points2']}, " . $CURUSER['username'] . " had $points points).\n\n");
                 }
                 sql_query("INSERT INTO messages (sender, receiver, added, msg, subject) VALUES(0, " . $a['userid'] . ", $now, $msg, $subject)");
@@ -333,29 +333,29 @@ if ($game) {
                 //==stats
                 $cache->update_row('userstats_' . $a['userid'], [
                     'uploaded' => $update['uploaded']
-                ], $INSTALLER09['expires']['u_stats']);
+                ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $a['userid'], [
                     'uploaded' => $update['uploaded']
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 $cache->update_row('userstats_' . $CURUSER['id'], [
                     'uploaded' => $update['uploaded_loser']
-                ], $INSTALLER09['expires']['u_stats']);
+                ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $CURUSER['id'], [
                     'uploaded' => $update['uploaded_loser']
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 //== curuser values
                 $cache->update_row('MyUser' . $a['userid'], [
                     'bjwins' => $update['bjwins']
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $a['userid'], [
                     'bjwins' => $update['bjwins']
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('MyUser' . $CURUSER['id'], [
                     'bjlosses' => $update['bjlosses']
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $CURUSER['id'], [
                     'bjlosses' => $update['bjlosses']
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
             }
             sql_query("INSERT INTO messages (sender, receiver, added, msg, subject) VALUES(0, " . $a['userid'] . ", $now, $msg, $subject)");
             $cache->delete('inbox_new_' . $a['userid']);
@@ -379,11 +379,11 @@ if ($game) {
     $tot_games = $tot_wins + $tot_losses;
     $win_perc = ($tot_losses == 0 ? ($tot_wins == 0 ? "---" : "100%") : ($tot_wins == 0 ? "0" : number_format(($tot_wins / $tot_games) * 100, 1)) . '%');
     $plus_minus = ($tot_wins - $tot_losses < 0 ? '-' : '') . mksize((($tot_wins - $tot_losses >= 0 ? ($tot_wins - $tot_losses) : ($tot_losses - $tot_wins))) * $mb);
-    $HTMLOUT .= "<h1 align='center'>{$INSTALLER09['site_name']} {$lang['bj_title']}</h1>
+    $HTMLOUT .= "<h1 align='center'>{$TRINITY20['site_name']} {$lang['bj_title']}</h1>
     <div class='row'><div class='col-sm-6 col-sm-offset-3'><table class='table'>
     <tr><td colspan='2' align='center'>
     <table class='message table'>
-    <tr><td align='center'><img src='{$INSTALLER09['pic_base_url']}cards/tp.bmp' width='71' height='96' border='0' alt='' />&nbsp;<img src='{$INSTALLER09['pic_base_url']}cards/vp.bmp' width='71' height='96' border='0' alt='' /></td></tr>
+    <tr><td align='center'><img src='{$TRINITY20['pic_base_url']}cards/tp.bmp' width='71' height='96' border='0' alt='' />&nbsp;<img src='{$TRINITY20['pic_base_url']}cards/vp.bmp' width='71' height='96' border='0' alt='' /></td></tr>
     <tr><td align='left'>{$lang['bj_you_most_collect_21']}<br /><br />
     <b>{$lang['bj_note']}</b> " . $lang['bj_bj_note_cost'] . mksize($mb) . $lang['bj_bj_note_cost2'] . "</td></tr>
     <tr><td align='center'>

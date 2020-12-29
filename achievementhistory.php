@@ -21,7 +21,7 @@ $newpage = new page_verify();
 $newpage->create('takecounts');
 $lang = array_merge(load_language('global') , load_language('achievement_history'));
 
-if ($INSTALLER09['achieve_sys_on'] == false) {
+if ($TRINITY20['achieve_sys_on'] == false) {
 stderr($lang['achievement_history_err'], $lang['achievement_history_off']);
 exit();
 }

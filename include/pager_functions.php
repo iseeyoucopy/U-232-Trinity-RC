@@ -105,7 +105,7 @@ function pager_rep($data)
     }
     if ($pager['pages'] > 1) {
         if (isset($data['mini'])) {
-            $pager['first_page'] = "<img src='{$INSTALLER09['pic_base_url']}multipage.gif' alt='' title='' />";
+            $pager['first_page'] = "<img src='{$TRINITY20['pic_base_url']}multipage.gif' alt='' title='' />";
         } else {
             $pager['first_page'] = "<span style='background: #F0F5FA; border: 1px solid #072A66;padding: 1px 3px 1px 3px;'>{$pager['pages']} Pages</span>&nbsp;";
         }

@@ -11,7 +11,7 @@ require_once(TEMPLATE_DIR.''.$CURUSER['stylesheet'].'' . DIRECTORY_SEPARATOR . '
 require_once(TEMPLATE_DIR.''.$CURUSER['stylesheet'].'' . DIRECTORY_SEPARATOR . 'html_functions' . DIRECTORY_SEPARATOR . 'navigation_html_functions.php');
 $html = array_merge(load_design());
 $lang = load_language('global');
-global $CURUSER, $INSTALLER09;
+global $CURUSER, $TRINITY20;
 if (!isset($_GET['id'])) stderr("Something gone wrong", "Maybe someone is playing football :lol:");
 if(isset($_GET['id']) && $_GET['id'] !== '');
 $movie_id = $_GET['id'];
@@ -35,7 +35,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array("Accept: application/json"));
 $response = curl_exec($ch);
 curl_close($ch);
 $result = json_decode($response, true);
-$image = ($config['images']['base_url'] . $config['images']['poster_sizes'][3] . $result['poster_path']!='') ? "<img src='" . $config['images']['base_url'] . $config['images']['poster_sizes'][3] . $result['poster_path'] . "'>":"<img src='" .$INSTALLER09['pic_base_url']."/noposter.png'>";
+$image = ($config['images']['base_url'] . $config['images']['poster_sizes'][3] . $result['poster_path']!='') ? "<img src='" . $config['images']['base_url'] . $config['images']['poster_sizes'][3] . $result['poster_path'] . "'>":"<img src='" .$TRINITY20['pic_base_url']."/noposter.png'>";
 		$date = date_format(date_create($result['release_date']), 'Y');
 $HTMLOUT = "<div class='row callout'>";
 $HTMLOUT .= "

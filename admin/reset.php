@@ -47,12 +47,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'secret' => $secret,
         'passhash' => $newpassword,
         'passhash' => $passhash
-    ], $INSTALLER09['expires']['curuser']);
+    ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user' . $uid, [
         'secret' => $secret,
         'passhash' => $newpassword,
         'passhash' => $passhash
-    ], $INSTALLER09['expires']['user_cache']);
+    ], $TRINITY20['expires']['user_cache']);
 
     if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) != 1) stderr($lang['reset_stderr'], $lang['reset_stderr1']);
     if (CheckPostKey(array(

@@ -24,7 +24,7 @@ $HTMLOUT = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		<head>
     <meta name='generator' content='u-232.com' />
 	 <meta name='MSSmartTagsPreventParsing' content='TRUE' />
-	 <title>{$INSTALLER09['site_name']} Radio</title>
+	 <title>{$TRINITY20['site_name']} Radio</title>
     <link rel='stylesheet' href='./templates/" . $CURUSER['stylesheet'] . "/" . $CURUSER['stylesheet'] . ".css' type='text/css' />
     </head>
     <body>";
@@ -36,7 +36,7 @@ $HTMLOUT.= "<script type='text/javascript'>
     }
     /*]]>*/
     </script>";
-$HTMLOUT.= "<h2>{$INSTALLER09['site_name']} Site Radio</h2>" . "<div  align=\"center\">" . "<a href=\"http://" . $radio['host'] . ":" . $radio['port'] . "/listen.pls\" onmouseover=\"roll_over('winamp', 'pic/winamp_over.png')\" onmouseout=\"roll_over('winamp', 'pic/winamp.png')\" style=\"border:hidden;\" ><img src=\"pic/winamp.png\" name=\"winamp\" alt=\"Click here to listen with Winamp\" title=\"Click here to listen with Winamp\" style=\"border:hidden;\" /></a>" . "<a href=\"http://" . $radio['host'] . ":" . $radio['port'] . "/listen.asx\" onmouseover=\"roll_over('wmp', 'pic/wmp_over.png')\" onmouseout=\"roll_over('wmp', 'pic/wmp.png')\" style=\"border:hidden;\" ><img src=\"pic/wmp.png\" name=\"wmp\" alt=\"Click here to listen with Windows Media Player\" title=\"Click here to listen with Windows Media Player\" style=\"border:hidden;\" /></a>" . "</div>" . radioinfo($radio);
+$HTMLOUT.= "<h2>{$TRINITY20['site_name']} Site Radio</h2>" . "<div  align=\"center\">" . "<a href=\"http://" . $radio['host'] . ":" . $radio['port'] . "/listen.pls\" onmouseover=\"roll_over('winamp', 'pic/winamp_over.png')\" onmouseout=\"roll_over('winamp', 'pic/winamp.png')\" style=\"border:hidden;\" ><img src=\"pic/winamp.png\" name=\"winamp\" alt=\"Click here to listen with Winamp\" title=\"Click here to listen with Winamp\" style=\"border:hidden;\" /></a>" . "<a href=\"http://" . $radio['host'] . ":" . $radio['port'] . "/listen.asx\" onmouseover=\"roll_over('wmp', 'pic/wmp_over.png')\" onmouseout=\"roll_over('wmp', 'pic/wmp.png')\" style=\"border:hidden;\" ><img src=\"pic/wmp.png\" name=\"wmp\" alt=\"Click here to listen with Windows Media Player\" title=\"Click here to listen with Windows Media Player\" style=\"border:hidden;\" /></a>" . "</div>" . radioinfo($radio);
 $HTMLOUT.= "<div align='center'><a class='altlink' href='javascript: window.close()'><b>[ Close window ]</b></a></div></body></html>";
 echo $HTMLOUT;
 ?>

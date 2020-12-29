@@ -54,30 +54,30 @@ sql_query("INSERT INTO coins (userid, torrentid, points) VALUES (" . sqlesc($CUR
 sql_query("UPDATE users SET seedbonus=seedbonus+" . sqlesc($points) . " WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
 sql_query("UPDATE users SET seedbonus=seedbonus-" . sqlesc($points) . " WHERE id=" . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
 sql_query("UPDATE torrents SET points=points+" . sqlesc($points) . " WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-$msg = sqlesc("{$lang['coins_you_have_been_given']} " . htmlsafechars($points) . " {$lang['coins_points_by']} " . $CURUSER["username"] . " {$lang['coins_for_torrent']} [url=" . $INSTALLER09['baseurl'] . "/details.php?id=" . $id . "]" . htmlsafechars($row["name"]) . "[/url].");
+$msg = sqlesc("{$lang['coins_you_have_been_given']} " . htmlsafechars($points) . " {$lang['coins_points_by']} " . $CURUSER["username"] . " {$lang['coins_for_torrent']} [url=" . $TRINITY20['baseurl'] . "/details.php?id=" . $id . "]" . htmlsafechars($row["name"]) . "[/url].");
 $subject = sqlesc($lang['coins_you_have_been_given_a_gift']);
-sql_query("INSERT INTO messages (sender, receiver, msg, added, subject) VALUES({$INSTALLER09['bot_id']}, " . sqlesc($userid) . ", $msg, " . TIME_NOW . ", $subject)") or sqlerr(__FILE__, __LINE__);
+sql_query("INSERT INTO messages (sender, receiver, msg, added, subject) VALUES({$TRINITY20['bot_id']}, " . sqlesc($userid) . ", $msg, " . TIME_NOW . ", $subject)") or sqlerr(__FILE__, __LINE__);
 $update['points'] = ($row['points'] + $points);
 $update['seedbonus_uploader'] = ($User['seedbonus'] + $points);
 $update['seedbonus_donator'] = ($CURUSER['seedbonus'] - $points);
 //==The torrent
 $cache->update_row('torrent_details_' . $id, [
     'points' => $update['points']
-], $INSTALLER09['expires']['torrent_details']);
+], $TRINITY20['expires']['torrent_details']);
 //==The uploader
 $cache->update_row('userstats_' . $userid, [
     'seedbonus' => $update['seedbonus_uploader']
-], $INSTALLER09['expires']['u_stats']);
+], $TRINITY20['expires']['u_stats']);
 $cache->update_row('user_stats_' . $userid, [
     'seedbonus' => $update['seedbonus_uploader']
-], $INSTALLER09['expires']['user_stats']);
+], $TRINITY20['expires']['user_stats']);
 //==The donator
 $cache->update_row('userstats_' . $CURUSER["id"], [
     'seedbonus' => $update['seedbonus_donator']
-], $INSTALLER09['expires']['u_stats']);
+], $TRINITY20['expires']['u_stats']);
 $cache->update_row('user_stats_' . $CURUSER["id"], [
     'seedbonus' => $update['seedbonus_donator']
-], $INSTALLER09['expires']['user_stats']);
+], $TRINITY20['expires']['user_stats']);
 //== delete the pm keys
 $cache->delete('inbox_new_' . $userid);
 $cache->delete('inbox_new_sb_' . $userid);

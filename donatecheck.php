@@ -15,15 +15,15 @@ require_once (CACHE_DIR . 'paypal_settings.php');
 dbconn();
 //$payment_status = "Completed";//Only uncomment if using sandbox mode
 $donate_goods = array(
-    $INSTALLER09['paypal_config']['gb_donated_1'] => array(
+    $TRINITY20['paypal_config']['gb_donated_1'] => array(
         'to_add' => array(
-            'uploaded' => $INSTALLER09['paypal_config']['up_amt_1'] * 1073741824,
-            'invites' => $INSTALLER09['paypal_config']['inv_amt_1'],
-            'seedbonus' => $INSTALLER09['paypal_config']['kp_amt_1'],
-            'total_donated' => $INSTALLER09['paypal_config']['gb_donated_1'],
+            'uploaded' => $TRINITY20['paypal_config']['up_amt_1'] * 1073741824,
+            'invites' => $TRINITY20['paypal_config']['inv_amt_1'],
+            'seedbonus' => $TRINITY20['paypal_config']['kp_amt_1'],
+            'total_donated' => $TRINITY20['paypal_config']['gb_donated_1'],
         ) ,
         'to_update' => array(
-            'donated' => $INSTALLER09['paypal_config']['gb_donated_1'],
+            'donated' => $TRINITY20['paypal_config']['gb_donated_1'],
             'warned' => 0,
             'downloadpos' => 1,
             'uploadpos' => 1,
@@ -32,23 +32,23 @@ $donate_goods = array(
             'hnrwarn' => '\'no\'',
             'enabled' => '\'yes\'',
             'class' => 'IF(class < ' . UC_VIP . ', ' . UC_VIP . ', class), vipclass_before = IF(class < ' . UC_VIP . ', class, 0)',
-            'donoruntil' => sprintf('IF(donoruntil > 0,donoruntil + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['duntil_dur_1'], $INSTALLER09['paypal_config']['duntil_dur_1']) ,
-            'vip_until' => sprintf('IF(vip_until > 0,vip_until + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['vip_dur_1'], $INSTALLER09['paypal_config']['vip_dur_1']) ,
-            'free_switch' => sprintf('IF(free_switch > 0,free_switch + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['free_dur_1'], $INSTALLER09['paypal_config']['free_dur_1']) ,
-            'immunity' => sprintf('IF(immunity > 0,immunity + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['imm_dur_1'], $INSTALLER09['paypal_config']['imm_dur_1']) ,
+            'donoruntil' => sprintf('IF(donoruntil > 0,donoruntil + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['duntil_dur_1'], $TRINITY20['paypal_config']['duntil_dur_1']) ,
+            'vip_until' => sprintf('IF(vip_until > 0,vip_until + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['vip_dur_1'], $TRINITY20['paypal_config']['vip_dur_1']) ,
+            'free_switch' => sprintf('IF(free_switch > 0,free_switch + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['free_dur_1'], $TRINITY20['paypal_config']['free_dur_1']) ,
+            'immunity' => sprintf('IF(immunity > 0,immunity + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['imm_dur_1'], $TRINITY20['paypal_config']['imm_dur_1']) ,
             'donor' => '\'yes\'',
-            'modcomment' => "CONCAT('" . get_date(TIME_NOW, 'DATE', 1) . " - User donated ".$INSTALLER09['paypal_config']['gb_donated_1']." " . $INSTALLER09['paypal_config']['currency'] . "\n',modcomment)"
+            'modcomment' => "CONCAT('" . get_date(TIME_NOW, 'DATE', 1) . " - User donated ".$TRINITY20['paypal_config']['gb_donated_1']." " . $TRINITY20['paypal_config']['currency'] . "\n',modcomment)"
         )
     ) ,
-    $INSTALLER09['paypal_config']['gb_donated_2'] => array(
+    $TRINITY20['paypal_config']['gb_donated_2'] => array(
         'to_add' => array(
-            'uploaded' => $INSTALLER09['paypal_config']['up_amt_2'] * 1073741824,
-            'invites' => $INSTALLER09['paypal_config']['inv_amt_2'],
-            'seedbonus' => $INSTALLER09['paypal_config']['kp_amt_2'],
-            'total_donated' => $INSTALLER09['paypal_config']['gb_donated_2'],
+            'uploaded' => $TRINITY20['paypal_config']['up_amt_2'] * 1073741824,
+            'invites' => $TRINITY20['paypal_config']['inv_amt_2'],
+            'seedbonus' => $TRINITY20['paypal_config']['kp_amt_2'],
+            'total_donated' => $TRINITY20['paypal_config']['gb_donated_2'],
         ) ,
         'to_update' => array(
-            'donated' => $INSTALLER09['paypal_config']['gb_donated_2'],
+            'donated' => $TRINITY20['paypal_config']['gb_donated_2'],
             'warned' => 0,
             'downloadpos' => 1,
             'uploadpos' => 1,
@@ -57,23 +57,23 @@ $donate_goods = array(
             'hnrwarn' => '\'no\'',
             'enabled' => '\'yes\'',
             'class' => 'IF(class < ' . UC_VIP . ', ' . UC_VIP . ', class), vipclass_before = IF(class < ' . UC_VIP . ', class, 0)',
-            'donoruntil' => sprintf('IF(donoruntil > 0,donoruntil + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['duntil_dur_2'], $INSTALLER09['paypal_config']['duntil_dur_2']) ,
-            'vip_until' => sprintf('IF(vip_until > 0,vip_until + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['vip_dur_2'], $INSTALLER09['paypal_config']['vip_dur_2']) ,
-            'free_switch' => sprintf('IF(free_switch > 0,free_switch + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['free_dur_2'], $INSTALLER09['paypal_config']['free_dur_2']) ,
-            'immunity' => sprintf('IF(immunity > 0,immunity + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['imm_dur_2'], $INSTALLER09['paypal_config']['imm_dur_2']) ,
+            'donoruntil' => sprintf('IF(donoruntil > 0,donoruntil + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['duntil_dur_2'], $TRINITY20['paypal_config']['duntil_dur_2']) ,
+            'vip_until' => sprintf('IF(vip_until > 0,vip_until + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['vip_dur_2'], $TRINITY20['paypal_config']['vip_dur_2']) ,
+            'free_switch' => sprintf('IF(free_switch > 0,free_switch + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['free_dur_2'], $TRINITY20['paypal_config']['free_dur_2']) ,
+            'immunity' => sprintf('IF(immunity > 0,immunity + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['imm_dur_2'], $TRINITY20['paypal_config']['imm_dur_2']) ,
             'donor' => '\'yes\'',
-            'modcomment' => "CONCAT('" . get_date(TIME_NOW, 'DATE', 1) . " - User donated ".$INSTALLER09['paypal_config']['gb_donated_2']." " . $INSTALLER09['paypal_config']['currency'] . "\n',modcomment)"
+            'modcomment' => "CONCAT('" . get_date(TIME_NOW, 'DATE', 1) . " - User donated ".$TRINITY20['paypal_config']['gb_donated_2']." " . $TRINITY20['paypal_config']['currency'] . "\n',modcomment)"
         )
     ) ,
-    $INSTALLER09['paypal_config']['gb_donated_3'] => array(
+    $TRINITY20['paypal_config']['gb_donated_3'] => array(
         'to_add' => array(
-            'uploaded' => $INSTALLER09['paypal_config']['up_amt_3'] * 1073741824,
-            'invites' => $INSTALLER09['paypal_config']['inv_amt_3'],
-            'seedbonus' => $INSTALLER09['paypal_config']['kp_amt_3'],
-            'total_donated' => $INSTALLER09['paypal_config']['gb_donated_3'],
+            'uploaded' => $TRINITY20['paypal_config']['up_amt_3'] * 1073741824,
+            'invites' => $TRINITY20['paypal_config']['inv_amt_3'],
+            'seedbonus' => $TRINITY20['paypal_config']['kp_amt_3'],
+            'total_donated' => $TRINITY20['paypal_config']['gb_donated_3'],
         ) ,
         'to_update' => array(
-            'donated' => $INSTALLER09['paypal_config']['gb_donated_3'],
+            'donated' => $TRINITY20['paypal_config']['gb_donated_3'],
             'warned' => 0,
             'downloadpos' => 1,
             'uploadpos' => 1,
@@ -82,23 +82,23 @@ $donate_goods = array(
             'hnrwarn' => '\'no\'',
             'enabled' => '\'yes\'',
             'class' => 'IF(class < ' . UC_VIP . ', ' . UC_VIP . ', class), vipclass_before = IF(class < ' . UC_VIP . ', class, 0)',
-            'donoruntil' => sprintf('IF(donoruntil > 0,donoruntil + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['duntil_dur_3'], $INSTALLER09['paypal_config']['duntil_dur_3']) ,
-            'vip_until' => sprintf('IF(vip_until > 0,vip_until + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['vip_dur_3'], $INSTALLER09['paypal_config']['vip_dur_3']) ,
-            'free_switch' => sprintf('IF(free_switch > 0,free_switch + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['free_dur_3'], $INSTALLER09['paypal_config']['free_dur_3']) ,
-            'immunity' => sprintf('IF(immunity > 0,immunity + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['imm_dur_3'], $INSTALLER09['paypal_config']['imm_dur_3']) ,
+            'donoruntil' => sprintf('IF(donoruntil > 0,donoruntil + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['duntil_dur_3'], $TRINITY20['paypal_config']['duntil_dur_3']) ,
+            'vip_until' => sprintf('IF(vip_until > 0,vip_until + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['vip_dur_3'], $TRINITY20['paypal_config']['vip_dur_3']) ,
+            'free_switch' => sprintf('IF(free_switch > 0,free_switch + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['free_dur_3'], $TRINITY20['paypal_config']['free_dur_3']) ,
+            'immunity' => sprintf('IF(immunity > 0,immunity + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['imm_dur_3'], $TRINITY20['paypal_config']['imm_dur_3']) ,
             'donor' => '\'yes\'',
-            'modcomment' => "CONCAT('" . get_date(TIME_NOW, 'DATE', 1) . " - User donated ".$INSTALLER09['paypal_config']['gb_donated_3']." " . $INSTALLER09['paypal_config']['currency'] . "\n',modcomment)"
+            'modcomment' => "CONCAT('" . get_date(TIME_NOW, 'DATE', 1) . " - User donated ".$TRINITY20['paypal_config']['gb_donated_3']." " . $TRINITY20['paypal_config']['currency'] . "\n',modcomment)"
         )
     ) ,
-    $INSTALLER09['paypal_config']['gb_donated_4'] => array(
+    $TRINITY20['paypal_config']['gb_donated_4'] => array(
         'to_add' => array(
-            'uploaded' => $INSTALLER09['paypal_config']['up_amt_4'] * 1073741824,
-            'invites' => $INSTALLER09['paypal_config']['inv_amt_4'],
-            'seedbonus' => $INSTALLER09['paypal_config']['kp_amt_4'],
-            'total_donated' => $INSTALLER09['paypal_config']['gb_donated_4'],
+            'uploaded' => $TRINITY20['paypal_config']['up_amt_4'] * 1073741824,
+            'invites' => $TRINITY20['paypal_config']['inv_amt_4'],
+            'seedbonus' => $TRINITY20['paypal_config']['kp_amt_4'],
+            'total_donated' => $TRINITY20['paypal_config']['gb_donated_4'],
         ) ,
         'to_update' => array(
-            'donated' => $INSTALLER09['paypal_config']['gb_donated_4'],
+            'donated' => $TRINITY20['paypal_config']['gb_donated_4'],
             'warned' => 0,
             'downloadpos' => 1,
             'uploadpos' => 1,
@@ -107,23 +107,23 @@ $donate_goods = array(
             'hnrwarn' => '\'no\'',
             'enabled' => '\'yes\'',
             'class' => 'IF(class < ' . UC_VIP . ', ' . UC_VIP . ', class), vipclass_before = IF(class < ' . UC_VIP . ', class, 0)',
-            'donoruntil' => sprintf('IF(donoruntil > 0,donoruntil + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['duntil_dur_4'], $INSTALLER09['paypal_config']['duntil_dur_4']) ,
-            'vip_until' => sprintf('IF(vip_until > 0,vip_until + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['vip_dur_4'], $INSTALLER09['paypal_config']['vip_dur_4']) ,
-            'free_switch' => sprintf('IF(free_switch > 0,free_switch + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['free_dur_4'], $INSTALLER09['paypal_config']['free_dur_4']) ,
-            'immunity' => sprintf('IF(immunity > 0,immunity + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['imm_dur_4'], $INSTALLER09['paypal_config']['imm_dur_4']) ,
+            'donoruntil' => sprintf('IF(donoruntil > 0,donoruntil + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['duntil_dur_4'], $TRINITY20['paypal_config']['duntil_dur_4']) ,
+            'vip_until' => sprintf('IF(vip_until > 0,vip_until + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['vip_dur_4'], $TRINITY20['paypal_config']['vip_dur_4']) ,
+            'free_switch' => sprintf('IF(free_switch > 0,free_switch + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['free_dur_4'], $TRINITY20['paypal_config']['free_dur_4']) ,
+            'immunity' => sprintf('IF(immunity > 0,immunity + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['imm_dur_4'], $TRINITY20['paypal_config']['imm_dur_4']) ,
             'donor' => '\'yes\'',
-            'modcomment' => "CONCAT('" . get_date(TIME_NOW, 'DATE', 1) . " - User donated ".$INSTALLER09['paypal_config']['gb_donated_4']." " . $INSTALLER09['paypal_config']['currency'] . "\n',modcomment)"
+            'modcomment' => "CONCAT('" . get_date(TIME_NOW, 'DATE', 1) . " - User donated ".$TRINITY20['paypal_config']['gb_donated_4']." " . $TRINITY20['paypal_config']['currency'] . "\n',modcomment)"
         )
     ) ,
-    $INSTALLER09['paypal_config']['gb_donated_5'] => array(
+    $TRINITY20['paypal_config']['gb_donated_5'] => array(
         'to_add' => array(
-            'uploaded' => $INSTALLER09['paypal_config']['up_amt_5'] * 1073741824,
-            'invites' => $INSTALLER09['paypal_config']['inv_amt_5'],
-            'seedbonus' => $INSTALLER09['paypal_config']['kp_amt_5'],
-            'total_donated' => $INSTALLER09['paypal_config']['gb_donated_5'],
+            'uploaded' => $TRINITY20['paypal_config']['up_amt_5'] * 1073741824,
+            'invites' => $TRINITY20['paypal_config']['inv_amt_5'],
+            'seedbonus' => $TRINITY20['paypal_config']['kp_amt_5'],
+            'total_donated' => $TRINITY20['paypal_config']['gb_donated_5'],
         ) ,
         'to_update' => array(
-            'donated' => $INSTALLER09['paypal_config']['gb_donated_5'],
+            'donated' => $TRINITY20['paypal_config']['gb_donated_5'],
             'warned' => 0,
             'downloadpos' => 1,
             'uploadpos' => 1,
@@ -132,23 +132,23 @@ $donate_goods = array(
             'hnrwarn' => '\'no\'',
             'enabled' => '\'yes\'',
             'class' => 'IF(class < ' . UC_VIP . ', ' . UC_VIP . ', class), vipclass_before = IF(class < ' . UC_VIP . ', class, 0)',
-            'donoruntil' => sprintf('IF(donoruntil > 0,donoruntil + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['duntil_dur_5'], $INSTALLER09['paypal_config']['duntil_dur_5']) ,
-            'vip_until' => sprintf('IF(vip_until > 0,vip_until + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['vip_dur_5'], $INSTALLER09['paypal_config']['vip_dur_5']) ,
-            'free_switch' => sprintf('IF(free_switch > 0,free_switch + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['free_dur_5'], $INSTALLER09['paypal_config']['free_dur_5']) ,
-            'immunity' => sprintf('IF(immunity > 0,immunity + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['imm_dur_5'], $INSTALLER09['paypal_config']['imm_dur_5']) ,
+            'donoruntil' => sprintf('IF(donoruntil > 0,donoruntil + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['duntil_dur_5'], $TRINITY20['paypal_config']['duntil_dur_5']) ,
+            'vip_until' => sprintf('IF(vip_until > 0,vip_until + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['vip_dur_5'], $TRINITY20['paypal_config']['vip_dur_5']) ,
+            'free_switch' => sprintf('IF(free_switch > 0,free_switch + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['free_dur_5'], $TRINITY20['paypal_config']['free_dur_5']) ,
+            'immunity' => sprintf('IF(immunity > 0,immunity + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['imm_dur_5'], $TRINITY20['paypal_config']['imm_dur_5']) ,
             'donor' => '\'yes\'',
-            'modcomment' => "CONCAT('" . get_date(TIME_NOW, 'DATE', 1) . " - User donated ".$INSTALLER09['paypal_config']['gb_donated_5']." " . $INSTALLER09['paypal_config']['currency'] . "\n',modcomment)"
+            'modcomment' => "CONCAT('" . get_date(TIME_NOW, 'DATE', 1) . " - User donated ".$TRINITY20['paypal_config']['gb_donated_5']." " . $TRINITY20['paypal_config']['currency'] . "\n',modcomment)"
         )
     ) ,
-    $INSTALLER09['paypal_config']['gb_donated_6'] => array(
+    $TRINITY20['paypal_config']['gb_donated_6'] => array(
         'to_add' => array(
-            'uploaded' => $INSTALLER09['paypal_config']['up_amt_6'] * 1073741824,
-            'invites' => $INSTALLER09['paypal_config']['inv_amt_6'],
-            'seedbonus' => $INSTALLER09['paypal_config']['kp_amt_6'],
-            'total_donated' => $INSTALLER09['paypal_config']['gb_donated_6'],
+            'uploaded' => $TRINITY20['paypal_config']['up_amt_6'] * 1073741824,
+            'invites' => $TRINITY20['paypal_config']['inv_amt_6'],
+            'seedbonus' => $TRINITY20['paypal_config']['kp_amt_6'],
+            'total_donated' => $TRINITY20['paypal_config']['gb_donated_6'],
         ) ,
         'to_update' => array(
-            'donated' => $INSTALLER09['paypal_config']['gb_donated_6'],
+            'donated' => $TRINITY20['paypal_config']['gb_donated_6'],
             'warned' => 0,
             'downloadpos' => 1,
             'uploadpos' => 1,
@@ -157,12 +157,12 @@ $donate_goods = array(
             'hnrwarn' => '\'no\'',
             'enabled' => '\'yes\'',
             'class' => 'IF(class < ' . UC_VIP . ', ' . UC_VIP . ', class), vipclass_before = IF(class < ' . UC_VIP . ', class, 0)',
-            'donoruntil' => sprintf('IF(donoruntil > 0,donoruntil + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['duntil_dur_6'], $INSTALLER09['paypal_config']['duntil_dur_6']) ,
-            'vip_until' => sprintf('IF(vip_until > 0,vip_until + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['vip_dur_6'], $INSTALLER09['paypal_config']['vip_dur_6']) ,
-            'free_switch' => sprintf('IF(free_switch > 0,free_switch + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['free_dur_6'], $INSTALLER09['paypal_config']['free_dur_6']) ,
-            'immunity' => sprintf('IF(immunity > 0,immunity + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['imm_dur_6'], $INSTALLER09['paypal_config']['imm_dur_6']) ,
+            'donoruntil' => sprintf('IF(donoruntil > 0,donoruntil + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['duntil_dur_6'], $TRINITY20['paypal_config']['duntil_dur_6']) ,
+            'vip_until' => sprintf('IF(vip_until > 0,vip_until + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['vip_dur_6'], $TRINITY20['paypal_config']['vip_dur_6']) ,
+            'free_switch' => sprintf('IF(free_switch > 0,free_switch + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['free_dur_6'], $TRINITY20['paypal_config']['free_dur_6']) ,
+            'immunity' => sprintf('IF(immunity > 0,immunity + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $TRINITY20['paypal_config']['imm_dur_6'], $TRINITY20['paypal_config']['imm_dur_6']) ,
             'donor' => '\'yes\'',
-            'modcomment' => "CONCAT('" . get_date(TIME_NOW, 'DATE', 1) . " - User donated ".$INSTALLER09['paypal_config']['gb_donated_6']." " . $INSTALLER09['paypal_config']['currency'] . "\n',modcomment)"
+            'modcomment' => "CONCAT('" . get_date(TIME_NOW, 'DATE', 1) . " - User donated ".$TRINITY20['paypal_config']['gb_donated_6']." " . $TRINITY20['paypal_config']['currency'] . "\n',modcomment)"
         )
     ) ,
 );
@@ -206,20 +206,20 @@ if ($hand = fsockopen('ssl://www.paypal.com', 443, $errno, $errstr, 30)) {
             sql_query(sprintf('INSERT INTO funds(cash,user,added) VALUES (%d,%d,%d)', $vars['amount'], $vars['uid'], TIME_NOW)) or paypallog(mysqli_error($GLOBALS["___mysqli_ston"]));
             //clear the cache for the funds
             $cache->delete_value('totalfunds_');
-            $msg[] = '(' . $vars['uid'] . ',0,' . sqlesc('Donation - processed') . ',' . sqlesc("Your donation was processed by paypal and our system\nWe remind you that you donated " . $vars['amount'] . $INSTALLER09['paypal_config']['currency'] . "\nIf you forgot what you'll get check the donation page again\nStaff from " . $INSTALLER09['site_name'] . " is grateful for your donation\nIf you have any question's feel free to contact someone from staff") . ',' . TIME_NOW . ')';
-            $msg[] = '(' . $INSTALLER09['paypal_config']['staff'] . ',0,' . sqlesc('Donation - made') . ',' . sqlesc("This [url=" . $INSTALLER09['baseurl'] . "/userdetails.php?id=" . (int)$vars['uid'] . "]user[/url] - donated " . $vars['amount'] . $INSTALLER09['paypal_config']['currency'] . (!empty($vars['memo']) ? "\nUser sent a message with his donation:\n[b]" . $vars['memo'] . "[/b]" : '')) . ',' . TIME_NOW . ')';
+            $msg[] = '(' . $vars['uid'] . ',0,' . sqlesc('Donation - processed') . ',' . sqlesc("Your donation was processed by paypal and our system\nWe remind you that you donated " . $vars['amount'] . $TRINITY20['paypal_config']['currency'] . "\nIf you forgot what you'll get check the donation page again\nStaff from " . $TRINITY20['site_name'] . " is grateful for your donation\nIf you have any question's feel free to contact someone from staff") . ',' . TIME_NOW . ')';
+            $msg[] = '(' . $TRINITY20['paypal_config']['staff'] . ',0,' . sqlesc('Donation - made') . ',' . sqlesc("This [url=" . $TRINITY20['baseurl'] . "/userdetails.php?id=" . (int)$vars['uid'] . "]user[/url] - donated " . $vars['amount'] . $TRINITY20['paypal_config']['currency'] . (!empty($vars['memo']) ? "\nUser sent a message with his donation:\n[b]" . $vars['memo'] . "[/b]" : '')) . ',' . TIME_NOW . ')';
         } else paypallog('Could not find user with id = ' . $vars['uid']);
     } elseif (stripos($paypal_data, 'INVALID') !== false) {
         //something went wrong log data
         paypallog('Paypal didn\'t like the transaction and it rejected it. _POST = ' . print_r($_POST, 1));
         //make some nice messages to let everyone know about the problem
-        $msg[] = '(' . $vars['uid'] . ',0,' . sqlesc('Donation - problem') . ',' . sqlesc("We are sorry to announce you that paypal rejected the donation please contact the staff\n" . $INSTALLER09['site_name'] . "'s staff") . ',' . TIME_NOW . ')';
-        $msg[] = '(' . $INSTALLER09['paypal_config']['staff'] . ',0,' . sqlesc('Donation - problem') . ',' . sqlesc("This [url=" . $INSTALLER09['baseurl'] . "/userdetails.php?id=" . (int)$vars['uid'] . "]user[/url] - donated but there was a problem with paypal. Check paypal log!") . ',' . TIME_NOW . ')';
+        $msg[] = '(' . $vars['uid'] . ',0,' . sqlesc('Donation - problem') . ',' . sqlesc("We are sorry to announce you that paypal rejected the donation please contact the staff\n" . $TRINITY20['site_name'] . "'s staff") . ',' . TIME_NOW . ')';
+        $msg[] = '(' . $TRINITY20['paypal_config']['staff'] . ',0,' . sqlesc('Donation - problem') . ',' . sqlesc("This [url=" . $TRINITY20['baseurl'] . "/userdetails.php?id=" . (int)$vars['uid'] . "]user[/url] - donated but there was a problem with paypal. Check paypal log!") . ',' . TIME_NOW . ')';
     }
     sql_query('INSERT INTO messages(receiver,sender,subject,msg,added) VALUES ' . join(',', $msg)) or paypallog(mysqli_error($GLOBALS["___mysqli_ston"]));
     //clear memcache for staff
-    $cache->delete_value('inbox_new_' . $INSTALLER09['paypal_config']['staff']);
-    $cache->delete_value('inbox_new_sb_' . $INSTALLER09['paypal_config']['staff']);
+    $cache->delete_value('inbox_new_' . $TRINITY20['paypal_config']['staff']);
+    $cache->delete_value('inbox_new_sb_' . $TRINITY20['paypal_config']['staff']);
     //and for the user that donated
     $cache->delete_value('inbox_new_' . $vars['uid']);
     $cache->delete_value('inbox_new_sb_' . $vars['uid']);

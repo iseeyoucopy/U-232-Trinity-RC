@@ -21,7 +21,7 @@ Updated for 09 - Nov 28th 2009
 **********************************************************************/
 $lang = array_merge(load_language('global'), load_language('mybonus'));
 $stdhead = [/** include css **/'css' => ['']];
-if ($INSTALLER09['seedbonus_on'] == 0
+if ($TRINITY20['seedbonus_on'] == 0
 //AND $CURUSER['class'] < UC_MAX*/
 ) {
     stderr($lang['bonus_inf'], $lang['bonus_inf_msg']);
@@ -53,16 +53,16 @@ if (isset($_GET["freeleech_success"]) && $_GET["freeleech_success"]) {
 	<div class='panel-heading'>
 		<h3 class='panel-title panel-success'>{$lang['bonus_success']}</h3>
 	</div>" .
-"<div class='panel-body'><img src='{$INSTALLER09['pic_base_url']}/smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /><span class='label label-success'>{$lang['bonus_congrats']}</span>
-{$CURUSER['username']}{$lang['bonus_settracker']}<b>{$lang['bonus_freelech1']}</b> <img src='{$INSTALLER09['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br><br>{$lang['bonus_remaining']}" . htmlsafechars($_GET['norefund']) . "{$lang['bonus_pointsfree']}" .
-"<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />" .
+"<div class='panel-body'><img src='{$TRINITY20['pic_base_url']}/smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /><span class='label label-success'>{$lang['bonus_congrats']}</span>
+{$CURUSER['username']}{$lang['bonus_settracker']}<b>{$lang['bonus_freelech1']}</b> <img src='{$TRINITY20['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br><br>{$lang['bonus_remaining']}" . htmlsafechars($_GET['norefund']) . "{$lang['bonus_pointsfree']}" .
+"<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />" .
 "</div></div>";
             echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
         } else {
             $HTMLOUT .="<table class='table table-bordered'><tr><td class='colhead' align='left' colspan='2'><h1>{$lang['bonus_success']}</h1></td></tr><tr>" .
-"<td align='left' class='one'><img src='{$INSTALLER09['pic_base_url']}smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'><span class='label label-success'>{$lang['bonus_congrats']}</span>
-{$CURUSER['username']}{$lang['bonus_settracker']}<b>{$lang['bonus_freelech1']}</b> <img src='{$INSTALLER09['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br />" .
-"<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />" .
+"<td align='left' class='one'><img src='{$TRINITY20['pic_base_url']}smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'><span class='label label-success'>{$lang['bonus_congrats']}</span>
+{$CURUSER['username']}{$lang['bonus_settracker']}<b>{$lang['bonus_freelech1']}</b> <img src='{$TRINITY20['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br />" .
+"<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />" .
 "</td></tr></table>";
             echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
         }
@@ -70,9 +70,9 @@ if (isset($_GET["freeleech_success"]) && $_GET["freeleech_success"]) {
     }
     if ($freeleech_success == '2') {
         $HTMLOUT .="<table class='table table-bordered'><tr><td class='colhead' align='left' colspan='2'><h1>{$lang['bonus_success']}</h1></td></tr><tr>" .
-"<td align='left' class='one'><img src='{$INSTALLER09['pic_base_url']}smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'><span class='label label-success'>{$lang['bonus_congrats']}</span>" .
-"{$CURUSER['username']}{$lang['bonus_matrack']}{$lang['bonus_freelech1']} <img src='{$INSTALLER09['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br />" .
-"<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />" .
+"<td align='left' class='one'><img src='{$TRINITY20['pic_base_url']}smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'><span class='label label-success'>{$lang['bonus_congrats']}</span>" .
+"{$CURUSER['username']}{$lang['bonus_matrack']}{$lang['bonus_freelech1']} <img src='{$TRINITY20['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br />" .
+"<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />" .
 "</td></tr></table>";
         echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
         die;
@@ -87,16 +87,16 @@ if (isset($_GET["doubleup_success"]) && $_GET["doubleup_success"]) {
     if ($doubleup_success == '1') {
         if ($_GET["norefund"] != '0') {
             $HTMLOUT .="<table width='80%'><tr><td class='colhead' align='left' colspan='2'><h1>{$lang['bonus_success']}</h1></td></tr><tr>" .
-"<td align='left' class='one'><img src='{$INSTALLER09['pic_base_url']}smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'><span class='label label-success'>{$lang['bonus_congrats']}</span>
-{$CURUSER['username']}{$lang['bonus_settracker']}<b>{$lang['bonus_doubleup1']}</b> <img src='{$INSTALLER09['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br><br>{$lang['bonus_remaining']}" . htmlsafechars($_GET['norefund']) . "{$lang['bonus_pointsdouble']}" .
-"<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />" .
+"<td align='left' class='one'><img src='{$TRINITY20['pic_base_url']}smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'><span class='label label-success'>{$lang['bonus_congrats']}</span>
+{$CURUSER['username']}{$lang['bonus_settracker']}<b>{$lang['bonus_doubleup1']}</b> <img src='{$TRINITY20['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br><br>{$lang['bonus_remaining']}" . htmlsafechars($_GET['norefund']) . "{$lang['bonus_pointsdouble']}" .
+"<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />" .
 "</td></tr></table>";
             echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
         } else {
             $HTMLOUT .="<table width='80%'><tr><td class='colhead' align='left' colspan='2'><h1>{$lang['bonus_success']}</h1></td></tr><tr>" .
-"<td align='left' class='one'><img src='{$INSTALLER09['pic_base_url']}smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'><span class='label label-success'>{$lang['bonus_congrats']}</span>
-{$CURUSER['username']}{$lang['bonus_settracker']}<b>{$lang['bonus_doubleup1']}</b> <img src={$INSTALLER09['pic_base_url']}smilies/w00t.gif alt='w00t' title='W00t' /><br />" .
-"<b /r> {$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />" .
+"<td align='left' class='one'><img src='{$TRINITY20['pic_base_url']}smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'><span class='label label-success'>{$lang['bonus_congrats']}</span>
+{$CURUSER['username']}{$lang['bonus_settracker']}<b>{$lang['bonus_doubleup1']}</b> <img src={$TRINITY20['pic_base_url']}smilies/w00t.gif alt='w00t' title='W00t' /><br />" .
+"<b /r> {$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />" .
 "</td></tr></table>";
             echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
         }
@@ -105,9 +105,9 @@ if (isset($_GET["doubleup_success"]) && $_GET["doubleup_success"]) {
     }
     if ($doubleup_success == '2') {
         $HTMLOUT .="<table width='80%'><tr><td class='colhead' align='left' colspan='2'><h1>{$lang['bonus_success']}</h1></td></tr><tr>" .
-"<td align='left' class='one'><img src='{$INSTALLER09['pic_base_url']}smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'><span class='label label-success'>{$lang['bonus_congrats']}</span>" .
-"{$CURUSER['username']}{$lang['bonus_matrack']}{$lang['bonus_doubleup1']} <img src='{$INSTALLER09['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br />" .
-"<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />" .
+"<td align='left' class='one'><img src='{$TRINITY20['pic_base_url']}smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'><span class='label label-success'>{$lang['bonus_congrats']}</span>" .
+"{$CURUSER['username']}{$lang['bonus_matrack']}{$lang['bonus_doubleup1']} <img src='{$TRINITY20['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br />" .
+"<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />" .
 "</td></tr></table>";
         echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
         die;
@@ -122,16 +122,16 @@ if (isset($_GET["halfdown_success"]) && $_GET["halfdown_success"]) {
     if ($halfdown_success == '1') {
         if ($_GET["norefund"] != '0') {
             $HTMLOUT .="<table width='80%'><tr><td class='colhead' align='left' colspan='2'><h1>{$lang['bonus_success']}</h1></td></tr><tr>" .
-"<td align='left' class='one'><img src='{$INSTALLER09['pic_base_url']}smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'><span class='label label-success'>{$lang['bonus_congrats']}</span>
-{$CURUSER['username']}{$lang['bonus_settracker']}<b>{$lang['bonus_halfdown11']}</b> <img src='{$INSTALLER09['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br><br>{$lang['bonus_remaining']}" . htmlsafechars($_GET['norefund']) . "{$lang['bonus_pointshalf']}" .
-"<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />" .
+"<td align='left' class='one'><img src='{$TRINITY20['pic_base_url']}smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'><span class='label label-success'>{$lang['bonus_congrats']}</span>
+{$CURUSER['username']}{$lang['bonus_settracker']}<b>{$lang['bonus_halfdown11']}</b> <img src='{$TRINITY20['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br><br>{$lang['bonus_remaining']}" . htmlsafechars($_GET['norefund']) . "{$lang['bonus_pointshalf']}" .
+"<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />" .
 "</td></tr></table>";
             echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
         } else {
             $HTMLOUT .="<table width='80%'><tr><td class='colhead' align='left' colspan='2'><h1>{$lang['bonus_success']}</h1></td></tr><tr>" .
-"<td align='left' class='one'><img src='{$INSTALLER09['pic_base_url']}smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'><span class='label label-success'>{$lang['bonus_congrats']}</span>
-{$CURUSER['username']}{$lang['bonus_settracker']}<b>{$lang['bonus_halfdown1']}</b> <img src='{$INSTALLER09['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br />" .
-"<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />" .
+"<td align='left' class='one'><img src='{$TRINITY20['pic_base_url']}smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'><span class='label label-success'>{$lang['bonus_congrats']}</span>
+{$CURUSER['username']}{$lang['bonus_settracker']}<b>{$lang['bonus_halfdown1']}</b> <img src='{$TRINITY20['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br />" .
+"<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />" .
 "</td></tr></table>";
             echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
         }
@@ -140,9 +140,9 @@ if (isset($_GET["halfdown_success"]) && $_GET["halfdown_success"]) {
     }
     if ($halfdown_success == '2') {
         $HTMLOUT .="<table width='80%'><tr><td class='colhead' align='left' colspan='2'><h1>{$lang['bonus_success']}</h1></td></tr><tr>" .
-"<td align='left' class='one'><img src='{$INSTALLER09['pic_base_url']}smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'><span class='label label-success'>{$lang['bonus_congrats']}</span>" .
-"{$CURUSER['username']}{$lang['bonus_matrack']}{$lang['bonus_halfdown11']} <img src='{$INSTALLER09['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br />" .
-"<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />" .
+"<td align='left' class='one'><img src='{$TRINITY20['pic_base_url']}smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'><span class='label label-success'>{$lang['bonus_congrats']}</span>" .
+"{$CURUSER['username']}{$lang['bonus_matrack']}{$lang['bonus_halfdown11']} <img src='{$TRINITY20['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br />" .
+"<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />" .
 "</td></tr></table>";
         echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
         die;
@@ -185,7 +185,7 @@ $amt = '1 TB';
 $HTMLOUT .= "
 <div class='panel panel-default'>
 	<div class='panel-body'>
-		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . $lang['bonus_increaseup'] . $amt . " {$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
+		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . $lang['bonus_increaseup'] . $amt . " {$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
 </div>";
@@ -198,7 +198,7 @@ I_smell_a_rat($_GET['anonymous_success']);
 $HTMLOUT .= "
 <div class='panel panel-default'>
 	<div class='panel-body'>
-		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_purchasedan']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
+		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_purchasedan']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
 </div>";
@@ -211,7 +211,7 @@ I_smell_a_rat($_GET['parked_success']);
 $HTMLOUT .= "
 <div class='panel panel-default'>
 	<div class='panel-body'>
-		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_parked']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
+		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_parked']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
 </div>";
@@ -224,7 +224,7 @@ I_smell_a_rat($_GET['freeyear_success']);
 $HTMLOUT .= "
 <div class='panel panel-default'>
 	<div class='panel-body'>
-		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_free1year']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
+		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_free1year']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
 </div>";
@@ -238,7 +238,7 @@ I_smell_a_rat($_GET['freeslots_success']);
 $HTMLOUT .= "
 <div class='panel panel-default'>
 	<div class='panel-body'>
-		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_3freeslots']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
+		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_3freeslots']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
 </div>";
@@ -252,7 +252,7 @@ I_smell_a_rat($_GET['itrade_success']);
 $HTMLOUT .= "
 <div class='panel panel-default'>
 	<div class='panel-body'>
-		<div class='alert alert-success'>{$lang['bonus_congrats']}</span>" . format_username($CURUSER) . "{$lang['bonus_200points']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
+		<div class='alert alert-success'>{$lang['bonus_congrats']}</span>" . format_username($CURUSER) . "{$lang['bonus_200points']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
 </div>";
@@ -266,7 +266,7 @@ I_smell_a_rat($_GET['itrade2_success']);
 $HTMLOUT .= "
 <div class='panel panel-default'>
 	<div class='panel-body'>
-		<div class='alert alert-success'>Sorry ! " . format_username($CURUSER) . "{$lang['bonus_2freeslots']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
+		<div class='alert alert-success'>Sorry ! " . format_username($CURUSER) . "{$lang['bonus_2freeslots']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
 </div>";
@@ -279,7 +279,7 @@ I_smell_a_rat($_GET['pirate_success']);
 $HTMLOUT .="
 	<div class='panel panel-default'>
 		<div class='panel-body'>
-			<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_free2week']}{$lang['bonus_clickgbs']} <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kpoints']}</a>{$lang['bonus_kbpp']}
+			<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_free2week']}{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kpoints']}</a>{$lang['bonus_kbpp']}
 			</div>
 		</div>
 </div>";
@@ -292,7 +292,7 @@ I_smell_a_rat($_GET['king_success']);
 $HTMLOUT .="
 <div class='panel panel-default'>
 	<div class='panel-body'>
-		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_kingfree1m']}{$lang['bonus_clickgbs']} <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kpoints']}</a>{$lang['bonus_kbpp']}
+		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_kingfree1m']}{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kpoints']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
 </div>";
@@ -319,7 +319,7 @@ default:
 $HTMLOUT .="
 <div class='panel panel-default'>
 	<div class='panel-body'>
-		<div class='alert alert-success'>" . format_username($CURUSER) . $lang['bonus_decreasedup'] . $amt . "" . "{$lang['bonus_clickgbs']} " . "<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}</div>
+		<div class='alert alert-success'>" . format_username($CURUSER) . $lang['bonus_decreasedup'] . $amt . "" . "{$lang['bonus_clickgbs']} " . "<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}</div>
 	</div>
 </div>";
 echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
@@ -331,7 +331,7 @@ I_smell_a_rat($_GET['class_success']);
 $HTMLOUT .="
 <div class='panel panel-default'>
 	<div class='panel-body'>
-		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_vip1m']}{$lang['bonus_clickgbs']} <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kpoints']}</a>{$lang['bonus_kbpp']}</div>
+		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_vip1m']}{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kpoints']}</a>{$lang['bonus_kbpp']}</div>
 	</div>
 </div>";
 echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
@@ -343,7 +343,7 @@ I_smell_a_rat($_GET['smile_success']);
 $HTMLOUT .="
 <div class='panel panel-default'>
 	<div class='panel-body'>
-		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_smile1m']}{$lang['bonus_clickgbs']} <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kpoints']}</a>{$lang['bonus_kbpp']}</div>
+		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_smile1m']}{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kpoints']}</a>{$lang['bonus_kbpp']}</div>
 	</div>
 </div>";
 echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
@@ -355,7 +355,7 @@ I_smell_a_rat($_GET['warning_success']);
 $HTMLOUT .="
 <div class='panel panel-default'>
 	<div class='panel-body'>
-		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_remwarn']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kpoints']}</a>{$lang['bonus_kbpp']}</div>
+		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_remwarn']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kpoints']}</a>{$lang['bonus_kbpp']}</div>
 	</div>
 </div>";
 echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
@@ -367,7 +367,7 @@ I_smell_a_rat($_GET['invite_success']);
 $HTMLOUT .="
 <div class='panel panel-default'>
 	<div class='panel-body'>
-		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_3invites']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
+		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_3invites']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
 </div>";
@@ -380,7 +380,7 @@ I_smell_a_rat($_GET['freeslots_success']);
 
 $HTMLOUT .="
 	<div class='panel panel-default'>
-		<div class='panel-body'><div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_3freeslot1']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
+		<div class='panel-body'><div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_3freeslot1']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
 </div>";
@@ -393,7 +393,7 @@ I_smell_a_rat($_GET['title_success']);
 $HTMLOUT .="
 <div class='panel panel-default'>
 	<div class='panel-body'>
-		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_knowas']}<b>" . $CURUSER['title'] . "</b>!{$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
+		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_knowas']}<b>" . $CURUSER['title'] . "</b>!{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
 </div>";
@@ -406,7 +406,7 @@ I_smell_a_rat($_GET['ratio_success']);
 $HTMLOUT .="
 <div class='panel panel-default'>
 	<div class='panel-body'>
-		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_gained1t1']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
+		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_gained1t1']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
 </div>";
@@ -419,7 +419,7 @@ I_smell_a_rat($_GET['gift_fail']);
 $HTMLOUT .="
 <div class='panel panel-default'>
 	<div class='panel-body'>
-		<div class='alert alert-success'><b>{$lang['bonus_congrats']}" . format_username($CURUSER) . "...</b> {$lang['bonus_spreadkarma']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
+		<div class='alert alert-success'><b>{$lang['bonus_congrats']}" . format_username($CURUSER) . "...</b> {$lang['bonus_spreadkarma']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
 </div>";
@@ -432,7 +432,7 @@ I_smell_a_rat($_GET['gift_fail_user']);
 $HTMLOUT .="
 <div class='panel panel-default'>
 	<div class='panel-body'>
-		<div class='alert alert-warning'><b>Sorry " . format_username($CURUSER) . "...</b>{$lang['bonus_nouser']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
+		<div class='alert alert-warning'><b>Sorry " . format_username($CURUSER) . "...</b>{$lang['bonus_nouser']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
 </div>";
@@ -452,7 +452,7 @@ I_smell_a_rat($_GET['gift_fail_points']);
 $HTMLOUT .="
 <div class='panel panel-default'>
 	<div class='panel-body'>
-		<div class='alert alert-warning'><b>Sorry </b>" . format_username($CURUSER) . "{$lang['bonus_notenough']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
+		<div class='alert alert-warning'><b>Sorry </b>" . format_username($CURUSER) . "{$lang['bonus_notenough']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
 </div>";
@@ -467,7 +467,7 @@ $HTMLOUT  .="
 	<div class='panel-body'>
 		<div class='alert alert-success'><b>{$lang['bonus_congrats']}" . format_username($CURUSER) . " </b> you have spread the Karma well.<br>Member <b>" . htmlsafechars($_GET['usernamegift']) . "</b> will be pleased with your kindness!<br /><br />This is the message that was sent:<br />
 <b>Subject:</b> Someone Loves you!<br /> <p>You have been given a gift of <b>" . (0 + $_GET['gift_amount_points']) . "</b> Karma points by " . format_username($CURUSER) . "</p><br />
-You may also <a class='altlink' href='{$INSTALLER09['baseurl']}/pm_system.php?action=send_message&amp;receiver=" . (0 + $_GET['gift_id']) . "'>send " . htmlsafechars($_GET['usernamegift']) . " a message as well</a>, or go back to your <a class='altlink' href='mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}</div></div></div>";
+You may also <a class='altlink' href='{$TRINITY20['baseurl']}/pm_system.php?action=send_message&amp;receiver=" . (0 + $_GET['gift_id']) . "'>send " . htmlsafechars($_GET['usernamegift']) . " a message as well</a>, or go back to your <a class='altlink' href='mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}</div></div></div>";
 echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
 die;
 
@@ -475,9 +475,9 @@ case (isset($_GET['bounty_success'])):{
 I_smell_a_rat($_GET['bounty_success']);
 }
 $HTMLOUT .="<table align='center' width='80%'><tr><td class='colhead' align='left' colspan='2'><h1>{$lang['bonus_success']}</h1></td></tr>
-<tr><td align='left' class='one'><img src='{$INSTALLER09['pic_base_url']}smilies/pirate2.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'>
-<span class='label label-success'>{$lang['bonus_congrats']}</span>" . format_username($CURUSER) . " you have got yourself bounty and robbed many users of there reputation points! <img src='{$INSTALLER09['pic_base_url']}smilies/w00t.gif' alt='w00t' title='w00t' />
-{$lang['bonus_clickgbs']} <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kpoints']}</a>{$lang['bonus_kbpp']}</td></tr></table>";
+<tr><td align='left' class='one'><img src='{$TRINITY20['pic_base_url']}smilies/pirate2.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'>
+<span class='label label-success'>{$lang['bonus_congrats']}</span>" . format_username($CURUSER) . " you have got yourself bounty and robbed many users of there reputation points! <img src='{$TRINITY20['pic_base_url']}smilies/w00t.gif' alt='w00t' title='w00t' />
+{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kpoints']}</a>{$lang['bonus_kbpp']}</td></tr></table>";
 echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
 die;
 
@@ -486,7 +486,7 @@ I_smell_a_rat($_GET['reputation_success']);
 
 $HTMLOUT .="<div class='panel panel-default'>
 <div class='panel-body'><div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . " you have got your 100 rep points!
-{$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}</div></div></div>";
+{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}</div></div></div>";
 echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
 die;
 
@@ -494,9 +494,9 @@ case (isset($_GET['immunity_success'])):
 I_smell_a_rat($_GET['immunity_success']);
 
 $HTMLOUT .="<table align='center' width='80%'><tr><td class='colhead' align='left' colspan='2'><h1>{$lang['bonus_success']}</h1></td></tr><tr><td align='left' class='one'>
-<img src='{$INSTALLER09['pic_base_url']}smilies/yay.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'>
+<img src='{$TRINITY20['pic_base_url']}smilies/yay.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'>
 <span class='label label-success'>{$lang['bonus_congrats']}</span>" . format_username($CURUSER) . " you have got yourself immuntiy from auto hit and run warnings and auto leech warnings !
-{$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}</div></div></div>";
+{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}</div></div></div>";
 echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
 die;
 
@@ -505,7 +505,7 @@ I_smell_a_rat($_GET['userblocks_success']);
 
 $HTMLOUT .="<div class='panel panel-default'>
 <div class='panel-body'><div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . " you have got yourself access to control the site user blocks!
-{$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}</div></div></div>";
+{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}</div></div></div>";
 echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
 die;
 
@@ -514,7 +514,7 @@ I_smell_a_rat($_GET['user_unlocks_success']);
 
 $HTMLOUT .="<div class='panel panel-default'>
 <div class='panel-body'><div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . " you have got yourself unlocked bonus moods for use on site!
-{$lang['bonus_clickgbs']}<a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}</div></div></div>";
+{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}</div></div></div>";
 echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
 die;
 
@@ -571,41 +571,41 @@ case 'traffic':
 $up = $upload + $arr_points['menge'];
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for upload bonus.\n " . $bonuscomment;
 sql_query("UPDATE users SET uploaded = " . sqlesc($upload + $arr_points['menge']) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('userstats_' . $userid, ['uploaded' => $upload+$arr_points['menge'], 'seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['uploaded' => $upload+$arr_points['menge'], 'seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?up_success=1&amt=$points");
+$cache->update_row('userstats_' . $userid, ['uploaded' => $upload+$arr_points['menge'], 'seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['uploaded' => $upload+$arr_points['menge'], 'seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?up_success=1&amt=$points");
 die;
 break;
 
 case 'reputation':
 //=== trade for reputation
 if ($CURUSER['class'] < UC_POWER_USER || $User['reputation'] >= 5000) {
-    stderr($lang['bonus_error'], "Time shall unfold what plighted cunning hides\n\nWho cover faults, at last shame them derides...Sorry your not a Power User or you already have to many rep points :-P<br />go back to your <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a> page and think that one over.");
+    stderr($lang['bonus_error'], "Time shall unfold what plighted cunning hides\n\nWho cover faults, at last shame them derides...Sorry your not a Power User or you already have to many rep points :-P<br />go back to your <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a> page and think that one over.");
 }
 $rep = $reputation + $arr_points['menge'];
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for 100 rep points.\n " . $bonuscomment;
 sql_query("UPDATE users SET reputation = " . sqlesc($rep) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('user' . $userid, ['reputation' => $rep], $INSTALLER09['expires']['user_cache']);
-$cache->update_row('MyUser_' . $userid, ['reputation' => $rep], $INSTALLER09['expires']['curuser']);
-$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?reputation_success=1");
+$cache->update_row('user' . $userid, ['reputation' => $rep], $TRINITY20['expires']['user_cache']);
+$cache->update_row('MyUser_' . $userid, ['reputation' => $rep], $TRINITY20['expires']['curuser']);
+$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?reputation_success=1");
 die;
 break;
 
 case 'immunity':
 //=== trade for immunity
 if ($CURUSER['class'] < UC_POWER_USER || $User['reputation'] < 3000) {
-    stderr($lang['bonus_error'], "Time shall unfold what plighted cunning hides\n\nWho cover faults, at last shame them derides...Sorry your not a Power User or you dont have enough rep :-P<br />go back to your <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a> page and think that one over.");
+    stderr($lang['bonus_error'], "Time shall unfold what plighted cunning hides\n\nWho cover faults, at last shame them derides...Sorry your not a Power User or you dont have enough rep :-P<br />go back to your <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a> page and think that one over.");
 }
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for 1 years immunity status.\n " . $bonuscomment;
 $immunity = (86400 * 365 + TIME_NOW);
 sql_query("UPDATE users SET immunity = " . sqlesc($immunity) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('user' . $userid, ['immunity' => $immunity], $INSTALLER09['expires']['user_cache']);
-$cache->update_row('MyUser_' . $userid, ['immunity' => $immunity], $INSTALLER09['expires']['curuser']);
-$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?immunity_success=1");
+$cache->update_row('user' . $userid, ['immunity' => $immunity], $TRINITY20['expires']['user_cache']);
+$cache->update_row('MyUser_' . $userid, ['immunity' => $immunity], $TRINITY20['expires']['curuser']);
+$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?immunity_success=1");
 die;
 break;
 
@@ -613,15 +613,15 @@ case 'userblocks':
 //=== trade for userblock access
 $reputation = $User['reputation'];
 if ($CURUSER['class'] < UC_POWER_USER || $User['reputation'] < 50) {
-    stderr($lang['bonus_error'], "Time shall unfold what plighted cunning hides\n\nWho cover faults, at last shame them derides...Sorry your not a Power User or you dont have enough rep points yet - Minimum 50 required :-P<br />go back to your <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a> page and think that one over.");
+    stderr($lang['bonus_error'], "Time shall unfold what plighted cunning hides\n\nWho cover faults, at last shame them derides...Sorry your not a Power User or you dont have enough rep points yet - Minimum 50 required :-P<br />go back to your <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a> page and think that one over.");
 }
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for user blocks access.\n " . $bonuscomment;
 sql_query("UPDATE users SET got_blocks = 'yes', seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('user' . $userid, ['got_blocks' => 'yes'], $INSTALLER09['expires']['user_cache']);
-$cache->update_row('MyUser_' . $userid, ['got_blocks' => 'yes'], $INSTALLER09['expires']['curuser']);
-$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?userblocks_success=1");
+$cache->update_row('user' . $userid, ['got_blocks' => 'yes'], $TRINITY20['expires']['user_cache']);
+$cache->update_row('MyUser_' . $userid, ['got_blocks' => 'yes'], $TRINITY20['expires']['curuser']);
+$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?userblocks_success=1");
 die;
 break;
 
@@ -629,15 +629,15 @@ case 'userunlock':
 //=== trade for user_unlocks access
 $reputation = $User['reputation'];
 if ($CURUSER['class'] < UC_POWER_USER || $User['reputation'] < 50) {
-    stderr($lang['bonus_error'], "Time shall unfold what plighted cunning hides\n\nWho cover faults, at last shame them derides...Sorry your not a Power User or you dont have enough rep points yet - Minimum 50 required :-P<br />go back to your <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a> page and think that one over.");
+    stderr($lang['bonus_error'], "Time shall unfold what plighted cunning hides\n\nWho cover faults, at last shame them derides...Sorry your not a Power User or you dont have enough rep points yet - Minimum 50 required :-P<br />go back to your <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a> page and think that one over.");
 }
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for user unlocks access.\n " . $bonuscomment;
 sql_query("UPDATE users SET got_moods = 'yes', seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('user' . $userid, ['got_moods' => 'yes'], $INSTALLER09['expires']['user_cache']);
-$cache->update_row('MyUser_' . $userid, ['got_moods' => 'yes'], $INSTALLER09['expires']['curuser']);
-$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?user_unlocks_success=1");
+$cache->update_row('user' . $userid, ['got_moods' => 'yes'], $TRINITY20['expires']['user_cache']);
+$cache->update_row('MyUser_' . $userid, ['got_moods' => 'yes'], $TRINITY20['expires']['curuser']);
+$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?user_unlocks_success=1");
 die;
 break;
 
@@ -649,11 +649,11 @@ if ($CURUSER['anonymous_until'] >= 1) {
 }
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for 14 days Anonymous profile.\n " . $bonuscomment;
 sql_query("UPDATE users SET anonymous_until = " . sqlesc($anonymous_until) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('user' . $userid, ['anonymous_until' => $anonymous_until], $INSTALLER09['expires']['user_cache']);
-$cache->update_row('MyUser_' . $userid, ['anonymous_until' => $anonymous_until], $INSTALLER09['expires']['curuser']);
-$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?anonymous_success=1");
+$cache->update_row('user' . $userid, ['anonymous_until' => $anonymous_until], $TRINITY20['expires']['user_cache']);
+$cache->update_row('MyUser_' . $userid, ['anonymous_until' => $anonymous_until], $TRINITY20['expires']['curuser']);
+$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?anonymous_success=1");
 die;
 break;
 
@@ -665,11 +665,11 @@ if ($CURUSER['parked_until'] == 1) {
 }
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for 14 days Anonymous profile.\n " . $bonuscomment;
 sql_query("UPDATE users SET parked_until = " . sqlesc($parked_until) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('user' . $userid, ['parked_until' => $parked_until], $INSTALLER09['expires']['user_cache']);
-$cache->update_row('MyUser_' . $userid, ['parked_until' => $parked_until], $INSTALLER09['expires']['curuser']);
-$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?parked_success=1");
+$cache->update_row('user' . $userid, ['parked_until' => $parked_until], $TRINITY20['expires']['user_cache']);
+$cache->update_row('MyUser_' . $userid, ['parked_until' => $parked_until], $TRINITY20['expires']['curuser']);
+$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?parked_success=1");
 die;
 break;
 
@@ -681,9 +681,9 @@ if ($CURUSER['downloaded'] == 0) {
 }
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for download credit removal.\n " . $bonuscomment;
 sql_query("UPDATE users SET downloaded = " . sqlesc($download - $arr_points['menge']) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('userstats_' . $userid, ['downloaded' => $download - $arr_points['menge'], 'seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['downloaded' => $download - $arr_points['menge'], 'seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?dload_success=1&amt=$points");
+$cache->update_row('userstats_' . $userid, ['downloaded' => $download - $arr_points['menge'], 'seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['downloaded' => $download - $arr_points['menge'], 'seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?dload_success=1&amt=$points");
 die;
 break;
 
@@ -695,11 +695,11 @@ if ($User['free_switch'] != 0) {
 }
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for One year of freeleech.\n " . $bonuscomment;
 sql_query("UPDATE users SET free_switch = " . sqlesc($free_switch) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('user' . $userid, ['free_switch' => $free_switch], $INSTALLER09['expires']['user_cache']);
-$cache->update_row('MyUser_' . $userid, ['free_switch' => $free_switch], $INSTALLER09['expires']['curuser']);
-$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?freeyear_success=1");
+$cache->update_row('user' . $userid, ['free_switch' => $free_switch], $TRINITY20['expires']['user_cache']);
+$cache->update_row('MyUser_' . $userid, ['free_switch' => $free_switch], $TRINITY20['expires']['curuser']);
+$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?freeyear_success=1");
 die;
 break;
 
@@ -709,11 +709,11 @@ $freeslots = (int) $User['freeslots'];
 $slots = $freeslots + $arr_points['menge'];
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for freeslots.\n " . $bonuscomment;
 sql_query("UPDATE users SET freeslots = " . sqlesc($slots) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('user' . $userid, ['freeslots' => $slots], $INSTALLER09['expires']['user_cache']);
-$cache->update_row('MyUser_' . $userid, ['freeslots' => $slots], $INSTALLER09['expires']['curuser']);
-$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?freeslots_success=1");
+$cache->update_row('user' . $userid, ['freeslots' => $slots], $TRINITY20['expires']['user_cache']);
+$cache->update_row('MyUser_' . $userid, ['freeslots' => $slots], $TRINITY20['expires']['curuser']);
+$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?freeslots_success=1");
 die;
 break;
 
@@ -727,11 +727,11 @@ if ($CURUSER['invites'] == 0) {
 }
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " invites for bonus points.\n" . $bonuscomment;
 sql_query("UPDATE users SET invites = " . sqlesc($inv) . ", seedbonus = " . sqlesc($karma) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid) . " AND invites =" . sqlesc($invites)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('user' . $userid, ['invites' => $inv], $INSTALLER09['expires']['user_cache']);
-$cache->update_row('MyUser_' . $userid, ['invites' => $inv], $INSTALLER09['expires']['curuser']);
-$cache->update_row('userstats_' . $userid, ['seedbonus' => $karma], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['seedbonus' => $karma, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?itrade_success=1");
+$cache->update_row('user' . $userid, ['invites' => $inv], $TRINITY20['expires']['user_cache']);
+$cache->update_row('MyUser_' . $userid, ['invites' => $inv], $TRINITY20['expires']['curuser']);
+$cache->update_row('userstats_' . $userid, ['seedbonus' => $karma], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['seedbonus' => $karma, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?itrade_success=1");
 die;
 break;
 
@@ -746,28 +746,28 @@ if ($CURUSER['invites'] == 0) {
 }
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " invites for bonus points.\n" . $bonuscomment;
 sql_query("UPDATE users SET invites = " . sqlesc($inv) . ", freeslots =" . sqlesc($fslot) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid) . " AND invites = " . sqlesc($invites)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('user' . $userid, ['invites' => $inv, 'freeslots' => $fslot], $INSTALLER09['expires']['user_cache']);
-$cache->update_row('MyUser_' . $userid, ['invites' => $inv, 'freeslots' => $fslot], $INSTALLER09['expires']['curuser']);
-$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?itrade2_success=1");
+$cache->update_row('user' . $userid, ['invites' => $inv, 'freeslots' => $fslot], $TRINITY20['expires']['user_cache']);
+$cache->update_row('MyUser_' . $userid, ['invites' => $inv, 'freeslots' => $fslot], $TRINITY20['expires']['curuser']);
+$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?itrade2_success=1");
 die;
 break;
 
 case 'pirate':
 //=== trade for 2 weeks pirate status
 if ($CURUSER['pirate'] != 0 or $CURUSER['king'] != 0) {
-    stderr($lang['bonus_error'], "Now why would you want to add what you already have?<br />go back to your <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a> page and think that one over.");
+    stderr($lang['bonus_error'], "Now why would you want to add what you already have?<br />go back to your <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a> page and think that one over.");
 }
 $pirate = (86400 * 14 + TIME_NOW);
 $free_switch = (14 * 86400 + TIME_NOW);
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for 2 weeks Pirate + freeleech Status.\n " . $bonuscomment;
 sql_query("UPDATE users SET free_switch = " . sqlesc($free_switch) . ", pirate = " . sqlesc($pirate) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('user' . $userid, ['free_switch' => $free_switch, 'pirate' => $pirate], $INSTALLER09['expires']['user_cache']);
-$cache->update_row('MyUser_' . $userid, ['free_switch' => $free_switch, 'pirate' => $pirate], $INSTALLER09['expires']['curuser']);
-$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?pirate_success=1");
+$cache->update_row('user' . $userid, ['free_switch' => $free_switch, 'pirate' => $pirate], $TRINITY20['expires']['user_cache']);
+$cache->update_row('MyUser_' . $userid, ['free_switch' => $free_switch, 'pirate' => $pirate], $TRINITY20['expires']['curuser']);
+$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?pirate_success=1");
 die;
 break;
 
@@ -783,7 +783,7 @@ $new_bonus = $thief_bonus-$points;
 $pm = [];
 $pm['subject'] = sqlesc("You just got robbed by %s");
 $pm['subject_thief'] = sqlesc("Theft summary");
-$pm['message'] = sqlesc("Hey\nWe are sorry to announce that you have been robbed by [url=" . $INSTALLER09['baseurl'] . "/userdetails.php?id=%d]%s[/url]\nNow your total reputation is [b]%d[/b]\n[color=#ff0000]This is normal and you should not worry, if you have enough bonus points you can rob other people[/color]");
+$pm['message'] = sqlesc("Hey\nWe are sorry to announce that you have been robbed by [url=" . $TRINITY20['baseurl'] . "/userdetails.php?id=%d]%s[/url]\nNow your total reputation is [b]%d[/b]\n[color=#ff0000]This is normal and you should not worry, if you have enough bonus points you can rob other people[/color]");
 $pm['message_thief'] = sqlesc("Hey %s\nYou robbed:\n%s\nYour total reputation is now [b]%d[/b] but you lost [b]%d[/b] karma points ");
 $foo = [50=>3, 100=>3, 150=>4, 200=>5, 250=>5, 300=>6];
 $user_limit = isset($foo[$rep_to_steal]) ? $foo[$rep_to_steal] : 0;
@@ -792,14 +792,14 @@ $update_users = $pms = $robbed_user = [];
 while ($ar = mysqli_fetch_assoc($qr)) {
     $new_rep = $ar['reputation']-$rep_to_steal;
     $update_users[] = '(' . $ar['id'] . ',' . ($ar['reputation']-$rep_to_steal) . ',' . $ar['seedbonus'] . ')';
-    $pms[] = '(' . $INSTALLER09['bot_id'] . ',' . $ar['id'] . ',' . TIME_NOW . ',' . sprintf($pm['subject'], $thief_name) . ',' . sprintf($pm['message'], $thief_id, $thief_name, $new_rep) . ')';
-    $robbed_users[] = sprintf('[url=' . $INSTALLER09['baseurl'] . '/userdetails.php?id=%d]%s[/url]', $ar['id'], $ar['username']);
+    $pms[] = '(' . $TRINITY20['bot_id'] . ',' . $ar['id'] . ',' . TIME_NOW . ',' . sprintf($pm['subject'], $thief_name) . ',' . sprintf($pm['message'], $thief_id, $thief_name, $new_rep) . ')';
+    $robbed_users[] = sprintf('[url=' . $TRINITY20['baseurl'] . '/userdetails.php?id=%d]%s[/url]', $ar['id'], $ar['username']);
     //== cache updates ???
-    $cache->update_row('MyUser_' . $ar['id'], ['reputation' => $ar['reputation']-$rep_to_steal], $INSTALLER09['expires']['curuser']);
-    $cache->update_row('user' . $ar['id'], ['reputation' => $ar['reputation']-$rep_to_steal], $INSTALLER09['expires']['user_cache']);
+    $cache->update_row('MyUser_' . $ar['id'], ['reputation' => $ar['reputation']-$rep_to_steal], $TRINITY20['expires']['curuser']);
+    $cache->update_row('user' . $ar['id'], ['reputation' => $ar['reputation']-$rep_to_steal], $TRINITY20['expires']['user_cache']);
 
-    $cache->update_row('userstats_' . $ar['id'], ['seedbonus' => $ar['seedbonus']], $INSTALLER09['expires']['u_stats']);
-    $cache->update_row('user_stats_' . $ar['id'], ['seedbonus' => $ar['seedbonus']], $INSTALLER09['expires']['user_stats']);
+    $cache->update_row('userstats_' . $ar['id'], ['seedbonus' => $ar['seedbonus']], $TRINITY20['expires']['u_stats']);
+    $cache->update_row('user_stats_' . $ar['id'], ['seedbonus' => $ar['seedbonus']], $TRINITY20['expires']['user_stats']);
     //$cache->delete('inbox_new_'.$pms);
    //$cache->delete('inbox_new_sb_'.$pms);
    // end
@@ -812,32 +812,32 @@ if (count($update_users)) {
     sql_query('INSERT INTO users(id,reputation,seedbonus) VALUES ' . join(',', $update_users) . ' ON DUPLICATE KEY UPDATE reputation=values(reputation),seedbonus=values(seedbonus) ') or sqlerr(__FILE__, __LINE__);
     sql_query('INSERT INTO messages(sender,receiver,added,subject,msg) VALUES ' . join(',', $pms)) or sqlerr(__FILE__, __LINE__);
     //== cache updates ???
-    $cache->update_row('MyUser_' . $thief_id, ['reputation' => $new_rep], $INSTALLER09['expires']['curuser']);
-    $cache->update_row('user' . $thief_id, ['reputation' => $new_rep], $INSTALLER09['expires']['user_cache']);
+    $cache->update_row('MyUser_' . $thief_id, ['reputation' => $new_rep], $TRINITY20['expires']['curuser']);
+    $cache->update_row('user' . $thief_id, ['reputation' => $new_rep], $TRINITY20['expires']['user_cache']);
 
-    $cache->update_row('userstats_' . $thief_id, ['seedbonus' => $new_bonus], $INSTALLER09['expires']['u_stats']);
-    $cache->update_row('user_stats_' . $thief_id, ['seedbonus' => $new_bonus], $INSTALLER09['expires']['user_stats']);
+    $cache->update_row('userstats_' . $thief_id, ['seedbonus' => $new_bonus], $TRINITY20['expires']['u_stats']);
+    $cache->update_row('user_stats_' . $thief_id, ['seedbonus' => $new_bonus], $TRINITY20['expires']['user_stats']);
     //$cache->delete('inbox_new_'.$pms);
    //$cache->delete('inbox_new_sb_'.$pms);
 }
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?bounty_success=1");
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?bounty_success=1");
 die;
 break;
 
 case 'king':
 //=== trade for one month king status
 if ($CURUSER['king'] != 0 or $CURUSER['pirate'] != 0) {
-    stderr($lang['bonus_error'], "Now why would you want to add what you already have?<br />go back to your <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a> page and think that one over.");
+    stderr($lang['bonus_error'], "Now why would you want to add what you already have?<br />go back to your <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a> page and think that one over.");
 }
 $king = (86400 * 30 + TIME_NOW);
 $free_switch = (30 * 86400 + TIME_NOW);
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for 1 month King + freeleech Status.\n " . $bonuscomment;
 sql_query("UPDATE users SET free_switch = " . sqlesc($free_switch) . ", king = " . sqlesc($king) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('user' . $userid, ['free_switch' => $free_switch, 'king' => $king], $INSTALLER09['expires']['user_cache']);
-$cache->update_row('MyUser_' . $userid, ['free_switch' => $free_switch, 'king' => $king], $INSTALLER09['expires']['curuser']);
-$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?king_success=1");
+$cache->update_row('user' . $userid, ['free_switch' => $free_switch, 'king' => $king], $TRINITY20['expires']['user_cache']);
+$cache->update_row('MyUser_' . $userid, ['free_switch' => $free_switch, 'king' => $king], $TRINITY20['expires']['curuser']);
+$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?king_success=1");
 die;
 break;
 
@@ -860,8 +860,8 @@ if (($pointspool + $donation) >= $arr_points["points"]) {
     $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $donation . " Points contributed for freeleech.\n " . $bonuscomment;
     sql_query("UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ",  bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
     sql_query("UPDATE bonus SET pointspool = " . sqlesc($norefund) . " WHERE id = '11' LIMIT 1") or sqlerr(__FILE__, __LINE__);
-    $cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-    $cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
+    $cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+    $cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
     $cache->delete('freecontribution_');
     $cache->delete('top_donators_');
     $cache->delete('freeleech_counter');
@@ -872,15 +872,15 @@ if (($pointspool + $donation) >= $arr_points["points"]) {
     $msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the freeleech contribution pot and has activated freeleech for 3 days " . $donation . "/" . $points . '';
     $cache->delete('shoutbox_');
     autoshout($msg);
-    header("Refresh: 0; url={$INSTALLER09['baseurl']}//mybonus.php?freeleech_success=1&norefund=$norefund");
+    header("Refresh: 0; url={$TRINITY20['baseurl']}//mybonus.php?freeleech_success=1&norefund=$norefund");
     die;
 } else {
     // add to the pool
     sql_query("UPDATE bonus SET pointspool = pointspool + " . sqlesc($donation) . " WHERE id = '11' LIMIT 1") or sqlerr(__FILE__, __LINE__);
     $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $donation . " Points contributed for freeleech.\n " . $bonuscomment;
     sql_query("UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-    $cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-    $cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
+    $cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+    $cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
     $cache->delete('freecontribution_');
     $cache->delete('top_donators_');
     $cache->delete('freeleech_counter');
@@ -889,10 +889,10 @@ if (($pointspool + $donation) >= $arr_points["points"]) {
     $cache->delete('freecontribution_datas_alerts_');
     write_bonus_log($CURUSER["id"], $donation, $type = "freeleech");
     $Remaining = ($arr_points['points'] - $arr_points['pointspool'] - $donation);
-    $msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the freeleech contribution pot ! * Only [b]" . htmlsafechars($Remaining) . "[/b] more karma point" . ($Remaining > 1 ? 's' : '') . " to go! * [color=green][b]Freeleech contribution:[/b][/color] [url={$INSTALLER09['baseurl']}/mybonus.php]" . $donation . "/" . $points . '[/url]';
+    $msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the freeleech contribution pot ! * Only [b]" . htmlsafechars($Remaining) . "[/b] more karma point" . ($Remaining > 1 ? 's' : '') . " to go! * [color=green][b]Freeleech contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]" . $donation . "/" . $points . '[/url]';
     $cache->delete('shoutbox_');
     autoshout($msg);
-    header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?freeleech_success=2");
+    header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?freeleech_success=2");
     die;
 }
 die;
@@ -917,8 +917,8 @@ if (($pointspool + $donation) >= $arr_points["points"]) {
     $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $donation . " Points contributed for doubleupload.\n " . $bonuscomment;
     sql_query("UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ",  bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
     sql_query("UPDATE bonus SET pointspool = " . sqlesc($norefund) . " WHERE id = '12' LIMIT 1") or sqlerr(__FILE__, __LINE__);
-    $cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-    $cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
+    $cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+    $cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
     $cache->delete('freecontribution_');
     $cache->delete('top_donators2_');
     $cache->delete('doubleupload_counter');
@@ -929,15 +929,15 @@ if (($pointspool + $donation) >= $arr_points["points"]) {
     $msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the double upload contribution pot and has activated Double Upload for 3 days " . $donation . "/" . $points . '';
     $cache->delete('shoutbox_');
     autoshout($msg);
-    header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?doubleup_success=1&norefund=$norefund");
+    header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?doubleup_success=1&norefund=$norefund");
     die;
 } else {
     // add to the pool
     sql_query("UPDATE bonus SET pointspool = pointspool + " . sqlesc($donation) . " WHERE id = '12' LIMIT 1") or sqlerr(__FILE__, __LINE__);
     $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $donation . " Points contributed for doubleupload.\n " . $bonuscomment;
     sql_query("UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-    $cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-    $cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
+    $cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+    $cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
     $cache->delete('freecontribution_');
     $cache->delete('top_donators2_');
     $cache->delete('doubleupload_counter');
@@ -946,10 +946,10 @@ if (($pointspool + $donation) >= $arr_points["points"]) {
     $cache->delete('freecontribution_datas_alerts_');
     write_bonus_log($CURUSER["id"], $donation, $type = "doubleupload");
     $Remaining = ($arr_points['points'] - $arr_points['pointspool'] - $donation);
-    $msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the double upload contribution pot ! * Only [b]" . htmlsafechars($Remaining) . "[/b] more karma point" . ($Remaining > 1 ? 's' : '') . " to go! * [color=green][b]Double upload contribution:[/b][/color] [url={$INSTALLER09['baseurl']}/mybonus.php]" . $donation . "/" . $points . '[/url]';
+    $msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the double upload contribution pot ! * Only [b]" . htmlsafechars($Remaining) . "[/b] more karma point" . ($Remaining > 1 ? 's' : '') . " to go! * [color=green][b]Double upload contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]" . $donation . "/" . $points . '[/url]';
     $cache->delete('shoutbox_');
     autoshout($msg);
-    header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?doubleup_success=2");
+    header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?doubleup_success=2");
     die;
 }
 die;
@@ -974,8 +974,8 @@ if (($pointspool + $donation) >= $arr_points["points"]) {
     $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $donation . " Points contributed for Halfdownload.\n " . $bonuscomment;
     sql_query("UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ",  bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
     sql_query("UPDATE bonus SET pointspool = " . sqlesc($norefund) . " WHERE id = '13' LIMIT 1") or sqlerr(__FILE__, __LINE__);
-    $cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-    $cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
+    $cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+    $cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
     $cache->delete('freecontribution_');
     $cache->delete('top_donators3_');
     $cache->delete('halfdownload_counter');
@@ -986,15 +986,15 @@ if (($pointspool + $donation) >= $arr_points["points"]) {
     $msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the half download contribution pot and has activated half download for 3 days " . $donation . "/" . $points . '';
     $cache->delete('shoutbox_');
     autoshout($msg);
-    header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?halfdown_success=1&norefund=$norefund");
+    header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?halfdown_success=1&norefund=$norefund");
     die;
 } else {
     // add to the pool
     sql_query("UPDATE bonus SET pointspool = pointspool + " . sqlesc($donation) . " WHERE id = '13' LIMIT 1") or sqlerr(__FILE__, __LINE__);
     $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points contributed for halfdownload.\n " . $bonuscomment;
     sql_query("UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-    $cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-    $cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
+    $cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+    $cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
     $cache->delete('freecontribution_');
     $cache->delete('top_donators3_');
     $cache->delete('halfdownload_counter');
@@ -1003,10 +1003,10 @@ if (($pointspool + $donation) >= $arr_points["points"]) {
     $cache->delete('freecontribution_datas_alerts_');
     write_bonus_log($CURUSER["id"], $donation, $type = "halfdownload");
     $Remaining = ($arr_points['points'] - $arr_points['pointspool'] - $donation);
-    $msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the half download contribution pot ! * Only [b]" . htmlsafechars($Remaining) . "[/b] more karma point" . ($Remaining > 1 ? 's' : '') . " to go! * [color=green][b]Half download contribution:[/b][/color] [url={$INSTALLER09['baseurl']}/mybonus.php]" . $donation . "/" . $points . '[/url]';
+    $msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the half download contribution pot ! * Only [b]" . htmlsafechars($Remaining) . "[/b] more karma point" . ($Remaining > 1 ? 's' : '') . " to go! * [color=green][b]Half download contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]" . $donation . "/" . $points . '[/url]';
     $cache->delete('shoutbox_');
     autoshout($msg);
-    header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?halfdown_success=2");
+    header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?halfdown_success=2");
     die;
 }
 die;
@@ -1018,21 +1018,21 @@ $torrent_number = (int) $_POST['torrent_id'];
 $res_snatched = sql_query("SELECT s.uploaded, s.downloaded, t.name FROM snatched AS s LEFT JOIN torrents AS t ON t.id = s.torrentid WHERE s.userid = " . sqlesc($userid) . " AND torrentid = " . sqlesc($torrent_number) . " LIMIT 1") or sqlerr(__FILE__, __LINE__);
 $arr_snatched = mysqli_fetch_assoc($res_snatched);
 if ($arr_snatched['size'] > 6442450944) {
-    stderr($lang['bonus_error'], "One to One ratio only works on torrents smaller then 6GB!<br /><br />Back to your <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>Karma Bonus Points</a> page.");
+    stderr($lang['bonus_error'], "One to One ratio only works on torrents smaller then 6GB!<br /><br />Back to your <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>Karma Bonus Points</a> page.");
 }
 if ($arr_snatched['name'] == '') {
-    stderr($lang['bonus_error'], "No torrent with that ID!<br />Back to your <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>Karma Bonus Points</a> page.");
+    stderr($lang['bonus_error'], "No torrent with that ID!<br />Back to your <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>Karma Bonus Points</a> page.");
 }
 if ($arr_snatched['uploaded'] >= $arr_snatched['downloaded']) {
-    stderr($lang['bonus_error'], "Your ratio on that torrent is fine, you must have selected the wrong torrent ID.<br />Back to your <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>Karma Bonus Points</a> page.");
+    stderr($lang['bonus_error'], "Your ratio on that torrent is fine, you must have selected the wrong torrent ID.<br />Back to your <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>Karma Bonus Points</a> page.");
 }
 sql_query("UPDATE snatched SET uploaded = " . sqlesc($arr_snatched['downloaded']) . ", hit_and_run = '0', mark_of_cain = 'no' WHERE userid = " . sqlesc($userid) . " AND torrentid = " . sqlesc($torrent_number)) or sqlerr(__FILE__, __LINE__);
 $difference = $arr_snatched['downloaded'] - $arr_snatched['uploaded'];
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for 1 to 1 ratio on torrent: " . htmlsafechars($arr_snatched['name']) . " " . $torrent_number . ", " . $difference . " added .\n " . $bonuscomment;
 sql_query("UPDATE users SET uploaded = " . sqlesc($upload + $difference) . ", bonuscomment = " . sqlesc($bonuscomment) . ", seedbonus = " . sqlesc($seedbonus) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('userstats_' . $userid, ['uploaded' => $upload + $difference, 'seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['uploaded' => $upload + $difference, 'seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?ratio_success=1");
+$cache->update_row('userstats_' . $userid, ['uploaded' => $upload + $difference, 'seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['uploaded' => $upload + $difference, 'seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?ratio_success=1");
 die;
 break;
 
@@ -1048,33 +1048,33 @@ $free_time = (7 * 86400 + TIME_NOW);
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points to Reanimate torrent: " . $arr_free['name'] . ".\n " . $bonuscomment;
 sql_query('UPDATE users SET bonuscomment = ' . sqlesc($bonuscomment) . ', seedbonus = ' . sqlesc($seedbonus) . ' WHERE id = ' . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
 sql_query('UPDATE torrents SET bump = \'yes\', free=' . sqlesc($free_time) . ', added = ' . TIME_NOW . ' WHERE id = ' . sqlesc($torrent_number)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
+$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
 $cache->update_row('torrent_details_' . $torrent_number, ['added' => TIME_NOW, 'bump' => 'yes', 'free' => $free_time], 0);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?bump_success=1&t_name={$torrent_number}");
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?bump_success=1&t_name={$torrent_number}");
 die;
 break;
 
 case 'class':
 //=== trade for one month VIP status
 if ($CURUSER['class'] > UC_VIP) {
-    stderr($lang['bonus_error'], "Now why would you want to lower yourself to VIP?<br />go back to your <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a> page and think that one over.");
+    stderr($lang['bonus_error'], "Now why would you want to lower yourself to VIP?<br />go back to your <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a> page and think that one over.");
 }
 $vip_until = (86400 * 28 + TIME_NOW);
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for 1 month VIP Status.\n " . $bonuscomment;
 sql_query("UPDATE users SET class = " . UC_VIP . ", vip_added = 'yes', vip_until = " . sqlesc($vip_until) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('user' . $userid, ['class' => 2, 'vip_added' => 'yes', 'vip_until' => $vip_until], $INSTALLER09['expires']['user_cache']);
-$cache->update_row('MyUser_' . $userid, ['class' => 2, 'vip_added' => 'yes', 'vip_until' => $vip_until], $INSTALLER09['expires']['curuser']);
-$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?class_success=1");
+$cache->update_row('user' . $userid, ['class' => 2, 'vip_added' => 'yes', 'vip_until' => $vip_until], $TRINITY20['expires']['user_cache']);
+$cache->update_row('MyUser_' . $userid, ['class' => 2, 'vip_added' => 'yes', 'vip_until' => $vip_until], $TRINITY20['expires']['curuser']);
+$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?class_success=1");
 die;
 break;
 
 case 'warning':
 //=== trade for removal of warning :P
 if ($CURUSER['warned'] == 0) {
-    stderr($lang['bonus_error'], "How can we remove a warning that isn't there?<br />go back to your <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a> page and think that one over.");
+    stderr($lang['bonus_error'], "How can we remove a warning that isn't there?<br />go back to your <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a> page and think that one over.");
 }
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for removing warning.\n " . $bonuscomment;
 $res_warning = sql_query("SELECT modcomment FROM users WHERE id =" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
@@ -1087,13 +1087,13 @@ $dt = sqlesc(TIME_NOW);
 $subject = sqlesc("Warning removed by Karma.");
 $msg = sqlesc("Your warning has been removed by the big Karma payoff... Please keep on your best behaviour from now on.\n");
 sql_query("INSERT INTO messages (sender, receiver, added, msg, subject) VALUES(0, " . sqlesc($userid) . ", $dt, $msg, $subject)") or sqlerr(__FILE__, __LINE__);
-$cache->update_row('user' . $userid, ['warned' => 0], $INSTALLER09['expires']['user_cache']);
-$cache->update_row('MyUser_' . $userid, ['warned' => 0], $INSTALLER09['expires']['curuser']);
-$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment, 'modcomment' => $modcomment], $INSTALLER09['expires']['user_stats']);
+$cache->update_row('user' . $userid, ['warned' => 0], $TRINITY20['expires']['user_cache']);
+$cache->update_row('MyUser_' . $userid, ['warned' => 0], $TRINITY20['expires']['curuser']);
+$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment, 'modcomment' => $modcomment], $TRINITY20['expires']['user_stats']);
 delete_id_keys('inbox_new_' . $userid);
 delete_id_keys('inbox_new_sb_' . $userid);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?warning_success=1");
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?warning_success=1");
 die;
 break;
 
@@ -1102,11 +1102,11 @@ case 'smile':
 $smile_until = (86400 * 28 + TIME_NOW);
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for 1 month of custom smilies.\n " . $bonuscomment;
 sql_query("UPDATE users SET smile_until = " . sqlesc($smile_until) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('user' . $userid, ['smile_until' => $smile_until], $INSTALLER09['expires']['user_cache']);
-$cache->update_row('MyUser_' . $userid, ['smile_until' => $smile_until], $INSTALLER09['expires']['curuser']);
-$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?smile_success=1");
+$cache->update_row('user' . $userid, ['smile_until' => $smile_until], $TRINITY20['expires']['user_cache']);
+$cache->update_row('MyUser_' . $userid, ['smile_until' => $smile_until], $TRINITY20['expires']['curuser']);
+$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?smile_success=1");
 die;
 break;
 
@@ -1116,11 +1116,11 @@ $invites = (int) $User['invites'];
 $inv = $invites + 3;
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for invites.\n " . $bonuscomment;
 sql_query("UPDATE users SET invites = " . sqlesc($inv) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('user' . $userid, ['invites' => $inv], $INSTALLER09['expires']['user_cache']);
-$cache->update_row('MyUser_' . $userid, ['invites' => $inv], $INSTALLER09['expires']['curuser']);
-$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?invite_success=1");
+$cache->update_row('user' . $userid, ['invites' => $inv], $TRINITY20['expires']['user_cache']);
+$cache->update_row('MyUser_' . $userid, ['invites' => $inv], $TRINITY20['expires']['curuser']);
+$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?invite_success=1");
 die;
 break;
 
@@ -1134,11 +1134,11 @@ $words = ['fuck', 'shit', 'Moderator', 'Administrator', 'Admin', 'pussy', 'Sysop
 $title = str_replace($words, "I just wasted my karma", $title);
 $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for custom title. Old title was {$CURUSER['title']} new title is " . $title . ".\n " . $bonuscomment;
 sql_query("UPDATE users SET title = " . sqlesc($title) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('user' . $userid, ['title' => $title], $INSTALLER09['expires']['user_cache']);
-$cache->update_row('MyUser_' . $userid, ['title' => $title], $INSTALLER09['expires']['curuser']);
-$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?title_success=1");
+$cache->update_row('user' . $userid, ['title' => $title], $TRINITY20['expires']['user_cache']);
+$cache->update_row('MyUser_' . $userid, ['title' => $title], $TRINITY20['expires']['curuser']);
+$cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+$cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?title_success=1");
 die;
 break;
 
@@ -1164,21 +1164,21 @@ if ($bonus >= $points) {
     $seedbonus = $bonus-$points;
     $giftbonus1 = $userseedbonus + $points;
     if ($userid == $useridgift) {
-        header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?gift_fail=1");
+        header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?gift_fail=1");
         die;
     }
     if (!$useridgift) {
-        header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?gift_fail_user=1");
+        header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?gift_fail_user=1");
         die;
     }
     sql_query("SELECT bonuscomment,id FROM users WHERE id = " . sqlesc($useridgift)) or sqlerr(__FILE__, __LINE__);
     //=== and to post to the person who gets the gift!
     sql_query("UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
     sql_query("UPDATE users SET seedbonus = " . sqlesc($giftbonus1) . ", bonuscomment = " . sqlesc($bonuscomment_gift) . " WHERE id = " . sqlesc($useridgift));
-    $cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $INSTALLER09['expires']['u_stats']);
-    $cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $INSTALLER09['expires']['user_stats']);
-    $cache->update_row('userstats_' . $useridgift, ['seedbonus' => $giftbonus1], $INSTALLER09['expires']['u_stats']);
-    $cache->update_row('user_stats_' . $useridgift, ['seedbonus' => $giftbonus1, 'bonuscomment' => $bonuscomment_gift], $INSTALLER09['expires']['user_stats']);
+    $cache->update_row('userstats_' . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+    $cache->update_row('user_stats_' . $userid, ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+    $cache->update_row('userstats_' . $useridgift, ['seedbonus' => $giftbonus1], $TRINITY20['expires']['u_stats']);
+    $cache->update_row('user_stats_' . $useridgift, ['seedbonus' => $giftbonus1, 'bonuscomment' => $bonuscomment_gift], $TRINITY20['expires']['user_stats']);
     //===send message
     $subject = sqlesc("Someone Loves you");
     $added = sqlesc(TIME_NOW);
@@ -1186,10 +1186,10 @@ if ($bonus >= $points) {
     sql_query("INSERT INTO messages (sender, subject, receiver, msg, added) VALUES(0, $subject, $useridgift, $msg, $added)") or sqlerr(__FILE__, __LINE__);
     delete_id_keys('inbox_new_' . $useridgift);
     delete_id_keys('inbox_new_sb_' . $useridgift);
-    header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?gift_success=1&gift_amount_points=$points&usernamegift=$usernamegift&gift_id=$useridgift");
+    header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?gift_success=1&gift_amount_points=$points&usernamegift=$usernamegift&gift_id=$useridgift");
     die;
 } else {
-    header("Refresh: 0; url={$INSTALLER09['baseurl']}/mybonus.php?gift_fail_points=1");
+    header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?gift_fail_points=1");
     die;
 }
 break;
@@ -1392,7 +1392,7 @@ $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $
                 //$top_donators_username = htmlsafechars($a['username']);
                 $user_stuff = $a;
                 $user_stuff['id'] = (int) $a['userid'];
-                $top_donator .= "<a href='{$INSTALLER09['baseurl']}/userdetails.php?id=$top_donators_id'>" . format_username($user_stuff) . "</a> [$damount_donated]<br />";
+                $top_donator .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$top_donators_id'>" . format_username($user_stuff) . "</a> [$damount_donated]<br />";
             }
         } else {
             //== If there are no donators
@@ -1419,7 +1419,7 @@ $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $
                 //$top_donators2_username = htmlsafechars($b['username']);
                 $user_stuff = $b;
                 $user_stuff['id'] = (int) $b['userid'];
-                $top_donator2 .= "<a href='{$INSTALLER09['baseurl']}/userdetails.php?id=$top_donators2_id'>" . format_username($user_stuff) . "</a> [$damount_donated2]<br />";
+                $top_donator2 .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$top_donators2_id'>" . format_username($user_stuff) . "</a> [$damount_donated2]<br />";
             }
         } else {
             //== If there are no donators
@@ -1446,7 +1446,7 @@ $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $
                 //$top_donators3_username = htmlsafechars($c['username']);
                 $user_stuff = $c;
                 $user_stuff['id'] = (int) $c['userid'];
-                $top_donator3 .= "<a href='{$INSTALLER09['baseurl']}/userdetails.php?id=$top_donators3_id'>" . format_username($user_stuff) . "</a> [$damount_donated3]<br />";
+                $top_donator3 .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$top_donators3_id'>" . format_username($user_stuff) . "</a> [$damount_donated3]<br />";
             }
         } else {
             //== If there are no donators
@@ -1487,7 +1487,7 @@ $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $
             }
             $bonus = (float) $CURUSER['seedbonus'];
             $HTMLOUT .="<div class='panel-body'>
-            Exchange your <a class='altlink' href='{$INSTALLER09['baseurl']}/mybonus.php'>Karma Bonus Points</a> for goodies. If no buttons appear, you have not earned enough bonus points to trade.
+            Exchange your <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>Karma Bonus Points</a> for goodies. If no buttons appear, you have not earned enough bonus points to trade.
             </div>
 			</div>
             <table class='table table-sriped '>
@@ -1509,7 +1509,7 @@ $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $
     $HTMLOUT .="
 	<tr>
 	<td align='left' class='" . $class . "'>
-		<form action='{$INSTALLER09['baseurl']}/mybonus.php?exchange=1' method='post'>
+		<form action='{$TRINITY20['baseurl']}/mybonus.php?exchange=1' method='post'>
 		<input type='hidden' name='option' value='" . (int) $gets['id'] . "' />
 		<input type='hidden' name='art' value='" . htmlsafechars($gets['art']) . "' />
 		<li class='list-group-item'>
@@ -1527,7 +1527,7 @@ $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $
   case ($gets['id'] == 7):
   $HTMLOUT .="<tr>
 	<td align='left' class='" . $class . "'>
-		<form action='{$INSTALLER09['baseurl']}/mybonus.php?exchange=1' method='post'>
+		<form action='{$TRINITY20['baseurl']}/mybonus.php?exchange=1' method='post'>
 		<input type='hidden' name='option' value='" . (int) $gets['id'] . "' />
 		<input type='hidden' name='art' value='" . htmlsafechars($gets['art']) . "' />
 		<li class='list-group-item'>
@@ -1561,7 +1561,7 @@ $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $
   case ($gets['id'] == 9):
   $HTMLOUT .="<tr>
 	<td align='left' class='" . $class . "'>
-		<form action='{$INSTALLER09['baseurl']}/mybonus.php?exchange=1' method='post'>
+		<form action='{$TRINITY20['baseurl']}/mybonus.php?exchange=1' method='post'>
 			<input type='hidden' name='option' value='" . (int) $gets['id'] . "' />
 	<input type='hidden' name='art' value='" . htmlsafechars($gets['art']) . "' />
 	<li class='list-group-item'>
@@ -1579,7 +1579,7 @@ $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $
   case ($gets['id'] == 10):
   $HTMLOUT .="<tr>
   <td align='left' class='" . $class . "'>
-		<form action='{$INSTALLER09['baseurl']}/mybonus.php?exchange=1' method='post'>
+		<form action='{$TRINITY20['baseurl']}/mybonus.php?exchange=1' method='post'>
 		<input type='hidden' name='option' value='" . (int) $gets['id'] . "' />
 		<input type='hidden' name='art' value='" . htmlsafechars($gets['art']) . "' />
 		<li class='list-group-item'>
@@ -1597,7 +1597,7 @@ $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $
   case ($gets['id'] == 11):
   $HTMLOUT .="<tr>
 	<td align='left' class='" . $class . "'>
-		<form action='{$INSTALLER09['baseurl']}/mybonus.php?exchange=1' method='post'>
+		<form action='{$TRINITY20['baseurl']}/mybonus.php?exchange=1' method='post'>
 		<input type='hidden' name='option' value='" . (int) $gets['id'] . "' /> 
 		<input type='hidden' name='art' value='" . htmlsafechars($gets['art']) . "' />
 			<li class='list-group-item'>
@@ -1618,7 +1618,7 @@ $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $
   case ($gets['id'] == 12):
   $HTMLOUT .="<tr>
 	<td align='left' class='" . $class . "'>
-		<form action='{$INSTALLER09['baseurl']}/mybonus.php?exchange=1' method='post'>
+		<form action='{$TRINITY20['baseurl']}/mybonus.php?exchange=1' method='post'>
 		<input type='hidden' name='option' value='" . (int) $gets['id'] . "' /> 
 		<input type='hidden' name='art' value='" . htmlsafechars($gets['art']) . "' />
 		<li class='list-group-item'>	
@@ -1639,7 +1639,7 @@ $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $
   case ($gets['id'] == 13):
   $HTMLOUT .="<tr>
 	<td align='left' class='" . $class . "'>
-		<form action='{$INSTALLER09['baseurl']}/mybonus.php?exchange=1' method='post'>
+		<form action='{$TRINITY20['baseurl']}/mybonus.php?exchange=1' method='post'>
 		<input type='hidden' name='option' value='" . (int) $gets['id'] . "' />
 		<input type='hidden' name='art' value='" . htmlsafechars($gets['art']) . "' />
 		<li class='list-group-item'>
@@ -1660,7 +1660,7 @@ $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $
   case ($gets['id'] == 34):
   $HTMLOUT .="<tr>
 	<td align='left' class='" . $class . "'>
-		<form action='{$INSTALLER09['baseurl']}/mybonus.php?exchange=1' method='post'>
+		<form action='{$TRINITY20['baseurl']}/mybonus.php?exchange=1' method='post'>
 		<input type='hidden' name='option' value='" . (int) $gets['id'] . "' />
 		<input type='hidden' name='art' value='" . htmlsafechars($gets['art']) . "' />
 		<li class='list-group-item'>
@@ -1678,7 +1678,7 @@ $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $
   default:
   $HTMLOUT .="<tr>
 	<td align='left' class='" . $class . " col-xs-12 col-md-12'>
-		<form action='{$INSTALLER09['baseurl']}/mybonus.php?exchange=1' method='post'>
+		<form action='{$TRINITY20['baseurl']}/mybonus.php?exchange=1' method='post'>
 		<input type='hidden' name='option' value='" . (int) $gets['id'] . "' />
 		<input type='hidden' name='art' value='" . htmlsafechars($gets['art']) . "' />
 		<li class='list-group-item'>
@@ -1766,7 +1766,7 @@ For every hour that you seed a torrent, you are awarded with 1 Karma Bonus Point
   <br />
   </div>
   <div align='center'><br />
-  <a class='altlink' href='{$INSTALLER09['baseurl']}/index.php'><b>Back to homepage</b></a></div></div>";
+  <a class='altlink' href='{$TRINITY20['baseurl']}/index.php'><b>Back to homepage</b></a></div></div>";
 
 echo stdhead($CURUSER['username'] . "'s Karma Bonus Page", true, $stdhead) . $HTMLOUT . stdfoot();
 ?>

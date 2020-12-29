@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(0);
     ignore_user_abort(1);
     //== Delete old backup's
@@ -22,7 +22,7 @@ function docleanup($data)
         $ids = array();
         while ($arr = mysqli_fetch_assoc($res)) {
             $ids[] = (int)$arr['id'];
-            $filename = $INSTALLER09['backup_dir'] . '/' . $arr['name'];
+            $filename = $TRINITY20['backup_dir'] . '/' . $arr['name'];
             if (is_file($filename)) unlink($filename);
         }
         sql_query('DELETE FROM dbbackup WHERE id IN (' . implode(', ', $ids) . ')') or sqlerr(__FILE__, __LINE__);

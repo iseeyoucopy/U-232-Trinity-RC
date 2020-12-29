@@ -47,7 +47,7 @@ loggedinorreturn();
 /*$allowed_ids = array(
     1
 ); //== 1 Is Sysop*/
-if (!in_array($CURUSER['id'], $INSTALLER09['allowed_staff']['id'] /*$allowed_ids*/)) stderr($lang['editlog_error'], $lang['editlog_denied']);
+if (!in_array($CURUSER['id'], $TRINITY20['allowed_staff']['id'] /*$allowed_ids*/)) stderr($lang['editlog_error'], $lang['editlog_denied']);
 $lang = array_merge($lang, load_language('editlog'));
 $HTMLOUT = '';
 $file_data = './dir_list/data_' . $CURUSER['username'] . '.txt';

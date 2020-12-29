@@ -23,5 +23,5 @@ $salty = md5("Th15T3xtis5add3dto66uddy6he@water...". $salty_username . "");
 if (empty($hash_please)) die("No Hash your up to no good MOFO");
 if ($hash_please != $salty) die("Unsecure Logout - Hash mis-match please contact site admin");
 logoutcookie();
-Header("Location: {$INSTALLER09['baseurl']}/");
+Header("Location: {$TRINITY20['baseurl']}/");
 ?>

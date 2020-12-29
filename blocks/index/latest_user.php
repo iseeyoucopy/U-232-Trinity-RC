@@ -20,7 +20,7 @@ if (($latestuser_cache = $cache->get($keys['latestuser'])) === false) {
     $latestuser_cache['leechwarn'] = (int)$latestuser_cache['leechwarn'];
     $latestuser_cache['pirate'] = (int)$latestuser_cache['pirate'];
     $latestuser_cache['king'] = (int)$latestuser_cache['king'];
-    $cache->set($keys['latestuser'], $latestuser_cache, $INSTALLER09['expires']['latestuser']);
+    $cache->set($keys['latestuser'], $latestuser_cache, $TRINITY20['expires']['latestuser']);
 }
 $latestuser = '<div class="callout">
 <h4 class="subheader">' . $lang['index_lmember'] . '</h4>

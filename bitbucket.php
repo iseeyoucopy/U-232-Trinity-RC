@@ -31,7 +31,7 @@ if (!is_dir(AVATAR_DIR)) {
 $SaLt = 'mE0wI924dsfsfs!@B'; // change this!
 $SaLty = '8368364562'; // NEW!
 $skey = 'eTe5$Ybnsccgbsfdsfsw4h6W'; // change this!
-$maxsize = $INSTALLER09['bucket_maxsize'];
+$maxsize = $TRINITY20['bucket_maxsize'];
 /* seperate images into */
 $folders = date('Y/m');
 // valid file formats
@@ -44,7 +44,7 @@ $formats = array(
 // path to bucket/avatar directories
 $bucketdir = (isset($_POST["avy"]) ? AVATAR_DIR.'/' : BITBUCKET_DIR.'/'.$folders.'/');
 $bucketlink = ((isset($_POST["avy"]) || (isset($_GET['images']) && $_GET['images'] == 2)) ? 'avatar/' : $folders.'/');
-$address = $INSTALLER09['baseurl'].'/';
+$address = $TRINITY20['baseurl'].'/';
 //rename files and obscufate uploader
 $USERSALT = substr(md5($SaLty.$CURUSER['id']) , 0, 6);
 /* this is a hack, you should create folders named 2012, 2013, 2014, etc,
@@ -69,8 +69,8 @@ if (!isset($_FILES['file'])) {
         else stderr($lang['bitbucket_hey'], "{$lang['bitbucket_imagenf']}");
         $folder_m = (!isset($_GET['month']) ? '&month='.date('m') : '&month='.(int)$_GET['month']);
         $yea = (!isset($_GET['year']) ? '&year='.date('Y') : '&year='.(int)$_GET['year']);
-        if (isset($_GET["type"]) && $_GET["type"] == 2) header("Refresh: 2; url={$INSTALLER09['baseurl']}/bitbucket.php?images=2");
-        else header("Refresh: 2; url={$INSTALLER09['baseurl']}/bitbucket.php?images=1".$yea.$folder_m);
+        if (isset($_GET["type"]) && $_GET["type"] == 2) header("Refresh: 2; url={$TRINITY20['baseurl']}/bitbucket.php?images=2");
+        else header("Refresh: 2; url={$TRINITY20['baseurl']}/bitbucket.php?images=1".$yea.$folder_m);
         die($lang['bitbucket_deleting'] . $delfile . $lang['bitbucket_redir']);
     }
     if (isset($_GET["avatar"]) && $_GET["avatar"] != '' && (($_GET["avatar"]) != $CURUSER["avatar"])) {
@@ -80,11 +80,11 @@ if (!isset($_FILES['file'])) {
         sql_query("UPDATE users SET avatar = $avatar WHERE id = {$CURUSER['id']}") or sqlerr(__FILE__, __LINE__);
         $cache->update_row('MyUser_' . $CURUSER['id'], [
             'avatar' => $_GET['avatar']
-        ], $INSTALLER09['expires']['curuser']);
+        ], $TRINITY20['expires']['curuser']);
         $cache->update_row('user' . $CURUSER['id'], [
             'avatar' => $_GET['avatar']
-        ], $INSTALLER09['expires']['user_cache']);
-        header("Refresh: 0; url={$INSTALLER09['baseurl']}/bitbucket.php?images=$type&updated=avatar");
+        ], $TRINITY20['expires']['user_cache']);
+        header("Refresh: 0; url={$TRINITY20['baseurl']}/bitbucket.php?images=$type&updated=avatar");
     }
     if (isset($_GET["updated"]) && $_GET["updated"] == 'avatar') {
         $HTMLOUT.= "<h3>{$lang['bitbucket_updated']}<img src='".htmlsafechars($CURUSER['avatar'])."' border='0' alt='' /></h3>";
@@ -135,11 +135,11 @@ document.getElementById(id).select();
 <a href="bitbucket.php?images=1&amp;month=12'.$year.'">' . $lang['bitbucket_dec'] . '</a> &nbsp;
 </p>';
     } elseif (isset($_GET['images']) && $_GET['images'] == 2) {
-        $HTMLOUT.= "<p align=\"center\"><a href=\"{$INSTALLER09['baseurl']}/bitbucket.php?images=1\">{$lang['bitbucket_viewmonths']}</a></p>
-<p align=\"center\"><a href=\"{$INSTALLER09['baseurl']}/bitbucket.php\">{$lang['bitbucket_hidemya']}</a></p>";
+        $HTMLOUT.= "<p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?images=1\">{$lang['bitbucket_viewmonths']}</a></p>
+<p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php\">{$lang['bitbucket_hidemya']}</a></p>";
     } else {
-        $HTMLOUT.= "<p align=\"center\"><a href=\"{$INSTALLER09['baseurl']}/bitbucket.php?images=1\">{$lang['bitbucket_viewmonths']}</a></p>
-<p align=\"center\"><a href=\"{$INSTALLER09['baseurl']}/bitbucket.php?images=2\">{$lang['bitbucket_viewmya']}</a></p>";
+        $HTMLOUT.= "<p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?images=1\">{$lang['bitbucket_viewmonths']}</a></p>
+<p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?images=2\">{$lang['bitbucket_viewmya']}</a></p>";
     }
     if (isset($_GET['images'])) {
         $folder_month = (!isset($_GET['month']) ? date('m') : ($_GET['month'] < 10 ? '0' : '').(int)$_GET['month']);
@@ -154,8 +154,8 @@ document.getElementById(id).select();
                 $HTMLOUT.= "<a href=\"{$address}img.php/{$filename}\"><img src=\"{$address}img.php/{$filename}\" width=\"200\" alt=\"\" /><br />{$address}img.php/{$filename}</a><br />";
                 $HTMLOUT.= "<p>{$lang['bitbucket_directlink']}<br /><input style=\"font-size: 9pt;text-align: center;\" id=\"d".$eid."d\" onclick=\"SelectAll('d".$eid."d');\" type=\"text\" size=\"70\" value=\"{$address}img.php/{$filename}\" readonly=\"readonly\" /></p>";
                 $HTMLOUT.= "<p align=\"center\">{$lang['bitbucket_tags']}<br /><input style=\"font-size: 9pt;text-align: center;\" id=\"t".$eid."t\" onclick=\"SelectAll('t".$eid."t');\" type=\"text\" size=\"70\" value=\"[img]{$address}img.php/{$filename}[/img]\" readonly=\"readonly\" /></p>";
-                $HTMLOUT.= "<p align=\"center\"><a href=\"{$INSTALLER09['baseurl']}/bitbucket.php?type=".((isset($_GET['images']) && $_GET['images'] == 2) ? '2' : '1')."&amp;avatar={$address}img.php/{$filename}\">{$lang['bitbucket_maketma']}</a></p>";
-                $HTMLOUT.= "<p align=\"center\"><a href=\"{$INSTALLER09['baseurl']}/bitbucket.php?type=".((isset($_GET['images']) && $_GET['images'] == 2) ? '2' : '1')."&amp;delete=".$encryptedfilename."&amp;delhash=".md5($filename.$USERSALT.$SaLt)."&amp;month=".(!isset($_GET['month']) ? date('m') : ($_GET['month'] < 10 ? '0' : '').(int)$_GET['month'])."&amp;year=".(!isset($_GET['year']) ? date('Y') : (int)$_GET['year'])."\">{$lang['bitbucket_delete']}</a></p><br />";
+                $HTMLOUT.= "<p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?type=".((isset($_GET['images']) && $_GET['images'] == 2) ? '2' : '1')."&amp;avatar={$address}img.php/{$filename}\">{$lang['bitbucket_maketma']}</a></p>";
+                $HTMLOUT.= "<p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?type=".((isset($_GET['images']) && $_GET['images'] == 2) ? '2' : '1')."&amp;delete=".$encryptedfilename."&amp;delhash=".md5($filename.$USERSALT.$SaLt)."&amp;month=".(!isset($_GET['month']) ? date('m') : ($_GET['month'] < 10 ? '0' : '').(int)$_GET['month'])."&amp;year=".(!isset($_GET['year']) ? date('Y') : (int)$_GET['year'])."\">{$lang['bitbucket_delete']}</a></p><br />";
             } else $HTMLOUT.= "{$lang['bitbucket_noimages']}";
         }
     }
@@ -218,8 +218,8 @@ $HTMLOUT.= "<p>{$lang['bitbucket_directlink']}<br />
 <input style=\"font-size: 9pt;text-align: center;\" id=\"direct\" onclick=\"SelectAll('direct');\" type=\"text\" size=\"70\" value=\"".$address."img.php/".$pathlink."\" readonly=\"readonly\" /></p>
 <p align=\"center\">{$lang['bitbucket_tags']}
 <input style=\"font-size: 9pt;text-align: center;\" id=\"tag\" onclick=\"SelectAll('tag');\" type=\"text\" size=\"70\" value=\"[img]".$address."img.php/".$pathlink."[/img]\" readonly=\"readonly\" /></p>
-<p align=\"center\"><a href=\"{$INSTALLER09['baseurl']}/bitbucket.php?images=1\">{$lang['bitbucket_viewmyi']}</a></p>
-<p align=\"center\"><a href=\"{$INSTALLER09['baseurl']}/bitbucket.php?images=2\">{$lang['bitbucket_viewmya']}</a></p>
+<p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?images=1\">{$lang['bitbucket_viewmyi']}</a></p>
+<p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?images=2\">{$lang['bitbucket_viewmya']}</a></p>
 </td>
 </tr>
 </table>";

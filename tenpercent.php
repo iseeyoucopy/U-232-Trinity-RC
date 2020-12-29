@@ -43,16 +43,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $update['uploaded'] = ($CURUSER['uploaded'] * 1.1);
     $cache->update_row('userstats_' . $CURUSER['id'], [
         'uploaded' => $update['uploaded']
-    ], $INSTALLER09['expires']['u_stats']);
+    ], $TRINITY20['expires']['u_stats']);
     $cache->update_row('user_stats_' . $CURUSER['id'], [
         'uploaded' => $update['uploaded']
-    ], $INSTALLER09['expires']['user_stats']);
+    ], $TRINITY20['expires']['user_stats']);
     $cache->update_row('user' . $CURUSER['id'], [
         'tenpercent' => 'yes'
-    ], $INSTALLER09['expires']['user_cache']);
+    ], $TRINITY20['expires']['user_cache']);
     $cache->update_row('MyUser_' . $CURUSER['id'], [
         'tenpercent' => 'yes'
-    ], $INSTALLER09['expires']['user_cache']);
+    ], $TRINITY20['expires']['user_cache']);
     $res1 = sql_query("INSERT INTO messages (sender, poster, receiver, subject, msg, added) VALUES (0, 0, " . sqlesc($CURUSER['id']) . ", " . sqlesc($subject) . ", " . sqlesc($msg) . ", '" . TIME_NOW . "')") or sqlerr(__FILE__, __LINE__);
     $cache->delete('inbox_new_' . $CURUSER['id']);
     $cache->delete('inbox_new_sb_' . $CURUSER['id']);

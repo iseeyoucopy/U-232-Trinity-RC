@@ -18,11 +18,11 @@ global $CURUSER;
 if (!$CURUSER) {
     get_template();
 } else {
-    header("Location: {$INSTALLER09['baseurl']}/index.php");
+    header("Location: {$TRINITY20['baseurl']}/index.php");
     exit();
 }
 ini_set('session.use_trans_sid', '0');
-if ($INSTALLER09['captcha_on'] === true){
+if ($TRINITY20['captcha_on'] === true){
 $stdfoot = array(
     /** include js **/
     'js' => array(
@@ -50,9 +50,9 @@ $HTMLOUT.= "
     </script>";
 $newpage = new page_verify();
 $newpage->create('tkIs');
-if (get_row_count('users') >= $INSTALLER09['maxusers']) stderr($lang['stderr_errorhead'], sprintf($lang['stderr_ulimit'], $INSTALLER09['maxusers']));
+if (get_row_count('users') >= $TRINITY20['maxusers']) stderr($lang['stderr_errorhead'], sprintf($lang['stderr_ulimit'], $TRINITY20['maxusers']));
 //==timezone select
-$offset = (string)$INSTALLER09['time_offset'];
+$offset = (string)$TRINITY20['time_offset'];
 $time_select = "<div class='form-group'><div class='col-sm-9 col-sm-offset-1'><select class='form-control' name='user_timezone'>";
 foreach ($TZ as $off => $words) {
     if (preg_match("/^time_(-?[\d\.]+)$/", $off, $match)) {
@@ -63,11 +63,11 @@ $time_select.= "</select></div></div>";
 //==country by pdq
 function countries()
 {
-    global $cache, $INSTALLER09;
+    global $cache, $TRINITY20;
     if (($ret = $cache->get('countries::arr')) === false) {
         $res = sql_query("SELECT id, name, flagpic FROM countries ORDER BY name ASC") or sqlerr(__FILE__, __LINE__);
         while ($row = mysqli_fetch_assoc($res)) $ret[] = $row;
-        $cache->set('countries::arr', $ret, $INSTALLER09['expires']['user_flag']);
+        $cache->set('countries::arr', $ret, $TRINITY20['expires']['user_flag']);
     }
     return $ret;
 }
@@ -91,7 +91,7 @@ $value = array(
     '...'
 );
 $value[rand(1, count($value) - 1) ] = 'X';
-$HTMLOUT.= "".($INSTALLER09['captcha_on'] ? "<script type='text/javascript'>
+$HTMLOUT.= "".($TRINITY20['captcha_on'] ? "<script type='text/javascript'>
 	  /*<![CDATA[*/
 	  $(document).ready(function () {
 	  $('#captchasignup').simpleCaptcha();
@@ -195,7 +195,7 @@ $HTMLOUT.= "
 <div class='checkbox'><label><input type='checkbox' name='rulesverify' value='yes'> {$lang['signup_rules']}</label></div>
 <div class='checkbox'><label><input type='checkbox' name='faqverify' value='yes'> {$lang['signup_faq']}</label></div>
 <div class='checkbox'><label><input type='checkbox' name='ageverify' value='yes'> {$lang['signup_age']}</label></div>
-</div></div>" . ($INSTALLER09['captcha_on'] ? "<div class='form-group'><div class='col-sm-9 col-sm-offset-1' id='captchasignup'></div></div>" : "") . "
+</div></div>" . ($TRINITY20['captcha_on'] ? "<div class='form-group'><div class='col-sm-9 col-sm-offset-1' id='captchasignup'></div></div>" : "") . "
 <div class='form-group'><div class='col-sm-9 col-sm-offset-1' style='text-align:center'>{$lang['signup_click']}&nbsp;<strong>{$lang['signup_x']}</strong>&nbsp;{$lang['signup_click1']}<br />
     ";
 for ($i = 0; $i < count($value); $i++) {

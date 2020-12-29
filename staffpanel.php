@@ -61,7 +61,7 @@ if (!$CURUSER)
  * @ new $staff_tools array add in following format : 'delacct'         => 'delacct',
  *
  */
-if ($INSTALLER09['staffpanel_online'] == 0)
+if ($TRINITY20['staffpanel_online'] == 0)
     stderr($lang['spanel_information'], $lang['spanel_panel_cur_offline']);
 define('IN_INSTALLER09_ADMIN', true);
 require_once(CLASS_DIR . 'class_check.php');
@@ -183,7 +183,7 @@ if (in_array($tool, $staff_tools) and file_exists(ADMIN_DIR . $staff_tools[$tool
         $cache->delete('is_staffs_');
         if (mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
             if ($CURUSER['class'] <= UC_MAX)
-                write_log($lang['spanel_page'].' "' . htmlsafechars($arr['page_name']) . '"(' . ($class_color ? '[color=#' . get_user_class_color($arr['av_class']) . ']' : '') . get_user_class_name($arr['av_class']) . ($class_color ? '[/color]' : '') . ') '.$lang['spanel_was_del_sp_by'].' [url=' . $INSTALLER09['baseurl'] . '/userdetails.php?id=' . (int) $CURUSER['id'] . ']' . $CURUSER['username'] . '[/url](' . ($class_color ? '[color=#' . get_user_class_color($CURUSER['class']) . ']' : '') . get_user_class_name($CURUSER['class']) . ($class_color ? '[/color]' : '') . ')');
+                write_log($lang['spanel_page'].' "' . htmlsafechars($arr['page_name']) . '"(' . ($class_color ? '[color=#' . get_user_class_color($arr['av_class']) . ']' : '') . get_user_class_name($arr['av_class']) . ($class_color ? '[/color]' : '') . ') '.$lang['spanel_was_del_sp_by'].' [url=' . $TRINITY20['baseurl'] . '/userdetails.php?id=' . (int) $CURUSER['id'] . ']' . $CURUSER['username'] . '[/url](' . ($class_color ? '[color=#' . get_user_class_color($CURUSER['class']) . ']' : '') . get_user_class_name($CURUSER['class']) . ($class_color ? '[/color]' : '') . ')');
             header('Location: ' . $_SERVER['PHP_SELF']);
             exit();
         } else
@@ -251,7 +251,7 @@ if (in_array($tool, $staff_tools) and file_exists(ADMIN_DIR . $staff_tools[$tool
                 }
                 if (empty($errors)) {
                     if ($CURUSER['class'] <= UC_MAX)
-                        write_log($lang['spanel_page'].' "' . $page_name . '"(' . ($class_color ? '[color=#' . get_user_class_color($av_class) . ']' : '') . get_user_class_name($av_class) . ($class_color ? '[/color]' : '') . ') '.$lang['spanel_in_the_sp_was'].' ' . ($action == 'add' ? 'added' : 'edited') . ' by [url=' . $INSTALLER09['baseurl'] . '/userdetails.php?id=' . $CURUSER['id'] . ']' . $CURUSER['username'] . '[/url](' . ($class_color ? '[color=#' . get_user_class_color($CURUSER['class']) . ']' : '') . get_user_class_name($CURUSER['class']) . ($class_color ? '[/color]' : '') . ')');
+                        write_log($lang['spanel_page'].' "' . $page_name . '"(' . ($class_color ? '[color=#' . get_user_class_color($av_class) . ']' : '') . get_user_class_name($av_class) . ($class_color ? '[/color]' : '') . ') '.$lang['spanel_in_the_sp_was'].' ' . ($action == 'add' ? 'added' : 'edited') . ' by [url=' . $TRINITY20['baseurl'] . '/userdetails.php?id=' . $CURUSER['id'] . ']' . $CURUSER['username'] . '[/url](' . ($class_color ? '[color=#' . get_user_class_color($CURUSER['class']) . ']' : '') . get_user_class_name($CURUSER['class']) . ($class_color ? '[/color]' : '') . ')');
                     header('Location: ' . $_SERVER['PHP_SELF']);
                     exit();
                 }
@@ -355,10 +355,10 @@ $HTMLOUT .= "<div class='row'><span class='label'><h2>{$lang['spanel_options']}<
                 if ($CURUSER['class'] == UC_MAX) {
                     $HTMLOUT .= "<td><span style='white-space: nowrap;'>";
                     if ($CURUSER['class'] == UC_MAX) {
-                        $HTMLOUT .= "<a href='staffpanel.php?action=edit&amp;id=" . (int) $arr['id'] . "' title='".$lang['spanel_edit']."'><img src='{$INSTALLER09['pic_base_url']}button_edit2.gif' height='15px' width='14px' alt='".$lang['spanel_edit']."' style='padding-right:3px' /></a>";
+                        $HTMLOUT .= "<a href='staffpanel.php?action=edit&amp;id=" . (int) $arr['id'] . "' title='".$lang['spanel_edit']."'><img src='{$TRINITY20['pic_base_url']}button_edit2.gif' height='15px' width='14px' alt='".$lang['spanel_edit']."' style='padding-right:3px' /></a>";
                     }
                     if ($CURUSER['class'] == UC_MAX) {
-                        $HTMLOUT .= "<a href='staffpanel.php?action=delete&amp;id=" . (int) $arr['id'] . "' title='".$lang['spanel_delete']."'><img src='{$INSTALLER09['pic_base_url']}button_delete2.gif' height='13px' width='13px' alt='".$lang['spanel_delete']."' style='padding-left:3px' /></a>";
+                        $HTMLOUT .= "<a href='staffpanel.php?action=delete&amp;id=" . (int) $arr['id'] . "' title='".$lang['spanel_delete']."'><img src='{$TRINITY20['pic_base_url']}button_delete2.gif' height='13px' width='13px' alt='".$lang['spanel_delete']."' style='padding-left:3px' /></a>";
                     }
                     $HTMLOUT .= "</span>
             </td>";

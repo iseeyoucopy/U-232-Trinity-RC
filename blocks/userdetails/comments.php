@@ -14,7 +14,7 @@
 if (($torrentcomments = $cache->get('torrent_comments_' . $id)) === false) {
     $res = sql_query("SELECT COUNT(id) FROM comments WHERE user=" . sqlesc($user['id'])) or sqlerr(__FILE__, __LINE__);
     list($torrentcomments) = mysqli_fetch_row($res);
-    $cache->set('torrent_comments_' . $id, $torrentcomments, $INSTALLER09['expires']['torrent_comments']);
+    $cache->set('torrent_comments_' . $id, $torrentcomments, $TRINITY20['expires']['torrent_comments']);
 }
 if ($CURUSER['id'] == $id || $CURUSER['class'] >= UC_STAFF) {
     if ($torrentcomments && (($user["class"] >= UC_POWER_USER && $user["id"] == $CURUSER["id"]) || $CURUSER['class'] >= UC_STAFF)) 

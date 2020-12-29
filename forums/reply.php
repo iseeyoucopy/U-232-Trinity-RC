@@ -37,7 +37,7 @@ if (!defined('IN_INSTALLER09_FORUM')) {
     if (!is_valid_id($topicid))
         stderr('Error', 'Invalid ID!');
    // $HTMLOUT .= begin_main_frame();
-    if ($INSTALLER09['forums_online'] == 0)
+    if ($TRINITY20['forums_online'] == 0)
     $HTMLOUT .= stdmsg('Warning', 'Forums are currently in maintainance mode');
     $HTMLOUT .= insert_compose_frame($topicid, false, false, true);
   //  $HTMLOUT .= end_main_frame();

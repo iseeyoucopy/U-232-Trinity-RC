@@ -35,20 +35,20 @@ if ($action == 'viewbug') {
         while ($q1 = mysqli_fetch_assoc($query1)) {
             switch ($status) {
             case 'fixed':
-                $msg = sqlesc("Hello " . htmlsafechars($q1['username']) . ".\nYour bug: [b]" . htmlsafechars($q1['title']) . "[/b] has been treated by one of our coder, and is done.\n\nWe would to thank you and therefore we have added [b]2 GB[/b] to your upload total :].\n\nBest regards, {$INSTALLER09['site_name']}'s coders.\n");
+                $msg = sqlesc("Hello " . htmlsafechars($q1['username']) . ".\nYour bug: [b]" . htmlsafechars($q1['title']) . "[/b] has been treated by one of our coder, and is done.\n\nWe would to thank you and therefore we have added [b]2 GB[/b] to your upload total :].\n\nBest regards, {$TRINITY20['site_name']}'s coders.\n");
                 $uq = "UPDATE users SET uploaded = uploaded +" . 1024 * 1024 * 1024 * 2 . " WHERE id = " . sqlesc($q1['sender']) . "";
                 $update['uploaded'] = ($q1['uploaded'] + 1024 * 1024 * 1024 * 2);
                 $update['uploaded'] = ($q1['uploaded'] + 1024 * 1024 * 1024 * 2);
                 $cache->update_row('userstats_' . $q1['sender'], [
                     'uploaded' => $update['uploaded']
-                ], $INSTALLER09['expires']['u_stats']);
+                ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $q1['sender'], [
                     'uploaded' => $update['uploaded']
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 break;
 
             case 'ignored':
-                $msg = sqlesc("Hello " . htmlsafechars($q1['username']) . ".\nYour bug: [b]" . htmlsafechars($q1['title']) . "[/b] has been ignored by one of our coder.\n\nPossibly it was not a bug.\n\nBest regards, {$INSTALLER09['site_name']}'s coders.\n");
+                $msg = sqlesc("Hello " . htmlsafechars($q1['username']) . ".\nYour bug: [b]" . htmlsafechars($q1['title']) . "[/b] has been ignored by one of our coder.\n\nPossibly it was not a bug.\n\nBest regards, {$TRINITY20['site_name']}'s coders.\n");
                 $uq = "";
                 break;
             }

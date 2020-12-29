@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(0);
     ignore_user_abort(1);
     //=== Warn removal by Bigjoos/pdq:)
@@ -29,13 +29,13 @@ function docleanup($data)
             $users_buffer[] = '(' . $arr['id'] . ', \'0\', ' . $modcom . ')';
             $cache->update_row('user' . $arr['id'], [
                 'warned' => 0
-            ], $INSTALLER09['expires']['user_cache']);
+            ], $TRINITY20['expires']['user_cache']);
             $cache->update_row('user_stats_' . $arr['id'], [
                 'modcomment' => $modcomment
-            ], $INSTALLER09['expires']['user_stats']);
+            ], $TRINITY20['expires']['user_stats']);
             $cache->update_row('MyUser_' . $arr['id'], [
                 'warned' => 0
-            ], $INSTALLER09['expires']['curuser']);
+            ], $TRINITY20['expires']['curuser']);
             $cache->delete('inbox_new_' . $arr['id']);
             $cache->delete('inbox_new_sb_' . $arr['id']);
         }

@@ -81,7 +81,7 @@ else {
     while ($arr = mysqli_fetch_assoc($res)) {
         $HTMLOUT.= "<tr><td align='left'>" . get_date($arr['added'], '') . "</td>
             <td align='left'>" . htmlsafechars($arr['email']) . "</td>
-            <td align='left'><a href='{$INSTALLER09['baseurl']}/userdetails.php?id=" . (int)$arr['addedby'] . "'>" . htmlsafechars($arr['username']) . "</a></td>
+            <td align='left'><a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int)$arr['addedby'] . "'>" . htmlsafechars($arr['username']) . "</a></td>
             <td align='left'>" . htmlsafechars($arr['comment']) . "</td>
             <td align='left'><a href='staffpanel.php?tool=bannedemails&amp;remove=" . (int)$arr['id'] . "'>{$lang['ad_banemail_remove1']}</a></td></tr>\n";
     }

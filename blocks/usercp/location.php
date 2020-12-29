@@ -19,7 +19,7 @@ $ct_r = sql_query("SELECT id,name FROM countries ORDER BY name") or sqlerr(__FIL
 while ($ct_a = mysqli_fetch_assoc($ct_r)) {
     $countries.= "<option value='" . (int)$ct_a['id'] . "'" . ($CURUSER["country"] == $ct_a['id'] ? " selected='selected'" : "") . ">" . htmlsafechars($ct_a['name']) . "</option>\n";
 }
-$offset = ($CURUSER['time_offset'] != "") ? (string)$CURUSER['time_offset'] : (string)$INSTALLER09['time_offset'];
+$offset = ($CURUSER['time_offset'] != "") ? (string)$CURUSER['time_offset'] : (string)$TRINITY20['time_offset'];
 $time_select = "<select name='user_timezone'>";
 foreach ($TZ as $off => $words) {
     if (preg_match("/^time_(-?[\d\.]+)$/", $off, $match)) {

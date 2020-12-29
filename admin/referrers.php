@@ -73,7 +73,7 @@ if ($count > 0) {
 			<td>" . get_date($data['date'], '') . "</td>
 			<td>" . $browser . "</td>
 			<td>" . htmlsafechars($data['ip']) . "</td>
-			<td>" . htmlsafechars($data['ip']) . " " . ((int)$data['uid'] ? "<a href='{$INSTALLER09['baseurl']}/userdetails.php?id=" . (int)$data['uid'] . "'>" : "") . "" . (htmlsafechars($data['username']) ? "&nbsp;[" . htmlsafechars($data['username']) . "]</a>" : "{$lang['ref_guest']}") . "
+			<td>" . htmlsafechars($data['ip']) . " " . ((int)$data['uid'] ? "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int)$data['uid'] . "'>" : "") . "" . (htmlsafechars($data['username']) ? "&nbsp;[" . htmlsafechars($data['username']) . "]</a>" : "{$lang['ref_guest']}") . "
 </td><td><a href='" . htmlsafechars($data['referer']) . "'>" . CutName($data['referer'], '50') . "</a></td><!--<td><a href='" . htmlsafechars($data['page']) . "'>{$lang['ref_view']}</a></td>--></tr>";
         $browser = '';
     }

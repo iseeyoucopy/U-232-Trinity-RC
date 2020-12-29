@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries;
+    global $TRINITY20, $queries;
     set_time_limit(0);
     ignore_user_abort(1);
     /** sync torrent counts - pdq **/

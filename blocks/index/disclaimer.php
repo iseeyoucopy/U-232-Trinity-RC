@@ -13,7 +13,7 @@
 //==Disclaimer
 $HTMLOUT.= "<div class='callout'>
 		<h4 class='subheader'>{$lang['index_disclaimer']}</h4>";
-$HTMLOUT.= sprintf("<p>{$lang['foot_disclaimer']}</p>", $INSTALLER09['site_name']);
+$HTMLOUT.= sprintf("<p>{$lang['foot_disclaimer']}</p>", $TRINITY20['site_name']);
 $HTMLOUT.= "</div>";
 //==End
 // End Class

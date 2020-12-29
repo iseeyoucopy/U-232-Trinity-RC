@@ -71,7 +71,7 @@ $htmlout = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
     <td width='300' height='50' valign='top'><!--Error 404 EmptyCell-->&nbsp;</td>
     </tr>
     <tr>
-    <td height='520' valign='top'><img src='{$INSTALLER09['pic_base_url']}error404.png' alt='Error Not Found' width='300' height='520' border='0' usemap='#Map' /></td>
+    <td height='520' valign='top'><img src='{$TRINITY20['pic_base_url']}error404.png' alt='Error Not Found' width='300' height='520' border='0' usemap='#Map' /></td>
     </tr>
     <tr>
     <td height='14' valign='top'><div align='center'><span class='style1'>&copy; U-232 V3</span></div></td>

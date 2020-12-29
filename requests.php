@@ -199,7 +199,7 @@ case 'request_details':
   <tr>
   <td>'.$lang['req_req_by'].'</td>
   <td>' . print_user_stuff($arr) . ' [ ' . get_user_class_name($arr['class']) . ' ]   
-  ratio: ' . member_ratio($arr['uploaded'], $INSTALLER09['ratio_free'] ? "0" : $arr['downloaded']) . get_user_ratio_image($arr['uploaded'], ($INSTALLER09['ratio_free'] ? "1" : $arr['downloaded'])) . '</td>
+  ratio: ' . member_ratio($arr['uploaded'], $TRINITY20['ratio_free'] ? "0" : $arr['downloaded']) . get_user_ratio_image($arr['uploaded'], ($TRINITY20['ratio_free'] ? "1" : $arr['downloaded'])) . '</td>
   </tr>' . ($arr['filled_torrent_id'] > 0 ? '<tr>
   <td>'.$lang['req_filled'].'</td>
   <td><a class="altlink" href="details.php?id=' . $arr['filled_torrent_id'] . '">'.$lang['req_det_clkvw'].'</a></td>
@@ -292,7 +292,7 @@ case 'add_new_request':
     <tr>
     <td>'.$lang['req_req_by'].'</td>
     <td>' . print_user_stuff($CURUSER) . ' [ ' . get_user_class_name($CURUSER['class']) . ' ]   
-    ratio: ' . member_ratio($CURUSER['uploaded'], $INSTALLER09['ratio_free'] ? "0" : $CURUSER['downloaded']) . get_user_ratio_image($CURUSER['uploaded'], ($INSTALLER09['ratio_free'] ? "1" : $CURUSER['downloaded'])) . '</td>
+    ratio: ' . member_ratio($CURUSER['uploaded'], $TRINITY20['ratio_free'] ? "0" : $CURUSER['downloaded']) . get_user_ratio_image($CURUSER['uploaded'], ($TRINITY20['ratio_free'] ? "1" : $CURUSER['downloaded'])) . '</td>
     </tr>
     </table>
     <br />' : '') . '
@@ -597,7 +597,7 @@ case 'delete_comment':
 function comment_table($rows)
 {
     $count2 = '';
-    global $CURUSER, $INSTALLER09;
+    global $CURUSER, $TRINITY20;
     $comment_table = '<table class="table table-hover table-bordered">
     <tr>
     <td class="three" align="center">';

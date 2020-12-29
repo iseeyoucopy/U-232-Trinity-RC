@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(0);
     ignore_user_abort(1);
     // *Updated* Invites Achievements Mod by MelvinMeow
@@ -26,7 +26,7 @@ function docleanup($data)
             $invited = (int)$arr['invited'];
             $lvl = (int)$arr['inviterach'];
             if ($invited >= 1 && $lvl == 0) {
-                $msg = sqlesc("Congratulations, you have just earned the [b]Inviter Level 1[/b] achievement. :) [img]".$INSTALLER09['baseurl']."/pic/achievements/invite1.png[/img]");
+                $msg = sqlesc("Congratulations, you have just earned the [b]Inviter Level 1[/b] achievement. :) [img]".$TRINITY20['baseurl']."/pic/achievements/invite1.png[/img]");
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Inviter LVL1\', \'invite1.png\' , \'Invited at least 1 new user to the site.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',1, ' . $points . ')';
@@ -36,7 +36,7 @@ function docleanup($data)
                 $var1 = 'inviterach';
             }
             if ($invited >= 2 && $lvl == 1) {
-                $msg = sqlesc("Congratulations, you have just earned the [b]Inviter Level 2[/b] achievement. :) [img]".$INSTALLER09['baseurl']."/pic/achievements/invite2.png[/img]");
+                $msg = sqlesc("Congratulations, you have just earned the [b]Inviter Level 2[/b] achievement. :) [img]".$TRINITY20['baseurl']."/pic/achievements/invite2.png[/img]");
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Inviter LVL2\', \'invite2.png\' , \'Invited at least 2 new users to the site.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',2, ' . $points . ')';
@@ -45,7 +45,7 @@ function docleanup($data)
                 $var1 = 'inviterach';
             }
             if ($invited >= 3 && $lvl == 2) {
-                $msg = sqlesc("Congratulations, you have just earned the [b]Inviter Level 3[/b] achievement. :) [img]".$INSTALLER09['baseurl']."/pic/achievements/invite3.png[/img]");
+                $msg = sqlesc("Congratulations, you have just earned the [b]Inviter Level 3[/b] achievement. :) [img]".$TRINITY20['baseurl']."/pic/achievements/invite3.png[/img]");
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Inviter LVL3\', \'invite3.png\' , \'Invited at least 3 new users to the site.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',3, ' . $points . ')';
@@ -55,7 +55,7 @@ function docleanup($data)
                 $var1 = 'inviterach';
             }
             if ($invited >= 5 && $lvl == 3) {
-                $msg = sqlesc("Congratulations, you have just earned the [b]Inviter Level 4[/b] achievement. :) [img]".$INSTALLER09['baseurl']."/pic/achievements/invite4.png[/img]");
+                $msg = sqlesc("Congratulations, you have just earned the [b]Inviter Level 4[/b] achievement. :) [img]".$TRINITY20['baseurl']."/pic/achievements/invite4.png[/img]");
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Inviter LVL4\', \'invite4.png\' , \'Invited at least 5 new users to the site.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',4, ' . $points . ')';
@@ -65,7 +65,7 @@ function docleanup($data)
                 $var1 = 'inviterach';
             }
             if ($invited >= 10 && $lvl == 4) {
-                $msg = sqlesc("Congratulations, you have just earned the [b]Inviter Level 5[/b] achievement. :) [img]".$INSTALLER09['baseurl']."/pic/achievements/invite5.png[/img]");
+                $msg = sqlesc("Congratulations, you have just earned the [b]Inviter Level 5[/b] achievement. :) [img]".$TRINITY20['baseurl']."/pic/achievements/invite5.png[/img]");
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Inviter LVL5\', \'invite5.png\' , \'Invited at least 10 new users to the site.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',5, ' . $points . ')';

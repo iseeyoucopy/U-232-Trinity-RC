@@ -48,7 +48,7 @@ return (strlen($txt)>$len ? substr($txt,0,$len-4) .'[...]':$txt);
     $status = ($_POST['status']);
     $credit = ($_POST['credit']);
     sql_query("INSERT INTO modscredits (name, description,  category,  u232lnk,  status, credit) VALUES(" . sqlesc($name) . ", " . sqlesc($description) . ", " . sqlesc($category) . ", " . sqlesc($link) . ", " . sqlesc($status) . ", " . sqlesc($credit) . ")") or sqlerr(__FILE__, __LINE__);
-	  header("Location: {$INSTALLER09['baseurl']}/credits.php");
+	  header("Location: {$TRINITY20['baseurl']}/credits.php");
 	  die();
 	  }
 
@@ -56,7 +56,7 @@ return (strlen($txt)>$len ? substr($txt,0,$len-4) .'[...]':$txt);
 	{
 	if (!$id) { stderr("{$lang['credits_error']}", "{$lang['credits_error2']}");}
 	sql_query("DELETE FROM modscredits where id = '$id'") or sqlerr(__FILE__, __LINE__);
-	header("Location: {$INSTALLER09['baseurl']}/credits.php");
+	header("Location: {$TRINITY20['baseurl']}/credits.php");
 	die();
   }
 

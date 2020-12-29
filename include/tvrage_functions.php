@@ -11,7 +11,7 @@
  * ------------  @version V6  ------------------*
  */
 //tvrage functions
-$INSTALLER09['tvrage_api'] = 'NxDOrw2uadOgyLuDtmaR';
+$TRINITY20['tvrage_api'] = 'NxDOrw2uadOgyLuDtmaR';
 function tvrage_format($tvrage_data, $tvrage_type)
 {
     $tvrage_display['show'] = array(
@@ -39,7 +39,7 @@ function tvrage_format($tvrage_data, $tvrage_type)
 }
 function tvrage(&$torrents)
 {
-    global $cache, $INSTALLER09;
+    global $cache, $TRINITY20;
     $tvrage_data = '';
     $row_update = array();
     if (preg_match("/^(.*)S(\d+)(E(\d+))?/", $torrents['name'], $tmp)) $tvrage = array(
@@ -55,7 +55,7 @@ function tvrage(&$torrents)
     $memkey = 'tvrage::' . strtolower($tvrage['name']);
     if (($tvrage_id = $cache->get($memkey)) === false) {
         //get tvrage id
-        $tvrage_link = sprintf('http://services.tvrage.com/myfeeds/search.php?key=%s&show=%s', $INSTALLER09['tvrage_api'], urlencode($tvrage['name']));
+        $tvrage_link = sprintf('http://services.tvrage.com/myfeeds/search.php?key=%s&show=%s', $TRINITY20['tvrage_api'], urlencode($tvrage['name']));
         $tvrage_xml = file_get_contents($tvrage_link);
         if (preg_match('/\<showid\>(\d+)<\/showid\>/', $tvrage_xml, $tmp)) {
             $tvrage_id = $tmp[1];
@@ -68,7 +68,7 @@ function tvrage(&$torrents)
     if ($force_update || ($tvrage_showinfo = $cache->get($memkey)) === false) {
         //var_dump('Show from tvrage'); //debug
         //get tvrage show info
-        $tvrage_link = sprintf('http://services.tvrage.com/myfeeds/showinfo.php?key=%s&sid=%d', $INSTALLER09['tvrage_api'], $tvrage_id);
+        $tvrage_link = sprintf('http://services.tvrage.com/myfeeds/showinfo.php?key=%s&sid=%d', $TRINITY20['tvrage_api'], $tvrage_id);
         $tvrage_xml = file_get_contents($tvrage_link);
         preg_match_all('/\<(showname|showlink|startdate|ended|image|origin_country|status|classification|summary|airtime|runtime)\>(.+)\<\/\\1\>/s', $tvrage_xml, $tmp, PREG_SET_ORDER);
         foreach ($tmp as $data) {
@@ -101,7 +101,7 @@ function tvrage(&$torrents)
         if (($tvrage_epinfo = $cache->get($memkey)) === false) {
             //var_dump('Ep from tvrage'); //debug
             //get episode info
-            $tvrage_link = sprintf('http://services.tvrage.com/myfeeds/episodeinfo.php?key=%s&sid=%d&ep=%dx%d', $INSTALLER09['tvrage_api'], $tvrage_id, $tvrage['season'], $tvrage['episode']);
+            $tvrage_link = sprintf('http://services.tvrage.com/myfeeds/episodeinfo.php?key=%s&sid=%d&ep=%dx%d', $TRINITY20['tvrage_api'], $tvrage_id, $tvrage['season'], $tvrage['episode']);
             $tvrage_xml = file_get_contents($tvrage_link);
             preg_match_all('/\<(episode|nextepisode)\>(.*?)\<\/\\1\>/', $tvrage_xml, $tmp, PREG_SET_ORDER);
             foreach ($tmp as $data) {

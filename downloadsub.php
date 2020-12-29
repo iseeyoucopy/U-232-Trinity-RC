@@ -30,15 +30,15 @@ if ($action == "download") {
             ".",
             "-"
         ) , "_", $arr["name"]) . '.' . $ext;
-        $file = $INSTALLER09['sub_up_dir'] . "/" . $arr["filename"];
+        $file = $TRINITY20['sub_up_dir'] . "/" . $arr["filename"];
         $fileContent = file_get_contents($file);
-        $newFile = fopen("{$INSTALLER09['sub_up_dir']}/$fileName", "w");
+        $newFile = fopen("{$TRINITY20['sub_up_dir']}/$fileName", "w");
         @fwrite($newFile, $fileContent);
         @fclose($newFile);
         $file = array();
         $zip = new PHPZip();
-        $file[] = "{$INSTALLER09['sub_up_dir']}/$fileName";
-        $fName = "{$INSTALLER09['sub_up_dir']}/" . str_replace(array(
+        $file[] = "{$TRINITY20['sub_up_dir']}/$fileName";
+        $fName = "{$TRINITY20['sub_up_dir']}/" . str_replace(array(
             " ",
             ".",
             "-"
@@ -46,7 +46,7 @@ if ($action == "download") {
         $zip->Zip($file, $fName);
         $zip->forceDownload($fName);
         @unlink($fName);
-        @unlink("{$INSTALLER09['sub_up_dir']}/$fileName");
+        @unlink("{$TRINITY20['sub_up_dir']}/$fileName");
         sql_query("UPDATE subtitles SET hits=hits+1 where id=".sqlesc($id));
     }
 } else stderr($lang['gl_error'], $lang['gl_no_way']);

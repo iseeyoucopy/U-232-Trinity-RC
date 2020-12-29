@@ -208,7 +208,7 @@ case 'offer_details':
     <tr>
     <td class="two" align="right">offered by:</td>
     <td align="left" class="two">' . print_user_stuff($arr) . ' [ ' . get_user_class_name($arr['class']) . ' ]   
-    ratio: ' . member_ratio($arr['uploaded'], $INSTALLER09['ratio_free'] ? "0" : $arr['downloaded']) . get_user_ratio_image($arr['uploaded'], ($INSTALLER09['ratio_free'] ? "1" : $arr['downloaded'])) . '</td>
+    ratio: ' . member_ratio($arr['uploaded'], $TRINITY20['ratio_free'] ? "0" : $arr['downloaded']) . get_user_ratio_image($arr['uploaded'], ($TRINITY20['ratio_free'] ? "1" : $arr['downloaded'])) . '</td>
     </tr>
     <tr>
     <td class="two" align="right">Report Offer</td>
@@ -300,7 +300,7 @@ case 'add_new_offer':
     <tr>
     <td class="two" align="right">offered by:</td>
     <td align="left" class="two">' . print_user_stuff($CURUSER) . ' [ ' . get_user_class_name($CURUSER['class']) . ' ]   
-    ratio: ' . member_ratio($CURUSER['uploaded'], $INSTALLER09['ratio_free'] ? "0" : $CURUSER['downloaded']) . get_user_ratio_image($CURUSER['uploaded'], ($INSTALLER09['ratio_free'] ? "1" : $CURUSER['downloaded'])) . '</td>
+    ratio: ' . member_ratio($CURUSER['uploaded'], $TRINITY20['ratio_free'] ? "0" : $CURUSER['downloaded']) . get_user_ratio_image($CURUSER['uploaded'], ($TRINITY20['ratio_free'] ? "1" : $CURUSER['downloaded'])) . '</td>
     </tr>
     </table>
     <br />' : '') . '
@@ -629,13 +629,13 @@ case 'alter_status':
     $arr_name = mysqli_fetch_assoc($res_name);
     if ($change_it == 'approved') {
         $subject = sqlesc('Your Offer has been approved!');
-        $message = sqlesc("Hi, \n An offer you made has been approved!!! \n\n Please  [url=" . $INSTALLER09['baseurl'] . "/upload.php]Upload " . htmlsafechars($arr_name['offer_name'], ENT_QUOTES) . "[/url] as soon as possible! \n Members who voted on it will be notified as soon as you do! \n\n [url=" . $INSTALLER09['baseurl'] . "/offers.php?action=offer_details&id=" . $id . "]HERE[/url] is your offer.");
+        $message = sqlesc("Hi, \n An offer you made has been approved!!! \n\n Please  [url=" . $TRINITY20['baseurl'] . "/upload.php]Upload " . htmlsafechars($arr_name['offer_name'], ENT_QUOTES) . "[/url] as soon as possible! \n Members who voted on it will be notified as soon as you do! \n\n [url=" . $TRINITY20['baseurl'] . "/offers.php?action=offer_details&id=" . $id . "]HERE[/url] is your offer.");
         sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, saved, location) 
                 VALUES(0, ' . sqlesc($arr_name['offered_by_user_id']) . ', ' . TIME_NOW . ', ' . $message . ', ' . $subject . ', \'yes\', 1)') or sqlerr(__FILE__, __LINE__);
     }
     if ($change_it == 'denied') {
         $subject = sqlesc('Your Offer has been denied!');
-        $message = sqlesc("Hi, \n An offer you made has been denied. \n\n  [url=" . $INSTALLER09['baseurl'] . "/offers.php?action=offer_details&id=" . $id . "]" . htmlsafechars($arr_name['offer_name'], ENT_QUOTES) . "[/url] was denied by " . $CURUSER['username'] . ". Please contact them to find out why.");
+        $message = sqlesc("Hi, \n An offer you made has been denied. \n\n  [url=" . $TRINITY20['baseurl'] . "/offers.php?action=offer_details&id=" . $id . "]" . htmlsafechars($arr_name['offer_name'], ENT_QUOTES) . "[/url] was denied by " . $CURUSER['username'] . ". Please contact them to find out why.");
         sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, saved, location) 
                 VALUES(0, ' . sqlesc($arr_name['offered_by_user_id']) . ', ' . TIME_NOW . ', ' . $message . ', ' . $subject . ', \'yes\', 1)') or sqlerr(__FILE__, __LINE__);
     }
@@ -649,7 +649,7 @@ case 'alter_status':
 function comment_table($rows)
 {
     $count2 = '';
-    global $CURUSER, $INSTALLER09;
+    global $CURUSER, $TRINITY20;
     $comment_table = '<table class="table table-hover table-bordered">
     <tr>
     <td class="three" align="center">';

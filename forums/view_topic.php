@@ -93,16 +93,16 @@ $offset    = ((int) $page * $perpage) - $perpage;
 $offset    = ($offset < 0 ? 0 : $offset);
 $pagemenu2 = '';
 for ($i = 1; $i <= $pages; ++$i)
-    $pagemenu2 .= ($i == $page ? " <span class='pagination'>$i</span>&nbsp;" : "<a class='pagination_page' href='{$INSTALLER09['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid&amp;page=$i'><b>$i</b></a>");
-$pagemenu1 .= ($page == 1 ? "" : "<a class='pagination' href='{$INSTALLER09['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid&amp;page=" . ($page - 1) . "'><i class='fa fa-angle-double-left'></i></a>");
+    $pagemenu2 .= ($i == $page ? " <span class='pagination'>$i</span>&nbsp;" : "<a class='pagination_page' href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid&amp;page=$i'><b>$i</b></a>");
+$pagemenu1 .= ($page == 1 ? "" : "<a class='pagination' href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid&amp;page=" . ($page - 1) . "'><i class='fa fa-angle-double-left'></i></a>");
 $pmlb      = "&nbsp;&nbsp;&nbsp;";
-$pagemenu3 = ($page == $pages ? "</div>" : "<a class='pagination' href='{$INSTALLER09['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid&amp;page=" . ($page + 1) . "'><i class='fa fa-angle-double-right'></i></a></div>");
+$pagemenu3 = ($page == $pages ? "</div>" : "<a class='pagination' href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid&amp;page=" . ($page + 1) . "'><i class='fa fa-angle-double-right'></i></a></div>");
 //$HTMLOUT .= begin_main_frame();
 $HTMLOUT .="<nav aria-label='You are here:' role='navigation'>
   <ul class='breadcrumbs'>
-    <li><a href='index.php'>" . $INSTALLER09["site_name"] . "</a></li>
+    <li><a href='index.php'>" . $TRINITY20["site_name"] . "</a></li>
     <li><a href='forums.php'>Forums</a></li>
-    <li><a href='{$INSTALLER09['baseurl']}/forums.php?action=viewforum&amp;forumid=" . $forumid . "'>{$forum}</a></li>
+    <li><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=" . $forumid . "'>{$forum}</a></li>
     <li>
       <span class='show-for-sr'>Current: </span>" . htmlsafechars($subject) . "
     </li>
@@ -183,9 +183,9 @@ if ($Multi_forum['configs']['use_poll_mod'] && is_valid_id($pollid)) {
                 $HTMLOUT .= "<tr>";
                 $HTMLOUT .= "<td  class=row  colspan='2'>
                     <!--
-                    <img src='{$INSTALLER09['pic_base_url']}bar_left.gif' alt='bar_left.gif' />
-                    <img src='{$INSTALLER09['pic_base_url']}bar.gif' alt='bar.gif'  height='9' width='" . ($p * 3) . "' />
-                    <img src='{$INSTALLER09['pic_base_url']}bar_right.gif'  alt='bar_right.gif' />&nbsp;" . $p . "%</td>
+                    <img src='{$TRINITY20['pic_base_url']}bar_left.gif' alt='bar_left.gif' />
+                    <img src='{$TRINITY20['pic_base_url']}bar.gif' alt='bar.gif'  height='9' width='" . ($p * 3) . "' />
+                    <img src='{$TRINITY20['pic_base_url']}bar_right.gif'  alt='bar_right.gif' />&nbsp;" . $p . "%</td>
                     -->
                     
                     <div class='progress'>
@@ -198,7 +198,7 @@ if ($Multi_forum['configs']['use_poll_mod'] && is_valid_id($pollid)) {
             $HTMLOUT .= "
                   <td colspan='2' class=row style='text-align: center;'>Votes: <b>" . number_format($tvotes) . "</b></td>";
         } else {
-            $HTMLOUT .= "<form method='post' action='{$INSTALLER09['baseurl']}/forums.php?action=viewtopic&amp;topicid=" . $topicid . "'>
+            $HTMLOUT .= "<form method='post' action='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=" . $topicid . "'>
                   <input type='hidden' name='pollid' value='" . $pollid . "' />";
             for ($i = 0; $a = $o[$i]; ++$i)
                 $HTMLOUT .= "<tr><td colspan='2' class=row style='text-align: center;'> <input type='radio' name='choice' value='$i' />" . htmlsafechars($a) . "
@@ -207,16 +207,16 @@ if ($Multi_forum['configs']['use_poll_mod'] && is_valid_id($pollid)) {
         $HTMLOUT .= "</form></tr>
                 <tr><td colspan='2' class='tfoot' style='text-align: right;'>";
         if ($userid == $t_userid || $CURUSER['class'] >= UC_STAFF) {
-            $HTMLOUT .= "<font class='small'><a href='{$INSTALLER09['baseurl']}/forums.php?action=makepoll&amp;subaction=edit&amp;pollid=" . $pollid . "'><span class='btn btn-default btn-sm'><b>Edit</b></span></a></font>&nbsp;&nbsp;";
+            $HTMLOUT .= "<font class='small'><a href='{$TRINITY20['baseurl']}/forums.php?action=makepoll&amp;subaction=edit&amp;pollid=" . $pollid . "'><span class='btn btn-default btn-sm'><b>Edit</b></span></a></font>&nbsp;&nbsp;";
             if ($CURUSER['class'] >= UC_STAFF) {
-                $HTMLOUT .= "<font class='small'><a href='{$INSTALLER09['baseurl']}/forums.php?action=deletepoll&amp;pollid=" . $pollid . "'><span class='btn btn-default btn-sm'><b>Delete</b></span></a></font>&nbsp;&nbsp;";
+                $HTMLOUT .= "<font class='small'><a href='{$TRINITY20['baseurl']}/forums.php?action=deletepoll&amp;pollid=" . $pollid . "'><span class='btn btn-default btn-sm'><b>Delete</b></span></a></font>&nbsp;&nbsp;";
             }
         }
         $HTMLOUT .= "";
         $listvotes = (isset($_GET['listvotes']) ? true : false);
         if ($CURUSER['class'] >= UC_ADMINISTRATOR) {
             if (!$listvotes)
-                $HTMLOUT .= "<font class='small'><a href='{$INSTALLER09['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid&amp;listvotes'><span class='btn btn-default btn-sm'><b>List Voters</b></span></a></font>";
+                $HTMLOUT .= "<font class='small'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid&amp;listvotes'><span class='btn btn-default btn-sm'><b>List Voters</b></span></a></font>";
             else {
                 $res_vv = sql_query("SELECT pa.userid, u.username, u.anonymous FROM postpollanswers AS pa LEFT JOIN users AS u ON u.id = pa.userid WHERE pa.pollid=" . sqlesc($pollid)) or sqlerr(__FILE__, __LINE__);
                 $voters = '';
@@ -227,11 +227,11 @@ if ($Multi_forum['configs']['use_poll_mod'] && is_valid_id($pollid)) {
                         if ($CURUSER['class'] < UC_STAFF && $arr_vv["userid"] != $CURUSER["id"])
                             $voters = "<i>Anonymous</i>";
                         else
-                            $voters = "<i>Anonymous</i>[<a href='{$INSTALLER09['baseurl']}/userdetails.php?id=" . (int) $arr_vv['userid'] . "'><b>" . htmlsafechars($arr_vv['username']) . "</b></a>]";
+                            $voters = "<i>Anonymous</i>[<a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int) $arr_vv['userid'] . "'><b>" . htmlsafechars($arr_vv['username']) . "</b></a>]";
                     } else
-                        $voters .= "<a href='{$INSTALLER09['baseurl']}/userdetails.php?id=" . (int) $arr_vv['userid'] . "'><b>" . htmlsafechars($arr_vv['username']) . "</b></a>";
+                        $voters .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int) $arr_vv['userid'] . "'><b>" . htmlsafechars($arr_vv['username']) . "</b></a>";
                 }
-                $HTMLOUT .= $voters . "<br />[<font class='small'><a href='{$INSTALLER09['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid'>hide</a></font>]";
+                $HTMLOUT .= $voters . "<br />[<font class='small'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid'>hide</a></font>]";
             }
         }
         $HTMLOUT .= "</td></tr></table>";
@@ -279,7 +279,7 @@ if (($topic_users_cache = $cache->get($keys['now_viewing'])) === false) {
     }
     $topic_users_cache['topic_users'] = $topicusers;
     $topic_users_cache['actcount']    = $actcount;
-    $cache->set($keys['now_viewing'], $topic_users_cache, $INSTALLER09['expires']['forum_users']);
+    $cache->set($keys['now_viewing'], $topic_users_cache, $TRINITY20['expires']['forum_users']);
 }
 
 if (!$topic_users_cache['topic_users'])
@@ -291,10 +291,10 @@ if ($topic_users != '') {
 }
 $HTMLOUT .= "
 <strong>{$topic_users}</strong>
-<div class='tiny button-group'><a class='tiny button' href='{$INSTALLER09['baseurl']}/forums.php?action=viewunread'>Show New</a>
-<a class='tiny button' href='{$INSTALLER09['baseurl']}/subscriptions.php?topicid=$topicid&amp;subscribe=1'>Subscribe to Forum</a>";
+<div class='tiny button-group'><a class='tiny button' href='{$TRINITY20['baseurl']}/forums.php?action=viewunread'>Show New</a>
+<a class='tiny button' href='{$TRINITY20['baseurl']}/subscriptions.php?topicid=$topicid&amp;subscribe=1'>Subscribe to Forum</a>";
 if ($maypost) {
-    $HTMLOUT .= "<a class='tiny button' href='{$INSTALLER09['baseurl']}/forums.php?action=reply&topicid=" . $topicid . "'>New Reply</a>";
+    $HTMLOUT .= "<a class='tiny button' href='{$TRINITY20['baseurl']}/forums.php?action=reply&topicid=" . $topicid . "'>New Reply</a>";
 }
 //$HTMLOUT .="<div class='float-left' style='padding-right: 10px;'>Thread Rating:</div>" . (getRate($topicid, "topic")) . "";
 $HTMLOUT .= "</div>";
@@ -310,7 +310,7 @@ $HTMLOUT .= "
              {
              if(confirm('Are you sure you want to delete this ?'))
              {
-               window.open('{$INSTALLER09['baseurl']}/forums.php?action=attachment&amp;subaction=delete&amp;attachmentid='+id,'attachment','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50');
+               window.open('{$TRINITY20['baseurl']}/forums.php?action=attachment&amp;subaction=delete&amp;attachmentid='+id,'attachment','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50');
                window.location.reload(true)
              }
              }
@@ -354,15 +354,15 @@ while ($arr = mysqli_fetch_assoc($res)) {
     $postid            = (int) $arr["id"];
     $postadd           = (int) $arr['added'];
     $posterid          = (int) $arr['user_id'];
-    $posticon          = ($arr["icon"] > 0 ? "<img src='{$INSTALLER09['pic_base_url']}post_icons/icon" . htmlsafechars($arr["icon"]) . ".gif' style='padding-left:3px;' alt='post icon' title='post icon'>" : "&nbsp;");
+    $posticon          = ($arr["icon"] > 0 ? "<img src='{$TRINITY20['pic_base_url']}post_icons/icon" . htmlsafechars($arr["icon"]) . ".gif' style='padding-left:3px;' alt='post icon' title='post icon'>" : "&nbsp;");
     $added             = get_date($arr['added'], 'DATE', 1, 0) . " GMT <font class='small'>(" . (get_date($arr['added'], 'LONG', 1, 0)) . ")</font>";
     // ---- Get poster details
     $uploaded          = mksize($arr['uploaded']);
     $downloaded        = mksize($arr['downloaded']);
     $member_reputation = $arr['uusername'] != '' ? get_reputation($arr, 'posts', TRUE, $postid) : '';
     $last_access       = get_date($arr['last_access'], 'DATE', 1, 0);
-    $Ratio             = member_ratio($arr['uploaded'], $INSTALLER09['ratio_free'] ? '0' : $arr['downloaded']);
-    if (($postid > $lpr) && ($postadd > (TIME_NOW - $INSTALLER09['readpost_expiry']))) {
+    $Ratio             = member_ratio($arr['uploaded'], $TRINITY20['ratio_free'] ? '0' : $arr['downloaded']);
+    if (($postid > $lpr) && ($postadd > (TIME_NOW - $TRINITY20['readpost_expiry']))) {
         $newp = "&nbsp;&nbsp;<span class='badge btn btn-danger disabled' style='color:#fff'><b></b>NEW</b></span>";
     }
     $moodname         = (isset($mood['name'][$arr['mood']]) ? htmlsafechars($mood['name'][$arr['mood']]) : 'is feeling neutral');
@@ -372,7 +372,7 @@ while ($arr = mysqli_fetch_assoc($res)) {
     $user_stuff['id'] = (int) $arr['uid'];
     $postername       = format_username($user_stuff, true);
     $width = '75';
-    $avatar           = ($CURUSER["avatars"] == "yes" ? (($arr['p_anon'] == 'yes' && $CURUSER['class'] < UC_STAFF) ? '<img style="max-width:' . $width . 'px;" src="' . $INSTALLER09['pic_base_url'] . 'anonymous_1.jpg" alt="avatar" />' : avatar_stuff($arr)) : "");
+    $avatar           = ($CURUSER["avatars"] == "yes" ? (($arr['p_anon'] == 'yes' && $CURUSER['class'] < UC_STAFF) ? '<img style="max-width:' . $width . 'px;" src="' . $TRINITY20['pic_base_url'] . 'anonymous_1.jpg" alt="avatar" />' : avatar_stuff($arr)) : "");
     $title2           = (!empty($postername) ? (empty($arr['title']) ? "(" . get_user_class_name($arr['class']) . ")" : "(" . (htmlsafechars($arr['title'])) . ")") : '');
     $title            = ($arr['p_anon'] == 'yes' ? '<i>' . "Anonymous" . '</i>' : htmlsafechars($title2));
     $class_name       = (($arr['p_anon'] == 'yes' && $CURUSER['class'] < UC_STAFF) ? "Anonymous" : get_user_class_name($arr["class"]));
@@ -381,12 +381,12 @@ while ($arr = mysqli_fetch_assoc($res)) {
         if ($CURUSER['class'] < UC_STAFF)
             $by = "<i>Anonymous</i>";
         else
-            $by = "<i>Anonymous</i> [<a href='{$INSTALLER09['baseurl']}/userdetails.php?id=$posterid'> " . $postername . "</a>]" . ($arr['enabled'] == 'no' ? "<img src='" . $INSTALLER09['pic_base_url'] . "disabled.gif' alt='This account is disabled' style='margin-left: 2px' />" : '') . "$title";
+            $by = "<i>Anonymous</i> [<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$posterid'> " . $postername . "</a>]" . ($arr['enabled'] == 'no' ? "<img src='" . $TRINITY20['pic_base_url'] . "disabled.gif' alt='This account is disabled' style='margin-left: 2px' />" : '') . "$title";
     } else {
-        $by = (!empty($postername) ? "<a href='{$INSTALLER09['baseurl']}/userdetails.php?id=$posterid'>" . $postername . "</a>" . ($arr['enabled'] == 'no' ? "<img src='" . $INSTALLER09['pic_base_url'] . "disabled.gif' alt='This account is disabled' style='margin-left: 2px' />" : '') : "unknown[" . $posterid . "]") . "";
+        $by = (!empty($postername) ? "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$posterid'>" . $postername . "</a>" . ($arr['enabled'] == 'no' ? "<img src='" . $TRINITY20['pic_base_url'] . "disabled.gif' alt='This account is disabled' style='margin-left: 2px' />" : '') : "unknown[" . $posterid . "]") . "";
     }
     if (empty($avatar))
-        $avatar = "<img src='" . $INSTALLER09['pic_base_url'] . $Multi_forum['configs']['forum_pics']['default_avatar'] . "' alt='Avatar' title='Avatar' />";
+        $avatar = "<img src='" . $TRINITY20['pic_base_url'] . $Multi_forum['configs']['forum_pics']['default_avatar'] . "' alt='Avatar' title='Avatar' />";
     $HTMLOUT .= ($pn == $pc ? '<a name=\'last\'></a>' : '');
     $HTMLOUT .= "<div class='grid-x' id='post_" . $postid . "'>";
     $HTMLOUT .= "<div class='cell large-10 card'>
@@ -394,7 +394,7 @@ while ($arr = mysqli_fetch_assoc($res)) {
 {$posticon}&nbsp;
        " . $added . "<span id='mlike' data-com='" . (int) $arr["id"] . "' class='forum {$wht}'>[" . ucfirst($wht) . "]</span><span class='tot-" . (int) $arr["id"] . "' data-tot='" . (!empty($likes) && count(array_unique($likes)) > 0 ? count(array_unique($likes)) : '') . "'>&nbsp;{$att_str}</span>";
     if (is_valid_id($arr['edited_by']))
-        $HTMLOUT .= "<span class='post_edit' id='edited_by_14'><font size='1' class='small'>Last edited by <a href='{$INSTALLER09['baseurl']}/userdetails.php?id=" . (int) $arr['edited_by'] . "'><b>" . htmlsafechars($arr['u2_username']) . "</b></a> at " . get_date($arr['edit_date'], 'LONG', 1, 0) . " GMT</font></span>";
+        $HTMLOUT .= "<span class='post_edit' id='edited_by_14'><font size='1' class='small'>Last edited by <a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int) $arr['edited_by'] . "'><b>" . htmlsafechars($arr['u2_username']) . "</b></a> at " . get_date($arr['edit_date'], 'LONG', 1, 0) . " GMT</font></span>";
     $HTMLOUT .= "</div>";
     if (isset($newp)) {
         $HTMLOUT .= $newp;
@@ -411,9 +411,9 @@ while ($arr = mysqli_fetch_assoc($res)) {
                     <legend>Attached Files</legend>
                     <table cellpadding='0' cellspacing='3' border='0'>
                     <tr>
-                    <td><img class='inlineimg' src='{$INSTALLER09['pic_base_url']}$aimg.gif' alt='' width='16' height='16' border='0' style='vertical-align:baseline' />&nbsp;</td>
-                    <td><a href='{$INSTALLER09['baseurl']}/forums.php?action=attachment&amp;attachmentid=" . (int) $arr['at_id'] . "' target='_blank'>" . htmlsafechars($arr['at_filename']) . "</a> [" . mksize($arr['at_size']) . ", " . (int) $arr['at_downloads'] . " downloads]</td>
-                    <td>&nbsp;&nbsp;<input type='button' class='none' value='See who downloaded' tabindex='1' onclick=\"window.open('{$INSTALLER09['baseurl']}/forums.php?action=whodownloaded&amp;fileid=" . (int) $arr['at_id'] . "','whodownloaded','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50'); return false;\" />" . ($CURUSER['class'] >= UC_STAFF ? "&nbsp;&nbsp;<input type='button' class='gobutton' value='Delete' tabindex='2' onclick=\"window.open('{$INSTALLER09['baseurl']}/forums.php?action=attachment&amp;subaction=delete&amp;attachmentid=" . (int) $arr['at_id'] . "','attachment','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50'); return false;\" />" : "") . "</td>
+                    <td><img class='inlineimg' src='{$TRINITY20['pic_base_url']}$aimg.gif' alt='' width='16' height='16' border='0' style='vertical-align:baseline' />&nbsp;</td>
+                    <td><a href='{$TRINITY20['baseurl']}/forums.php?action=attachment&amp;attachmentid=" . (int) $arr['at_id'] . "' target='_blank'>" . htmlsafechars($arr['at_filename']) . "</a> [" . mksize($arr['at_size']) . ", " . (int) $arr['at_downloads'] . " downloads]</td>
+                    <td>&nbsp;&nbsp;<input type='button' class='none' value='See who downloaded' tabindex='1' onclick=\"window.open('{$TRINITY20['baseurl']}/forums.php?action=whodownloaded&amp;fileid=" . (int) $arr['at_id'] . "','whodownloaded','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50'); return false;\" />" . ($CURUSER['class'] >= UC_STAFF ? "&nbsp;&nbsp;<input type='button' class='gobutton' value='Delete' tabindex='2' onclick=\"window.open('{$TRINITY20['baseurl']}/forums.php?action=attachment&amp;subaction=delete&amp;attachmentid=" . (int) $arr['at_id'] . "','attachment','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50'); return false;\" />" : "") . "</td>
                     </tr>
                     </table>
                     </fieldset>
@@ -429,25 +429,25 @@ while ($arr = mysqli_fetch_assoc($res)) {
         if ($CURUSER['class'] < UC_STAFF)
             $HTMLOUT .= "";
         else
-            $HTMLOUT .= "<a href='{$INSTALLER09['baseurl']}/pm_system.php?action=send_message&amp;receiver=" . $posterid . "' title='Send this user a private message' class='small button'><span>PM</span></a>";
+            $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/pm_system.php?action=send_message&amp;receiver=" . $posterid . "' title='Send this user a private message' class='small button'><span>PM</span></a>";
     } else {
-        $HTMLOUT .= "<a href='{$INSTALLER09['baseurl']}/pm_system.php?action=send_message&amp;receiver=" . $posterid . "' title='Send this user a private message' class='small button'><span>PM</span></a>";
+        $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/pm_system.php?action=send_message&amp;receiver=" . $posterid . "' title='Send this user a private message' class='small button'><span>PM</span></a>";
     }
-    $HTMLOUT .= "<a href='{$INSTALLER09['baseurl']}/report.php?type=Post&amp;id=" . $postid . "&amp;id_2=" . $topicid . "&amp;id_3=" . $posterid . "' title='Report this post to a moderator' class='small button'><span>Report</span></a>";
+    $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/report.php?type=Post&amp;id=" . $postid . "&amp;id_2=" . $topicid . "&amp;id_3=" . $posterid . "' title='Report this post to a moderator' class='small button'><span>Report</span></a>";
     if (!$locked || $CURUSER['class'] >= UC_STAFF || isMod($forumid, "forum")) {
         if ($arr["p_anon"] == "yes") {
             if ($CURUSER['class'] < UC_STAFF)
                 $HTMLOUT .= "";
         } else
-            $HTMLOUT .= "<a href='{$INSTALLER09['baseurl']}/forums.php?action=quotepost&amp;topicid=" . $topicid . "&amp;postid=" . $postid . "' class='small button' ><span>Quote</span></a>";
+            $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/forums.php?action=quotepost&amp;topicid=" . $topicid . "&amp;postid=" . $postid . "' class='small button' ><span>Quote</span></a>";
     } else {
-        $HTMLOUT .= "<a href='{$INSTALLER09['baseurl']}/forums.php?action=quotepost&amp;topicid=" . $topicid . "&amp;postid=" . $postid . "' class='small button' ><span>Quote</span></a>";
+        $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/forums.php?action=quotepost&amp;topicid=" . $topicid . "&amp;postid=" . $postid . "' class='small button' ><span>Quote</span></a>";
     }
     if ($CURUSER['class'] >= UC_STAFF || isMod($forumid, "forum")) {
-        $HTMLOUT .= "<a href='{$INSTALLER09['baseurl']}/forums.php?action=deletepost&amp;postid=" . $postid . "' class='small button'><span>Delete</span></a>";
+        $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/forums.php?action=deletepost&amp;postid=" . $postid . "' class='small button'><span>Delete</span></a>";
     }
     if (($CURUSER["id"] == $posterid && !$locked) || $CURUSER['class'] >= UC_STAFF || isMod($forumid, "forum")) {
-        $HTMLOUT .= "<a href='{$INSTALLER09['baseurl']}/forums.php?action=editpost&amp;postid=" . $postid . "' class='small button'>Edit</a>";
+        $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/forums.php?action=editpost&amp;postid=" . $postid . "' class='small button'>Edit</a>";
     }
     $HTMLOUT .= "<a href='#top' class='small button'>Up</a>";
     $HTMLOUT .= "</div>
@@ -462,12 +462,12 @@ while ($arr = mysqli_fetch_assoc($res)) {
     $HTMLOUT .= "
 <div class='dropdown-pane' id='autor-stats-".htmlsafechars($arr['username'])."' data-dropdown data-hover='true' data-hover-pane='true'>
             <span class='smalltext'>" . $class_name . "</span><br />";
-     if($INSTALLER09['mood_sys_on']) {
+     if($TRINITY20['mood_sys_on']) {
         $HTMLOUT .= '<!-- Mood -->
-            <span class="smalltext"><a href="javascript:;" onclick="PopUp(\'usermood.php\',\'Mood\',530,500,1,1);"><img src="' . $INSTALLER09['pic_base_url'] . 'smilies/' . $moodpic . '" alt="' . $moodname . '" border="0" /></a>
+            <span class="smalltext"><a href="javascript:;" onclick="PopUp(\'usermood.php\',\'Mood\',530,500,1,1);"><img src="' . $TRINITY20['pic_base_url'] . 'smilies/' . $moodpic . '" alt="' . $moodname . '" border="0" /></a>
       <span class="tip">' . (($arr['p_anon'] == 'yes' && $CURUSER['class'] < UC_STAFF) ? '<i>Anonymous</i>' : htmlsafechars($arr['username'])) . ' ' . $moodname . ' !</span></span>';
     }
-	$HTMLOUT .= "<img src='" . $INSTALLER09['pic_base_url'] . $Multi_forum['configs']['forum_pics'][($last_access > (TIME_NOW - 360) || $posterid == $CURUSER['id'] ? 'on' : 'off') . 'line_btn'] . "' border='0' alt=''>";
+	$HTMLOUT .= "<img src='" . $TRINITY20['pic_base_url'] . $Multi_forum['configs']['forum_pics'][($last_access > (TIME_NOW - 360) || $posterid == $CURUSER['id'] ? 'on' : 'off') . 'line_btn'] . "' border='0' alt=''>";
     if ($arr["p_anon"] == "yes") {
         if ($CURUSER['class'] < UC_STAFF && $posterid != $CURUSER["id"])
             $HTMLOUT .= "";
@@ -477,14 +477,14 @@ while ($arr = mysqli_fetch_assoc($res)) {
           Ratio:&nbsp;{$Ratio}<br />
           Uploaded:&nbsp;{$uploaded}<br />
           Downloaded:&nbsp;{$downloaded}<br />
-          ".($INSTALLER09['rep_sys_on'] ? $member_reputation : "")."";
+          ".($TRINITY20['rep_sys_on'] ? $member_reputation : "")."";
     } else {
         $HTMLOUT .= "
           Posts:&nbsp;{$forumposts}<br />
           Ratio:&nbsp;{$Ratio}<br />
           Uploaded:&nbsp;{$uploaded}<br />
           Downloaded:&nbsp;{$downloaded}<br />
-          ".($INSTALLER09['rep_sys_on'] ? $member_reputation : "")."";
+          ".($TRINITY20['rep_sys_on'] ? $member_reputation : "")."";
     }
     $HTMLOUT .= "</div></div>";
 }
@@ -548,7 +548,7 @@ if ($locked) {
     </form>
     <br />";**/
 }
-if (($postid > $lpr) && ($postadd > (TIME_NOW - $INSTALLER09['readpost_expiry']))) {
+if (($postid > $lpr) && ($postadd > (TIME_NOW - $TRINITY20['readpost_expiry']))) {
     if ($lpr)
         sql_query("UPDATE read_posts SET last_post_read=" . sqlesc($postid) . " WHERE user_id=" . sqlesc($userid) . " AND topic_id=" . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
     else

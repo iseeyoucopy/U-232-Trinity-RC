@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $INSTALLER09, $queries, $cache;
+    global $TRINITY20, $queries, $cache;
     set_time_limit(1200);
     ignore_user_abort(1);
     // ===Clear funds after one month
@@ -27,7 +27,7 @@ function docleanup($data)
     $msgs_buffer = $users_buffer = array();
     if (mysqli_num_rows($res) > 0) {
         $subject = "Donor status removed by system.";
-        $msg = "Your Donor status has timed out and has been auto-removed by the system, and your Vip status has been removed. We would like to thank you once again for your support to {$INSTALLER09['site_name']}. If you wish to re-new your donation, Visit the site paypal link. Cheers!\n";
+        $msg = "Your Donor status has timed out and has been auto-removed by the system, and your Vip status has been removed. We would like to thank you once again for your support to {$TRINITY20['site_name']}. If you wish to re-new your donation, Visit the site paypal link. Cheers!\n";
         while ($arr = mysqli_fetch_assoc($res)) {
             $modcomment = $arr['modcomment'];
             $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - Donation status Automatically Removed By System.\n" . $modcomment;
@@ -39,15 +39,15 @@ function docleanup($data)
                 'class' => $update['class'],
                 'donor' => 'no',
                 'donoruntil' => 0
-            ], $INSTALLER09['expires']['user_cache']);
+            ], $TRINITY20['expires']['user_cache']);
             $cache->update_row('user_stats_' . $arr['id'], [
                 'modcomment' => $modcomment
-            ], $INSTALLER09['expires']['user_stats']);
+            ], $TRINITY20['expires']['user_stats']);
             $cache->update_row('MyUser_' . $arr['id'], [
                 'class' => $update['class'],
                 'donor' => 'no',
                 'donoruntil' => 0
-            ], $INSTALLER09['expires']['curuser']);
+            ], $TRINITY20['expires']['curuser']);
             $cache->delete('inbox_new_' . $arr['id']);
             $cache->delete('inbox_new_sb_' . $arr['id']);
         }

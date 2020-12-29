@@ -4,8 +4,8 @@ $commentbar = "
 <div class='col-md-2'></div>
 <div class='col-md-4'>
 <div class='content'><br><p align='center' ><a  class='index' href='comment.php?action=add&amp;tid=$id'>{$lang['details_add_comment']}</a>
-    <br /><a class='index' href='{$INSTALLER09['baseurl']}/takethankyou.php?id=" . $id . "'>
-    <img src='{$INSTALLER09['pic_base_url']}smilies/thankyou.gif' alt='Thanks' title='".$lang['details_add_TY']."' border='0' /></a></p></div>
+    <br /><a class='index' href='{$TRINITY20['baseurl']}/takethankyou.php?id=" . $id . "'>
+    <img src='{$TRINITY20['pic_base_url']}smilies/thankyou.gif' alt='Thanks' title='".$lang['details_add_TY']."' border='0' /></a></p></div>
      </div>
    <div class='row'>
 <div class='col-md-2'></div>

@@ -17,22 +17,22 @@ require_once (INCL_DIR . 'password_functions.php');
 require_once (INCL_DIR . 'bbcode_functions.php');
 require_once (INCL_DIR . 'function_bemail.php');
 dbconn();
-global $CURUSER, $INSTALLER09;
+global $CURUSER, $TRINITY20;
 if (!$CURUSER) {
     get_template();
 }
 $lang = array_merge(load_language('global') , load_language('takesignup'));
-if (!$INSTALLER09['openreg']) stderr($lang['stderr_errorhead'], "{$lang['takesignup_invite_only']}<a href='" . $INSTALLER09['baseurl'] . "/invite_signup.php'><b>&nbsp;{$lang['takesignup_here']}</b></a>");
+if (!$TRINITY20['openreg']) stderr($lang['stderr_errorhead'], "{$lang['takesignup_invite_only']}<a href='" . $TRINITY20['baseurl'] . "/invite_signup.php'><b>&nbsp;{$lang['takesignup_here']}</b></a>");
 $res = sql_query("SELECT COUNT(id) FROM users") or sqlerr(__FILE__, __LINE__);
 $arr = mysqli_fetch_row($res);
-if ($arr[0] >= $INSTALLER09['maxusers']) stderr($lang['takesignup_error'], $lang['takesignup_limit']);
+if ($arr[0] >= $TRINITY20['maxusers']) stderr($lang['takesignup_error'], $lang['takesignup_limit']);
 $newpage = new page_verify();
 $newpage->check('tesu');
-if (!mkglobal('wantusername:wantpassword:passagain:email' . ($INSTALLER09['captcha_on'] ? ":captchaSelection:" : ":") . 'submitme:passhint:hintanswer:country')) stderr($lang['takesignup_user_error'], $lang['takesignup_form_data']);
+if (!mkglobal('wantusername:wantpassword:passagain:email' . ($TRINITY20['captcha_on'] ? ":captchaSelection:" : ":") . 'submitme:passhint:hintanswer:country')) stderr($lang['takesignup_user_error'], $lang['takesignup_form_data']);
 if ($submitme != 'Register') stderr($lang['takesignup_x_head'], $lang['takesignup_x_body']);
-if ($INSTALLER09['captcha_on']) {
+if ($TRINITY20['captcha_on']) {
     if (empty($captchaSelection) || $_SESSION['simpleCaptchaAnswer'] != $captchaSelection) {
-        header("Location: {$INSTALLER09['baseurl']}/signup.php");
+        header("Location: {$TRINITY20['baseurl']}/signup.php");
         exit;
     }
 }
@@ -90,12 +90,12 @@ if ($check_uname[0] != 0) stderr($lang['takesignup_user_error'], 'username alrea
 $a = (mysqli_fetch_row(sql_query("SELECT COUNT(id) FROM users WHERE email=" . sqlesc($email)))) or sqlerr(__FILE__, __LINE__);
 if ($a[0] != 0) stderr($lang['takesignup_user_error'], $lang['takesignup_email_used']);
 //=== check if ip addy is already in use
-/*if ($INSTALLER09['dupeip_check_on'] == 1) {
+/*if ($TRINITY20['dupeip_check_on'] == 1) {
     $c = (mysqli_fetch_row(sql_query("SELECT COUNT(id) FROM users WHERE ip=" . sqlesc($_SERVER['REMOTE_ADDR'])))) or sqlerr(__FILE__, __LINE__);
     if ($c[0] != 0) stderr($lang['takesignup_error'], "{$lang['takesignup_ip']}&nbsp;" . htmlsafechars($_SERVER['REMOTE_ADDR']) . "&nbsp;{$lang['takesignup_ip_used']}");
 }*/
 /*=== check for dupe account by GodFather ===*/
-if ($INSTALLER09['dupeaccount_check_on'] == 1) {
+if ($TRINITY20['dupeaccount_check_on'] == 1) {
     
     if(!empty(get_mycookie('log_uid'))){
 	    $ip = getip();
@@ -114,7 +114,7 @@ if ($INSTALLER09['dupeaccount_check_on'] == 1) {
 		        sql_query("INSERT INTO bannedemails (added, addedby, comment, email) VALUES (" . TIME_NOW . ", '0', " . sqlesc($lang['takesignup_dupe']) . ", " . sqlesc($n_email) . ")") or sqlerr(__FILE__, __LINE__);
 		        sql_query("INSERT INTO doublesignup (userid, username, email, ip, sign_date, new_user, new_email, msg) VALUES (" . sqlesc($userid) . ", " . sqlesc($username) . ", " . sqlesc($e_mail) . ", " . sqlesc($u_ip) . ", " . TIME_NOW . ", " . sqlesc($n_username) . ", " . sqlesc($n_email) . ", " . sqlesc($lang['takesignup_msg_body2']) . ")") or sqlerr(__FILE__, __LINE__);
 		        sql_query("UPDATE users SET ip = ". sqlesc($u_ip) .", last_access = " . TIME_NOW . ", warned = '1', warn_reason = " . sqlesc($lang['takesignup_warn']) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-		        sql_query("INSERT INTO ajax_chat_messages (userID, userName, userRole, channel, dateTime, ip, text) VALUES (" . sqlesc($INSTALLER09['bot_id']) . "," . sqlesc($INSTALLER09['bot_name']) . "," . sqlesc($INSTALLER09['bot_role']) . ",'4'," . sqlesc(TIME_DATE) . "," . sqlesc($_SERVER['REMOTE_ADDR']) . "," . sqlesc($msg) . ")") or sqlerr(__FILE__, __LINE__);
+		        sql_query("INSERT INTO ajax_chat_messages (userID, userName, userRole, channel, dateTime, ip, text) VALUES (" . sqlesc($TRINITY20['bot_id']) . "," . sqlesc($TRINITY20['bot_name']) . "," . sqlesc($TRINITY20['bot_role']) . ",'4'," . sqlesc(TIME_DATE) . "," . sqlesc($_SERVER['REMOTE_ADDR']) . "," . sqlesc($msg) . ")") or sqlerr(__FILE__, __LINE__);
 		        stderr($lang['takesignup_user_error'], $lang['takesignup_msg_dupe3']);
             }
         }
@@ -130,7 +130,7 @@ if ($INSTALLER09['dupeaccount_check_on'] == 1) {
 if (isset($_POST["user_timezone"]) && preg_match('#^\-?\d{1,2}(?:\.\d{1,2})?$#', $_POST['user_timezone'])) {
     $time_offset = sqlesc($_POST['user_timezone']);
 } else {
-    $time_offset = isset($INSTALLER09['time_offset']) ? sqlesc($INSTALLER09['time_offset']) : '0';
+    $time_offset = isset($TRINITY20['time_offset']) ? sqlesc($TRINITY20['time_offset']) : '0';
 }
 // have a stab at getting dst parameter?
 $dst_in_use = localtime(TIME_NOW + ((int)$time_offset * 3600) , true);
@@ -153,7 +153,7 @@ $ret = sql_query("INSERT INTO users (username, passhash, loginhash, secret, edit
     $country,
     $gender,
     $pincode,
-    $INSTALLER09['stylesheet'],
+    $TRINITY20['stylesheet'],
     $passhint,
     $wanthintanswer,
     $email,
@@ -162,7 +162,7 @@ $ret = sql_query("INSERT INTO users (username, passhash, loginhash, secret, edit
 
 $cache->delete('birthdayusers');
 
-$message = "{$lang['takesignup_welcome']} {$INSTALLER09['site_name']} {$lang['takesignup_member']} ".htmlsafechars($wantusername)."";
+$message = "{$lang['takesignup_welcome']} {$TRINITY20['site_name']} {$lang['takesignup_member']} ".htmlsafechars($wantusername)."";
 
 if (!$ret) {
     if (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)) == 1062) stderr($lang['takesignup_user_error'], $lang['takesignup_user_exists']);
@@ -179,7 +179,7 @@ if (!$arr[0]) {
 //==New member pm
 $added = TIME_NOW;
 $subject = sqlesc($lang['takesignup_msg_subject']);
-$msg = sqlesc("{$lang['takesignup_hey']} " . htmlsafechars($wantusername) . "{$lang['takesignup_msg_body0']} {$INSTALLER09['site_name']} {$lang['takesignup_msg_body1']}");
+$msg = sqlesc("{$lang['takesignup_hey']} " . htmlsafechars($wantusername) . "{$lang['takesignup_msg_body0']} {$TRINITY20['site_name']} {$lang['takesignup_msg_body1']}");
 sql_query("INSERT INTO messages (sender, subject, receiver, msg, added) VALUES (0, $subject, " . sqlesc($id) . ", $msg, $added)") or sqlerr(__FILE__, __LINE__);
 
 //==End new member pm
@@ -193,11 +193,11 @@ $latestuser_cache['chatpost'] = 1;
 $latestuser_cache['leechwarn'] = 0;
 $latestuser_cache['pirate'] = 0;
 $latestuser_cache['king'] = 0;
-$cache->set('latestuser', $latestuser_cache, $INSTALLER09['expires']['latestuser']);
+$cache->set('latestuser', $latestuser_cache, $TRINITY20['expires']['latestuser']);
 
 write_log("User account " . (int)$id . " (" . htmlsafechars($wantusername) . ") was succesfully register");
 
-if ($INSTALLER09['autoshout_on'] == 1) {
+if ($TRINITY20['autoshout_on'] == 1) {
     autoshout($message);
     $cache->delete('shoutbox_');
 }
@@ -208,10 +208,10 @@ $body = str_replace(array(
     '<#IP_ADDRESS#>',
     '<#REG_LINK#>'
 ) , array(
-    $INSTALLER09['site_name'],
+    $TRINITY20['site_name'],
     $email,
     $_SERVER['REMOTE_ADDR'],
-    "{$INSTALLER09['baseurl']}/confirm.php?id=$id&secret=$psecret"
+    "{$TRINITY20['baseurl']}/confirm.php?id=$id&secret=$psecret"
 ) , $lang['takesignup_email_body']);
 
 $passh = hash("ripemd160", "" . $row['passhash'] . $_SERVER["REMOTE_ADDR"] . "");
@@ -227,7 +227,7 @@ $passh = hash("ripemd160", "" . $row['passhash'] . $_SERVER["REMOTE_ADDR"] . "")
 /*=== ===*/
 
 if ($arr[0] || EMAIL_CONFIRM) 
-    mail($email, "{$INSTALLER09['site_name']} {$lang['takesignup_confirm']}", $body, "{$lang['takesignup_from']} {$INSTALLER09['site_email']}");
+    mail($email, "{$TRINITY20['site_name']} {$lang['takesignup_confirm']}", $body, "{$lang['takesignup_from']} {$TRINITY20['site_email']}");
 else
 logincookie($id, $passh);
 

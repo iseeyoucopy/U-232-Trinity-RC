@@ -17,7 +17,7 @@ if ($user["avatar"])
 	</div>";
 else
 		$HTMLOUT.= "<div class='col-md-2'>
-	<table class='table table-bordered'><tr><td><img class='img-polaroid' src='{$INSTALLER09['pic_base_url']}forumicons/default_avatar.gif'></td></tr>
+	<table class='table table-bordered'><tr><td><img class='img-polaroid' src='{$TRINITY20['pic_base_url']}forumicons/default_avatar.gif'></td></tr>
 		</table>
 	</div>";
 //==end

@@ -38,11 +38,11 @@ if (!defined('IN_INSTALLER09_FORUM')) {
         $res = sql_query("SELECT name FROM over_forums WHERE id=".sqlesc($ovfid)) or sqlerr(__FILE__, __LINE__);
         $arr = mysqli_fetch_assoc($res) or stderr('Sorry', 'No forums with that ID!');
         sql_query("UPDATE users SET forum_access = ".TIME_NOW." WHERE id=".sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-        if ($INSTALLER09['forums_online'] == 0)
+        if ($TRINITY20['forums_online'] == 0)
         $HTMLOUT .= stdmsg('Warning', 'Forums are currently in maintainance mode');
 $HTMLOUT .="<nav aria-label='You are here:' role='navigation'>
   <ul class='breadcrumbs'>
-    <li><a href='index.php'>" . $INSTALLER09["site_name"] . "</a></li>
+    <li><a href='index.php'>" . $TRINITY20["site_name"] . "</a></li>
     <li><a href='forums.php'>Forums</a></li>
     <li>
       <span class='show-for-sr'>Current: </span>".htmlsafechars($arr["name"])."

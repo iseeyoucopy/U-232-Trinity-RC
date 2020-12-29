@@ -101,21 +101,21 @@ if ($action == 'add') {
         sql_query("INSERT INTO comments (user, $locale, added, text, ori_text, anonymous) VALUES (" . sqlesc($CURUSER["id"]) . ", " . sqlesc($id) . ", " . TIME_NOW . ", " . sqlesc($body) . ", " . sqlesc($body) . ", $anon)");
         $newid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
         sql_query("UPDATE $table_type SET comments = comments + 1 WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-        if ($INSTALLER09['seedbonus_on'] == 1) {
-            if ($INSTALLER09['karma'] && isset($CURUSER['seedbonus'])) {
-                sql_query("UPDATE users SET seedbonus = seedbonus+" . sqlesc($INSTALLER09['bonus_per_comment']) . " WHERE id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+        if ($TRINITY20['seedbonus_on'] == 1) {
+            if ($TRINITY20['karma'] && isset($CURUSER['seedbonus'])) {
+                sql_query("UPDATE users SET seedbonus = seedbonus+" . sqlesc($TRINITY20['bonus_per_comment']) . " WHERE id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
             }
             $update['comments'] = ($arr['comments'] + 1);
             $cache->update_row('torrent_details_' . $id, [
                 'comments' => $update['comments']
             ], 0);
-            $update['seedbonus'] = ($CURUSER['seedbonus'] + $INSTALLER09['bonus_per_comment']);
+            $update['seedbonus'] = ($CURUSER['seedbonus'] + $TRINITY20['bonus_per_comment']);
             $cache->update_row('userstats_' . $CURUSER["id"], [
                 'seedbonus' => $update['seedbonus']
-            ], $INSTALLER09['expires']['u_stats']);
+            ], $TRINITY20['expires']['u_stats']);
             $cache->update_row('user_stats_' . $CURUSER["id"], [
                 'seedbonus' => $update['seedbonus']
-            ], $INSTALLER09['expires']['user_stats']);
+            ], $TRINITY20['expires']['user_stats']);
             //===end
         }
         // --- pm if new comment mod---//
@@ -124,7 +124,7 @@ if ($action == 'add') {
         if ($cpm_r['commentpm'] == 'yes') {
             $added = TIME_NOW;
             $subby = sqlesc("Someone has left a comment");
-            $notifs = sqlesc("You have received a comment on your torrent [url={$INSTALLER09['baseurl']}/details.php?id={$id}] " . htmlsafechars($arr['name']) . "[/url].");
+            $notifs = sqlesc("You have received a comment on your torrent [url={$TRINITY20['baseurl']}/details.php?id={$id}] " . htmlsafechars($arr['name']) . "[/url].");
             sql_query("INSERT INTO messages (sender, receiver, subject, msg, added) VALUES(0, " . sqlesc($arr['owner']) . ", $subby, $notifs, $added)") or sqlerr(__FILE__, __LINE__);
         }
         // ---end---//
@@ -146,7 +146,7 @@ if ($action == 'add') {
       <br /><form name='compose' method='post' action='comment.php?action=add'>
       <input type='hidden' name='tid' value='{$id}'/>
       <input type='hidden' name='locale' value='$name' />";
-    if ($INSTALLER09['BBcode'] && function_exists('textbbcode')) {
+    if ($TRINITY20['BBcode'] && function_exists('textbbcode')) {
         $HTMLOUT.= textbbcode('comments', 'body');
     } else {
         $HTMLOUT.= "<textarea name='text' rows='10' cols='60'></textarea>";
@@ -204,7 +204,7 @@ if ($action == 'add') {
       <input type='hidden' name='locale' value='$name' />
        <input type='hidden' name='tid' value='" . (int) $arr['tid'] . "' />
       <input type='hidden' name='cid' value='$commentid' />";
-    if ($INSTALLER09['BBcode'] && function_exists('textbbcode')) {
+    if ($TRINITY20['BBcode'] && function_exists('textbbcode')) {
         $HTMLOUT.= textbbcode('comments', 'body', $arr["text"]);
     } else {
         $HTMLOUT.= "<textarea name='text' rows='10' cols='60'>" . htmlsafechars($arr["text"]) . "</textarea>";
@@ -237,8 +237,8 @@ if ($action == 'add') {
     if ($id && mysqli_affected_rows($GLOBALS["___mysqli_ston"]) > 0) {
         sql_query("UPDATE $table_type SET comments = comments - 1 WHERE id = " . sqlesc($id));
     }
-    if ($INSTALLER09['seedbonus_on'] == 1) {
-        if ($INSTALLER09['karma'] && isset($CURUSER['seedbonus'])) {
+    if ($TRINITY20['seedbonus_on'] == 1) {
+        if ($TRINITY20['karma'] && isset($CURUSER['seedbonus'])) {
             sql_query("UPDATE users SET seedbonus = seedbonus-3.0 WHERE id =" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
         }
         $arr['comments'] = (isset($arr['comments']) ? $arr['comments'] : 0);
@@ -249,10 +249,10 @@ if ($action == 'add') {
         $update['seedbonus'] = ($CURUSER['seedbonus'] - 3);
         $cache->update_row('userstats_' . $CURUSER["id"], [
             'seedbonus' => $update['seedbonus']
-        ], $INSTALLER09['expires']['u_stats']);
+        ], $TRINITY20['expires']['u_stats']);
         $cache->update_row('user_stats_' . $CURUSER["id"], [
             'seedbonus' => $update['seedbonus']
-        ], $INSTALLER09['expires']['user_stats']);
+        ], $TRINITY20['expires']['user_stats']);
         //===end
     }
     header("Refresh: 0; url=$locale_link.php?id=$tid$extra_link");

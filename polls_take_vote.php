@@ -68,7 +68,7 @@ if (!$_POST['nullvote']) {
     $cache->delete('poll_data_' . $CURUSER['id']);
     /*
                 $update['votes'] = ($poll_data['votes'] + 1);
-                $cache->update_row('poll_data_'.$CURUSER['id'],  array('votes' => $update['votes']), $INSTALLER09['expires']['poll_data']);
+                $cache->update_row('poll_data_'.$CURUSER['id'],  array('votes' => $update['votes']), $TRINITY20['expires']['poll_data']);
     */
     if (-1 == mysqli_affected_rows($GLOBALS["___mysqli_ston"])) stderr('DBERROR', 'Could not update records');
     foreach ($vote_cast as $question_id => $choice_array) {
@@ -89,9 +89,9 @@ if (!$_POST['nullvote']) {
     $cache->delete('poll_data_' . $CURUSER['id']);
     /*
                 $update['votes'] = ($poll_data['votes'] + 1);
-                $cache->update_row('poll_data_'.$CURUSER['id'],  array('votes' => $update['votes']), $INSTALLER09['expires']['poll_data']);
+                $cache->update_row('poll_data_'.$CURUSER['id'],  array('votes' => $update['votes']), $TRINITY20['expires']['poll_data']);
     */
     if (-1 == mysqli_affected_rows($GLOBALS["___mysqli_ston"])) stderr('DBERROR', 'Could not update records');
 }
-header("location: {$INSTALLER09['baseurl']}/index.php");
+header("location: {$TRINITY20['baseurl']}/index.php");
 ?>

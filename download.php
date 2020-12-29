@@ -33,29 +33,29 @@ $row = mysqli_fetch_assoc($res);
 $cres = sql_query('SELECT min_class FROM categories WHERE id = ' . sqlesc($row['category'])) or sqlerr(__FILE__, __LINE__);
 $crow = mysqli_fetch_assoc($cres);
 if ($crow['min_class'] > $CURUSER['class']) stderr($lang['download_user_error'], $lang['download_no_id']);
-$fn = $INSTALLER09['torrent_dir'] . '/' . $id . '.torrent';
+$fn = $TRINITY20['torrent_dir'] . '/' . $id . '.torrent';
 if (!$row || !is_file($fn) || !is_readable($fn)) stderr('Err', 'There was an error with the file or with the query, please contact staff');
-if (happyHour('check') && happyCheck('checkid', $row['category']) && XBT_TRACKER == false && $INSTALLER09['happy_hour'] == true) {
+if (happyHour('check') && happyCheck('checkid', $row['category']) && XBT_TRACKER == false && $TRINITY20['happy_hour'] == true) {
     $multiplier = happyHour('multiplier');
     happyLog($CURUSER['id'], $id, $multiplier);
     sql_query('INSERT INTO happyhour (userid, torrentid, multiplier ) VALUES (' . sqlesc($CURUSER['id']) . ',' . sqlesc($id) . ',' . sqlesc($multiplier) . ')') or sqlerr(__FILE__, __LINE__);
     $cache->delete_value($CURUSER['id'] . '_happy');
 }
 
-if (($CURUSER['seedbonus'] === 0 || $CURUSER['seedbonus'] < $INSTALLER09['bonus_per_download']))
+if (($CURUSER['seedbonus'] === 0 || $CURUSER['seedbonus'] < $TRINITY20['bonus_per_download']))
 stderr("Error", "Your dont have enough credit to download, trying seeding back some torrents =]");
 
-if ($INSTALLER09['seedbonus_on'] == 1 && $row['owner'] != $CURUSER['id']) {
+if ($TRINITY20['seedbonus_on'] == 1 && $row['owner'] != $CURUSER['id']) {
     //===remove karma
-    sql_query("UPDATE users SET seedbonus = seedbonus-".sqlesc($INSTALLER09['bonus_per_download'])." WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
-    $update['seedbonus'] = ($CURUSER['seedbonus'] - $INSTALLER09['bonus_per_download']);
-    $update['seedbonus'] = ($CURUSER['seedbonus'] - $INSTALLER09['bonus_per_download']);
+    sql_query("UPDATE users SET seedbonus = seedbonus-".sqlesc($TRINITY20['bonus_per_download'])." WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
+    $update['seedbonus'] = ($CURUSER['seedbonus'] - $TRINITY20['bonus_per_download']);
+    $update['seedbonus'] = ($CURUSER['seedbonus'] - $TRINITY20['bonus_per_download']);
     $cache->update_row('userstats_' . $CURUSER['id'], [
         'seedbonus' => $update['seedbonus']
-    ], $INSTALLER09['expires']['u_stats']);
+    ], $TRINITY20['expires']['u_stats']);
     $cache->update_row('user_stats_' . $CURUSER['id'], [
         'seedbonus' => $update['seedbonus']
-    ], $INSTALLER09['expires']['user_stats']);
+    ], $TRINITY20['expires']['user_stats']);
     //===end
     
 }
@@ -95,10 +95,10 @@ if (isset($_GET['slot'])) {
     $user['freeslots'] = ($CURUSER['freeslots'] - 1);
     $cache->update_row('MyUser_' . $CURUSER['id'], [
         'freeslots' => $CURUSER['freeslots']
-    ], $INSTALLER09['expires']['curuser']);
+    ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user' . $CURUSER['id'], [
         'freeslots' => $user['freeslots']
-    ], $INSTALLER09['expires']['user_cache']);
+    ], $TRINITY20['expires']['user_cache']);
 }
 /* end **/
 $cache->delete_value('MyPeers_' . $CURUSER['id']);
@@ -116,16 +116,16 @@ if (!isset($CURUSER['torrent_pass']) || strlen($CURUSER['torrent_pass']) != 32) 
     sql_query('UPDATE users SET torrent_pass=' . sqlesc($CURUSER['torrent_pass']) . 'WHERE id=' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
     $cache->update_row('MyUser_' . $CURUSER['id'], [
         'torrent_pass' => $CURUSER['torrent_pass']
-    ], $INSTALLER09['expires']['curuser']);
+    ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user' . $CURUSER['id'], [
         'torrent_pass' => $CURUSER['torrent_pass']
-    ], $INSTALLER09['expires']['user_cache']);
+    ], $TRINITY20['expires']['user_cache']);
 }
-$dict = bencdec::decode_file($fn, $INSTALLER09['max_torrent_size']);
+$dict = bencdec::decode_file($fn, $TRINITY20['max_torrent_size']);
 if (XBT_TRACKER == true) {
-    $dict['announce'] = $INSTALLER09['xbt_prefix'] . $CURUSER['torrent_pass'] . $INSTALLER09['xbt_suffix'];
+    $dict['announce'] = $TRINITY20['xbt_prefix'] . $CURUSER['torrent_pass'] . $TRINITY20['xbt_suffix'];
 } else {
-    $dict['announce'] = $INSTALLER09['announce_urls'] . '?torrent_pass=' . $CURUSER['torrent_pass'];
+    $dict['announce'] = $TRINITY20['announce_urls'] . '?torrent_pass=' . $CURUSER['torrent_pass'];
 }
 $dict['uid'] = (int)$CURUSER['id'];
 $tor = bencdec::encode($dict);
@@ -136,25 +136,25 @@ if ($zipuse) {
         '.',
         '-'
     ) , '_', $row['name']);
-    $file_name = $INSTALLER09['torrent_dir'] . '/' . $row['name'] . '.torrent';
+    $file_name = $TRINITY20['torrent_dir'] . '/' . $row['name'] . '.torrent';
     if (file_put_contents($file_name, $tor)) {
         $zip = new PHPZip();
         $files = array(
             $file_name
         );
-        $file_name = $INSTALLER09['torrent_dir'] . '/' . substr(md5(rawurlencode($row['name'])), 0, 6) . '.zip';
+        $file_name = $TRINITY20['torrent_dir'] . '/' . substr(md5(rawurlencode($row['name'])), 0, 6) . '.zip';
         $zip->Zip($files, $file_name);
         $zip->forceDownload($file_name);
-        unlink($INSTALLER09['torrent_dir'] . '/' . $row['name'] . '.torrent');
-        unlink($INSTALLER09['torrent_dir'] . '/' . $row['name'] . '.zip');
+        unlink($TRINITY20['torrent_dir'] . '/' . $row['name'] . '.torrent');
+        unlink($TRINITY20['torrent_dir'] . '/' . $row['name'] . '.zip');
     } else stderr('Error', 'Can\'t create the new file, please contatct staff');
 } else {
     if ($text) {
-        header('Content-Disposition: attachment; filename="[' . $INSTALLER09['site_name'] . ']' . $row['name'] . '.txt"');
+        header('Content-Disposition: attachment; filename="[' . $TRINITY20['site_name'] . ']' . $row['name'] . '.txt"');
         header("Content-Type: text/plain");
         echo ($tor);
     } else {
-        header('Content-Disposition: attachment; filename="[' . $INSTALLER09['site_name'] . ']' . $row['filename'] . '"');
+        header('Content-Disposition: attachment; filename="[' . $TRINITY20['site_name'] . ']' . $row['filename'] . '"');
         header("Content-Type: application/x-bittorrent");
         echo ($tor);
     }

@@ -35,7 +35,7 @@ $HTMLOUT = "";
 //==delete torrents by putyn
 function deletetorrent($tid)
 {
-    global $INSTALLER09, $cache, $CURUSER, $lang;
+    global $TRINITY20, $cache, $CURUSER, $lang;
     sql_query("DELETE peers.*, files.*, comments.*, snatched.*, thanks.*, bookmarks.*, coins.*, rating.*, torrents.* FROM torrents 
 				 LEFT JOIN peers ON peers.torrent = torrents.id
 				 LEFT JOIN files ON files.torrent = torrents.id
@@ -46,12 +46,12 @@ function deletetorrent($tid)
 				 LEFT JOIN rating ON rating.torrent = torrents.id
 				 LEFT JOIN snatched ON snatched.torrentid = torrents.id
 				 WHERE torrents.id =" . sqlesc($tid)) or sqlerr(__FILE__, __LINE__);
-    unlink("{$INSTALLER09['torrent_dir']}/$id.torrent");
+    unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
     $cache->delete('MyPeers_' . $CURUSER['id']);
 }
 function deletetorrent_xbt($tid)
 {
-    global $INSTALLER09, $cache, $CURUSER, $lang;
+    global $TRINITY20, $cache, $CURUSER, $lang;
     sql_query("UPDATE torrents SET flags = 1 WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
     sql_query("DELETE files.*, comments.*, xbt_files_users.*, thanks.*, bookmarks.*, coins.*, rating.*, torrents.* FROM torrents 
 				 LEFT JOIN files ON files.torrent = torrents.id
@@ -62,7 +62,7 @@ function deletetorrent_xbt($tid)
 				 LEFT JOIN rating ON rating.torrent = torrents.id
 				 LEFT JOIN xbt_files_users ON xbt_files_users.fid = torrents.id
 				 WHERE torrents.id =" . sqlesc($tid) . " AND flags=1") or sqlerr(__FILE__, __LINE__);
-    unlink("{$INSTALLER09['torrent_dir']}/$id.torrent");
+    unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
     $cache->delete('MyPeers_XBT_' . $CURUSER['id']);
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -84,10 +84,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $pms[] = "(0," . sqlesc($a["uid"]) . "," . TIME_NOW . "," . sqlesc($msg) . ")";
         $cache->update_row('userstats_' . $a['uid'], [
             'downloaded' => $new_download
-        ], $INSTALLER09['expires']['u_status']);
+        ], $TRINITY20['expires']['u_status']);
         $cache->update_row('user' . $a['uid'], [
             'downloaded' => $new_download
-        ], $INSTALLER09['expires']['curuser']);
+        ], $TRINITY20['expires']['curuser']);
     }
     //==Send the pm !!
     sql_query("INSERT into messages (sender, receiver, added, msg) VALUES " . join(",", array_map("sqlesc", $pms))) or sqlerr(__FILE__, __LINE__);

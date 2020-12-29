@@ -45,8 +45,8 @@ if (!defined('IN_INSTALLER09_FORUM')) {
         $subject = htmlsafechars($topic_arr['topic_name']);
         if ((isset($_GET['delete']) ? htmlsafechars($_GET['delete']) : (isset($_POST['delete']) ? htmlsafechars($_POST['delete']) : '')) == 'yes') {
             if ((isset($_GET['sure']) ? htmlsafechars($_GET['sure']) : (isset($_POST['sure']) ? htmlsafechars($_POST['sure']) : '')) != 'yes')
-                stderr("Sanity check...", "You are about to delete this topic: <b>".$subject."</b>. Click <a href='{$INSTALLER09['baseurl']}/forums.php?action=$action&amp;topicid=$topicid&amp;delete=yes&amp;sure=yes'>here</a> if you are sure.");
-            write_log("topicdelete","Topic <b>".$subject."</b> was deleted by <a href='{$INSTALLER09['baseurl']}/userdetails.php?id=".(int)$CURUSER['id']."'>".htmlsafechars($CURUSER['username'])."</a>.");
+                stderr("Sanity check...", "You are about to delete this topic: <b>".$subject."</b>. Click <a href='{$TRINITY20['baseurl']}/forums.php?action=$action&amp;topicid=$topicid&amp;delete=yes&amp;sure=yes'>here</a> if you are sure.");
+            write_log("topicdelete","Topic <b>".$subject."</b> was deleted by <a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$CURUSER['id']."'>".htmlsafechars($CURUSER['username'])."</a>.");
             if ($Multi_forum['configs']['use_attachment_mod']) {
                 $res = sql_query("SELECT attachments.file_name " . "FROM posts " . "LEFT JOIN attachments ON attachments.post_id = posts.id " . "WHERE posts.topic_id=".sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
                 while ($arr = mysqli_fetch_assoc($res))
@@ -58,10 +58,10 @@ if (!defined('IN_INSTALLER09_FORUM')) {
                 ($Multi_forum['configs']['use_poll_mod'] ? ", postpolls, postpollanswers " : "") . "FROM topics " . "LEFT JOIN posts ON posts.topic_id = topics.id " .
                 ($Multi_forum['configs']['use_attachment_mod'] ? "LEFT JOIN attachments ON attachments.post_id = posts.id " . "LEFT JOIN attachmentdownloads ON attachmentdownloads.file_id = attachments.id " : "") .
                 ($Multi_forum['configs']['use_poll_mod'] ? "LEFT JOIN postpolls ON postpolls.id = topics.poll_id " . "LEFT JOIN postpollanswers ON postpollanswers.pollid = postpolls.id " : "") . "WHERE topics.id=".sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
-            header('Location: '.$INSTALLER09['baseurl'].'/forums.php?action=viewforum&forumid='.$forumid);
+            header('Location: '.$TRINITY20['baseurl'].'/forums.php?action=viewforum&forumid='.$forumid);
             exit();
         }
-        $returnto = $INSTALLER09['baseurl'].'/forums.php?action=viewtopic&topicid='.$topicid;
+        $returnto = $TRINITY20['baseurl'].'/forums.php?action=viewtopic&topicid='.$topicid;
         $updateset = array();
         $locked = ($_POST['locked'] == 'yes' ? 'yes' : 'no');
         if ($locked != $topic_arr['locked'])
@@ -89,7 +89,7 @@ if (!defined('IN_INSTALLER09_FORUM')) {
             $updateset[] = 'forum_id='.sqlesc($new_forumid);
             sql_query("UPDATE forums SET topic_count=topic_count-1, post_count=post_count-".sqlesc($post_count)." WHERE id=".sqlesc($forumid)) or sqlerr(__FILE__, __LINE__);
             sql_query("UPDATE forums SET topic_count=topic_count+1, post_count=post_count+".sqlesc($post_count)." WHERE id=".sqlesc($new_forumid)) or sqlerr(__FILE__, __LINE__);
-            $returnto = $INSTALLER09['baseurl'].'/forums.php?action=viewforum&forumid='.$new_forumid;
+            $returnto = $TRINITY20['baseurl'].'/forums.php?action=viewforum&forumid='.$new_forumid;
         }
         if (sizeof($updateset) > 0)
             sql_query("UPDATE topics SET ".implode(', ', $updateset) . " WHERE id=".sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);

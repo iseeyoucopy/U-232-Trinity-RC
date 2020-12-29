@@ -22,7 +22,7 @@ if (!defined('IN_INSTALLER09_ADMIN')) {
 <h1>Not Found</h1>
 <p>The requested URL ' . htmlsafechars($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], '/') + 1) . ' was not found on this server.</p>
 <hr>
-<address>' . $_SERVER['SERVER_SOFTWARE'] . ' Server at ' . $INSTALLER09['baseurl'] . ' Port 80</address>
+<address>' . $_SERVER['SERVER_SOFTWARE'] . ' Server at ' . $TRINITY20['baseurl'] . ' Port 80</address>
 </body></html>';
     echo $HTMLOUT;
     exit();
@@ -53,13 +53,13 @@ if (isset($_GET['remove'])) {
             sql_query('UPDATE users SET watched_user = \'0\', modcomment=' . sqlesc($modcomment) . ' WHERE id=' . sqlesc($remove_me_Ive_been_good)) or sqlerr(__FILE__, __LINE__);
             $cache->update_row('MyUser_' . $remove_me_Ive_been_good, [
                 'watched_user' => 0
-            ], $INSTALLER09['expires']['curuser']);
+            ], $TRINITY20['expires']['curuser']);
             $cache->update_row('user' . $remove_me_Ive_been_good, [
                 'watched_user' => 0
-            ], $INSTALLER09['expires']['user_cache']);
+            ], $TRINITY20['expires']['user_cache']);
             $cache->update_row('user_stats_' . $remove_me_Ive_been_good, [
                 'modcomment' => $modcomment
-            ], $INSTALLER09['expires']['user_stats']);
+            ], $TRINITY20['expires']['user_stats']);
             $count = 1;
             $removed_log = '<a href="userdetails.php?id=' . $remove_me_Ive_been_good . '" class="altlink">' . htmlsafechars($user['username']) . '</a>';
         }
@@ -77,13 +77,13 @@ if (isset($_GET['remove'])) {
                 ));
                 $cache->update_row('MyUser_' . $id, [
                     'watched_user' => 0
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $id, [
                     'watched_user' => 0
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('user_stats_' . $id, [
                     'modcomment' => $modcomment
-                ], $INSTALLER09['expires']['user_stats']);
+                ], $TRINITY20['expires']['user_stats']);
                 $count = (++$count);
                 $removed_log .= '<a href="userdetails.php?id=' . $id . '" class="altlink">' . htmlsafechars($user['username']) . '</a> ';
             }
@@ -131,14 +131,14 @@ if (isset($_GET['add'])) {
         sql_query('UPDATE users SET watched_user = ' . TIME_NOW . ', modcomment=' . sqlesc($modcomment) . ', watched_user_reason = ' . sqlesc($watched_user_reason) . ' WHERE id=' . sqlesc($member_whos_been_bad)) or sqlerr(__FILE__, __LINE__);
         $cache->update_row('MyUser_' . $member_whos_been_bad, [
             'watched_user' => TIME_NOW
-        ], $INSTALLER09['expires']['curuser']);
+        ], $TRINITY20['expires']['curuser']);
         $cache->update_row('user' . $member_whos_been_bad, [
             'watched_user' => TIME_NOW,
             'watched_user_reason' => $watched_user_reason
-        ], $INSTALLER09['expires']['user_cache']);
+        ], $TRINITY20['expires']['user_cache']);
         $cache->update_row('user_stats_' . $member_whos_been_bad, [
             'modcomment' => $modcomment
-        ], $INSTALLER09['expires']['user_stats']);
+        ], $TRINITY20['expires']['user_stats']);
     }
     //=== Check if member was added
     if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) > 0) {
@@ -189,7 +189,7 @@ if ($how_many > 0) {
         <td align="center" class="' . $class . '">' . get_date($arr['watched_user'], '') . '</td>
         <td align="left" class="' . $class . '">' . print_user_stuff($arr) . '</td>
         <td align="left" class="' . $class . '">' . $the_flip_box . '</td>
-        <td align="center" class="' . $class . '">' . member_ratio($arr['uploaded'], $INSTALLER09['ratio_free'] ? '0' : $arr['downloaded']) . '</td>
+        <td align="center" class="' . $class . '">' . member_ratio($arr['uploaded'], $TRINITY20['ratio_free'] ? '0' : $arr['downloaded']) . '</td>
         <td align="center" class="' . $class . '">' . (($invitor_arr['username'] ?? '') ? print_user_stuff($invitor_arr) : $lang['watched_open_sign-ups']) . '</td>
         ' . ($CURUSER['class'] >= UC_STAFF ? '
         <td align="center" class="' . $class . '"><input type="checkbox" name="wu[]" value="' . (int) $arr['id'] . '" /></td>' : '') . '

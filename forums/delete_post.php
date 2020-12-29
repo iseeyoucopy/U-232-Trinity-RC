@@ -40,11 +40,11 @@ if (!defined('IN_INSTALLER09_FORUM')) {
     if (isMod($arr["forumid"], "forum") || $CURUSER['class'] >= UC_STAFF) {
         $topicid = (int)$arr['topic_id'];
         if ($arr['posts_count'] < 2)
-            stderr("Error", "Can't delete post; it is the only post of the topic. You should<br /><a href='{$INSTALLER09['baseurl']}/forums.php?action=deletetopic&amp;topicid=$topicid'>delete the topic</a> instead.");
+            stderr("Error", "Can't delete post; it is the only post of the topic. You should<br /><a href='{$TRINITY20['baseurl']}/forums.php?action=deletetopic&amp;topicid=$topicid'>delete the topic</a> instead.");
         $redirtopost = (is_valid_id($arr['p_id']) ? "&page=p" . $arr['p_id'] . "#p" . $arr['p_id'] : '');
         $sure = (int)isset($_GET['sure']) && (int) $_GET['sure'];
         if (!$sure)
-            stderr("Sanity check...", "You are about to delete a post. Click <a href='{$INSTALLER09['baseurl']}/forums.php?action=deletepost&amp;postid=$postid&amp;sure=1'>here</a> if you are sure.");
+            stderr("Sanity check...", "You are about to delete a post. Click <a href='{$TRINITY20['baseurl']}/forums.php?action=deletepost&amp;postid=$postid&amp;sure=1'>here</a> if you are sure.");
         sql_query("DELETE posts.* " . ($Multi_forum['configs']['use_attachment_mod'] ? ", attachments.*, attachmentdownloads.* " : "") . "FROM posts ".($Multi_forum['configs']['use_attachment_mod'] ? "LEFT JOIN attachments ON attachments.post_id = posts.id " . "LEFT JOIN attachmentdownloads ON attachmentdownloads.file_id = attachments.id " : "")."WHERE posts.id=".sqlesc($postid)) or sqlerr(__FILE__, __LINE__);
         if ($Multi_forum['configs']['use_attachment_mod'] && !empty($arr['filename'])) {
             $filename = $Multi_forum['configs']['attachment_dir']."/".$arr['filename'];
@@ -52,7 +52,7 @@ if (!defined('IN_INSTALLER09_FORUM')) {
                 unlink($filename);
         }
         update_topic_last_post($topicid);
-        header("Location: {$INSTALLER09['baseurl']}/forums.php?action=viewtopic&topicid=".$topicid.$redirtopost);
+        header("Location: {$TRINITY20['baseurl']}/forums.php?action=viewtopic&topicid=".$topicid.$redirtopost);
         exit();
     }
 ?>

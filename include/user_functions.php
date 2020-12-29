@@ -25,10 +25,10 @@ function get_parked()
 //== Auto Shout Function ==//
 function autoshout($msg)
 {
-    global $INSTALLER09, $cache;
+    global $TRINITY20, $cache;
     require_once (INCL_DIR . 'bbcode_functions.php');
-    //sql_query('INSERT INTO shoutbox(userid,date,text,text_parsed,autoshout)VALUES (' . $INSTALLER09['bot_id'] . ',' . TIME_NOW . ',' . sqlesc($msg) . ',' . sqlesc(format_comment($msg)) . ', "yes")');
-    sql_query('INSERT INTO ajax_chat_messages(userID,userName,userRole,channel,dateTime,ip,text) VALUES (' . $INSTALLER09['bot_id'] . ',' . $INSTALLER09['bot_name'] . ',' . $INSTALLER09['bot_role'] . ',"2",' . sqlesc(TIME_DATE) . ',' . sqlesc($_SERVER['REMOTE_ADDR']) . ',' . sqlesc($msg) . ')')  or sqlerr(__FILE__, __LINE__);
+    //sql_query('INSERT INTO shoutbox(userid,date,text,text_parsed,autoshout)VALUES (' . $TRINITY20['bot_id'] . ',' . TIME_NOW . ',' . sqlesc($msg) . ',' . sqlesc(format_comment($msg)) . ', "yes")');
+    sql_query('INSERT INTO ajax_chat_messages(userID,userName,userRole,channel,dateTime,ip,text) VALUES (' . $TRINITY20['bot_id'] . ',' . $TRINITY20['bot_name'] . ',' . $TRINITY20['bot_role'] . ',"2",' . sqlesc(TIME_DATE) . ',' . sqlesc($_SERVER['REMOTE_ADDR']) . ',' . sqlesc($msg) . ')')  or sqlerr(__FILE__, __LINE__);
     $cache->delete_value($keys['auto_shoutbox']);
 }
 //== Parked function ==//
@@ -43,7 +43,7 @@ function parked()
 //== Reputation function==//
 function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
 {
-    global $INSTALLER09, $CURUSER;
+    global $TRINITY20, $CURUSER;
     $member_reputation = "";
     if ($rep_is_on) {
         include CACHE_DIR . '/rep_cache.php';
@@ -122,7 +122,7 @@ function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
             }
         }
         // now decide the locale
-        if ($mode != '') return "Rep: " . $posneg . "<br /><br /><a href='javascript:;' onclick=\"PopUp('{$INSTALLER09['baseurl']}/reputation.php?pid=" . ($post_id != 0 ? (int)$post_id : (int)$user['id']) . "&amp;locale=" . $mode . "','Reputation',400,241,1,1);\"><button type='button' class='tiny button' style='margin-top:-9px;' alt='Add reputation:: " . htmlsafechars($user['username']) . "' title='Add reputation:: " . htmlsafechars($user['username']) . "'><i class='fa fa-check'></i> Add Rep</button></a>";
+        if ($mode != '') return "Rep: " . $posneg . "<br /><br /><a href='javascript:;' onclick=\"PopUp('{$TRINITY20['baseurl']}/reputation.php?pid=" . ($post_id != 0 ? (int)$post_id : (int)$user['id']) . "&amp;locale=" . $mode . "','Reputation',400,241,1,1);\"><button type='button' class='tiny button' style='margin-top:-9px;' alt='Add reputation:: " . htmlsafechars($user['username']) . "' title='Add reputation:: " . htmlsafechars($user['username']) . "'><i class='fa fa-check'></i> Add Rep</button></a>";
         else return " " . $posneg;
     } // END IF ONLINE
     // default
@@ -131,9 +131,9 @@ function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
 //== Write staff function... This function will write usernames and their id's into staff_settings.php and staff_settings.php ==//
 function write_staffs()
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     //==ids
-    $t = '$INSTALLER09';
+    $t = '$TRINITY20';
     $iconfigfile = "<" . "?php\n/**\nThis file created on " . date('M d Y H:i:s') . ".\nSite Config staff mod.\n**/\n";
     $ri = sql_query("SELECT id, username, class FROM users WHERE class BETWEEN " . UC_STAFF . " AND " . UC_MAX . " ORDER BY id ASC") or sqlerr(__file__, __line__);
     $iconfigfile.= "" . $t . "['allowed_staff']['id'] = array(";
@@ -149,7 +149,7 @@ function write_staffs()
     fwrite($filenum, $iconfigfile);
     fclose($filenum);
     //==names
-    $t = '$INSTALLER09';
+    $t = '$TRINITY20';
     $nconfigfile = "<" . "?php\n/**\nThis file created on " . date('M d Y H:i:s') . ".\nSite Config staff mod.\n**/\n";
     $nconfigfile.= "" . $t . "['staff']['allowed'] = array(";
     $nconfigfile.= "" . join(",", $usernames);
@@ -216,34 +216,34 @@ function get_slr_color($ratio)
 }
 function ratio_image_machine($ratio_to_check)
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     switch ($ratio_to_check) {
     case $ratio_to_check >= 5:
-        return '<img src="' . $INSTALLER09['pic_base_url'] . 'smilies/yay.gif" alt="Yay" title="Yay" />';
+        return '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/yay.gif" alt="Yay" title="Yay" />';
         break;
     case $ratio_to_check >= 4:
-        return '<img src="' . $INSTALLER09['pic_base_url'] . 'smilies/pimp.gif" alt="Pimp" title="Pimp" />';
+        return '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/pimp.gif" alt="Pimp" title="Pimp" />';
         break;
     case $ratio_to_check >= 3:
-        return '<img src="' . $INSTALLER09['pic_base_url'] . 'smilies/w00t.gif" alt="W00t" title="W00t" />';
+        return '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/w00t.gif" alt="W00t" title="W00t" />';
         break;
     case $ratio_to_check >= 2:
-        return '<img src="' . $INSTALLER09['pic_base_url'] . 'smilies/grin.gif" alt="Grin" title="Grin" />';
+        return '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/grin.gif" alt="Grin" title="Grin" />';
         break;
     case $ratio_to_check >= 1.5:
-        return '<img src="' . $INSTALLER09['pic_base_url'] . 'smilies/evo.gif" alt="Evo" title="Evo" />';
+        return '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/evo.gif" alt="Evo" title="Evo" />';
         break;
     case $ratio_to_check >= 1:
-        return '<img src="' . $INSTALLER09['pic_base_url'] . 'smilies/smile1.gif" alt="Smile" title="Smile" />';
+        return '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/smile1.gif" alt="Smile" title="Smile" />';
         break;
     case $ratio_to_check >= 0.5:
-        return '<img src="' . $INSTALLER09['pic_base_url'] . 'smilies/noexpression.gif" alt="Blank" title="Blank" />';
+        return '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/noexpression.gif" alt="Blank" title="Blank" />';
         break;
     case $ratio_to_check >= 0.25:
-        return '<img src="' . $INSTALLER09['pic_base_url'] . 'smilies/cry.gif" alt="Cry" title="Cry" />';
+        return '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/cry.gif" alt="Cry" title="Cry" />';
         break;
     case $ratio_to_check < 0.25:
-        return '<img src="' . $INSTALLER09['pic_base_url'] . 'smilies/shit.gif" alt="Shit" title="Shit" />';
+        return '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/shit.gif" alt="Shit" title="Shit" />';
         break;
     }
 }
@@ -292,21 +292,21 @@ function min_class($min = UC_MIN, $max = UC_MAX)
 }
 function format_username($user, $icons = true)
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     $user['id'] = (int)$user['id'];
     $user['class'] = (int)$user['class'];
     if ($user['id'] == 0) return 'System';
     elseif ($user['username'] == '') return 'unknown[' . $user['id'] . ']';
     $username = '<span style="color:#' . get_user_class_color($user['class']) . ';"><b>' . htmlsafechars($user['username']) . '</b></span>';
-    $str = '<span style="white-space: nowrap;"><a class="user_' . $user['id'] . '" href="' . $INSTALLER09['baseurl'] . '/userdetails.php?id=' . $user['id'] . '" target="_blank">' . $username . '</a>';
+    $str = '<span style="white-space: nowrap;"><a class="user_' . $user['id'] . '" href="' . $TRINITY20['baseurl'] . '/userdetails.php?id=' . $user['id'] . '" target="_blank">' . $username . '</a>';
     if ($icons != false) {
-        $str.= ($user['donor'] == 'yes' ? '<img src="' . $INSTALLER09['pic_base_url'] . 'star.png" alt="Donor" title="Donor" />' : '');
-        $str.= ($user['warned'] >= 1 ? '<img src="' . $INSTALLER09['pic_base_url'] . 'alertred.png" alt="Warned" title="Warned" />' : '');
-        $str.= ($user['leechwarn'] >= 1 ? '<img src="' . $INSTALLER09['pic_base_url'] . 'alertblue.png" alt="Leech Warned" title="Leech Warned" />' : '');
-        $str.= ($user['enabled'] != 'yes' ? '<img src="' . $INSTALLER09['pic_base_url'] . 'disabled.gif" alt="Disabled" title="Disabled" />' : '');
-        $str.= ($user['chatpost'] == 0 ? '<img src="' . $INSTALLER09['pic_base_url'] . 'warned.png" alt="No Chat" title="Shout disabled" />' : '');
-        $str.= ($user['pirate'] != 0 ? '<img src="' . $INSTALLER09['pic_base_url'] . 'pirate.png" alt="Pirate" title="Pirate" />' : '');
-        $str.= ($user['king'] != 0 ? '<img src="' . $INSTALLER09['pic_base_url'] . 'king.png" alt="King" title="King" />' : '');
+        $str.= ($user['donor'] == 'yes' ? '<img src="' . $TRINITY20['pic_base_url'] . 'star.png" alt="Donor" title="Donor" />' : '');
+        $str.= ($user['warned'] >= 1 ? '<img src="' . $TRINITY20['pic_base_url'] . 'alertred.png" alt="Warned" title="Warned" />' : '');
+        $str.= ($user['leechwarn'] >= 1 ? '<img src="' . $TRINITY20['pic_base_url'] . 'alertblue.png" alt="Leech Warned" title="Leech Warned" />' : '');
+        $str.= ($user['enabled'] != 'yes' ? '<img src="' . $TRINITY20['pic_base_url'] . 'disabled.gif" alt="Disabled" title="Disabled" />' : '');
+        $str.= ($user['chatpost'] == 0 ? '<img src="' . $TRINITY20['pic_base_url'] . 'warned.png" alt="No Chat" title="Shout disabled" />' : '');
+        $str.= ($user['pirate'] != 0 ? '<img src="' . $TRINITY20['pic_base_url'] . 'pirate.png" alt="Pirate" title="Pirate" />' : '');
+        $str.= ($user['king'] != 0 ? '<img src="' . $TRINITY20['pic_base_url'] . 'king.png" alt="King" title="King" />' : '');
     }
     $str.= "</span>\n";
     return $str;
@@ -335,34 +335,34 @@ function member_ratio($up, $down)
 //=== get smilie based on ratio
 function get_user_ratio_image($ratio)
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     switch ($ratio) {
     case ($ratio == 0):
         return;
         break;
     case ($ratio < 0.6):
-        return ' <img src="' . $INSTALLER09['pic_base_url'] . 'smilies/shit.gif" alt=" Bad ratio :("  title=" Bad ratio :("/>';
+        return ' <img src="' . $TRINITY20['pic_base_url'] . 'smilies/shit.gif" alt=" Bad ratio :("  title=" Bad ratio :("/>';
         break;
     case ($ratio <= 0.7):
-        return ' <img src="' . $INSTALLER09['pic_base_url'] . 'smilies/weep.gif" alt=" Could be better"  title=" Could be better" />';
+        return ' <img src="' . $TRINITY20['pic_base_url'] . 'smilies/weep.gif" alt=" Could be better"  title=" Could be better" />';
         break;
     case ($ratio <= 0.8):
-        return ' <img src="' . $INSTALLER09['pic_base_url'] . 'smilies/cry.gif" alt=" Getting there!" title=" Getting there!" />';
+        return ' <img src="' . $TRINITY20['pic_base_url'] . 'smilies/cry.gif" alt=" Getting there!" title=" Getting there!" />';
         break;
     case ($ratio <= 1.5):
-        return ' <img src="' . $INSTALLER09['pic_base_url'] . 'smilies/smile1.gif" alt=" Good Ratio :)" title=" Good Ratio :)" />';
+        return ' <img src="' . $TRINITY20['pic_base_url'] . 'smilies/smile1.gif" alt=" Good Ratio :)" title=" Good Ratio :)" />';
         break;
     case ($ratio <= 2.0):
-        return ' <img src="' . $INSTALLER09['pic_base_url'] . 'smilies/grin.gif" alt=" Great Ratio :)" title=" Great Ratio :)" />';
+        return ' <img src="' . $TRINITY20['pic_base_url'] . 'smilies/grin.gif" alt=" Great Ratio :)" title=" Great Ratio :)" />';
         break;
     case ($ratio <= 3.0):
-        return ' <img src="' . $INSTALLER09['pic_base_url'] . 'smilies/w00t.gif" alt=" Wow! :D" title=" Wow! :D" />';
+        return ' <img src="' . $TRINITY20['pic_base_url'] . 'smilies/w00t.gif" alt=" Wow! :D" title=" Wow! :D" />';
         break;
     case ($ratio <= 4.0):
-        return ' <img src="' . $INSTALLER09['pic_base_url'] . 'smilies/pimp.gif" alt=" Fa-boo Ratio!" title=" Fa-boo Ratio!" />';
+        return ' <img src="' . $TRINITY20['pic_base_url'] . 'smilies/pimp.gif" alt=" Fa-boo Ratio!" title=" Fa-boo Ratio!" />';
         break;
     case ($ratio > 4.0):
-        return ' <img src="' . $INSTALLER09['pic_base_url'] . 'smilies/yahoo.gif" alt=" Great ratio :-D" title=" Great ratio :-D" />';
+        return ' <img src="' . $TRINITY20['pic_base_url'] . 'smilies/yahoo.gif" alt=" Great ratio :-D" title=" Great ratio :-D" />';
         break;
     }
     return '';
@@ -371,31 +371,31 @@ function get_user_ratio_image($ratio)
 /*
 function avatar_stuff($avatar, $width = 80)
 {
-    global $CURUSER, $INSTALLER09;
+    global $CURUSER, $TRINITY20;
     require_once (CLASS_DIR . 'class_user_options.php');
-    $avatar_show = (!($CURUSER['opt1'] & user_options::AVATARS) ? '' : (!$avatar['avatar'] ? '<img style="max-width:' . $width . 'px;" src="' . $INSTALLER09['pic_base_url'] . 'default_avatar.gif" alt="avatar" />' : (($CURUSER['opt1'] & user_options::OFFENSIVE_AVATAR && $CURUSER['opt2'] & user_options::VIEW_OFFENSIVE_AVATAR) ? '<img style="max-width:' . $width . 'px;" src="' . $INSTALLER09['pic_base_url'] . 'fuzzybunny.gif" alt="avatar" />' : '<img style="max-width:' . $width . 'px;" src="' . htmlsafechars($avatar['avatar']) . '" alt="avatar" />')));
+    $avatar_show = (!($CURUSER['opt1'] & user_options::AVATARS) ? '' : (!$avatar['avatar'] ? '<img style="max-width:' . $width . 'px;" src="' . $TRINITY20['pic_base_url'] . 'default_avatar.gif" alt="avatar" />' : (($CURUSER['opt1'] & user_options::OFFENSIVE_AVATAR && $CURUSER['opt2'] & user_options::VIEW_OFFENSIVE_AVATAR) ? '<img style="max-width:' . $width . 'px;" src="' . $TRINITY20['pic_base_url'] . 'fuzzybunny.gif" alt="avatar" />' : '<img style="max-width:' . $width . 'px;" src="' . htmlsafechars($avatar['avatar']) . '" alt="avatar" />')));
     return $avatar_show;
 }
 */
 //=== avatar stuff... hell it's called all over the place :-o
 function avatar_stuff($avatar, $width = 80)
 {
-    global $CURUSER, $INSTALLER09;
-    $avatar_show = ($CURUSER['avatars'] == 'no' ? '' : (!$avatar['avatar'] ? '<img style="max-width:'.$width.'px;" src="'.$INSTALLER09['pic_base_url'].'default_avatar.gif" alt="avatar" />' : (($avatar['offensive_avatar'] === 'yes' && $CURUSER['view_offensive_avatar'] === 'no') ? '<img style="max-width:'.$width.'px;" src="'.$INSTALLER09['pic_base_url'].'fuzzybunny.gif" alt="avatar" />' : '<img style="max-width:'.$width.'px;" src="'.htmlsafechars($avatar['avatar']).'" alt="avatar" />')));
+    global $CURUSER, $TRINITY20;
+    $avatar_show = ($CURUSER['avatars'] == 'no' ? '' : (!$avatar['avatar'] ? '<img style="max-width:'.$width.'px;" src="'.$TRINITY20['pic_base_url'].'default_avatar.gif" alt="avatar" />' : (($avatar['offensive_avatar'] === 'yes' && $CURUSER['view_offensive_avatar'] === 'no') ? '<img style="max-width:'.$width.'px;" src="'.$TRINITY20['pic_base_url'].'fuzzybunny.gif" alt="avatar" />' : '<img style="max-width:'.$width.'px;" src="'.htmlsafechars($avatar['avatar']).'" alt="avatar" />')));
     return $avatar_show;
 }
 //=== added a function to get all user info and print them up with link to userdetails page, class color, user icons... pdq's idea \o/
 function print_user_stuff($arr)
 {
-    global $CURUSER, $INSTALLER09;
+    global $CURUSER, $TRINITY20;
     return '<a href="userdetails.php?id=' . (int)$arr['id'] . '" title="' . get_user_class_name($arr['class']) . '">
   <span style="font-weight: bold;"></span></a>' . format_username($arr) . '';
 }
 //made by putyn@tbdev
 function blacklist($fo)
 {
-    global $INSTALLER09;
-    $blacklist = file_exists($INSTALLER09['nameblacklist']) && is_array(unserialize(file_get_contents($INSTALLER09['nameblacklist']))) ? unserialize(file_get_contents($INSTALLER09['nameblacklist'])) : array();
+    global $TRINITY20;
+    $blacklist = file_exists($TRINITY20['nameblacklist']) && is_array(unserialize(file_get_contents($TRINITY20['nameblacklist']))) ? unserialize(file_get_contents($TRINITY20['nameblacklist'])) : array();
     if (isset($blacklist[$fo]) && $blacklist[$fo] == 1) return false;
     return true;
 }
@@ -435,8 +435,8 @@ function get_cache_config_data($the_names,$the_colors,$the_images)
 	return $configfile;
 }
     function topicmods($id,$utopics,$read = false) {
-            global $INSTALLER09;
-            $file = $INSTALLER09['cache']."/topicsmods.txt";
+            global $TRINITY20;
+            $file = $TRINITY20['cache']."/topicsmods.txt";
             $topics = file_exists($file) ? unserialize(file_get_contents($file)) : array();
             if(!$read) {
                     $topics[$id] = $utopics;
@@ -451,8 +451,8 @@ function get_cache_config_data($the_names,$the_colors,$the_images)
     } 
   function forummods($forced = false)
 {
-		global $INSTALLER09;
-                $file = $INSTALLER09['cache']."/forummods.txt";
+		global $TRINITY20;
+                $file = $TRINITY20['cache']."/forummods.txt";
 		if (!file_exists($file) || $forced == true)
 		{
 			$q = sql_query("SELECT id,username,forums_mod FROM users WHERE forum_mod = 'yes'") or sqlerr(__FILE__, __LINE__);

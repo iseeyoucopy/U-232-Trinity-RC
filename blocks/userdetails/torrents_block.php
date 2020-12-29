@@ -14,7 +14,7 @@ $r = sql_query("SELECT t.id, t.name, t.seeders, t.leechers, c.name AS cname, c.i
 if (mysqli_num_rows($r) > 0) {
     $torrents = '';
    while ($a = mysqli_fetch_assoc($r)) {
-        $cat = "<img src=\"{$INSTALLER09['pic_base_url']}/caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($a['image']) . "\" title=\"" . htmlsafechars($a['cname']) . "\" alt=\"" . htmlsafechars($a['cname']) . "\">";
+        $cat = "<img src=\"{$TRINITY20['pic_base_url']}/caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($a['image']) . "\" title=\"" . htmlsafechars($a['cname']) . "\" alt=\"" . htmlsafechars($a['cname']) . "\">";
    $torrents.= '<div class="media-object">
   <div class="media-object-section">
     <div class="thumbnail">
@@ -45,7 +45,7 @@ if (XBT_TRACKER == true) {
 }
 function maketable($res_tb)
 {
-    global $INSTALLER09, $lang, $CURUSER;
+    global $TRINITY20, $lang, $CURUSER;
    
     $htmlout = '';
     foreach ($res_tb as $arr) {
@@ -54,7 +54,7 @@ function maketable($res_tb)
             $ratio = "<font color='" . get_ratio_color($ratio) . "'>$ratio</font>";
         } else if ($arr["uploaded"] > 0) $ratio = "{$lang['userdetails_inf']}";
         else $ratio = "---";
-        $catimage = "{$INSTALLER09['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$arr['image']}";
+        $catimage = "{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$arr['image']}";
         $catname = "&nbsp;&nbsp;".htmlsafechars($arr["catname"]);
         $catimage = "<img src=\"" . htmlsafechars($catimage) . "\" title=\"$catname\" alt=\"$catname\" width='42' height='42' />";
         $size = str_replace(" ", "<br />", mksize($arr["size"]));
@@ -75,7 +75,7 @@ function maketable($res_tb)
     '.$lang['userdetails_se'].' : '.$seeders.'
     '.$lang['userdetails_le'].' : '.$leechers.'
     '.$lang['userdetails_upl'].' : '.$uploaded.'
-    ' . ($INSTALLER09['ratio_free'] ? "" : $lang['userdetails_downl']) . ' : ' . ($INSTALLER09['ratio_free'] ? "" : $downloaded) . '
+    ' . ($TRINITY20['ratio_free'] ? "" : $lang['userdetails_downl']) . ' : ' . ($TRINITY20['ratio_free'] ? "" : $downloaded) . '
     '.$lang['userdetails_ratio'].' : '.$ratio.'
   </div>
 </div>';

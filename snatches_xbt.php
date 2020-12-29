@@ -42,14 +42,14 @@ $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "snatches.php?id=$id&amp;");
 if (!$count) stderr("No snatches", "It appears that there are currently no snatches for the torrent <a href='details.php?id=" . (int)$arr['id'] . "'>" . htmlsafechars($arr['name']) . "</a>.");
-$HTMLOUT.= "<h1>Snatches for torrent <a href='{$INSTALLER09['baseurl']}/details.php?id=" . (int)$arr['id'] . "'>" . htmlsafechars($arr['name']) . "</a></h1>\n";
+$HTMLOUT.= "<h1>Snatches for torrent <a href='{$TRINITY20['baseurl']}/details.php?id=" . (int)$arr['id'] . "'>" . htmlsafechars($arr['name']) . "</a></h1>\n";
 $HTMLOUT.= "<h2>Currently {$row['0']} snatch" . ($row[0] == 1 ? "" : "es") . "</h2>\n";
 if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
 $HTMLOUT.= "<table class='table table-bordered'>
 <tr>
 <td class='colhead' align='left'>{$lang['snatches_username']}</td>
 <td class='colhead' align='right'>{$lang['snatches_uploaded']}</td>
-" . ($INSTALLER09['ratio_free'] ? "" : "<td class='colhead' align='right'>{$lang['snatches_downloaded']}</td>") . "
+" . ($TRINITY20['ratio_free'] ? "" : "<td class='colhead' align='right'>{$lang['snatches_downloaded']}</td>") . "
 <td class='colhead' align='right'>{$lang['snatches_ratio']}</td>
 <td class='colhead' align='right'>{$lang['snatches_seedtime']}</td>
 <td class='colhead' align='right'>{$lang['snatches_leechtime']}</td>
@@ -61,14 +61,14 @@ $HTMLOUT.= "<table class='table table-bordered'>
 $res = sql_query("SELECT x.*, x.uid AS xu, torrents.username as username1, users.username as username2, torrents.anonymous as anonymous1, users.anonymous as anonymous2, size, parked, warned, enabled, class, chatpost, leechwarn, donor, uid FROM xbt_peers AS x INNER JOIN users ON x.uid = users.id INNER JOIN torrents ON x.tid = torrents.id WHERE tid = " . sqlesc($id) . " AND completedtime !=0 ORDER BY tid DESC " . $pager['limit']) or sqlerr(__FILE__, __LINE__);
 while ($arr = mysqli_fetch_assoc($res)) {
     $ratio = ($arr["downloaded"] > 0 ? number_format($arr["uploaded"] / $arr["downloaded"], 3) : ($arr["uploaded"] > 0 ? "Inf." : "---"));
-    $active = ($arr['active'] == 1 ? $active = "<img src='" . $INSTALLER09['pic_base_url'] . "aff_tick.gif' alt='Yes' title='Yes' />" : $active = "<img src='" . $INSTALLER09['pic_base_url'] . "aff_cross.gif' alt='No' title='No' />");
-    $completed = ($arr['completed'] >= 1 ? $completed = "<img src='" . $INSTALLER09['pic_base_url'] . "aff_tick.gif' alt='Yes' title='Yes' />" : $completed = "<img src='" . $INSTALLER09['pic_base_url'] . "aff_cross.gif' alt='No' title='No' />");
+    $active = ($arr['active'] == 1 ? $active = "<img src='" . $TRINITY20['pic_base_url'] . "aff_tick.gif' alt='Yes' title='Yes' />" : $active = "<img src='" . $TRINITY20['pic_base_url'] . "aff_cross.gif' alt='No' title='No' />");
+    $completed = ($arr['completed'] >= 1 ? $completed = "<img src='" . $TRINITY20['pic_base_url'] . "aff_tick.gif' alt='Yes' title='Yes' />" : $completed = "<img src='" . $TRINITY20['pic_base_url'] . "aff_cross.gif' alt='No' title='No' />");
     $snatchuser = (isset($arr['username2']) ? ("<a href='userdetails.php?id=" . (int)$arr['uid'] . "'><b>" . htmlsafechars($arr['username2']) . "</b></a>") : "{$lang['snatches_unknown']}");
     $username = (($arr['anonymous2'] == 'yes') ? ($CURUSER['class'] < UC_STAFF && $arr['uid'] != $CURUSER['id'] ? '' : $snatchuser . ' - ') . "<i>{$lang['snatches_anon']}</i>" : $snatchuser);
     $HTMLOUT.= "<tr>
   <td align='left'>{$username}</td>
   <td align='right'>" . mksize($arr["uploaded"]) . "</td>
-  " . ($INSTALLER09['ratio_free'] ? "" : "<td align='right'>" . mksize($arr["downloaded"]) . "</td>") . "
+  " . ($TRINITY20['ratio_free'] ? "" : "<td align='right'>" . mksize($arr["downloaded"]) . "</td>") . "
   <td align='right'>" . htmlsafechars($ratio) . "</td>
   <td align='right'>" . mkprettytime($arr["seedtime"]) . "</td>
   <td align='right'>" . mkprettytime($arr["leechtime"]) . "</td>

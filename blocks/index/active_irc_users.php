@@ -31,13 +31,13 @@ if (($active_irc_users_cache = $cache->get($keys['activeircusers'])) === false) 
     while ($arr = mysqli_fetch_assoc($res)) {
         if ($activeircusers) $activeircusers.= ",\n";
         $activeircusers.= '<b>' . format_username($arr) . '</b>';
-        //$ircbonus   = (!empty($arr['irctotal'])?number_format($arr["irctotal"] / ($INSTALLER09['autoclean_interval'] * 4), 1):'0.0');
+        //$ircbonus   = (!empty($arr['irctotal'])?number_format($arr["irctotal"] / ($TRINITY20['autoclean_interval'] * 4), 1):'0.0');
         //$irctotal = (!empty($arr['irctotal'])?calctime($arr['irctotal']):'');
         //$activeircusers .= '<span class="tool"><b>'.format_username($arr).'</b><span class="tip">'.$ircbonus.' points. - '.$irctotal.'</span></span>';
      }
     $active_irc_users_cache['activeircusers'] = $activeircusers;
     $active_irc_users_cache['actcount'] = $actcount;
-    $cache->set($keys['activeircusers'], $active_irc_users_cache, $INSTALLER09['expires']['activeircusers']);
+    $cache->set($keys['activeircusers'], $active_irc_users_cache, $TRINITY20['expires']['activeircusers']);
 }
 if (!$active_irc_users_cache['activeircusers']) $active_irc_users_cache['activeircusers'] = $lang['index_irc_nousers'];
 $active_irc_users = '<div class="callout">

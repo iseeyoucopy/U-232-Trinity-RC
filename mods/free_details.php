@@ -15,8 +15,8 @@ if (!defined('TBVERSION')) exit('No direct script access allowed');
 /** free addon start **/
 $is = $fl = '';
 $isfree['yep'] = $isfree['expires'] = 0;
-$freeimg = '<img src="' . $INSTALLER09['pic_base_url'] . 'freedownload.gif" border="0" alt="' . $lang['mod_free_down'] .'" title="' . $lang['mod_free_down'] .'" />';
-$silverimg = '<img src="' . $INSTALLER09['pic_base_url'] . 'silverdownload.gif" border="0" alt="' . $lang['mod_free_tsilver'] .'" title="' . $lang['mod_free_tsilver'] .'" />';
+$freeimg = '<img src="' . $TRINITY20['pic_base_url'] . 'freedownload.gif" border="0" alt="' . $lang['mod_free_down'] .'" title="' . $lang['mod_free_down'] .'" />';
+$silverimg = '<img src="' . $TRINITY20['pic_base_url'] . 'silverdownload.gif" border="0" alt="' . $lang['mod_free_tsilver'] .'" title="' . $lang['mod_free_tsilver'] .'" />';
 if (isset($free)) {
     foreach ($free as $fl) {
         switch ($fl['modifier']) {

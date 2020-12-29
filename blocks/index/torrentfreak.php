@@ -12,7 +12,7 @@
  */
 require_once ROOT_DIR . 'tfreak.php';
 $HTMLOUT.= "<div class='callout'>
-	<h4 class='subheader'>{$INSTALLER09['site_name']}{$lang['index_torr_freak']}</h4>
+	<h4 class='subheader'>{$TRINITY20['site_name']}{$lang['index_torr_freak']}</h4>
 	".rsstfreakinfo()." 
 </div>";
 //==

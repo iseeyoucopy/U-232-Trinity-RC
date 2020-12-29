@@ -30,7 +30,7 @@ require_once(CLASS_DIR . 'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_warn'));
-global $INSTALLER09, $CURUSER;
+global $TRINITY20, $CURUSER;
 $HTMLOUT = '';
 function mkint($x)
 {
@@ -73,10 +73,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             foreach ($_uids as $uid) {
                 $cache->update_row('MyUser_' . $_uid, [
                     'enabled' => 'no'
-                ], $INSTALLER09['expires']['curuser']);
+                ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $_uid, [
                     'enabled' => 'no'
-                ], $INSTALLER09['expires']['user_cache']);
+                ], $TRINITY20['expires']['user_cache']);
             }
             $d = mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
             header("Refresh: 2; url=" . $r);
@@ -90,10 +90,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         foreach ($_uids as $uid) {
             $cache->update_row('MyUser_' . $_uid, [
                 'warned' => 0
-            ], $INSTALLER09['expires']['curuser']);
+            ], $TRINITY20['expires']['curuser']);
             $cache->update_row('user' . $_uid, [
                 'warned' => 0
-            ], $INSTALLER09['expires']['user_cache']);
+            ], $TRINITY20['expires']['user_cache']);
         }
         $pms = [];
         foreach ($_uids as $id) {

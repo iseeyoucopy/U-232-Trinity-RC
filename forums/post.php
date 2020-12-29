@@ -98,21 +98,21 @@ if (!defined('IN_INSTALLER09_FORUM')) {
 	  $postid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res) or stderr("Error", "No post ID returned!");
 	  update_topic_last_post($topicid);
           $cache->delete_value($keys['last_postsb'] . $CURUSER['class']);
-         if ($INSTALLER09['autoshout_on'] == 1) {
+         if ($TRINITY20['autoshout_on'] == 1) {
              if ($anonymous == 'yes') {
-	         $message = "[Anonymous*] Created a new forum thread [url={$INSTALLER09['baseurl']}/forums.php?action=viewtopic&topicid=$topicid&page=last]{$subject}[/url]";
+	         $message = "[Anonymous*] Created a new forum thread [url={$TRINITY20['baseurl']}/forums.php?action=viewtopic&topicid=$topicid&page=last]{$subject}[/url]";
 	 } else {
-	          $message = $CURUSER['username']." Created a new forum thread [url={$INSTALLER09['baseurl']}/forums.php?action=viewtopic&topicid=$topicid&page=last]{$subject}[/url]";
+	          $message = $CURUSER['username']." Created a new forum thread [url={$TRINITY20['baseurl']}/forums.php?action=viewtopic&topicid=$topicid&page=last]{$subject}[/url]";
          }
-         if (!in_array($forumid, $INSTALLER09['staff_forums'])) {
+         if (!in_array($forumid, $TRINITY20['staff_forums'])) {
             autoshout($message);
             $cache->delete('shoutbox_');
         }
     
 }
-	if ($INSTALLER09['seedbonus_on'] == 1) {
-        sql_query("UPDATE users SET seedbonus = seedbonus+".sqlesc($INSTALLER09['bonus_per_topic'])." WHERE id =  " . sqlesc($CURUSER['id'] . "")) or sqlerr(__FILE__, __LINE__);
-        $update['seedbonus'] = ($CURUSER['seedbonus'] + $INSTALLER09['bonus_per_topic']);
+	if ($TRINITY20['seedbonus_on'] == 1) {
+        sql_query("UPDATE users SET seedbonus = seedbonus+".sqlesc($TRINITY20['bonus_per_topic'])." WHERE id =  " . sqlesc($CURUSER['id'] . "")) or sqlerr(__FILE__, __LINE__);
+        $update['seedbonus'] = ($CURUSER['seedbonus'] + $TRINITY20['bonus_per_topic']);
         $cache->begin_transaction('userstats_' . $CURUSER["id"]);
         $cache->update_row(false, array(
             'seedbonus' => $update['seedbonus']
@@ -139,9 +139,9 @@ if (!defined('IN_INSTALLER09_FORUM')) {
         while ($row = mysqli_fetch_assoc($res_sub)) {
             $res_yes = sql_query("SELECT subscription_pm, username FROM users WHERE id=".sqlesc($row["user_id"])) or sqlerr(__FILE__, __LINE__);
             $arr_yes = mysqli_fetch_assoc($res_yes);
-            $msg = "Hey there!!! \n a thread you subscribed to: ".htmlsafechars($arr["topic_name"])." has had a new post!\n click [url=".$INSTALLER09['baseurl']."/forums.php?action=viewtopic&topicid=".$topicid."&page=last][b]HERE[/b][/url] to read it!\n\nTo view your subscriptions, or un-subscribe, click [url=".$INSTALLER09['baseurl']."/subscriptions.php][b]HERE[/b][/url].\n\ncheers.";
+            $msg = "Hey there!!! \n a thread you subscribed to: ".htmlsafechars($arr["topic_name"])." has had a new post!\n click [url=".$TRINITY20['baseurl']."/forums.php?action=viewtopic&topicid=".$topicid."&page=last][b]HERE[/b][/url] to read it!\n\nTo view your subscriptions, or un-subscribe, click [url=".$TRINITY20['baseurl']."/subscriptions.php][b]HERE[/b][/url].\n\ncheers.";
             if ($arr_yes["subscription_pm"] == 'yes' && $row["user_id"] != $CURUSER["id"])
-            sql_query("INSERT INTO messages (sender, subject, receiver, added, msg) VALUES(".sqlesc($INSTALLER09['bot_id']).", ".sqlesc("New post in subscribed thread!").", ".sqlesc($row['user_id']).", '".TIME_NOW."', ".sqlesc($msg).")") or sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO messages (sender, subject, receiver, added, msg) VALUES(".sqlesc($TRINITY20['bot_id']).", ".sqlesc("New post in subscribed thread!").", ".sqlesc($row['user_id']).", '".TIME_NOW."', ".sqlesc($msg).")") or sqlerr(__FILE__, __LINE__);
          }
     // ===end
 		//------ Check double post     
@@ -158,21 +158,21 @@ if (!defined('IN_INSTALLER09_FORUM')) {
 	    sql_query("INSERT INTO posts (topic_id, user_id, added, body, anonymous, icon) VALUES(".sqlesc($topicid).", ".sqlesc($userid).", $added, $body, ".sqlesc($anonymous).", ".sqlesc($posticon).")") or sqlerr(__FILE__, __LINE__);
 		 $postid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res) or die("Post id n/a");
 
-             if ($INSTALLER09['autoshout_on'] == 1) {
+             if ($TRINITY20['autoshout_on'] == 1) {
                  if ($anonymous == 'yes') {
-                     $message = "[Anonymous*] replied to the thread [url={$INSTALLER09['baseurl']}/forums.php?action=viewtopic&topicid=$topicid&page=last]{$subject}[/url]"; 
+                     $message = "[Anonymous*] replied to the thread [url={$TRINITY20['baseurl']}/forums.php?action=viewtopic&topicid=$topicid&page=last]{$subject}[/url]"; 
                } else {
-                     $message = $CURUSER['username'] . " replied to the thread [url={$INSTALLER09['baseurl']}/forums.php?action=viewtopic&topicid=$topicid&page=last]{$subject}[/url]";
+                     $message = $CURUSER['username'] . " replied to the thread [url={$TRINITY20['baseurl']}/forums.php?action=viewtopic&topicid=$topicid&page=last]{$subject}[/url]";
         }
         $cache->delete_value($keys['last_postsb'] . $CURUSER['class']);
-        if (!in_array($forumid, $INSTALLER09['staff_forums'])) {
+        if (!in_array($forumid, $TRINITY20['staff_forums'])) {
             autoshout($message);
             $cache->delete('shoutbox_');
         }
     }
-    if ($INSTALLER09['seedbonus_on'] == 1) {
-        sql_query("UPDATE users SET seedbonus = seedbonus+".sqlesc($INSTALLER09['bonus_per_post'])." WHERE id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-        $update['seedbonus'] = ($CURUSER['seedbonus'] + $INSTALLER09['bonus_per_post']);
+    if ($TRINITY20['seedbonus_on'] == 1) {
+        sql_query("UPDATE users SET seedbonus = seedbonus+".sqlesc($TRINITY20['bonus_per_post'])." WHERE id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+        $update['seedbonus'] = ($CURUSER['seedbonus'] + $TRINITY20['bonus_per_post']);
         $cache->begin_transaction('userstats_' . $CURUSER["id"]);
         $cache->update_row(false, array(
             'seedbonus' => $update['seedbonus']

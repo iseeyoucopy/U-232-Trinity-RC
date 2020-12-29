@@ -16,14 +16,14 @@ require_once (CLASS_DIR . 'page_verify.php');
 dbconn();
 global $CURUSER;
 if (isset($CURUSER)) {
-    header("Location: {$INSTALLER09['baseurl']}/index.php");
+    header("Location: {$TRINITY20['baseurl']}/index.php");
     exit();
 } else {
     get_template();
 }
 ini_set('session.use_trans_sid', '0');
 $stdfoot = '';
-if ($INSTALLER09['captcha_on'] === true) {
+if ($TRINITY20['captcha_on'] === true) {
 $stdfoot = array(
     /** include js **/
     'js' => array(
@@ -39,12 +39,12 @@ $left = $total = '';
 //== 09 failed logins
 function left()
 {
-    global $INSTALLER09;
+    global $TRINITY20;
     $total = 0;
     $ip = getip();
     $fail = sql_query("SELECT SUM(attempts) FROM failedlogins WHERE ip=" . sqlesc($ip)) or sqlerr(__FILE__, __LINE__);
     list($total) = mysqli_fetch_row($fail);
-    $left = $INSTALLER09['failedlogins'] - $total;
+    $left = $TRINITY20['failedlogins'] - $total;
     if ($left <= 2) $left = "<span class='button rounded alert'>{$left}</span>";
     else $left = "<span class='button rouned success'>{$left}</span>";
     return $left;
@@ -61,7 +61,7 @@ if (!empty($_GET["returnto"])) {
     $returnto = htmlsafechars($_GET["returnto"]);
         $HTMLOUT.= "<div class='callout alert-callout-border warning'><p class='text-center'>{$lang['login_error']}</p></div>";
 }
-$HTMLOUT.= "".($INSTALLER09['captcha_on'] ? "<script>
+$HTMLOUT.= "".($TRINITY20['captcha_on'] ? "<script>
 	  /*<![CDATA[*/
 	  $(document).ready(function () {
 	  $('#captchalogin').simpleCaptcha();
@@ -77,7 +77,7 @@ $HTMLOUT.= "".($INSTALLER09['captcha_on'] ? "<script>
 		<span class='input-group-label'><i class='fa fa-lock'></i></span>
 		<input class='input-group-field' name='password' placeholder='Type your password' type='password'>
 	</div> 
-".($INSTALLER09['captcha_on'] ? "<div id='captchalogin'></div>" : "") . "";
+".($TRINITY20['captcha_on'] ? "<div id='captchalogin'></div>" : "") . "";
 $HTMLOUT.= "<input name='submitme' type='submit' value='Login' class='button'>";
 
 if (isset($returnto)) $HTMLOUT.= "<input type='hidden' name='returnto' value='" . htmlsafechars($returnto) . "'></form>";

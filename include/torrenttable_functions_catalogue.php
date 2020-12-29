@@ -21,7 +21,7 @@ function readMore($text, $char, $link)
 }
 function torrenttable($res, $variant = "index")
 {
-    global $INSTALLER09, $CURUSER, $lang, $free, $cache;
+    global $TRINITY20, $CURUSER, $lang, $free, $cache;
     require_once (INCL_DIR . 'bbcode_functions.php');
     require_once (CLASS_DIR . 'class_user_options_2.php');
     $htmlout = $prevdate = $nuked = $free_slot = $freetorrent = $free_color = $slots_check = $double_slot = $private = $newgenre = $oldlink = $char = $description = $type = $sort = $row = $youtube = '';
@@ -108,13 +108,13 @@ $categories = genrelist();
         $row['cat_pic'] = htmlsafechars($change[$row['category']]['image']);
       $row['min_class'] = htmlsafechars($change[$row['category']]['min_class']);
 $htmlout .="<div style='display:block; height:5px;'></div><a href='details.php?id=$id'><div class='text-center browsepd'>";   
-if (!empty($row["poster"]) && isset($row["cat_pic"]) && $row["cat_pic"] != "") $htmlout.= "<img src='{$INSTALLER09['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$row['cat_pic']}' alt='{$row['cat_name']}' class='overlay'><img src='" . htmlsafechars($row["poster"]) . "' alt='Poster' title='Poster' class='tt''>";
-if (empty($row["poster"]) && isset($row["cat_pic"]) && $row["cat_pic"] != "") $htmlout.= "<img src='{$INSTALLER09['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$row['cat_pic']}' alt='{$row['cat_name']}' class='overlaynp'><img src='{$INSTALLER09['pic_base_url']}noposter.png' class='tt'><br />";
+if (!empty($row["poster"]) && isset($row["cat_pic"]) && $row["cat_pic"] != "") $htmlout.= "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$row['cat_pic']}' alt='{$row['cat_name']}' class='overlay'><img src='" . htmlsafechars($row["poster"]) . "' alt='Poster' title='Poster' class='tt''>";
+if (empty($row["poster"]) && isset($row["cat_pic"]) && $row["cat_pic"] != "") $htmlout.= "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$row['cat_pic']}' alt='{$row['cat_name']}' class='overlaynp'><img src='{$TRINITY20['pic_base_url']}noposter.png' class='tt'><br />";
 $htmlout .="</div></a><div style='display:block; height:5px;'></div>";
 $htmlout .="<div class='text-center browsepd'>";
-if ($variant == "mytorrents") $htmlout.= "<a class='small button' href='download.php?torrent={$id}'><img src='{$INSTALLER09['pic_base_url']}zip.gif' border='0' alt='Download This Torrent!' title='Download This Torrent!' /></a>";
+if ($variant == "mytorrents") $htmlout.= "<a class='small button' href='download.php?torrent={$id}'><img src='{$TRINITY20['pic_base_url']}zip.gif' border='0' alt='Download This Torrent!' title='Download This Torrent!' /></a>";
 if ($variant == "mytorrents") $htmlout.= "<button class='small button'><a href='edit.php?id=" . (int)$row['id'] . "amp;returnto=" . urlencode($_SERVER["REQUEST_URI"]) . "'>{$lang["torrenttable_edit"]}</a></button>\n";
-$htmlout.= ($variant == "index" ? "DOWNLOAD&nbsp;<a class='small button' href='download.php?torrent={$id}'><img src='{$INSTALLER09['pic_base_url']}zip.gif' border='0' alt='Download This Torrent!' title='Download This Torrent!' /></a></button>" : "");
+$htmlout.= ($variant == "index" ? "DOWNLOAD&nbsp;<a class='small button' href='download.php?torrent={$id}'><img src='{$TRINITY20['pic_base_url']}zip.gif' border='0' alt='Download This Torrent!' title='Download This Torrent!' /></a></button>" : "");
 if ($variant == "mytorrents") {
             $htmlout.= "test";
             if ($row["visible"] == "no") $htmlout.= "<b>{$lang["torrenttable_not_visible"]}</b>";
@@ -130,19 +130,19 @@ $booked = '';
         $bm_status = ($booked ? ' style="display:none;"' : ' style="display:inline;"');
       $bookmark = '<div style="display:block; height:5px;"></div><div class="browsemp">
 <b>Bookmark This:</b>&nbsp;<span id="bookmark' . $id . '"' . $bm_status . '><a href="bookmark.php?torrent=' . $id . '&amp;action=add" class="bookmark" name="' . $id . '"><span title="Bookmark it!" class="add_bookmark_b">
-                    <img src="' . $INSTALLER09['pic_base_url'] . 'aff_tick.gif" align="top" width="14px" alt="Bookmark it!" title="Bookmark it!" />
+                    <img src="' . $TRINITY20['pic_base_url'] . 'aff_tick.gif" align="top" width="14px" alt="Bookmark it!" title="Bookmark it!" />
                     </span>
                     </a>
                     </span>
                     <span id="remove' . $id . '"' . $rm_status . '>
                     <a href="bookmark.php?torrent=' . $id . '&amp;action=delete" class="remove" name="' . $id . '">
-                    <span class="remove_bookmark_b"><img src="' . $INSTALLER09['pic_base_url'] . 'aff_cross.gif" align="top" width="14px" alt="Delete Bookmark!" title="Delete Bookmark!" />
+                    <span class="remove_bookmark_b"><img src="' . $TRINITY20['pic_base_url'] . 'aff_cross.gif" align="top" width="14px" alt="Delete Bookmark!" title="Delete Bookmark!" />
                     </span>
                     </a>
                     </span><br />';
  if ($variant == "index") $htmlout.= "{$bookmark}";
  $Subs = '';
-        if (in_array($row["category"], $INSTALLER09['movie_cats']) && !empty($row["subs"])) {
+        if (in_array($row["category"], $TRINITY20['movie_cats']) && !empty($row["subs"])) {
             $subs_array = explode(",", $row["subs"]);
             require_once (CACHE_DIR . 'subs.php');
             foreach ($subs_array as $k => $sid) {

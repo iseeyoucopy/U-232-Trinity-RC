@@ -64,7 +64,7 @@ $gzip_path = $ROOT . 'include/gzip/gzip.exe';
  *
  * example: $backupdir = $ROOT.'include/backups';
  */
-$backupdir = $INSTALLER09['backup_dir'];
+$backupdir = $TRINITY20['backup_dir'];
 /**
  * The path to the mysqldump file, used to backup the databases
  */
@@ -141,7 +141,7 @@ if (empty($mode)) {
                         <td style='white-space:nowrap;'>" . get_date($arr['added'], 'DATE', 1, 0) . "</td>
      <td align='center'>";
             if (!empty($arr['username'])) {
-                $HTMLOUT.= "<a href='{$INSTALLER09['baseurl']}/userdetails.php?id=" . (int)$arr['uid'] . "'>" . htmlsafechars($arr['username']) . "</a>";
+                $HTMLOUT.= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int)$arr['uid'] . "'>" . htmlsafechars($arr['username']) . "</a>";
             } else {
                 $HTMLOUT.= "unknown[" . (int)$arr['uid'] . "]";
             }
@@ -168,11 +168,11 @@ if (empty($mode)) {
     $HTMLOUT.= end_main_frame();
     echo stdhead($lang['backup_stdhead']) . $HTMLOUT . stdfoot();
 } else if ($mode == "backup") {
-    global $INSTALLER09;
-    $mysql_host = $INSTALLER09['mysql_host'];
-    $mysql_user = $INSTALLER09['mysql_user'];
-    $mysql_pass = $INSTALLER09['mysql_pass'];
-    $mysql_db = $INSTALLER09['mysql_db'];
+    global $TRINITY20;
+    $mysql_host = $TRINITY20['mysql_host'];
+    $mysql_user = $TRINITY20['mysql_user'];
+    $mysql_pass = $TRINITY20['mysql_pass'];
+    $mysql_db = $TRINITY20['mysql_db'];
     $ext = $mysql_db . '-' . date('d') . '-' . date('m') . '-' . date('Y') . '_' . date('H') . '-' . date('i') . '-' . date('s') . '_' . date('D') . ".sql";
     $filepath = $backupdir . '/' . $ext;
     exec("$mysqldump_path --default-character-set=latin1 -h $mysql_host -u $mysql_user -p$mysql_pass $mysql_db > $filepath");

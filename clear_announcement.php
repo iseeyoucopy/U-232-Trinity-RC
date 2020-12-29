@@ -18,11 +18,11 @@ sql_query($query1);
 $cache->update_row('user' . $CURUSER['id'], [
     'curr_ann_id' => 0,
     'curr_ann_last_check' => 0
-], $INSTALLER09['expires']['user_cache']);
+], $TRINITY20['expires']['user_cache']);
 $cache->update_row('MyUser_' . $CURUSER['id'], [
     'curr_ann_id' => 0,
     'curr_ann_last_check' => 0
-], $INSTALLER09['expires']['curuser']);
+], $TRINITY20['expires']['curuser']);
 //$status = 2;
-header("Location: {$INSTALLER09['baseurl']}/index.php");
+header("Location: {$TRINITY20['baseurl']}/index.php");
 ?>

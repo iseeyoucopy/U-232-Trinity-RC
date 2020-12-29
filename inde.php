@@ -54,10 +54,10 @@ if (($active_users_cache = $cache->get('active_users_')) === false) {
     /*
     $redis->cmd('SET', 'active_users_')
       ->cmd('HSET', $activeusers)
-      ->cmd('EXPIRE', $INSTALLER09['expires']['activeusers'])
+      ->cmd('EXPIRE', $TRINITY20['expires']['activeusers'])
       ->set();
       */
-    $cache->set('active_users_', $active_users_cache, $INSTALLER09['expires']['activeusers']);
+    $cache->set('active_users_', $active_users_cache, $TRINITY20['expires']['activeusers']);
 }
 if (!$active_users_cache['activeusers']) $active_users_cache['activeusers'] = $lang['index_active_users_no'];
 

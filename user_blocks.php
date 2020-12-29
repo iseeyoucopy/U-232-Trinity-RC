@@ -183,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($clrbits_userdetails_page) $updateset[] = 'userdetails_page = (userdetails_page & ~' . $clrbits_userdetails_page . ')';
     if (count($updateset)) sql_query('UPDATE user_blocks SET ' . implode(',', $updateset) . ' WHERE userid = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
     $cache->delete('blocks::' . $id);
-    header('Location: ' . $INSTALLER09['baseurl'] . '/user_blocks.php');
+    header('Location: ' . $TRINITY20['baseurl'] . '/user_blocks.php');
     exit();
 }
 //==Index
@@ -489,7 +489,7 @@ $HTMLOUT.= '<div class="tab-pane fade" id="user">
 </label><span>'.$lang['user_u_brw2'].'</span></div>        
         </td>
         </tr>   
-        '.($INSTALLER09['rep_sys_on'] ? '<tr><td><b>'.$lang['user_u_rep1'].'</b></td><td>
+        '.($TRINITY20['rep_sys_on'] ? '<tr><td><b>'.$lang['user_u_rep1'].'</b></td><td>
         <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_reputation" name="userdetails_reputation" value="yes"' . $checkbox_userdetails_reputation . '>
 </label><span>'.$lang['user_u_rep2'].'</span></div>        
         </td>

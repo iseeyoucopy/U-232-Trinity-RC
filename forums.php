@@ -32,12 +32,12 @@ require_once(TEMPLATE_DIR.''.$CURUSER['stylesheet'].'' . DIRECTORY_SEPARATOR . '
 require_once(TEMPLATE_DIR.''.$CURUSER['stylesheet'].'' . DIRECTORY_SEPARATOR . 'html_functions' . DIRECTORY_SEPARATOR . 'buttons_functions.php');
 define('MAX_CLASS', UC_STAFF);
 $lang = array_merge( load_language('global'), load_language('forums') );
-if ($INSTALLER09['forums_online'] == 0 && $CURUSER['class'] < UC_STAFF)
+if ($TRINITY20['forums_online'] == 0 && $CURUSER['class'] < UC_STAFF)
 stderr($lang['forum_pg_inf1'], $lang['forum_pg_inf2']);
 if (function_exists('parked'))
 parked();
-$INSTALLER09['show_last_10'] = false;
-$INSTALLER09['expires']['forum_activeusers'] = 30; // 30 seconds for testing
+$TRINITY20['show_last_10'] = false;
+$TRINITY20['expires']['forum_activeusers'] = 30; // 30 seconds for testing
 $Multi_forum['configs']['maxfilesize'] = 1024 * 1024;
 ini_set("upload_max_filesize", $Multi_forum['configs']['maxfilesize']);
 $Multi_forum['configs']['attachment_dir'] = ROOT_DIR."uploads";
@@ -255,11 +255,11 @@ $action = (in_array($posted_action, $valid_actions) ? $posted_action : 'view_def
                     $forums[$a["id"]]["topics"][] = array ("id" => $a["subid"], "name" => $a["name"], "new" => ($a["last_post"]) != $a["last_post_read"] ? 1 : 0);
              }
           }
-          if ($INSTALLER09['forums_online'] == 0)
+          if ($TRINITY20['forums_online'] == 0)
           $HTMLOUT .= stdmsg($lang['forum_pg_warn1'], $lang['forum_pg_warn2']);
           $HTMLOUT .= "<nav aria-label='You are here:' role='navigation'>
   <ul class='breadcrumbs'>
-    <li><a href='forums.php'>" . $INSTALLER09["site_name"] . "</a></li>
+    <li><a href='forums.php'>" . $TRINITY20["site_name"] . "</a></li>
   </ul>
 </nav>";
 	  $ovf_res = sql_query("SELECT id, name, min_class_view FROM over_forums ORDER BY sort ASC") or sqlerr(__FILE__, __LINE__);
@@ -281,10 +281,10 @@ $action = (in_array($posted_action, $valid_actions) ? $posted_action : 'view_def
           $HTMLOUT .= forum_stats();
 $HTMLOUT .= "<div class='cell large-12'>
           <p align='center'>
-	  <a class='tiny button' href='{$INSTALLER09['baseurl']}/forums.php?action=search'><b>{$lang['forum_pg_srch']}</b></a> 
-	  <a class='tiny button' href='{$INSTALLER09['baseurl']}/forums.php?action=viewunread'><b>{$lang['forum_pg_new']}</b></a>
-	  <a class='tiny button' href='{$INSTALLER09['baseurl']}/forums.php?action=getdaily'><b>{$lang['forum_pg_24h']}</b></a>
-	  <a class='tiny button' href='{$INSTALLER09['baseurl']}/forums.php?catchup'><b>{$lang['forum_pg_mark']}</b></a></p>
+	  <a class='tiny button' href='{$TRINITY20['baseurl']}/forums.php?action=search'><b>{$lang['forum_pg_srch']}</b></a> 
+	  <a class='tiny button' href='{$TRINITY20['baseurl']}/forums.php?action=viewunread'><b>{$lang['forum_pg_new']}</b></a>
+	  <a class='tiny button' href='{$TRINITY20['baseurl']}/forums.php?action=getdaily'><b>{$lang['forum_pg_24h']}</b></a>
+	  <a class='tiny button' href='{$TRINITY20['baseurl']}/forums.php?catchup'><b>{$lang['forum_pg_mark']}</b></a></p>
           </div>";
           echo stdhead($lang['forums_forum_heading'], true, $stdhead) . $HTMLOUT . stdfoot($stdfoot);
           exit();

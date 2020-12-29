@@ -4,18 +4,18 @@ $HTMLOUT.= "<div class='grid-x grid-padding-x'>
 <div class='cell medium-12'>
 <table align='center' class='striped'>";
 //== tvrage by pdq/putyn
-//if (in_array($torrents['category'], $INSTALLER09['tv_cats'])) {
+//if (in_array($torrents['category'], $TRINITY20['tv_cats'])) {
 //    require_once (INCL_DIR . 'tvrage_functions.php');
 //    $tvrage_info = tvrage($torrents);
 //    if ($tvrage_info) $HTMLOUT.= tr($lang['details_tvrage'], $tvrage_info, 1);
 //}
 //== tvmaze by whocares converted from former tvrage functions by pdq/putyn  //uncomment the following to use tvmaze auto-completion
-if (in_array($torrents['category'], $INSTALLER09['tv_cats'])) {
+if (in_array($torrents['category'], $TRINITY20['tv_cats'])) {
     $tvmaze_info = tvmaze($torrents);
     if ($tvmaze_info) $HTMLOUT.= tr($lang['details_tvrage'], $tvmaze_info, 1);
 }
 //== end tvmaze
-if ((in_array($torrents['category'], $INSTALLER09['movie_cats'])) && $torrents['url'] != '') {
+if ((in_array($torrents['category'], $TRINITY20['movie_cats'])) && $torrents['url'] != '') {
 $IMDB = new IMDB($torrents['url']);
     $country =($IMDB->getCountry());
     $country = explode("/",$country);
@@ -86,8 +86,8 @@ $imdb.="</div></div></div></div></div><!-- closing comments -->";
 $imdb .="</div><!-- closing imdb -->";
 $HTMLOUT.= tr($lang['details_add_imdb'], $imdb, 1);
 }
-//if (empty($tvrage_info) && empty($imdb) && in_array($torrents['category'], array_merge($INSTALLER09['movie_cats'], $INSTALLER09['tv_cats']))) $HTMLOUT.= "<tr><td colspan='2'>No Imdb or Tvrage info.</td></tr>";
-if (empty($tvmaze_info) && empty($imdb) && in_array($torrents['category'], array_merge($INSTALLER09['movie_cats'], $INSTALLER09['tv_cats']))) $HTMLOUT.= "<tr>{$lang['details_add_noimdb']}</tr>";
+//if (empty($tvrage_info) && empty($imdb) && in_array($torrents['category'], array_merge($TRINITY20['movie_cats'], $TRINITY20['tv_cats']))) $HTMLOUT.= "<tr><td colspan='2'>No Imdb or Tvrage info.</td></tr>";
+if (empty($tvmaze_info) && empty($imdb) && in_array($torrents['category'], array_merge($TRINITY20['movie_cats'], $TRINITY20['tv_cats']))) $HTMLOUT.= "<tr>{$lang['details_add_noimdb']}</tr>";
 $HTMLOUT.= "</table>";
 $HTMLOUT.= "<table class='table  table-bordered'>\n";
 if (!empty($torrents['youtube'])) {

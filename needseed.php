@@ -52,7 +52,7 @@ if ($needed == "leechers") {
                             $cat = "<img src=\"pic/caticons/{$CURUSER['categorie_icon']}/{$needseed['cat_pic']}\" alt=\"{$needseed['cat_name']}\" title=\"{$needseed['cat_name']}\" />";
                             $torrname = htmlsafechars(CutName($arr["name"], 80));
                             $peers = (int)$arr['seeders'] . " seeder" . ((int)$arr['seeders'] > 1 ? "s" : "") . ", " . (int)$arr['leechers'] . " leecher" . ((int)$arr['leechers'] > 1 ? "s" : "");
-                            $HTMLOUT.= "<tr><td><a href='{$INSTALLER09['baseurl']}/userdetails.php?id=" . (int)$What_User_ID . "'>" . htmlsafechars($arr['username']) . "</a>&nbsp;(" . member_ratio($arr['uploaded'], $arr['downloaded']) . ")</td><td><a href='{$INSTALLER09['baseurl']}/details.php?id=" . (int)$What_ID . "' title='{$torrname}'>{$torrname}</a></td><td>{$cat}</td><td>{$peers}</td></tr>\n";
+                            $HTMLOUT.= "<tr><td><a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int)$What_User_ID . "'>" . htmlsafechars($arr['username']) . "</a>&nbsp;(" . member_ratio($arr['uploaded'], $arr['downloaded']) . ")</td><td><a href='{$TRINITY20['baseurl']}/details.php?id=" . (int)$What_ID . "' title='{$torrname}'>{$torrname}</a></td><td>{$cat}</td><td>{$peers}</td></tr>\n";
                         }
         }
         $HTMLOUT.= "</table>\n";
@@ -71,7 +71,7 @@ $HTMLOUT.="<div class='row'><div class='col-md-12'><h2>{$lang['needseed_sin']}&n
             $needseed['cat_pic'] = htmlsafechars($change[$arr['category']]['image']);
             $cat = "<img src=\"pic/caticons/{$CURUSER['categorie_icon']}/{$needseed['cat_pic']}\" alt=\"{$needseed['cat_name']}\" title=\"{$needseed['cat_name']}\" />";
             $torrname = htmlsafechars(CutName($arr['name'], 80));
-            $HTMLOUT.= "<tr><td>{$cat}</td><td><a href='{$INSTALLER09['baseurl']}/details.php?id=" . (int)$arr['id'] . "&amp;hit=1' title='{$torrname}'>{$torrname}</a></td><td align='center'><span style='color: red'>" . (int)$arr['seeders'] . "</span></td><td align='center'>" . (int)$arr['leechers'] . "</td></tr>\n";
+            $HTMLOUT.= "<tr><td>{$cat}</td><td><a href='{$TRINITY20['baseurl']}/details.php?id=" . (int)$arr['id'] . "&amp;hit=1' title='{$torrname}'>{$torrname}</a></td><td align='center'><span style='color: red'>" . (int)$arr['seeders'] . "</span></td><td align='center'>" . (int)$arr['leechers'] . "</td></tr>\n";
         }
         $HTMLOUT.= "</table>\n";
     } else $HTMLOUT.= "{$lang['needseed_noseed']}\n";

@@ -80,14 +80,14 @@ $lang = array(
     &lt;!-- U-232 Link --&gt;<br />
     <br />
     &lt;a href='https://u-232.com'&gt;<br />
-    &lt;img src='{$INSTALLER09['pic_base_url']}u232.gif' border='0' alt='U-232 - The best!'&gt;&lt;/a&gt;<br />
+    &lt;img src='{$TRINITY20['pic_base_url']}u232.gif' border='0' alt='U-232 - The best!'&gt;&lt;/a&gt;<br />
     <br />
     &lt;!-- End of U-232 Link --&gt;</font><br />
     <br />
     <br />
     It will look like this:<br />
     <br />
-    <a href='{$INSTALLER09['baseurl']}'>
+    <a href='{$TRINITY20['baseurl']}'>
     <img src='./pic/u232.gif' border='0' alt='U-232 - The best!' /></a>
     <br />"
 );
