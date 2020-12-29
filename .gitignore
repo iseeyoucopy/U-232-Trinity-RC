@@ -28,4 +28,4 @@ install/extra/upgrade.sql
 install/functions/database.php
 install/functions/permissioncheck.php
 install/functions/writeconfig.php
-installl/index.php
+install/index.php
