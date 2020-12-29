@@ -1,6 +1,7 @@
 foundation/
 include/ann_config.php
 include/config.php
+install/
 cache/staff_settings.php
 cache/staff_settings2.php
 phperr_logs/*log
