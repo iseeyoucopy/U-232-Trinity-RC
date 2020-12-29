@@ -127,4 +127,5 @@ if ($action == '') {
         header('Location: userdetails.php?id=' . $id . '&wu=1');
         break;
     } //=== end switch
+}
 ?>
