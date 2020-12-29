@@ -135,7 +135,7 @@ function snatchtable_staff($res)
     //if (isset($user_snatches_data) && isset($user_snatches_data_staff))
 	$HTMLOUT.='<a data-open="exampleModal">'. $lang['userdetails_cur_snatched'].' of '.$count_snatched.'</a>
     <div class="large reveal" id="exampleModal" data-reveal>
-    '.$user_snatches_data.'
+    $user_snatches_data
     </div>
     <a data-open="exampleModal1">'.$lang['userdetails_snatched'].' of '.$count_snatched_staff.'</a>
     <div class="large reveal" id="exampleModal1" data-reveal>';
