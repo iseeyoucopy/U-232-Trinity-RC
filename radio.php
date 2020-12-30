@@ -13,9 +13,9 @@
 require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
 require_once (INCL_DIR . 'user_functions.php');
 //require_once (INCL_DIR . 'html_functions.php');
-
+$radio = '';
 $radio_host = '';
-$radio_port = (int)8080;
+$radio_port = (int)0;
 $radio_password = '';
 $langs = array(
     'CURRENTLISTENERS' => 'Current listeners: <b>%d</b>',
