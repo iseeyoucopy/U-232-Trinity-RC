@@ -215,7 +215,7 @@ $TRINITY['flood_file'] = INCL_DIR . 'settings' . DIRECTORY_SEPARATOR . 'limitfil
 $TRINITY['nameblacklist'] = ROOT_DIR . 'cache' . DIRECTORY_SEPARATOR . 'nameblacklist.txt';
 $TRINITY['happyhour'] = CACHE_DIR . 'happyhour' . DIRECTORY_SEPARATOR . 'happyhour.txt';
 $TRINITY['sql_error_log'] = ROOT_DIR . 'sqlerr_logs' . DIRECTORY_SEPARATOR . 'sql_err_' . date('M_D_Y') . '.log';
-$TRINITY['php_error_log'] = ROOT_DIR . 'phperr_log' . DIRECTORY_SEPARATOR . 'php_err_' . date('M_D_Y') . '.log';
+$TRINITY['php_error_log'] = ROOT_DIR . 'phperr_logs' . DIRECTORY_SEPARATOR . 'php_err_' . date('M_D_Y') . '.log';
 ini_set("error_log", "". $TRINITY['php_error_log'] .""); 
 //== XBT or PHP announce
 if (XBT_TRACKER == true) {
