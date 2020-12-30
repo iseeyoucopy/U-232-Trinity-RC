@@ -14,11 +14,9 @@ require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 
 require_once (INCL_DIR . 'user_functions.php');
 //require_once (INCL_DIR . 'html_functions.php');
 
-$radio = array(
-    'host' => '',
-    'port' => '',
-    'password' => ''
-);
+$radio_host = '';
+$radio_port = (int)8080;
+$radio_password = '';
 $langs = array(
     'CURRENTLISTENERS' => 'Current listeners: <b>%d</b>',
     'SERVERTITLE' => 'Server: <b>%s</b>',
@@ -32,8 +30,8 @@ function radioinfo($radio)
 {
     global $langs, $TRINITY20, $cache, $CURUSER;
     $xml = $html = $history = '';
-    if ($hand = @fsockopen($radio['host'], $radio['port'], $errno, $errstr, 30)) {
-        fputs($hand, "GET /admin.cgi?pass=" . $radio['password'] . "&mode=viewxml HTTP/1.1\nUser-Agent:Mozilla/5.0 " . "(Windows; U; Windows NT 6.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6\n\n");
+    if ($hand = @fsockopen($radio_host, $radio_port, $errno, $errstr, 30)) {
+        fputs($hand, "GET /admin.cgi?pass=" . $radio_password . "&mode=viewxml HTTP/1.1\nUser-Agent:Mozilla/5.0 " . "(Windows; U; Windows NT 6.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6\n\n");
         while (!feof($hand)) $xml.= fgets($hand, 1024);
         preg_match_all('/\<(SERVERTITLE|SERVERURL|SONGTITLE|STREAMSTATUS|BITRATE|CURRENTLISTENERS|PEAKLISTENERS)\>(.*?)<\/\\1\>/iU', $xml, $tempdata, PREG_SET_ORDER);
         foreach ($tempdata as $t2) $data[$t2[1]] = isset($langs[$t2[1]]) ? sprintf($langs[$t2[1]], $t2[2]) : $t2[2];
@@ -47,7 +45,7 @@ function radioinfo($radio)
         }
         preg_match_all('/\<HOSTNAME>(.*?)<\/HOSTNAME>/', $xml, $temph);
         if (count($temph[1])) $users_ip = join(', ', array_map('sqlesc', $temph[1]));
-        if ($data['STREAMSTATUS'] == 0) return 'Sorry ' . $CURUSER['username'] . '... : Server ' . $radio['host'] . ' is online but there is no stream';
+        if ($data['STREAMSTATUS'] == 0) return 'Sorry ' . $CURUSER['username'] . '... : Server ' . $radio_host . ' is online but there is no stream';
         else {
             unset($data['STREAMSTATUS']);
             $md5_current_song = md5($data['SONGTITLE']);
