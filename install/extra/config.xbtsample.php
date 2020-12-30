@@ -221,11 +221,9 @@ ini_set("error_log", "". $TRINITY['php_error_log'] ."");
 if (XBT_TRACKER == true) {
 $TRINITY['xbt_prefix'] = '#announce_urls:2710/';  
 $TRINITY['xbt_suffix'] = '/announce';
-$TRINITY['announce_urls'][] = '#announce_urls:2710/announce';
+$TRINITY['announce_urls'] = '#announce_urls:2710/announce';
 } else {
-$TRINITY['announce_urls'] = array();
-$TRINITY['announce_urls'][] = '#announce_urls';
-$TRINITY['announce_urls'][] = '#announce_https';
+$TRINITY['announce_urls'] = '#announce_https';
 }
 if (isset($_SERVER["HTTP_HOST"]) &&  $_SERVER["HTTP_HOST"] == "") $_SERVER["HTTP_HOST"] = $_SERVER["SERVER_NAME"];
 $TRINITY['baseurl'] = 'http' . (isset($_SERVER['HTTPS']) && (bool)$_SERVER['HTTPS'] == true ? 's' : '') . '://' . $_SERVER['HTTP_HOST'];
