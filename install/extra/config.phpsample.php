@@ -221,7 +221,7 @@ ini_set("error_log", "". $TRINITY['php_error_log'] ."");
 if (XBT_TRACKER == true) {
 $TRINITY['xbt_prefix'] = '#announce_urls:2710/';  
 $TRINITY['xbt_suffix'] = '/announce';
-$TRINITY['announce_urls'][] = '#announce_urls:2710/announce';
+$TRINITY['announce_urls'] = '#announce_urls:2710/announce';
 } else {
 $TRINITY['announce_urls'] = '#announce_https';
 }
