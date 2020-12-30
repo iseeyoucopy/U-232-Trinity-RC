@@ -431,7 +431,7 @@ function TopBar()
         </ul>
 </li>
 <li><a href='{$TRINITY20['baseurl']}/donate.php'>Donate</a></li>
-<li><a href='{$TRINITY20['baseurl']}/help.php'>Help</a></li>
+<li><a href='{$TRINITY20['baseurl']}/help.php'><i class='fas fa-question'></i>Help</a></li>
     </ul>
   </div>
   <div class='top-bar-right'>

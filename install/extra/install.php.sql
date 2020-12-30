@@ -4393,4 +4393,5 @@ ALTER TABLE `xbt_scrape_log`
 
 ALTER TABLE `messages` ADD `staff_id` int(10) unsigned NOT NULL DEFAULT '0';
 ALTER TABLE `staffmessages` ADD `new`  enum('yes','no') NOT NULL default 'no';
-ALTER TABLE `users` ADD `pin_code` INT(4) NOT NULL;
+ALTER TABLE `users` ADD `pin_code` INT(4) NOT NULL DEFAULT '0';
+ALTER TABLE `users` ADD `passhint` INT(4) NOT NULL DEFAULT '0';
