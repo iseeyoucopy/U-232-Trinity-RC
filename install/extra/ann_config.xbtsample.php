@@ -27,8 +27,12 @@ require_once (CLASS_DIR . 'class_bt_options.php');
 $TRINITY['pic_base_url'] = "./pic/";
 require_once (CACHE_DIR . 'class_config.php');
 date_default_timezone_set('Europe/London');
-$cache = NEW CACHE();
-//$cache->MemcachePrefix = 'u232_3_';
+//==Start Cache
+use U232\Cache;
+require_once (VENDOR_DIR . 'autoload.php');
+require_once (INCL_DIR . 'cache_config.php');
+require_once (CLASS_DIR . 'class_cacheM.php');
+global $TRINITY20;
 define('TIME_NOW', time());
 define('ANN_SQL_DEBUG', 1);
 define('ANN_SQL_LOGGING', 0);
