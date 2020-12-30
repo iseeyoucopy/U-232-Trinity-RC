@@ -30,3 +30,5 @@ install/functions/permissioncheck.php
 install/functions/writeconfig.php
 install/index.php
 installl/index.php
+cache/staff_settings.php
+torrents/
