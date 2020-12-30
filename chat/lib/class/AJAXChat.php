@@ -96,7 +96,7 @@ class AJAXChat {
 	}
 	
 	function initDataBaseConnection() {
-		// Create a new database object:
+		/*// Create a new database object:
 		$this->db = new AJAXChatDataBase(
 			$this->_config['dbConnection']
 		);
@@ -116,7 +116,7 @@ class AJAXChat {
 			}
 		}
 		// Unset the dbConnection array for safety purposes:
-		unset($this->_config['dbConnection']);			
+		unset($this->_config['dbConnection']);		*/	
 	}
 	
 	function getDataBaseTable($table) {
@@ -574,8 +574,8 @@ class AJAXChat {
 	}
 	
 	function addToOnlineList() {
-		$sql = 'INSERT INTO '.$this->getDataBaseTable('online').'(
-					userID,
+		$sql = 'INSERT INTO ajax_chat_online (
+		            userID,
 					userName,
 					userRole,
 					channel,
@@ -583,63 +583,45 @@ class AJAXChat {
 					ip
 				)
 				VALUES (
-					'.$this->db->makeSafe($this->getUserID()).',
-					'.$this->db->makeSafe($this->getUserName()).',
-					'.$this->db->makeSafe($this->getUserRole()).',
-					'.$this->db->makeSafe($this->getChannel()).',
+					'.sqlesc($this->getUserID()).',
+					'.sqlesc($this->getUserName()).',
+					'.sqlesc($this->getUserRole()).',
+					'.sqlesc($this->getChannel()).',
 					NOW(),
-					'.$this->db->makeSafe($this->ipToStorageFormat($_SERVER['REMOTE_ADDR'])).'
-				);';	
+					'.sqlesc($this->ipToStorageFormat($_SERVER['REMOTE_ADDR'])).'
+				)';	
 		
 		// Create a new SQL query:
-		$result = $this->db->sqlQuery($sql);
-		
-		// Stop if an error occurs:
-		if($result->error()) {
-			echo $result->getError();
-			die();
-		}
+		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
 		$this->resetOnlineUsersData();
 	}
 	
 	function removeFromOnlineList() {
 		$sql = 'DELETE FROM
-					'.$this->getDataBaseTable('online').'
+					ajax_chat_online
 				WHERE
-					userID = '.$this->db->makeSafe($this->getUserID()).';';
+					userID = '.sqlesc($this->getUserID()).'';
 		
 		// Create a new SQL query:
-		$result = $this->db->sqlQuery($sql);
-		
-		// Stop if an error occurs:
-		if($result->error()) {
-			echo $result->getError();
-			die();
-		}
+		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
 		$this->removeUserFromOnlineUsersData();
 	}
 	
 	function updateOnlineList() {
 		$sql = 'UPDATE
-					'.$this->getDataBaseTable('online').'
+					ajax_chat_online
 				SET
-					userName 	= '.$this->db->makeSafe($this->getUserName()).',
-					channel 	= '.$this->db->makeSafe($this->getChannel()).',
+					userName 	= '.sqlesc($this->getUserName()).',
+					channel 	= '.sqlesc($this->getChannel()).',
 					dateTime 	= NOW(),
-					ip			= '.$this->db->makeSafe($this->ipToStorageFormat($_SERVER['REMOTE_ADDR'])).'
+					ip			= '.sqlesc($this->ipToStorageFormat($_SERVER['REMOTE_ADDR'])).'
 				WHERE
-					userID = '.$this->db->makeSafe($this->getUserID()).';';
+					userID = '.sqlesc($this->getUserID()).'';
 					
 		// Create a new SQL query:
-		$result = $this->db->sqlQuery($sql);
-		
-		// Stop if an error occurs:
-		if($result->error()) {
-			echo $result->getError();
-			die();
-		}
+		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
 		$this->resetOnlineUsersData();
 	}
@@ -1368,20 +1350,14 @@ class AJAXChat {
 		$sql = 'SELECT
 					channel
 				FROM
-					'.$this->getDataBaseTable('messages').'
+					ajax_chat_messages
 				WHERE
-					id='.$this->db->makeSafe($messageID).';';
+					id='.sqlesc($messageID).'';
 		
 		// Create a new SQL query:
-		$result = $this->db->sqlQuery($sql);
+		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
-		// Stop if an error occurs:
-		if($result->error()) {
-			echo $result->getError();
-			die();
-		}
-		
-		$row = $result->fetch();
+		$row = mysqli_fetch_assoc($result);
 		
 		if($row['channel'] !== null) {
 			$channel = $row['channel'];
@@ -1393,20 +1369,20 @@ class AJAXChat {
 			} else if($this->getUserRole() == AJAX_CHAT_MODERATOR) {
 				$condition = '	AND userRole IN (5,4,3,2,1)';
 			} else if($this->getUserRole() == AJAX_CHAT_UPLOADER && $this->getConfig('allowUserMessageDelete')) {
-				$condition = 'AND (userID='.$this->db->makeSafe($this->getUserID()).' OR
-				             (channel = '.$this->db->makeSafe($this->getPrivateMessageID()).' OR channel = '.$this->db->makeSafe($this->getPrivateChannelID()).') 
+				$condition = 'AND (userID='.sqlesc($this->getUserID()).' OR
+				             (channel = '.sqlesc($this->getPrivateMessageID()).' OR channel = '.sqlesc($this->getPrivateChannelID()).') 
 							 AND userRole NOT IN (8,7,6,5,3,2,1))';
 			} else if($this->getUserRole() == AJAX_CHAT_VIP && $this->getConfig('allowUserMessageDelete')) {
-				$condition = 'AND (userID='.$this->db->makeSafe($this->getUserID()).' OR
-				             (channel = '.$this->db->makeSafe($this->getPrivateMessageID()).' OR channel = '.$this->db->makeSafe($this->getPrivateChannelID()).') 
+				$condition = 'AND (userID='.sqlesc($this->getUserID()).' OR
+				             (channel = '.sqlesc($this->getPrivateMessageID()).' OR channel = '.sqlesc($this->getPrivateChannelID()).') 
 							 AND userRole NOT IN (8,7,6,5,4,2,1))';
 			} else if($this->getUserRole() == AJAX_CHAT_POWER_USER && $this->getConfig('allowUserMessageDelete')) {
-				$condition = 'AND (userID='.$this->db->makeSafe($this->getUserID()).' OR
-				             (channel = '.$this->db->makeSafe($this->getPrivateMessageID()).' OR channel = '.$this->db->makeSafe($this->getPrivateChannelID()).') 
+				$condition = 'AND (userID='.sqlesc($this->getUserID()).' OR
+				             (channel = '.sqlesc($this->getPrivateMessageID()).' OR channel = '.sqlesc($this->getPrivateChannelID()).') 
 							 AND userRole NOT IN (8,7,6,5,4,3,1))';
             } else if($this->getUserRole() == AJAX_CHAT_USER && $this->getConfig('allowUserMessageDelete')) {
-				$condition = 'AND (userID='.$this->db->makeSafe($this->getUserID()).' OR
-				             (channel = '.$this->db->makeSafe($this->getPrivateMessageID()).' OR channel = '.$this->db->makeSafe($this->getPrivateChannelID()).') 
+				$condition = 'AND (userID='.sqlesc($this->getUserID()).' OR
+				             (channel = '.sqlesc($this->getPrivateMessageID()).' OR channel = '.sqlesc($this->getPrivateChannelID()).') 
 							 AND userRole NOT IN (8,7,6,5,4,3,2))';							 
 			} else {
 				return false;
@@ -1414,21 +1390,15 @@ class AJAXChat {
 	
 			// Remove given message from the database:
 			$sql = 'DELETE FROM
-						'.$this->getDataBaseTable('messages').'
+						ajax_chat_messages
 					WHERE
-						id='.$this->db->makeSafe($messageID).'
-						'.$condition.';';
+						id='.sqlesc($messageID).'
+						'.$condition.'';
 			
 			// Create a new SQL query:
-			$result = $this->db->sqlQuery($sql);
+			$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 			
-			// Stop if an error occurs:
-			if($result->error()) {
-				echo $result->getError();
-				die();
-			}
-			
-			if($result->affectedRows() == 1) {
+			if(mysqli_affected_rows($result) > 0) {
 				// Insert a deletion command to remove the message from the clients chatlists:
 				$this->insertChatBotMessage($channel, '/delete '.$messageID);
 				return true;
@@ -1465,7 +1435,7 @@ class AJAXChat {
 	}
 	
 	function isAllowedToWriteMessage() {
-		if($this->getUserRole() != AJAX_CHAT_GUEST)
+		if($this->getUserRole() >= AJAX_CHAT_USER)
 			return true;
 		if($this->getConfig('allowGuestWrite'))
 			return true;
@@ -1492,7 +1462,7 @@ class AJAXChat {
 		
 		$ip = $ip ? $ip : $_SERVER['REMOTE_ADDR'];
 		
-		$sql = 'INSERT INTO '.$this->getDataBaseTable('messages').'(
+		$sql = 'INSERT INTO ajax_chat_messages (
 								userID,
 								userName,
 								userRole,
@@ -1502,23 +1472,17 @@ class AJAXChat {
 								text
 							)
 				VALUES (
-					'.$this->db->makeSafe($userID).',
-					'.$this->db->makeSafe($userName).',
-					'.$this->db->makeSafe($userRole).',
-					'.$this->db->makeSafe($channelID).',
+					'.sqlesc($userID).',
+					'.sqlesc($userName).',
+					'.sqlesc($userRole).',
+					'.sqlesc($channelID).',
 					NOW(),
-					'.$this->db->makeSafe($this->ipToStorageFormat($ip)).',
-					'.$this->db->makeSafe($text).'
-				);';
+					'.sqlesc($this->ipToStorageFormat($ip)).',
+					'.sqlesc($text).'
+				)';
 
 		// Create a new SQL query:
-		$result = $this->db->sqlQuery($sql);
-		
-		// Stop if an error occurs:
-		if($result->error()) {
-			echo $result->getError();
-			die();
-		}
+		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
 		if($this->getConfig('socketServerEnabled')) {
 			$this->sendSocketMessage(
@@ -1632,19 +1596,13 @@ class AJAXChat {
 
 		// Remove given User from online list:
 		$sql = 'DELETE FROM
-					'.$this->getDataBaseTable('online').'
+					ajax_chat_online
 				WHERE
-					userID = '.$this->db->makeSafe($userID).';';
+					userID = '.sqlesc($userID).'';
 		
 		// Create a new SQL query:
-		$result = $this->db->sqlQuery($sql);
+		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
-		// Stop if an error occurs:
-		if($result->error()) {
-			echo $result->getError();
-			die();
-		}
-
 		// Update the socket server authentication for the kicked user:
 		if($this->getConfig('socketServerEnabled')) {
 			$this->updateSocketAuthentication($userID);
@@ -1662,25 +1620,19 @@ class AJAXChat {
 						userName,
 						ip
 					FROM
-						'.$this->getDataBaseTable('bans').'
+						ajax_chat_bans
 					WHERE
-						NOW() < dateTime;';
+						NOW() < dateTime';
 			
 			// Create a new SQL query:
-			$result = $this->db->sqlQuery($sql);
+			$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 			
-			// Stop if an error occurs:
-			if($result->error()) {
-				echo $result->getError();
-				die();
-			}
-			
-			while($row = $result->fetch()) {
+			while($row = mysqli_fetch_assoc($result)) {
 				$row['ip'] = $this->ipFromStorageFormat($row['ip']);
 				array_push($this->_bannedUsersData, $row);
 			}
 			
-			$result->free();
+			mysqli_free_result($result);
 		}
 		
 		if($key) {
@@ -1727,81 +1679,60 @@ class AJAXChat {
 			$banMinutes = $this->getConfig('defaultBanTime');
 		}
 		
-		$sql = 'INSERT INTO '.$this->getDataBaseTable('bans').'(
+		$sql = 'INSERT INTO ajax_chat_bans (
 					userID,
 					userName,
 					dateTime,
 					ip
 				)
 				VALUES (
-					'.$this->db->makeSafe($userID).',
-					'.$this->db->makeSafe($userName).',
-					DATE_ADD(NOW(), interval '.$this->db->makeSafe($banMinutes).' MINUTE),
-					'.$this->db->makeSafe($this->ipToStorageFormat($ip)).'
-				);';	
+					'.sqlesc($userID).',
+					'.sqlesc($userName).',
+					DATE_ADD(NOW(), interval '.sqlesc($banMinutes).' MINUTE),
+					'.sqlesc($this->ipToStorageFormat($ip)).'
+				)';	
 		
 		// Create a new SQL query:
-		$result = $this->db->sqlQuery($sql);
+		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
-		// Stop if an error occurs:
-		if($result->error()) {
-			echo $result->getError();
-			die();
-		}
 	}
 	
 	function unbanUser($userName) {
 		$sql = 'DELETE FROM
-					'.$this->getDataBaseTable('bans').'
+					ajax_chat_bans
 				WHERE
-					userName = '.$this->db->makeSafe($userName).';';
+					userName = '.sqlesc($userName).'';
 		
-		// Create a new SQL query:
-		$result = $this->db->sqlQuery($sql);
 		
-		// Stop if an error occurs:
-		if($result->error()) {
-			echo $result->getError();
-			die();
-		}
+		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
+		
 	}
 	
 	function removeExpiredBans() {
 		$sql = 'DELETE FROM
-					'.$this->getDataBaseTable('bans').'
+					ajax_chat_bans
 				WHERE
 					dateTime < NOW();';
 		
 		// Create a new SQL query:
-		$result = $this->db->sqlQuery($sql);
+		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
-		// Stop if an error occurs:
-		if($result->error()) {
-			echo $result->getError();
-			die();
-		}
 	}
 	
 	function setInactive($userID, $userName=null) {
-		$condition = 'userID='.$this->db->makeSafe($userID);
+		$condition = 'userID='.sqlesc($userID);
 		if($userName !== null) {
-			$condition .= ' OR userName='.$this->db->makeSafe($userName);
+			$condition .= ' OR userName='.sqlesc($userName);
 		}
 		$sql = 'UPDATE
-					'.$this->getDataBaseTable('online').'
+					ajax_chat_online
 				SET
 					dateTime = DATE_SUB(NOW(), interval '.(intval($this->getConfig('inactiveTimeout'))+1).' MINUTE)
 				WHERE
-					'.$condition.';';
+					'.$condition.'';
 					
 		// Create a new SQL query:
-		$result = $this->db->sqlQuery($sql);
-		
-		// Stop if an error occurs:
-		if($result->error()) {
-			echo $result->getError();
-			die();
-		}
+		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
 		$this->resetOnlineUsersData();
 	}
@@ -1812,26 +1743,20 @@ class AJAXChat {
 					userName,
 					channel
 				FROM
-					'.$this->getDataBaseTable('online').'
+					ajax_chat_online
 				WHERE
 					NOW() > DATE_ADD(dateTime, interval '.$this->getConfig('inactiveTimeout').' MINUTE);';
 		
 		// Create a new SQL query:
-		$result = $this->db->sqlQuery($sql);
+		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
-		// Stop if an error occurs:
-		if($result->error()) {
-			echo $result->getError();
-			die();
-		}
-		
-		if($result->numRows() > 0) {
+		if(mysqli_num_rows($result) > 0) {
 			$condition = '';
-			while($row = $result->fetch()) {
+			while($row = mysqli_fetch_assoc($result)) {
 				if(!empty($condition))
 					$condition .= ' OR ';
 				// Add userID to condition for removal:
-				$condition .= 'userID='.$this->db->makeSafe($row['userID']);
+				$condition .= 'userID='.sqlesc($row['userID']);
 
 				// Update the socket server authentication for the kicked user:
 				if($this->getConfig('socketServerEnabled')) {
@@ -1840,31 +1765,18 @@ class AJAXChat {
 
 				$this->removeUserFromOnlineUsersData($row['userID']);
 				
-				// Insert logout timeout message:
-				/*$text = '/logout '.$row['userName'].' Timeout';
-				$this->insertChatBotMessage(
-					$row['channel'],
-					$text,
-					null,
-					1
-				);*/
 			}
 			
-			$result->free();
+			mysqli_free_result($result);
 			
 			$sql = 'DELETE FROM
-						'.$this->getDataBaseTable('online').'
+						ajax_chat_online
 					WHERE
-						'.$condition.';';
+						'.$condition.'';
 			
 			// Create a new SQL query:
-			$result = $this->db->sqlQuery($sql);
+			$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 			
-			// Stop if an error occurs:
-			if($result->error()) {
-				echo $result->getError();
-				die();
-			}
 		}
 	}
 
@@ -1878,7 +1790,7 @@ class AJAXChat {
 	
 	function checkAndRemoveInactive() {
 		// Remove inactive users every inactiveCheckInterval:
-		if(!$this->getInactiveCheckTimeStamp() || ((time() - $this->getInactiveCheckTimeStamp()) > $this->getConfig('inactiveCheckInterval')*60)) {
+		if(!$this->getInactiveCheckTimeStamp() || ((time() - $this->getInactiveCheckTimeStamp()) > $this->getConfig('inactiveCheckInterval')*30)) {
 			$this->removeInactive();
 			$this->setInactiveCheckTimeStamp(time());
 		}
@@ -1908,11 +1820,11 @@ class AJAXChat {
 	}
 
 	function getMessageCondition() {
-		$condition = 	'id > '.$this->db->makeSafe($this->getRequestVar('lastID')).'
+		$condition = 	'id > '.sqlesc($this->getRequestVar('lastID')).'
 						AND (
-							channel = '.$this->db->makeSafe($this->getChannel()).'
+							channel = '.sqlesc($this->getChannel()).'
 							OR
-							channel = '.$this->db->makeSafe($this->getPrivateMessageID()).'
+							channel = '.sqlesc($this->getPrivateMessageID()).'
 						)
 						AND
 						';
@@ -2019,28 +1931,22 @@ class AJAXChat {
 					UNIX_TIMESTAMP(dateTime) AS timeStamp,
 					text
 				FROM
-					'.$this->getDataBaseTable('messages').'
+					ajax_chat_messages
 				WHERE
 					'.$this->getMessageCondition().'
 					'.$this->getMessageFilter().'
 				ORDER BY
 					id
 					DESC
-				LIMIT '.$this->getConfig('requestMessagesLimit').';';
+				LIMIT '.$this->getConfig('requestMessagesLimit').'';
 
 		// Create a new SQL query:
-		$result = $this->db->sqlQuery($sql);
-		
-		// Stop if an error occurs:
-		if($result->error()) {
-			echo $result->getError();
-			die();
-		}
+		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
 		$messages = '';
 		
 		// Add the messages in reverse order so it is ascending again:
-		while($row = $result->fetch()) {			
+		while($row = mysqli_fetch_assoc($result)) {			
 			$message = $this->getChatViewMessageXML(
 				$row['id'],
 				$row['timeStamp'],
@@ -2052,7 +1958,7 @@ class AJAXChat {
 			);		
 			$messages = $message.$messages;
 		}
-		$result->free();		
+		mysqli_free_result($result);		
 		
 		$messages = '<messages>'.$messages.'</messages>';
 		return $messages;
@@ -2070,7 +1976,7 @@ class AJAXChat {
 
 	function getTeaserMessageCondition() {
 		$channelID = $this->getValidRequestChannelID();		
-		$condition = 	'channel = '.$this->db->makeSafe($channelID).'
+		$condition = 	'channel = '.sqlesc($channelID).'
 						AND
 						';
 		if($this->getConfig('requestMessagesPriorChannelEnter') ||
@@ -2094,28 +2000,23 @@ class AJAXChat {
 					UNIX_TIMESTAMP(dateTime) AS timeStamp,
 					text
 				FROM
-					'.$this->getDataBaseTable('messages').'
+					ajax_chat_messages
 				WHERE
 					'.$this->getTeaserMessageCondition().'
 					'.$this->getMessageFilter().'
 				ORDER BY
 					id
 					DESC
-				LIMIT '.$this->getConfig('requestMessagesLimit').';';
+				LIMIT '.$this->getConfig('requestMessagesLimit').'';
 
 		// Create a new SQL query:
-		$result = $this->db->sqlQuery($sql);
+		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
-		// Stop if an error occurs:
-		if($result->error()) {
-			echo $result->getError();
-			die();
-		}
 		
 		$messages = '';
 		
 		// Add the messages in reverse order so it is ascending again:
-		while($row = $result->fetch()) {			
+		while($row = mysqli_fetch_assoc($result)) {			
 			$message = '';
 			$message .= '<message';
 			$message .= ' id="'.$row['id'].'"';
@@ -2129,7 +2030,7 @@ class AJAXChat {
 			$message .= '</message>';
 			$messages = $message.$messages;
 		}
-		$result->free();	
+		mysqli_free_result($result);
 		
 		$messages = '<messages>'.$messages.'</messages>';
 		return $messages;
@@ -2145,20 +2046,20 @@ class AJAXChat {
 	}
 	
 	function getLogsViewCondition() {
-		$condition = 'id > '.$this->db->makeSafe($this->getRequestVar('lastID'));
+		$condition = 'id > '.sqlesc($this->getRequestVar('lastID'));
 		
 		// Check the channel condition:
 		switch($this->getRequestVar('channelID')) {
 			case '-3':
 				// Just display messages from all accessible channels
 				if($this->getUserRole() >= AJAX_CHAT_MODERATOR) {
-					$condition .= ' AND (channel = '.$this->db->makeSafe($this->getPrivateMessageID());
-					$condition .= ' OR channel = '.$this->db->makeSafe($this->getPrivateChannelID());
+					$condition .= ' AND (channel = '.sqlesc($this->getPrivateMessageID());
+					$condition .= ' OR channel = '.sqlesc($this->getPrivateChannelID());
 					foreach($this->getChannels() as $channel) {
 						if($this->getConfig('logsUserAccessChannelList') && !in_array($channel, $this->getConfig('logsUserAccessChannelList'))) {
 							continue;
 						}
-						$condition .= ' OR channel = '.$this->db->makeSafe($channel);
+						$condition .= ' OR channel = '.sqlesc($channel);
 					}
 					$condition .= ')';
 				}
@@ -2180,7 +2081,7 @@ class AJAXChat {
 			default:
 				if(($this->getUserRole() == AJAX_CHAT_MODERATOR || !$this->getConfig('logsUserAccessChannelList') || in_array($this->getRequestVar('channelID'), $this->getConfig('logsUserAccessChannelList')))
 					&& $this->validateChannel($this->getRequestVar('channelID'))) {
-					$condition .= ' AND channel = '.$this->db->makeSafe($this->getRequestVar('channelID'));
+					$condition .= ' AND channel = '.sqlesc($this->getRequestVar('channelID'));
 				} else {
 					// No valid channel:
 					$condition .= ' AND 0 = 1';
@@ -2233,14 +2134,14 @@ class AJAXChat {
 			if(($this->getUserRole() >= AJAX_CHAT_MODERATOR) && strpos($this->getRequestVar('search'), 'ip=') === 0) {
 				// Search for messages with the given IP:
 				$ip = substr($this->getRequestVar('search'), 3);
-				$condition .= ' AND (ip = '.$this->db->makeSafe($this->ipToStorageFormat($ip)).')';
+				$condition .= ' AND (ip = '.sqlesc($this->ipToStorageFormat($ip)).')';
 			} else if(strpos($this->getRequestVar('search'), 'userID=') === 0) {
 				// Search for messages with the given userID:
 				$userID = substr($this->getRequestVar('search'), 7);
-				$condition .= ' AND (userID = '.$this->db->makeSafe($userID).')';
+				$condition .= ' AND (userID = '.sqlesc($userID).')';
 			} else {
 				// Use the search value as regular expression on message text and username:
-				$condition .= ' AND (userName REGEXP '.$this->db->makeSafe($this->getRequestVar('search')).' OR text REGEXP '.$this->db->makeSafe($this->getRequestVar('search')).')';
+				$condition .= ' AND (userName REGEXP '.sqlesc($this->getRequestVar('search')).' OR text REGEXP '.sqlesc($this->getRequestVar('search')).')';
 			}
 		}
 		
@@ -2263,24 +2164,19 @@ class AJAXChat {
 					ip,
 					text
 				FROM
-					'.$this->getDataBaseTable('messages').'
+					ajax_chat_messages
 				WHERE
 					'.$this->getLogsViewCondition().'
 				ORDER BY
 					id
-				LIMIT '.$this->getConfig('logsRequestMessagesLimit').';';
+				LIMIT '.$this->getConfig('logsRequestMessagesLimit').'';
 					
 		// Create a new SQL query:
-		$result = $this->db->sqlQuery($sql);
+		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
-		// Stop if an error occurs:
-		if($result->error()) {
-			echo $result->getError();
-			die();
-		}
 
 		$xml = '<messages>';
-		while($row = $result->fetch()) {
+		while($row = mysqli_fetch_assoc($result)) {
 			$xml .= '<message';
 			$xml .= ' id="'.$row['id'].'"';
 			$xml .= ' dateTime="'.date('r', $row['timeStamp']).'"';
@@ -2295,7 +2191,7 @@ class AJAXChat {
 			$xml .= '<text><![CDATA['.$this->encodeSpecialChars($row['text']).']]></text>';
 			$xml .= '</message>';
 		}
-		$result->free();
+		mysqli_free_result($result);
 
 		$xml .= '</messages>';
 		
@@ -2313,18 +2209,13 @@ class AJAXChat {
 		
 	function purgeLogs() {
 		$sql = 'DELETE FROM
-					'.$this->getDataBaseTable('messages').'
+					ajax_chat_messages
 				WHERE
 					dateTime < DATE_SUB(NOW(), interval '.$this->getConfig('logsPurgeTimeDiff').' DAY);';
 		
 		// Create a new SQL query:
-		$result = $this->db->sqlQuery($sql);
+		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
-		// Stop if an error occurs:
-		if($result->error()) {
-			echo $result->getError();
-			die();
-		}
 	}
 	
 	function getInfoMessages($type=null) {
@@ -2383,25 +2274,19 @@ class AJAXChat {
 						UNIX_TIMESTAMP(dateTime) AS timeStamp,
 						ip
 					FROM
-						'.$this->getDataBaseTable('online').'
+						ajax_chat_online
 					ORDER BY
 						userRole DESC;';
 			
 			// Create a new SQL query:
-			$result = $this->db->sqlQuery($sql);
+			$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 			
-			// Stop if an error occurs:
-			if($result->error()) {
-				echo $result->getError();
-				die();
-			}
-			
-			while($row = $result->fetch()) {
+			while($row = mysqli_fetch_assoc($result)) {
 				$row['ip'] = $this->ipFromStorageFormat($row['ip']);
 				array_push($this->_onlineUsersData, $row);
 			}
 			
-			$result->free();
+			mysqli_free_result($result);
 		}
 		
 		if($channelIDs || $key) {
@@ -2557,44 +2442,33 @@ class AJAXChat {
 			$sql = 'SELECT
 						channel
 					FROM
-						'.$this->getDataBaseTable('invitations').'
+						ajax_chat_invitations
 					WHERE
-						userID='.$this->db->makeSafe($this->getUserID()).'
+						userID='.sqlesc($this->getUserID()).'
 						AND
-						DATE_SUB(NOW(), interval 1 DAY) < dateTime;';
+						DATE_SUB(NOW(), interval 1 DAY) < dateTime';
 			
 			// Create a new SQL query:
-			$result = $this->db->sqlQuery($sql);
+			$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 			
-			// Stop if an error occurs:
-			if($result->error()) {
-				echo $result->getError();
-				die();
-			}
-			
-			while($row = $result->fetch()) {
+			while($row = mysqli_fetch_assoc($result)) {
 				array_push($this->_invitations, $row['channel']);
 			}
 			
-			$result->free();
+			mysqli_free_result($result);
 		}
 		return $this->_invitations;
 	}
 
 	function removeExpiredInvitations() {
 		$sql = 'DELETE FROM
-					'.$this->getDataBaseTable('invitations').'
+					ajax_chat_invitations
 				WHERE
 					DATE_SUB(NOW(), interval 1 DAY) > dateTime;';
 		
 		// Create a new SQL query:
-		$result = $this->db->sqlQuery($sql);
+		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
-		// Stop if an error occurs:
-		if($result->error()) {
-			echo $result->getError();
-			die();
-		}
 	}
 
 	function addInvitation($userID, $channelID=null) {
@@ -2602,45 +2476,35 @@ class AJAXChat {
 
 		$channelID = ($channelID === null) ? $this->getChannel() : $channelID;
 
-		$sql = 'INSERT INTO '.$this->getDataBaseTable('invitations').'(
+		$sql = 'INSERT INTO ajax_chat_invitations (
 					userID,
 					channel,
 					dateTime
 				)
 				VALUES (
-					'.$this->db->makeSafe($userID).',
-					'.$this->db->makeSafe($channelID).',
+					'.sqlesc($userID).',
+					'.sqlesc($channelID).',
 					NOW()
-				);';	
+				)';	
 		
 		// Create a new SQL query:
-		$result = $this->db->sqlQuery($sql);
+		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
-		// Stop if an error occurs:
-		if($result->error()) {
-			echo $result->getError();
-			die();
-		}
 	}
 
 	function removeInvitation($userID, $channelID=null) {
 		$channelID = ($channelID === null) ? $this->getChannel() : $channelID;
 
 		$sql = 'DELETE FROM
-					'.$this->getDataBaseTable('invitations').'
+					ajax_chat_invitations
 				WHERE
-					userID='.$this->db->makeSafe($userID).'
+					userID='.sqlesc($userID).'
 					AND
-					channel='.$this->db->makeSafe($channelID).';';
+					channel='.sqlesc($channelID).'';
 		
 		// Create a new SQL query:
-		$result = $this->db->sqlQuery($sql);
+		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
-		// Stop if an error occurs:
-		if($result->error()) {
-			echo $result->getError();
-			die();
-		}
 	}
 	
 	function getUserID() {

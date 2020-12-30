@@ -1075,11 +1075,11 @@ var ajaxChat = {
 						+ encodedUserName
 						+ '\');">'
 						+ this.lang['userMenuWhois']
-						+ '</a></li>'
+						+ '</a></li>' 
 						+ '<li class="disc"><a target="_parent" href="../userdetails.php?id='
                         + userID
                         + '&amp;hit=1" title="Open this users profile.">'
-                        + 'User Profile '
+                        + 'Users Profile '
                         + '</a></li>';
 			}
 		} else {
@@ -1098,7 +1098,7 @@ var ajaxChat = {
 					+ '<li><a href="javascript:ajaxChat.insertMessageWrapper(\'/roll \');">'
 					+ this.lang['userMenuRoll']
 					+ '</a></li>';
-			if(this.userRole !== '0') {
+			if(this.userRole >= '5') {
 				menu	+= '<li><a href="javascript:ajaxChat.sendMessageWrapper(\'/join\');">'
 						+ this.lang['userMenuEnterPrivateRoom']
 						+ '</a></li>';

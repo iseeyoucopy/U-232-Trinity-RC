@@ -26,6 +26,7 @@ require_once (CACHE_DIR . 'cache_keys.php');
 require_once (CACHE_DIR . 'staff_settings.php');
 require_once (CACHE_DIR . 'class_config.php');
 require_once (CLASS_DIR . 'class.crypt.php');
+require_once (CACHE_DIR . 'chat_settings.php');
 //==Start Cache
 require_once (VENDOR_DIR . 'autoload.php');
 require_once (INCL_DIR . 'cache_config.php');

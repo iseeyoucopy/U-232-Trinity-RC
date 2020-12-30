@@ -9,58 +9,53 @@
 
 class CustomAJAXChat extends AJAXChat {
 
-	// Returns an associative array containing userName, userID and userRole
-	// Returns null if login is invalid
-	
 	function getValidLoginUserData() {
-    global $CURUSER;
-		$customUsers = $this->getCustomUsers();
-		
-		
-
+        global $CURUSER;
+	 
+		// Check if we have a valid registered user:
 		if(isset($CURUSER)) {
-			// Check if we have a valid registered user:
-
-			foreach($customUsers as $key=>$value) {
-					$userData = array();
-					$userData['userID'] = $CURUSER['id'];
-					$userData['userName'] = $this->trimUserName($CURUSER['username']);
-					$userData['userRole'] = $this->checkUsergroup($CURUSER['class']);
-			}
-					return $userData;
+			$userData = array();
+			$userData['userID'] = $CURUSER['id'];
+			$userData['userName'] = $this->trimUserName($CURUSER['username']);
+			//$user_class = $CURUSER['override_class'] != 255 ? (int) $CURUSER['override_class'] : (int) $CURUSER['class'];
+			//$userData['userRole'] = $user_class;
 			
-			return null;
-		} else {
-			// Guest users:
-			return $this->getGuestUser();
+			if($CURUSER['class'] == UC_SYSOP)
+				$userData['userRole'] = AJAX_CHAT_SYSOP;
+			elseif($CURUSER['class'] == UC_ADMINISTRATOR)
+				$userData['userRole'] = AJAX_CHAT_ADMIN;
+			elseif($CURUSER['class'] == UC_MODERATOR)
+				$userData['userRole'] = AJAX_CHAT_MODERATOR;
+			elseif($CURUSER['class'] == UC_UPLOADER)
+				$userData['userRole'] = AJAX_CHAT_UPLOADER;
+			elseif($CURUSER['class'] == UC_VIP)
+				$userData['userRole'] = AJAX_CHAT_VIP;
+			elseif($CURUSER['class'] == UC_POWER_USER)
+				$userData['userRole'] = AJAX_CHAT_POWER_USER;
+			else if($CURUSER['class'] == UC_USER)
+				$userData['userRole'] = AJAX_CHAT_USER;
+			
+			return $userData;
 		}
+		
 	}
 
 	// Store the channels the current user has access to
 	// Make sure channel names don't contain any whitespace
 	function &getChannels() {
+		global $TRINITY20, $CURUSER;
 		if($this->_channels === null) {
 			$this->_channels = array();
 			
-			$customUsers = $this->getCustomUsers();
-			
 			// Get the channels, the user has access to:
 			if($this->getUserRole() == AJAX_CHAT_SYSOP) {
-				$validChannels = $customUsers[1]['channels'];
+				$validChannels = $TRINITY20['ajax_chat']['sysop_access'];
 			}elseif($this->getUserRole() == AJAX_CHAT_ADMIN) {
-				$validChannels = $customUsers[2]['channels'];
+				$validChannels = $TRINITY20['ajax_chat']['staff_access'];
 			}elseif($this->getUserRole() == AJAX_CHAT_MODERATOR) {
-				$validChannels = $customUsers[3]['channels'];
-			}elseif($this->getUserRole() == AJAX_CHAT_UPLOADER){
-				$validChannels = $customUsers[4]['channels'];
-			}elseif($this->getUserRole() == AJAX_CHAT_VIP){
-				$validChannels = $customUsers[5]['channels'];
-			}elseif($this->getUserRole() == AJAX_CHAT_POWER_USER) {
-				$validChannels = $customUsers[6]['channels'];
-			}elseif($this->getUserRole() == AJAX_CHAT_USER){
-				$validChannels = $customUsers[7]['channels'];
+				$validChannels = $TRINITY20['ajax_chat']['staff_access'];
 			}else {
-				$validChannels = $customUsers[0]['channels'];
+				$validChannels = $TRINITY20['ajax_chat']['user_access'];
 			}
 			
 			// Add the valid channels to the channel list (the defaultChannelID is always valid):
@@ -111,13 +106,6 @@ class CustomAJAXChat extends AJAXChat {
 		}
 		return $this->_allChannels;
 	}
-
-	function &getCustomUsers() {
-		// List containing the registered chat users:
-		$users = null;
-		require(AJAXCHAT_DIR . 'lib' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'users.php');
-		return $users;
-	}
 	
 	function getCustomChannels() {
 		// List containing the custom channels:
@@ -128,28 +116,8 @@ class CustomAJAXChat extends AJAXChat {
 		return array_flip($channels);
 	}
 
-
-	//Custom functions needed.
-	function checkUsergroup($class){
-        if($class == 6){
-            return AJAX_CHAT_SYSOP; 
-        }elseif($class == 5){
-            return AJAX_CHAT_ADMIN; 
-        }elseif($class == 4){
-			return AJAX_CHAT_MODERATOR;
-		}elseif($class == 3){
-			return AJAX_CHAT_UPLOADER;
-		}elseif($class == 2){
-            return AJAX_CHAT_VIP;
-        }elseif($class == 1){
-			return AJAX_CHAT_POWER_USER;
-		}elseif($class == 0){
-			return AJAX_CHAT_USER;
-		}else{
-			return AJAX_CHAT_GUEST;
-        }
-   }
-   /*
+   
+ /*  
     // Add custom commands (Speak as U232_Bot)
     function parseCustomCommands($text, $textParts) {
 	    if($this->getUserRole() >= AJAX_CHAT_MODERATOR) {
@@ -229,6 +197,6 @@ class CustomAJAXChat extends AJAXChat {
 		    $this->setSessionVar('AwayFromKeyboard', false);
 	    }
 	    return true;
-    } */
-
+    } 
+*/
 }
