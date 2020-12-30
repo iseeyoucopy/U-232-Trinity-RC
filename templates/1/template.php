@@ -389,8 +389,7 @@ $NavBar .="<div class='cell medium-3 large-2 sticky-container' id='menu-bar' dat
 					<dd><a href='" . $TRINITY20['baseurl'] . "/index.php'>{$lang['gl_home']}</a></dd>
 					<dd><a href='" . $TRINITY20['baseurl'] . "/topten.php'>{$lang['gl_stats']}</a></dd>
 					<dd><a href='" . $TRINITY20['baseurl'] . "/chat.php'>{$lang['gl_chat']}</a></dd>
-					<dd><a href='" . $TRINITY20['baseurl'] . "/faq.php'>{$lang['gl_faq']}</a></dd>
-					<dd><a href='" . $TRINITY20['baseurl'] . "/rules.php'>{$lang['gl_rules']}</a></dd>
+					<dd><a href='" . $TRINITY20['baseurl'] . "/help.php'>Help</a></dd>
 					<dd><a href='" . $TRINITY20['baseurl'] . "/staff.php'>{$lang['gl_staff']}</a></dd>
 					<dd><a href='" . $TRINITY20['baseurl'] . "/wiki.php'>{$lang['gl_wiki']}</a></dd>
 					<dd><a href='#' onclick='radio();'>{$lang['gl_radio']}</a></dd>
