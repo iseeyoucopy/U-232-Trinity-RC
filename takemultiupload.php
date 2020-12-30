@@ -304,7 +304,7 @@ foreach ($file_list as $key=>$f) {
 
     /* RSS feeds */
     if (($fd1 = @fopen("rss.xml", "w")) && ($fd2 = fopen("rssdd.xml", "w"))) {
-        $s = "<?xml version=\"1.0\" encoding=\"iso-8859-1\" ?>\n<rss version=\"0.91\">\n<channel>\n" . "<title>{$TRINITY20['site_name']}</title>\n<description>Installer09 is the best!</description>\n<link>{$TRINITY20['baseurl']}/</link>\n";
+        $s = "<?xml version=\"1.0\" encoding=\"iso-8859-1\" ?>\n<rss version=\"0.91\">\n<channel>\n" . "<title>{$TRINITY20['site_name']}</title>\n<description>TRINITY20 is the best!</description>\n<link>{$TRINITY20['baseurl']}/</link>\n";
         @fwrite($fd1, $s);
         @fwrite($fd2, $s);
         $r = sql_query("SELECT id,name,descr,filename,category FROM torrents ORDER BY added DESC LIMIT 15") or sqlerr(__FILE__, __LINE__);

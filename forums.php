@@ -17,7 +17,7 @@
 * Bigjoos 2015
 ******
 */
-define('IN_INSTALLER09_FORUM', TRUE);
+define('IN_TRINITY20_FORUM', TRUE);
 require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
 require_once(INCL_DIR.'user_functions.php');
 require_once(INCL_DIR.'pager_functions.php');

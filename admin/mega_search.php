@@ -18,7 +18,7 @@ TBDev 2010(ish) - snuggs  feb 25 2010
 ** changed $_GET to $_POST to be able to test longer strings
 ** added multiple username search and invite code search... remove if not needed :D
 *********************************************************************************/
-if (!defined('IN_INSTALLER09_ADMIN')) {
+if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
     $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">

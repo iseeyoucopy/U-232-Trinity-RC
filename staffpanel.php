@@ -63,7 +63,7 @@ if (!$CURUSER)
  */
 if ($TRINITY20['staffpanel_online'] == 0)
     stderr($lang['spanel_information'], $lang['spanel_panel_cur_offline']);
-define('IN_INSTALLER09_ADMIN', true);
+define('IN_TRINITY20_ADMIN', true);
 require_once(CLASS_DIR . 'class_check.php');
 class_check(UC_STAFF);
 $action = (isset($_GET['action']) ? htmlsafechars($_GET['action']) : (isset($_POST['action']) ? htmlsafechars($_POST['action']) : NULL));

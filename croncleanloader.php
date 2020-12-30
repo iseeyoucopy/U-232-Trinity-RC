@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-define('IN_INSTALLER09_CRON', true);
+define('IN_TRINITY20_CRON', true);
 if (!isset($argv) OR !is_array($argv) OR (count($argv) != 2) OR !preg_match('/^[0-9a-fA-F]{32}$/i', $argv[1])) {
     exit('Go away!');
 }

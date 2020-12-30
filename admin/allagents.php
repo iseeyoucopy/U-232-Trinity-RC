@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-if (!defined('IN_INSTALLER09_ADMIN')) {
+if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
     $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
@@ -56,7 +56,7 @@ if (!defined('IN_INSTALLER09_ADMIN')) {
 }
 
 
-  deny_access('IN_INSTALLER09_ADMIN');
+  deny_access('IN_TRINITY20_ADMIN');
 */
 require_once (INCL_DIR . 'user_functions.php');
 require_once (CLASS_DIR . 'class_check.php');

@@ -17,7 +17,7 @@
 * Bigjoos 2015
 ******
 */
-if (!defined('IN_INSTALLER09_FORUM')) {
+if (!defined('IN_TRINITY20_FORUM')) {
     $HTMLOUT = '';
     $HTMLOUT.= '<!doctype html>
 <html class="no-js" lang="en">

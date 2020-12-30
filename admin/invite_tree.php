@@ -16,7 +16,7 @@ I think this was based on a code that was in broken stones, but I have no idea
 if anyone knows, please post and I'll give proper credit. - snuggs
 UPDATED may 25 2010 fixed some html and added more security thanks pdq ;)
 *********************************************/
-if (!defined('IN_INSTALLER09_ADMIN')) {
+if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
     $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">

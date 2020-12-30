@@ -24,7 +24,7 @@
 // will show the update, then update their list using the update button, to bring
 // their list up to date. If an update appears when the scripter hasn't made any
 // changes, then they know that another scripter has modified a script.
-if (!defined('IN_INSTALLER09_ADMIN')) {
+if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
     $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">

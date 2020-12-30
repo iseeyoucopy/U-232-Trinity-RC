@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-if (!defined('IN_INSTALLER09_ADMIN')) {
+if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
     $HTMLOUT.= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">

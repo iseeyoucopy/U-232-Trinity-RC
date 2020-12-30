@@ -11,7 +11,7 @@
  * ------------  @version V6  ------------------*
  */
 // edit_moods.php for PTF by pdq 2011
-if (!defined('IN_INSTALLER09_ADMIN')) require_once (ROOT_DIR . '404.html');
+if (!defined('IN_TRINITY20_ADMIN')) require_once (ROOT_DIR . '404.html');
 require_once (CLASS_DIR . 'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);

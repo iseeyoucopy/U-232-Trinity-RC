@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-//==Installer09 MemCached News
+//==TRINITY20 MemCached News
 $adminbutton = '';
 if ($CURUSER['class'] >= UC_STAFF) {
     $adminbutton = "<a class='float-right' href='staffpanel.php?tool=news&amp;mode=news'>{$lang['index_news_title']}</a>";

@@ -16,7 +16,7 @@
 * Credits - Retro-Alex2005-Putyn-pdq-sir_snugglebunny-Bigjoos
 * Bigjoos 2015
 *******/
-if (!defined('IN_INSTALLER09_FORUM')) {
+if (!defined('IN_TRINITY20_FORUM')) {
     $HTMLOUT = '';
     $HTMLOUT.= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">

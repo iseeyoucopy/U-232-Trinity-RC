@@ -12,7 +12,7 @@
  */
 //=== mass bonus stuff for members coded for TB sites 2011 ~ snuggs
 //=== mass bonus stuff for members coded for TB sites 2011 ~ snuggs
-if (!defined('IN_INSTALLER09_ADMIN')) {
+if (!defined('IN_TRINITY20_ADMIN')) {
     header('HTTP/1.0 404 Not Found');
     $HTMLOUT = '';
     $HTMLOUT.= '

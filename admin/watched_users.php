@@ -11,7 +11,7 @@
  * ------------  @version V6  ------------------*
  */
 //=== watched users list for staff to keep track of bad or suspected members personally...
-if (!defined('IN_INSTALLER09_ADMIN')) {
+if (!defined('IN_TRINITY20_ADMIN')) {
     header('HTTP/1.0 404 Not Found');
     $HTMLOUT = '';
     $h1_thingie = '';
