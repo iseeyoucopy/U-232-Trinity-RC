@@ -13,10 +13,10 @@
 require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
 require_once (INCL_DIR . 'user_functions.php');
 //require_once (INCL_DIR . 'html_functions.php');
-$radio = '';
-$radio_host = '';
-$radio_port = (int)0;
-$radio_password = '';
+
+$radio_host = '127.0.0.1';
+$radio_port = (int)8080;
+$radio_password = 'somepassword';
 $langs = array(
     'CURRENTLISTENERS' => 'Current listeners: <b>%d</b>',
     'SERVERTITLE' => 'Server: <b>%s</b>',
@@ -29,7 +29,7 @@ $langs = array(
 function radioinfo($radio)
 {
     global $langs, $TRINITY20, $cache, $CURUSER;
-    $xml = $html = $history = '';
+    $xml = $html = $history = ''; 
     if ($hand = @fsockopen($radio_host, $radio_port, $errno, $errstr, 30)) {
         fputs($hand, "GET /admin.cgi?pass=" . $radio_password . "&mode=viewxml HTTP/1.1\nUser-Agent:Mozilla/5.0 " . "(Windows; U; Windows NT 6.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6\n\n");
         while (!feof($hand)) $xml.= fgets($hand, 1024);

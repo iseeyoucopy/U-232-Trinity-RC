@@ -25,8 +25,9 @@ function docleanup($data)
             $modcomment = $arr['modcomment'];
             $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - Freeleech Removed By System.\n" . $modcomment;
             $modcom = sqlesc($modcomment);
-            $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ' )';
-            $users_buffer[] = '(' . $arr['id'] . ', \'0\', ' . $modcom . ')';
+			$msgs_buffer[] = "(0, " . $arr['id'] . ", " . TIME_NOW . ", " . sqlesc($msg) . ", " . sqlesc($subject) . ")";
+			
+            $users_buffer[] = "(" . $arr['id'] . ", 0, " . $modcom . ")";
             $cache->update_row('user' . $arr['id'], [
                 'free_switch' => 0
             ], $TRINITY20['expires']['user_cache']);
@@ -41,7 +42,7 @@ function docleanup($data)
         }
         $count = count($users_buffer);
         if ($count > 0) {
-            sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) or sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO messages (sender, receiver, added, msg, subject) VALUES (" . implode(', ', $msgs_buffer) . ")") or sqlerr(__FILE__, __LINE__);
             sql_query("INSERT INTO users (id, free_switch, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE free_switch=values(free_switch), modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
             write_log("Cleanup - Removed Freeleech from " . $count . " members");
         }

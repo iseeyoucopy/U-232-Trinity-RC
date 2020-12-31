@@ -135,13 +135,13 @@ $HTMLOUT .="<div id='XMAS_GIFT'>";
     	require_once (BLOCK_DIR . 'index/gift.php');
 $HTMLOUT .="</div>";
 	}
-
+/*
 	if (curuser::$blocks['index_page'] & block_index::RADIO && $BLOCKS['radio_on']) {
 $HTMLOUT .="<div id='RADIO'>";
     	require_once (BLOCK_DIR . 'index/radio.php');
 $HTMLOUT .="</div>";
 	}
-/*
+
 	if (curuser::$blocks['index_page'] & block_index::TORRENTFREAK && $BLOCKS['torrentfreak_on']) {
 $HTMLOUT .="<div id='TORRENTFREAK'>";
     	require_once (BLOCK_DIR . 'index/torrentfreak.php');
