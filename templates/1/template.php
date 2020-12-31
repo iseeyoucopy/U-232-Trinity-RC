@@ -123,7 +123,6 @@ function stdfoot($stdfoot = false)
     $seconds = microtime(true) - $start;
     $r_seconds = round($seconds, 5);
     $queries = (!empty($query_stat)); // sql query count by pdq
-    define('REQUIRED_PHP_VER', 7.0);
     // load averages - pdq
     if ($debug) {
         if (($uptime = $cache->get('uptime')) === false) {

@@ -17,9 +17,6 @@ if ($TRINITY['error_reports']['debugmode'] == 1) {
 }else { 
     error_reporting(0); 
 }
-const REQUIRED_PHP = 70000, REQUIRED_PHP_VERSION = '7.0';
-if (PHP_VERSION_ID < REQUIRED_PHP)
-die('PHP '.REQUIRED_PHP_VERSION.' or higher is required.');
 if (PHP_INT_SIZE < 8)
 die('A 64bit or higher OS + Processor is required.');
 define('EMAIL_CONFIRM', false);
