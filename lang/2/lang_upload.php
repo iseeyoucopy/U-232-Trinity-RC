@@ -36,7 +36,6 @@ $lang = array(
     'upload_imdb_url' => "URL Imdb",
     'upload_imdb_tfi' => "(Pris du site Imdb - ",
     'upload_imdb_rfmo' => "Ajoutez l'URL Imdb pour afficher les informations issues du site Imdb pour les détails du torrent.)",
-    'upload_youtube' => '<a href=\'http://youtube.com\' target=\'_blank\'>Youtube</a>',
     'upload_youtube_info' => 'Lien direct Youtube, sera affiché dans les détails du torrent.<br/>Le lien doit être de cette forme <b>http://www.youtube.com/watch?v=camI8yuoy8U</b>',
     //upload stdhead
     'upload_comment' => "Autoriser les commentaires",
