@@ -75,7 +75,7 @@ $HTMLOUT.= "<script type='text/javascript'>
         <form role='form' name='upload' enctype='multipart/form-data' action='./takeupload.php' method='post'>
         <div class='grid-x grid-margin-x callout'>
         <div class='cell large-auto'>
-            <input class='form-control' type='hidden' name='MAX_FILE_SIZE' value='{$TRINITY20['max_torrent_size']}'>
+            <input type='hidden' name='MAX_FILE_SIZE' value='{$TRINITY20['max_torrent_size']}'>
             <div class='input-group'>
                 <span class='input-group-label'>{$lang['upload_announce_url']}:</span>
                 <input class='input-group-field' type='text' value='" . $TRINITY20['announce_urls'] . "'>
