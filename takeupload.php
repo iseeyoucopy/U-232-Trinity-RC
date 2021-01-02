@@ -37,10 +37,12 @@ if ($CURUSER['class'] < UC_UPLOADER OR $CURUSER["uploadpos"] == 0 || $CURUSER["u
     header("Location: {$TRINITY20['baseurl']}/upload.php");
     exit();
 }
-foreach (explode(":", "descr:type:name") as $v) {
-    if (!isset($_POST[$v]))
-        stderr($lang['takeupload_failed'], $lang['takeupload_no_formdata']);
-}
+if (!isset($_POST['descr']))
+    stderr($lang['takeupload_failed'], 'No descrition added');
+if (!isset($_POST['type']))
+    stderr($lang['takeupload_failed'], 'No category selected');
+if (!isset($_POST['name']))
+    stderr($lang['takeupload_failed'], 'No name added');
 if (!isset($_FILES["file"]))
     stderr($lang['takeupload_failed'], $lang['takeupload_no_formdata']);
 

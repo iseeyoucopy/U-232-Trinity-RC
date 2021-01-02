@@ -109,7 +109,7 @@ $HTMLOUT.= "<script type='text/javascript'>
             </div>
             <div class='input-group'>
             <span class='input-group-label'>{$lang['upload_name']}</span>
-            <input class='input-group-field' type='text' id='name' name='poster' aria-describedby='nameHelpText'>
+            <input class='input-group-field' type='text' id='name' name='name' aria-describedby='nameHelpText'>
             </div>
             <p class='help-text' id='nameHelpText'>{$lang['upload_filename']}</p>
             <div class='input-group'>
