@@ -10,12 +10,6 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-/****
-* Bleach Forums 
-* Rev u-232v5
-* Credits - Retro-Alex2005-Putyn-pdq-sir_snugglebunny-Bigjoos
-* Bigjoos 2015
-*******/
 if (!defined('IN_TRINITY20_FORUM')) {
     $HTMLOUT = '';
     $HTMLOUT.= '<!DOCTYPE html>
