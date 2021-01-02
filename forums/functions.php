@@ -159,7 +159,7 @@ function show_forums($forid, $subforums = false, $sfa = "", $mods_array = "", $s
     $mods_array = forummods();
     $htmlout='';
     $forums_res = sql_query("SELECT f.id, f.name, f.description, f.post_count, f.topic_count, f.min_class_read, p.added, p.topic_id, p.anonymous, p.user_id, p.id AS pid, u.id AS uid, u.username, u.class, u.donor, u.enabled, u.warned, u.chatpost, u.leechwarn, u.pirate, u.king, t.topic_name, t.last_post, r.last_post_read " . "FROM forums AS f " . "LEFT JOIN posts AS p ON p.id = (SELECT MAX(last_post) FROM topics WHERE forum_id = f.id) " . "LEFT JOIN users AS u ON u.id = p.user_id " . "LEFT JOIN topics AS t ON t.id = p.topic_id " . "LEFT JOIN read_posts AS r ON r.user_id = " . sqlesc($CURUSER['id']) . " AND r.topic_id = p.topic_id " . "WHERE " . ($subforums == false ? "f.forum_id = ".sqlesc($forid)." AND f.place =-1 ORDER BY f.forum_id ASC" : "f.place=".sqlesc($forid)." ORDER BY f.id ASC") . "") or sqlerr(__FILE__, __LINE__);
-	$htmlout.= "<table>";
+	$htmlout.= "<table class='stack'>";
 	while ($forums_arr = mysqli_fetch_assoc($forums_res)) {
         if ($CURUSER['class'] < $forums_arr["min_class_read"])
             continue;
@@ -225,8 +225,8 @@ function show_forums($forid, $subforums = false, $sfa = "", $mods_array = "", $s
 						<td>
 						<strong><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".$forumid."'><b>".htmlsafechars($forums_arr["name"])."</b></a></strong>";
        if ($CURUSER['class'] >= UC_ADMINISTRATOR || isMod($forumid, "forum")) {
-       $htmlout.="<a class='float-right' href='{$TRINITY20['baseurl']}/forums.php?action=editforum&amp;forumid=".$forumid."'><i class='fas fa-edit'></i>
-		</a><a class='float-right' href='{$TRINITY20['baseurl']}/forums.php?action=deleteforum&amp;forumid=".$forumid."'><i class='fas fa-eraser'></i></a>";
+       $htmlout.="<a href='{$TRINITY20['baseurl']}/forums.php?action=editforum&amp;forumid=".$forumid."'><i class='fas fa-edit'></i>
+		</a><a href='{$TRINITY20['baseurl']}/forums.php?action=deleteforum&amp;forumid=".$forumid."'><i class='fas fa-eraser'></i></a>";
         }
         if (!empty($forums_arr["description"])) {
         $htmlout.= "<p>".htmlsafechars($forums_arr["description"])."</p>";
@@ -236,11 +236,9 @@ function show_forums($forid, $subforums = false, $sfa = "", $mods_array = "", $s
         if ($show_mods == true && isset($mods_array[$forumid]))
             $htmlout.="<br/>".showMods($mods_array[$forumid]);
         $htmlout.="</td>
-			<td>
-			<span class='badge badge-success'>".number_format($posts)."</span>
-			</td>
-			<td>
-			<span class='badge badge-success'>".number_format($topics)."</span>
+            <td>
+			<p>".number_format($posts)." posts</p>
+			<p>".number_format($topics)." topics</p>
 			</td>
 			<td>".$lastpost."</td>
 		</tr>";
@@ -263,4 +261,3 @@ if (!function_exists('highlight')) {
         return $subject;
     }
 }
-?>
