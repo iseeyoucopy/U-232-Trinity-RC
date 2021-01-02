@@ -34,7 +34,7 @@ if (($last24_cache = $cache->get($keys['last24'])) === false) {
     $last24_cache['last24record'] = $last24record;
     $last24_cache['last24'] = number_format($last24);
     $last24_cache['ss24'] = $_ss24;
-    $cache->set($keys['last24'], $last24_cache);
+    $cache->set($keys['last24'], $last24_cache, $TRINITY20['expires']['last24']);
 }
 if (!$last24_cache['activeusers24']) $last24_cache['activeusers24'] = $lang['index_last24_nousers'];
 if ($last24_cache['totalonline24'] != 1) $last24_cache['ss24'] = $lang['gl_members'];
