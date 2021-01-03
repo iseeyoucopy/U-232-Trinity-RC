@@ -117,7 +117,6 @@ $TRINITY['expires']['sv_last_post'] = 0; // infinite
 $TRINITY['expires']['last_read_post'] = 0; // infinite
 $TRINITY['expires']['sv_last_read_post'] = 0; // infinite
 $TRINITY['expires']['last24'] = 3600; // 3600 = 1 hours
-$TRINITY['expires']['activeircusers'] = 300; // 300 = 5 min
 $TRINITY['expires']['birthdayusers'] = 43200; //== 43200 = 12 hours
 $TRINITY['expires']['news_users'] = 3600; // 3600 = 1 hours
 $TRINITY['expires']['user_invitees'] = 900; // 900 = 15 min
@@ -159,7 +158,6 @@ $TRINITY['bot_id'] = 2;
 $TRINITY['bot_name'] = 'U232_bot';
 $TRINITY['bot_role'] = 8;          
 $TRINITY['staffpanel_online'] = 1;
-$TRINITY['irc_autoshout_on'] = 1;
 $TRINITY['wait_times'] = 0;
 $TRINITY['max_slots'] = 0;
 $TRINITY['crazy_hour'] = false; //== Off for XBT
