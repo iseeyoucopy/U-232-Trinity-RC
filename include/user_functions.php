@@ -297,7 +297,7 @@ function format_username($user, $icons = true)
     $user['class'] = (int)$user['class'];
     if ($user['id'] == 0) return 'System';
     elseif ($user['username'] == '') return 'unknown[' . $user['id'] . ']';
-    $username = '<span style="color:#' . get_user_class_color($user['class']) . ';"><b>' . htmlsafechars($user['username']) . '</b></span>';
+    $username = '<span style="color:#' . get_user_class_color($user['class']) . ';"><strong>' . htmlsafechars($user['username']) . '</strong></span>';
     $str = '<span style="white-space: nowrap;"><a class="user_' . $user['id'] . '" href="' . $TRINITY20['baseurl'] . '/userdetails.php?id=' . $user['id'] . '" target="_blank">' . $username . '</a>';
     if ($icons != false) {
         $str.= ($user['donor'] == 'yes' ? '<img src="' . $TRINITY20['pic_base_url'] . 'star.png" alt="Donor" title="Donor" />' : '');
