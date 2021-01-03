@@ -20,7 +20,11 @@ loggedinorreturn();
 Updated for 09 - Nov 28th 2009
 **********************************************************************/
 $lang = array_merge(load_language('global'), load_language('mybonus'));
-$stdhead = [/** include css **/'css' => ['']];
+$stdhead = array(
+    /** include the css **/
+    'css' => array(
+    )
+);
 if ($TRINITY20['seedbonus_on'] == 0
 //AND $CURUSER['class'] < UC_MAX*/
 ) {
@@ -49,11 +53,11 @@ if (isset($_GET["freeleech_success"]) && $_GET["freeleech_success"]) {
     }
     if ($freeleech_success == '1') {
         if ($_GET["norefund"] != '0') {
-            $HTMLOUT .="<div class='panel panel-default'>
-	<div class='panel-heading'>
+            $HTMLOUT .="<div class='card'>
+	<div class='card-divider'>
 		<h3 class='panel-title panel-success'>{$lang['bonus_success']}</h3>
 	</div>" .
-"<div class='panel-body'><img src='{$TRINITY20['pic_base_url']}/smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /><span class='label label-success'>{$lang['bonus_congrats']}</span>
+"<div class='card-section'><img src='{$TRINITY20['pic_base_url']}/smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /><span class='label label-success'>{$lang['bonus_congrats']}</span>
 {$CURUSER['username']}{$lang['bonus_settracker']}<b>{$lang['bonus_freelech1']}</b> <img src='{$TRINITY20['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br><br>{$lang['bonus_remaining']}" . htmlsafechars($_GET['norefund']) . "{$lang['bonus_pointsfree']}" .
 "<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />" .
 "</div></div>";
@@ -183,8 +187,8 @@ default:
 $amt = '1 TB';
 }
 $HTMLOUT .= "
-<div class='panel panel-default'>
-	<div class='panel-body'>
+<div class='card'>
+	<div class='card-section'>
 		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . $lang['bonus_increaseup'] . $amt . " {$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
@@ -196,8 +200,8 @@ case (isset($_GET['anonymous_success'])):{
 I_smell_a_rat($_GET['anonymous_success']);
 }
 $HTMLOUT .= "
-<div class='panel panel-default'>
-	<div class='panel-body'>
+<div class='card'>
+	<div class='card-section'>
 		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_purchasedan']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
@@ -209,8 +213,8 @@ case (isset($_GET['parked_success'])):{
 I_smell_a_rat($_GET['parked_success']);
 }
 $HTMLOUT .= "
-<div class='panel panel-default'>
-	<div class='panel-body'>
+<div class='card'>
+	<div class='card-section'>
 		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_parked']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
@@ -222,8 +226,8 @@ case (isset($_GET['freeyear_success'])):{
 I_smell_a_rat($_GET['freeyear_success']);
 }
 $HTMLOUT .= "
-<div class='panel panel-default'>
-	<div class='panel-body'>
+<div class='card'>
+	<div class='card-section'>
 		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_free1year']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
@@ -236,8 +240,8 @@ I_smell_a_rat($_GET['freeslots_success']);
 }
 
 $HTMLOUT .= "
-<div class='panel panel-default'>
-	<div class='panel-body'>
+<div class='card'>
+	<div class='card-section'>
 		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_3freeslots']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
@@ -250,8 +254,8 @@ I_smell_a_rat($_GET['itrade_success']);
 }
 
 $HTMLOUT .= "
-<div class='panel panel-default'>
-	<div class='panel-body'>
+<div class='card'>
+	<div class='card-section'>
 		<div class='alert alert-success'>{$lang['bonus_congrats']}</span>" . format_username($CURUSER) . "{$lang['bonus_200points']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
@@ -264,8 +268,8 @@ I_smell_a_rat($_GET['itrade2_success']);
 }
 
 $HTMLOUT .= "
-<div class='panel panel-default'>
-	<div class='panel-body'>
+<div class='card'>
+	<div class='card-section'>
 		<div class='alert alert-success'>Sorry ! " . format_username($CURUSER) . "{$lang['bonus_2freeslots']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
@@ -277,8 +281,8 @@ case (isset($_GET['pirate_success'])):{
 I_smell_a_rat($_GET['pirate_success']);
 }
 $HTMLOUT .="
-	<div class='panel panel-default'>
-		<div class='panel-body'>
+	<div class='card'>
+		<div class='card-section'>
 			<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_free2week']}{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kpoints']}</a>{$lang['bonus_kbpp']}
 			</div>
 		</div>
@@ -290,8 +294,8 @@ case (isset($_GET['king_success'])):{
 I_smell_a_rat($_GET['king_success']);
 }
 $HTMLOUT .="
-<div class='panel panel-default'>
-	<div class='panel-body'>
+<div class='card'>
+	<div class='card-section'>
 		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_kingfree1m']}{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kpoints']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
@@ -317,8 +321,8 @@ default:
 }
 
 $HTMLOUT .="
-<div class='panel panel-default'>
-	<div class='panel-body'>
+<div class='card'>
+	<div class='card-section'>
 		<div class='alert alert-success'>" . format_username($CURUSER) . $lang['bonus_decreasedup'] . $amt . "" . "{$lang['bonus_clickgbs']} " . "<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}</div>
 	</div>
 </div>";
@@ -329,8 +333,8 @@ case (isset($_GET['class_success'])):
 I_smell_a_rat($_GET['class_success']);
 
 $HTMLOUT .="
-<div class='panel panel-default'>
-	<div class='panel-body'>
+<div class='card'>
+	<div class='card-section'>
 		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_vip1m']}{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kpoints']}</a>{$lang['bonus_kbpp']}</div>
 	</div>
 </div>";
@@ -341,8 +345,8 @@ case (isset($_GET['smile_success'])):
 I_smell_a_rat($_GET['smile_success']);
 
 $HTMLOUT .="
-<div class='panel panel-default'>
-	<div class='panel-body'>
+<div class='card'>
+	<div class='card-section'>
 		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_smile1m']}{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kpoints']}</a>{$lang['bonus_kbpp']}</div>
 	</div>
 </div>";
@@ -353,8 +357,8 @@ case (isset($_GET['warning_success'])):
 I_smell_a_rat($_GET['warning_success']);
 
 $HTMLOUT .="
-<div class='panel panel-default'>
-	<div class='panel-body'>
+<div class='card'>
+	<div class='card-section'>
 		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_remwarn']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kpoints']}</a>{$lang['bonus_kbpp']}</div>
 	</div>
 </div>";
@@ -365,8 +369,8 @@ case (isset($_GET['invite_success'])):
 I_smell_a_rat($_GET['invite_success']);
 
 $HTMLOUT .="
-<div class='panel panel-default'>
-	<div class='panel-body'>
+<div class='card'>
+	<div class='card-section'>
 		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_3invites']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
@@ -379,8 +383,8 @@ case (isset($_GET['freeslots_success'])):
 I_smell_a_rat($_GET['freeslots_success']);
 
 $HTMLOUT .="
-	<div class='panel panel-default'>
-		<div class='panel-body'><div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_3freeslot1']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
+	<div class='card'>
+		<div class='card-section'><div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_3freeslot1']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
 </div>";
@@ -391,8 +395,8 @@ case (isset($_GET['title_success'])):
 I_smell_a_rat($_GET['title_success']);
 
 $HTMLOUT .="
-<div class='panel panel-default'>
-	<div class='panel-body'>
+<div class='card'>
+	<div class='card-section'>
 		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_knowas']}<b>" . $CURUSER['title'] . "</b>!{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
@@ -404,8 +408,8 @@ case (isset($_GET['ratio_success'])):
 I_smell_a_rat($_GET['ratio_success']);
 
 $HTMLOUT .="
-<div class='panel panel-default'>
-	<div class='panel-body'>
+<div class='card'>
+	<div class='card-section'>
 		<div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . "{$lang['bonus_gained1t1']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
@@ -417,8 +421,8 @@ case (isset($_GET['gift_fail'])):
 I_smell_a_rat($_GET['gift_fail']);
 
 $HTMLOUT .="
-<div class='panel panel-default'>
-	<div class='panel-body'>
+<div class='card'>
+	<div class='card-section'>
 		<div class='alert alert-success'><b>{$lang['bonus_congrats']}" . format_username($CURUSER) . "...</b> {$lang['bonus_spreadkarma']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
@@ -430,8 +434,8 @@ case (isset($_GET['gift_fail_user'])):
 I_smell_a_rat($_GET['gift_fail_user']);
 
 $HTMLOUT .="
-<div class='panel panel-default'>
-	<div class='panel-body'>
+<div class='card'>
+	<div class='card-section'>
 		<div class='alert alert-warning'><b>Sorry " . format_username($CURUSER) . "...</b>{$lang['bonus_nouser']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
@@ -450,8 +454,8 @@ case (isset($_GET['gift_fail_points'])):
 I_smell_a_rat($_GET['gift_fail_points']);
 
 $HTMLOUT .="
-<div class='panel panel-default'>
-	<div class='panel-body'>
+<div class='card'>
+	<div class='card-section'>
 		<div class='alert alert-warning'><b>Sorry </b>" . format_username($CURUSER) . "{$lang['bonus_notenough']}{$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}
 		</div>
 	</div>
@@ -463,8 +467,8 @@ case (isset($_GET['gift_success'])):
 I_smell_a_rat($_GET['gift_success']);
 
 $HTMLOUT  .="
-<div class='panel panel-default'>
-	<div class='panel-body'>
+<div class='card'>
+	<div class='card-section'>
 		<div class='alert alert-success'><b>{$lang['bonus_congrats']}" . format_username($CURUSER) . " </b> you have spread the Karma well.<br>Member <b>" . htmlsafechars($_GET['usernamegift']) . "</b> will be pleased with your kindness!<br /><br />This is the message that was sent:<br />
 <b>Subject:</b> Someone Loves you!<br /> <p>You have been given a gift of <b>" . (0 + $_GET['gift_amount_points']) . "</b> Karma points by " . format_username($CURUSER) . "</p><br />
 You may also <a class='altlink' href='{$TRINITY20['baseurl']}/pm_system.php?action=send_message&amp;receiver=" . (0 + $_GET['gift_id']) . "'>send " . htmlsafechars($_GET['usernamegift']) . " a message as well</a>, or go back to your <a class='altlink' href='mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}</div></div></div>";
@@ -484,8 +488,8 @@ die;
 case (isset($_GET['reputation_success'])):
 I_smell_a_rat($_GET['reputation_success']);
 
-$HTMLOUT .="<div class='panel panel-default'>
-<div class='panel-body'><div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . " you have got your 100 rep points!
+$HTMLOUT .="<div class='card'>
+<div class='card-section'><div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . " you have got your 100 rep points!
 {$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}</div></div></div>";
 echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
 die;
@@ -503,8 +507,8 @@ die;
 case (isset($_GET['userblocks_success'])):
 I_smell_a_rat($_GET['userblocks_success']);
 
-$HTMLOUT .="<div class='panel panel-default'>
-<div class='panel-body'><div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . " you have got yourself access to control the site user blocks!
+$HTMLOUT .="<div class='card'>
+<div class='card-section'><div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . " you have got yourself access to control the site user blocks!
 {$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}</div></div></div>";
 echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
 die;
@@ -512,8 +516,8 @@ die;
 case (isset($_GET['user_unlocks_success'])):
 I_smell_a_rat($_GET['user_unlocks_success']);
 
-$HTMLOUT .="<div class='panel panel-default'>
-<div class='panel-body'><div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . " you have got yourself unlocked bonus moods for use on site!
+$HTMLOUT .="<div class='card'>
+<div class='card-section'><div class='alert alert-success'>{$lang['bonus_congrats']}" . format_username($CURUSER) . " you have got yourself unlocked bonus moods for use on site!
 {$lang['bonus_clickgbs']}<a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}</div></div></div>";
 echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();
 die;
@@ -870,8 +874,11 @@ if (($pointspool + $donation) >= $arr_points["points"]) {
     $cache->delete('freecontribution_datas_alerts_');
     write_bonus_log($CURUSER["id"], $donation, $type = "freeleech");
     $msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the freeleech contribution pot and has activated freeleech for 3 days " . $donation . "/" . $points . '';
-    $cache->delete('shoutbox_');
-    autoshout($msg);
+    
+    if ($TRINITY20['autoshout_on'] == 1) {
+        autoshout($message);
+        $cache->delete('shoutbox_');
+    }
     header("Refresh: 0; url={$TRINITY20['baseurl']}//mybonus.php?freeleech_success=1&norefund=$norefund");
     die;
 } else {
@@ -927,8 +934,10 @@ if (($pointspool + $donation) >= $arr_points["points"]) {
     $cache->delete('freecontribution_datas_alerts_');
     write_bonus_log($CURUSER["id"], $donation, $type = "doubleupload");
     $msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the double upload contribution pot and has activated Double Upload for 3 days " . $donation . "/" . $points . '';
-    $cache->delete('shoutbox_');
-    autoshout($msg);
+    if ($TRINITY20['autoshout_on'] == 1) {
+        autoshout($message);
+        $cache->delete('shoutbox_');
+    }
     header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?doubleup_success=1&norefund=$norefund");
     die;
 } else {
@@ -1197,8 +1206,8 @@ break;
 }
 
 //==== This is the default page
-$HTMLOUT .="<div class='panel panel-default'>
-<div class='panel-heading'>Karma Bonus Point's system :</div>";
+$HTMLOUT .="<div class='card'>
+<div class='card-divider'>Karma Bonus Point's system :</div>";
 //== 09 Ezeros freeleech contribution - Bigjoos.Ezero
 $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $half_down_enabled = $top_donators = $top_donators2 = $top_donators3 = $count1 ='';
 // eZER0's mod for bonus contribution
@@ -1437,7 +1446,7 @@ $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $
         }
         $cache->set('top_donators3_', $top_donators3, 0);
     }
-    if (count($top_donators3) > 0) {
+    if ($top_donators3 && count($top_donators3) > 0) {
         $top_donator3 = "<h4>Top 10 Contributors </h4>\n";
         if ($top_donators3) {
             foreach ($top_donators3 as $c) {
@@ -1459,8 +1468,8 @@ $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $
     //==End
             if (XBT_TRACKER == false) {
                 //== Show the percentages
-                $HTMLOUT .="<div class='panel panel-default'>
-			<div class='panel-body'>&nbsp;FreeLeech&nbsp;[&nbsp;";
+                $HTMLOUT .="<div class='card'>
+			<div class='card-section'>&nbsp;FreeLeech&nbsp;[&nbsp;";
                 if ($freeleech_enabled) {
                     $HTMLOUT .="<font color=\"green\"><strong>&nbsp;ON</strong></font>&nbsp;" . get_date($freeleech_start_time, 'DATE') . "&nbsp;-&nbsp;" . get_date($freeleech_end_time, 'DATE');
                 } else {
@@ -1486,7 +1495,7 @@ $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $
                 //==End
             }
             $bonus = (float) $CURUSER['seedbonus'];
-            $HTMLOUT .="<div class='panel-body'>
+            $HTMLOUT .="<div class='card-section'>
             Exchange your <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>Karma Bonus Points</a> for goodies. If no buttons appear, you have not earned enough bonus points to trade.
             </div>
 			</div>
@@ -1717,14 +1726,14 @@ $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $
             }
 
   $HTMLOUT .="</table>
-  <div class='panel-heading'>What the hell are these Karma Bonus points,
+  <div class='card-divider'>What the hell are these Karma Bonus points,
   and how do I get them?</div>
 For every hour that you seed a torrent, you are awarded with 1 Karma Bonus Point... <br />
   If you save up enough of them, you can trade them in for goodies like bonus GB(s) to increase your upload stats,<br /> 
   also to get more invites, or doing the real Karma booster... give them to another user !<br />
   This is awarded on a per torrent basis (max of 1000) even if there are no leechers on the Torrent you are seeding! <br />
-  <div class='panel-heading'>Other things that will get you karma points : </div>
-  <div class='panel-body'>
+  <div class='card-divider'>Other things that will get you karma points : </div>
+  <div class='card-section'>
   &#186;&nbsp;Uploading a new torrent = 15 points
   <br />&#186;&nbsp;Filling a request = 10 points
   <br />&#186;&nbsp;Comment on torrent = 3 points
@@ -1733,9 +1742,9 @@ For every hour that you seed a torrent, you are awarded with 1 Karma Bonus Point
   <br />&#186;&nbsp;Making a post = 1 point
   <br />&#186;&nbsp;Starting a topic = 2 points 
   </div>
-  <div class='panel-heading'>Some things that will cost you karma points:</div>
+  <div class='card-divider'>Some things that will cost you karma points:</div>
   <br />
-  <div class='panel-body'>
+  <div class='card-section'>
   &#186;&nbsp;Upload credit
   <br />&#186;&nbsp;Custom title
   <br />&#186;&nbsp;One month VIP status
