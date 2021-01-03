@@ -71,11 +71,6 @@ $HTMLOUT.= '<fieldset><legend>'.$lang['user_b_title3'].'</legend></fieldset>
 </label><span>'.$lang['user_u_seed2'].'</span></div>       
          </td>
         </tr>
-        <tr><td><b>'.$lang['user_u_ircs1'].'</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_irc_stats" name="userdetails_irc_stats" value="yes"' . $checkbox_userdetails_irc_stats . '>
-</label><span>'.$lang['user_u_ircs2'].'</span></div>       
-        </td>
-        </tr>   
         <tr><td><b>'.$lang['user_u_cnn1'].'</b></td><td>
         <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_connectable_port" name="userdetails_connectable_port" value="yes"' . $checkbox_userdetails_connectable . '>
 </label><span>'.$lang['user_u_cnn2'].'</span></div>        

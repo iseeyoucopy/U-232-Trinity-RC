@@ -13,7 +13,6 @@
 require_once(__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
 require_once(INCL_DIR . 'user_functions.php');
 require_once INCL_DIR . 'html_functions.php';
-require_once INCL_DIR . 'function_ircbot.php';
 //== Updated casino.php by Bigjoos
 dbconn(false);
 loggedinorreturn();
@@ -370,9 +369,8 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
         $cache->update_row('user_stats_' . $CURUSER['id'], [
             'uploaded' => $update['uploaded']
         ], $TRINITY20['expires']['user_stats']);
-        if ($TRINITY20['autoshout_on'] == 1 || $TRINITY20['irc_autoshout_on'] == 1) {
+        if ($TRINITY20['autoshout_on'] == 1) {
             autoshout($message);
-            ircbot($messages);
             $cache->delete('shoutbox_');
         }
         if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 0) {

@@ -114,10 +114,6 @@ if ($action == "stdhead_options")
     $updateset[] = "userdetails_seedbonus_on = " . sqlesc($userdetails_seedbonus_on);
     $user_cache['userdetails_seedbonus_on'] = $userdetails_seedbonus_on;
     }
-	if (isset($_POST["userdetails_irc_stats_on"]) && ($userdetails_irc_stats_on = $_POST["userdetails_irc_stats_on"])){
-    $updateset[] = "userdetails_irc_stats_on = " . sqlesc($userdetails_irc_stats_on);
-    $user_cache['userdetails_irc_stats_on'] = $userdetails_irc_stats_on;
-    }
 	if (isset($_POST["userdetails_connectable_port_on"]) && ($userdetails_connectable_port_on = $_POST["userdetails_connectable_port_on"])){
     $updateset[] = "userdetails_connectable_port_on = " . sqlesc($userdetails_connectable_port_on);
     $user_cache['userdetails_connectable_port_on'] = $userdetails_connectable_port_on;
@@ -208,10 +204,6 @@ if ($action == "index_options")
 	if (isset($_POST["index_last_24_active_users_on"]) && ($index_last_24_active_users_on = $_POST["index_last_24_active_users_on"]) != $USERBLOCKS["index_last_24_active_users_on"]){
     $updateset[] = "index_last_24_active_users_on = " . sqlesc($index_last_24_active_users_on);
     $user_cache['index_last_24_active_users_on'] = $index_last_24_active_users_on;
-    }
-    if (isset($_POST["index_irc_active_users_on"]) && ($index_irc_active_users_on = $_POST["index_irc_active_users_on"])){
-    $updateset[] = "index_irc_active_users_on = " . sqlesc($index_irc_active_users_on);
-    $user_cache['index_irc_active_users_on'] = $index_irc_active_users_on;
     }
     if (isset($_POST["index_latest_user_on"]) && ($index_latest_user_on = $_POST["index_latest_user_on"])){
     $updateset[] = "index_latest_user_on = " . sqlesc($index_latest_user_on);

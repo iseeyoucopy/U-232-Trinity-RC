@@ -14,7 +14,6 @@ $keys['birthdayusers'] = 'bdayusers';
 $keys['last24'] = 'last24';
 $keys['site_stats'] = 'site_stats_';
 $keys['act_users'] = 'act_users';
-$keys['activeircusers'] = 'active_irc_users';
 $keys['ttl_funds'] = 'totalfunds_';
 $keys['last_postsb'] = 'last_post_b_';
 $keys['my_userid'] = 'MyUser_';

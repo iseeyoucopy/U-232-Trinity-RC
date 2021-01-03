@@ -48,8 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     else $clrbits_index_page|= block_index::ACTIVE_USERS;
     if (isset($_POST['last_24_active_users'])) $setbits_index_page|= block_index::LAST_24_ACTIVE_USERS;
     else $clrbits_index_page|= block_index::LAST_24_ACTIVE_USERS;
-    if (isset($_POST['irc_active_users'])) $setbits_index_page|= block_index::IRC_ACTIVE_USERS;
-    else $clrbits_index_page|= block_index::IRC_ACTIVE_USERS;
     if (isset($_POST['birthday_active_users'])) $setbits_index_page|= block_index::BIRTHDAY_ACTIVE_USERS;
     else $clrbits_index_page|= block_index::BIRTHDAY_ACTIVE_USERS;
     if (isset($_POST['stats'])) $setbits_index_page|= block_index::STATS;
@@ -138,8 +136,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     else $clrbits_userdetails_page|= block_userdetails::SEEDTIME_RATIO;
     if (isset($_POST['userdetails_seedbonus'])) $setbits_userdetails_page|= block_userdetails::SEEDBONUS;
     else $clrbits_userdetails_page|= block_userdetails::SEEDBONUS;
-    if (isset($_POST['userdetails_irc_stats'])) $setbits_userdetails_page|= block_userdetails::IRC_STATS;
-    else $clrbits_userdetails_page|= block_userdetails::IRC_STATS;
     if (isset($_POST['userdetails_connectable_port'])) $setbits_userdetails_page|= block_userdetails::CONNECTABLE_PORT;
     else $clrbits_userdetails_page|= block_userdetails::CONNECTABLE_PORT;
     if (isset($_POST['userdetails_avatar'])) $setbits_userdetails_page|= block_userdetails::AVATAR;
@@ -192,7 +188,6 @@ $checkbox_index_news = ((curuser::$blocks['index_page'] & block_index::NEWS) ? '
 $checkbox_index_shoutbox = ((curuser::$blocks['index_page'] & block_index::SHOUTBOX) ? ' checked="checked"' : '');
 $checkbox_index_active_users = ((curuser::$blocks['index_page'] & block_index::ACTIVE_USERS) ? ' checked="checked"' : '');
 $checkbox_index_active_24h_users = ((curuser::$blocks['index_page'] & block_index::LAST_24_ACTIVE_USERS) ? ' checked="checked"' : '');
-$checkbox_index_active_irc_users = ((curuser::$blocks['index_page'] & block_index::IRC_ACTIVE_USERS) ? ' checked="checked"' : '');
 $checkbox_index_active_birthday_users = ((curuser::$blocks['index_page'] & block_index::BIRTHDAY_ACTIVE_USERS) ? ' checked="checked"' : '');
 $checkbox_index_stats = ((curuser::$blocks['index_page'] & block_index::STATS) ? ' checked="checked"' : '');
 $checkbox_index_disclaimer = ((curuser::$blocks['index_page'] & block_index::DISCLAIMER) ? ' checked="checked"' : '');
@@ -237,7 +232,6 @@ $checkbox_userdetails_traffic = ((curuser::$blocks['userdetails_page'] & block_u
 $checkbox_userdetails_shareratio = ((curuser::$blocks['userdetails_page'] & block_userdetails::SHARE_RATIO) ? ' checked="checked"' : '');
 $checkbox_userdetails_seedtime_ratio = ((curuser::$blocks['userdetails_page'] & block_userdetails::SEEDTIME_RATIO) ? ' checked="checked"' : '');
 $checkbox_userdetails_seedbonus = ((curuser::$blocks['userdetails_page'] & block_userdetails::SEEDBONUS) ? ' checked="checked"' : '');
-$checkbox_userdetails_irc_stats = ((curuser::$blocks['userdetails_page'] & block_userdetails::IRC_STATS) ? ' checked="checked"' : '');
 $checkbox_userdetails_connectable = ((curuser::$blocks['userdetails_page'] & block_userdetails::CONNECTABLE_PORT) ? ' checked="checked"' : '');
 $checkbox_userdetails_avatar = ((curuser::$blocks['userdetails_page'] & block_userdetails::AVATAR) ? ' checked="checked"' : '');
 $checkbox_userdetails_userclass = ((curuser::$blocks['userdetails_page'] & block_userdetails::USERCLASS) ? ' checked="checked"' : '');
@@ -300,11 +294,6 @@ $HTMLOUT.= '<tr class="userblock"><td><b>'.$lang['user_b_actu1'].'</b></td><td>
         <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="active_users2" name="last_24_active_users" value="yes"' . $checkbox_index_active_24h_users . '>
         </label><span>'.$lang['user_b_chk'].''.$lang['user_b_act25'].'</span></div>
             </td>
-        </tr>       
-        <tr class="userblock"><td><b>'.$lang['user_b_irc1'].'</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="active_users3" name="irc_active_users" value="yes"' . $checkbox_index_active_irc_users . '>
-        </label><span>'.$lang['user_b_chk'].''.$lang['user_b_irc2'].'</span></div>       
-        </td>
         </tr>
         <tr class="userblock"><td><b>'.$lang['user_b_bir1'].'</b></td><td>
          <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="birthday_active_users" name="birthday_active_users" value="yes"' . $checkbox_index_active_birthday_users . '>
@@ -533,12 +522,7 @@ $HTMLOUT.= '<div class="tab-pane fade" id="user">
         <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_seedbonus" name="userdetails_seedbonus" value="yes"' . $checkbox_userdetails_seedbonus . '>
 </label><span>'.$lang['user_u_seed2'].'</span></div>       
          </td>
-        </tr>
-        <tr><td><b>'.$lang['user_u_ircs1'].'</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_irc_stats" name="userdetails_irc_stats" value="yes"' . $checkbox_userdetails_irc_stats . '>
-</label><span>'.$lang['user_u_ircs2'].'</span></div>       
-        </td>
-        </tr>   
+        </tr> 
         <tr><td><b>'.$lang['user_u_cnn1'].'</b></td><td>
         <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_connectable_port" name="userdetails_connectable_port" value="yes"' . $checkbox_userdetails_connectable . '>
 </label><span>'.$lang['user_u_cnn2'].'</span></div>        

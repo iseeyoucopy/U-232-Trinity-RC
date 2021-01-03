@@ -40,11 +40,6 @@ $HTMLOUT.= "<tr>
 </td>
 </tr>
 <tr>
-<td>{$lang['user_b_irc1']}</td>
-	<td>
-	Yes<input type='radio' name='irc_active_users_on' value='yes' " . ($USERBLOCKS['index_irc_active_users_on'] == 'yes' ? 'checked=\'checked\'' : '') . " />
-	No<input type='radio' name='irc_active_users_on' value='no' " . ($USERBLOCKS['index_irc_active_users_on'] == 'no' ? 'checked=\'checked\'' : '') . " />
-</td>
 </tr>
 <tr>
 <td>{$lang['user_b_bir1']}</td>

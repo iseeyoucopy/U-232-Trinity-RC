@@ -100,13 +100,6 @@ $HTMLOUT .="<div id='ACTIVE_USERS'>";
     	require_once (BLOCK_DIR . 'index/active_users.php');
 $HTMLOUT .="</div>";
 	}
-	if (curuser::$blocks['index_page'] & block_index::IRC_ACTIVE_USERS && $BLOCKS['active_irc_users_on']) {
-$HTMLOUT .="<div id='IRC_ACTIVE_USERS'>";
-    	require_once (BLOCK_DIR . 'index/active_irc_users.php');
-$HTMLOUT .="</div>";
-	}
-
-
 	if (curuser::$blocks['index_page'] & block_index::LAST_24_ACTIVE_USERS && $BLOCKS['active_24h_users_on']) {
 $HTMLOUT .="<div id='LAST_24_ACTIVE_USERS'>";
     	require_once (BLOCK_DIR . 'index/active_24h_users.php');

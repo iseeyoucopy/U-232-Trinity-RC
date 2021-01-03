@@ -39,14 +39,15 @@ if (($last24_cache = $cache->get($keys['last24'])) === false) {
 if (!$last24_cache['activeusers24']) $last24_cache['activeusers24'] = $lang['index_last24_nousers'];
 if ($last24_cache['totalonline24'] != 1) $last24_cache['ss24'] = $lang['gl_members'];
 		else $last24_cache['ss24'] = $lang['gl_member'];
-$last_24 = '<div class="callout">
-		<h4 class="subheader">' . $lang['index_active24'] . '&nbsp;&nbsp;<span class="badge success" style="color:#fff">' . $last24_cache['totalonline24'] . '</span>&nbsp;&nbsp;' . $lang['index_last24_list'] . '</h4>
-     <p><b>' . $last24_cache['totalonline24'] . $last24_cache['ss24'] . '' . $lang['index_last24_during'] . '</b></p>
-	 <hr>
+$last_24 = '<div class="card">
+		<div class="card-divider">' . $lang['index_active24'] . '&nbsp;&nbsp;<span class="badge success" style="color:#fff">' . $last24_cache['totalonline24'] . '</span>&nbsp;&nbsp;' . $lang['index_last24_list'] . '</div>
+        <div class="card-section">
+        <p><b>' . $last24_cache['totalonline24'] . $last24_cache['ss24'] . '' . $lang['index_last24_during'] . '</b></p>
+     <hr>
      <p>' . $last24_cache['activeusers24'] . '</p>
 	 <hr>
      <p><b>' . $lang['index_last24_most'] . $last24_cache['last24'] . $last24_cache['ss24'] . $lang['index_last24_on'] . $last24_cache['last24record'] . '</b></p>
-</div>';
+     </div></div>';
 $HTMLOUT.= $last_24;
 //==End
 // End Class

@@ -20,7 +20,7 @@
 
 
 $TRINITY20['ajax_chat']['online'] = 1;
-$TRINITY20['ajax_chat']['bot_name'] = 'U232_bot';
+$TRINITY20['ajax_chat']['bot_name'] = 'System';
 $TRINITY20['ajax_chat']['bot_role'] = 8;
 $TRINITY20['ajax_chat']['base_channel'] = 1;
 $TRINITY20['ajax_chat']['channel'] = 'U-232';

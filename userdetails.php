@@ -92,7 +92,6 @@ if (($user = $cache->get('user' . $id)) === false) {
         'parked_until',
         'bjwins',
         'bjlosses',
-        'irctotal',
         'last_access_numb',
         'onlinetime',
         'hits',
@@ -170,7 +169,6 @@ if (($user = $cache->get('user' . $id)) === false) {
         'hash1',
         'suspended',
         'warn_reason',
-        'onirc',
         'birthday',
         'got_blocks',
         'pm_on_delete',
@@ -538,9 +536,6 @@ $HTMLOUT.= '<tr><td class="rowhead">'.$lang['userdetails_currentmood'].'</td><td
 }
 if (curuser::$blocks['userdetails_page'] & block_userdetails::SEEDBONUS && $BLOCKS['userdetails_seedbonus_on']) {
     require_once (BLOCK_DIR . 'userdetails/seedbonus.php');
-}
-if (curuser::$blocks['userdetails_page'] & block_userdetails::IRC_STATS && $BLOCKS['userdetails_irc_stats_on']) {
-    require_once (BLOCK_DIR . 'userdetails/irc.php');
 }
 if (curuser::$blocks['userdetails_page'] & block_userdetails::REPUTATION && $BLOCKS['userdetails_reputation_on'] && $TRINITY20['rep_sys_on']) {
     require_once (BLOCK_DIR . 'userdetails/reputation.php');
