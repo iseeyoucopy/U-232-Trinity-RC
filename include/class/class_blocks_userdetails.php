@@ -26,7 +26,6 @@ class block_userdetails
     const SHARE_RATIO = 0x800; // 2048
     const SEEDTIME_RATIO = 0x1000; // 4096
     const SEEDBONUS = 0x2000; // 8192
-    const IRC_STATS = 0x4000; // 16384
     const CONNECTABLE_PORT = 0x8000; // 32768
     const AVATAR = 0x10000; // 65536
     const USERCLASS = 0x20000; // 131072

@@ -15,7 +15,6 @@ class block_index
     const ACTIVE_USERS = 0x1; // 1
     const NEWS = 0x2; // 2
     const LAST_24_ACTIVE_USERS = 0x4; // 4
-    const IRC_ACTIVE_USERS = 0x8; // 8.
     const BIRTHDAY_ACTIVE_USERS = 0x10; // 16
     const IE_ALERT = 0x20; // 32
     const DISCLAIMER = 0x40; // 64
@@ -34,7 +33,6 @@ class block_index
     const ACTIVE_POLL = 0x80000; // 524288
     const STAFF_SHOUT = 0x100000; // 1048576  //== exclude
     const MOVIEOFWEEK = 0x200000; // 2097152 //== exclude
-    const REQNOFF = 0x400000; // 4194304 //== exclude
     
 }
 ?>
