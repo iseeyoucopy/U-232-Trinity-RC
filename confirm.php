@@ -41,7 +41,8 @@ $cache->update_row('user' . $id, [
     'status' => 'confirmed'
 ], $TRINITY20['expires']['user_cache']);
 if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"])) stderr("{$lang['confirm_user_error']}", "{$lang['confirm_cannot_confirm']}");
-$passh = md5($row["passhash"] . $_SERVER["REMOTE_ADDR"]);
+//$passh = md5($row["passhash"] . $_SERVER["REMOTE_ADDR"]);
+$passh = hash("sha3-512", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "");
 logincookie($id, $passh);
 header("Refresh: 0; url={$TRINITY20['baseurl']}/ok.php?type=confirm");
 ?>

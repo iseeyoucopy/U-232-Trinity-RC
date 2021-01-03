@@ -214,7 +214,8 @@ $body = str_replace(array(
     "{$TRINITY20['baseurl']}/confirm.php?id=$id&secret=$psecret"
 ) , $lang['takesignup_email_body']);
 
-$passh = hash("ripemd160", "" . $row['passhash'] . $_SERVER["REMOTE_ADDR"] . "");
+//$passh = hash("ripemd160", "" . $row['passhash'] . $_SERVER["REMOTE_ADDR"] . "");
+$passh = hash("sha3-512", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "");
 /*=== for dupe account ===*/
     $hashlog = make_hash_log($id, $passh);
     if((empty($row['loginhash'])) || ($row['loginhash'] != $hashlog)){	

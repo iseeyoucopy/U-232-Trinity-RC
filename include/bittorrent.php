@@ -169,10 +169,14 @@ function status_change($id)
 {
     sql_query('UPDATE announcement_process SET status = 0 WHERE user_id = ' . sqlesc($id) . ' AND status = 1');
 }
-
+/*
 function hashit($var, $addtext = ""){
 	 
     return hash("haval160,5", "Th15T3xt" . $addtext . $var . $addtext . "is5add3dto66uddy6he@water...");
+}
+*/
+function hashit($var, $addtext = ""){
+    return hash("sha3-512", "W:i=MzmX~/@`" . $addtext . $var . $addtext . "WzH!(eN&tT/;y<s(:");
 }
 function make_hash_log($id, $passhash){ 
 	return hash("tiger160,4", "" . $id . $passhash . "");
@@ -213,7 +217,8 @@ function userlogin()
     if (isset($CURUSER)) return;
     if (!$TRINITY20['site_online'] || !get_mycookie('uid') || !get_mycookie('pass') || !get_mycookie('hashv') || !get_mycookie('log_uid')) return;
     $id = intval(get_mycookie('uid'));
-    if (!$id OR (strlen(get_mycookie('pass')) != 40) OR (get_mycookie('hashv') != hashit($id, get_mycookie('pass'))) OR (get_mycookie('log_uid') != make_hash_log($id, get_mycookie('pass')))) return;
+    //if (!$id OR (strlen(get_mycookie('pass')) != 40) OR (get_mycookie('hashv') != hashit($id, get_mycookie('pass'))) OR (get_mycookie('log_uid') != make_hash_log($id, get_mycookie('pass')))) return;
+    if (!$id OR (strlen(get_mycookie('pass')) != 128) OR (get_mycookie('hashv') != hashit($id, get_mycookie('pass'))) OR (get_mycookie('log_uid') != make_hash_log($id, get_mycookie('pass')))) return;
     // let's cache $CURUSER - pdq - *Updated*
     if (($row = $cache->get($keys['my_userid'] . $id)) === false) { // $row not found
         $user_fields_ar_int = array(
@@ -389,7 +394,8 @@ function userlogin()
         unset($result);
     }
     //==
-    if (get_mycookie('pass') !== hash("ripemd160", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "")) {
+    if (get_mycookie('pass') !== hash("sha3-512", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "")) {
+    //if (get_mycookie('pass') !== hash("ripemd160", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "")) {
         $salty = hash("tiger160,3", "Th15T3xtis5add3dto66uddy6he@water..." . $row['username'] . "");
         header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please={$salty}");
         //die;

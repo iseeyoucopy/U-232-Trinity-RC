@@ -191,7 +191,8 @@ $cache->update_row('user' . $row['id'], [
     'last_access' => TIME_NOW,
     'last_login' => TIME_NOW
 ], $TRINITY20['expires']['user_cache']);
-$passh = hash("ripemd160", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "");
+//$passh = hash("ripemd160", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "");
+$passh = hash("sha3-512", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "");
 /*=== for dupe account ===*/
 $uid = $row['id'];
 $hashlog = make_hash_log($uid, $passh);
