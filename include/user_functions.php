@@ -25,7 +25,7 @@ function get_parked()
 //== Auto Shout Function ==//
 function autoshout($msg)
 {
-    global $TRINITY20, $cache;
+    global $TRINITY20, $cache, $keys;
     require_once (INCL_DIR . 'bbcode_functions.php');
     sql_query('INSERT INTO ajax_chat_messages(userID,userName,userRole,channel,dateTime,ip,text) VALUES (' . $TRINITY20['bot_id'] . ',' . sqlesc($TRINITY20['bot_name']) . ',' . $TRINITY20['bot_role'] . ',"2",' . sqlesc(TIME_DATE) . ',' . sqlesc($_SERVER['REMOTE_ADDR']) . ',' . sqlesc(format_comment($msg)) . ')')  or sqlerr(__FILE__, __LINE__);
     $cache->delete($keys['auto_shoutbox']);
