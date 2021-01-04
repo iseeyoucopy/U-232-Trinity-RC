@@ -325,7 +325,7 @@ $setbits = $clrbits = 0;
             'date' => $CURUSER['last_update']
         );
         sql_query('INSERT INTO ustatus(userid,last_status,last_update,archive) VALUES(' . sqlesc($CURUSER['id']) . ',' . sqlesc($status) . ',' . TIME_NOW . ',' . sqlesc(serialize($status_archive)) . ') ON DUPLICATE KEY UPDATE last_status=values(last_status),last_update=values(last_update),archive=values(archive)') or sqlerr(__FILE__, __LINE__);
-        $cache->delete('userstatus_' . $CURUSER['id']);
+        $cache->delete($keys['user_status'] . $CURUSER['id']);
         $cache->delete('user_status_' . $CURUSER['id']);
     }
     //end status update;

@@ -560,7 +560,7 @@ function userlogin()
     $row['uploaded'] = $stats['uploaded'];
     $row['downloaded'] = $stats['downloaded'];
     //==
-    if (($ustatus = $cache->get('userstatus_' . $id)) === false) {
+    if (($ustatus = $cache->get($keys['user_status'] . $id)) === false) {
         $sql2 = sql_query('SELECT * FROM ustatus WHERE userid = ' . sqlesc($id));
         if (mysqli_num_rows($sql2)) $ustatus = mysqli_fetch_assoc($sql2);
         else $ustatus = array(
@@ -568,7 +568,7 @@ function userlogin()
             'last_update' => 0,
             'archive' => ''
         );
-        $cache->set('userstatus_' . $id, $ustatus, $TRINITY20['expires']['u_status']); // 30 days
+        $cache->set($keys['user_status'] . $id, $ustatus, $TRINITY20['expires']['u_status']); // 30 days
     }
     $row['last_status'] = $ustatus['last_status'];
     $row['last_update'] = $ustatus['last_update'];
