@@ -48,7 +48,11 @@
 
         Enter the following commands in a terminal. Be patient while g++ is running, it'll take a few minutes.
 
-        git clone https://github.com/OlafvdSpek/xbt cd xbt/Tracker cmake . make cp xbt_tracker.conf.default xbt_tracker.conf
+        git clone https://github.com/OlafvdSpek/xbt 
+        cd xbt/Tracker 
+        cmake . 
+        make 
+        cp xbt_tracker.conf.default xbt_tracker.conf
 
         Remember to add your mysql connect details to xbt_tracker.conf
 
