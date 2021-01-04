@@ -1178,8 +1178,8 @@ var ajaxChat = {
         }
 
         // Don't show any message in announce or news channels from users
-        if ((this.channelName === 'Announce' && parseInt(userRole) !== 100) ||
-            (this.channelName === 'News' && parseInt(userRole) !== 100)) {
+        if ((this.channelName === 'Announce' && parseInt(userRole) !== 8) ||
+            (this.channelName === 'News' && parseInt(userRole) !== 8)) {
             if (!this.DOMbuffering) {
                 this.updateDOM('chatList', this.DOMbuffer, this.settings['postDirection']);
                 this.DOMbuffer = "";

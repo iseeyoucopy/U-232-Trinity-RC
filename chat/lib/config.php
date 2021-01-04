@@ -154,7 +154,7 @@ $config['chatBotName'] = $TRINITY20['ajax_chat']['bot_name'];
 // The userRole used for ChatBot messages:
 $config['chatBotRole'] = $TRINITY20['ajax_chat']['bot_role'];
 // Minutes until a user is declared inactive (last status update) - the minimum is 2 minutes:
-$config['inactiveTimeout'] = 1;
+$config['inactiveTimeout'] = 15;
 // Interval in minutes to check for inactive users:
 $config['inactiveCheckInterval'] = 1;
 
@@ -165,10 +165,10 @@ $config['requestMessagesPriorChannelEnterList'] = null;
 // Max time difference in hours for messages to display on each request:
 $config['requestMessagesTimeDiff'] = 720;
 // Max number of messages to display on each request:
-$config['requestMessagesLimit'] = 50;
+$config['requestMessagesLimit'] = 300;
 
 // Max users in chat (does not affect moderators or admins):
-$config['maxUsersLoggedIn'] = 200;
+$config['maxUsersLoggedIn'] = 1000;
 // Max userName length:
 $config['userNameMaxLength'] = 64;
 // Max messageText length:
@@ -184,7 +184,7 @@ $config['defaultBanTime'] = 60;
 $config['logoutData'] = '';
 
 // If true, checks if the user IP is the same when logged in:
-$config['ipCheck'] = true;
+$config['ipCheck'] = false;
 
 // Defines the max time difference in hours for logs when no period or search condition is given:
 $config['logsRequestMessagesTimeDiff'] = 12;

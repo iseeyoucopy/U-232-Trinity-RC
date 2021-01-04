@@ -14,7 +14,7 @@ require_once(__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . '
 require_once (INCL_DIR . 'user_functions.php');
 require_once (CLASS_DIR . 'page_verify.php');
 require_once (INCL_DIR . 'password_functions.php');
-require_once (INCL_DIR . 'bbcode_functions.php');
+//require_once (INCL_DIR . 'bbcode_functions.php');
 require_once (INCL_DIR . 'function_bemail.php');
 dbconn();
 global $CURUSER, $TRINITY20;
@@ -143,10 +143,9 @@ $user_frees = (XBT_TRACKER == true ? 0 : TIME_NOW + 14 * 86400);
 check_banned_emails($email);
 $psecret = $editsecret;
 //$emails = encrypt_email($email);
-$ret = sql_query("INSERT INTO users (username, passhash, loginhash, secret, editsecret, birthday, country, gender, pin_code, stylesheet, passhint, hintanswer, email, status, " . (!$arr[0] ? "class, " : "") . "added, last_access, time_offset, dst_in_use, free_switch) VALUES (" . implode(",", array_map("sqlesc", array(
+$ret = sql_query("INSERT INTO users (username, passhash, secret, editsecret, birthday, country, gender, pin_code, stylesheet, passhint, hintanswer, email, status, " . (!$arr[0] ? "class, " : "") . "added, last_access, time_offset, dst_in_use, free_switch) VALUES (" . implode(",", array_map("sqlesc", array(
     $wantusername,
     $wantpasshash,
-	null,
     $secret,
     $editsecret,
     $birthday,
@@ -196,11 +195,11 @@ $latestuser_cache['king'] = 0;
 $cache->set('latestuser', $latestuser_cache, $TRINITY20['expires']['latestuser']);
 
 write_log("User account " . (int)$id . " (" . htmlsafechars($wantusername) . ") was succesfully register");
-
 if ($TRINITY20['autoshout_on'] == 1) {
     autoshout($message);
     $cache->delete('shoutbox_');
 }
+    
 
 $body = str_replace(array(
     '<#SITENAME#>',
@@ -215,7 +214,7 @@ $body = str_replace(array(
 ) , $lang['takesignup_email_body']);
 
 //$passh = hash("ripemd160", "" . $row['passhash'] . $_SERVER["REMOTE_ADDR"] . "");
-$passh = hash("sha3-512", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "");
+$passh = hash("sha3-512", "" . $wantpasshash . $_SERVER["REMOTE_ADDR"] . "");
 /*=== for dupe account ===*/
     $hashlog = make_hash_log($id, $passh);
     if((empty($row['loginhash'])) || ($row['loginhash'] != $hashlog)){	
@@ -231,6 +230,5 @@ if ($arr[0] || EMAIL_CONFIRM)
     mail($email, "{$TRINITY20['site_name']} {$lang['takesignup_confirm']}", $body, "{$lang['takesignup_from']} {$TRINITY20['site_email']}");
 else
 logincookie($id, $passh);
-
 header("Refresh: 0; url=ok.php?type=". (!$arr[0]? "sysop" : (EMAIL_CONFIRM ? "signup&email=" . urlencode($email) : "confirm")));
 ?>
