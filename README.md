@@ -67,6 +67,11 @@ Third, userclasses in class_config table are default 0-6 so if you have differen
 Fourth, once your upgrade is completed with new code in place simply edit your announce urls in all seeding torrents and change announce.php?passkey= to announce.php?torrent_pass= and all torrents should resume as normal, same applys if switching to XBT_TRACKER, you would use the XBT_TRACKER format for announce url in client.
 
 # Setup to Automate HTML and SaSS changes using GULP4 and BrowserSync 
+       first make sure you have NodeJs intalled on server
+       
+       apt install nodejs  on Debian and Ubuntu
+       yum install nodejs  on CentOS, Fedora and Red Hat.
+       
         To Run the Project
         
         cd /etc/var/www/html
