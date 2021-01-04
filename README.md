@@ -74,7 +74,13 @@ Fourth, once your upgrade is completed with new code in place simply edit your a
        first make sure you have NodeJs intalled on server
        
        apt install nodejs  on Debian and Ubuntu
-       yum install nodejs  on CentOS, Fedora and Red Hat.
+       
+       CentOS
+       yum install -y gcc-c++ make
+       curl -sL https://rpm.nodesource.com/setup_14.x | sudo -E bash -
+       sudo yum install nodejs
+       node -v 
+       npm -v
        
         To Run the Project
         
