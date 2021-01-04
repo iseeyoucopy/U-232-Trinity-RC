@@ -99,7 +99,7 @@ if ($bonus_type == 3) {
     $cache->update_row('user' . $id, [
         'invites' => $invite + $bonus_do
     ], $TRINITY20['expires']['user_cache']);
-    $cache->update_row('MyUser_' . $id, [
+    $cache->update_row($keys['my_userid'] . $id, [
         'invites' => $invite + $bonus_do
     ], $TRINITY20['expires']['curuser']);
 }

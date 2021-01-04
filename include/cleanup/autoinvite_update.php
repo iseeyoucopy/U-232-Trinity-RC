@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache;
+    global $TRINITY20, $queries, $cache, $keys;
     set_time_limit(1200);
     ignore_user_abort(1);
     //== 09 Auto invite by Bigjoos/pdq
@@ -37,7 +37,7 @@ function docleanup($data)
             $cache->update_row('user_stats_' . $arr['id'], [
                 'modcomment' => $modcomment
             ], $TRINITY20['expires']['user_stats']);
-            $cache->update_row('MyUser_' . $arr['id'], [
+            $cache->update_row($keys['my_userid'] . $arr['id'], [
                 'invites' => $update['invites']
             ], $TRINITY20['expires']['curuser']);
             $cache->delete('inbox_new_' . $arr['id']);

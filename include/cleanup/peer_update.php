@@ -13,7 +13,7 @@
 /** sync torrent counts - pdq **/
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache;
+    global $TRINITY20, $queries, $cache, $keys;
     set_time_limit(0);
     ignore_user_abort(1);
     require_once (INCL_DIR . 'ann_functions.php');

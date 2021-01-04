@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache;
+    global $TRINITY20, $queries, $cache, $keys;
     set_time_limit(1200);
     ignore_user_abort(1);
     require_once (INCL_DIR . 'function_account_delete.php');
@@ -28,7 +28,7 @@ function docleanup($data)
 	    $userid = isset($arr['id']) ? intval($arr['id']) : "";
 	    sql_query(account_delete($userid)) or sqlerr(__FILE__, __LINE__);
             if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) !== false) {
-	        $cache->delete('MyUser_' . $userid);
+	        $cache->delete($keys['my_userid'] . $userid);
                 $cache->delete('user' . $userid);
 	    }
 	}

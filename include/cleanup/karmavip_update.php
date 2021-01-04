@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache;
+    global $TRINITY20, $queries, $cache, $keys;
     set_time_limit(1200);
     ignore_user_abort(1);
     //=== Updated remove karma vip by Bigjoos/pdq - change class number '1' in the users_buffer and $update[class'] to whatever is under your vip class number
@@ -35,7 +35,7 @@ function docleanup($data)
             $cache->update_row('user_stats' . $arr['id'], [
                 'modcomment' => $modcomment
             ], $TRINITY20['expires']['user_stats']);
-            $cache->update_row('MyUser_' . $arr['id'], [
+            $cache->update_row($keys['my_userid'] . $arr['id'], [
                 'class' => 1,
                 'vip_added' => 'no',
                 'vip_until' => 0

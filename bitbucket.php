@@ -78,7 +78,7 @@ if (!isset($_FILES['file'])) {
         if (preg_match("/^http:\/\/$/i", $_GET["avatar"]) OR preg_match("/[?&;]/", $_GET["avatar"]) OR preg_match("#javascript:#is", $_GET["avatar"]) OR !preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\-!]+)$#iU", $_GET["avatar"])) stderr($lang['bitbucket_error'], "{$lang['bitbucket_mustbe']}");
         $avatar = sqlesc($_GET['avatar']);
         sql_query("UPDATE users SET avatar = $avatar WHERE id = {$CURUSER['id']}") or sqlerr(__FILE__, __LINE__);
-        $cache->update_row('MyUser_' . $CURUSER['id'], [
+        $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
             'avatar' => $_GET['avatar']
         ], $TRINITY20['expires']['curuser']);
         $cache->update_row('user' . $CURUSER['id'], [

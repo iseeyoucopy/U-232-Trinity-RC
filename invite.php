@@ -112,7 +112,7 @@ elseif ($do == 'create_invite') {
     sql_query('INSERT INTO invite_codes (sender, invite_added, code) VALUES (' . sqlesc((int) $CURUSER['id']) . ', ' . TIME_NOW . ', ' . sqlesc($invite) . ')') or sqlerr(__FILE__, __LINE__);
     sql_query('UPDATE users SET invites = invites - 1 WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
     $update['invites'] = ($CURUSER['invites'] - 1);
-    $cache->update_row('MyUser_' . $CURUSER['id'], [
+    $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
         'invites' => $update['invites']
     ], $TRINITY20['expires']['curuser']); // 15 mins
     $cache->update_row('user' . $CURUSER['id'], [
@@ -162,7 +162,7 @@ elseif ($do == 'delete_invite') {
     sql_query('DELETE FROM invite_codes WHERE id = ' . sqlesc($id) . ' AND sender =' . sqlesc($CURUSER['id'] . ' AND status = "Pending"')) or sqlerr(__FILE__, __LINE__);
     sql_query('UPDATE users SET invites = invites + 1 WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
     $update['invites'] = ($CURUSER['invites'] + 1);
-    $cache->update_row('MyUser_' . $CURUSER['id'], [
+    $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
         'invites' => $update['invites']
     ], $TRINITY20['expires']['curuser']); // 15 mins
     $cache->update_row('user' . $CURUSER['id'], [
@@ -182,7 +182,7 @@ elseif ($do = 'confirm_account') {
     isset($_GET['sure']) && $sure = htmlsafechars($_GET['sure']);
     if (!$sure) stderr($lang['invites_confirm1'], $lang['invites_sure1'] . ' ' . htmlsafechars($assoc['username']) . ' '.$lang['invites_sure2'].' <a href="?do=confirm_account&amp;userid=' . $userid . '&amp;sender=' . (int)$CURUSER['id'] . '&amp;sure=yes">'.$lang['invites_sure3'].'</a>'.$lang['invites_sure4'].'<a href="?do=view_page">'.$lang['invites_sure3'].'</a>'.$lang['invites_sure5'].'');
     sql_query('UPDATE users SET status = "confirmed" WHERE id = ' . sqlesc($userid) . ' AND invitedby = ' . sqlesc($CURUSER['id']) . ' AND status="pending"') or sqlerr(__FILE__, __LINE__);
-    $cache->update_row('MyUser_' . $userid, [
+    $cache->update_row($keys['my_userid'] . $userid, [
         'status' => 'confirmed'
     ], $TRINITY20['expires']['curuser']); // 15 mins
     $cache->update_row('user' . $userid, [

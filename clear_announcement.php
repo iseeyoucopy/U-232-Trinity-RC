@@ -19,7 +19,7 @@ $cache->update_row('user' . $CURUSER['id'], [
     'curr_ann_id' => 0,
     'curr_ann_last_check' => 0
 ], $TRINITY20['expires']['user_cache']);
-$cache->update_row('MyUser_' . $CURUSER['id'], [
+$cache->update_row($keys['my_userid'] . $CURUSER['id'], [
     'curr_ann_id' => 0,
     'curr_ann_last_check' => 0
 ], $TRINITY20['expires']['curuser']);

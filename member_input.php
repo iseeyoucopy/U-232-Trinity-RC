@@ -92,7 +92,7 @@ if ($action == '') {
             if (isset($_POST['add_to_watched_users']) && $_POST['add_to_watched_users'] == 'yes' && $watched_arr['watched_user'] == 0) {
                 //=== set them to watched user
                 sql_query('UPDATE users SET watched_user = ' . TIME_NOW . ' WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-                $cache->update_row('MyUser_' . $id, [
+                $cache->update_row($keys['my_userid'] . $id, [
                     'watched_user' => TIME_NOW
                 ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $id, [
@@ -104,7 +104,7 @@ if ($action == '') {
             if (isset($_POST['add_to_watched_users']) && $_POST['add_to_watched_users'] == 'no' && $watched_arr['watched_user'] > 0) {
                 //=== remove them from watched users
                 sql_query('UPDATE users SET watched_user = 0 WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-                $cache->update_row('MyUser_' . $id, [
+                $cache->update_row($keys['my_userid'] . $id, [
                     'watched_user' => 0
                 ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $id, [

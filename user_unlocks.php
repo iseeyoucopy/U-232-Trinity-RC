@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                      WHERE id = ' . sqlesc($id) . ' LIMIT 1') or sqlerr(__file__, __line__);
         $row = mysqli_fetch_assoc($res);
         $row['perms'] = (int) $row['perms'];
-        $cache->update_row('MyUser_' . $id, [
+        $cache->update_row($keys['my_userid'] . $id, [
             'perms' => $row['perms']
         ], $TRINITY20['expires']['curuser']);
         $cache->update_row('user_' . $id, [
@@ -134,7 +134,7 @@ $HTMLOUT.= '<div class="container"><form action="" method="post">
 	</tr>
 	</table>
 	</div>
-        <!--<div><h1>' . $lang['uunlk_username_shout_beep_enable'] . '</h1></div>
+        <!--<div><h1>Check this option to unlock shout beep option.</h1></div>
         <table width="100%" border="0" cellpadding="5" cellspacing="0"><tr>
         <td width="50%">
         <b>' . $lang['uunlk_enable_username_shout_alert'] . '?</b>

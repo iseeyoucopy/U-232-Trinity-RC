@@ -442,7 +442,7 @@ function userlogin()
                 $cache->update_row('user' . $CURUSER['id'], [
                     'curr_ann_id' => $ann_row['main_id']
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row('MyUser_' . $CURUSER['id'], [
+                $cache->update_row($keys['my_userid']' . $CURUSER['id'], [
                     'curr_ann_id' => $ann_row['main_id']
                 ], $TRINITY20['expires']['curuser']);
                 $status = 2;
@@ -453,7 +453,7 @@ function userlogin()
                 $cache->update_row('user' . $CURUSER['id'], [
                     'curr_ann_last_check' => $dt
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row('MyUser_' . $CURUSER['id'], [
+                $cache->update_row($keys['my_userid']' . $CURUSER['id'], [
                     'curr_ann_last_check' => $dt
                 ], $TRINITY20['expires']['curuser']);
                 $status = 1;
@@ -484,7 +484,7 @@ function userlogin()
             $cache->update_row('user' . $CURUSER['id'], [
                 'curr_ann_last_check' => $dt
             ], $TRINITY20['expires']['user_cache']);
-            $cache->update_row('MyUser_' . $CURUSER['id'], [
+            $cache->update_row($keys['my_userid']' . $CURUSER['id'], [
                 'curr_ann_last_check' => $dt
             ], $TRINITY20['expires']['curuser']);
         }
@@ -519,7 +519,7 @@ function userlogin()
             $msg = "Fake Account Detected: Username: " . htmlsafechars($row["username"]) . " - UserID: " . (int) $row["id"] . " - UserIP : " . getip();
             // Demote and disable
             sql_query("UPDATE users SET enabled = 'no', class = 0 WHERE id =" . sqlesc($row["id"])) or sqlerr(__file__, __line__);
-            $cache->update_row('MyUser_' . $row['id'], [
+            $cache->update_row('Myuser_' . $row['id'], [
                 'enabled' => 'no',
                 'class' => 0
             ], $TRINITY20['expires']['curuser']);
@@ -589,10 +589,9 @@ function userlogin()
 		$CURBLOCK['usercp_page'] = (int)$CURBLOCK['usercp_page'];
         $cache->set($blocks_key, $CURBLOCK, 0);
     }
-	if (isset($USERBLOCKS))
-		return;
+	if (isset($USERBLOCKS)) return;
 	///User Blocks without Bitwise by iseeyoucopy
-    if (($user_block_options = $cache->get('MySettings_' . $row['id'])) === false) {
+    if (($user_block_options = $cache->get('MyBlockSettings::' . $row['id'])) === false) {
 		$user_opt_int = array(
 		  'id',
 		  'userid'
@@ -670,9 +669,9 @@ function userlogin()
             die();
         }
 		$user_block_options = mysqli_fetch_assoc($c1_sql);
-        //foreach ($user_opt_int as $ub) $user_block_options[$ub] = (int)$user_block_options[$ub];
+        foreach ($user_opt_int as $ub) $user_block_options[$ub] = (int)$user_block_options[$ub];
         foreach ($user_opt_str as $ub) $user_block_options[$ub] = $user_block_options[$ub];
-		$cache->set('MySettings_' . $row['id'], $user_block_options, $TRINITY20['expires']['curuser']);
+		$cache->set('MyBlockSettings::' . $row['id'], $user_block_options, $TRINITY20['expires']['curuser']);
     }
     //== online time pdq, original code by superman
     $userupdate0 = 'onlinetime = onlinetime + 0';
@@ -689,7 +688,7 @@ function userlogin()
      if (($row['last_access'] != '0') AND (($row['last_access']) < ($dt - 180))/** 3 mins **/ || ($row['ip'] !== $ip)) 
     {
         sql_query("UPDATE users SET where_is =" . sqlesc($whereis) . ", ip=".sqlesc($ip).$add_set.", last_access=" . TIME_NOW . ", $userupdate0, $userupdate1 WHERE id=" . sqlesc($row['id']));
-        $cache->update_row('MyUser_' . $row['id'], [
+        $cache->update_row($keys['my_userid'] . $row['id'], [
             'last_access' => TIME_NOW,
             'onlinetime' => $update_time,
             'last_access_numb' => TIME_NOW,

@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cache->update_row('user' . $CURUSER['id'], [
         'tenpercent' => 'yes'
     ], $TRINITY20['expires']['user_cache']);
-    $cache->update_row('MyUser_' . $CURUSER['id'], [
+    $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
         'tenpercent' => 'yes'
     ], $TRINITY20['expires']['user_cache']);
     $res1 = sql_query("INSERT INTO messages (sender, poster, receiver, subject, msg, added) VALUES (0, 0, " . sqlesc($CURUSER['id']) . ", " . sqlesc($subject) . ", " . sqlesc($msg) . ", '" . TIME_NOW . "')") or sqlerr(__FILE__, __LINE__);

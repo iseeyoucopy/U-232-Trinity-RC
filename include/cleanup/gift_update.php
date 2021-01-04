@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache;
+    global $TRINITY20, $queries, $cache, $keys;
     set_time_limit(0);
     ignore_user_abort(1);
     //===Reset Xmas gifts Bigjoos/pdq:)
@@ -24,7 +24,7 @@ function docleanup($data)
             $cache->update_row('user' . $arr['id'], [
                 'gotgift' => 'no'
             ], $TRINITY20['expires']['user_cache']);
-            $cache->update_row('MyUser_' . $arr['id'], [
+            $cache->update_row($keys['my_userid'] . $arr['id'], [
                 'gotgift' => 'no'
             ], $TRINITY20['expires']['curuser']);
         }

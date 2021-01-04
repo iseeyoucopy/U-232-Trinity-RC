@@ -55,7 +55,7 @@ if (isset($open) && $open == 1) {
                     'freeslots' => $update['freeslots'],
                     'gotgift' => 'yes'
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row('MyUser_' . $userid, [
+                $cache->update_row($keys['my_userid'] . $userid, [
                     'invites' => $update['invites'],
                     'freeslots' => $update['freeslots'],
                     'gotgift' => 'yes'
@@ -78,7 +78,7 @@ Thanks for your support and sharing through year " . date('Y') . " ! <br /> Merr
                     'invites' => $update['invites'],
                     'gotgift' => 'yes'
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row('MyUser_' . $userid, [
+                $cache->update_row($keys['my_userid'] . $userid, [
                     'invites' => $update['invites'],
                     'gotgift' => 'yes'
                 ], $TRINITY20['expires']['curuser']);
@@ -102,7 +102,7 @@ Thanks for your support and sharing through year " . date('Y') . " ! <br /> Merr
                     'freeslots' => $update['freeslots'],
                     'gotgift' => 'yes'
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row('MyUser_' . $userid, [
+                $cache->update_row($keys['my_userid'] . $userid, [
                     'invites' => $update['invites'],
                     'freeslots' => $update['freeslots'],
                     'gotgift' => 'yes'
@@ -130,7 +130,7 @@ Thanks for your support and sharing through year " . date('Y') . " ! <br /> Merr
                     'freeslots' => $update['freeslots'],
                     'gotgift' => 'yes'
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row('MyUser_' . $userid, [
+                $cache->update_row($keys['my_userid'] . $userid, [
                     'invites' => $update['invites'],
                     'freeslots' => $update['freeslots'],
                     'gotgift' => 'yes'

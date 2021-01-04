@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $CURUSER['id']
     ));
     $res = sql_query('UPDATE users SET secret=' . sqlesc($secret) . ', passhash=' . sqlesc($newpassword) . ', hintanswer='.sqlesc($wanthintanswer).' WHERE username=' . sqlesc($username) . ' AND id=' . sqlesc($uid) . ' AND class<' . $CURUSER['class']) or sqlerr(__file__, __line__);
-    $cache->update_row('MyUser_' . $uid, [
+    $cache->update_row($keys['my_userid'] . $uid, [
         'secret' => $secret,
         'passhash' => $newpassword,
         'passhash' => $passhash

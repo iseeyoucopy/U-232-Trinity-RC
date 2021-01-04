@@ -39,7 +39,7 @@ if ($action == 'reset') {
     $cache->update_row('user' . $id, [
         'hash1' => $hash1
     ], $TRINITY20['expires']['user_cache']);
-    $cache->update_row('MyUser_' . $id, [
+    $cache->update_row($keys['my_userid'] . $id, [
         'hash1' => $hash1
     ], $TRINITY20['expires']['curuser']);
     $cache->update_row('hash1_' . $id, [
@@ -54,7 +54,7 @@ if ($action == 'reset') {
         $cache->update_row('user' . $id, [
             'hash1' => $hash1
         ], $TRINITY20['expires']['user_cache']);
-        $cache->update_row('MyUser_' . $id, [
+        $cache->update_row($keys['my_userid'] . $id, [
             'hash1' => $hash1
         ], $TRINITY20['expires']['curuser']);
         $cache->update_row('hash1_' . $id, [

@@ -40,7 +40,7 @@ if (isset($mode) && $mode == 'change') {
         $classuser = mysqli_fetch_assoc($nc_sql);
         if ($classuser['class'] >= UC_STAFF) stderr($lang['namechanger_err'], $lang['namechanger_cannot']);
         $change = sql_query("UPDATE users SET username=" . sqlesc($uname) . " WHERE id=" . sqlesc($uid)) or sqlerr(__FILE__, __LINE__);
-        $cache->update_row('MyUser_' . $uid, [
+        $cache->update_row($keys['my_userid'] . $uid, [
             'username' => $uname
         ], $TRINITY20['expires']['curuser']);
         $cache->update_row('user' . $uid, [

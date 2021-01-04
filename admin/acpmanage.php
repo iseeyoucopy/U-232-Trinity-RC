@@ -43,7 +43,7 @@ if (isset($_POST['ids'])) {
     foreach ($ids as $id) if (!is_valid_id($id)) stderr($lang['std_error'], $lang['text_invalid']);
     $do = isset($_POST["do"]) ? htmlsafechars(trim($_POST["do"])) : '';
     if ($do == 'enabled') sql_query("UPDATE users SET enabled = 'yes' WHERE ID IN(" . join(', ', array_map('sqlesc',$ids)) . ") AND enabled = 'no'") or sqlerr(__FILE__, __LINE__);
-    $cache->update_row('MyUser_' . $id, [
+    $cache->update_row($keys['my_userid'] . $id, [
         'enabled' => 'yes'
     ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user' . $id, [
@@ -51,7 +51,7 @@ if (isset($_POST['ids'])) {
     ], $TRINITY20['expires']['user_cache']);
     //else
     if ($do == 'confirm') sql_query("UPDATE users SET status = 'confirmed' WHERE ID IN(" . join(', ', array_map('sqlesc', $ids)) . ") AND status = 'pending'") or sqlerr(__FILE__, __LINE__);
-    $cache->update_row('MyUser_' . $id, [
+    $cache->update_row($keys['my_userid'] . $id, [
         'status' => 'confirmed'
     ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user' . $id, [

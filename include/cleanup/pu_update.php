@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache;
+    global $TRINITY20, $queries, $cache, $keys;
     set_time_limit(1200);
     ignore_user_abort(1);
     //== Updated promote power users
@@ -79,7 +79,7 @@ function docleanup($data)
                 $cache->update_row('user_stats_' . $userid, [
                     'modcomment' => $modcomment
                 ], $TRINITY20['expires']['user_stats']);
-                $cache->update_row('MyUser_' . $userid, [
+                $cache->update_row($keys['my_userid'] . $userid, [
                     'class' => $class_value,
                     'invites' => $update['invites']
                 ], $TRINITY20['expires']['curuser']);

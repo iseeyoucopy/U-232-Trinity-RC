@@ -1,5 +1,4 @@
 <?php
-$checkbox = $USERBLOCKS['index_ie_alert_on'] == 'yes' ? "checked" : "";
 $HTMLOUT.= "
 <tr>
 	<td>{$lang['user_b_nb1']}</td>
@@ -156,4 +155,3 @@ $HTMLOUT.= "<tr>
 
 <tr><td colspan='2' class='table' align='center'><input class='btn btn-default' type='submit' value='{$lang['user_b_butt']}' /></td></tr>
 </table>";
-?>

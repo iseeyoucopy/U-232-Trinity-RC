@@ -293,7 +293,7 @@ if (!(isset($_GET["hit"])) && $CURUSER["id"] <> $user["id"]) {
         sql_query("UPDATE users SET hits = hits + 1 WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         // do update hits userdetails cache
         $update['user_hits'] = ($user['hits'] + 1);
-        $cache->update_row('MyUser_' . $id, [
+        $cache->update_row($keys['my_userid'] . $id, [
             'hits' => $update['user_hits']
         ], $TRINITY20['expires']['curuser']);
         $cache->update_row('user' . $id, [

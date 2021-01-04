@@ -54,7 +54,7 @@ if (!defined('TBVERSION')) { //cannot access this file directly
  */
 function class_check($class = 0, $staff = true, $pin = false)
 {
-    global $CURUSER, $TRINITY20, $cache;
+    global $CURUSER, $TRINITY20, $cache, $keys;
     require_once (CACHE_DIR.'staff_settings2.php');
     /** basic checking **/
     if (!$CURUSER) {
@@ -144,7 +144,7 @@ function class_check($class = 0, $staff = true, $pin = false)
                 $cache->update_row('user' . $CURUSER['id'], [
                     'class' => 1
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row('MyUser_' . $CURUSER['id'], [
+                $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
                     'class' => 1
                 ], $TRINITY20['expires']['curuser']);
                 //==

@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($lid > 0 && $lid != $CURUSER['id']) {
         sql_query('UPDATE users SET language=' . sqlesc($lid) . ' WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
     }
-    $cache->update_row('MyUser_' . $CURUSER['id'], [
+    $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
         'language' => $lid
     ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user' . $CURUSER['id'], [

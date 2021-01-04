@@ -141,11 +141,9 @@ $HTMLOUT .="<div id='TORRENTFREAK'>";
 $HTMLOUT .="</div>";
 	}
 */
-	if (curuser::$blocks['index_page'] & block_index::DISCLAIMER && $BLOCKS['disclaimer_on']) {
-$HTMLOUT .="<div id='DISCLAIMER'>";
-    	require_once (BLOCK_DIR . 'index/disclaimer.php');
-$HTMLOUT .="</div>";
-	}
+if ($USERBLOCKS['index_disclaimer_on']) {
+    require_once (BLOCK_DIR . 'index/disclaimer.php');
+}
 
 	if (curuser::$blocks['index_page'] & block_index::DONATION_PROGRESS && $BLOCKS['donation_progress_on']) {
 $HTMLOUT .="<div id='DONATION_PROGRESS'>";

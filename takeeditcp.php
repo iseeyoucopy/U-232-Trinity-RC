@@ -476,7 +476,7 @@ if (isset($_POST["google_talk"]) && ($google_talk = $_POST["google_talk"]) != $C
     //else $clrbits|= user_options_2::COMMENTPM;
 //== End == then update the sets :)
 if ($curuser_cache) {
-    $cache->update_row('MyUser_' . $CURUSER['id'], $curuser_cache, $TRINITY20['expires']['curuser']);
+    $cache->update_row($keys['my_userid'] . $CURUSER['id'], $curuser_cache, $TRINITY20['expires']['curuser']);
 }
 if ($user_cache) {
     $cache->update_row('user' . $CURUSER['id'], $user_cache, $TRINITY20['expires']['user_cache']);
@@ -489,7 +489,7 @@ $res = sql_query('SELECT opt1, opt2 FROM users
 $row = mysqli_fetch_assoc($res);
 $row['opt1'] = (int)$row['opt1'];
 $row['opt2'] = (int)$row['opt2'];
-$cache->update_row('MyUser_' . $CURUSER["id"], [
+$cache->update_row($keys['my_userid'] . $CURUSER["id"], [
     'opt1' => $row['opt1'],
     'opt2' => $row['opt2']
 ], $TRINITY20['expires']['curuser']);
