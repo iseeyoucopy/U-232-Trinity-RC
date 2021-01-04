@@ -50,7 +50,7 @@ function docleanup($data)
             $cache->update_row('user_stats_' . $arr_fuckers['userid'], [
                 'modcomment' => $modcomment
             ], $TRINITY20['expires']['user_stats']);
-            $cache->update_row('userstats_' . $arr_fuckers['userid'], [
+            $cache->update_row($keys['user_stats'] . $arr_fuckers['userid'], [
                 'modcomment' => $modcomment
             ], $TRINITY20['expires']['user_stats']);
             $cache->update_row($keys['my_userid'] . $arr_fuckers['userid'], [
@@ -88,7 +88,7 @@ function docleanup($data)
             $cache->update_row('user_stats' . $arr_good_boy['id'], [
                 'modcomment' => $modcomment
             ], $TRINITY20['expires']['user_stats']);
-            $cache->update_row('userstats_' . $arr_good_boy['id'], [
+            $cache->update_row($keys['user_stats'] . $arr_good_boy['id'], [
                 'modcomment' => $modcomment
             ], $TRINITY20['expires']['user_stats']);
             $cache->update_row($keys['my_userid'] . $arr_good_boy['id'], [

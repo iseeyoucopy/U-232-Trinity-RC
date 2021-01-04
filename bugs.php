@@ -39,7 +39,7 @@ if ($action == 'viewbug') {
                 $uq = "UPDATE users SET uploaded = uploaded +" . 1024 * 1024 * 1024 * 2 . " WHERE id = " . sqlesc($q1['sender']) . "";
                 $update['uploaded'] = ($q1['uploaded'] + 1024 * 1024 * 1024 * 2);
                 $update['uploaded'] = ($q1['uploaded'] + 1024 * 1024 * 1024 * 2);
-                $cache->update_row('userstats_' . $q1['sender'], [
+                $cache->update_row($keys['user_stats'] . $q1['sender'], [
                     'uploaded' => $update['uploaded']
                 ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $q1['sender'], [

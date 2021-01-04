@@ -534,7 +534,7 @@ function userlogin()
         }
     }
     // user stats - *Updated*
-    $What_Cache = (XBT_TRACKER == true ? 'userstats_xbt_' : 'userstats_');
+    $What_Cache = (XBT_TRACKER == true ? 'userstats_xbt_' : $keys['user_stats']);
     if (($stats = $cache->get($What_Cache.$id)) === false) {
     $What_Expire = (XBT_TRACKER == true ? $TRINITY20['expires']['u_stats_xbt'] : $TRINITY20['expires']['u_stats']);
         $stats_fields_ar_int = array(

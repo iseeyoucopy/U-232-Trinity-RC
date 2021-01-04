@@ -40,7 +40,7 @@ if ($TRINITY20['seedbonus_on'] == 1) {
     //===add karma
     sql_query("UPDATE users SET seedbonus = seedbonus+5.0 WHERE id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
     $update['seedbonus'] = ($CURUSER['seedbonus'] + 5);
-    $cache->update_row('userstats_' . $CURUSER["id"], [
+    $cache->update_row($keys['user_stats'] . $CURUSER["id"], [
         'seedbonus' => $update['seedbonus']
     ], $TRINITY20['expires']['u_stats']);
     $cache->update_row('user_stats_' . $CURUSER["id"], [

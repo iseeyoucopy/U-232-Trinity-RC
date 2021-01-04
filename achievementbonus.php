@@ -56,7 +56,7 @@ if ($bonus_type == 1) {
         $cache->delete('user_achievement_points_' . $id);
         $sql = "UPDATE users SET downloaded = downloaded - " . sqlesc($bonus_do) . " WHERE id = " . sqlesc($id);
         sql_query($sql) or sqlerr(__FILE__, __LINE__);
-        $cache->update_row('userstats_' . $id, [
+        $cache->update_row($keys['user_stats'] . $id, [
             'downloaded' => $down - $bonus_do
         ], $TRINITY20['expires']['u_stats']);
         $cache->update_row('user_stats_' . $id, [
@@ -69,7 +69,7 @@ if ($bonus_type == 1) {
         $cache->delete('user_achievement_points_' . $id);
         $sql = "UPDATE users SET downloaded = '0' WHERE id =" . sqlesc($id);
         sql_query($sql) or sqlerr(__FILE__, __LINE__);
-        $cache->update_row('userstats_' . $id, [
+        $cache->update_row($keys['user_stats'] . $id, [
             'downloaded' => 0
         ], $TRINITY20['expires']['u_stats']);
         $cache->update_row('user_stats_' . $id, [
@@ -83,7 +83,7 @@ if ($bonus_type == 2) {
     $cache->delete('user_achievement_points_' . $id);
     $sql = "UPDATE users SET uploaded = uploaded + " . sqlesc($bonus_do) . " WHERE id =" . sqlesc($id);
     sql_query($sql) or sqlerr(__FILE__, __LINE__);
-    $cache->update_row('userstats_' . $id, [
+    $cache->update_row($keys['user_stats'] . $id, [
         'uploaded' => $up + $bonus_do
     ], $TRINITY20['expires']['u_stats']);
     $cache->update_row('user_stats_' . $id, [
@@ -109,7 +109,7 @@ if ($bonus_type == 4) {
     $cache->delete('user_achievement_points_' . $id);
     $sql = "UPDATE users SET seedbonus = seedbonus + " . sqlesc($bonus_do) . " WHERE id =" . sqlesc($id);
     sql_query($sql) or sqlerr(__FILE__, __LINE__);
-    $cache->update_row('userstats_' . $id, [
+    $cache->update_row($keys['user_stats'] . $id, [
         'seedbonus' => $karma + $bonus_do
     ], $TRINITY20['expires']['u_stats']);
     $cache->update_row('user_stats_' . $id, [

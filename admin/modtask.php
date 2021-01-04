@@ -1000,7 +1000,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         $cache->update_row('user' . $userid, $user_cache, $TRINITY20['expires']['user_cache']);
     }
     if ($stats_cache) {
-        $cache->update_row('userstats_' . $userid, $stats_cache, $TRINITY20['expires']['u_stats']);
+        $cache->update_row($keys['user_stats'] . $userid, $stats_cache, $TRINITY20['expires']['u_stats']);
     }
     if ($user_stats_cache) {
         $cache->update_row('user_stats_' . $userid, $user_stats_cache, $TRINITY20['expires']['user_stats']);

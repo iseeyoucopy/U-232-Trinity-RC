@@ -65,14 +65,14 @@ $cache->update_row('torrent_details_' . $id, [
     'points' => $update['points']
 ], $TRINITY20['expires']['torrent_details']);
 //==The uploader
-$cache->update_row('userstats_' . $userid, [
+$cache->update_row($keys['user_stats'] . $userid, [
     'seedbonus' => $update['seedbonus_uploader']
 ], $TRINITY20['expires']['u_stats']);
 $cache->update_row('user_stats_' . $userid, [
     'seedbonus' => $update['seedbonus_uploader']
 ], $TRINITY20['expires']['user_stats']);
 //==The donator
-$cache->update_row('userstats_' . $CURUSER["id"], [
+$cache->update_row($keys['user_stats'] . $CURUSER["id"], [
     'seedbonus' => $update['seedbonus_donator']
 ], $TRINITY20['expires']['u_stats']);
 $cache->update_row('user_stats_' . $CURUSER["id"], [

@@ -176,13 +176,13 @@ if ($game) {
                     $update['bjwins'] = ($User['bjwins'] + 1);
                     $update['bjlosses'] = ($a['bjlosses'] + 1);
                     //==stats
-                    $cache->update_row('userstats_' . $CURUSER['id'], [
+                    $cache->update_row($keys['user_stats'] . $CURUSER['id'], [
                         'uploaded' => $update['uploaded']
                     ], $TRINITY20['expires']['u_stats']);
                     $cache->update_row('user_stats_' . $CURUSER['id'], [
                         'uploaded' => $update['uploaded']
                     ], $TRINITY20['expires']['user_stats']);
-                    $cache->update_row('userstats_' . $a['userid'], [
+                    $cache->update_row($keys['user_stats'] . $a['userid'], [
                         'uploaded' => $update['uploaded_loser']
                     ], $TRINITY20['expires']['u_stats']);
                     $cache->update_row('user_stats_' . $a['userid'], [
@@ -236,13 +236,13 @@ if ($game) {
                     $update['bjwins'] = ($a['bjwins'] + 1);
                     $update['bjlosses'] = ($User['bjlosses'] + 1);
                     //==stats
-                    $cache->update_row('userstats_' . $a['userid'], [
+                    $cache->update_row($keys['user_stats'] . $a['userid'], [
                         'uploaded' => $update['uploaded']
                     ], $TRINITY20['expires']['u_stats']);
                     $cache->update_row('user_stats_' . $a['userid'], [
                         'uploaded' => $update['uploaded']
                     ], $TRINITY20['expires']['user_stats']);
-                    $cache->update_row('userstats_' . $CURUSER['id'], [
+                    $cache->update_row($keys['user_stats'] . $CURUSER['id'], [
                         'uploaded' => $update['uploaded_loser']
                     ], $TRINITY20['expires']['u_stats']);
                     $cache->update_row('user_stats_' . $CURUSER['id'], [
@@ -331,13 +331,13 @@ if ($game) {
                 $update['bjwins'] = ($a['bjwins'] + 1);
                 $update['bjlosses'] = ($User['bjlosses'] + 1);
                 //==stats
-                $cache->update_row('userstats_' . $a['userid'], [
+                $cache->update_row($keys['user_stats'] . $a['userid'], [
                     'uploaded' => $update['uploaded']
                 ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $a['userid'], [
                     'uploaded' => $update['uploaded']
                 ], $TRINITY20['expires']['user_stats']);
-                $cache->update_row('userstats_' . $CURUSER['id'], [
+                $cache->update_row($keys['user_stats'] . $CURUSER['id'], [
                     'uploaded' => $update['uploaded_loser']
                 ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $CURUSER['id'], [

@@ -44,7 +44,7 @@ if (isset($open) && $open == 1) {
                 $update['invites'] = ($User['invites'] + 1);
                 $update['uploaded'] = ($User['uploaded'] + 1024 * 1024 * 1024 * 10);
                 $update['freeslots'] = ($User['freeslots'] + 1);
-                $cache->update_row('userstats_' . $userid, [
+                $cache->update_row($keys['user_stats'] . $userid, [
                     'uploaded' => $update['uploaded']
                 ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $userid, [
@@ -68,7 +68,7 @@ Thanks for your support and sharing through year " . date('Y') . " ! <br /> Merr
                 sql_query("UPDATE users SET invites=invites+3,  seedbonus = seedbonus + 1750, gotgift='yes' WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
                 $update['invites'] = ($User['invites'] + 3);
                 $update['seedbonus'] = ($User['seedbonus'] + 1750);
-                $cache->update_row('userstats_' . $userid, [
+                $cache->update_row($keys['user_stats'] . $userid, [
                     'seedbonus' => $update['seedbonus']
                 ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $userid, [
@@ -91,7 +91,7 @@ Thanks for your support and sharing through year " . date('Y') . " ! <br /> Merr
                 $update['invites'] = ($User['invites'] + 2);
                 $update['seedbonus'] = ($User['seedbonus'] + 2000);
                 $update['freeslots'] = ($User['freeslots'] + 3);
-                $cache->update_row('userstats_' . $userid, [
+                $cache->update_row($keys['user_stats'] . $userid, [
                     'seedbonus' => $update['seedbonus']
                 ], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_' . $userid, [
@@ -117,7 +117,7 @@ Thanks for your support and sharing through year " . date('Y') . " ! <br /> Merr
                 $update['seedbonus'] = ($User['seedbonus'] + 2500);
                 $update['freeslots'] = ($User['freeslots'] + 5);
                 $update['uploaded'] = ($User['uploaded'] + 1024 * 1024 * 1024 * 20);
-                $cache->update_row('userstats_' . $userid, [
+                $cache->update_row($keys['user_stats'] . $userid, [
                     'seedbonus' => $update['seedbonus'],
                     'uploaded' => $update['uploaded']
                 ], $TRINITY20['expires']['u_stats']);

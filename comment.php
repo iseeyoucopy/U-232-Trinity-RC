@@ -110,7 +110,7 @@ if ($action == 'add') {
                 'comments' => $update['comments']
             ], 0);
             $update['seedbonus'] = ($CURUSER['seedbonus'] + $TRINITY20['bonus_per_comment']);
-            $cache->update_row('userstats_' . $CURUSER["id"], [
+            $cache->update_row($keys['user_stats'] . $CURUSER["id"], [
                 'seedbonus' => $update['seedbonus']
             ], $TRINITY20['expires']['u_stats']);
             $cache->update_row('user_stats_' . $CURUSER["id"], [
@@ -247,7 +247,7 @@ if ($action == 'add') {
             'comments' => $update['comments']
         ], 0);
         $update['seedbonus'] = ($CURUSER['seedbonus'] - 3);
-        $cache->update_row('userstats_' . $CURUSER["id"], [
+        $cache->update_row($keys['user_stats'] . $CURUSER["id"], [
             'seedbonus' => $update['seedbonus']
         ], $TRINITY20['expires']['u_stats']);
         $cache->update_row('user_stats_' . $CURUSER["id"], [

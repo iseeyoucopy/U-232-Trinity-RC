@@ -46,7 +46,7 @@ if ($id > 0 && $rate >= 1 && $rate <= 5) {
             $amount = ($what == 'torrent' ? $TRINITY20['bonus_per_rating'] : $TRINITY20['bonus_per_topic']);
             sql_query("UPDATE users SET seedbonus = seedbonus+" . sqlesc($amount) . " WHERE id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
             $update['seedbonus'] = ($CURUSER['seedbonus'] + $amount);
-            $cache->update_row('userstats_' . $CURUSER["id"], [
+            $cache->update_row($keys['user_stats'] . $CURUSER["id"], [
                 'seedbonus' => $update['seedbonus']
             ], $TRINITY20['expires']['u_stats']);
             $cache->update_row('user_stats_' . $CURUSER["id"], [

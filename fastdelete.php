@@ -92,7 +92,7 @@ function deletetorrent_xbt($id)
     //===remove karma
     sql_query("UPDATE users SET seedbonus = seedbonus-".sqlesc($TRINITY20['bonus_per_delete'])." WHERE id = " . sqlesc($q["owner"])) or sqlerr(__FILE__, __LINE__);
     $update['seedbonus'] = ($CURUSER['seedbonus'] - $TRINITY20['bonus_per_delete']);
-    $cache->update_row('userstats_' . $q["owner"], [
+    $cache->update_row($keys['user_stats'] . $q["owner"], [
         'seedbonus' => $update['seedbonus']
     ], $TRINITY20['expires']['u_stats']);
     $cache->update_row('user_stats_' . $q["owner"], [

@@ -89,7 +89,7 @@ if ($TRINITY20['seedbonus_on'] == 1) {
     sql_query("UPDATE users SET seedbonus = seedbonus-".sqlesc($TRINITY20['bonus_per_delete'])." WHERE id = " . sqlesc($row["owner"])) or sqlerr(__FILE__, __LINE__);
     $update['seedbonus'] = ($CURUSER['seedbonus'] - $TRINITY20['bonus_per_delete']);
     $update['seedbonus'] = ($CURUSER['seedbonus'] - $TRINITY20['bonus_per_delete']);
-    $cache->update_row('userstats_' . $row["owner"], [
+    $cache->update_row($keys['user_stats'] . $row["owner"], [
         'seedbonus' => $update['seedbonus']
     ], $TRINITY20['expires']['u_stats']);
     $cache->update_row('user_stats_' . $row["owner"], [

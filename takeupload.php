@@ -378,7 +378,7 @@ else
     sql_query("UPDATE users SET seedbonus=seedbonus+" . sqlesc($TRINITY20['bonus_per_upload']) . ", numuploads=numuploads+1 WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
     //===end
     $update['seedbonus'] = ($CURUSER['seedbonus'] + $TRINITY20['bonus_per_upload']);
-    $cache->update_row('userstats_' . $CURUSER["id"], [
+    $cache->update_row($keys['user_stats'] . $CURUSER["id"], [
         'seedbonus' => $update['seedbonus']
     ], $TRINITY20['expires']['u_stats']);
     $cache->update_row('user_stats_' . $CURUSER["id"], [

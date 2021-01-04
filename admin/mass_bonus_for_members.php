@@ -99,7 +99,7 @@ case 'upload_credit':
                     'uploaded' => $GB_new,
                     'modcomment' => $modcomment
                 ], $TRINITY20['expires']['user_stats']);
-                $cache->update_row('userstats_' . $arr_GB['id'], [
+                $cache->update_row($keys['user_stats'] . $arr_GB['id'], [
                     'uploaded' => $GB_new
                 ], $TRINITY20['expires']['u_stats']);
                 $cache->delete('inbox_new_' . $arr_GB['id']);
@@ -134,7 +134,7 @@ case 'upload_credit':
                             'uploaded' => $GB_new,
                             'modcomment' => $modcomment
                         ], $TRINITY20['expires']['user_stats']);
-                        $cache->update_row('userstats_' . $arr_GB['id'], [
+                        $cache->update_row($keys['user_stats'] . $arr_GB['id'], [
                             'uploaded' => $GB_new
                         ], $TRINITY20['expires']['u_stats']);
                         $cache->delete('inbox_new_' . $arr_GB['id']);
@@ -178,7 +178,7 @@ case 'karma':
                     'seedbonus' => $karma_new,
                     'modcomment' => $modcomment
                 ], $TRINITY20['expires']['user_stats']);
-                $cache->update_row('userstats_' . $arr_karma['id'], [
+                $cache->update_row($keys['user_stats'] . $arr_karma['id'], [
                     'seedbonus' => $karma_new
                 ], $TRINITY20['expires']['u_stats']);
                 $cache->delete('inbox_new_' . $arr_karma['id']);
@@ -213,7 +213,7 @@ case 'karma':
                             'seedbonus' => $karma_new,
                             'modcomment' => $modcomment
                         ], $TRINITY20['expires']['user_stats']);
-                        $cache->update_row('userstats_' . $arr_karma['id'], [
+                        $cache->update_row($keys['user_stats'] . $arr_karma['id'], [
                             'seedbonus' => $karma_new
                         ], $TRINITY20['expires']['u_stats']);
                         $cache->delete('inbox_new_' . $arr_karma['id']);

@@ -182,7 +182,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
         sql_query("UPDATE casino SET date = '" . TIME_NOW . "', trys = trys + 1, win = win + " . sqlesc($win) . "  WHERE userid=" . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
         $update['uploaded'] = ($User['uploaded'] + $win);
         //==stats
-        $cache->update_row('userstats_' . $CURUSER['id'], [
+        $cache->update_row($keys['user_stats'] . $CURUSER['id'], [
             'uploaded' => $update['uploaded']
         ], $TRINITY20['expires']['u_stats']);
         $cache->update_row('user_stats_' . $CURUSER['id'], [
@@ -205,7 +205,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
         sql_query("UPDATE casino SET date = " . TIME_NOW . ", trys = trys + 1 ,lost = lost + " . sqlesc($betmb) . " WHERE userid=" . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
         $update['uploaded_loser'] = ($User['uploaded'] - $betmb);
         //==stats
-        $cache->update_row('userstats_' . $CURUSER['id'], [
+        $cache->update_row($keys['user_stats'] . $CURUSER['id'], [
             'uploaded' => $update['uploaded_loser']
         ], $TRINITY20['expires']['u_stats']);
         $cache->update_row('user_stats_' . $CURUSER['id'], [
@@ -262,7 +262,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
             sql_query("UPDATE casino SET deposit = deposit-" . sqlesc($tbet['amount']) . " WHERE userid = " . sqlesc($tbet['userid'])) or sqlerr(__FILE__, __LINE__);
             $update['uploaded'] = ($User['uploaded'] + $tbet['amount']);
             //==stats
-            $cache->update_row('userstats_' . $CURUSER['id'], [
+            $cache->update_row($keys['user_stats'] . $CURUSER['id'], [
                 'uploaded' => $update['uploaded']
             ], $TRINITY20['expires']['u_stats']);
             $cache->update_row('user_stats_' . $CURUSER['id'], [
@@ -295,7 +295,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
             sql_query("UPDATE casino SET deposit = deposit-" . sqlesc($tbet['amount']) . " WHERE userid = " . sqlesc($tbet['userid']));
             $update['uploaded'] = ($newup);
             //==stats
-            $cache->update_row('userstats_' . $CURUSER['id'], [
+            $cache->update_row($keys['user_stats'] . $CURUSER['id'], [
                 'uploaded' => $update['uploaded']
             ], $TRINITY20['expires']['u_stats']);
             $cache->update_row('user_stats_' . $CURUSER['id'], [
@@ -303,7 +303,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
             ], $TRINITY20['expires']['user_stats']);
             $update['uploaded_2'] = ($User['uploaded'] + $newup2);
             //==stats
-            $cache->update_row('userstats_' . $tbet['userid'], [
+            $cache->update_row($keys['user_stats'] . $tbet['userid'], [
                 'uploaded' => $update['uploaded_2']
             ], $TRINITY20['expires']['u_stats']);
             $cache->update_row('user_stats_' . $tbet['userid'], [
@@ -367,7 +367,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
         sql_query("UPDATE casino SET deposit = deposit + " . sqlesc($nobits) . " WHERE userid = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
         $update['uploaded'] = ($newups);
         //==stats
-        $cache->update_row('userstats_' . $CURUSER['id'], [
+        $cache->update_row($keys['user_stats'] . $CURUSER['id'], [
             'uploaded' => $update['uploaded']
         ], $TRINITY20['expires']['u_stats']);
         $cache->update_row('user_stats_' . $CURUSER['id'], [
