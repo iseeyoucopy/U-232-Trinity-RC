@@ -242,10 +242,12 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
         $random = rand(0, 1);
         $loc = sql_query("SELECT * FROM casino_bets WHERE id = " . sqlesc($betid));
         $tbet = mysqli_fetch_assoc($loc);
-        $nogb = mksize($tbet['amount']);
-        if ($CURUSER['id'] == $tbet['userid']) {
+        $nogb = isset($tbet['amount']) ? mksize($tbet['amount']) : '';
+        $tbet_userid = isset($tbet['userid']) ? (int)$tbet['userid'] : "";
+        $tbet_challenged = isset($tbet['challenged']) ? $tbet['challenged'] : "";
+        if ($CURUSER['id'] == $tbet_userid) {
             stderr($lang['gl_sorry'], "{$lang['casino_you_want_to_bet_against_yourself_lol']} ?&nbsp;&nbsp;&nbsp;$goback");
-        } elseif ($tbet['challenged'] != "empty") {
+        } elseif ($tbet_challenged != "empty") {
             stderr($lang['gl_sorry'], "{$lang['casino_someone_has_already_taken_that_bet']}!&nbsp;&nbsp;&nbsp;$goback");
         }
         if ($CURUSER['uploaded'] < $tbet['amount']) {
