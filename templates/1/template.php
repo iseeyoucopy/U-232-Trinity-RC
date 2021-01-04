@@ -1,4 +1,5 @@
 <?php
+
 /**
  * -------   U-232 Codename Trinity   ----------*
  * ---------------------------------------------*
@@ -10,7 +11,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
- //==Template system by Terranova
+//==Template system by Terranova
 function stdhead($title = "", $msgalert = true, $stdhead = false)
 {
     global $CURUSER, $TRINITY20, $lang, $free, $_NO_COMPRESS, $query_stat, $querytime, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
@@ -22,26 +23,26 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         $TRINITY20['categorie_icon'] = isset($CURUSER['categorie_icon']) ? "{$CURUSER['categorie_icon']}" : $TRINITY20['categorie_icon'];
         $TRINITY20['language'] = isset($CURUSER['language']) ? "{$CURUSER['language']}" : $TRINITY20['language'];
     }
-	$torrent_pass = isset($CURUSER['torrent_pass']) ? "{$CURUSER['torrent_pass']}" : '';
+    $torrent_pass = isset($CURUSER['torrent_pass']) ? "{$CURUSER['torrent_pass']}" : '';
     /** ZZZZZZZZZZZZZZZZZZZZZZZZZZip it! */
 
-if (!isset($_NO_COMPRESS)) if (!ob_start('ob_gzhandler')) ob_start();
+    if (!isset($_NO_COMPRESS)) if (!ob_start('ob_gzhandler')) ob_start();
     $htmlout = '';
     //== Include js files needed only for the page being used by pdq
     $js_incl = '';
-    $js_incl.= '<!-- javascript goes here or in footer -->';
+    $js_incl .= '<!-- javascript goes here or in footer -->';
     if (!empty($stdhead['js'])) {
-        foreach ($stdhead['js'] as $JS) $js_incl.= "<script type='text/javascript' src='{$TRINITY20['baseurl']}/scripts/" . $JS . ".js'></script>";
+        foreach ($stdhead['js'] as $JS) $js_incl .= "<script type='text/javascript' src='{$TRINITY20['baseurl']}/scripts/" . $JS . ".js'></script>";
     }
 
     //== Include css files needed only for the page being used by pdq
     $stylez = ($CURUSER ? "{$CURUSER['stylesheet']}" : "{$TRINITY20['stylesheet']}");
     $css_incl = '';
-    $css_incl.= '<!-- css goes in header -->';
+    $css_incl .= '<!-- css goes in header -->';
     if (!empty($stdhead['css'])) {
-        foreach ($stdhead['css'] as $CSS) $css_incl.= "<link type='text/css' rel='stylesheet' href='{$TRINITY20['baseurl']}/templates/{$stylez}/css/" . $CSS . ".css' />";
+        foreach ($stdhead['css'] as $CSS) $css_incl .= "<link type='text/css' rel='stylesheet' href='{$TRINITY20['baseurl']}/templates/{$stylez}/css/" . $CSS . ".css' />";
     }
-$htmlout .='<!DOCTYPE html>
+    $htmlout .= '<!DOCTYPE html>
   <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
         <!-- ####################################################### -->
         <!-- #   This website is powered by U-232    	           # -->
@@ -50,11 +51,11 @@ $htmlout .='<!DOCTYPE html>
         <!-- #   Template Modded by U-232 Dev Team                 # -->
         <!-- ####################################################### -->
   <head>
-    <!--<meta charset="'.charset().'" />-->
+    <!--<meta charset="' . charset() . '" />-->
     <meta charset="utf-8" />
     <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>'.$title.'</title>
+    <title>' . $title . '</title>
 		<!-- favicon  -->
     	<link rel="shortcut icon" href="/favicon.ico" />
 <!-- Template CSS-->
@@ -62,11 +63,11 @@ $htmlout .='<!DOCTYPE html>
         <link rel="stylesheet" href="templates/1/fontawesome/css/all.min.css" />
 		<link rel="stylesheet" href="templates/1/foundation-icons/foundation-icons.css" />
 		<link rel="stylesheet" href="foundation/dist/assets/css/app.css">';
-if ($CURUSER){
-    $htmlout .='
+    if ($CURUSER) {
+        $htmlout .= '
 		<script src="scripts/jquery.js"></script>
-    <script type="application/rss+xml" title="Latest Torrents" src="/rss.php?torrent_pass='.$torrent_pass.'"></script>';
-	$htmlout .= "
+    <script type="application/rss+xml" title="Latest Torrents" src="/rss.php?torrent_pass=' . $torrent_pass . '"></script>';
+        $htmlout .= "
     <style type='text/css'>#mlike{cursor:pointer;}</style>
     <script type='text/javascript'>
         /*<![CDATA[*/
@@ -89,36 +90,35 @@ if ($CURUSER){
         </script>
         {$js_incl}{$css_incl}
         </head><body>";
-        $htmlout.= TopBar();
-$htmlout.='<div class="grid-container">';
-		    if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_STAFFTOOLS && $BLOCKS['global_staff_tools_on'] && $CURUSER['class'] >= UC_STAFF) {
-    require_once (BLOCK_DIR.'global/staff_tools.php');
-    }
-    $htmlout.= '<div class="banners">';
-    $htmlout.= "<div class='margin-3 float-left'><a href='{$TRINITY20['baseurl']}/index.php'><img src='{$TRINITY20['pic_base_url']}logo.png'></a></div>";
-    $htmlout.= '</div>';
-		$htmlout.= StatusBar();
-		$htmlout.= '<div class="card">';
-					$link = sql_query("SELECT VERSION()");
-					while ($row = mysqli_fetch_assoc($link)) {
-						foreach($row as $value){
-						$mysql_v = $value;
-						}
-					}
-			$memcached_version = phpversion("memcached");	
-			$redis_version = phpversion("redis");			
-$htmlout.= "<b class='text-center'> PHP : ". phpversion() ." | Mysql : ". $mysql_v	." | Memcached : ". $memcached_version." | Redis : ".$redis_version."</b>
+        $htmlout .= TopBar();
+        $htmlout .= '<div class="grid-container">';
+        if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_STAFFTOOLS && $BLOCKS['global_staff_tools_on'] && $CURUSER['class'] >= UC_STAFF) {
+            require_once(BLOCK_DIR . 'global/staff_tools.php');
+        }
+        $htmlout .= '<div class="banners">';
+        $htmlout .= "<div class='margin-3 float-left'><a href='{$TRINITY20['baseurl']}/index.php'><img src='{$TRINITY20['pic_base_url']}logo.png'></a></div>";
+        $htmlout .= '</div>';
+        $htmlout .= StatusBar();
+        $htmlout .= '<div class="card">';
+        $link = sql_query("SELECT VERSION()");
+        while ($row = mysqli_fetch_assoc($link)) {
+            foreach ($row as $value) {
+                $mysql_v = $value;
+            }
+        }
+        $memcached_version = phpversion("memcached");
+        $redis_version = phpversion("redis");
+        $htmlout .= "<b class='text-center'> PHP : " . phpversion() . " | Mysql : " . $mysql_v    . " | Memcached : " . $memcached_version . " | Redis : " . $redis_version . "</b>
 </div>";
-$htmlout.= AlertBar();
-
+        $htmlout .= AlertBar();
     }
     return $htmlout;
-   }
+}
 
 function stdfoot($stdfoot = false)
 {
     global $CURUSER, $TRINITY20, $start, $query_stat, $cache, $querytime, $lang, $rc;
-	$user_id = isset($CURUSER['id']) ? $CURUSER['id'] : '';
+    $user_id = isset($CURUSER['id']) ? $CURUSER['id'] : '';
     $debug = (SQL_DEBUG && in_array($user_id, $TRINITY20['allowed_staff']['id']) ? 1 : 0);
     $seconds = microtime(true) - $start;
     $r_seconds = round($seconds, 5);
@@ -133,17 +133,17 @@ function stdfoot($stdfoot = false)
     //== end class
     $htmlfoot = '';
     //== query stats
-    $htmlfoot.= '';
+    $htmlfoot .= '';
     if (!empty($stdfoot['js'])) {
-        $htmlfoot.= '<!-- javascript goes here in footer -->';
-        foreach ($stdfoot['js'] as $JS) $htmlfoot.= '
+        $htmlfoot .= '<!-- javascript goes here in footer -->';
+        foreach ($stdfoot['js'] as $JS) $htmlfoot .= '
 		<script src="' . $TRINITY20['baseurl'] . '/scripts/' . $JS . '.js"></script>';
     }
     $querytime = 0;
     $max_class = isset($CURUSER['class']) ? $CURUSER['class'] : '';
-    if ($CURUSER){
-	    if ($query_stat && $debug) {
-        $htmlfoot.= "
+    if ($CURUSER) {
+        if ($query_stat && $debug) {
+            $htmlfoot .= "
 <div class='card'>
 	<div class='card-divider'>
 		<label for='checkbox_4' class='text-left'>{$lang['gl_stdfoot_querys']}</label>
@@ -157,9 +157,9 @@ function stdfoot($stdfoot = false)
 								<th class='text-center'>{$lang['gl_stdfoot_qs']}</th>
 							</tr>
 						</thead>";
-        foreach ($query_stat as $key => $value) {
-            $querytime+= $value['seconds']; // query execution time
-             $htmlfoot.= "
+            foreach ($query_stat as $key => $value) {
+                $querytime += $value['seconds']; // query execution time
+                $htmlfoot .= "
 						<tbody>
 							<tr>
 								<td>" . ($key + 1) . "</td>
@@ -170,10 +170,10 @@ function stdfoot($stdfoot = false)
 								<td>" . htmlsafechars($value['query']) . "<br /></td>
 							</tr>
 						</tbody>";
+            }
+            $htmlfoot .= '</table></div></div>';
         }
-        $htmlfoot.= '</table></div></div>';
-    }
-        $htmlfoot.= "
+        $htmlfoot .= "
 				<div class='callout primary float-left'>
 				" . $TRINITY20['site_name'] . " {$lang['gl_stdfoot_querys_page']}" . $r_seconds . " {$lang['gl_stdfoot_querys_seconds']}<br />" . "
 				{$lang['gl_stdfoot_querys_server']}" . $queries . " {$lang['gl_stdfoot_querys_time']} " . ($queries != 1 ? "{$lang['gl_stdfoot_querys_times']}" : "") . "</br>
@@ -183,23 +183,23 @@ function stdfoot($stdfoot = false)
 				{$lang['gl_stdfoot_powered']}" . TBVERSION . "<br />
 				{$lang['gl_stdfoot_using']}{$lang['gl_stdfoot_using1']}<br />
 				{$lang['gl_stdfoot_support']}<a href='https://u-232-forum.duckdns.org'>{$lang['gl_stdfoot_here']}</a>";
-		$htmlfoot.= '</div></div><!--  End main outer container -->
+        $htmlfoot .= '</div></div><!--  End main outer container -->
                      <!-- Ends Footer -->
 		             <!-- localStorage for collapse -->
                      <script src="foundation/dist/assets/js/app.js"></script>
 					 <script src="templates/1/fontawesome/js/all.min.js"></script>';
-                }
-        $htmlfoot.='</body></html>';
+    }
+    $htmlfoot .= '</body></html>';
     return $htmlfoot;
 }
 function stdmsg($heading, $text)
 {
-$htmlout = "<div class='callout alert-callout-border alert'>";
-if ($heading) 
-	$htmlout.= "<strong><p>{$heading}</p></strong>";
-$htmlout.= "<p>{$text}</p>";
-$htmlout.= "</div>";
-return $htmlout;
+    $htmlout = "<div class='callout alert-callout-border alert'>";
+    if ($heading)
+        $htmlout .= "<strong><p>{$heading}</p></strong>";
+    $htmlout .= "<p>{$text}</p>";
+    $htmlout .= "</div>";
+    return $htmlout;
 }
 function StatusBar()
 {
@@ -209,41 +209,39 @@ function StatusBar()
     $downed = mksize($CURUSER['downloaded']);
     $connectable = "";
     if ($CURUSER['class'] < UC_VIP) {
-    $ratioq = (($CURUSER['downloaded'] > 0) ? ($CURUSER['uploaded'] / $CURUSER['downloaded']) : 1);
-if ($ratioq < 0.95) {
-	switch (true) {
-		case ($ratioq < 0.5):
-		$max = 2;
-		break;
-		case ($ratioq < 0.65):
-		$max = 3;
-		break;
-		case ($ratioq < 0.8):
-		$max = 5;
-		break;
-		case ($ratioq < 0.95):
-		$max = 10;
-		break;
-		default:
-	   $max = 10;
-	}
- }
- else {
- switch ($CURUSER['class']) {
-		case UC_USER:
-		$max = 20;
-		break;
-		case UC_POWER_USER:
-		$max = 30;
-		break;
-		default:
-	   $max = 99;
-	}	
- }   
-}
-else
-$max = 999;
-/*
+        $ratioq = (($CURUSER['downloaded'] > 0) ? ($CURUSER['uploaded'] / $CURUSER['downloaded']) : 1);
+        if ($ratioq < 0.95) {
+            switch (true) {
+                case ($ratioq < 0.5):
+                    $max = 2;
+                    break;
+                case ($ratioq < 0.65):
+                    $max = 3;
+                    break;
+                case ($ratioq < 0.8):
+                    $max = 5;
+                    break;
+                case ($ratioq < 0.95):
+                    $max = 10;
+                    break;
+                default:
+                    $max = 10;
+            }
+        } else {
+            switch ($CURUSER['class']) {
+                case UC_USER:
+                    $max = 20;
+                    break;
+                case UC_POWER_USER:
+                    $max = 30;
+                    break;
+                default:
+                    $max = 99;
+            }
+        }
+    } else
+        $max = 999;
+    /*
 //==Memcache peers
 if (XBT_TRACKER == true) {
     if ($MyPeersXbtCache = $cache->get('MyPeers_XBT_' . $CURUSER['id']) === false) {
@@ -290,7 +288,7 @@ if (XBT_TRACKER == true) {
         }
     } else $connectable = 'N/A';
 	*/
-	/*
+    /*
     if (($Achievement_Points = $cache->get('user_achievement_points_' . $CURUSER['id'])) === false) {
         $Sql = "SELECT users.id, users.username, usersachiev.achpoints, usersachiev.spentpoints FROM users LEFT JOIN usersachiev ON users.id = usersachiev.id WHERE users.id = " . sqlesc($CURUSER['id']) or sqlerr(__FILE__, __LINE__);
 		$result = $mysqli->query($Sql);
@@ -301,81 +299,81 @@ if (XBT_TRACKER == true) {
         $cache->set('user_achievement_points_' . $CURUSER['id'], $Achievement_Points);
     }
 	*/
-	$salty_username = isset($CURUSER['username']) ? "{$CURUSER['username']}" : '';
-	$salty = md5("Th15T3xtis5add3dto66uddy6he@water...". $salty_username . "");
+    $salty_username = isset($CURUSER['username']) ? "{$CURUSER['username']}" : '';
+    $salty = md5("Th15T3xtis5add3dto66uddy6he@water..." . $salty_username . "");
     $hitnruns = ($CURUSER['hit_and_run_total'] > 0) ? $CURUSER['hit_and_run_total'] : '0';
     $member_reputation = get_reputation($CURUSER);
     $usrclass = $StatusBar = "";
     if ($CURUSER['override_class'] != 255) $usrclass = "&nbsp;<b>[" . get_user_class_name($CURUSER['class']) . "]</b>&nbsp;";
-    else if ($CURUSER['class'] >= UC_STAFF) $usrclass = "&nbsp;<a href='".$TRINITY20['baseurl']."/setclass.php'><b>[" . get_user_class_name($CURUSER['class']) . "]</b></a>&nbsp;";
-	$StatusBar.= '<div class="dropdown-pane padding-0" id="profile-dropdown" data-dropdown data-hover="true" data-hover-pane="true" data-close-on-click="true">
+    else if ($CURUSER['class'] >= UC_STAFF) $usrclass = "&nbsp;<a href='" . $TRINITY20['baseurl'] . "/setclass.php'><b>[" . get_user_class_name($CURUSER['class']) . "]</b></a>&nbsp;";
+    $StatusBar .= '<div class="dropdown-pane padding-0" id="profile-dropdown" data-dropdown data-hover="true" data-hover-pane="true" data-close-on-click="true">
     <div class="grid-container">
       <div class="grid-x grid-margin-x">';
-    $StatusBar.= "<div class='card padding-1'><dl>
-		<dd class='text-center'>".(isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? get_user_class_name($CURUSER['class']) : $usrclass)."</dd>
+    $StatusBar .= "<div class='card padding-1'><dl>
+		<dd class='text-center'>" . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? get_user_class_name($CURUSER['class']) : $usrclass) . "</dd>
 		<dd>{$lang['gl_act_torrents']}&nbsp;:&nbsp;
 
-		<dd>".($TRINITY20['seedbonus_on'] ? "{$lang['gl_karma']}: <a href='".$TRINITY20['baseurl']."/mybonus.php'>{$CURUSER['seedbonus']}</a>&nbsp;" : "")."</dd>
-		<dd>{$lang['gl_invites']}: <a href='".$TRINITY20['baseurl']."/invite.php'>{$CURUSER['invites']}</a> | Free Slots: ".$CURUSER['freeslots']."</dd>
-		<dd>".($TRINITY20['rep_sys_on'] ? "{$lang['gl_rep']}:{$member_reputation}&nbsp;" : "")."</dd>
-		<dd>{$lang['gl_shareratio']}". member_ratio($CURUSER['uploaded'], $TRINITY20['ratio_free'] ? '0' : $CURUSER['downloaded'])."</dd>";
-		
-		if ($TRINITY20['ratio_free']) {
-    $StatusBar .= "<dd>{$lang['gl_uploaded']}:".$upped."</dd>";
+		<dd>" . ($TRINITY20['seedbonus_on'] ? "{$lang['gl_karma']}: <a href='" . $TRINITY20['baseurl'] . "/mybonus.php'>{$CURUSER['seedbonus']}</a>&nbsp;" : "") . "</dd>
+		<dd>{$lang['gl_invites']}: <a href='" . $TRINITY20['baseurl'] . "/invite.php'>{$CURUSER['invites']}</a> | Free Slots: " . $CURUSER['freeslots'] . "</dd>
+		<dd>" . ($TRINITY20['rep_sys_on'] ? "{$lang['gl_rep']}:{$member_reputation}&nbsp;" : "") . "</dd>
+		<dd>{$lang['gl_shareratio']}" . member_ratio($CURUSER['uploaded'], $TRINITY20['ratio_free'] ? '0' : $CURUSER['downloaded']) . "</dd>";
+
+    if ($TRINITY20['ratio_free']) {
+        $StatusBar .= "<dd>{$lang['gl_uploaded']}:" . $upped . "</dd>";
     } else {
         $StatusBar .= "<dd>{$lang['gl_uploaded']}:{$upped}</dd>
 		<dd>{$lang['gl_downloaded']}:{$downed}</dd>
 		<dd>{$lang['gl_connectable']}:{$connectable}</dd>";
-}
-	$StatusBar .="<dd>{$lang['gl_hnr']}: <a href='".$TRINITY20['baseurl']."/hnr.php?id=".$CURUSER['id']."'>{$hitnruns}</a>&nbsp;</dd>
+    }
+    $StatusBar .= "<dd>{$lang['gl_hnr']}: <a href='" . $TRINITY20['baseurl'] . "/hnr.php?id=" . $CURUSER['id'] . "'>{$hitnruns}</a>&nbsp;</dd>
 	<dd><a href='#' onclick='themes();'><i class='fas fa-palette blueiconcolor' title='{$lang['gl_theme']}'></i></a> | <a href='#' onclick='language_select();'><i class='fas fa-language' title='{$lang['gl_language_select']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/pm_system.php'><i class='far fa-envelope' title='{$lang['gl_pms']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/usercp.php'><i class='fas fa-user-edit' title='{$lang['gl_usercp']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/friends.php'><i class='fas fa-user-friends' title='{$lang['gl_friends']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/logout.php?hash_please={$salty}'><i class='fas fa-power-off rediconcolor' title='{$lang['gl_logout']}'></i></a></dd></dl>";
-	$StatusBar .= "</div></div></div></div>";
+    $StatusBar .= "</div></div></div></div>";
     return $StatusBar;
 }
 function GlobalAlert()
 {
-	global $CURUSER, $TRINITY20, $lang, $free, $_NO_COMPRESS, $query_stat, $querytime, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
-	$htmlout = '';
-	if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_REPORTS && $BLOCKS['global_staff_report_on']) {
-    require_once (BLOCK_DIR.'global/report.php');
+    global $CURUSER, $TRINITY20, $lang, $free, $_NO_COMPRESS, $query_stat, $querytime, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
+    $htmlout = '';
+    if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_REPORTS && $BLOCKS['global_staff_report_on']) {
+        require_once(BLOCK_DIR . 'global/report.php');
     }
     if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_UPLOADAPP && $BLOCKS['global_staff_uploadapp_on']) {
-    require_once (BLOCK_DIR.'global/uploadapp.php');
+        require_once(BLOCK_DIR . 'global/uploadapp.php');
     }
     if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_HAPPYHOUR && $BLOCKS['global_happyhour_on']) {
-    require_once (BLOCK_DIR.'global/happyhour.php');
+        require_once(BLOCK_DIR . 'global/happyhour.php');
     }
     if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_STAFF_MESSAGE && $BLOCKS['global_staff_warn_on']) {
-    require_once (BLOCK_DIR.'global/staffmessages.php');
+        require_once(BLOCK_DIR . 'global/staffmessages.php');
     }
     if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_NEWPM && $BLOCKS['global_message_on']) {
-    require_once (BLOCK_DIR.'global/message.php');
+        require_once(BLOCK_DIR . 'global/message.php');
     }
     if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_DEMOTION && $BLOCKS['global_demotion_on']) {
-    require_once (BLOCK_DIR.'global/demotion.php');
+        require_once(BLOCK_DIR . 'global/demotion.php');
     }
-	
+
     if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_FREELEECH && $BLOCKS['global_freeleech_on']) {
-    require_once (BLOCK_DIR.'global/freeleech.php');
+        require_once(BLOCK_DIR . 'global/freeleech.php');
     }
-	
+
     if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_CRAZYHOUR && $BLOCKS['global_crazyhour_on']) {
-    require_once (BLOCK_DIR.'global/crazyhour.php');
+        require_once(BLOCK_DIR . 'global/crazyhour.php');
     }
-	
+
     if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_BUG_MESSAGE && $BLOCKS['global_bug_message_on']) {
-    require_once (BLOCK_DIR.'global/bugmessages.php');
+        require_once(BLOCK_DIR . 'global/bugmessages.php');
     }
     if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_FREELEECH_CONTRIBUTION && $BLOCKS['global_freeleech_contribution_on']) {
-    require_once (BLOCK_DIR.'global/freeleech_contribution.php');
+        require_once(BLOCK_DIR . 'global/freeleech_contribution.php');
     }
-	return $htmlout;	
+    return $htmlout;
 }
 function TopBar()
 {
     global $CURUSER, $TRINITY20, $lang, $cache;
     $TopBar = '';
-    $TopBar.= "<div data-sticky-container>
+    $TopBar .= "<div data-sticky-container>
     <div class='title-bar' data-sticky data-responsive-toggle='topbar-menu' data-hide-for='medium'>
   <button class='menu-icon' type='button' data-toggle='topbar-menu'></button>
   <div class='title-bar-title'>U-232 Trinity RC</div>
@@ -433,10 +431,10 @@ function TopBar()
 <li><a href='{$TRINITY20['baseurl']}/help.php'><i class='fas fa-question'></i>Help</a></li>
     </ul>
   </div>
-  <div class='top-bar-right'>
+  <div class='top-bar-right' role='menubar'>
     <ul class='menu'>
-      <li><a href='https://github.com/iseeyoucopy/U-232-Trinity-RC'><i class='fab fa-github fa-lg'></i></a></li>
-      <a data-toggle='profile-dropdown'><i class='fas fa-user-secret'></i>".$CURUSER['username'] ."</a>
+      <li><a style='color: #fff' href='https://github.com/iseeyoucopy/U-232-Trinity-RC'><i class='fab fa-github fa-lg'></i></a></li>
+      <li><a style='color: #fff' data-toggle='profile-dropdown'><i class='fas fa-user-secret'></i>" . $CURUSER['username'] . "</a></li>
     </ul>
   </div>
 </div>
@@ -444,12 +442,11 @@ function TopBar()
     return $TopBar;
 }
 function AlertBar()
-{	
-	global $CURUSER, $TRINITY20, $lang, $cache;
-	$htmlout = '';
-	$htmlout = '<div class="callout clearfix">';
-		$htmlout .= GlobalAlert();
-	$htmlout.= "</div>";
-	return $htmlout;
+{
+    global $CURUSER, $TRINITY20, $lang, $cache;
+    $htmlout = '';
+    $htmlout = '<div class="callout clearfix">';
+    $htmlout .= GlobalAlert();
+    $htmlout .= "</div>";
+    return $htmlout;
 }
-?>
