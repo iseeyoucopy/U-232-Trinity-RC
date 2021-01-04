@@ -84,8 +84,10 @@ $user_enableplay = isset($row["enableplay"]) ? htmlsafechars($row["enableplay"])
 if ($user_enableplay == "no") {
     stderr($lang['gl_sorry'], "" . htmlsafechars($CURUSER["username"]) . " {$lang['casino_your_banned_from_casino']}");
 }
-if (($user_win - $user_lost) > $max_download_user) {
-    stderr($lang['gl_sorry'], "" . htmlsafechars($CURUSER["username"]) . " {$lang['casino_you_have_reached_the_max_dl_for_a_single_user']}");
+if (is_numeric($user_win) && is_numeric($user_lost)) {
+    if (($user_win - $user_lost) > $max_download_user) {
+        stderr($lang['gl_sorry'], "" . htmlsafechars($CURUSER["username"]) . " {$lang['casino_you_have_reached_the_max_dl_for_a_single_user']}");
+    }
 }
 if ($CURUSER["downloaded"] > 0) {
     $ratio = number_format($CURUSER["uploaded"] / $CURUSER["downloaded"], 2);
@@ -503,8 +505,12 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
     $HTMLOUT .= tr($lang['casino_you_can_win'], mksize($max_download_user), 1);
     $HTMLOUT .= tr($lang['casino_won'], mksize($user_win), 1);
     $HTMLOUT .= tr($lang['casino_lost'], mksize($user_lost), 1);
-    $HTMLOUT .= tr($lang['casino_ratio'], $casino_ratio_user, 1);
-    $HTMLOUT .= tr($lang['casino_deposit_on_p2p'], mksize($user_deposit + $nobits));
+    if (is_numeric($casino_ratio_user)) {
+        $HTMLOUT .= tr($lang['casino_ratio'], $casino_ratio_user, 1);
+    }
+    if (is_numeric($user_deposit) && is_numeric($nobits)) {
+        $HTMLOUT .= tr($lang['casino_deposit_on_p2p'], mksize($user_deposit + $nobits));
+    }
     $HTMLOUT .= "</table>
             </td><td align='center'>
             <h1>{$lang['casino_global_stats']}</h1>
@@ -524,4 +530,3 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
     $HTMLOUT .= "</table></td></tr></table></div>";
 }
 echo stdhead("{$TRINITY20['site_name']} {$lang['casino_stdhead']}") . $HTMLOUT . stdfoot();
-?>
