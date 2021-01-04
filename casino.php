@@ -75,12 +75,12 @@ if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) != 1) {
     $result = sql_query($query) or sqlerr(__FILE__, __LINE__);
 }
 $row = mysqli_fetch_assoc($result);
-$user_win = $row["win"];
-$user_lost = $row["lost"];
-$user_trys = (int) $row["trys"];
-$user_date = (int) $row["date"];
-$user_deposit = $row["deposit"];
-$user_enableplay = htmlsafechars($row["enableplay"]);
+$user_win = isset($row["win"]) ? $row["win"] : '';
+$user_lost = isset($row["lost"]) ? $row["lost"] : '';
+$user_trys = isset($row["trys"]) ? (int) $row["trys"] : '';
+$user_date = isset($row["date"]) ? (int) $row["date"] : '';
+$user_deposit = isset($row["deposit"]) ? $row["deposit"] : '';
+$user_enableplay = isset($row["enableplay"]) ? htmlsafechars($row["enableplay"]) : '';
 if ($user_enableplay == "no") {
     stderr($lang['gl_sorry'], "" . htmlsafechars($CURUSER["username"]) . " {$lang['casino_your_banned_from_casino']}");
 }
