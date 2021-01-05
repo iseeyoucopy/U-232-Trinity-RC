@@ -2485,6 +2485,7 @@ CREATE TABLE IF NOT EXISTS `stats` (
   `powerusers` int(10) UNSIGNED NOT NULL DEFAULT '1',
   `disabled` int(10) UNSIGNED NOT NULL DEFAULT '1',
   `uploaders` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `vips` int(10) UNSIGNED NOT NULL DEFAULT '1',
   `moderators` int(10) UNSIGNED NOT NULL DEFAULT '1',
   `administrators` int(10) UNSIGNED NOT NULL DEFAULT '1',
   `sysops` int(10) UNSIGNED NOT NULL DEFAULT '1'
