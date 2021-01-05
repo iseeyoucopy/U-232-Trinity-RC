@@ -72,7 +72,6 @@ function get_cache_array()
         'ie_user_alert' => 1,
         'active_users_on' => 1,
         'active_24h_users_on' => 1,
-        'active_irc_users_on' => 1,
         'active_birthday_users_on' => 1,
         'disclaimer_on' => 1,
         'shoutbox_on' => 1,
@@ -117,7 +116,6 @@ function get_cache_array()
         'userdetails_share_ratio_on' => 1,
         'userdetails_seedtime_ratio_on' => 1,
         'userdetails_seedbonus_on' => 1,
-        'userdetails_irc_stats_on' => 1,
         'userdetails_connectable_port_on' => 1,
         'userdetails_avatar_on' => 1,
         'userdetails_userclass_on' => 1,
@@ -157,7 +155,6 @@ $HTMLOUT.= "
     <tr><td width='60%'>{$lang['block_staff_shout']}<br />{$lang['block_staff_shout_set']}</td><td width='40%'><div style='width: auto;' align='right'><#staff_shoutbox_on#></div></td></tr>
     <tr><td width='60%'>{$lang['block_active_user']}<br />{$lang['block_active_user_set']}</td><td width='40%'><div style='width: auto;' align='right'><#active_users_on#></div></td></tr>
     <tr><td width='60%'>{$lang['block_active_user24']}<br />{$lang['block_active_user24_set']}</td><td width='40%'><div style='width: auto;' align='right'><#active_24h_users_on#></div></td></tr>
-    <tr><td width='60%'>{$lang['block_active_irc']}<br />{$lang['block_active_irc_set']}</td><td width='40%'><div style='width: auto;' align='right'><#active_irc_users_on#></div></td></tr>
     <tr><td width='60%'>{$lang['block_birthday']}<br />{$lang['block_birthday_set']}</td><td width='40%'><div style='width: auto;' align='right'><#active_birthday_users_on#></div></td></tr>
     <tr><td width='60%'>{$lang['block_stats']}<br />{$lang['block_stats_set']}</td><td width='40%'><div style='width: auto;' align='right'><#stats_on#></div></td></tr>
     <tr><td width='60%'>{$lang['block_disclaimer']}<br />{$lang['block_disclaimer_set']}</td><td width='40%'><div style='width: auto;' align='right'><#disclaimer_on#></div></td></tr>
@@ -210,7 +207,6 @@ $HTMLOUT.= "
 	<tr><td width='60%'>{$lang['block_shareratio']}<br />{$lang['block_shareratio_set']}</td><td width='40%'><div style='width: auto;' align='right'><#userdetails_share_ratio_on#></div></td></tr>    
 	<tr><td width='60%'>{$lang['block_seedtime']}<br />{$lang['block_seedtime_set']}</td><td width='40%'><div style='width: auto;' align='right'><#userdetails_seedtime_ratio_on#></div></td></tr>    
 	<tr><td width='60%'>{$lang['block_seedbonus']}<br />{$lang['block_seedbonus_set']}</td><td width='40%'><div style='width: auto;' align='right'><#userdetails_seedbonus_on#></div></td></tr>    
-	<tr><td width='60%'>{$lang['block_ircstats']}<br />{$lang['block_ircstats_set']}</td><td width='40%'><div style='width: auto;' align='right'><#userdetails_irc_stats_on#></div></td></tr>    
 	<tr><td width='60%'>{$lang['block_conn_port']}<br />{$lang['block_conn_port_set']}</td><td width='40%'><div style='width: auto;' align='right'><#userdetails_connectable_port_on#></div></td></tr>    
 	<tr><td width='60%'>{$lang['block_avatar']}<br />{$lang['block_avatar_set']}</td><td width='40%'><div style='width: auto;' align='right'><#userdetails_avatar_on#></div></td></tr>    
 	<tr><td width='60%'>{$lang['block_userclass']}<br />{$lang['block_userclass_set']}</td><td width='40%'><div style='width: auto;' align='right'><#userdetails_userclass_on#></div></td></tr>    

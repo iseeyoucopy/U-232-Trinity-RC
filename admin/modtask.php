@@ -994,13 +994,13 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     $cache->delete('inbox_new_' . $userid);
     $cache->delete('inbox_new_sb_' . $userid);
     if ($curuser_cache) {
-        $cache->update_row('MyUser_' . $userid, $curuser_cache, $TRINITY20['expires']['curuser']);
+        $cache->update_row($keys['my_userid'] . $userid, $curuser_cache, $TRINITY20['expires']['curuser']);
     }
     if ($user_cache) {
         $cache->update_row('user' . $userid, $user_cache, $TRINITY20['expires']['user_cache']);
     }
     if ($stats_cache) {
-        $cache->update_row('userstats_' . $userid, $stats_cache, $TRINITY20['expires']['u_stats']);
+        $cache->update_row($keys['user_stats'] . $userid, $stats_cache, $TRINITY20['expires']['u_stats']);
     }
     if ($user_stats_cache) {
         $cache->update_row('user_stats_' . $userid, $user_stats_cache, $TRINITY20['expires']['user_stats']);
@@ -1018,7 +1018,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     $row = mysqli_fetch_assoc($res);
     $row['opt1'] = $row['opt1'];
     $row['opt2'] = $row['opt2'];
-    $cache->update_row('MyUser_' . $userid, [
+    $cache->update_row($keys['my_userid'] . $userid, [
         'opt1' => $row['opt1'],
         'opt2' => $row['opt2']
     ], $TRINITY20['expires']['curuser']);

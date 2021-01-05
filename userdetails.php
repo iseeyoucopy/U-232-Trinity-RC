@@ -92,7 +92,6 @@ if (($user = $cache->get('user' . $id)) === false) {
         'parked_until',
         'bjwins',
         'bjlosses',
-        'irctotal',
         'last_access_numb',
         'onlinetime',
         'hits',
@@ -170,7 +169,6 @@ if (($user = $cache->get('user' . $id)) === false) {
         'hash1',
         'suspended',
         'warn_reason',
-        'onirc',
         'birthday',
         'got_blocks',
         'pm_on_delete',
@@ -295,7 +293,7 @@ if (!(isset($_GET["hit"])) && $CURUSER["id"] <> $user["id"]) {
         sql_query("UPDATE users SET hits = hits + 1 WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         // do update hits userdetails cache
         $update['user_hits'] = ($user['hits'] + 1);
-        $cache->update_row('MyUser_' . $id, [
+        $cache->update_row($keys['my_userid'] . $id, [
             'hits' => $update['user_hits']
         ], $TRINITY20['expires']['curuser']);
         $cache->update_row('user' . $id, [
@@ -385,7 +383,7 @@ $HTMLOUT.= ($CURUSER["id"] <> $user["id"] & $blocks > 0) ? "<a href='friends.php
 //=== Link to member contact mail - updated 2020 by iseeyoucopy
 $HTMLOUT.= ($CURUSER['class'] >= UC_STAFF || $user['show_email'] === 'yes') ? '<a href="mailto:' . /*decrypt_email(*/htmlsafechars($user['email'])/*)*/ . '" target="_blank"><dd><i class="fas fa-envelope"></i>' . $lang['userdetails_send_email'] . '</dd></a>' : '';
 //== Link Report User - updated 2020 by iseeyoucopy
-$HTMLOUT.= "<a href='report.php?type=User&amp;id=" . (int)$user["id"] . "'><dd><i class='fas fa-comment-alt'></i>{$lang['userdetails_msg_btn']}</dd></a>"; 
+$HTMLOUT.= "<a href='report.php?type=User&amp;id=" . (int)$user["id"] . "'><dd><i class='fas fa-comment-alt'></i>{$lang['userdetails_report']}</dd></a>"; 
 //== Link to usercp  - updated 2020 by iseeyoucopy
 $HTMLOUT.= "".($CURUSER['id'] == $user['id'] ? "<a href='{$TRINITY20['baseurl']}/usercp.php?action=default'><dd>{$lang['userdetails_editself']}</dd></a>" : "");
  $HTMLOUT.= ($CURUSER['id'] == $user['id'] ? "<a href='{$TRINITY20['baseurl']}/view_announce_history.php'><dd>{$lang['userdetails_announcements']}</dd></a>" : "") . "";
@@ -538,9 +536,6 @@ $HTMLOUT.= '<tr><td class="rowhead">'.$lang['userdetails_currentmood'].'</td><td
 }
 if (curuser::$blocks['userdetails_page'] & block_userdetails::SEEDBONUS && $BLOCKS['userdetails_seedbonus_on']) {
     require_once (BLOCK_DIR . 'userdetails/seedbonus.php');
-}
-if (curuser::$blocks['userdetails_page'] & block_userdetails::IRC_STATS && $BLOCKS['userdetails_irc_stats_on']) {
-    require_once (BLOCK_DIR . 'userdetails/irc.php');
 }
 if (curuser::$blocks['userdetails_page'] & block_userdetails::REPUTATION && $BLOCKS['userdetails_reputation_on'] && $TRINITY20['rep_sys_on']) {
     require_once (BLOCK_DIR . 'userdetails/reputation.php');

@@ -1,5 +1,4 @@
 <?php
-$checkbox = $USERBLOCKS['index_ie_alert_on'] == 'yes' ? "checked" : "";
 $HTMLOUT.= "
 <tr>
 	<td>{$lang['user_b_nb1']}</td>
@@ -40,11 +39,6 @@ $HTMLOUT.= "<tr>
 </td>
 </tr>
 <tr>
-<td>{$lang['user_b_irc1']}</td>
-	<td>
-	Yes<input type='radio' name='irc_active_users_on' value='yes' " . ($USERBLOCKS['index_irc_active_users_on'] == 'yes' ? 'checked=\'checked\'' : '') . " />
-	No<input type='radio' name='irc_active_users_on' value='no' " . ($USERBLOCKS['index_irc_active_users_on'] == 'no' ? 'checked=\'checked\'' : '') . " />
-</td>
 </tr>
 <tr>
 <td>{$lang['user_b_bir1']}</td>
@@ -161,4 +155,3 @@ $HTMLOUT.= "<tr>
 
 <tr><td colspan='2' class='table' align='center'><input class='btn btn-default' type='submit' value='{$lang['user_b_butt']}' /></td></tr>
 </table>";
-?>

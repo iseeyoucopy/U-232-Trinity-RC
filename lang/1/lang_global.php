@@ -12,6 +12,7 @@
  */
 $lang = array(
     //Mod admin link
+    'err_mysql_err' => 'There was a mysql error : %s, report to staff',
     'gl_admin' => "Admincp",
     'gl_userblocks' => "User Blocks",
     'gl_profile' => "Profile",

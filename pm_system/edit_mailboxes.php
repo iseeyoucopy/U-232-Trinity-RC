@@ -45,7 +45,7 @@ if (isset($_POST['action2'])) {
         $cache->update_row('user' . $CURUSER['id'], [
             'pms_per_page' => $change_pm_number
         ], $TRINITY20['expires']['user_cache']);
-        $cache->update_row('MyUser_' . $CURUSER['id'], [
+        $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
             'pms_per_page' => $change_pm_number
         ], $TRINITY20['expires']['curuser']);
         header('Location: pm_system.php?action=edit_mailboxes&pm=1');
@@ -149,7 +149,7 @@ if (isset($_POST['action2'])) {
         $curuser_cache['notifs'] = $notifs;
         $user_cache['notifs'] = $notifs;
         if ($curuser_cache) {
-            $cache->update_row('MyUser_' . $CURUSER['id'], $curuser_cache, $TRINITY20['expires']['curuser']);
+            $cache->update_row($keys['my_userid'] . $CURUSER['id'], $curuser_cache, $TRINITY20['expires']['curuser']);
         }
         if ($user_cache) {
             $cache->update_row('user' . $CURUSER['id'], $user_cache, $TRINITY20['expires']['user_cache']);

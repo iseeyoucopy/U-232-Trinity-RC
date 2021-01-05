@@ -8,8 +8,53 @@
  */
 
 // List containing the registered chat users:
-$users = array();
+//$users = array();
+/*
+if ($users === false || is_null($users)) {
+	if(isset($CURUSER)){
+	$all_users = sql_query('SELECT id, username, status, class, override_class FROM users WHERE id = '. $CURUSER['id'] . '');
+    $all_users = $this->_fluent->from('users')
+                               ->select(null)
+                               ->select('id')
+                               ->select('chatpost')
+                               ->select('status')
+                               ->select('class')
+                               ->select('override_class');
 
+    foreach ($all_users as $user) {
+        $user_class = $user['override_class'] != 255 ? (int) $user['override_class'] : (int) $user['class'];
+        $users[$user['id']]['userRole'] = $user_class;
+		$users[$user['id']]['userName'] = $this->trimUserName($user['username']);
+		
+		if($user_class == UC_CEO){
+			$users[$user['id']]['userRole'] = AJAX_CHAT_SYSOP;
+		}elseif ($user_class == UC_ADMINISTRATOR){
+			$users[$user['id']]['userRole'] = AJAX_CHAT_ADMIN;			
+		}elseif ($user_class == UC_MODERATOR){
+			$users[$user['id']]['userRole'] = AJAX_CHAT_MODERATOR;
+		}elseif ($user_class == UC_UPLOADER){
+			$users[$user['id']]['userRole'] = AJAX_CHAT_UPLOADER;
+		}elseif ($user_class == UC_VIP){
+			$users[$user['id']]['userRole'] = AJAX_CHAT_VIP;
+		}elseif ($user_class == UC_POWER_USER){
+			$users[$user['id']]['userRole'] = AJAX_CHAT_POWER_USER;
+		}else if ($user_class == UC_USER){
+			$users[$user['id']]['userRole'] = AJAX_CHAT_USER;
+		}
+		
+		if($user_class == UC_SYSOP){
+			$users[$user['id']]['channels'] = $TRINITY20['ajax_chat']['sysop_access'];
+		}elseif ($user_class == UC_ADMINISTRATOR){
+			$users[$user['id']]['channels'] = $TRINITY20['ajax_chat']['staff_access'];
+		}elseif ($user_class == UC_MODERATOR){
+			$users[$user['id']]['channels'] = $TRINITY20['ajax_chat']['staff_access'];
+		}else {
+			$users[$user['id']]['channels'] = $TRINITY20['ajax_chat']['staff_access'];
+		}	
+    }
+	}
+}*/
+/*
 // Default guest user (don't delete this one):
 $users[0] = array();
 $users[0]['userRole'] = AJAX_CHAT_GUEST;
@@ -58,5 +103,5 @@ $users[7]['userRole'] = AJAX_CHAT_USER;
 $users[7]['userName'] = 'user';
 $users[7]['password'] = 'user';
 $users[7]['channels'] = array(1,2,3);
-
+*/
 ?>

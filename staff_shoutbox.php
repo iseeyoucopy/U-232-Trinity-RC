@@ -47,7 +47,7 @@ if ((isset($_GET['show_staffshout'])) && (($show_shout = htmlsafechars($_GET['sh
     $row = mysqli_fetch_assoc($res);
     $row['opt2'] = (int) $row['opt2'];
     // update caches
-    $cache->update_row('MyUser_' . $CURUSER['id'], [
+    $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
         'opt2' => $row['opt2']
     ], $TRINITY20['expires']['user_cache']);
     $cache->update_row('user_' . $CURUSER['id'], [
@@ -291,7 +291,7 @@ if (isset($_GET['staff_sent']) && ($_GET['staff_sent'] == "yes")) {
                 $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - [ShoutBox] User has been gagged by " . $CURUSER["username"] . "\n" . $a[2];
                 $msg = "[b]" . htmlsafechars($user) . "[/b] - has been gagged by " . $CURUSER["username"];
                 $query = "UPDATE users SET chatpost='0', modcomment = concat(" . sqlesc($modcomment) . ", modcomment) WHERE id = " . sqlesc($a[0]);
-                $cache->update_row('MyUser_' . $a[0], [
+                $cache->update_row($keys['my_userid'] . $a[0], [
                     'chatpost' => 0
                 ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $a[0], [
@@ -307,7 +307,7 @@ if (isset($_GET['staff_sent']) && ($_GET['staff_sent'] == "yes")) {
                 $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - [ShoutBox] User has been ungagged by " . $CURUSER["username"] . "\n" . $a[2];
                 $msg = "[b]" . htmlsafechars($user) . "[/b] - has been ungagged by " . $CURUSER["username"];
                 $query = "UPDATE users SET chatpost='1', modcomment = concat(" . sqlesc($modcomment) . ", modcomment) WHERE id = " . sqlesc($a[0]);
-                $cache->update_row('MyUser_' . $a[0], [
+                $cache->update_row($keys['my_userid'] . $a[0], [
                     'chatpost' => 1
                 ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $a[0], [
@@ -323,7 +323,7 @@ if (isset($_GET['staff_sent']) && ($_GET['staff_sent'] == "yes")) {
                 $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - [ShoutBox] User has been warned by " . $CURUSER["username"] . "\n" . $a[2];
                 $msg = "[b]" . htmlsafechars($user) . "[/b] - has been warned by " . $CURUSER["username"];
                 $query = "UPDATE users SET warned='1', modcomment = concat(" . sqlesc($modcomment) . ", modcomment) WHERE id = " . sqlesc($a[0]);
-                $cache->update_row('MyUser_' . $a[0], [
+                $cache->update_row($keys['my_userid'] . $a[0], [
                     'warned' => 1
                 ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $a[0], [
@@ -339,7 +339,7 @@ if (isset($_GET['staff_sent']) && ($_GET['staff_sent'] == "yes")) {
                 $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - [ShoutBox] User has been unwarned by " . $CURUSER["username"] . "\n" . $a[2];
                 $msg = "[b]" . htmlsafechars($user) . "[/b] - warning removed by " . $CURUSER["username"];
                 $query = "UPDATE users SET warned='0', modcomment = concat(" . sqlesc($modcomment) . ", modcomment) WHERE id = " . sqlesc($a[0]);
-                $cache->update_row('MyUser_' . $a[0], [
+                $cache->update_row($keys['my_userid'] . $a[0], [
                     'warned' => 0
                 ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $a[0], [
@@ -355,7 +355,7 @@ if (isset($_GET['staff_sent']) && ($_GET['staff_sent'] == "yes")) {
                 $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - [ShoutBox] User has been disabled by " . $CURUSER["username"] . "\n" . $a[2];
                 $msg = "[b]" . htmlsafechars($user) . "[/b] - has been disabled by " . $CURUSER["username"];
                 $query = "UPDATE users SET enabled='no', modcomment = concat(" . sqlesc($modcomment) . ", modcomment) WHERE id = " . sqlesc($a[0]);
-                $cache->update_row('MyUser_' . $a[0], [
+                $cache->update_row($keys['my_userid'] . $a[0], [
                     'enabled' => 'no'
                 ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $a[0], [
@@ -371,7 +371,7 @@ if (isset($_GET['staff_sent']) && ($_GET['staff_sent'] == "yes")) {
                 $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - [ShoutBox] User has been enabled by " . $CURUSER["username"] . "\n" . $a[2];
                 $msg = "[b]" . htmlsafechars($user) . "[/b] - has been enabled by " . $CURUSER["username"];
                 $query = "UPDATE users SET enabled='yes', modcomment = concat(" . sqlesc($modcomment) . ", modcomment) WHERE id = " . sqlesc($a[0]);
-                $cache->update_row('MyUser_' . $a[0], [
+                $cache->update_row($keys['my_userid'] . $a[0], [
                     'enabled' => 'yes'
                 ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $a[0], [

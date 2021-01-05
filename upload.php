@@ -22,7 +22,6 @@ $lang = array_merge(load_language('global') , load_language('upload') , load_lan
 $stdhead = array(
     /** include css **/
     'css' => array(
-        'forums',
         'style2',
         'bbcode'
     )
@@ -30,7 +29,7 @@ $stdhead = array(
 $stdfoot = array(
     /** include js **/
     'js' => array(
-         'FormManager',
+        'FormManager',
         'getname',
         'shout'
     )
@@ -42,95 +41,123 @@ $HTMLOUT = $offers = $subs_list = $request = $descr = '';
 if ($CURUSER['class'] < UC_UPLOADER OR $CURUSER["uploadpos"] == 0 || $CURUSER["uploadpos"] > 1 || $CURUSER['suspended'] == 'yes') stderr($lang['upload_sorry'], $lang['upload_no_auth']);
 //==== request dropdown
 $res_request = sql_query('SELECT id, request_name FROM requests WHERE filled_by_user_id = 0 ORDER BY request_name ASC');
-$request ='
-<div class="col-sm-4">'.$lang['gl_requests'].'<select class="form-control" name="request"><option class="body" value="0"></option>';
-
+$request ="<div class='input-group'>
+<span class='input-group-label'>{$lang['gl_requests']}</span>
+    <select class='input-group-field' name='request' aria-describedby='requestHelpText'>
+        <option value='0'></option>";
 if ($res_request) {
     while ($arr_request = mysqli_fetch_assoc($res_request)) {
-        $request.= '<option class="body" value="' . (int)$arr_request['id'] . '">' . htmlsafechars($arr_request['request_name']) . '</option>';
+        $request.= '<option value="' . (int)$arr_request['id'] . '">' . htmlsafechars($arr_request['request_name']) . '</option>';
     }
 } else {
-    $request.= '<option class="body" value="0">'.$lang['upload_add_noreq'].'</option>';
+    $request.= "<option value='0'>{$lang['upload_add_noreq']}</option>";
 }
-$request.= '</select>'.$lang['upload_add_fill'].'</div> ';
+$request.= "</select></div><p class='help-text' id='requestHelpText'>{$lang['upload_add_fill']}</p>";
 //=== offers list if member has made any offers
 $res_offer = sql_query('SELECT id, offer_name FROM offers WHERE offered_by_user_id = ' . sqlesc($CURUSER['id']) . ' AND status = \'approved\' ORDER BY offer_name ASC');
 if (mysqli_num_rows($res_offer) > 0) {
-    $offers = '  
-   <div class="row"><div class="col-sm-12"><select class="form-control" name="offer"><option class="body" value="0"></option>';
-    $message = '<option class="body" value="0">'.$lang['upload_add_offer'].'</option>';
+    $offers = "  
+    <div class='input-group'>
+    <span class='input-group-label'>{$lang['gl_offers']}</span>
+    <select class='input-group-field' name='offer'  aria-describedby='offerHelpText'>
+        <option value='0'></option>";
+    $message = "<option value='0'>{$lang['upload_add_offer']}</option>";
     while ($arr_offer = mysqli_fetch_assoc($res_offer)) {
-        $offers.= '<option class="body" value="' . (int)$arr_offer['id'] . '">' . htmlsafechars($arr_offer['offer_name']) . '</option>';
+        $offers.= '<option value="' . (int)$arr_offer['id'] . '">' . htmlsafechars($arr_offer['offer_name']) . '</option>';
     }
-    $offers.= '</select></div></div>'.$lang['upload_add_offer2'].'';
+    $offers.= "</select></div><p class='help-text' id='offerHelpText'>{$lang['upload_add_offer2']}";
 }
-$HTMLOUT.= "
-    <script type='text/javascript'>
+$HTMLOUT.= "<script type='text/javascript'>
     window.onload = function() {
     setupDependencies('upload'); //name of form(s). Seperate each with a comma (ie: 'weboptions', 'myotherform' )
     };
     </script>
-<div style='width:82%; margin-left:9%;'> 
-    <form class='form-horizontal panel inverse' role='form' name='upload' enctype='multipart/form-data' action='./takeupload.php' method='post'>
- <div class='row'>
-<div class='col-sm-12'><input class='form-control' type='hidden' name='MAX_FILE_SIZE' value='{$TRINITY20['max_torrent_size']}'></div>
-</div>
-<div class='row'>
-<div class='col-sm-3 col-sm-offset-1' style='text-align:right;'>{$lang['upload_announce_url']}:</div>
-<div class='col-sm-5'><input type=\"text\" class=\"form-control textonly\" value=\"" . $TRINITY20['announce_urls'][0] . "\" onclick=\"select()\" /></div></div><br />";
-$descr = strip_tags(isset($_POST['descr']) ? trim($_POST['descr']) : '');
-$HTMLOUT.= "<div class='row'>
-<div class='col-sm-12'><input class='form-control' placeholder='{$lang['upload_imdb_url']}' type='text' name='url'>{$lang['upload_imdb_tfi']}{$lang['upload_imdb_rfmo']}</div>
-</div><br />
-<div class='row'>
-<div class='col-sm-12'><input class='form-control' placeholder='{$lang['upload_poster']}' type='text' name='poster'>{$lang['upload_poster1']}</div>
-</div><br />
-<div class='row'>
-<div class='col-sm-12'>
-<input class='form-control' placeholder='{$lang['upload_add_youtub']}' type='text' name='youtube'>{$lang['upload_youtube']}</div>
-</div><br />
-<div class='row'>
-<div class='col-sm-2'>{$lang['upload_bitbucket']}</div><br />
-<div class='col-sm-5'><p class='shrink'><iframe class='embed-responsive1' src='imgup.html'></iframe></p>{$lang['upload_bitbucket_1']}</div>
-</div><br />
-<div class='row'>
-<div class='col-sm-12'>  
-{$lang['upload_torrent']}<input class='btn btn-default btn-adjust' type='file' name='file' id='torrent' onchange='getname()'></div>
-</div><br />
-<div class='row'>
-<div class='col-sm-12'>  
-<input class='form-control' placeholder='{$lang['upload_name']}' type='text' id='name' name='name'>({$lang['upload_filename']})</div>
-</div><br />
-<div class='row'>
-<div class='col-sm-12'>    
-<input class='form-control' placeholder='{$lang['upload_tags']}' type='text' name='tags'>({$lang['upload_tag_info']})</div>  
-</div><br />
-<div class='row'>
-<div class='col-sm-12'> 
-<input class='form-control' placeholder='{$lang['upload_small_description']}' type='text' name='description'>({$lang['upload_small_descr']})</div>
-</div><br />
-<div class='row'>
-<div class='col-sm-12'> 
-{$lang['upload_nfo']}<input class='btn btn-default btn-adjust' type='file' name='nfo'>({$lang['upload_nfo_info']})</div>
-</div><br />
-<div class='row'>
-<div class='col-sm-8'> 
-<p style='white-space: nowrap;'>{$lang['upload_description']}</p><p>". textbbcode("upload","descr")."<br />({$lang['upload_html_bbcode']})</p></div></div>";
-$s = "<div class='row'><div class='col-sm-4'>{$lang['upload_type']}<select class='form-control' name='type'>\n<option value='0'>({$lang['upload_choose_one']})</option>\n";       
+        <form role='form' name='upload' enctype='multipart/form-data' action='./takeupload.php' method='post'>
+        <div class='grid-x grid-margin-x callout'>
+        <div class='cell large-auto'>
+            <input type='hidden' name='MAX_FILE_SIZE' value='{$TRINITY20['max_torrent_size']}'>
+            <div class='input-group'>
+                <span class='input-group-label'>{$lang['upload_announce_url']}:</span>
+                <input class='input-group-field' type='text' value='" . $TRINITY20['announce_urls'] . "'>
+            </div>";
+            $descr = strip_tags(isset($_POST['descr']) ? trim($_POST['descr']) : '');
+            $HTMLOUT.= "<div class='input-group'>
+                <span class='input-group-label'>{$lang['upload_imdb_url']}</span>
+                <input class='input-group-field' type='text' name='url' aria-describedby='imdbHelpText'>
+            </div>
+            <p class='help-text' id='imdbHelpText'>{$lang['upload_imdb_tfi']}{$lang['upload_imdb_rfmo']}</p>
+            <div class='input-group'>
+            <span class='input-group-label'>{$lang['upload_poster']}</span>
+            <input class='input-group-field' type='text' name='poster' aria-describedby='posterHelpText'>
+            </div>
+            <p class='help-text' id='posterHelpText'>{$lang['upload_poster1']}</p>
+            <div class='input-group'>
+            <span class='input-group-label'>Youtube</span>
+            <input class='input-group-field' type='text' name='youtube' aria-describedby='youtubeHelpText'>
+            </div>
+            <p class='help-text' id='youtubeHelpText'>{$lang['upload_youtube_info']}</p>
+            <div class='input-group'>
+            <span class='input-group-label'>{$lang['upload_bitbucket']}</span>
+            <input class='input-group-field' type='text' placeholder='{$TRINITY20['baseurl']}/bitbucket.php'>
+            </div>
+            <p class='help-text' id='bitbucketHelpText'>{$lang['upload_bitbucket_1']}</p>
+            <div class='input-group'>
+            <span class='input-group-label'>{$lang['upload_torrent']}</span>
+            <div class='input-group-label'>
+                <input type='file' name='file' id='torrent' onchange='getname()'>
+            </div>
+            </div>
+            <div class='input-group'>
+            <span class='input-group-label'>{$lang['upload_name']}</span>
+            <input class='input-group-field' type='text' id='name' name='name' aria-describedby='nameHelpText'>
+            </div>
+            <p class='help-text' id='nameHelpText'>{$lang['upload_filename']}</p>
+            <div class='input-group'>
+            <span class='input-group-label'>{$lang['upload_tags']}</span>
+            <input class='input-group-field' type='text' name='tags' aria-describedby='tagHelpText'>
+            </div>
+            <p class='help-text' id='tagHelpText'>{$lang['upload_tag_info']}</p>
+            <div class='input-group'>
+            <span class='input-group-label'>{$lang['upload_small_description']}</span>
+            <input class='input-group-field' type='text' name='description' aria-describedby='descriptionHelpText'>
+            </div>
+            <p class='help-text' id='descriptionHelpText'>{$lang['upload_small_descr']}</p>
+            <div class='input-group'>
+            <span class='input-group-label'>{$lang['upload_nfo']}</span>
+            <div class='input-group-button'>
+                <input type='file' name='nfo' aria-describedby='nfoHelpText'>
+            </div>
+            </div>
+            <p class='help-text' id='nfoHelpText'>{$lang['upload_nfo_info']}</p>
+            <span class='input-group-label'>{$lang['upload_description']}</span>
+            ". textbbcode("upload","descr")."
+            <p class='help-text'>{$lang['upload_html_bbcode']}</p>";
+            $HTMLOUT.= "</div><div class='cell large-auto'>";
+$s = "<div class='input-group'>
+<span class='input-group-label'>{$lang['upload_type']}</span>
+        <select class='input-group-field' name='type'>
+            <option value='0'>({$lang['upload_choose_one']})</option>";       
 $cats = genrelist();
 foreach ($cats as $row) {
-    $s.= "<option value='" . (int)$row["id"] . "'>" . htmlsafechars($row["name"]) . "</option>\n";
+    $s.= "<option value='" . (int)$row["id"] . "'>" . htmlsafechars($row["name"]) . "</option>";
 }
 $s.= "</select></div>";
-$rg = "<div class='col-sm-4'>{$lang['upload_add_typ']}<select class='form-control' name='release_group'>\n<option value='none'>{$lang['upload_add_typnone']}</option>\n<option value='p2p'>{$lang['upload_add_typp2p']}</option>\n<option value='scene'>{$lang['upload_add_typscene']}</option>\n</select></div></div><br />";
+$rg = "<div class='input-group'>
+    <span class='input-group-label'>{$lang['upload_add_typ']}</span>
+        <select class='input-group-field' name='release_group'>
+            <option value='none'>{$lang['upload_add_typnone']}</option>
+            <option value='p2p'>{$lang['upload_add_typp2p']}</option>
+            <option value='scene'>{$lang['upload_add_typscene']}</option>
+        </select>
+        </div>";
 $HTMLOUT.= "$s";
-$HTMLOUT.=$request;
 $HTMLOUT.=$rg;
+$HTMLOUT.=$request;
 $HTMLOUT.= $offers;
 if ($CURUSER['class'] >= UC_UPLOADER AND XBT_TRACKER == false) {
-    $HTMLOUT.= "<br /><div class='row'>
-<div class='col-sm-4'>{$lang['upload_add_free']}  
-    <select class='form-control' name='free_length'>
+    $HTMLOUT.= "<div class='input-group'>
+    <span class='input-group-label'>{$lang['upload_add_free']}</span>
+    <select class='input-group-field' name='free_length'>
     <option value='0'>{$lang['upload_add_nofree']}</option>
     <option value='42'>{$lang['upload_add_day1']}</option>
     <option value='1'>{$lang['upload_add_week1']}</option>
@@ -138,9 +165,11 @@ if ($CURUSER['class'] >= UC_UPLOADER AND XBT_TRACKER == false) {
     <option value='4'>{$lang['upload_add_week4']}</option>
     <option value='8'>{$lang['upload_add_week8']}</option>
     <option value='255'>{$lang['upload_add_unltd']}</option>
-    </select></div>";
-    $HTMLOUT.= "<div class='col-sm-4'>{$lang['upload_add_silv']}   
-    <select class='form-control' name='half_length'>
+    </select>
+    </div>
+    <div class='input-group'>
+    <span class='input-group-label'>{$lang['upload_add_silv']}</span>
+    <select class='input-group-field' name='half_length'>
     <option value='0'>{$lang['upload_add_nosilv']}</option>
     <option value='42'>{$lang['upload_add_sday1']}</option>
     <option value='1'>{$lang['upload_add_sweek1']}</option>
@@ -148,30 +177,31 @@ if ($CURUSER['class'] >= UC_UPLOADER AND XBT_TRACKER == false) {
     <option value='4'>{$lang['upload_add_sweek4']}</option>
     <option value='8'>{$lang['upload_add_sweek8']}</option>
     <option value='255'>{$lang['upload_add_unltd']}</option>
-    </select></div>";
-    $HTMLOUT.= "<div class='col-sm-4'>{$lang['upload_add_vip']}<br /><input type='checkbox' name='vip' value='1'><br />{$lang['upload_add_vipchk']}</div></div><br />";
+    </select>
+  </div>
+  <fieldset class='fieldset'>
+  <legend>{$lang['upload_add_vip']}</legend>
+    <input type='checkbox' name='vip' value='1' aria-describedby='vipHelpText'>
+    <p class='help-text' id='vipHelpText'>{$lang['upload_add_vipchk']}</p></fieldset>";
 }
 $subs_list.= "";
 $i = 0;
 foreach ($subs as $s) {
     $subs_list.= ($i && $i % 4 == 0) ? "" : "";
-    $subs_list.= "<label class='checkbox-inline'><input name=\"subs[]\" type=\"checkbox\" value=\"" . (int)$s["id"] . "\" />" . htmlsafechars($s["name"]) . "</label>";
+    $subs_list.= "<input  id='checkbox". (int)$s["id"] ."' name=subs[]' type='checkbox' value= ". (int)$s["id"] ."><label for='checkbox". (int)$s["id"] ."'>" . htmlsafechars($s["name"]) . "</label>";
     ++$i;
 }
 $subs_list.= "";
-$HTMLOUT.= "<div class='row'><div class='col-sm-5'>{$lang['upload_add_sub']}<br />$subs_list</div>";
+$HTMLOUT.= "<fieldset class='fieldset'>
+<legend>{$lang['upload_add_sub']}</legend>$subs_list</fieldset>";
 //== 09 Genre mod no mysql by Traffic
-$HTMLOUT.= "<div class='col-sm-5'>{$lang['upload_add_genre']}<p>
-    <input type='radio' name='genre' value='movie'>{$lang['upload_add_movie']}
-    <input type='radio' name='genre' value='music'>{$lang['upload_add_music']}
-    <input type='radio' name='genre' value='game'>{$lang['upload_add_game']}
-    <input type='radio' name='genre' value='apps'>{$lang['upload_add_apps']}
-    <input type='radio' name='genre' value='' checked='checked'>{$lang['upload_add_none']}
-   </p>
-    
-    <p colspan='4' style='border:none;'>
-    <label style='margin-bottom: 1em; padding-bottom: 1em; border-bottom: 3px silver groove;'>
-    <input type='hidden' class='Depends on genre being movie or genre being music' /></label>";
+$HTMLOUT.= "<fieldset class='fieldset'>
+<legend>{$lang['upload_add_genre']}</legend>
+    <input type='radio' name='genre' value='movie' id='moviegenre'><label for='moviegenre'>{$lang['upload_add_movie']}</label>
+    <input type='radio' name='genre' value='music' id='musicgenre'><label for='musicgenre'>{$lang['upload_add_music']}</label>
+    <input type='radio' name='genre' value='game' id='gamegenre'><label for='gamegenre'>{$lang['upload_add_game']}</label>
+    <input type='radio' name='genre' value='apps' id='appgenre'><label for='appgenre'>{$lang['upload_add_apps']}</label>
+    <input type='radio' name='genre' value='' checked='checked' id='nonegenre'><label for='nonegenre'>{$lang['upload_add_none']}</label>";
 $movie = array(
     $lang['movie_mv1'],
     $lang['movie_mv2'],
@@ -182,7 +212,7 @@ $movie = array(
     $lang['movie_mv7'],
 );
 for ($x = 0; $x < count($movie); $x++) {
-    $HTMLOUT.= "<label><input type=\"checkbox\" value=\"$movie[$x]\"  name=\"movie[]\" class=\"DEPENDS ON genre BEING movie\" />$movie[$x]</label>";
+    $HTMLOUT.= "<label><input type='checkbox' value='$movie[$x]'  name='movie[]' class='DEPENDS ON genre BEING movie'>$movie[$x]</label>";
 }
 $music = array(
     $lang['music_m1'],
@@ -193,7 +223,7 @@ $music = array(
     $lang['music_m6'],
 );
 for ($x = 0; $x < count($music); $x++) {
-    $HTMLOUT.= "<label><input type=\"checkbox\" value=\"$music[$x]\" name=\"music[]\" class=\"DEPENDS ON genre BEING music\" />$music[$x]</label>";
+    $HTMLOUT.= "<label><input type='checkbox' value='$music[$x]' name='music[]' class='DEPENDS ON genre BEING music'>$music[$x]</label>";
 }
 $game = array(
     $lang['game_g1'],
@@ -203,7 +233,7 @@ $game = array(
     $lang['game_g5'],
 );
 for ($x = 0; $x < count($game); $x++) {
-    $HTMLOUT.= "<label><input type=\"checkbox\" value=\"$game[$x]\" name=\"game[]\" class=\"DEPENDS ON genre BEING game\" />$game[$x]</label>";
+    $HTMLOUT.= "<label><input type='checkbox' value='$game[$x]' name='game[]' class='DEPENDS ON genre BEING game'>$game[$x]</label>";
 }
 $apps = array(
     $lang['app_mv1'],
@@ -215,23 +245,70 @@ $apps = array(
     $lang['app_mv7'],
 );
 for ($x = 0; $x < count($apps); $x++) {
-    $HTMLOUT.= "<label><input type=\"checkbox\" value=\"$apps[$x]\" name=\"apps[]\" class=\"DEPENDS ON genre BEING apps\" />$apps[$x]</label>";
+    $HTMLOUT.= "<label><input type='checkbox' value='$apps[$x]' name='apps[]' class='DEPENDS ON genre BEING apps'>$apps[$x]</label>";
 }
-$HTMLOUT.= "</p></p></div></div>";
+$HTMLOUT.= "</fieldset>";
 //== End
-$HTMLOUT.="<br /><div class='row'>";
-$HTMLOUT.= "<div class='col-sm-3'>{$lang['upload_anonymous']}<br /><input type='checkbox' name='uplver' value='yes' id='chk1'><br />{$lang['upload_anonymous1']}</div>";
+$HTMLOUT.="<div class='row'>";
+$HTMLOUT.="<p>{$lang['upload_anonymous']}</p>
+<div class='switch large'>
+  <input class='switch-input' id='chk1' type='checkbox' name='uplver' value='yes' aria-describedby='annonHelpText'>
+  <label class='switch-paddle' for='chk1'>
+    <span class='show-for-sr'>{$lang['upload_anonymous']}</span>
+    <span class='switch-active' aria-hidden='true'>Yes</span>
+    <span class='switch-inactive' aria-hidden='true'>No</span>
+  </label>
+</div>
+<p class='help-text' id='annonHelpText'>{$lang['upload_anonymous1']}</p>";
+/*
+$HTMLOUT.= "<div class='col-sm-3'>{$lang['upload_anonymous']}<br /><input type='checkbox' name='uplver' value='yes' id='chk1'>
+<br />{$lang['upload_anonymous1']}</div>";
+*/
 if ($CURUSER['class'] == UC_MAX) {
+    $HTMLOUT.="<p>{$lang['upload_comment']}</p>
+    <div class='switch large'>
+      <input class='switch-input' id='chk2' type='checkbox' name='allow_commentd' value='yes' aria-describedby='discomHelpText'>
+      <label class='switch-paddle' for='chk2'>
+        <span class='show-for-sr'>{$lang['upload_comment']}</span>
+        <span class='switch-active' aria-hidden='true'>Yes</span>
+        <span class='switch-inactive' aria-hidden='true'>No</span>
+      </label>
+    </div>
+    <p class='help-text' id='discomHelpText'>{$lang['upload_discom1']}</p>";
+    /*
     $HTMLOUT.= "<div class='col-sm-3'>{$lang['upload_comment']}<br /><input type='checkbox' name='allow_commentd' value='yes' id='chk2'><br />{$lang['upload_discom1']}</div>";
+    */
 }
+$HTMLOUT.="<p>{$lang['upload_add_ascii']}</p>
+<div class='switch large'>
+  <input class='switch-input' id='chk3' type='checkbox' name='strip' value='strip' checked='checked' aria-describedby='asciiHelpText'>
+  <label class='switch-paddle' for='chk3'>
+    <span class='show-for-sr'>{$lang['upload_add_ascii']}</span>
+    <span class='switch-active' aria-hidden='true'>Yes</span>
+    <span class='switch-inactive' aria-hidden='true'>No</span>
+  </label>
+</div>
+<p class='help-text' id='asciiHelpText'><a href='http://en.wikipedia.org/wiki/ASCII_art' target='_blank'>{$lang['upload_add_wascii']}</a></p>";
+/*
 $HTMLOUT.= "<div class='col-sm-3'>{$lang['upload_add_ascii']}<br /><input type='checkbox' name='strip' value='strip' checked='checked' id='chk3'><br /><a href='http://en.wikipedia.org/wiki/ASCII_art' target='_blank'>{$lang['upload_add_wascii']}</a></div>";
-
+*/
 if (XBT_TRACKER == true) {
-        $HTMLOUT.= "<div class='col-sm-3'>{$lang['upload_add_free']}<br /><input type='checkbox' name='freetorrent' value='1'><br />{$lang['upload_add_freeinf']}</div>";
+    $HTMLOUT.="<p>{$lang['upload_add_free']}</p>
+    <div class='switch large'>
+      <input class='switch-input' id='chk3' type='checkbox' name='freetorrent' value='1' aria-describedby='freeHelpText'>
+      <label class='switch-paddle' for='chk3'>
+        <span class='show-for-sr'>{$lang['upload_add_free']}</span>
+        <span class='switch-active' aria-hidden='true'>Yes</span>
+        <span class='switch-inactive' aria-hidden='true'>No</span>
+      </label>
+    </div>
+    <p class='help-text' id='freeHelpText'>{$lang['upload_add_freeinf']}</p>";
+    /*
+    $HTMLOUT.= "<div class='col-sm-3'>{$lang['upload_add_free']}<br />
+    <input type='checkbox' name='freetorrent' value='1'><br /></div>";
+    */
     }
-$HTMLOUT.="</div>";
-$HTMLOUT.= "<div style='display:inline-block;height:50%;'></div><div class='row'><div class='col-sm-12 col-sm-offset-5'><input type='submit' class='btn btn-default' value='{$lang['upload_submit']}'></div></div>
-     </br></form></div><br />";
-////////////////////////// HTML OUTPUT //////////////////////////
+$HTMLOUT.="</div></div>";
+$HTMLOUT.= "</div><div class='cell large-auto callout'><input type='submit' class='button' value='{$lang['upload_submit']}'></div></form>";
 echo stdhead($lang['upload_stdhead'], true, $stdhead) . $HTMLOUT . stdfoot($stdfoot);
 ?>

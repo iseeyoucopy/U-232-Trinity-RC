@@ -14,7 +14,6 @@ require_once(__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . '
 require_once(INCL_DIR . 'user_functions.php');
 require_once(CLASS_DIR . 'page_verify.php');
 require_once(CLASS_DIR . 'class.bencdec.php');
-require_once INCL_DIR . 'function_ircbot.php';
 require_once INCL_DIR . 'function_memcache.php';
 dbconn();
 loggedinorreturn();
@@ -37,10 +36,12 @@ if ($CURUSER['class'] < UC_UPLOADER OR $CURUSER["uploadpos"] == 0 || $CURUSER["u
     header("Location: {$TRINITY20['baseurl']}/upload.php");
     exit();
 }
-foreach (explode(":", "descr:type:name") as $v) {
-    if (!isset($_POST[$v]))
-        stderr($lang['takeupload_failed'], $lang['takeupload_no_formdata']);
-}
+if (!isset($_POST['descr']))
+    stderr($lang['takeupload_failed'], 'No descrition added');
+if (!isset($_POST['type']))
+    stderr($lang['takeupload_failed'], 'No category selected');
+if (!isset($_POST['name']))
+    stderr($lang['takeupload_failed'], 'No name added');
 if (!isset($_FILES["file"]))
     stderr($lang['takeupload_failed'], $lang['takeupload_no_formdata']);
 
@@ -377,7 +378,7 @@ else
     sql_query("UPDATE users SET seedbonus=seedbonus+" . sqlesc($TRINITY20['bonus_per_upload']) . ", numuploads=numuploads+1 WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
     //===end
     $update['seedbonus'] = ($CURUSER['seedbonus'] + $TRINITY20['bonus_per_upload']);
-    $cache->update_row('userstats_' . $CURUSER["id"], [
+    $cache->update_row($keys['user_stats'] . $CURUSER["id"], [
         'seedbonus' => $update['seedbonus']
     ], $TRINITY20['expires']['u_stats']);
     $cache->update_row('user_stats_' . $CURUSER["id"], [
@@ -386,7 +387,6 @@ else
 }
 if ($TRINITY20['autoshout_on'] == 1) {
     autoshout($message);
-    ircbot($messages);
     $cache->delete('shoutbox_');
 }
 /* Email notifs */

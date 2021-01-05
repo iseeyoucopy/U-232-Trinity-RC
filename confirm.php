@@ -34,14 +34,15 @@ if ($row['status'] != 'pending') {
 $sec = $row['editsecret'];
 if ($md5 != $sec) stderr("{$lang['confirm_user_error']}", "{$lang['confirm_cannot_confirm']}");
 sql_query("UPDATE users SET status='confirmed', editsecret='' WHERE id=" . sqlesc($id) . " AND status='pending'");
-$cache->update_row('MyUser_' . $id, [
+$cache->update_row($keys['my_userid'] . $id, [
     'status' => 'confirmed'
 ], $TRINITY20['expires']['curuser']);
 $cache->update_row('user' . $id, [
     'status' => 'confirmed'
 ], $TRINITY20['expires']['user_cache']);
 if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"])) stderr("{$lang['confirm_user_error']}", "{$lang['confirm_cannot_confirm']}");
-$passh = md5($row["passhash"] . $_SERVER["REMOTE_ADDR"]);
+//$passh = md5($row["passhash"] . $_SERVER["REMOTE_ADDR"]);
+$passh = hash("sha3-512", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "");
 logincookie($id, $passh);
 header("Refresh: 0; url={$TRINITY20['baseurl']}/ok.php?type=confirm");
 ?>

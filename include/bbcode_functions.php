@@ -345,7 +345,7 @@ function textbbcode($form, $text, $content = "")
 <div class="grid-x grid-margin-x">
   <div class="cell">
     <div class="off-canvas-wrapper">
-      <div class="off-canvas-absolute position-right" id="bbcode-canvas" data-off-canvas data-transition="overlap"> 
+      <div class="off-canvas-absolute position-top" id="bbcode-canvas" data-off-canvas data-transition="push"> 
 		<span id="clickableAwesomeFont"><i class="fas fa-bold" onclick="tag('b')" title="Bold" alt="B" ></i></span>&nbsp;&nbsp;
 		<span id="clickableAwesomeFont"><i class="fas fa-italic" onclick="tag('i')" title="Italic" alt="I"></i></span>&nbsp;&nbsp;
 		<span id="clickableAwesomeFont"><i class="fas fa-underline" onclick="tag('u')" title="Underline" alt="U"></i></span>&nbsp;&nbsp;
@@ -429,9 +429,9 @@ HTML;
 		  <a href="javascript:em(':kiss:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/kiss.gif" width="18" height="18"></a>
 		  <a href="javascript:em(':shifty:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/shifty.gif" width="20" height="20"></a>
       </div>
-      <div class="off-canvas-content" style="min-height: 260px;" data-off-canvas-content>
+      <div class="off-canvas-content" data-off-canvas-content>
 	  <a style="position: relative; top: 40px; left: -10px;" class="float-right" data-toggle="bbcode-canvas"><i class="fas fa-cogs"></i></a>
-		<textarea style="height:280px;" placeholder="Body" id="{$text}" name="{$text}">{$content}</textarea>
+		<textarea style="height:300px;" placeholder="Body" id="{$text}" name="{$text}">{$content}</textarea>
       </div>
     </div>
   </div>

@@ -50,7 +50,7 @@ if ($TRINITY20['seedbonus_on'] == 1 && $row['owner'] != $CURUSER['id']) {
     sql_query("UPDATE users SET seedbonus = seedbonus-".sqlesc($TRINITY20['bonus_per_download'])." WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
     $update['seedbonus'] = ($CURUSER['seedbonus'] - $TRINITY20['bonus_per_download']);
     $update['seedbonus'] = ($CURUSER['seedbonus'] - $TRINITY20['bonus_per_download']);
-    $cache->update_row('userstats_' . $CURUSER['id'], [
+    $cache->update_row($keys['user_stats'] . $CURUSER['id'], [
         'seedbonus' => $update['seedbonus']
     ], $TRINITY20['expires']['u_stats']);
     $cache->update_row('user_stats_' . $CURUSER['id'], [
@@ -93,7 +93,7 @@ if (isset($_GET['slot'])) {
     $cache->delete('fllslot_' . $CURUSER['id']);
     make_freeslots($CURUSER['id'], 'fllslot_');
     $user['freeslots'] = ($CURUSER['freeslots'] - 1);
-    $cache->update_row('MyUser_' . $CURUSER['id'], [
+    $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
         'freeslots' => $CURUSER['freeslots']
     ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user' . $CURUSER['id'], [
@@ -114,7 +114,7 @@ if (!isset($CURUSER['torrent_pass']) || strlen($CURUSER['torrent_pass']) != 32) 
     $passkey = sprintf('%08x%s', $uid, substr(sha1(sprintf('%s %d %d %s', $site_key, $torrent_pass_version, $uid, $info_hash)) , 0, 24));
     $CURUSER['torrent_pass'] = $passkey;
     sql_query('UPDATE users SET torrent_pass=' . sqlesc($CURUSER['torrent_pass']) . 'WHERE id=' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-    $cache->update_row('MyUser_' . $CURUSER['id'], [
+    $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
         'torrent_pass' => $CURUSER['torrent_pass']
     ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user' . $CURUSER['id'], [

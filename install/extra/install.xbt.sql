@@ -793,7 +793,6 @@ INSERT INTO `cleanup` (`clean_id`, `clean_title`, `clean_file`, `clean_time`, `c
 (4, 'Lottery Autoclean', 'lotteryclean.php', 1359812894, 86400, 'd6704d582b136ea1ed13635bb9059f57', 1, 'Lottery Autoclean - Lottery clean up here every X days', 0),
 (5, 'Optimze Db Auto', 'optimizedb.php', 1466008623, 172800, 'd6704d582b136ea1ed13635bb9059f57', 1, 'Auto Optimize - Runs every 2 days', 1),
 (6, 'Auto Backup Db', 'backupdb.php', 1465928432, 86400, 'd6704d582b136ea1ed13635bb9059f57', 1, 'Auto Backup - Runs every 1 day', 1),
-(8, 'Irc bonus', 'irc_update.php', 1465847228, 1800, 'c06a074cd6403bcc1f292ce864c3cdd5', 1, 'Irc idle bonus update', 1),
 (9, 'Statistics', 'sitestats_update.php', 1465847764, 3600, '2a2afb82d82cc4ddcb6ff1753a40dfe9', 1, 'SIte statistics update', 1),
 (10, 'Karma Bonus', 'karma_update.php', 1465845624, 1800, 'd0df8a38cfba26ece2c285189a656ad0', 0, 'Seedbonus award update', 1),
 (11, 'Forums', 'forum_update.php', 1465845659, 900, 'c9c58a0d43b02cd5358115673bc04c9e', 0, 'Forum online and count update', 1),
@@ -1144,7 +1143,7 @@ INSERT INTO `faq` (`id`, `type`, `title`, `text`) VALUES
 (1, 1, 'What is this bittorrent all about anyway? How do I get the files?', 'Check out BitTorrent From Wikipedia.'),
 (2, 1, 'Where does the donated money go?', 'SITE_NAME is situated on a dedicated server in the Netherlands. For the moment we have monthly running costs of approximately &pound; 60.'),
 (3, 1, 'Where can I get a copy of the source code?', 'SITE_NAME is an active open source project available for download via Github <a href=\'https://github.com/Bigjoos/U-232-V4\' class=\'altlink\'>Zip download</a> or directly from the support forum <a href=\'http://forum-u-232.servebeer.com/index.php?action=downloads;cat=1\' class=\'altlink\'>Zip downloads</a>. Please note: We do not give any kind of support on the source code so please don\'t bug us about it. If it works, great, if not too bad. Use this software at your own risk!'),
-(4, 2, 'I registered an account but did not receive the confirmation e-mail!', 'You can contact site staff with your request on irc.'),
+(4, 2, 'I registered an account but did not receive the confirmation e-mail!', 'You can contact site staff with your request on discord.'),
 (5, 2, 'I\'ve lost my user name or password! Can you send it to me?', 'Please use <a class=\'altlink\' href=\'recover.php\'>this form</a> to have the login details mailed back to you.'),
 (6, 2, 'Can you rename my account?', 'We do not rename accounts. Please create a new one. You can contact site staff with your request.'),
 (7, 2, 'Can you delete my (confirmed) account?', 'You can contact site staff with your request.'),
@@ -2486,6 +2485,7 @@ CREATE TABLE IF NOT EXISTS `stats` (
   `powerusers` int(10) UNSIGNED NOT NULL DEFAULT '1',
   `disabled` int(10) UNSIGNED NOT NULL DEFAULT '1',
   `uploaders` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `vips` int(10) UNSIGNED NOT NULL DEFAULT '1',
   `moderators` int(10) UNSIGNED NOT NULL DEFAULT '1',
   `administrators` int(10) UNSIGNED NOT NULL DEFAULT '1',
   `sysops` int(10) UNSIGNED NOT NULL DEFAULT '1'
@@ -2874,8 +2874,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `bjwins` int(10) NOT NULL DEFAULT '0',
   `bjlosses` int(10) NOT NULL DEFAULT '0',
   `warn_reason` text CHARACTER SET utf8,
-  `onirc` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
-  `irctotal` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `birthday` date NOT NULL DEFAULT '1920-01-01',
   `got_blocks` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
   `last_access_numb` bigint(30) NOT NULL DEFAULT '0',
@@ -2982,6 +2980,85 @@ CREATE TABLE IF NOT EXISTS `user_blocks` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_options`
+--
+
+DROP TABLE IF EXISTS `user_options`;
+CREATE TABLE IF NOT EXISTS `user_options` (
+  `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `userid` int(5) NOT NULL DEFAULT 0,
+  `index_ie_alert_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_news_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_shoutbox_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_staff_shoutbox_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_active_users_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_last_24_active_users_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_latest_user_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL,
+  `index_birthday_active_users_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_stats_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_forumposts_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_latest_torrents_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_latest_torrents_scroll_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_disclaimer_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_announcement_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_donation_progress_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_advertisements_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_radio_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_torrentfreak_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_xmas_gift_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_active_poll_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_movie_ofthe_week_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `index_requests_and_offers_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `stdhead_freelech_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `stdhead_demotion_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `stdhead_newpm_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `stdhead_staff_message_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `stdhead_reports_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `stdhead_uploadapp_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `stdhead_happyhour_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `stdhead_crazyhour_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `stdhead_bugmessage_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `stdhead_freeleech_contribution_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `stdhead_stafftools_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_login_link_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_flush_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_joined_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_online_time_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_browser_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_reputation_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_user_hits_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_birthday_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_contact_info_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_iphistory_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_traffic_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_share_ratio_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_seedtime_ratio_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_seedbonus_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_connectable_port_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_avatar_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_forumposts_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_gender_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_freestuffs_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_comments_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_invitedby_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_torrents_block_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_completed_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_snatched_staff_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_userinfo_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_showpm_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_report_user_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_user_status_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_user_comments_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `userdetails_showfriends_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `status_bar` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL,
+  `viewcloud` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL,
+  UNIQUE KEY `id` (`id`),
+  KEY `userid` (`userid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Table structure for table `ustatus`
@@ -4425,4 +4502,4 @@ ALTER TABLE `xbt_scrape_log`
 
 ALTER TABLE `messages` ADD `staff_id` int(10) unsigned NOT NULL DEFAULT '0';
 ALTER TABLE `staffmessages` ADD `new`  enum('yes','no') NOT NULL default 'no';
-ALTER TABLE `users` ADD `pin_code` INT(4) NOT NULL;
+ALTER TABLE `users` ADD `pin_code` INT(4) NOT NULL DEFAULT '0';

@@ -35,6 +35,7 @@ function DoStaff($staff, $staffclass, $cols = 2)
     global $TRINITY20;
     $htmlout = '';
     $dt = TIME_NOW - 180;
+    if (!empty($staff)) {
     $counter = count($staff);
     $rows = ceil($counter / $cols);
     $cols = ($counter < $cols) ? $counter : $cols;
@@ -56,6 +57,7 @@ function DoStaff($staff, $staffclass, $cols = 2)
         $htmlout.= "</tr>";
     }
     $htmlout.= "</table></div></div></div>";
+}
     return $htmlout;
 }
     $i = UC_MAX;

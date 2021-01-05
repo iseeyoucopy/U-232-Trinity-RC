@@ -19,7 +19,6 @@ if( !file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'config.php') ) {
     die();
 }
 require_once (__DIR__ . DIRECTORY_SEPARATOR . 'config.php');
-require_once (VENDOR_DIR . 'autoload.php');
 require_once (INCL_DIR . 'user_functions.php');
 require_once (CACHE_DIR . 'free_cache.php');
 require_once (CACHE_DIR . 'site_settings.php');
@@ -27,6 +26,7 @@ require_once (CACHE_DIR . 'cache_keys.php');
 require_once (CACHE_DIR . 'staff_settings.php');
 require_once (CACHE_DIR . 'class_config.php');
 require_once (CLASS_DIR . 'class.crypt.php');
+require_once (CACHE_DIR . 'chat_settings.php');
 //==Start Cache
 require_once (VENDOR_DIR . 'autoload.php');
 require_once (INCL_DIR . 'cache_config.php');
@@ -169,10 +169,14 @@ function status_change($id)
 {
     sql_query('UPDATE announcement_process SET status = 0 WHERE user_id = ' . sqlesc($id) . ' AND status = 1');
 }
-
+/*
 function hashit($var, $addtext = ""){
 	 
     return hash("haval160,5", "Th15T3xt" . $addtext . $var . $addtext . "is5add3dto66uddy6he@water...");
+}
+*/
+function hashit($var, $addtext = ""){
+    return hash("sha3-512", "W:i=MzmX~/@`" . $addtext . $var . $addtext . "WzH!(eN&tT/;y<s(:");
 }
 function make_hash_log($id, $passhash){ 
 	return hash("tiger160,4", "" . $id . $passhash . "");
@@ -213,7 +217,8 @@ function userlogin()
     if (isset($CURUSER)) return;
     if (!$TRINITY20['site_online'] || !get_mycookie('uid') || !get_mycookie('pass') || !get_mycookie('hashv') || !get_mycookie('log_uid')) return;
     $id = intval(get_mycookie('uid'));
-    if (!$id OR (strlen(get_mycookie('pass')) != 40) OR (get_mycookie('hashv') != hashit($id, get_mycookie('pass'))) OR (get_mycookie('log_uid') != make_hash_log($id, get_mycookie('pass')))) return;
+    //if (!$id OR (strlen(get_mycookie('pass')) != 40) OR (get_mycookie('hashv') != hashit($id, get_mycookie('pass'))) OR (get_mycookie('log_uid') != make_hash_log($id, get_mycookie('pass')))) return;
+    if (!$id OR (strlen(get_mycookie('pass')) != 128) OR (get_mycookie('hashv') != hashit($id, get_mycookie('pass'))) OR (get_mycookie('log_uid') != make_hash_log($id, get_mycookie('pass')))) return;
     // let's cache $CURUSER - pdq - *Updated*
     if (($row = $cache->get($keys['my_userid'] . $id)) === false) { // $row not found
         $user_fields_ar_int = array(
@@ -268,7 +273,6 @@ function userlogin()
             'parked_until',
             'bjwins',
             'bjlosses',
-            'irctotal',
             'last_access_numb',
             'onlinetime',
             'hits',
@@ -351,7 +355,6 @@ function userlogin()
             'hash1',
             'suspended',
             'warn_reason',
-            'onirc',
             'birthday',
             'got_blocks',
             'pm_on_delete',
@@ -389,7 +392,8 @@ function userlogin()
         unset($result);
     }
     //==
-    if (get_mycookie('pass') !== hash("ripemd160", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "")) {
+    if (get_mycookie('pass') !== hash("sha3-512", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "")) {
+    //if (get_mycookie('pass') !== hash("ripemd160", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "")) {
         $salty = hash("tiger160,3", "Th15T3xtis5add3dto66uddy6he@water..." . $row['username'] . "");
         header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please={$salty}");
         //die;
@@ -438,7 +442,7 @@ function userlogin()
                 $cache->update_row('user' . $CURUSER['id'], [
                     'curr_ann_id' => $ann_row['main_id']
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row('MyUser_' . $CURUSER['id'], [
+                $cache->update_row($keys['my_userid']' . $CURUSER['id'], [
                     'curr_ann_id' => $ann_row['main_id']
                 ], $TRINITY20['expires']['curuser']);
                 $status = 2;
@@ -449,7 +453,7 @@ function userlogin()
                 $cache->update_row('user' . $CURUSER['id'], [
                     'curr_ann_last_check' => $dt
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row('MyUser_' . $CURUSER['id'], [
+                $cache->update_row($keys['my_userid']' . $CURUSER['id'], [
                     'curr_ann_last_check' => $dt
                 ], $TRINITY20['expires']['curuser']);
                 $status = 1;
@@ -480,7 +484,7 @@ function userlogin()
             $cache->update_row('user' . $CURUSER['id'], [
                 'curr_ann_last_check' => $dt
             ], $TRINITY20['expires']['user_cache']);
-            $cache->update_row('MyUser_' . $CURUSER['id'], [
+            $cache->update_row($keys['my_userid']' . $CURUSER['id'], [
                 'curr_ann_last_check' => $dt
             ], $TRINITY20['expires']['curuser']);
         }
@@ -515,7 +519,7 @@ function userlogin()
             $msg = "Fake Account Detected: Username: " . htmlsafechars($row["username"]) . " - UserID: " . (int) $row["id"] . " - UserIP : " . getip();
             // Demote and disable
             sql_query("UPDATE users SET enabled = 'no', class = 0 WHERE id =" . sqlesc($row["id"])) or sqlerr(__file__, __line__);
-            $cache->update_row('MyUser_' . $row['id'], [
+            $cache->update_row('Myuser_' . $row['id'], [
                 'enabled' => 'no',
                 'class' => 0
             ], $TRINITY20['expires']['curuser']);
@@ -530,7 +534,7 @@ function userlogin()
         }
     }
     // user stats - *Updated*
-    $What_Cache = (XBT_TRACKER == true ? 'userstats_xbt_' : 'userstats_');
+    $What_Cache = (XBT_TRACKER == true ? 'userstats_xbt_' : $keys['user_stats']);
     if (($stats = $cache->get($What_Cache.$id)) === false) {
     $What_Expire = (XBT_TRACKER == true ? $TRINITY20['expires']['u_stats_xbt'] : $TRINITY20['expires']['u_stats']);
         $stats_fields_ar_int = array(
@@ -556,7 +560,7 @@ function userlogin()
     $row['uploaded'] = $stats['uploaded'];
     $row['downloaded'] = $stats['downloaded'];
     //==
-    if (($ustatus = $cache->get('userstatus_' . $id)) === false) {
+    if (($ustatus = $cache->get($keys['user_status'] . $id)) === false) {
         $sql2 = sql_query('SELECT * FROM ustatus WHERE userid = ' . sqlesc($id));
         if (mysqli_num_rows($sql2)) $ustatus = mysqli_fetch_assoc($sql2);
         else $ustatus = array(
@@ -564,7 +568,7 @@ function userlogin()
             'last_update' => 0,
             'archive' => ''
         );
-        $cache->set('userstatus_' . $id, $ustatus, $TRINITY20['expires']['u_status']); // 30 days
+        $cache->set($keys['user_status'] . $id, $ustatus, $TRINITY20['expires']['u_status']); // 30 days
     }
     $row['last_status'] = $ustatus['last_status'];
     $row['last_update'] = $ustatus['last_update'];
@@ -585,10 +589,9 @@ function userlogin()
 		$CURBLOCK['usercp_page'] = (int)$CURBLOCK['usercp_page'];
         $cache->set($blocks_key, $CURBLOCK, 0);
     }
-	if (isset($USERBLOCKS))
-		return;
+	if (isset($USERBLOCKS)) return;
 	///User Blocks without Bitwise by iseeyoucopy
-    if (($user_block_options = $cache->get('MySettings_' . $row['id'])) === false) {
+    if (($user_block_options = $cache->get('MyBlockSettings::' . $row['id'])) === false) {
 		$user_opt_int = array(
 		  'id',
 		  'userid'
@@ -599,7 +602,6 @@ function userlogin()
 		  'index_shoutbox_on',
 		  'index_active_users_on',
 		  'index_last_24_active_users_on',
-		  'index_irc_active_users_on',
 		  'index_latest_user_on',
 		  'index_birthday_active_users_on',
 		  'index_stats_on',
@@ -642,7 +644,6 @@ function userlogin()
 		  'userdetails_share_ratio_on',
 		  'userdetails_seedtime_ratio_on',
 		  'userdetails_seedbonus_on',
-		  'userdetails_irc_stats_on',
 		  'userdetails_connectable_port_on',
 		  'userdetails_avatar_on',
 		  'userdetails_forumposts_on',
@@ -668,9 +669,9 @@ function userlogin()
             die();
         }
 		$user_block_options = mysqli_fetch_assoc($c1_sql);
-        //foreach ($user_opt_int as $ub) $user_block_options[$ub] = (int)$user_block_options[$ub];
+        foreach ($user_opt_int as $ub) $user_block_options[$ub] = (int)$user_block_options[$ub];
         foreach ($user_opt_str as $ub) $user_block_options[$ub] = $user_block_options[$ub];
-		$cache->set('MySettings_' . $row['id'], $user_block_options, $TRINITY20['expires']['curuser']);
+		$cache->set('MyBlockSettings::' . $row['id'], $user_block_options, $TRINITY20['expires']['curuser']);
     }
     //== online time pdq, original code by superman
     $userupdate0 = 'onlinetime = onlinetime + 0';
@@ -687,7 +688,7 @@ function userlogin()
      if (($row['last_access'] != '0') AND (($row['last_access']) < ($dt - 180))/** 3 mins **/ || ($row['ip'] !== $ip)) 
     {
         sql_query("UPDATE users SET where_is =" . sqlesc($whereis) . ", ip=".sqlesc($ip).$add_set.", last_access=" . TIME_NOW . ", $userupdate0, $userupdate1 WHERE id=" . sqlesc($row['id']));
-        $cache->update_row('MyUser_' . $row['id'], [
+        $cache->update_row($keys['my_userid'] . $row['id'], [
             'last_access' => TIME_NOW,
             'onlinetime' => $update_time,
             'last_access_numb' => TIME_NOW,

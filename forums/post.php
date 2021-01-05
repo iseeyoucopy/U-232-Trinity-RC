@@ -113,7 +113,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 	if ($TRINITY20['seedbonus_on'] == 1) {
         sql_query("UPDATE users SET seedbonus = seedbonus+".sqlesc($TRINITY20['bonus_per_topic'])." WHERE id =  " . sqlesc($CURUSER['id'] . "")) or sqlerr(__FILE__, __LINE__);
         $update['seedbonus'] = ($CURUSER['seedbonus'] + $TRINITY20['bonus_per_topic']);
-        $cache->begin_transaction('userstats_' . $CURUSER["id"]);
+        $cache->begin_transaction($keys['user_stats'] . $CURUSER["id"]);
         $cache->update_row(false, array(
             'seedbonus' => $update['seedbonus']
         ));
@@ -173,7 +173,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     if ($TRINITY20['seedbonus_on'] == 1) {
         sql_query("UPDATE users SET seedbonus = seedbonus+".sqlesc($TRINITY20['bonus_per_post'])." WHERE id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
         $update['seedbonus'] = ($CURUSER['seedbonus'] + $TRINITY20['bonus_per_post']);
-        $cache->begin_transaction('userstats_' . $CURUSER["id"]);
+        $cache->begin_transaction($keys['user_stats'] . $CURUSER["id"]);
         $cache->update_row(false, array(
             'seedbonus' => $update['seedbonus']
         ));

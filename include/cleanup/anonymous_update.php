@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache;
+    global $TRINITY20, $queries, $cache, $keys;
     set_time_limit(0);
     ignore_user_abort(1);
     //=== Anonymous profile by Bigjoos/pdq:)
@@ -34,7 +34,7 @@ function docleanup($data)
             $cache->update_row('user_stats_' . $arr['id'], [
                 'modcomment' => $modcomment
             ], $TRINITY20['expires']['user_stats']);
-            $cache->update_row('MyUser_' . $arr['id'], [
+            $cache->update_row($keys['my_userid'] . $arr['id'], [
                 'anonymous_until' => 0,
                 'anonymous' => 'no'
             ], $TRINITY20['expires']['curuser']);

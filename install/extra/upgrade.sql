@@ -52,7 +52,7 @@ INSERT INTO `faq` (`id`, `type`, `title`, `text`) VALUES
 (1, 1, 'What is this bittorrent all about anyway? How do I get the files?', 'Check out BitTorrent From Wikipedia.'),
 (2, 1, 'Where does the donated money go?', 'SITE_NAME is situated on a dedicated server in the Netherlands. For the moment we have monthly running costs of approximately &pound; 60.'),
 (3, 1, 'Where can I get a copy of the source code?', 'SITE_NAME is an active open source project available for download via Github <a href=\'https://github.com/Bigjoos/U-232-V4\' class=\'altlink\'>Zip download</a> or directly from the support forum <a href=\'http://forum-u-232.servebeer.com/index.php?action=downloads;cat=1\' class=\'altlink\'>Zip downloads</a>. Please note: We do not give any kind of support on the source code so please don\'t bug us about it. If it works, great, if not too bad. Use this software at your own risk!'),
-(4, 2, 'I registered an account but did not receive the confirmation e-mail!', 'You can contact site staff with your request on irc.'),
+(4, 2, 'I registered an account but did not receive the confirmation e-mail!', 'You can contact site staff with your request on discord.'),
 (5, 2, 'I\'ve lost my user name or password! Can you send it to me?', 'Please use <a class=\'altlink\' href=\'recover.php\'>this form</a> to have the login details mailed back to you.'),
 (6, 2, 'Can you rename my account?', 'We do not rename accounts. Please create a new one. You can contact site staff with your request.'),
 (7, 2, 'Can you delete my (confirmed) account?', 'You can contact site staff with your request.'),

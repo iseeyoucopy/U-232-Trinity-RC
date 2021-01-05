@@ -515,7 +515,7 @@ if (count($snatch_updateset))
 	ann_sql_query('UPDATE LOW_PRIORITY snatched SET ' . join(',', $snatch_updateset) . ' WHERE torrentid = ' . ann_sqlesc($torrentid) . ' AND userid = ' . ann_sqlesc($userid)) or ann_sqlerr(__FILE__, __LINE__);
 if (count($user_updateset)) {
     ann_sql_query('UPDATE LOW_PRIORITY users SET ' . join(',', $user_updateset) . ' WHERE id = ' . ann_sqlesc($userid)) or ann_sqlerr(__FILE__, __LINE__);
-    $cache->delete('userstats_' . $userid);
+    $cache->delete($keys['user_stats'] . $userid);
     $cache->delete('user_stats_' . $userid);
 }
 if (isset($_SERVER["HTTP_ACCEPT_ENCODING"]) && $_SERVER["HTTP_ACCEPT_ENCODING"] == "gzip") {

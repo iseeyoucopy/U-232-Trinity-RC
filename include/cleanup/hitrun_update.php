@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache;
+    global $TRINITY20, $queries, $cache, $keys;
     set_time_limit(1200);
     ignore_user_abort(1);
     include (CACHE_DIR.'hit_and_run_settings.php');
@@ -50,10 +50,10 @@ function docleanup($data)
             $cache->update_row('user_stats_' . $arr_fuckers['userid'], [
                 'modcomment' => $modcomment
             ], $TRINITY20['expires']['user_stats']);
-            $cache->update_row('userstats_' . $arr_fuckers['userid'], [
+            $cache->update_row($keys['user_stats'] . $arr_fuckers['userid'], [
                 'modcomment' => $modcomment
             ], $TRINITY20['expires']['user_stats']);
-            $cache->update_row('MyUser_' . $arr_fuckers['userid'], [
+            $cache->update_row($keys['my_userid'] . $arr_fuckers['userid'], [
                 'hit_and_run_total' => $update['hit_and_run_total'],
                 'downloadpos' => 0,
                 'hnrwarn' => 'yes'
@@ -88,10 +88,10 @@ function docleanup($data)
             $cache->update_row('user_stats' . $arr_good_boy['id'], [
                 'modcomment' => $modcomment
             ], $TRINITY20['expires']['user_stats']);
-            $cache->update_row('userstats_' . $arr_good_boy['id'], [
+            $cache->update_row($keys['user_stats'] . $arr_good_boy['id'], [
                 'modcomment' => $modcomment
             ], $TRINITY20['expires']['user_stats']);
-            $cache->update_row('MyUser_' . $arr_good_boy['id'], [
+            $cache->update_row($keys['my_userid'] . $arr_good_boy['id'], [
                 'downloadpos' => 1,
                 'hnrwarn' => 'no'
             ], $TRINITY20['expires']['curuser']);

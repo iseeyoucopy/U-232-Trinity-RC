@@ -151,8 +151,8 @@ var ajaxChatConfig = {
 
 	// Defines the list of allowed emoticon codes:
 	emoticonCodes: [
-		':)',
-		':(',
+		'&#128540;',
+		'&#128540;',
 		';)',
 		':P',
 		':D',

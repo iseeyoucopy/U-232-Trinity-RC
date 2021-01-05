@@ -51,7 +51,7 @@ if ($remove) {
 			modcomment=concat(values(modcomment),modcomment)") or sqlerr(__file__, __line__);
             write_log("{$lang['freeusers_log1']} $remove ($username) 
 			{$lang['freeusers_log2']} $CURUSER[username]");
-            $cache->delete('MyUser_' . $arr['id']);
+            $cache->delete($keys['my_userid'] . $arr['id']);
             $cache->delete('inbox_new_' . $arr['id']);
             $cache->delete('inbox_new_sb_' . $arr['id']);
             $cache->delete('user' . $arr['id']);

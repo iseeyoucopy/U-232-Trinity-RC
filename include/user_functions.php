@@ -23,12 +23,19 @@ function get_parked()
     return $CURUSER['parked_until'];
 }
 //== Auto Shout Function ==//
+
 function autoshout($msg)
 {
-    global $TRINITY20, $cache;
+    global $TRINITY20, $cache, $keys;
     require_once (INCL_DIR . 'bbcode_functions.php');
-    //sql_query('INSERT INTO shoutbox(userid,date,text,text_parsed,autoshout)VALUES (' . $TRINITY20['bot_id'] . ',' . TIME_NOW . ',' . sqlesc($msg) . ',' . sqlesc(format_comment($msg)) . ', "yes")');
-    sql_query('INSERT INTO ajax_chat_messages(userID,userRole,channel,dateTime,ip,text) VALUES (' . $TRINITY20['bot_id'] . ',' . $TRINITY20['bot_role'] . ',"2",' . sqlesc(TIME_DATE) . ',' . sqlesc($_SERVER['REMOTE_ADDR']) . ',' . sqlesc(format_comment($msg)) . ')')  or sqlerr(__FILE__, __LINE__);
+	sql_query('INSERT INTO ajax_chat_messages(userID,userName,userRole,channel,dateTime,ip,text) VALUES (' . $TRINITY20['bot_id'] . ',' . sqlesc($TRINITY20['bot_name']) . ',' . $TRINITY20['bot_role'] . ',"3",' . sqlesc(TIME_DATE) . ',' . sqlesc($_SERVER['REMOTE_ADDR']) . ',' . sqlesc($msg) . ')')  or sqlerr(__FILE__, __LINE__);
+    $cache->delete($keys['auto_shoutbox']);
+}
+function shout2($msg)
+{
+    global $TRINITY20, $cache, $keys;
+    require_once (INCL_DIR . 'bbcode_functions.php');
+	sql_query('INSERT INTO ajax_chat_messages(userID,userName,userRole,channel,dateTime,ip,text) VALUES (' . $TRINITY20['bot_id'] . ',' . sqlesc($TRINITY20['bot_name']) . ',' . $TRINITY20['bot_role'] . ',"2",' . sqlesc(TIME_DATE) . ',' . sqlesc($_SERVER['REMOTE_ADDR']) . ',' . sqlesc($msg) . ')')  or sqlerr(__FILE__, __LINE__);
     $cache->delete($keys['auto_shoutbox']);
 }
 //== Parked function ==//
@@ -297,7 +304,7 @@ function format_username($user, $icons = true)
     $user['class'] = (int)$user['class'];
     if ($user['id'] == 0) return 'System';
     elseif ($user['username'] == '') return 'unknown[' . $user['id'] . ']';
-    $username = '<span style="color:#' . get_user_class_color($user['class']) . ';"><b>' . htmlsafechars($user['username']) . '</b></span>';
+    $username = '<span style="color:#' . get_user_class_color($user['class']) . ';"><strong>' . htmlsafechars($user['username']) . '</strong></span>';
     $str = '<span style="white-space: nowrap;"><a class="user_' . $user['id'] . '" href="' . $TRINITY20['baseurl'] . '/userdetails.php?id=' . $user['id'] . '" target="_blank">' . $username . '</a>';
     if ($icons != false) {
         $str.= ($user['donor'] == 'yes' ? '<img src="' . $TRINITY20['pic_base_url'] . 'star.png" alt="Donor" title="Donor" />' : '');

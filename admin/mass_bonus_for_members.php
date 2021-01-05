@@ -99,7 +99,7 @@ case 'upload_credit':
                     'uploaded' => $GB_new,
                     'modcomment' => $modcomment
                 ], $TRINITY20['expires']['user_stats']);
-                $cache->update_row('userstats_' . $arr_GB['id'], [
+                $cache->update_row($keys['user_stats'] . $arr_GB['id'], [
                     'uploaded' => $GB_new
                 ], $TRINITY20['expires']['u_stats']);
                 $cache->delete('inbox_new_' . $arr_GB['id']);
@@ -134,7 +134,7 @@ case 'upload_credit':
                             'uploaded' => $GB_new,
                             'modcomment' => $modcomment
                         ], $TRINITY20['expires']['user_stats']);
-                        $cache->update_row('userstats_' . $arr_GB['id'], [
+                        $cache->update_row($keys['user_stats'] . $arr_GB['id'], [
                             'uploaded' => $GB_new
                         ], $TRINITY20['expires']['u_stats']);
                         $cache->delete('inbox_new_' . $arr_GB['id']);
@@ -178,7 +178,7 @@ case 'karma':
                     'seedbonus' => $karma_new,
                     'modcomment' => $modcomment
                 ], $TRINITY20['expires']['user_stats']);
-                $cache->update_row('userstats_' . $arr_karma['id'], [
+                $cache->update_row($keys['user_stats'] . $arr_karma['id'], [
                     'seedbonus' => $karma_new
                 ], $TRINITY20['expires']['u_stats']);
                 $cache->delete('inbox_new_' . $arr_karma['id']);
@@ -213,7 +213,7 @@ case 'karma':
                             'seedbonus' => $karma_new,
                             'modcomment' => $modcomment
                         ], $TRINITY20['expires']['user_stats']);
-                        $cache->update_row('userstats_' . $arr_karma['id'], [
+                        $cache->update_row($keys['user_stats'] . $arr_karma['id'], [
                             'seedbonus' => $karma_new
                         ], $TRINITY20['expires']['u_stats']);
                         $cache->delete('inbox_new_' . $arr_karma['id']);
@@ -253,7 +253,7 @@ case 'freeslots':
                 $modcom = sqlesc($modcomment);
                 $pm_buffer[] = '(0, ' . $arr_freeslots['id'] . ', ' . TIME_NOW . ', ' . $msg . ', ' . $subject . ')';
                 $users_buffer[] = '(' . $arr_freeslots['id'] . ', ' . $freeslots_new . ', ' . $modcom . ')';
-                $cache->update_row('MyUser_' . $arr_freeslots['id'], [
+                $cache->update_row($keys['my_userid'] . $arr_freeslots['id'], [
                     'freeslots' => $freeslots_new
                 ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $arr_freeslots['id'], [
@@ -290,7 +290,7 @@ case 'freeslots':
                         $modcom = sqlesc($modcomment);
                         $pm_buffer[] = '(0, ' . $arr_freeslots['id'] . ', ' . TIME_NOW . ', ' . $msg . ', ' . $subject . ')';
                         $users_buffer[] = '(' . $arr_freeslots['id'] . ', ' . $freeslots_new . ', ' . $modcom . ')';
-                        $cache->update_row('MyUser_' . $arr_freeslots['id'], [
+                        $cache->update_row($keys['my_userid'] . $arr_freeslots['id'], [
                             'freeslots' => $freeslots_new
                         ], $TRINITY20['expires']['curuser']);
                         $cache->update_row('user' . $arr_freeslots['id'], [
@@ -336,7 +336,7 @@ case 'invite':
                 $modcom = sqlesc($modcomment);
                 $pm_buffer[] = '(0, ' . $arr_invites['id'] . ', ' . TIME_NOW . ', ' . $msg . ', ' . $subject . ')';
                 $users_buffer[] = '(' . $arr_invites['id'] . ', ' . $invites_new . ', ' . $modcom . ')';
-                $cache->update_row('MyUser_' . $arr_invites['id'], [
+                $cache->update_row($keys['my_userid'] . $arr_invites['id'], [
                     'invites' => $invites_new
                 ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $arr_invites['id'], [
@@ -373,7 +373,7 @@ case 'invite':
                         $modcom = sqlesc($modcomment);
                         $pm_buffer[] = '(0, ' . $arr_invites['id'] . ', ' . TIME_NOW . ', ' . $msg . ', ' . $subject . ')';
                         $users_buffer[] = '(' . $arr_invites['id'] . ', ' . $invites_new . ', ' . $modcom . ')';
-                        $cache->update_row('MyUser_' . $arr_invites['id'], [
+                        $cache->update_row($keys['my_userid'] . $arr_invites['id'], [
                             'invites' => $invites_new
                         ], $TRINITY20['expires']['curuser']);
                         $cache->update_row('user' . $arr_invites['id'], [

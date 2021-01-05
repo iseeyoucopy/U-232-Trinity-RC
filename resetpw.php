@@ -99,7 +99,7 @@ if ($step == '1') {
                     $sec = mksecret();
                     $sechash =  md5($sec.$fetch['id'].$fetch['hintanswer']);
                     sql_query("UPDATE users SET editsecret = ".sqlesc($sec)." WHERE id = ".sqlesc($id));
-                    $cache->update_row('MyUser_' . $fetch["id"], ['editsecret' => $sec], $TRINITY20['expires']['curuser']);
+                    $cache->update_row($keys['my_userid'] . $fetch["id"], ['editsecret' => $sec], $TRINITY20['expires']['curuser']);
                     $cache->update_row('user' . $fetch["id"], ['editsecret' => $sec], $TRINITY20['expires']['user_cache']);
                     $HTMLOUT .= "<div class='grid-container'>
 				<div class='grid-x grid-padding-x align-center-middle text-center margin-top-3'>
@@ -142,7 +142,7 @@ if ($step == '1') {
     $secret = mksecret();
     $newpassword = make_passhash($newpass);
     sql_query('UPDATE users SET secret = ' . sqlesc($secret) . ', editsecret = "", passhash=' . sqlesc($newpassword) . ' WHERE id = ' . sqlesc($id) . ' AND editsecret = ' . sqlesc($fetch["editsecret"]));
-    $cache->update_row('MyUser_' . $id, [
+    $cache->update_row($keys['my_userid'] . $id, [
         'secret' => $secret,
         'editsecret' => '',
         'passhash' => $newpassword

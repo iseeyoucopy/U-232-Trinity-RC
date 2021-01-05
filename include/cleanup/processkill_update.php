@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries;
+    global $TRINITY20, $queries, $keys;
     set_time_limit(1200);
     ignore_user_abort(1);
     $sql = sql_query("SHOW PROCESSLIST");

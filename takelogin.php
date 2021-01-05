@@ -179,7 +179,7 @@ if (!$no_log_ip) {
 $ua = getBrowser();
 $browser = "Browser: " . $ua['name'] . " " . $ua['version'] . ". Os: " . $ua['platform'];
 sql_query('UPDATE users SET browser=' . sqlesc($browser) . ', ip = ' . $ip_escaped . ', last_access=' . TIME_NOW . ', last_login=' . TIME_NOW . ' WHERE id=' . sqlesc($row['id'])) or sqlerr(__FILE__, __LINE__);
-$cache->update_row('MyUser_' . $row['id'], [
+$cache->update_row($keys['my_userid'] . $row['id'], [
     'browser' => $browser,
     'ip' => $ip,
     'last_access' => TIME_NOW,
@@ -191,7 +191,8 @@ $cache->update_row('user' . $row['id'], [
     'last_access' => TIME_NOW,
     'last_login' => TIME_NOW
 ], $TRINITY20['expires']['user_cache']);
-$passh = hash("ripemd160", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "");
+//$passh = hash("ripemd160", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "");
+$passh = hash("sha3-512", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "");
 /*=== for dupe account ===*/
 $uid = $row['id'];
 $hashlog = make_hash_log($uid, $passh);

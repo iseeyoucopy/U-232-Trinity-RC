@@ -13,7 +13,6 @@
 require_once(__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
 require_once(INCL_DIR . 'user_functions.php');
 require_once INCL_DIR . 'html_functions.php';
-require_once INCL_DIR . 'function_ircbot.php';
 //== Updated casino.php by Bigjoos
 dbconn(false);
 loggedinorreturn();
@@ -76,17 +75,19 @@ if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) != 1) {
     $result = sql_query($query) or sqlerr(__FILE__, __LINE__);
 }
 $row = mysqli_fetch_assoc($result);
-$user_win = $row["win"];
-$user_lost = $row["lost"];
-$user_trys = (int) $row["trys"];
-$user_date = (int) $row["date"];
-$user_deposit = $row["deposit"];
-$user_enableplay = htmlsafechars($row["enableplay"]);
+$user_win = isset($row["win"]) ? $row["win"] : '';
+$user_lost = isset($row["lost"]) ? $row["lost"] : '';
+$user_trys = isset($row["trys"]) ? (int) $row["trys"] : '';
+$user_date = isset($row["date"]) ? (int) $row["date"] : '';
+$user_deposit = isset($row["deposit"]) ? $row["deposit"] : '';
+$user_enableplay = isset($row["enableplay"]) ? htmlsafechars($row["enableplay"]) : '';
 if ($user_enableplay == "no") {
     stderr($lang['gl_sorry'], "" . htmlsafechars($CURUSER["username"]) . " {$lang['casino_your_banned_from_casino']}");
 }
-if (($user_win - $user_lost) > $max_download_user) {
-    stderr($lang['gl_sorry'], "" . htmlsafechars($CURUSER["username"]) . " {$lang['casino_you_have_reached_the_max_dl_for_a_single_user']}");
+if (is_numeric($user_win) && is_numeric($user_lost)) {
+    if (($user_win - $user_lost) > $max_download_user) {
+        stderr($lang['gl_sorry'], "" . htmlsafechars($CURUSER["username"]) . " {$lang['casino_you_have_reached_the_max_dl_for_a_single_user']}");
+    }
 }
 if ($CURUSER["downloaded"] > 0) {
     $ratio = number_format($CURUSER["uploaded"] / $CURUSER["downloaded"], 2);
@@ -181,7 +182,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
         sql_query("UPDATE casino SET date = '" . TIME_NOW . "', trys = trys + 1, win = win + " . sqlesc($win) . "  WHERE userid=" . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
         $update['uploaded'] = ($User['uploaded'] + $win);
         //==stats
-        $cache->update_row('userstats_' . $CURUSER['id'], [
+        $cache->update_row($keys['user_stats'] . $CURUSER['id'], [
             'uploaded' => $update['uploaded']
         ], $TRINITY20['expires']['u_stats']);
         $cache->update_row('user_stats_' . $CURUSER['id'], [
@@ -204,7 +205,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
         sql_query("UPDATE casino SET date = " . TIME_NOW . ", trys = trys + 1 ,lost = lost + " . sqlesc($betmb) . " WHERE userid=" . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
         $update['uploaded_loser'] = ($User['uploaded'] - $betmb);
         //==stats
-        $cache->update_row('userstats_' . $CURUSER['id'], [
+        $cache->update_row($keys['user_stats'] . $CURUSER['id'], [
             'uploaded' => $update['uploaded_loser']
         ], $TRINITY20['expires']['u_stats']);
         $cache->update_row('user_stats_' . $CURUSER['id'], [
@@ -241,10 +242,12 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
         $random = rand(0, 1);
         $loc = sql_query("SELECT * FROM casino_bets WHERE id = " . sqlesc($betid));
         $tbet = mysqli_fetch_assoc($loc);
-        $nogb = mksize($tbet['amount']);
-        if ($CURUSER['id'] == $tbet['userid']) {
+        $nogb = isset($tbet['amount']) ? mksize($tbet['amount']) : '';
+        $tbet_userid = isset($tbet['userid']) ? (int)$tbet['userid'] : "";
+        $tbet_challenged = isset($tbet['challenged']) ? $tbet['challenged'] : "";
+        if ($CURUSER['id'] == $tbet_userid) {
             stderr($lang['gl_sorry'], "{$lang['casino_you_want_to_bet_against_yourself_lol']} ?&nbsp;&nbsp;&nbsp;$goback");
-        } elseif ($tbet['challenged'] != "empty") {
+        } elseif ($tbet_challenged != "empty") {
             stderr($lang['gl_sorry'], "{$lang['casino_someone_has_already_taken_that_bet']}!&nbsp;&nbsp;&nbsp;$goback");
         }
         if ($CURUSER['uploaded'] < $tbet['amount']) {
@@ -259,7 +262,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
             sql_query("UPDATE casino SET deposit = deposit-" . sqlesc($tbet['amount']) . " WHERE userid = " . sqlesc($tbet['userid'])) or sqlerr(__FILE__, __LINE__);
             $update['uploaded'] = ($User['uploaded'] + $tbet['amount']);
             //==stats
-            $cache->update_row('userstats_' . $CURUSER['id'], [
+            $cache->update_row($keys['user_stats'] . $CURUSER['id'], [
                 'uploaded' => $update['uploaded']
             ], $TRINITY20['expires']['u_stats']);
             $cache->update_row('user_stats_' . $CURUSER['id'], [
@@ -292,7 +295,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
             sql_query("UPDATE casino SET deposit = deposit-" . sqlesc($tbet['amount']) . " WHERE userid = " . sqlesc($tbet['userid']));
             $update['uploaded'] = ($newup);
             //==stats
-            $cache->update_row('userstats_' . $CURUSER['id'], [
+            $cache->update_row($keys['user_stats'] . $CURUSER['id'], [
                 'uploaded' => $update['uploaded']
             ], $TRINITY20['expires']['u_stats']);
             $cache->update_row('user_stats_' . $CURUSER['id'], [
@@ -300,7 +303,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
             ], $TRINITY20['expires']['user_stats']);
             $update['uploaded_2'] = ($User['uploaded'] + $newup2);
             //==stats
-            $cache->update_row('userstats_' . $tbet['userid'], [
+            $cache->update_row($keys['user_stats'] . $tbet['userid'], [
                 'uploaded' => $update['uploaded_2']
             ], $TRINITY20['expires']['u_stats']);
             $cache->update_row('user_stats_' . $tbet['userid'], [
@@ -364,15 +367,14 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
         sql_query("UPDATE casino SET deposit = deposit + " . sqlesc($nobits) . " WHERE userid = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
         $update['uploaded'] = ($newups);
         //==stats
-        $cache->update_row('userstats_' . $CURUSER['id'], [
+        $cache->update_row($keys['user_stats'] . $CURUSER['id'], [
             'uploaded' => $update['uploaded']
         ], $TRINITY20['expires']['u_stats']);
         $cache->update_row('user_stats_' . $CURUSER['id'], [
             'uploaded' => $update['uploaded']
         ], $TRINITY20['expires']['user_stats']);
-        if ($TRINITY20['autoshout_on'] == 1 || $TRINITY20['irc_autoshout_on'] == 1) {
+        if ($TRINITY20['autoshout_on'] == 1) {
             autoshout($message);
-            ircbot($messages);
             $cache->delete('shoutbox_');
         }
         if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 0) {
@@ -505,8 +507,12 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
     $HTMLOUT .= tr($lang['casino_you_can_win'], mksize($max_download_user), 1);
     $HTMLOUT .= tr($lang['casino_won'], mksize($user_win), 1);
     $HTMLOUT .= tr($lang['casino_lost'], mksize($user_lost), 1);
-    $HTMLOUT .= tr($lang['casino_ratio'], $casino_ratio_user, 1);
-    $HTMLOUT .= tr($lang['casino_deposit_on_p2p'], mksize($user_deposit + $nobits));
+    if (is_numeric($casino_ratio_user)) {
+        $HTMLOUT .= tr($lang['casino_ratio'], $casino_ratio_user, 1);
+    }
+    if (is_numeric($user_deposit) && is_numeric($nobits)) {
+        $HTMLOUT .= tr($lang['casino_deposit_on_p2p'], mksize($user_deposit + $nobits));
+    }
     $HTMLOUT .= "</table>
             </td><td align='center'>
             <h1>{$lang['casino_global_stats']}</h1>
@@ -526,4 +532,3 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
     $HTMLOUT .= "</table></td></tr></table></div>";
 }
 echo stdhead("{$TRINITY20['site_name']} {$lang['casino_stdhead']}") . $HTMLOUT . stdfoot();
-?>

@@ -32,7 +32,7 @@ $sec = $row['editsecret'];
 if (preg_match('/^ *$/s', $sec)) stderr("{$lang['confirmmail_user_error']}", "{$lang['confirmmail_not_complete']}");
 if ($md5 != md5($sec . $email . $sec)) stderr("{$lang['confirmmail_user_error']}", "{$lang['confirmmail_not_complete']}");
 sql_query("UPDATE users SET editsecret='', email=" . sqlesc($email) . " WHERE id=" . sqlesc($id) . " AND editsecret=" . sqlesc($row["editsecret"]));
-$cache->update_row('MyUser_' . $id, [
+$cache->update_row($keys['my_userid'] . $id, [
     'editsecret' => '',
     'email' => $email
 ], $TRINITY20['expires']['curuser']);

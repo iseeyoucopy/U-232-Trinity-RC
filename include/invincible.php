@@ -13,7 +13,7 @@
 // pdq 2010
 function invincible($id, $invincible = true, $bypass_bans = true)
 {
-    global $CURUSER, $cache, $TRINITY20;
+    global $CURUSER, $cache, $TRINITY20, $keys;
 	$lang = load_language('invincible_function');
     $ip = '127.0.0.1';
     $setbits = $clrbits = 0;
@@ -55,7 +55,7 @@ function invincible($id, $invincible = true, $bypass_bans = true)
         'ip' => $ip,
         'perms' => $row['perms']
     ], $TRINITY20['expires']['user_cache']);
-    $cache->update_row('MyUser_' . $id, [
+    $cache->update_row($keys['my_userid'] . $id, [
         'ip' => $ip,
         'perms' => $row['perms']
     ], $TRINITY20['expires']['curuser']);
@@ -68,7 +68,7 @@ function invincible($id, $invincible = true, $bypass_bans = true)
             'ip' => $ip,
             'perms' => $row['perms']
         ], $TRINITY20['expires']['user_cache']);
-        $cache->update_row('MyUser_' . $CURUSER['id'], [
+        $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
             'ip' => $ip,
             'perms' => $row['perms']
         ], $TRINITY20['expires']['curuser']);

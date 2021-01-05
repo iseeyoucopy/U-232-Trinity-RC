@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($act == "disable") {
         if (sql_query("UPDATE users set enabled='no', modcomment=CONCAT(" . sqlesc(get_date(TIME_NOW, 'DATE', 1) . $lang['leechwarn_disabled_by'] . $CURUSER['username'] . "\n") . ",modcomment) WHERE id IN (" . join(",", $_uids) . ")")) {
             foreach ($_uids as $uid) {                
-                $cache->update_row('MyUser_' . $uid, [
+                $cache->update_row($keys['my_userid'] . $uid, [
                 'enabled' => 'no'
             ], $TRINITY20['expires']['curuser']);
             $cache->update_row('user' . $uid, [
@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sub = $lang['leechwarn_removed'];
         $body = $lang['leechwarn_removed_msg1'] . $CURUSER["username"] . $lang['leechwarn_removed_msg2'];
         foreach ($_uids as $uid) {
-            $cache->update_row('MyUser_' . $uid, [
+            $cache->update_row($keys['my_userid'] . $uid, [
                 'leechwarn' => 0
             ], $TRINITY20['expires']['curuser']);
             $cache->update_row('user' . $uid, [

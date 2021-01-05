@@ -14,7 +14,6 @@ require_once(__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . '
 require_once(INCL_DIR . 'user_functions.php');
 require_once(CLASS_DIR . 'page_verify.php');
 require_once(CLASS_DIR . 'class.bencdec.php');
-require_once INCL_DIR . 'function_ircbot.php';
 require_once INCL_DIR . 'function_memcache.php';
 dbconn();
 loggedinorreturn();
@@ -298,7 +297,6 @@ foreach ($file_list as $key=>$f) {
 
     if ($TRINITY20['autoshout_on'] == 1) {
         autoshout($message);
-        ircbot($messages);
         $cache->delete('shoutbox_');
     }
 
@@ -340,7 +338,7 @@ if ($TRINITY20['seedbonus_on'] == 1) {
     sql_query("UPDATE users SET seedbonus=seedbonus+" . sqlesc($bonus_val) . ", numuploads=numuploads+1 WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
     //===end
     $update['seedbonus'] = ($CURUSER['seedbonus'] + $bonus_val);
-    $cache->update_row('userstats_' . $CURUSER["id"], [
+    $cache->update_row($keys['user_stats'] . $CURUSER["id"], [
         'seedbonus' => $update['seedbonus']
     ], $TRINITY20['expires']['u_stats']);
     $cache->update_row('user_stats_' . $CURUSER["id"], [

@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache;
+    global $TRINITY20, $queries, $cache, $keys;
     set_time_limit(1200);
     ignore_user_abort(1);
     //== Movie of the week

@@ -100,13 +100,6 @@ $HTMLOUT .="<div id='ACTIVE_USERS'>";
     	require_once (BLOCK_DIR . 'index/active_users.php');
 $HTMLOUT .="</div>";
 	}
-	if (curuser::$blocks['index_page'] & block_index::IRC_ACTIVE_USERS && $BLOCKS['active_irc_users_on']) {
-$HTMLOUT .="<div id='IRC_ACTIVE_USERS'>";
-    	require_once (BLOCK_DIR . 'index/active_irc_users.php');
-$HTMLOUT .="</div>";
-	}
-
-
 	if (curuser::$blocks['index_page'] & block_index::LAST_24_ACTIVE_USERS && $BLOCKS['active_24h_users_on']) {
 $HTMLOUT .="<div id='LAST_24_ACTIVE_USERS'>";
     	require_once (BLOCK_DIR . 'index/active_24h_users.php');
@@ -135,24 +128,22 @@ $HTMLOUT .="<div id='XMAS_GIFT'>";
     	require_once (BLOCK_DIR . 'index/gift.php');
 $HTMLOUT .="</div>";
 	}
-
+/*
 	if (curuser::$blocks['index_page'] & block_index::RADIO && $BLOCKS['radio_on']) {
 $HTMLOUT .="<div id='RADIO'>";
     	require_once (BLOCK_DIR . 'index/radio.php');
 $HTMLOUT .="</div>";
 	}
-/*
+
 	if (curuser::$blocks['index_page'] & block_index::TORRENTFREAK && $BLOCKS['torrentfreak_on']) {
 $HTMLOUT .="<div id='TORRENTFREAK'>";
     	require_once (BLOCK_DIR . 'index/torrentfreak.php');
 $HTMLOUT .="</div>";
 	}
 */
-	if (curuser::$blocks['index_page'] & block_index::DISCLAIMER && $BLOCKS['disclaimer_on']) {
-$HTMLOUT .="<div id='DISCLAIMER'>";
-    	require_once (BLOCK_DIR . 'index/disclaimer.php');
-$HTMLOUT .="</div>";
-	}
+if ($USERBLOCKS['index_disclaimer_on']) {
+    require_once (BLOCK_DIR . 'index/disclaimer.php');
+}
 
 	if (curuser::$blocks['index_page'] & block_index::DONATION_PROGRESS && $BLOCKS['donation_progress_on']) {
 $HTMLOUT .="<div id='DONATION_PROGRESS'>";

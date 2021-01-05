@@ -16,7 +16,7 @@ define('AJAX_CHAT_UPLOADER',	   4);
 define('AJAX_CHAT_MODERATOR',	   5);
 define('AJAX_CHAT_ADMIN',		   6);
 define('AJAX_CHAT_SYSOP',		   7);
-define('AJAX_CHAT_CHATBOT',	       8);
+define('AJAX_CHAT_CHATBOT', $TRINITY20['ajax_chat']['bot_role']);
 
 // AJAX Chat config parameters:
 $config = array();
@@ -70,9 +70,10 @@ $config['contentEncoding'] = 'UTF-8';
 $config['sourceEncoding'] = 'UTF-8';
 // The content-type of the XHTML page (e.g. "text/html", will be set dependent on browser capabilities if set to null):
 $config['contentType'] = null;
-
+// Site name:
+$config['siteName'] = $TRINITY20['site_name'];
 // Session name used to identify the session cookie:
-$config['sessionName'] = 'ajax_chat';
+$config['sessionName'] = 'chat';
 // Prefix added to every session key:
 $config['sessionKeyPrefix'] = $TRINITY20['cookie_prefix'];
 // The lifetime of the language, style and setting cookies in days:
@@ -85,9 +86,9 @@ $config['sessionCookieDomain'] = $TRINITY20['cookie_domain'];
 $config['sessionCookieSecure'] = null;
 
 // Default channelName used together with the defaultChannelID if no channel with this ID exists:
-$config['defaultChannelName'] = 'U-232';
+$config['defaultChannelName'] = $TRINITY20['ajax_chat']['channel'];
 // ChannelID used when no channel is given:
-$config['defaultChannelID'] = 1;
+$config['defaultChannelID'] = $TRINITY20['ajax_chat']['base_channel'];
 // Defines an array of channelIDs (e.g. array(0, 1)) to limit the number of available channels, will be ignored if set to null:
 $config['limitChannelList'] = null;
 
@@ -149,12 +150,13 @@ $config['allowUserMessageDelete'] = true;
 // The userID used for ChatBot messages:
 $config['chatBotID'] = $TRINITY20['bot_id'];
 // The userName used for ChatBot messages
-$config['chatBotName'] = $TRINITY20['bot_name'];
-
+$config['chatBotName'] = $TRINITY20['ajax_chat']['bot_name'];
+// The userRole used for ChatBot messages:
+$config['chatBotRole'] = $TRINITY20['ajax_chat']['bot_role'];
 // Minutes until a user is declared inactive (last status update) - the minimum is 2 minutes:
-$config['inactiveTimeout'] = 2;
+$config['inactiveTimeout'] = 15;
 // Interval in minutes to check for inactive users:
-$config['inactiveCheckInterval'] = 2;
+$config['inactiveCheckInterval'] = 1;
 
 // Defines if messages are shown which have been sent before the user entered the channel:
 $config['requestMessagesPriorChannelEnter'] = true;
@@ -163,10 +165,10 @@ $config['requestMessagesPriorChannelEnterList'] = null;
 // Max time difference in hours for messages to display on each request:
 $config['requestMessagesTimeDiff'] = 720;
 // Max number of messages to display on each request:
-$config['requestMessagesLimit'] = 50;
+$config['requestMessagesLimit'] = 300;
 
 // Max users in chat (does not affect moderators or admins):
-$config['maxUsersLoggedIn'] = 200;
+$config['maxUsersLoggedIn'] = 1000;
 // Max userName length:
 $config['userNameMaxLength'] = 64;
 // Max messageText length:
@@ -178,7 +180,8 @@ $config['maxMessageRate'] = 20;
 $config['defaultBanTime'] = 60;
 
 // Argument that is given to the handleLogout JavaScript method:
-$config['logoutData'] = './?logout=true';
+//$config['logoutData'] = './?logout=true';
+$config['logoutData'] = '';
 
 // If true, checks if the user IP is the same when logged in:
 $config['ipCheck'] = false;
@@ -215,5 +218,3 @@ $config['socketServerChatID'] = 0;
 // This is used to anonymize the external urls
 //$config['anonymous_link'] = $site_config['site']['anonymizer_url'];
 
-// Font Scaling
-$config['font_size'] = !empty($CURUSER['font_size']) ? $CURUSER['font_size'] . '%' : '70%';

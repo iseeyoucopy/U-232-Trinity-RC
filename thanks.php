@@ -115,7 +115,7 @@ case 'add':
         $User = mysqli_fetch_assoc($sql);
         $update['seedbonus'] = ($User['seedbonus'] + $TRINITY20['bonus_per_thanks']);
         //header("Refresh: 1; url=details.php?id=$id");
-        $cache->update_row('userstats_' . $uid, [
+        $cache->update_row($keys['user_stats'] . $uid, [
             'seedbonus' => $update['seedbonus']
         ], $TRINITY20['expires']['u_stats']);
         $cache->update_row('user_stats_' . $uid, [

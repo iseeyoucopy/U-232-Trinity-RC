@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($act == "disable") {
         if (sql_query("UPDATE users set enabled='no', modcomment=CONCAT(" . sqlesc(get_date(TIME_NOW, 'DATE', 1) . $lang['hnrwarn_disabled'] . $CURUSER['username'] . "\n") . ",modcomment) WHERE id IN (" . join(",", $_uids) . ")")) {
             foreach ($_uids as $uid) {
-                $cache->update_row('MyUser_' . $uid, [
+                $cache->update_row($keys['my_userid'] . $uid, [
                     'enabled' => 'no'
                 ], $TRINITY20['expires']['curuser']);
                 $cache->update_row('user' . $uid, [
@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         foreach ($_uids as $id) {
             $pms[] = "(0," . $id . "," . sqlesc($sub) . "," . sqlesc($body) . "," . sqlesc(TIME_NOW) . ")";
         }
-            $cache->update_row('MyUser_' . $id, [
+            $cache->update_row($keys['my_userid'] . $id, [
             'hnrwarn' => 'no'
         ], $TRINITY20['expires']['curuser']);
         $cache->update_row('user' . $id, [

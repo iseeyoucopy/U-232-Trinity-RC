@@ -13,7 +13,7 @@
 // pdq 2010
 function stealth($id, $stealth = true)
 {
-    global $CURUSER, $cache, $TRINITY20;
+    global $CURUSER, $cache, $TRINITY20, $keys;
     $setbits = $clrbits = 0;
     if ($stealth) {
         $display = 'is';
@@ -36,7 +36,7 @@ function stealth($id, $stealth = true)
     $cache->update_row('user' . $id, [
         'perms' => $row['perms']
     ], $TRINITY20['expires']['user_cache']);
-    $cache->update_row('MyUser_' . $id, [
+    $cache->update_row($keys['my_userid'] . $id, [
         'perms' => $row['perms']
     ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user_stats_' . $id, [
@@ -46,7 +46,7 @@ function stealth($id, $stealth = true)
         $cache->update_row('user' . $CURUSER['id'], [
             'perms' => $row['perms']
         ], $TRINITY20['expires']['user_cache']);
-        $cache->update_row('MyUser_' . $CURUSER['id'], [
+        $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
             'perms' => $row['perms']
         ], $TRINITY20['expires']['curuser']);
         $cache->update_row('user_stats_' . $CURUSER['id'], [

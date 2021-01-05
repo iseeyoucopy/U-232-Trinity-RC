@@ -162,7 +162,7 @@ if (isset($_GET['change_pm_number'])) {
     $cache->update_row('user' . $CURUSER['id'], [
         'pms_per_page' => $change_pm_number
     ], $TRINITY20['expires']['user_cache']);
-    $cache->update_row('MyUser_' . $CURUSER['id'], [
+    $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
         'pms_per_page' => $change_pm_number
     ], $TRINITY20['expires']['curuser']);
     if (isset($_GET['edit_mail_boxes'])) header('Location: pm_system.php?action=edit_mailboxes&pm=1');
@@ -176,7 +176,7 @@ if (isset($_GET['show_pm_avatar'])) {
     $cache->update_row('user' . $CURUSER['id'], [
         'show_pm_avatar' => $show_pm_avatar
     ], $TRINITY20['expires']['user_cache']);
-    $cache->update_row('MyUser_' . $CURUSER['id'], [
+    $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
         'show_pm_avatar' => $show_pm_avatar
     ], $TRINITY20['expires']['curuser']);
     if (isset($_GET['edit_mail_boxes'])) header('Location: pm_system.php?action=edit_mailboxes&avatar=1');

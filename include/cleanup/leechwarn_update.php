@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache;
+    global $TRINITY20, $queries, $cache, $keys;
     set_time_limit(1200);
     ignore_user_abort(1);
     //== 09 Auto leech warn by Bigjoos/pdq
@@ -39,7 +39,7 @@ function docleanup($data)
                 'leechwarn' => $update['leechwarn'],
                 'downloadpos' => 0
             ], $TRINITY20['expires']['user_cache']);
-            $cache->update_row('MyUser_' . $arr['id'], [
+            $cache->update_row($keys['my_userid'] . $arr['id'], [
                 'leechwarn' => $update['leechwarn'],
                 'downloadpos' => 0
             ], $TRINITY20['expires']['curuser']);
@@ -76,7 +76,7 @@ function docleanup($data)
                 'leechwarn' => 0,
                 'downloadpos' => 1
             ], $TRINITY20['expires']['user_cache']);
-            $cache->update_row('MyUser_' . $arr['id'], [
+            $cache->update_row($keys['my_userid'] . $arr['id'], [
                 'leechwarn' => 0,
                 'downloadpos' => 1
             ], $TRINITY20['expires']['curuser']);
@@ -112,7 +112,7 @@ function docleanup($data)
             $cache->update_row('user_stats_' . $arr['id'], [
                 'modcomment' => $modcomment
             ], $TRINITY20['expires']['user_stats']);
-            $cache->update_row('MyUser_' . $arr['id'], [
+            $cache->update_row($keys['my_userid'] . $arr['id'], [
                 'leechwarn' => 0,
                 'enabled' => 'no'
             ], $TRINITY20['expires']['curuser']);

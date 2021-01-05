@@ -26,10 +26,6 @@ require_once(INCL_DIR.'function_rating.php');
 dbconn(false);
 loggedinorreturn();
 flood_limit('posts');
-require_once(TEMPLATE_DIR.''.$CURUSER['stylesheet'].'' . DIRECTORY_SEPARATOR . 'html_functions' . DIRECTORY_SEPARATOR . 'forums_html_functions.php');
-require_once(TEMPLATE_DIR.''.$CURUSER['stylesheet'].'' . DIRECTORY_SEPARATOR . 'html_functions' . DIRECTORY_SEPARATOR . 'global_html_functions.php'); 
-require_once(TEMPLATE_DIR.''.$CURUSER['stylesheet'].'' . DIRECTORY_SEPARATOR . 'html_functions' . DIRECTORY_SEPARATOR . 'navigation_html_functions.php'); 
-require_once(TEMPLATE_DIR.''.$CURUSER['stylesheet'].'' . DIRECTORY_SEPARATOR . 'html_functions' . DIRECTORY_SEPARATOR . 'buttons_functions.php');
 define('MAX_CLASS', UC_STAFF);
 $lang = array_merge( load_language('global'), load_language('forums') );
 if ($TRINITY20['forums_online'] == 0 && $CURUSER['class'] < UC_STAFF)
@@ -269,12 +265,11 @@ $action = (in_array($posted_action, $valid_actions) ? $posted_action : 'view_def
 	  continue;
           $ovfid = (int)$ovf_arr["id"];
           $ovfname = htmlsafechars($ovf_arr["name"]);
-		  $HTMLOUT .='<ul class="accordion" data-accordion data-multi-expand="true">
-  <li class="accordion-item is-active" data-accordion-item>
-    <a href="#" class="accordion-title"><strong>'.$ovfname.'</strong></a>
-    <div class="accordion-content" data-tab-content >';
+                $HTMLOUT .='<div class="card">
+                <div class="card-divider"><strong>'.$ovfname.'</strong></div>
+                <div class="card-section">';
           $HTMLOUT .= show_forums($ovfid, false, $forums, true, true);
-		  $HTMLOUT .= ' </div></li></ul>';
+		  $HTMLOUT .= ' </div></div>';
           }
 //$HTMLOUT .= "</div>";
           if ($Multi_forum['configs']['use_forum_stats_mod'])
