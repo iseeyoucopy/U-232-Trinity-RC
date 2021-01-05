@@ -377,7 +377,7 @@ $HTMLOUT .= "<div class='callout'>
 	<p>Country : $country</p>
 </div>";
 $HTMLOUT .= "<div class='dropdown-pane' id='userdetails-actions' data-dropdown data-hover='true' data-hover-pane='true'>";
-$HTMLOUT.= isset($showpmbutton) ? "<a href='pm_system.php?action=send_message&receiver=" . (int)$user["id"] . "'><dd><i class='fas fa-comment-alt'></i>{$lang[' userdetails_msg_btn']}</dd></a>" : ''; 
+$HTMLOUT.= isset($showpmbutton) ? "<a href='pm_system.php?action=send_message&receiver=" . (int)$user["id"] . "'><dd><i class='fas fa-comment-alt'></i>{$lang['userdetails_msg_btn']}</dd></a>" : ''; 
 $HTMLOUT.= ($CURUSER["id"] <> $user["id"] & $friends > 0) ? "<a href='friends.php?action=delete&amp;type=friend&amp;targetid=$id'><dd><i class='fas fa-user-times'></i>{$lang['userdetails_remove_friends']}</dd></a>" : "<a href='friends.php?action=add&amp;type=friend&amp;targetid=$id'><dd><i class='fas fa-user-plus'></i>{$lang['userdetails_add_friends']}</dd></a>";
 $HTMLOUT.= ($CURUSER["id"] <> $user["id"] & $blocks > 0) ? "<a href='friends.php?action=delete&amp;type=block&amp;targetid=$id'><dd><i class='fas fa-user-times'></i>{$lang['userdetails_remove_blocks']}</dd></a>" : "<a href='friends.php?action=add&amp;type=block&amp;targetid=$id'><dd><i class='fas fa-user-lock'></i>{$lang['userdetails_add_blocks']}</dd></a>";
 //=== Link to member contact mail - updated 2020 by iseeyoucopy
