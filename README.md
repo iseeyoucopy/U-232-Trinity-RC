@@ -48,7 +48,11 @@
 
         Enter the following commands in a terminal. Be patient while g++ is running, it'll take a few minutes.
 
-        git clone https://github.com/OlafvdSpek/xbt cd xbt/Tracker cmake . make cp xbt_tracker.conf.default xbt_tracker.conf
+        git clone https://github.com/OlafvdSpek/xbt 
+        cd xbt/Tracker 
+        cmake . 
+        make 
+        cp xbt_tracker.conf.default xbt_tracker.conf
 
         Remember to add your mysql connect details to xbt_tracker.conf
 
@@ -67,11 +71,24 @@ Third, userclasses in class_config table are default 0-6 so if you have differen
 Fourth, once your upgrade is completed with new code in place simply edit your announce urls in all seeding torrents and change announce.php?passkey= to announce.php?torrent_pass= and all torrents should resume as normal, same applys if switching to XBT_TRACKER, you would use the XBT_TRACKER format for announce url in client.
 
 # Setup to Automate HTML and SaSS changes using GULP4 and BrowserSync 
+       first make sure you have NodeJs intalled on server
+       
+       apt install nodejs  on Debian and Ubuntu
+       
+       CentOS
+       yum install -y gcc-c++ make
+       curl -sL https://rpm.nodesource.com/setup_14.x | sudo -E bash -
+       sudo yum install nodejs
+       node -v 
+       npm -v
+       
         To Run the Project
-
+        
+        cd /etc/var/www/html
+        
         git clone https://github.com/iseeyoucopy/gulp4-sass-foundation foundation
         Then open the folder in your command line, and install the needed dependencies:
-
+ 
         cd foundation
         npm install
         npm install -D babel
