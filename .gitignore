@@ -3,4 +3,10 @@ cache/staff_settings.php
 cache/staff_settings2.php
 include/config.php
 include/ann_config.php
+pic/
+GeoIP/
+Log_Viewer/
+torrents/
+vendor/
+foundation/
 
