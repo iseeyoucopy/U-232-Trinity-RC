@@ -91,7 +91,6 @@ Fourth, once your upgrade is completed with new code in place simply edit your a
  
         cd foundation
         npm install
-        npm install -D babel
         
         Finally, run
         
