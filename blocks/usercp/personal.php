@@ -3,8 +3,9 @@ $templates = sql_query("SELECT id, name FROM stylesheets ORDER BY id");
 while ($templ = mysqli_fetch_assoc($templates)) {
     if (file_exists("templates/".intval($templ['id'])."/template.php")) $stylesheets.= "<option value='" . (int)$templ['id'] . "'" . ($templ['id'] == $CURUSER['stylesheet'] ? " selected='selected'" : "") . ">" . htmlsafechars($templ['name']) . "</option>";
 }
-$HTMLOUT.= "<div class='col-md-8'>
-	<table class='table table-bordered'>
+$HTMLOUT.= "<form method='post' action='takeeditcp.php'>
+<div class='tabs-panel' id='panel9'><div class='col-md-8'>
+	<table class='table bordered'>
 		<tr>
 			<td>
 				<input type='hidden' name='action' value='personal' />{$lang['usercp_pers_opt']}
@@ -103,4 +104,4 @@ $HTMLOUT.= "<div class='col-md-8'>
     }
     //== End
     $HTMLOUT.= "<tr><td align='center' colspan='2'><input class='btn btn-primary' type='submit' value='{$lang['usercp_sign_sub']}' style='height: 40px' /></td></tr>";
-	$HTMLOUT.="</table></div>";
+	$HTMLOUT.="</table></div></div></form>";

@@ -38,7 +38,8 @@ if ($CURUSER['auto_correct_dst']) {
     $dst_correction = '';
 }
  $HTMLOUT.= "
-<div class='col-md-7'>
+ <form method='post' action='takeeditcp.php'>
+        <div class='tabs-panel' id='panel6'>
 	<table class='table table-bordered'>";
     $HTMLOUT.= "<tr><td><input type='hidden' name='action' value='location' />{$lang['usercp_loc_opt']}</td></tr>";
     //==Time Zone
@@ -55,4 +56,4 @@ if ($CURUSER['auto_correct_dst']) {
 //    <option value='2'" . ($CURUSER['language'] == '2' ? " selected='selected'" : "") . ">{$lang['usercp_loc_loc2']}</option>
 //    <option value='3'" . ($CURUSER['language'] == '3' ? " selected='selected'" : "") . ">{$lang['usercp_loc_loc3']}</option>
     $HTMLOUT.= "<tr ><td align='center' colspan='2'><input class='btn btn-primary' type='submit' value='{$lang['usercp_sign_sub']}' style='height: 40px' /></td></tr>";
-$HTMLOUT.="</table></div>";
+$HTMLOUT.="</table></div></form>";

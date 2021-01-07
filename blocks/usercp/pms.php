@@ -1,5 +1,5 @@
 <?php
-		$HTMLOUT.= "<div class='col-md-8'>
+		$HTMLOUT.= "<form method='post' action='takeeditcp.php'><div class='tabs-panel is-active' id='panel1'>
 	<table class='table table-bordered'>";
     $HTMLOUT.= "<tr><td><input type='hidden' name='action' value='default' />{$lang['usercp_pm_opt']}</td></tr>";
 	$HTMLOUT.= tr($lang['usercp_email_notif'], "<input type='checkbox' name='pmnotif'" . (strpos($CURUSER['notifs'], "[pm]") !== false ? " checked='checked'" : "") . " value='yes'> {$lang['usercp_notify_pm']}", 1);
@@ -18,4 +18,4 @@
     //$HTMLOUT.= tr("Torrent comment Pm", "<input type='checkbox' name='commentpm'" . (($CURUSER['opt2'] & user_options_2::COMMENTPM) ? " checked='checked'" : "") . " value='yes' />(When any of your uploaded torrents are commented on, you will be PMed)", 1);
     $HTMLOUT.= tr($lang['usercp_pm_force'], "<input type='radio' name='pm_forced' ".($CURUSER["pm_forced"] == "yes" ? " checked='checked'" : "")." value='yes' />".$lang['usercp_av_yes1']." <input type='radio' name='pm_forced' ".($CURUSER["pm_forced"] == "no" ? " checked='checked'" : "")." value='no' />".$lang['usercp_av_no1']."<br />".$lang['usercp_pm_pm04']."", 1);
 $HTMLOUT.= "<tr><td align='center' colspan='2'><input class='btn btn-primary' type='submit' value='{$lang['usercp_sign_sub']}' style='height: 40px' /></td></tr>";
-$HTMLOUT.="</table></div>";
+$HTMLOUT.="</table></div></form>";

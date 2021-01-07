@@ -1,5 +1,6 @@
 <?php
-   $HTMLOUT.= "<div class='col-md-8'>
+   $HTMLOUT.= "<form method='post' action='takeeditcp.php'>
+    <div class='tabs-panel' id='panel7'>
 	<table class='table table-bordered'>";
     $HTMLOUT.= "<tr><td><input type='hidden' name='action' value='torrents' />{$lang['usercp_tt_opt']}</td></tr>";
     //==cats
@@ -33,4 +34,4 @@
      </select>", $CURUSER['categorie_icon']);
     $HTMLOUT.= tr($lang['usercp_tor_perpage'], "<input type='text' size='10' name='torrentsperpage' value='{$CURUSER['torrentsperpage']}' /> {$lang['usercp_default']}", 1);
     $HTMLOUT.= "<tr><td align='center' colspan='2'><input class='btn btn-primary' type='submit' value='{$lang['usercp_sign_sub']}' style='height: 40px' /></td></tr>";
-$HTMLOUT.="</table></div>";
+$HTMLOUT.="</table></div></form>";

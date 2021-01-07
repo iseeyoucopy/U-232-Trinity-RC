@@ -1,6 +1,6 @@
 <?php
-$HTMLOUT.= "
-<div class='col-md-6'>
+$HTMLOUT.= "<form method='post' action='takeeditcp.php'>
+<div class='tabs-panel' id='panel8'>
 	<table class='table table-bordered'>";
     $HTMLOUT.= "<tr><td><input type='hidden' name='action' value='social' />{$lang['usercp_soc_ial']}</td></tr>";
     //=== social stuff
@@ -12,4 +12,4 @@ $HTMLOUT.= "
     $HTMLOUT.= tr(''.$lang['usercp_soc_www'].'', '<img src="pic/social_media/www.gif" alt="www" title="www" width="16px" height="16px" /><input type="text" size="30" name="website"  value="' . htmlsafechars($CURUSER['website']) . '" />', 1);
     $HTMLOUT.= "<tr ><td align='center' colspan='2'><input class='btn btn-primary' type='submit' value='{$lang['usercp_sign_sub']}' style='height: 40px' /></td></tr>";
 
-$HTMLOUT.="</table></div>";
+$HTMLOUT.="</table></div></form>";

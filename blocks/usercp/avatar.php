@@ -1,5 +1,7 @@
 <?php
    $HTMLOUT.= "
+   <div class='tabs-panel' id='panel2'>
+<form method='post' action='takeeditcp.php'>
 <div class='col-md-8'>	
 <table class='table table-bordered'>
 	<tr>
@@ -29,4 +31,4 @@
     //$HTMLOUT.= tr('View avatars', '<input class="styled" type="checkbox" name="avatars"' . (($CURUSER['opt1'] & user_options::AVATARS) ? ' checked="checked"' : '') . ' value="yes" /> (Low bandwidth user may want to disable this)', 1);
     $HTMLOUT.= "<tr><td align='center' colspan='2'><input class='btn btn-primary' type='submit' value='{$lang['usercp_sign_sub']}' style='height: 40px' /></td></tr>";
 
-$HTMLOUT.="</table></div>";
+$HTMLOUT.="</table></div></form></div>";
