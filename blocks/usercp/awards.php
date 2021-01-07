@@ -1,19 +1,38 @@
 <?php
-$res = sql_query("SELECT users.id, users.username, usersachiev.achpoints, usersachiev.spentpoints FROM users LEFT JOIN usersachiev ON users.id = usersachiev.id WHERE users.id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-$arr = mysqli_fetch_assoc($res);
-if (!$arr) stderr($lang['achievement_history_err'], $lang['achievement_history_err1']);
-
-$res = sql_query("SELECT COUNT(*) FROM achievements WHERE userid =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+$res = sql_query("SELECT COUNT(*) FROM achievements WHERE userid =" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
 $row = mysqli_fetch_row($res);
 $count = $row[0];
-$perpage = 15;
-$pager = pager($perpage, $count, "?id=$id&amp;");
-
-if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
-
-$res_achiev = sql_query("SELECT a1.*, (SELECT COUNT(a2.id) FROM achievements AS a2 WHERE a2.achievement = a1.achievname) as count FROM achievementist AS a1 ORDER BY a1.id ") or sqlerr(__FILE__, __LINE__);
-
-$HTMLOUT . '<div class="tabs-panel" id="panel4">';
-require_once (BLOCK_DIR . 'achievements/ach_history.php');
-$HTMLOUT . '</div>';
+$perpage = 5;
+if (!$count) {
+    $HTMLOUT.= "{$lang['achievement_history_err2']}<a class='altlink' href='userdetails.php?id=" . (int) $CURUSER['id'] . "'>" . htmlsafechars($CURUSER['username']) . "</a>{$lang['achievement_history_err3']}";
+}
+$pager = pager($perpage, $count, "?");
+$HTMLOUT.= "<div class='tabs-panel' id='awards'>
+<div class='table-responsive-md'>
+    <table class='table table-bordered '>
+        <thead>
+            <tr>
+                <th>{$lang['achievement_history_award']}</th>
+                <th>{$lang['achievement_history_descr']}</th>
+                <th>{$lang['achievement_history_date']}</th>
+            </tr>
+        </thead>
+        ";
+$res = sql_query("SELECT * FROM achievements WHERE userid=" . sqlesc($CURUSER['id']) . " ORDER BY date DESC {$pager['limit']}") or sqlerr(__FILE__, __LINE__);
+while ($arr = mysqli_fetch_assoc($res)) {
+$HTMLOUT.= "
+            <tr>
+                <td><img src='pic/achievements/" . htmlsafechars($arr['icon']) . "' alt='" . htmlsafechars($arr['achievement']) . "' title='" . htmlsafechars($arr['achievement']) . "' /></td>
+                <td>" . htmlsafechars($arr['description']) . "</td>
+                <td>" . get_date($arr['date'], '') . "</td>
+            </tr>
+    ";
+}
+$HTMLOUT.= "
+    </table>
+    </div>
+</div>";
+if ($count > $perpage) {
+    $HTMLOUT.= $pager['pagerbottom'];
+}
 ?>
