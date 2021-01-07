@@ -84,7 +84,7 @@ Fourth, once your upgrade is completed with new code in place simply edit your a
        
         To Run the Project
         
-        cd /etc/var/www/html
+        cd /var/www/html
         
         git clone https://github.com/iseeyoucopy/gulp4-sass-foundation foundation
         Then open the folder in your command line, and install the needed dependencies:
