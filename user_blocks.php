@@ -452,372 +452,633 @@ $checkbox_userdetails_userstatus = ((curuser::$blocks['userdetails_page'] & bloc
 $checkbox_userdetails_usercomments = ((curuser::$blocks['userdetails_page'] & block_userdetails::USERCOMMENTS) ? ' checked="checked"' : '');
 $checkbox_userdetails_showfriends = ((curuser::$blocks['userdetails_page'] & block_userdetails::SHOWFRIENDS) ? ' checked="checked"' : '');
 $HTMLOUT = '';
-$HTMLOUT.= '<div class="container">
+$HTMLOUT.= '<div class="grid-container">
 <h2 class="text-center">' . $lang['user_b_head'] . '</h2><br>
 <form action="" method="post">
-<ul id="myTab" class="nav nav-pills col-sm-offset-3">
-   <li class="active"><a href="#Home" data-toggle="tab">' . $lang['user_b_title1'] . '</a></li>   
-   <li><a href="#site" data-toggle="tab">' . $lang['user_b_title2'] . '</a></li>
-   <li><a href="#user" data-toggle="tab">' . $lang['user_b_title3'] . '</a></li>  
-</ul><br>
-<div style="display:block;height:20px;"></div>
-<div id="myTabContent" class="tab-content"> 
-<div class="tab-pane fade in active" id="Home">
+<div class="title-bar" data-responsive-toggle="example-menu" data-hide-for="medium">
+  <button class="menu-icon" type="button" data-toggle="example-menu"></button>
+  <div class="title-bar-title">Menu</div>
+</div>
+<div class="cell callout"  id="example-menu">
+<ul class="tabs" data-active-collapse="true" data-tabs id="userblocks_tab">
+<li class="tabs-title is-active"><a href="#panel_index" aria-selected="true">' . $lang['user_b_title1'] . '</a></li>
+<li class="tabs-title"><a href="#panel_global">' . $lang['user_b_title2'] . '</a></li>
+<li class="tabs-title"><a href="#panel_userdetails">' . $lang['user_b_title3'] . '</a></li>
+<li class="tabs-title"><a href="#panel_usercp">UserCP</a></li>
+<li class="tabs-title"><a href="#panel_torrents">Torrents</a></li>
+</ul>
+</div>
+<div class="tabs-content" data-tabs-content="userblocks_tab">
+<div class="tabs-panel is-active" id="panel_index">
  <fieldset><legend>' . $lang['user_b_title1'] . '</legend></fieldset>
-        <table class="table table-bordered">
-        <tr><td class="userblock"><b>' . $lang['user_b_ie1'] . '</b></td><td>
-        <div class="checkbox-inline col-sm-offset-0"><label><input data-toggle="toggle" type="checkbox" id="ie_alert" name="ie_alert" value="yes"' . $checkbox_index_ie_alert . '></label>
-        <span>' . $lang['user_b_chk'] . '' . $lang['user_b_ie2'] . '</span></div>             
+        <table class="table bordered">
+        <tr><td><b>' . $lang['user_b_ie1'] . '</b></td><td>
+        <div class="switch large">
+        <input class="switch-input" type="checkbox" id="ie_alert" name="ie_alert" value="yes" ' . $checkbox_index_ie_alert . '>
+        <label class="switch-paddle" for="ie_alert">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>
     </td>
     </tr>
-        <tr class="userblock"><td><b>' . $lang['user_b_nb1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="index_news" value="yes" name="news"' . $checkbox_index_news . '></label>
-               <span>' . $lang['user_b_chk'] . '' . $lang['user_b_nb2'] . '</span></div>
+        <tr><td><b>' . $lang['user_b_nb1'] . '</b></td><td>
+        <div class="switch large">
+        <input class="switch-input" id="index_news" type="checkbox" name="news" ' . $checkbox_index_news . '>
+        <label class="switch-paddle" for="index_news">
+        <span class="show-for-sr">Do you like me?</span>
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>
     </td>
+    </tr>
+    <tr><td><b>' . $lang['user_b_sh1'] . '</b></td><td>
+    <div class="switch large">
+    <input class="switch-input" id="index_shoutbox" type="checkbox" name="shoutbox" ' . $checkbox_index_shoutbox . '>
+    <label class="switch-paddle" for="index_shoutbox">
+    <span class="show-for-sr">Do you like me?</span>
+    <span class="switch-active" aria-hidden="true">Yes</span>
+    <span class="switch-inactive" aria-hidden="true">No</span>
+    </label>
+    </div>
+</td>
+        <tr><td><b>' . $lang['user_b_actu1'] . '</b></td><td>
+        <div class="switch large">
+        <input class="switch-input" type="checkbox" id="active_users" name="active_users" value="yes"' . $checkbox_index_active_users . '>
+        <label class="switch-paddle" for="active_users">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>
+        </td>
         </tr>
-        <tr class="userblock"><td><b>' . $lang['user_b_sh1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="shoutbox" name="shoutbox" value="yes"' . $checkbox_index_shoutbox . '></label>
-               <span>' . $lang['user_b_chk'] . '' . $lang['user_b_sh2'] . '</span></div>
+        <tr><td><b>' . $lang['user_b_act24'] . '</b></td><td>
+        <div class="switch large">
+        <input class="switch-input" type="checkbox" id="active_users2" name="last_24_active_users" value="yes"' . $checkbox_index_active_24h_users . '>
+        <label class="switch-paddle" for="active_users2">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>
         </td>
-        </tr>';
-if ($CURUSER['class'] >= UC_STAFF) {
-    $HTMLOUT.= '<tr class="userblock"><td><b>' . $lang['user_b_shst1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="staffshout" name="staff_shoutbox" value="yes"' . $checkbox_index_staffshoutbox . '>
-        </label><span>' . $lang['user_b_chk'] . '' . $lang['user_b_shst2'] . '</span></div>
-            </td>
-        </tr>';
-}
-$HTMLOUT.= '<tr class="userblock"><td><b>' . $lang['user_b_actu1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="active_users" name="active_users" value="yes"' . $checkbox_index_active_users . '>
-        </label><span>' . $lang['user_b_chk'] . '' . $lang['user_b_actu2'] . '</span></div>
-            </td>
-        </tr>       
-        <tr class="userblock"><td><b>' . $lang['user_b_act24'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="active_users2" name="last_24_active_users" value="yes"' . $checkbox_index_active_24h_users . '>
-        </label><span>' . $lang['user_b_chk'] . '' . $lang['user_b_act25'] . '</span></div>
-            </td>
-        </tr>       
-        <tr class="userblock"><td><b>' . $lang['user_b_bir1'] . '</b></td><td>
-         <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="birthday_active_users" name="birthday_active_users" value="yes"' . $checkbox_index_active_birthday_users . '>
-        </label> <span>' . $lang['user_b_chk'] . '' . $lang['user_b_bir2'] . '</span></div>
-            </td>
-        </tr>   
-        <tr class="userblock"><td><b>' . $lang['user_b_sit1'] . '</b></td><td>
-         <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="stats" name="stats" value="yes"' . $checkbox_index_stats . '>
-    </label><span>' . $lang['user_b_chk'] . '' . $lang['user_b_sit2'] . '</span></div>        
+        </tr>
+        <tr><td><b>' . $lang['user_b_bir1'] . '</b></td><td>
+        <div class="switch large">
+        <input class="switch-input" type="checkbox" id="birthday_active_users" name="birthday_active_users" value="yes"' . $checkbox_index_active_birthday_users . '>
+        <label class="switch-paddle" for="birthday_active_users">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>
         </td>
-        </tr>       
-        <tr class="userblock"><td><b>' . $lang['user_b_disc1'] . '</b></td><td>
-         <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="disclaimer" name="disclaimer" value="yes"' . $checkbox_index_disclaimer . '>
-    </label><span>' . $lang['user_b_chk'] . '' . $lang['user_b_disc2'] . '</span></div>
+        </tr>
+        <tr><td><b>' . $lang['user_b_sit1'] . '</b></td><td>
+        <div class="switch large">
+        <input class="switch-input" type="checkbox" id="stats" name="stats" value="yes"' . $checkbox_index_stats . '>
+        <label class="switch-paddle" for="stats">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>
         </td>
-        </tr>   
-        <tr class="userblock"><td><b>' . $lang['user_b_last1'] . '</b></td><td>
-    <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="latest_user" name="latest_user" value="yes"' . $checkbox_index_latest_user . '>
-    </label><span>' . $lang['user_b_chk'] . '' . $lang['user_b_last2'] . '</span></div>
+        </tr>     
+        <tr><td><b>' . $lang['user_b_disc1'] . '</b></td><td>
+         <div class="switch large"><input class="switch-input" type="checkbox" id="disclaimer" name="disclaimer" value="yes"' . $checkbox_index_disclaimer . '>
+         <label class="switch-paddle" for="disclaimer">
+         <span class="switch-active" aria-hidden="true">Yes</span>
+         <span class="switch-inactive" aria-hidden="true">No</span>
+         </label>
+         </div>
         </td>
         </tr>   
-        <tr class="userblock"><td><b>' . $lang['user_b_fol1'] . '</b></td><td>
-    <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="forumposts" name="forumposts" value="yes"' . $checkbox_index_latest_forumposts . '>
-    </label> <span>' . $lang['user_b_chk'] . '' . $lang['user_b_fol2'] . '</span></div>
+        <tr><td><b>' . $lang['user_b_last1'] . '</b></td><td>
+    <div class="switch large"><input class="switch-input" type="checkbox" id="latest_user" name="latest_user" value="yes"' . $checkbox_index_latest_user . '>
+    <label class="switch-paddle" for="latest_user">
+    <span class="switch-active" aria-hidden="true">Yes</span>
+    <span class="switch-inactive" aria-hidden="true">No</span>
+    </label>
+    </div>
+        </tr>   
+        <tr><td><b>' . $lang['user_b_fol1'] . '</b></td><td>
+    <div class="switch large"><input class="switch-input" type="checkbox" id="forumposts" name="forumposts" value="yes"' . $checkbox_index_latest_forumposts . '>
+    <label class="switch-paddle" for="forumposts">
+    <span class="switch-active" aria-hidden="true">Yes</span>
+    <span class="switch-inactive" aria-hidden="true">No</span>
+    </label>
+    </div>
         </td>
         </tr>       
-        <tr class="userblock"><td><b>' . $lang['user_b_torl1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="latest_torrents" name="latest_torrents" value="yes"' . $checkbox_index_latest_torrents . '>
-    </label><span>' . $lang['user_b_chk'] . '' . $lang['user_b_torl2'] . '</span></div>
+        <tr><td><b>' . $lang['user_b_torl1'] . '</b></td><td>
+        <div class="switch large"><input class="switch-input" type="checkbox" id="latest_torrents" name="latest_torrents" value="yes"' . $checkbox_index_latest_torrents . '>
+        <label class="switch-paddle" for="latest_torrents">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>
         </td>
         </tr>
         
-        <tr class="userblock"><td><b>' . $lang['user_b_tors1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="latest_torrents_scroll" name="latest_torrents_scroll" value="yes"' . $checkbox_index_latest_torrents_scroll . '>
-    </label><span>' . $lang['user_b_chk'] . '' . $lang['user_b_tors2'] . '</span></div>
+        <tr><td><b>' . $lang['user_b_tors1'] . '</b></td><td>
+        <div class="switch large"><input class="switch-input" type="checkbox" id="latest_torrents_scroll" name="latest_torrents_scroll" value="yes"' . $checkbox_index_latest_torrents_scroll . '>
+        <label class="switch-paddle" for="latest_torrents_scroll">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>
         </td>
         </tr>       
-        <tr class="userblock"><td><b>' . $lang['user_b_ann1'] . '</b></td><td>
-    <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="announcement" name="announcement" value="yes"' . $checkbox_index_announcement . '>
-    </label><span>' . $lang['user_b_chk'] . '' . $lang['user_b_ann2'] . '</span></div>
+        <tr><td><b>' . $lang['user_b_ann1'] . '</b></td><td>
+    <div class="switch large"><input class="switch-input" type="checkbox" id="announcement" name="announcement" value="yes"' . $checkbox_index_announcement . '>
+    <label class="switch-paddle" for="announcement">
+    <span class="switch-active" aria-hidden="true">Yes</span>
+    <span class="switch-inactive" aria-hidden="true">No</span>
+    </label>
+    </div>
         </td>
         </tr>       
-        <tr class="userblock"><td><b>' . $lang['user_b_don1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="donation_progress" name="donation_progress" value="yes"' . $checkbox_index_donation_progress . '>
-    </label><span>' . $lang['user_b_chk'] . '' . $lang['user_b_don2'] . '</span></div>
+        <tr><td><b>' . $lang['user_b_don1'] . '</b></td><td>
+        <div class="switch large"><input class="switch-input" type="checkbox" id="donation_progress" name="donation_progress" value="yes"' . $checkbox_index_donation_progress . '>
+        <label class="switch-paddle" for="donation_progress">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>
         </td>
         </tr>
-        <tr class="userblock"><td><b>' . $lang['user_b_adv1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="advertisements" name="advertisements" value="yes"' . $checkbox_index_ads . '>
-    </label><span>' . $lang['user_b_chk'] . '' . $lang['user_b_adv2'] . '</span></div>
+        <tr><td><b>' . $lang['user_b_adv1'] . '</b></td><td>
+        <div class="switch large"><input class="switch-input" type="checkbox" id="advertisements" name="advertisements" value="yes"' . $checkbox_index_ads . '>
+        <label class="switch-paddle" for="advertisements">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>
         </td>
         </tr>
-        <tr class="userblock"><td><b>' . $lang['user_b_rad1'] . '</b></td><td>
-       <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="radio" name="radio" value="yes"' . $checkbox_index_radio . '>
-    </label><span>' . $lang['user_b_chk'] . '' . $lang['user_b_rad2'] . '</span></div>
+        <tr><td><b>' . $lang['user_b_rad1'] . '</b></td><td>
+       <div class="switch large"><input class="switch-input" type="checkbox" id="radio" name="radio" value="yes"' . $checkbox_index_radio . '>
+       <label class="switch-paddle" for="radio">
+       <span class="switch-active" aria-hidden="true">Yes</span>
+       <span class="switch-inactive" aria-hidden="true">No</span>
+       </label>
+       </div>
         </td>
         </tr>
-        <tr class="userblock"><td><b>' . $lang['user_b_tf1'] . '</b></td><td>
-    <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="torrentfreak" name="torrentfreak" value="yes"' . $checkbox_index_torrentfreak . '>
-    </label><span>' . $lang['user_b_chk'] . '' . $lang['user_b_tf2'] . '</span></div>
+        <tr><td><b>' . $lang['user_b_tf1'] . '</b></td><td>
+    <div class="switch large"><input class="switch-input" type="checkbox" id="torrentfreak" name="torrentfreak" value="yes"' . $checkbox_index_torrentfreak . '>
+    <label class="switch-paddle" for="torrentfreak">
+    <span class="switch-active" aria-hidden="true">Yes</span>
+    <span class="switch-inactive" aria-hidden="true">No</span>
+    </label>
+    </div>
         </td>
         </tr>       
-        <tr class="userblock"><td><b>' . $lang['user_b_xmas1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="xmas_gift" name="xmas_gift" value="yes"' . $checkbox_index_xmasgift . ' />
-    </label><span>' . $lang['user_b_chk'] . '' . $lang['user_b_xmas2'] . '</span></div>
+        <tr><td><b>' . $lang['user_b_xmas1'] . '</b></td><td>
+        <div class="switch large"><input class="switch-input" type="checkbox" id="xmas_gift" name="xmas_gift" value="yes"' . $checkbox_index_xmasgift . ' />
+        <label class="switch-paddle" for="xmas_gift">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>
         </td>
         </tr>       
-        <tr class="userblock"><td><b>' . $lang['user_b_poll1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="active_poll" name="active_poll" value="yes"' . $checkbox_index_active_poll . '>
-    </label><span>' . $lang['user_b_chk'] . '' . $lang['user_b_poll2'] . '</span></div>
+        <tr><td><b>' . $lang['user_b_poll1'] . '</b></td><td>
+        <div class="switch large"><input class="switch-input" type="checkbox" id="active_poll" name="active_poll" value="yes"' . $checkbox_index_active_poll . '>
+        <label class="switch-paddle" for="active_poll">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>
         </td>
         </tr>       
-        <tr class="userblock"><td><b>' . $lang['user_b_mow1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="index_movie_ofthe_week" name="movie_ofthe_week" value="yes"' . $checkbox_index_mow . '><label for="index_movie_ofthe_week">
-    </label><span>' . $lang['user_b_chk'] . '' . $lang['user_b_mow2'] . '</span></div>
+        <tr><td><b>' . $lang['user_b_mow1'] . '</b></td><td>
+        <div class="switch large"><input class="switch-input" type="checkbox" id="index_movie_ofthe_week" name="movie_ofthe_week" value="yes"' . $checkbox_index_mow . '>
+        <label class="switch-paddle" for="index_movie_ofthe_week">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>
         </td>
         </tr>
-        <tr class="userblock"><td><b>' . $lang['user_b_rqno1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="index_requests_and_offers" name="requests_and_offers" value="yes"' . $checkbox_index_reqnoff . '><label for="index_requests_and_offers">
-    </label><span>' . $lang['user_b_chk'] . '' . $lang['user_b_rqno2'] . '</span></div>
+        <tr><td><b>' . $lang['user_b_rqno1'] . '</b></td><td>
+        <div class="switch large"><input class="switch-input" type="checkbox" id="index_requests_and_offers" name="requests_and_offers" value="yes"' . $checkbox_index_reqnoff . '>
+        <label class="switch-paddle" for="index_requests_and_offers">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>
         </td>
         </tr>
     </table>         
-    <div class="col-sm-offset-5"><input class="btn btn-primary" type="submit" name="submit" value="' . $lang['user_b_butt'] . '" tabindex="2" accesskey="s"></div><br><br></div>';
-$HTMLOUT.='<div class="tab-pane fade" id="site">
+    <input class="button primary" type="submit" name="submit" value="' . $lang['user_b_butt'] . '"></div>';
+$HTMLOUT.='<div class="tabs-panel" id="panel_global">
 <fieldset><legend>' . $lang['user_b_title2'] . '</legend></fieldset>
         <table class="table table-bordered">        
-    <tr class="userblock"><td><b>' . $lang['user_s_free1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle"  type="checkbox" id="stdhead_freeleech" name="stdhead_freeleech" value="yes"' . $checkbox_global_freeleech . '>
-</label><span>' . $lang['user_s_free2'] . '</span></div>        
+    <tr><td><b>' . $lang['user_s_free1'] . '</b></td><td>
+        <div class="switch large"><input class="switch-input" type="checkbox" id="stdhead_freeleech" name="stdhead_freeleech" value="yes"' . $checkbox_global_freeleech . '>
+        <label class="switch-paddle" for="stdhead_freeleech">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>      
         </td>
         </tr>       
         <tr><td><b>' . $lang['user_s_rep1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="stdhead_reports" name="stdhead_reports" value="yes"' . $checkbox_global_staff_report . '>
-</label><span>' . $lang['user_s_rep2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="stdhead_reports" name="stdhead_reports" value="yes"' . $checkbox_global_staff_report . '>
+        <label class="switch-paddle" for="stdhead_reports">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>    
         </td>
         </tr>       
         <tr><td><b>' . $lang['user_s_app1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="stdhead_uploadapp" name="stdhead_uploadapp" value="yes"' . $checkbox_global_staff_uploadapp . '>
-</label><span>' . $lang['user_s_app1'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="stdhead_uploadapp" name="stdhead_uploadapp" value="yes"' . $checkbox_global_staff_uploadapp . '>
+        <label class="switch-paddle" for="stdhead_uploadapp">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>     
         </td>
         </tr>';
 if ($CURUSER['class'] >= UC_STAFF) {
     $HTMLOUT.= '        
     <tr><td><b>' . $lang['user_s_dem1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="stdhead_demotion" name="stdhead_demotion" value="yes"' . $checkbox_global_demotion . '>
-</label><span>' . $lang['user_s_dem2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="stdhead_demotion" name="stdhead_demotion" value="yes"' . $checkbox_global_demotion . '>
+        <label class="switch-paddle" for="stdhead_demotion">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>       
         </td>
         </tr>';
 }
 if ($CURUSER['class'] >= UC_STAFF) {
     $HTMLOUT.= '
     <tr><td><b>' . $lang['user_s_warn1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="stdhead_staff_message" name="stdhead_staff_message" value="yes"' . $checkbox_global_staff_message_alert . '>
-</label><span>' . $lang['user_s_warn2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="stdhead_staff_message" name="stdhead_staff_message" value="yes"' . $checkbox_global_staff_message_alert . '>
+        <label class="switch-paddle" for="stdhead_staff_message">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>        
         </td>
         </tr>';
 }
 if ($CURUSER['class'] >= UC_STAFF) {
     $HTMLOUT.= '
     <tr><td><b>' . $lang['user_s_bug1'] . '</b></td><td>
-         <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="stdhead_bugmessage" name="stdhead_bugmessage" value="yes"' . $checkbox_global_bugmessage . '>
-</label><span>' . $lang['user_s_bug2'] . '</span></div>        
+         <div class="switch large"><input class="switch-input" type="checkbox" id="stdhead_bugmessage" name="stdhead_bugmessage" value="yes"' . $checkbox_global_bugmessage . '>
+         <label class="switch-paddle" for="stdhead_bugmessage">
+         <span class="switch-active" aria-hidden="true">Yes</span>
+         <span class="switch-inactive" aria-hidden="true">No</span>
+         </label>
+         </div>         
         </td>
         </tr>';
 }
 $HTMLOUT.= '
     <tr><td><b>' . $lang['user_s_mess1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="stdhead_newpm" name="stdhead_newpm" value="yes"' . $checkbox_global_message_alert . '>
-</label><span>' . $lang['user_s_mess2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="stdhead_newpm" name="stdhead_newpm" value="yes"' . $checkbox_global_message_alert . '>
+        <label class="switch-paddle" for="stdhead_newpm">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>        
        </td>
         </tr>       
         <tr><td><b>' . $lang['user_s_hh1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="stdhead_happyhour" name="stdhead_happyhour" value="yes"' . $checkbox_global_happyhour . '>
-</label><span>' . $lang['user_s_hh2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="stdhead_happyhour" name="stdhead_happyhour" value="yes"' . $checkbox_global_happyhour . '>
+        <label class="switch-paddle" for="stdhead_happyhour">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>       
         </td>
         </tr>       
         <tr><td><b>' . $lang['user_s_ch1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="stdhead_crazyhour" name="stdhead_crazyhour" value="yes"' . $checkbox_global_crazyhour . '>
-</label><span>' . $lang['user_s_ch2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="stdhead_crazyhour" name="stdhead_crazyhour" value="yes"' . $checkbox_global_crazyhour . '>
+        <label class="switch-paddle" for="stdhead_crazyhour">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>       
         </td>
         </tr>   
         <tr><td><b>' . $lang['user_s_kc1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="stdhead_freeleech_contribution" name="stdhead_freeleech_contribution" value="yes"' . $checkbox_global_freeleech_contribution . '>
-</label><span>' . $lang['user_s_kc2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="stdhead_freeleech_contribution" name="stdhead_freeleech_contribution" value="yes"' . $checkbox_global_freeleech_contribution . '>
+        <label class="switch-paddle" for="stdhead_freeleech_contribution">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>    
         </td>
        </tr>';
 if ($CURUSER['class'] >= UC_STAFF) {
     $HTMLOUT.= '
         <tr><td><b>' . $lang['user_s_stq1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="stdhead_stafftools" name="stdhead_stafftools" value="yes"' . $checkbox_global_stafftools . '>
-</label><span>' . $lang['user_s_stq2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="stdhead_stafftools" name="stdhead_stafftools" value="yes"' . $checkbox_global_stafftools . '>
+        <label class="switch-paddle" for="stdhead_stafftools">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>      
         </td>
         </tr>';
 }
-       $HTMLOUT.= '</table><div class="col-sm-offset-5"><input class="btn btn-primary" type="submit" name="submit" value="' . $lang['user_b_butt'] . '" tabindex="2" accesskey="s"></div><br><br></div>';
-$HTMLOUT.= '<div class="tab-pane fade" id="user">
+       $HTMLOUT.= '</table><input class="button primary" type="submit" name="submit" value="' . $lang['user_b_butt'] . '"></div>';
+$HTMLOUT.= '<div class="tabs-panel" id="panel_userdetails">
 <fieldset><legend>' . $lang['user_b_title3'] . '</legend></fieldset>
         <table class="table table-bordered">
         <tr><td><b>' . $lang['user_u_ll1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_login_link" name="userdetails_login_link" value="yes"' . $checkbox_userdetails_login_link . '>
-</label><span>' . $lang['user_u_ll2'] . '</span></div>   
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_login_link" name="userdetails_login_link" value="yes"' . $checkbox_userdetails_login_link . '>
+        <label class="switch-paddle" for="userdetails_login_link">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div> 
         </td>
         </tr>
         <tr><td><b>' . $lang['user_u_ftt1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_flush" name="userdetails_flush" value="yes"' . $checkbox_userdetails_flush . '>
-</label><span>' . $lang['user_u_ftt2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_flush" name="userdetails_flush" value="yes"' . $checkbox_userdetails_flush . '>
+        <label class="switch-paddle" for="userdetails_flush">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>     
         </td>
         </tr>       
         <tr><td><b>' . $lang['user_u_join1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_joined" name="userdetails_joined" value="yes"' . $checkbox_userdetails_joined . '>
-</label><span>' . $lang['user_u_join2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_joined" name="userdetails_joined" value="yes"' . $checkbox_userdetails_joined . '>
+        <label class="switch-paddle" for="userdetails_joined">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>       
         </td>
         </tr>       
         <tr><td><b>' . $lang['user_u_onl1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_online_time" name="userdetails_online_time" value="yes"' . $checkbox_userdetails_onlinetime . '>
-</label><span>' . $lang['user_u_onl2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_online_time" name="userdetails_online_time" value="yes"' . $checkbox_userdetails_onlinetime . '>
+        <label class="switch-paddle" for="userdetails_online-time">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>     
         </td>
         </tr>   
         <tr><td><b>' . $lang['user_u_brw1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_browser" name="userdetails_browser" value="yes"' . $checkbox_userdetails_browser . '>
-</label><span>' . $lang['user_u_brw2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_browser" name="userdetails_browser" value="yes"' . $checkbox_userdetails_browser . '>
+        <label class="switch-paddle" for="userdetails_browser">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>         
         </td>
         </tr>   
         ' . ($TRINITY20['rep_sys_on'] ? '<tr><td><b>' . $lang['user_u_rep1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_reputation" name="userdetails_reputation" value="yes"' . $checkbox_userdetails_reputation . '>
-</label><span>' . $lang['user_u_rep2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_reputation" name="userdetails_reputation" value="yes"' . $checkbox_userdetails_reputation . '>
+        <label class="switch-paddle" for="userdetails_reputation">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>        
         </td>
         </tr>' : '') . '       
         <tr><td><b>' . $lang['user_u_phit1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_user_hits" name="userdetails_user_hits" value="yes"' . $checkbox_userdetails_userhits . '>
-</label><span>' . $lang['user_u_phit2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_user_hits" name="userdetails_user_hits" value="yes"' . $checkbox_userdetails_userhits . '>
+        <label class="switch-paddle" for="userdetails_user_hits">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>        
         </td>
         </tr>       
         <tr><td><b>' . $lang['user_u_bir1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_birthday" name="userdetails_birthday" value="yes"' . $checkbox_userdetails_birthday . '>
-</label><span>' . $lang['user_u_bir2'] . '</span></div>       
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_birthday" name="userdetails_birthday" value="yes"' . $checkbox_userdetails_birthday . '>
+        <label class="switch-paddle" for="userdetails_birthday">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>     
         </td>
         </tr>   
         <tr><td><b>' . $lang['user_u_con1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_contact_info" name="userdetails_contact_info" value="yes"' . $checkbox_userdetails_contact_info . '>
-</label><span>' . $lang['user_u_con2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_contact_info" name="userdetails_contact_info" value="yes"' . $checkbox_userdetails_contact_info . '>
+        <label class="switch-paddle" for="userdetails_contact_info">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>        
        </td>
         </tr>       
         <tr><td><b>' . $lang['user_u_ip1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_iphistory" name="userdetails_iphistory" value="yes"' . $checkbox_userdetails_iphistory . '>
-</label><span>' . $lang['user_u_ip2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_iphistory" name="userdetails_iphistory" value="yes"' . $checkbox_userdetails_iphistory . '>
+        <label class="switch-paddle" for="userdetails_iphistory">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>         
         </td>
         </tr>       
         <tr><td><b>' . $lang['user_u_ut1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_traffic" name="userdetails_traffic" value="yes"' . $checkbox_userdetails_traffic . '>
-</label> <span>' . $lang['user_u_ut2'] . '</span></div>       
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_traffic" name="userdetails_traffic" value="yes"' . $checkbox_userdetails_traffic . '>
+        <label class="switch-paddle" for="userdetails_traffic">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>     
         </td>
         </tr>       
         <tr><td><b>' . $lang['user_u_shr1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_share_ratio" name="userdetails_share_ratio" value="yes"' . $checkbox_userdetails_shareratio . '>
-</label><span>' . $lang['user_u_shr2'] . '</span></div>       
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_share_ratio" name="userdetails_share_ratio" value="yes"' . $checkbox_userdetails_shareratio . '>
+        <label class="switch-paddle" for="userdetails_share_ratio">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>        
         </td>
         </tr>       
         <tr><td><b>' . $lang['user_u_st1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_seedtime_ratio" name="userdetails_seedtime_ratio" value="yes"' . $checkbox_userdetails_seedtime_ratio . '>
-</label><span>' . $lang['user_u_st2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_seedtime_ratio" name="userdetails_seedtime_ratio" value="yes"' . $checkbox_userdetails_seedtime_ratio . '>
+        <label class="switch-paddle" for="userdetails_seedtime_ratio">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>       
         </td>
         </tr>   
         <tr><td><b>' . $lang['user_u_seed1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_seedbonus" name="userdetails_seedbonus" value="yes"' . $checkbox_userdetails_seedbonus . '>
-</label><span>' . $lang['user_u_seed2'] . '</span></div>       
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_seedbonus" name="userdetails_seedbonus" value="yes"' . $checkbox_userdetails_seedbonus . '>
+        <label class="switch-paddle" for="userdetails_seedbonus">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>       
          </td>
         </tr>
         </tr>   
         <tr><td><b>' . $lang['user_u_cnn1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_connectable_port" name="userdetails_connectable_port" value="yes"' . $checkbox_userdetails_connectable . '>
-</label><span>' . $lang['user_u_cnn2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_connectable_port" name="userdetails_connectable_port" value="yes"' . $checkbox_userdetails_connectable . '>
+        <label class="switch-paddle" for="userdetails_connectable_port">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>         
         </td>
         </tr>   
         <tr><td><b>' . $lang['user_u_av1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_avatar" name="userdetails_avatar" value="yes"' . $checkbox_userdetails_avatar . '>
-</label><span>' . $lang['user_u_av2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_avatar" name="userdetails_avatar" value="yes"' . $checkbox_userdetails_avatar . '>
+        <label class="switch-paddle" for="userdetails_avatar">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>        
         </td>
         </tr>   
         <tr><td><b>' . $lang['user_u_ucc1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_userclass" name="userdetails_userclass" value="yes"' . $checkbox_userdetails_userclass . '>
-</label><span>' . $lang['user_u_ucc2'] . '</span></div>       
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_userclass" name="userdetails_userclass" value="yes"' . $checkbox_userdetails_userclass . '>
+        <label class="switch-paddle" for="userdetails_userclass">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>    
         </td>
         </tr>       
         <tr><td><b>' . $lang['user_u_gen1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_gender" name="userdetails_gender" value="yes"' . $checkbox_userdetails_gender . '>
-</label><span>' . $lang['user_u_gen2'] . '</span></div>       
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_gender" name="userdetails_gender" value="yes"' . $checkbox_userdetails_gender . '>
+        <label class="switch-paddle" for="userdetails_gender">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>      
         </td>
         </tr>   
         <tr><td><b>' . $lang['user_u_free1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_freestuffs" name="userdetails_freestuffs" value="yes"' . $checkbox_userdetails_freestuffs . '>
-</label><span>' . $lang['user_u_free2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_freestuffs" name="userdetails_freestuffs" value="yes"' . $checkbox_userdetails_freestuffs . '>
+        <label class="switch-paddle" for="userdetails_freestuffs">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>       
         </td>
         </tr>       
         <tr><td><b>' . $lang['user_u_cmm1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_comments" name="userdetails_comments" value="yes"' . $checkbox_userdetails_torrent_comments . '>
-</label><span>' . $lang['user_u_cmm2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_comments" name="userdetails_comments" value="yes"' . $checkbox_userdetails_torrent_comments . '>
+        <label class="switch-paddle" for="userdetails_comments">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>       
         </td>
         </tr>   
         <tr><td><b>' . $lang['user_u_fpt1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_forumposts" name="userdetails_forumposts" value="yes"' . $checkbox_userdetails_forumposts . '>
-</label><span>' . $lang['user_u_fpt2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_forumposts" name="userdetails_forumposts" value="yes"' . $checkbox_userdetails_forumposts . '>
+        <label class="switch-paddle" for="userdetails_forumposts">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div> 
         </td>
         </tr>       
         <tr><td><b>' . $lang['user_u_inv1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_invitedby" name="userdetails_invitedby" value="yes"' . $checkbox_userdetails_invitedby . '>
-</label><span>' . $lang['user_u_inv2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_invitedby" name="userdetails_invitedby" value="yes"' . $checkbox_userdetails_invitedby . '>
+        <label class="switch-paddle" for="userdetails_invitedby">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>  
         </td>
         </tr>   
         <tr><td><b>' . $lang['user_u_tb1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_torrents_block" name="userdetails_torrents_block" value="yes"' . $checkbox_userdetails_torrents_block . '>
-</label><span>' . $lang['user_u_tb2'] . '</span></div>       
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_torrents_block" name="userdetails_torrents_block" value="yes"' . $checkbox_userdetails_torrents_block . '>
+        <label class="switch-paddle" for="userdetails_torrents_block">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>      
         </td>
         </tr>   
         <tr><td><b>' . $lang['user_u_sts1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_snatched_staff" name="userdetails_snatched_staff" value="yes"' . $checkbox_userdetails_snatched_staff . '>
-</label><span>' . $lang['user_u_sts2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_snatched_staff" name="userdetails_snatched_staff" value="yes"' . $checkbox_userdetails_snatched_staff . '>
+        <label class="switch-paddle" for="userdetails_snatched_staff">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>       
         </td>
         </tr>       
         <tr><td><b>' . $lang['user_u_usinf1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_userinfo" name="userdetails_userinfo" value="yes"' . $checkbox_userdetails_userinfo . '>
-</label><span>' . $lang['user_u_usinf2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_userinfo" name="userdetails_userinfo" value="yes"' . $checkbox_userdetails_userinfo . '>
+        <label class="switch-paddle" for="userdetails_userinfo">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>       
         </td>
         </tr>       
         <tr><td><b>' . $lang['user_u_pm1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_showpm" name="userdetails_showpm" value="yes"' . $checkbox_userdetails_showpm . '>
-</label><span>' . $lang['user_u_pm2'] . '</span></div>       
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_showpm" name="userdetails_showpm" value="yes"' . $checkbox_userdetails_showpm . '>
+        <label class="switch-paddle" for="userdetails_showpm">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>      
         </td>
         </tr>';
 if ($BLOCKS['userdetails_report_user_on']) {
     $HTMLOUT.= '<tr><td><b>' . $lang['user_u_rpu1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_report_user" name="userdetails_report_user" value="yes"' . $checkbox_userdetails_report . '>
-</label><span>' . $lang['user_u_rpu2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_report_user" name="userdetails_report_user" value="yes"' . $checkbox_userdetails_report . '>
+        <label class="switch-paddle" for="userdetails_report_user">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>      
         </td>
         </tr>';
 }
 $HTMLOUT.= '<tr><td><b>' . $lang['user_u_ust1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_user_status" name="userdetails_user_status" value="yes"' . $checkbox_userdetails_userstatus . '>
-</label><span>' . $lang['user_u_ust2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_user_status" name="userdetails_user_status" value="yes"' . $checkbox_userdetails_userstatus . '>
+        <label class="switch-paddle" for="userdetails_user_status">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>        
         </td>
         </tr>       
         <tr><td><b>' . $lang['user_u_ucmm1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_user_comments" name="userdetails_user_comments" value="yes"' . $checkbox_userdetails_usercomments . '>
-</label><span>' . $lang['user_u_ucmm2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_user_comments" name="userdetails_user_comments" value="yes"' . $checkbox_userdetails_usercomments . '>
+        <label class="switch-paddle" for="userdetails_user_comments
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>    
         </td>
         </tr>';
 if ($CURUSER['class'] >= UC_STAFF) {
     $HTMLOUT.= '
     <tr><td><b>' . $lang['user_u_comp1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_completed" name="userdetails_completed" value="yes"' . $checkbox_userdetails_completed . '>
-</label><span>' . $lang['user_u_comp2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_completed" name="userdetails_completed" value="yes"' . $checkbox_userdetails_completed . '>
+        <label class="switch-paddle" for="userdetails_completed">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>        
         </td>
         </tr>';
 }
 $HTMLOUT.= '
     <tr><td><b>' . $lang['user_u_sfd1'] . '</b></td><td>
-        <div class="checkbox-inline"><label><input data-toggle="toggle" type="checkbox" id="userdetails_showfriends" name="userdetails_showfriends" value="yes"' . $checkbox_userdetails_showfriends . '>
-</label><span>' . $lang['user_u_sfd2'] . '</span></div>        
+        <div class="switch large"><input class="switch-input" type="checkbox" id="userdetails_showfriends" name="userdetails_showfriends" value="yes"' . $checkbox_userdetails_showfriends . '>
+        <label class="switch-paddle" for="userdetails_showfriends">
+        <span class="switch-active" aria-hidden="true">Yes</span>
+        <span class="switch-inactive" aria-hidden="true">No</span>
+        </label>
+        </div>         
         </td>
         </tr>
     </table>
-<div class="col-sm-offset-5"><input class="btn btn-primary" type="submit" name="submit" value="' . $lang['user_b_butt'] . '" tabindex="2" accesskey="s"></div></div>';
-$HTMLOUT.= '</div></form></div>';
+<input class="button primary" type="submit" name="submit" value="' . $lang['user_b_butt'] . '"></div>
+<div class="tabs-panel is-active" id="panel_usercp"></div>
+<div class="tabs-panel is-active" id="panel_torrents"></div>';
+$HTMLOUT.= '</div></form>';
 echo stdhead($lang['user_b_echo'], true) . $HTMLOUT . stdfoot();
