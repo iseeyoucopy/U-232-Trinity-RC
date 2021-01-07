@@ -91,7 +91,6 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         {$js_incl}{$css_incl}
         </head><body>";
         $htmlout .= TopBar();
-        $htmlout .= '<div class="grid-container">';
         if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_STAFFTOOLS && $BLOCKS['global_staff_tools_on'] && $CURUSER['class'] >= UC_STAFF) {
             require_once(BLOCK_DIR . 'global/staff_tools.php');
         }
@@ -110,6 +109,7 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         $redis_version = phpversion("redis");
         $htmlout .= "<b class='text-center'> PHP : " . phpversion() . " | Mysql : " . $mysql_v    . " | Memcached : " . $memcached_version . " | Redis : " . $redis_version . "</b>
 </div>";
+$htmlout .= '<div class="grid-container">';
         $htmlout .= AlertBar();
     }
     return $htmlout;
@@ -241,7 +241,6 @@ function StatusBar()
         }
     } else
         $max = 999;
-    /*
 //==Memcache peers
 if (XBT_TRACKER == true) {
     if ($MyPeersXbtCache = $cache->get('MyPeers_XBT_' . $CURUSER['id']) === false) {
@@ -287,8 +286,6 @@ if (XBT_TRACKER == true) {
             $connectable = "N/A";
         }
     } else $connectable = 'N/A';
-	*/
-    /*
     if (($Achievement_Points = $cache->get('user_achievement_points_' . $CURUSER['id'])) === false) {
         $Sql = "SELECT users.id, users.username, usersachiev.achpoints, usersachiev.spentpoints FROM users LEFT JOIN usersachiev ON users.id = usersachiev.id WHERE users.id = " . sqlesc($CURUSER['id']) or sqlerr(__FILE__, __LINE__);
 		$result = $mysqli->query($Sql);
@@ -298,7 +295,6 @@ if (XBT_TRACKER == true) {
         $Achievement_Points['spentpoints'] = (int)$Achievement_Points['spentpoints'];
         $cache->set('user_achievement_points_' . $CURUSER['id'], $Achievement_Points);
     }
-	*/
     $salty_username = isset($CURUSER['username']) ? "{$CURUSER['username']}" : '';
     $salty = md5("Th15T3xtis5add3dto66uddy6he@water..." . $salty_username . "");
     $hitnruns = ($CURUSER['hit_and_run_total'] > 0) ? $CURUSER['hit_and_run_total'] : '0';
@@ -409,6 +405,7 @@ function TopBar()
         <li><a href='" . $TRINITY20['baseurl'] . "/upload.php'>{$lang['gl_upload']}</a></li>") . "" . (isset($CURUSER) && $CURUSER['class'] <= UC_VIP ? "" : "
         <li><a href='" . $TRINITY20['baseurl'] . "/multiupload.php'>{$lang['gl_mupload']}</a></li>") . "
         <li><a href='" . $TRINITY20['baseurl'] . "/bookmarks.php'>{$lang['gl_bookmarks']}</a></li>
+        <li><a href='" . $TRINITY20['baseurl'] . "/subtitle.php'>Subtitles</a></li>
     </ul>
 </li>
 <li>
