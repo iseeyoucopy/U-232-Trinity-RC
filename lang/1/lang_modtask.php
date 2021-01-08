@@ -330,21 +330,6 @@ $lang = array(
 	//website
 	'modtask_website_changed_to' => " - website changed to ",
 	'modtask_website_changed' => "Website changed",
-	//google talk
-	'modtask_gtalk_changed_to' => " - google_talk changed to ",
-	'modtask_gtalk_changed' => "Google talk address changed",
-	//msn
-	'modtask_msn_changed_to' => " - msn changed to ",
-	'modtask_msn_changed' => "Msn address changed",
-	//aim
-	'modtask_aim_changed_to' => " - aim changed to ",
-	'modtask_aim_changed' => "AIM address changed",
-	//yahoo
-	'modtask_yahoo_changed_to' => " - yahoo changed to ",
-	'modtask_yahoo_changed' => "Yahoo address changed",
-	//icq
-	'modtask_icq_changed_to' => " - icq changed to ",
-	'modtask_icq_changed' => "ICQ address changed",
 	// Sysop log
 	'modtask_sysop_user_acc' => "User account",
 	'modtask_sysop_thing' => "Things edited: ",
