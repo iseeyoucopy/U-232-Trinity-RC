@@ -920,46 +920,6 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         $curuser_cache['website'] = $website;
         $user_cache['website'] = $website;
     }
-    //=== google_talk
-    if ((isset($_POST['google_talk'])) && (($google_talk = $_POST['google_talk']) != $user['google_talk'])) {
-        $modcomment = get_date(TIME_NOW, 'DATE', 1) . $lang['modtask_gtalk_changed_to'] . strip_tags($_POST['google_talk']) . $lang['modtask_gl_from'] . htmlsafechars($user['google_talk']) . $lang['modtask_gl_by'] . $CURUSER['username'] . ".\n" . $modcomment;
-        $updateset[] = 'google_talk = ' . sqlesc($google_talk);
-        $useredit['update'][] = $lang['modtask_gtalk_changed'];
-        $curuser_cache['google_talk'] = $google_talk;
-        $user_cache['google_talk'] = $google_talk;
-    }
-    //=== msn
-    if ((isset($_POST['msn'])) && (($msn = $_POST['msn']) != $user['msn'])) {
-        $modcomment = get_date(TIME_NOW, 'DATE', 1) . $lang['modtask_msn_changed_to'] . strip_tags($_POST['msn']) . $lang['modtask_gl_from'] . htmlsafechars($user['msn']) . $lang['modtask_gl_by'] . $CURUSER['username'] . ".\n" . $modcomment;
-        $updateset[] = 'msn = ' . sqlesc($msn);
-        $useredit['update'][] = $lang['modtask_msn_changed'];
-        $curuser_cache['msn'] = $msn;
-        $user_cache['msn'] = $msn;
-    }
-    //=== aim
-    if ((isset($_POST['aim'])) && (($aim = $_POST['aim']) != $user['aim'])) {
-        $modcomment = get_date(TIME_NOW, 'DATE', 1) . $lang['modtask_aim_changed_to'] . strip_tags($_POST['aim']) . $lang['modtask_gl_from'] . htmlsafechars($user['aim']) . $lang['modtask_gl_by'] . $CURUSER['username'] . ".\n" . $modcomment;
-        $updateset[] = 'aim = ' . sqlesc($aim);
-        $useredit['update'][] = $lang['modtask_aim_changed'];
-        $curuser_cache['aim'] = $aim;
-        $user_cache['aim'] = $aim;
-    }
-    //=== yahoo
-    if ((isset($_POST['yahoo'])) && (($yahoo = $_POST['yahoo']) != $user['yahoo'])) {
-        $modcomment = get_date(TIME_NOW, 'DATE', 1) . $lang['modtask_yahoo_changed_to'] . strip_tags($_POST['yahoo']) . $lang['modtask_gl_from'] . htmlsafechars($user['yahoo']) . $lang['modtask_gl_by'] . $CURUSER['username'] . ".\n" . $modcomment;
-        $updateset[] = 'yahoo = ' . sqlesc($yahoo);
-        $useredit['update'][] = $lang['modtask_yahoo_changed'];
-        $curuser_cache['yahoo'] = $yahoo;
-        $user_cache['yahoo'] = $yahoo;
-    }
-    //=== icq
-    if ((isset($_POST['icq'])) && (($icq = $_POST['icq']) != $user['icq'])) {
-        $modcomment = get_date(TIME_NOW, 'DATE', 1) . $lang['modtask_icq_changed_to'] . strip_tags($_POST['icq']) . $lang['modtask_gl_from'] . htmlsafechars($user['icq']) . $lang['modtask_gl_by'] . $CURUSER['username'] . ".\n" . $modcomment;
-        $updateset[] = 'icq = ' . sqlesc($icq);
-        $useredit['update'][] = $lang['modtask_icq_changed'];
-        $curuser_cache['icq'] = $icq;
-        $user_cache['icq'] = $icq;
-    }
      //forum moderator mod by putyn
     if(isset($_POST["forum_mod"]) && ($forum_mod = $_POST["forum_mod"]) != $user["forum_mod"]) {
 	$whatm = ($forum_mod == "yes" ? "added " : "removed");
