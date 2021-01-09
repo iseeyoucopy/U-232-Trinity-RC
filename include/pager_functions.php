@@ -78,6 +78,7 @@ function pager($rpp, $count, $href, $opts = array()) // thx yuna or whoever wrot
 }
 function pager_rep($data)
 {
+    global $TRINITY20;
     $pager = array(
         'pages' => 0,
         'page_span' => '',
