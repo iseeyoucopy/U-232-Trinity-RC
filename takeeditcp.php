@@ -254,18 +254,7 @@ elseif ($action == "security") {
 }
 //== Torrent stuffs
 elseif ($action == "torrents") {
-    $emailnotif = isset($_POST["emailnotif"]) ? $_POST["emailnotif"] : '';
-    $notifs.= ($emailnotif == 'yes' ? "[email]" : "");
-    //==cats
-    $r = sql_query("SELECT id FROM categories") or sqlerr(__FILE__, __LINE__);
-    $rows = mysqli_num_rows($r);
-    for ($i = 0; $i < $rows; ++$i) {
-        $a = mysqli_fetch_assoc($r);
-        if (isset($_POST["cat{$a['id']}"]) && $_POST["cat{$a['id']}"] == 'yes') $notifs.= "[cat{$a['id']}]";
-    }
-    $updateset[] = "notifs = " . sqlesc($notifs) . "";
-    $curuser_cache['notifs'] = $notifs;
-    $user_cache['notifs'] = $notifs;
+
     //==
     if (isset($_POST["torrentsperpage"]) && (($torrentspp = min(100, 0 + $_POST["torrentsperpage"])) != $CURUSER["torrentsperpage"])) { 
     $updateset[] = "torrentsperpage = $torrentspp";

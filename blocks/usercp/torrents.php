@@ -15,7 +15,6 @@
         }
         $categories.= "</tr></table>\n";
     }
-    $HTMLOUT.= tr($lang['usercp_email_notif'], "<input type='checkbox' name='emailnotif'" . (strpos($CURUSER['notifs'], "[email]") !== false ? " checked='checked'" : "") . " value='yes' /> {$lang['usercp_notify_torrent']}\n", 1);
     $HTMLOUT.= tr($lang['usercp_browse'], $categories, 1);
     /*$HTMLOUT.= tr($lang['usercp_clearnewtagmanually'], "<input type='checkbox' name='clear_new_tag_manually'".($CURUSER["clear_new_tag_manually"] == "yes" ? " checked='checked'" : "")." /> {$lang['usercp_default_clearnewtagmanually']}", 1);*/
     $HTMLOUT.= tr($lang['usercp_clearnewtagmanually'], "<input type='checkbox' name='clear_new_tag_manually' value='yes'" . (($CURUSER['opt1'] & user_options::CLEAR_NEW_TAG_MANUALLY) ? " checked='checked'" : "") . " /> {$lang['usercp_default_clearnewtagmanually']}", 1);
