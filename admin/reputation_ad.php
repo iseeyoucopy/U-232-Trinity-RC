@@ -77,10 +77,6 @@ case 'list':
     view_list();
     break;
 
-case 'dolist':
-    do_list();
-    break;
-
 case 'editrep':
     show_form_rep('edit');
     break;
@@ -436,7 +432,7 @@ function view_list()
 ///////////////////////////////////////////////
 function do_delete_rep()
 {
-    global $input, $lang;
+    global $input, $lang, $cache, $keys, $TRINITY20;
     if (!is_valid_id($input['reputationid'])) {
         stderr($lang['rep_ad_delete_rep_err1'], $lang['rep_ad_delete_rep_err2']);
     }
@@ -464,7 +460,7 @@ function do_delete_rep()
 ///////////////////////////////////////////////
 function do_edit_rep()
 {
-    global $input, $lang;
+    global $input, $lang, $cache, $keys, $TRINITY20;
     if (isset($input['reason']) && !empty($input['reason'])) {
         $reason = str_replace("<br />", "", $input['reason']);
         $reason = trim($reason);
@@ -577,6 +573,7 @@ function get_month_dropdown($i = 0)
 /////////////////////////////
 function rep_cache()
 {
+    global $lang, $TRINITY20;
     $query = @sql_query("SELECT * FROM reputationlevel");
     if (!mysqli_num_rows($query)) {
         stderr($lang['rep_ad_cache_cache'], $lang['rep_ad_cache_none']);
