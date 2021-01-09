@@ -6,9 +6,8 @@ $perpage = 5;
 if (!$count) {
     $HTMLOUT.= "{$lang['achievement_history_err2']}<a class='altlink' href='userdetails.php?id=" . (int) $CURUSER['id'] . "'>" . htmlsafechars($CURUSER['username']) . "</a>{$lang['achievement_history_err3']}";
 }
-$pager = pager($perpage, $count, "?");
-$HTMLOUT.= "<div class='tabs-panel' id='awards'>
-<div class='table-responsive-md'>
+$pager = pager($perpage, $count, "usercp.php?action=awards&");
+$HTMLOUT.= "<div class='table-responsive-md'>
     <table class='table table-bordered '>
         <thead>
             <tr>
@@ -29,10 +28,9 @@ $HTMLOUT.= "
     ";
 }
 $HTMLOUT.= "
-    </table>
-    </div>
-</div>";
-if ($count > $perpage) {
-    $HTMLOUT.= $pager['pagerbottom'];
-}
+    </table>";
+    if ($count > $perpage) {
+        $HTMLOUT.= $pager['pagerbottom'];
+    }
+    $HTMLOUT.= "</div>";
 ?>

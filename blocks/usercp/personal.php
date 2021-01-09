@@ -3,8 +3,7 @@ $templates = sql_query("SELECT id, name FROM stylesheets ORDER BY id");
 while ($templ = mysqli_fetch_assoc($templates)) {
     if (file_exists("templates/".intval($templ['id'])."/template.php")) $stylesheets.= "<option value='" . (int)$templ['id'] . "'" . ($templ['id'] == $CURUSER['stylesheet'] ? " selected='selected'" : "") . ">" . htmlsafechars($templ['name']) . "</option>";
 }
-$HTMLOUT.= "<form method='post' action='takeeditcp.php'>
-<div class='tabs-panel' id='panel9'><div class='col-md-8'>
+$HTMLOUT.= "
 	<table class='table bordered'>
 		<tr>
 			<td>
@@ -55,8 +54,7 @@ $HTMLOUT.= "<form method='post' action='takeeditcp.php'>
     $HTMLOUT.= tr($lang['usercp_gender'], "<input type='radio' name='gender'" . ($CURUSER["gender"] == "Male" ? " checked='checked'" : "") . " value='Male' />{$lang['usercp_male']}
     <input type='radio' name='gender'" . ($CURUSER["gender"] == "Female" ? " checked='checked'" : "") . " value='Female' />{$lang['usercp_female']}
     <input type='radio' name='gender'" . ($CURUSER["gender"] == "N/A" ? " checked='checked'" : "") . " value='N/A' />{$lang['usercp_na']}", 1);
-    $HTMLOUT.= tr($lang['usercp_shoutback'], "<input type='radio' name='shoutboxbg'" . ($CURUSER["shoutboxbg"] == "1" ? " checked='checked'" : "") . " value='1' />{$lang['usercp_shoutback_white']}
-    <input type='radio' name='shoutboxbg'" . ($CURUSER["shoutboxbg"] == "2" ? " checked='checked'" : "") . " value='2' />{$lang['usercp_shoutback_grey']}<input type='radio' name='shoutboxbg'" . ($CURUSER["shoutboxbg"] == "3" ? " checked='checked'" : "") . " value='3' />{$lang['usercp_shoutback_black']}", 1);
+    $HTMLOUT.= tr(''.$lang['usercp_soc_www'].'', '<img src="pic/social_media/www.gif" alt="www" title="www" width="16px" height="16px" /><input type="text" size="30" name="website"  value="' . htmlsafechars($CURUSER['website']) . '" />', 1);
     //==09 Birthday
     $day = $month = $year = '';
     $birthday = $CURUSER["birthday"];
@@ -104,4 +102,4 @@ $HTMLOUT.= "<form method='post' action='takeeditcp.php'>
     }
     //== End
     $HTMLOUT.= "<tr><td align='center' colspan='2'><input class='btn btn-primary' type='submit' value='{$lang['usercp_sign_sub']}' style='height: 40px' /></td></tr>";
-	$HTMLOUT.="</table></div></div></form>";
+	$HTMLOUT.="</table>";

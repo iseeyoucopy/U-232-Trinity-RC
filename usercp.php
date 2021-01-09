@@ -39,17 +39,29 @@ $stdhead = array(
 );
 //echo user_options::CLEAR_NEW_TAG_MANUALLY;
 //die();
-$lang = array_merge(load_language('global'), load_language('usercp'), load_language('achievement_history'), load_language('user_blocks'));
+$lang = array_merge(load_language('global'), load_language('usercp'), load_language('achievement_history'),  load_language('user_blocks'));
 $newpage = new page_verify();
 $newpage->create('tkepe');
 $HTMLOUT = $stylesheets = $wherecatina = '';
-$HTMLOUT.='<div class="grid-container">
-  <div class="grid-x">
-    <div class="cell medium-3">';
+$possible_actions = [
+    'avatar',
+    'signature',
+    'location',
+    'awards',
+    'security',
+    'links',
+    'torrents',
+    'personal',
+    'default',
+    'user_blocks'
+];
+$action = isset($_GET["action"]) ? htmlsafechars(trim($_GET["action"])) : '';
+if (!in_array($action, $possible_actions)) {
+    stderr('error','<br /><div class="alert alert-error span11">' . $lang['usercp_err1'] . '</div>');
+}
 require_once(BLOCK_DIR . 'usercp/navs.php');
-$HTMLOUT.='</div>
-    <div class="cell medium-9">
-      <div class="tabs-content vertical" data-tabs-content="usercp-tabs">';
+$HTMLOUT.='
+      <div class="tabs-content" data-tabs-content="usercp-tabs">';
       if (isset($_GET["edited"])) {
           $HTMLOUT.= "<div class='callout success'>{$lang['usercp_updated']}!</div><br />";
           if (isset($_GET["mailsent"])) {
@@ -58,25 +70,45 @@ $HTMLOUT.='</div>
       } elseif (isset($_GET["emailch"])) {
           $HTMLOUT.= "<h1>{$lang['usercp_emailch']}!</h1>\n";
       }
-        require_once(BLOCK_DIR . 'usercp/pms.php');
-require_once(BLOCK_DIR . 'usercp/avatar.php');
-require_once(BLOCK_DIR . 'usercp/signature.php');
-//require_once (BLOCK_DIR . 'usercp/awards.php');
-require_once(BLOCK_DIR . 'usercp/security.php');
-require_once(BLOCK_DIR . 'usercp/location.php');
-require_once(BLOCK_DIR . 'usercp/torrents.php');
-require_once(BLOCK_DIR . 'usercp/social.php');
-require_once(BLOCK_DIR . 'usercp/personal.php');
-require_once(BLOCK_DIR . 'usercp/links.php');
-if ($CURUSER['got_blocks'] == 'no') {
-    $HTMLOUT.= "<div class='callout alert-callout-border warning'><p class='text-center'>" . $lang['user_b_err1'] . "!</p></div>";
-} else {
-    require_once(BLOCK_DIR . 'usercp/user_blocks.php');
+      $HTMLOUT.= "<form method='post' action='takeeditcp.php'>";
+      
+if ($action == "avatar") {
+    require_once(BLOCK_DIR . 'usercp/avatar.php');
 }
-$HTMLOUT.='
-      </div>
-    </div>
-    </div>
-    </div>';
-$HTMLOUT.= '';
+elseif ($action == "signature") {
+    require_once(BLOCK_DIR . 'usercp/signature.php');
+}
+elseif ($action == "awards") {
+    require_once(BLOCK_DIR . 'usercp/awards.php');
+}
+elseif ($action == "security") {
+    require_once(BLOCK_DIR . 'usercp/security.php');
+}
+elseif ($action == "location") {
+    require_once(BLOCK_DIR . 'usercp/location.php');
+}
+elseif ($action == "torrents") {
+    require_once(BLOCK_DIR . 'usercp/torrents.php');
+}
+elseif ($action == "personal") {
+    require_once(BLOCK_DIR . 'usercp/personal.php');
+}
+elseif ($action == "links") {
+    require_once(BLOCK_DIR . 'usercp/links.php');
+}
+else {
+    if ($action == "default")
+    require_once(BLOCK_DIR . 'usercp/pms.php');
+}
+$HTMLOUT.= "</form>";
+if ($action == "user_blocks") {
+    if ($CURUSER['got_blocks'] == 'no') {
+        $HTMLOUT.= "<div class='callout alert-callout-border warning'><p class='text-center'>" . $lang['user_b_err1'] . "!</p></div>";
+    } else {
+        $HTMLOUT.= '<form action="./user_blocks.php" method="post">';
+        require_once(BLOCK_DIR . 'usercp/user_blocks.php');
+        $HTMLOUT.= '</form>';
+    }
+}
+$HTMLOUT.='</div>';
 echo stdhead(htmlsafechars($CURUSER["username"], ENT_QUOTES) . "{$lang['usercp_stdhead']} ", true, $stdhead) . $HTMLOUT . stdfoot($stdfoot);

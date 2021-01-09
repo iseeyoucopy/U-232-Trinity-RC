@@ -10,8 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$HTMLOUT.= "<form method='post' action='takeeditcp.php'>
-<div class='tabs-panel' id='panel5'>
+$HTMLOUT.= "
 	<table class='table table-bordered'>";
     $HTMLOUT.= "<tr><td><input type='hidden' name='action' value='security' />{$lang['usercp_secu_opt']}</td></tr>";
     if (get_parked() == '1') 
@@ -67,4 +66,4 @@ $HTMLOUT.= "<form method='post' action='takeeditcp.php'>
     $HTMLOUT.= tr($lang['usercp_question'], "<select name='changeq'>\n$secretqs\n</select>", 1);
     $HTMLOUT.= tr($lang['usercp_sec_answer'], "<input type='text' name='secretanswer' size='40' />", 1);
     $HTMLOUT.= "<tr ><td align='center' colspan='2'><input class='btn btn-primary' type='submit' value='{$lang['usercp_sign_sub']}' style='height: 40px' /></td></tr>";
-$HTMLOUT.="</table></div></form>";
+$HTMLOUT.="</table>";

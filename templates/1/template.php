@@ -88,6 +88,14 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         }
          /*]]>*/
         </script>
+        <script type='text/javascript'>
+        $(document).foundation();
+$('.title-bar').on('sticky.zf.stuckto:top', function(){
+  $(this).addClass('shrink');
+}).on('sticky.zf.unstuckfrom:top', function(){
+  $(this).removeClass('shrink');
+})
+</script>
         {$js_incl}{$css_incl}
         </head><body>";
         $htmlout .= TopBar();
@@ -109,7 +117,7 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         $redis_version = phpversion("redis");
         $htmlout .= "<b class='text-center'> PHP : " . phpversion() . " | Mysql : " . $mysql_v    . " | Memcached : " . $memcached_version . " | Redis : " . $redis_version . "</b>
 </div>";
-$htmlout .= '<div class="grid-container">';
+        $htmlout .= '<div class="grid-container">';
         $htmlout .= AlertBar();
     }
     return $htmlout;
@@ -241,54 +249,54 @@ function StatusBar()
         }
     } else
         $max = 999;
-//==Memcache peers
-if (XBT_TRACKER == true) {
-    if ($MyPeersXbtCache = $cache->get('MyPeers_XBT_' . $CURUSER['id']) === false) {
-        $seed['yes'] = $seed['no'] = 0;
-        $seed['conn'] = 3;
-        $result = sql_query("SELECT COUNT(uid) AS `count`, `left`, `active`, `connectable` FROM `xbt_peers` WHERE uid= " . sqlesc($CURUSER['id']) . " AND `left` = 0 AND `active` = 1") or sqlerr(__LINE__, __FILE__);
-        while ($a = mysqli_fetch_assoc($result)) {
-            $key = $a['left'] == 0 ? 'yes' : 'no';
-            $seed[$key] = number_format(0 + $a['count']);
-            $seed['conn'] = $a['connectable'] == 0 ? 1 : 2;
+    //==Memcache peers
+    if (XBT_TRACKER == true) {
+        if ($MyPeersXbtCache = $cache->get('MyPeers_XBT_' . $CURUSER['id']) === false) {
+            $seed['yes'] = $seed['no'] = 0;
+            $seed['conn'] = 3;
+            $result = sql_query("SELECT COUNT(uid) AS `count`, `left`, `active`, `connectable` FROM `xbt_peers` WHERE uid= " . sqlesc($CURUSER['id']) . " AND `left` = 0 AND `active` = 1") or sqlerr(__LINE__, __FILE__);
+            while ($a = mysqli_fetch_assoc($result)) {
+                $key = $a['left'] == 0 ? 'yes' : 'no';
+                $seed[$key] = number_format(0 + $a['count']);
+                $seed['conn'] = $a['connectable'] == 0 ? 1 : 2;
+            }
+            $cache->set('MyPeers_XBT_' . $CURUSER['id'], $seed, $TRINITY20['expires']['MyPeers_xbt_']);
+            //unset($result, $a);
         }
-        $cache->set('MyPeers_XBT_'.$CURUSER['id'], $seed, $TRINITY20['expires']['MyPeers_xbt_']);
-        //unset($result, $a);
-    }
-	$seed = $MyPeersXbtCache;
-} else {
-    if (($MyPeersCache = $cache->get('MyPeers_' . $CURUSER['id'])) === false) {
-        $seed['yes'] = $seed['no'] = 0;
-        $seed['conn'] = 3;
-        $resultp = "SELECT COUNT(id) AS count, seeder, connectable FROM peers WHERE userid=" . sqlesc($CURUSER['id']) . " GROUP BY seeder" or sqlerr(__FILE__, __LINE__);
-		$result = $mysqli->query($resultp);
-		$rows = array();
-        while ($rows = $result->fetch_assoc()) {
-            $key = $rows['seeder'] == 'yes' ? 'yes' : 'no';
-            $seed[$key] = number_format(0 + $rows['count']);
-            $seed['conn'] = $rows['connectable'] == 'no' ? 1 : 2;
+        $seed = $MyPeersXbtCache;
+    } else {
+        if (($MyPeersCache = $cache->get('MyPeers_' . $CURUSER['id'])) === false) {
+            $seed['yes'] = $seed['no'] = 0;
+            $seed['conn'] = 3;
+            $resultp = "SELECT COUNT(id) AS count, seeder, connectable FROM peers WHERE userid=" . sqlesc($CURUSER['id']) . " GROUP BY seeder" or sqlerr(__FILE__, __LINE__);
+            $result = $mysqli->query($resultp);
+            $rows = array();
+            while ($rows = $result->fetch_assoc()) {
+                $key = $rows['seeder'] == 'yes' ? 'yes' : 'no';
+                $seed[$key] = number_format(0 + $rows['count']);
+                $seed['conn'] = $rows['connectable'] == 'no' ? 1 : 2;
+            }
+            $cache->set('MyPeers_' . $CURUSER['id'], $seed, 0);
+            unset($resultp, $rows);
         }
-        $cache->set('MyPeers_' . $CURUSER['id'], $seed, 0);
-       unset($resultp, $rows);
+        $seed = $MyPeersCache;
     }
-	$seed = $MyPeersCache;
-}
-     // for display connectable  1 / 2 / 3
+    // for display connectable  1 / 2 / 3
     if (!empty($seed['conn'])) {
         switch ($seed['conn']) {
-        case 1:
-            $connectable = "<i class='fas fa-times greeniconcolor'></i>";
-            break;
-        case 2:
-            $connectable = "<i class='fas fa-check-circle greeniconcolor'></i>";
-            break;
-        default:
-            $connectable = "N/A";
+            case 1:
+                $connectable = "<i class='fas fa-times greeniconcolor'></i>";
+                break;
+            case 2:
+                $connectable = "<i class='fas fa-check-circle greeniconcolor'></i>";
+                break;
+            default:
+                $connectable = "N/A";
         }
     } else $connectable = 'N/A';
     if (($Achievement_Points = $cache->get('user_achievement_points_' . $CURUSER['id'])) === false) {
         $Sql = "SELECT users.id, users.username, usersachiev.achpoints, usersachiev.spentpoints FROM users LEFT JOIN usersachiev ON users.id = usersachiev.id WHERE users.id = " . sqlesc($CURUSER['id']) or sqlerr(__FILE__, __LINE__);
-		$result = $mysqli->query($Sql);
+        $result = $mysqli->query($Sql);
         $Achievement_Points = $result->fetch_assoc();;
         $Achievement_Points['id'] = (int)$Achievement_Points['id'];
         $Achievement_Points['achpoints'] = (int)$Achievement_Points['achpoints'];
@@ -322,7 +330,7 @@ if (XBT_TRACKER == true) {
 		<dd>{$lang['gl_connectable']}:{$connectable}</dd>";
     }
     $StatusBar .= "<dd>{$lang['gl_hnr']}: <a href='" . $TRINITY20['baseurl'] . "/hnr.php?id=" . $CURUSER['id'] . "'>{$hitnruns}</a>&nbsp;</dd>
-	<dd><a href='#' onclick='themes();'><i class='fas fa-palette blueiconcolor' title='{$lang['gl_theme']}'></i></a> | <a href='#' onclick='language_select();'><i class='fas fa-language' title='{$lang['gl_language_select']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/pm_system.php'><i class='far fa-envelope' title='{$lang['gl_pms']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/usercp.php'><i class='fas fa-user-edit' title='{$lang['gl_usercp']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/friends.php'><i class='fas fa-user-friends' title='{$lang['gl_friends']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/logout.php?hash_please={$salty}'><i class='fas fa-power-off rediconcolor' title='{$lang['gl_logout']}'></i></a></dd></dl>";
+	<dd><a href='#' onclick='themes();'><i class='fas fa-palette blueiconcolor' title='{$lang['gl_theme']}'></i></a> | <a href='#' onclick='language_select();'><i class='fas fa-language' title='{$lang['gl_language_select']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/pm_system.php'><i class='far fa-envelope' title='{$lang['gl_pms']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/usercp.php?action=default'><i class='fas fa-user-edit' title='{$lang['gl_usercp']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/friends.php'><i class='fas fa-user-friends' title='{$lang['gl_friends']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/logout.php?hash_please={$salty}'><i class='fas fa-power-off rediconcolor' title='{$lang['gl_logout']}'></i></a></dd></dl>";
     $StatusBar .= "</div></div></div></div>";
     return $StatusBar;
 }
@@ -370,12 +378,12 @@ function TopBar()
     global $CURUSER, $TRINITY20, $lang, $cache;
     $TopBar = '';
     $TopBar .= "<div data-sticky-container>
-    <div class='title-bar' data-sticky data-responsive-toggle='topbar-menu' data-hide-for='medium'>
+    <div class='title-bar' data-responsive-toggle='topbar-menu' data-open='offCanvasTop' data-hide-for='medium'>
   <button class='menu-icon' type='button' data-toggle='topbar-menu'></button>
   <div class='title-bar-title'>U-232 Trinity RC</div>
 </div>
 
-<div class='top-bar' id='topbar-menu'>
+<div class='top-bar' data-sticky data-options='marginTop:0; id='topbar-menu'>
   <div class='top-bar-left'>
     <ul class='dropdown menu' data-dropdown-menu>
       <li class='menu-text'>U-232 Trinity RC</li>
@@ -391,9 +399,9 @@ function TopBar()
               <li><a href='" . $TRINITY20['baseurl'] . "/rsstfreak.php'>{$lang['gl_tfreak']}</a></li>
               <li><a href='" . $TRINITY20['baseurl'] . "/sitepot.php'>{$lang['gl_sitepot']}</a></li>
               <li><a href='" . $TRINITY20['baseurl'] . "/forums.php'>{$lang['gl_forums']}</a></li>
-              <li><a href='" . $TRINITY20['baseurl'] . "/tv_guide.php'>Tv Guide</a></li></li>
+              <li><a href='" . $TRINITY20['baseurl'] . "/tv_guide.php'>Tv Guide</a></li>
           </ul>
-  </li>
+        </li>
   <li>
   <a href='#'>{$lang['gl_torrent']}</a>
     <ul class='menu vertical'>
@@ -421,7 +429,7 @@ function TopBar()
         <li>" . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "<a class='brand' href='" . $TRINITY20['baseurl'] . "/bugs.php?action=add'>{$lang['gl_breport']}</a>" : "<a class='brand' href='" . $TRINITY20['baseurl'] . "/bugs.php?action=bugs'>{$lang['gl_brespond']}</a>") . "</li>
         <li> " . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "<a class='brand' href='" . $TRINITY20['baseurl'] . "/contactstaff.php'>{$lang['gl_cstaff']}</a>" : "<a class='brand' href='" . $TRINITY20['baseurl'] . "/staffbox.php'>{$lang['gl_smessages']}</a>") . "</li>
         " . (isset($CURUSER) && $CURUSER['class'] >= UC_STAFF ? "<li><a href='" . $TRINITY20['baseurl'] . "/staffpanel.php'>{$lang['gl_admin']}</a></li>" : "") . "
-        " . (isset($CURUSER) && $CURUSER['class'] >= UC_STAFF ? "<li><a data-toggle='StaffPanel'>Quick Links</a></li>" : "") . "</li>
+        " . (isset($CURUSER) && $CURUSER['class'] >= UC_STAFF ? "<li><a data-toggle='StaffPanel'>Quick Links</a></li>" : "") . "
         </ul>
 </li>
 <li><a href='{$TRINITY20['baseurl']}/donate.php'>Donate</a></li>
@@ -442,8 +450,6 @@ function AlertBar()
 {
     global $CURUSER, $TRINITY20, $lang, $cache;
     $htmlout = '';
-    $htmlout = '<div class="callout clearfix">';
     $htmlout .= GlobalAlert();
-    $htmlout .= "</div>";
     return $htmlout;
 }

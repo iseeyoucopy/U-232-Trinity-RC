@@ -66,14 +66,13 @@ $checkbox_userdetails_report = ((curuser::$blocks['userdetails_page'] & block_us
 $checkbox_userdetails_userstatus = ((curuser::$blocks['userdetails_page'] & block_userdetails::USERSTATUS) ? ' checked="checked"' : '');
 $checkbox_userdetails_usercomments = ((curuser::$blocks['userdetails_page'] & block_userdetails::USERCOMMENTS) ? ' checked="checked"' : '');
 $checkbox_userdetails_showfriends = ((curuser::$blocks['userdetails_page'] & block_userdetails::SHOWFRIENDS) ? ' checked="checked"' : '');
-$HTMLOUT.= '<div class="tabs-panel" id="user-block">
+$HTMLOUT.= '
 <ul class="tabs" data-deep-link="true" data-update-history="true" data-deep-link-smudge="true" data-deep-link-smudge-delay="500" data-tabs id="userblocks-tabs">
   <li class="tabs-title is-active"><a href="#panel1d" aria-selected="true">' . $lang['user_b_title1'] . '</a></li>
   <li class="tabs-title"><a href="#panel2d">' . $lang['user_b_title2'] . '</a></li>
   <li class="tabs-title"><a href="#panel3d">' . $lang['user_b_title3'] . '</a></li>
   <li class="tabs-title"><a href="#panel4d">Browse Page</a></li>
 </ul>
-<form action="./user_blocks.php" method="post">
 <div class="tabs-content" data-tabs-content="userblocks-tabs">
   <div class="tabs-panel is-active" id="panel1d">
         <table class="table bordered">
@@ -90,8 +89,7 @@ $HTMLOUT.= '<div class="tabs-panel" id="user-block">
         <tr><td><b>' . $lang['user_b_nb1'] . '</b></td><td>
         <div class="switch tiny">
         <input onchange="this.form.submit()" class="switch-input" id="index_news" type="checkbox" name="news" ' . $checkbox_index_news . '>
-        <label class="switch-paddle" for="index_news">
-        <span class="show-for-sr">Do you like me?</span>
+        <label class="switch-paddle" for="index_news">       
         <span class="switch-active" aria-hidden="true">Yes</span>
         <span class="switch-inactive" aria-hidden="true">No</span>
         </label>
@@ -101,8 +99,7 @@ $HTMLOUT.= '<div class="tabs-panel" id="user-block">
     <tr><td><b>' . $lang['user_b_sh1'] . '</b></td><td>
     <div class="switch tiny">
     <input onchange="this.form.submit()" class="switch-input" id="index_shoutbox" type="checkbox" name="shoutbox" ' . $checkbox_index_shoutbox . '>
-    <label class="switch-paddle" for="index_shoutbox">
-    <span class="show-for-sr">Do you like me?</span>
+    <label class="switch-paddle" for="index_shoutbox"> 
     <span class="switch-active" aria-hidden="true">Yes</span>
     <span class="switch-inactive" aria-hidden="true">No</span>
     </label>
@@ -684,4 +681,4 @@ $HTMLOUT.= '
     </table>
     </div>
     <div class="tabs-panel" id="panel4d">
-    </div></div></form></div>';
+    </div></div>';

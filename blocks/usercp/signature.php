@@ -1,6 +1,5 @@
 <?php
-    $HTMLOUT.= "<form method='post' action='takeeditcp.php'>
-    <div class='tabs-panel' id='panel3'>
+    $HTMLOUT.= "
 	<table class='table table-bordered'>";
     $HTMLOUT.= "<tr><td><input type='hidden' name='action' value='signature' />{$lang['usercp_sign_opt']}</td></tr>";
     //=== signature stuff
@@ -11,4 +10,4 @@
     $HTMLOUT.= tr($lang['usercp_info'], "<textarea name='info' cols='50' rows='4'>" . htmlsafechars($CURUSER["info"], ENT_QUOTES) . "</textarea><br />{$lang['usercp_tags']}", 1);
     $HTMLOUT.= "<tr ><td align='center' colspan='2'><input class='btn btn-primary' type='submit' value='{$lang['usercp_sign_sub']}' style='height: 40px' /></td></tr>";
 
-$HTMLOUT.="</table></div></form>";
+$HTMLOUT.="</table>";
