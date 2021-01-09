@@ -1,6 +1,6 @@
 # U-232-Trinity-RC
- This version is an Release Candidate for development
-  
+ This version is an Release Candidate for development and testing
+ This source is an upgraded version of U-232-V5
 # Basic Information 
    
     Code Base: U-232 
@@ -11,7 +11,7 @@
 
 # Requires the following 
    
-    Memcached PHP 7.4 or higher 
+    PHP 7.4 or higher 
     PHP-CURL 
     PHP-IGBINARY 
     PHP-JSON 
@@ -26,8 +26,10 @@
     PHP-XML 
     PHP-ZIP 
     LIBAPACHE2-MOD-PHP Apache/2.4.38 or higher 
-    MariaDB 10.4.13
- 
+    MariaDB 10.5.7 or higher
+# Instructions for installing php 
+      #For
+      sudo apt update
  "Side note" temporary make sure your strict mode is off " set global sql_mode=''; " I will update the code to work even in strict mode
 
 # Instructions for XBT
