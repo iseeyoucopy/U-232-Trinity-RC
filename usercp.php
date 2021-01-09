@@ -57,7 +57,7 @@ $possible_actions = [
 ];
 $action = isset($_GET["action"]) ? htmlsafechars(trim($_GET["action"])) : '';
 if (!in_array($action, $possible_actions)) {
-    stderr('error','<br /><div class="alert alert-error span11">' . $lang['usercp_err1'] . '</div>');
+    stderr('error','<div class="alert alert-error span11">' . $lang['usercp_err1'] . '</div>');
 }
 require_once(BLOCK_DIR . 'usercp/navs.php');
 $HTMLOUT.='
@@ -105,7 +105,7 @@ if ($action == "user_blocks") {
     if ($CURUSER['got_blocks'] == 'no') {
         $HTMLOUT.= "<div class='callout alert-callout-border warning'><p class='text-center'>" . $lang['user_b_err1'] . "!</p></div>";
     } else {
-        $HTMLOUT.= '<form action="./user_blocks.php" method="post">';
+        $HTMLOUT.= '<form method="post" action="user_blocks.php">';
         require_once(BLOCK_DIR . 'usercp/user_blocks.php');
         $HTMLOUT.= '</form>';
     }

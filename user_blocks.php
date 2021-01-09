@@ -381,6 +381,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         sql_query('UPDATE user_blocks SET ' . implode(',', $updateset) . ' WHERE userid = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
     }
     $cache->delete('blocks::' . $id);
-    header("Location: {$TRINITY20['baseurl']}/usercp.php?edited=1#user-block");
+    header("Location: {$TRINITY20['baseurl']}/usercp.php?edited=1&action=user_blocks#user-block");
 }
 echo stdhead($lang['user_b_echo'], true) . $HTMLOUT . stdfoot();
