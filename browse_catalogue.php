@@ -278,7 +278,7 @@ if (!$torrentsperpage) {
 if ($count) {
     if ($addparam != "") {
         if ($pagerlink != "") {
-            if ($addparam{strlen($addparam) - 1} != ";") { // & = &amp;
+            if ($addparam[strlen($addparam) - 1] != ";") { // & = &amp;
                 $addparam = $addparam . "&" . $pagerlink;
             } else {
                 $addparam = $addparam . $pagerlink;
