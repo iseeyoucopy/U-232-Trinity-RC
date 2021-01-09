@@ -22,7 +22,7 @@ if (!is_valid_id($id)) stderr("{$lang['delete_failed']}", "{$lang['delete_missin
 //==delete torrents by putyn
 function deletetorrent($id)
 {
-    global $TRINITY20, $cache, $CURUSER, $lang;
+    global $TRINITY20, $cache, $CURUSER, $lang, $keys;
     sql_query("DELETE peers.*, files.*, comments.*, snatched.*, thanks.*, bookmarks.*, coins.*, rating.*, thumbsup.*, torrents.* FROM torrents 
 				 LEFT JOIN peers ON peers.torrent = torrents.id
 				 LEFT JOIN files ON files.torrent = torrents.id
@@ -35,11 +35,11 @@ function deletetorrent($id)
 				 LEFT JOIN snatched ON snatched.torrentid = torrents.id
 				 WHERE torrents.id =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
     unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
-    $cache->delete('MyPeers_' . $CURUSER['id']);
+    $cache->delete($keys['my_peers'] . $CURUSER['id']);
 }
 function deletetorrent_xbt($id)
 {
-   global $TRINITY20, $cache, $CURUSER, $lang;
+   global $TRINITY20, $cache, $CURUSER, $lang, $keys;
    sql_query("UPDATE torrents SET flags = 1 WHERE id = ".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
    sql_query("DELETE files.*, comments.*, thankyou.*, thanks.*, thumbsup.*, bookmarks.*, coins.*, rating.*, xbt_files_users.* FROM xbt_files_users
                                      LEFT JOIN files ON files.torrent = xbt_files_users.fid
@@ -52,7 +52,7 @@ function deletetorrent_xbt($id)
                                      LEFT JOIN thumbsup ON thumbsup.torrentid = xbt_files_users.fid
                                      WHERE xbt_files_users.fid =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
-        $cache->delete('MyPeers_XBT_' . $CURUSER['id']);
+        $cache->delete($keys['my_xbt_peers'] . $CURUSER['id']);
     }
 $res = sql_query("SELECT name, owner, seeders FROM torrents WHERE id =" . sqlesc($id));
 $row = mysqli_fetch_assoc($res);

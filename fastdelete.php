@@ -42,7 +42,7 @@ $lang = array_merge( load_language('global'), load_language('fastdelete') );
 				 LEFT JOIN snatched ON snatched.torrentid = torrents.id
 				 WHERE torrents.id =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
     unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
-    $cache->delete('MyPeers_' . $CURUSER['id']);
+    $cache->delete($keys['my_peers'] . $CURUSER['id']);
 }
 function deletetorrent_xbt($id)
 {
@@ -59,7 +59,7 @@ function deletetorrent_xbt($id)
                                      LEFT JOIN thumbsup ON thumbsup.torrentid = xbt_files_users.fid
                                      WHERE xbt_files_users.fid =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
-        $cache->delete('MyPeers_XBT_' . $CURUSER['id']);
+        $cache->delete($keys['my_xbt_peers'] . $CURUSER['id']);
     }
      
    

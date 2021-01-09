@@ -101,7 +101,7 @@ if (isset($_GET['slot'])) {
     ], $TRINITY20['expires']['user_cache']);
 }
 /* end **/
-$cache->delete('MyPeers_' . $CURUSER['id']);
+$cache->delete($keys['my_peers'] . $CURUSER['id']);
 $cache->delete('top5_tor_');
 $cache->delete('last5_tor_');
 $cache->delete('scroll_tor_');

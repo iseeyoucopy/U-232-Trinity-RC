@@ -30,7 +30,7 @@ function failedloginscheck()
 //==End
 failedloginscheck();
 if (!mkglobal("qlogin") || (strlen($qlogin = $qlogin) != 96)) {
-    die(n00b);
+    die("n00b");
 }
 function bark($text = 'Username or password incorrect')
 {
