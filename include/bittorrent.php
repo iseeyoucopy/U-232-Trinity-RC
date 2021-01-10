@@ -186,7 +186,7 @@ function check_bans($ip, &$reason = '')
 {
     global $TRINITY20, $cache, $c;
     //$ip_decrypt = $c->decrypt($ip);
-    $key = 'bans:::' . $ip;
+    $key = 'bans::' . $ip;
     if (($ban = $cache->get($key)) === false && $ip != '127.0.0.1') { 
         $nip = ip2long($ip);
         $ban_sql = sql_query('SELECT comment FROM bans WHERE (first <= ' . $nip . ' AND last >= ' . $nip . ') LIMIT 1');
