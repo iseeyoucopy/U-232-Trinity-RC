@@ -94,20 +94,9 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_STAFFTOOLS && $BLOCKS['global_staff_tools_on'] && $CURUSER['class'] >= UC_STAFF) {
             require_once(BLOCK_DIR . 'global/staff_tools.php');
         }
-        $htmlout .= StatusBar();
-        $htmlout .= '<div class="card">';
-        $link = sql_query("SELECT VERSION()");
-        while ($row = mysqli_fetch_assoc($link)) {
-            foreach ($row as $value) {
-                $mysql_v = $value;
-            }
-        }
-        $memcached_version = phpversion("memcached");
-        $redis_version = phpversion("redis");
-        $htmlout .= "<b class='text-center'> PHP : " . phpversion() . " | Mysql : " . $mysql_v    . " | Memcached : " . $memcached_version . " | Redis : " . $redis_version . "</b>
-</div>";
         $htmlout .= '<div class="grid-container">';
-        $htmlout .= AlertBar();
+        $htmlout .= subnav_header();
+        $htmlout .= StatusBar();
     }
     return $htmlout;
 }
@@ -319,7 +308,7 @@ function StatusBar()
 		<dd>{$lang['gl_connectable']}:{$connectable}</dd>";
     }
     $StatusBar .= "<dd>{$lang['gl_hnr']}: <a href='" . $TRINITY20['baseurl'] . "/hnr.php?id=" . $CURUSER['id'] . "'>{$hitnruns}</a>&nbsp;</dd>
-	<dd><a href='#' onclick='themes();'><i class='fas fa-palette blueiconcolor' title='{$lang['gl_theme']}'></i></a> | <a href='#' onclick='language_select();'><i class='fas fa-language' title='{$lang['gl_language_select']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/pm_system.php'><i class='far fa-envelope' title='{$lang['gl_pms']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/usercp.php?action=default'><i class='fas fa-user-edit' title='{$lang['gl_usercp']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/friends.php'><i class='fas fa-user-friends' title='{$lang['gl_friends']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/logout.php?hash_please={$salty}'><i class='fas fa-power-off rediconcolor' title='{$lang['gl_logout']}'></i></a></dd></dl>";
+	<dd><a href='#' onclick='themes();'><i class='fas fa-palette blueiconcolor' title='{$lang['gl_theme']}'></i></a> | <a href='#' onclick='language_select();'><i class='fas fa-language' title='{$lang['gl_language_select']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/friends.php'><i class='fas fa-user-friends' title='{$lang['gl_friends']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/logout.php?hash_please={$salty}'><i class='fas fa-power-off rediconcolor' title='{$lang['gl_logout']}'></i></a></dd></dl>";
     $StatusBar .= "</div></div></div></div>";
     return $StatusBar;
 }
@@ -367,8 +356,8 @@ function TopBar()
     global $CURUSER, $TRINITY20, $lang;
     $TopBar = '';
     $TopBar.= "
-    <div class='multilevel-offcanvas off-canvas position-right is-transition-push' id='offCanvasRight' data-off-canvas>
-    <ul class='vertical menu' data-accordion-menu>
+    <div class='multilevel-offcanvas off-canvas position-right' id='offCanvasRight' data-off-canvas>
+    <ul class='vertical menu accordion-menu' data-accordion-menu>
       <li><a href='#'>{$lang['gl_general']}</a>
         <ul class='menu vertical nested'>
             <li><a href='" . $TRINITY20['baseurl'] . "/topten.php'>{$lang['gl_stats']}</a></li>
@@ -376,15 +365,14 @@ function TopBar()
             <li><a href='" . $TRINITY20['baseurl'] . "/staff.php'>{$lang['gl_staff']}</a></li>
             <li><a href='" . $TRINITY20['baseurl'] . "/wiki.php'>{$lang['gl_wiki']}</a></li>
             <li><a href='#' onclick='radio();'>{$lang['gl_radio']}</a></li>
+            <li><a class='hide-for-medium' href='" . $TRINITY20['baseurl'] . "/tv_guide.php'>Tv Guide</a></li>
             <li><a href='" . $TRINITY20['baseurl'] . "/rsstfreak.php'>{$lang['gl_tfreak']}</a></li>
             <li><a href='" . $TRINITY20['baseurl'] . "/sitepot.php'>{$lang['gl_sitepot']}</a></li>
-            <li><a href='" . $TRINITY20['baseurl'] . "/forums.php'>{$lang['gl_forums']}</a></li>
-            <li><a href='" . $TRINITY20['baseurl'] . "/tv_guide.php'>Tv Guide</a></li>
          </ul>
       </li>
       <li><a href='#'>{$lang['gl_torrent']}</a>
         <ul class='menu vertical nested'>
-            <li><a href='" . $TRINITY20['baseurl'] . "/browse.php'>{$lang['gl_torrents']}</a></li>
+            <li><a class='hide-for-medium' href='" . $TRINITY20['baseurl'] . "/browse.php'>{$lang['gl_torrents']}</a></li>
             <li><a href='" . $TRINITY20['baseurl'] . "/requests.php'>{$lang['gl_requests']}</a></li>
             <li><a href='" . $TRINITY20['baseurl'] . "/offers.php'>{$lang['gl_offers']}</a></li>
             <li><a href='" . $TRINITY20['baseurl'] . "/needseed.php?needed=seeders'>{$lang['gl_nseeds']}</a></li>" . (isset($CURUSER) && $CURUSER['class'] <= UC_VIP ? "
@@ -401,6 +389,18 @@ function TopBar()
         <li><a href='" . $TRINITY20['baseurl'] . "/blackjack.php'>{$lang['gl_bjack']}</a></li>
          </ul>
       </li>
+      <li><a href='#'>{$lang['gl_lnk_men']}</a>
+      <ul class='menu vertical nested'>
+      <li><a href='mytorrents.php'>{$lang['gl_mytorrents']}</a></li>
+      <li><a href='friends.php'>{$lang['gl_myfriends']}</a></li>
+      <li><a href='users.php'>{$lang['gl_search_members']}</a></li>
+      <li><a href='invite.php'>{$lang['gl_lnk_inv']}</a>
+      {$lang['gl_lnk_enter']}
+      <li><a href='tenpercent.php'>{$lang['gl_lnk_life']}</a></li>
+      <li><a href='topmoods.php'>{$lang['gl_lnk_top']}</a></li>
+      <li><a href='lottery.php'>{$lang['gl_lnk_lott']}</a></li>
+      </ul>
+      </li>
       <li><a href='#'>Staff</a>
         <ul class='menu vertical nested'>
         <li>" . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "<a class='brand' href='" . $TRINITY20['baseurl'] . "/bugs.php?action=add'>{$lang['gl_breport']}</a>" : "<a class='brand' href='" . $TRINITY20['baseurl'] . "/bugs.php?action=bugs'>{$lang['gl_brespond']}</a>") . "</li>
@@ -411,36 +411,33 @@ function TopBar()
        </li>
      </ul>
     <ul class='vertical menu'>
-      <li class='off-canvas-menu-item'><a href='#'>Tour</a></li>
+      <li class='off-canvas-menu-item'><a href='" . $TRINITY20['baseurl'] . "/forums.php'>{$lang['gl_forums']}</a></li>
       <li><a href='{$TRINITY20['baseurl']}/donate.php'>Donate</a></li>
-      <li><a href='#'><a href='{$TRINITY20['baseurl']}/help.php'><i class='fas fa-question'></i>Help</a></a></li>
-      <li><a href='#'>Pricing</a></li>
-      <li><a href='#'>Support</a></li>
+      <li><a href='#'><a href='{$TRINITY20['baseurl']}/help.php'>Help</a></a></li>
+      <li><a href='#'>New link</a></li>
+      <li><a href='#'>New link</a></li>
     </ul>
     <ul class='vertical menu'>
-       <li><a href='#'>Journal</a></li>
-       <li><a href='#'>FAQ</a></li>
-       <li><a href='#'>Terms & Conditions</a></li>
-       <li><a href='#'>Careers</a></li>
-       <li><a href='#'>Students</a></li>
+       <li><a class='hide-for-medium' href='" . $TRINITY20['baseurl'] . "/usercp.php?action=default'>{$lang['gl_usercp']}</a></li>
+       <li><a class='hide-for-medium' href='" . $TRINITY20['baseurl'] . "/pm_system.php'>{$lang['gl_pms']}</a></li>
+       <li><a href='#'>New link5</a></li>
      </ul>
     <ul class='menu simple social-links'>
-      <li><a style='color: #fff' href='https://github.com/iseeyoucopy/U-232-Trinity-RC'><i class='fab fa-github fa-lg'></i></a></li>
-      <li><a href='#' target='_blank'><i class='fa fa-facebook-square' aria-hidden='true'></i></a></li>
-      <li><a href='#' target='_blank'><i class='fa fa-github-square' aria-hidden='true'></i></a></li>
-      <li><a href='#' target='_blank'><i class='fa fa-google-plus-square' aria-hidden='true'></i></a></li>
+      <li><a href='https://github.com/iseeyoucopy/U-232-Trinity-RC'><i class='fab fa-github fa-lg'></i></a></li>
+      <li><a href='#' target='_blank'><i class='fab fa-facebook-square' aria-hidden='true'></i></a></li>
+      <li><a href='#' target='_blank'><i class='fab fa-github-square' aria-hidden='true'></i></a></li>
+      <li><a href='#' target='_blank'><i class='fab fa-google-plus-square' aria-hidden='true'></i></a></li>
     </ul>
   </div>
   <div class='off-canvas-content' data-off-canvas-content>
     <div class='nav-bar'>
         <div class='nav-bar-left'>
-          <a class='nav-bar-logo' href='{$TRINITY20['baseurl']}/index.php'><img  class='logo' src='{$TRINITY20['pic_base_url']}logo.png'></a>
+        <a class='nav-bar-logo'><img class='logo' src='{$TRINITY20['pic_base_url']}logo.png'></a>
+        <a class='hide-for-small-only' data-toggle='profile-dropdown'>" . $CURUSER['username'] . "</a>
         </div>
         <div class='nav-bar-right'>
           <ul class='menu'>
-            <li class='hide-for-small-only'><a style='color: #fff' data-toggle='profile-dropdown'><i class='fas fa-user-secret'></i>" . $CURUSER['username'] . "</a></li>
-            <li class='hide-for-small-only'><a href='" . $TRINITY20['baseurl'] . "/index.php'>{$lang['gl_home']}</a></li>
-            <li>
+          <li class='hide-for-small-only'></li>
             <li>
               <button class='offcanvas-trigger' type='button' data-open='offCanvasRight'>
                 <span class='offcanvas-trigger-text hide-for-small-only'>Menu</span>
@@ -456,16 +453,20 @@ function TopBar()
     </div>";
     return $TopBar;
 }
-function OffCanvas () {
+function subnav_header() {
     global $CURUSER, $TRINITY20, $lang;
-    $OffCanvas = "";
-    $OffCanvas.= "";
-    return $OffCanvas;
-}
-function AlertBar()
-{
-    global $CURUSER, $TRINITY20, $lang, $cache;
-    $htmlout = '';
-    $htmlout .= GlobalAlert();
-    return $htmlout;
+    $subnav_header = "";
+    $subnav_header.= "
+    <header class='subnav-hero-section hide-for-small-only'>
+    <h1 class='subnav-hero-headline'>Trinity <small>by U-232 Team</small></h1>
+    <ul class='subnav-hero-subnav'>
+        <li><a href='" . $TRINITY20['baseurl'] . "/index.php'>{$lang['gl_home']}</a></li>
+        <li><a href='" . $TRINITY20['baseurl'] . "/browse.php'>{$lang['gl_torrents']}</a></li>
+        <li><a href='" . $TRINITY20['baseurl'] . "/usercp.php?action=default'>{$lang['gl_usercp']}</a></li>
+        <li><a href='" . $TRINITY20['baseurl'] . "/tv_guide.php'>Tv Guide</a></li>
+        <li><a href='" . $TRINITY20['baseurl'] . "/pm_system.php'>{$lang['gl_pms']}</a></li>
+        " . (isset($CURUSER) && $CURUSER['class'] >= UC_STAFF ? "<li><a data-toggle='StaffPanel'>Staff Links</a></li>" : "") . "
+        </ul>
+  </header>";
+    return $subnav_header;
 }

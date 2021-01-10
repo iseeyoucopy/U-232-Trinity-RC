@@ -36,7 +36,7 @@ $lang = array(
     'gl_forums' => "Forums",
     'gl_tforums' => "Tracker Forums",
     'gl_bookmarks' => "Favoris",
-    'gl_general' => "Général",
+    'gl_general' => "GENERAL",
     'gl_stats' => "Statistiques",
     'gl_status' => "Status",
     'gl_announcements' => "News du Site",
@@ -211,6 +211,15 @@ $lang = array(
 	//conectable statusbar
 	'gl_connectable' => "Connectable",
 	'gl_not_connectable' => "Non Connectable",
-	'gl_na_connectable' => "N/A"	
+    'gl_na_connectable' => "N/A",
+    'gl_lnk_men' => 'USER MENU',
+    'gl_lnk_inv' => 'Invitations',
+    'gl_lnk_life' => 'Bouée de Sauvetage',
+    'gl_lnk_enter' => 'Distractions',
+    'gl_lnk_top' => "Top 50 des Humeurs",
+    'gl_lnk_lott' => "Loterie",
+    'gl_mytorrents' => 'My Torrents',
+    'gl_myfriends' => 'My Friends',
+    'gl_search_members' => 'Search Members'
 );
 ?>
