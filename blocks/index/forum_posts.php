@@ -22,7 +22,7 @@ if (($topics = $cache->get($keys['last_postsb'] . $CURUSER['class'])) === false)
 }
 if ($topics && count($topics) > 0) {
 	$HTMLOUT .= "<div class='card'>
-	<div class='card-header'>
+	<div class='card-divider'>
 		{$lang['latestposts_title']}
 	</div>
 	<div class='card-section'>

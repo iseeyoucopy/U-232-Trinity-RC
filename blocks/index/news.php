@@ -15,8 +15,8 @@ $adminbutton = '';
 if ($CURUSER['class'] >= UC_STAFF) {
     $adminbutton = "<a class='float-right' href='staffpanel.php?tool=news&amp;mode=news'>{$lang['index_news_title']}</a>";
 }
-$HTMLOUT.= "<div class='callout'>
-	<h4 class='subheader'>{$lang['news_title']}{$adminbutton}</h4>";
+$HTMLOUT.= "<div class='card'>
+	<div class='card-divider'>{$lang['news_title']}{$adminbutton}</div>";
 $prefix = 'min5l3ss';
 $news = $cache->get($keys['latest_news']);
 if ($news === false) {

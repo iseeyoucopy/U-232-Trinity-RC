@@ -22,12 +22,10 @@ if (($latestuser_cache = $cache->get($keys['latestuser'])) === false) {
     $latestuser_cache['king'] = (int)$latestuser_cache['king'];
     $cache->set($keys['latestuser'], $latestuser_cache, $TRINITY20['expires']['latestuser']);
 }
-$latestuser = '<div class="callout">
-<h4 class="subheader">' . $lang['index_lmember'] . '</h4>
-		' . $lang['index_wmember'] . format_username($latestuser_cache) . '!
-</div>';
-//==MemCached latest user
-$HTMLOUT.= $latestuser ."";
+$HTMLOUT.= '<div class="card">
+    <div class="card-divider">' . $lang['index_lmember'] . '</div>
+        <div class="card-section">' . $lang['index_wmember'] . format_username($latestuser_cache) . '!</div>
+    </div>';
 //==End	
 // End Class
 // End File

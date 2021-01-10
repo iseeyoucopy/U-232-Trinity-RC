@@ -20,13 +20,15 @@ $funds_so_far = (int)$totalfunds_cache["total_funds"];
 $funds_difference = $TRINITY20['totalneeded'] - $funds_so_far;
 $Progress_so_far = number_format($funds_so_far / $TRINITY20['totalneeded'] * 100, 1);
 if ($Progress_so_far >= 100) $Progress_so_far = 100;
-$HTMLOUT.= "<div class='callout'>
-		<h5>{$lang['index_donations']}</h5>
-<div class='progress' role='progressbar' tabindex='0' aria-valuenow='$Progress_so_far%' aria-valuemin='0' aria-valuemax='100'>
-  <span class='progress-meter' style='width: $Progress_so_far%'>
-    <span class='progress-meter-text'>$Progress_so_far%</span>
-  </span>
-</div>
+$HTMLOUT.= "<div class='card'>
+  <div class='card-divider'>{$lang['index_donations']}</div>
+    <div class='card-section'>
+      <div class='progress' role='progressbar' tabindex='0' aria-valuenow='$Progress_so_far%' aria-valuemin='0' aria-valuemax='100'>
+        <span class='progress-meter' style='width: $Progress_so_far%'>
+          <span class='progress-meter-text'>$Progress_so_far%</span>
+        </span>
+      </div>
+    </div>
 </div>";
 //==End
 // End Class

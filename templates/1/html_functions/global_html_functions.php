@@ -17,7 +17,7 @@ function begin_main_div()
 }
 function begin_head_div()
 {
-    return "<div class='card-header'>";
+    return "<div class='card-divider'>";
 }
 function end_head_div()
 {

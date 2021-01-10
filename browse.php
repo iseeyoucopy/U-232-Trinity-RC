@@ -295,7 +295,7 @@ else
 //$HTMLOUT .= navigation_active("Torrents");
 //$HTMLOUT .= navigation_end();
 //$HTMLOUT.= "<div class='row'><div class='col-md-12 col-md-offset-1'>";
-/*
+
 $HTMLOUT.='
 <div class="grid-x grid-margin-x">
   <div class="cell large-6 large-offset-3"><div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
@@ -337,7 +337,7 @@ $HTMLOUT.='
     <button data-slide="3"><span class="show-for-sr">Fourth slide details.</span></button>
   </nav>
 </div></div></div>';
-*/
+
 if ($CURUSER['opt1'] & user_options::VIEWSCLOUD) {
     $HTMLOUT.= "<div class='callout float-center text-center' style='width:80%;border:1px solid black;background-color:rgba(121,124,128,0.3);'>";
     //print out the tag cloud

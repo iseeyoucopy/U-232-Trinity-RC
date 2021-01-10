@@ -11,9 +11,9 @@
  * ------------  @version V6  ------------------*
  */
 require_once ROOT_DIR . 'tfreak.php';
-$HTMLOUT.= "<div class='callout'>
-	<h4 class='subheader'>{$TRINITY20['site_name']}{$lang['index_torr_freak']}</h4>
-	".rsstfreakinfo()." 
+$HTMLOUT.= "<div class='card'>
+	<div class='card-divider'>{$TRINITY20['site_name']}{$lang['index_torr_freak']}</div>
+	<div class='card-section'>" . rsstfreakinfo() . "</div>
 </div>";
 //==
 // End Class

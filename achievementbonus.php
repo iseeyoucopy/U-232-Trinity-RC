@@ -144,7 +144,7 @@ if ($bonus_type == 5) {
         $cache->delete('user_achievement_points_' . $id);
     }
 }
-header("Refresh: 3; url=achievementhistory.php?id=$id");
+header("Refresh: 5; url=usercp.php?action=awards");
 stderr($lang['achbon_random_achievement_bonus'], "$msg");
 echo stdhead($lang['achbon_std_head']) . $HTMLOUT . stdfoot();
 ?>

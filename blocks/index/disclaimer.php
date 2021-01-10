@@ -11,9 +11,9 @@
  * ------------  @version V6  ------------------*
  */
 //==Disclaimer
-$HTMLOUT.= "<div class='callout'>
-		<h4 class='subheader'>{$lang['index_disclaimer']}</h4>";
-$HTMLOUT.= sprintf("<p>{$lang['foot_disclaimer']}</p>", $TRINITY20['site_name']);
+$HTMLOUT.= "<div class='card'>
+		<div class='card-divider'>{$lang['index_disclaimer']}</div>";
+$HTMLOUT.= "<div class='card-section'>" . sprintf("<p>{$lang['foot_disclaimer']}</p>", $TRINITY20['site_name']) . "</div>";
 $HTMLOUT.= "</div>";
 //==End
 // End Class

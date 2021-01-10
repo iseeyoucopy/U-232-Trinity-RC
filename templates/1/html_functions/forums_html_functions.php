@@ -15,7 +15,7 @@
 ///// forum header with collapse /////
 function begin_f_main_div(){    return "<div class='card card-primary'>";}
 // begin head div
-function begin_f_head_div(){    return "<div class='card-header'>";}
+function begin_f_head_div(){    return "<div class='card-divider'>";}
 // head label with image on right
 function begin_f_head_label($x){    return "<span class='nav navbar-nav navbar-right'><label for='checkbox_4' class='text-left'>";}
 // head lebel with no image

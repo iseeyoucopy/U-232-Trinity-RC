@@ -17,7 +17,7 @@ loggedinorreturn();
 $lang = array_merge(load_language('global') , load_language('chat'));
 
 $HTMLOUT = '';
-$HTMLOUT.= "<div class='callout'><iframe src='/chat/' class='chat-table' name='custom_ajax_chat'></iframe></div>";
-///////////////////// HTML OUTPUT ////////////////////////////
+$HTMLOUT.= "<div class='card'><iframe src='/chat/' class='chat-table' name='custom_ajax_chat'></iframe></div>";
+
 echo stdhead("{$lang['chat_chat']}").$HTMLOUT.stdfoot();
 ?>

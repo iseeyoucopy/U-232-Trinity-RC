@@ -33,7 +33,7 @@ $HTMLOUT.= "<div class='article_header' style='text-align:center'><a href='topte
 if (isset($_GET['view']) && $_GET['view'] == "t") {
     $view = strip_tags(isset($_GET["t"]));
     // Top Torrents
-    $HTMLOUT.= "<div class='card'><div class='card-header'><h2 class='text-center'>".$lang['torrent_mostact_10']."</h2><hr></div>";
+    $HTMLOUT.= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['torrent_mostact_10']."</h2><hr></div>";
     $result = sql_query("SELECT t.*, (t.size * t.times_completed + SUM(p.downloaded)) AS data FROM torrents AS t LEFT JOIN peers AS p ON t.id = p.torrent WHERE p.seeder = 'no' GROUP BY t.id ORDER BY seeders + leechers DESC, seeders DESC, added ASC LIMIT 10");
     $counted = mysqli_num_rows($result);
     if ($counted == "10") {
@@ -95,7 +95,7 @@ if (isset($_GET['view']) && $_GET['view'] == "t") {
     } else {
         $HTMLOUT.= "<h4 class='text-center'><hr>".$lang['torrent_insuff_tt']."(" . $counted . ")</h4></div>";
     }
-    $HTMLOUT.= "<div class='card'><div class='card-header'><h2 class='text-center'>".$lang['torrent_mostsna_10']."</h2><hr></div>";
+    $HTMLOUT.= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['torrent_mostsna_10']."</h2><hr></div>";
     $result = sql_query("SELECT t.*, (t.size * t.times_completed + SUM(p.downloaded)) AS data FROM torrents AS t LEFT JOIN peers AS p ON t.id = p.torrent WHERE p.seeder = 'no' GROUP BY t.id ORDER BY times_completed DESC LIMIT 10");
     $counted = mysqli_num_rows($result);
     if ($counted == "10") {
@@ -161,7 +161,7 @@ if (isset($_GET['view']) && $_GET['view'] == "t") {
 if (isset($_GET['view']) && $_GET['view'] == "c") {
     $view = strip_tags(isset($_GET["c"]));
     // Top Countries
-    $HTMLOUT.= "<div class='card'><div class='card-header'><h2 class='text-center'>".$lang['country_mostact_10']."</h2><hr></div>";
+    $HTMLOUT.= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['country_mostact_10']."</h2><hr></div>";
     $result = sql_query("SELECT name, flagpic, COUNT(users.country) as num FROM countries LEFT JOIN users ON users.country = countries.id GROUP BY name ORDER BY num DESC LIMIT 10");
     $counted = mysqli_num_rows($result);
     if ($counted == "10") {
@@ -221,7 +221,7 @@ if (isset($_GET['view']) && $_GET['view'] == "c") {
     } else {
         $HTMLOUT.= "<h4 class='text-center'><hr>".$lang['country_insuff_ct']."(" . $counted . ")</h4></div>";
     }
-    $HTMLOUT.= "<div class='card'><div class='card-header'><h2 class='text-center'>".$lang['country_mostsna_10']."</h2><hr></div>";
+    $HTMLOUT.= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['country_mostsna_10']."</h2><hr></div>";
     $result = sql_query("SELECT c.name, c.flagpic, sum(u.uploaded) AS ul FROM users AS u LEFT JOIN countries AS c ON u.country = c.id WHERE u.enabled = 'yes' GROUP BY c.name ORDER BY ul DESC LIMIT 10");
     $counted = mysqli_num_rows($result);
     if ($counted == "10") {
@@ -286,7 +286,7 @@ if (isset($_GET['view']) && $_GET['view'] == "c") {
     die();
 }
 // Default display / Top Users
-$HTMLOUT.= "<div class='card'><div class='card-header'><h2 class='text-center'>".$lang['user_mostup_10']."</h2><hr></div>";
+$HTMLOUT.= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['user_mostup_10']."</h2><hr></div>";
 $result = sql_query("SELECT id, username, uploaded FROM users WHERE enabled = 'yes' ORDER BY uploaded DESC LIMIT 10");
 $counted = mysqli_num_rows($result);
 if ($counted == "10") {
@@ -347,7 +347,7 @@ if ($counted == "10") {
 } else {
     $HTMLOUT.= "<h4 class='text-center'><hr>".$lang['user_insuff_up']."(" . $counted . ")</h4></div>";
 }
-$HTMLOUT.= "<div class='card'><div class='card-header'><h2 class='text-center'>".$lang['user_mostdl_10']."</h2><hr></div>";
+$HTMLOUT.= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['user_mostdl_10']."</h2><hr></div>";
 $result = sql_query("SELECT username, downloaded FROM users WHERE enabled = 'yes' ORDER BY downloaded DESC LIMIT 10");
 $counted = mysqli_num_rows($result);
 if ($counted == "10") {
@@ -407,7 +407,7 @@ if ($counted == "10") {
 } else {
     $HTMLOUT.= "<h4 class='text-center'><hr>".$lang['user_insuff_dl']."(" . $counted . ")</h4></div>";
 }
-$HTMLOUT.= "<div class='card'><div class='card-header'><h2 class='text-center'>".$lang['user_mostup_fst']."</h2><hr></div>";
+$HTMLOUT.= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['user_mostup_fst']."</h2><hr></div>";
 $result = sql_query("SELECT  username, uploaded / (" . TIME_NOW . " - added) AS upspeed FROM users WHERE enabled = 'yes' ORDER BY upspeed DESC LIMIT 10");
 $counted = mysqli_num_rows($result);
 if ($counted == "10") {
@@ -467,7 +467,7 @@ if ($counted == "10") {
 } else {
     $HTMLOUT.= "<h4 class='text-center'><hr>".$lang['user_insuff_up']."(" . $counted . ")</h4></div>";
 }
-$HTMLOUT.= "<div class='card'><div class='card-header'><h2 class='text-center'>".$lang['user_mostdl_fst']."</h2><hr></div>";
+$HTMLOUT.= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['user_mostdl_fst']."</h2><hr></div>";
 $result = sql_query("SELECT username, downloaded / (" . TIME_NOW . " - added) AS downspeed FROM users WHERE enabled = 'yes' ORDER BY downspeed DESC LIMIT 10");
 $counted = mysqli_num_rows($result);
 if ($counted == "10") {

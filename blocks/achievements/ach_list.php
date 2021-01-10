@@ -1,7 +1,7 @@
 <?php
 $HTMLOUT.= "
 <div class='card table-responsive-md'>
-<div class='card-header'><h1>{$lang['achlst_std_head']}</h1></div>
+<div class='card-divider'><h1>{$lang['achlst_std_head']}</h1></div>
 <table class='table table-bordered'>
 		<tr>
 		<td>{$lang['achlst_achievname']}</td>

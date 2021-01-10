@@ -13,13 +13,10 @@
 // Announcement Code...
 $ann_subject = trim($CURUSER['curr_ann_subject']);
 $ann_body = trim($CURUSER['curr_ann_body']);
-if ((!empty($ann_subject)) AND (!empty($ann_body)))
-   {
-   $HTMLOUT .= "
+if ((!empty($ann_subject)) AND (!empty($ann_body))) {
+	$HTMLOUT .= "
 	<div class='card'>
-		<div class='card-divider'>
-			<label for='checkbox_4' class='text-left'>{$lang['index_announce']}</label>
-		</div>
+		<div class='card-divider'>{$lang['index_announce']}</div>
 		<div class='card-section'>
 			<table class='table table-bordered'>
 				<tr>

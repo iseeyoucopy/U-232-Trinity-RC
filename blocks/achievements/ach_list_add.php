@@ -1,6 +1,6 @@
 <?php
 $HTMLOUT.= "<div class='card table-responsive'>
-<div class='card-header'>{$lang['achlst_add_an_ach_lst']}</div>
+<div class='card-divider'>{$lang['achlst_add_an_ach_lst']}</div>
 <div class='card-section'>
 		<form method='post' action='achievementlist.php'>
 		<table class='table table-bordered'>
