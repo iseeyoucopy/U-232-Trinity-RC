@@ -1,9 +1,9 @@
 <?php
    $HTMLOUT.= "<div class='tabs-panel' id='panel10'>'<div class='col-md-6'>
 	<div class='panel panel-default bordered-heading'>
-	<div class='panel-heading'><h5 class='panel-title'><i class='fa fa-list'></i>{$lang['usercp_lnk_opt']}</h5></div>
-	<div class='panel'>
-					<div class='panel-body'>
+	<div class='card-divider'><h5 class='panel-title'><i class='fa fa-list'></i>{$lang['usercp_lnk_opt']}</h5></div>
+	<div class='card'>
+					<div class='card-section'>
 						<div class='row'>
 							<div class='col-lg-5'>
 								<ul class='list-group'><li class='list-group-item btn btn-default'><b>{$lang['usercp_lnk_men']}</b></li>

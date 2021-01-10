@@ -58,10 +58,10 @@ $(\"input[placeholder='Search Torrents']\").search(options);
 /*]]>*/
 </script>";
 $search_help_boolean = '<div class="callout default">
-	<div class="card-heading">
+	<div class="card-divider">
 <h2 class="text-center text-info">The boolean search supports the following operators:</h2>
 </div>
-	<div class="card-body">
+	<div class="card-section">
  <p><span style="font-weight: bold;">+</span> A leading plus sign indicates that this word must be present.<br /><br />
     <span style="font-weight: bold;">-</span> A leading minus sign indicates that this word must not be present.<br /><br />
         By default (when neither + nor - is specified) the word is optional, but results that contain it are rated higher. <br /><br />

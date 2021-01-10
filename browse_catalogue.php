@@ -60,11 +60,11 @@ $(document).ready(function(){
 })
 /*]]>*/
 </script>';
-$search_help_boolean = '<div class="panel panel-default">
-    <div class="panel-heading">
+$search_help_boolean = '<div class="card">
+    <div class="card-divider">
 <h2 class="text-center text-info">' . $lang['bool_01'] . '</h2>
 </div><div class="panel">
-    <div class="panel-body">
+    <div class="card-section">
  <p>   <span style="font-weight: bold;">+</span>' . $lang['bool_02'] . '<br><br>
     <span style="font-weight: bold;">-</span>' . $lang['bool_03'] . '<br><br>
        ' . $lang['bool_04'] . '<br><br>

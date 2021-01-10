@@ -61,7 +61,7 @@ $HTMLOUT.="<div class='card'>
 	<div class='card-header'>
 		<label for='checkbox_4' class='text-left'>{$lang['index_latest']}</label>
 	</div>
-	<div class='card-body'>
+	<div class='card-section'>
 ";
 if (($top5torrents = $cache->get('top5_tor_')) === false) {
     $res = sql_query("SELECT id, seeders, poster, leechers, name, category from torrents ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}") or sqlerr(__FILE__, __LINE__);

@@ -400,12 +400,12 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
         } else {
             $HTMLOUT .= "<br />
             <form class=\"form-horizontal\" name=\"p2p\" method=\"post\" action=\"casino.php\">
-        <div class='panel panel-default'>
-	<div class='panel-heading'>
+        <div class='card'>
+	<div class='card-divider'>
 	<h1 class='col-sm-offset-3'>{$TRINITY20['site_name']} {$lang['casino_stdhead']} - {$lang['casino_bet_p2p_with_other_users']}:</h1></div>
-	<div class='panel-body'>
+	<div class='card-section'>
 	
-            <div class='row'><div class='col-sm-6 col-sm-offset-3'><div class='panel'><table class='table'>";
+            <div class='row'><div class='col-sm-6 col-sm-offset-3'><div class='card'><table class='table'>";
             $HTMLOUT .= "<tr><td align=\"center\" colspan=\"2\" class=\"colhead\">{$lang['casino_place_bet']}</td></tr>";
             $HTMLOUT .= "<tr><td align=\"center\"><b>{$lang['casino_amount_to_bet']}</b>
 
@@ -422,7 +422,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
         $HTMLOUT .= "<b>{$lang['casino_you_already_have']} " . htmlsafechars($maxusrbet) . " {$lang['casino_open_bets_wait_until_they_are_comp']}.</b><br /><br />";
     }
     //== Open Bets table
-    $HTMLOUT .= "<div class='panel panel-default'>	
+    $HTMLOUT .= "<div class='card'>	
 	<table class='table table-bordered'>";
     $HTMLOUT .= "<tr><td align=\"center\" class=\"colhead\" colspan=\"4\">{$lang['casino_open_bets']}</td></tr></div>";
     $HTMLOUT .= "<tr>
@@ -446,7 +446,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
     //== Bet on color table
     $HTMLOUT.="<div class='row'>
 <div class='col-sm-6'>";
-    $HTMLOUT .= "<div class='panel panel-default'>
+    $HTMLOUT .= "<div class='card'>
 		<form class=\"form-horizontal\" name=\"casino\" method=\"post\" action=\"casino.php\">
             <table class=\"message table table-bordered\" cellspacing=\"0\">\n";
     $HTMLOUT .= "<tr><td align=\"center\" class=\"colhead\" colspan=\"2\">{$lang['casino_bet_on_a_colour']}</td></tr>";
@@ -473,7 +473,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
     $HTMLOUT .= "</table></form></div></div>";
     //== Bet on number table
     $HTMLOUT.="<div class='col-sm-6'>";
-    $HTMLOUT .= "<div class='panel panel-default'>
+    $HTMLOUT .= "<div class='card'>
 	<form class=\"form-horizontal\" name=\"casino\" method=\"post\" action=\"casino.php\">
             <table class=\"message table table-bordered\"  cellspacing=\"0\">\n";
     $HTMLOUT .= "<tr><td align=\"center\" class=\"colhead\" colspan=\"2\">{$lang['casino_bet_on_a_number']}</td></tr>";
@@ -499,7 +499,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
     $HTMLOUT .= tr($lang['casino_bet_on_a_number'], "<input class='btn btn-default'  type=\"submit\" value=\"{$lang['casino_do_it']}!\" />", 1);
     $HTMLOUT .= "</table></form></div></div></div>";
     //== User stats table
-    $HTMLOUT .= "<div class='panel panel-default'><table class='table table-bordered'>";
+    $HTMLOUT .= "<div class='card'><table class='table table-bordered'>";
     $HTMLOUT .= "<tr><td align=\"center\" class=\"colhead\" colspan=\"3\">{$CURUSER['username']}'s {$lang['casino_details']}</td></tr>
             <tr><td align='center'>
             <h1>User @ {$TRINITY20['site_name']} {$lang['casino_stdhead']}</h1>

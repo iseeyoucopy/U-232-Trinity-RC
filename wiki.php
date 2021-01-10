@@ -150,7 +150,7 @@ VALUES (" . sqlesc($name) . ", " . sqlesc($body) . ", " . sqlesc($CURUSER["id"])
     }
 }
 //$HTMLOUT.= begin_main_frame();
-$HTMLOUT.= "<div class='row'><div class='col-md-12 '><div class='panel panel-default'><div class='panel-heading'>";
+$HTMLOUT.= "<div class='row'><div class='col-md-12 '><div class='card'><div class='card-divider'>";
 
 $HTMLOUT.= "<div class='row'><div class=col-md-12'><span><img src='images/global.design/wiki.png' alt='' title='{$lang['wiki_title']}'>{$lang['wiki_title']}</span></div></div><div class='global_text'><br>";
 

@@ -22,7 +22,7 @@ $HTMLOUT.="<div class='card'>
 	<div class='card-header'>
 		<label for='checkbox_4' class='text-left'>{$lang['index_latest']}</label>
 	</div>
-	<div class='card-body'>
+	<div class='card-section'>
 ";
 if (($last5torrents = $cache->get('last5_tor_')) === false) {
     $sql = "SELECT id, seeders, poster, leechers, name, category FROM torrents WHERE visible='yes' ORDER BY added DESC LIMIT {$TRINITY20['latest_torrents_limit']}";

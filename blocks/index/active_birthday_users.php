@@ -27,10 +27,10 @@ if (($birthday_users_cache = $cache->get($keys['birthdayusers'])) === false) {
 }
 if (!$birthday_users_cache['birthdayusers']) $birthday_users_cache['birthdayusers'] = $lang['index_birthday_no'];
 $birthday_users ='<div class="card">
-	<div class="card-header">
+	<div class="card-divider">
 		<label for="checkbox_4" class="text-left">' . $lang['index_birthday'] . '&nbsp;&nbsp;<span class="badge btn btn-success disabled" style="color:#fff">' . $birthday_users_cache['actcount'] . '</span></label>
 	</div>
-	<div class="card-body">' . $birthday_users_cache['birthdayusers'] . '</div></div>';
+	<div class="card-section">' . $birthday_users_cache['birthdayusers'] . '</div></div>';
 $HTMLOUT.= $birthday_users ."";
 //==End
 // End Class

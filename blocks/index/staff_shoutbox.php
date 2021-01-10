@@ -26,14 +26,14 @@ if ($CURUSER['opt2'] & user_options_2::SHOW_STAFFSHOUT) {
     if ($CURUSER['class'] >= UC_STAFF)
     {
     $HTMLOUT.= "
-   <div class='panel panel-default'>
-	<div class='panel-heading'>
+   <div class='card'>
+	<div class='card-divider'>
 	<!--<span class='shouthis'>-->
 	<span><a class='btn btn-default' href='{$TRINITY20['baseurl']}/staff_shoutbox.php?show_staffshout=1&amp;show_staff=no'>{$lang['index_shoutbox_close']}</a></span>
 		<label for='checkbox_4' class='text-left'>{$lang['index_staff_shoutbox']}</label>
 <span class='nav navbar-nav navbar-right'><a class='btn btn-primary btn-sm navbar-btn' style='margin-top:-2px;' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=staff_shistory'>{$lang['index_shoutbox_history']}</a></span>
 </div>
-	<div class='card-body'>
+	<div class='card-section'>
 <div class='text-center'>";
     }
     $HTMLOUT.= "<form action='staff_shoutbox.php' method='get' target='staff_shoutbox' name='staff_shbox' onsubmit='staff_mysubmit()'>

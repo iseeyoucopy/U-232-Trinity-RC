@@ -42,44 +42,57 @@ if (($stats_cache = $cache->get($keys['site_stats'])) === false) {
 }
 //==End
 //==Installer 09 stats
-$HTMLOUT.= "<div class='callout'>
-	<h4 class='subheader'>{$lang['index_stats_title']}</h4>
-                                <ul class='stats-list'>
-								<li>{$lang['index_stats_uinfo']}<span class='stats-list-label'>Total</span></li>
-                                        <li>{$lang['index_stats_regged']}<span class='stats-list-label'>{$stats_cache['regusers']}</span></li>
-                                        <li>{$lang['index_stats_max']}<span class='stats-list-label'>{$TRINITY20['maxusers']}</span></li>
-                                        <li>{$lang['index_stats_online']}<span class='stats-list-label'>{$stats_cache['numactive']}</span></li>
-                                        <li>{$lang['index_stats_uncon']}<span class='stats-list-label'>{$stats_cache['unconusers']}</span></li>
-                                        <li>{$lang['index_stats_gender_na']}<span class='stats-list-label'>{$stats_cache['gender_na']}</span></li>
-                                        <li>{$lang['index_stats_gender_male']}<span class='stats-list-label'>{$stats_cache['gender_male']}</span></li>
-                                        <li>{$lang['index_stats_gender_female']}<span class='stats-list-label'>{$stats_cache['gender_female']}</span></li>
-                                </ul>                                                           
-                                <ul class='stats-list'>
-										<li>{$lang['index_stats_cinfo']}<span class='stats-list-label'>Total</span></li>
-										<li>{$lang['index_stats_powerusers']}<span class='stats-list-label'>{$stats_cache['powerusers']}</span></li>
-                                        <li>{$lang['index_stats_banned']}<span class='stats-list-label'>{$stats_cache['disabled']}</span></li>
-										<li>VIPs<span class='stats-list-label'>{$stats_cache['vips']}</span></li>
-                                        <li>{$lang['index_stats_uploaders']}<span class='stats-list-label'>{$stats_cache['uploaders']}</span></li>
-                                        <li>{$lang['index_stats_moderators']}<span class='stats-list-label'>{$stats_cache['moderators']}</span></li>
-                                        <li>{$lang['index_stats_admin']}<span class='stats-list-label'>{$stats_cache['administrators']}</span></li>
-                                        <li>{$lang['index_stats_sysops']}<span class='stats-list-label'>{$stats_cache['sysops']}</span></li>
-                                </ul>
-                                <ul class='stats-list'>
-								<li>{$lang['index_stats_finfo']}<span class='stats-list-label'>Total</span></li>                                                                   
-                                        <li>{$lang['index_stats_topics']}<span class='stats-list-label'>{$stats_cache['forumtopics']}</span></li>
-                                        <li>{$lang['index_stats_posts']}<span class='stats-list-label'>{$stats_cache['forumposts']}</span></li>
-                                </ul>
-						<b>{$lang['index_stats_tinfo']}</b>
-                                <ul class='stats-list'>
-								<li>{$lang['index_stats_torrents']}<span class='stats-list-label'>{$stats_cache['torrents']}</span></li>
-                                        <li>{$lang['index_stats_newtor']}<span class='stats-list-label'>{$stats_cache['torrentstoday']}</span></li>
-                                        <li>{$lang['index_stats_peers']}<span class='stats-list-label'>{$stats_cache['peers']}</span></li>
-                                        <li>{$lang['index_stats_unconpeer']}<span class='stats-list-label'>{$stats_cache['unconnectables']}</span></li>
-                                        <li>{$lang['index_stats_seeders']}<span class='stats-list-label'>{$stats_cache['seeders']}</span></li>
-                                        <li>{$lang['index_stats_unconratio']}<span class='stats-list-label'>" . round($stats_cache['ratiounconn'] * 100) . "</span></li>
-                                        <li>{$lang['index_stats_leechers']}<span class='stats-list-label'>{$stats_cache['leechers']}</span></li>
-                                        <li>{$lang['index_stats_slratio']}<span class='stats-list-label'>" . round($stats_cache['ratio'] * 100) . "</span></li>
-                                </ul>
+$HTMLOUT.= "
+<div class='card'>
+    <div class='card-divider primary'>
+        <label for='checkbox_4' class='text-left'>{$lang['index_stats_title']}</label>
+    </div>
+    <div class='card-section'>
+        <div class='grid-x grid-margin-x'>
+            <div class='cell medium-3 callout'>
+                <ul class='no-bullet'>
+                    <li><b>{$lang['index_stats_uinfo']}</b></li>
+                    <li>{$lang['index_stats_regged']}<span class='badge float-right'>{$stats_cache['regusers']}</span></li>
+                    <li>{$lang['index_stats_max']}<span class='badge float-right'>{$TRINITY20['maxusers']}</span></li>
+                    <li>{$lang['index_stats_online']}<span class='badge float-right'>{$stats_cache['numactive']}</span></li>
+                    <li>{$lang['index_stats_uncon']}<span class='badge float-right'>{$stats_cache['unconusers']}</span></li>
+                    <li>{$lang['index_stats_gender_na']}<span class='badge float-right'>{$stats_cache['gender_na']}</span></li>
+                    <li>{$lang['index_stats_gender_male']}<span class='badge float-right'>{$stats_cache['gender_male']}</span></li>
+                    <li>{$lang['index_stats_gender_female']}<span class='badge float-right'>{$stats_cache['gender_female']}</span></li>
+                </ul>
+            </div>
+            <div class='cell medium-3 callout'>
+                <ul class='no-bullet'>
+                    <li><b>{$lang['index_stats_cinfo']}</b></li>                                                                    
+                    <li>{$lang['index_stats_powerusers']}<span class='badge float-right'>{$stats_cache['powerusers']}</span></li>
+                    <li>{$lang['index_stats_banned']}<span class='badge float-right'>{$stats_cache['disabled']}</span></li>
+                    <li>{$lang['index_stats_uploaders']}<span class='badge float-right'>{$stats_cache['uploaders']}</span></li>
+                    <li>{$lang['index_stats_moderators']}<span class='badge float-right'>{$stats_cache['moderators']}</span></li>
+                    <li>{$lang['index_stats_admin']}<span class='badge float-right'>{$stats_cache['administrators']}</span></li>
+                    <li>{$lang['index_stats_sysops']}<span class='badge float-right'>{$stats_cache['sysops']}</span></li>
+                </ul>
+            </div>
+            <div class='cell medium-3 callout'>
+                <ul class='no-bullet'>
+                    <li><b>{$lang['index_stats_finfo']}</b></li>                                                                    
+                    <li>{$lang['index_stats_topics']}<span class='badge float-right'>{$stats_cache['forumtopics']}</span></li>
+                    <li>{$lang['index_stats_posts']}<span class='badge float-right'>{$stats_cache['forumposts']}</span></li>
+                </ul>
+            </div>
+            <div class='cell medium-3 callout'>
+                <ul class='no-bullet'>
+                    <li class='list-group-item btn btn-default'><b>{$lang['index_stats_tinfo']}</b></li>                                                                                                                                            <li>{$lang['index_stats_torrents']}<span class='badge float-right'>{$stats_cache['torrents']}</span></li>
+                    <li>{$lang['index_stats_newtor']}<span class='badge float-right'>{$stats_cache['torrentstoday']}</span></li>
+                    <li>{$lang['index_stats_peers']}<span class='badge float-right'>{$stats_cache['peers']}</span></li>
+                    <li>{$lang['index_stats_unconpeer']}<span class='badge float-right'>{$stats_cache['unconnectables']}</span></li>
+                    <li>{$lang['index_stats_seeders']}<span class='badge float-right'>{$stats_cache['seeders']}</span></li>
+                    <li>{$lang['index_stats_unconratio']}<span class='badge float-right'>" . round($stats_cache['ratiounconn'] * 100) . "</span></li>
+                    <li>{$lang['index_stats_leechers']}<span class='badge float-right'>{$stats_cache['leechers']}</span></li>
+                    <li>{$lang['index_stats_slratio']}<span class='badge float-right'>" . round($stats_cache['ratio'] * 100) . "</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>";
 //==End
 // End Class

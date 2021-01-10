@@ -12,7 +12,7 @@ $HTMLOUT.= "<tr><td>{$lang['userdetails_anonymous']}</td></tr>";
 if ($user["avatar"])
 	$HTMLOUT.= "<tr><td><img src='" . htmlsafechars($user["avatar"]) . "'></td></tr>\n";
 if ($user["info"]) 
-	$HTMLOUT.= "<div class='card-body'>'" . format_comment($user["info"]) . "'</div>";
+	$HTMLOUT.= "<div class='card-section'>'" . format_comment($user["info"]) . "'</div>";
 if (isset($showpmbtn)) 
 	$HTMLOUT.= "<tr>
       <td colspan='2' align='center'>

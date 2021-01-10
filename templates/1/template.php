@@ -134,7 +134,7 @@ function stdfoot($stdfoot = false)
 	<div class='card-divider'>
 		<label for='checkbox_4' class='text-left'>{$lang['gl_stdfoot_querys']}</label>
 	</div>
-	<div class='card-body'>
+	<div class='card-section'>
 					<table class='table table-hover table-bordered'>
 						<thead>
 							<tr>

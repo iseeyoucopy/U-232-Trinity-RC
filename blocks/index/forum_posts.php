@@ -25,7 +25,7 @@ if ($topics && count($topics) > 0) {
 	<div class='card-header'>
 		{$lang['latestposts_title']}
 	</div>
-	<div class='card-body'>
+	<div class='card-section'>
 				<table class='hover'>
 					<thead>
 						<tr>

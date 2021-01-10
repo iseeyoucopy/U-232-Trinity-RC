@@ -79,11 +79,11 @@ if (($scroll_torrents = $cache->get('scroll_tor_')) === false) {
 }
 
 if (!empty($scroll_torrents)) {
-$HTMLOUT.= "<div class='panel panel-default'>
-  <div class='panel-heading'>
+$HTMLOUT.= "<div class='card'>
+  <div class='card-divider'>
 <label class='text-left'>{$lang['index_latest']}</label>
 </div>
-    <div class='card-body'>";
+    <div class='card-section'>";
 $HTMLOUT .='<div id="carousel-container" class="carousel-container">
 <div id="icarousel" class="icarousel">';
 

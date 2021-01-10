@@ -31,11 +31,11 @@ if (($active_users_cache = $cache->get($keys['act_users'] )) === false) {
 if (!$active_users_cache['activeusers']) $active_users_cache['activeusers'] = $lang['index_active_users_no'];
 
 $active_users = '
-<div class="callout">
-<div class="panel-heading">
+<div class="card">
+<div class="card-divider">
 <label for="checkbox_4" class="text-left">' . $lang['index_active'] . '&nbsp;&nbsp;'.$active_users_cache['aaaa'].'</label>
 	</div>
-<div class="panel-body">
+<div class="card-section">
 <p>' . $active_users_cache['activeusers'] . '</p>
 </div></div>';
 $HTMLOUT.= $active_users."";

@@ -29,7 +29,7 @@ function end_f_head_label_noimage(){    return "</label>";}
 // end head div
 function end_f_head_div(){    return "</div>";}
 // begin body div
-function begin_f_body_div($x){    return "<div class='card-body'>";}
+function begin_f_body_div($x){    return "<div class='card-section'>";}
 /// forum tables, tr, td
 function begin_f_main_table(){    return "<table class='table table-bordered'>"; }
 function begin_thead(){    return "<thead>";}

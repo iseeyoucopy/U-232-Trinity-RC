@@ -387,9 +387,9 @@ function rep_output($msg = "", $html = "")
     <body>
     <?php
     $html = "<div class='panel panel-default' id='reputation'>
-	<div class='panel-heading'>
+	<div class='card-divider'>
 		<label for='checkbox_1' class='text-left'>Reputation System</label>
-	</div><div class='panel-body'>
+	</div><div class='card-section'>
 <table class='table table-striped table-bordered'>
 		$html";
 
