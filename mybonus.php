@@ -918,8 +918,8 @@ if (isset($_GET['exchange'])) {
 
 				$cache->update_row($keys['user_stats'] . $ar['id'], ['seedbonus' => $ar['seedbonus']], $TRINITY20['expires']['u_stats']);
 				$cache->update_row('user_stats_' . $ar['id'], ['seedbonus' => $ar['seedbonus']], $TRINITY20['expires']['user_stats']);
-                //$cache->delete('inbox_new_'.$pms);
-                //$cache->delete('inbox_new_sb_'.$pms);
+                //$cache->delete('inbox_new::'.$pms);
+                //$cache->delete('inbox_new::sb_'.$pms);
                 // end
 			}
 			if (count($update_users)) {
@@ -937,8 +937,8 @@ if (isset($_GET['exchange'])) {
 
 				$cache->update_row($keys['user_stats'] . $thief_id, ['seedbonus' => $new_bonus], $TRINITY20['expires']['u_stats']);
 				$cache->update_row('user_stats_' . $thief_id, ['seedbonus' => $new_bonus], $TRINITY20['expires']['user_stats']);
-                //$cache->delete('inbox_new_'.$pms);
-                //$cache->delete('inbox_new_sb_'.$pms);
+                //$cache->delete('inbox_new::'.$pms);
+                //$cache->delete('inbox_new::sb_'.$pms);
 			}
 			header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?bounty_success=1");
 			die;
@@ -1328,8 +1328,8 @@ if (isset($_GET['exchange'])) {
 				['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment, 'modcomment' => $modcomment],
 				$TRINITY20['expires']['user_stats']
 			);
-			delete_id_keys('inbox_new_' . $userid);
-			delete_id_keys('inbox_new_sb_' . $userid);
+			delete_id_keys('inbox_new::' . $userid);
+			delete_id_keys('inbox_new::sb_' . $userid);
 			header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?warning_success=1");
 			die;
 			break;
@@ -1454,8 +1454,8 @@ the user class is just for show, but what the hell :p Add more or edit to your l
 				$added = sqlesc(TIME_NOW);
 				$msg = sqlesc("You have been given a gift of $points Karma points by " . format_username($CURUSER));
 				sql_query("INSERT INTO messages (sender, subject, receiver, msg, added) VALUES(0, $subject, $useridgift, $msg, $added)") or sqlerr(__FILE__, __LINE__);
-				delete_id_keys('inbox_new_' . $useridgift);
-				delete_id_keys('inbox_new_sb_' . $useridgift);
+				delete_id_keys('inbox_new::' . $useridgift);
+				delete_id_keys('inbox_new::sb_' . $useridgift);
 				header(
 					"Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?gift_success=1&gift_amount_points=$points&usernamegift=$usernamegift&gift_id=$useridgift"
 				);

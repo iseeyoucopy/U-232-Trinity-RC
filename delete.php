@@ -103,8 +103,8 @@ if ($CURUSER["id"] != $row["owner"] AND $CURUSER['pm_on_delete'] == 'yes') {
     $pm_on = (int)$row["owner"];
     $message = "Torrent $id (" . htmlsafechars($row['name']) . ") has been deleted.\n  Reason: $reasonstr";
     sql_query("INSERT INTO messages (sender, receiver, msg, added) VALUES(0, " . sqlesc($pm_on) . "," . sqlesc($message) . ", $added)") or sqlerr(__FILE__, __LINE__);
-    $cache->delete('inbox_new_' . $pm_on);
-    $cache->delete('inbox_new_sb_' . $pm_on);
+    $cache->delete('inbox_new::' . $pm_on);
+    $cache->delete('inbox_new::sb_' . $pm_on);
 }
 if (isset($_POST["returnto"])) $ret = "<a href='" . htmlsafechars($_POST["returnto"]) . "'>{$lang['delete_go_back']}</a>";
 else $ret = "<a href='{$TRINITY20['baseurl']}/browse.php'>{$lang['delete_back_browse']}</a>";

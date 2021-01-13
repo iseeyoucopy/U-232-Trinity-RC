@@ -218,11 +218,11 @@ if ($hand = fsockopen('ssl://www.paypal.com', 443, $errno, $errstr, 30)) {
     }
     sql_query('INSERT INTO messages(receiver,sender,subject,msg,added) VALUES ' . join(',', $msg)) or paypallog(mysqli_error($GLOBALS["___mysqli_ston"]));
     //clear memcache for staff
-    $cache->delete('inbox_new_' . $TRINITY20['paypal_config']['staff']);
-    $cache->delete('inbox_new_sb_' . $TRINITY20['paypal_config']['staff']);
+    $cache->delete('inbox_new::' . $TRINITY20['paypal_config']['staff']);
+    $cache->delete('inbox_new::sb_' . $TRINITY20['paypal_config']['staff']);
     //and for the user that donated
-    $cache->delete('inbox_new_' . $vars['uid']);
-    $cache->delete('inbox_new_sb_' . $vars['uid']);
+    $cache->delete('inbox_new::' . $vars['uid']);
+    $cache->delete('inbox_new::sb_' . $vars['uid']);
     //and shoutbox (for new message inside shoutbox)
     $cache->delete('shoutbox_');
     fclose($hand);

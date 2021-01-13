@@ -127,8 +127,8 @@ $added = TIME_NOW;
 $msg = sqlesc("Hey there [you] ! :wave:\nIt seems that someone you invited to {$TRINITY20['site_name']} has arrived ! :clap2: \n\n Please go to your [url={$TRINITY20['baseurl']}/invite.php]Invite page[/url] to confirm them so they can log in.\n\ncheers\n");
 $subject = sqlesc("Someone you invited has arrived!");
 sql_query("INSERT INTO messages (sender, subject, receiver, msg, added) VALUES (0, $subject, " . sqlesc($sender) . ", $msg, $added)") or sqlerr(__FILE__, __LINE__);
-$cache->delete('inbox_new_' . $sender);
-$cache->delete('inbox_new_sb_' . $sender);
+$cache->delete('inbox_new::' . $sender);
+$cache->delete('inbox_new::sb_' . $sender);
 //////////////end/////////////////////
 sql_query('UPDATE invite_codes SET receiver = ' . sqlesc($id) . ', status = "Confirmed" WHERE sender = ' . sqlesc((int)$assoc['sender']) . ' AND code = ' . sqlesc($invite)) or sqlerr(__FILE__, __LINE__);
 $latestuser_cache['id'] = (int)$id;

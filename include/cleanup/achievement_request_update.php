@@ -30,8 +30,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Request Filler LVL1\', \'reqfiller1.png\' , \'Filled at least 1 request from the request page.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',1, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['id']);
-                $cache->delete('inbox_new_sb_' . $arr['id']);
+                $cache->delete('inbox_new::' . $arr['id']);
+                $cache->delete('inbox_new::sb_' . $arr['id']);
                 $cache->delete('user_achievement_points_' . $arr['id']);
                 $var1 = 'reqlvl';
             }
@@ -40,8 +40,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Request Filler LVL2\', \'reqfiller2.png\' , \'Filled at least 5 requests from the request page.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',2, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['id']);
-                $cache->delete('inbox_new_sb_' . $arr['id']);
+                $cache->delete('inbox_new::' . $arr['id']);
+                $cache->delete('inbox_new::sb_' . $arr['id']);
                 $var1 = 'reqlvl';
             }
             if ($reqfilled >= 10 && $lvl == 2) {
@@ -49,8 +49,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Request Filler LVL3\', \'reqfiller3.png\' , \'Filled at least 10 requests from the request page.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',3, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['id']);
-                $cache->delete('inbox_new_sb_' . $arr['id']);
+                $cache->delete('inbox_new::' . $arr['id']);
+                $cache->delete('inbox_new::sb_' . $arr['id']);
                 $cache->delete('user_achievement_points_' . $arr['id']);
                 $var1 = 'reqlvl';
             }
@@ -59,8 +59,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Request Filler LVL4\', \'reqfiller4.png\' , \'Filled at least 25 requests from the request page.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',4, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['id']);
-                $cache->delete('inbox_new_sb_' . $arr['id']);
+                $cache->delete('inbox_new::' . $arr['id']);
+                $cache->delete('inbox_new::sb_' . $arr['id']);
                 $cache->delete('user_achievement_points_' . $arr['id']);
                 $var1 = 'reqlvl';
             }
@@ -69,8 +69,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Request Filler LVL5\', \'reqfiller5.png\' , \'Filled at least 50 requests from the request page.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',5, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['id']);
-                $cache->delete('inbox_new_sb_' . $arr['id']);
+                $cache->delete('inbox_new::' . $arr['id']);
+                $cache->delete('inbox_new::sb_' . $arr['id']);
                 $cache->delete('user_achievement_points_' . $arr['id']);
                 $var1 = 'reqlvl';
             }

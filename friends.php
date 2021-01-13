@@ -42,8 +42,8 @@ if ($action == 'add') {
         $subject = sqlesc("New Friend Request!");
         $body = sqlesc("[url={$TRINITY20['baseurl']}/userdetails.php?id=$userid][b]This person[/b][/url] has added you to their Friends List. See all Friend Requests [url={$TRINITY20['baseurl']}/friends.php#pending][b]Here[/b][/url]\n ");
         sql_query("INSERT INTO messages (sender, receiver, added, subject, msg) VALUES (0, " . sqlesc($targetid) . ", '" . TIME_NOW . "', $subject, $body)") or sqlerr(__FILE__, __LINE__);
-        $cache->delete('inbox_new_' . $targetid);
-        $cache->delete('inbox_new_sb_' . $targetid);
+        $cache->delete('inbox_new::' . $targetid);
+        $cache->delete('inbox_new::sb_' . $targetid);
         if (mysqli_num_rows($r) == 1) stderr("Error", "User ID is already in your " . htmlsafechars($table_is) . " list.");
         sql_query("INSERT INTO $table_is VALUES (0, " . sqlesc($userid) . ", " . sqlesc($targetid) . ", 'no')") or sqlerr(__FILE__, __LINE__);
         stderr("Request Added!", "The user will be informed of your Friend Request, you will be informed via PM upon confirmation.<br /><br /><a href='friends.php?id=$userid#$frag'><b>Go to your Friends List</b></a>", FALSE);
@@ -84,8 +84,8 @@ if ($action == 'confirm') {
         $subject = sqlesc("You have a new friend!");
         $body = sqlesc("[url={$TRINITY20['baseurl']}/userdetails.php?id=$userid][b]This person[/b][/url] has just confirmed your Friendship Request. See your Friends  [url={$TRINITY20['baseurl']}/friends.php][b]Here[/b][/url]\n ");
         sql_query("INSERT INTO messages (sender, receiver, added, subject, msg) VALUES (0, " . sqlesc($targetid) . ", '" . TIME_NOW . "', $subject, $body)") or sqlerr(__FILE__, __LINE__);
-        $cache->delete('inbox_new_' . $targetid);
-        $cache->delete('inbox_new_sb_' . $targetid);
+        $cache->delete('inbox_new::' . $targetid);
+        $cache->delete('inbox_new::sb_' . $targetid);
         $frag = "friends";
         header("Refresh: 3; url=friends.php?id=$userid#$frag");
         mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 1 ? stderr("Success", "Friend was added successfully.") : stderr("oopss", "That friend is already confirmed !! .");

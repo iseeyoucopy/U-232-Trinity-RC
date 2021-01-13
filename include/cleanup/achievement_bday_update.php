@@ -36,8 +36,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'First Birthday\', \'birthday1.png\' , \'Been a member for at least 1 year.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',1, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['id']);
-                $cache->delete('inbox_new_sb_' . $arr['id']);
+                $cache->delete('inbox_new::' . $arr['id']);
+                $cache->delete('inbox_new::sb_' . $arr['id']);
                 $cache->delete('user_achievement_points_' . $arr['id']);
                 $var1 = 'bday';
             }
@@ -46,8 +46,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Second Birthday\', \'birthday2.png\' , \'Been a member for a period of at least 2 years.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',2, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['id']);
-                $cache->delete('inbox_new_sb_' . $arr['id']);
+                $cache->delete('inbox_new::' . $arr['id']);
+                $cache->delete('inbox_new::sb_' . $arr['id']);
                 $var1 = 'bday';
             }
             if ($bday == 2 && $added < $maxdt3) {
@@ -55,8 +55,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Third Birthday\', \'birthday3.png\' , \'Been a member for a period of at least 3 years.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',3, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['id']);
-                $cache->delete('inbox_new_sb_' . $arr['id']);
+                $cache->delete('inbox_new::' . $arr['id']);
+                $cache->delete('inbox_new::sb_' . $arr['id']);
                 $var1 = 'bday';
             }
             if ($bday == 3 && $added < $maxdt4) {
@@ -64,8 +64,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Fourth Birthday\', \'birthday4.png\' , \'Been a member for a period of at least 4 years.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',4, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['id']);
-                $cache->delete('inbox_new_sb_' . $arr['id']);
+                $cache->delete('inbox_new::' . $arr['id']);
+                $cache->delete('inbox_new::sb_' . $arr['id']);
                 $var1 = 'bday';
             }
             if ($bday == 4 && $added < $maxdt5) {
@@ -73,8 +73,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Fifth Birthday\', \'birthday5.png\' , \'Been a member for a period of at least 5 years.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',5, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['id']);
-                $cache->delete('inbox_new_sb_' . $arr['id']);
+                $cache->delete('inbox_new::' . $arr['id']);
+                $cache->delete('inbox_new::sb_' . $arr['id']);
                 $var1 = 'bday';
             }
             if ($bday == 5 && $added < $maxdt6) {
@@ -82,8 +82,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Sixth Birthday\', \'birthday6.png\' , \'Been a member for a period of at least 6 years.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',6, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['id']);
-                $cache->delete('inbox_new_sb_' . $arr['id']);
+                $cache->delete('inbox_new::' . $arr['id']);
+                $cache->delete('inbox_new::sb_' . $arr['id']);
                 $var1 = 'bday';
             }
         }

@@ -46,8 +46,8 @@ function docleanup($data)
             $cache->update_row('user_stats_' . $arr['id'], [
                 'modcomment' => $modcomment
             ], $TRINITY20['expires']['user_stats']);
-            $cache->delete('inbox_new_' . $arr['id']);
-            $cache->delete('inbox_new_sb_' . $arr['id']);
+            $cache->delete('inbox_new::' . $arr['id']);
+            $cache->delete('inbox_new::sb_' . $arr['id']);
         }
         $count = count($users_buffer);
         if ($count > 0) {
@@ -83,8 +83,8 @@ function docleanup($data)
             $cache->update_row('user_stats_' . $arr['id'], [
                 'modcomment' => $modcomment
             ], $TRINITY20['expires']['user_stats']);
-            $cache->delete('inbox_new_' . $arr['id']);
-            $cache->delete('inbox_new_sb_' . $arr['id']);
+            $cache->delete('inbox_new::' . $arr['id']);
+            $cache->delete('inbox_new::sb_' . $arr['id']);
         }
         $count = count($users_buffer);
         if ($count > 0) {

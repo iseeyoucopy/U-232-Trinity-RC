@@ -30,8 +30,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Forum Poster LVL1\', \'fpost1.png\' , \'Made at least 1 post in the forums.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',1, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['id']);
-                $cache->delete('inbox_new_sb_' . $arr['id']);
+                $cache->delete('inbox_new::' . $arr['id']);
+                $cache->delete('inbox_new::sb_' . $arr['id']);
                 $cache->delete('user_achievement_points_' . $arr['id']);
                 $var1 = 'postachiev';
             }
@@ -40,8 +40,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Forum Poster LVL2\', \'fpost2.png\' , \'Made at least 25 posts in the forums.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',2, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['id']);
-                $cache->delete('inbox_new_sb_' . $arr['id']);
+                $cache->delete('inbox_new::' . $arr['id']);
+                $cache->delete('inbox_new::sb_' . $arr['id']);
                 $cache->delete('user_achievement_points_' . $arr['id']);
                 $var1 = 'postachiev';
             }
@@ -50,8 +50,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Forum Poster LVL3\', \'fpost3.png\' , \'Made at least 50 posts in the forums.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',3, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['id']);
-                $cache->delete('inbox_new_sb_' . $arr['id']);
+                $cache->delete('inbox_new::' . $arr['id']);
+                $cache->delete('inbox_new::sb_' . $arr['id']);
                 $cache->delete('user_achievement_points_' . $arr['id']);
                 $var1 = 'postachiev';
             }
@@ -60,8 +60,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Forum Poster LVL4\', \'fpost4.png\' , \'Made at least 100 posts in the forums.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',4, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['id']);
-                $cache->delete('inbox_new_sb_' . $arr['id']);
+                $cache->delete('inbox_new::' . $arr['id']);
+                $cache->delete('inbox_new::sb_' . $arr['id']);
                 $var1 = 'postachiev';
             }
             if ($posts >= 250 && $lvl == 4) {
@@ -69,8 +69,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Forum Poster LVL5\', \'fpost5.png\' , \'Made at least 250 posts in the forums.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',5, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['id']);
-                $cache->delete('inbox_new_sb_' . $arr['id']);
+                $cache->delete('inbox_new::' . $arr['id']);
+                $cache->delete('inbox_new::sb_' . $arr['id']);
                 $cache->delete('user_achievement_points_' . $arr['id']);
                 $var1 = 'postachiev';
             }
@@ -79,8 +79,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Forum Poster LVL6\', \'fpost6.png\' , \'Made at least 500 posts in the forums.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',6, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['id']);
-                $cache->delete('inbox_new_sb_' . $arr['id']);
+                $cache->delete('inbox_new::' . $arr['id']);
+                $cache->delete('inbox_new::sb_' . $arr['id']);
                 $var1 = 'postachiev';
             }
             if ($posts >= 750 && $lvl == 6) {
@@ -88,8 +88,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Forum Poster LVL7\', \'fpost7.png\' , \'Made at least 750 posts in the forums.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',7, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['id']);
-                $cache->delete('inbox_new_sb_' . $arr['id']);
+                $cache->delete('inbox_new::' . $arr['id']);
+                $cache->delete('inbox_new::sb_' . $arr['id']);
                 $cache->delete('user_achievement_points_' . $arr['id']);
                 $var1 = 'postachiev';
             }

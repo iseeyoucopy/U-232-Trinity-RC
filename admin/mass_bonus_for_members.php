@@ -102,8 +102,8 @@ case 'upload_credit':
                 $cache->update_row($keys['user_stats'] . $arr_GB['id'], [
                     'uploaded' => $GB_new
                 ], $TRINITY20['expires']['u_stats']);
-                $cache->delete('inbox_new_' . $arr_GB['id']);
-                $cache->delete('inbox_new_sb_' . $arr_GB['id']);
+                $cache->delete('inbox_new::' . $arr_GB['id']);
+                $cache->delete('inbox_new::sb_' . $arr_GB['id']);
             }
             $count = count($users_buffer);
             if ($count > 0) {
@@ -137,8 +137,8 @@ case 'upload_credit':
                         $cache->update_row($keys['user_stats'] . $arr_GB['id'], [
                             'uploaded' => $GB_new
                         ], $TRINITY20['expires']['u_stats']);
-                        $cache->delete('inbox_new_' . $arr_GB['id']);
-                        $cache->delete('inbox_new_sb_' . $arr_GB['id']);
+                        $cache->delete('inbox_new::' . $arr_GB['id']);
+                        $cache->delete('inbox_new::sb_' . $arr_GB['id']);
                     }
                     $count = count($users_buffer);
                     if ($count > 0) {
@@ -181,8 +181,8 @@ case 'karma':
                 $cache->update_row($keys['user_stats'] . $arr_karma['id'], [
                     'seedbonus' => $karma_new
                 ], $TRINITY20['expires']['u_stats']);
-                $cache->delete('inbox_new_' . $arr_karma['id']);
-                $cache->delete('inbox_new_sb_' . $arr_karma['id']);
+                $cache->delete('inbox_new::' . $arr_karma['id']);
+                $cache->delete('inbox_new::sb_' . $arr_karma['id']);
             }
             $count = count($users_buffer);
             if ($count > 0) {
@@ -216,8 +216,8 @@ case 'karma':
                         $cache->update_row($keys['user_stats'] . $arr_karma['id'], [
                             'seedbonus' => $karma_new
                         ], $TRINITY20['expires']['u_stats']);
-                        $cache->delete('inbox_new_' . $arr_karma['id']);
-                        $cache->delete('inbox_new_sb_' . $arr_karma['id']);
+                        $cache->delete('inbox_new::' . $arr_karma['id']);
+                        $cache->delete('inbox_new::sb_' . $arr_karma['id']);
                     }
                     $count = count($users_buffer);
                     if ($count > 0) {
@@ -262,8 +262,8 @@ case 'freeslots':
                 $cache->update_row('user_stats_' . $arr_freeslots['id'], [
                     'modcomment' => $modcomment
                 ], $TRINITY20['expires']['user_stats']);
-                $cache->delete('inbox_new_' . $arr_freeslots['id']);
-                $cache->delete('inbox_new_sb_' . $arr_freeslots['id']);
+                $cache->delete('inbox_new::' . $arr_freeslots['id']);
+                $cache->delete('inbox_new::sb_' . $arr_freeslots['id']);
             }
             $count = count($users_buffer);
             if ($count > 0) {
@@ -299,8 +299,8 @@ case 'freeslots':
                         $cache->update_row('user_stats_' . $arr_freeslots['id'], [
                             'modcomment' => $modcomment
                         ], $TRINITY20['expires']['user_stats']);
-                        $cache->delete('inbox_new_' . $arr_freeslots['id']);
-                        $cache->delete('inbox_new_sb_' . $arr_freeslots['id']);
+                        $cache->delete('inbox_new::' . $arr_freeslots['id']);
+                        $cache->delete('inbox_new::sb_' . $arr_freeslots['id']);
                     }
                     $count = count($users_buffer);
                     if ($count > 0) {
@@ -345,8 +345,8 @@ case 'invite':
                 $cache->update_row('user_stats_' . $arr_invites['id'], [
                     'modcomment' => $modcomment
                 ], $TRINITY20['expires']['user_stats']);
-                $cache->delete('inbox_new_' . $arr_invites['id']);
-                $cache->delete('inbox_new_sb_' . $arr_invites['id']);
+                $cache->delete('inbox_new::' . $arr_invites['id']);
+                $cache->delete('inbox_new::sb_' . $arr_invites['id']);
             }
             $count = count($users_buffer);
             if ($count > 0) {
@@ -382,8 +382,8 @@ case 'invite':
                         $cache->update_row('user_stats_' . $arr_invites['id'], [
                             'modcomment' => $modcomment
                         ], $TRINITY20['expires']['user_stats']);
-                        $cache->delete('inbox_new_' . $arr_invites['id']);
-                        $cache->delete('inbox_new_sb_' . $arr_invites['id']);
+                        $cache->delete('inbox_new::' . $arr_invites['id']);
+                        $cache->delete('inbox_new::sb_' . $arr_invites['id']);
                     }
                     $count = count($users_buffer);
                     if ($count > 0) {
@@ -415,8 +415,8 @@ case 'pm':
             $body = sqlesc(htmlsafechars($_POST['body']));
             while ($arr_pms = mysqli_fetch_assoc($res_pms)) {
                 $pm_buffer[] = '(0, ' . $arr_pms['id'] . ', ' . TIME_NOW . ', ' . $body . ', ' . $subject . ')';
-                $cache->delete('inbox_new_' . $arr_pms['id']);
-                $cache->delete('inbox_new_sb_' . $arr_pms['id']);
+                $cache->delete('inbox_new::' . $arr_pms['id']);
+                $cache->delete('inbox_new::sb_' . $arr_pms['id']);
             }
             $count = count($pm_buffer);
             if ($count > 0) {
@@ -437,8 +437,8 @@ case 'pm':
                     $body = sqlesc(htmlsafechars($_POST['body']));
                     while ($arr_pms = mysqli_fetch_assoc($res_pms)) {
                         $pm_buffer[] = '(0, ' . $arr_pms['id'] . ', ' . TIME_NOW . ', ' . $body . ', ' . $subject . ')';
-                        $cache->delete('inbox_new_' . $arr_pms['id']);
-                        $cache->delete('inbox_new_sb_' . $arr_pms['id']);
+                        $cache->delete('inbox_new::' . $arr_pms['id']);
+                        $cache->delete('inbox_new::sb_' . $arr_pms['id']);
                     }
                     $count = count($pm_buffer);
                     if ($count > 0) {

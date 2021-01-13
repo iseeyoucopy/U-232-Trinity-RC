@@ -246,8 +246,8 @@ elseif ($action == "security") {
         $msg = sqlesc("{$lang['takeeditcp_email_user']}[url={$TRINITY20['baseurl']}/userdetails.php?id=" . (int)$spm['id'] . "][b]" . htmlsafechars($spm['username']) . "[/b][/url]{$lang['takeeditcp_email_changed']}{$lang['takeeditcp_email_old']}" . htmlsafechars($spm['email']) . "{$lang['takeeditcp_email_new']}$email{$lang['takeeditcp_email_check']}");
         $pmstaff = sql_query('SELECT id FROM users WHERE class = ' . UC_ADMINISTRATOR) or sqlerr(__FILE__, __LINE__);
         while ($arr = mysqli_fetch_assoc($pmstaff)) sql_query("INSERT INTO messages(sender, receiver, added, msg, subject) VALUES(0, " . sqlesc($arr['id']) . ", $dt, $msg, $subject)") or sqlerr(__FILE__, __LINE__);
-        $cache->delete('inbox_new_' . $arr['id']);
-        $cache->delete('inbox_new_sb_' . $arr['id']);
+        $cache->delete('inbox_new::' . $arr['id']);
+        $cache->delete('inbox_new::sb_' . $arr['id']);
         $urladd.= "&mailsent=1";
     }
     $action = "security";

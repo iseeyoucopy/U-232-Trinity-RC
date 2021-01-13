@@ -30,13 +30,13 @@ if ($pm_what == "last10") {
     $res = sql_query("SELECT $What_Table.$What_user_id as userid, $What_Table.$What_id FROM $What_Table WHERE $What_Table.$What_id =" . sqlesc($reseedid) . " AND $What_Table.$What_TF LIMIT 10") or sqlerr(__FILE__, __LINE__);
     while ($row = mysqli_fetch_assoc($res)) {
         $pms[] = "(0," . sqlesc($row["userid"]) . "," . TIME_NOW . "," . sqlesc($pm_msg) . ($use_subject ? "," . sqlesc($subject) : "") . ")";
-        $cache->delete('inbox_new_' . $row["userid"]);
-        $cache->delete('inbox_new_sb_' . $row["userid"]);
+        $cache->delete('inbox_new::' . $row["userid"]);
+        $cache->delete('inbox_new::sb_' . $row["userid"]);
     }
 } elseif ($pm_what == "owner") {
     $pms[] = "(0,$uploader," . TIME_NOW . "," . sqlesc($pm_msg) . ($use_subject ? "," . sqlesc($subject) : "") . ")";
-    $cache->delete('inbox_new_' . $uploader);
-    $cache->delete('inbox_new_sb_' . $uploader);
+    $cache->delete('inbox_new::' . $uploader);
+    $cache->delete('inbox_new::sb_' . $uploader);
 }
 if (count($pms) > 0) {
     sql_query("INSERT INTO messages (sender, receiver, added, msg " . ($use_subject ? ", subject" : "") . " ) VALUES " . join(",", $pms)) or sqlerr(__FILE__, __LINE__);

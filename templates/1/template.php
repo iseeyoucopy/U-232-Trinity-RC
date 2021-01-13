@@ -42,8 +42,8 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
     if (!empty($stdhead['css'])) {
         foreach ($stdhead['css'] as $CSS) $css_incl .= "<link type='text/css' rel='stylesheet' href='{$TRINITY20['baseurl']}/templates/{$stylez}/css/" . $CSS . ".css' />";
     }
-    $htmlout .= '<!DOCTYPE html>
-  <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+    $htmlout .= '<!doctype html>
+    <html class="no-js" lang="en">
         <!-- ####################################################### -->
         <!-- #   This website is powered by U-232    	           # -->
         <!-- #   Download and support at:                          # -->
@@ -87,6 +87,22 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
           window.open('radio_popup.php','My Radio','height=700,width=800,resizable=no,scrollbars=no,toolbar=no,menubar=no');
         }
          /*]]>*/
+        </script>
+        <script type='text/javascript'>
+        $(document).ready(function(){
+    
+            $.ajax({
+                type: 'GET',
+                url: 'ajax.php',
+                success: function(data){
+                   $('#unread_m').append(data);
+                }
+            });
+        setInterval(function(){//setInterval() method execute on every interval until called clearInterval()
+                $('#unread_m').load('ajax.php').fadeIn('slow');
+                //load() method fetch data from fetch.php page
+               }, 1000);    
+        });
         </script>
         {$js_incl}{$css_incl}
         </head><body>";
@@ -464,7 +480,7 @@ function subnav_header() {
         <li><a href='" . $TRINITY20['baseurl'] . "/browse.php'>{$lang['gl_torrents']}</a></li>
         <li><a href='" . $TRINITY20['baseurl'] . "/usercp.php?action=default'>{$lang['gl_usercp']}</a></li>
         <li><a href='" . $TRINITY20['baseurl'] . "/tv_guide.php'>Tv Guide</a></li>
-        <li><a href='" . $TRINITY20['baseurl'] . "/pm_system.php'>{$lang['gl_pms']}</a></li>
+        <li><a href='" . $TRINITY20['baseurl'] . "/pm_system.php'>{$lang['gl_pms']}<span class='badge' id='unread_m'></span></a></li>
         " . (isset($CURUSER) && $CURUSER['class'] >= UC_STAFF ? "<li><a data-toggle='StaffPanel'>Staff Links</a></li>" : "") . "
         </ul>
   </header>";

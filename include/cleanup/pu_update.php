@@ -83,8 +83,8 @@ function docleanup($data)
                     'class' => $class_value,
                     'invites' => $update['invites']
                 ], $TRINITY20['expires']['curuser']);
-                $cache->delete('inbox_new_' . $userid);
-                $cache->delete('inbox_new_sb_' . $userid);
+                $cache->delete('inbox_new::' . $userid);
+                $cache->delete('inbox_new::sb_' . $userid);
             }
             $count = count($users_buffer);
             if ($count > 0) {

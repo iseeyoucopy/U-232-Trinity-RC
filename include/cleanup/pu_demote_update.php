@@ -71,8 +71,8 @@ function docleanup($data)
                 $cache->update_row($keys['my_userid'] . $userid, [
                     'class' => $prev_class
                 ], $TRINITY20['expires']['curuser']);
-                $cache->delete('inbox_new_' . $userid);
-                $cache->delete('inbox_new_sb_' . $userid);
+                $cache->delete('inbox_new::' . $userid);
+                $cache->delete('inbox_new::sb_' . $userid);
             }
             $count = count($users_buffer);
             if ($count > 0) {

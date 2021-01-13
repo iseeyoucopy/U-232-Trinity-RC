@@ -55,8 +55,8 @@ if ($action == 'viewbug') {
             sql_query($uq);
             sql_query("INSERT INTO messages (sender, receiver, added, msg) VALUES (0, " . sqlesc($q1['sender']) . ", " . TIME_NOW . ", {$msg})");
             sql_query("UPDATE bugs SET status=" . sqlesc($status) . ", staff=" . sqlesc($CURUSER['id']) . " WHERE id = " . sqlesc($id));
-            $cache->delete('inbox_new_' . $q1['sender']);
-            $cache->delete('inbox_new_sb_' . $q1['sender']);
+            $cache->delete('inbox_new::' . $q1['sender']);
+            $cache->delete('inbox_new::sb_' . $q1['sender']);
             $cache->delete('bug_mess_');
         }
         header("location: bugs.php?action=viewbug&id={$id}");

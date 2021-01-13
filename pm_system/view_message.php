@@ -38,8 +38,8 @@ $arr_user_stuff = mysqli_fetch_assoc($res_user_stuff);
 $id = isset($arr_user_stuff['id']) ? (int)$arr_user_stuff['id'] : '';
 //=== Mark message read ===//
 sql_query('UPDATE messages SET unread=\'no\' WHERE id=' . sqlesc($pm_id) . ' AND receiver=' . sqlesc($CURUSER['id']) . ' LIMIT 1') or sqlerr(__FILE__, __LINE__);
-$cache->delete('inbox_new_' . $CURUSER['id']);
-$cache->delete('inbox_new_sb_' . $CURUSER['id']);
+$cache->delete('inbox_new::' . $CURUSER['id']);
+$cache->delete('inbox_new::sb_' . $CURUSER['id']);
 if ($message['friend'] > 0) 
 	$friends = '<a class="tiny button" href="friends.php?action=delete&amp;type=friend&amp;targetid=' . $id . '">' . $lang['pm_mailbox_removef'] . '</a>';
 elseif ($message['blocked'] > 0) 

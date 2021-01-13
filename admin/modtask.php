@@ -951,8 +951,8 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     $user_stats_cache['modcomment'] = $modcomment;
     $stats_cache['modcomment'] = $modcomment;
     //== Memcache - delete the keys
-    $cache->delete('inbox_new_' . $userid);
-    $cache->delete('inbox_new_sb_' . $userid);
+    $cache->delete('inbox_new::' . $userid);
+    $cache->delete('inbox_new::sb_' . $userid);
     if ($curuser_cache) {
         $cache->update_row($keys['my_userid'] . $userid, $curuser_cache, $TRINITY20['expires']['curuser']);
     }

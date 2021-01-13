@@ -311,8 +311,8 @@ if ($offer > 0) {
     while ($arr_offer = mysqli_fetch_assoc($res_offer)) {
         sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, saved, location) 
     VALUES(0, ' . sqlesc($arr_offer['user_id']) . ', ' . TIME_NOW . ', ' . $message . ', ' . $subject . ', \'yes\', 1)') or sqlerr(__FILE__, __LINE__);
-        $cache->delete('inbox_new_' . $arr_offer['user_id']);
-        $cache->delete('inbox_new_sb_' . $arr_offer['user_id']);
+        $cache->delete('inbox_new::' . $arr_offer['user_id']);
+        $cache->delete('inbox_new::sb_' . $arr_offer['user_id']);
     }
     write_log('Offered torrent ' . $id . ' (' . htmlsafechars($torrent) . ') was uploaded by ' . $CURUSER['username']);
     $filled = 1;
@@ -326,8 +326,8 @@ if ($request > 0) {
     while ($arr_req = mysqli_fetch_assoc($res_req)) {
         sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, saved, location) 
     VALUES(0, ' . sqlesc($arr_req['user_id']) . ', ' . TIME_NOW . ', ' . $message . ', ' . $subject . ', \'yes\', 1)') or sqlerr(__FILE__, __LINE__);
-        $cache->delete('inbox_new_' . $arr_req['user_id']);
-        $cache->delete('inbox_new_sb_' . $arr_req['user_id']);
+        $cache->delete('inbox_new::' . $arr_req['user_id']);
+        $cache->delete('inbox_new::sb_' . $arr_req['user_id']);
     }
     sql_query('UPDATE requests SET filled_by_user_id = ' . sqlesc($CURUSER['id']) . ', filled_torrent_id = ' . sqlesc($id) . ' WHERE id = ' . sqlesc($request)) or sqlerr(__FILE__, __LINE__);
     sql_query("UPDATE usersachiev SET reqfilled = reqfilled + 1 WHERE id =" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);

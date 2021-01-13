@@ -41,8 +41,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['userid'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['userid'] . ', ' . TIME_NOW . ', \'7 Day Seeder\', \'7dayseed.png\' , \'Seeded a snatched torrent for a total of at least 7 days.\')';
                 $usersachiev_buffer[] = '(' . $arr['userid'] . ',7, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['userid']);
-                $cache->delete('inbox_new_sb_' . $arr['userid']);
+                $cache->delete('inbox_new::' . $arr['userid']);
+                $cache->delete('inbox_new::sb_' . $arr['userid']);
                 $cache->delete('user_achievement_points_' . $arr['userid']);
                 $var1 = 'dayseed';
             }
@@ -51,8 +51,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['userid'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['userid'] . ', ' . TIME_NOW . ', \'14 Day Seeder\', \'14dayseed.png\' , \'Seeded a snatched torrent for a total of at least 14 days.\')';
                 $usersachiev_buffer[] = '(' . $arr['userid'] . ',14, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['userid']);
-                $cache->delete('inbox_new_sb_' . $arr['userid']);
+                $cache->delete('inbox_new::' . $arr['userid']);
+                $cache->delete('inbox_new::sb_' . $arr['userid']);
                 $cache->delete('user_achievement_points_' . $arr['userid']);
                 $var1 = 'dayseed';
             }
@@ -61,8 +61,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['userid'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['userid'] . ', ' . TIME_NOW . ', \'21 Day Seeder\', \'21dayseed.png\' , \'Seeded a snatched torrent for a total of at least 21 days.\')';
                 $usersachiev_buffer[] = '(' . $arr['userid'] . ',21, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['userid']);
-                $cache->delete('inbox_new_sb_' . $arr['userid']);
+                $cache->delete('inbox_new::' . $arr['userid']);
+                $cache->delete('inbox_new::sb_' . $arr['userid']);
                 $cache->delete('user_achievement_points_' . $arr['userid']);
                 $var1 = 'dayseed';
             }
@@ -71,8 +71,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['userid'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['userid'] . ', ' . TIME_NOW . ', \'28 Day Seeder\', \'28dayseed.png\' , \'Seeded a snatched torrent for a total of at least 28 days.\')';
                 $usersachiev_buffer[] = '(' . $arr['userid'] . ',28, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['userid']);
-                $cache->delete('inbox_new_sb_' . $arr['userid']);
+                $cache->delete('inbox_new::' . $arr['userid']);
+                $cache->delete('inbox_new::sb_' . $arr['userid']);
                 $cache->delete('user_achievement_points_' . $arr['userid']);
                 $var1 = 'dayseed';
             }
@@ -81,8 +81,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['userid'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['userid'] . ', ' . TIME_NOW . ', \'45 Day Seeder\', \'45dayseed.png\' , \'Seeded a snatched torrent for a total of at least 45 days.\')';
                 $usersachiev_buffer[] = '(' . $arr['userid'] . ',45, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['userid']);
-                $cache->delete('inbox_new_sb_' . $arr['userid']);
+                $cache->delete('inbox_new::' . $arr['userid']);
+                $cache->delete('inbox_new::sb_' . $arr['userid']);
                 $cache->delete('user_achievement_points_' . $arr['userid']);
                 $var1 = 'dayseed';
             }
@@ -91,8 +91,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['userid'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['userid'] . ', ' . TIME_NOW . ', \'60 Day Seeder\', \'60dayseed.png\' , \'Seeded a snatched torrent for a total of at least 60 days.\')';
                 $usersachiev_buffer[] = '(' . $arr['userid'] . ',60, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['userid']);
-                $cache->delete('inbox_new_sb_' . $arr['userid']);
+                $cache->delete('inbox_new::' . $arr['userid']);
+                $cache->delete('inbox_new::sb_' . $arr['userid']);
                 $cache->delete('user_achievement_points_' . $arr['userid']);
                 $var1 = 'dayseed';
             }
@@ -101,8 +101,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['userid'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['userid'] . ', ' . TIME_NOW . ', \'90 Day Seeder\', \'90dayseed.png\' , \'Seeded a snatched torrent for a total of at least 90 days.\')';
                 $usersachiev_buffer[] = '(' . $arr['userid'] . ',90, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['userid']);
-                $cache->delete('inbox_new_sb_' . $arr['userid']);
+                $cache->delete('inbox_new::' . $arr['userid']);
+                $cache->delete('inbox_new::sb_' . $arr['userid']);
                 $cache->delete('user_achievement_points_' . $arr['userid']);
                 $var1 = 'dayseed';
             }
@@ -111,8 +111,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['userid'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['userid'] . ', ' . TIME_NOW . ', \'120 Day Seeder\', \'120dayseed.png\' , \'Seeded a snatched torrent for a total of at least 120 days.\')';
                 $usersachiev_buffer[] = '(' . $arr['userid'] . ',120, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['userid']);
-                $cache->delete('inbox_new_sb_' . $arr['userid']);
+                $cache->delete('inbox_new::' . $arr['userid']);
+                $cache->delete('inbox_new::sb_' . $arr['userid']);
                 $cache->delete('user_achievement_points_' . $arr['userid']);
                 $var1 = 'dayseed';
             }
@@ -121,8 +121,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['userid'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['userid'] . ', ' . TIME_NOW . ', \'200 Day Seeder\', \'200dayseed.png\' , \'Seeded a snatched torrent for a total of at least 200 days.\')';
                 $usersachiev_buffer[] = '(' . $arr['userid'] . ',200, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['userid']);
-                $cache->delete('inbox_new_sb_' . $arr['userid']);
+                $cache->delete('inbox_new::' . $arr['userid']);
+                $cache->delete('inbox_new::sb_' . $arr['userid']);
                 $cache->delete('user_achievement_points_' . $arr['userid']);
                 $var1 = 'dayseed';
             }
@@ -131,8 +131,8 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,' . $arr['userid'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['userid'] . ', ' . TIME_NOW . ', \'365 Day Seeder\', \'365dayseed.png\' , \'Seeded a snatched torrent for a total of at least 1 Year.\')';
                 $usersachiev_buffer[] = '(' . $arr['userid'] . ',365, ' . $points . ')';
-                $cache->delete('inbox_new_' . $arr['userid']);
-                $cache->delete('inbox_new_sb_' . $arr['userid']);
+                $cache->delete('inbox_new::' . $arr['userid']);
+                $cache->delete('inbox_new::sb_' . $arr['userid']);
                 $cache->delete('user_achievement_points_' . $arr['userid']);
                 $var1 = 'dayseed';
             }

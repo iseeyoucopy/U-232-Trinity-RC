@@ -62,8 +62,8 @@ case 'setanswered':
         $a = mysqli_fetch_assoc($q1);
         $response = htmlsafechars($message) . "\n---" . htmlsafechars($a['username']) . " wrote ---\n" . htmlsafechars($a['msg']);
         sql_query('INSERT INTO messages(sender,receiver,added,subject,msg) VALUES(' . sqlesc($CURUSER['id']) . ',' . sqlesc($a['sender']) . ',' . TIME_NOW . ',' . sqlesc('RE: ' . $a['subject']) . ',' . sqlesc($response) . ')') or sqlerr(__FILE__, __LINE__);
-        $cache->delete('inbox_new_' . $a['sender']);
-        $cache->delete('inbox_new_sb_' . $a['sender']);
+        $cache->delete('inbox_new::' . $a['sender']);
+        $cache->delete('inbox_new::sb_' . $a['sender']);
         $message = ', answer=' . sqlesc($message);
         if (sql_query('UPDATE staffmessages SET answered=\'1\', answeredby=' . sqlesc($CURUSER['id']) . ' ' . $message . ' WHERE id IN (' . join(',', $id) . ')')) {
             $cache->delete('staff_mess_');

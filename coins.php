@@ -79,8 +79,8 @@ $cache->update_row('user_stats_' . $CURUSER["id"], [
     'seedbonus' => $update['seedbonus_donator']
 ], $TRINITY20['expires']['user_stats']);
 //== delete the pm keys
-$cache->delete('inbox_new_' . $userid);
-$cache->delete('inbox_new_sb_' . $userid);
+$cache->delete('inbox_new::' . $userid);
+$cache->delete('inbox_new::sb_' . $userid);
 $cache->delete('coin_points_' . $id);
 header("Refresh: 3; url=details.php?id=$id");
 stderr($lang['coins_done'], $lang['coins_successfully_gave_points_to_this_torrent']);

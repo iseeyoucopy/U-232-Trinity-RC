@@ -59,8 +59,8 @@ function docleanup($data)
                 'can_leech' => 0,
                 'hnrwarn' => 'yes'
             ], $TRINITY20['expires']['curuser']);
-            $cache->delete('inbox_new_'.$arr_fuckers['uid']);
-            $cache->delete('inbox_new_sb_'.$arr_fuckers['uid']);
+            $cache->delete('inbox_new::'.$arr_fuckers['uid']);
+            $cache->delete('inbox_new::sb_'.$arr_fuckers['uid']);
         }
     }
     //=== hit and run... turn their DLs back on if they start seeding again
@@ -100,8 +100,8 @@ function docleanup($data)
             'can_leech' => 1,
             'hnrwarn' => 'no'
         ], $TRINITY20['expires']['curuser']);
-            $cache->delete('inbox_new_' . $arr_good_boy['id']);
-            $cache->delete('inbox_new_sb_' . $arr_good_boy['id']);
+            $cache->delete('inbox_new::' . $arr_good_boy['id']);
+            $cache->delete('inbox_new::sb_' . $arr_good_boy['id']);
         }
     }
     //==End
