@@ -53,7 +53,7 @@ if ($remove) {
 			{$lang['freeusers_log2']} $CURUSER[username]");
             $cache->delete($keys['my_userid'] . $arr['id']);
             $cache->delete('inbox_new::' . $arr['id']);
-            $cache->delete('inbox_new::sb_' . $arr['id']);
+            $cache->delete('inbox_new_sb::' . $arr['id']);
             $cache->delete('user' . $arr['id']);
         }
     } else die($lang['freeusers_fail']);

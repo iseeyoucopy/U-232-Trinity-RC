@@ -139,7 +139,7 @@ if (isset($_POST["form"]) != 1) {
         $subres = sql_query('SELECT id FROM users WHERE class = ' . UC_STAFF) or sqlerr(__FILE__, __LINE__);
         while ($arr = mysqli_fetch_assoc($subres)) sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, " . sqlesc($arr['id']) . ", $dt, $msg, $subject, 0)") or sqlerr(__FILE__, __LINE__);
         $cache->delete('inbox_new::' . $arr['id']);
-        $cache->delete('inbox_new::sb_' . $arr['id']);
+        $cache->delete('inbox_new_sb::' . $arr['id']);
         stderr($lang['uploadapp_appsent'], $lang['uploadapp_success']);
     }
 }

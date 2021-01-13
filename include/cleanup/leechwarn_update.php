@@ -47,7 +47,7 @@ function docleanup($data)
                 'modcomment' => $modcomment
             ], $TRINITY20['expires']['user_stats']);
             $cache->delete('inbox_new::' . $arr['id']);
-            $cache->delete('inbox_new::sb_' . $arr['id']);
+            $cache->delete('inbox_new_sb::' . $arr['id']);
         }
         $count = count($users_buffer);
         if ($count > 0) {
@@ -84,7 +84,7 @@ function docleanup($data)
                 'modcomment' => $modcomment
             ], $TRINITY20['expires']['user_stats']);
             $cache->delete('inbox_new::' . $arr['id']);
-            $cache->delete('inbox_new::sb_' . $arr['id']);
+            $cache->delete('inbox_new_sb::' . $arr['id']);
         }
         $count = count($users_buffer);
         if ($count > 0) {

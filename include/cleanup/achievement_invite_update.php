@@ -31,7 +31,7 @@ function docleanup($data)
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Inviter LVL1\', \'invite1.png\' , \'Invited at least 1 new user to the site.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',1, ' . $points . ')';
                 $cache->delete('inbox_new::' . $arr['id']);
-                $cache->delete('inbox_new::sb_' . $arr['id']);
+                $cache->delete('inbox_new_sb::' . $arr['id']);
                 $cache->delete('user_achievement_points_' . $arr['id']);
                 $var1 = 'inviterach';
             }
@@ -41,7 +41,7 @@ function docleanup($data)
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Inviter LVL2\', \'invite2.png\' , \'Invited at least 2 new users to the site.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',2, ' . $points . ')';
                 $cache->delete('inbox_new::' . $arr['id']);
-                $cache->delete('inbox_new::sb_' . $arr['id']);
+                $cache->delete('inbox_new_sb::' . $arr['id']);
                 $var1 = 'inviterach';
             }
             if ($invited >= 3 && $lvl == 2) {
@@ -50,7 +50,7 @@ function docleanup($data)
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Inviter LVL3\', \'invite3.png\' , \'Invited at least 3 new users to the site.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',3, ' . $points . ')';
                 $cache->delete('inbox_new::' . $arr['id']);
-                $cache->delete('inbox_new::sb_' . $arr['id']);
+                $cache->delete('inbox_new_sb::' . $arr['id']);
                 $cache->delete('user_achievement_points_' . $arr['id']);
                 $var1 = 'inviterach';
             }
@@ -60,7 +60,7 @@ function docleanup($data)
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Inviter LVL4\', \'invite4.png\' , \'Invited at least 5 new users to the site.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',4, ' . $points . ')';
                 $cache->delete('inbox_new::' . $arr['id']);
-                $cache->delete('inbox_new::sb_' . $arr['id']);
+                $cache->delete('inbox_new_sb::' . $arr['id']);
                 $cache->delete('user_achievement_points_' . $arr['id']);
                 $var1 = 'inviterach';
             }
@@ -70,7 +70,7 @@ function docleanup($data)
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Inviter LVL5\', \'invite5.png\' , \'Invited at least 10 new users to the site.\')';
                 $usersachiev_buffer[] = '(' . $arr['id'] . ',5, ' . $points . ')';
                 $cache->delete('inbox_new::' . $arr['id']);
-                $cache->delete('inbox_new::sb_' . $arr['id']);
+                $cache->delete('inbox_new_sb::' . $arr['id']);
                 $cache->delete('user_achievement_points_' . $arr['id']);
                 $var1 = 'inviterach';
             }

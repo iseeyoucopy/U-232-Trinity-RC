@@ -72,15 +72,15 @@ if (isset($_POST['delete'])) {
         if ($message['receiver'] == $CURUSER['id'] && $message['saved'] == 'no' || $message['sender'] == $CURUSER['id'] && $message['location'] == PM_DELETED) {
             sql_query('DELETE FROM messages WHERE id=' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
             $cache->delete('inbox_new::' . $message['receiver']);
-            $cache->delete('inbox_new::sb_' . $message['receiver']);
+            $cache->delete('inbox_new_sb::' . $message['receiver']);
         } elseif ($message['receiver'] == $CURUSER['id'] && $message['saved'] == 'yes') {
             sql_query('UPDATE messages SET location=0, unread=\'no\' WHERE id=' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
             $cache->delete('inbox_new::' . $message['receiver']);
-            $cache->delete('inbox_new::sb_' . $message['receiver']);
+            $cache->delete('inbox_new_sb::' . $message['receiver']);
         } elseif ($message['sender'] == $CURUSER['id'] && $message['location'] != PM_DELETED) {
             sql_query('UPDATE messages SET saved=\'no\' WHERE id=' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
             $cache->delete('inbox_new::' . $message['sender']);
-            $cache->delete('inbox_new::sb_' . $message['sender']);
+            $cache->delete('inbox_new_sb::' . $message['sender']);
         }
     }
     //=== Check if messages were deleted

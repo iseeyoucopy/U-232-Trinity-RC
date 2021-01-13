@@ -73,7 +73,7 @@ $body = "\n\n" . $_POST['body'] . "\n\n{$lang['pm_forwardpm_0']}[b]" . $first_fr
 sql_query('INSERT INTO `messages` (`sender`, `receiver`, `added`, `subject`, `msg`, `unread`, `location`, `saved`, `poster`, `urgent`) 
                         VALUES (' . sqlesc($CURUSER['id']) . ', ' . sqlesc($to_username['id']) . ', ' . TIME_NOW . ', ' . sqlesc($subject) . ', ' . sqlesc($body) . ', \'yes\', 1, ' . sqlesc($save) . ', 0, ' . sqlesc($urgent) . ')') or sqlerr(__FILE__, __LINE__);
 $cache->delete('inbox_new::' . $to_username['id']);
-$cache->delete('inbox_new::sb_' . $to_username['id']);
+$cache->delete('inbox_new_sb::' . $to_username['id']);
 //=== Check if message was forwarded
 if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) === 0) stderr($lang['pm_error'], $lang['pm_forwardpm_msg_fwd']);
 //=== if they just have to know about it right away... send them an email (if selected if profile)

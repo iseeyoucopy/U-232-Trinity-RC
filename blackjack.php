@@ -208,8 +208,8 @@ if ($game) {
                     $msg = sqlesc("{$lang['bj_you_tied_with']} " . $CURUSER['username'] . " ({$lang['bj_you_both_had']} " . $a['points'] . " points).\n\n");
                 }
                 sql_query("INSERT INTO messages (sender, receiver, added, msg, subject) VALUES(0, " . sqlesc($a['userid']) . ", $now, $msg, $subject)");
-                $cache->delete('inbox_new_' . $a['userid']);
-                $cache->delete('inbox_new_sb_' . $a['userid']);
+                $cache->delete('inbox_new::' . $a['userid']);
+                $cache->delete('inbox_new_sb::' . $a['userid']);
                 sql_query("DELETE FROM blackjack WHERE userid IN (" . sqlesc($CURUSER['id']) . ", " . sqlesc($a['userid']) . ")");
                 $HTMLOUT .= "<tr><td align='center'>{$lang['bj_your_opp_was']} " . htmlsafechars($a["username"]) . ", {$lang['bj_he_she_had']} " . htmlsafechars($a['points']) . " {$lang['bj_points2']}, $winorlose.<br /><br /><b><a href='/blackjack.php'>{$lang['bj_play_again']}</a></b></td></tr>";
             } else {
@@ -264,8 +264,8 @@ if ($game) {
                     $msg = sqlesc("{$lang['bj_you_beat']} " . $CURUSER['username'] . " ({$lang['bj_you_had']} " . $a['points'] . " {$lang['bj_points2']}, " . $CURUSER['username'] . " had $points points).\n\n");
                 }
                 sql_query("INSERT INTO messages (sender, receiver, added, msg, subject) VALUES(0, " . $a['userid'] . ", $now, $msg, $subject)");
-                $cache->delete('inbox_new_' . $a['userid']);
-                $cache->delete('inbox_new_sb_' . $a['userid']);
+                $cache->delete('inbox_new::' . $a['userid']);
+                $cache->delete('inbox_new_sb::' . $a['userid']);
                 sql_query("DELETE FROM blackjack WHERE userid IN (" . sqlesc($CURUSER['id']) . ", " . sqlesc($a['userid']) . ")");
                 $HTMLOUT .= "<tr><td align='center'>{$lang['bj_your_opp_was']} " . htmlsafechars($a["username"]) . ", {$lang['bj_he_she_had']} " . htmlsafechars($a['points']) . " {$lang['bj_points2']}, $winorlose.<br /><br /><b><a href='blackjack.php'>{$lang['bj_play_again']}</a></b></td></tr>";
             } else {
@@ -358,8 +358,8 @@ if ($game) {
                 ], $TRINITY20['expires']['user_cache']);
             }
             sql_query("INSERT INTO messages (sender, receiver, added, msg, subject) VALUES(0, " . $a['userid'] . ", $now, $msg, $subject)");
-            $cache->delete('inbox_new_' . $a['userid']);
-            $cache->delete('inbox_new_sb_' . $a['userid']);
+            $cache->delete('inbox_new::' . $a['userid']);
+            $cache->delete('inbox_new_sb::' . $a['userid']);
             sql_query("DELETE FROM blackjack WHERE userid IN (" . sqlesc($CURUSER['id']) . ", " . sqlesc($a['userid']) . ")");
             $HTMLOUT .= "<tr><td align='center'>{$lang['bj_your_opp_was']} " . htmlsafechars($a["username"]) . ", {$lang['bj_he_she_had']} " . htmlsafechars($a['points']) . " {$lang['bj_points2']}, $winorlose.<br /><br /><b><a href='/blackjack.php'>{$lang['bj_play_again']}</a></b></td></tr>";
         } else {

@@ -59,7 +59,7 @@ function docleanup($data)
                 'hnrwarn' => 'yes'
             ], $TRINITY20['expires']['curuser']);
             $cache->delete('inbox_new::'.$arr_fuckers['userid']);
-            $cache->delete('inbox_new::sb_'.$arr_fuckers['userid']);
+            $cache->delete('inbox_new_sb::'.$arr_fuckers['userid']);
         }
     }
     //=== hit and run... turn their DLs back on if they start seeding again
@@ -96,7 +96,7 @@ function docleanup($data)
                 'hnrwarn' => 'no'
             ], $TRINITY20['expires']['curuser']);
             $cache->delete('inbox_new::' . $arr_good_boy['id']);
-            $cache->delete('inbox_new::sb_' . $arr_good_boy['id']);
+            $cache->delete('inbox_new_sb::' . $arr_good_boy['id']);
         }
     }
     //==End

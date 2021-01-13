@@ -28,7 +28,7 @@ function docleanup($data)
             $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Corruption Counts\', \'corrupt.png\' , \'Transferred at least 1 byte of incoming corrupt data.\')';
             $usersachiev_buffer[] = '(' . $arr['id'] . ',1, ' . $points . ')';
             $cache->delete('inbox_new::' . $arr['id']);
-            $cache->delete('inbox_new::sb_' . $arr['id']);
+            $cache->delete('inbox_new_sb::' . $arr['id']);
             $cache->delete('user_achievement_points_' . $arr['id']);
         }
         $count = count($achievements_buffer);

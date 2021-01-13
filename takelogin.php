@@ -117,7 +117,7 @@ if (!$pass_hash) {
     $sql = "INSERT INTO messages (sender, receiver, msg, subject, added) VALUES('System', " . sqlesc($to) . ", " . sqlesc($msg) . ", " . sqlesc($subject) . ", $added);";
     $res = sql_query("SET SESSION sql_mode = ''", $sql) or sqlerr(__FILE__, __LINE__);
     $cache->delete('inbox_new::' . $row['id']);
-    $cache->delete('inbox_new::sb_' . $row['id']);
+    $cache->delete('inbox_new_sb::' . $row['id']);
     bark("<b>{$lang['gl_error']}</b>{$lang['tlogin_forgot']}");
 }
 /*
@@ -131,7 +131,7 @@ if (($row['passhash'] == NULL) && ($row['old_passhash'] != make_pass_hash($row['
     $sql = "INSERT INTO messages (sender, receiver, msg, subject, added) VALUES('System', " . sqlesc($to) . ", " . sqlesc($msg) . ", " . sqlesc($subject) . ", $added);";
     $res = sql_query("SET SESSION sql_mode = ''", $sql) or sqlerr(__FILE__, __LINE__);
     $cache->delete('inbox_new::' . $row['id']);
-    $cache->delete('inbox_new::sb_' . $row['id']);
+    $cache->delete('inbox_new_sb::' . $row['id']);
     bark("<b>{$lang['gl_error']}</b>{$lang['tlogin_forgot']}");
 	
 }else if (($row['passhash'] == NULL) && ($row['old_passhash'] == make_pass_hash($row['secret'], md5($password)))) {
@@ -148,7 +148,7 @@ $msg = "[color=red]{$lang['tlogin_log_err2']}[/color]\n{$lang['tlogin_mess1']}" 
 $sql = "INSERT INTO messages (sender, receiver, msg, subject, added) VALUES('System', " . sqlesc($to) . ", " . sqlesc($msg) . ", " . sqlesc($subject) . ", $added);";
 $res = sql_query("SET SESSION sql_mode = ''", $sql) or sqlerr(__FILE__, __LINE__);
 $cache->delete('inbox_new::' . $row['id']);
-$cache->delete('inbox_new::sb_' . $row['id']);
+$cache->delete('inbox_new_sb::' . $row['id']);
 bark("<b>{$lang['gl_error']}</b>{$lang['tlogin_forgot']}");
 }
 */

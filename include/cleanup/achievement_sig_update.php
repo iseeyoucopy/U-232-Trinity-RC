@@ -28,7 +28,7 @@ function docleanup($data)
             $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Signature Setter\', \'signature.png\' , \'User has successfully set a signature on profile settings.\')';
             $usersachiev_buffer[] = '(' . $arr['id'] . ',1, ' . $points . ')';
             $cache->delete('inbox_new::' . $arr['id']);
-            $cache->delete('inbox_new::sb_' . $arr['id']);
+            $cache->delete('inbox_new_sb::' . $arr['id']);
             $cache->delete('user_achievement_points_' . $arr['id']);
         }
         $count = count($achievements_buffer);

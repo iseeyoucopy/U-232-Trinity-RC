@@ -200,13 +200,13 @@ if ($action == "acceptapp") {
     ], $TRINITY20['expires']['user_cache']);
     sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, " . sqlesc($arr['uid']) . ", $dt, $msg, $subject, 0)") or sqlerr(__FILE__, __LINE__);
     $cache->delete('inbox_new::' . $arr['uid']);
-    $cache->delete('inbox_new::sb_' . $arr['uid']);
+    $cache->delete('inbox_new_sb::' . $arr['uid']);
     $subres = sql_query("SELECT id FROM users WHERE class >= " . UC_STAFF) or sqlerr(__FILE__, __LINE__);
     while ($subarr = mysqli_fetch_assoc($subres)) {
         sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, " . sqlesc($subarr['id']) . ", $dt, $msg1, $subject, 0)") or sqlerr(__FILE__, __LINE__);
     }
     $cache->delete('inbox_new::' . $subarr['id']);
-    $cache->delete('inbox_new::sb_' . $subarr['id']);
+    $cache->delete('inbox_new_sb::' . $subarr['id']);
     $cache->delete('new_uploadapp_');
     stderr($lang['uploadapps_app_accepted'], "{$lang['uploadapps_app_msg']} {$lang['uploadapps_app_click']} <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=uploadapps&amp;action=app'><b>{$lang['uploadapps_app_here']}</b></a> {$lang['uploadapps_app_return']}");
 }
