@@ -62,10 +62,10 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         <link rel="stylesheet" href="templates/1/1.css" />
         <link rel="stylesheet" href="templates/1/fontawesome/css/all.min.css" />
 		<link rel="stylesheet" href="templates/1/foundation-icons/foundation-icons.css" />
-		<link rel="stylesheet" href="foundation/dist/assets/css/app.css">';
+        <link rel="stylesheet" href="foundation/dist/assets/css/app.css">
+        <script src="scripts/jquery.js"></script>';
     if ($CURUSER) {
         $htmlout .= '
-		<script src="scripts/jquery.js"></script>
     <script type="application/rss+xml" title="Latest Torrents" src="/rss.php?torrent_pass=' . $torrent_pass . '"></script>';
         $htmlout .= "
     <style type='text/css'>#mlike{cursor:pointer;}</style>
@@ -89,8 +89,7 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
          /*]]>*/
         </script>
         <script type='text/javascript'>
-        $(document).ready(function(){
-    
+        $(document).ready(function(){  
             $.ajax({
                 type: 'GET',
                 url: 'ajax.php',
