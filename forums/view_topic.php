@@ -108,7 +108,7 @@ $HTMLOUT .="<nav aria-label='You are here:' role='navigation'>
     </li>
   </ul>
 </nav>";
-$HTMLOUT .= "<div class='grid-x grid-padding-x callout'>";
+$HTMLOUT .= "<div class='grid-x grid-margin-x callout'>";
 /*
 if ($Multi_forum['configs']['use_poll_mod'] && is_valid_id($pollid)) {
     $res = sql_query("SELECT p.*, pa.id AS pa_id, pa.selection FROM postpolls AS p LEFT JOIN postpollanswers AS pa ON pa.pollid = p.id AND pa.userid = " . sqlesc($CURUSER['id']) . " WHERE p.id=" . sqlesc($pollid)) or sqlerr(__FILE__, __LINE__);
@@ -247,7 +247,7 @@ $HTMLOUT .= "<div class='float_left'>";
 $HTMLOUT .= $pagemenu1 . $pmlb . $pagemenu2 . $pmlb . $pagemenu3;
 $HTMLOUT .= "</div>";
 */
-$HTMLOUT .= "<div class='callout float-right'>";
+$HTMLOUT .= "<div class='cell callout float-right'>";
 $arr_minpost = isset($arr["min_class_write"]) ? $arr["min_class_write"] : '';
 $arr_mincreate = isset($arr["min_class_create"]) ? $arr["min_class_create"] : '';
 $maypost = ($CURUSER['class'] >= $arr_minpost && $CURUSER['class'] >= $arr_mincreate);
@@ -388,71 +388,7 @@ while ($arr = mysqli_fetch_assoc($res)) {
     if (empty($avatar))
         $avatar = "<img src='" . $TRINITY20['pic_base_url'] . $Multi_forum['configs']['forum_pics']['default_avatar'] . "' alt='Avatar' title='Avatar' />";
     $HTMLOUT .= ($pn == $pc ? '<a name=\'last\'></a>' : '');
-    $HTMLOUT .= "<div class='grid-x' id='post_" . $postid . "'>";
-    $HTMLOUT .= "<div class='cell large-10 card'>
-    <div class='card-section'>
-{$posticon}&nbsp;
-       " . $added . "<span id='mlike' data-com='" . (int) $arr["id"] . "' class='forum {$wht}'>[" . ucfirst($wht) . "]</span><span class='tot-" . (int) $arr["id"] . "' data-tot='" . (!empty($likes) && count(array_unique($likes)) > 0 ? count(array_unique($likes)) : '') . "'>&nbsp;{$att_str}</span>";
-    if (is_valid_id($arr['edited_by']))
-        $HTMLOUT .= "<span class='post_edit' id='edited_by_14'><font size='1' class='small'>Last edited by <a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int) $arr['edited_by'] . "'><b>" . htmlsafechars($arr['u2_username']) . "</b></a> at " . get_date($arr['edit_date'], 'LONG', 1, 0) . " GMT</font></span>";
-    $HTMLOUT .= "</div>";
-    if (isset($newp)) {
-        $HTMLOUT .= $newp;
-    }
-    $HTMLOUT .="";
-    $highlight = (isset($_GET['highlight']) ? htmlsafechars($_GET['highlight']) : '');
-    $body      = (!empty($highlight) ? highlight(htmlsafechars(trim($highlight)), format_comment($arr['body'])) : format_comment($arr['body']));
-    if ($Multi_forum['configs']['use_attachment_mod'] && ((!empty($arr['at_filename']) && is_valid_id($arr['at_id'])) && $arr['at_postid'] == $postid)) {
-        foreach ($Multi_forum['configs']['allowed_file_extensions'] as $allowed_file_extension)
-            if (substr($arr['at_filename'], -2) OR substr($arr['at_filename'], -3) == $allowed_file_extension)
-                $aimg = $allowed_file_extension;
-        $body .= "<div style='padding:6px'>
-                <fieldset class='fieldset'>
-                    <legend>Attached Files</legend>
-                    <table cellpadding='0' cellspacing='3' border='0'>
-                    <tr>
-                    <td><img class='inlineimg' src='{$TRINITY20['pic_base_url']}$aimg.gif' alt='' width='16' height='16' border='0' style='vertical-align:baseline' />&nbsp;</td>
-                    <td><a href='{$TRINITY20['baseurl']}/forums.php?action=attachment&amp;attachmentid=" . (int) $arr['at_id'] . "' target='_blank'>" . htmlsafechars($arr['at_filename']) . "</a> [" . mksize($arr['at_size']) . ", " . (int) $arr['at_downloads'] . " downloads]</td>
-                    <td>&nbsp;&nbsp;<input type='button' class='none' value='See who downloaded' tabindex='1' onclick=\"window.open('{$TRINITY20['baseurl']}/forums.php?action=whodownloaded&amp;fileid=" . (int) $arr['at_id'] . "','whodownloaded','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50'); return false;\" />" . ($CURUSER['class'] >= UC_STAFF ? "&nbsp;&nbsp;<input type='button' class='gobutton' value='Delete' tabindex='2' onclick=\"window.open('{$TRINITY20['baseurl']}/forums.php?action=attachment&amp;subaction=delete&amp;attachmentid=" . (int) $arr['at_id'] . "','attachment','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50'); return false;\" />" : "") . "</td>
-                    </tr>
-                    </table>
-                    </fieldset>
-                    </div>";
-    }
-    if (!empty($signature) && $arr["p_anon"] == "no")
-        $body .= "<p style='vertical-align:bottom'><br />____________________<br />" . $signature . "</p>";
-    $HTMLOUT .= "<div class='card-section'>
-      {$body}
-      </div>";
-    $HTMLOUT .= "<div class='card-section'>";
-    if ($arr["p_anon"] == "yes") {
-        if ($CURUSER['class'] < UC_STAFF)
-            $HTMLOUT .= "";
-        else
-            $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/pm_system.php?action=send_message&amp;receiver=" . $posterid . "' title='Send this user a private message' class='small button'><span>PM</span></a>";
-    } else {
-        $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/pm_system.php?action=send_message&amp;receiver=" . $posterid . "' title='Send this user a private message' class='small button'><span>PM</span></a>";
-    }
-    $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/report.php?type=Post&amp;id=" . $postid . "&amp;id_2=" . $topicid . "&amp;id_3=" . $posterid . "' title='Report this post to a moderator' class='small button'><span>Report</span></a>";
-    if (!$locked || $CURUSER['class'] >= UC_STAFF || isMod($forumid, "forum")) {
-        if ($arr["p_anon"] == "yes") {
-            if ($CURUSER['class'] < UC_STAFF)
-                $HTMLOUT .= "";
-        } else
-            $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/forums.php?action=quotepost&amp;topicid=" . $topicid . "&amp;postid=" . $postid . "' class='small button' ><span>Quote</span></a>";
-    } else {
-        $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/forums.php?action=quotepost&amp;topicid=" . $topicid . "&amp;postid=" . $postid . "' class='small button' ><span>Quote</span></a>";
-    }
-    if ($CURUSER['class'] >= UC_STAFF || isMod($forumid, "forum")) {
-        $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/forums.php?action=deletepost&amp;postid=" . $postid . "' class='small button'><span>Delete</span></a>";
-    }
-    if (($CURUSER["id"] == $posterid && !$locked) || $CURUSER['class'] >= UC_STAFF || isMod($forumid, "forum")) {
-        $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/forums.php?action=editpost&amp;postid=" . $postid . "' class='small button'>Edit</a>";
-    }
-    $HTMLOUT .= "<a href='#top' class='small button'>Up</a>";
-    $HTMLOUT .= "</div>
-</div>
-<div class='cell large-2 card-section'>
+    $HTMLOUT .= "<div class='cell large-2'>
         <div class='author_avatar'>{$avatar}</div>
           <strong>" . $by . "</strong><a data-toggle='autor-stats-".htmlsafechars($arr['username'])."'><i class='fas fa-info-circle'></i></a>";
     // end left
@@ -487,7 +423,69 @@ while ($arr = mysqli_fetch_assoc($res)) {
           ".($TRINITY20['rep_sys_on'] ? $member_reputation : "")."";
     }
     $HTMLOUT .= "</div></div>";
+    $HTMLOUT .= "<div class='cell large-10'>
+{$posticon}&nbsp;
+       " . $added . "<span id='mlike' data-com='" . (int) $arr["id"] . "' class='forum {$wht}'>[" . ucfirst($wht) . "]</span><span class='tot-" . (int) $arr["id"] . "' data-tot='" . (!empty($likes) && count(array_unique($likes)) > 0 ? count(array_unique($likes)) : '') . "'>&nbsp;{$att_str}</span>";
+    if (is_valid_id($arr['edited_by']))
+        $HTMLOUT .= "<span class='post_edit' id='edited_by_14'><font size='1' class='small'>Last edited by <a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int) $arr['edited_by'] . "'><b>" . htmlsafechars($arr['u2_username']) . "</b></a> at " . get_date($arr['edit_date'], 'LONG', 1, 0) . " GMT</font></span>";
+    $HTMLOUT .= "";
+    if (isset($newp)) {
+        $HTMLOUT .= $newp;
+    }
+    $HTMLOUT .="";
+    $highlight = (isset($_GET['highlight']) ? htmlsafechars($_GET['highlight']) : '');
+    $body      = (!empty($highlight) ? highlight(htmlsafechars(trim($highlight)), format_comment($arr['body'])) : format_comment($arr['body']));
+    if ($Multi_forum['configs']['use_attachment_mod'] && ((!empty($arr['at_filename']) && is_valid_id($arr['at_id'])) && $arr['at_postid'] == $postid)) {
+        foreach ($Multi_forum['configs']['allowed_file_extensions'] as $allowed_file_extension)
+            if (substr($arr['at_filename'], -2) OR substr($arr['at_filename'], -3) == $allowed_file_extension)
+                $aimg = $allowed_file_extension;
+        $body .= "
+                <fieldset class='fieldset'>
+                    <legend>Attached Files</legend>
+                    <table cellpadding='0' cellspacing='3' border='0'>
+                    <tr>
+                    <td><img class='inlineimg' src='{$TRINITY20['pic_base_url']}$aimg.gif' alt='' width='16' height='16' border='0' style='vertical-align:baseline' />&nbsp;</td>
+                    <td><a href='{$TRINITY20['baseurl']}/forums.php?action=attachment&amp;attachmentid=" . (int) $arr['at_id'] . "' target='_blank'>" . htmlsafechars($arr['at_filename']) . "</a> [" . mksize($arr['at_size']) . ", " . (int) $arr['at_downloads'] . " downloads]</td>
+                    <td>&nbsp;&nbsp;<input type='button' class='none' value='See who downloaded' tabindex='1' onclick=\"window.open('{$TRINITY20['baseurl']}/forums.php?action=whodownloaded&amp;fileid=" . (int) $arr['at_id'] . "','whodownloaded','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50'); return false;\" />" . ($CURUSER['class'] >= UC_STAFF ? "&nbsp;&nbsp;<input type='button' class='gobutton' value='Delete' tabindex='2' onclick=\"window.open('{$TRINITY20['baseurl']}/forums.php?action=attachment&amp;subaction=delete&amp;attachmentid=" . (int) $arr['at_id'] . "','attachment','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50'); return false;\" />" : "") . "</td>
+                    </tr>
+                    </table>
+                    </fieldset>";
+    }
+    if (!empty($signature) && $arr["p_anon"] == "no")
+        $body .= "<p style='vertical-align:bottom'><br />____________________<br />" . $signature . "</p>";
+    $HTMLOUT .= "<div class='card-section'>
+      {$body}
+      <hr>
+      <div class='small button-group float-right'>";
+    if ($arr["p_anon"] == "yes") {
+        if ($CURUSER['class'] < UC_STAFF)
+            $HTMLOUT .= "";
+        else
+            $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/pm_system.php?action=send_message&amp;receiver=" . $posterid . "' title='Send this user a private message' class='small button'><span>PM</span></a>";
+    } else {
+        $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/pm_system.php?action=send_message&amp;receiver=" . $posterid . "' title='Send this user a private message' class='small button'><span>PM</span></a>";
+    }
+    $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/report.php?type=Post&amp;id=" . $postid . "&amp;id_2=" . $topicid . "&amp;id_3=" . $posterid . "' title='Report this post to a moderator' class='small button'><span>Report</span></a>";
+    if (!$locked || $CURUSER['class'] >= UC_STAFF || isMod($forumid, "forum")) {
+        if ($arr["p_anon"] == "yes") {
+            if ($CURUSER['class'] < UC_STAFF)
+                $HTMLOUT .= "";
+        } else
+            $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/forums.php?action=quotepost&amp;topicid=" . $topicid . "&amp;postid=" . $postid . "' class='small button' ><span>Quote</span></a>";
+    } else {
+        $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/forums.php?action=quotepost&amp;topicid=" . $topicid . "&amp;postid=" . $postid . "' class='small button' ><span>Quote</span></a>";
+    }
+    if ($CURUSER['class'] >= UC_STAFF || isMod($forumid, "forum")) {
+        $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/forums.php?action=deletepost&amp;postid=" . $postid . "' class='small button'><span>Delete</span></a>";
+    }
+    if (($CURUSER["id"] == $posterid && !$locked) || $CURUSER['class'] >= UC_STAFF || isMod($forumid, "forum")) {
+        $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/forums.php?action=editpost&amp;postid=" . $postid . "' class='small button'>Edit</a>";
+    }
+    //$HTMLOUT .= "<a href='#top' class='small button'>Up</a>";
+    $HTMLOUT .= "</div></div>
+</div>";
 }
+$HTMLOUT .= "</div>";
 // end of posts
 $HTMLOUT .= insert_quick_jump_menu($forumid);
 
@@ -496,7 +494,6 @@ $HTMLOUT .= "<a href='forums.php?action=viewunread' class='button'><span>Show Ne
 if ($maypost) {
     $HTMLOUT .= "<a href='forums.php?action=reply&topicid=" . $topicid . "' class='button'><span>New Reply</span></a>&nbsp;";
 }
-$HTMLOUT .= "</div>";
 if ($locked) {
     $HTMLOUT .= "";
 } else {
@@ -558,7 +555,6 @@ if (($postid > $lpr) && ($postadd > (TIME_NOW - $TRINITY20['readpost_expiry'])))
 if ($CURUSER['class'] >= UC_STAFF || isMod($forumid, "forum")) {
     require_once FORUM_DIR . "/mod_panel.php";
 }
-$HTMLOUT .= "</div>";
 //$HTMLOUT .= end_main_frame();
 if (isMod($topicid))
     $CURUSER['class'] = UC_STAFF;
