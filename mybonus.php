@@ -1678,7 +1678,7 @@ if (($top_donators = $cache->get('top_donators_')) === false) {
 	}
 	$cache->set('top_donators_', $top_donators, 0);
 }
-if (count($top_donators) > 0) {
+if (!empty($top_donators)) {
 	$top_donator = "<h4>Top 10 Contributors </h4>\n";
 	if ($top_donators) {
 		foreach ($top_donators as $a) {
@@ -1707,7 +1707,7 @@ if (($top_donators2 = $cache->get('top_donators2_')) === false) {
 	}
 	$cache->set('top_donators2_', $top_donators2, 0);
 }
-if (count($top_donators2) > 0) {
+if (!empty($top_donators2)) {
 	$top_donator2 = "<h4>Top 10 Contributors </h4>";
 	if ($top_donators2) {
 		foreach ($top_donators2 as $b) {
@@ -1736,7 +1736,7 @@ if (($top_donators3 = $cache->get('top_donators3_')) === false) {
 	}
 	$cache->set('top_donators3_', $top_donators3, 0);
 }
-if ($top_donators3 && count($top_donators3) > 0) {
+if (!empty($top_donators3)) {
 	$top_donator3 = "<h4>Top 10 Contributors </h4>";
 	if ($top_donators3) {
 		foreach ($top_donators3 as $c) {
