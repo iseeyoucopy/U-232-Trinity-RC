@@ -51,10 +51,9 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         <!-- #   Template Modded by U-232 Dev Team                 # -->
         <!-- ####################################################### -->
   <head>
-    <!--<meta charset="' . charset() . '" />-->
-    <meta charset="utf-8" />
-    <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="' . charset() . '" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>' . $title . '</title>
 		<!-- favicon  -->
     	<link rel="shortcut icon" href="/favicon.ico" />
@@ -88,21 +87,6 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         }
          /*]]>*/
         </script>
-        <script type='text/javascript'>
-        $(document).ready(function(){  
-            $.ajax({
-                type: 'GET',
-                url: 'ajax.php',
-                success: function(data){
-                   $('#unread_m').append(data);
-                }
-            });
-        setInterval(function(){//setInterval() method execute on every interval until called clearInterval()
-                $('#unread_m').load('ajax.php').fadeIn('slow');
-                //load() method fetch data from fetch.php page
-               }, 1000);    
-        });
-        </script>
         {$js_incl}{$css_incl}
         </head><body>";
         $htmlout .= TopBar();
@@ -111,7 +95,7 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         }
         $htmlout .= '<div class="grid-container">';
         $htmlout .= subnav_header();
-        $htmlout .= StatusBar();
+        $htmlout .= StatusBar() . GlobalAlert();
     }
     return $htmlout;
 }
@@ -303,7 +287,7 @@ function StatusBar()
     $usrclass = $StatusBar = "";
     if ($CURUSER['override_class'] != 255) $usrclass = "&nbsp;<b>[" . get_user_class_name($CURUSER['class']) . "]</b>&nbsp;";
     else if ($CURUSER['class'] >= UC_STAFF) $usrclass = "&nbsp;<a href='" . $TRINITY20['baseurl'] . "/setclass.php'><b>[" . get_user_class_name($CURUSER['class']) . "]</b></a>&nbsp;";
-    $StatusBar .= '<div class="dropdown-pane padding-0" id="profile-dropdown" data-dropdown data-hover="true" data-hover-pane="true" data-close-on-click="true">
+    $StatusBar .= '<div class="dropdown-pane padding-0" id="profile-dropdown" data-dropdown data-close-on-click="true" data-auto-focus="true">
     <div class="grid-container">
       <div class="grid-x grid-margin-x">';
     $StatusBar .= "<div class='card padding-1'><dl>
@@ -331,6 +315,7 @@ function GlobalAlert()
 {
     global $CURUSER, $TRINITY20, $lang, $free, $_NO_COMPRESS, $query_stat, $querytime, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
     $htmlout = '';
+    $htmlout .= '<div class="dropdown-pane padding-0" id="alerts-dropdown" data-dropdown data-close-on-click="true" data-auto-focus="true">';
     if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_REPORTS && $BLOCKS['global_staff_report_on']) {
         require_once(BLOCK_DIR . 'global/report.php');
     }
@@ -342,9 +327,6 @@ function GlobalAlert()
     }
     if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_STAFF_MESSAGE && $BLOCKS['global_staff_warn_on']) {
         require_once(BLOCK_DIR . 'global/staffmessages.php');
-    }
-    if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_NEWPM && $BLOCKS['global_message_on']) {
-        require_once(BLOCK_DIR . 'global/message.php');
     }
     if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_DEMOTION && $BLOCKS['global_demotion_on']) {
         require_once(BLOCK_DIR . 'global/demotion.php');
@@ -364,13 +346,14 @@ function GlobalAlert()
     if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_FREELEECH_CONTRIBUTION && $BLOCKS['global_freeleech_contribution_on']) {
         require_once(BLOCK_DIR . 'global/freeleech_contribution.php');
     }
+    $htmlout .= '</div>';
     return $htmlout;
 }
 function TopBar()
 {
-    global $CURUSER, $TRINITY20, $lang;
-    $TopBar = '';
-    $TopBar.= "
+    global $CURUSER, $TRINITY20, $lang, $free, $_NO_COMPRESS, $query_stat, $querytime, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
+    $htmlout = '';
+    $htmlout.= "
     <div class='multilevel-offcanvas off-canvas position-right' id='offCanvasRight' data-off-canvas>
     <ul class='vertical menu accordion-menu' data-accordion-menu>
       <li><a href='#'>{$lang['gl_general']}</a>
@@ -448,9 +431,29 @@ function TopBar()
     <div class='nav-bar'>
         <div class='nav-bar-left'>
         <a class='nav-bar-logo'><img class='logo' src='{$TRINITY20['pic_base_url']}logo.png'></a>
-        <a class='hide-for-small-only' data-toggle='profile-dropdown'>" . $CURUSER['username'] . "</a>
-        </div>
-        <div class='nav-bar-right'>
+        <a class='dropdown hollow small button' data-toggle='profile-dropdown'>" . $CURUSER['username'] . "</a>
+        <a class='dropdown hollow small button' data-toggle='alerts-dropdown'><i class='fas fa-bell'></i></a>";
+        if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_NEWPM && $BLOCKS['global_message_on']) {
+            $htmlout .= "<script type='text/javascript'>
+            $(document).ready(function(){  
+                $.ajax({
+                    type: 'GET',
+                    url: 'ajax.php',
+                    success: function(data){
+                       $('#unread_m').append(data);
+                    }
+                });
+            setInterval(function(){//setInterval() method execute on every interval until called clearInterval()
+                    $('#unread_m').load('ajax.php').fadeIn('slow');
+                    //load() method fetch data from fetch.php page
+                   }, 1000);    
+            });
+            </script>";
+            //require_once(BLOCK_DIR . 'global/message.php');
+            $htmlout.="<a class='small hollow button' href='" . $TRINITY20['baseurl'] . "/pm_system.php'><i class='fas fa-envelope'></i><span class='badge warning' id='unread_m'></span></a>";
+        }
+        
+        $htmlout.="</div><div class='nav-bar-right'>
           <ul class='menu'>
           <li class='hide-for-small-only'></li>
             <li>
@@ -466,12 +469,12 @@ function TopBar()
           </ul>
       </div>
     </div>";
-    return $TopBar;
+    return $htmlout;
 }
 function subnav_header() {
     global $CURUSER, $TRINITY20, $lang;
-    $subnav_header = "";
-    $subnav_header.= "
+    $htmlout = "";
+    $htmlout.= "
     <header class='subnav-hero-section hide-for-small-only'>
     <h1 class='subnav-hero-headline'>Trinity <small>by U-232 Team</small></h1>
     <ul class='subnav-hero-subnav'>
@@ -479,9 +482,8 @@ function subnav_header() {
         <li><a href='" . $TRINITY20['baseurl'] . "/browse.php'>{$lang['gl_torrents']}</a></li>
         <li><a href='" . $TRINITY20['baseurl'] . "/usercp.php?action=default'>{$lang['gl_usercp']}</a></li>
         <li><a href='" . $TRINITY20['baseurl'] . "/tv_guide.php'>Tv Guide</a></li>
-        <li><a href='" . $TRINITY20['baseurl'] . "/pm_system.php'>{$lang['gl_pms']}<span class='badge' id='unread_m'></span></a></li>
         " . (isset($CURUSER) && $CURUSER['class'] >= UC_STAFF ? "<li><a data-toggle='StaffPanel'>Staff Links</a></li>" : "") . "
         </ul>
   </header>";
-    return $subnav_header;
+    return $htmlout;
 }
