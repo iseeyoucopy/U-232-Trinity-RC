@@ -44,26 +44,26 @@ $perpage = 15;
 $pager = pager($perpage, $count, "staffpanel.php?tool=log&amp;action=log&amp;" . (!empty($search) ? "search=$search&amp;" : '') . "");
 $HTMLOUT = '';
 $res = sql_query("SELECT added, txt FROM sitelog $where ORDER BY added DESC {$pager['limit']} ") or sqlerr(__FILE__, __LINE__);
-$HTMLOUT .="<div class='row'><div class='col-md-12'>";
+$HTMLOUT .="<div class='grid-x grid-margin-x'><div class='cell medium-12'>";
 $HTMLOUT.= "<h1>{$lang['text_sitelog']}</h1>";
-$HTMLOUT.= "<table class='table table-bordered'>\n
+$HTMLOUT.= "<table class='striped'>
              <tr>
-			 <td class='tabletitle' align='left'>{$lang['log_search']}</td>\n
+			 <td>{$lang['log_search']}</td>
 			 </tr>
              <tr>
-			 <td class='table' align='left'>\n
-			 <form method='post' action='staffpanel.php?tool=log&amp;action=log'>\n
-			 <input type='text' name='search' size='40' value='' />\n
-			 <input type='submit' value='{$lang['log_search_btn']}' style='height: 20px' />\n
+			 <td>
+			 <form method='post' action='staffpanel.php?tool=log&amp;action=log'>
+			 <input type='text' name='search' size='40' value=''>
+			 <input type='submit' value='{$lang['log_search_btn']}' style='height: 20px'>
 			 </form></td></tr></table>";
 if ($count > $perpage) $HTMLOUT.= $pager['pagertop']."<br>";
 if (mysqli_num_rows($res) == 0) {
     $HTMLOUT.= "<b>{$lang['text_logempty']}</b>";
 } else {
-    $HTMLOUT.= "<table class='table table-bordered'>
+    $HTMLOUT.= "<table class='striped'>
       <tr>
-        <td class='colhead' align='left'>{$lang['header_date']}</td>
-        <td class='colhead' align='left'>{$lang['header_event']}</td>
+        <td>{$lang['header_date']}</td>
+        <td>{$lang['header_event']}</td>
       </tr>";
     while ($arr = mysqli_fetch_assoc($res)) {
         $color = '#333333';
@@ -85,9 +85,15 @@ if (mysqli_num_rows($res) == 0) {
         if (strpos($arr['txt'], $lang['log_updated'])) $color = "#6699FF";
         if (strpos($arr['txt'], $lang['log_edited'])) $color = "#BBaF9B";
         $date = explode(',', get_date($arr['added'], 'LONG'));
-        $HTMLOUT.= "<tr class='table'><td style='background-color:$color'><font color='black'>{$date[0]}{$date[1]}</font></td><td style='background-color:$color' align='left'><font color='black'>" . $arr['txt'] . "</font></td></tr>\n";
+        $HTMLOUT.= "<tr>
+			<td>
+				<font color='black'>{$date[0]}{$date[1]}</font>
+			</td>
+			<td>
+				<font color='black'>" . $arr['txt'] . "</font>
+			</td></tr>";
     }
-    $HTMLOUT.= "</table>\n";
+    $HTMLOUT.= "</table>";
 }
 $HTMLOUT.= "<p>{$lang['text_times']}</p>";
 if ($count > $perpage) $HTMLOUT.= $pager['pagerbottom']."<br>";

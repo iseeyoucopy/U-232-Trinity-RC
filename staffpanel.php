@@ -257,7 +257,7 @@ if (in_array($tool, $staff_tools) and file_exists(ADMIN_DIR . $staff_tools[$tool
                 }
             }
         }
-$HTMLOUT.="<div class='container'>";
+$HTMLOUT.="<div class='callout'>";
         if (!empty($errors)) {
             $HTMLOUT .= stdmsg($lang['spanel_there'].' ' . (count($errors) > 1 ? 'are' : 'is') . ' ' . count($errors) . ' error' . (count($errors) > 1 ? 's' : '') . ' '.$lang['spanel_in_the_form'].'.', '<b>' . implode('<br />', $errors) . '</b>');
             $HTMLOUT .= "<br>";
@@ -267,19 +267,19 @@ $HTMLOUT.="<div class='container'>";
         if ($action == 'edit') {
             $HTMLOUT .= "<input class='form-control' type='hidden' name='id' value='{$id}'>";
         }
-        $HTMLOUT .= "<table class='table table-striped table-bordered text-left' cellpadding='5' width='100%'>
-    <tr class='colhead'>
-    <td colspan='2'>
+        $HTMLOUT .= "<table class='striped'>
+    <tr>
+    <td>
      " . ($action == 'edit' ? $lang['spanel_edit'].' "' . $page_name . '"' : $lang['spanel_add_a_new']) . ' page' . "</td>
     </tr>
     <tr>
-    <td class='rowhead' width='1%'>{$lang['spanel_pg_name']}</td><td align='left'><input type='text' size='50' name='page_name' value='{$page_name}' /></td>
+    <td>{$lang['spanel_pg_name']}</td><td align='left'><input type='text' size='50' name='page_name' value='{$page_name}' /></td>
     </tr>
     <tr>
-    <td class='rowhead'>{$lang['spanel_filename']}</td><td align='left'><input type='text' size='50' name='file_name' value='{$file_name}' /><b></b></td>
+    <td>{$lang['spanel_filename']}</td><td align='left'><input type='text' size='50' name='file_name' value='{$file_name}' /><b></b></td>
     </tr>
     <tr>
-    <td class='rowhead'>{$lang['spanel_description']}</td><td align='left'><input type='text' size='50' name='description' value='{$description}' /></td>
+    <td>{$lang['spanel_description']}</td><td align='left'><input type='text' size='50' name='description' value='{$description}' /></td>
     </tr>";   
         $types = array(
             'user',
