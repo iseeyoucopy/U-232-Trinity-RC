@@ -403,7 +403,7 @@ function userlogin()
     // If elapsed > 10 minutes, force a announcement refresh.
     if (($row['curr_ann_last_check'] != 0) AND ($row['curr_ann_last_check'] < $dt - 900))
     $row['curr_ann_last_check'] = 0;
-    /*
+ 
     if (($row['curr_ann_id'] == 0) and ($row['curr_ann_last_check'] == 0)) { // Force an immediate check...
         $query = sprintf(
             'SELECT m.*,p.process_id FROM announcement_main AS m ' .
@@ -437,7 +437,7 @@ function userlogin()
                 $cache->update_row('user' . $CURUSER['id'], [
                     'curr_ann_id' => $ann_row['main_id']
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row($keys['my_userid']' . $CURUSER['id'], [
+                $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
                     'curr_ann_id' => $ann_row['main_id']
                 ], $TRINITY20['expires']['curuser']);
                 $status = 2;
@@ -448,7 +448,7 @@ function userlogin()
                 $cache->update_row('user' . $CURUSER['id'], [
                     'curr_ann_last_check' => $dt
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row($keys['my_userid']' . $CURUSER['id'], [
+                $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
                     'curr_ann_last_check' => $dt
                 ], $TRINITY20['expires']['curuser']);
                 $status = 1;
@@ -479,13 +479,12 @@ function userlogin()
             $cache->update_row('user' . $CURUSER['id'], [
                 'curr_ann_last_check' => $dt
             ], $TRINITY20['expires']['user_cache']);
-            $cache->update_row($keys['my_userid']' . $CURUSER['id'], [
+            $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
                 'curr_ann_last_check' => $dt
             ], $TRINITY20['expires']['curuser']);
         }
         unset($result, $ann_row);
     }
-    */
     // bans by djGrrr <3 pdq
     if (!isset($row['perms']) || (!($row['perms'] & bt_options::PERMS_BYPASS_BAN))) {
         $banned = false;
