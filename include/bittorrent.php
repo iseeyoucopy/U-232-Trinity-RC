@@ -434,10 +434,10 @@ function userlogin()
                 $row['curr_ann_body'] = htmlsafechars($ann_row['body']);
                 // Create additional set for main UPDATE query.
                 $add_set = ', curr_ann_id = ' . sqlesc($ann_row['main_id']);
-                $cache->update_row('user' . $CURUSER['id'], [
+                $cache->update_row('user' . $id, [
                     'curr_ann_id' => $ann_row['main_id']
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
+                $cache->update_row($keys['my_userid'] . $id, [
                     'curr_ann_id' => $ann_row['main_id']
                 ], $TRINITY20['expires']['curuser']);
                 $status = 2;
@@ -445,10 +445,10 @@ function userlogin()
             } else {
                 // Announcement not valid for member...
                 $add_set = ', curr_ann_last_check = ' . sqlesc($dt);
-                $cache->update_row('user' . $CURUSER['id'], [
+                $cache->update_row('user' . $id, [
                     'curr_ann_last_check' => $dt
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
+                $cache->update_row($keys['my_userid'] . $id, [
                     'curr_ann_last_check' => $dt
                 ], $TRINITY20['expires']['curuser']);
                 $status = 1;
@@ -476,10 +476,10 @@ function userlogin()
         } else {
             // No Main Result Set. Set last update to now...
             $add_set = ', curr_ann_last_check = ' . sqlesc($dt);
-            $cache->update_row('user' . $CURUSER['id'], [
+            $cache->update_row('user' . $id, [
                 'curr_ann_last_check' => $dt
             ], $TRINITY20['expires']['user_cache']);
-            $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
+            $cache->update_row($keys['my_userid'] . $id, [
                 'curr_ann_last_check' => $dt
             ], $TRINITY20['expires']['curuser']);
         }
