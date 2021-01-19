@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($subforum) || empty($descr) || empty($place))
         stderr($lang['forum_mngr_err1'], $lang['forum_mngr_warn1']);
     else {
-        sql_query("INSERT INTO forums(`name`,`description` ,`min_class_read` ,`min_class_write` ,`min_class_create`,`place`,`forum_id`) VALUES(" . join(",", array_map("sqlesc", array($subforum, $descr, $readclass, $writeclass, $createclass, $place, $place))) . ")") or sqlerr(__FILE__, __LINE__);
+        sql_query("INSERT INTO forums(`name`,`description` ,`min_class_read` ,`min_class_write` ,`min_class_create`,`place`,`forum_id`) VALUES(" . join(",", array_map("sqlesc", array($subforum, $descr, sqlesc((int)$_POST['readclass']), sqlesc((int)$_POST['writeclass']), sqlesc((int)$_POST['createclass']), $place, $place))) . ")") or sqlerr(__FILE__, __LINE__);
         if (((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res)) {
             header("Refresh: 2; url=" . $this_url);
             stderr($lang['forum_mngr_succ'], $lang['forum_sub_add']);
