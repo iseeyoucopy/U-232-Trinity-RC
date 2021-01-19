@@ -388,13 +388,12 @@ function userlogin()
     }
     //==
     if (get_mycookie('pass') !== hash("sha3-512", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "")) {
-    //if (get_mycookie('pass') !== hash("ripemd160", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "")) {
         $salty = hash("tiger160,3", "Th15T3xtis5add3dto66uddy6he@water..." . $row['username'] . "");
         header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please={$salty}");
-        //die;
+        die;
         return;
     }
-
+/*
     //If curr_ann_id > 0 but curr_ann_body IS NULL, then force a refresh
     if (($row['curr_ann_id'] > 0) AND ($row['curr_ann_body'] == NULL)) {
     $row['curr_ann_id'] = 0;
@@ -413,7 +412,7 @@ function userlogin()
             'OR p.status = 0 ' .
             'ORDER BY m.main_id ASC ' .
             'LIMIT 1',
-            sqlesc($row['id'])
+            sqlesc($row['id']) or sqlerr(__FILE__, __LINE__)
         );
         $result = sql_query($query);
         if (mysqli_num_rows($result)) { // Main Result set exists
@@ -485,6 +484,7 @@ function userlogin()
         }
         unset($result, $ann_row);
     }
+    */
     // bans by djGrrr <3 pdq
     if (!isset($row['perms']) || (!($row['perms'] & bt_options::PERMS_BYPASS_BAN))) {
         $banned = false;
