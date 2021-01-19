@@ -280,35 +280,27 @@ function StatusBar()
         $Achievement_Points['spentpoints'] = (int)$Achievement_Points['spentpoints'];
         $cache->set('user_achievement_points_' . $CURUSER['id'], $Achievement_Points);
     }
-    $salty_username = isset($CURUSER['username']) ? "{$CURUSER['username']}" : '';
-    $salty = md5("Th15T3xtis5add3dto66uddy6he@water..." . $salty_username . "");
     $hitnruns = ($CURUSER['hit_and_run_total'] > 0) ? $CURUSER['hit_and_run_total'] : '0';
     $member_reputation = get_reputation($CURUSER);
     $usrclass = $StatusBar = "";
     if ($CURUSER['override_class'] != 255) $usrclass = "&nbsp;<b>[" . get_user_class_name($CURUSER['class']) . "]</b>&nbsp;";
     else if ($CURUSER['class'] >= UC_STAFF) $usrclass = "&nbsp;<a href='" . $TRINITY20['baseurl'] . "/setclass.php'><b>[" . get_user_class_name($CURUSER['class']) . "]</b></a>&nbsp;";
-    $StatusBar .= '<div class="dropdown-pane padding-0" id="profile-dropdown" data-dropdown data-close-on-click="true" data-auto-focus="true">
-    <div class="grid-container">
-      <div class="grid-x grid-margin-x">';
-    $StatusBar .= "<div class='card padding-1'><dl>
-		<dd class='text-center'>" . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? get_user_class_name($CURUSER['class']) : $usrclass) . "</dd>
-		<dd>{$lang['gl_act_torrents']}&nbsp;:&nbsp;
-
-		<dd>" . ($TRINITY20['seedbonus_on'] ? "{$lang['gl_karma']}: <a href='" . $TRINITY20['baseurl'] . "/mybonus.php'>{$CURUSER['seedbonus']}</a>&nbsp;" : "") . "</dd>
-		<dd>{$lang['gl_invites']}: <a href='" . $TRINITY20['baseurl'] . "/invite.php'>{$CURUSER['invites']}</a> | Free Slots: " . $CURUSER['freeslots'] . "</dd>
-		<dd>" . ($TRINITY20['rep_sys_on'] ? "{$lang['gl_rep']}:{$member_reputation}&nbsp;" : "") . "</dd>
-		<dd>{$lang['gl_shareratio']}" . member_ratio($CURUSER['uploaded'], $TRINITY20['ratio_free'] ? '0' : $CURUSER['downloaded']) . "</dd>";
+    $StatusBar .= '
+    <div class="off-canvas position-top" id="offCanvasRightSplit2" data-off-canvas data-transition="push">';
+    $StatusBar .= (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? get_user_class_name($CURUSER['class']) : $usrclass) . "
+		|| {$lang['gl_act_torrents']}&nbsp;:&nbsp; || " . ($TRINITY20['seedbonus_on'] ? "{$lang['gl_karma']}: <a href='" . $TRINITY20['baseurl'] . "/mybonus.php'>{$CURUSER['seedbonus']}</a>&nbsp;" : "") . "||
+		{$lang['gl_invites']}: <a href='" . $TRINITY20['baseurl'] . "/invite.php'>{$CURUSER['invites']}</a> | Free Slots: " . $CURUSER['freeslots'] . "||" . ($TRINITY20['rep_sys_on'] ? "{$lang['gl_rep']}:{$member_reputation}&nbsp;" : "") . "||{$lang['gl_shareratio']}" . member_ratio($CURUSER['uploaded'], $TRINITY20['ratio_free'] ? '0' : $CURUSER['downloaded']) . "||";
 
     if ($TRINITY20['ratio_free']) {
-        $StatusBar .= "<dd>{$lang['gl_uploaded']}:" . $upped . "</dd>";
+        $StatusBar .= "{$lang['gl_uploaded']}:" . $upped . "||";
     } else {
-        $StatusBar .= "<dd>{$lang['gl_uploaded']}:{$upped}</dd>
-		<dd>{$lang['gl_downloaded']}:{$downed}</dd>
-		<dd>{$lang['gl_connectable']}:{$connectable}</dd>";
+        $StatusBar .= "{$lang['gl_uploaded']}:{$upped}||
+		{$lang['gl_downloaded']}:{$downed}||
+		{$lang['gl_connectable']}:{$connectable}||";
     }
-    $StatusBar .= "<dd>{$lang['gl_hnr']}: <a href='" . $TRINITY20['baseurl'] . "/hnr.php?id=" . $CURUSER['id'] . "'>{$hitnruns}</a>&nbsp;</dd>
-	<dd><a href='#' onclick='themes();'><i class='fas fa-palette blueiconcolor' title='{$lang['gl_theme']}'></i></a> | <a href='#' onclick='language_select();'><i class='fas fa-language' title='{$lang['gl_language_select']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/friends.php'><i class='fas fa-user-friends' title='{$lang['gl_friends']}'></i></a> | <a href='" . $TRINITY20['baseurl'] . "/logout.php?hash_please={$salty}'><i class='fas fa-power-off rediconcolor' title='{$lang['gl_logout']}'></i></a></dd></dl>";
-    $StatusBar .= "</div></div></div></div>";
+    $StatusBar .= "{$lang['gl_hnr']}: <a href='" . $TRINITY20['baseurl'] . "/hnr.php?id=" . $CURUSER['id'] . "'>{$hitnruns}</a>";
+    $StatusBar .= "
+    </div>";
     return $StatusBar;
 }
 function GlobalAlert()
@@ -352,6 +344,8 @@ function GlobalAlert()
 function TopBar()
 {
     global $CURUSER, $TRINITY20, $lang, $free, $_NO_COMPRESS, $query_stat, $querytime, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
+    $salty_username = isset($CURUSER['username']) ? "{$CURUSER['username']}" : '';
+    $salty = md5("Th15T3xtis5add3dto66uddy6he@water..." . $salty_username . "");
     $htmlout = '';
     $htmlout.= "
     <div class='multilevel-offcanvas off-canvas position-right' id='offCanvasRight' data-off-canvas>
@@ -412,8 +406,10 @@ function TopBar()
       <li class='off-canvas-menu-item'><a href='" . $TRINITY20['baseurl'] . "/forums.php'>{$lang['gl_forums']}</a></li>
       <li><a href='{$TRINITY20['baseurl']}/donate.php'>Donate</a></li>
       <li><a href='#'><a href='{$TRINITY20['baseurl']}/help.php'>Help</a></a></li>
-      <li><a href='#'>New link</a></li>
-      <li><a href='#'>New link</a></li>
+      <li> <a href='" . $TRINITY20['baseurl'] . "/friends.php'>{$lang['gl_friends']}</a></li>
+      <li><a href='#' onclick='themes();'>{$lang['gl_theme']}</a></li></li>
+      <li><a href='#' onclick='language_select();'>{$lang['gl_language_select']}</a></li>
+      <li><a href='" . $TRINITY20['baseurl'] . "/logout.php?hash_please={$salty}'>{$lang['gl_logout']}</a></li>
     </ul>
     <ul class='vertical menu'>
        <li><a class='hide-for-medium' href='" . $TRINITY20['baseurl'] . "/usercp.php?action=default'>{$lang['gl_usercp']}</a></li>
@@ -428,10 +424,11 @@ function TopBar()
     </ul>
   </div>
   <div class='off-canvas-content' data-off-canvas-content>
-    <div class='nav-bar'>
+    <div class='nav-bar' data-sticky data-off-canvas-sticky data-margin-top='0'>
         <div class='nav-bar-left'>
         <a class='nav-bar-logo'><img class='logo' src='{$TRINITY20['pic_base_url']}logo.png'></a>
         <a class='dropdown hollow small button' data-toggle='profile-dropdown'>" . $CURUSER['username'] . "</a>
+        <a class='button hollow small' data-toggle='offCanvasRightSplit2'>userstatus</a>
         <a class='dropdown hollow small button' data-toggle='alerts-dropdown'><i class='fas fa-bell'></i></a>";
         if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_NEWPM && $BLOCKS['global_message_on']) {
             $htmlout .= "<script type='text/javascript'>
