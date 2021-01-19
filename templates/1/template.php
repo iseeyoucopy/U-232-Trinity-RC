@@ -14,7 +14,7 @@
 //==Template system by Terranova
 function stdhead($title = "", $msgalert = true, $stdhead = false)
 {
-    global $CURUSER, $TRINITY20, $lang, $free, $_NO_COMPRESS, $query_stat, $querytime, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
+    global $CURUSER, $TRINITY20, $lang, $free, $_NO_COMPRESS, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
     if (!$TRINITY20['site_online']) die("Site is down for maintenance, please check back again later... thanks<br />");
     if ($title == "") $title = $TRINITY20['site_name'] . (isset($_GET['tbv']) ? " (" . TBVERSION . ")" : '');
     else $title = $TRINITY20['site_name'] . (isset($_GET['tbv']) ? " (" . TBVERSION . ")" : '') . " :: " . htmlsafechars($title);
@@ -23,10 +23,10 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         $TRINITY20['categorie_icon'] = isset($CURUSER['categorie_icon']) ? "{$CURUSER['categorie_icon']}" : $TRINITY20['categorie_icon'];
         $TRINITY20['language'] = isset($CURUSER['language']) ? "{$CURUSER['language']}" : $TRINITY20['language'];
     }
+    $salty_username = isset($CURUSER['username']) ? "{$CURUSER['username']}" : '';
+    $salty = md5("Th15T3xtis5add3dto66uddy6he@water..." . $salty_username . "");
     $torrent_pass = isset($CURUSER['torrent_pass']) ? "{$CURUSER['torrent_pass']}" : '';
-    /** ZZZZZZZZZZZZZZZZZZZZZZZZZZip it! */
-
-    if (!isset($_NO_COMPRESS)) if (!ob_start('ob_gzhandler')) ob_start();
+    //if (!isset($_NO_COMPRESS)) if (!ob_start('ob_gzhandler')) ob_start();
     $htmlout = '';
     //== Include js files needed only for the page being used by pdq
     $js_incl = '';
@@ -34,7 +34,6 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
     if (!empty($stdhead['js'])) {
         foreach ($stdhead['js'] as $JS) $js_incl .= "<script type='text/javascript' src='{$TRINITY20['baseurl']}/scripts/" . $JS . ".js'></script>";
     }
-
     //== Include css files needed only for the page being used by pdq
     $stylez = ($CURUSER ? "{$CURUSER['stylesheet']}" : "{$TRINITY20['stylesheet']}");
     $css_incl = '';
@@ -64,45 +63,191 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         <link rel="stylesheet" href="foundation/dist/assets/css/app.css">
         <script src="scripts/jquery.js"></script>';
     if ($CURUSER) {
-        $htmlout .= '
-    <script type="application/rss+xml" title="Latest Torrents" src="/rss.php?torrent_pass=' . $torrent_pass . '"></script>';
-        $htmlout .= "
-    <style type='text/css'>#mlike{cursor:pointer;}</style>
-    <script type='text/javascript'>
-        /*<![CDATA[*/
-	// template changer function
-	//================================================== -->
-        function themes() {
-          window.open('take_theme.php','My themes','height=150,width=200,resizable=no,scrollbars=no,toolbar=no,menubar=no');
-        }
-	// language changer function
-	//================================================== -->
-        function language_select() {
-          window.open('take_lang.php','My language','height=150,width=200,resizable=no,scrollbars=no,toolbar=no,menubar=no');
-        }
-	// radio function
-	//================================================== -->
-        function radio() {
-          window.open('radio_popup.php','My Radio','height=700,width=800,resizable=no,scrollbars=no,toolbar=no,menubar=no');
-        }
-         /*]]>*/
-        </script>
+        $htmlout .= '<script type="application/rss+xml" title="Latest Torrents" src="/rss.php?torrent_pass=' . $torrent_pass . '"></script>';
+        $htmlout .= "<style type='text/css'>#mlike{cursor:pointer;}</style>
         {$js_incl}{$css_incl}
         </head><body>";
-        $htmlout .= TopBar();
+    $htmlout.= "
+        <div class='multilevel-offcanvas off-canvas position-right' id='offCanvasRight' data-off-canvas>
+            <ul class='vertical menu accordion-menu' data-accordion-menu>
+                <li>
+                    <a href='#'>{$lang['gl_general']}</a>
+                    <ul class='menu vertical nested'>
+                        <li><a href='" . $TRINITY20['baseurl'] . "/topten.php'>{$lang['gl_stats']}</a></li>
+                        <li><a href='" . $TRINITY20['baseurl'] . "/chat.php'>{$lang['gl_chat']}</a></li>
+                        <li><a href='" . $TRINITY20['baseurl'] . "/staff.php'>{$lang['gl_staff']}</a></li>
+                        <li><a href='" . $TRINITY20['baseurl'] . "/wiki.php'>{$lang['gl_wiki']}</a></li>
+                        <li><a href='#' onclick='radio();'>{$lang['gl_radio']}</a></li>
+                        <li><a class='hide-for-medium' href='" . $TRINITY20['baseurl'] . "/tv_guide.php'>Tv Guide</a></li>
+                        <li><a href='" . $TRINITY20['baseurl'] . "/rsstfreak.php'>{$lang['gl_tfreak']}</a></li>
+                        <li><a href='" . $TRINITY20['baseurl'] . "/sitepot.php'>{$lang['gl_sitepot']}</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href='#'>{$lang['gl_torrent']}</a>
+                    <ul class='menu vertical nested'>
+                        <li><a class='hide-for-medium' href='" . $TRINITY20['baseurl'] . "/browse.php'>{$lang['gl_torrents']}</a></li>
+                        <li><a href='" . $TRINITY20['baseurl'] . "/requests.php'>{$lang['gl_requests']}</a></li>
+                        <li><a href='" . $TRINITY20['baseurl'] . "/offers.php'>{$lang['gl_offers']}</a></li>
+                        <li><a href='" . $TRINITY20['baseurl'] . "/needseed.php?needed=seeders'>{$lang['gl_nseeds']}</a></li>" . (isset($CURUSER) && $CURUSER['class'] <= UC_VIP ? "
+                        <li><a href='" . $TRINITY20['baseurl'] . "/uploadapp.php'>{$lang['gl_uapp']}</a></li> " : "
+                        <li><a href='" . $TRINITY20['baseurl'] . "/upload.php'>{$lang['gl_upload']}</a></li>") . "" . (isset($CURUSER) && $CURUSER['class'] <= UC_VIP ? "" : "
+                        <li><a href='" . $TRINITY20['baseurl'] . "/multiupload.php'>{$lang['gl_mupload']}</a></li>") . "
+                        <li><a href='" . $TRINITY20['baseurl'] . "/bookmarks.php'>{$lang['gl_bookmarks']}</a></li>
+                        <li><a href='" . $TRINITY20['baseurl'] . "/subtitle.php'>Subtitles</a></li>
+                     </ul>
+                </li>
+                <li>
+                    <a href='#'>{$lang['gl_games']}</a>
+                    <ul class='menu vertical nested'>
+                        <li><a href='" . $TRINITY20['baseurl'] . "/casino.php'>{$lang['gl_casino']}</a></li>
+                        <li><a href='" . $TRINITY20['baseurl'] . "/blackjack.php'>{$lang['gl_bjack']}</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href='#'>{$lang['gl_lnk_men']}</a>
+                    <ul class='menu vertical nested'>
+                        <li><a href='mytorrents.php'>{$lang['gl_mytorrents']}</a></li>
+                        <li><a href='friends.php'>{$lang['gl_myfriends']}</a></li>
+                        <li><a href='users.php'>{$lang['gl_search_members']}</a></li>
+                        <li><a href='invite.php'>{$lang['gl_lnk_inv']}</a>
+                        {$lang['gl_lnk_enter']}
+                        <li><a href='tenpercent.php'>{$lang['gl_lnk_life']}</a></li>
+                        <li><a href='topmoods.php'>{$lang['gl_lnk_top']}</a></li>
+                        <li><a href='lottery.php'>{$lang['gl_lnk_lott']}</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href='#'>Staff</a>
+                        <ul class='menu vertical nested'>
+                            <li>" . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "<a class='brand' href='" . $TRINITY20['baseurl'] . "/bugs.php?action=add'>{$lang['gl_breport']}</a>" : "<a class='brand' href='" . $TRINITY20['baseurl'] . "/bugs.php?action=bugs'>{$lang['gl_brespond']}</a>") . "</li>
+                            <li> " . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "<a class='brand' href='" . $TRINITY20['baseurl'] . "/contactstaff.php'>{$lang['gl_cstaff']}</a>" : "<a class='brand' href='" . $TRINITY20['baseurl'] . "/staffbox.php'>{$lang['gl_smessages']}</a>") . "</li>
+                            " . (isset($CURUSER) && $CURUSER['class'] >= UC_STAFF ? "<li><a href='" . $TRINITY20['baseurl'] . "/staffpanel.php'>{$lang['gl_admin']}</a></li>" : "") . "
+                            " . (isset($CURUSER) && $CURUSER['class'] >= UC_STAFF ? "<li><a data-toggle='StaffPanel'>Quick Links</a></li>" : "") . "
+                        </ul>
+                </li>
+            </ul>
+            <ul class='vertical menu'>
+                <li class='off-canvas-menu-item'><a href='" . $TRINITY20['baseurl'] . "/forums.php'>{$lang['gl_forums']}</a></li>
+                <li><a href='#'><a href='{$TRINITY20['baseurl']}/help.php'>Help</a></a></li>
+                <li> <a href='" . $TRINITY20['baseurl'] . "/friends.php'>{$lang['gl_friends']}</a></li>
+                <li><a href='#' onclick='themes();'>{$lang['gl_theme']}</a></li></li>
+                <li><a href='#' onclick='language_select();'>{$lang['gl_language_select']}</a></li>
+                <li><a href='" . $TRINITY20['baseurl'] . "/logout.php?hash_please={$salty}'>{$lang['gl_logout']}</a></li>
+            </ul>
+            <ul class='vertical menu'>
+                <li><a class='hide-for-medium' href='" . $TRINITY20['baseurl'] . "/usercp.php?action=default'>{$lang['gl_usercp']}</a></li>
+                <li><a class='hide-for-medium' href='" . $TRINITY20['baseurl'] . "/pm_system.php'>{$lang['gl_pms']}</a></li>
+            </ul>
+            <ul class='menu simple social-links'>
+                <li><a href='https://github.com/iseeyoucopy/U-232-Trinity-RC'><i class='fab fa-github fa-lg'></i></a></li>
+            </ul>
+        </div>
+        <div class='off-canvas-content' data-off-canvas-content>
+            <div class='nav-bar' data-sticky data-off-canvas-sticky data-margin-top='0' style='width:100%; z-index: 100;'>
+                <div class='nav-bar-left'>
+                    <a href='" . $TRINITY20['baseurl'] . "/index.php' class='nav-bar-logo'><img class='logo' src='{$TRINITY20['pic_base_url']}logo.png'></a>
+                    <a class='button hollow small' data-toggle='profile-dropdown'>" . $CURUSER['username'] . "</a>
+                    <a class='hollow small button' data-toggle='alerts-dropdown'><i class='fas fa-bell'></i></a>";
+                    $htmlout.="
+                </div><!--  End navbar left -->
+                <div class='nav-bar-right'>
+                    <ul class='menu'>
+                        <li class='hide-for-small-only'></li>
+                        <li>
+                            <button class='offcanvas-trigger' type='button' data-open='offCanvasRight'>
+                                <span class='offcanvas-trigger-text hide-for-small-only'>Menu</span>
+                                <div class='hamburger'>
+                                    <span class='line'></span>
+                                    <span class='line'></span>
+                                    <span class='line'></span>
+                                </div>
+                            </button>
+                        </li>
+                    </ul>
+                </div><!--  End navbar right -->
+            </div><!--  End sticky navbar -->";
+            //** Start Quick stafftools canvas menu */
         if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_STAFFTOOLS && $BLOCKS['global_staff_tools_on'] && $CURUSER['class'] >= UC_STAFF) {
             require_once(BLOCK_DIR . 'global/staff_tools.php');
         }
-        $htmlout .= '<div class="grid-container">';
-        $htmlout .= subnav_header();
-        $htmlout .= StatusBar() . GlobalAlert();
+        //** End Quick StaffTools canvas menu */
+        $htmlout .= '
+        <div class="grid-container"><!--  Start main grid-container-->';
+            $htmlout.= "
+            <div class='off-canvas-wrapper'>
+            <div class='off-canvas-absolute position-right' id='profile-dropdown' data-off-canvas>
+            " . StatusBar() . "
+            </div>
+            <div class='off-canvas-absolute position-left' id='alerts-dropdown' data-off-canvas>";
+            if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_REPORTS && $BLOCKS['global_staff_report_on']) {
+                require_once(BLOCK_DIR . 'global/report.php');
+            }
+            if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_UPLOADAPP && $BLOCKS['global_staff_uploadapp_on']) {
+                require_once(BLOCK_DIR . 'global/uploadapp.php');
+            }
+            if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_HAPPYHOUR && $BLOCKS['global_happyhour_on']) {
+                require_once(BLOCK_DIR . 'global/happyhour.php');
+            }
+            if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_STAFF_MESSAGE && $BLOCKS['global_staff_warn_on']) {
+                require_once(BLOCK_DIR . 'global/staffmessages.php');
+            }
+            if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_DEMOTION && $BLOCKS['global_demotion_on']) {
+                require_once(BLOCK_DIR . 'global/demotion.php');
+            }
+
+            if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_FREELEECH && $BLOCKS['global_freeleech_on']) {
+                require_once(BLOCK_DIR . 'global/freeleech.php');
+            }
+
+            if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_CRAZYHOUR && $BLOCKS['global_crazyhour_on']) {
+                require_once(BLOCK_DIR . 'global/crazyhour.php');
+            }
+
+            if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_BUG_MESSAGE && $BLOCKS['global_bug_message_on']) {
+                require_once(BLOCK_DIR . 'global/bugmessages.php');
+            }
+            if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_FREELEECH_CONTRIBUTION && $BLOCKS['global_freeleech_contribution_on']) {
+                require_once(BLOCK_DIR . 'global/freeleech_contribution.php');
+            }
+            $htmlout .= "
+            </div>
+            <div class='off-canvas-content' data-off-canvas-content>
+            <header class='subnav-hero-section hide-for-small-only'>
+                <h1 class='subnav-hero-headline'>Trinity <small>by U-232 Team</small></h1>
+                <ul class='subnav-hero-subnav'>
+                    <li><a href='" . $TRINITY20['baseurl'] . "/index.php'>{$lang['gl_home']}</a></li>
+                    <li><a href='" . $TRINITY20['baseurl'] . "/browse.php'>{$lang['gl_torrents']}</a></li>
+                    <li><a href='" . $TRINITY20['baseurl'] . "/usercp.php?action=default'>{$lang['gl_usercp']}</a></li>
+                    <li><a href='" . $TRINITY20['baseurl'] . "/tv_guide.php'>Tv Guide</a></li>
+                    " . (isset($CURUSER) && $CURUSER['class'] >= UC_STAFF ? "<li><a data-toggle='StaffPanel'>Staff Links</a></li>" : "");
+                        $htmlout .= "<script type='text/javascript'>
+                            $(document).ready(function(){  
+                            $.ajax({
+                                type: 'GET',
+                                url: 'ajax.php',
+                                success: function(data){
+                                    $('#unread_m').append(data);
+                                }
+                            });
+                            setInterval(function(){//setInterval() method execute on every interval until called clearInterval()
+                                    $('#unread_m').load('ajax.php').fadeIn('slow');
+                                    //load() method fetch data from fetch.php page
+                                    }, 1000);    
+                            });
+                        </script>";
+                        $htmlout.="<li><a href='" . $TRINITY20['baseurl'] . "/pm_system.php'>{$lang['gl_pms']}<span class='badge warning' id='unread_m'></span></a></li>";
+                    $htmlout .="</ul>
+            </header>
+            </div>
+          </div>";
     }
     return $htmlout;
 }
 
 function stdfoot($stdfoot = false)
 {
-    global $CURUSER, $TRINITY20, $start, $query_stat, $cache, $querytime, $lang, $rc;
+    global $CURUSER, $TRINITY20, $start, $query_stat, $cache, $querytime, $lang;
     $user_id = isset($CURUSER['id']) ? $CURUSER['id'] : '';
     $debug = (SQL_DEBUG && in_array($user_id, $TRINITY20['allowed_staff']['id']) ? 1 : 0);
     $seconds = microtime(true) - $start;
@@ -118,7 +263,6 @@ function stdfoot($stdfoot = false)
     //== end class
     $htmlfoot = '';
     //== query stats
-    $htmlfoot .= '';
     if (!empty($stdfoot['js'])) {
         $htmlfoot .= '<!-- javascript goes here in footer -->';
         foreach ($stdfoot['js'] as $JS) $htmlfoot .= '
@@ -129,54 +273,59 @@ function stdfoot($stdfoot = false)
     if ($CURUSER) {
         if ($query_stat && $debug) {
             $htmlfoot .= "
-<div class='card'>
-	<div class='card-divider'>
-		<label for='checkbox_4' class='text-left'>{$lang['gl_stdfoot_querys']}</label>
-	</div>
-	<div class='card-section'>
-					<table class='table table-hover table-bordered'>
-						<thead>
-							<tr>
-								<th class='text-center'>{$lang['gl_stdfoot_id']}</th>
-								<th class='text-center'>{$lang['gl_stdfoot_qt']}</th>
-								<th class='text-center'>{$lang['gl_stdfoot_qs']}</th>
-							</tr>
-						</thead>";
-            foreach ($query_stat as $key => $value) {
-                $querytime += $value['seconds']; // query execution time
-                $htmlfoot .= "
-						<tbody>
-							<tr>
-								<td>" . ($key + 1) . "</td>
-								<td>" . ($value['seconds'] > 0.01 ? "
-								<span class='text-danger' title='{$lang['gl_stdfoot_ysoq']}'>" . $value['seconds'] . "</span>" : "
-								<span class='text-success' title='{$lang['gl_stdfoot_qg']}'>" . $value['seconds'] . "</span>") . "
-								</td>
-								<td>" . htmlsafechars($value['query']) . "<br /></td>
-							</tr>
-						</tbody>";
-            }
-            $htmlfoot .= '</table></div></div>';
+                <div class='card'>
+                    <div class='card-divider'>
+		                <label>{$lang['gl_stdfoot_querys']}</label>
+	                </div>
+	                <div class='card-section'>
+					    <table class='table'>
+						    <thead>
+							    <tr>
+                                    <th>{$lang['gl_stdfoot_id']}</th>
+                                    <th>{$lang['gl_stdfoot_qt']}</th>
+                                    <th>{$lang['gl_stdfoot_qs']}</th>
+                                </tr>
+                            </thead>";
+                            foreach ($query_stat as $key => $value) {
+                                $querytime += $value['seconds']; // query execution time
+                                $htmlfoot .= "
+                            <tbody>
+                                <tr>
+                                    <td>" . ($key + 1) . "</td>
+                                    <td>" . ($value['seconds'] > 0.01 ? "
+                                        <span class='text-danger' title='{$lang['gl_stdfoot_ysoq']}'>" . $value['seconds'] . "</span>" : "
+                                        <span class='text-success' title='{$lang['gl_stdfoot_qg']}'>" . $value['seconds'] . "</span>") . "
+                                    </td>
+                                    <td>" . htmlsafechars($value['query']) . "</td>
+                                </tr>
+                            </tbody>";
         }
-        $htmlfoot .= "
+                        $htmlfoot .= '
+                        </table>
+                    </div>
+                </div>';
+    }
+                $htmlfoot .= "
 				<div class='callout primary float-left'>
-				" . $TRINITY20['site_name'] . " {$lang['gl_stdfoot_querys_page']}" . $r_seconds . " {$lang['gl_stdfoot_querys_seconds']}<br />" . "
-				{$lang['gl_stdfoot_querys_server']}" . $queries . " {$lang['gl_stdfoot_querys_time']} " . ($queries != 1 ? "{$lang['gl_stdfoot_querys_times']}" : "") . "</br>
-				" . ($debug ? "{$lang['gl_stdfoot_uptime']} " . $uptime . "" : " ") . "
+				    " . $TRINITY20['site_name'] . " {$lang['gl_stdfoot_querys_page']}" . $r_seconds . " {$lang['gl_stdfoot_querys_seconds']}<br />" . "
+				    {$lang['gl_stdfoot_querys_server']}" . $queries . " {$lang['gl_stdfoot_querys_time']} " . ($queries != 1 ? "{$lang['gl_stdfoot_querys_times']}" : "") . "</br>
+				    " . ($debug ? "{$lang['gl_stdfoot_uptime']} " . $uptime . "" : " ") . "
 				</div>
 				<div class='callout primary float-right text-right'>
-				{$lang['gl_stdfoot_powered']}" . TBVERSION . "<br />
-				{$lang['gl_stdfoot_using']}{$lang['gl_stdfoot_using1']}<br />
-				{$lang['gl_stdfoot_support']}<a href='https://u-232-forum.duckdns.org'>{$lang['gl_stdfoot_here']}</a>";
-        $htmlfoot .= '</div></div></div><!--  End main outer container -->
-                     <!-- Ends Footer -->
-		             <!-- localStorage for collapse -->
-                     <script src="foundation/dist/assets/js/app.js"></script>
-					 <script src="templates/1/fontawesome/js/all.min.js"></script>';
+				    {$lang['gl_stdfoot_powered']}" . TBVERSION . "<br />
+				    {$lang['gl_stdfoot_using']}{$lang['gl_stdfoot_using1']}<br />
+                    {$lang['gl_stdfoot_support']}<a href='https://u-232-forum.duckdns.org'>{$lang['gl_stdfoot_here']}</a>
+                </div><!-- Ends Footer -->
+            </div><!--  End main outer container -->
+        </div><!--  End off-canvas-content -->
+		<!-- localStorage for collapse -->
+        <script src='foundation/dist/assets/js/app.js'></script>
+		<script src='templates/1/fontawesome/js/all.min.js'></script>";
     }
     $htmlfoot .= '</body></html>';
     return $htmlfoot;
 }
+
 function stdmsg($heading, $text)
 {
     $htmlout = "<div class='callout alert-callout-border alert'>";
@@ -186,6 +335,7 @@ function stdmsg($heading, $text)
     $htmlout .= "</div>";
     return $htmlout;
 }
+
 function StatusBar()
 {
     global $CURUSER, $TRINITY20, $lang, $rep_is_on, $cache, $mysqli, $msgalert, $keys;
@@ -226,7 +376,6 @@ function StatusBar()
         }
     } else
         $max = 999;
-    //==Memcache peers
     if (XBT_TRACKER == true) {
         if ($MyPeersXbtCache = $cache->get($keys['my_xbt_peers'] . $CURUSER['id']) === false) {
             $seed['yes'] = $seed['no'] = 0;
@@ -282,205 +431,25 @@ function StatusBar()
     }
     $hitnruns = ($CURUSER['hit_and_run_total'] > 0) ? $CURUSER['hit_and_run_total'] : '0';
     $member_reputation = get_reputation($CURUSER);
-    $usrclass = $StatusBar = "";
+    $usrclass = $htmlout = "";
     if ($CURUSER['override_class'] != 255) $usrclass = "&nbsp;<b>[" . get_user_class_name($CURUSER['class']) . "]</b>&nbsp;";
     else if ($CURUSER['class'] >= UC_STAFF) $usrclass = "&nbsp;<a href='" . $TRINITY20['baseurl'] . "/setclass.php'><b>[" . get_user_class_name($CURUSER['class']) . "]</b></a>&nbsp;";
-    $StatusBar .= '
-    <div class="off-canvas position-top" id="offCanvasRightSplit2" data-off-canvas data-transition="push">';
-    $StatusBar .= (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? get_user_class_name($CURUSER['class']) : $usrclass) . "
-		|| {$lang['gl_act_torrents']}&nbsp;:&nbsp; || " . ($TRINITY20['seedbonus_on'] ? "{$lang['gl_karma']}: <a href='" . $TRINITY20['baseurl'] . "/mybonus.php'>{$CURUSER['seedbonus']}</a>&nbsp;" : "") . "||
-		{$lang['gl_invites']}: <a href='" . $TRINITY20['baseurl'] . "/invite.php'>{$CURUSER['invites']}</a> | Free Slots: " . $CURUSER['freeslots'] . "||" . ($TRINITY20['rep_sys_on'] ? "{$lang['gl_rep']}:{$member_reputation}&nbsp;" : "") . "||{$lang['gl_shareratio']}" . member_ratio($CURUSER['uploaded'], $TRINITY20['ratio_free'] ? '0' : $CURUSER['downloaded']) . "||";
+    $htmlout .= "Welcome " . format_username($CURUSER) . "" . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "[" . get_user_class_name($CURUSER['class']) . "]" : $usrclass) . "
+    {$lang['gl_act_torrents']} :{$seed['yes']}<br>
+    " . ($TRINITY20['achieve_sys_on'] ? "{$lang['gl_achpoints']}&nbsp;<a href='./achievementhistory.php?id={$CURUSER['id']}'>" . (int) $Achievement_Points['achpoints'] . "</a>&nbsp;" : "") . "<br>
+    " . ($TRINITY20['seedbonus_on'] ? "{$lang['gl_karma']}: <a href='" . $TRINITY20['baseurl'] . "/mybonus.php'>{$CURUSER['seedbonus']}</a>" : "") . "<br>
+    {$lang['gl_invites']}: <a href='" . $TRINITY20['baseurl'] . "/invite.php'>{$CURUSER['invites']}</a><br>
+    Free Slots: " . $CURUSER['freeslots'] . "<br>
+    " . ($TRINITY20['rep_sys_on'] ? "{$lang['gl_rep']}:{$member_reputation}" : "") . "<br>
+    {$lang['gl_shareratio']}" . member_ratio($CURUSER['uploaded'], $TRINITY20['ratio_free'] ? '0' : $CURUSER['downloaded']) . "<br>";
 
     if ($TRINITY20['ratio_free']) {
-        $StatusBar .= "{$lang['gl_uploaded']}:" . $upped . "||";
+        $htmlout .= "{$lang['gl_uploaded']}:" . $upped . "<br>";
     } else {
-        $StatusBar .= "{$lang['gl_uploaded']}:{$upped}||
-		{$lang['gl_downloaded']}:{$downed}||
-		{$lang['gl_connectable']}:{$connectable}||";
+        $htmlout .= "{$lang['gl_uploaded']}:{$upped}<br>
+		{$lang['gl_downloaded']}:{$downed}<br>
+		{$lang['gl_connectable']}:{$connectable}<br>";
     }
-    $StatusBar .= "{$lang['gl_hnr']}: <a href='" . $TRINITY20['baseurl'] . "/hnr.php?id=" . $CURUSER['id'] . "'>{$hitnruns}</a>";
-    $StatusBar .= "
-    </div>";
-    return $StatusBar;
-}
-function GlobalAlert()
-{
-    global $CURUSER, $TRINITY20, $lang, $free, $_NO_COMPRESS, $query_stat, $querytime, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
-    $htmlout = '';
-    $htmlout .= '<div class="dropdown-pane padding-0" id="alerts-dropdown" data-dropdown data-close-on-click="true" data-auto-focus="true">';
-    if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_REPORTS && $BLOCKS['global_staff_report_on']) {
-        require_once(BLOCK_DIR . 'global/report.php');
-    }
-    if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_UPLOADAPP && $BLOCKS['global_staff_uploadapp_on']) {
-        require_once(BLOCK_DIR . 'global/uploadapp.php');
-    }
-    if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_HAPPYHOUR && $BLOCKS['global_happyhour_on']) {
-        require_once(BLOCK_DIR . 'global/happyhour.php');
-    }
-    if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_STAFF_MESSAGE && $BLOCKS['global_staff_warn_on']) {
-        require_once(BLOCK_DIR . 'global/staffmessages.php');
-    }
-    if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_DEMOTION && $BLOCKS['global_demotion_on']) {
-        require_once(BLOCK_DIR . 'global/demotion.php');
-    }
-
-    if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_FREELEECH && $BLOCKS['global_freeleech_on']) {
-        require_once(BLOCK_DIR . 'global/freeleech.php');
-    }
-
-    if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_CRAZYHOUR && $BLOCKS['global_crazyhour_on']) {
-        require_once(BLOCK_DIR . 'global/crazyhour.php');
-    }
-
-    if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_BUG_MESSAGE && $BLOCKS['global_bug_message_on']) {
-        require_once(BLOCK_DIR . 'global/bugmessages.php');
-    }
-    if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_FREELEECH_CONTRIBUTION && $BLOCKS['global_freeleech_contribution_on']) {
-        require_once(BLOCK_DIR . 'global/freeleech_contribution.php');
-    }
-    $htmlout .= '</div>';
-    return $htmlout;
-}
-function TopBar()
-{
-    global $CURUSER, $TRINITY20, $lang, $free, $_NO_COMPRESS, $query_stat, $querytime, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
-    $salty_username = isset($CURUSER['username']) ? "{$CURUSER['username']}" : '';
-    $salty = md5("Th15T3xtis5add3dto66uddy6he@water..." . $salty_username . "");
-    $htmlout = '';
-    $htmlout.= "
-    <div class='multilevel-offcanvas off-canvas position-right' id='offCanvasRight' data-off-canvas>
-    <ul class='vertical menu accordion-menu' data-accordion-menu>
-      <li><a href='#'>{$lang['gl_general']}</a>
-        <ul class='menu vertical nested'>
-            <li><a href='" . $TRINITY20['baseurl'] . "/topten.php'>{$lang['gl_stats']}</a></li>
-            <li><a href='" . $TRINITY20['baseurl'] . "/chat.php'>{$lang['gl_chat']}</a></li>
-            <li><a href='" . $TRINITY20['baseurl'] . "/staff.php'>{$lang['gl_staff']}</a></li>
-            <li><a href='" . $TRINITY20['baseurl'] . "/wiki.php'>{$lang['gl_wiki']}</a></li>
-            <li><a href='#' onclick='radio();'>{$lang['gl_radio']}</a></li>
-            <li><a class='hide-for-medium' href='" . $TRINITY20['baseurl'] . "/tv_guide.php'>Tv Guide</a></li>
-            <li><a href='" . $TRINITY20['baseurl'] . "/rsstfreak.php'>{$lang['gl_tfreak']}</a></li>
-            <li><a href='" . $TRINITY20['baseurl'] . "/sitepot.php'>{$lang['gl_sitepot']}</a></li>
-         </ul>
-      </li>
-      <li><a href='#'>{$lang['gl_torrent']}</a>
-        <ul class='menu vertical nested'>
-            <li><a class='hide-for-medium' href='" . $TRINITY20['baseurl'] . "/browse.php'>{$lang['gl_torrents']}</a></li>
-            <li><a href='" . $TRINITY20['baseurl'] . "/requests.php'>{$lang['gl_requests']}</a></li>
-            <li><a href='" . $TRINITY20['baseurl'] . "/offers.php'>{$lang['gl_offers']}</a></li>
-            <li><a href='" . $TRINITY20['baseurl'] . "/needseed.php?needed=seeders'>{$lang['gl_nseeds']}</a></li>" . (isset($CURUSER) && $CURUSER['class'] <= UC_VIP ? "
-            <li><a href='" . $TRINITY20['baseurl'] . "/uploadapp.php'>{$lang['gl_uapp']}</a></li> " : "
-            <li><a href='" . $TRINITY20['baseurl'] . "/upload.php'>{$lang['gl_upload']}</a></li>") . "" . (isset($CURUSER) && $CURUSER['class'] <= UC_VIP ? "" : "
-            <li><a href='" . $TRINITY20['baseurl'] . "/multiupload.php'>{$lang['gl_mupload']}</a></li>") . "
-            <li><a href='" . $TRINITY20['baseurl'] . "/bookmarks.php'>{$lang['gl_bookmarks']}</a></li>
-            <li><a href='" . $TRINITY20['baseurl'] . "/subtitle.php'>Subtitles</a></li>
-         </ul>
-       </li>
-       <li><a href='#'>{$lang['gl_games']}</a>
-       <ul class='menu vertical nested'>
-        <li><a href='" . $TRINITY20['baseurl'] . "/casino.php'>{$lang['gl_casino']}</a></li>
-        <li><a href='" . $TRINITY20['baseurl'] . "/blackjack.php'>{$lang['gl_bjack']}</a></li>
-         </ul>
-      </li>
-      <li><a href='#'>{$lang['gl_lnk_men']}</a>
-      <ul class='menu vertical nested'>
-      <li><a href='mytorrents.php'>{$lang['gl_mytorrents']}</a></li>
-      <li><a href='friends.php'>{$lang['gl_myfriends']}</a></li>
-      <li><a href='users.php'>{$lang['gl_search_members']}</a></li>
-      <li><a href='invite.php'>{$lang['gl_lnk_inv']}</a>
-      {$lang['gl_lnk_enter']}
-      <li><a href='tenpercent.php'>{$lang['gl_lnk_life']}</a></li>
-      <li><a href='topmoods.php'>{$lang['gl_lnk_top']}</a></li>
-      <li><a href='lottery.php'>{$lang['gl_lnk_lott']}</a></li>
-      </ul>
-      </li>
-      <li><a href='#'>Staff</a>
-        <ul class='menu vertical nested'>
-        <li>" . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "<a class='brand' href='" . $TRINITY20['baseurl'] . "/bugs.php?action=add'>{$lang['gl_breport']}</a>" : "<a class='brand' href='" . $TRINITY20['baseurl'] . "/bugs.php?action=bugs'>{$lang['gl_brespond']}</a>") . "</li>
-        <li> " . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "<a class='brand' href='" . $TRINITY20['baseurl'] . "/contactstaff.php'>{$lang['gl_cstaff']}</a>" : "<a class='brand' href='" . $TRINITY20['baseurl'] . "/staffbox.php'>{$lang['gl_smessages']}</a>") . "</li>
-        " . (isset($CURUSER) && $CURUSER['class'] >= UC_STAFF ? "<li><a href='" . $TRINITY20['baseurl'] . "/staffpanel.php'>{$lang['gl_admin']}</a></li>" : "") . "
-        " . (isset($CURUSER) && $CURUSER['class'] >= UC_STAFF ? "<li><a data-toggle='StaffPanel'>Quick Links</a></li>" : "") . "
-         </ul>
-       </li>
-     </ul>
-    <ul class='vertical menu'>
-      <li class='off-canvas-menu-item'><a href='" . $TRINITY20['baseurl'] . "/forums.php'>{$lang['gl_forums']}</a></li>
-      <li><a href='{$TRINITY20['baseurl']}/donate.php'>Donate</a></li>
-      <li><a href='#'><a href='{$TRINITY20['baseurl']}/help.php'>Help</a></a></li>
-      <li> <a href='" . $TRINITY20['baseurl'] . "/friends.php'>{$lang['gl_friends']}</a></li>
-      <li><a href='#' onclick='themes();'>{$lang['gl_theme']}</a></li></li>
-      <li><a href='#' onclick='language_select();'>{$lang['gl_language_select']}</a></li>
-      <li><a href='" . $TRINITY20['baseurl'] . "/logout.php?hash_please={$salty}'>{$lang['gl_logout']}</a></li>
-    </ul>
-    <ul class='vertical menu'>
-       <li><a class='hide-for-medium' href='" . $TRINITY20['baseurl'] . "/usercp.php?action=default'>{$lang['gl_usercp']}</a></li>
-       <li><a class='hide-for-medium' href='" . $TRINITY20['baseurl'] . "/pm_system.php'>{$lang['gl_pms']}</a></li>
-       <li><a href='#'>New link5</a></li>
-     </ul>
-    <ul class='menu simple social-links'>
-      <li><a href='https://github.com/iseeyoucopy/U-232-Trinity-RC'><i class='fab fa-github fa-lg'></i></a></li>
-      <li><a href='#' target='_blank'><i class='fab fa-facebook-square' aria-hidden='true'></i></a></li>
-      <li><a href='#' target='_blank'><i class='fab fa-github-square' aria-hidden='true'></i></a></li>
-      <li><a href='#' target='_blank'><i class='fab fa-google-plus-square' aria-hidden='true'></i></a></li>
-    </ul>
-  </div>
-  <div class='off-canvas-content' data-off-canvas-content>
-    <div class='nav-bar' data-sticky data-off-canvas-sticky data-margin-top='0'>
-        <div class='nav-bar-left'>
-        <a class='nav-bar-logo'><img class='logo' src='{$TRINITY20['pic_base_url']}logo.png'></a>
-        <a class='dropdown hollow small button' data-toggle='profile-dropdown'>" . $CURUSER['username'] . "</a>
-        <a class='button hollow small' data-toggle='offCanvasRightSplit2'>userstatus</a>
-        <a class='dropdown hollow small button' data-toggle='alerts-dropdown'><i class='fas fa-bell'></i></a>";
-        if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_NEWPM && $BLOCKS['global_message_on']) {
-            $htmlout .= "<script type='text/javascript'>
-            $(document).ready(function(){  
-                $.ajax({
-                    type: 'GET',
-                    url: 'ajax.php',
-                    success: function(data){
-                       $('#unread_m').append(data);
-                    }
-                });
-            setInterval(function(){//setInterval() method execute on every interval until called clearInterval()
-                    $('#unread_m').load('ajax.php').fadeIn('slow');
-                    //load() method fetch data from fetch.php page
-                   }, 1000);    
-            });
-            </script>";
-            //require_once(BLOCK_DIR . 'global/message.php');
-            $htmlout.="<a class='small hollow button' href='" . $TRINITY20['baseurl'] . "/pm_system.php'><i class='fas fa-envelope'></i><span class='badge warning' id='unread_m'></span></a>";
-        }
-        
-        $htmlout.="</div><div class='nav-bar-right'>
-          <ul class='menu'>
-          <li class='hide-for-small-only'></li>
-            <li>
-              <button class='offcanvas-trigger' type='button' data-open='offCanvasRight'>
-                <span class='offcanvas-trigger-text hide-for-small-only'>Menu</span>
-                <div class='hamburger'>
-                  <span class='line'></span>
-                  <span class='line'></span>
-                  <span class='line'></span>
-                </div>
-              </button>
-            </li>
-          </ul>
-      </div>
-    </div>";
-    return $htmlout;
-}
-function subnav_header() {
-    global $CURUSER, $TRINITY20, $lang;
-    $htmlout = "";
-    $htmlout.= "
-    <header class='subnav-hero-section hide-for-small-only'>
-    <h1 class='subnav-hero-headline'>Trinity <small>by U-232 Team</small></h1>
-    <ul class='subnav-hero-subnav'>
-        <li><a href='" . $TRINITY20['baseurl'] . "/index.php'>{$lang['gl_home']}</a></li>
-        <li><a href='" . $TRINITY20['baseurl'] . "/browse.php'>{$lang['gl_torrents']}</a></li>
-        <li><a href='" . $TRINITY20['baseurl'] . "/usercp.php?action=default'>{$lang['gl_usercp']}</a></li>
-        <li><a href='" . $TRINITY20['baseurl'] . "/tv_guide.php'>Tv Guide</a></li>
-        " . (isset($CURUSER) && $CURUSER['class'] >= UC_STAFF ? "<li><a data-toggle='StaffPanel'>Staff Links</a></li>" : "") . "
-        </ul>
-  </header>";
+    $htmlout .= "{$lang['gl_hnr']}: <a href='" . $TRINITY20['baseurl'] . "/hnr.php?id=" . $CURUSER['id'] . "'>{$hitnruns}</a>";
     return $htmlout;
 }
