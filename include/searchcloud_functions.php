@@ -52,8 +52,8 @@ function cloud()
     $tags = searchcloud();
     //amounts
     if (isset($tags)) {
-        $minimum_count = min(array_values($tags));
-        $maximum_count = max(array_values($tags));
+        if(!empty($tags)) $minimum_count = min(array_values($tags));
+        if(!empty($tags)) $maximum_count = max(array_values($tags));
         $spread = $maximum_count - $minimum_count;
         if ($spread == 0) {
             $spread = 1;
