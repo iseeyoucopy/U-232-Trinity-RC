@@ -146,7 +146,7 @@ if (isset($_GET["halfdown_success"]) && $_GET["halfdown_success"]) {
 	if ($halfdown_success == '2') {
 		$HTMLOUT .= "<table width='80%'><tr><td class='colhead' align='left' colspan='2'><h1>{$lang['bonus_success']}</h1></td></tr><tr>"
 			. "<td align='left' class='one'><img src='{$TRINITY20['pic_base_url']}smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'><span class='label label-success'>{$lang['bonus_congrats']}</span>"
-			. "{$CURUSER['username']}{$lang['bonus_matrack']}{$lang['bonus_halfdown11']} <img src='{$TRINITY20['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br />"
+			. "{$CURUSER['username']}{$lang['bonus_matrack']}{$lang['bonus_halfdown1']} <img src='{$TRINITY20['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br />"
 			. "<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />"
 			. "</td></tr></table>";
 		echo stdhead($CURUSER['username'] . $lang['bonus_user_kmbp'], true, $stdhead) . $HTMLOUT . stdfoot();

@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-if(XBT_TRACKER == true AND $TRINITY20['crazy_hour'] == true) {
+if(XBT_TRACKER == false AND $TRINITY20['crazy_hour'] == true) {
 function crazyhour()
 {
     global $CURUSER, $TRINITY20, $cache, $lang;
