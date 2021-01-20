@@ -59,17 +59,21 @@ $top_menu = '<p style="text-align: center;"><a class="altlink" href="requests.ph
 switch ($action) {
 case 'vote':
     //=== kill if nasty
-    if (!isset($id) || !is_valid_id($id) || !isset($vote) || !is_valid_id($vote)) stderr($lang['req_add_err3'], $lang['req_add_err4']);
+    if (!isset($id) || !is_valid_id($id) || !isset($vote) || !is_valid_id($vote)) {
+        stderr($lang['req_add_err3'], $lang['req_add_err4']);
+    }
     //=== see if they voted yet
-    $res_did_they_vote = sql_query('SELECT vote FROM request_votes WHERE user_id = ' . sqlesc($CURUSER['id']) . ' AND request_id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $row_did_they_vote = mysqli_fetch_row($res_did_they_vote);
+    $res_did_they_vote = $mysqli->query('SELECT vote FROM request_votes WHERE user_id = ' . sqlesc($CURUSER['id']) . ' AND request_id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    $row_did_they_vote = $res_did_they_vote->fetch_row();
     if ($row_did_they_vote[0] == '') {
         $yes_or_no = ($vote == 1 ? 'Yes' : 'No');
-        sql_query('INSERT INTO request_votes (request_id, user_id, vote) VALUES (' . sqlesc($id) . ', ' . sqlesc($CURUSER['id']) . ', ' . sqlesc($yes_or_no) . ')') or sqlerr(__FILE__, __LINE__);
-        sql_query('UPDATE requests SET ' . ($yes_or_no == 'Yes' ? 'vote_yes_count = vote_yes_count + 1' : 'vote_no_count = vote_no_count + 1') . ' WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+        $mysqli->query('INSERT INTO request_votes (request_id, user_id, vote) VALUES (' . sqlesc($id) . ', ' . sqlesc($CURUSER['id']) . ', ' . sqlesc($yes_or_no) . ')') or sqlerr(__FILE__, __LINE__);
+        $mysqli->query('UPDATE requests SET ' . ($yes_or_no == 'Yes' ? 'vote_yes_count = vote_yes_count + 1' : 'vote_no_count = vote_no_count + 1') . ' WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         header('Location: /requests.php?action=request_details&voted=1&id=' . sqlesc($id));
         die();
-    } else stderr($lang['req_add_err3'], $lang['req_add_err5']);
+    } else {
+        stderr($lang['req_add_err3'], $lang['req_add_err5']);
+    }
     break;
     //===========================================================================================//
     //=======================    the default page listing all the requests w/ pager         ===============================//
@@ -79,15 +83,17 @@ case 'default':
     require_once INCL_DIR . 'bbcode_functions.php';
     require_once INCL_DIR . 'pager_new.php';
     //=== get stuff for the pager
-    $count_query = sql_query('SELECT COUNT(id) FROM requests')  or sqlerr(__FILE__, __LINE__);
-    $count_arr = mysqli_fetch_row($count_query);
+    $count_query = $mysqli->query('SELECT COUNT(id) FROM requests')  or sqlerr(__FILE__, __LINE__);
+    $count_arr = $count_query->fetch_row();
     $count = $count_arr[0];
     $page = isset($_GET['page']) ? (int)$_GET['page'] : 0;
     $perpage = isset($_GET['perpage']) ? (int)$_GET['perpage'] : 20;
     list($menu, $LIMIT) = pager_new($count, $perpage, $page, 'requests.php?' . ($perpage == 20 ? '' : '&amp;perpage=' . $perpage));
-    $main_query_res = sql_query('SELECT r.id AS request_id, r.request_name, r.category, r.added, r.requested_by_user_id, r.filled_by_user_id, r.filled_torrent_id, r.vote_yes_count, r.vote_no_count, r.comments, u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.leechwarn, u.chatpost, u.pirate, u.king,
+    $main_query_res = $mysqli->query('SELECT r.id AS request_id, r.request_name, r.category, r.added, r.requested_by_user_id, r.filled_by_user_id, r.filled_torrent_id, r.vote_yes_count, r.vote_no_count, r.comments, u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.leechwarn, u.chatpost, u.pirate, u.king,
 c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT JOIN categories AS c ON r.category = c.id LEFT JOIN users AS u ON r.requested_by_user_id = u.id ORDER BY r.added DESC ' . $LIMIT) or sqlerr(__FILE__, __LINE__);
-    if ($count = 0) stderr($lang['error_error'], $lang['req_add_err6']);
+    if ($count = 0) {
+        stderr($lang['error_error'], $lang['req_add_err6']);
+    }
     $HTMLOUT.= (isset($_GET['new']) ? '<h1>'.$lang['req_add_adr'].'</h1>' : '') . (isset($_GET['request_deleted']) ? '<h1>'.$lang['req_add_delr'].'</h1>' : '') . $top_menu . '' . $menu . '<br />';
     $HTMLOUT.= '<table class="table table-hover table-bordered">
     <tr>
@@ -99,7 +105,7 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
         <td class="colhead" align="center">'.$lang['req_req_by'].'</td>
         <td class="colhead" align="center">'.$lang['req_filled'].'</td>
     </tr>';
-    while ($main_query_arr = mysqli_fetch_assoc($main_query_res)) {
+    while ($main_query_arr = $main_query_res->fetch_assoc()) {
         //=======change colors
         $count2 = (++$count2) % 2;
         $class = ($count2 == 0 ? 'one' : 'two');
@@ -121,13 +127,15 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
     break;
     //===========================================================================================//
     //==============================the details page for the request! ========================================//
-    //===========================================================================================//    
+    //===========================================================================================//
 case 'request_details':
     require_once INCL_DIR . 'bbcode_functions.php';
     require_once INCL_DIR . 'pager_new.php';
     //=== kill if nasty
-    if (!isset($id) || !is_valid_id($id)) stderr($lang['req_add_err3'], $lang['error_bad']);
-    $res = sql_query('SELECT r.id AS request_id, r.request_name, r.category, r.added, r.requested_by_user_id, r.filled_by_user_id, r.filled_torrent_id, r.vote_yes_count, 
+    if (!isset($id) || is_valid_id(!$id)) {
+        stderr($lang['req_add_err3'], $lang['error_bad']);
+    }
+    $res = $mysqli->query('SELECT r.id AS request_id, r.request_name, r.category, r.added, r.requested_by_user_id, r.filled_by_user_id, r.filled_torrent_id, r.vote_yes_count, 
                             r.vote_no_count, r.image, r.link, r.description, r.comments,
                             u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.uploaded, u.downloaded, u.leechwarn, u.chatpost, u.pirate, u.king,
                             c.name AS cat_name, c.image AS cat_image
@@ -135,29 +143,29 @@ case 'request_details':
                             LEFT JOIN categories AS c ON r.category = c.id
                             LEFT JOIN users AS u ON r.requested_by_user_id = u.id
                             WHERE r.id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     //=== see if they voted yet
-    $res_did_they_vote = sql_query('SELECT vote FROM request_votes WHERE user_id = ' . sqlesc($CURUSER['id']) . ' AND request_id = ' . sqlesc($id) or sqlerr(__FILE__, __LINE__));
-    $row_did_they_vote = mysqli_fetch_row($res_did_they_vote);
-    if (empty($row_did_they_vote)) {
-        $vote_yes = '<form method="post" action="requests.php">
+    $res_did_they_vote = $mysqli->query('SELECT vote FROM request_votes WHERE user_id = ' . sqlesc($CURUSER['id']) . ' AND request_id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+        $row_did_they_vote = $res_did_they_vote->fetch_row();
+            if (empty($row_did_they_vote)) {
+                $vote_yes = '<form method="post" action="requests.php">
                     <input type="hidden" name="action" value="vote" />
                     <input type="hidden" name="id" value="' . $id . '" />
                     <input type="hidden" name="vote" value="1" />
                     <input type="submit" class="button small" value='.$lang['req_det_voty'].'" onmouseout="this.className=\'button\'" />
                     </form>'.$lang['req_det_phr1'].'';
-        $vote_no = '<form method="post" action="requests.php">
+                $vote_no = '<form method="post" action="requests.php">
                     <input type="hidden" name="action" value="vote" />
                     <input type="hidden" name="id" value="' . $id . '" />
                     <input type="hidden" name="vote" value="2" />
                     <input type="submit" class="button small" value='.$lang['req_det_votn'].'" onmouseout="this.className=\'button\'" />
                     </form>'.$lang['req_det_phr2'].'';
-        $your_vote_was = '';
-    } else {
-        $vote_yes = '';
-        $vote_no = '';
-        $your_vote_was = $lang['req_det_votu'] . $row_did_they_vote[0] . ' ';
-    }
+                $your_vote_was = '';
+            } else {
+                $vote_yes = '';
+                $vote_no = '';
+                $your_vote_was = $lang['req_det_votu'] . $row_did_they_vote[0] . ' ';
+            }
     //=== start page
     $HTMLOUT.= (isset($_GET['voted']) ? '<h1>'.$lang['req_det_votadd'].'</h1>' : '') . (isset($_GET['comment_deleted']) ? '<h1>'.$lang['req_det_comdel'].'</h1>' : '') . $top_menu . '
   <table class="striped">
@@ -212,9 +220,9 @@ case 'request_details':
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 0;
         $perpage = isset($_GET['perpage']) ? (int)$_GET['perpage'] : 20;
         list($menu, $LIMIT) = pager_new($count, $perpage, $page, 'requests.php?action=request_details&amp;id=' . $id, ($perpage == 20 ? '' : '&amp;perpage=' . $perpage) . '#comments');
-        $subres = sql_query('SELECT c.request, c.id AS comment_id, c.text, c.added, c.editedby, c.editedat, u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.avatar, u.offensive_avatar, u.leechwarn, u.chatpost, u.pirate, u.king, u.title FROM comments AS c LEFT JOIN users AS u ON c.user = u.id WHERE c.request = ' . sqlesc($id) . ' ORDER BY c.id ' . $LIMIT) or sqlerr(__FILE__, __LINE__);
+        $subres = $mysqli->query('SELECT c.request, c.id AS comment_id, c.text, c.added, c.editedby, c.editedat, u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.avatar, u.offensive_avatar, u.leechwarn, u.chatpost, u.pirate, u.king, u.title FROM comments AS c LEFT JOIN users AS u ON c.user = u.id WHERE c.request = ' . sqlesc($id) . ' ORDER BY c.id ' . $LIMIT) or sqlerr(__FILE__, __LINE__);
         $allrows = array();
-        while ($subrow = mysqli_fetch_assoc($subres)) $allrows[] = $subrow;
+        while ($subrow = $subres->fetch_assoc()) $allrows[] = $subrow;
         $HTMLOUT.= $commentbar . '<a name="comments"></a>';
         $HTMLOUT.= ($count > $perpage) ? '' . $menu . '<br />' : '<br />';
         $HTMLOUT.= comment_table($allrows);
@@ -241,16 +249,16 @@ case 'add_new_request':
     }
     $category_drop_down.= '</select>';
     if (isset($_POST['category'])) {
-        $cat_res = sql_query('SELECT id AS cat_id, name AS cat_name, image AS cat_image FROM categories WHERE id = ' . sqlesc($category)) or sqlerr(__FILE__, __LINE__);
-        $cat_arr = mysqli_fetch_assoc($cat_res);
+        $cat_res = $mysqli->query('SELECT id AS cat_id, name AS cat_name, image AS cat_image FROM categories WHERE id = ' . sqlesc($category)) or sqlerr(__FILE__, __LINE__);
+        $cat_arr = $cat_res->fetch_assoc();
         $cat_image = htmlsafechars($cat_arr['cat_image'], ENT_QUOTES);
         $cat_name = htmlsafechars($cat_arr['cat_name'], ENT_QUOTES);
     }
     //=== if posted and not preview, process it :D
     if (isset($_POST['button']) && $_POST['button'] == $lang['req_det_sbmt']) {
-        sql_query('INSERT INTO requests (request_name, image, description, category, added, requested_by_user_id, link) VALUES 
+        $mysqli->query('INSERT INTO requests (request_name, image, description, category, added, requested_by_user_id, link) VALUES 
                     (' . sqlesc($request_name) . ', ' . sqlesc($image) . ', ' . sqlesc($body) . ', ' . sqlesc($category) . ', ' . TIME_NOW . ', ' . sqlesc($CURUSER['id']) . ',  ' . sqlesc($link) . ');') or sqlerr(__FILE__, __LINE__);
-        $new_request_id = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+        $new_request_id = $mysqli->insert_id;
         header('Location: requests.php?action=request_details&new=1&id=' . $new_request_id);
         die();
     }
@@ -338,17 +346,17 @@ case 'add_new_request':
     
 case 'delete_request':
     if (!isset($id) || !is_valid_id($id)) stderr($lang['error_error'], $lang['error_bad']);
-    $res = sql_query('SELECT request_name, requested_by_user_id FROM requests WHERE id =' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $res = $mysqli->query('SELECT request_name, requested_by_user_id FROM requests WHERE id =' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    $arr = $res->fetch_assoc();
     if (!$arr) stderr($lang['error_error'], $lang['error_invalid']);
     if ($arr['requested_by_user_id'] !== $CURUSER['id'] && $CURUSER['class'] < UC_STAFF) stderr($lang['error_error'], $lang['req_add_err8']);
     if (!isset($_GET['do_it'])) {
         stderr($lang['req_add_warn1'], $lang['req_add_warn2'] . htmlsafechars($arr['request_name'], ENT_QUOTES) . ''.$lang['req_add_warn3'].' 
         <a class="altlink" href="requests.php?action=delete_request&amp;id=' . $id . '&amp;do_it=666" >'.$lang['req_add_warn4'].'</a>.');
     } else {
-        sql_query('DELETE FROM requests WHERE id=' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-        sql_query('DELETE FROM request_votes WHERE request_id =' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-        sql_query('DELETE FROM comments WHERE request =' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+        $mysqli->query('DELETE FROM requests WHERE id=' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+        $mysqli->query('DELETE FROM request_votes WHERE request_id =' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+        $mysqli->query('DELETE FROM comments WHERE request =' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         header('Location: /requests.php?request_deleted=1');
         die();
     }
@@ -361,13 +369,13 @@ case 'delete_request':
 case 'edit_request':
     require_once INCL_DIR . 'bbcode_functions.php';
     if (!isset($id) || !is_valid_id($id)) stderr($lang['error_error'], $lang['error_bad']);
-    $edit_res = sql_query('SELECT request_name, image, description, category, requested_by_user_id, filled_by_user_id, filled_torrent_id, link FROM requests WHERE id =' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $edit_arr = mysqli_fetch_assoc($edit_res);
+    $edit_res = $mysqli->query('SELECT request_name, image, description, category, requested_by_user_id, filled_by_user_id, filled_torrent_id, link FROM requests WHERE id =' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    $edit_arr = $edit_res->fetch_assoc();
     if ($CURUSER['class'] < UC_STAFF && $CURUSER['id'] !== $edit_arr['requested_by_user_id']) stderr($lang['error_error'], $lang['error_not_yours']);
     $filled_by = '';
     if ($edit_arr['filled_by_user_id'] > 0) {
-        $filled_by_res = sql_query('SELECT id, username, warned, suspended, enabled, leechwarn, chatpost, pirate, king, donor, class FROM users WHERE id =' . sqlesc($edit_arr['filled_by_user_id'])) or sqlerr(__FILE__, __LINE__);
-        $filled_by_arr = mysqli_fetch_assoc($edit_res);
+        $filled_by_res = $mysqli->query('SELECT id, username, warned, suspended, enabled, leechwarn, chatpost, pirate, king, donor, class FROM users WHERE id =' . sqlesc($edit_arr['filled_by_user_id'])) or sqlerr(__FILE__, __LINE__);
+        $filled_by_arr = $edit_res->fetch_assoc();
         $filled_by = 'this request was filled by ' . print_user_stuff($filled_by_arr);
     }
     $request_name = strip_tags(isset($_POST['request_name']) ? trim($_POST['request_name']) : $edit_arr['request_name']);
@@ -382,14 +390,14 @@ case 'edit_request':
         $category_drop_down.= '<option class="body" value="' . (int)$row['id'] . '"' . ($category == $row['id'] ? ' selected="selected""' : '') . '>' . htmlsafechars($row['name'], ENT_QUOTES) . '</option>';
     }
     $category_drop_down.= '</select>';
-    $cat_res = sql_query('SELECT id AS cat_id, name AS cat_name, image AS cat_image FROM categories WHERE id = ' . sqlesc($category)) or sqlerr(__FILE__, __LINE__);
-    $cat_arr = mysqli_fetch_assoc($cat_res);
+    $cat_res = $mysqli->query('SELECT id AS cat_id, name AS cat_name, image AS cat_image FROM categories WHERE id = ' . sqlesc($category)) or sqlerr(__FILE__, __LINE__);
+    $cat_arr = $cat_res->fetch_assoc();
     $cat_image = htmlsafechars($cat_arr['cat_image'], ENT_QUOTES);
     $cat_name = htmlsafechars($cat_arr['cat_name'], ENT_QUOTES);
     //=== if posted and not preview, process it :D
     if (isset($_POST['button']) && $_POST['button'] == $lang['req_det_edit']) {
         $remove_or_not = (isset($_POST['filled_by']) ? ' filled_by_user_id = 0, filled_torrent_id = 0' : '');
-        sql_query('UPDATE requests SET request_name = ' . sqlesc($request_name) . ', image = ' . sqlesc($image) . ', description = ' . sqlesc($body) . ', 
+        $mysqli->query('UPDATE requests SET request_name = ' . sqlesc($request_name) . ', image = ' . sqlesc($image) . ', description = ' . sqlesc($body) . ', 
                     category = ' . sqlesc($category) . ', link = ' . sqlesc($link) . $remove_or_not . ' WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         header('Location: requests.php?action=request_details&edited=1&id=' . $id);
         die();
@@ -481,15 +489,15 @@ case 'add_comment':
     require_once INCL_DIR . 'pager_new.php';
     //=== kill if nasty
     if (!isset($id) || !is_valid_id($id)) stderr($lang['req_add_err3'], $lang['error_bad']);
-    $res = sql_query('SELECT request_name FROM requests WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $res = $mysqli->query('SELECT request_name FROM requests WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    $arr = $res->fetch_assoc();
     if (!$arr) stderr($lang['req_add_err3'], $lang['error_error1']);
     if (isset($_POST['button']) && $_POST['button'] == $lang['req_det_save']) {
         $body = strip_tags(trim($_POST['descr']));
         if (!$body) stderr($lang['req_add_err3'], $lang['error_error2']);
-        sql_query("INSERT INTO comments (user, request, added, text, ori_text) VALUES (" . sqlesc($CURUSER['id']) . ", " . sqlesc($id) . ", " . TIME_NOW . ", " . sqlesc($body) . "," . sqlesc($body) . ")") or sqlerr(__FILE__, __LINE__);
-        $newid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
-        sql_query('UPDATE requests SET comments = comments + 1 WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+        $mysqli->query("INSERT INTO comments (user, request, added, text, ori_text) VALUES (" . sqlesc($CURUSER['id']) . ", " . sqlesc($id) . ", " . TIME_NOW . ", " . sqlesc($body) . "," . sqlesc($body) . ")") or sqlerr(__FILE__, __LINE__);
+        $newid = $mysqli->insert_id;
+        $mysqli->query('UPDATE requests SET comments = comments + 1 WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         header('Location: /requests.php?action=request_details&id=' . $id . '&viewcomm=' . $newid . '#comm' . $newid);
         die();
     }
@@ -503,10 +511,10 @@ case 'add_comment':
 	<b>'.$lang['req_det_comnt'].'</b>'. textbbcode('requests','descr').'
     <input name="button" type="submit" class="button small" value="'.$lang['req_det_prvw'].'"> 
     <input name="button" type="submit" class="button small" value="'.$lang['req_det_save'].'"></form>';
-    $res = sql_query('SELECT c.request, c.id AS comment_id, c.text, c.added, c.editedby, c.editedat, 
+    $res = $mysqli->query('SELECT c.request, c.id AS comment_id, c.text, c.added, c.editedby, c.editedat, 
                                 u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.avatar, u.offensive_avatar, u.title, u.leechwarn, u.chatpost, u.pirate,  u.king FROM comments AS c LEFT JOIN users AS u ON c.user = u.id WHERE request = ' . sqlesc($id) . ' ORDER BY c.id DESC LIMIT 5') or sqlerr(__FILE__, __LINE__);
     $allrows = array();
-    while ($row = mysqli_fetch_assoc($res)) $allrows[] = $row;
+    while ($row = $res->fetch_assoc()) $allrows[] = $row;
     if (count($allrows)) {
         $HTMLOUT.= '<h2>'.$lang['req_det_most'].'</h2>';
         $HTMLOUT.= comment_table($allrows);
@@ -520,22 +528,22 @@ case 'add_comment':
 case 'edit_comment':
     require_once INCL_DIR . 'bbcode_functions.php';
     if (!isset($comment_id) || !is_valid_id($comment_id)) stderr($lang['error_error'], $lang['error_bad']);
-    $res = sql_query('SELECT c.*, r.request_name FROM comments AS c LEFT JOIN requests AS r ON c.request = r.id WHERE c.id=' . sqlesc($comment_id)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $res = $mysqli->query('SELECT c.*, r.request_name FROM comments AS c LEFT JOIN requests AS r ON c.request = r.id WHERE c.id=' . sqlesc($comment_id)) or sqlerr(__FILE__, __LINE__);
+    $arr = $res->fetch_assoc();
     if (!$arr) stderr($lang['error_error'], $lang['error_invalid']);
     if ($arr['user'] != $CURUSER['id'] && $CURUSER['class'] < UC_STAFF) stderr($lang['error_error'], $lang['req_add_err8']);
     $body = htmlsafechars((isset($_POST['descr']) ? $_POST['descr'] : $arr['text']));
     if (isset($_POST['button']) && $_POST['button'] == $lang['req_det_edit']) {
         if ($body == '') stderr($lang['error_error'], $lang['error_error2']);
-        sql_query('UPDATE comments SET text=' . sqlesc($body) . ', editedat=' . TIME_NOW . ', editedby=' . sqlesc($CURUSER['id']) . ' WHERE id=' . sqlesc($comment_id)) or sqlerr(__FILE__, __LINE__);
+        $mysqli->query('UPDATE comments SET text=' . sqlesc($body) . ', editedat=' . TIME_NOW . ', editedby=' . sqlesc($CURUSER['id']) . ' WHERE id=' . sqlesc($comment_id)) or sqlerr(__FILE__, __LINE__);
         header('Location: /requests.php?action=request_details&id=' . $id . '&viewcomm=' . $comment_id . '#comm' . $comment_id);
         die();
     }
     if ($CURUSER['id'] == $arr['user']) {
         $avatar = avatar_stuff($CURUSER);
     } else {
-        $res_user = sql_query('SELECT avatar, offensive_avatar, view_offensive_avatar FROM users WHERE id=' . sqlesc($arr['user'])) or sqlerr(__FILE__, __LINE__);
-        $arr_user = mysqli_fetch_assoc($res_user);
+        $res_user = $mysqli->query('SELECT avatar, offensive_avatar, view_offensive_avatar FROM users WHERE id=' . sqlesc($arr['user'])) or sqlerr(__FILE__, __LINE__);
+        $arr_user = $res_user->fetch_assoc();
         $avatar = avatar_stuff($arr_user);
     }
     $HTMLOUT.= $top_menu . '<form method="post" action="requests.php?action=edit_comment">
@@ -570,15 +578,15 @@ case 'edit_comment':
     
 case 'delete_comment':
     if (!isset($comment_id) || !is_valid_id($comment_id)) stderr($lang['error_error'], $lang['error_bad']);
-    $res = sql_query('SELECT user, request FROM comments WHERE id=' . $comment_id) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $res = $mysqli->query('SELECT user, request FROM comments WHERE id=' . $comment_id) or sqlerr(__FILE__, __LINE__);
+    $arr = $res->fetch_assoc();
     if (!$arr) stderr($lang['error_error'], $lang['error_invalid']);
     if ($arr['user'] != $CURUSER['id'] && $CURUSER['class'] < UC_STAFF) stderr($lang['error_error'], $lang['req_add_err8']);
     if (!isset($_GET['do_it'])) {
         stderr($lang['req_add_warn1'], ''.$lang['req_com_del1'].' <a class="altlink" href="requests.php?action=delete_comment&amp;id=' . (int)$arr['request'] . '&amp;comment_id=' . $comment_id . '&amp;do_it=666" >'.$lang['req_add_warn4'].'</a>.');
     } else {
-        sql_query('DELETE FROM comments WHERE id=' . sqlesc($comment_id)) or sqlerr(__FILE__, __LINE__);
-        sql_query('UPDATE requests SET comments = comments - 1 WHERE id = ' . sqlesc($arr['request'])) or sqlerr(__FILE__, __LINE__);
+        $mysqli->query('DELETE FROM comments WHERE id=' . sqlesc($comment_id)) or sqlerr(__FILE__, __LINE__);
+        $mysqli->query('UPDATE requests SET comments = comments - 1 WHERE id = ' . sqlesc($arr['request'])) or sqlerr(__FILE__, __LINE__);
         header('Location: /requests.php?action=request_details&id=' . $id . '&comment_deleted=1');
         die();
     }
@@ -588,7 +596,7 @@ case 'delete_comment':
 function comment_table($rows)
 {
     $count2 = '';
-    global $CURUSER, $TRINITY20;
+    global $CURUSER, $TRINITY20, $mysqli;
     $comment_table = '<table class="table table-hover table-bordered">
     <tr>
     <td class="three" align="center">';
@@ -598,8 +606,8 @@ function comment_table($rows)
         $class = ($count2 == 0 ? 'one' : 'two');
         $text = format_comment($row['text']);
         if ($row['editedby']) {
-            $res_user = sql_query('SELECT username FROM users WHERE id=' . sqlesc($row['editedby'])) or sqlerr(__FILE__, __LINE__);
-            $arr_user = mysqli_fetch_assoc($res_user);
+            $res_user = $mysqli->query('SELECT username FROM users WHERE id=' . sqlesc($row['editedby'])) or sqlerr(__FILE__, __LINE__);
+            $arr_user = $res_user->fetch_assoc();
             $text.= '<p><font size="1" class="small">Last edited by <a href="userdetails.php?id=' . (int)$row['editedby'] . '"><b>' . htmlsafechars($arr_user['username']) . '</b></a> at ' . get_date($row['editedat'], 'DATE') . '</font></p>';
         }
         $top_comment_stuff = (int)$row['comment_id'] . ' by ' . (isset($row['username']) ? print_user_stuff($row) . ($row['title'] !== '' ? ' [ ' . htmlsafechars($row['title']) . ' ] ' : ' [ ' . get_user_class_name($row['class']) . ' ]  ') : ' M.I.A. ') . get_date($row['added'], '') . ($row['id'] == $CURUSER['id'] || $CURUSER['class'] >= UC_STAFF ? '
