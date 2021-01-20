@@ -13,7 +13,7 @@ loggedinorreturn();
 $result = sql_query("SELECT COUNT(id) FROM messages WHERE receiver = " . sqlesc($CURUSER['id']) . "  AND unread = 'yes' AND location = '1'") or sqlerr(__FILE__, __LINE__);
 $htmlout = '';
 if (isset($unread_m) && !empty($unread_m)) {
-    $htmlout .= $unread_m;
+    $htmlout .= "<span class='badge warning'>" . $unread_m . "</span>";
 }
  echo $htmlout;
 ?>

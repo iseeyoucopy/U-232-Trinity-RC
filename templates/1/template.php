@@ -236,7 +236,7 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
                                     }, 1000);    
                             });
                         </script>";
-                        $htmlout.="<li><a href='" . $TRINITY20['baseurl'] . "/pm_system.php'>{$lang['gl_pms']}<span class='badge warning' id='unread_m'></span></a></li>";
+                        $htmlout.="<li><a href='" . $TRINITY20['baseurl'] . "/pm_system.php'>{$lang['gl_pms']}<span id='unread_m'></span></a></li>";
                     $htmlout .="</ul>
             </header>
             </div>
@@ -432,7 +432,8 @@ function StatusBar()
     $hitnruns = ($CURUSER['hit_and_run_total'] > 0) ? $CURUSER['hit_and_run_total'] : '0';
     $member_reputation = get_reputation($CURUSER);
     $usrclass = $htmlout = "";
-    if ($CURUSER['override_class'] != 255) $usrclass = "&nbsp;<b>[" . get_user_class_name($CURUSER['class']) . "]</b>&nbsp;";
+    if ($CURUSER['override_class'] != 255) 
+    $usrclass = "&nbsp;<b>[" . get_user_class_name($CURUSER['class']) . "]</b>&nbsp;";
     else if ($CURUSER['class'] >= UC_STAFF) $usrclass = "&nbsp;<a href='" . $TRINITY20['baseurl'] . "/setclass.php'><b>[" . get_user_class_name($CURUSER['class']) . "]</b></a>&nbsp;";
     $htmlout .= "Welcome " . format_username($CURUSER) . "" . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "[" . get_user_class_name($CURUSER['class']) . "]" : $usrclass) . "
     {$lang['gl_act_torrents']} :{$seed['yes']}<br>
