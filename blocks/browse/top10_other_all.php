@@ -17,8 +17,8 @@ foreach ($categorie as $key => $value) $change[$value['id']] = array(
     'image' => $value['image']
 );
 if (($top10others = $cache->get('top10_other_')) === false) {
-    $res = sql_query("SELECT id, times_completed, seeders, leechers, name, category from torrents WHERE category IN (".join(", ",$TRINITY20['other_cats']).") ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}") or sqlerr(__FILE__, __LINE__);
-    while ($top10other = mysqli_fetch_assoc($res)) 
+    $res_other = sql_query("SELECT id, times_completed, seeders, leechers, name, category from torrents WHERE category IN (".join(", ",$TRINITY20['other_cats']).") ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}") or sqlerr(__FILE__, __LINE__);
+    while ($top10other = mysqli_fetch_assoc($res_other)) 
 		$top10others[] = $top10other;
     $cache->set('top10_other_', $top10others);
 }

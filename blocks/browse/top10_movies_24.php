@@ -19,8 +19,8 @@ foreach ($categorie as $key => $value) $change[$value['id']] = array(
 
 if (($top10movies24 = $cache->get('top10_mov_24_')) === false) {
     $tortime24movie = $_SERVER['REQUEST_TIME'] - 86400;
-    $res = sql_query("SELECT id, times_completed, seeders, poster, leechers, name, category from torrents WHERE last_action >= {$tortime24movie} AND category IN (".join(", ",$TRINITY20['movie_cats']).") ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}") or sqlerr(__FILE__, __LINE__);
-    while ($top10movie24 = mysqli_fetch_assoc($res)) 
+    $res_m24 = sql_query("SELECT id, times_completed, seeders, poster, leechers, name, category from torrents WHERE last_action >= {$tortime24movie} AND category IN (".join(", ",$TRINITY20['movie_cats']).") ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}") or sqlerr(__FILE__, __LINE__);
+    while ($top10movie24 = mysqli_fetch_assoc($res_m24)) 
 		$top10movies24[] = $top10movie24;
     $cache->set('top10_mov_24_', $top10movies24);
 }
