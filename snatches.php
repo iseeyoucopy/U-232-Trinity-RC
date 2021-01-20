@@ -42,27 +42,35 @@ $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "snatches.php?id=$id&amp;");
 if (!$count) stderr("No snatches", "It appears that there are currently no snatches for the torrent <a href='details.php?id=" . (int)$arr['id'] . "'>" . htmlsafechars($arr['name']) . "</a>.");
-$HTMLOUT.= "<h1>Snatches for torrent <a href='{$TRINITY20['baseurl']}/details.php?id=" . (int)$arr['id'] . "'>" . htmlsafechars($arr['name']) . "</a></h1>\n";
-$HTMLOUT.= "<h2>Currently {$row['0']} snatch" . ($row[0] == 1 ? "" : "es") . "</h2>\n";
+$HTMLOUT.= "
+<div class='grid-x grid-paddinx-x'>
+  <div class='card'>
+    <div class='card-divider'>
+      <p>Snatches for torrent <a href='{$TRINITY20['baseurl']}/details.php?id=" . (int)$arr['id'] . "'><span class='label secondary'>" . htmlsafechars($arr['name']) . "</span></a></p>
+    </div>
+    <div class='card-section'>
+    <span class='label'>Currently <span class='badge success'>{$row['0']}</span> snatch" . ($row[0] == 1 ? "" : "es") . "</span>";
 if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
-$HTMLOUT.= "<table class='table table-bordered'>
+$HTMLOUT.= "
+<div class='table-scroll'>
+<table class='striped'>
 <tr>
-<td class='colhead' align='left'>{$lang['snatches_username']}</td>
-<td class='colhead' align='center'>{$lang['snatches_connectable']}</td>
-<td class='colhead' align='right'>{$lang['snatches_uploaded']}</td>
-<td class='colhead' align='right'>{$lang['snatches_upspeed']}</td>
-" . ($TRINITY20['ratio_free'] ? "" : "<td class='colhead' align='right'>{$lang['snatches_downloaded']}</td>") . "
-" . ($TRINITY20['ratio_free'] ? "" : "<td class='colhead' align='right'>{$lang['snatches_downspeed']}</td>") . "
-<td class='colhead' align='right'>{$lang['snatches_ratio']}</td>
-<td class='colhead' align='right'>{$lang['snatches_completed']}</td>
-<td class='colhead' align='right'>{$lang['snatches_seedtime']}</td>
-<td class='colhead' align='right'>{$lang['snatches_leechtime']}</td>
-<td class='colhead' align='center'>{$lang['snatches_lastaction']}</td>
-<td class='colhead' align='center'>{$lang['snatches_completedat']}</td>
-<td class='colhead' align='center'>{$lang['snatches_client']}</td>
-<td class='colhead' align='center'>{$lang['snatches_port']}</td>
-<td class='colhead' align='center'>{$lang['snatches_announced']}</td>
-</tr>\n";
+<td class='text-center'>{$lang['snatches_username']}</td>
+<td class='text-center'><i class='fas fa-link' title='{$lang['snatches_connectable']}'></i></td>
+<td class='text-center'><i class='fas fa-upload' title='{$lang['snatches_uploaded']}'></i></td>
+<td class='text-center'><i class='fas fa-tachometer-alt' title='{$lang['snatches_upspeed']}'></i></td>
+" . ($TRINITY20['ratio_free'] ? "" : "<td class='text-center'><i class='fas fa-download' title='{$lang['snatches_downloaded']}'></i></td>") . "
+" . ($TRINITY20['ratio_free'] ? "" : "<td class='text-center'><i class='fas fa-tachometer-alt' title='{$lang['snatches_downspeed']}'></i></td>") . "
+<td class='text-center'><i class='fa fa-percentage' title='{$lang['snatches_ratio']}'></i></td>
+<td class='text-center'>{$lang['snatches_completed']}</td>
+<td class='text-center'><i class='fas fa-user-clock' title='{$lang['snatches_seedtime']}'></i></td>
+<td class='text-center'><i class='fas fa-user-clock' title='{$lang['snatches_leechtime']}'></i></td>
+<td class='text-center'>{$lang['snatches_lastaction']}</td>
+<td class='text-center'>{$lang['snatches_completedat']}</td>
+<td class='text-center'><i class='fab fa-app-store-ios' title='{$lang['snatches_client']}'></i></td>
+<td class='text-center'>{$lang['snatches_port']}</td>
+<td class='text-center'><i class='fa fa-bullhorn' title='{$lang['snatches_announced']}'></i></td>
+</tr>";
 $res = sql_query("SELECT s.*, s.userid AS su, torrents.username as username1, users.username as username2, torrents.anonymous as anonymous1, users.anonymous as anonymous2, size, parked, warned, enabled, class, chatpost, leechwarn, donor, timesann, owner FROM snatched AS s INNER JOIN users ON s.userid = users.id INNER JOIN torrents ON s.torrentid = torrents.id WHERE complete_date !=0 AND torrentid = " . sqlesc($id) . " ORDER BY complete_date DESC " . $pager['limit']) or sqlerr(__FILE__, __LINE__);
 while ($arr = mysqli_fetch_assoc($res)) {
     $upspeed = ($arr["upspeed"] > 0 ? mksize($arr["upspeed"]) : ($arr["seedtime"] > 0 ? mksize($arr["uploaded"] / ($arr["seedtime"] + $arr["leechtime"])) : mksize(0)));
@@ -74,24 +82,25 @@ while ($arr = mysqli_fetch_assoc($res)) {
     //if($arr['owner'] != $arr['su']){
     $HTMLOUT.= "<tr>
   <td align='left'>{$username}</td>
-  <td align='center'>" . ($arr["connectable"] == "yes" ? "<font color='green'>Yes</font>" : "<font color='red'>No</font>") . "</td>
-  <td align='right'>" . mksize($arr["uploaded"]) . "</td>
-  <td align='right'>" . htmlsafechars($upspeed) . "/s</td>
-  " . ($TRINITY20['ratio_free'] ? "" : "<td align='right'>" . mksize($arr["downloaded"]) . "</td>") . "
-  " . ($TRINITY20['ratio_free'] ? "" : "<td align='right'>" . htmlsafechars($downspeed) . "/s</td>") . "
-  <td align='right'>" . htmlsafechars($ratio) . "</td>
-  <td align='right'>" . htmlsafechars($completed) . "</td>
-  <td align='right'>" . mkprettytime($arr["seedtime"]) . "</td>
-  <td align='right'>" . mkprettytime($arr["leechtime"]) . "</td>
-  <td align='center'>" . get_date($arr["last_action"], '', 0, 1) . "</td>
-  <td align='center'>" . get_date($arr["complete_date"], '', 0, 1) . "</td>
-  <td align='center'>" . htmlsafechars($arr["agent"]) . "</td>
-  <td align='center'>" . (int)$arr["port"] . "</td>
-  <td align='center'>" . (int)$arr["timesann"] . "</td>
-  </tr>\n";
+  <td class='text-center'>" . ($arr["connectable"] == "yes" ? "<font color='green'>Yes</font>" : "<font color='red'>No</font>") . "</td>
+  <td class='text-center'>" . mksize($arr["uploaded"]) . "</td>
+  <td class='text-center'>" . htmlsafechars($upspeed) . "/s</td>
+  " . ($TRINITY20['ratio_free'] ? "" : "<td class='text-center'>" . mksize($arr["downloaded"]) . "</td>") . "
+  " . ($TRINITY20['ratio_free'] ? "" : "<td class='text-center'>" . htmlsafechars($downspeed) . "/s</td>") . "
+  <td class='text-center'>" . htmlsafechars($ratio) . "</td>
+  <td class='text-center'>" . htmlsafechars($completed) . "</td>
+  <td class='text-center'>" . mkprettytime($arr["seedtime"]) . "</td>
+  <td class='text-center'>" . mkprettytime($arr["leechtime"]) . "</td>
+  <td class='text-center'>" . get_date($arr["last_action"], '', 0, 1) . "</td>
+  <td class='text-center'>" . get_date($arr["complete_date"], '', 0, 1) . "</td>
+  <td class='text-center'>" . htmlsafechars($arr["agent"]) . "</td>
+  <td class='text-center'>" . (int)$arr["port"] . "</td>
+  <td class='text-center'>" . (int)$arr["timesann"] . "</td>
+  </tr>";
 }
 //}
-$HTMLOUT.= "</table>\n";
+$HTMLOUT.= "</table></div>
+</div></div></div>";
 if ($count > $perpage) $HTMLOUT.= $pager['pagerbottom'];
 echo stdhead('Snatches') . $HTMLOUT . stdfoot();
 die;
