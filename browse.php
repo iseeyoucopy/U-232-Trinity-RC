@@ -290,7 +290,8 @@ if ($count) {
 if (isset($cleansearchstr)) 
 	$title = "{$lang['browse_search']} $searchstr";
 else 
-	$title = '';
+    $title = '';
+    ///Start top 10 torrents by categories in Slider
     require_once (BLOCK_DIR . 'browse/slider_top10.php');
 if ($CURUSER['opt1'] & user_options::VIEWSCLOUD) {
     $HTMLOUT.= "<div class='callout float-center text-center' style='width:80%;border:1px solid black;background-color:rgba(121,124,128,0.3);'>";
