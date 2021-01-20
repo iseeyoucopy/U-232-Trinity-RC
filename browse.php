@@ -18,6 +18,7 @@ require_once INCL_DIR . 'pager_functions.php';
 require_once (INCL_DIR . 'searchcloud_functions.php');
 require_once (CLASS_DIR . 'class_user_options.php');
 require_once (CLASS_DIR . 'class_user_options_2.php');
+
 dbconn(false);
 loggedinorreturn();
 if (isset($_GET['clear_new']) && $_GET['clear_new'] == 1) {
@@ -33,8 +34,8 @@ if (isset($_GET['clear_new']) && $_GET['clear_new'] == 1) {
 $stdfoot = array(
     /* include js **/
     'js' => array(
-        'java_klappe',
-        'wz_tooltip'
+        //'java_klappe',
+        //'wz_tooltip'
     )
 );
 $stdhead = array(
@@ -290,12 +291,6 @@ if (isset($cleansearchstr))
 	$title = "{$lang['browse_search']} $searchstr";
 else 
 	$title = '';
-//$HTMLOUT .= navigation_start();
-//$HTMLOUT .="<a href='index.php'>" . $TRINITY20["site_name"] . "</a>";
-//$HTMLOUT .= navigation_active("Torrents");
-//$HTMLOUT .= navigation_end();
-//$HTMLOUT.= "<div class='row'><div class='col-md-12 col-md-offset-1'>";
-
 $HTMLOUT.='
 <div class="grid-x grid-margin-x">
   <div class="cell large-6 large-offset-3"><div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
@@ -310,20 +305,48 @@ $HTMLOUT.='
         $HTMLOUT.='
       </li>
       <li class="orbit-slide">';
+      require_once (BLOCK_DIR . 'browse/top10_movies_24.php');
+      $HTMLOUT.='
+      </li>
+      <li class="orbit-slide">';
+      require_once (BLOCK_DIR . 'browse/top10_movies_week.php');
+      $HTMLOUT.='
+      </li>
+      <li class="orbit-slide">';
         require_once (BLOCK_DIR . 'browse/top10_movies_all.php');
         $HTMLOUT.='
       </li>
-      <li class="orbit-slide">
-        <figure class="orbit-figure">
-          <img class="orbit-image" src="https://placehold.it/1200x600/777?text=Slide-3" alt="Space">
-          <figcaption class="orbit-caption">Encapsulating</figcaption>
-        </figure>
+      <li class="orbit-slide">';
+        require_once (BLOCK_DIR . 'browse/top10_tv_24.php');
+        $HTMLOUT.='
       </li>
-      <li class="orbit-slide">
-        <figure class="orbit-figure">
-          <img class="orbit-image" src="https://placehold.it/1200x600/666?text=Slide-4" alt="Space">
-          <figcaption class="orbit-caption">Outta This World</figcaption>
-        </figure>
+      <li class="orbit-slide">';
+        require_once (BLOCK_DIR . 'browse/top10_tv_week.php');
+        $HTMLOUT.='
+      </li>
+      <li class="orbit-slide">';
+        require_once (BLOCK_DIR . 'browse/top10_tv_all.php');
+        $HTMLOUT.='
+      </li>
+      <li class="orbit-slide">';
+        require_once (BLOCK_DIR . 'browse/top10_music_24.php');
+        $HTMLOUT.='
+      </li>
+      <li class="orbit-slide">';
+        require_once (BLOCK_DIR . 'browse/top10_music_week.php');
+        $HTMLOUT.='
+      </li>
+      <li class="orbit-slide">';
+        require_once (BLOCK_DIR . 'browse/top10_music_all.php');
+        $HTMLOUT.='
+      </li>
+      <li class="orbit-slide">';
+      require_once (BLOCK_DIR . 'browse/top10_other_all.php');
+      $HTMLOUT.='
+      </li>
+      <li class="orbit-slide">';
+      require_once (BLOCK_DIR . 'browse/mow.php');
+      $HTMLOUT.='
       </li>
     </ul>
   </div>
@@ -335,6 +358,13 @@ $HTMLOUT.='
     <button data-slide="1"><span class="show-for-sr">Second slide details.</span></button>
     <button data-slide="2"><span class="show-for-sr">Third slide details.</span></button>
     <button data-slide="3"><span class="show-for-sr">Fourth slide details.</span></button>
+    <button data-slide="4"><span class="show-for-sr"></span></button>
+    <button data-slide="5"><span class="show-for-sr"></span></button>
+    <button data-slide="6"><span class="show-for-sr"></span></button>
+    <button data-slide="7"><span class="show-for-sr"></span></button>
+    <button data-slide="8"><span class="show-for-sr"></span></button>
+    <button data-slide="9"><span class="show-for-sr"></span></button>
+    <button data-slide="10"><span class="show-for-sr"></span></button>   
   </nav>
 </div></div></div>';
 

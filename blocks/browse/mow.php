@@ -22,7 +22,6 @@ if (($motw_cached = $cache->get('top_movie_2')) === false) {
     while ($motw_cache = mysqli_fetch_assoc($motw)) $motw_cached[] = $motw_cache;
     $cache->set('top_movie_2', $motw_cached, 0);
 }
-if (!empty($motw_cached)) {
     $HTMLOUT.= "{$lang['index_mow_title']}
                 <table class='stack'>
 					<thead>
@@ -54,7 +53,6 @@ if (!empty($motw_cached)) {
         if (empty($motw_cached)) $HTMLOUT.= "<tbody><tr><td>{$lang['index_mow_no']}!</td></tr></tbody>";
     }
 	$HTMLOUT.= "</table>";
-}
 //==End
 // End Class
 // End File

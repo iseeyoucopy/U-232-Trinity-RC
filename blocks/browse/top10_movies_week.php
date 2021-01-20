@@ -16,43 +16,42 @@ foreach ($categorie as $key => $value) $change[$value['id']] = array(
     'name' => $value['name'],
     'image' => $value['image']
 );
-//== Top 10 torrents in past 24 hours
-if (($top10torrents = $cache->get('top10_tor_')) === false) {
-    $res = sql_query("SELECT id, times_completed, seeders, poster, leechers, name, category from torrents ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}") or sqlerr(__FILE__, __LINE__);
-    while ($top10torrent = mysqli_fetch_assoc($res)) 
-		$top10torrents[] = $top10torrent;
-    $cache->set('top10_tor_', $top10torrents);
+
+if (($top10moviesweek = $cache->get('top10_mov_week_')) === false) {
+    $tortimeweekmovie = $_SERVER['REQUEST_TIME'] - 604800;
+    $res = sql_query("SELECT id, times_completed, seeders, poster, leechers, name, category from torrents WHERE last_action >= {$tortimeweekmovie} AND category IN (".join(", ",$TRINITY20['movie_cats']).") ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}") or sqlerr(__FILE__, __LINE__);
+    while ($top10movieweek = mysqli_fetch_assoc($res)) 
+		$top10moviesweek[] = $top10movieweek;
+    $cache->set('top10_mov_week_', $top10moviesweek);
 }
-if (!empty($top10torrents)) {
     $HTMLOUT.= "<table class='stack'>
             <thead><tr>
             <th scope='col'><b>*</b></th>
-            <th scope='col'><b>Top 10 torrents in past 24 hours</b></th>
+            <th scope='col'><b>Top 10 torrents in a week in Movies</b></th>
 			<th scope='col'><i class='fas fa-check'></i></th>
             <th scope='col'><i class='fas fa-arrow-up'></i></th>
             <th scope='col'><i class='fas fa-arrow-down'></i></th></tr></thead>";
-	if ($top10torrents) {
+	if ($top10moviesweek) {
 		$counter = 1;
-        foreach ($top10torrents as $top10torrentarr) {
-            $top10torrentarr['cat_name'] = htmlsafechars($change[$top10torrentarr['category']]['name']);
-	    $top10torrentarr['cat_pic'] = htmlsafechars($change[$top10torrentarr['category']]['image']);
-            $torrname = htmlsafechars($top10torrentarr['name']);
+        foreach ($top10moviesweek as $top10movieweekarr) {
+            $top10movieweekarr['cat_name'] = htmlsafechars($change[$top10movieweekarr['category']]['name']);
+	    $top10movieweekarr['cat_pic'] = htmlsafechars($change[$top10movieweekarr['category']]['image']);
+            $torrname = htmlsafechars($top10movieweekarr['name']);
             if (strlen($torrname) > 50) 
 				$torrname = substr($torrname, 0, 50) . "...";
             $HTMLOUT.= "
             <tbody><tr>
             <th scope='row'>". $counter++ ."</th>
-            <td><a href=\"{$TRINITY20['baseurl']}/details.php?id=" . (int)$top10torrentarr['id'] . "&amp;hit=1\">{$torrname}</a></td>
-			<td>" . (int)$top10torrentarr['times_completed'] . "</td>
-          <td>" . (int)$top10torrentarr['seeders'] . "</td>
-          <td>" . (int)$top10torrentarr['leechers'] . "</td>     
+            <td><a href=\"{$TRINITY20['baseurl']}/details.php?id=" . (int)$top10movieweekarr['id'] . "&amp;hit=1\">{$torrname}</a></td>
+			<td>" . (int)$top10movieweekarr['times_completed'] . "</td>
+          <td>" . (int)$top10movieweekarr['seeders'] . "</td>
+          <td>" . (int)$top10movieweekarr['leechers'] . "</td>     
 	 </tr></tbody>";
         }
     } else {
         //== If there are no torrents
-        if (empty($top10torrents)) $HTMLOUT.= "<tbody><tr><td>{$lang['top5torrents_no_torrents']}</td></tr></tbody>";
+        if (empty($top10moviesweek)) $HTMLOUT.= "<tbody><tr><td>{$lang['top5torrents_no_torrents']}</td></tr></tbody>";
     }
-}
 $HTMLOUT.= "</table>";
 //==End	
 // End Class
