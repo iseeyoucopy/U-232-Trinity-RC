@@ -60,7 +60,7 @@ if ($action == 'add') {
     if ($_GET['h'] != $hash) stderr($lang['bookmark_err'], $lang['bookmark_waydoing']);
     function deletebookmark($torrentid)
     {
-        global $CURUSER, $cache;
+        global $CURUSER, $cache, $keys;
         sql_query("DELETE FROM bookmarks WHERE torrentid = " . sqlesc($torrentid) . " AND userid = " . sqlesc($CURUSER['id']));
         $cache->delete($keys['bookmark_key'] . $CURUSER['id']);
         make_bookmarks($CURUSER['id'], $keys['bookmark_key']);
@@ -74,7 +74,7 @@ if ($action == 'add') {
     if ($_GET['h'] != $hash) stderr($lang['bookmark_err'], $lang['bookmark_waydoing']);
     function publickbookmark($torrentid)
     {
-        global $CURUSER, $cache;
+        global $CURUSER, $cache, $keys;
         sql_query("UPDATE bookmarks SET private = 'no' WHERE private = 'yes' AND torrentid = " . sqlesc($torrentid) . " AND userid = " . sqlesc($CURUSER['id']));
         $cache->delete($keys['bookmark_key'] . $CURUSER['id']);
         make_bookmarks($CURUSER['id'], $keys['bookmark_key']);
@@ -89,7 +89,7 @@ if ($action == 'add') {
     if (!is_valid_id($torrentid)) stderr($lang['bookmark_err'], $lang['bookmark_invalidid']);
     function privatebookmark($torrentid)
     {
-        global $CURUSER, $cache;
+        global $CURUSER, $cache, $keys;
         sql_query("UPDATE bookmarks SET private = 'yes' WHERE private = 'no' AND torrentid = " . sqlesc($torrentid) . " AND userid = " . sqlesc($CURUSER['id']));
         $cache->delete($keys['bookmark_key'] . $CURUSER['id']);
         make_bookmarks($CURUSER['id'], $keys['bookmark_key']);
