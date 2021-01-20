@@ -244,11 +244,24 @@ $TRINITY20['movie_cats'] = array(
     3,
     5,
     6,
-    10,
-    11
+    10
 );
 $TRINITY20['tv_cats'] = array(
+    5,
     11
+);
+$TRINITY20['music_cats'] = array(
+    4,
+    14
+);
+$TRINITY20['other_cats'] = array(
+    2,
+    7,
+    8,
+    9,
+    12,
+    13,
+    1
 );
 $youtube_pattern = "/^http(s)?\:\/\/www\.youtube\.com\/watch\?v\=[\w-]{11}/i";
 //== set this to size of user avatars
