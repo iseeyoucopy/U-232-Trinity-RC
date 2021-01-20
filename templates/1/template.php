@@ -179,7 +179,10 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
             <div class='off-canvas-absolute position-right' id='profile-dropdown' data-off-canvas>
             " . StatusBar() . "
             </div>
-            <div class='off-canvas-absolute position-left' id='alerts-dropdown' data-off-canvas>";
+            <div class='off-canvas-absolute position-left' id='alerts-dropdown' data-off-canvas>
+            <div class='grid-x grid-padding-x'>
+            <div class='cell'>
+            <p class='text-center'>All allerts</p>";
             if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_REPORTS && $BLOCKS['global_staff_report_on']) {
                 require_once(BLOCK_DIR . 'global/report.php');
             }
@@ -199,11 +202,6 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
             if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_FREELEECH && $BLOCKS['global_freeleech_on']) {
                 require_once(BLOCK_DIR . 'global/freeleech.php');
             }
-
-            if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_CRAZYHOUR && $BLOCKS['global_crazyhour_on']) {
-                require_once(BLOCK_DIR . 'global/crazyhour.php');
-            }
-
             if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_BUG_MESSAGE && $BLOCKS['global_bug_message_on']) {
                 require_once(BLOCK_DIR . 'global/bugmessages.php');
             }
@@ -211,8 +209,12 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
                 require_once(BLOCK_DIR . 'global/freeleech_contribution.php');
             }
             $htmlout .= "
-            </div>
-            <div class='off-canvas-content' data-off-canvas-content>
+            </div></div></div>
+            <div class='off-canvas-content' data-off-canvas-content>";
+            if (curuser::$blocks['global_stdhead'] & block_stdhead::STDHEAD_CRAZYHOUR && $BLOCKS['global_crazyhour_on']) {
+                require_once(BLOCK_DIR . 'global/crazyhour.php');
+            }
+            $htmlout .= "
             <header class='subnav-hero-section hide-for-small-only'>
                 <h1 class='subnav-hero-headline'>Trinity <small>by U-232 Team</small></h1>
                 <ul class='subnav-hero-subnav'>

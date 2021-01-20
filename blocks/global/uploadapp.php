@@ -18,13 +18,7 @@ if ($TRINITY20['uploadapp_alert'] && $CURUSER['class'] >= UC_STAFF) {
     }
     if ($newapp > 0) {
         $htmlout.= "
-		<a class='button small alert' data-toggle='bug-dropdown-1'>{$lang['gl_uploadapp_new']}</a>
-	<div class='dropdown-pane' id='bug-dropdown-1' data-dropdown data-hover='true' data-hover-pane='true'>
-		<div class='card card-body'>
-   <a class='button' href='staffpanel.php?tool=uploadapps&amp;action=app'><b class='btn btn-warning btn-sm'></b>
-   <span class='custom info alert alert-warning'><em>{$lang['gl_uploadapp_new']}</em>
-   {$lang['gl_hey']} {$CURUSER['username']}!<br /> $newapp {$lang['gl_uploadapp_ua']}" . ($newapp > 1 ? "s" : "") . " {$lang['gl_uploadapp_dealt']} 
-   {$lang['gl_uploadapp_click']}</span></a></div></div>";
+        <a class='hollow small button notification' href='staffpanel.php?tool=uploadapps&amp;action=app'>{$lang['gl_uploadapp_new']}<span class='badge_corner'>" . $newapp[0] . "</span></a>";
     }
 }
 //==End

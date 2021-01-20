@@ -18,14 +18,7 @@ if ($TRINITY20['bug_alert'] && $CURUSER['class'] >= UC_STAFF) {
     }
     if ($bugs > 0) {
         $htmlout.= "
-<a class='button small alert' data-toggle='bug-dropdown-1'>{$lang['gl_bug_alert']}</a>
-	<div class='dropdown-pane' id='bug-dropdown-1' data-dropdown data-hover='true' data-hover-pane='true'>
-		<div class='card card-body'>		
-    <a class='sa-tooltip' href='bugs.php?action=bugs'><b class='btn btn-danger btn-sm'>{$lang['gl_bug_alert']}</b>
-	<span class='custom info custom info alert alert-danger'><em>{$lang['gl_bug_alert1']}</em>
-   <b>{$lang['gl_bug_alert2']} {$CURUSER['username']}!<br /> " . sprintf($lang['gl_bugs'], $bugs[0]) . ($bugs[0] > 1 ? "{$lang['gl_bugss']}" : "") . "!</b>
-   {$lang['gl_bug_alert3']}
-   </span></a></div></div>";
+        <a class='hollow small button notification' href='bugs.php?action=bugs'>{$lang['gl_bug_alert']}<span class='badge_corner'>" . $bugs[0] . "</span></a>";
     }
 }
 //==End
