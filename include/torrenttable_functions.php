@@ -125,7 +125,7 @@ function torrenttable($res, $variant = "index")
         'image' => $value['image'],
         'min_class' => $value['min_class']
     );
-    while ($row = mysqli_fetch_assoc($res)) {
+    while ($row = $res->fetch_assoc()) {
     //==
 		if ($CURUSER['opt2'] & user_options_2::SPLIT && $row['sticky'] == 'no' && $variant == 'index') {
             $TRINITY20['time_use_relative'] = 0;

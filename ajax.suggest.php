@@ -42,7 +42,7 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
 	    if($count > 0)
 	    {
 		   $res = sql_query($query) or sqlerr(__FILE__, __LINE__);$ye = '';$i=1;
-	       while ($row = mysqli_fetch_assoc($res)) 
+	       while ($row = $res->fetch_assoc()) 
 		   {
 				if(empty($row['name'])){
                                   die(false);

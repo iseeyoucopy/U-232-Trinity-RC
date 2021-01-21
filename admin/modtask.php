@@ -87,7 +87,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     ) , $postkey) == false) stderr($lang['modtask_pmsl'], $lang['modtask_die_bit']);
     //== Fetch current user data...
     $res = sql_query("SELECT * FROM users WHERE id=" . sqlesc($userid));
-    $user = mysqli_fetch_assoc($res) or sqlerr(__FILE__, __LINE__);
+    $user = $res->fetch_assoc() or sqlerr(__FILE__, __LINE__);
     if ($CURUSER['class'] <= $user['class'] && ($CURUSER['id'] != $userid && $CURUSER['class'] < UC_ADMINISTRATOR)) stderr($lang['modtask_error'], $lang['modtask_cannot_edit']);
     if (($user['immunity'] >= 1) && ($CURUSER['class'] < UC_MAX)) stderr($lang['modtask_error'], $lang['modtask_user_immune']);
     $updateset = $curuser_cache = $user_cache = $stats_cache = $user_stats_cache = $useredit['update'] = array();
@@ -152,7 +152,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         $curuser_cache['donor'] = 'yes';
         $user_cache['donor'] = 'yes';
         //$res = sql_query("SELECT class FROM users WHERE id = ".sqlesc($userid)) or sqlerr(__file__,__line__);
-        //$arr = mysqli_fetch_assoc($res);
+        //$arr = $res->fetch_assoc();
         if ($user['class'] < UC_UPLOADER) $updateset[] = "class = " . UC_VIP . "";
         $curuser_cache['class'] = UC_VIP;
         $user_cache['class'] = UC_VIP;
@@ -975,7 +975,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
 		sql_query('UPDATE users SET opt1 = ((opt1 | ' . $setbits . ') & ~' . $clrbits . '), opt2 = ((opt2 | ' . $setbits . ') & ~' . $clrbits . ') WHERE id = ' . sqlesc($userid)) or sqlerr(__file__, __line__);
     // grab current data
     $res = sql_query('SELECT opt1, opt2 FROM users WHERE id = ' . sqlesc($userid) . ' LIMIT 1') or sqlerr(__file__, __line__);
-    $row = mysqli_fetch_assoc($res);
+    $row = $res->fetch_assoc();
     $row['opt1'] = $row['opt1'];
     $row['opt2'] = $row['opt2'];
     $cache->update_row($keys['my_userid'] . $userid, [

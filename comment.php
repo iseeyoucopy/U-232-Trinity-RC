@@ -136,7 +136,7 @@ if ($action == 'add') {
         stderr("{$lang['comment_error']}", "{$lang['comment_invalid_id']}");
     }
     $res = sql_query("SELECT $sql_1 WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     if (!$arr) {
         stderr("{$lang['comment_error']}", "No $locale with that ID.");
     }
@@ -157,7 +157,7 @@ if ($action == 'add') {
       <br /><input type='submit' class='btn' value='{$lang['comment_doit']}' /></form>";
     $res = sql_query("SELECT comments.id, text, comments.added, comments.$locale, comments.anonymous, comments.editedby, comments.editedat, comments.edit_name, username, users.id as user, users.title, users.avatar, users.offavatar, users.av_w, users.av_h, users.class, users.reputation, users.mood, users.donor, users.warned FROM comments LEFT JOIN users ON comments.user = users.id WHERE $locale = " . sqlesc($id) . " ORDER BY comments.id DESC LIMIT 5");
     $allrows = [];
-    while ($row = mysqli_fetch_assoc($res)) {
+    while ($row = $res->fetch_assoc()) {
         $allrows[] = $row;
     }
     if (count($allrows)) {
@@ -176,7 +176,7 @@ if ($action == 'add') {
         stderr("{$lang['comment_error']}", "{$lang['comment_invalid_id']}");
     }
     $res = sql_query("SELECT c.*, t.$name, t.id as tid FROM comments AS c LEFT JOIN $table_type AS t ON c.$locale = t.id WHERE c.id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     if (!$arr) {
         stderr("{$lang['comment_error']}", "{$lang['comment_invalid_id']}.");
     }
@@ -228,7 +228,7 @@ if ($action == 'add') {
           here</a> {$lang['comment_delete_sure']}");
     }
     $res = sql_query("SELECT $locale FROM comments WHERE id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     $id = 0;
     if ($arr) {
         $id = $arr[$locale];
@@ -266,7 +266,7 @@ if ($action == 'add') {
         stderr("{$lang['comment_error']}", "{$lang['comment_invalid_id']}");
     }
     $res = sql_query("SELECT c.*, t.$name FROM comments AS c LEFT JOIN $table_type AS t ON c.$locale = t.id WHERE c.id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     if (!$arr) {
         stderr("{$lang['comment_error']}", "{$lang['comment_invalid_id']} $commentid.");
     }

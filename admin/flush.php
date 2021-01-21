@@ -35,7 +35,7 @@ if (!is_valid_id($id)) stderr($lang['flush_stderror'], $lang['flush_invalid']);
 if ($CURUSER['class'] >= UC_STAFF) {
     $dt = TIME_NOW;
     $res = sql_query("SELECT username FROM users WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     $username = htmlsafechars($arr['username']);
     sql_query("DELETE FROM peers WHERE userid=" . sqlesc($id));
     $effected = mysqli_affected_rows($GLOBALS["___mysqli_ston"]);

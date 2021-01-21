@@ -62,7 +62,7 @@ $User['downloaded'] = $User['downloaded'];
 $hours = 2; //== Hours to wait after using all tries, until they will be restarted
 $dt = TIME_NOW - $hours * 3600;
 $res = sql_query("SELECT userid, trys, date, enableplay FROM casino WHERE date < $dt AND trys >= '51' AND enableplay = 'yes'");
-while ($arr = mysqli_fetch_assoc($res)) {
+while ($arr = $res->fetch_assoc()) {
     sql_query("UPDATE casino SET trys='0' WHERE userid=" . sqlesc($arr['userid'])) or sqlerr(__FILE__, __LINE__);
 }
 if ($CURUSER['class'] < $player) {

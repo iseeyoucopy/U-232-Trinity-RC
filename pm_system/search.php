@@ -74,7 +74,7 @@ $get_all_boxes = '<select name="box">
                                             <option class="body" value="1" ' . ($mailbox == PM_INBOX ? 'selected="selected"' : '') . '>' . $lang['pm_inbox'] . '</option>
                                             <option class="body" value="-1" ' . ($mailbox == PM_SENTBOX ? 'selected="selected"' : '') . '>' . $lang['pm_sentbox'] . '</option>
                                             <option class="body" value="-2" ' . ($mailbox == PM_DRAFTS ? 'selected="selected"' : '') . '>' . $lang['pm_drafts'] . '</option>';
-while ($row = mysqli_fetch_assoc($res)) {
+while ($row = $res->fetch_assoc()) {
     $get_all_boxes.= '<option class="body" value="' . (int)$row['boxnumber'] . '" ' . ($row['boxnumber'] == $mailbox ? 'selected="selected"' : '') . '>' . htmlsafechars($row['name']) . '</option>';
 }
 $get_all_boxes.= '</select>';

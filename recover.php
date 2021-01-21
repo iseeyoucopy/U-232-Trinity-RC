@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST["email"]);
     if (!validemail($email)) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_invalidemail']}");
     $res = sql_query("SELECT id, hintanswer FROM users WHERE email=" . sqlesc($email) . " LIMIT 1") or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res) or stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_notfound']}");
+    $arr = $res->fetch_assoc() or stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_notfound']}");
 	$hintanswer = $arr['hintanswer'];
 	if (strlen($hintanswer) != 32 || !ctype_xdigit($hintanswer))
     die('access denied');

@@ -28,7 +28,7 @@ function snatchtable($res)
 <td>{$lang['userdetails_activity']}</td>
 <td>{$lang['userdetails_s_fin']}</td>
 </tr></thead>";
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         $upspeed = ($arr["upspeed"] > 0 ? mksize($arr["upspeed"]) : ($arr["seedtime"] > 0 ? mksize($arr["uploaded"] / ($arr["seedtime"] + $arr["leechtime"])) : mksize(0)));
         $downspeed = ($arr["downspeed"] > 0 ? mksize($arr["downspeed"]) : ($arr["leechtime"] > 0 ? mksize($arr["downloaded"] / $arr["leechtime"]) : mksize(0)));
         $ratio = ($arr["downloaded"] > 0 ? number_format($arr["uploaded"] / $arr["downloaded"], 3) : ($arr["uploaded"] > 0 ? "Inf." : "---"));
@@ -73,7 +73,7 @@ function snatchtable_staff($res)
     global $TRINITY20, $lang, $CURUSER, $id;
     $htmlout_snatch = '';
     $htmlout_snatch .= "<table><tr><td class='colhead' align='center'>{$lang['userdetails_s_cat']}</td><td class='colhead' align='left'>{$lang['userdetails_s_torr']}</td>" . "<td class='colhead' align='center'>{$lang['userdetails_s_sl']}</td><td class='colhead' align='center'>{$lang['userdetails_s_up']}" . ($TRINITY20['ratio_free'] ? "" : "{$lang['userdetails_s_down']}") . "</td><td class='colhead' align='center'>{$lang['userdetails_s_tsize']}</td>" . "<td class='colhead' align='center'>{$lang['userdetails_ratio']}</td><td class='colhead' align='center'>{$lang['userdetails_client']}</td></tr>";
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         //=== speed color red fast green slow ;)
         if ($arr["upspeed"] > 0)
             $ul_speed = ($arr["upspeed"] > 0 ? mksize($arr["upspeed"]) : ($arr["seedtime"] > 0 ? mksize($arr["uploaded"] / ($arr["seedtime"] + $arr["leechtime"])) : mksize(0)));

@@ -48,7 +48,7 @@ if (isset($_GET['remove'])) {
         if (is_valid_id($remove_me_Ive_been_good)) {
             //=== get mod comments for member
             $res = sql_query('SELECT username, modcomment FROM users WHERE id=' . sqlesc($remove_me_Ive_been_good)) or sqlerr(__FILE__, __LINE__);
-            $user = mysqli_fetch_assoc($res);
+            $user = $res->fetch_assoc();
             $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - {$lang['watched_removed']} $CURUSER[username].\n" . $user['modcomment'];
             sql_query('UPDATE users SET watched_user = \'0\', modcomment=' . sqlesc($modcomment) . ' WHERE id=' . sqlesc($remove_me_Ive_been_good)) or sqlerr(__FILE__, __LINE__);
             $cache->update_row($keys['my_userid'] . $remove_me_Ive_been_good, [
@@ -68,7 +68,7 @@ if (isset($_GET['remove'])) {
             if (is_valid_id($id)) {
                 //=== get mod comments for member
                 $res = sql_query('SELECT username, modcomment FROM users WHERE id=' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-                $user = mysqli_fetch_assoc($res);
+                $user = $res->fetch_assoc();
                 $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - {$lang['watched_removed']} $CURUSER[username].\n" . $user['modcomment'];
                 sql_query('UPDATE users SET watched_user = \'0\', modcomment=' . sqlesc($modcomment) . ' WHERE id=' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
                 $cache->begin_transaction($keys['my_userid'] . $id);
@@ -102,7 +102,7 @@ if (isset($_GET['add'])) {
     if (is_valid_id($member_whos_been_bad)) {
         //=== make sure they are not being watched...
         $res = sql_query('SELECT modcomment, watched_user, watched_user_reason, username FROM users WHERE id=' . sqlesc($member_whos_been_bad)) or sqlerr(__FILE__, __LINE__);
-        $user = mysqli_fetch_assoc($res);
+        $user = $res->fetch_assoc();
         if ($user['watched_user'] > 0)
             stderr($lang['watched_stderr'], htmlsafechars($user['username']) . ' ' . $lang['watched_already'] . '<a href="userdetails.php?id=' . $member_whos_been_bad . '" >' . $lang['watched_backto'] . ' ' . htmlsafechars($user['username']) . '\'s ' . $lang['watched_profile'] . '</a>');
         //== ok they are not watched yet let's add the info part 1
@@ -175,7 +175,7 @@ if ($how_many > 0) {
         <td class="colhead" align="center"><a href="staffpanel.php?tool=watched_users&amp;action=watched_users&amp;sort=invited_by&amp;ASC=' . $ASC . '">'.$lang['watched_invitedby'].'</a></td>
         ' . ($CURUSER['class'] >= UC_STAFF ? '<td class="colhead" align="center">&nbsp;</td>' : '') . '
     </tr>';
-    while ($arr = @mysqli_fetch_assoc($res)) {
+    while ($arr = @$res->fetch_assoc()) {
         //=== change colors
         $count2 = (++$count2) % 2;
         $class = ($count2 == 0 ? 'one' : 'two');

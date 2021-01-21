@@ -36,7 +36,7 @@ function bjtable($res, $frame_caption)
     <td class='colhead' align='right'>{$lang['bj_win_loss']}</td>
     </tr>";
     $num = 0;
-    while ($a = mysqli_fetch_assoc($res)) {
+    while ($a = $res->fetch_assoc()) {
         ++$num;
         //==Calculate Win %
         $win_perc = number_format(($a['wins'] / $a['games']) * 100, 1);

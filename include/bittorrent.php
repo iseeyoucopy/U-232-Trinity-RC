@@ -750,7 +750,7 @@ function genrelist()
     if (($ret = $cache->get('genrelist')) == false) {
         $ret = array();
         $res = sql_query("SELECT id, image, name, min_class FROM categories ORDER BY name");
-        while ($row = mysqli_fetch_assoc($res)) $ret[] = $row;
+        while ($row = $res->fetch_assoc()) $ret[] = $row;
         $cache->set('genrelist', $ret, $TRINITY20['expires']['genrelist']);
     }
     return $ret;

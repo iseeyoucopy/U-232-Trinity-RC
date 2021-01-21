@@ -36,7 +36,7 @@ function invincible($id, $invincible = true, $bypass_bans = true)
     // grab current data
     $res = sql_query('SELECT username, torrent_pass, ip, perms, modcomment FROM users 
                      WHERE id = ' . sqlesc($id) . ' LIMIT 1') or sqlerr(__file__, __line__);
-    $row = mysqli_fetch_assoc($res);
+    $row = $res->fetch_assoc();
     $row['perms'] = (int)$row['perms'];
     // delete from iplog current ip
     sql_query('DELETE FROM `ips` WHERE userid = ' .sqlesc($id)) or sqlerr(__file__, __line__);

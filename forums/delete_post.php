@@ -36,7 +36,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     if (!is_valid_id($postid))
         stderr('Error', 'Invalid ID');
     $res = sql_query("SELECT p.topic_id " . ($Multi_forum['configs']['use_attachment_mod'] ? ", a.file_name" : "") . ", t.forum_id, (SELECT COUNT(id) FROM posts WHERE topic_id=p.topic_id) AS posts_count, " . "(SELECT MAX(id) FROM posts WHERE topic_id=p.topic_id AND id < p.id) AS p_id " . "FROM posts AS p " . "LEFT JOIN topics as t on t.id=p.topic_id ".($Multi_forum['configs']['use_attachment_mod'] ? "LEFT JOIN attachments AS a ON a.post_id = p.id " : "")."WHERE p.id=".sqlesc($postid)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res) or stderr("Error", "Post not found");
+    $arr = $res->fetch_assoc() or stderr("Error", "Post not found");
     if (isMod($arr["forumid"], "forum") || $CURUSER['class'] >= UC_STAFF) {
         $topicid = (int)$arr['topic_id'];
         if ($arr['posts_count'] < 2)

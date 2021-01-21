@@ -59,7 +59,7 @@ function delete_torrent($delete_array, $page)
     if (!$count) return false;
     if ($count > 25) die(' '.$lang['deathrow_try'].' (' . $count . ').');
     $res = sql_query('SELECT id, added, name, owner, seeders, info_hash FROM torrents ' . 'WHERE id IN (' . implode(', ', $delete) . ')') or sqlerr(__FILE__, __LINE__);
-    while ($row = mysqli_fetch_assoc($res)) {
+    while ($row = $res->fetch_assoc()) {
         if (!(($CURUSER['id'] == $row['owner'] || $CURUSER['class'] >= UC_STAFF) && $row['seeders'] == 0)) continue;
         $ids[] = $row['id'];
         $names[] = htmlsafechars($row['name']);
@@ -115,7 +115,7 @@ if ($CURUSER["class"] >= UC_STAFF) {
     // Deathrow Routine 1
     $query = 'SELECT t.id AS tid, t.name, t.owner, (t.seeders + t.leechers) AS peers, t.last_action, u.username, u.id AS uid FROM torrents AS t INNER JOIN users AS u ON t.owner = u.id LEFT JOIN peers AS p ON t.id = p.torrent WHERE t.last_action < ' . $dx_time . ' HAVING peers = 0';
     $res = sql_query($query) or sqlerr(__FILE__, __LINE__);
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         $uploaders[$arr['uid'] . '|' . $arr['username']][] = array(
             'tid' => $arr['tid'],
             'torrent_name' => $arr['name'],
@@ -126,7 +126,7 @@ if ($CURUSER["class"] >= UC_STAFF) {
     // Deathrow Routine 2
     $query = 'SELECT t.id, t.owner, t.name, u.id AS uid, u.username, MAX(s.complete_date) AS max_fstamp FROM torrents AS t LEFT JOIN snatched AS s ON t.id = s.torrent LEFT JOIN users AS u ON t.owner = u.id WHERE (t.seeders + t.leechers) = 0 AND s.complete_date != \'0\' GROUP BY t.id HAVING MAX(s.complete_date) < '.$dy_time;
     $res = sql_query($query) or sqlerr(__FILE__, __LINE__);
-    while ($arr = mysqli_fetch_assoc($res))
+    while ($arr = $res->fetch_assoc())
     {
     $uploaders[$arr['uid'].'|'.$arr['username']][] = array('tid' => $arr['id'], 'torrent_name' => $arr['name'], 'reason' => 2);
     }
@@ -134,7 +134,7 @@ if ($CURUSER["class"] >= UC_STAFF) {
     // Deathrow Routine 3
     $query = 'SELECT t.id, t.name, t.owner, t.added, t.last_action, u.id AS uid, u.username FROM torrents AS t INNER JOIN users AS u ON t.owner = u.id LEFT JOIN peers AS p ON t.id = p.torrent WHERE t.last_action < ' . (TIME_NOW - 1 * 86400) . ' AND t.added < ' . $dz_time . ' GROUP BY t.id HAVING(SUM(p.seeder) = 0)';
     $res = sql_query($query) or sqlerr(__FILE__, __LINE__);
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         $uploaders[$arr['uid'] . '|' . $arr['username']][] = array(
             'tid' => $arr['id'],
             'torrent_name' => $arr['name'],
@@ -179,7 +179,7 @@ if ($count) {
     $query = "SELECT * FROM deathrow {$orderby} {$pager['limit']}";
     $res = sql_query($query) or sqlerr(__FILE__, __LINE__);
     $b = "<div class='row'><div class='col-md-12'><p><b>$count {$lang['deathrow_title']}</b>" . "</p><form action='' method='post'><table class='table table-bordered'>" . "<thead><tr><th class='colhead' align='center'>{$lang['deathrow_uname']}</th><th class='colhead' align='center'>{$lang['deathrow_tname']}</th><th class='colhead'>{$lang['deathrow_del_resn']}</th><th class='colhead'>{$lang['deathrow_del_torr']}</th></tr></thead>\n";
-    while ($queued = mysqli_fetch_assoc($res)) {
+    while ($queued = $res->fetch_assoc()) {
         if ($queued['reason'] == 1) $reason = $lang['deathrow_nopeer'] . calctime($x_time);
         elseif ($queued['reason'] == 2) $reason = $lang['deathrow_no_peers'] . calctime($y_time);
         else $reason = $lang['deathrow_no_seed'] . calctime($z_time) . $lang['deathrow_new_torr'];

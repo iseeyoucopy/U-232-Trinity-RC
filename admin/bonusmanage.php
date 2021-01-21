@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-while ($arr = mysqli_fetch_assoc($res)) {
+while ($arr = $res->fetch_assoc()) {
     $count = (++$count) % 2;
     $class = ($count == 0 ? 'one' : 'two');
     $HTMLOUT.= "<div class='row'><div class='col-md-12 col-md-offset-1'>

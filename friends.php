@@ -143,14 +143,14 @@ elseif ($action == 'delete') {
 }
 //== Main body shit
 $res = sql_query("SELECT * FROM users WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$user = mysqli_fetch_assoc($res) or stderr($lang['friends_error'], $lang['friends_no_user']);
+$user = $res->fetch_assoc() or stderr($lang['friends_error'], $lang['friends_no_user']);
 $HTMLOUT = '';
 //== Pending
 $i = 0;
 $res = sql_query("SELECT f.userid as id, u.username, u.class, u.avatar, u.title, u.donor, u.warned, u.enabled, u.leechwarn, u.chatpost, u.pirate, u.king, u.last_access, u.perms FROM friends AS f LEFT JOIN users as u ON f.userid = u.id WHERE friendid=" . sqlesc($CURUSER['id']) . " AND f.confirmed='no' AND NOT f.userid IN (SELECT blockid FROM blocks WHERE blockid=f.userid) ORDER BY username") or sqlerr(__FILE__, __LINE__);
 $friendsp = '';
 if (mysqli_num_rows($res) == 0) $friendsp = "<em>{$lang['friends_pending_empty']}.</em>";
-else while ($friendp = mysqli_fetch_assoc($res)) {
+else while ($friendp = $res->fetch_assoc()) {
     $dt = TIME_NOW - 180;
     $online = ($friendp["last_access"] >= $dt && $friendp['perms'] < bt_options::PERMS_STEALTH ? '&nbsp;<img src="' . $TRINITY20['baseurl'] . '/images/staff/online.png" border="0" alt="Online" title="Online" />' : '<img src="' . $TRINITY20['baseurl'] . '/images/staff/offline.png" border="0" alt="Offline" title="Offline" />');
     $title = htmlsafechars($friendp["title"]);
@@ -171,7 +171,7 @@ if (mysqli_num_rows($res) == 0) $friendreqs = "<em>Your requests list is empty.<
 else {
     $i = 0;
     $friendreqs = "<table width='100%' cellspacing='0' cellpadding='0'>";
-    while ($friendreq = mysqli_fetch_assoc($res)) {
+    while ($friendreq = $res->fetch_assoc()) {
         if ($i % 6 == 0) $friendreqs.= "<tr>";
         $friendreqs.= "<td style='border: none; padding: 4px; spacing: 0px;'><a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int)$friendreq['id'] . "'><b>" . format_username($friendreq) . "</b></a></td></tr>";
         if ($i % 6 == 5) $friendreqs.= "</tr>";
@@ -185,7 +185,7 @@ $i = 0;
 $res = sql_query("SELECT f.friendid as id, u.username, u.class, u.avatar, u.title, u.donor, u.warned, u.enabled, u.leechwarn, u.chatpost, u.pirate, u.king, u.last_access, u.uploaded, u.downloaded, u.country, u.perms FROM friends AS f LEFT JOIN users as u ON f.friendid = u.id WHERE userid=" . sqlesc($userid) . " AND f.confirmed='yes' ORDER BY username") or sqlerr(__FILE__, __LINE__);
 $friends = '';
 if (mysqli_num_rows($res) == 0) $friends = "<em>Your friends list is empty.</em>";
-else while ($friend = mysqli_fetch_assoc($res)) {
+else while ($friend = $res->fetch_assoc()) {
     $dt = TIME_NOW - 180;
     $online = ($friend["last_access"] >= $dt && $friend['perms'] < bt_options::PERMS_STEALTH ? '&nbsp;<img src="' . $TRINITY20['baseurl'] . '/images/staff/online.png" border="0" alt="Online" title="Online" />' : '<img src="' . $TRINITY20['baseurl'] . '/images/staff/offline.png" border="0" alt="Offline" title="Offline" />');
     $title = htmlsafechars($friend["title"]);
@@ -205,7 +205,7 @@ $blocks = '';
 if (mysqli_num_rows($res) == 0) {
     $blocks = "{$lang['friends_blocks_empty']}<em>.</em>";
 } else {
-    while ($block = mysqli_fetch_assoc($res)) {
+    while ($block = $res->fetch_assoc()) {
         $blocks.= "<div style='border: 1px solid black;padding:5px;'>";
         $blocks.= "<span class='btn' style='float:right;'><a href='{$TRINITY20['baseurl']}/friends.php?id=$userid&amp;action=delete&amp;type=block&amp;targetid=" . (int)$block['id'] . "'>{$lang['friends_delete']}</a></span><br />";
         $blocks.= "<p><a href='userdetails.php?id=" . (int)$block['id'] . "'><b>" . format_username($block) . "</b></a></p></div><br />";
@@ -219,7 +219,7 @@ function countries()
     global $cache, $TRINITY20;
     if (($ret = $cache->get('countries::arr')) === false) {
         $res = sql_query("SELECT id, name, flagpic FROM countries ORDER BY name ASC") or sqlerr(__FILE__, __LINE__);
-        while ($row = mysqli_fetch_assoc($res)) $ret[] = $row;
+        while ($row = $res->fetch_assoc()) $ret[] = $row;
         $cache->set('countries::arr', $ret, $TRINITY20['expires']['user_flag']);
     }
     return $ret;

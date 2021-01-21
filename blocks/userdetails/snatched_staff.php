@@ -19,7 +19,7 @@ function snatchtable_staff($res)
     $count2 = 0;
 //    $htmlout_snatch .= "<tr><td class='one' align='right' valign='top'><b>{$lang['userdetails_snatched']}</b></td><td class='one'>";
     $htmlout_snatch .= "<table border='1' cellspacing='0' cellpadding='5' align='center'><tr><td class='colhead' align='center'>{$lang['userdetails_s_cat']}</td><td class='colhead' align='left'>{$lang['userdetails_s_torr']}</td>" . "<td class='colhead' align='center'>{$lang['userdetails_s_sl']}</td><td class='colhead' align='center'>{$lang['userdetails_s_up']}" . ($TRINITY20['ratio_free'] ? "" : "{$lang['userdetails_s_down']}") . "</td><td class='colhead' align='center'>{$lang['userdetails_s_tsize']}</td>" . "<td class='colhead' align='center'>{$lang['userdetails_ratio']}</td><td class='colhead' align='center'>{$lang['userdetails_client']}</td></tr>";
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         //=======change colors
         $count2 = (++$count2) % 2;
         $class = ($count2 == 0 ? 'one' : 'two');

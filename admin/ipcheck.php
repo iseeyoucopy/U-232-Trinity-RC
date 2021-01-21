@@ -45,7 +45,7 @@ $HTMLOUT.= "<table class='table table-bordered'>
  <td>{$lang['ipcheck_ip']}</td></tr>\n";
 $ip = '';
 $uc = 0;
-while ($ras = mysqli_fetch_assoc($res)) {
+while ($ras = $res->fetch_assoc()) {
     if ($ras["dupl"] <= 1) break;
 
     if ($ip <> $ras['ip']) {

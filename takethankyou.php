@@ -20,7 +20,7 @@ $id = (int) $id;
 if (!is_valid_id($id)) stderr("Error", "Bad Id");
 if (!isset($CURUSER)) stderr("Error", "Your not logged in");
 $res = sql_query("SELECT 1, thanks, comments FROM torrents WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-$arr = mysqli_fetch_assoc($res);
+$arr = $res->fetch_assoc();
 if (!$arr) stderr("Error", "Torrent not found");
 $res1 = sql_query("SELECT 1 FROM thankyou WHERE torid=" . sqlesc($id) . " AND uid =" . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
 $row = mysqli_fetch_assoc($res1);

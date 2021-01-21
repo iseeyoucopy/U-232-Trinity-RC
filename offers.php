@@ -143,7 +143,7 @@ case 'offer_details':
                             LEFT JOIN categories AS c ON o.category = c.id
                             LEFT JOIN users AS u ON o.offered_by_user_id = u.id
                             WHERE o.id = ' . sqlesc($id));
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     //=== see if they voted yet
     $res_did_they_vote = sql_query('SELECT vote FROM offer_votes WHERE user_id = ' . sqlesc($CURUSER['id']) . ' AND offer_id = ' . sqlesc($id));
     $row_did_they_vote = mysqli_fetch_row($res_did_they_vote);
@@ -357,7 +357,7 @@ case 'add_new_offer':
 case 'delete_offer':
     if (!isset($id) || !is_valid_id($id)) stderr('Error', 'Bad ID.');
     $res = sql_query('SELECT offer_name, offered_by_user_id FROM offers WHERE id =' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     if (!$arr) stderr('Error', 'Invalid ID.');
     if ($arr['offered_by_user_id'] !== $CURUSER['id'] && $CURUSER['class'] < UC_STAFF) stderr('Error', 'Permission denied.');
     if (!isset($_GET['do_it'])) {
@@ -490,7 +490,7 @@ case 'add_comment':
     //=== kill if nasty
     if (!isset($id) || !is_valid_id($id)) stderr('USER ERROR', 'Bad id');
     $res = sql_query('SELECT offer_name FROM offers WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     if (!$arr) stderr('Error', 'No offer with that ID.');
     if (isset($_POST['button']) && $_POST['button'] == 'Save') {
         $body = htmlsafechars(trim($_POST['descr']));
@@ -528,7 +528,7 @@ case 'add_comment':
 	 </table></form>';
     $res = sql_query('SELECT c.offer, c.id AS comment_id, c.text, c.added, c.editedby, c.editedat, u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.avatar, u.offensive_avatar, u.title, u.leechwarn, u.chatpost, u.pirate, u.king FROM comments AS c LEFT JOIN users AS u ON c.user = u.id WHERE offer = ' . sqlesc($id) . ' ORDER BY c.id DESC LIMIT 5');
     $allrows = array();
-    while ($row = mysqli_fetch_assoc($res)) $allrows[] = $row;
+    while ($row = $res->fetch_assoc()) $allrows[] = $row;
     if (count($allrows)) {
         $HTMLOUT.= '<h2>Most recent comments, in reverse order</h2>';
         $HTMLOUT.= comment_table($allrows);
@@ -543,7 +543,7 @@ case 'edit_comment':
     require_once INCL_DIR . 'bbcode_functions.php';
     if (!isset($comment_id) || !is_valid_id($comment_id)) stderr('Error', 'Bad ID.');
     $res = sql_query('SELECT c.*, o.offer_name FROM comments AS c LEFT JOIN offers AS o ON c.offer = o.id WHERE c.id=' . sqlesc($comment_id)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     if (!$arr) stderr('Error', 'Invalid ID.');
     if ($arr['user'] != $CURUSER['id'] && $CURUSER['class'] < UC_STAFF) stderr('Error', 'Permission denied.');
     $body = htmlsafechars((isset($_POST['descr']) ? $_POST['descr'] : $arr['text']));
@@ -594,7 +594,7 @@ case 'edit_comment':
 case 'delete_comment':
     if (!isset($comment_id) || !is_valid_id($comment_id)) stderr('Error', 'Bad ID.');
     $res = sql_query('SELECT user, offer FROM comments WHERE id=' . sqlesc($comment_id)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     if (!$arr) stderr('Error', 'Invalid ID.');
     if ($arr['user'] != $CURUSER['id'] && $CURUSER['class'] < UC_STAFF) stderr('Error', 'Permission denied.');
     if (!isset($_GET['do_it'])) {

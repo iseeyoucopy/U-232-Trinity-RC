@@ -37,7 +37,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     $res = sql_query("SELECT pp.id, t.id AS tid FROM postpolls AS pp LEFT JOIN topics AS t ON t.poll_id = pp.id WHERE pp.id=".sqlesc($pollid)) or sqlerr(__FILE__, __LINE__);
     if (mysqli_num_rows($res) == 0)
         stderr("Error", "No poll found with that ID.");
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     $sure = isset($_GET['sure']) && (int) $_GET['sure'];
     if (!$sure || $sure != 1)
         stderr('Sanity check...', 'You are about to delete a poll. Click <a href='.$TRINITY20['baseurl'].'/forums.php?action='.htmlsafechars($action).'&amp;pollid='.(int)$arr['id'].'&amp;sure=1>here</a> if you are sure.');

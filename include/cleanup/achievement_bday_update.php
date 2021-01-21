@@ -28,7 +28,7 @@ function docleanup($data)
         $dt = TIME_NOW;
         $subject = sqlesc("New Achievement Earned!");
         $points = rand(1, 3);
-        while ($arr = mysqli_fetch_assoc($res)) {
+        while ($arr = $res->fetch_assoc()) {
             $bday = (int)$arr['bday'];
             $added = (int)$arr['added'];
             if ($bday == 0 && $added < $maxdt) {

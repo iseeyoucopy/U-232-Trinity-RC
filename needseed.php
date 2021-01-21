@@ -43,7 +43,7 @@ if ($needed == "leechers") {
     if (mysqli_num_rows($res) > 0) {
         $HTMLOUT.= "<table class='table table-bordered'>
     <tr><td class='colhead'>{$lang['needseed_user']}</td><td class='colhead'>{$lang['needseed_tor']}</td><td class='colhead'>{$lang['needseed_cat']}</td><td class='colhead'>{$lang['needseed_peer']}</td></tr>\n";
-        while ($arr = mysqli_fetch_assoc($res)) {
+        while ($arr = $res->fetch_assoc()) {
                 $What_ID = (XBT_TRACKER === true ? $arr['fid'] : $arr['torrent']);
                 $What_User_ID = (XBT_TRACKER === true ? $arr['uid'] : $arr['userid']);
                 if ($change[$arr['category']]['min_class'] < $CURUSER['class']) {
@@ -66,7 +66,7 @@ $HTMLOUT.="<div class='row'><div class='col-md-12'><h2>{$lang['needseed_sin']}&n
     if (mysqli_num_rows($res) > 0) {
         $HTMLOUT.= "<table class='table table-bordered'>
         <tr><td class='colhead'>{$lang['needseed_cat']}</td><td class='colhead'>{$lang['needseed_tor']}</td><td class='colhead'>{$lang['needseed_seed']}</td><td class='colhead'>{$lang['needseed_leech']}</td></tr>\n";
-        while ($arr = mysqli_fetch_assoc($res)) {
+        while ($arr = $res->fetch_assoc()) {
             $needseed['cat_name'] = htmlsafechars($change[$arr['category']]['name']);
             $needseed['cat_pic'] = htmlsafechars($change[$arr['category']]['image']);
             $cat = "<img src=\"pic/caticons/{$CURUSER['categorie_icon']}/{$needseed['cat_pic']}\" alt=\"{$needseed['cat_name']}\" title=\"{$needseed['cat_name']}\" />";

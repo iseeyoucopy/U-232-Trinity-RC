@@ -98,7 +98,7 @@ if (mysqli_num_rows($res) === 0) {
            <td><span style="font-weight: bold;">' . $lang['pm_mailbox_nomsg'] . '' . $mailbox_name . '</span></td>
         </tr>';
 } else {
-    while ($row = mysqli_fetch_assoc($res)) {
+    while ($row = $res->fetch_assoc()) {
         $subject = (!empty($row['subject']) ? htmlsafechars($row['subject']) : $lang['pm_search_nosubject']);
         $who_sent_it = ($row['id'] == 0 ? '<span style="font-weight: bold;">'. $lang['pm_forward_system'] . '</span>' : print_user_stuff($row));
         $read_unread = ($row['unread'] === 'yes' ? '<i class="fas fa-envelope"></i>' : '<i class="fas fa-envelope-open"></i>');

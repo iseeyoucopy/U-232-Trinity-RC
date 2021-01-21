@@ -86,7 +86,7 @@ if ($action == "app" || $action == "show") {
         <td class='colhead' align='left'>{$lang['uploadapps_delete']}</td>
         </tr>\n";
         $res = sql_query("SELECT uploadapp.*, users.id AS uid, users.username, users.class, users.added, users.uploaded, users.downloaded FROM uploadapp INNER JOIN users on uploadapp.userid = users.id $where1 " . $pager['limit']) or sqlerr(__FILE__, __LINE__);
-        while ($arr = mysqli_fetch_assoc($res)) {
+        while ($arr = $res->fetch_assoc()) {
             if ($arr["status"] == "accepted") {
                 $status = "<font color='green'>{$lang['uploadapps_accepted']}</font>";
             } elseif ($arr["status"] == "rejected") {
@@ -120,7 +120,7 @@ if ($action == "app" || $action == "show") {
 if ($action == "viewapp") {
     $id = (int) $_GET["id"];
     $res = sql_query("SELECT uploadapp.*, users.id AS uid, users.username, users.class, users.added, users.uploaded, users.downloaded FROM uploadapp INNER JOIN users on uploadapp.userid = users.id WHERE uploadapp.id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     $membertime = get_date($arr['added'], '', 0, 1);
     $elapsed = get_date($arr['applied'], '', 0, 1);
     $HTMLOUT.= "<div class='row'><div class='col-md-12'><h1 align='center'>Uploader application</h1>
@@ -180,7 +180,7 @@ if ($action == "acceptapp") {
         stderr($lang['uploadapps_error'], $lang['uploadapps_noid']);
     }
     $res = sql_query("SELECT uploadapp.id, users.username, users.modcomment, users.id AS uid FROM uploadapp INNER JOIN users on uploadapp.userid = users.id WHERE uploadapp.id = $id") or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     $note = htmlsafechars($_POST["note"]);
     $subject = sqlesc($lang['uploadapps_subject']);
     $msg = sqlesc("{$lang['uploadapps_msg']}\n\n{$lang['uploadapps_msg_note']} $note");
@@ -217,7 +217,7 @@ if ($action == "rejectapp") {
         stderr($lang['uploadapps_error'], $lang['uploadapps_no_up']);
     }
     $res = sql_query("SELECT uploadapp.id, users.id AS uid FROM uploadapp INNER JOIN users on uploadapp.userid = users.id WHERE uploadapp.id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     $reason = htmlsafechars($_POST["reason"]);
     $subject = sqlesc($lang['uploadapps_subject']);
     $msg = sqlesc("{$lang['uploadapps_rej_no']}\n\n{$lang['uploadapps_rej_reason']} $reason");

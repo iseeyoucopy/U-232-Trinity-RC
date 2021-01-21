@@ -28,7 +28,7 @@ function docleanup($data)
     if (mysqli_num_rows($res) > 0) {
         $subject = "Donor status removed by system.";
         $msg = "Your Donor status has timed out and has been auto-removed by the system, and your Vip status has been removed. We would like to thank you once again for your support to {$TRINITY20['site_name']}. If you wish to re-new your donation, Visit the site paypal link. Cheers!\n";
-        while ($arr = mysqli_fetch_assoc($res)) {
+        while ($arr = $res->fetch_assoc()) {
             $modcomment = $arr['modcomment'];
             $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - Donation status Automatically Removed By System.\n" . $modcomment;
             $modcom = sqlesc($modcomment);

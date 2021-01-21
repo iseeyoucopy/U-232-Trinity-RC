@@ -8,7 +8,7 @@ $HTMLOUT.= "
 		<td>{$lang['achlst_description']}</td>
 		<td>{$lang['achlst_earned']}</td>
 		</tr>";
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         $notes = htmlsafechars($arr["notes"]);
         $clienticon = '';
         if ($arr["clienticon"] != "") {

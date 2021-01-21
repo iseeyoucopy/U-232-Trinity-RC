@@ -97,7 +97,7 @@ if ($mode == 'edit') {
     if (!is_valid_id($newsid)) stderr($lang['news_error'], $lang['news_edit_invalid']);
     $res = sql_query("SELECT id, body, title, userid, added, anonymous, sticky FROM news WHERE id=" . sqlesc($newsid)) or sqlerr(__FILE__, __LINE__);
     if (mysqli_num_rows($res) != 1) stderr($lang['news_error'], $lang['news_edit_nonews']);
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $body = isset($_POST['body']) ? htmlsafechars($_POST['body']) : '';
         $sticky = isset($_POST['sticky']) ? htmlsafechars($_POST['sticky']) : 'yes';
@@ -139,7 +139,7 @@ if ($mode == 'news') {
     $HTMLOUT.= "<tr><td colspan='2' class='rowhead'>{$lang['news_sticky']}<input type='radio' checked='checked' name='sticky' value='yes' />{$lang['news_yes']}<input name='sticky' type='radio' value='no' />{$lang['news_no']}</td></tr><tr><td colspan='2' class='rowhead'>{$lang['news_anonymous']}<input type='radio' checked='checked' name='anonymous' value='yes' />{$lang['news_yes']}<input name='anonymous' type='radio' value='no' />{$lang['news_no']}</td></tr>\n
     <tr><td colspan='2' class='rowhead'><input type='submit' value='{$lang['news_okay']}' class='btn' /></td></tr>\n
     </table></form></div><br /><br />\n";
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         $newsid = (int)$arr["newsid"];
         $body = $arr["body"];
         $title = $arr["title"];

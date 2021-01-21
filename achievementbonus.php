@@ -39,12 +39,12 @@ if (!$count) {
 }
 $HTMLOUT = '';
 $get_bonus = sql_query("SELECT * FROM ach_bonus WHERE bonus_id =" . sqlesc($rand)) or sqlerr(__FILE__, __LINE__);
-$bonus = mysqli_fetch_assoc($get_bonus);
+$bonus = $get_bonus->fetch_assoc();
 $bonus_desc = htmlsafechars($bonus['bonus_desc']);
 $bonus_type = htmlsafechars($bonus['bonus_type']);
 $bonus_do = htmlsafechars($bonus['bonus_do']);
 $get_d = sql_query("SELECT * FROM users WHERE id =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-$dn = mysqli_fetch_assoc($get_d);
+$dn = $get_d->fetch_assoc();
 $down = (float) $dn['downloaded'];
 $up = (float) $dn['uploaded'];
 $invite = (int) $dn['invites'];

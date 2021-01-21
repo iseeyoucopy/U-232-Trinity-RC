@@ -60,7 +60,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == $save_or_edit) {
         //=== allow suspended users to PM / forward to staff only
         if ($CURUSER['suspended'] === 'yes') {
             $res = sql_query('SELECT class FROM users WHERE id = ' . sqlesc($receiver)) or sqlerr(__FILE__, __LINE__);
-            $row = mysqli_fetch_assoc($res);
+            $row = $res->fetch_assoc();
             if ($row['class'] < UC_STAFF) stderr($lang['pm_error'], $lang['pm_send_your_acc']);
         }
         //=== make sure they have space
@@ -137,7 +137,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'preview') {
 } else {
     //=== Get the info
     $res = sql_query('SELECT * FROM messages WHERE id=' . sqlesc($pm_id)) or sqlerr(__FILE__, __LINE__);
-    $message = mysqli_fetch_assoc($res);
+    $message = $res->fetch_assoc();
     $subject = htmlsafechars($message['subject']);
     $draft = $message['msg'];
 }

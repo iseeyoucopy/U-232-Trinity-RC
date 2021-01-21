@@ -34,7 +34,7 @@ if (empty($_GET['id'])) {
 $id = 0 + $_GET["id"];
 if (!is_valid_id($id)) stderr("Error", "It appears that you have entered an invalid id.");
 $res = sql_query("SELECT id, name FROM torrents WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-$arr = mysqli_fetch_assoc($res);
+$arr = $res->fetch_assoc();
 if (!$arr) stderr("Error", "It appears that there is no torrent with that id.");
 $res = sql_query("SELECT COUNT(id) FROM snatched WHERE complete_date !=0 AND torrentid =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
 $row = mysqli_fetch_row($res);
@@ -72,7 +72,7 @@ $HTMLOUT.= "
 <td class='text-center'><i class='fa fa-bullhorn' title='{$lang['snatches_announced']}'></i></td>
 </tr>";
 $res = sql_query("SELECT s.*, s.userid AS su, torrents.username as username1, users.username as username2, torrents.anonymous as anonymous1, users.anonymous as anonymous2, size, parked, warned, enabled, class, chatpost, leechwarn, donor, timesann, owner FROM snatched AS s INNER JOIN users ON s.userid = users.id INNER JOIN torrents ON s.torrentid = torrents.id WHERE complete_date !=0 AND torrentid = " . sqlesc($id) . " ORDER BY complete_date DESC " . $pager['limit']) or sqlerr(__FILE__, __LINE__);
-while ($arr = mysqli_fetch_assoc($res)) {
+while ($arr = $res->fetch_assoc()) {
     $upspeed = ($arr["upspeed"] > 0 ? mksize($arr["upspeed"]) : ($arr["seedtime"] > 0 ? mksize($arr["uploaded"] / ($arr["seedtime"] + $arr["leechtime"])) : mksize(0)));
     $downspeed = ($arr["downspeed"] > 0 ? mksize($arr["downspeed"]) : ($arr["leechtime"] > 0 ? mksize($arr["downloaded"] / $arr["leechtime"]) : mksize(0)));
     $ratio = ($arr["downloaded"] > 0 ? number_format($arr["uploaded"] / $arr["downloaded"], 3) : ($arr["uploaded"] > 0 ? "Inf." : "---"));

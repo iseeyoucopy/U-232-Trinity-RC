@@ -28,7 +28,7 @@ $zipuse = isset($_GET['zip']) && $_GET['zip'] == 1 ? true : false;
 $text = isset($_GET['text']) && $_GET['text'] == 1 ? true : false;
 if (!is_valid_id($id)) stderr($lang['download_user_error'], $lang['download_no_id']);
 $res = sql_query('SELECT name, owner, vip, category, filename, info_hash FROM torrents WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-$row = mysqli_fetch_assoc($res);
+$row = $res->fetch_assoc();
 
 $cres = sql_query('SELECT min_class FROM categories WHERE id = ' . sqlesc($row['category'])) or sqlerr(__FILE__, __LINE__);
 $crow = mysqli_fetch_assoc($cres);

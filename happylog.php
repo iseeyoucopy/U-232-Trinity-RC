@@ -34,7 +34,7 @@ if (mysqli_num_rows($res) > 0) {
     <tr><td class='colhead' style='width:100%'>Torrent Name</td>
     <td class='colhead'>Multiplier</td>
     <td class='colhead' nowrap='nowrap'>Date started</td></tr>";
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         $HTMLOUT.= "<tr><td><a href='details.php?id=" . (int)$arr["torrentid"] . "'>" . htmlsafechars($arr["name"]) . "</a></td>
     <td>" . (int)$arr["multi"] . "</td>
     <td nowrap='nowrap'>" . get_date($arr["date"], 'LONG', 1, 0) . "</td></tr>";

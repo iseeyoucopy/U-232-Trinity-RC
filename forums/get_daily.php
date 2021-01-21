@@ -37,7 +37,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 					   'LEFT JOIN topics AS t ON t.id = p.topic_id '.
 					   'LEFT JOIN forums AS f ON f.id = t.forum_id '.
 					   'WHERE p.added > '.TIME_NOW.' - 86400 AND f.min_class_read <= '.sqlesc($CURUSER['class'])) or sqlerr(__FILE__, __LINE__);
-	$arr = mysqli_fetch_assoc($res);
+	$arr = $res->fetch_assoc();
 	((mysqli_free_result($res) || (is_object($res) && (get_class($res) == "mysqli_result"))) ? true : false);
         $count = (int)$arr['post_count'];
         if (empty($count))
@@ -79,7 +79,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 					   'LEFT JOIN users AS topicposter ON topicposter.id = t.user_id '.
 					   'WHERE p.added > '.TIME_NOW.' - 86400 AND f.min_class_read <= '.sqlesc($CURUSER['class']).' '.
 					   'ORDER BY p.added DESC '.$pager["limit"]) or sqlerr(__FILE__, __LINE__);
-    while ($getdaily = mysqli_fetch_assoc($res))
+    while ($getdaily = $res->fetch_assoc())
 	  {
 		$postid = (int)$getdaily['pid'];
 		$posterid = (int)$getdaily['userpost'];

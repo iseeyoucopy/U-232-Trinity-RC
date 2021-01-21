@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!$username || !$password) stderr("{$lang['text_error']}", "{$lang['text_please']}");
     $res = sql_query("SELECT id, secret, passhash FROM users WHERE username=" . sqlesc($username) . "") or sqlerr(__FILE__, __LINE__);
     if (mysqli_num_rows($res) != 1) stderr("{$lang['text_error']}", "{$lang['text_bad']}");
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     $wantpasshash = make_passhash($arr['secret'], md5($password));
     if($arr['passhash']!=$wantpasshash)
     stderr("{$lang['text_error']}", "{$lang['text_bad']}");

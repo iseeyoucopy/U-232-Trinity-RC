@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $t = '$TRINITY20[\'';
         $configfile = "<" . $lang['hnr_settings_this'] . date('M d Y H:i:s') . $lang['hnr_settings_stoner'];
         $res = sql_query("SELECT * from hit_and_run_settings ");
-        while ($arr = mysqli_fetch_assoc($res)) {
+        while ($arr = $res->fetch_assoc()) {
             $configfile.= "" . $t . "$arr[name]'] = $arr[value];\n";
         }
         $configfile.= "?" . ">";

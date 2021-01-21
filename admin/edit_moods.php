@@ -90,7 +90,7 @@ $HTMLOUT.= "<table class='table table-bordered'>
 $res = sql_query('SELECT * FROM moods ORDER BY id ASC') or sqlerr(__FILE__, __LINE__);
 if (mysqli_num_rows($res)) {
     $color = true;
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         $HTMLOUT.= '<tr ' . (($color = !$color) ? ' style="background-color:#000000;"' : 'style="background-color:#0f0f0f;"') . '>
       <td><img src="' . $TRINITY20['pic_base_url'] . 'smilies/' . htmlsafechars($arr['image']) . '" alt="" /></td>
       <td align="left">' . htmlsafechars($arr['name']) . '</td>

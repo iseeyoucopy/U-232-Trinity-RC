@@ -19,7 +19,7 @@ function docleanup($data)
     $res = sql_query("SELECT id, silver FROM torrents WHERE silver > 1 AND silver < " . TIME_NOW) or sqlerr(__FILE__, __LINE__);
     $Silver_buffer = array();
     if (mysqli_num_rows($res) > 0) {
-        while ($arr = mysqli_fetch_assoc($res)) {
+        while ($arr = $res->fetch_assoc()) {
             $Silver_buffer[] = '(' . $arr['id'] . ', \'0\')';
             $cache->update_row('torrent_details_' . $arr['id'], [
                 'silver' => 0

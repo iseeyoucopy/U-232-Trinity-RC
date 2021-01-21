@@ -78,7 +78,7 @@ function torrenttable($res, $variant = "index")
         else $$link = 'desc';
         $i++;
     }
-    while ($row = mysqli_fetch_assoc($res)) {
+    while ($row = $res->fetch_assoc()) {
     //==
         if ($CURUSER['opt2'] & user_options_2::SPLIT) {
             if (get_date($row['added'], 'DATE') == $prevdate) $cleandate = '';

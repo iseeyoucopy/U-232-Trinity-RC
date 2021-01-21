@@ -54,7 +54,7 @@ function docleanup($data)
         if (mysqli_num_rows($res) > 0) {
             $msg = "You have been auto-demoted from [b]{$class_name}[/b] to [b]{$prev_class_name}[/b] because your share ratio has dropped below {$minratio}.";
             
-            while ($arr = mysqli_fetch_assoc($res)) {
+            while ($arr = $res->fetch_assoc()) {
                 $ratio          = number_format($arr['uploaded'] / $arr['downloaded'], 3);
                 $modcomment     = $arr['modcomment'];
                 $userid         = $arr['id'];

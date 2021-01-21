@@ -42,7 +42,7 @@ $HTMLOUT.= "<div class='row'><div class='col-md-12'>";
 if (mysqli_num_rows($res) == 0) $HTMLOUT.= "".$lang['staff_shistory_none']."";
 else {
     $HTMLOUT.= "<table align='center' border='0' cellspacing='0' cellpadding='2' width='100%' class='small'>\n";
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         if (($arr['to_user'] != $CURUSER['id'] && $arr['to_user'] != 0) && $arr['userid'] != $CURUSER['id']) continue;
         if ($arr['to_user'] == $CURUSER['id'] || ($arr['userid'] == $CURUSER['id'] && $arr['to_user'] != 0)) $private = "<img src='{$TRINITY20['pic_base_url']}private-shout.png' alt='".$lang['staff_shistory_private1']."' title='".$lang['staff_shistory_private1']."!' width='16' style='padding-left:2px;padding-right:2px;' border='0' />";
         else $private = "<img src='{$TRINITY20['pic_base_url']}group.png' alt='".$lang['staff_shistory_public1']."' title='".$lang['staff_shistory_public1']."!' width='16' style='padding-left:2px;padding-right:2px;' border='0' />";

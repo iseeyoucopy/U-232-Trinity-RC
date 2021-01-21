@@ -72,7 +72,7 @@ function dltable($name, $arr, $torrent)
 }
 $res = sql_query("SELECT * FROM torrents WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
 if (mysqli_num_rows($res) == 0) stderr("{$lang['peerslist_error']}", "{$lang['peerslist_nothing']}");
-$row = mysqli_fetch_assoc($res);
+$row = $res->fetch_assoc();
 $downloaders = array();
 $seeders = array();
 $subres = sql_query("SELECT u.username, u.anonymous, t.owner, t.anonymous as tanonymous, t.seeders, t.leechers, x.tid, x.uploaded, x.downloaded, x.left, x.active, x.mtime AS la, x.uid, x.leechtime, x.seedtime, x.peer_id, x.upspeed, x.downspeed, x.ipa

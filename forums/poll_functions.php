@@ -34,7 +34,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 		$res = sql_query("SELECT p.*, pa.id AS pa_id, pa.selection FROM postpolls AS p LEFT JOIN postpollanswers AS pa ON pa.pollid = p.id AND pa.userid = ".sqlesc($CURUSER['id'])." WHERE p.id=".sqlesc($pollid)) or sqlerr(__FILE__, __LINE__);
 		if (mysqli_num_rows($res) > 0)
 		{
-		 $arr1 = mysqli_fetch_assoc($res);
+		 $arr1 = $res->fetch_assoc();
 		  $userid = (int)$CURUSER['id'];
 		  $question = htmlsafechars($arr1["question"]);
 		  $o = array($arr1["option0"], $arr1["option1"], $arr1["option2"], $arr1["option3"], $arr1["option4"],

@@ -80,7 +80,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 
     if ($Multi_forum['configs']['use_flood_mod'] && $CURUSER['class'] < UC_STAFF && !isMod($forumid, "topic")) {
         $res = sql_query("SELECT COUNT(id) AS c FROM posts WHERE user_id=".sqlesc($CURUSER['id'])." AND added > '".(TIME_NOW - ($Multi_forum['configs']['minutes'] * 60))."'");
-        $arr = mysqli_fetch_assoc($res);
+        $arr = $res->fetch_assoc();
 
         if ($arr['c'] > $Multi_forum['configs']['limit'])
             stderr("Flood", "More than ".$Multi_forum['configs']['limit']." posts in the last ".$Multi_forum['configs']['minutes']." minutes.");
@@ -129,7 +129,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 		if (mysqli_num_rows($res) == 0)
 			stderr('Error', 'Inexistent Topic!');
 		
-		$arr = mysqli_fetch_assoc($res);
+		$arr = $res->fetch_assoc();
 		$subject = htmlsafechars($arr["topic_name"]);
 		if ($arr["locked"] == 'yes' && $CURUSER['class'] < UC_STAFF)
 			stderr("Error", "This topic is locked; No new posts are allowed.");

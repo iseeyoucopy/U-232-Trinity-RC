@@ -1405,7 +1405,7 @@ the user class is just for show, but what the hell :p Add more or edit to your l
 			$points = 0 + $_POST['bonusgift'];
 			$usernamegift = htmlsafechars($_POST['username']);
 			$res = sql_query("SELECT id,seedbonus,bonuscomment,username FROM users WHERE username=" . sqlesc($usernamegift));
-			$arr = mysqli_fetch_assoc($res);
+			$arr = $res->fetch_assoc();
 			$useridgift = (int)$arr['id'];
 			$userseedbonus = (float)$arr['seedbonus'];
 			$bonuscomment_gift = htmlsafechars($arr['bonuscomment']);
@@ -1791,7 +1791,7 @@ $HTMLOUT .= "<div class='card-section'>
 			<div class='grid-x grid-padding-x small-up-1 medium-up-2 large-up-3' data-equalizer data-equalize-by-row='true' id='my_bonus'>";
 
 $res = sql_query("SELECT * FROM bonus WHERE enabled = 'yes' ORDER BY id ASC") or sqlerr(__FILE__, __LINE__);
-while ($gets = mysqli_fetch_assoc($res)) {
+while ($gets = $res->fetch_assoc()) {
 	switch (true) {
 		case ($gets['id'] == 5):
 			$HTMLOUT .= "

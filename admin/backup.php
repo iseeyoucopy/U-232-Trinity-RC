@@ -135,7 +135,7 @@ if (empty($mode)) {
    <td class='colhead' style='white-space:nowrap;'>{$lang['backup_addedby']}</td>
                 <td class='colhead' align='center'><input style='margin:0' type='checkbox' title='{$lang['backup_markall']}' onclick=\"this.value=check(form);\" /></td>
                 </tr>";
-        while ($arr = mysqli_fetch_assoc($res)) {
+        while ($arr = $res->fetch_assoc()) {
             $HTMLOUT.= "<tr>
                         <td><a href='staffpanel.php?tool=backup&amp;mode=download&amp;id=" . (int)$arr['id'] . "'>" . htmlsafechars($arr['name']) . "</a></td>
                         <td style='white-space:nowrap;'>" . get_date($arr['added'], 'DATE', 1, 0) . "</td>
@@ -189,7 +189,7 @@ if (empty($mode)) {
     $id = (isset($_GET['id']) ? (int)$_GET['id'] : 0);
     if (!is_valid_id($id)) stderr($lang['backup_stderr'], $lang['backup_id']);
     $res = sql_query("SELECT name FROM dbbackup WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     $filename = $backupdir . '/' . $arr['name'];
     //print $filename;
     //exit();
@@ -228,7 +228,7 @@ if (empty($mode)) {
         $res = sql_query("SELECT name FROM dbbackup WHERE id IN (" . implode(', ', array_map('sqlesc', $ids)) . ")") or sqlerr(__FILE__, __LINE__);
         $count = mysqli_num_rows($res);
         if ($count > 0) {
-            while ($arr = mysqli_fetch_assoc($res)) {
+            while ($arr = $res->fetch_assoc()) {
                 $filename = $backupdir . '/' . $arr['name'];
                 if (is_file($filename)) unlink($filename);
             }

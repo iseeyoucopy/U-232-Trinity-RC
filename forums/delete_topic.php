@@ -44,7 +44,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
             write_log("topicdelete","Topic <b>".htmlsafechars($a["topic_name"])."</b> was deleted by <a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$CURUSER['id']."'>".htmlsafechars($CURUSER['username'])."</a>.");
             if ($Multi_forum['configs']['use_attachment_mod']) {
                 $res = sql_query("SELECT attachments.file_name " . "FROM posts " . "LEFT JOIN attachments ON attachments.post_id = posts.id " . "WHERE posts.topic_id = ".sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
-                while ($arr = mysqli_fetch_assoc($res))
+                while ($arr = $res->fetch_assoc())
                 if (!empty($arr['filename']) && is_file($Multi_forum['configs']['attachment_dir']."/".$arr['filename']))
                     unlink($Multi_forum['configs']['attachment_dir']."/".$arr['filename']);
             }

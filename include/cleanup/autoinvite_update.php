@@ -23,7 +23,7 @@ function docleanup($data)
     if (mysqli_num_rows($res) > 0) {
         $subject = "Auto Invites";
         $msg = "Congratulations, your user group met a set out criteria therefore you have been awarded 2 invites  :)\n Please use them carefully. Cheers " . $TRINITY20['site_name'] . " staff.\n";
-        while ($arr = mysqli_fetch_assoc($res)) {
+        while ($arr = $res->fetch_assoc()) {
             $ratio = number_format($arr['uploaded'] / $arr['downloaded'], 3);
             $modcomment = $arr['modcomment'];
             $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - Awarded 2 bonus invites by System (UL=" . mksize($arr['uploaded']) . ", DL=" . mksize($arr['downloaded']) . ", R=" . $ratio . ") .\n" . $modcomment;

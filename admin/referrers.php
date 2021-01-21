@@ -50,7 +50,7 @@ if ($count > 0) {
     $i = (int)$_GET['page'] * $perpage;
     $pager = pager($perpage, $count, "staffpanel.php?tool=referrers&amp;");
     $res = sql_query("SELECT r.*, u.id as uid, u.username FROM referrers AS r LEFT JOIN users AS u ON u.ip = r.ip ORDER BY date DESC {$pager['limit']}") or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($res) > 0) while ($data = mysqli_fetch_assoc($res)) {
+    if (mysqli_num_rows($res) > 0) while ($data = $res->fetch_assoc()) {
         $i++;
         $http_agent = htmlsafechars($data['browser']);
         if (strstr($http_agent, "Opera")) 

@@ -100,7 +100,7 @@ if ($TRINITY20['dupeaccount_check_on'] == 1) {
     if(!empty(get_mycookie('log_uid'))){
 	    $ip = getip();
 	    $res = sql_query("SELECT * FROM users WHERE loginhash=" . sqlesc(get_mycookie('log_uid')));
-        if($row = mysqli_fetch_assoc($res)){
+        if($row = $res->fetch_assoc()){
 			if ($row['class'] < UC_SYSOP){
 		        $userid = $row['id'];
 		        $username = $row['username'];

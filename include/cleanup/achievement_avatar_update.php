@@ -21,7 +21,7 @@ function docleanup($data)
     if (mysqli_num_rows($res) > 0) {
         $subject = sqlesc("New Achievement Earned!");
         $msg = sqlesc("Congratulations, you have just earned the [b]Avatar Setter[/b] achievement. :) [img]".$TRINITY20['baseurl']."/pic/achievements/piratesheep.png[/img]");
-        while ($arr = mysqli_fetch_assoc($res)) {
+        while ($arr = $res->fetch_assoc()) {
             $dt = TIME_NOW;
             $points = rand(1, 3);
             $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';

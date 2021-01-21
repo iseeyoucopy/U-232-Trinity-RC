@@ -48,7 +48,7 @@ if ($ip) {
           <td class='colhead'>{$lang['testip_last']}</td>
           <td class='colhead'>{$lang['testip_comment']}</td>
         </tr>\n";
-        while ($arr = mysqli_fetch_assoc($res)) {
+        while ($arr = $res->fetch_assoc()) {
             $first = long2ip($arr["first"]);
             $last = long2ip($arr["last"]);
             $comment = htmlsafechars($arr["comment"]);

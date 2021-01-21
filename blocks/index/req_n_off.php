@@ -32,7 +32,7 @@ $requests = array();
 if (($requests = $cache->get($keys['requests'])) === false) {
     $res = sql_query("SELECT r.id AS request_id, r.request_name, r.category, r.comments, r.added, r.vote_yes_count, r.vote_no_count, r.filled_by_user_id, u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.leechwarn, u.chatpost, u.pirate, u.king FROM requests AS r LEFT JOIN users AS u ON r.requested_by_user_id = u.id WHERE filled_by_user_id = '' ORDER BY added DESC LIMIT {$TRINITY20['requests']['req_limit']}") or sqlerr(__FILE__, __LINE__);
     if (mysqli_num_rows($res)) {
-        while ($request = mysqli_fetch_assoc($res)) $requests[] = $request;
+        while ($request = $res->fetch_assoc()) $requests[] = $request;
         $cache->set($keys['requests'], $requests, $TRINITY20['expires']['req_limit']);
     }
 }
@@ -87,7 +87,7 @@ $offers = array();
 if (($offers = $cache->get('offers_')) === false) {
     $res = sql_query("SELECT o.id AS offer_id, o.offer_name, o.category, o.comments, o.added, o.filled_torrent_id, o.vote_yes_count, o.vote_no_count, o.status, u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.leechwarn, u.chatpost, u.pirate, u.king FROM offers AS o LEFT JOIN users AS u ON o.offered_by_user_id = u.id WHERE filled_torrent_id = 0 ORDER BY added DESC LIMIT {$TRINITY20['offers']['off_limit']}") or sqlerr(__FILE__, __LINE__);
     if (mysqli_num_rows($res)) {
-        while ($offer = mysqli_fetch_assoc($res)) $offers[] = $offer;
+        while ($offer = $res->fetch_assoc()) $offers[] = $offer;
         $cache->update_row('offers_', $offers, $TRINITY20['expires']['off_limit']);
     }
 }

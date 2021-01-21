@@ -65,7 +65,7 @@ if (isset($_POST['delete'])) {
     //=== Delete multiple messages
     foreach ($pm_messages as $id) {
         $res = sql_query('SELECT * FROM messages WHERE id=' . sqlesc($id));
-        $message = mysqli_fetch_assoc($res);
+        $message = $res->fetch_assoc();
         //=== make sure they aren't deleting a staff message...
         if ($message['receiver'] == $CURUSER['id'] && $message['urgent'] == 'yes' && $message['unread'] == 'yes') stderr($lang['pm_error'], '' . $lang['pm_delete_err'] . '<a class="altlink" href="pm_system.php?action=view_message&id=' . $pm_id . '">' . $lang['pm_delete_back'] . '</a>' . $lang['pm_delete_msg'] . '');
         //=== make sure message isn't saved before deleting it, or just update location

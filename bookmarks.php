@@ -147,7 +147,7 @@ function bookmarktable($res)
         'name' => $value['name'],
         'image' => $value['image']
     );
-    while ($row = mysqli_fetch_assoc($res)) {
+    while ($row = $res->fetch_assoc()) {
         $row['cat_name'] = htmlsafechars($change[$row['category']]['name']);
         $row['cat_pic'] = htmlsafechars($change[$row['category']]['image']);
         $id = (int)$row["id"];
@@ -293,7 +293,7 @@ function sharetable($res, $variant = "index")
         'name' => $value['name'],
         'image' => $value['image']
     );
-    while ($row = mysqli_fetch_assoc($res)) {
+    while ($row = $res->fetch_assoc()) {
         $row['cat_name'] = htmlsafechars($change[$row['category']]['name']);
         $row['cat_pic'] = htmlsafechars($change[$row['category']]['image']);
         $id = (int)$row["id"];

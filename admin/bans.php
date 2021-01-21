@@ -86,7 +86,7 @@ if (mysqli_num_rows($res) == 0) {
         <td class='colhead' align='left'>{$lang['header_comment']}</td>
         <td class='colhead'>{$lang['header_remove']}</td>
       </tr>\n";
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         $arr["first"] = long2ip($arr["first"]);
         $arr["last"] = long2ip($arr["last"]);
         $HTMLOUT.= "<tr>

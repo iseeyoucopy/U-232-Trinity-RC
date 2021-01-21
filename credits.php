@@ -65,7 +65,7 @@ return (strlen($txt)>$len ? substr($txt,0,$len-4) .'[...]':$txt);
 	$res = sql_query("SELECT name, description, category, u232lnk, status, credit FROM modscredits WHERE id =".$id."") or sqlerr(__FILE__, __LINE__);
 	if (mysqli_num_rows($res) == 0)
 	stderr("{$lang['credits_error']}", "{$lang['credits_nocr']}");
-	while($mod = mysqli_fetch_assoc($res)){
+	while($mod = $res->fetch_assoc()){
 
 	$HTMLOUT .= "<form method='post' action='".$_SERVER['PHP_SELF']."?action=update&amp;id=".$id."'>
   <table width='50%' cellpadding='10' cellspacing='1' border='1'>

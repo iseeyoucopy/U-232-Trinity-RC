@@ -143,7 +143,7 @@ if ($action == 'viewbug') {
       <td class='text-center'>{$lang['status']}</td>
       <td class='text-center'>{$lang['coder']}</td>
       </tr>";
-        while ($q1 = mysqli_fetch_assoc($res)) {
+        while ($q1 = $res->fetch_assoc()) {
             switch ($q1['priority']) {
             case 'low':
                 $priority = "<font color='green'>{$lang['low']}</font>";

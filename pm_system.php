@@ -264,7 +264,7 @@ function get_all_boxes()
                                             <option value="1">' . $lang['pm_inbox'] . '</option>
                                             <option value="-1">' . $lang['pm_sentbox'] . '</option>
                                             <option value="-2">' . $lang['pm_drafts'] . '</option>';
-        while ($row = mysqli_fetch_assoc($res)) {
+        while ($row = $res->fetch_assoc()) {
             $get_all_boxes.= '<option value="' . (int)$row['boxnumber'] . '">' . htmlsafechars($row['name']) . '</option>';
         }
         $get_all_boxes.= '</select>';
@@ -282,7 +282,7 @@ function insertJumpTo($mailbox)
                                     <input type="hidden" name="action" value="view_mailbox">
 									<label>' . $lang['pm_jump_to'] . '
                                     <select name="box" onchange="location = this.options[this.selectedIndex].value;">';
-        while ($row = mysqli_fetch_assoc($res)) {
+        while ($row = $res->fetch_assoc()) {
             $insertJumpTo.= '<option value="pm_system.php?action=view_mailbox&amp;box=' . (int)$row['boxnumber'] . '" ' . ((int)$row['boxnumber'] == $mailbox ? 'selected="selected"' : '') . '>' . htmlsafechars($row['name']) . '</option></label>';
         }
         $insertJumpTo.= '</select></form>';

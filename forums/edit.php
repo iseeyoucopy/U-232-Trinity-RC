@@ -39,7 +39,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
         $res = sql_query("SELECT name, description, min_class_read, min_class_write, min_class_create FROM forums WHERE id=".sqlesc($forumid)) or sqlerr(__FILE__, __LINE__);
         if (mysqli_num_rows($res) == 0)
         stderr('Error', 'No forum found with that ID!');
-        $forum = mysqli_fetch_assoc($res);
+        $forum = $res->fetch_assoc();
         if ($TRINITY20['forums_online'] == 0)
         $HTMLOUT .= stdmsg('Warning', 'Forums are currently in maintainance mode');
         $HTMLOUT .= begin_main_frame();

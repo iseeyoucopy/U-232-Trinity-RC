@@ -38,7 +38,7 @@ if ($remove) {
     $msgs_buffer = $users_buffer = array();
     if (mysqli_num_rows($res) > 0) {
         $msg = sqlesc($lang['freeusers_msg'] . $CURUSER['username'] . $lang['freeusers_period']);
-        while ($arr = mysqli_fetch_assoc($res)) {
+        while ($arr = $res->fetch_assoc()) {
             $modcomment = sqlesc(get_date(TIME_NOW, 'DATE', 1) . $lang['freeusers_mod1'] . $CURUSER['username'] . " \n");
             $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', \''.$lang['freeusers_msg_buffer'].'\')';
             $users_buffer[] = '(' . $arr['id'] . ',0,' . $modcomment . ')';

@@ -37,7 +37,7 @@ if ($Multi_forum['configs']['use_poll_mod'] && $_SERVER['REQUEST_METHOD'] == "PO
     $pollid = (int) $_POST["pollid"];
     if (ctype_digit($choice) && $choice < 256 && $choice == floor($choice)) {
         $res = sql_query("SELECT pa.id " . "FROM postpolls AS p " . "LEFT JOIN postpollanswers AS pa ON pa.pollid = p.id AND pa.userid=" . sqlesc($userid) . " " . "WHERE p.id = " . sqlesc($pollid)) or sqlerr(__FILE__, __LINE__);
-        $arr = mysqli_fetch_assoc($res) or stderr('Sorry', 'Inexistent poll!');
+        $arr = $res->fetch_assoc() or stderr('Sorry', 'Inexistent poll!');
         if (is_valid_id($arr['id']))
             stderr("Error...", "Dupe vote");
         sql_query("INSERT INTO postpollanswers (pollid, userid, selection) VALUES(" . sqlesc($pollid) . ", " . sqlesc($userid) . ", " . sqlesc($choice) . ")") or sqlerr(__FILE__, __LINE__);
@@ -52,7 +52,7 @@ if (!is_valid_id($topicid))
 $page = (isset($_GET["page"]) ? (int) $_GET["page"] : 0);
 // ------ Get topic info
 $res = sql_query("SELECT " . ($Multi_forum['configs']['use_poll_mod'] ? 't.poll_id, ' : '') . "t.locked, t.num_ratings, t.rating_sum,  t.topic_name, t.sticky, t.user_id AS t_userid, t.forum_id, f.name AS forum_name, f.min_class_read, f.min_class_write, f.min_class_create, (SELECT COUNT(id)FROM posts WHERE topic_id = t.id) AS p_count " . "FROM topics AS t " . "LEFT JOIN forums AS f ON f.id = t.forum_id " . "WHERE t.id = " . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
-$arr = mysqli_fetch_assoc($res) or stderr("Error", "Topic not found");
+$arr = $res->fetch_assoc() or stderr("Error", "Topic not found");
 ((mysqli_free_result($res) || (is_object($res) && (get_class($res) == "mysqli_result"))) ? true : false);
 ($Multi_forum['configs']['use_poll_mod'] ? $pollid = (int) $arr["poll_id"] : null);
 $t_userid  = (int) $arr['t_userid'];
@@ -113,7 +113,7 @@ $HTMLOUT .= "<div class='grid-x grid-margin-x callout'>";
 if ($Multi_forum['configs']['use_poll_mod'] && is_valid_id($pollid)) {
     $res = sql_query("SELECT p.*, pa.id AS pa_id, pa.selection FROM postpolls AS p LEFT JOIN postpollanswers AS pa ON pa.pollid = p.id AND pa.userid = " . sqlesc($CURUSER['id']) . " WHERE p.id=" . sqlesc($pollid)) or sqlerr(__FILE__, __LINE__);
     if (mysqli_num_rows($res) > 0) {
-        $arr1     = mysqli_fetch_assoc($res);
+        $arr1     = $res->fetch_assoc();
         $userid   = (int) $CURUSER['id'];
         $question = htmlsafechars($arr1["question"]);
         $o        = array(
@@ -272,7 +272,7 @@ if (($topic_users_cache = $cache->get($keys['now_viewing'])) === false) {
     $topic_users_cache = array();
     $res = sql_query('SELECT n_v.user_id, u.id, u.username, u.class, u.donor, u.suspended, u.warned, u.enabled, u.chatpost, u.leechwarn, u.pirate, u.king, u.perms FROM now_viewing AS n_v LEFT JOIN users AS u ON n_v.user_id = u.id WHERE topic_id = ' . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
     $actcount = mysqli_num_rows($res);
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         if ($topicusers)
             $topicusers .= ",\n";
         $topicusers .= ($arr['perms'] & bt_options::PERMS_STEALTH ? '<i>UnKn0wn</i>' : format_username($arr));
@@ -324,7 +324,7 @@ $HTMLOUT .= "
 $res = sql_query("SELECT p.id, p.added, p.user_id, p.added, p.body, p.edited_by, p.edit_date, p.icon, p.anonymous as p_anon, p.user_likes, u.id AS uid, u.username as uusername, u.class, u.avatar, u.offensive_avatar, u.donor, u.title, u.username, u.reputation, u.mood, u.anonymous, u.country, u.enabled, u.warned, u.chatpost, u.leechwarn, u.pirate, u.king, u.uploaded, u.downloaded, u.signature, u.last_access, (SELECT COUNT(id)  FROM posts WHERE user_id = u.id) AS posts_count, u2.username as u2_username " . ($Multi_forum['configs']['use_attachment_mod'] ? ", at.id as at_id, at.file_name as at_filename, at.post_id as at_postid, at.size as at_size, at.times_downloaded as at_downloads, at.user_id as at_owner " : "") . ", (SELECT last_post_read FROM read_posts WHERE user_id = " . sqlesc((int) $CURUSER['id']) . " AND topic_id = p.topic_id LIMIT 1) AS last_post_read " . "FROM posts AS p " . "LEFT JOIN users AS u ON p.user_id = u.id " . ($Multi_forum['configs']['use_attachment_mod'] ? "LEFT JOIN attachments AS at ON at.post_id = p.id " : "") . "LEFT JOIN users AS u2 ON u2.id = p.edited_by " . "WHERE p.topic_id = " . sqlesc($topicid) . " ORDER BY id LIMIT $offset, $perpage") or sqlerr(__FILE__, __LINE__);
 $pc = mysqli_num_rows($res);
 $pn = 0;
-while ($arr = mysqli_fetch_assoc($res)) {
+while ($arr = $res->fetch_assoc()) {
     ++$pn;
     // --------------- likes start------
     $att_str = '';

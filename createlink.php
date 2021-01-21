@@ -25,7 +25,7 @@ $id = (isset($_GET['id']) ? (int) $_GET['id'] : (isset($_POST['id']) ? (int) $_P
 
 $action = isset($_GET['action']) ? htmlsafechars($_GET['action']) : '';
 $res = sql_query("SELECT hash1, username, passhash FROM users WHERE id = " . sqlesc($id) . " AND class >= " . UC_STAFF) or sqlerr(__FILE__, __LINE__);
-$arr = mysqli_fetch_assoc($res);
+$arr = $res->fetch_assoc();
 $hash1 = md5($arr['username'] . TIME_NOW . $arr['passhash']);
 $hash2 = md5($hash1 . TIME_NOW . $arr['username']);
 $hash3 = md5($hash1 . $hash2 . $arr['passhash']);

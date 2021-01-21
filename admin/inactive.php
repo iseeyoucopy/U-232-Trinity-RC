@@ -130,7 +130,7 @@ if ($count_inactive > 0) {
     <td class='colhead'>{$lang['inactive_ratio']}</td>
     <td class='colhead'>{$lang['inactive_lastseen']}</td>
     <td class='colhead' align='center'>{$lang['inactive_x']}</td></tr>";
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         $ratio = (member_ratio($arr['uploaded'], $TRINITY20['ratio_free'] ? '0' : $arr['downloaded']));
         $last_seen = (($arr["last_access"] == "0") ? "never" : "" . get_date($arr["last_access"], 'DATE') . "&nbsp;");
         $class = get_user_class_name($arr["class"]);

@@ -21,7 +21,7 @@ function docleanup($data)
     $secs = $TRINITY20['caindays'] * 86400;
     $hnr = TIME_NOW - $secs;
     $res = sql_query('SELECT id FROM snatched WHERE hit_and_run <> \'0\' AND hit_and_run < '.sqlesc($hnr)) or sqlerr(__FILE__, __LINE__);
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         sql_query('UPDATE snatched SET mark_of_cain = \'yes\' WHERE id='.sqlesc($arr['id'])) or sqlerr(__FILE__, __LINE__);
     }
     //=== hit and run... disable Downloading rights if they have 3 marks of cain

@@ -68,7 +68,7 @@ $HTMLOUT = '';
 $res = sql_query("SELECT agent, peer_id FROM peers GROUP BY agent") or sqlerr(__FILE__, __LINE__);
 $HTMLOUT.= "<div class='row'><div class='col-md-12'><table class='table table-bordered'>
 	<tr><td class='colhead'>{$lang['allagents_client']}</td><td class='colhead'>{$lang['allagents_peerid']}</td></tr>";
-while ($arr = mysqli_fetch_assoc($res)) {
+while ($arr = $res->fetch_assoc()) {
     $HTMLOUT.= "<tr><td align='left'>" . htmlsafechars($arr["agent"]) . "</td><td align='left'>" . htmlsafechars($arr["peer_id"]) . "</td></tr>\n";
 }
 $HTMLOUT.= "</table></div></div>\n";

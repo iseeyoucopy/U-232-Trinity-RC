@@ -30,7 +30,7 @@ if (!is_valid_id($id))
     stderr("Error", "It appears that you have entered an invalid id.");
 
 $res = sql_query("SELECT * FROM users WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-$arr = mysqli_fetch_assoc($res);
+$arr = $res->fetch_assoc();
 
 if (!$arr)
     stderr("Error", "It appears that there is no user with that id.");

@@ -45,7 +45,7 @@ if ((isset($_GET['show_shout'])) && (($show_shout = $_GET['show']))) {
     }
     $res = sql_query('SELECT id, username, opt1 FROM users
                      WHERE id = ' . sqlesc($CURUSER['id']) . ' LIMIT 1') or sqlerr(__file__, __line__);
-    $row = mysqli_fetch_assoc($res);
+    $row = $res->fetch_assoc();
     $row['opt1'] = (int) $row['opt1'];
     // update caches
     $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
@@ -461,7 +461,7 @@ if (isset($_GET['sent']) && ($_GET['sent'] == "yes")) {
 //== cache the data
 if (($shouts = $cache->get('shoutbox_')) === false) {
     $res = sql_query("SELECT s.id, s.userid, s.date, s.text, s.to_user, s.staff_shout, s.autoshout, u.username, u.pirate, u.perms, u.king, u.class, u.donor, u.warned, u.leechwarn, u.enabled, u.chatpost FROM shoutbox AS s LEFT JOIN users AS u ON s.userid=u.id WHERE s.staff_shout ='no' AND s.autoshout='no' ORDER BY s.id DESC LIMIT 150") or sqlerr(__FILE__, __LINE__);
-    while ($shout = mysqli_fetch_assoc($res)) {
+    while ($shout = $res->fetch_assoc()) {
         $shouts[] = $shout;
     }
     $cache->set('shoutbox_', $shouts, $TRINITY20['expires']['shoutbox']);

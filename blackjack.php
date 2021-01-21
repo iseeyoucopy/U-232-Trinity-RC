@@ -85,7 +85,7 @@ if ($game) {
                 stderr("{$lang['bj_sorry2']} " . $CURUSER["username"], "{$lang['bj_your_ratio_is_lower_req']} " . $required_ratio . "%.");
             }
             $res = sql_query("SELECT status, gameover FROM blackjack WHERE userid = " . sqlesc($CURUSER['id']));
-            $arr = mysqli_fetch_assoc($res);
+            $arr = $res->fetch_assoc();
             if ($arr['status'] == 'waiting') {
                 stderr($lang['bj_sorry'], $lang['bj_you_will_have_to_wait_til_complete']);
             } elseif ($arr['status'] == 'playing') {

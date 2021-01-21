@@ -39,7 +39,7 @@ $staff = sqlesc(UC_STAFF);
 if (($staff_classes = $cache->get('is_staffs_')) === false) {
     $res = sql_query("SELECT value from class_config WHERE name NOT IN ('UC_MIN', 'UC_STAFF', 'UC_MAX') AND value >= '$staff' ORDER BY value asc");
     $staff_classes = array();
-    while (($row = mysqli_fetch_assoc($res))) {
+    while (($row = $res->fetch_assoc())) {
         $staff_classes[] = $row['value'];
         $cache->set('is_staffs_', $staff_classes, 900); //==  test values 900 to 0 with delete keys //==
     }
@@ -174,7 +174,7 @@ if (in_array($tool, $staff_tools) and file_exists(ADMIN_DIR . $staff_tools[$tool
     if ($action == 'delete' && is_valid_id($id) && $CURUSER['class'] == UC_MAX) {
         $sure = ((isset($_GET['sure']) ? $_GET['sure'] : '') == 'yes');
         $res = sql_query('SELECT av_class' . (!$sure || $CURUSER['class'] <= UC_MAX ? ', page_name' : '') . ' FROM staffpanel WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-        $arr = mysqli_fetch_assoc($res);
+        $arr = $res->fetch_assoc();
         if ($CURUSER['class'] < $arr['av_class'])
             stderr($lang['spanel_error'], $lang['spanel_you_not_allow_del_page']);
         if (!$sure)
@@ -198,7 +198,7 @@ if (in_array($tool, $staff_tools) and file_exists(ADMIN_DIR . $staff_tools[$tool
         );
         if ($action == 'edit') {
             $res = sql_query('SELECT ' . implode(', ', $names) . ' FROM staffpanel WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-            $arr = mysqli_fetch_assoc($res);
+            $arr = $res->fetch_assoc();
         }
         foreach ($names as $name)
             $$name = (isset($_POST[$name]) ? $_POST[$name] : ($action == 'edit' ? $arr[$name] : ''));
@@ -322,7 +322,7 @@ $HTMLOUT .= "<div class='row'><span class='label'><h2>{$lang['spanel_options']}<
         $res = sql_query('SELECT staffpanel.*, users.username ' . 'FROM staffpanel ' . 'LEFT JOIN users ON users.id = staffpanel.added_by ' . 'WHERE av_class <= ' . sqlesc($CURUSER['class']) . ' ' . 'ORDER BY av_class DESC, page_name ASC') or sqlerr(__FILE__, __LINE__);
         if (mysqli_num_rows($res) > 0) {
             $db_classes = $unique_classes = $mysql_data = array();
-            while ($arr = mysqli_fetch_assoc($res))
+            while ($arr = $res->fetch_assoc())
                 $mysql_data[] = $arr;
             foreach ($mysql_data as $key => $value)
                 $db_classes[$value['av_class']][] = $value['av_class'];

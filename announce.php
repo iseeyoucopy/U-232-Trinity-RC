@@ -131,7 +131,7 @@ if ($_GET['compact'] != 1) {
 }
 $peer = array();
 $peer_num = 0;
-while ($row = mysqli_fetch_assoc($res)) {
+while ($row = $res->fetch_assoc()) {
     if ($_GET['compact'] != 1) {
         $row["peer_id"] = str_pad($row["peer_id"], 20);
         if ($row["peer_id"] === $peer_id) {
@@ -167,7 +167,7 @@ else {
 $selfwhere = "torrent=" . ann_sqlesc($torrentid) . " AND " . hash_where("peer_id", $peer_id);
 if (!isset($self)) {
     $res = ann_sql_query("SELECT $fields FROM peers WHERE $selfwhere") or ann_sqlerr(__FILE__, __LINE__);
-    $row = mysqli_fetch_assoc($res);
+    $row = $res->fetch_assoc();
     if ($row) {
         $userid = (int)$row['userid'];
         $self = $row;

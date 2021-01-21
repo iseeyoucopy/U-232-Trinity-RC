@@ -65,7 +65,7 @@ $HTMLOUT.="<div class='card'>
 ";
 if (($top5torrents = $cache->get('top5_tor_')) === false) {
     $res = sql_query("SELECT id, seeders, poster, leechers, name, category from torrents ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}") or sqlerr(__FILE__, __LINE__);
-    while ($top5torrent = mysqli_fetch_assoc($res)) $top5torrents[] = $top5torrent;
+    while ($top5torrent = $res->fetch_assoc()) $top5torrents[] = $top5torrent;
     $cache->set('top5_tor_', $top5torrents);
 }
 if ($top5torrents && count($top5torrents) > 0) {

@@ -66,7 +66,7 @@ if (mysqli_num_rows($res) == 0) {
         <td class='colhead' align='left'>{$lang['sysoplog_time']}</td>
         <td class='colhead' align='left'>{$lang['sysoplog_event']}</td>
       </tr>";
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         $color = '#FF4763';
         if (strpos($arr['txt'], $lang['sysoplog_warned'])) $color = "#FF0000";
         if (strpos($arr['txt'], $lang['sysoplog_leechw'])) $color = "#9ED9D0";

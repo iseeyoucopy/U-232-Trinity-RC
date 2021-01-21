@@ -22,7 +22,7 @@ function docleanup($data)
         $dt = TIME_NOW;
         $points = rand(1, 3);
         $subject = sqlesc("New Achievement Earned!");
-        while ($arr = mysqli_fetch_assoc($res)) {
+        while ($arr = $res->fetch_assoc()) {
             $seedbonus = (float)$arr['seedbonus'];
             $lvl = (int)$arr['bonus'];
             if ($seedbonus >= 1 && $lvl == 0) {

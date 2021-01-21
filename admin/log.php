@@ -65,7 +65,7 @@ if (mysqli_num_rows($res) == 0) {
         <td>{$lang['header_date']}</td>
         <td>{$lang['header_event']}</td>
       </tr>";
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         $color = '#333333';
         if (strpos($arr['txt'], $lang['log_uploaded'])) $color = "#4799ad";
         if (strpos($arr['txt'], $lang['log_created'])) $color = "#CC9966";

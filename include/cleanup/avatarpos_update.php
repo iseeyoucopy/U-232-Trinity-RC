@@ -21,7 +21,7 @@ function docleanup($data)
     if (mysqli_num_rows($res) > 0) {
         $subject = "Avatar ban expired.";
         $msg = "Your Avatar ban has expired and has been auto-removed by the system.\n";
-        while ($arr = mysqli_fetch_assoc($res)) {
+        while ($arr = $res->fetch_assoc()) {
             $modcomment = $arr['modcomment'];
             $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - Avatar ban Removed By System.\n" . $modcomment;
             $modcom = sqlesc($modcomment);

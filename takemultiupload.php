@@ -53,7 +53,7 @@ function file_list($arr, $id)
 }
 $cats = "";
     $res  = sql_query("SELECT id, name FROM categories");
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         $cats[$arr["id"]] = $arr["name"];
     }
 $processed = $successful = 0;

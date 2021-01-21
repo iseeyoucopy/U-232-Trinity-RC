@@ -21,7 +21,7 @@ function docleanup($data)
     if (mysqli_num_rows($res) > 0) {
         $subject = "VIP status expired.";
         $msg = "Your VIP status has timed out and has been auto-removed by the system. Become a VIP again by donating to {$TRINITY20['site_name']} , or exchanging some Karma Bonus Points. Cheers !\n";
-        while ($arr = mysqli_fetch_assoc($res)) {
+        while ($arr = $res->fetch_assoc()) {
             $modcomment = $arr['modcomment'];
             $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - Vip status Automatically Removed By System.\n" . $modcomment;
             $modcom = sqlesc($modcomment);

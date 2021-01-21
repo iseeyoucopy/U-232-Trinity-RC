@@ -88,7 +88,7 @@ if (mysqli_num_rows($res) != 0) {
 	  <td class='colhead'>{$lang['text_status']}</td>
 	  <td class='colhead' style='white-space: nowrap;'>{$lang['text_enabled']}</td>
 	  </tr>";
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         $uploaded = mksize($arr["uploaded"]);
         $downloaded = mksize($arr["downloaded"]);
         $ratio = $arr['downloaded'] > 0 ? $arr['uploaded'] / $arr['downloaded'] : 0;

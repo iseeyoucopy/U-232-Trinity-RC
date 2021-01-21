@@ -63,7 +63,7 @@ function docleanup($data)
             
             $subject = "Class Promotion";
             $msg     = "Congratulations, you have been promoted to [b]" . $class_name . "[/b]. :)\n You get one extra invite.\n";
-            while ($arr = mysqli_fetch_assoc($res)) {
+            while ($arr = $res->fetch_assoc()) {
                 $ratio             = number_format($arr['uploaded'] / $arr['downloaded'], 3);
                 $modcomment        = $arr['modcomment'];
                 $userid            = $arr['id'];

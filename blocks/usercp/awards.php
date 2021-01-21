@@ -7,7 +7,7 @@ if ($TRINITY20['achieve_sys_on'] == false) {
     else
     {
 $res = sql_query("SELECT users.id, users.username, usersachiev.achpoints, usersachiev.spentpoints FROM users LEFT JOIN usersachiev ON users.id = usersachiev.id WHERE users.id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-$arr = mysqli_fetch_assoc($res);
+$arr = $res->fetch_assoc();
 if (!$arr) stderr($lang['achievement_history_err'], $lang['achievement_history_err1']);
 $achpoints = (int)$arr['achpoints'];
 $spentpoints = (int)$arr['spentpoints'];
@@ -26,7 +26,7 @@ $HTMLOUT.= "<div class='card'>
 <p>{$lang['achievement_history_c']}" . htmlsafechars($row['0']) . "{$lang['achievement_history_a']}" . ($row[0] == 1 ? "" : "s") . "</p>
     <p>" . htmlsafechars($achpoints) . "{$lang['achievement_history_pa']}" . htmlsafechars($spentpoints) . "{$lang['achievement_history_ps']}</p>";
 $res = sql_query("SELECT * FROM achievements WHERE userid=" . sqlesc($CURUSER['id']) . " ORDER BY date DESC {$pager['limit']}") or sqlerr(__FILE__, __LINE__);
-while ($arr = mysqli_fetch_assoc($res)) {
+while ($arr = $res->fetch_assoc()) {
 $HTMLOUT.= "
 <div class='media-object callout'>
   <div class='media-object-section'>

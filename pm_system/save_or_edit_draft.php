@@ -64,7 +64,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'preview') {
 } else {
     //=== Get the info
     $res = sql_query('SELECT * FROM messages WHERE id=' . sqlesc($pm_id)) or sqlerr(__FILE__, __LINE__);
-    $message = mysqli_fetch_assoc($res);
+    $message = $res->fetch_assoc();
     $subject = htmlsafechars($message['subject']);
     $draft = $message['msg'];
 }

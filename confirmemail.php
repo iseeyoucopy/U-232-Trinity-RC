@@ -26,7 +26,7 @@ $email = urldecode($_GET['email']);
 if (!validemail($email)) stderr("{$lang['confirmmail_user_error']}", "{$lang['confirmmail_false_email']}");
 dbconn();
 $res = sql_query("SELECT editsecret FROM users WHERE id =" . sqlesc($id));
-$row = mysqli_fetch_assoc($res);
+$row = $res->fetch_assoc();
 if (!$row) stderr("{$lang['confirmmail_user_error']}", "{$lang['confirmmail_not_complete']}");
 $sec = $row['editsecret'];
 if (preg_match('/^ *$/s', $sec)) stderr("{$lang['confirmmail_user_error']}", "{$lang['confirmmail_not_complete']}");

@@ -50,7 +50,7 @@ $hash2 = substr($qlogin, 32, 32);
 $hash3 = substr($qlogin, 64, 32);
 $hash1.= $hash2 . $hash3;
 $res = sql_query("SELECT id, username, passhash, enabled FROM users WHERE hash1 = " . sqlesc($hash1) . " AND class >= " . UC_STAFF . " AND status = 'confirmed' LIMIT 1") or sqlerr(__FILE__, __LINE__);
-$row = mysqli_fetch_assoc($res);
+$row = $res->fetch_assoc();
 $ip = getip();
 if (!$row) {
     $added = TIME_NOW;

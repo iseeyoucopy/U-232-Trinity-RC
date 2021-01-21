@@ -55,7 +55,7 @@ function deletetorrent_xbt($id)
         $cache->delete($keys['my_xbt_peers'] . $CURUSER['id']);
     }
 $res = sql_query("SELECT name, owner, seeders FROM torrents WHERE id =" . sqlesc($id));
-$row = mysqli_fetch_assoc($res);
+$row = $res->fetch_assoc();
 if (!$row) stderr("{$lang['delete_failed']}", "{$lang['delete_not_exist']}");
 if ($CURUSER["id"] != $row["owner"] && $CURUSER["class"] < UC_STAFF) stderr("{$lang['delete_failed']}", "{$lang['delete_not_owner']}\n");
 $rt = 0 + $_POST["reasontype"];

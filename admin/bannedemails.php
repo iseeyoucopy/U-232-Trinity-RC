@@ -78,7 +78,7 @@ if (mysqli_num_rows($res) == 0) $HTMLOUT.= "<p align='center'><b>{$lang['ad_bane
 else {
     $HTMLOUT.= "<table class='table table-bordered'>\n";
     $HTMLOUT.= "<tr><td class='colhead'>{$lang['ad_banemail_add1']}</td><td class='colhead' align='left'>{$lang['ad_banemail_email']}</td>" . "<td class='colhead' align='left'>{$lang['ad_banemail_by']}</td><td class='colhead' align='left'>{$lang['ad_banemail_comment']}</td><td class='colhead'>{$lang['ad_banemail_remove']}</td></tr>\n";
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         $HTMLOUT.= "<tr><td align='left'>" . get_date($arr['added'], '') . "</td>
             <td align='left'>" . htmlsafechars($arr['email']) . "</td>
             <td align='left'><a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int)$arr['addedby'] . "'>" . htmlsafechars($arr['username']) . "</a></td>

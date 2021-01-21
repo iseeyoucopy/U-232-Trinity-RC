@@ -108,7 +108,7 @@ if ($ip) {
     $HTMLOUT.= "<table class='table table-bordered'>\n";
     $HTMLOUT.= "<tr>
 	  <td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=username'>{$lang['ipsearch_username']}</a></td>" . "<td class='colhead'>{$lang['ipsearch_ratio']}</td>" . "<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=email'>{$lang['ipsearch_email']}</a></td>" . "<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=last_ip'>{$lang['ipsearch_ip']}</a></td>" . "<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=last_access'>{$lang['ipsearch_access']}</a></td>" . "<td class='colhead'>{$lang['ipsearch_num']}</td>" . "<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask'>{$lang['ipsearch_access']} on <br />" . htmlsafechars($ip) . "</a></td>" . "<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=added'>{$lang['ipsearch_added']}</a></td>" . "<td class='colhead'>{$lang['ipsearch_invited']}</td></tr>";
-    while ($user = mysqli_fetch_assoc($res)) {
+    while ($user = $res->fetch_assoc()) {
         if ($user['added'] == '0') $user['added'] = '---';
         if ($user['last_access'] == '0') $user['last_access'] = '---';
         if ($user['last_ip']) {

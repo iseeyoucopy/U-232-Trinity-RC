@@ -23,7 +23,7 @@ if ($action == "download") {
     if ($id == 0) stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
     else {
         $res = sql_query("SELECT id, name, filename FROM subtitles WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-        $arr = mysqli_fetch_assoc($res);
+        $arr = $res->fetch_assoc();
         $ext = (substr($arr["filename"], -3));
         $fileName = str_replace(array(
             " ",

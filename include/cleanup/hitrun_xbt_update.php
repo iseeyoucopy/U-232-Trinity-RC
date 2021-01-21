@@ -20,7 +20,7 @@ function docleanup($data)
     //===09 hnr by sir_snugglebunny
     $secs =  43200;
     $res = sql_query('SELECT tid, uid FROM xbt_peers WHERE seedtime = \'0\' OR seedtime < '.sqlesc($secs).' AND completed >=\'1\' AND downloaded >\'0\'') or sqlerr(__FILE__, __LINE__);
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         sql_query('UPDATE xbt_peers SET mark_of_cain = \'yes\', hit_and_run = '.TIME_NOW.' WHERE  tid='.sqlesc($arr['tid']).' AND uid='.sqlesc($arr['uid'])) or sqlerr(__FILE__, __LINE__);
     }
     //=== hit and run... disable Downloading rights if they have x marks of cain

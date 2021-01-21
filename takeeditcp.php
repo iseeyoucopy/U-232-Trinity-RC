@@ -472,7 +472,7 @@ if ($setbits || $clrbits) sql_query('UPDATE users SET opt1 = ((opt1 | ' . $setbi
 // grab current data
 $res = sql_query('SELECT opt1, opt2 FROM users 
                      WHERE id = ' . sqlesc($CURUSER["id"]) . ' LIMIT 1') or sqlerr(__file__, __line__);
-$row = mysqli_fetch_assoc($res);
+$row = $res->fetch_assoc();
 $row['opt1'] = (int)$row['opt1'];
 $row['opt2'] = (int)$row['opt2'];
 $cache->update_row($keys['my_userid'] . $CURUSER["id"], [

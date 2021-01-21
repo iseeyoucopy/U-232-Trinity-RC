@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
      $t = '$TRINITY20';
 $iconfigfile = "<" . "?php\n/**\n{$lang['paypal_file_created']}" . date('M d Y H:i:s') . ".\n{$lang['paypal_site']}.\n**/\n";
      $res = sql_query("SELECT * from paypal_config ");
-     while ($arr = mysqli_fetch_assoc($res)) {
+     while ($arr = $res->fetch_assoc()) {
         if($arr['name']=="email")
         $iconfigfile.= "" . $t . "['paypal_config']['$arr[name]'] = '$arr[value]';\n";
         else if($arr['name']=="sandbox")

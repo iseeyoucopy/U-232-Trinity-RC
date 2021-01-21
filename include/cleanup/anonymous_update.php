@@ -21,7 +21,7 @@ function docleanup($data)
     if (mysqli_num_rows($res) > 0) {
         $subject = "Anonymous profile expired.";
         $msg = "Your Anonymous profile has timed out and has been auto-removed by the system. If you would like to have it again, exchange some Karma Bonus Points again. Cheers!\n";
-        while ($arr = mysqli_fetch_assoc($res)) {
+        while ($arr = $res->fetch_assoc()) {
             $modcomment = $arr['modcomment'];
             $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - Anonymous profile Automatically Removed By System.\n" . $modcomment;
             $modcom = sqlesc($modcomment);

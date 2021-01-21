@@ -40,7 +40,7 @@ $perpage = 15;
 $pager = pager($perpage, $count, "staffpanel.php?tool=user_hits&amp;id=$id&amp;");
 if (!$count) stderr($lang['userhits_stderr'], $lang['userhits_stderr1']);
 $res = sql_query("SELECT username FROM users WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-$user = mysqli_fetch_assoc($res);
+$user = $res->fetch_assoc();
 $HTMLOUT.= "<h1>{$lang['userhits_profile']}<a href=\"userdetails.php?id=" . $id . "\">" . htmlsafechars($user['username']) . "</a></h1>
 <h2>{$lang['userhits_total']}" . htmlsafechars($count) . "{$lang['userhits_views']}</h2>";
 if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
@@ -52,7 +52,7 @@ $HTMLOUT.= "
 <td class='colhead'>{$lang['userhits_viewed']}</td>
 </tr>\n";
 $res = sql_query("SELECT uh.*, username, users.id as uid FROM userhits uh LEFT JOIN users ON uh.userid = users.id WHERE hitid =" . sqlesc($id) . " ORDER BY uh.id DESC " . $pager['limit']) or sqlerr(__FILE__, __LINE__);
-while ($arr = mysqli_fetch_assoc($res)) {
+while ($arr = $res->fetch_assoc()) {
     $HTMLOUT.= "
 <tr><td>" . number_format($arr['number']) . "</td>
 <td><b><a href=\"userdetails.php?id=" . (int)$arr['uid'] . "\">" . htmlsafechars($arr['username']) . "</a></b></td>

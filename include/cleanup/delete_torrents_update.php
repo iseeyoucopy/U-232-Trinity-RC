@@ -19,7 +19,7 @@ function docleanup($data)
     $days = 30;
     $dt = (TIME_NOW - ($days * 86400));
     $res = sql_query("SELECT id, name FROM torrents WHERE last_action < $dt AND seeders='0' AND leechers='0'");
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         sql_query("DELETE peers.*, files.*, comments.*, snatched.*, thankyou.*, thanks.*,thumbsup.*, bookmarks.*, coins.*, rating.*, torrents.* FROM torrents 
 				 LEFT JOIN peers ON peers.torrent = torrents.id
 				 LEFT JOIN files ON files.torrent = torrents.id

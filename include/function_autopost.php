@@ -16,7 +16,7 @@ function auto_post($subject = "Error - Subject Missing", $body = "Error - No Bod
     global $CURUSER, $TRINITY20, $cache;
     $res = sql_query("SELECT id FROM topics WHERE forum_id = {$TRINITY20['staff']['forumid']} AND topic_name = " . sqlesc($subject));
     if (mysqli_num_rows($res) == 1) { // Topic already exists in the system forum.
-        $arr = mysqli_fetch_assoc($res);
+        $arr = $res->fetch_assoc();
         $topicid = (int)$arr['id'];
     } else { // Create new topic.
         sql_query("INSERT INTO topics (user_id, forum_id, topic_name) VALUES({$TRINITY20['bot_id']}, {$TRINITY20['staff']['forumid']}, $subject)") or sqlerr(__FILE__, __LINE__);

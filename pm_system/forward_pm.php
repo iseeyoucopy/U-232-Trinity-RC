@@ -37,7 +37,7 @@ if (!defined('BUNNY_PM_SYSTEM')) {
 }
 //=== make sure they "should" be forwarding this PM
 $res = sql_query('SELECT * FROM messages WHERE id=' . sqlesc($pm_id)) or sqlerr(__FILE__, __LINE__);
-$message = mysqli_fetch_assoc($res);
+$message = $res->fetch_assoc();
 if (mysqli_num_rows($res) === 0) stderr($lang['pm_error'], $lang['pm_forwardpm_notfound']);
 if ($message['receiver'] == $CURUSER['id'] && $message['sender'] == $CURUSER['id']) stderr($lang['pm_error'], $lang['pm_forwardpm_gentleman']);
 //=== Try finding a user with specified name
@@ -50,7 +50,7 @@ if (mysqli_num_rows($res_count) > ($maxbox * 6) && $CURUSER['class'] < UC_STAFF)
 //=== allow suspended users to PM / forward to staff only
 if ($CURUSER['suspended'] === 'yes') {
     $res = sql_query('SELECT class FROM users WHERE id = ' . sqlesc($to_username['id'])) or sqlerr(__FILE__, __LINE__);
-    $row = mysqli_fetch_assoc($res);
+    $row = $res->fetch_assoc();
     if ($row['class'] < UC_STAFF) stderr($lang['pm_error'], $lang['pm_forwardpm_account']);
 }
 //=== Other then from staff, Make sure recipient wants this message...

@@ -75,13 +75,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $configfile = "<" . $lang['classcfg_file_created'] . date('M d Y H:i:s') . $lang['classcfg_user_cfg'];
             $res = sql_query("SELECT * from class_config ORDER BY value  ASC") or sqlerr(__FILE__, __LINE__);
             $the_names = $the_colors = $the_images = '';
-            while ($arr = mysqli_fetch_assoc($res)) {
+            while ($arr = $res->fetch_assoc()) {
                 $configfile.= "" . $t . "'$arr[name]', $arr[value]);\n";
             }
             unset($arr);
             $res = sql_query("SELECT * from class_config WHERE name NOT IN ('UC_MIN','UC_MAX','UC_STAFF') ORDER BY value  ASC") or sqlerr(__FILE__, __LINE__);
             $the_names = $the_colors = $the_images = '';
-            while ($arr = mysqli_fetch_assoc($res)) {
+            while ($arr = $res->fetch_assoc()) {
                 $the_names.= "$arr[name] => '$arr[classname]',";
                 $the_colors.= "$arr[name] => '$arr[classcolor]',";
                 $the_images.= "$arr[name] => " . '$TRINITY20[' . "'pic_base_url'" . ']' . ".'class/$arr[classpic]',";
@@ -178,13 +178,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $configfile = "<" . $lang['classcfg_file_created'] . date('M d Y H:i:s') . $lang['classcfg_user_cfg'];
                 $res = sql_query("SELECT * from class_config ORDER BY value  ASC") or sqlerr(__FILE__, __LINE__);
                 $the_names = $the_colors = $the_images = '';
-                while ($arr = mysqli_fetch_assoc($res)) {
+                while ($arr = $res->fetch_assoc()) {
                     $configfile.= "" . $t . "'$arr[name]', $arr[value]);\n";
                 }
                 unset($arr);
                 $res = sql_query("SELECT * from class_config WHERE name NOT IN ('UC_MIN','UC_MAX','UC_STAFF') ORDER BY value  ASC") or sqlerr(__FILE__, __LINE__);
                 $the_names = $the_colors = $the_images = '';
-                while ($arr = mysqli_fetch_assoc($res)) {
+                while ($arr = $res->fetch_assoc()) {
                     $the_names.= "$arr[name] => '$arr[classname]',";
                     $the_colors.= "$arr[name] => '$arr[classcolor]',";
                     $the_images.= "$arr[name] => " . '$TRINITY20[' . "'pic_base_url'" . ']' . ".'class/$arr[classpic]',";
@@ -255,13 +255,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $configfile = "<" . $lang['classcfg_file_created'] . date('M d Y H:i:s') . $lang['classcfg_user_cfg'];
             $res = sql_query("SELECT * from class_config ORDER BY value  ASC") or sqlerr(__FILE__, __LINE__);
             $the_names = $the_colors = $the_images = '';
-            while ($arr = mysqli_fetch_assoc($res)) {
+            while ($arr = $res->fetch_assoc()) {
                 $configfile.= "" . $t . "'$arr[name]', $arr[value]);\n";
             }
             unset($arr);
             $res = sql_query("SELECT * from class_config WHERE name NOT IN ('UC_MIN','UC_MAX','UC_STAFF') ORDER BY value  ASC") or sqlerr(__FILE__, __LINE__);
             $the_names = $the_colors = $the_images = '';
-            while ($arr = mysqli_fetch_assoc($res)) {
+            while ($arr = $res->fetch_assoc()) {
                 $the_names.= "$arr[name] => '$arr[classname]',";
                 $the_colors.= "$arr[name] => '$arr[classcolor]',";
                 $the_images.= "$arr[name] => " . '$TRINITY20[' . "'pic_base_url'" . ']' . ".'class/$arr[classpic]',";
@@ -292,7 +292,7 @@ $HTMLOUT.= "<div class='row'><div class='col-md-12'>
 <td>{$lang['classcfg_class_del']}</td>
 </tr>";
 $res = sql_query("SELECT * from class_config WHERE name NOT IN ('UC_MIN','UC_MAX','UC_STAFF') ORDER BY value  ASC") or sqlerr(__FILE__, __LINE__);
-while ($arr = mysqli_fetch_assoc($res)) {
+while ($arr = $res->fetch_assoc()) {
     $HTMLOUT.= "
 <tr>
 <td>" . htmlsafechars($arr['name']) . "</td>

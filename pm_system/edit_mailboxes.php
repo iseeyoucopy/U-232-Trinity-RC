@@ -81,7 +81,7 @@ if (isset($_POST['action2'])) {
         //=== get info
         $res = sql_query('SELECT * FROM pmboxes WHERE userid=' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
         if (mysqli_num_rows($res) === 0) stderr($lang['pm_error'], $lang['pm_edmail_err1']);
-        while ($row = mysqli_fetch_assoc($res)) {
+        while ($row = $res->fetch_assoc()) {
             //=== if name different AND safe, update it
             if (validusername($_POST['edit' . $row['id']]) && $_POST['edit' . $row['id']] !== '' && $_POST['edit' . $row['id']] !== $row['name']) {
                 $name = htmlsafechars($_POST['edit' . $row['id']]);
@@ -167,7 +167,7 @@ if (isset($_POST['action2'])) {
 $res = sql_query('SELECT * FROM pmboxes WHERE userid=' . sqlesc($CURUSER['id']) . ' ORDER BY name ASC') or sqlerr(__FILE__, __LINE__);
 if (mysqli_num_rows($res) > 0) {
     //=== get all PM boxes for editing
-    while ($row = mysqli_fetch_assoc($res)) {
+    while ($row = $res->fetch_assoc()) {
         //==== get count from PM boxes
         $res_count = sql_query('SELECT COUNT(id) FROM messages WHERE  location = ' . sqlesc($row['boxnumber']) . ' AND receiver = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
         $arr_count = mysqli_fetch_row($res_count);

@@ -41,7 +41,7 @@ if ($action == "viewposts") {
     //------ Get user data
     $res = sql_query("SELECT id, username, class, donor, warned, leechwarn, pirate, king, chatpost, enabled FROM users WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
     if (mysqli_num_rows($res) == 1) {
-        $arr = mysqli_fetch_assoc($res);
+        $arr = $res->fetch_assoc();
         $subject = "" . format_username($arr, true);
     } else $subject = $lang['posts_unknown'] . '[' . $userid . ']';
     //------ Get posts
@@ -57,7 +57,7 @@ if ($action == "viewposts") {
     //------ Print table
     $HTMLOUT.= begin_main_frame();
     $HTMLOUT.= begin_frame();
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         $postid = (int)$arr["id"];
         $posterid = (int)$arr["user_id"];
         $topicid = (int)$arr["t_id"];
@@ -111,7 +111,7 @@ if ($action == "viewcomments") {
     //------ Get user data
     $res = sql_query("SELECT id, class, username, donor, warned, leechwarn, chatpost, pirate, king, enabled FROM users WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
     if (mysqli_num_rows($res) == 1) {
-        $arr = mysqli_fetch_assoc($res);
+        $arr = $res->fetch_assoc();
         $subject = "" . format_username($arr, true);
     } else $subject = $lang['posts_unknown'] . '[' . $userid . ']';
     //------ Get comments
@@ -124,7 +124,7 @@ if ($action == "viewcomments") {
     //------ Print table
     $HTMLOUT.= begin_main_frame();
     $HTMLOUT.= begin_frame();
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         $commentid = (int)$arr["id"];
         $torrent = htmlsafechars($arr["name"]);
         // make sure the line doesn't wrap

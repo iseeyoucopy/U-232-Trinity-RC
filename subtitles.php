@@ -102,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($id == 0) stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
             else {
                 $res = sql_query("SELECT * FROM subtitles WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-                $arr = mysqli_fetch_assoc($res);
+                $arr = $res->fetch_assoc();
                 if (mysqli_num_rows($res) == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
                 if ($CURUSER["id"] != $arr["owner"] && $CURUSER['class'] < UC_MODERATOR) bark("{$lang['subtitles_youre_not_the_owner']}\n");
                 $updateset = array();
@@ -127,7 +127,7 @@ if ($mode == "upload" || $mode == "edit") {
         if ($id == 0) stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
         else {
             $res = sql_query("SELECT id, name, imdb, poster, fps, comment, cds, lang FROM subtitles WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-            $arr = mysqli_fetch_assoc($res);
+            $arr = $res->fetch_assoc();
             if (mysqli_num_rows($res) == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
         }
     }
@@ -213,7 +213,7 @@ elseif ($mode == "delete") {
     if ($id == 0) stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
     else {
         $res = sql_query("SELECT id, name, filename FROM subtitles WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-        $arr = mysqli_fetch_assoc($res);
+        $arr = $res->fetch_assoc();
         if (mysqli_num_rows($res) == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
         $sure = (isset($_GET["sure"]) && $_GET["sure"] == "yes") ? "yes" : "no";
         if ($sure == "no") stderr("{$lang['subtitles_sanity_check']}...", "{$lang['subtitles_your_are_about_to_delete_subtitle']} <b>" . htmlsafechars($arr["name"]) . "</b> . Click <a href='subtitles.php?mode=delete&amp;id=$id&amp;sure=yes'>{$lang['gl_stdfoot_here']}</a> {$lang['gl_if_you_are_sure']}.", false);
@@ -231,7 +231,7 @@ elseif ($mode == "details") {
     if ($id == 0) stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
     else {
         $res = sql_query("SELECT s.id, s.name,s.lang, s.imdb,s.fps,s.poster,s.cds,s.hits,s.added,s.owner,s.comment, u.username FROM subtitles AS s LEFT JOIN users AS u ON s.owner=u.id  WHERE s.id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-        $arr = mysqli_fetch_assoc($res);
+        $arr = $res->fetch_assoc();
         if (mysqli_num_rows($res) == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
         if ($arr["lang"] == "eng") $langs = "<img src=\"pic/flag/england.gif\" border=\"0\" alt=\"{$lang['gl_english']}\" title=\"{$lang['gl_english']}\" />";
         elseif ($arr["lang"] == "swe") $langs = "<img src=\"pic/flag/sweden.gif\" border=\"0\" alt=\"{$lang['gl_swedish']}\" title=\"{$lang['gl_swedish']}\" />";
@@ -278,7 +278,7 @@ elseif ($mode == "details") {
     if ($id == 0) stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
     else {
         $res = sql_query("SELECT id, name,filename FROM subtitles  WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-        $arr = mysqli_fetch_assoc($res);
+        $arr = $res->fetch_assoc();
         if (mysqli_num_rows($res) == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
         $file = $TRINITY20['sub_up_dir'] . "/" . $arr["filename"];
         $fileContent = file_get_contents($file);
@@ -342,7 +342,7 @@ if ($arr["owner"] == $CURUSER["id"] || $CURUSER['class'] > UC_MODERATOR)
             $HTMLOUT.= "<td class='colhead' align='center'>{$lang['subtitles_tools']}</td>";
             }
             $HTMLOUT.= "<td class='colhead' align='center'>{$lang['subtitles_upper']}</td></tr>";
-while ($arr = mysqli_fetch_assoc($res))
+while ($arr = $res->fetch_assoc())
         {
             if ($arr["lang"] == "eng") $langs = "<img src=\"pic/flag/england.gif\" border=\"0\" alt=\"{$lang['gl_english']}\" title=\"{$lang['gl_english']}\" />";
             elseif ($arr["lang"] == "swe") $langs = "<img src=\"pic/flag/sweden.gif\" border=\"0\" alt=\"{$lang['gl_swedish']}\" title=\"{$lang['gl_swedish']}\" />";

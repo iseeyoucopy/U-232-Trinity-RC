@@ -22,7 +22,7 @@ function docleanup($data)
         $dt = TIME_NOW;
         $subject = sqlesc("New Achievement Earned!");
         $points = rand(1, 3);
-        while ($arr = mysqli_fetch_assoc($res)) {
+        while ($arr = $res->fetch_assoc()) {
             $stickyup = (int)$arr['stickyup'];
             $lvl = (int)$arr['stickyachiev'];
             if ($stickyup >= 1 && $lvl == 0) {

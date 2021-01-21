@@ -20,7 +20,7 @@ $HTMLOUT = '';
 // Fill in application
 if (isset($_POST["form"]) != 1) {
     $res = sql_query("SELECT status FROM uploadapp WHERE userid = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
 	$status_arr = isset($arr['status']) ? int($arr['status']) : "";
     if ($CURUSER['class'] >= UC_UPLOADER) 
 		stderr($lang['uploadapp_user_error'], $lang['uploadapp_alreadyup']);

@@ -40,7 +40,7 @@ if ($asdd) {
     stderr($lang['gl_error'], $lang['coins_you_already_gave_points_to_this_torrent']);
 }
 $res = sql_query("SELECT owner,name,points FROM torrents WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-$row = mysqli_fetch_assoc($res) or stderr($lang['gl_error'], $lang['coins_torrent_was_not_found']);
+$row = $res->fetch_assoc() or stderr($lang['gl_error'], $lang['coins_torrent_was_not_found']);
 $userid = (int) $row["owner"];
 if ($userid == $CURUSER["id"]) {
     stderr($lang['gl_error'], $lang['coins_you_cant_give_your_self_points']);

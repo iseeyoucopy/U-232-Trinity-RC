@@ -92,7 +92,7 @@ $res = sql_query("SELECT f.*,u.id as uid, u.username FROM failedlogins as f LEFT
 if (mysqli_num_rows($res) == 0) $HTMLOUT.= "<tr><td colspan='2'><b>{$lang['failed_message_nothing']}</b></td></tr>\n";
 else {
     $HTMLOUT.= "<tr><td class='colhead'>{$lang['failed_main_id']}</td><td class='colhead' align='left'>{$lang['failed_main_ip']}</td><td class='colhead' align='left'>{$lang['failed_main_added']}</td>" . "<td class='colhead' align='left'>{$lang['failed_main_attempts']}</td><td class='colhead' align='left'>{$lang['failed_main_status']}</td></tr>\n";
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         $HTMLOUT.= "<tr><td align='left'><b>" . (int)$arr['id'] . "</b></td>
   <td align='left'><b>" . htmlsafechars($arr['ip']) . " " . ((int)$arr['uid'] ? "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int)$arr['uid'] . "'>" : "") . " " . (htmlsafechars($arr['username']) ? "(" . htmlsafechars($arr['username']) . ")</a>" : "") . "</b></td>
   <td align='left'><b>" . get_date($arr['added'], '', 1, 0) . "</b></td>

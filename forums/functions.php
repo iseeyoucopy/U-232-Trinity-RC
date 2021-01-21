@@ -37,7 +37,7 @@ function catch_up($id = 0)
     $userid = (int)$CURUSER['id'];
     $res = sql_query("SELECT t.id, t.last_post, r.id AS r_id, r.last_post_read " . "FROM topics AS t " . "LEFT JOIN posts AS p ON p.id = t.last_post " . "LEFT JOIN read_posts AS r ON r.user_id=" . sqlesc($userid) . " AND r.topic_id=t.id " . "WHERE p.added > " . sqlesc(TIME_NOW - $TRINITY20['readpost_expiry']) .
         (!empty($id) ? ' AND t.id ' . (is_array($id) ? 'IN (' . implode(', ', $id) . ')' : '= ' . sqlesc($id)) : '')) or sqlerr(__FILE__, __LINE__);
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         $postid = (int)$arr['lastpost'];
         if (!is_valid_id($arr['r_id']))
             sql_query("INSERT INTO read_posts (user_id, topic_id, last_post_read) VALUES".sqlesc($userid).", ".sqlesc($arr['id']).", ".sqlesc($postid).")") or sqlerr(__FILE__, __LINE__);
@@ -52,7 +52,7 @@ function get_forum_access_levels($forumid)
     $res = sql_query("SELECT min_class_read, min_class_write, min_class_create FROM forums WHERE id=".sqlesc($forumid)) or sqlerr(__FILE__, __LINE__);
     if (mysqli_num_rows($res) != 1)
         return false;
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     return array("read" => $arr["min_class_read"], "write" => $arr["min_class_write"], "create" => $arr["min_class_create"]);
 }
 // -------- Returns the forum ID of a topic, or false on error
@@ -61,20 +61,20 @@ function get_topic_forum($topicid)
     $res = sql_query("SELECT forum_id FROM topics WHERE id=".sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
     if (mysqli_num_rows($res) != 1)
         return false;
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     return (int)$arr['forum_id'];
 }
 // -------- Returns the ID of the last post of a forum
 function update_topic_last_post($topicid)
 {
     $res = sql_query("SELECT MAX(id) AS id FROM posts WHERE topic_id=".sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res) or die("No post found");
+    $arr = $res->fetch_assoc() or die("No post found");
     sql_query("UPDATE topics SET last_post=".sqlesc($arr['id'])." WHERE id=".sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
 }
 function get_forum_last_post($forumid)
 {
     $res = sql_query("SELECT MAX(last_post) AS last_post FROM topics WHERE forum_id=".sqlesc($forumid)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
     $postid = (int)$arr['last_post'];
     return (is_valid_id($postid) ? $postid : 0);
 }
@@ -138,7 +138,7 @@ function forum_stats()
                   'FROM users WHERE forum_access >= '.$dt.' '.
                   'ORDER BY username ASC') or sqlerr(__FILE__, __LINE__);
          $forum_actcount = mysqli_num_rows($res);
-         while ($arr = mysqli_fetch_assoc($res)) {
+         while ($arr = $res->fetch_assoc()) {
           if ($forum_activeusers)
           $forum_activeusers .= ",\n";
           $forum_activeusers .= '<b>'.format_username($arr).'</b>';

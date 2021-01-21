@@ -205,7 +205,7 @@ function get_torrent_from_hash($info_hash)
     if (($torrent = $cache->get($key)) === false) {
         $res = ann_sql_query('SELECT id, category, banned, free, silver, vip, seeders, leechers, times_completed, seeders + leechers AS numpeers, added AS ts, visible FROM torrents WHERE info_hash = ' . ann_sqlesc($info_hash)) or ann_sqlerr(__FILE__, __LINE__);
         if (mysqli_num_rows($res)) {
-            $torrent = mysqli_fetch_assoc($res);
+            $torrent = $res->fetch_assoc();
             $torrent['id'] = (int)$torrent['id'];
             $torrent['free'] = (int)$torrent['free'];
             $torrent['silver'] = (int)$torrent['silver'];
@@ -237,7 +237,7 @@ function get_torrent_from_hash($info_hash)
         if ($torrent['seeders'] === false || $torrent['leechers'] === false || $torrent['times_completed'] === false) {
             $res = ann_sql_query('SELECT seeders, leechers, times_completed FROM torrents WHERE id = ' . ann_sqlesc($torrent['id'])) or ann_sqlerr(__FILE__, __LINE__);
             if (mysqli_num_rows($res)) {
-                $torrentq = mysqli_fetch_assoc($res);
+                $torrentq = $res->fetch_assoc();
                 $torrent['seeders'] = (int)$torrentq['seeders'];
                 $torrent['leechers'] = (int)$torrentq['leechers'];
                 $torrent['times_completed'] = (int)$torrentq['times_completed'];

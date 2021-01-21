@@ -43,7 +43,7 @@ if (isset($_GET["subscribe"])){
         stderr("Error", "Already subscribed to thread number <b>".(int)($topicid)."</b> Click <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid'> <b>Here</b></a> to go back to the thread. Or click <a href='{$TRINITY20['baseurl']}/subscriptions.php'> <b>Here</b></a> to view your subscriptions.");
     sql_query("INSERT INTO subscriptions (user_id, topic_id) VALUES (".sqlesc($CURUSER['id']).", ".sqlesc($topicid).")") or sqlerr(__FILE__, __LINE__);
     $res = sql_query("SELECT topic_name FROM `topics` WHERE id=".sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_assoc($res) or stderr("Error", "Bad forum id!");
+    $arr = $res->fetch_assoc() or stderr("Error", "Bad forum id!");
     $forumname = htmlsafechars($arr["topic_name"]);
     stderr("Success", "Successfully subscribed to thread <b>".($forumname)."</b> Click <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid'> <b>Here</b></a> to go back to the thread. Or click <a href='{$TRINITY20['baseurl']}/subscriptions.php'> <b>Here</b></a> to view your subscriptions.");
 }
@@ -64,7 +64,7 @@ if (isset($_GET["delete"])){
 $res = sql_query("SELECT id, username, donor, warned, class, chatpost, leechwarn, enabled FROM users WHERE id=".sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
 
 if (mysqli_num_rows($res) == 1) {
-    $arr = mysqli_fetch_assoc($res);
+    $arr = $res->fetch_assoc();
 
     $subject = "<a class='altlink' href='{$TRINITY20['baseurl']}/userdetails.php?id=$userid'><b> ".htmlsafechars($arr['username'])."</b></a>";
 } else
@@ -94,7 +94,7 @@ if (mysqli_num_rows($res) == 0)
    //$HTMLOUT.="<p align='center'><font size=\"+2\"><b>No Subscriptions Found</b></font></p><p>You are not yet subscribed to any forums...</p><p>To subscribe to a forum at <b>".$TRINITY20['site_name']."</b>, click the <b><i>Subscribe to this Forum</i></b> link at the top of the thread page.</p>";
 $HTMLOUT.="<p class=text-center'><b>No Subscriptions Found</b></p><p>You are not yet subscribed to any forums...</p><p>To subscribe to a forum at <b>".$TRINITY20['site_name']."</b>, click the <b><i>Subscribe to this Forum</i></b> link at the top of the thread page.</p>";
 
-while ($arr = mysqli_fetch_assoc($res)) {
+while ($arr = $res->fetch_assoc()) {
     $topicid = (int)$arr["t_id"];
     $topicname = htmlsafechars($arr["topic_name"]);
     $forumid = (int)$arr["f_id"];

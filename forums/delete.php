@@ -59,7 +59,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
                     ($Multi_forum['configs']['use_poll_mod'] ? "LEFT JOIN postpolls ON postpolls.id=topics.poll_id " : "") . "WHERE topics.forum_id=".sqlesc($forumid)) or sqlerr(__FILE__, __LINE__);
                 ($Multi_forum['configs']['use_attachment_mod'] ? $attachments = 0 : null);
                 ($Multi_forum['configs']['use_poll_mod'] ? $polls = 0 : null);
-                if ($arr = mysqli_fetch_assoc($res)) {
+                if ($arr = $res->fetch_assoc()) {
                     ($Multi_forum['configs']['use_attachment_mod'] ? $attachments = $arr['attachments'] : null);
                     ($Multi_forum['configs']['use_poll_mod'] ? $polls = $arr['polls'] : null);
                 }

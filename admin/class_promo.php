@@ -128,7 +128,7 @@ $HTMLOUT .= "<div class='row'><div class='col-md-12'>
 <td>{$lang['classpromo_remove']}</td>
 </tr>";
 $res = sql_query("SELECT * from class_promo ORDER BY id  ASC");
-while ($arr = mysqli_fetch_assoc($res)) {
+while ($arr = $res->fetch_assoc()) {
     $HTMLOUT .= "
 <tr>
 

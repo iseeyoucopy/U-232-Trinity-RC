@@ -191,7 +191,7 @@ if ($id !== 0) {
 			<td class="colhead" align="left">'.$lang['invite_search_class'].'</td>
 			<td class="colhead">'.$lang['invite_search_country'].'</td>
 			<td class="colhead">'.$lang['invite_search_edit'].'</td></tr>';
-        while ($row = mysqli_fetch_assoc($res)) {
+        while ($row = $res->fetch_assoc()) {
             $country = ($row['name'] != NULL) ? '<td style="padding: 0px" align="center"><img src="' . $TRINITY20['pic_base_url'] . 'flag/' . (int)$row['flagpic'] . '" alt="' . htmlsafechars($row['name']) . '" /></td>' : '<td align="center">---</td>';
             $HTMLOUT.= '<tr><td align="left">' . format_username($row) . '</td>
 		<td>' . get_date($row['added'], '') . '</td><td>' . get_date($row['last_access'], '') . '</td>

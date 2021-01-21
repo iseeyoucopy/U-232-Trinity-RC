@@ -28,7 +28,7 @@ $What_TF = (XBT_TRACKER == true ? "active='1'" : "seeder='yes'");
 $pms = [];
 if ($pm_what == "last10") {
     $res = sql_query("SELECT $What_Table.$What_user_id as userid, $What_Table.$What_id FROM $What_Table WHERE $What_Table.$What_id =" . sqlesc($reseedid) . " AND $What_Table.$What_TF LIMIT 10") or sqlerr(__FILE__, __LINE__);
-    while ($row = mysqli_fetch_assoc($res)) {
+    while ($row = $res->fetch_assoc()) {
         $pms[] = "(0," . sqlesc($row["userid"]) . "," . TIME_NOW . "," . sqlesc($pm_msg) . ($use_subject ? "," . sqlesc($subject) : "") . ")";
         $cache->delete('inbox_new::' . $row["userid"]);
         $cache->delete('inbox_new_sb::' . $row["userid"]);

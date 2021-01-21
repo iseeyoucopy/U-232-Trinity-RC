@@ -25,7 +25,7 @@ if (!preg_match("/^(?:[\d\w]){32}$/", $md5)) {
 }
 dbconn();
 $res = sql_query("SELECT passhash, editsecret, status FROM users WHERE id =" . sqlesc($id));
-$row = mysqli_fetch_assoc($res);
+$row = $res->fetch_assoc();
 if (!$row) stderr("{$lang['confirm_user_error']}", "{$lang['confirm_invalid_id']}");
 if ($row['status'] != 'pending') {
     header("Refresh: 0; url={$TRINITY20['baseurl']}/ok.php?type=confirmed");

@@ -25,7 +25,7 @@ if (($last24_cache = $cache->get($keys['last24'])) === false) {
         $period = $_SERVER['REQUEST_TIME'];
         sql_query('UPDATE avps SET value_s = 0, ' . 'value_i = ' . sqlesc($last24) . ', ' . 'value_u = ' . sqlesc($period) . ' ' . 'WHERE arg = "last24"') or sqlerr(__FILE__, __LINE__);
     }
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         if ($activeusers24) $activeusers24.= ",\n";
         $activeusers24.= '<b>' . format_username($arr) . '</b>';
     }

@@ -45,7 +45,7 @@ $key = 'topmoods';
 $topmoods = $cache->get($key);
 if ($topmoods === false) {
     $res = sql_query('SELECT moods.*, users.mood, COUNT(users.mood) as moodcount ' . 'FROM users LEFT JOIN moods ON (users.mood = moods.id) GROUP BY users.mood ' . 'ORDER BY moodcount DESC, moods.id ASC') or sqlerr(__FILE__, __LINE__);
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         $topmoods.= '<tr><td class="text-center">' . (int)$arr['moodcount'] . '</td>
                  <td class="text-center">' . htmlsafechars($arr['name']) . ' ' . ($arr['bonus'] == 1 ? '<a href="/mybonus.php" style="color:lime">(bonus)</a>' : '') . '</td>
                  <td class="text-center"><img src="' . $TRINITY20['pic_base_url'] . 'smilies/' . htmlsafechars($arr['image']) . '" alt="" /></td>

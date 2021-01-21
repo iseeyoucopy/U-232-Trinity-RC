@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $t = '$TRINITY20';
         $configfile = "<" . "?php\n/**\n{$lang['sitesettings_file']}" . date('M d Y H:i:s') . ".\n{$lang['sitesettings_cfg']}\n**/\n";
         $res = sql_query("SELECT * from site_config ");
-        while ($arr = mysqli_fetch_assoc($res)) {
+        while ($arr = $res->fetch_assoc()) {
             $configfile.= "" . $t . "['$arr[name]'] = $arr[value];\n";
         }
         $configfile.= "?" . ">";

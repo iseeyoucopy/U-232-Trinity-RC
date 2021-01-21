@@ -41,7 +41,7 @@ if ($count1 > $perpage) $HTMLOUT.= $pager['pagertop'];
 $HTMLOUT.= '<div class="row"><div class="col-md-12"><table class="table table-bordered">
    <tr><td class="colhead" align="center">' . $lang['upinfo_rank'] . '</td><td class="colhead" align="center">' . $lang['upinfo_torrent'] . '</td><td class="colhead" align="left">' . $lang['upinfo_member'] . '</td><td class="colhead" align="left">' . $lang['upinfo_class'] . '</td><td class="colhead" align="left">' . $lang['upinfo_ratio'] . '</td><td class="colhead" align="left">' . $lang['upinfo_ltupload'] . '</td><td class="colhead" align="center">' . $lang['upinfo_sendpm'] . '</td></tr>';
 $i = 0;
-while ($arr = mysqli_fetch_assoc($res)) {
+while ($arr = $res->fetch_assoc()) {
     $i++;
     //=== change colors
     $count = (++$count) % 2;

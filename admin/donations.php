@@ -63,7 +63,7 @@ if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
 $HTMLOUT.= "<table class='table table-bordered'>";
 $HTMLOUT.= "<tr><td colspan='9' align='center'><a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=donations&amp;action=donations'>{$lang['donate_curr_don']}</a> || <a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=donations&amp;action=donations&amp;total_donors=1'>{$lang['donate_all_don']}</a></td></tr>";
 $HTMLOUT.= "<tr><td class='colhead'>{$lang['donate_id']}</td><td class='colhead' align='left'>{$lang['donate_username']}</td><td class='colhead' align='left'>{$lang['donate_email']}</td>" . "<td class='colhead' align='left'>{$lang['donate_joined']}</td><td class='colhead' align='left'>{$lang['donate_until']}</td><td class='colhead' align='left'>" . "{$lang['donate_current']}</td><td class='colhead' align='left'>{$lang['donate_total']}</td><td class='colhead' align='left'>{$lang['donate_pm']}</td></tr>";
-while ($arr = mysqli_fetch_assoc($res)) {
+while ($arr = $res->fetch_assoc()) {
     // =======change colors
     if ($count2 == 0) {
         $count2 = $count2 + 1;

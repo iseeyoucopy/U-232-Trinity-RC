@@ -66,7 +66,7 @@ $HTMLOUT.= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 <table width="500px">';
 $res = sql_query('SELECT * FROM moods WHERE bonus < ' . sqlesc($more) . ' ORDER BY id ASC') or sqlerr(__FILE__, __LINE__);
 $count = 0;
-while ($arr = mysqli_fetch_assoc($res)) {
+while ($arr = $res->fetch_assoc()) {
     if ($count % 3 == 0) $HTMLOUT.= '<tr>';
     $HTMLOUT.= '<td>
          <a href="?id=' . (int)$arr['id'] . '">

@@ -41,7 +41,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
         $res = sql_query("SELECT pp.*, t.id AS tid FROM postpolls AS pp LEFT JOIN topics AS t ON t.poll_id = pp.id WHERE pp.id=".sqlesc($pollid)) or sqlerr(__FILE__, __LINE__);
         if (mysqli_num_rows($res) == 0)
             stderr("Error", "No poll found with that ID.");
-        $poll = mysqli_fetch_assoc($res);
+        $poll = $res->fetch_assoc();
     }
     if ($_SERVER["REQUEST_METHOD"] == "POST" && !$topicid)
 	{

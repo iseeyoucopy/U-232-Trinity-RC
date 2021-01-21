@@ -48,7 +48,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
     //=== allow suspended users to PM / forward to staff only
     if ($CURUSER['suspended'] === 'yes') {
         $res = sql_query('SELECT class FROM users WHERE id = ' . sqlesc($receiver)) or sqlerr(__FILE__, __LINE__);
-        $row = mysqli_fetch_assoc($res);
+        $row = $res->fetch_assoc();
         if ($row['class'] < UC_STAFF) stderr($lang['pm_error'], $lang['pm_send_your_acc']);
 																 
     }
@@ -110,7 +110,7 @@ EOD;
         //=== be sure they should be deleting this...
         $res = sql_query('SELECT saved, receiver FROM messages WHERE id=' . sqlesc($delete)) or sqlerr(__FILE__, __LINE__);
         if (mysqli_num_rows($res) > 0) {
-            $arr = mysqli_fetch_assoc($res);
+            $arr = $res->fetch_assoc();
             //if ($arr['receiver'] !== $CURUSER['id'])
             if ($arr['receiver'] != $CURUSER['id']) stderr($lang['pm_send_quote'], $lang['pm_send_thou']);
 																	  

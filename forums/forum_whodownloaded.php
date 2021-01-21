@@ -59,7 +59,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 	<td>Date</td>
 	</tr>";
   $dls = 0;
-	while ($arr = mysqli_fetch_assoc($res))
+	while ($arr = $res->fetch_assoc())
 	{
 	$HTMLOUT .="<tr align='center'>".
 				 "<td>".htmlsafechars($arr['file_name'])."</td>".

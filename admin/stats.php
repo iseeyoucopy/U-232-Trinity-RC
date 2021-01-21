@@ -65,7 +65,7 @@ else {
       <td class='colhead'><a href='staffpanel.php?tool=stats&amp;action=stats&amp;uporder=peers&amp;catorder=$catorder' class='colheadlink'>{$lang['stats_peers']}</a></td>
       <td class='colhead'>Perc.</td>
       </tr>\n";
-    while ($uper = mysqli_fetch_assoc($res)) {
+    while ($uper = $res->fetch_assoc()) {
         $HTMLOUT.= "<tr>
         <td><a href='userdetails.php?id=" . (int)$uper['id'] . "'><b>" . htmlsafechars($uper['name']) . "</b></a></td>
         <td " . ($uper['last'] ? (">" . get_date($uper['last'], '') . " (" . get_date($uper['last'], '', 0, 1) . ")") : "align='center'>---") . "</td>
@@ -98,7 +98,7 @@ else {
       <td class='colhead'><a href='staffpanel.php?tool=stats&amp;action=stats&amp;uporder=$uporder&amp;catorder=peers' class='colheadlink'>{$lang['stats_peers']}</a></td>
       <td class='colhead'>Perc.</td>
       </tr>\n";
-    while ($cat = mysqli_fetch_assoc($res)) {
+    while ($cat = $res->fetch_assoc()) {
         $HTMLOUT.= "<tr>
         <td class='rowhead'>" . htmlsafechars($cat['name']) . "</td>
         <td " . ($cat['last'] ? (">" . get_date($cat['last'], '') . " (" . get_date($cat['last'], '', 0, 1) . ")") : "align='center'>---") . "</td>

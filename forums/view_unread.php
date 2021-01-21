@@ -48,7 +48,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
             $added = (TIME_NOW - $TRINITY20['readpost_expiry']);
             $res = sql_query('SELECT t.last_post, r.last_post_read, f.min_class_read ' . 'FROM topics AS t ' . 'LEFT JOIN posts AS p ON t.last_post=p.id ' . 'LEFT JOIN read_posts AS r ON r.user_id=' . sqlesc((int)$CURUSER['id']) . ' AND r.topic_id=t.id ' . 'LEFT JOIN forums AS f ON f.id=t.forum_id ' . 'WHERE p.added > ' . $added) or sqlerr(__FILE__, __LINE__);
             $count = 0;
-            while ($arr = mysqli_fetch_assoc($res)) {
+            while ($arr = $res->fetch_assoc()) {
                 if ($arr['last_post_read'] >= $arr['last_post'] || $CURUSER['class'] < $arr['min_class_read'])
                     continue;
                 $count++;
@@ -111,7 +111,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 				<td class='tcat' width='1%'>Clear</td>
 			</tr>";
                 $res = sql_query('SELECT t.id, t.forum_id, t.topic_name, t.last_post, r.last_post_read, f.name, f.min_class_read ' . 'FROM topics AS t ' . 'LEFT JOIN posts AS p ON t.last_post=p.id ' . 'LEFT JOIN read_posts AS r ON r.user_id=' . sqlesc((int)$CURUSER['id']) . ' AND r.topic_id=t.id ' . 'LEFT JOIN forums AS f ON f.id=t.forum_id ' . 'WHERE p.added > '.$added.' ' . ' ORDER BY t.forum_id '.$pager['limit']) or sqlerr(__FILE__, __LINE__);
-                while ($arr = mysqli_fetch_assoc($res)) {
+                while ($arr = $res->fetch_assoc()) {
                     if ($arr['last_post_read'] >= $arr['last_post'] || $CURUSER['class'] < $arr['min_class_read'])
                         continue;
                     

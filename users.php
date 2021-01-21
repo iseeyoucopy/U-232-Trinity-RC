@@ -93,7 +93,7 @@ if ($arr[0] > 0) {
 	$HTMLOUT.= "<div class='container-fluid text-center'>";
     $HTMLOUT.= "<table class='table table-condensed'>\n";
     $HTMLOUT.= "<tr><td class='colhead' align='left'>{$lang['users_username']}</td><td class='colhead'>{$lang['users_regd']}</td><td class='colhead'>{$lang['users_la']}</td><td class='colhead' align='left'>{$lang['users_class']}</td><td class='colhead'>{$lang['users_country']}</td></tr>\n";
-    while ($row = mysqli_fetch_assoc($res)) {
+    while ($row = $res->fetch_assoc()) {
         $country = ($row['name'] != NULL) ? "<td style='padding: 0px' align='center'><img src='{$TRINITY20['pic_base_url']}flag/" . htmlsafechars($row['flagpic']) . "' alt='" . htmlsafechars($row['name']) . "' /></td>" : "<td align='center'>---</td>";
         $HTMLOUT.= "<tr><td align='left'><a href='userdetails.php?id=" . (int)$row['id'] . "'><b>" . htmlsafechars($row['username']) . "</b></a>" . ($row["donor"] > 0 ? "<img src='{$TRINITY20['pic_base_url']}star.png' border='0' alt='{$lang['users_donor']}' />" : "") . "</td>" . "<td>" . get_date($row['added'], '') . "</td><td>" . get_date($row['last_access'], '') . "</td>" . "<td align='left'>" . get_user_class_name($row["class"]) . "</td>$country</tr>\n";
     }
