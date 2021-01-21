@@ -34,19 +34,6 @@ require_once (CLASS_DIR . 'class_cacheM.php');
 global $TRINITY20;
 $cache = new Cache($TRINITY20);
 
-//Object oriented style mysqli
-$mysqli = new mysqli($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass'], $TRINITY20['mysql_db']);
-// Check connection
-if ($mysqli -> connect_errno) {
-  echo "Connection Problems" . PHP_EOL;
-echo"Sorry, U-232 was unable to connect to the database. This may be caused by the server being busy. Please try again later. " . $mysqli -> connect_error;
-  exit();
-}
-/* check connection */
-if (mysqli_connect_errno()) {
-    printf("Connect failed: %s\n", mysqli_connect_error());
-    exit();
-}
 //==Block class
 class curuser
 {
@@ -150,17 +137,12 @@ function getip() {
 function dbconn($autoclean = false)
 {
     global $TRINITY20, $mysqli;
-    if (!@($GLOBALS["___mysqli_ston"] = mysqli_connect($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass']))) {
-        switch ($mysqli->errno) {
-        case 1040:
-        case 2002:
-            if ($_SERVER['REQUEST_METHOD'] == "GET") die("<html><head><meta http-equiv='refresh' content=\"5 $_SERVER[REQUEST_URI]\"></head><body><table border='0' width='100%' height='100%'><tr><td><h3 align='center'>The server load is very high at the moment. Retrying, please wait...</h3></td></tr></table></body></html>");
-            else die("Too many users. Please press the Refresh button in your browser to retry.");
-        default:
-            die("[" . $mysqli->errno . "] dbconn: mysql_connect: " . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
-        }
-    }
-    ((bool)mysqli_query($GLOBALS["___mysqli_ston"], "USE {$TRINITY20['mysql_db']}")) or die('dbconn: mysql_select_db: ' . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+    $mysqli = new mysqli($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass'], $TRINITY20['mysql_db']);
+    if ($mysqli -> connect_errno) {
+        echo "Connection Problems" . PHP_EOL;
+        echo"Sorry, U-232 was unable to connect to the database. This may be caused by the server being busy. Please try again later. " . $mysqli -> connect_error;
+        exit();
+      }
     userlogin();
     referer();
     if ($autoclean) register_shutdown_function("autoclean");
@@ -207,20 +189,18 @@ function check_bans($ip, &$reason = '')
 }
 function userlogin()
 {
-    global $TRINITY20, $cache, $mysqli, $keys, $CURBLOCK, $mood, $whereis, $CURUSER, $c;
+    global $TRINITY20, $cache, $keys, $CURBLOCK, $mood, $whereis, $CURUSER, $c;
     unset($GLOBALS["CURUSER"]);
     $dt = TIME_NOW;
     $ip = getip();
     //$ipe = $c -> decrypt($ip);
-    $nip = ip2long($ip);
+    //$nip = ip2long($ip);
     $ipf = $_SERVER['REMOTE_ADDR'];
     if (isset($CURUSER)) return;
     if (!$TRINITY20['site_online'] || !get_mycookie('uid') || !get_mycookie('pass') || !get_mycookie('hashv') || !get_mycookie('log_uid')) return;
     $id = intval(get_mycookie('uid'));
-    //if (!$id OR (strlen(get_mycookie('pass')) != 40) OR (get_mycookie('hashv') != hashit($id, get_mycookie('pass'))) OR (get_mycookie('log_uid') != make_hash_log($id, get_mycookie('pass')))) return;
     if (!$id OR (strlen(get_mycookie('pass')) != 128) OR (get_mycookie('hashv') != hashit($id, get_mycookie('pass'))) OR (get_mycookie('log_uid') != make_hash_log($id, get_mycookie('pass')))) return;
-    // let's cache $CURUSER - pdq - *Updated*
-    if (($row = $cache->get($keys['my_userid'] . $id)) === false) { // $row not found
+    if (($row = $cache->get($keys['my_userid'] . $id)) === false) {
         $user_fields_ar_int = array(
             'id',
             'added',
@@ -372,11 +352,10 @@ function userlogin()
         $user_fields = implode(', ', array_merge($user_fields_ar_int, $user_fields_ar_float, $user_fields_ar_str));
         $res = "SELECT {$user_fields}, ann_main.subject AS curr_ann_subject, ann_main.body AS curr_ann_body " . "FROM users AS u " . "LEFT JOIN announcement_main AS ann_main " . "ON ann_main.main_id = u.curr_ann_id " . "WHERE u.id = " . sqlesc($id)." AND u.enabled='yes' AND u.status = 'confirmed'" or sqlerr(__FILE__, __LINE__);
         $result = sql_query($res);
-        if (mysqli_num_rows($result) == 0) {
+        if ($result->num_rows() == 0) {
 			$salty_user = isset($row['username']) ? $row['username'] : '';
             $salty = hash("tiger160,3", "Th15T3xtis5add3dto66uddy6he@water..." . $salty_user . "");
             header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please={$salty}");
-            //die;
             return;
         }
         $row = $result->fetch_assoc();
@@ -386,12 +365,10 @@ function userlogin()
         $cache->set($keys['my_userid'] . $id, $row, $TRINITY20['expires']['curuser']);
         unset($result);
     }
-    //==
     if (get_mycookie('pass') !== hash("sha3-512", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "")) {
         $salty_user = isset($row['username']) ? $row['username'] : '';
         $salty = hash("tiger160,3", "Th15T3xtis5add3dto66uddy6he@water..." . $salty_user . "");
         header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please={$salty}");
-        //die;
         return;
     }
 /*
@@ -844,12 +821,14 @@ function validemail($email)
 //putyn  08/08/2011
 function sqlesc($x)
 {
+    global $mysqli;
     if (is_integer($x)) return (int)$x;
-    return sprintf('\'%s\'', mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $x));
+    return sprintf('\'%s\'', $mysqli->real_escape_string($x));
 }
 function sqlwildcardesc($x)
 {
-    return str_replace(array('%', '_'), array('\\%', '\\_'), mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $x));
+    global $mysqli;
+    return str_replace(array('%', '_'), array('\\%', '\\_'), $mysqli->real_escape_string($x));
 }
 function httperr($code = 404)
 {
@@ -927,9 +906,10 @@ function searchfield($s)
 }
 function get_row_count($table, $suffix = "")
 {
+    global $mysqli;
     if ($suffix) $suffix = " $suffix";
-    ($r = sql_query("SELECT COUNT(*) FROM $table$suffix")) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
-    ($a = mysqli_fetch_row($r)) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+    ($r = sql_query("SELECT COUNT(*) FROM $table$suffix")) or die($mysqli->error);
+    ($a = mysqli_fetch_row($r)) or die($mysqli->error);
     return $a[0];
 }
 function stderr($heading, $text)
@@ -944,7 +924,7 @@ function stderr($heading, $text)
 function sqlerr($file = '', $line = '')
 {
     global $TRINITY20, $CURUSER, $mysqli;
-    $the_error = ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
+    $the_error = $mysqli->error;
     $the_error_no = $mysqli->errno;
     if (SQL_DEBUG == 0) {
         exit();
@@ -1215,9 +1195,10 @@ if (file_exists("install/index.php")) {
 */
 function mysql_fetch_all($query, $default_value = Array())
 {
+    global $mysqli;
     $r = @sql_query($query);
     $result = Array();
-    if ($err = ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)))return $err;
+    if ($err = ($mysqli->errno)) return $err;
     if (@mysqli_num_rows($r))
         while ($row = mysqli_fetch_array($r))$result[] = $row;
     if (count($result) == 0)
