@@ -115,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
 } elseif ($do == "delete" && $id > 0) {
     $r = sql_query("SELECT name FROM promo WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
     if ($sure == "no") {
-        $a = mysqli_fetch_assoc($r);
+        $a = $r->fetch_assoc();
         stderr("Sanity check...", "You are about to delete promo <b>" . htmlsafechars($a["name"]) . "</b>, if you are sure click <a href=\"" . $_SERVER["PHP_SELF"] . "?do=delete&amp;id=" . $id . "&amp;sure=yes\">here</a>");
     } elseif ($sure == "yes") {
         if (sql_query("DELETE FROM promo where id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__)) {
@@ -195,7 +195,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
     else {
         $q1 = sql_query("SELECT name, users FROM promo WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         if (mysqli_num_rows($q1) == 1) {
-            $a1 = mysqli_fetch_assoc($q1);
+            $a1 = $q1->fetch_assoc();
             if (!empty($a1["users"])) {
                 $users = explode(",", $a1["users"]);
                 if (!empty($users)) $q2 = sql_query("SELECT id, username, added FROM users WHERE id IN (" . join(",", $users) . ")") or sqlerr(__FILE__, __LINE__);
@@ -222,7 +222,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
 					<div class='row'><div class='col-md-12'>
 					<table class='table table-bordered'>
 						<tr><td class='rowhead' align='left' width='100'> User</td><td class='rowhead' align='left' nowrap='nowrap'>Added</td></tr>";
-                while ($ap = mysqli_fetch_assoc($q2)) {
+                while ($ap = $q2->fetch_assoc()) {
                     $HTMLOUT.= "<tr><td align='left' width='100'><a href='userdetails.php?id=" . (int)$ap["id"] . "'>" . htmlsafechars($ap["username"]) . "</a></td><td  align='left' nowrap='nowrap' >" . get_date($ap["added"], 'LONG', 0, 1) . "</td></tr>";
                 }
                 $HTMLOUT.= "</table></div></div>
@@ -267,7 +267,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
 				<td align='center' nowrap='nowrap' >invites</td>
 				<td align='center' nowrap='nowrap' >karma</td>       
 			</tr>";
-        while ($ar = mysqli_fetch_assoc($r)) {
+        while ($ar = $r->fetch_assoc()) {
             $active = (($ar["max_users"] == $ar["accounts_made"]) || (($ar["added"] + (86400 * $ar["days_valid"])) < TIME_NOW)) ? false : true;
             $HTMLOUT.= "<tr " . (!$active ? "title=\"This promo has ended\"" : "") . ">
 				<td nowrap='nowrap' align='center'>" . (htmlsafechars($ar["name"])) . "<br /><input type='text' " . (!$active ? "disabled=\"disabled\"" : "") . " value='" . ($TRINITY20['baseurl'] . $_SERVER["PHP_SELF"] . "?do=signup&amp;link=" . $ar["link"]) . "' size='60' name='" . (htmlsafechars($ar["name"])) . "' onclick='select();' /></td>

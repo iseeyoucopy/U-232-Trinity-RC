@@ -463,7 +463,7 @@ function get_cache_config_data($the_names,$the_colors,$the_images)
 		if (!file_exists($file) || $forced == true)
 		{
 			$q = sql_query("SELECT id,username,forums_mod FROM users WHERE forum_mod = 'yes'") or sqlerr(__FILE__, __LINE__);
-			while($a = mysqli_fetch_assoc($q))
+			while($a = $q->fetch_assoc())
 				$users[] = $a;
 			$forums = array();
 			foreach($users as $user)

@@ -383,7 +383,7 @@ function StatusBar()
             $seed['yes'] = $seed['no'] = 0;
             $seed['conn'] = 3;
             $result = sql_query("SELECT COUNT(uid) AS `count`, `left`, `active`, `connectable` FROM `xbt_peers` WHERE uid= " . sqlesc($CURUSER['id']) . " AND `left` = 0 AND `active` = 1") or sqlerr(__LINE__, __FILE__);
-            while ($a = mysqli_fetch_assoc($result)) {
+            while ($a = $result->fetch_assoc()) {
                 $key = $a['left'] == 0 ? 'yes' : 'no';
                 $seed[$key] = number_format(0 + $a['count']);
                 $seed['conn'] = $a['connectable'] == 0 ? 1 : 2;

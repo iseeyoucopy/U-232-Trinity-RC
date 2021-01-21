@@ -63,7 +63,7 @@ function radioinfo($radio)
                 if (mysqli_num_rows($q1) == 0) $html.= '<li><b>Listeners</b>: currently no listener from site </li>';
                 else {
                     $users = array();
-                    while ($a1 = mysqli_fetch_assoc($q1)) $users[] = ($CURUSER['id'] == $a1['id'] || $CURUSER['class'] >= UC_STAFF) ? sprintf('<a href="/userdetails.php?id=%d">%s</a>', $a1['id'], $a1['username']) : 'Anonymous';
+                    while ($a1 = $q1->fetch_assoc()) $users[] = ($CURUSER['id'] == $a1['id'] || $CURUSER['class'] >= UC_STAFF) ? sprintf('<a href="/userdetails.php?id=%d">%s</a>', $a1['id'], $a1['username']) : 'Anonymous';
                     $html.= '<li><b>Listeners</b>: ' . join(', ', $users) . '</li>';
                 }
             }

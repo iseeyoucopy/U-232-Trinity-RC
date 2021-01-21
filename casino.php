@@ -74,7 +74,7 @@ if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) != 1) {
     sql_query("INSERT INTO casino (userid, win, lost, trys, date, started) VALUES(" . sqlesc($CURUSER["id"]) . ", 0, 0, 0," . TIME_NOW . ",1)") or ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
     $result = sql_query($query) or sqlerr(__FILE__, __LINE__);
 }
-$row = mysqli_fetch_assoc($result);
+$row = $result->fetch_assoc();
 $user_win = isset($row["win"]) ? $row["win"] : '';
 $user_lost = isset($row["lost"]) ? $row["lost"] : '';
 $user_trys = isset($row["trys"]) ? (int) $row["trys"] : '';

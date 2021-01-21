@@ -16,7 +16,7 @@ function tables($no_data = "")
     if (!empty($no_data));
     $no_data = explode("|", $no_data);
     $r = sql_query("SHOW TABLES") or sqlerr(__FILE__, __LINE__);
-    while ($a = mysqli_fetch_assoc($r)) $temp[] = $a;
+    while ($a = $r->fetch_assoc()) $temp[] = $a;
     foreach ($temp as $k => $tname) {
         $tn = $tname["Tables_in_{$TRINITY20['mysql_db']}"];
         if (in_array($tn, $no_data)) continue;

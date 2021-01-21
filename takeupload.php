@@ -346,7 +346,7 @@ if (($fd1 = @fopen("rss.xml", "w")) && ($fd2 = fopen("rssdd.xml", "w"))) {
     @fwrite($fd1, $s);
     @fwrite($fd2, $s);
     $r = sql_query("SELECT id,name,descr,filename,category FROM torrents ORDER BY added DESC LIMIT 15") or sqlerr(__FILE__, __LINE__);
-    while ($a = mysqli_fetch_assoc($r)) {
+    while ($a = $r->fetch_assoc()) {
         $cat = $cats[$a["category"]];
         $s   = "<item>\n<title>" . htmlsafechars($a["name"] . " ($cat)") . "</title>\n" . "<description>" . htmlsafechars($a["descr"]) . "</description>\n";
         @fwrite($fd1, $s);

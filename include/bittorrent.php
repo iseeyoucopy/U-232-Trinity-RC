@@ -379,7 +379,7 @@ function userlogin()
             //die;
             return;
         }
-        $row = mysqli_fetch_assoc($result);
+        $row = $result->fetch_assoc();
         foreach ($user_fields_ar_int as $i) $row[$i] = (int)$row[$i];
         foreach ($user_fields_ar_float as $i) $row[$i] = (float)$row[$i];
         foreach ($user_fields_ar_str as $i) $row[$i] = $row[$i];
@@ -417,7 +417,7 @@ function userlogin()
         );
         $result = sql_query($query);
         if (mysqli_num_rows($result)) { // Main Result set exists
-            $ann_row = mysqli_fetch_assoc($result);
+            $ann_row = $result->fetch_assoc();
             $query = sqlesc($ann_row['sql_query']);
             // Ensure it only selects...
             if (!preg_match('/\\ASELECT.+?FROM.+?WHERE.+?\\z/', $query)) {
@@ -1164,7 +1164,7 @@ function flood_limit($table)
         'messages' => 'messages.sender'
     );
     $q = sql_query('SELECT min(' . $table . '.added) as first_post, count(' . $table . '.id) as how_many FROM ' . $table . ' WHERE ' . $tb[$table] . ' = ' . $CURUSER['id'] . ' AND ' . TIME_NOW . ' - ' . $table . '.added < ' . $TRINITY20['flood_time']);
-    $a = mysqli_fetch_assoc($q);
+    $a = $q->fetch_assoc();
     if ($a['how_many'] > $max[$CURUSER['class']]) stderr($lang['gl_sorry'], $lang['gl_flood_msg'] . '' . mkprettytime($TRINITY20['flood_time'] - (TIME_NOW - $a['first_post'])));
 }
 //== Sql query count by pdq

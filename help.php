@@ -27,7 +27,7 @@ $HTMLOUT.= "<ul class='vertical menu drilldown' data-drilldown data-auto-height=
 $count = 0;
 $cats = array();
 $q = sql_query("SELECT * FROM faq_cat WHERE min_view <=" . sqlesc($CURUSER['class'])) or sqlerr (__file__, __line__);
-while ($item = mysqli_fetch_assoc($q)) {
+while ($item = $q->fetch_assoc()) {
     $cats[] = $item;
 }
 foreach ($cats as $row) {
@@ -45,13 +45,13 @@ $count = 0;
 if (($faqs = $cache->get('faqs__')) === false) {
     $faqs = array();
     $q2 = sql_query("SELECT * FROM faq")  or sqlerr (__FILE__, __LINE__);
-    while ($row = mysqli_fetch_assoc($q2)) $faqs[] = $row;
+    while ($row = $q2->fetch_assoc()) $faqs[] = $row;
     $cache->set('faqs__', $faqs, $TRINITY20['expires']['faqs']);
 }
 $rules = array();
 if (($rules = $cache->get('rules__')) === false) {
 $q = sql_query("SELECT rules_cat.id, rules_cat.name, rules_cat.shortcut, rules_cat.min_view, rules.type, rules.title, rules.text FROM rules_cat LEFT JOIN rules ON rules.type=rules_cat.id WHERE rules_cat.min_view <=" . sqlesc($CURUSER['class']));
-while ($item1 = mysqli_fetch_assoc($q)) $rules[] = $item1;
+while ($item1 = $q->fetch_assoc()) $rules[] = $item1;
 $cache->set('rules__', $rules, $TRINITY20['expires']['rules']);
 }
 $HTMLOUT.= "<li><a href='#'>Rules</a>

@@ -54,7 +54,7 @@ $HTMLOUT .="<div class=\"col-sm-2\">Forum Moderator<br><input name=\"forum_mod\"
   
 
 $q = sql_query("SELECT o.id as oid, o.name as oname, f.id as fid, f.name as fname FROM `over_forums` as o LEFT JOIN forums as f ON f.forum_id = o.id ") or sqlerr(__FILE__, __LINE__);
-	while($a = mysqli_fetch_assoc($q))
+	while($a = $q->fetch_assoc())
 		$boo[$a['oname']][] = array($a['fid'],$a['fname']);
 	$forum_list = "<ul id=\"browser\" class=\"filetree treeview-gray\" style=\"width:50%;text-align:left;\">";
 	foreach($boo as $fo=>$foo) {

@@ -99,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		<td nowrap='nowrap' colspan='3' align='left' >";
     $select .="<select name=\"place\"><option value=\"\">Select</option>\n";
     $r = sql_query("SELECT id,name FROM forums WHERE place=-1 ORDER BY name ASC") or sqlerr(__FILE__, __LINE__);
-    while ($ar = mysqli_fetch_assoc($r))
+    while ($ar = $r->fetch_assoc())
     $select .= "<option value=\"" . (int)$ar["id"] . "\">" . htmlsafechars($ar["name"]) . "</option>\n";
     $select .= "</select>\n";
     $HTMLOUT .=($select);

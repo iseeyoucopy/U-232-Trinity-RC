@@ -114,7 +114,7 @@ function show_level()
 		<td width='60%'$css>{$lang['rep_ad_show_level']}</td>
 		<td width='20%' $css>{$lang['rep_ad_show_min']}</td>
 		<td width='15%' $css>{$lang['rep_ad_show_controls']}</td></tr>";
-    while ($res = mysqli_fetch_assoc($query)) {
+    while ($res = $query->fetch_assoc()) {
         $html.= "<tr>\n" . "	<td>#" . $res['reputationlevelid'] . "</td>\n" . "	<td>{$lang['rep_ad_show_user']} <b>" . htmlsafechars($res['level']) . "</b></td>\n" . "	<td align='center'><input type='text' name='reputation[" . $res['reputationlevelid'] . "]' value='" . $res['minimumreputation'] . "' size='12' /></td>\n" . "	<td align='center'><span class='btn'><a href='staffpanel.php?tool=reputation_ad&amp;mode=edit&amp;reputationlevelid=" . $res['reputationlevelid'] . "'>{$lang['rep_ad_show_edit']}</a></span>&nbsp;<span class='btn'><a href='staffpanel.php?tool=reputation_ad&amp;mode=dodelete&amp;reputationlevelid=" . $res['reputationlevelid'] . "'>{$lang['rep_ad_show_del']}</a></span></td>\n" . "</tr>\n";
     }
     $html.= "<tr><td colspan='3' align='center'>
@@ -133,7 +133,7 @@ function show_form($type = 'edit')
     $html = $lang['rep_ad_form_html'];
     if ($type == 'edit') {
         $query = sql_query('SELECT * FROM reputationlevel WHERE reputationlevelid=' . intval($input['reputationlevelid'])) or sqlerr(__LINE__, __FILE__);
-        if (!$res = mysqli_fetch_assoc($query)) {
+        if (!$res = $query->fetch_assoc()) {
             stderr($lang['rep_ad_form_error'], $lang['rep_ad_form_error_msg']);
         }
         $title = $lang['rep_ad_form_title'];
@@ -256,7 +256,7 @@ function show_form_rep()
 					left join users leftfor on leftfor.id=r.userid
 					left join users leftby on leftby.id=r.whoadded
 					WHERE reputationid = " . intval($input['reputationid']));
-    if (!$res = mysqli_fetch_assoc($query)) {
+    if (!$res = $query->fetch_assoc()) {
         stderr('', $lang['rep_ad_rep_form_erm']);
     }
     $html = "<div class='row'><div class='col-md-12'><form action='staffpanel.php?tool=reputation_ad' name='show_rep_form' method='post'>
@@ -383,7 +383,7 @@ function view_list()
         // do the count for pager etc
         $query = sql_query("SELECT COUNT(*) AS cnt FROM reputation r WHERE $cond");
         //echo_r($input); exit;
-        $total = mysqli_fetch_assoc($query);
+        $total = $query->fetch_assoc();
         if (!$total['cnt']) {
             $html.= "<tr><td colspan='7' align='center'>{$lang['rep_ad_view_none_found']}</td></tr>";
         }
@@ -411,7 +411,7 @@ function view_list()
         if (!mysqli_num_rows($query)) {
             stderr($lang['rep_ad_view_err3'], $lang['rep_ad_view_err5']);
         }
-        while ($r = mysqli_fetch_assoc($query)) {
+        while ($r = $query->fetch_assoc()) {
             $r['dateadd'] = date("M j, Y, g:i a", $r['dateadd']);
             $html.= "<tr><td>#{$r['reputationid']}</td>";
             $html.= "<td><a href='userdetails.php?id={$r['leftby_id']}' target='_blank'>{$r['leftby_name']}</a></td>";
@@ -438,7 +438,7 @@ function do_delete_rep()
     }
     // check it's a valid ID.
     $query = sql_query("SELECT reputationid, reputation, userid FROM reputation WHERE reputationid=" . intval($input['reputationid']));
-    if (($r = mysqli_fetch_assoc($query)) === false) {
+    if (($r = $query->fetch_assoc()) === false) {
         stderr($lang['rep_ad_delete_rep_err3'], $lang['rep_ad_delete_rep_err4']);
     }
     $sql = sql_query('SELECT reputation ' . 'FROM users ' . 'WHERE id = ' . sqlesc($input['reputationid'])) or sqlerr(__FILE__, __LINE__);
@@ -475,7 +475,7 @@ function do_edit_rep()
     $newrep = intval($input['reputation']);
     // valid ID?
     $query = sql_query("SELECT reputationid, reason, userid FROM reputation WHERE reputationid=" . intval($input['reputationid']));
-    if (false === $r = mysqli_fetch_assoc($query)) {
+    if (false === $r = $query->fetch_assoc()) {
         stderr($lang['rep_ad_edit_input'], $lang['rep_ad_edit_noid']);
     }
     if ($oldrep != $newrep) {
@@ -580,7 +580,7 @@ function rep_cache()
     }
     $rep_cache_file = "{$TRINITY20['baseurl']}/cache/rep_cache.php";
     $rep_out = "<" . "?php\n\n\$reputations = array(\n";
-    while ($row = mysqli_fetch_assoc($query)) {
+    while ($row = $query->fetch_assoc()) {
         $rep_out.= "\t{$row['minimumreputation']} => '{$row['level']}',\n";
     }
     $rep_out.= "\n);\n\n?" . ">";

@@ -59,7 +59,7 @@ case 'setanswered':
             exit;
         }
         $q1 = sql_query('SELECT s.msg,s.sender,s.subject,u.username FROM staffmessages as s LEFT JOIN users as u ON s.sender=u.id WHERE s.id IN (' . join(',', $id) . ')') or sqlerr(__FILE__, __LINE__);
-        $a = mysqli_fetch_assoc($q1);
+        $a = $q1->fetch_assoc();
         $response = htmlsafechars($message) . "\n---" . htmlsafechars($a['username']) . " wrote ---\n" . htmlsafechars($a['msg']);
         sql_query('INSERT INTO messages(sender,receiver,added,subject,msg) VALUES(' . sqlesc($CURUSER['id']) . ',' . sqlesc($a['sender']) . ',' . TIME_NOW . ',' . sqlesc('RE: ' . $a['subject']) . ',' . sqlesc($response) . ')') or sqlerr(__FILE__, __LINE__);
         $cache->delete('inbox_new::' . $a['sender']);
@@ -76,7 +76,7 @@ case 'view':
     if ($id > 0) {
         $q2 = sql_query('SELECT s.id, s.added, s.msg, s.subject, s.answered, s.answer, s.answeredby, s.sender, s.answer, u.username, u2.username as username2 FROM staffmessages as s LEFT JOIN users as u ON s.sender = u.id LEFT JOIN users as u2 ON s.answeredby = u2.id  WHERE s.id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         if (mysqli_num_rows($q2) == 1) {
-            $a = mysqli_fetch_assoc($q2);            
+            $a = $q2->fetch_assoc();            
 $HTMLOUT.= "<div class='row'><div class='col-md-12'><h2>{$lang['staffbox_pm_view']}</h2></div></div>";
 $HTMLOUT.= "<div class='row'><div class='col-md-12'>";
             $HTMLOUT.= "<form action='" . $_SERVER['PHP_SELF'] . "' method='post'>
@@ -131,7 +131,7 @@ $HTMLOUT.= "<div class='row'><div class='col-md-12'>";
                  <td><h4><input type='checkbox' name='t' onclick=\"checkbox('staffbox')\" /></h4></td>
                 </tr>";
         $r = sql_query('SELECT s.id, s.added, s.subject, s.answered, s.answeredby, s.sender, s.answer, u.username, u2.username as username2 FROM staffmessages as s LEFT JOIN users as u ON s.sender = u.id LEFT JOIN users as u2 ON s.answeredby = u2.id ORDER BY id desc ' . $pager['limit']) or sqlerr(__FILE__, __LINE__);
-        while ($a = mysqli_fetch_assoc($r)) $HTMLOUT.= "<tr>
+        while ($a = $r->fetch_assoc()) $HTMLOUT.= "<tr>
                    <td><a href='" . $_SERVER['PHP_SELF'] . "?do=view&amp;id=" . (int)$a['id'] . "'>" . htmlsafechars($a['subject']) . "</a></td>
                    <td ><b>" . ($a['username'] ? "<a href='userdetails.php?id=" . (int)$a['sender'] . "'>" . htmlsafechars($a['username']) . "</a>" : "Unknown[" . (int)$a['sender'] . "]") . "</b></td>
                    <td nowrap='nowrap'>" . get_date($a['added'], 'DATE', 1) . "<br/><span class='small'>" . get_date($a['added'], 0, 1) . "</span></td>

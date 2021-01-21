@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $cache->delete('shoutbox_');
                 $cache->delete('staff_shoutbox_');
                 $result = sql_query("SELECT id, class FROM users") or sqlerr(__FILE__, __LINE__);
-                while ($row = mysqli_fetch_assoc($result)) {
+                while ($row = $result->fetch_assoc()) {
                     $row1 = [];
                     $row1[]= $row;
                     foreach ($row1 as $row2) {
@@ -164,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $cache->delete('shoutbox_');
                 $cache->delete('staff_shoutbox_');
                 $result = sql_query("SELECT id, class FROM users") or sqlerr(__FILE__, __LINE__);
-                while ($row = mysqli_fetch_assoc($result)) {
+                while ($row = $result->fetch_assoc()) {
                     $row1 = [];
                     $row1[]= $row;
                     foreach ($row1 as $row2) {
@@ -242,7 +242,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $cache->delete('shoutbox_');
         $cache->delete('staff_shoutbox_');
         $result = sql_query("SELECT id, class FROM users") or sqlerr(__FILE__, __LINE__);
-        while ($row = mysqli_fetch_assoc($result)) {
+        while ($row = $result->fetch_assoc()) {
             $row1 = [];
             $row1[]= $row;
             foreach ($row1 as $row2) {

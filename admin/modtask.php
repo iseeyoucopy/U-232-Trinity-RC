@@ -938,7 +938,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     if(!empty($forums) && sizeof($forums)>0 && $forum_mod == "yes") {
 	$foo = "[".join("][",$forums)."]";
 	$q = sql_query("SELECT id FROM topics WHERE forum_id IN (".join(",",$forums).") ") or sqlerr(__FILE__, __LINE__);
-		while($a = mysqli_fetch_assoc($q))
+		while($a = $q->fetch_assoc())
 		$temp[] = $a["id"];
 		topicmods($user["id"],"[".join("][",$temp)."]");
 	$updateset[] = "forums_mod =".sqlesc($foo);

@@ -136,7 +136,7 @@ function edit_poll_form()
     $poll_votes = '';
     $query = sql_query("SELECT * FROM polls WHERE pid = " . intval($_GET['pid']));
     if (false == mysqli_num_rows($query)) return $lang['poll_epf_no_poll'];
-    $poll_data = mysqli_fetch_assoc($query);
+    $poll_data = $query->fetch_assoc();
     $poll_answers = $poll_data['choices'] ? unserialize(stripslashes($poll_data['choices'])) : array();
     foreach ($poll_answers as $question_id => $data) {
 	$poll_questions.= "\t{$question_id} : '" . str_replace("'", '&#39;', $data['question']) . "',\n";
@@ -181,7 +181,7 @@ function show_poll_archive()
         <td>{$lang['poll_spa_starter']}</td>
         <td>&nbsp;</td>
       </tr>";
-        while ($row = mysqli_fetch_assoc($query)) {
+        while ($row = $query->fetch_assoc()) {
             $row['start_date'] = get_date($row['start_date'], 'DATE');
             $HTMLOUT.= "<tr>
           <td>" . (int)$row['pid'] . "</td>

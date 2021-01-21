@@ -189,7 +189,7 @@ function search_text_in_db($searchstr, $base_sql, $where_search, $add_where = ar
                 }
             }
             $word_count++;
-            mysqli_fetch_assoc($result);
+            $result->fetch_assoc();
         }
     }
     @reset($result_list);

@@ -35,7 +35,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     if (!is_valid_id($topicid))
         stderr('Error', 'Invalid ID');
     $r = sql_query("SELECT t.id, t.topic_name " . ($Multi_forum['configs']['use_poll_mod'] ? ",t.poll_id" : "") . ",t.forum_id,(SELECT COUNT(p.id) FROM posts as p where p.topic_id=".sqlesc($topicid).") AS posts FROM topics as t WHERE t.id=".sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
-    $a = mysqli_fetch_assoc($r) or stderr("Error", "No topic was found");
+    $a = $r->fetch_assoc() or stderr("Error", "No topic was found");
     if ($CURUSER["class"] >= UC_STAFF || isMod($a["forum_id"], "forum")) {
         $sure = isset($_GET['sure']) && (int) $_GET['sure'];
         if (!$sure)

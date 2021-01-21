@@ -158,7 +158,7 @@ function show_views()
     <td>{$lang['stats_ex_count']}</td>
     </tr>";
     if (mysqli_num_rows($q)) {
-        while ($row = mysqli_fetch_assoc($q)) {
+        while ($row = $q->fetch_assoc()) {
             if ($row['result_count'] > $max_result) {
                 $max_result = $row['result_count'];
             }
@@ -293,7 +293,7 @@ function result_screen($mode = 'reg')
     <td>{$lang['stats_ex_count']}</td>
     </tr>";
     if (mysqli_num_rows($q1)) {
-        while ($row = mysqli_fetch_assoc($q1)) {
+        while ($row = $q1->fetch_assoc()) {
             if ($row['result_count'] > $max_result) {
                 $max_result = $row['result_count'];
             }

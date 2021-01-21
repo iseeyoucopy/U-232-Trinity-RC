@@ -70,7 +70,7 @@ $html = array();
 function sql_get_version()
 {
     $query = sql_query("SELECT VERSION() AS version");
-    if (!$row = mysqli_fetch_assoc($query)) {
+    if (!$row = $query->fetch_assoc()) {
         unset($row);
         $query = sql_query("SHOW VARIABLES LIKE 'version'");
         $row = mysqli_fetch_row($query);

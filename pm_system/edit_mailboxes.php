@@ -142,7 +142,7 @@ if (isset($_POST['action2'])) {
             $r = sql_query("SELECT id FROM categories WHERE min_class < " . sqlesc($CURUSER['class'])) or sqlerr(__FILE__, __LINE__);
         $rows = mysqli_num_rows($r);
         for ($i = 0; $i < $rows; ++$i) {
-        $a = mysqli_fetch_assoc($r);
+        $a = $r->fetch_assoc();
         if (isset($_POST["cat{$a['id']}"]) && $_POST["cat{$a['id']}"] == 'yes') $notifs.= "[cat{$a['id']}]";
         }
         $updateset[] = "notifs = " . sqlesc($notifs) . "";
@@ -219,7 +219,7 @@ $per_page_drop_down.= '</select>';
     if (mysqli_num_rows($r) > 0) {
         $categories.= "<table class='striped'><tr>";
         $i = 0;
-        while ($a = mysqli_fetch_assoc($r)) {
+        while ($a = $r->fetch_assoc()) {
             $categories.= ($i && $i % 2 == 0) ? "</tr><tr>" : "";
             $categories.= "<td class='bottom' style='padding-right: 5px'><input name='cat".(int)$a['id']."' type='checkbox' " . (strpos($CURUSER['notifs'], "[cat{$a['id']}]") !== false ? " checked='checked'" : "") . " value='yes' />&nbsp;<a class='catlink' href='browse.php?cat=".(int)$a['id']."'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($a['image']) . "' alt='" . htmlsafechars($a['name']) . "' title='" . htmlsafechars($a['name']) . "' /></a>&nbsp;" . htmlspecialchars($a["name"]) . "</td>\n";
             ++$i;

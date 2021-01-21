@@ -33,7 +33,7 @@ if ($TRINITY20['hnr_online'] == 1 || $CURUSER['id'] == $id || $CURUSER['class'] 
     <td class='text-center'>{$lang['userdetails_wcompleted']}</td>
     <td class='text-center'>{$lang['userdetails_laction']}</td>
     <td class='text-center'>{$lang['userdetails_speed']}</td></tr>";
-        while ($a = mysqli_fetch_assoc($r)) {
+        while ($a = $r->fetch_assoc()) {
         $What_Id = (XBT_TRACKER == true ? $a['tid'] : $a['id']);
             //=======change colors
             $count2 = (++$count2) % 2;

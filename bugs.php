@@ -32,7 +32,7 @@ if ($action == 'viewbug') {
         if ($status == 'na') stderr("{$lang['stderr_error']}", "{$lang['stderr_no_na']}");
         if (!$id || !is_valid_id($id)) stderr("{$lang['stderr_error']}", "{$lang['stderr_invalid_id']}");
         $query1 = sql_query("SELECT b.*, u.username, u.uploaded FROM bugs AS b LEFT JOIN users AS u ON b.sender = u.id WHERE b.id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-        while ($q1 = mysqli_fetch_assoc($query1)) {
+        while ($q1 = $query1->fetch_assoc()) {
             switch ($status) {
             case 'fixed':
                 $msg = sqlesc("Hello " . htmlsafechars($q1['username']) . ".\nYour bug: [b]" . htmlsafechars($q1['title']) . "[/b] has been treated by one of our coder, and is done.\n\nWe would to thank you and therefore we have added [b]2 GB[/b] to your upload total :].\n\nBest regards, {$TRINITY20['site_name']}'s coders.\n");

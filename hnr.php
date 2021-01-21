@@ -71,7 +71,7 @@ if (mysqli_num_rows($r) > 0) {
         <td class='colhead' align='center'>{$lang['hnr_wcompleted']}</td>
     </tr>\n";
     
-    while ($a = mysqli_fetch_assoc($r)) {
+    while ($a = $r->fetch_assoc()) {
         $S_date                   = (XBT_TRACKER === true ? $a['started'] : $a['start_date']);
         $torrent_needed_seed_time = $a['seedtime'];
         //=== get times per class

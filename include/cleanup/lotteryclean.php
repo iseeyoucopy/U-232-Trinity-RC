@@ -19,7 +19,7 @@ function docleanup($data)
     while ($aconf = mysqli_fetch_assoc($lconf)) $lottery_config[$aconf['name']] = $aconf['value'];
     if ($lottery_config['enable'] && TIME_NOW > $lottery_config['end_date']) {
         $q = mysqli_query($GLOBALS["___mysqli_ston"], 'SELECT t.user as uid, u.seedbonus, u.modcomment FROM tickets as t LEFT JOIN users as u ON u.id = t.user ORDER BY RAND() ') or sqlerr(__FILE__, __LINE__);
-        while ($a = mysqli_fetch_assoc($q)) $tickets[] = $a;
+        while ($a = $q->fetch_assoc()) $tickets[] = $a;
         shuffle($tickets);
         $lottery['winners'] = array();
         $lottery['total_tickets'] = count($tickets);

@@ -133,7 +133,7 @@ if (mysqli_num_rows($result) != 0) {
 <td class='colhead' align='center' width='1%'>{$lang['wpeers_togo']}</td>
 </tr>";
     }
-    while ($row = mysqli_fetch_assoc($result)) {
+    while ($row = $result->fetch_assoc()) {
         $smallname = substr(htmlsafechars($row["name"]) , 0, 25);
         if ($smallname != htmlsafechars($row["name"])) {
             $smallname.= '...';

@@ -103,7 +103,7 @@ if ($top5torrents) {
 if (($last5torrents = $cache->get('last5_tor_')) === false) {
     $sql = "SELECT id, seeders, poster, leechers, name, category FROM torrents WHERE visible='yes' ORDER BY added DESC LIMIT {$TRINITY20['latest_torrents_limit']}";
     $result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
-    while ($last5torrent = mysqli_fetch_assoc($result)) $last5torrents[] = $last5torrent;
+    while ($last5torrent = $result->fetch_assoc()) $last5torrents[] = $last5torrent;
     $cache->set('last5_tor_', $last5torrents, $TRINITY20['expires']['last5_torrents']);
 }
 if ($last5torrents && count($last5torrents) > 0) {

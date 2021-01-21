@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         stderr($lang['datareset_stderr'], $lang['datareset_stderr2']);
     }
     $q1 = sql_query("SELECT s.downloaded as sd , t.id as tid, t.name,t.size, u.username,u.id as uid,u.downloaded as ud FROM torrents as t LEFT JOIN snatched as s ON s.torrentid = t.id LEFT JOIN users as u ON u.id = s.userid WHERE t.id =" . sqlesc($tid)) or sqlerr(__FILE__, __LINE__);
-    while ($a = mysqli_fetch_assoc($q1)) {
+    while ($a = $q1->fetch_assoc()) {
         $newd = ($a["ud"] > 0 ? $a["ud"] - $a["sd"] : 0);
         $new_download[] = "(" . $a["uid"] . "," . $newd . ")";
         $tname = htmlsafechars($a["name"]);

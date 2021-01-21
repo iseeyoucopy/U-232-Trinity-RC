@@ -19,7 +19,7 @@ $query1 = str_replace(" ", ".", sqlesc("%" . $searchname . "%"));
 $query2 = str_replace(".", " ", sqlesc("%" . $searchname . "%"));
 if (($sim_torrents = $cache->get('similiar_tor_' . $id)) === false) {
     $r = sql_query("SELECT id, name, size, added, seeders, leechers, category FROM torrents WHERE name LIKE {$query1} AND id <> " . sqlesc($id) . " OR name LIKE {$query2} AND id <> " . sqlesc($id) . " ORDER BY name") or sqlerr(__FILE__, __LINE__);
-    while ($sim_torrent = mysqli_fetch_assoc($r)) $sim_torrents[] = $sim_torrent;
+    while ($sim_torrent = $r->fetch_assoc()) $sim_torrents[] = $sim_torrent;
     $cache->set('similiar_tor_' . $id, $sim_torrents, 86400);
 }
 if ($sim_torrents && count($sim_torrents) > 0) {

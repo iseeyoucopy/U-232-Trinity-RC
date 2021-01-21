@@ -103,7 +103,7 @@ function move_cat_form()
     if (false == mysqli_num_rows($q)) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
-    $r = mysqli_fetch_assoc($q);
+    $r = $q->fetch_assoc();
     $check = '';
     $select = "<select name='new_cat_id'>\n<option value='0'>{$lang['categories_select']}</option>\n";
     $cats = genrelist();
@@ -178,7 +178,7 @@ function delete_cat()
     if (false == mysqli_num_rows($q)) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
-    $r = mysqli_fetch_assoc($q);
+    $r = $q->fetch_assoc();
     $old_cat_id = intval($r['id']);
     if (isset($params['new_cat_id'])) {
         if (!is_valid_id($params['new_cat_id']) OR ($r['id'] == $params['new_cat_id'])) {
@@ -212,7 +212,7 @@ function delete_cat_form()
     if (false == mysqli_num_rows($q)) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
-    $r = mysqli_fetch_assoc($q);
+    $r = $q->fetch_assoc();
     $q = sql_query("SELECT COUNT(*) FROM torrents WHERE category = " . intval($r['id']));
     $count = mysqli_fetch_array($q, MYSQLI_NUM);
     $check = '';
@@ -305,7 +305,7 @@ function edit_cat_form()
     if (false == mysqli_num_rows($q)) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
-    $r = mysqli_fetch_assoc($q);
+    $r = $q->fetch_assoc();
     $dh = opendir($TRINITY20['pic_base_url'] . 'caticons/1');
     $files = array();
     while (false !== ($file = readdir($dh))) {
@@ -450,7 +450,7 @@ function show_categories()
     if (false == mysqli_num_rows($query)) {
         $htmlout = '<h1>'.$lang['categories_show_oops'].'</h1>';
     } else {
-        while ($row = mysqli_fetch_assoc($query)) {
+        while ($row = $query->fetch_assoc()) {
             $cat_image = file_exists($TRINITY20['pic_base_url'] . 'caticons/1/' . $row['image']) ? "<img border='0' src='{$TRINITY20['pic_base_url']}caticons/1/" . htmlsafechars($row['image']) . "' alt='" . (int)$row['id'] . "' />" : "{$lang['categories_show_no_image']}";
             $htmlout.= "<tr>
           <td><b>{$lang['categories_show_id2']} (" . (int)$row['id'] . ")</b></td>	

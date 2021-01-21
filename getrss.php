@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 HTML;
     $q1 = sql_query('SELECT id, name, image FROM categories ORDER BY id') or sqlerr(__FILE__, __LINE__);
     $i = 0;
-    while ($a = mysqli_fetch_assoc($q1)) {
+    while ($a = $q1->fetch_assoc()) {
         if ($i % 5 == 0 && $i > 0) $HTMLOUT.= "<br/>";
         $HTMLOUT.= "<label for=\"cat_" . (int)$a['id'] . "\">
       <img src=\"{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($a['image']) . "\" alt=\"" . htmlsafechars($a['name']) . "\" title=\"" . htmlsafechars($a['name']) . "\" />

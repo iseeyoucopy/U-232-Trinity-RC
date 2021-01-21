@@ -166,7 +166,7 @@ if ($game) {
         if ($points == 21) {
             if ($waitarr['c'] > 0) {
                 $r = sql_query("SELECT bj.*, u.username FROM blackjack AS bj LEFT JOIN users AS u ON u.id=bj.userid WHERE bj.status='waiting' AND bj.userid != " . sqlesc($CURUSER['id']) . " ORDER BY bj.date ASC LIMIT 1");
-                $a = mysqli_fetch_assoc($r);
+                $a = $r->fetch_assoc();
                 if ($a["points"] != 21) {
                     $winorlose = "{$lang['bj_you_won']} " . mksize($mb);
                     sql_query("UPDATE users SET uploaded = uploaded + $mb, bjwins = bjwins + 1 WHERE id=" . sqlesc($CURUSER['id']));
@@ -221,7 +221,7 @@ if ($game) {
         } elseif ($points > 21) {
             if ($waitarr['c'] > 0) {
                 $r = sql_query("SELECT bj.*, u.username, u.uploaded, u.downloaded, u.bjwins, u.bjlosses FROM blackjack AS bj LEFT JOIN users AS u ON u.id=bj.userid WHERE bj.status='waiting' AND bj.userid != " . sqlesc($CURUSER['id']) . " ORDER BY bj.date ASC LIMIT 1");
-                $a = mysqli_fetch_assoc($r);
+                $a = $r->fetch_assoc();
                 if ($a["points"] > 21) {
                     $subject = sqlesc($lang['bj_blackjack_results']);
                     $winorlose = $lang['bj_nobody_won'];
@@ -305,7 +305,7 @@ if ($game) {
         <tr><td align='center'><b>{$lang['bj_points']} = " . htmlsafechars($playerarr['points']) . "</b></td></tr>";
         if ($waitarr['c'] > 0) {
             $r = sql_query("SELECT bj.*, u.username, u.uploaded, u.downloaded, u.bjwins, u.bjlosses FROM blackjack AS bj LEFT JOIN users AS u ON u.id=bj.userid WHERE bj.status='waiting' AND bj.userid != " . sqlesc($CURUSER['id']) . " ORDER BY bj.date ASC LIMIT 1");
-            $a = mysqli_fetch_assoc($r);
+            $a = $r->fetch_assoc();
             if ($a["points"] == $playerarr['points']) {
                 $subject = sqlesc($lang['bj_blackjack_results']);
                 $winorlose = $lang['bj_nobody_won'];

@@ -37,7 +37,7 @@ $query = sql_query("SELECT * FROM polls
 if (!mysqli_num_rows($query) == 1) {
     stderr('ERROR', 'No poll with that ID');
 }
-$poll_data = mysqli_fetch_assoc($query);
+$poll_data = $query->fetch_assoc();
 if ($poll_data['user_id']) {
     stderr('ERROR', 'You have already voted!');
 }

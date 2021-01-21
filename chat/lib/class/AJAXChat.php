@@ -1357,7 +1357,7 @@ class AJAXChat {
 		// Create a new SQL query:
 		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
-		$row = mysqli_fetch_assoc($result);
+		$row = $result->fetch_assoc();
 		
 		if($row['channel'] !== null) {
 			$channel = $row['channel'];
@@ -1627,7 +1627,7 @@ class AJAXChat {
 			// Create a new SQL query:
 			$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 			
-			while($row = mysqli_fetch_assoc($result)) {
+			while($row = $result->fetch_assoc()) {
 				$row['ip'] = $this->ipFromStorageFormat($row['ip']);
 				array_push($this->_bannedUsersData, $row);
 			}
@@ -1752,7 +1752,7 @@ class AJAXChat {
 		
 		if(mysqli_num_rows($result) > 0) {
 			$condition = '';
-			while($row = mysqli_fetch_assoc($result)) {
+			while($row = $result->fetch_assoc()) {
 				if(!empty($condition))
 					$condition .= ' OR ';
 				// Add userID to condition for removal:
@@ -1946,7 +1946,7 @@ class AJAXChat {
 		$messages = '';
 		
 		// Add the messages in reverse order so it is ascending again:
-		while($row = mysqli_fetch_assoc($result)) {			
+		while($row = $result->fetch_assoc()) {			
 			$message = $this->getChatViewMessageXML(
 				$row['id'],
 				$row['timeStamp'],
@@ -2016,7 +2016,7 @@ class AJAXChat {
 		$messages = '';
 		
 		// Add the messages in reverse order so it is ascending again:
-		while($row = mysqli_fetch_assoc($result)) {			
+		while($row = $result->fetch_assoc()) {			
 			$message = '';
 			$message .= '<message';
 			$message .= ' id="'.$row['id'].'"';
@@ -2176,7 +2176,7 @@ class AJAXChat {
 		
 
 		$xml = '<messages>';
-		while($row = mysqli_fetch_assoc($result)) {
+		while($row = $result->fetch_assoc()) {
 			$xml .= '<message';
 			$xml .= ' id="'.$row['id'].'"';
 			$xml .= ' dateTime="'.date('r', $row['timeStamp']).'"';
@@ -2281,7 +2281,7 @@ class AJAXChat {
 			// Create a new SQL query:
 			$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 			
-			while($row = mysqli_fetch_assoc($result)) {
+			while($row = $result->fetch_assoc()) {
 				$row['ip'] = $this->ipFromStorageFormat($row['ip']);
 				array_push($this->_onlineUsersData, $row);
 			}
@@ -2451,7 +2451,7 @@ class AJAXChat {
 			// Create a new SQL query:
 			$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 			
-			while($row = mysqli_fetch_assoc($result)) {
+			while($row = $result->fetch_assoc()) {
 				array_push($this->_invitations, $row['channel']);
 			}
 			

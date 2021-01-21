@@ -33,7 +33,7 @@ function parse_poll()
         if (!mysqli_num_rows($query)) {
             return "Nothing to vote on right now!"; 
         }
-        while ($row = mysqli_fetch_assoc($query)) {
+        while ($row = $query->fetch_assoc()) {
             $poll_data = $row;
         }
         $cache->set('poll_data_' . $CURUSER['id'], $poll_data, $TRINITY20['expires']['poll_data']);

@@ -59,7 +59,7 @@ if ($do == 'view_page') {
 <td align='center'><b>{$lang['invites_confirm']}</b></td>
 </tr>";
         for ($i = 0; $i < $rows; ++$i) {
-            $arr = mysqli_fetch_assoc($query);
+            $arr = $query->fetch_assoc();
             if ($arr['status'] == 'pending') $user = "<td align='center'>" . htmlsafechars($arr['username']) . "</td>";
             else $user = "<td align='center'><a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int)$arr['id'] . "'>" . format_username($arr) . "</a></td>";
             $ratio = member_ratio($arr['uploaded'], $TRINITY20['ratio_free'] ? '0' : $arr['downloaded']);
@@ -140,7 +140,7 @@ elseif ($do == 'send_email') {
     $id = (isset($_GET['id']) ? (int)$_GET['id'] : (isset($_POST['id']) ? (int)$_POST['id'] : ''));
     if (!is_valid_id($id)) stderr($lang['invites_error'], $lang['invites_invalid']);
     $query = sql_query('SELECT * FROM invite_codes WHERE id = ' . sqlesc($id) . ' AND sender = ' . sqlesc($CURUSER['id']) . ' AND status = "Pending"') or sqlerr(__FILE__, __LINE__);
-    $fetch = mysqli_fetch_assoc($query) or stderr($lang['invites_error'], $lang['invites_noexsist']);
+    $fetch = $query->fetch_assoc() or stderr($lang['invites_error'], $lang['invites_noexsist']);
     $HTMLOUT.= "<form method='post' action='?do=send_email'><table border='1' cellspacing='0' cellpadding='10'>
 <tr><td class='rowhead'>{$lang['invites_mail_email']}</td><td><input type='text' size='40' name='email' /></td></tr><tr><td colspan='2' align='center'><input type='hidden' name='code' value='" . htmlsafechars($fetch['code']) . "' /></td></tr><tr><td colspan='2' align='center'><input type='submit' value='".$lang['invites_mail_send']."' class='btn' /></td></tr></table></form>";
     echo stdhead('Invites') . $HTMLOUT . stdfoot();
@@ -151,7 +151,7 @@ elseif ($do == 'send_email') {
 elseif ($do == 'delete_invite') {
     $id = (isset($_GET["id"]) ? (int) $_GET["id"] : (isset($_POST["id"]) ? (int) $_POST["id"] : ''));
     $query = sql_query('SELECT * FROM invite_codes WHERE id = ' . sqlesc($id) . ' AND sender = ' . sqlesc($CURUSER['id']) . ' AND status = "Pending"') or sqlerr(__FILE__, __LINE__);
-    $assoc = mysqli_fetch_assoc($query);
+    $assoc = $query->fetch_assoc();
     if (!$assoc) {
         stderr($lang['invites_error'], $lang['invites_noexsist']);
     }

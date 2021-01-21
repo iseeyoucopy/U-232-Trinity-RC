@@ -66,7 +66,7 @@ case "allComments":
         "<td class='colhead'>{$lang['text_actions']}</td>" . 
         "</tr>";
 
-        while($comment = mysqli_fetch_assoc($query)) {
+        while($comment = $query->fetch_assoc()) {
                 //==== Begin an array that will sanitize all the variables from the MySQLI query
                 $comment = array(
                         'user' => (int) $comment['user'],
@@ -157,7 +157,7 @@ case "results":
         "<td class='colhead'>{$lang['text_actions']}</td>" .
         "</tr>";
 
-        while($comment = mysqli_fetch_assoc($query)) {
+        while($comment = $query->fetch_assoc()) {
                 //==== Begin an array that will sanitize all variables from the MySQLI query
                 $comment = array(
                         'id' => (int) $comment['id'],
@@ -227,7 +227,7 @@ $HTMLOUT = "<div class='row'><div class='col-md-12'><h3><a href='staffpanel.php?
 "<td class='colhead'>{$lang['text_actions']}</td>" .
 "</tr>";
 
-while($comment = mysqli_fetch_assoc($query)) {
+while($comment = $query->fetch_assoc()) {
         //==== Begin an array that will sanitize all the variables from the MySQLI query
         $comment = array(
                 'user' => (int) $comment['user'],

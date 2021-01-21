@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $msg = htmlsafechars($_POST['msg']);
     if (!$msg) stderr("Error", "Please Type In Some Text");
     $query = sql_query("SELECT distinct userid FROM peers WHERE connectable='no'");
-    while ($dat = mysqli_fetch_assoc($query)) {
+    while ($dat = $query->fetch_assoc()) {
         $subject = "Connectability";
         sql_query("INSERT INTO messages (sender, receiver, added, msg, subject) VALUES (0, " . sqlesc($dat['userid']) . ", " . sqlesc(TIME_NOW) . ", " . sqlesc($msg) . ", " . sqlesc($subject) . ")") or sqlerr(__FILE__, __LINE__);
     }

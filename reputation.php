@@ -229,7 +229,7 @@ else {
         $reasonbits = '';
         if (mysqli_num_rows($query1) !== false) {
             $total = 0;
-            while ($postrep = mysqli_fetch_assoc($query1)) {
+            while ($postrep = $query1->fetch_assoc()) {
                 $total+= $postrep['reputation'];
                 if ($postrep['reputation'] > 0) {
                     $posneg = 'pos';

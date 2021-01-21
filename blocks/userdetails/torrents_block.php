@@ -13,7 +13,7 @@
 $r = sql_query("SELECT t.id, t.name, t.seeders, t.leechers, c.name AS cname, c.image FROM torrents t LEFT JOIN categories c ON t.category = c.id WHERE t.owner = " . sqlesc($id) . " ORDER BY t.name") or sqlerr(__FILE__, __LINE__);
 if (mysqli_num_rows($r) > 0) {
     $torrents = '';
-   while ($a = mysqli_fetch_assoc($r)) {
+   while ($a = $r->fetch_assoc()) {
         $cat = "<img src=\"{$TRINITY20['pic_base_url']}/caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($a['image']) . "\" title=\"" . htmlsafechars($a['cname']) . "\" alt=\"" . htmlsafechars($a['cname']) . "\">";
    $torrents.= '<div class="media-object">
   <div class="media-object-section">

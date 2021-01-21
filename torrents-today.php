@@ -257,7 +257,7 @@ if ($count) {
     );
     $tor_fields = implode(', ', array_merge($tor_fields_ar_int, $tor_fields_ar_str));
     $result = sql_query("SELECT " . $tor_fields . ", LENGTH(nfo) AS nfosz, IF(num_ratings < {$TRINITY20['minvotes']}, NULL, ROUND(rating_sum / num_ratings, 1)) AS rating FROM torrents {$where} {$orderby} {$pager['limit']}") or sqlerr(__FILE__, __LINE__);
-    $torrents = mysqli_fetch_assoc($result);
+    $torrents = $result->fetch_assoc();
     foreach ($tor_fields_ar_int as $i) $torrents[$i] = (int)$torrents[$i];
     foreach ($tor_fields_ar_str as $i) $torrents[$i] = $torrents[$i];
     $cache->set('torrent_browse_' . $CURUSER['class'], $torrents, $TRINITY20['expires']['torrent_browse']);

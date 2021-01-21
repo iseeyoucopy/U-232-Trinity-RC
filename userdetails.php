@@ -214,7 +214,7 @@ if (($user_stats = $cache->get($What_Cache.$id)) === false) {
         );
         $stats_fields = implode(', ', array_merge($stats_fields_ar_int, $stats_fields_ar_float, $stats_fields_ar_str));
     $sql_1 = sql_query('SELECT ' . $stats_fields . ' FROM users WHERE id= ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $user_stats = mysqli_fetch_assoc($sql_1);
+    $user_stats = $sql_1->fetch_assoc();
     foreach ($stats_fields_ar_int as $i) $user_stats[$i] = (int)$user_stats[$i];
     foreach ($stats_fields_ar_float as $i) $user_stats[$i] = (float)$user_stats[$i];
     foreach ($stats_fields_ar_str as $i) $user_stats[$i] = $user_stats[$i];
@@ -757,7 +757,7 @@ $HTMLOUT .="<div class=\"col-sm-2\">Forum Moderator<br><input name=\"forum_mod\"
 
 $q = sql_query("SELECT o.id as oid, o.name as oname, f.id as fid, f.name as fname FROM `over_forums` as o LEFT JOIN forums as f ON f.forum_id = o.id ") or sqlerr(__FILE__, __LINE__);
 	if($q){
-	while($a = mysqli_fetch_assoc($q)){
+	while($a = $q->fetch_assoc()){
 		$boo[$a['oname']][] = array($a['fid'],$a['fname']);
 	$forum_list = "<ul id=\"browser\" class=\"filetree treeview-gray\" style=\"width:50%;text-align:left;\">";
 	foreach($boo as $fo=>$foo) {
