@@ -13,8 +13,8 @@
 //== Announce mysql error
 function ann_sqlerr($file = '', $line = '')
 {
-    global $TRINITY20, $CURUSER;
-    $error = ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
+    global $TRINITY20, $CURUSER, $mysqli;
+    $error = $mysqli->error;
     $error_no = ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false));
     if ($TRINITY20['ann_sql_error_log'] AND ANN_SQL_DEBUG == 1) {
         $_ann_sql_err = "\n===================================================";

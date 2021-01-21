@@ -393,7 +393,7 @@ if (isset($_GET['staff_sent']) && ($_GET['staff_sent'] == "yes")) {
         }
     } elseif (preg_match($private_pattern, $text, $vars)) {
         $to_user = 0;
-        $p_res = sql_query(sprintf('SELECT id FROM users WHERE username = %s', sqlesc($vars[2]))) or exit(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+        $p_res = sql_query(sprintf('SELECT id FROM users WHERE username = %s', sqlesc($vars[2]))) or exit($mysqli->error);
         if (mysqli_num_rows($p_res) == 1) {
             $p_arr = mysqli_fetch_row($p_res);
             $to_user = (int) $p_arr[0];

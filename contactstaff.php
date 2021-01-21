@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $cache->delete('staff_mess_');
         header('Refresh: 3; url=' . urldecode($returnto)); //redirect but wait 3 seconds
         stderr($lang['contactstaff_success'], $lang['contactstaff_success_msg']);
-    } else stderr($lang['contactstaff_error'], sprintf($lang['contactstaff_mysql_err'], ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))));
+    } else stderr($lang['contactstaff_error'], sprintf($lang['contactstaff_mysql_err'], $mysqli->error));
 } else {
     $HTMLOUT = "
    <div class='container'><h1 class='text-center'><img src='images/global.design/support.png' alt='' title='Support'/>Contact Staff</h1>

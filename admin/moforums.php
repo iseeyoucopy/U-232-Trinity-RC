@@ -44,7 +44,7 @@ case 'delete' :
 		header('Refresh:2; url='.$this_url);
 		stderr($lang['forum_mngr_succ'], $lang['forum_mngr_rdct1']);
 	} else 
-		stderr($lang['forum_mngr_err1'], $lang['forum_mngr_err2'].((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+		stderr($lang['forum_mngr_err1'], $lang['forum_mngr_err2'].$mysqli->error);
 break;
 case 'process_add' :
 case 'process_edit' :
@@ -70,7 +70,7 @@ case 'process_edit' :
 		header('Refresh:2; url='.$this_url);
 		stderr($lang['forum_mngr_succ'],$msg);
 	} else
-		stderr($lang['forum_mngr_err1'], $lang['forum_mngr_err2'].((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+		stderr($lang['forum_mngr_err1'], $lang['forum_mngr_err2'].$mysqli->error);
 break;
 case 'edit' : 
 default :

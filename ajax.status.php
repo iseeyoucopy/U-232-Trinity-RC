@@ -54,7 +54,7 @@ case 'edit':
             true
         ));
         else $return = jsonmsg(array(
-            $lang['ajaxstatus_err'] . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) ,
+            $lang['ajaxstatus_err'] . $mysqli->error ,
             false
         ));
     } else $return = jsonmsg(array(
@@ -92,7 +92,7 @@ case 'new':
         true
     ));
     else $return = jsonmsg(array(
-        $lang['ajaxstatus_err'] . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) ,
+        $lang['ajaxstatus_err'] . $mysqli->error ,
         false
     ));
     break;

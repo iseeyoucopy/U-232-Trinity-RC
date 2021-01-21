@@ -109,9 +109,9 @@ if (!is_array($scheduled_events)) {
             if (gettype(strpos($key, "removeEvent_")) != 'boolean') {
                 $sql = "DELETE FROM `events` WHERE `id` = $id LIMIT 1;";
                 $res = sql_query($sql);
-                if (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) != 0) $HTMLOUT.= "<p>{$lang['events_err_del']}" . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . "<br />{$lang['events_click']} <a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
+                if ($mysqli->error != 0) $HTMLOUT.= "<p>{$lang['events_err_del']}" . $mysqli->error . "<br />{$lang['events_click']} <a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
                 else {
-                    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 0) $HTMLOUT.= "<p>{$lang['events_err_del']}" . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . "<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a> {$lang['events_goback']}<br /></p>\n";
+                    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 0) $HTMLOUT.= "<p>{$lang['events_err_del']}" . $mysqli->error . "<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a> {$lang['events_goback']}<br /></p>\n";
                     else {
                         $HTMLOUT.= "<p>{$lang['events_deleted']}</p>\n";
                         header("Refresh: 2; url=staffpanel.php?tool=events");
@@ -148,7 +148,7 @@ if (!is_array($scheduled_events)) {
                 if ($id == - 1) $sql = "INSERT INTO `events`(`overlayText`, `startTime`, `endTime`, `displayDates`, `freeleechEnabled`, `duploadEnabled`, `hdownEnabled`, `userid`) VALUES ('$text', $start, $end, $showDates, $freeleech, $doubleupload, $halfdownload, $userid);";
                 else $sql = "UPDATE `events` SET `overlayText` = '$text',`startTime` = $start, `endTime` = $end, `displayDates` = $showDates, `freeleechEnabled` = $freeleech, `duploadEnabled` = $doubleupload, `hdownEnabled` = $halfdownload, `userid` = $userid  WHERE `id` = $id;";
                 $res = sql_query($sql);
-                if (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) != 0) $HTMLOUT.= "<p>{$lang['events_err_save']}" . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . "<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
+                if ($mysqli->error != 0) $HTMLOUT.= "<p>{$lang['events_err_save']}" . $mysqli->error . "<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
                 else {
                     if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 0) $HTMLOUT.= "<p>{$lang['events_err_nochange']}<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
                     else {

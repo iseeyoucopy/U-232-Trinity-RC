@@ -265,7 +265,7 @@ foreach ($file_list as $key=>$f) {
         if ($mysqli->errno) {
             continue;
         }
-        // stderr($lang['takeupload_failed'], "mysql puked: " . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+        // stderr($lang['takeupload_failed'], "mysql puked: " . $mysqli->error);
     }
 
     if (XBT_TRACKER == false) {

@@ -44,7 +44,7 @@ case 'delete' :
 		header('Refresh:2; url='.$this_url);
 		stderr($lang['fm_mp_succ'], $lang['fm_mp_rdct1']);
 	} else 
-		stderr($lang['fm_mp_err1'], $lang['fm_mp_err2'].((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+		stderr($lang['fm_mp_err1'], $lang['fm_mp_err2'].$mysqli->error);
 break;
 case 'process_add' :
 case 'process_edit' :
@@ -70,7 +70,7 @@ case 'process_edit' :
 		header('Refresh:2; url='.$this_url);
 		stderr($lang['fm_mp_succ'],$msg);               
 	} else
-		stderr($lang['fm_mp_err1'], $lang['fm_mp_err2'].((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+		stderr($lang['fm_mp_err1'], $lang['fm_mp_err2'].$mysqli->error);
 break;
 case 'edit' : 
 default :

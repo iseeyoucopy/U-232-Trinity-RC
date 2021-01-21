@@ -49,7 +49,7 @@ case 'delete':
             $cache->delete('staff_mess_');
             header('Refresh: 2; url=' . $_SERVER['PHP_SELF']);
             stderr($lang['staffbox_success'], $lang['staffbox_delete_ids']);
-        } else stderr($lang['staffbox_err'], sprintf($lang['staffbox_sql_err'], ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))));
+        } else stderr($lang['staffbox_err'], sprintf($lang['staffbox_sql_err'], $mysqli->error));
     } else stderr($lang['staffbox_err'], $lang['staffbox_odd_err']);
     break;
 case 'setanswered':
@@ -69,7 +69,7 @@ case 'setanswered':
             $cache->delete('staff_mess_');
             header('Refresh: 2; url=' . $_SERVER['PHP_SELF']);
             stderr($lang['staffbox_success'], $lang['staffbox_setanswered_ids']);
-        } else stderr($lang['staffbox_err'], sprintf($lang['staffbox_sql_err'], ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))));
+        } else stderr($lang['staffbox_err'], sprintf($lang['staffbox_sql_err'], $mysqli->error));
     } else stderr($lang['staffbox_err'], $lang['staffbox_odd_err']);
     break;
 case 'view':
@@ -109,7 +109,7 @@ case 'restart':
             $cache->delete('staff_mess_');
             header('Refresh: 2; url=' . $_SERVER['PHP_SELF']);
             stderr($lang['staffbox_success'], $lang['staffbox_restart_ids']);
-        } else stderr($lang['staffbox_err'], sprintf($lang['staffbox_sql_err'], ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))));
+        } else stderr($lang['staffbox_err'], sprintf($lang['staffbox_sql_err'], $mysqli->error));
     } else stderr($lang['staffbox_err'], $lang['staffbox_odd_err']);
     break;
 default:

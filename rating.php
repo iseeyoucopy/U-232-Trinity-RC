@@ -65,10 +65,10 @@ if ($id > 0 && $rate >= 1 && $rate <= 5) {
     } else {
         if ($mysqli->errno && $ajax) {
             echo "You already rated this " . $what . "";
-        } elseif (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) && $ajax) {
-            print("You cant rate twice, Err - " . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+        } elseif ($mysqli->error && $ajax) {
+            print("You cant rate twice, Err - " . $mysqli->error);
         } else {
-            stderr("Err", "You cant rate twice, Err - " . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+            stderr("Err", "You cant rate twice, Err - " . $mysqli->error);
         }
     }
 }

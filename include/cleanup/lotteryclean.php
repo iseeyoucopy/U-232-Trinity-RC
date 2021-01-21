@@ -42,10 +42,10 @@ function docleanup($data)
             '(\'lottery_winners_amount\',' . $lottery['user_pot'] . ')',
             '(\'lottery_winners\',\'' . join('|', array_keys($lottery['winners'])) . '\')'
         );
-        if (count($_userq)) sql_query('INSERT INTO users(id,seedbonus,modcomment) VALUES ' . join(',', $_userq) . ' ON DUPLICATE KEY UPDATE seedbonus = values(seedbonus), modcomment = values(modcomment)') or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
-        if (count($_pms)) sql_query('INSERT INTO messages(sender, receiver, subject, msg, added) VALUES ' . join(',', $_pms)) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
-        sql_query('INSERT INTO lottery_config(name,value) VALUES ' . join(',', $lconfig_update) . ' ON DUPLICATE KEY UPDATE value=values(value)') or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
-        sql_query('DELETE FROM tickets') or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+        if (count($_userq)) sql_query('INSERT INTO users(id,seedbonus,modcomment) VALUES ' . join(',', $_userq) . ' ON DUPLICATE KEY UPDATE seedbonus = values(seedbonus), modcomment = values(modcomment)') or die($mysqli->error);
+        if (count($_pms)) sql_query('INSERT INTO messages(sender, receiver, subject, msg, added) VALUES ' . join(',', $_pms)) or die($mysqli->error);
+        sql_query('INSERT INTO lottery_config(name,value) VALUES ' . join(',', $lconfig_update) . ' ON DUPLICATE KEY UPDATE value=values(value)') or die($mysqli->error);
+        sql_query('DELETE FROM tickets') or die($mysqli->error);
     }
     //==End 09 seedbonus lottery by putyn
     if ($queries > 0) write_log("Lottery clean-------------------- lottery Complete using $queries queries --------------------");

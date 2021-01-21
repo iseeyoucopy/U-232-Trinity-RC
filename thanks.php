@@ -99,7 +99,7 @@ case 'add':
             if (sql_query('INSERT INTO thanks(userid,torrentid) VALUES(' . sqlesc($uid) . ',' . sqlesc($tid) . ')')) {
                 echo(print_list());
             } else {
-                $msg = 'There was an error with the query,contact the staff. Mysql error ' . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
+                $msg = 'There was an error with the query,contact the staff. Mysql error ' . $mysqli->error;
                 echo($ajax ? json_encode([
                     'status' => false,
                     'err' => $msg
