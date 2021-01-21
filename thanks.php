@@ -29,7 +29,7 @@ function print_list()
     $list = [];
     $hadTh = false;
     if (mysqli_num_rows($qt) > 0) {
-        while ($a = mysqli_fetch_assoc($qt)) {
+        while ($a = $qt->fetch_assoc()) {
             $list[] = '<a href=\'userdetails.php?id=' . (int) $a['userid'] . '\' target=\'' . $target . '\'>' . htmlsafechars($a['username']) . '</a>';
             $ids[] = (int) $a['userid'];
         }

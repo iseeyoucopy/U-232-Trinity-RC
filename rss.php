@@ -25,7 +25,7 @@ if (!empty($torrent_pass)) {
     else {
         $q0 = sql_query("SELECT * FROM users where torrent_pass = " . sqlesc($torrent_pass)) or sqlerr(__FILE__, __LINE__);
         if (mysqli_num_rows($q0) == 0) die("Your passkey is invalid! Go to " . $TRINITY20['site_name'] . " and reset your passkey");
-        else $CURUSER = mysqli_fetch_assoc($q0);
+        else $CURUSER = $q0->fetch_assoc();
     }
 } 
 else die('Your link doesn\'t have a passkey');

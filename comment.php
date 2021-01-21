@@ -120,7 +120,7 @@ if ($action == 'add') {
         }
         // --- pm if new comment mod---//
         $cpm = sql_query("SELECT commentpm FROM users WHERE id = " . sqlesc($owner)) or sqlerr(__FILE__, __LINE__);
-        $cpm_r = mysqli_fetch_assoc($cpm);
+        $cpm_r = $cpm->fetch_assoc();
         if ($cpm_r['commentpm'] == 'yes') {
             $added = TIME_NOW;
             $subby = sqlesc("Someone has left a comment");

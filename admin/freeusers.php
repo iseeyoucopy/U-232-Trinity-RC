@@ -66,7 +66,7 @@ else {
     $HTMLOUT.= "<div class='row''><div class='col-md-12'><table class='table table-bordered'>
           <tr><td class='colhead'>{$lang['freeusers_username']}</td><td class='colhead'>{$lang['freeusers_class']}</td>
           <td class='colhead'>{$lang['freeusers_expires']}</td><td class='colhead'>{$lang['freeusers_remove']}</td></tr>";
-    while ($arr2 = mysqli_fetch_assoc($res2)) {
+    while ($arr2 = $res2->fetch_assoc()) {
         $HTMLOUT.= "<tr><td><a href='userdetails.php?id=" . (int)$arr2['id'] . "'>" . htmlsafechars($arr2['username']) . "</a></td><td align='left'>" . get_user_class_name($arr2['class']);
         if ($arr2['class'] > UC_ADMINISTRATOR && $arr2['id'] != $CURUSER['id']) $HTMLOUT.= "</td><td align='left'>{$lang['freeusers_until']}" . get_date($arr2['free_switch'], 'DATE') . " 
 (" . mkprettytime($arr2['free_switch'] - TIME_NOW) . "{$lang['freeusers_togo']})" . "</td><td align='left'><font color='red'>{$lang['freeusers_notallowed']}</font></td>

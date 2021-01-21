@@ -43,7 +43,7 @@ $HTMLOUT = '';
 $id = (isset($_GET['id']) ? intval($_GET['id']) : (isset($_POST['id']) ? intval($_POST['id']) : 0));
 if ($id !== 0) {
     $rez_user = sql_query('SELECT username, warned, suspended, enabled, donor, invitedby FROM users WHERE id = ' . sqlesc($id));
-    $arr_user = mysqli_fetch_assoc($rez_user);
+    $arr_user = $rez_user->fetch_assoc();
     //=== start the page
     $HTMLOUT.= '<h1>' . htmlsafechars($arr_user['username']) . (substr($arr_user['username'], -1) == 's' ? '\'' : '\'s') . ' '.$lang['invite_head'].'</h1>
 		<p>' . ($arr_user['invitedby'] == 0 ? '<a title="' . htmlsafechars($arr_user['username']) . ' '.$lang['invite_open'].'">'.$lang['invite_up'].'</a>' : '<a href="staffpanel.php?tool=invite_tree&amp;action=invite_tree&amp;really_deep=1&amp;id=' . (int)$arr_user['invitedby'] . '" title="go up one level">'.$lang['invite_up'].'</a>') . ' | 
@@ -62,7 +62,7 @@ if ($id !== 0) {
 		<td class="colhead"><span style="font-weight: bold;">'.$lang['invite_downloaded'].'</span></td>
 		<td class="colhead"><span style="font-weight: bold;">'.$lang['invite_ratio'].'</span></td>
 		<td class="colhead"><span style="font-weight: bold;">'.$lang['invite_status'].'</span></td></tr>';
-        while ($arr_invited = mysqli_fetch_assoc($rez_invited)) {
+        while ($arr_invited = $rez_invited->fetch_assoc()) {
             $deeper = '';
             //=== if  deeper get the invitees invitees
             if (isset($_GET['deeper']) || isset($_GET['really_deep'])) {
@@ -76,7 +76,7 @@ if ($id !== 0) {
 						<td class="colhead"><span style="font-weight: bold;">'.$lang['invite_downloaded'].'</span></td>
 						<td class="colhead"><span style="font-weight: bold;">'.$lang['invite_ratio'].'</span></td>
 						<td class="colhead"><span style="font-weight: bold;">'.$lang['invite_status'].'</span></td></tr>';
-                    while ($arr_invited_deeper = mysqli_fetch_assoc($rez_invited_deeper)) {
+                    while ($arr_invited_deeper = $rez_invited_deeper->fetch_assoc()) {
                         $really_deep = '';
                         //=== if  really_deep get the invitees invitees invitees
                         if (isset($_GET['really_deep'])) {
@@ -90,7 +90,7 @@ if ($id !== 0) {
 										<td class="colhead"><span style="font-weight: bold;">'.$lang['invite_downloaded'].'</span></td>
 										<td class="colhead"><span style="font-weight: bold;">'.$lang['invite_ratio'].'</span></td>
 										<td class="colhead"><span style="font-weight: bold;">'.$lang['invite_status'].'</span></td></tr>';
-                                while ($arr_invited_really_deep = mysqli_fetch_assoc($rez_invited_really_deep)) {
+                                while ($arr_invited_really_deep = $rez_invited_really_deep->fetch_assoc()) {
                                     $really_deep.= '<tr><td class="one">' . ($arr_invited_really_deep['status'] == 'pending' ? htmlsafechars($arr_invited_really_deep['username']) : format_username($arr_invited_really_deep) . '<br />' . $arr_invited_really_deep['ip']) . '
 											</td><td class="one">' . htmlsafechars($arr_invited_really_deep['email']) . '</td>
 											<td class="one">' . mksize($arr_invited_really_deep['uploaded']) . '</td>

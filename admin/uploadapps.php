@@ -202,7 +202,7 @@ if ($action == "acceptapp") {
     $cache->delete('inbox_new::' . $arr['uid']);
     $cache->delete('inbox_new_sb::' . $arr['uid']);
     $subres = sql_query("SELECT id FROM users WHERE class >= " . UC_STAFF) or sqlerr(__FILE__, __LINE__);
-    while ($subarr = mysqli_fetch_assoc($subres)) {
+    while ($subarr = $subres->fetch_assoc()) {
         sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, " . sqlesc($subarr['id']) . ", $dt, $msg1, $subject, 0)") or sqlerr(__FILE__, __LINE__);
     }
     $cache->delete('inbox_new::' . $subarr['id']);

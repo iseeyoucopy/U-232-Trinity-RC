@@ -90,7 +90,7 @@ $dst_in_use = localtime(TIME_NOW + ((int)$time_offset * 3600) , true);
 // TIMEZONE STUFF END
 $select_inv = sql_query('SELECT sender, receiver, status FROM invite_codes WHERE code = ' . sqlesc($invite)) or sqlerr(__FILE__, __LINE__);
 $rows = mysqli_num_rows($select_inv);
-$assoc = mysqli_fetch_assoc($select_inv);
+$assoc = $select_inv->fetch_assoc();
 if ($rows == 0) stderr("Error", "Invite not found.\nPlease request a invite from one of our members.");
 if ($assoc["receiver"] != 0) stderr("Error", "Invite already taken.\nPlease request a new one from your inviter.");
 $secret = mksecret();

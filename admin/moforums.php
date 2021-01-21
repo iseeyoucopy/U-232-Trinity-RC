@@ -97,7 +97,7 @@ else {
 						<td class='colhead'>{$lang['forum_mngr_rd']}</td>
 						<td class='colhead' colspan='2'>{$lang['forum_mngr_md']}</td>
 					</tr>";
-	while($a = mysqli_fetch_assoc($r1))
+	while($a = $r1->fetch_assoc())
 		$htmlout .="<tr onmouseover=\"this.bgColor='#999';\" onmouseout=\"this.bgColor='';\">
 						<td align='left'><a href='forums.php?action=viewforum&amp;forumid=".(int)$a['id']."'>".htmlsafechars($a['name'])."</a><br/><span class='small'>".htmlsafechars($a['description'])."</span></td>
 						<td>".get_user_class_name($a['min_class_view'])."</td>
@@ -117,7 +117,7 @@ else {
 
 		else {
 			$edit_action = true;
-			$a3 = mysqli_fetch_assoc($r3);
+			$a3 = $r3->fetch_assoc();
 		}
 	}
 

@@ -46,7 +46,7 @@ if ($action == '') {
         elseif ($id !== $CURUSER['id'] && $CURUSER['class'] >= UC_STAFF) {
             //=== it's a staff...
             $res_get_info = sql_query('SELECT username FROM users WHERE id=' . sqlesc($id));
-            $user_get_info = mysqli_fetch_assoc($res_get_info);
+            $user_get_info = $res_get_info->fetch_assoc();
             //=== catch any missed snatched stuff thingies to stop ghost leechers from getting peers (if the peers they have drop off)
             sql_query('UPDATE snatched SET seeder=\'no\' WHERE userid = ' . sqlesc($id));
             //=== flush dem torrents!!! \o/
@@ -65,7 +65,7 @@ if ($action == '') {
         $posted_notes = isset($_POST['new_staff_note']) ? htmlsafechars($_POST['new_staff_note']) : '';
         //=== make sure they are staff, not editing their own and playing nice :P
         $staff_notes_res = sql_query('SELECT staff_notes, class, username FROM users WHERE id=' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-        $staff_notes_arr = mysqli_fetch_assoc($staff_notes_res);
+        $staff_notes_arr = $staff_notes_res->fetch_assoc();
         if ($id !== $CURUSER['id'] && $CURUSER['class'] > $staff_notes_arr['class']) {
             //=== add / edit staff_notes
             sql_query('UPDATE users SET staff_notes = ' . sqlesc($posted_notes) . ' WHERE id =' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
@@ -86,7 +86,7 @@ if ($action == '') {
         $posted = isset($_POST['watched_reason']) ? htmlsafechars($_POST['watched_reason']) : '';
         //=== make sure they are staff, not editing their own and playing nice :P
         $watched_res = sql_query('SELECT watched_user, watched_user_reason, class, username FROM users WHERE id=' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-        $watched_arr = mysqli_fetch_assoc($watched_res);
+        $watched_arr = $watched_res->fetch_assoc();
         if ($id !== $CURUSER['id'] || $CURUSER['class'] < $watched_arr['class']) {
             //=== add / remove from watched users
             if (isset($_POST['add_to_watched_users']) && $_POST['add_to_watched_users'] == 'yes' && $watched_arr['watched_user'] == 0) {

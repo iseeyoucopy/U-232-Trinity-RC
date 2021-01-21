@@ -25,7 +25,7 @@ function docleanup($data)
     */
     //Get promotion rules from DB//
     $pconf = sql_query('SELECT * FROM class_promo ORDER BY id ASC ') or sqlerr(__FILE__, __LINE__);
-    while ($ac = mysqli_fetch_assoc($pconf)) {
+    while ($ac = $pconf->fetch_assoc()) {
         $class_config[$ac['name']]['id']        = $ac['id'];
         $class_config[$ac['name']]['name']      = $ac['name'];
         $class_config[$ac['name']]['min_ratio'] = $ac['min_ratio'];
@@ -40,7 +40,7 @@ function docleanup($data)
         //AND Set the next class value to + 1
         $class_value                            = $class_config[$ac['name']]['name'];
         $res1                                   = sql_query("SELECT * from class_config WHERE value = '$class_value' ");
-        while ($arr1 = mysqli_fetch_assoc($res1)) {
+        while ($arr1 = $res1->fetch_assoc()) {
             //Changed for testing
             // As we are working on the class name which is being promoted to, we need to -1 from it, to get the class the users are currently in
             //  i.e UC_POWER_USER = 1, but we are promoting UC_USER = 0 to POWER_USER.
@@ -53,7 +53,7 @@ function docleanup($data)
         }
         // Get the class name and value of the previous class //
         $res2 = sql_query("SELECT * from class_config WHERE value = '$prev_class' ");
-        while ($arr2 = mysqli_fetch_assoc($res2)) {
+        while ($arr2 = $res2->fetch_assoc()) {
             $prev_class_name = $arr2['classname'];
         }
         //Search for users to be updated//

@@ -189,7 +189,7 @@ if (($user = $cache->get('user' . $id)) === false) {
     );
     $user_fields = implode(', ', array_merge($user_fields_ar_int, $user_fields_ar_float, $user_fields_ar_str));
     $r1 = sql_query("SELECT " . $user_fields . " FROM users WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $user = mysqli_fetch_assoc($r1) or stderr($lang['userdetails_error'], "{$lang['userdetails_no_user']}");
+    $user = $r1->fetch_assoc() or stderr($lang['userdetails_error'], "{$lang['userdetails_no_user']}");
     foreach ($user_fields_ar_int as $i) $user[$i] = (int)$user[$i];
     foreach ($user_fields_ar_float as $i) $user[$i] = (float)$user[$i];
     foreach ($user_fields_ar_str as $i) $user[$i] = $user[$i];
@@ -222,7 +222,7 @@ if (($user_stats = $cache->get($What_Cache.$id)) === false) {
 }
 if (($user_status = $cache->get('user_status_' . $id)) === false) {
     $sql_2 = sql_query('SELECT * FROM ustatus WHERE userid = ' . sqlesc($id));
-    if (mysqli_num_rows($sql_2)) $user_status = mysqli_fetch_assoc($sql_2);
+    if (mysqli_num_rows($sql_2)) $user_status = $sql_2->fetch_assoc();
     else $user_status = array(
         'last_status' => '',
         'last_update' => 0,

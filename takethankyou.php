@@ -23,7 +23,7 @@ $res = sql_query("SELECT 1, thanks, comments FROM torrents WHERE id = " . sqlesc
 $arr = $res->fetch_assoc();
 if (!$arr) stderr("Error", "Torrent not found");
 $res1 = sql_query("SELECT 1 FROM thankyou WHERE torid=" . sqlesc($id) . " AND uid =" . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
-$row = mysqli_fetch_assoc($res1);
+$row = $res1->fetch_assoc();
 if ($row) stderr("Error", "You already thanked.");
 $text = ":thankyou:";
 $newid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);

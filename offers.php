@@ -105,7 +105,7 @@ case 'default':
         <td class="colhead" align="center">Offered By</td>
         <td class="colhead" align="center">Status</td>
     </tr>';
-    while ($main_query_arr = mysqli_fetch_assoc($main_query_res)) {
+    while ($main_query_arr = $main_query_res->fetch_assoc()) {
         //=======change colors
         $count2 = (++$count2) % 2;
         $class = ($count2 == 0 ? 'one' : 'two');
@@ -230,7 +230,7 @@ case 'offer_details':
         $subres = sql_query('SELECT c.offer, c.id AS comment_id, c.text, c.added, c.editedby, c.editedat, 
                                     u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.avatar, u.offensive_avatar, u.title, u.leechwarn, u.chatpost, u.pirate, u.king FROM comments AS c LEFT JOIN users AS u ON c.user = u.id WHERE c.offer = ' . sqlesc($id) . ' ORDER BY c.id ' . $LIMIT) or sqlerr(__FILE__, __LINE__);
         $allrows = array();
-        while ($subrow = mysqli_fetch_assoc($subres)) $allrows[] = $subrow;
+        while ($subrow = $subres->fetch_assoc()) $allrows[] = $subrow;
         $HTMLOUT.= $commentbar . '<a name="comments"></a>';
         $HTMLOUT.= ($count > $perpage) ? '<p>' . $menu . '<br /></p>' : '<br />';
         $HTMLOUT.= comment_table($allrows);
@@ -258,7 +258,7 @@ case 'add_new_offer':
     $category_drop_down.= '</select>';
     if (isset($_POST['category'])) {
         $cat_res = sql_query('SELECT id AS cat_id, name AS cat_name, image AS cat_image FROM categories WHERE id = ' . sqlesc($category));
-        $cat_arr = mysqli_fetch_assoc($cat_res);
+        $cat_arr = $cat_res->fetch_assoc();
         $cat_image = htmlsafechars($cat_arr['cat_image'], ENT_QUOTES);
         $cat_name = htmlsafechars($cat_arr['cat_name'], ENT_QUOTES);
     }
@@ -381,7 +381,7 @@ case 'edit_offer':
     require_once INCL_DIR . 'bbcode_functions.php';
     if (!isset($id) || !is_valid_id($id)) stderr('Error', 'Bad ID.');
     $edit_res = sql_query('SELECT offer_name, image, description, category, offered_by_user_id, link FROM offers WHERE id =' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $edit_arr = mysqli_fetch_assoc($edit_res);
+    $edit_arr = $edit_res->fetch_assoc();
     if ($CURUSER['class'] < UC_STAFF && $CURUSER['id'] !== $edit_arr['offered_by_user_id']) stderr('Error!', 'This is not your offer to edit!');
     $offer_name = strip_tags(isset($_POST['offer_name']) ? trim($_POST['offer_name']) : $edit_arr['offer_name']);
     $image = strip_tags(isset($_POST['image']) ? trim($_POST['image']) : $edit_arr['image']);
@@ -396,7 +396,7 @@ case 'edit_offer':
     }
     $category_drop_down.= '</select>';
     $cat_res = sql_query('SELECT id AS cat_id, name AS cat_name, image AS cat_image FROM categories WHERE id = ' . sqlesc($category));
-    $cat_arr = mysqli_fetch_assoc($cat_res);
+    $cat_arr = $cat_res->fetch_assoc();
     $cat_image = htmlsafechars($cat_arr['cat_image'], ENT_QUOTES);
     $cat_name = htmlsafechars($cat_arr['cat_name'], ENT_QUOTES);
     //=== if posted and not preview, process it :D
@@ -557,7 +557,7 @@ case 'edit_comment':
         $avatar = avatar_stuff($CURUSER);
     } else {
         $res_user = sql_query('SELECT avatar, offensive_avatar, view_offensive_avatar FROM users WHERE id=' . sqlesc($arr['user'])) or sqlerr(__FILE__, __LINE__);
-        $arr_user = mysqli_fetch_assoc($res_user);
+        $arr_user = $res_user->fetch_assoc();
         $avatar = avatar_stuff($arr_user);
     }
     $HTMLOUT.= $top_menu . '<form method="post" action="offers.php?action=edit_comment">
@@ -626,7 +626,7 @@ case 'alter_status':
     stderr('Error', 'Nice try Mr. Fancy Pants!');
     //=== get torrent name :P
     $res_name = sql_query('SELECT offer_name, offered_by_user_id FROM offers WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $arr_name = mysqli_fetch_assoc($res_name);
+    $arr_name = $res_name->fetch_assoc();
     if ($change_it == 'approved') {
         $subject = sqlesc('Your Offer has been approved!');
         $message = sqlesc("Hi, \n An offer you made has been approved!!! \n\n Please  [url=" . $TRINITY20['baseurl'] . "/upload.php]Upload " . htmlsafechars($arr_name['offer_name'], ENT_QUOTES) . "[/url] as soon as possible! \n Members who voted on it will be notified as soon as you do! \n\n [url=" . $TRINITY20['baseurl'] . "/offers.php?action=offer_details&id=" . $id . "]HERE[/url] is your offer.");
@@ -660,7 +660,7 @@ function comment_table($rows)
         $text = format_comment($row['text']);
         if ($row['editedby']) {
             $res_user = sql_query('SELECT username FROM users WHERE id=' . sqlesc($row['editedby'])) or sqlerr(__FILE__, __LINE__);
-            $arr_user = mysqli_fetch_assoc($res_user);
+            $arr_user = $res_user->fetch_assoc();
             $text.= '<p><font size="1" class="small">Last edited by <a href="userdetails.php?id=' . (int)$row['editedby'] . '">
         <b>' . htmlsafechars($arr_user['username']) . '</b></a> at ' . get_date($row['editedat'], 'DATE') . '</font></p>';
         }

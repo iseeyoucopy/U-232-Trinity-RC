@@ -58,7 +58,7 @@ if (!in_array($sort, $possible_sort)) {
 //=== Try finding a user with specified name
 if ($member) {
     $res_username = sql_query('SELECT id, username, class, warned, suspended, leechwarn, chatpost, pirate, king, enabled, donor FROM users WHERE LOWER(username)=LOWER(' . sqlesc($member) . ') LIMIT 1') or sqlerr(__FILE__, __LINE__);
-    $arr_username = mysqli_fetch_assoc($res_username);
+    $arr_username = $res_username->fetch_assoc();
     if (mysqli_num_rows($res_username) === 0) stderr($lang['pm_error'], $lang['pm_forwardpm_nomember']);
     //=== if searching by member...
     $and_member = ($mailbox >= 1 ? ' AND sender = ' . sqlesc($arr_username['id']) . ' AND saved = \'yes\' ' : ' AND receiver = ' . sqlesc($arr_username['id']) . ' AND saved = \'yes\' ');
@@ -208,7 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <td width="1%" class="colhead">' . $lang['pm_search_date'] . '</td>
         <td width="1%" class="colhead"></td>
     </tr>') : '');
-    while ($row = mysqli_fetch_assoc($res_search)) {
+    while ($row = $res_search->fetch_assoc()) {
         //=======change colors
         $count2 = (++$count2) % 2;
         $class = ($count2 == 0 ? 'one' : 'two');
@@ -216,7 +216,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //=== if not searching one member...
         if (!$member) {
             $res_username = sql_query('SELECT id, username, warned, suspended, enabled, donor, leechwarn, chatpost, pirate, king, class FROM users WHERE id = ' . sqlesc($row[$sender_reciever]) . ' LIMIT 1') or sqlerr(__FILE__, __LINE__);
-            $arr_username = mysqli_fetch_assoc($res_username);
+            $arr_username = $res_username->fetch_assoc();
             $the_username = print_user_stuff($arr_username);
         }
         //=== if searching all boxes...

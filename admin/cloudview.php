@@ -73,7 +73,7 @@ $HTMLOUT.= "
 <td class='colhead' align='left' width='1%'>{$lang['cloudview_hits']}</td>
 <td class='colhead' align='left' width='1%'>{$lang['cloudview_ip']}</td>
 <td class='colhead' width='1%'>{$lang['cloudview_del']}</td></tr>\n";
-while ($arr = mysqli_fetch_assoc($search_q)) {
+while ($arr = $search_q->fetch_assoc()) {
     $search_phrase = htmlsafechars($arr['searchedfor']);
     $hits = (int)$arr['howmuch'];
     $ip = htmlsafechars($arr['ip']);

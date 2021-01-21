@@ -30,7 +30,7 @@ class_check($class);
 $lang = array_merge($lang, load_language ('ad_paypal_settings'));
 //get the config from db
 $pconf = sql_query('SELECT * FROM paypal_config') or sqlerr(__FILE__, __LINE__);
-while ($ac = mysqli_fetch_assoc($pconf)) 
+while ($ac = $pconf->fetch_assoc()) 
 $paypal_config[$ac['name']] = $ac['value'];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $update = array();

@@ -455,7 +455,7 @@ switch (true) {
 
 	case (isset($_GET['bump_success']) && $_GET['bump_success'] == 1):
 		$res_free = sql_query('SELECT id,name FROM torrents WHERE id = ' . sqlesc(0 + $_GET['t_name'])) or sqlerr(__FILE__, __LINE__);
-		$arr_free = mysqli_fetch_assoc($res_free);
+		$arr_free = $res_free->fetch_assoc();
 		stderr(
 			'Success!',
 			'<img src="pic/smilies/karma.gif" alt="' . $lang['bonus_goodk'] . '" /> <b>Congratulations ' . format_username($CURUSER) . '!!!</b> <img src="pic/smilies/karma.gif" alt="' . $lang['bonus_goodk'] . '" /><br />  you have ReAnimated the torrent <b><a class="altlink" href="details.php?id=' . $arr_free['id'] . '">' . htmlsafechars($arr_free['name']) . '</a></b>! Bringing it back to page one! <img src="pic/smilies/w00t.gif" alt="w00t" />' . $lang['bonus_clickgbs'] . '<a class="altlink" href="mybonus.php">' . $lang['bonus_kpoints'] . '</a>' . $lang['bonus_kbpp'] . '<br /><br />'
@@ -548,7 +548,7 @@ if (isset($_GET['exchange'])) {
 	$option = (int)$_POST['option'];
 
 	$res_points = sql_query("SELECT * FROM bonus WHERE id =" . sqlesc($option));
-	$arr_points = mysqli_fetch_assoc($res_points);
+	$arr_points = $res_points->fetch_assoc();
 
 	$art = htmlsafechars($arr_points['art']);
 	$points = (float)$arr_points['points'];
@@ -907,7 +907,7 @@ if (isset($_GET['exchange'])) {
 				'select id,username,reputation,seedbonus FROM users WHERE id <> ' . $thief_id . ' AND reputation >= ' . $rep_to_steal . ' ORDER BY RAND() LIMIT ' . $user_limit
 			) or sqlerr(__FILE__, __LINE__);
 			$update_users = $pms = $robbed_user = [];
-			while ($ar = mysqli_fetch_assoc($qr)) {
+			while ($ar = $qr->fetch_assoc()) {
 				$new_rep = $ar['reputation'] - $rep_to_steal;
 				$update_users[] = '(' . $ar['id'] . ',' . ($ar['reputation'] - $rep_to_steal) . ',' . $ar['seedbonus'] . ')';
 				$pms[] = '(' . $TRINITY20['bot_id'] . ',' . $ar['id'] . ',' . TIME_NOW . ',' . sprintf($pm['subject'], $thief_name) . ',' . sprintf($pm['message'], $thief_id, $thief_name, $new_rep) . ')';
@@ -1203,7 +1203,7 @@ if (isset($_GET['exchange'])) {
 			$res_snatched = sql_query(
 				"SELECT s.uploaded, s.downloaded, t.name FROM snatched AS s LEFT JOIN torrents AS t ON t.id = s.torrentid WHERE s.userid = " . sqlesc($userid) . " AND torrentid = " . sqlesc($torrent_number) . " LIMIT 1"
 			) or sqlerr(__FILE__, __LINE__);
-			$arr_snatched = mysqli_fetch_assoc($res_snatched);
+			$arr_snatched = $res_snatched->fetch_assoc();
 			if (isset($arr_snatched['size']) > 6442450944) {
 				stderr(
 					$lang['bonus_error'],
@@ -1248,7 +1248,7 @@ if (isset($_GET['exchange'])) {
             //=== Reanimate a torrent
 			$torrent_number = isset($_POST['torrent_id']) ? intval($_POST['torrent_id']) : 0;
 			$res_free = sql_query('SELECT name FROM torrents WHERE id = ' . sqlesc($torrent_number)) or sqlerr(__FILE__, __LINE__);
-			$arr_free = mysqli_fetch_assoc($res_free);
+			$arr_free = $res_free->fetch_assoc();
 			if ($arr_free['name'] == '') {
 				stderr(
 					'Error',
@@ -1309,7 +1309,7 @@ if (isset($_GET['exchange'])) {
 			}
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for removing warning.\n " . $bonuscomment;
 			$res_warning = sql_query("SELECT modcomment FROM users WHERE id =" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-			$arr = mysqli_fetch_assoc($res_warning);
+			$arr = $res_warning->fetch_assoc();
 			$modcomment = htmlsafechars($arr['modcomment']);
 			$modcomment = get_date(TIME_NOW, 'DATE', 1) . " - Warning removed by - Bribe with Karma.\n" . $modcomment;
 			$modcom = sqlesc($modcomment);
@@ -1525,7 +1525,7 @@ if (XBT_TRACKER == false) {
     //=== get total points
 	if (($freeleech_counter = $cache->get('freeleech_counter')) === false) {
 		$total_fl = sql_query('SELECT SUM(pointspool) AS pointspool, points FROM bonus WHERE id =11');
-		$fl_total_row = mysqli_fetch_assoc($total_fl);
+		$fl_total_row = $total_fl->fetch_assoc();
 		$percent_fl = number_format($fl_total_row['pointspool'] / $fl_total_row['points'] * 100, 2);
 		$cache->set('freeleech_counter', $percent_fl, 0);
 	} else {
@@ -1569,7 +1569,7 @@ if (XBT_TRACKER == false) {
     //$target_du = 30000;
 	if (($doubleupload_counter = $cache->get('doubleupload_counter')) === false) {
 		$total_du = sql_query('SELECT SUM(pointspool) AS pointspool, points FROM bonus WHERE id =12');
-		$du_total_row = mysqli_fetch_assoc($total_du);
+		$du_total_row = $total_du->fetch_assoc();
 		$percent_du = number_format($du_total_row['pointspool'] / $du_total_row['points'] * 100, 2);
 		$cache->set('doubleupload_counter', $percent_du, 0);
 	} else {
@@ -1612,7 +1612,7 @@ if (XBT_TRACKER == false) {
     //$target_hd = 30000;
 	if (($halfdownload_counter = $cache->get('halfdownload_counter')) === false) {
 		$total_hd = sql_query('SELECT SUM(pointspool) AS pointspool, points FROM bonus WHERE id =13');
-		$hd_total_row = mysqli_fetch_assoc($total_hd);
+		$hd_total_row = $total_hd->fetch_assoc();
 		$percent_hd = number_format($hd_total_row['pointspool'] / $hd_total_row['points'] * 100, 2);
 		$cache->set('halfdownload_counter', $percent_hd, 0);
 	} else {
@@ -1673,7 +1673,7 @@ if (($top_donators = $cache->get('top_donators_')) === false) {
 	$a = sql_query(
 		"SELECT bonuslog.id, SUM(bonuslog.donation) AS total, users.username, users.id AS userid, users.pirate, users.king, users.class, users.donor, users.warned, users.leechwarn, users.enabled, users.chatpost FROM bonuslog LEFT JOIN users ON bonuslog.id=users.id WHERE bonuslog.type = 'freeleech' GROUP BY bonuslog.id ORDER BY total DESC LIMIT 10;"
 	) or sqlerr(__FILE__, __LINE__);
-	while ($top_donator = mysqli_fetch_assoc($a)) {
+	while ($top_donator = $a->fetch_assoc($a)) {
 		$top_donators[] = $top_donator;
 	}
 	$cache->set('top_donators_', $top_donators, 0);
@@ -1702,7 +1702,7 @@ if (($top_donators2 = $cache->get('top_donators2_')) === false) {
 	$b = sql_query(
 		"SELECT bonuslog.id, SUM(bonuslog.donation) AS total, users.username, users.id AS userid, users.pirate, users.king, users.class, users.donor, users.warned, users.leechwarn, users.enabled, users.chatpost FROM bonuslog LEFT JOIN users ON bonuslog.id=users.id WHERE bonuslog.type = 'doubleupload' GROUP BY bonuslog.id ORDER BY total DESC LIMIT 10;"
 	) or sqlerr(__FILE__, __LINE__);
-	while ($top_donator2 = mysqli_fetch_assoc($b)) {
+	while ($top_donator2 = $b->fetch_assoc()) {
 		$top_donators2[] = $top_donator2;
 	}
 	$cache->set('top_donators2_', $top_donators2, 0);
@@ -1731,7 +1731,7 @@ if (($top_donators3 = $cache->get('top_donators3_')) === false) {
 	$c = sql_query(
 		"SELECT bonuslog.id, SUM(bonuslog.donation) AS total, users.username, users.id AS userid, users.pirate, users.king, users.class, users.donor, users.warned, users.leechwarn, users.enabled, users.chatpost FROM bonuslog LEFT JOIN users ON bonuslog.id=users.id WHERE bonuslog.type = 'halfdownload' GROUP BY bonuslog.id ORDER BY total DESC LIMIT 10;"
 	) or sqlerr(__FILE__, __LINE__);
-	while ($top_donator3 = mysqli_fetch_assoc($c)) {
+	while ($top_donator3 = $c->fetch_assoc()) {
 		$top_donators3[] = $top_donator3;
 	}
 	$cache->set('top_donators3_', $top_donators3, 0);

@@ -81,7 +81,7 @@ if ($action == "viewposts") {
         if (is_valid_id($arr['edited_by'])) {
             $subres = sql_query("SELECT username FROM users WHERE id=" . sqlesc($arr['edited_by']));
             if (mysqli_num_rows($subres) == 1) {
-                $subrow = mysqli_fetch_assoc($subres);
+                $subrow = $subres->fetch_assoc();
                 $body.= "<p><font size='1' class='small'>{$lang['posts_lasteditedby']} <a href='userdetails.php?id=" . (int)$arr['edited_by'] . "'><b>" . htmlsafechars($subrow['username']) . "</b></a> {$lang['posts_at']} " . get_date($arr['edit_date'], 'LONG', 0, 1) . "</font></p>\n";
             }
         }

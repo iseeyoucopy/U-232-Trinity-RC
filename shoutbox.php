@@ -467,8 +467,9 @@ if (($shouts = $cache->get('shoutbox_')) === false) {
     $cache->set('shoutbox_', $shouts, $TRINITY20['expires']['shoutbox']);
 }
 if ($shouts && count($shouts) > 0) {
-    $HTMLOUT.= "<table class='small text-left' style='clear:both; border-collapse:collapse; width:100%;'>\n";
-    $shout_pm_alert = mysqli_fetch_assoc(sql_query(" SELECT count(id) AS pms FROM messages WHERE receiver = " . sqlesc($CURUSER['id']) . " AND unread = 'yes' AND location = '1'")) or sqlerr(__FILE__, __LINE__);
+    $HTMLOUT.= "<table class='small text-left' style='clear:both; border-collapse:collapse; width:100%;'>";
+    $shout_query_a = sql_query(" SELECT count(id) AS pms FROM messages WHERE receiver = " . sqlesc($CURUSER['id']) . " AND unread = 'yes' AND location = '1'") or sqlerr(__FILE__, __LINE__);
+    $shout_pm_alert = $shout_query_a->fetch_assoc();
     $gotpm = 0;
     if ($shout_pm_alert['pms'] > 0 && $gotpm == 0) {
         $HTMLOUT.= '<tr><td class=\'text-center\'><a href=\'' . $TRINITY20['baseurl'] . '/pm_system.php\' target=\'_parent\'><span style=\'color:red;\'>' . sprintf($lang['shoutbox_msg'], $shout_pm_alert['pms']) . ($shout_pm_alert['pms'] > 1 ? $lang['shoutbox_msg_s'] : "") . '</span></a></td></tr>';

@@ -29,7 +29,7 @@ $HTMLOUT.= "<table class='striped'>";
 $subres = sql_query("SELECT * FROM files WHERE torrent = " . sqlesc($id) . " ORDER BY id " . $pager['limit']);
 $HTMLOUT.= "<thead><tr><td>{$lang["filelist_type"]}</td><td>{$lang["filelist_path"]}</td><td>{$lang["filelist_size"]}</td></tr><thead>";
 $counter = 0;
-while ($subrow = mysqli_fetch_assoc($subres)) {
+while ($subrow = $subres->fetch_assoc()) {
     $ext = 'Unknown';
     if (preg_match('/\\.([A-Za-z0-9]+)$/', $subrow["filename"])) 
 	$ext = strtolower($ext[1]);

@@ -121,19 +121,21 @@ if (($torrents = $cache->get('torrent_details_' . $id)) === false) {
    if ($change[$tor_cat]['min_class'] > $CURUSER['class']) stderr("{$lang['details_user_error']}", "{$lang['details_bad_id']}");
 //==
 if (($torrents_xbt = $cache->get('torrent_xbt_data_' . $id)) === false && XBT_TRACKER == true) {
-    $torrents_xbt = mysqli_fetch_assoc(sql_query("SELECT seeders, leechers, times_completed FROM torrents WHERE id =" . sqlesc($id))) or sqlerr(__FILE__, __LINE__);
+    $t_xbt_d = sql_query("SELECT seeders, leechers, times_completed FROM torrents WHERE id =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    $torrents_xbt = $t_xbt_d->fetch_assoc;
     $cache->set('torrent_xbt_data_' . $id, $torrents_xbt, $TRINITY20['expires']['torrent_xbt_data']);
 }
 //==
 if (($torrents_txt = $cache->get('torrent_details_txt' . $id)) === false) {
-    $torrents_txt = mysqli_fetch_assoc(sql_query("SELECT descr FROM torrents WHERE id =" . sqlesc($id))) or sqlerr(__FILE__, __LINE__);
+    $t_txt_des = sql_query("SELECT descr FROM torrents WHERE id =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    $torrents_txt = $t_txt_des->fetch_assoc();
     $cache->set('torrent_details_txt' . $id, $torrents_txt, $TRINITY20['expires']['torrent_details_text']);
 }
 //Memcache Pretime
 if (($pretime = $cache->get('torrent_pretime_'.$id)) === false) {
     $prename = htmlsafechars($torrents['name']);
     $pre_q = sql_query("SELECT time FROM releases WHERE releasename = " . sqlesc($prename)) or sqlerr(__FILE__, __LINE__);
-    $pret = mysqli_fetch_assoc($pre_q);
+    $pret = $pre_q->fetch_assoc();
 	$pretimere = isset($pret['time']) ? $pret['time'] : '';
     $pretime['time'] = strtotime($pretimere);
     $cache->set('torrent_pretime_'.$id, $pretime, $TRINITY20['expires']['torrent_pretime']);
@@ -158,13 +160,15 @@ if (isset($_GET["hit"])) {
 $What_String = (XBT_TRACKER == true ? 'mtime' : 'last_action');
 $What_String_Key = (XBT_TRACKER == true ? 'last_action_xbt_' : 'last_action_');
 if (($l_a = $cache->get($What_String_Key.$id)) === false) {
-    $l_a = mysqli_fetch_assoc(sql_query('SELECT '.$What_String.' AS lastseed ' . 'FROM torrents ' . 'WHERE id = ' . sqlesc($id))) or sqlerr(__FILE__, __LINE__);
+    $last_t_ac = sql_query('SELECT '.$What_String.' AS lastseed ' . 'FROM torrents ' . 'WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    $l_a = $last_t_ac->fetch_assoc();
     $l_a['lastseed'] = (int)$l_a['lastseed'];
     $cache->set('last_action_' . $id, $l_a, 1800);
 }
 //==Thumbs Up
 if (($thumbs = $cache->get('thumbs_up_' . $id)) === false) {
-    $thumbs = mysqli_num_rows(sql_query("SELECT id, type, torrentid, userid FROM thumbsup WHERE torrentid = " . sqlesc($torrents['id'])));
+    $thumbs_query = sql_query("SELECT id, type, torrentid, userid FROM thumbsup WHERE torrentid = " . sqlesc($torrents['id']))  or sqlerr(__FILE__, __LINE__);
+    $thumbs = mysqli_num_rows($thumbs_query);
     $thumbs = (int)$thumbs;
     $cache->set('thumbs_up_' . $id, $thumbs, 0);
 }
@@ -178,7 +182,7 @@ if (($torrent_user_rep = $cache->get('user_rep_' . $torrents['owner'])) === fals
     $torrent_user_rep = array();
     $us = sql_query("SELECT reputation FROM users WHERE id =" . sqlesc($torrents['owner'])) or sqlerr(__FILE__, __LINE__);
     if (mysqli_num_rows($us)) {
-        $torrent_user_rep = mysqli_fetch_assoc($us);
+        $torrent_user_rep = $us->fetch_assoc();
         $cache->set('user_rep_' . $torrents['owner'], $torrent_user_rep, 14 * 86400);
     }
 }

@@ -65,7 +65,7 @@ if ($action == 'viewbug') {
     if (!$id || !is_valid_id($id)) stderr("{$lang['stderr_error']}", "{$lang['stderr_invalid_id']}");
     if ($CURUSER['class'] < UC_STAFF) stderr("{$lang['stderr_error']}", 'Only staff can view bugs.');
     $as = sql_query("SELECT b.*, u.username, u.class, staff.username AS st, staff.class AS stclass FROM bugs AS b LEFT JOIN users AS u ON b.sender = u.id LEFT JOIN users AS staff ON b.staff = staff.id WHERE b.id =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    while ($a = mysqli_fetch_assoc($as)) {
+    while ($a = $as->fetch_assoc()) {
         $title = htmlsafechars($a['title']);
         $added = get_date($a['added'], '', 0, 1);
         $addedby = "<a href='userdetails.php?id=" . (int)$a['sender'] . "'>" . htmlsafechars($a['username']) . "</a> <i>(" . get_user_class_name($a['class']) . ")</i>";

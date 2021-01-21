@@ -20,7 +20,7 @@ $lang = array_merge(load_language('global'));
 $potsize = 50000;
 /** Site Pot **/
 $Pot_query = sql_query("SELECT value_s, value_i, value_u FROM avps WHERE arg = 'sitepot'") or sqlerr(__file__, __line__);
-$SitePot = mysqli_fetch_assoc($Pot_query) or stderr('ERROR', 'db error.');
+$SitePot = $Pot_query->fetch_assoc() or stderr('ERROR', 'db error.');
 if ($SitePot['value_u'] < TIME_NOW && $SitePot['value_s'] == '1') {
     sql_query("UPDATE avps SET value_i = 0, value_s = '0' WHERE arg = 'sitepot'") or sqlerr(__file__, __line__);
     header('Location: sitepot.php');
@@ -31,7 +31,7 @@ if ($SitePot['value_u'] < TIME_NOW && $SitePot['value_s'] == '1') {
 //=== get total points
     if (($site_pot_counter = $cache->get('site_pot_counter')) === false) {
         $total = sql_query('SELECT value_i FROM avps WHERE avps.arg = "sitepot"');
-        $total_row = mysqli_fetch_assoc($total);
+        $total_row = $total->fetch_assoc();
         $percent = number_format($total_row['value_i'] / $potsize * 100, 2);
         $cache->set('site_pot_counter', $percent);
     } else {

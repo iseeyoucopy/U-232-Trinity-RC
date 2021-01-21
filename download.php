@@ -20,7 +20,7 @@ $T_Pass = isset($_GET['torrent_pass']) && strlen($_GET['torrent_pass']) == 32 ? 
 if (!empty($T_Pass)) {
     $q0 = sql_query("SELECT * FROM users where torrent_pass = " . sqlesc($T_Pass)) or sqlerr(__FILE__, __LINE__);
     if (mysqli_num_rows($q0) == 0) die($lang['download_passkey']);
-    else $CURUSER = mysqli_fetch_assoc($q0);
+    else $CURUSER = $q0->fetch_assoc();
 } else loggedinorreturn();
 if (function_exists('parked')) parked();
 $id = isset($_GET['torrent']) ? (int)$_GET['torrent'] : 0;
@@ -31,7 +31,7 @@ $res = sql_query('SELECT name, owner, vip, category, filename, info_hash FROM to
 $row = $res->fetch_assoc();
 
 $cres = sql_query('SELECT min_class FROM categories WHERE id = ' . sqlesc($row['category'])) or sqlerr(__FILE__, __LINE__);
-$crow = mysqli_fetch_assoc($cres);
+$crow = $cres->fetch_assoc();
 if ($crow['min_class'] > $CURUSER['class']) stderr($lang['download_user_error'], $lang['download_no_id']);
 $fn = $TRINITY20['torrent_dir'] . '/' . $id . '.torrent';
 if (!$row || !is_file($fn) || !is_readable($fn)) stderr('Err', 'There was an error with the file or with the query, please contact staff');
@@ -68,7 +68,7 @@ sql_query("UPDATE torrents SET hits = hits + 1 WHERE id = " . sqlesc($id));
 if (isset($_GET['slot'])) {
     $added = (TIME_NOW + 14 * 86400);
     $slots_sql = sql_query('SELECT * FROM freeslots WHERE torrentid = ' . sqlesc($id) . ' AND userid = ' . sqlesc($CURUSER['id']));
-    $slot = mysqli_fetch_assoc($slots_sql);
+    $slot = $slots_sql->fetch_assoc();
     $used_slot = $slot['torrentid'] == $id && $slot['userid'] == $CURUSER['id'];
     /* freeslot **/
     if ($_GET['slot'] == 'free') {

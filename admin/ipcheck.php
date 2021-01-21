@@ -53,7 +53,7 @@ while ($ras = $res->fetch_assoc()) {
         $num2 = mysqli_num_rows($ros);
         if ($num2 > 1) {
             $uc++;
-            while ($arr = mysqli_fetch_assoc($ros)) {
+            while ($arr = $ros->fetch_assoc()) {
                 if ($arr['added'] == '0') $arr['added'] = '-';
                 if ($arr['last_access'] == '0') $arr['last_access'] = '-';
                 $uploaded = mksize($arr["uploaded"]);

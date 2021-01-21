@@ -44,13 +44,13 @@ function do_sort($arr, $empty = false)
         if ($count < 1) {
             return false;
         }
-        while ($res = mysqli_fetch_assoc($arr)) {
+        while ($res = $arr->fetch_assoc()) {
             $ret_html.= "<tr><td align='center'><a href='details.php?id=".(int)$res['id']."'>".htmlsafechars($res['name'])."</a></td><td align='center'>" . date('h:i:s d/m/Y', $res['added']) . "</td><td align='center'><a class='btn-small btn btn-danger' href='edit.php?id=".(int)$res['id']."' >".$lang['mtor_edit']."</a></td></tr>";
         }
         return $ret_html;
     }
     if ($count == 1) {
-        $res = mysqli_fetch_assoc($arr);
+        $res = $arr->fetch_assoc();
         $users[$res['checked_by']] = ((isset($users[$res['checked_by']]) && $users[$res['checked_by']] > 0) ? $users[$res['checked_by']] + 1 : 1);
         $ret_html.= "<tr><td align='center'><a href='details.php?id=".(int)$res['id']."'>".htmlsafechars($res['name'])."</a></td><td align='center'><a href='userdetails.php?id=".(int)$res['uid']."'><font color='#" . get_user_class_color($CURUSER['class']) . "'>".htmlsafechars($res['checked_by'])."</font></a></td><td align='center'>" . date('h:i:s d/m/Y', $res['checked_when']) . "</td></tr>";
         return array(
@@ -58,7 +58,7 @@ function do_sort($arr, $empty = false)
             $ret_html
         );
     } elseif ($count > 1) {
-        while ($res = mysqli_fetch_assoc($arr)) {
+        while ($res = $arr->fetch_assoc()) {
             $users[$res['checked_by']] = ((isset($users[$res['checked_by']]) && $users[$res['checked_by']] > 0) ? $users[$res['checked_by']] + 1 : 1);
             $ret_html.= "<tr><td align='center'><a href='details.php?id=".(int)$res['id']."'>".htmlsafechars($res['name'])."</a></td><td align='center'><a href='userdetails.php?id=".(int)$res['uid']."'>".htmlsafechars($res['checked_by'])."</a></td><td align='center'>" . date('h:i:s d/m/Y', $res['checked_when']) . "</td></tr>";
         }

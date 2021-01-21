@@ -33,7 +33,7 @@ if (!in_array($CURUSER['id'], $TRINITY20['allowed_staff']['id'])) {
 }
 //get the config from db - stoner/pdq
 $pconf = sql_query('SELECT * FROM class_config ORDER BY value ASC ') or sqlerr(__FILE__, __LINE__);
-while ($ac = mysqli_fetch_assoc($pconf)) {
+while ($ac = $pconf->fetch_assoc()) {
     $class_config[$ac['name']]['value'] = $ac['value'];
     $class_config[$ac['name']]['classname'] = $ac['classname'];
     $class_config[$ac['name']]['classcolor'] = $ac['classcolor'];
@@ -313,7 +313,7 @@ $HTMLOUT.= "<h3>{$lang['classcfg_class_security']}</h3>
 <td>{$lang['classcfg_class_value']}</td></tr>";
 
 $res1 = sql_query("SELECT * from class_config WHERE name IN ('UC_MIN','UC_MAX','UC_STAFF') ORDER BY value  ASC") or sqlerr(__FILE__, __LINE__);
-while ($arr1 = mysqli_fetch_assoc($res1)) {
+while ($arr1 = $res1->fetch_assoc()) {
     $HTMLOUT.= "
 <tr>
 <td>" . htmlsafechars($arr1['name']) . "</td>

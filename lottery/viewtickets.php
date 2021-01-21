@@ -29,7 +29,7 @@ else {
       <td style='white-space:nowrap;'>tickets</td>
       <td style='white-space:nowrap;'>seedbonus</td>
     </tr>";
-    while ($ar = mysqli_fetch_assoc($qs)) $html.= "<tr>
+    while ($ar = $qs->fetch_assoc()) $html.= "<tr>
                   <td align='left'><a href='userdetails.php?id=" . (int)$ar['id'] . "'>" . htmlsafechars($ar['username']) . "</a></td>
                   <td align='center'>" . (int)$ar['tickets'] . "</td>
                   <td align='center'>" . (float)$ar['seedbonus'] . "</td>

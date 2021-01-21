@@ -35,7 +35,7 @@ if (!in_array($points, $pointscangive)) {
     stderr($lang['gl_error'], $lang['coins_you_cant_give_that_amount_of_points']);
 }
 $sdsa = sql_query("SELECT 1 FROM coins WHERE torrentid=" . sqlesc($id) . " AND userid =" . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
-$asdd = mysqli_fetch_assoc($sdsa);
+$asdd = $sdsa->fetch_assoc();
 if ($asdd) {
     stderr($lang['gl_error'], $lang['coins_you_already_gave_points_to_this_torrent']);
 }

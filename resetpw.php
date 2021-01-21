@@ -45,7 +45,7 @@ if ($step == '1') {
         }
         if (!validemail($email)) stderr($lang['stderr_errorhead'], $lang['stderr_invalidemail1']);
         $check = sql_query('SELECT id, status, passhint, hintanswer FROM users WHERE email = ' . sqlesc($email)) or sqlerr(__FILE__, __LINE__);
-        $assoc = mysqli_fetch_assoc($check) or stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_notfound']}");
+        $assoc = $check->fetch_assoc() or stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_notfound']}");
         if (empty($assoc['passhint']) || empty($assoc['hintanswer'])) {
             stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error3']}");
         }
@@ -85,7 +85,7 @@ if ($step == '1') {
 } elseif ($step == '2') {
     if (!mkglobal('id:answer')) die();
     $select = sql_query('SELECT id, username, hintanswer FROM users WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $fetch = mysqli_fetch_assoc($select);
+    $fetch = $select->fetch_assoc();
     if (!$fetch) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error5']}");
     if (empty($answer)) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error6']}");
     if ($fetch['hintanswer'] != md5($answer)) {
@@ -132,7 +132,7 @@ if ($step == '1') {
     if (strlen($hash) != 32 || !ctype_xdigit($hash))
     die('access denied');
     $select = sql_query('SELECT id, editsecret, hintanswer FROM users WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $fetch = mysqli_fetch_assoc($select) or stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error8']}");
+    $fetch = $select->fetch_assoc() or stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error8']}");
     if (empty($newpass)) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error9']}");
     if ($newpass != $newpassagain) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error10']}");
     if (strlen($newpass) < 6) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error11']}");

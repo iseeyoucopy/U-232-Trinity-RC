@@ -120,7 +120,7 @@ if (!mysqli_num_rows($forum)) {
 ///////////////////////////////////////////////
 // ok, lets proceed
 ///////////////////////////////////////////////
-$res = mysqli_fetch_assoc($forum);
+$res = $forum->fetch_assoc();
 if (isset($res['minclassread'])) { // 'posts'
     if ($CURUSER['class'] < $res['minclassread']) {
         // check permissions! Dun want sneaky pests lookin!
@@ -150,7 +150,7 @@ if (!$is_mod) {
     $flood = sql_query("SELECT dateadd, userid FROM reputation WHERE whoadded = " . sqlesc($CURUSER['id']) . " ORDER BY dateadd DESC LIMIT 0 , " . sqlesc($klimit)) or sqlerr(__FILE__, __LINE__);
     if (mysqli_num_rows($flood)) {
         $i = 0;
-        while ($check = mysqli_fetch_assoc($flood)) {
+        while ($check = $flood->fetch_assoc()) {
             if (($i < $GVARS['rep_repeat']) && ($check['userid'] == $CURUSER['id'])) { //$res['userid'] ) )
                 rep_output($lang["info_cannot_rate_own"]);
             }

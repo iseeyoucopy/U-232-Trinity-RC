@@ -101,7 +101,7 @@ else {
 						<td class='colhead'>{$lang['fm_mp_create']}</td>
 						<td class='colhead' colspan='2'>{$lang['fm_mp_modify']}</td>
 					</tr>";
-	while($a = mysqli_fetch_assoc($r1))
+	while($a = $r1->fetch_assoc())
 		$htmlout .="<tr onmouseover=\"this.bgColor='#999';\" onmouseout=\"this.bgColor='';\">
 						<td align='left'><a href='forums.php?action=viewforum&amp;forumid=".(int)$a['fid']."'>".htmlsafechars($a['f_name'])."</a><br/><span class='small'>".htmlsafechars($a['description'])."</span></td>
 						<td><a href='forums.php?action=viewforum&amp;forumid=".(int)$a['oid']."'>".htmlsafechars($a['o_name'])."</a></td>
@@ -122,7 +122,7 @@ else {
 			$htmlout .= stdmsg($lang['fm_mp_warn2'], $lang['fm_mp_warn4']);
 		else {
 			$edit_action = true;
-			$a3 = mysqli_fetch_assoc($r3);
+			$a3 = $r3->fetch_assoc();
 		}
 	}
 	
@@ -134,7 +134,7 @@ $htmlout .= "<form action='".$this_url."' method='post'>
 	<tr><td align='right' valign='top'>{$lang['fm_mp_description']}</td><td align='left'><textarea rows='3' cols='38' name='forumdescr'>".($edit_action ? htmlsafechars($a3['description']) : '')."</textarea></td></tr>";
 	$htmlout .= "<tr><td align='right' valign='top'>{$lang['fm_mp_over2']}</td><td align='left'><select name='overforum'>";
 	$r2 = sql_query('SELECT id,name FROM over_forums ORDER BY name') or sqlerr(__FILE__,__LINE__);
-	while($a = mysqli_fetch_assoc($r2))
+	while($a = $r2->fetch_assoc())
 		$htmlout .="<option value='".(int)$a['id']."' ".($edit_action && ($a['id'] == $a3['forum_id']) ? 'selected=\'selected\'' : '').">".htmlsafechars($a['name'])."</option>";
 	$htmlout .= "</select></td></tr>";
 	$classes = "<select name='#name'>";

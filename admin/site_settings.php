@@ -36,7 +36,7 @@ $lang = array_merge($lang, load_language('ad_sitesettings'));
 //$update = '';
 //get the config from db
 $pconf = sql_query('SELECT * FROM site_config') or sqlerr(__FILE__, __LINE__);
-while ($ac = mysqli_fetch_assoc($pconf)) $site_settings[$ac['name']] = $ac['value'];
+while ($ac = $pconf->fetch_assoc()) $site_settings[$ac['name']] = $ac['value'];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $update = array();
     //can't be 0

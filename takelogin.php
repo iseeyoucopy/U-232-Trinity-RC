@@ -82,13 +82,13 @@ if (!$row) {
 if ($TRINITY20['dupeaccount_check_on'] == 1) {
 	if(!empty(get_mycookie('log_uid'))){
 		$check = sql_query("SELECT * FROM users WHERE loginhash=" . sqlesc(get_mycookie('log_uid')));
-		$check_class = mysqli_fetch_assoc($check);
+		$check_class = $check->fetch_assoc();
 		if (($row['class'] < UC_SYSOP) && ($check_class['class'] < UC_SYSOP)){
             if((!empty($row['loginhash'])) && (get_mycookie('log_uid') == $row['loginhash']) && (password_verify($password, $row['passhash']))){
             
 		    }else if((!empty($row['loginhash'])) && (get_mycookie('log_uid') != $row['loginhash']) && (password_verify($password, $row['passhash']))){
 			    $a = sql_query("SELECT * FROM users WHERE loginhash=" . sqlesc(get_mycookie('log_uid')));
-			    if($r = mysqli_fetch_assoc($a)){
+			    if($r = $a->fetch_assoc()){
                     $message = "User " . $r['username'] . " has logged in on another account. Has logged with User: " . $username . " credentials.";
 				    write_log("User " . $r['username'] . " has logged in on another account. Has logged with User: " . $username . " credentials.");
 				    sql_query("INSERT INTO ajax_chat_messages (userID, userName, userRole, channel, dateTime, ip, text) VALUES (" . sqlesc($TRINITY20['bot_id']) . "," . sqlesc($TRINITY20['bot_name']) . "," . sqlesc($TRINITY20['bot_role']) . ",'4'," . sqlesc(TIME_DATE) . "," . sqlesc($_SERVER['REMOTE_ADDR']) . "," . sqlesc($message) . ")") or sqlerr(__FILE__, __LINE__);
@@ -96,7 +96,7 @@ if ($TRINITY20['dupeaccount_check_on'] == 1) {
 			
 		    }else if((!empty($row['loginhash'])) && (get_mycookie('log_uid') != $row['loginhash']) && (!password_verify($password, $row['passhash']))){
 			    $b = sql_query("SELECT * FROM users WHERE loginhash=" . sqlesc(get_mycookie('log_uid')));
-			    if($s = mysqli_fetch_assoc($b)){
+			    if($s = $b->fetch_assoc()){
                     $message = "User " . $s['username'] . " has tried to login on another account. Has tried to login with User: " . $username . " credentials.";
 				    write_log("User " . $s['username'] . " has tried to login on another account. Has tried to login with User: " . $username . " credentials.");
 				    sql_query("INSERT INTO ajax_chat_messages (userID, userName, userRole, channel, dateTime, ip, text) VALUES (" . sqlesc($TRINITY20['bot_id']) . "," . sqlesc($TRINITY20['bot_name']) . "," . sqlesc($TRINITY20['bot_role']) . ",'4'," . sqlesc(TIME_DATE) . "," . sqlesc($_SERVER['REMOTE_ADDR']) . "," . sqlesc($message) . ")") or sqlerr(__FILE__, __LINE__);

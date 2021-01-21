@@ -45,9 +45,9 @@ if (isset($_GET["action1"]) && htmlsafechars($_GET["action1"]) == "list") {
     else {
         $HTMLOUT.= "<div class='row'><div class='col-md-12'><table class='table table-bordered'>\n";
         $HTMLOUT.= "<tr><td class='colhead'>{$lang['non_con_name']}</td><td class='colhead'>{$lang['non_con_tor']}</td><td class='colhead'>{$lang['non_con_client']}</td></tr>\n";
-        while ($arr2 = mysqli_fetch_assoc($res2)) {
+        while ($arr2 = $res2->fetch_assoc()) {
             $r2 = sql_query("SELECT username FROM users WHERE id=" . sqlesc($arr2['userid'])) or sqlerr(__FILE__, __LINE__);
-            $a2 = mysqli_fetch_assoc($r2);
+            $a2 = $r2->fetch_assoc();
             $HTMLOUT.= "<tr><td><a href='userdetails.php?id=" . (int)$arr2['userid'] . "'>" . htmlsafechars($a2['username']) . "</a></td><td align='left'><a href='details.php?id=" . (int)$arr2['torrent'] . "&amp;dllist=1#seeders'>" . (int)$arr2['torrent'] . "</a>";
             if ($arr2['seeder'] == 'yes') $HTMLOUT.= "<font color='red'>*</font>";
             $HTMLOUT.= "</td><td align='left'>" . htmlsafechars($arr2['agent']) . "</td></tr>\n";
@@ -111,7 +111,7 @@ if (isset($_GET["action1"]) == "") {
 	<td class='colhead'>{$lang['non_con_date']}</td><td class='colhead'>{$lang['non_con_elapsed']}</td></tr>";
     while ($arr2 = mysqli_fetch_assoc($getlog)) {
         $r2 = sql_query("SELECT username FROM users WHERE id=" . sqlesc($arr2['user'])) or sqlerr(__FILE__, __LINE__);
-        $a2 = mysqli_fetch_assoc($r2);
+        $a2 = $r2->fetch_assoc();
         $elapsed = get_date($arr2['date'], '', 0, 1);
         $HTMLOUT.= "<tr><td class='colhead'><a href='userdetails.php?id=" . (int)$arr2['user'] . "'>" . htmlsafechars($a2['username']) . "</a></td><td class='colhead'>" . get_date($arr2['date'], '') . "</td><td>$elapsed</td></tr>";
     }

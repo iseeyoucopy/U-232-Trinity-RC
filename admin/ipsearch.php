@@ -122,7 +122,7 @@ if ($ip) {
         $iphistory = mysqli_num_rows($resip);
         if ($user["invitedby"] > 0) {
             $res2 = sql_query("SELECT username FROM users WHERE id=" . sqlesc($user["invitedby"]) . "");
-            $array = mysqli_fetch_assoc($res2);
+            $array = $res2->fetch_assoc();
             $invitedby = $array["username"];
             if ($invitedby == "") $invitedby = "<i>[{$lang['ipsearch_deleted']}]</i>";
             else $invitedby = "<a href='{$TRINITY20['baseurl']}/userdetails.php?id={$user['invitedby']}'>" . htmlsafechars($invitedby) . "</a>";

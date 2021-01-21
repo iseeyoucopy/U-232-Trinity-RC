@@ -34,7 +34,7 @@ $remove = isset($_GET['remove']) ? (int)$_GET['remove'] : 0;
 if ($remove > 0) {
     $banned = sql_query('SELECT first, last FROM bans WHERE id = ' . sqlesc($remove)) or sqlerr(__FILE__, __LINE__);
     if (!mysqli_num_rows($banned)) stderr($lang['stderr_error'], $lang['stderr_error1']);
-    $ban = mysqli_fetch_assoc($banned);
+    $ban = $banned->fetch_assoc();
     $first = 0 + $ban['first'];
     $last = 0 + $ban['last'];
     for ($i = $first; $i <= $last; $i++) {

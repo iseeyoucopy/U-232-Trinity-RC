@@ -152,7 +152,7 @@ if ($count_inactive > 0) {
     </select>&nbsp;&nbsp;<input type='submit' name='submit' value='{$lang['inactive_apchanges']}' />&nbsp;&nbsp;<input type='button' value='{$lang['inactive_chkall']}' onclick='this.value=check(form)' /></td></tr>";
     if ($record_mail) {
         $ress = sql_query("SELECT avps.value_s AS userid, avps.value_i AS last_mail, avps.value_u AS mails, users.username FROM avps LEFT JOIN users ON avps.value_s=users.id WHERE avps.arg='inactivemail' LIMIT 1");
-        $date = mysqli_fetch_assoc($ress);
+        $date = $ress->fetch_assoc();
         if ($date["last_mail"] > 0) $HTMLOUT.= "<tr><td colspan='6' class='colhead' align='center' style='color:red;'>{$lang['inactive_lastmail']} <a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . htmlsafechars($date["userid"]) . "'>" . htmlsafechars($date["username"]) . "</a> {$lang['inactive_on']} <b>" . get_date($date["last_mail"], 'DATE') . " -  " . $date["mails"] . "</b>{$lang['inactive_email']} " . ($date["mails"] > 1 ? "s" : "") . "  {$lang['inactive_sent']}</td></tr>";
     }
     $HTMLOUT.= "</table></form>";

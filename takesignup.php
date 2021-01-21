@@ -122,7 +122,7 @@ if ($TRINITY20['dupeaccount_check_on'] == 1) {
 	
 	if(!empty($email)){
 	    $x = sql_query("SELECT id, comment FROM bannedemails WHERE email = " . sqlesc($email)) or sqlerr(__FILE__, __LINE__);
-        if ($yx = mysqli_fetch_assoc($x)) stderr("{$lang['takesignup_user_error']}", "{$lang['takesignup_bannedmail']}" . htmlsafechars($yx['comment']));
+        if ($yx = $x->fetch_assoc()) stderr("{$lang['takesignup_user_error']}", "{$lang['takesignup_bannedmail']}" . htmlsafechars($yx['comment']));
     }
 }
 /*=== end check for dupe account ===*/

@@ -100,7 +100,7 @@ if ($TRINITY20['ratio_free'] === false && $ratio < $required_ratio) {
     stderr($lang['gl_sorry'], "" . htmlsafechars($CURUSER["username"]) . " {$lang['casino_your_ratio_is_under']} {$required_ratio}");
 }
 $global_down2 = sql_query("SELECT (sum(win)-sum(lost)) AS globaldown,(sum(deposit)) AS globaldeposit, sum(win) AS win, sum(lost) AS lost FROM casino") or sqlerr(__FILE__, __LINE__);
-$row = mysqli_fetch_assoc($global_down2);
+$row = $global_down2->fetch_assoc();
 $global_down = $row["globaldown"];
 $global_win = $row["win"];
 $global_lost = $row["lost"];
@@ -217,7 +217,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
     //== Get user stats
     $betsp = sql_query("SELECT challenged FROM casino_bets WHERE proposed =" . sqlesc($CURUSER['username']));
     $openbet = 0;
-    while ($tbet2 = mysqli_fetch_assoc($betsp)) {
+    while ($tbet2 = $betsp->fetch_assoc()) {
         if ($tbet2['challenged'] == 'empty') {
             $openbet++;
         }
@@ -241,7 +241,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
         $betid = 0 + $_GET["takebet"];
         $random = rand(0, 1);
         $loc = sql_query("SELECT * FROM casino_bets WHERE id = " . sqlesc($betid));
-        $tbet = mysqli_fetch_assoc($loc);
+        $tbet = $loc->fetch_assoc();
         $nogb = isset($tbet['amount']) ? mksize($tbet['amount']) : '';
         $tbet_userid = isset($tbet['userid']) ? (int)$tbet['userid'] : "";
         $tbet_challenged = isset($tbet['challenged']) ? $tbet['challenged'] : "";
@@ -429,7 +429,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
             <td align=\"center\" width=\"15%\"><b>{$lang['casino_name']}</b></td><td width=\"15%\" align=\"center\"><b>{$lang['casino_amount']}</b></td>
             <td width=\"45%\" align=\"center\"><b>{$lang['casino_time']}</b></td><td align=\"center\"><b>{$lang['casino_take_bet']}</b></td>
             </tr>";
-    while ($res = mysqli_fetch_assoc($loca)) {
+    while ($res = $loca->fetch_assoc($loca)) {
         $HTMLOUT .= "<tr>
             <td align=\"center\">" . htmlsafechars($res['proposed']) . "</td>
             <td align=\"center\">" . htmlsafechars(mksize($res['amount'])) . "</td>

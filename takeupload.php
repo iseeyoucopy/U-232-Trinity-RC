@@ -308,7 +308,7 @@ if ($offer > 0) {
     $res_offer = sql_query('SELECT user_id FROM offer_votes WHERE vote = \'yes\' AND user_id != ' . sqlesc($CURUSER['id']) . ' AND offer_id = ' . sqlesc($offer)) or sqlerr(__FILE__, __LINE__);
     $subject = sqlesc('An offer you voted for has been uploaded!');
     $message = sqlesc("Hi, \n An offer you were interested in has been uploaded!!! \n\n Click  [url=" . $TRINITY20['baseurl'] . "/details.php?id=" . $id . "]" . htmlsafechars($torrent, ENT_QUOTES) . "[/url] to see the torrent page!");
-    while ($arr_offer = mysqli_fetch_assoc($res_offer)) {
+    while ($arr_offer = $res_offer->fetch_assoc()) {
         sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, saved, location) 
     VALUES(0, ' . sqlesc($arr_offer['user_id']) . ', ' . TIME_NOW . ', ' . $message . ', ' . $subject . ', \'yes\', 1)') or sqlerr(__FILE__, __LINE__);
         $cache->delete('inbox_new::' . $arr_offer['user_id']);
@@ -323,7 +323,7 @@ if ($request > 0) {
     $res_req = sql_query('SELECT user_id FROM request_votes WHERE vote = \'yes\' AND request_id = ' . sqlesc($request)) or sqlerr(__FILE__, __LINE__);
     $subject = sqlesc('A  request you were interested in has been uploaded!');
     $message = sqlesc("Hi :D \n A request you were interested in has been uploaded!!! \n\n Click  [url=" . $TRINITY20['baseurl'] . "/details.php?id=" . $id . "]" . htmlsafechars($torrent, ENT_QUOTES) . "[/url] to see the torrent page!");
-    while ($arr_req = mysqli_fetch_assoc($res_req)) {
+    while ($arr_req = $res_req->fetch_assoc()) {
         sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, saved, location) 
     VALUES(0, ' . sqlesc($arr_req['user_id']) . ', ' . TIME_NOW . ', ' . $message . ', ' . $subject . ', \'yes\', 1)') or sqlerr(__FILE__, __LINE__);
         $cache->delete('inbox_new::' . $arr_req['user_id']);

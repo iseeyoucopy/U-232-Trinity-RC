@@ -42,7 +42,7 @@ if (mysqli_num_rows($res) === 0) stderr($lang['pm_error'], $lang['pm_forwardpm_n
 if ($message['receiver'] == $CURUSER['id'] && $message['sender'] == $CURUSER['id']) stderr($lang['pm_error'], $lang['pm_forwardpm_gentleman']);
 //=== Try finding a user with specified name
 $res_username = sql_query('SELECT id, class, acceptpms, notifs FROM users WHERE LOWER(username)=LOWER(' . sqlesc(htmlsafechars($_POST['to'])) . ') LIMIT 1');
-$to_username = mysqli_fetch_assoc($res_username);
+$to_username = $res_username->fetch_assoc();
 if (mysqli_num_rows($res_username) === 0) stderr($lang['pm_error'], $lang['pm_forwardpm_nomember']);
 //=== make sure the reciever has space in their box
 $res_count = sql_query('SELECT COUNT(id) FROM messages WHERE receiver = ' . sqlesc($to_username['id']) . ' AND location = 1') or sqlerr(__FILE__, __LINE__);

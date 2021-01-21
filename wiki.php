@@ -113,7 +113,7 @@ function wikimenu()
 {
 	global $lang;
     $res2 = sql_query("SELECT name FROM wiki ORDER BY id DESC LIMIT 1");
-    $latest = mysqli_fetch_assoc($res2);
+    $latest = $res2->fetch_assoc();
     $latestarticle = articlereplace(htmlsafechars($latest["name"]));
     $ret = "<div id=\"wiki-content-right\">
 					<div id=\"details\">
@@ -183,11 +183,11 @@ if ($action == "article") {
         while ($wiki = mysqli_fetch_array($res)) {
             if ($wiki['lastedit']) {
                 $check = sql_query("SELECT username FROM users WHERE id = " . sqlesc($wiki['lastedituser']));
-                $checkit = mysqli_fetch_assoc($check);
+                $checkit = $check->fetch_assoc();
                 $edit = "<i>Last Updated by: <a href=\"userdetails.php?id=" . (int)$wiki['userid'] . "\">" . htmlsafechars($checkit['username']) . "</a> - " . datetimetransform($wiki['lastedit']) . "</i>";
             }
             $check = sql_query("SELECT username FROM users WHERE id =" . sqlesc($wiki['userid']));
-            $author = mysqli_fetch_assoc($check);
+            $author = $check->fetch_assoc($check);
             $HTMLOUT.= "
 				<div id=\"wiki-content-left\" align=\"right\">
 					<div id=\"name\"><b><a href=\"wiki.php?action=article&amp;name=" . htmlsafechars($wiki['name']) . "\">" . htmlsafechars($wiki['name']) . "</a></b></div>
@@ -203,7 +203,8 @@ if ($action == "article") {
         if (mysqli_num_rows($search) > 0) {
             $HTMLOUT.= "Search results for: <b>" . htmlsafechars($name) . "</b>";
             while ($wiki = mysqli_fetch_array($search)) {
-                if ($wiki["userid"] !== 0) $wikiname = mysqli_fetch_assoc(sql_query("SELECT username FROM users WHERE id =" . sqlesc($wiki['userid'])));
+                $search_w_query = sql_query("SELECT username FROM users WHERE id =" . sqlesc($wiki['userid']));
+                if ($wiki["userid"] !== 0) $wikiname = $search_w_query->fetch_assoc();
  $HTMLOUT.= "<div class=\"wiki-search\">
 	<b><a href=\"wiki.php?action=article&amp;name=" . articlereplace(htmlsafechars($wiki["name"])) . "\">" . htmlsafechars($wiki['name']) . "</a></b>{$lang['wiki_added_by']}<a href=\"userdetails.php?id=" . (int)$wiki['userid'] . "\">" . htmlsafechars($wikiname['username']) . "</a></div>";
             }
@@ -228,8 +229,8 @@ if ($action == "add") {
 }
 if ($action == "edit") {
     $res = sql_query("SELECT * FROM wiki WHERE id = " . sqlesc($id));
-    $rescheck = sql_query("SELECT userid FROM wiki WHERE id =" . sqlesc($id));
-    $wikicheck = mysqli_fetch_assoc($rescheck);
+    $rescheck = sql_query("SELECT userid FROM wiki WHERE id =" . sqlesc($id))  or sqlerr(__FILE__, __LINE__);
+    $wikicheck = $rescheck->fetch_assoc();
     if (($CURUSER['class'] >= UC_STAFF) OR ($CURUSER["id"] == $wikicheck["userid"])) {
         $HTMLOUT.= navmenu();
         $HTMLOUT.= "<div id=\"wiki-container\">
@@ -255,7 +256,8 @@ if ($action == "sort") {
         $HTMLOUT.= navmenu();
         $HTMLOUT.= "{$lang['wiki_art_found_starting']}<b>" . htmlsafechars($letter) . "</b>";
         while ($wiki = mysqli_fetch_array($sortres)) {
-            if ($wiki["userid"] !== 0) $wikiname = mysqli_fetch_assoc(sql_query("SELECT username FROM users WHERE id = " . sqlesc($wiki['userid'])));
+            $wiki_sort_q = sql_query("SELECT username FROM users WHERE id = " . sqlesc($wiki['userid'])) or sqlerr(__FILE__, __LINE__);
+            if ($wiki["userid"] !== 0) $wikiname = $wiki_sort_q->fetch_assoc();
             $HTMLOUT.= "
 				<div class=\"wiki-search\">
 					<b><a href=\"wiki.php?action=article&amp;name=" . articlereplace(htmlsafechars($wiki["name"])) . "\">" . htmlsafechars($wiki['name']) . "</a></b>{$lang['wiki_added_by1']}<a href=\"userdetails.php?id=" . (int)$wiki['userid'] . "\">" . htmlsafechars($wikiname['username']) . "</a></div>";

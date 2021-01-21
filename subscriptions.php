@@ -106,11 +106,11 @@ while ($arr = $res->fetch_assoc()) {
     $where_is = "t.id = $topicid AND f.min_class_read <= " . $CURUSER['class'];
     $queryposts = "SELECT $select_is FROM $from_is WHERE $where_is ORDER BY $order_is";
     $res2 = sql_query($queryposts) or sqlerr(__FILE__, __LINE__);
-    $arr2 = mysqli_fetch_assoc($res2);
+    $arr2 = $res2->fetch_assoc();
     $postid = (int)$arr2["id"];
     $posterid = (int)$arr2["user_id"];
     $queryuser = sql_query("SELECT username FROM users WHERE id=".sqlesc($arr2['user_id']));
-    $res3 = mysqli_fetch_assoc($queryuser);
+    $res3 = $queryuser->fetch_assoc();
     $added = get_date($arr2["added"], 'DATE',1,0) . " GMT (" . (get_date($arr2["added"], 'LONG',1,0)) . ")";
     $count2 = '';
     // =======change colors
@@ -143,7 +143,7 @@ while ($arr = $res->fetch_assoc()) {
     if ((is_valid_id(isset($arr['edited_by'])))) {
         $subres = sql_query("SELECT username FROM users WHERE id=".sqlesc($arr['edited_by']));
         if (mysqli_num_rows($subres) == 1) {
-            $subrow = mysqli_fetch_assoc($subres);
+            $subrow = $subres->fetch_assoc();
             $body .= "<p><font size='1' class='small'>Last edited by <a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['edited_by']."'><b>".htmlsafechars($subrow['username'])."</b></a> at ".get_date($arr['edit_date'], 'LONG',1,0)." GMT</font></p>\n";
         }
     }

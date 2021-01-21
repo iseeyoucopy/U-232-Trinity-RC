@@ -581,7 +581,7 @@ function userlogin()
         $CURBLOCK['index_page'] = (int)$CURBLOCK['index_page'];
         $CURBLOCK['global_stdhead'] = (int)$CURBLOCK['global_stdhead'];
         $CURBLOCK['userdetails_page'] = (int)$CURBLOCK['userdetails_page'];
-		$CURBLOCK['usercp_page'] = (int)$CURBLOCK['usercp_page'];
+		//$CURBLOCK['usercp_page'] = (int)$CURBLOCK['usercp_page'];
         $cache->set($blocks_key, $CURBLOCK, 0);
     }
     //== online time pdq, original code by superman
@@ -737,7 +737,7 @@ function make_bookmarks($userid, $key)
         $res_books = sql_query('SELECT * FROM bookmarks WHERE userid = ' . sqlesc($userid)) or sqlerr(__file__, __line__);
         $book = array();
         if (mysqli_num_rows($res_books)) {
-            while ($rowbook = mysqli_fetch_assoc($res_books)) $book[] = $rowbook;
+            while ($rowbook = $res_books->fetch_assoc()) $book[] = $rowbook;
         }
         $cache->set($key . $userid, $book, 86400 * 7); // 7 days
     }

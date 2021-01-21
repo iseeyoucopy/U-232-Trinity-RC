@@ -61,9 +61,8 @@ function deletetorrent_xbt($id)
         unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
         $cache->delete($keys['my_xbt_peers'] . $CURUSER['id']);
     }
-     
-   
-    $q = mysqli_fetch_assoc(sql_query("SELECT name, owner FROM torrents WHERE id =".sqlesc($id))) or sqlerr(__FILE__, __LINE__);
+    $q_query = sql_query("SELECT name, owner FROM torrents WHERE id =".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    $q = $q_query->fetch_assoc();
     if (!$q)
     stderr('Oopps','Something went Pete Tong - Contact admin !!');
      

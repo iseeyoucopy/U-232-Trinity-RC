@@ -257,7 +257,7 @@ if (!isset($self)) {
         if ($max > 0) {
             if (($Slot_Query = $cache->get('max_slots_'.$userid)) === false) {
             $Slot_Q = sql_query("SELECT COUNT(*) AS num FROM peers WHERE userid=".sqlesc($userid)." AND seeder='no'") or ann_sqlerr(__FILE__, __LINE__);
-            $Slot_Query = mysqli_fetch_assoc($Slot_Q);
+            $Slot_Query = $Slot_Q->fetch_assoc();
             $cache->set('max_slots_'.$userid, $Slot_Query, $TRINITY20['expires']['max_slots']);
             }
             if ($Slot_Q['num'] >= $max) 
@@ -276,7 +276,7 @@ if (!isset($self)) {
         );
         $Pot_query_fields = implode(', ', array_merge($Pot_query_fields_ar_int));
         $Pq = ann_sql_query("SELECT  " . $Pot_query_fields . " FROM avps WHERE arg = 'sitepot'") or ann_sqlerr(__FILE__, __LINE__);
-        $Pot_query = mysqli_fetch_assoc($Pq);
+        $Pot_query = $Pq->fetch_assoc();
         foreach ($Pot_query_fields_ar_int as $i) $Pot_query[$i] = (int)$Pot_query[$i];
         $cache->set('Sitepot_', $Pot_query, $TRINITY20['expires']['sitepot']);
     }
@@ -301,7 +301,7 @@ if (!isset($self)) {
         );
         $contribution_fields = implode(', ', array_merge($contribution_fields_ar_int, $contribution_fields_ar_str));
         $fc = ann_sql_query("SELECT " . $contribution_fields . " FROM events ORDER BY startTime DESC LIMIT 1") or ann_sqlerr(__FILE__, __LINE__);
-        $contribution = mysqli_fetch_assoc($fc);
+        $contribution = $fc->fetch_assoc();
         foreach ($contribution_fields_ar_int as $i) $contribution[$i] = (int)$contribution[$i];
         foreach ($contribution_fields_ar_str as $i) $contribution[$i] = $contribution[$i];
         $cache->set('freecontribution_', $contribution, $TRINITY20['expires']['contribution']);
@@ -381,7 +381,7 @@ if (portblacklisted($port)) {
 $a = 0;
 $res_snatch = ann_sql_query("SELECT seedtime, uploaded, downloaded, finished, start_date AS start_snatch FROM snatched WHERE torrentid = " . ann_sqlesc($torrentid) . " AND userid = " . ann_sqlesc($userid)) or ann_sqlerr(__FILE__, __LINE__);
 if (mysqli_num_rows($res_snatch) > 0) {
-    $a = mysqli_fetch_assoc($res_snatch);
+    $a = $res_snatch->fetch_assoc();
 }
 if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"]) && $seeder == "no") ann_sql_query("INSERT LOW_PRIORITY INTO snatched (torrentid, userid, peer_id, ip, port, connectable, uploaded, downloaded, to_go, start_date, last_action, seeder, agent) VALUES (" . ann_sqlesc($torrentid) . ", " . ann_sqlesc($userid) . ", " . ann_sqlesc($peer_id) . ", " . ann_sqlesc($realip) . ", " . ann_sqlesc($port) . ", " . ann_sqlesc($connectable) . ", " . ann_sqlesc($uploaded) . ", " . ($TRINITY20['ratio_free'] ? "0" : "" . ann_sqlesc($downloaded) . "") . ", " . ann_sqlesc($left) . ", " . TIME_NOW . ", " . TIME_NOW . ", " . ann_sqlesc($seeder) . ", " . ann_sqlesc($agent) . ")") or ann_sqlerr(__FILE__, __LINE__);
 $torrent_updateset = $snatch_updateset = array();

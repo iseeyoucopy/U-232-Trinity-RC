@@ -45,7 +45,7 @@ if ($game) {
     $User['bjlosses'] = (int) $User['bjlosses'];
     if ($start_ != 'yes') {
         $playeres = sql_query("SELECT * FROM blackjack WHERE userid = " . sqlesc($CURUSER['id']));
-        $playerarr = mysqli_fetch_assoc($playeres);
+        $playerarr = $playeres->fetch_assoc();
         if ($game == 'hit') {
             $points = $aces = 0;
         }
@@ -59,7 +59,7 @@ if ($game) {
         }
         foreach ($arr as $card_id) {
             $used_card = sql_query("SELECT * FROM cards WHERE id=" . sqlesc($card_id));
-            $used_cards = mysqli_fetch_assoc($used_card);
+            $used_cards = $used_card->fetch_assoc();
             $showcards .= "<img src='{$TRINITY20['pic_base_url']}cards/" . htmlsafechars($used_cards["pic"]) . "' width='71' height='96' border='0' alt='{$lang['bj_cards']}' title='{$lang['bj_cards']}' />";
             if ($used_cards["points"] > 1) {
                 $points += $used_cards['points'];
@@ -101,7 +101,7 @@ if ($game) {
                     $cardid = mt_rand(1, $cardcount);
                 }
                 $cardres = sql_query("SELECT points, pic FROM cards WHERE id='$cardid'");
-                $cardarr = mysqli_fetch_assoc($cardres);
+                $cardarr = $cardres->fetch_assoc();
                 if ($cardarr["points"] > 1) {
                     $points += $cardarr["points"];
                 } else {
@@ -140,7 +140,7 @@ if ($game) {
                 $cardid = mt_rand(1, $cardcount);
             }
             $cardres = sql_query("SELECT points, pic FROM cards WHERE id='$cardid'");
-            $cardarr = mysqli_fetch_assoc($cardres);
+            $cardarr = $cardres->fetch_assoc();
             $showcards .= "<img src='{$TRINITY20['pic_base_url']}cards/" . $cardarr['pic'] . "' width='71' height='96' border='0' alt='{$lang['bj_cards']}' title='{$lang['bj_cards']}' />";
             if ($cardarr["points"] > 1) {
                 $points += $cardarr["points"];
@@ -154,7 +154,7 @@ if ($game) {
         }
         if ($points == 21 || $points > 21) {
             $waitres = sql_query("SELECT COUNT(userid) AS c FROM blackjack WHERE status = 'waiting' AND userid != " . sqlesc($CURUSER['id']));
-            $waitarr = mysqli_fetch_assoc($waitres);
+            $waitarr = $waitres->fetch_assoc();
             $HTMLOUT .= "<h1>{$lang['bj_game_over']}</h1>
 <div class='row'><div class='col-sm-6 col-sm-offset-3'>
             <table class='table'>
@@ -296,7 +296,7 @@ if ($game) {
     } elseif ($_POST["game"] == 'stop') {
         cheater_check(empty($playerarr));
         $waitres = sql_query("SELECT COUNT(userid) AS c FROM blackjack WHERE status='waiting' AND userid != " . sqlesc($CURUSER['id']));
-        $waitarr = mysqli_fetch_assoc($waitres);
+        $waitarr = $waitres->fetch_assoc();
         $HTMLOUT .= "<h1>{$lang['bj_game_over']}</h1>
         <div class='row'><div class='col-sm-6 col-sm-offset-3'><table class='table'>
         <tr><td colspan='2'>

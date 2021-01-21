@@ -88,7 +88,7 @@ case 'upload_credit':
         if (mysqli_num_rows($res_GB) > 0) {
             $subject = sqlesc($lang['bonusmanager_up_added']);
             $msg = sqlesc($lang['bonusmanager_up_addedmsg'] . $bonus_added . $lang['bonusmanager_up_addedmsg1'] . $TRINITY20['site_name'] . "{$lang['bonusmanager_up_addedmsg2']}{$lang['bonusmanager_up_addedmsg22']}" . $GB . " " . $GB_new . "");
-            while ($arr_GB = mysqli_fetch_assoc($res_GB)) {
+            while ($arr_GB = $res_GB->fetch_assoc()) {
                 $GB_new = ($arr_GB['uploaded'] + $GB);
                 $modcomment = $arr_GB['modcomment'];
                 $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $bonus_added . $lang['bonusmanager_up_modcomment'] . $modcomment;
@@ -123,7 +123,7 @@ case 'upload_credit':
                 if (mysqli_num_rows($res_GB) > 0) {
                     $subject = sqlesc($lang['bonusmanager_up_added']);
                     $msg = sqlesc($lang['bonusmanager_up_addedmsg'] . $bonus_added . $lang['bonusmanager_up_addedmsg3'] . $TRINITY20['site_name'] . $lang['bonusmanager_up_addedmsg2']);
-                    while ($arr_GB = mysqli_fetch_assoc($res_GB)) {
+                    while ($arr_GB = $res_GB->fetch_assoc()) {
                         $GB_new = ($arr_GB['uploaded'] + $GB);
                         $modcomment = $arr_GB['modcomment'];
                         $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $bonus_added . $lang['bonusmanager_up_modcomment'] . $modcomment;
@@ -167,7 +167,7 @@ case 'karma':
         if (mysqli_num_rows($res_karma) > 0) {
             $subject = sqlesc($lang['bonusmanager_karma_added']);
             $msg = sqlesc($lang['bonusmanager_karma_addedmsg'] . $karma . $lang['bonusmanager_karma_addedmsg1'] . $TRINITY20['site_name'] . $lang['bonusmanager_karma_addedmsg2']);
-            while ($arr_karma = mysqli_fetch_assoc($res_karma)) {
+            while ($arr_karma = $res_karma->fetch_assoc()) {
                 $karma_new = ($arr_karma['seedbonus'] + $karma);
                 $modcomment = $arr_karma['modcomment'];
                 $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $karma . $lang['bonusmanager_karma_modcomment'] . $modcomment;
@@ -202,7 +202,7 @@ case 'karma':
                 if (mysqli_num_rows($res_karma) > 0) {
                     $subject = sqlesc($lang['bonusmanager_karma_added']);
                     $msg = sqlesc($lang['bonusmanager_karma_addedmsg'] . $karma . $lang['bonusmanager_karma_addedmsg3'] . $TRINITY20['site_name'] . $lang['bonusmanager_karma_addedmsg2']);
-                    while ($arr_karma = mysqli_fetch_assoc($res_karma)) {
+                    while ($arr_karma = $res_karma->fetch_assoc()) {
                         $karma_new = ($arr_karma['seedbonus'] + $karma);
                         $modcomment = $arr_karma['modcomment'];
                         $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $karma . $lang['bonusmanager_karma_modcomment'] . $modcomment;
@@ -246,7 +246,7 @@ case 'freeslots':
         if (mysqli_num_rows($res_freeslots) > 0) {
             $subject = sqlesc($lang['bonusmanager_freeslots_added']);
             $msg = sqlesc($lang['bonusmanager_freeslots_addedmsg'] . $freeslots . $lang['bonusmanager_freeslots_addedmsg1'] . $TRINITY20['site_name'] . $lang['bonusmanager_freeslots_addedmsg2']);
-            while ($arr_freeslots = mysqli_fetch_assoc($res_freeslots)) {
+            while ($arr_freeslots = $res_freeslots->fetch_assoc()) {
                 $freeslots_new = ($arr_freeslots['freeslots'] + $freeslots);
                 $modcomment = $arr_freeslots['modcomment'];
                 $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $freeslots . $lang['bonusmanager_freeslots_modcomment'] . $modcomment;
@@ -283,7 +283,7 @@ case 'freeslots':
                 if (mysqli_num_rows($res_freeslots) > 0) {
                     $subject = sqlesc($lang['bonusmanager_freeslots_added']);
                     $msg = sqlesc($lang['bonusmanager_freeslots_addedmsg'] . $freeslots . $lang['bonusmanager_freeslots_addedmsg3'] . $TRINITY20['site_name'] . $lang['bonusmanager_freeslots_addedmsg2']);
-                    while ($arr_freeslots = mysqli_fetch_assoc($res_freeslots)) {
+                    while ($arr_freeslots = $res_freeslots->fetch_assoc()) {
                         $freeslots_new = ($arr_freeslots['freeslots'] + $freeslots);
                         $modcomment = $arr_freeslots['modcomment'];
                         $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $freeslots . $lang['bonusmanager_freeslots_modcomment'] . $modcomment;
@@ -329,7 +329,7 @@ case 'invite':
         if (mysqli_num_rows($res_invites) > 0) {
             $subject = sqlesc($lang['bonusmanager_invite_added']);
             $msg = sqlesc($lang['bonusmanager_invite_addedmsg'] . $invites . $lang['bonusmanager_invite_addedmsg1'] . $TRINITY20['site_name'] . $lang['bonusmanager_invite_addedmsg2']);
-            while ($arr_invites = mysqli_fetch_assoc($res_invites)) {
+            while ($arr_invites = $res_invites->fetch_assoc()) {
                 $invites_new = ($arr_invites['invites'] + $invites);
                 $modcomment = $arr_invites['modcomment'];
                 $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $invites . $lang['bonusmanager_invite_modcomment'] . $modcomment;
@@ -366,7 +366,7 @@ case 'invite':
                 if (mysqli_num_rows($res_invites) > 0) {
                     $subject = sqlesc($lang['bonusmanager_invite_added']);
                     $msg = sqlesc($lang['bonusmanager_invite_addedmsg'] . $invites . $lang['bonusmanager_invite_addedmsg3'] . $TRINITY20['site_name'] . $lang['bonusmanager_invite_addedmsg2']);
-                    while ($arr_invites = mysqli_fetch_assoc($res_invites)) {
+                    while ($arr_invites = $res_invites->fetch_assoc()) {
                         $invites_new = ($arr_invites['invites'] + $invites);
                         $modcomment = $arr_invites['modcomment'];
                         $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $invites . $lang['bonusmanager_invite_modcomment'] . $modcomment;
@@ -413,7 +413,7 @@ case 'pm':
         if (mysqli_num_rows($res_pms) > 0) {
             $subject = sqlesc(htmlsafechars($_POST['subject']));
             $body = sqlesc(htmlsafechars($_POST['body']));
-            while ($arr_pms = mysqli_fetch_assoc($res_pms)) {
+            while ($arr_pms = $res_pms->fetch_assoc()) {
                 $pm_buffer[] = '(0, ' . $arr_pms['id'] . ', ' . TIME_NOW . ', ' . $body . ', ' . $subject . ')';
                 $cache->delete('inbox_new::' . $arr_pms['id']);
                 $cache->delete('inbox_new_sb::' . $arr_pms['id']);
@@ -435,7 +435,7 @@ case 'pm':
                 if (mysqli_num_rows($res_pms) > 0) {
                     $subject = sqlesc(htmlsafechars($_POST['subject']));
                     $body = sqlesc(htmlsafechars($_POST['body']));
-                    while ($arr_pms = mysqli_fetch_assoc($res_pms)) {
+                    while ($arr_pms = $res_pms->fetch_assoc()) {
                         $pm_buffer[] = '(0, ' . $arr_pms['id'] . ', ' . TIME_NOW . ', ' . $body . ', ' . $subject . ')';
                         $cache->delete('inbox_new::' . $arr_pms['id']);
                         $cache->delete('inbox_new_sb::' . $arr_pms['id']);

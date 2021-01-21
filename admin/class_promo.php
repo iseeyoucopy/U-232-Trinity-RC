@@ -36,7 +36,7 @@ if (!in_array($CURUSER['id'], $TRINITY20['allowed_staff']['id'] /*$allowed_ids*/
     stderr($lang['classpromo_error'], $lang['classpromo_denied']);
 //get the config from db - stoner/pdq
 $pconf = sql_query('SELECT * FROM class_promo ORDER BY id ASC ') or sqlerr(__FILE__, __LINE__);
-while ($ac = mysqli_fetch_assoc($pconf)) {
+while ($ac = $pconf->fetch_assoc()) {
     $class_config[$ac['name']]['id'] = $ac['id'];
     $class_config[$ac['name']]['name'] = $ac['name'];
     $class_config[$ac['name']]['min_ratio'] = $ac['min_ratio'];

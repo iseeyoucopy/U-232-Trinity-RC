@@ -80,7 +80,7 @@ if ($do == 'view_page') {
     } else {
         $HTMLOUT.= "<tr class='one'><td><b>{$lang['invites_send_code']}</b></td><td><b>{$lang['invites_date']}</b></td><td><b>{$lang['invites_delete']}</b></td><td><b>{$lang['invites_status']}</b></td></tr>";
         for ($i = 0; $i < $num_row; ++$i) {
-            $fetch_assoc = mysqli_fetch_assoc($select);
+            $fetch_assoc = $select->fetch_assoc();
             $HTMLOUT.= "<tr class='one'>
 <td>" . htmlsafechars($fetch_assoc['code']) . " <a href='?do=send_email&amp;id=" . (int)$fetch_assoc['id'] . "'><img src='{$TRINITY20['pic_base_url']}email.gif' border='0' alt='Email' title='Send Email' /></a></td>
 <td>" . get_date($fetch_assoc['invite_added'], '', 0, 1) . "</td>";
@@ -177,7 +177,7 @@ elseif ($do = 'confirm_account') {
     $userid = (isset($_GET["userid"]) ? (int)$_GET["userid"] : (isset($_POST["userid"]) ? (int)$_POST["userid"] : ''));
     if (!is_valid_id($userid)) stderr($lang['invites_error'], $lang['invites_invalid']);
     $select = sql_query('SELECT id, username FROM users WHERE id = ' . sqlesc($userid) . ' AND invitedby = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-    $assoc = mysqli_fetch_assoc($select);
+    $assoc = $select->fetch_assoc();
     if (!$assoc) stderr($lang['invites_error'], $lang['invites_errorid']);
     isset($_GET['sure']) && $sure = htmlsafechars($_GET['sure']);
     if (!$sure) stderr($lang['invites_confirm1'], $lang['invites_sure1'] . ' ' . htmlsafechars($assoc['username']) . ' '.$lang['invites_sure2'].' <a href="?do=confirm_account&amp;userid=' . $userid . '&amp;sender=' . (int)$CURUSER['id'] . '&amp;sure=yes">'.$lang['invites_sure3'].'</a>'.$lang['invites_sure4'].'<a href="?do=view_page">'.$lang['invites_sure3'].'</a>'.$lang['invites_sure5'].'');

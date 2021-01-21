@@ -22,7 +22,7 @@ function getRate($id, $what)
     $keys['rating'] = 'rating_' . $what . '_' . $id . '_' . $CURUSER['id'];
     if (($rating_cache = $cache->get($keys['rating'])) === false) {
         $qy = sql_query("SELECT sum(r.rating) as sum, count(r.rating) as count, r2.id as rated, r2.rating  FROM rating as r LEFT JOIN rating as r2 ON (r2." . $what . " = " . sqlesc($id) . " AND r2.user = " . sqlesc($CURUSER["id"]) . ") WHERE r." . $what . " = " . sqlesc($id) . " GROUP BY r." . $what) or sqlerr(__FILE__, __LINE__);
-        $rating_cache = mysqli_fetch_assoc($qy);
+        $rating_cache = $qy->fetch_assoc();
         $cache->set($keys['rating'], $rating_cache, 0);
     }
     //== lets memcache $count fucker

@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
     $r_check = sql_query("SELECT * FROM promo WHERE link=" . sqlesc($link)) or sqlerr(__FILE__, __LINE__);
     if (mysqli_num_rows($r_check) == 0) stderr("Error", "The link your using is not a valid link");
     else {
-        $ar_check = mysqli_fetch_assoc($r_check);
+        $ar_check = $r_check->fetch_assoc();
         if ($ar_check["max_users"] == $ar_check["accounts_made"]) stderr("Error", "Sorry account limit (" . htmlsafechars($ar_check["max_users"]) . ") on this link has been reached ");
         if (($ar_check["added"] + (86400 * $ar_check["days_valid"])) < TIME_NOW) stderr("Error", "This link was valid only till " . date("d/M-Y", ($ar_check["added"] + (86400 * $ar_check["days_valid"]))));
         //==Some variables for the new user :)
@@ -163,7 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
         $r_promo = sql_query("SELECT * from promo where link=" . sqlesc($link)) or sqlerr(__FILE__, __LINE__);
         if (mysqli_num_rows($r_promo) == 0) stderr("Error", "There is no promo with that link ");
         else {
-            $ar = mysqli_fetch_assoc($r_promo);
+            $ar = $r_promo->fetch_assoc();
             if ($ar["max_users"] == $ar["accounts_made"]) stderr("Error", "Sorry account limit (" . htmlsafechars($ar["max_users"]) . ") on this link has been reached ");
             if (($ar["added"] + (86400 * $ar["days_valid"])) < TIME_NOW) stderr("Error", "This link was valid only till " . date("d/M-Y", ($ar["added"] + (86400 * $ar["days_valid"]))));
 		$HTMLOUT.= "<div class='row'><div class='col-md-12'>";

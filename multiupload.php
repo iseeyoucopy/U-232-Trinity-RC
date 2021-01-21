@@ -45,7 +45,7 @@ $request ="<div class='input-group'>
     <select class='input-group-field' name='request' aria-describedby='requestHelpText'>
         <option value='0'></option>";
 if ($res_request) {
-    while ($arr_request = mysqli_fetch_assoc($res_request)) {
+    while ($arr_request = $res_request->fetch_assoc()) {
         $request.= '<option value="' . (int)$arr_request['id'] . '">' . htmlsafechars($arr_request['request_name']) . '</option>';
     }
 } else {
@@ -61,7 +61,7 @@ if (mysqli_num_rows($res_offer) > 0) {
     <select class='input-group-field' name='offer'  aria-describedby='offerHelpText'>
         <option value='0'></option>";
     $message = "<option value='0'>{$lang['upload_add_offer']}</option>";
-    while ($arr_offer = mysqli_fetch_assoc($res_offer)) {
+    while ($arr_offer = $res_offer->fetch_assoc()) {
         $offers.= '<option value="' . (int)$arr_offer['id'] . '">' . htmlsafechars($arr_offer['offer_name']) . '</option>';
     }
     $offers.= "</select></div><p class='help-text' id='offerHelpText'>{$lang['upload_add_offer2']}</p>";

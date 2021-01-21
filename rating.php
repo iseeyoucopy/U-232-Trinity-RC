@@ -33,7 +33,7 @@ if ($id > 0 && $rate >= 1 && $rate <= 5) {
         $cache->delete('rating_' . $what . '_' . $id . '_' . $CURUSER['id']);
         if ($what == "torrent") {
             $f_r = sql_query("SELECT num_ratings, rating_sum FROM torrents WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-            $r_f = mysqli_fetch_assoc($f_r);
+            $r_f = $f_r->fetch_assoc();
             $update['num_ratings'] = ($r_f['num_ratings'] + 1);
             $update['rating_sum'] = ($r_f['rating_sum'] + $rate);
             $cache->update_row('torrent_details_' . $id, [
@@ -56,7 +56,7 @@ if ($id > 0 && $rate >= 1 && $rate <= 5) {
         }
         if ($ajax) {
             $qy = sql_query("SELECT sum(r.rating) as sum, count(r.rating) as count, r2.rating as rate FROM rating as r LEFT JOIN rating AS r2 ON (r2." . $what . " = " . sqlesc($id) . " AND r2.user = " . sqlesc($uid) . ") WHERE r." . $what . " = " . sqlesc($id) . " GROUP BY r." . sqlesc($what)) or sqlerr(__FILE__, __LINE__);
-            $a = mysqli_fetch_assoc($qy);
+            $a = $qy->fetch_assoc();
             echo "<ul class=\"star-rating\" title=\"Your rated this " . $what . " " . htmlsafechars($a["rate"]) . " star" . (htmlsafechars($a["rate"]) > 1 ? "s" : "") . "\"  ><li style=\"width: " . (round((($a["sum"] / $a["count"]) * 20), 2)) . "%;\" class=\"current-rating\" />.</ul>";
         } else {
             header("Refresh: 2; url=" . $ref);
