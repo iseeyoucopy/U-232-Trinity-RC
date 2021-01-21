@@ -274,7 +274,7 @@ $ret = sql_query("INSERT INTO torrents (search_text, filename, owner, username, 
     $tags
 ))) . ", " . TIME_NOW . ", " . TIME_NOW . ", " . TIME_NOW . ", " . TIME_NOW . ", $freetorrent, $nfo, $tmaker)");
 if (!$ret) {
-    if (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)) == 1062)
+    if ($mysqli->errno)
         stderr($lang['takeupload_failed'], $lang['takeupload_already']);
     stderr($lang['takeupload_failed'], "mysql puked: " . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
 }

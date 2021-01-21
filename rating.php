@@ -63,7 +63,7 @@ if ($id > 0 && $rate >= 1 && $rate <= 5) {
             stderr("Success", "Your rate has been added, wait while redirecting! ");
         }
     } else {
-        if (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)) == 1062 && $ajax) {
+        if ($mysqli->errno && $ajax) {
             echo "You already rated this " . $what . "";
         } elseif (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) && $ajax) {
             print("You cant rate twice, Err - " . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));

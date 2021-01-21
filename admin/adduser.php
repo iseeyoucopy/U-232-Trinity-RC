@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		write_log("User account " . (int)$user_id . " (" . htmlsafechars($insert['username']) . ") was created by {$CURUSER['username']}");
         stderr($lang['std_success'], sprintf($lang['text_user_added'], $user_id));
     } else {
-        if (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)) == 1062) {
+        if ($mysqli->errno) {
             $res = sql_query(sprintf('SELECT id FROM users WHERE username = %s', sqlesc($insert['username']))) or sqlerr(__FILE__, __LINE__);
             if (mysqli_num_rows($res)) {
                 $arr = mysqli_fetch_assoc($res);

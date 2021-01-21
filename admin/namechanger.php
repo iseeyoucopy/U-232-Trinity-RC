@@ -50,7 +50,7 @@ if (isset($mode) && $mode == 'change') {
         $changed = sqlesc("{$lang['namechanger_changed_to']} $uname");
         $subject = sqlesc($lang['namechanger_changed']);
         if (!$change) {
-            if (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)) == 1062) stderr($lang['namechanger_borked'], $lang['namechanger_already_exist']);
+            if ($mysqli->errno) stderr($lang['namechanger_borked'], $lang['namechanger_already_exist']);
         }
         sql_query("INSERT INTO messages (sender, receiver, msg, subject, added) VALUES(0, $uid, $changed, $subject, $added)") or sqlerr(__FILE__, __LINE__);
         header("Refresh: 2; url=staffpanel.php?tool=namechanger");

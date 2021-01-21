@@ -238,7 +238,7 @@ if (in_array($tool, $staff_tools) and file_exists(ADMIN_DIR . $staff_tools[$tool
                     ))) . ")");
                     $cache->delete('is_staffs_');
                     if (!$res) {
-                        if (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)) == 1062)
+                        if ($mysqli->errno)
                             $errors[] = $lang['spanel_this_fname_sub'];
                         else
                             $errors[] = $lang['spanel_db_error_msg'];

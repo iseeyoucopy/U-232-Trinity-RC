@@ -164,7 +164,7 @@ $cache->delete('birthdayusers');
 $message = "{$lang['takesignup_welcome']} {$TRINITY20['site_name']} {$lang['takesignup_member']} ".htmlsafechars($wantusername)."";
 
 if (!$ret) {
-    if (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)) == 1062) stderr($lang['takesignup_user_error'], $lang['takesignup_user_exists']);
+    if ($mysqli->errno) stderr($lang['takesignup_user_error'], $lang['takesignup_user_exists']);
 }
 
 $id = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
