@@ -94,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $owner
             ))) . ")") or sqlerr(__FILE__, __LINE__);
             move_uploaded_file($temp_name, "{$TRINITY20['sub_up_dir']}/$filename");
-            $id = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+            $id = $mysqli->insert_id;
             header("Refresh: 0; url=subtitles.php?mode=details&id=$id");
         } //end upload
         if ($action == "edit") {

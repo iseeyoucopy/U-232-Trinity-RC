@@ -90,12 +90,12 @@ if (!defined('IN_TRINITY20_FORUM')) {
     $subject = sqlesc($subject);
   	 $anonymous = (isset($_POST['anonymous']) && $_POST["anonymous"] != "" ? "yes" : "no");
  	 sql_query("INSERT INTO topics (user_id, forum_id, topic_name, anonymous) VALUES(".sqlesc($userid).", ".sqlesc($forumid).", $subject, ".sqlesc($anonymous).")") or sqlerr(__FILE__, __LINE__);
-	 $topicid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res) or stderr("Error", "No topic ID returned!");
+	 $topicid = $mysqli->insert_id or stderr("Error", "No topic ID returned!");
 	 $added = sqlesc(TIME_NOW);
 	 $body = sqlesc($body);
 	 $anonymous = (isset($_POST['anonymous']) && $_POST["anonymous"] != "" ? "yes" : "no");
 	 sql_query("INSERT INTO posts (topic_id, user_id, added, body, anonymous, icon) VALUES(".sqlesc($topicid).", ".sqlesc($userid).", $added, $body, ".sqlesc($anonymous).",".sqlesc($posticon).")") or sqlerr(__FILE__, __LINE__);
-	  $postid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res) or stderr("Error", "No post ID returned!");
+	  $postid = $mysqli->insert_id or stderr("Error", "No post ID returned!");
 	  update_topic_last_post($topicid);
           $cache->delete($keys['last_postsb'] . $CURUSER['class']);
          if ($TRINITY20['autoshout_on'] == 1) {
@@ -155,7 +155,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 	    $body = sqlesc($body);
 	    $anonymous = (isset($_POST['anonymous']) && $_POST["anonymous"] != "" ? "yes" : "no");
 	    sql_query("INSERT INTO posts (topic_id, user_id, added, body, anonymous, icon) VALUES(".sqlesc($topicid).", ".sqlesc($userid).", $added, $body, ".sqlesc($anonymous).", ".sqlesc($posticon).")") or sqlerr(__FILE__, __LINE__);
-		 $postid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res) or die("Post id n/a");
+		 $postid = $mysqli->insert_id or die("Post id n/a");
 
              if ($TRINITY20['autoshout_on'] == 1) {
                  if ($anonymous == 'yes') {

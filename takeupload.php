@@ -281,7 +281,7 @@ if (!$ret) {
 if (XBT_TRACKER == false) {
     remove_torrent($infohash);
 }
-$id = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+$id = $mysqli->insert_id;
 $cache->delete($keys['my_peers'] . $CURUSER['id']);
 //$cache->delete('lastest_tor_');  //
 $cache->delete('last5_tor_');

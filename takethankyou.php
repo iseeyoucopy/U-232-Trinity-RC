@@ -26,7 +26,7 @@ $res1 = sql_query("SELECT 1 FROM thankyou WHERE torid=" . sqlesc($id) . " AND ui
 $row = $res1->fetch_assoc();
 if ($row) stderr("Error", "You already thanked.");
 $text = ":thankyou:";
-$newid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+$newid = $mysqli->insert_id;
 sql_query("INSERT INTO thankyou (uid, torid, thank_date) VALUES (" . sqlesc($CURUSER["id"]) . ", " . sqlesc($id) . ", '" . TIME_NOW . "')") or sqlerr(__FILE__, __LINE__);
 sql_query("INSERT INTO comments (user, torrent, added, text, ori_text) VALUES (" . sqlesc($CURUSER["id"]) . ", " . sqlesc($id) . ", '" . TIME_NOW . "', " . sqlesc($text) . "," . sqlesc($text) . ")") or sqlerr(__FILE__, __LINE__);
 sql_query("UPDATE torrents SET thanks = thanks + 1, comments = comments + 1 WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);

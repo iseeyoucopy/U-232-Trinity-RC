@@ -273,7 +273,7 @@ foreach ($file_list as $key=>$f) {
     }
 
 
-    $id = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+    $id = $mysqli->insert_id;
 
     $ids[] = $id;
     if ($id > 0) {

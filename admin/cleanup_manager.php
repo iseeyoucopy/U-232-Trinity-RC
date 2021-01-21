@@ -353,7 +353,7 @@ function cleanup_take_new()
         $params[$k] = sqlesc($v);
     }
     sql_query("INSERT INTO cleanup (clean_title, clean_desc, clean_file, clean_time, clean_increment, clean_cron_key, clean_log, clean_on) VALUES ({$params['clean_title']}, {$params['clean_desc']}, {$params['clean_file']}, {$params['clean_time']}, {$params['clean_increment']}, {$params['clean_cron_key']}, {$params['clean_log']}, {$params['clean_on']})");
-    if (((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res)) {
+    if ($mysqli->insert_id) {
         stderr($lang['cleanup_new_info'], "{$lang['cleanup_new_success']}");
     } else {
         stderr($lang['cleanup_new_error'], "{$lang['cleanup_new_error1']}");

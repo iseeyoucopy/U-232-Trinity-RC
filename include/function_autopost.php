@@ -20,7 +20,7 @@ function auto_post($subject = "Error - Subject Missing", $body = "Error - No Bod
         $topicid = (int)$arr['id'];
     } else { // Create new topic.
         sql_query("INSERT INTO topics (user_id, forum_id, topic_name) VALUES({$TRINITY20['bot_id']}, {$TRINITY20['staff']['forumid']}, $subject)") or sqlerr(__FILE__, __LINE__);
-        $topicid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+        $topicid = $mysqli->insert_id;
     $cache->delete('last_posts_' . $CURUSER['class']);
     $cache->delete('forum_posts_' . $CURUSER['id']);
     }

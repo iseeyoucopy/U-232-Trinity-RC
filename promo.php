@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
         ))) . ") ") or sqlerr(__FILE__, __LINE__);
         if ($res) {
             //==Updating promo table
-            $userid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+            $userid = $mysqli->insert_id;
             $users = (empty($ar_check["users"]) ? $userid : $ar_check["users"] . "," . $userid);
             sql_query("update promo set accounts_made=accounts_made+1 , users=" . sqlesc($users) . " WHERE id=" . sqlesc($ar_check["id"])) or sqlerr(__FILE__, __LINE__);
             //==Email part :)

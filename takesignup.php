@@ -167,7 +167,7 @@ if (!$ret) {
     if ($mysqli->errno) stderr($lang['takesignup_user_error'], $lang['takesignup_user_exists']);
 }
 
-$id = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+$id = $mysqli->insert_id;
 
 sql_query("INSERT INTO usersachiev (id, username) VALUES (" . sqlesc($id) . ", " . sqlesc($wantusername) . ")") or sqlerr(__FILE__, __LINE__);
 

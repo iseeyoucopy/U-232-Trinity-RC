@@ -43,7 +43,7 @@ if ($action == "add") {
         $body = isset($_POST['body']) ? htmlsafechars($_POST['body']) : '';
         if (!$body) stderr($lang['gl_error'], $lang['usercomment_comment_body_cannot_be_empty']);
         sql_query("INSERT INTO usercomments (user, userid, added, text, ori_text) VALUES (" . sqlesc($CURUSER['id']) . ", " . sqlesc($userid) . ", '" . TIME_NOW . "', " . sqlesc($body) . "," . sqlesc($body) . ")");
-        $newid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+        $newid = $mysqli->insert_id;
         sql_query("UPDATE users SET comments = comments + 1 WHERE id =" . sqlesc($userid));
         header("Refresh: 0; url=userdetails.php?id=$userid&viewcomm=$newid#comm$newid");
         die;

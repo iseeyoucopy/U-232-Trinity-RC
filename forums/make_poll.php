@@ -123,7 +123,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 							", " . sqlesc($option18) .
 							", " . sqlesc($option19) .
 							", " . sqlesc($sort).")") or sqlerr(__FILE__, __LINE__);
-			$pollnum = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+			$pollnum = $mysqli->insert_id;
 			sql_query("UPDATE topics SET poll_id=".sqlesc($pollnum)." WHERE id=".sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
 		}
 		header("Location: {$TRINITY20['baseurl']}/forums.php?action=viewtopic&topicid=$topicid");

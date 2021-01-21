@@ -99,7 +99,7 @@ if ($action == 'add') {
         }
 
         sql_query("INSERT INTO comments (user, $locale, added, text, ori_text, anonymous) VALUES (" . sqlesc($CURUSER["id"]) . ", " . sqlesc($id) . ", " . TIME_NOW . ", " . sqlesc($body) . ", " . sqlesc($body) . ", $anon)");
-        $newid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+        $newid = $mysqli->insert_id;
         sql_query("UPDATE $table_type SET comments = comments + 1 WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         if ($TRINITY20['seedbonus_on'] == 1) {
             if ($TRINITY20['karma'] && isset($CURUSER['seedbonus'])) {

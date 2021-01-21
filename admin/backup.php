@@ -180,7 +180,7 @@ if (empty($mode)) {
     sql_query("INSERT INTO dbbackup (name, added, userid) VALUES (" . sqlesc($ext . ($use_gzip ? '.gz' : '')) . ", " . TIME_NOW . ", " . sqlesc($CURUSER['id']) . ")") or sqlerr(__FILE__, __LINE__);
     $location = 'mode=backup';
     if ($autodl) {
-        $id = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+        $id = $mysqli->insert_id;
         $location = 'mode=download&id=' . $id;
     }
     if ($write2log) write_log($CURUSER['username'] . '(' . get_user_class_name($CURUSER['class']) . ') '. $lang['backup_successfully'] .'');
