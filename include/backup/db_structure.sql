@@ -65,7 +65,7 @@ CREATE TABLE `achievements` (
   `achievementid` int(5) NOT NULL DEFAULT 0,
   UNIQUE KEY `id` (`id`),
   KEY `userid` (`userid`)
-) ENGINE=MyISAM AUTO_INCREMENT=4414 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4459 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +121,7 @@ CREATE TABLE `ajax_chat_messages` (
   PRIMARY KEY (`id`),
   KEY `message_condition` (`id`,`channel`,`dateTime`),
   KEY `dateTime` (`dateTime`)
-) ENGINE=MyISAM AUTO_INCREMENT=948 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1761 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +159,7 @@ CREATE TABLE `announcement_main` (
   `subject` text CHARACTER SET utf8 DEFAULT NULL,
   `body` text CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`main_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -271,7 +271,7 @@ CREATE TABLE `bans` (
   `last` bigint(11) DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `first_last` (`first`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -325,7 +325,7 @@ CREATE TABLE `bonus` (
   `enabled` enum('yes','no') CHARACTER SET latin1 NOT NULL DEFAULT 'yes' COMMENT 'This will determined a switch if the bonus is enabled or not! enabled by default',
   `minpoints` decimal(10,1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -343,7 +343,7 @@ CREATE TABLE `bonuslog` (
   KEY `id` (`id`),
   KEY `added_at` (`added_at`),
   KEY `type` (`type`)
-) ENGINE=MyISAM AUTO_INCREMENT=851 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='log of contributors towards freeleech etc...';
+) ENGINE=MyISAM AUTO_INCREMENT=2182 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='log of contributors towards freeleech etc...';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -359,7 +359,7 @@ CREATE TABLE `bookmarks` (
   `torrentid` int(10) unsigned NOT NULL DEFAULT 0,
   `private` enum('yes','no') CHARACTER SET utf8 NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -379,7 +379,7 @@ CREATE TABLE `bugs` (
   `staff` int(10) NOT NULL DEFAULT 0,
   `title` varchar(100) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -569,7 +569,7 @@ CREATE TABLE `cleanup_log` (
   `clog_ip` char(16) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   `clog_desc` text CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`clog_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=27258 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=32203 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -608,7 +608,7 @@ CREATE TABLE `comments` (
   `anonymous` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   `request` int(10) unsigned NOT NULL DEFAULT 0,
   `offer` int(10) unsigned NOT NULL DEFAULT 0,
-  `edit_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `edit_name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_likes` text CHARACTER SET utf8 DEFAULT NULL,
   `checked_by` varchar(40) CHARACTER SET utf8 DEFAULT NULL,
   `checked_when` int(11) NOT NULL DEFAULT 0,
@@ -617,7 +617,7 @@ CREATE TABLE `comments` (
   KEY `user` (`user`),
   KEY `torrent` (`torrent`),
   KEY `scheck` (`edit_name`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -648,7 +648,7 @@ CREATE TABLE `dbbackup` (
   `name` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
   `added` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=136 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=153 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -707,13 +707,13 @@ CREATE TABLE `events` (
   `startTime` int(11) NOT NULL DEFAULT 0,
   `endTime` int(11) NOT NULL DEFAULT 0,
   `overlayText` text CHARACTER SET utf8 DEFAULT NULL,
-  `displayDates` tinyint(1) NOT NULL,
-  `freeleechEnabled` tinyint(1) NOT NULL,
-  `duploadEnabled` tinyint(1) NOT NULL,
-  `hdownEnabled` tinyint(1) NOT NULL,
+  `displayDates` tinyint(1) NOT NULL DEFAULT 0,
+  `freeleechEnabled` tinyint(1) NOT NULL DEFAULT 0,
+  `duploadEnabled` tinyint(1) NOT NULL DEFAULT 0,
+  `hdownEnabled` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `startTime` (`startTime`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -730,7 +730,7 @@ CREATE TABLE `failedlogins` (
   `banned` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   `attempts` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=268 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=287 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -868,7 +868,7 @@ CREATE TABLE `forums` (
   `min_class_create` tinyint(3) unsigned NOT NULL DEFAULT 0,
   `place` int(10) NOT NULL DEFAULT -1,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -960,7 +960,7 @@ CREATE TABLE `friends` (
   `friendid` int(10) unsigned NOT NULL DEFAULT 0,
   `confirmed` enum('yes','no') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'no',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=247 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=248 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1057,7 +1057,7 @@ CREATE TABLE `infolog` (
   `txt` text CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `added` (`added`)
-) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1077,7 +1077,7 @@ CREATE TABLE `invite_codes` (
   `email` varchar(80) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `sender` (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1098,7 +1098,7 @@ CREATE TABLE `ips` (
   `lastannounce` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`)
-) ENGINE=InnoDB AUTO_INCREMENT=786 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=867 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1173,7 +1173,7 @@ CREATE TABLE `messages` (
   `staff_id` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `receiver` (`receiver`)
-) ENGINE=MyISAM AUTO_INCREMENT=7123 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7258 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1407,7 +1407,7 @@ CREATE TABLE `peers` (
   KEY `connectable` (`connectable`),
   KEY `userid` (`userid`),
   KEY `torrent_pass` (`torrent_pass`)
-) ENGINE=MyISAM AUTO_INCREMENT=433 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=491 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1458,7 +1458,7 @@ CREATE TABLE `poll_voters` (
   `user_id` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`vid`),
   KEY `poll_id` (`poll_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=621 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=629 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1477,7 +1477,7 @@ CREATE TABLE `polls` (
   `votes` smallint(5) NOT NULL DEFAULT 0,
   `poll_question` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`pid`)
-) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1629,7 +1629,7 @@ CREATE TABLE `rating` (
   `rating` int(1) NOT NULL DEFAULT 0,
   `user` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=166 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=167 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1682,7 +1682,7 @@ CREATE TABLE `referrers` (
   `page` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
   `date` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2101 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2306 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1724,7 +1724,7 @@ CREATE TABLE `reports` (
   `when_delt_with` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `delt_with` (`delt_with`)
-) ENGINE=MyISAM AUTO_INCREMENT=57 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=58 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1782,7 +1782,7 @@ CREATE TABLE `request_votes` (
   `vote` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`id`),
   KEY `user_request` (`request_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1809,7 +1809,7 @@ CREATE TABLE `requests` (
   PRIMARY KEY (`id`),
   KEY `id_added` (`id`),
   KEY `requested_by_name` (`request_name`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1859,7 +1859,7 @@ CREATE TABLE `searchcloud` (
   `ip` varchar(15) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `searchedfor` (`searchedfor`)
-) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1898,7 +1898,7 @@ CREATE TABLE `shoutbox` (
   `autoshout` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   PRIMARY KEY (`id`),
   KEY `for` (`to_user`)
-) ENGINE=MyISAM AUTO_INCREMENT=106805 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=106806 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1950,7 +1950,7 @@ CREATE TABLE `sitelog` (
   `txt` text CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `added` (`added`)
-) ENGINE=MyISAM AUTO_INCREMENT=238258 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=238558 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1986,7 +1986,7 @@ CREATE TABLE `snatched` (
   `finished` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   PRIMARY KEY (`id`),
   KEY `tr_usr` (`torrentid`)
-) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2008,7 +2008,7 @@ CREATE TABLE `staffmessages` (
   `new` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   PRIMARY KEY (`id`),
   KEY `answeredby` (`answeredby`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2149,7 +2149,7 @@ CREATE TABLE `thanks` (
   `torrentid` int(11) NOT NULL DEFAULT 0,
   `userid` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=230 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=234 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2182,7 +2182,7 @@ CREATE TABLE `thumbsup` (
   `userid` int(11) NOT NULL DEFAULT 0,
   `commentid` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2364,7 +2364,7 @@ CREATE TABLE `uploadapp` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `users` (`userid`),
   KEY `status` (`status`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2380,90 +2380,9 @@ CREATE TABLE `user_blocks` (
   `global_stdhead` int(10) unsigned NOT NULL DEFAULT 2047,
   `userdetails_page` bigint(20) unsigned NOT NULL DEFAULT 4294967295,
   `usercp_page` int(10) unsigned NOT NULL DEFAULT 1024,
+  `browse_page` int(10) unsigned NOT NULL DEFAULT 1024,
   UNIQUE KEY `userid` (`userid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `user_options`
---
-
-DROP TABLE IF EXISTS `user_options`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_options` (
-  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
-  `userid` int(5) NOT NULL DEFAULT 0,
-  `index_ie_alert_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_news_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_shoutbox_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_staff_shoutbox_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_active_users_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_last_24_active_users_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_irc_active_users_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_latest_user_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL,
-  `index_birthday_active_users_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_stats_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_forumposts_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_latest_torrents_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_latest_torrents_scroll_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_disclaimer_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_announcement_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_donation_progress_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_advertisements_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_radio_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_torrentfreak_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_xmas_gift_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_active_poll_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_movie_ofthe_week_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `index_requests_and_offers_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `stdhead_freelech_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `stdhead_demotion_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `stdhead_newpm_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `stdhead_staff_message_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `stdhead_reports_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `stdhead_uploadapp_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `stdhead_happyhour_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `stdhead_crazyhour_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `stdhead_bugmessage_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `stdhead_freeleech_contribution_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `stdhead_stafftools_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_login_link_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_flush_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_joined_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_online_time_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_browser_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_reputation_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_user_hits_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_birthday_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_contact_info_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_iphistory_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_traffic_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_share_ratio_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_seedtime_ratio_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_seedbonus_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_irc_stats_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_connectable_port_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_avatar_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_forumposts_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_gender_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_freestuffs_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_comments_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_invitedby_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_torrents_block_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_completed_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_snatched_staff_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_userinfo_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_showpm_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_report_user_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_user_status_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_user_comments_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `userdetails_showfriends_on` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `status_bar` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL,
-  `viewcloud` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL,
-  UNIQUE KEY `id` (`id`),
-  KEY `userid` (`userid`)
-) ENGINE=MyISAM AUTO_INCREMENT=109 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2507,7 +2426,7 @@ CREATE TABLE `userhits` (
   KEY `userid` (`userid`),
   KEY `added` (`added`),
   KEY `hitid` (`hitid`)
-) ENGINE=MyISAM AUTO_INCREMENT=2438 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2480 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2520,11 +2439,12 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(40) CHARACTER SET utf8 DEFAULT NULL,
+  `hash4` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `old_passhash` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
-  `passhash` varchar(80) CHARACTER SET utf8 DEFAULT NULL,
-  `loginhash` varchar(64) CHARACTER SET utf8 DEFAULT NULL,
-  `secret` varchar(20) CHARACTER SET utf8 DEFAULT NULL,
-  `passkey` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
+  `passhash` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `loginhash` varchar(128) CHARACTER SET utf8 DEFAULT NULL,
+  `secret` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `passkey` varchar(64) CHARACTER SET utf8 DEFAULT NULL,
   `email` varchar(180) CHARACTER SET utf8 DEFAULT NULL,
   `status` enum('pending','confirmed') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'pending',
   `added` int(11) NOT NULL DEFAULT 0,
@@ -2532,7 +2452,7 @@ CREATE TABLE `users` (
   `last_access` int(11) NOT NULL DEFAULT 0,
   `curr_ann_last_check` int(10) unsigned NOT NULL DEFAULT 0,
   `curr_ann_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `editsecret` varchar(80) CHARACTER SET utf8 DEFAULT NULL,
+  `editsecret` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `privacy` enum('strong','normal','low') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'normal',
   `stylesheet` int(10) NOT NULL DEFAULT 1,
   `info` text CHARACTER SET utf8 DEFAULT NULL,
@@ -2633,7 +2553,7 @@ CREATE TABLE `users` (
   `show_email` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   `parked_until` int(10) NOT NULL DEFAULT 0,
   `gotgift` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
-  `hash1` varchar(96) CHARACTER SET utf8 DEFAULT NULL,
+  `hash1` text CHARACTER SET utf8 DEFAULT NULL,
   `suspended` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   `bjwins` int(10) NOT NULL DEFAULT 0,
   `bjlosses` int(10) NOT NULL DEFAULT 0,
@@ -2664,6 +2584,7 @@ CREATE TABLE `users` (
   `show_staffshout` enum('yes','no') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'yes',
   `request_uri` varchar(40) CHARACTER SET utf8 DEFAULT NULL,
   `logout` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
+  `hash3` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `browse_icons` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   `numuploads` int(10) NOT NULL DEFAULT 0,
   `corrupt` int(10) NOT NULL DEFAULT 0,
@@ -2672,13 +2593,14 @@ CREATE TABLE `users` (
   `opt2` int(11) NOT NULL DEFAULT 224,
   `sidebar` enum('yes','no') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'no',
   `torrent_pass_version` int(11) DEFAULT NULL,
-  `torrent_pass` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
+  `torrent_pass` varchar(64) CHARACTER SET utf8 DEFAULT NULL,
   `can_leech` tinyint(4) NOT NULL DEFAULT 1,
   `wait_time` int(11) DEFAULT NULL,
   `peers_limit` int(11) DEFAULT 1000,
   `torrents_limit` int(11) DEFAULT 1000,
   `forum_mod` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   `forums_mod` varchar(320) CHARACTER SET utf8 DEFAULT NULL,
+  `hash2` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `altnick` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
   `forum_sort` enum('ASC','DESC') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'DESC',
   `pm_forced` enum('yes','no') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'no',
@@ -2696,7 +2618,7 @@ CREATE TABLE `users` (
   KEY `warned` (`warned`),
   KEY `free_switch` (`free_switch`),
   KEY `T_Pass` (`torrent_pass`)
-) ENGINE=MyISAM AUTO_INCREMENT=2230 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2260 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2746,7 +2668,7 @@ CREATE TABLE `usersachiev` (
   `totalshouts` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=MyISAM AUTO_INCREMENT=2230 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2260 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2951,4 +2873,4 @@ CREATE TABLE `xbt_users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-03 10:46:43
+-- Dump completed on 2021-01-21 19:29:01
