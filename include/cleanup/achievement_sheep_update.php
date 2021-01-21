@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache, $keys;
+    global $TRINITY20, $queries, $cache, $mysqli, $keys;
     set_time_limit(0);
     ignore_user_abort(1);
     // Updated Sheep Fondler

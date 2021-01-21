@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache, $keys;
+    global $TRINITY20, $queries, $cache, $mysqli, $keys;
     set_time_limit(1200);
     ignore_user_abort(1);
     require_once (INCL_DIR . 'function_account_delete.php');
