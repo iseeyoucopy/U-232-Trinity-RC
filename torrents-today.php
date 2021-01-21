@@ -192,7 +192,7 @@ if (!$torrentsperpage) {
 if ($count) {
     if ($addparam != "") {
         if ($pagerlink != "") {
-            if ($addparam{strlen($addparam) - 1} != ";") {
+            if ($addparam[strlen($addparam) - 1] != ";") {
                 // & = &amp;
                 $addparam = $addparam . "&" . $pagerlink;
             } else {
