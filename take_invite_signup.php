@@ -28,19 +28,26 @@ $arr = mysqli_fetch_row($res);
 if ($arr[0] >= $TRINITY20['invites']) stderr($lang['stderr_errorhead'], sprintf($lang['stderr_ulimit'], $TRINITY20['invites']));
 if (!$TRINITY20['openreg_invites']) stderr('Sorry', 'Invite Signups are closed presently');
 if (!mkglobal('wantusername:wantpassword:passagain:email:invite' . ($TRINITY20['captcha_on'] ? ":captchaSelection:" : ":") . 'submitme:passhint:hintanswer')) stderr("Oops", "Missing form data - You must fill all fields");
-if ($submitme != 'X') stderr('Ha Ha', 'You Missed, You plonker !');
+if ($submitme != 'Register') stderr($lang['takesignup_x_head'], $lang['takesignup_x_body']);
 if ($TRINITY20['captcha_on']) {
     if (empty($captchaSelection) || $_SESSION['simpleCaptchaAnswer'] != $captchaSelection) {
-        header('Location: invite_signup.php');
-        exit();
+        header("Location: {$TRINITY20['baseurl']}/invite_signup.php");
+        exit;
     }
 }
 function validusername($username)
 {
+    global $lang;
     if ($username == "") return false;
+    $namelength = strlen($username);
+    if (($namelength < 3) OR ($namelength > 32)) {
+        stderr($lang['takesignup_user_error'], $lang['takesignup_username_length']);
+    }
     // The following characters are allowed in user names
-    $allowedchars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    for ($i = 0; $i < strlen($username); ++$i) if (strpos($allowedchars, $username[$i]) === false) return false;
+    $allowedchars = $lang['takesignup_allowed_chars'];
+    for ($i = 0; $i < $namelength; ++$i) {
+        if (strpos($allowedchars, $username[$i]) === false) return false;
+    }
     return true;
 }
 if (empty($wantusername) || empty($wantpassword) || empty($email) || empty($invite) || empty($passhint) || empty($hintanswer)) stderr("Error", "Don't leave any fields blank.");
@@ -114,12 +121,13 @@ $new_user = sql_query("INSERT INTO users (username, passhash, secret, passhint, 
     $user_frees,
     $pincode
 ))) . ")") or sqlerr(__FILE__, __LINE__);
-$id = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+$id = $mysqli->insert_id;
 sql_query("INSERT INTO usersachiev (id, username) VALUES (" . sqlesc($id) . ", " . sqlesc($wantusername) . ")") or sqlerr(__FILE__, __LINE__);
 sql_query("UPDATE usersachiev SET invited=invited+1 WHERE id =" . sqlesc($assoc['sender'])) or sqlerr(__FILE__, __LINE__);
 $message = "Welcome New {$TRINITY20['site_name']} Member : - " . htmlsafechars($wantusername) . "";
 if (!$new_user) {
-    if (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)) == 1062) stderr("Error", "Username already exists!");
+    if ($mysqli->errno) 
+    stderr("Error", "Username already exists!");
 }
 //===send PM to inviter
 $sender = (int)$assoc["sender"];
