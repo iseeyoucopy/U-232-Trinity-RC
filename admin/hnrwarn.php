@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!$act) stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_wrong']);
     if ($act == "delete") {
         if (sql_query("DELETE FROM users WHERE id IN (" . join(",", $_uids) . ")")) {
-            $c = mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
+            $c = $mysqli->affected_rows;
             header("Refresh: 2; url=" . $r);
             stderr($lang['hnrwarn_success'], $c . $lang['hnrwarn_user'] . ($c > 1 ? $lang['hnrwarn_s'] : "") . $lang['hnrwarn_deleted']);
         } else stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_wrong']);
@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     'enabled' => 'no'
                 ], $TRINITY20['expires']['user_cache']);
             }
-            $d = mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
+            $d = $mysqli->affected_rows;
             header("Refresh: 2; url=" . $r);
             stderr($lang['hnrwarn_success'], $d . $lang['hnrwarn_user'] . ($d > 1 ? $lang['hnrwarn_s'] : "") . " disabled!");
         } else stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_wrong3']);

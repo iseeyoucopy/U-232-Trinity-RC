@@ -234,7 +234,7 @@ if ($action == 'add') {
         $id = $arr[$locale];
     }
     sql_query("DELETE FROM comments WHERE id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
-    if ($id && mysqli_affected_rows($GLOBALS["___mysqli_ston"]) > 0) {
+    if ($id && $mysqli->affected_rows > 0) {
         sql_query("UPDATE $table_type SET comments = comments - 1 WHERE id = " . sqlesc($id));
     }
     if ($TRINITY20['seedbonus_on'] == 1) {

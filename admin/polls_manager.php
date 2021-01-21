@@ -89,7 +89,7 @@ function update_poll()
     $username = sqlesc($CURUSER['username']);
     sql_query("UPDATE polls SET choices=$poll_data, starter_id={$CURUSER['id']}, starter_name=$username, votes=$total_votes, poll_question=$poll_title WHERE pid=" . sqlesc($pid)) or sqlerr(__FILE__, __LINE__);
     $cache->delete('poll_data_' . $CURUSER['id']);
-    if (-1 == mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
+    if (-1 == $mysqli->affected_rows) {
         $msg = "<h2>{$lang['poll_up_error']}</h2>
       <a href='javascript:history.back()' title='{$lang['poll_up_fix_it']}' style='color:green;font-weight:bold'><span class='btn' style='padding:3px;'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_delete.gif' alt='{$lang['poll_up_back']}' />{$lang['poll_up_back']}</span></a>";
     } else {

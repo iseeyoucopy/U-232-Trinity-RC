@@ -88,7 +88,7 @@ if ($action == 'confirm') {
         $cache->delete('inbox_new_sb::' . $targetid);
         $frag = "friends";
         header("Refresh: 3; url=friends.php?id=$userid#$frag");
-        mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 1 ? stderr("Success", "Friend was added successfully.") : stderr("oopss", "That friend is already confirmed !! .");
+        $mysqli->affected_rows == 1 ? stderr("Success", "Friend was added successfully.") : stderr("oopss", "That friend is already confirmed !! .");
     }
 }
 //== action == delete pending
@@ -108,7 +108,7 @@ elseif ($action == 'delpending') {
         $cache->delete('user_friends_' . $targetid);
         $frag = "friends";
         header("Refresh: 3; url=friends.php?id=$userid#$frag");
-        mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 1 ? stderr("Success", "Friend was deleted successfully.") : stderr("oopss", "No friend request found with ID !! .");
+        $mysqli->affected_rows == 1 ? stderr("Success", "Friend was deleted successfully.") : stderr("oopss", "No friend request found with ID !! .");
     }
 }
 //== action == delete
@@ -129,14 +129,14 @@ elseif ($action == 'delete') {
         $cache->delete('user_friends_' . $targetid);
         $frag = "friends";
         header("Refresh: 3; url=friends.php?id=$userid#$frag");
-        mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 1 ? stderr("Success", "Friend was deleted successfully.") : stderr("oopss", "No friend request found with ID !! .");
+        $mysqli->affected_rows == 1 ? stderr("Success", "Friend was deleted successfully.") : stderr("oopss", "No friend request found with ID !! .");
     } elseif ($type == 'block') {
         sql_query("DELETE FROM blocks WHERE userid=" . sqlesc($userid) . " AND blockid=" . sqlesc($targetid)) or sqlerr(__FILE__, __LINE__);
         $cache->delete('Blocks_' . $userid);
         $cache->delete('Blocks_' . $targetid);
         $frag = "blocks";
         header("Refresh: 3; url=friends.php?id=$userid#$frag");
-        mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 1 ? stderr("Success", "Block was deleted successfully.") : stderr("oopss", "No Block found with ID !! .");
+        $mysqli->affected_rows == 1 ? stderr("Success", "Block was deleted successfully.") : stderr("oopss", "No Block found with ID !! .");
     } else stderr("Error", "Unknown type.");
     header("Location: friends.php");
     die;

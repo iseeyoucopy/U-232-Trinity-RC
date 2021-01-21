@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $keys;
+    global $TRINITY20, $queries, $keys, $mysqli;
     set_time_limit(0);
     ignore_user_abort(1);
     $lconf = sql_query('SELECT * FROM lottery_config') or sqlerr(__FILE__, __LINE__);
@@ -49,8 +49,8 @@ function docleanup($data)
     }
     //==End 09 seedbonus lottery by putyn
     if ($queries > 0) write_log("Lottery clean-------------------- lottery Complete using $queries queries --------------------");
-    if (false !== mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
-        $data['clean_desc'] = mysqli_affected_rows($GLOBALS["___mysqli_ston"]) . " items deleted";
+    if (false !== $mysqli->affected_rows) {
+        $data['clean_desc'] = $mysqli->affected_rows . " items deleted";
     }
     if ($data['clean_log']) {
         cleanup_log($data);

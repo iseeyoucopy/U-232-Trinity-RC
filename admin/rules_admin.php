@@ -246,7 +246,7 @@ function Do_Rules_Update()
     foreach ($updateset as $x) {
         sql_query($x) or sqlerr(__FILE__, __LINE__);
     }
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == -1)
+    if ($mysqli->affected_rows == -1)
         stderr("SQL Error", "Update failed");
     header("Refresh: 3; url=staffpanel.php?tool=rules_admin");
     $cache->delete('rules__');
@@ -265,7 +265,7 @@ function Do_Cat_Update()
         stderr("Error", "No value or value too big");
     $sql = "UPDATE rules_cat SET name = " . sqlesc(strip_tags($_POST['name'])) . ", shortcut = " . sqlesc($_POST['shortcut']) . ", min_view=$min_view WHERE id=" . sqlesc($cat_id);
     sql_query($sql) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == -1)
+    if ($mysqli->affected_rows == -1)
         stderr("Warning", "Could not carry out that request");
     header("Refresh: 3; url=staffpanel.php?tool=rules_admin");
     $cache->delete('rules__');
@@ -284,7 +284,7 @@ function Do_Cat_Add()
     $min_view = sqlesc(strip_tags($_POST['min_view']));
     $sql = "INSERT INTO rules_cat (name, shortcut, min_view) VALUES ($cat_name, $cat_scut, $min_view)";
     sql_query($sql) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == -1)
+    if ($mysqli->affected_rows == -1)
         stderr("Warning", "Couldn't forefill that request");
     $cache->delete('rules__');
     $htmlout .= New_Cat_Form(1);
@@ -303,7 +303,7 @@ function Do_Rules_Add()
     $text = sqlesc($_POST['text']);
     $sql = "INSERT INTO rules (type, title, text) VALUES ($cat_id, $title, $text)";
     sql_query($sql) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == -1)
+    if ($mysqli->affected_rows == -1)
         stderr("Warning", "Couldn't forefill that request");
     $cache->delete('rules__');
     New_Rules_Form(1);

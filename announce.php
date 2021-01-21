@@ -383,7 +383,7 @@ $res_snatch = ann_sql_query("SELECT seedtime, uploaded, downloaded, finished, st
 if (mysqli_num_rows($res_snatch) > 0) {
     $a = $res_snatch->fetch_assoc();
 }
-if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"]) && $seeder == "no") ann_sql_query("INSERT LOW_PRIORITY INTO snatched (torrentid, userid, peer_id, ip, port, connectable, uploaded, downloaded, to_go, start_date, last_action, seeder, agent) VALUES (" . ann_sqlesc($torrentid) . ", " . ann_sqlesc($userid) . ", " . ann_sqlesc($peer_id) . ", " . ann_sqlesc($realip) . ", " . ann_sqlesc($port) . ", " . ann_sqlesc($connectable) . ", " . ann_sqlesc($uploaded) . ", " . ($TRINITY20['ratio_free'] ? "0" : "" . ann_sqlesc($downloaded) . "") . ", " . ann_sqlesc($left) . ", " . TIME_NOW . ", " . TIME_NOW . ", " . ann_sqlesc($seeder) . ", " . ann_sqlesc($agent) . ")") or ann_sqlerr(__FILE__, __LINE__);
+if (!$mysqli->affected_rows && $seeder == "no") ann_sql_query("INSERT LOW_PRIORITY INTO snatched (torrentid, userid, peer_id, ip, port, connectable, uploaded, downloaded, to_go, start_date, last_action, seeder, agent) VALUES (" . ann_sqlesc($torrentid) . ", " . ann_sqlesc($userid) . ", " . ann_sqlesc($peer_id) . ", " . ann_sqlesc($realip) . ", " . ann_sqlesc($port) . ", " . ann_sqlesc($connectable) . ", " . ann_sqlesc($uploaded) . ", " . ($TRINITY20['ratio_free'] ? "0" : "" . ann_sqlesc($downloaded) . "") . ", " . ann_sqlesc($left) . ", " . TIME_NOW . ", " . TIME_NOW . ", " . ann_sqlesc($seeder) . ", " . ann_sqlesc($agent) . ")") or ann_sqlerr(__FILE__, __LINE__);
 $torrent_updateset = $snatch_updateset = array();
 if (isset($self) && $event == "stopped") {
 $seeder = 'no';
@@ -437,7 +437,7 @@ $seeder = 'no';
     } //=== end if not 1:1 ratio
     else $hit_and_run = "hit_and_run = '0'";
     //=== end hit and run
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
+    if ($mysqli->affected_rows) {
         if ($self['seeder'] == "yes") adjust_torrent_peers($torrentid, -1, 0, 0);
         else adjust_torrent_peers($torrentid, 0, -1, 0);
         $torrent_updateset[] = ($self["seeder"] == "yes" ? "seeders = seeders - 1" : "leechers = leechers - 1");
@@ -454,7 +454,7 @@ $seeder = 'no';
     }
     $prev_action = ann_sqlesc($self['ts']);
     ann_sql_query("UPDATE LOW_PRIORITY peers SET connectable = " . ann_sqlesc($connectable) . ", uploaded = " . ann_sqlesc($uploaded) . ", " . ($TRINITY20['ratio_free'] ? "downloaded = 0" : "downloaded = " . ann_sqlesc($downloaded) . "") . ", to_go = " . ann_sqlesc($left) . ", last_action = " . TIME_NOW . ", prev_action = $prev_action, seeder = " . ann_sqlesc($seeder) . ", agent = " . ann_sqlesc($agent) . " $finished WHERE $selfwhere") or ann_sqlerr(__FILE__, __LINE__);
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
+    if ($mysqli->affected_rows) {
         if ($seeder <> $self["seeder"]) {
             if ($seeder == "yes") adjust_torrent_peers($torrentid, 1, -1, 0);
             else adjust_torrent_peers($torrentid, -1, 1, 0);
@@ -488,7 +488,7 @@ $seeder = 'no';
 			. " last_action = "   . TIME_NOW . ", "
 			. " seeder = "      . ann_sqlesc($seeder) . ", " 
 			. " agent = "       . ann_sqlesc($agent) ."") or ann_sqlerr(__FILE__, __LINE__);
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
+    if ($mysqli->affected_rows) {
         $torrent_updateset[] = ($seeder == "yes" ? "seeders = seeders + 1" : "leechers = leechers + 1");
         if ($seeder == "yes") adjust_torrent_peers($torrentid, 1, 0, 0);
         else adjust_torrent_peers($torrentid, 0, 1, 0);

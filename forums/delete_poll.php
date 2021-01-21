@@ -42,7 +42,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     if (!$sure || $sure != 1)
         stderr('Sanity check...', 'You are about to delete a poll. Click <a href='.$TRINITY20['baseurl'].'/forums.php?action='.htmlsafechars($action).'&amp;pollid='.(int)$arr['id'].'&amp;sure=1>here</a> if you are sure.');
     sql_query("DELETE pp.*, ppa.* FROM postpolls AS pp LEFT JOIN postpollanswers AS ppa ON ppa.pollid = pp.id WHERE pp.id=".sqlesc($pollid));
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 0)
+    if ($mysqli->affected_rows == 0)
         stderr('Sorry...', 'There was an error while deleting the poll, please re-try.');
     sql_query("UPDATE topics SET poll_id = '0' WHERE poll_id=".sqlesc($pollid));
     header('Location: '.$TRINITY20['baseurl'].'/forums.php?action=viewtopic&topicid='.(int)$arr['tid']);

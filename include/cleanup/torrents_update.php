@@ -43,8 +43,8 @@ function docleanup($data)
     if (count($updatetorrents)) sql_query('INSERT INTO torrents (id, seeders, leechers, comments) VALUES ' . implode(', ', $updatetorrents) . ' ON DUPLICATE KEY UPDATE seeders = VALUES(seeders), leechers = VALUES(leechers), comments = VALUES(comments)');
     unset($updatetorrents);
     if ($queries > 0) write_log("Torrent clean-------------------- Torrent cleanup Complete using $queries queries --------------------");
-    if (false !== mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
-        $data['clean_desc'] = mysqli_affected_rows($GLOBALS["___mysqli_ston"]) . " items updated";
+    if (false !== $mysqli->affected_rows) {
+        $data['clean_desc'] = $mysqli->affected_rows . " items updated";
     }
     if ($data['clean_log']) {
         cleanup_log($data);

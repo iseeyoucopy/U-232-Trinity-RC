@@ -88,7 +88,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
     $cache->delete('inbox_new_sb::' . $receiver);
     $cache->delete('shoutbox_');
     //=== make sure it worked then...
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) === 0) stderr($lang['pm_error'], $lang['pm_send_wasnt']);
+    if ($mysqli->affected_rows === 0) stderr($lang['pm_error'], $lang['pm_send_wasnt']);
 														  
     //=== if they just have to know about it right away... send them an email (if selected if profile)
     if (strpos($arr_receiver['notifs'], '[pm]') !== false) {

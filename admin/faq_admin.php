@@ -220,7 +220,7 @@ function Show_Faq_Edit()
 }
 function Do_Faq_Update()
 {
-    global $cache;
+    global $cache, $mysqli;
     $time      = TIME_NOW;
     $updateset = array();
     if (!isset($_POST['fdata']) || !is_array($_POST['fdata']))
@@ -245,14 +245,14 @@ function Do_Faq_Update()
     foreach ($updateset as $x) {
         sql_query($x) or sqlerr(__FILE__, __LINE__);
     }
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == -1)
+    if ($mysqli->affected_rows == -1)
         stderr("SQL Error", "Update failed");
     $cache->delete('faqs__');
     stderr("Info", "Updated successfully <a href='staffpanel.php?tool=faq_admin'>Go Back To Admin</a>");
 }
 function Do_Cat_Update()
 {
-    global $cache;
+    global $cache, $mysqli;
     $cat_id         = (int) $_POST['cat'];
     $min_view = sqlesc(intval($_POST['min_view']));
     if (!is_valid_id($cat_id))
@@ -263,14 +263,14 @@ function Do_Cat_Update()
         stderr("Error", "No value or value too big");
     $sql = "UPDATE faq_cat SET name = " . sqlesc(strip_tags($_POST['name'])) . ", shortcut = " . sqlesc($_POST['shortcut']) . ", min_view=$min_view WHERE id=" . sqlesc($cat_id);
     sql_query($sql) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == -1)
+    if ($mysqli->affected_rows == -1)
         stderr("Warning", "Could not carry out that request");
     $cache->delete('faqs__');
     stderr("Info", "Updated successfully <a href='staffpanel.php?tool=faq_admin'>Go Back To Admin</a>");
 }
 function Do_Cat_Add()
 {
-    global $TRINITY20, $cache;
+    global $cache, $mysqli;
     $htmlout = '';
     if (empty($_POST['name']) || strlen($_POST['name']) > 100)
         stderr("Error", "Field is blank or length too long!");
@@ -281,7 +281,7 @@ function Do_Cat_Add()
     $min_view = sqlesc(strip_tags($_POST['min_view']));
     $sql            = "INSERT INTO faq_cat (name, shortcut, min_view) VALUES ($cat_name, $cat_scut, $min_view)";
     sql_query($sql) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == -1)
+    if ($mysqli->affected_rows == -1)
         stderr("Warning", "Couldn't forefill that request");
     $cache->delete('faqs__');
     $htmlout .= New_Cat_Form(1);
@@ -291,7 +291,7 @@ function Do_Cat_Add()
 }
 function Do_Faq_Add()
 {
-    global $lang, $cache;
+    global $cache, $mysqli;
     $cat_id = sqlesc(intval($_POST['cat']));
     if (!is_valid_id($cat_id))
         stderr("Error", "No id");
@@ -301,7 +301,7 @@ function Do_Faq_Add()
     $text    = sqlesc($_POST['text']);
     $sql     = "INSERT INTO faq (type, title, text) VALUES ($cat_id, $title, $text)";
     sql_query($sql) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == -1)
+    if ($mysqli->affected_rows == -1)
         stderr("Warning", "Couldn't complete that request");
     $cache->delete('faqs__');
     New_Faq_Form(1);

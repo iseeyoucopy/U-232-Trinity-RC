@@ -27,15 +27,15 @@ function docleanup($data)
 	while ($arr = mysqli_fetch_assoc($res_in)){
 	    $userid = isset($arr['id']) ? intval($arr['id']) : "";
 	    sql_query(account_delete($userid)) or sqlerr(__FILE__, __LINE__);
-            if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) !== false) {
+            if ($mysqli->affected_rows !== false) {
 	        $cache->delete($keys['my_userid'] . $userid);
                 $cache->delete('user' . $userid);
 	    }
 	}
     }
     if ($queries > 0) write_log("Inactive Clean -------------------- Inactive Clean Complete using $queries queries--------------------");
-    if (false !== mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
-        $data['clean_desc'] = mysqli_affected_rows($GLOBALS["___mysqli_ston"]) . " items deleted/updated";
+    if (false !== $mysqli->affected_rows) {
+        $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     }
     if ($data['clean_log']) {
         cleanup_log($data);

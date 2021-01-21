@@ -70,7 +70,7 @@ if ($CURUSER['class'] < $player) {
 }
 $query = "SELECT * from casino where userid = " . sqlesc($CURUSER['id']) . "";
 $result = sql_query($query) or sqlerr(__FILE__, __LINE__);
-if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) != 1) {
+if ($mysqli->affected_rows != 1) {
     sql_query("INSERT INTO casino (userid, win, lost, trys, date, started) VALUES(" . sqlesc($CURUSER["id"]) . ", 0, 0, 0," . TIME_NOW . ",1)") or $mysqli->error;
     $result = sql_query($query) or sqlerr(__FILE__, __LINE__);
 }
@@ -268,7 +268,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
             $cache->update_row('user_stats_' . $CURUSER['id'], [
                 'uploaded' => $update['uploaded']
             ], $TRINITY20['expires']['user_stats']);
-            if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 0) {
+            if ($mysqli->affected_rows == 0) {
                 sql_query("INSERT INTO casino (userid, date, deposit) VALUES (" . sqlesc($tbet['userid']) . ", $time, -" . sqlesc($tbet['amount']) . ")") or sqlerr(__FILE__, __LINE__);
             }
             sql_query("UPDATE casino_bets SET challenged = " . sqlesc($CURUSER['username']) . ", winner = " . sqlesc($CURUSER['username']) . " WHERE id =" . sqlesc($betid)) or sqlerr(__FILE__, __LINE__);
@@ -309,7 +309,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
             $cache->update_row('user_stats_' . $tbet['userid'], [
                 'uploaded' => $update['uploaded_2']
             ], $TRINITY20['expires']['user_stats']);
-            if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 0) {
+            if ($mysqli->affected_rows == 0) {
                 sql_query("INSERT INTO casino (userid, date, deposit) VALUES (" . sqlesc($tbet['userid']) . ", $time, -" . sqlesc($tbet['amount']) . ")") or sqlerr(__FILE__, __LINE__);
             }
             sql_query("UPDATE casino_bets SET challenged = " . sqlesc($CURUSER['username']) . ", winner = " . sqlesc($tbet['proposed']) . " WHERE id = " . sqlesc($betid)) or sqlerr(__FILE__, __LINE__);
@@ -377,7 +377,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
             autoshout($message);
             $cache->delete('shoutbox_');
         }
-        if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 0) {
+        if ($mysqli->affected_rows == 0) {
             sql_query("INSERT INTO casino (userid, date, deposit) VALUES (" . sqlesc($CURUSER['id']) . ", $time, " . sqlesc($nobits) . ")") or sqlerr(__FILE__, __LINE__);
         }
     }

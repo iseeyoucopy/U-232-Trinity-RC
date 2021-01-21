@@ -40,7 +40,7 @@ $cache->update_row($keys['my_userid'] . $id, [
 $cache->update_row('user' . $id, [
     'status' => 'confirmed'
 ], $TRINITY20['expires']['user_cache']);
-if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"])) stderr("{$lang['confirm_user_error']}", "{$lang['confirm_cannot_confirm']}");
+if (!$mysqli->affected_rows) stderr("{$lang['confirm_user_error']}", "{$lang['confirm_cannot_confirm']}");
 //$passh = md5($row["passhash"] . $_SERVER["REMOTE_ADDR"]);
 $passh = hash("sha3-512", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "");
 logincookie($id, $passh);

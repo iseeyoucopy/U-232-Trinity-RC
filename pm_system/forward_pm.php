@@ -75,7 +75,7 @@ sql_query('INSERT INTO `messages` (`sender`, `receiver`, `added`, `subject`, `ms
 $cache->delete('inbox_new::' . $to_username['id']);
 $cache->delete('inbox_new_sb::' . $to_username['id']);
 //=== Check if message was forwarded
-if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) === 0) stderr($lang['pm_error'], $lang['pm_forwardpm_msg_fwd']);
+if ($mysqli->affected_rows === 0) stderr($lang['pm_error'], $lang['pm_forwardpm_msg_fwd']);
 //=== if they just have to know about it right away... send them an email (if selected if profile)
 if (strpos($to_username['notifs'], '[pm]') !== false) {
     $username = htmlsafechars($CURUSER['username']);

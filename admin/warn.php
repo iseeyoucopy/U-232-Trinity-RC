@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     if ($act == "delete") {
         if (sql_query("DELETE FROM users WHERE id IN (" . join(",", $_uids) . ")")) {
-            $c = mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
+            $c = $mysqli->affected_rows;
             header("Refresh: 2; url=" . $r);
             stderr($lang['warn_stdmsg_success'], $c . $lang['warn_stdmsg_user'] . ($c > 1 ? "s" : "") . $lang['warn_stdmsg_deleted']);
         } else {
@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     'enabled' => 'no'
                 ], $TRINITY20['expires']['user_cache']);
             }
-            $d = mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
+            $d = $mysqli->affected_rows;
             header("Refresh: 2; url=" . $r);
             stderr($lang['warn_stdmsg_success'], $d . $lang['warn_stdmsg_user'] . ($d > 1 ? "s" : "") . $lang['warn_stdmsg_disabled']);
         } else {

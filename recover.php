@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$hintanswer = $arr['hintanswer'];
 	if (strlen($hintanswer) != 32 || !ctype_xdigit($hintanswer))
     die('access denied');
-    if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"])) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_dberror']}");
+    if (!$mysqli->affected_rows) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_dberror']}");
     //$hash = md5($sec . $email . $arr["passhash"] . $sec);
 	//$to = $arr["email"];
 	$subject = "{$TRINITY20['site_name']} {$lang['email_subjreset']}";

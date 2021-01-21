@@ -87,7 +87,7 @@ function move_cat()
     //all go
     sql_query("UPDATE torrents SET category = " . sqlesc($new_cat_id) . " WHERE category = " . sqlesc($old_cat_id));
     $cache->delete('genrelist');
-    if (-1 != mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
+    if (-1 != $mysqli->affected_rows) {
         header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=categories&action=categories");
     } else {
         stderr($lang['categories_error'], $lang['categories_move_error4']);
@@ -162,7 +162,7 @@ function add_cat()
     $min_class = sqlesc($params['new_cat_minclass']);
     sql_query("INSERT INTO categories (name, cat_desc, image, min_class) VALUES($cat_name, $cat_desc, $cat_image, $min_class)");
     $cache->delete('genrelist');
-    if (-1 == mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
+    if (-1 == $mysqli->affected_rows) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     } else {
         header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=categories&action=categories");
@@ -196,7 +196,7 @@ function delete_cat()
     }
     sql_query("DELETE FROM categories WHERE id = " . sqlesc($old_cat_id));
     $cache->delete('genrelist');
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
+    if ($mysqli->affected_rows) {
         header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=categories&action=categories");
     } else {
         stderr($lang['categories_error'], $lang['categories_del_error1']);
@@ -288,7 +288,7 @@ function edit_cat()
     $cat_id = intval($params['id']);
     sql_query("UPDATE categories SET name = $cat_name, cat_desc = $cat_desc, image = $cat_image, min_class = $min_class WHERE id = $cat_id");
     $cache->delete('genrelist');
-    if (-1 == mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
+    if (-1 == $mysqli->affected_rows) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     } else {
         header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=categories&action=categories");

@@ -40,6 +40,6 @@ $cache->update_row('user' . $id, [
     'editsecret' => '',
     'email' => $email
 ], $TRINITY20['expires']['user_cache']);
-if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"])) stderr("{$lang['confirmmail_user_error']}", "{$lang['confirmmail_not_complete']}");
+if (!$mysqli->affected_rows) stderr("{$lang['confirmmail_user_error']}", "{$lang['confirmmail_not_complete']}");
 header("Refresh: 0; url={$TRINITY20['baseurl']}/usercp.php?action=security&emailch=1");
 ?>

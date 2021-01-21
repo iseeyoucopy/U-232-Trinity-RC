@@ -152,7 +152,7 @@ if ($step == '1') {
         'editsecret' => '',
         'passhash' => $newpassword
     ], $TRINITY20['expires']['user_cache']);
-    if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"])) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error13']}");
+    if (!$mysqli->affected_rows) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error13']}");
     else { 
 	header("Refresh:3; url={$TRINITY20['baseurl']}/login.php");
 	stderr("{$lang['stderr_successhead']}", "{$lang['stderr_error14']} <a href='{$TRINITY20['baseurl']}/login.php' class='altlink'><b>{$lang['stderr_error15']}</b></a> {$lang['stderr_error16']}", FALSE);

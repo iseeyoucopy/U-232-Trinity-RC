@@ -181,7 +181,7 @@ if (in_array($tool, $staff_tools) and file_exists(ADMIN_DIR . $staff_tools[$tool
             stderr($lang['spanel_sanity_check'], $lang['spanel_are_you_sure_del'].': "' . htmlsafechars($arr['page_name']) . '"? '.$lang['spanel_click'].' <a href="' . $_SERVER['PHP_SELF'] . '?action=' . $action . '&amp;id=' . $id . '&amp;sure=yes">'.$lang['spanel_here'].'</a> '.$lang['spanel_to_del_it_or'].' <a href="' . $_SERVER['PHP_SELF'] . '">'.$lang['spanel_here'].'</a> '.$lang['spanel_to_go_back'].'.');
         sql_query('DELETE FROM staffpanel WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         $cache->delete('is_staffs_');
-        if (mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
+        if ($mysqli->affected_rows) {
             if ($CURUSER['class'] <= UC_MAX)
                 write_log($lang['spanel_page'].' "' . htmlsafechars($arr['page_name']) . '"(' . ($class_color ? '[color=#' . get_user_class_color($arr['av_class']) . ']' : '') . get_user_class_name($arr['av_class']) . ($class_color ? '[/color]' : '') . ') '.$lang['spanel_was_del_sp_by'].' [url=' . $TRINITY20['baseurl'] . '/userdetails.php?id=' . (int) $CURUSER['id'] . ']' . $CURUSER['username'] . '[/url](' . ($class_color ? '[color=#' . get_user_class_color($CURUSER['class']) . ']' : '') . get_user_class_name($CURUSER['class']) . ($class_color ? '[/color]' : '') . ')');
             header('Location: ' . $_SERVER['PHP_SELF']);

@@ -89,7 +89,7 @@ if ($mode == 'add') {
     sql_query("INSERT INTO news (userid, added, body, title, sticky, anonymous) VALUES (" . sqlesc($CURUSER['id']) . "," . sqlesc($added) . ", " . sqlesc($body) . ", " . sqlesc($title) . ", " . sqlesc($sticky) . ", " . sqlesc($anonymous) . ")") or sqlerr(__FILE__, __LINE__);
     $cache->delete($keys['latest_news']);
     header("Refresh: 3; url=staffpanel.php?tool=news&mode=news");
-    mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 1 ? stderr($lang['news_success'], $lang['news_add_success']) : stderr($lang['news_add_oopss'], $lang['news_add_something']);
+    $mysqli->affected_rows == 1 ? stderr($lang['news_success'], $lang['news_add_success']) : stderr($lang['news_add_oopss'], $lang['news_add_something']);
 }
 //==Edit/change news
 if ($mode == 'edit') {

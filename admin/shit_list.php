@@ -114,7 +114,7 @@ case 'delete':
     if (!$sure) stderr($lang['shitlist_delete1'] . htmlsafechars($arr_name['username']) . $lang['shitlist_delete2'], '' . $lang['shitlist_delete3'] . '<b>' . htmlsafechars($arr_name['username']) . '</b>' . $lang['shitlist_delete4'] . '  
          <a class="altlink" href="staffpanel.php?tool=shit_list&amp;action=shit_list&amp;action2=delete&amp;shit_list_id=' . $shit_list_id . '&amp;sure=1"><span class="btn" style="padding:1px;">' . $lang['shitlist_delete5'] . '</span></a>' . $lang['shitlist_delete6'] . '');
     sql_query('DELETE FROM shit_list WHERE userid=' . sqlesc($CURUSER['id']) . ' AND suspect=' . sqlesc($shit_list_id));
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 0) stderr($lang['shitlist_stderr'], $lang['shitlist_nomember']);
+    if ($mysqli->affected_rows == 0) stderr($lang['shitlist_stderr'], $lang['shitlist_nomember']);
     $cache->delete('shit_list_' . $shit_list_id);
     $message = '<legend>' . $lang['shitlist_delsuccess'] . ' <b>' . htmlsafechars($arr_name['username']) . '</b>' . $lang['shitlist_delsuccess1'] . ' </legend>';
     break;

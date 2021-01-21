@@ -42,8 +42,8 @@ function docleanup($data)
         unset($users_buffer, $msgs_buffer, $count);
     }
     //==End
-    if (false !== mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
-        $data['clean_desc'] = mysqli_affected_rows($GLOBALS["___mysqli_ston"]) . " items deleted/updated";
+    if (false !== $mysqli->affected_rows) {
+        $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     }
     if ($data['clean_log']) {
         cleanup_log($data);

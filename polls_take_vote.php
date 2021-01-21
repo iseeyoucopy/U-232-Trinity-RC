@@ -70,7 +70,7 @@ if (!$_POST['nullvote']) {
                 $update['votes'] = ($poll_data['votes'] + 1);
                 $cache->update_row('poll_data_'.$CURUSER['id'],  array('votes' => $update['votes']), $TRINITY20['expires']['poll_data']);
     */
-    if (-1 == mysqli_affected_rows($GLOBALS["___mysqli_ston"])) stderr('DBERROR', 'Could not update records');
+    if (-1 == $mysqli->affected_rows) stderr('DBERROR', 'Could not update records');
     foreach ($vote_cast as $question_id => $choice_array) {
         foreach ($choice_array as $choice_id) {
             $poll_answers[$question_id]['votes'][$choice_id]++;
@@ -82,7 +82,7 @@ if (!$_POST['nullvote']) {
     $poll_data['choices'] = addslashes(serialize($poll_answers));
     @sql_query("UPDATE polls set votes=votes+1, choices='{$poll_data['choices']}' 
 									WHERE pid={$poll_data['pid']}");
-    if (-1 == mysqli_affected_rows($GLOBALS["___mysqli_ston"])) stderr('DBERROR', 'Could not update records');
+    if (-1 == $mysqli->affected_rows) stderr('DBERROR', 'Could not update records');
 } else {
     @sql_query("INSERT INTO poll_voters (user_id, ip_address, poll_id, vote_date)
                 VALUES({$CURUSER['id']}, " . sqlesc($CURUSER['ip']) . ", {$poll_data['pid']}, " . TIME_NOW . ")");
@@ -91,7 +91,7 @@ if (!$_POST['nullvote']) {
                 $update['votes'] = ($poll_data['votes'] + 1);
                 $cache->update_row('poll_data_'.$CURUSER['id'],  array('votes' => $update['votes']), $TRINITY20['expires']['poll_data']);
     */
-    if (-1 == mysqli_affected_rows($GLOBALS["___mysqli_ston"])) stderr('DBERROR', 'Could not update records');
+    if (-1 == $mysqli->affected_rows) stderr('DBERROR', 'Could not update records');
 }
 header("location: {$TRINITY20['baseurl']}/index.php");
 ?>

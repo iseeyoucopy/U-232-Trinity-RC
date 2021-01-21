@@ -41,7 +41,7 @@ if ($Multi_forum['configs']['use_poll_mod'] && $_SERVER['REQUEST_METHOD'] == "PO
         if (is_valid_id($arr['id']))
             stderr("Error...", "Dupe vote");
         sql_query("INSERT INTO postpollanswers (pollid, userid, selection) VALUES(" . sqlesc($pollid) . ", " . sqlesc($userid) . ", " . sqlesc($choice) . ")") or sqlerr(__FILE__, __LINE__);
-        if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) != 1)
+        if ($mysqli->affected_rows != 1)
             stderr("Error...", "An error occured. Your vote has not been counted.");
     } else
         stderr("Error...", "Please select an option.");

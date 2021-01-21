@@ -43,8 +43,8 @@ function docleanup($data)
     }
     sql_query("UPDATE users SET mail_notified = 'yes', last_notified = ".TIME_NOW ." WHERE enabled='yes' AND parked='no' AND status='confirmed' AND class < $maxclass AND last_access < $dt AND mail_notified='no' AND last_notified='0' ORDER BY last_access ASC") or sqlerr(__FILE__, __LINE__);
     if ($queries > 0) write_log("Mail Inactive -------------------- Mail Inactive Users Complete using $queries queries--------------------");
-    if (false !== mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
-        $data['clean_desc'] = mysqli_affected_rows($GLOBALS["___mysqli_ston"]) . " users mailed.";
+    if (false !== $mysqli->affected_rows) {
+        $data['clean_desc'] = $mysqli->affected_rows . " users mailed.";
     }
     if ($data['clean_log']) {
         cleanup_log($data);

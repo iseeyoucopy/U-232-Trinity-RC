@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'passhash' => $passhash
     ], $TRINITY20['expires']['user_cache']);
 
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) != 1) stderr($lang['reset_stderr'], $lang['reset_stderr1']);
+    if ($mysqli->affected_rows != 1) stderr($lang['reset_stderr'], $lang['reset_stderr1']);
     if (CheckPostKey(array(
         $uid,
         $CURUSER['id']

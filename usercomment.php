@@ -110,7 +110,7 @@ if ($action == "add") {
     }
     if ($arr) $userid = (int)$arr["userid"];
     sql_query("DELETE FROM usercomments WHERE id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
-    if ($userid && mysqli_affected_rows($GLOBALS["___mysqli_ston"]) > 0) sql_query("UPDATE users SET comments = comments - 1 WHERE id = " . sqlesc($userid));
+    if ($userid && $mysqli->affected_rows > 0) sql_query("UPDATE users SET comments = comments - 1 WHERE id = " . sqlesc($userid));
     $returnto = htmlsafechars($_GET["returnto"]);
     if ($returnto) header("Location: $returnto");
     else header("Location: {$TRINITY20['baseurl']}/userdetails.php?id={$userid}");

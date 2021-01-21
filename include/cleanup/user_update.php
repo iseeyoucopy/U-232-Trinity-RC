@@ -29,8 +29,8 @@ function docleanup($data)
     sql_query("UPDATE `users` SET `pirate` = 0 WHERE `pirate` > 1 AND `pirate` < " . TIME_NOW) or sqlerr(__FILE__, __LINE__);
     sql_query("UPDATE `users` SET `king` = 0 WHERE `king` > 1 AND `king` < " . TIME_NOW) or sqlerr(__FILE__, __LINE__);
     if ($queries > 0) write_log("User Clean -------------------- User Clean Complete using $queries queries--------------------");
-    if (false !== mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
-        $data['clean_desc'] = mysqli_affected_rows($GLOBALS["___mysqli_ston"]) . " items deleted/updated";
+    if (false !== $mysqli->affected_rows) {
+        $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     }
     if ($data['clean_log']) {
         cleanup_log($data);

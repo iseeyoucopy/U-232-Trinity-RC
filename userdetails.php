@@ -240,7 +240,7 @@ if (isset($_GET['delete_hit_and_run']) && $CURUSER['class'] >= UC_STAFF) {
     } else {
     sql_query('UPDATE xbt_peers SET hit_and_run = \'0\', mark_of_cain = \'no\' WHERE fid = ' . sqlesc($delete_me)) or sqlerr(__FILE__, __LINE__);
     }
-    if (@mysqli_affected_rows($GLOBALS["___mysqli_ston"]) === 0) {
+    if (@$mysqli->affected_rows === 0) {
         stderr($lang['userdetails_error'], $lang['userdetails_notdeleted']);
     }
     header('Location: ?id=' . $id . '&completed=1');

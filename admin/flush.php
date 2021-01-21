@@ -38,7 +38,7 @@ if ($CURUSER['class'] >= UC_STAFF) {
     $arr = $res->fetch_assoc();
     $username = htmlsafechars($arr['username']);
     sql_query("DELETE FROM peers WHERE userid=" . sqlesc($id));
-    $effected = mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
+    $effected = $mysqli->affected_rows;
     //=== write to log
     write_log($lang['flush_log1'] . $username . $lang['flush_log2'] . get_date($dt, 'LONG', 0, 1) . $lang['flush_log3'] . (int)$effected . $lang['flush_log4']);
     //write_log("User " . $username . " just flushed torrents at " . get_date($dt, 'LONG',0,1) . ". $effected torrents where sucessfully cleaned.");

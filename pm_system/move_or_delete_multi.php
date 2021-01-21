@@ -55,7 +55,7 @@ if (isset($_POST['move'])) {
         sql_query('UPDATE messages SET saved = \'yes\', location = ' . sqlesc($mailbox) . ' WHERE id IN (' . implode(', ', array_map('sqlesc', $pm_messages)) . ') AND receiver =' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
     }
     //=== Check if messages were moved
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) === 0) stderr($lang['pm_error'], $lang['pm_move_err']);
+    if ($mysqli->affected_rows === 0) stderr($lang['pm_error'], $lang['pm_move_err']);
     header('Location: ?action=view_mailbox&multi_move=1&box=' . $mailbox);
     die();
 }
@@ -84,7 +84,7 @@ if (isset($_POST['delete'])) {
         }
     }
     //=== Check if messages were deleted
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) === 0) stderr($lang['pm_error'], $lang['pm_delete_err_multi']);
+    if ($mysqli->affected_rows === 0) stderr($lang['pm_error'], $lang['pm_delete_err_multi']);
     if (isset($_POST['draft_section'])) header('Location: pm_system.php?action=viewdrafts&multi_delete=1');
     else header('Location: pm_system.php?action=view_mailbox&multi_delete=1&box=' . $mailbox);
     die();

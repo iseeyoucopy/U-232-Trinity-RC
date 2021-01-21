@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $created = TIME_NOW;
         $query = sprintf('INSERT INTO announcement_main ' . '(owner_id, created, expires, sql_query, subject, body) ' . 'VALUES (%s, %s, %s, %s, %s, %s)', sqlesc($CURUSER['id']) , sqlesc($created) , sqlesc($expires) , sqlesc($ann_query) , sqlesc($subject) , sqlesc($body));
         sql_query($query);
-        if (mysqli_affected_rows($GLOBALS["___mysqli_ston"])) stderr('Success', 'Announcement was successfully created');
+        if ($mysqli->affected_rows) stderr('Success', 'Announcement was successfully created');
         stderr('Error', 'Contact an administrator');
     }
     echo stdhead("Create Announcement", false, $stdhead);

@@ -20,8 +20,8 @@ function docleanup($data)
     $cache->delete('Sitepot_');
     $cache->delete('shoutbox_');
     if ($queries > 0) write_log("Sitepot -------------------- Sitepot CLean Complete using $queries queries--------------------");
-    if (false !== mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
-        $data['clean_desc'] = mysqli_affected_rows($GLOBALS["___mysqli_ston"]) . " items deleted/updated";
+    if (false !== $mysqli->affected_rows) {
+        $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     }
     if ($data['clean_log']) {
         cleanup_log($data);

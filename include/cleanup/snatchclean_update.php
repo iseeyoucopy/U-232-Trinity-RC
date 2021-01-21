@@ -18,8 +18,8 @@ function docleanup($data)
     //== Delete snatched
     $dt = (TIME_NOW - (30 * 86400));
     sql_query("DELETE FROM snatched WHERE complete_date < ".sqlesc($dt)) or sqlerr(__FILE__, __LINE__);
-    if (false !== mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
-        $data['clean_desc'] = mysqli_affected_rows($GLOBALS["___mysqli_ston"]) . " items deleted/updated";
+    if (false !== $mysqli->affected_rows) {
+        $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     }
 
     $snatchedcounts = array();

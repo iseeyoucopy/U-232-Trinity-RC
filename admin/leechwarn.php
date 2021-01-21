@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!$act) stderr($lang['leechwarn_stderror'], $lang['leechwarn_wrong']);
     if ($act == "delete") {
         if (sql_query("DELETE FROM users WHERE id IN (" . join(",", $_uids) . ")")) {
-            $c = mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
+            $c = $mysqli->affected_rows;
             header("Refresh: 2; url=" . $r);
             stderr($lang['leechwarn_success'], $c . $lang['leechwarn_user'] . ($c > 1 ? $lang['leechwarn_s'] : "") . $lang['leechwarn_deleted']);
         } else stderr($lang['leechwarn_stderror'], $lang['leechwarn_wrong2']);
@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 'enabled' => 'no'
             ], $TRINITY20['expires']['user_cache']);
             }
-            $d = mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
+            $d = $mysqli->affected_rows;
             header("Refresh: 2; url=" . $r);
             stderr($lang['leechwarn_success'], $c . $lang['leechwarn_user'] . ($c > 1 ? $lang['leechwarn_s'] : "") . $lang['leechwarn_disabled']);
         } else stderr($lang['leechwarn_stderror'], $lang['leechwarn_wrong3']);

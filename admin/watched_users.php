@@ -90,7 +90,7 @@ if (isset($_GET['remove'])) {
         }
     }
     //=== Check if members were removed
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) == 0)
+    if ($mysqli->affected_rows == 0)
         stderr($lang['watched_stderr'], '' . $lang['watched_stderr2'] . '!');
     else
         write_log('[b]' . $CURUSER['username'] . '[/b] ' . $lang['watched_removed1'] . '<br />' . $removed_log . ' <br />' . $lang['watched_removedfrom'] . '');
@@ -141,7 +141,7 @@ if (isset($_GET['add'])) {
         ], $TRINITY20['expires']['user_stats']);
     }
     //=== Check if member was added
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) > 0) {
+    if ($mysqli->affected_rows > 0) {
         $H1_thingie = '<h1>'.$lang['watched_success'].'!' . htmlsafechars($user['username']) . ' '.$lang['watched_isadded'].'!</h1>';
         write_log('[b]' . $CURUSER['username'] . '[/b] '.$lang['watched_isadded'].' <a href="userdetails.php?id=' . $member_whos_been_bad . '" class="altlink">' . htmlsafechars($user['username']) . '</a> '.$lang['watched_tothe'].' <a href="staffpanel.php?tool=watched_users&amp;action=watched_users" class="altlink">'.$lang['watched_users_list'].'</a>.');
     }

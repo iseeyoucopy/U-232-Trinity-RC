@@ -94,7 +94,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == $save_or_edit) {
         $cache->delete('inbox_new::' . $receiver);
         $cache->delete('inbox_new_sb::' . $receiver);
         //=== make sure it worked then...
-        if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) === 0) stderr($lang['pm_error'], $lang['pm_send_wasnt']);
+        if ($mysqli->affected_rows === 0) stderr($lang['pm_error'], $lang['pm_send_wasnt']);
         //=== if they just have to know about it right away... send them an email (if selected if profile)
         if (strpos($arr_receiver['notifs'], '[pm]') !== false) {
             $username = htmlsafechars($CURUSER['username']);
@@ -116,7 +116,7 @@ EOD;
         die();
     }
     //=== Check if messages was saved as draft
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) === 0) stderr($lang['pm_error'], $lang['pm_draft_wasnt']);
+    if ($mysqli->affected_rows === 0) stderr($lang['pm_error'], $lang['pm_draft_wasnt']);
     header('Location: /pm_system.php?action=view_mailbox&box=-2&new_draft=1');
     die();
 } //=== end save draft

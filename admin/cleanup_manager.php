@@ -372,7 +372,7 @@ function cleanup_take_delete()
     if (!is_numeric($params['cid'])) stderr($lang['cleanup_del_error'], "{$lang['cleanup_del_error1']}");
     $params['cid'] = sqlesc($params['cid']);
     sql_query("DELETE FROM cleanup WHERE clean_id = {$params['cid']}");
-    if (1 === mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
+    if (1 === $mysqli->affected_rows) {
         stderr($lang['cleanup_del_info'], "{$lang['cleanup_del_success']}");
     } else {
         stderr($lang['cleanup_del_error'], "{$lang['cleanup_del_error2']}");
@@ -408,7 +408,7 @@ function cleanup_take_unlock()
     $params['cid'] = sqlesc($params['cid']);
     $params['clean_on'] = ($params['clean_on'] === 1 ? sqlesc($params['clean_on'] - 1) : sqlesc($params['clean_on'] + 1));
     sql_query("UPDATE cleanup SET clean_on = {$params['clean_on']} WHERE clean_id = {$params['cid']}");
-    if (1 === mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
+    if (1 === $mysqli->affected_rows) {
         cleanup_show_main(); // this go bye bye later
         
     } else {

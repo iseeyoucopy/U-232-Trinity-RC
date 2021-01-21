@@ -38,7 +38,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'save draft') {
     $cache->delete('inbox_new_sb::' . $CURUSER['id']);
     $new_draft_id = $mysqli->insert_id;
     //=== Check if messages was saved as draft
-    if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) === 0) stderr($lang['pm_error'], $lang['pm_draft_err2']);
+    if ($mysqli->affected_rows === 0) stderr($lang['pm_error'], $lang['pm_draft_err2']);
     header('Location: pm_system.php?action=view_message&new_draft=1&id=' . $new_draft_id);
     die();
 } //=== end save draft
