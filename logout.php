@@ -19,7 +19,8 @@ exit();
 global $CURUSER;
 $hash_please = (isset($_GET['hash_please']) && htmlsafechars($_GET['hash_please']));
 $salty_username = isset($CURUSER['username']) ? "{$CURUSER['username']}" : '';
-$salty = md5("Th15T3xtis5add3dto66uddy6he@water...". $salty_username . "");
+
+$salty = hash("tiger160,3", "Th15T3xtis5add3dto66uddy6he@water...". $salty_username . "");
 if (empty($hash_please)) die("No Hash your up to no good MOFO");
 if ($hash_please != $salty) die("Unsecure Logout - Hash mis-match please contact site admin");
 logoutcookie();
