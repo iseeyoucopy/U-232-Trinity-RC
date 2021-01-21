@@ -24,9 +24,10 @@ function dltable($name, $arr, $torrent)
 {
     global $CURUSER, $lang, $TRINITY20;
     $htmlout = '';
-    if (!count($arr)) return $htmlout = "<div class='grid-x grid-padding-x'><div class='column small-15 float-left'><table><thead><tr><th class='text-center'>{$lang['peerslist_no']} $name {$lang['peerslist_data_available']}</th></tr></thead></table></div></div>";
-    $htmlout.= "<div class='table-scroll'>
-    <table class='striped'><thead>
+    if (!count($arr)) return $htmlout = "
+        <p>{$lang['peerslist_no']} $name {$lang['peerslist_data_available']}</p>";
+    $htmlout.= "
+    <table class='striped'>
     <tr><td colspan='11' class='text-left'>" . count($arr) . " $name</td></tr>
     <tr><td class='text-center'><i class='fas fa-user' title='{$lang['peerslist_user_ip']}'></i></td>
     <td class='text-center'><i class='fas fa-link' title='{$lang['peerslist_connectable']}'></i></td>
@@ -38,7 +39,7 @@ function dltable($name, $arr, $torrent)
     <td class='text-center'>{$lang['peerslist_complete']}</td>
     <td class='text-center'><i class='fas fa-user-clock' title='{$lang['peerslist_connected']}'></i></td>
     <td class='text-center'>{$lang['peerslist_idle']}</td>
-    <td class='text-center'>{$lang['peerslist_client']}</td></tr></thead><tbody>";
+    <td class='text-center'>{$lang['peerslist_client']}</td></tr>";
     $now = TIME_NOW;
     $mod = $CURUSER['class'] >= UC_STAFF;
     foreach ($arr as $e) {
@@ -57,7 +58,7 @@ function dltable($name, $arr, $torrent)
         $htmlout.= "<td class='text-center'>".htmlsafechars(getagent($e["agent"], $e['peer_id']))."</td>";
         $htmlout.= "</tr>";
     }
-    $htmlout.= "</tbody></table></div>";
+    $htmlout.= "</table>";
     return $htmlout;
 }
 $res = sql_query("SELECT * FROM torrents WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
@@ -94,13 +95,18 @@ function seed_sort($a, $b)
 }
 usort($seeders, "seed_sort");
 usort($downloaders, "leech_sort");
-$HTMLOUT.= "<div class='grid-x grid-padding-x'>
-<div class='column small-15 float-center'>
-<table class='striped'><thead><tr>
-<th class='text-center'>Peerlist for Torrent</th></tr></thead>
-<tbody><tr><td class='text-center'><a href='{$TRINITY20['baseurl']}/details.php?id=$id'>" . htmlsafechars($row['name']) . "</a></td></tr></tbody>
-</table></div></div>";
-$HTMLOUT.= dltable("{$lang['peerslist_seeders']}<a name='seeders'></a>", $seeders, $row);
-$HTMLOUT.= dltable("{$lang['peerslist_leechers']}<a name='leechers'></a>", $downloaders, $row);
+$HTMLOUT.= "
+    <div class='card'>
+        <div class='card-divider'>
+            <p>Peerlist for Torrent <a href='{$TRINITY20['baseurl']}/details.php?id=$id'><span class='label secondary'>" . htmlsafechars($row['name']) . "</span></a></p>
+        </div>
+        <div class='card-section'>
+            <div class='table-scroll'>";
+                $HTMLOUT.= dltable("{$lang['peerslist_seeders']}<a name='seeders'></a>", $seeders, $row);
+                $HTMLOUT.= dltable("{$lang['peerslist_leechers']}<a name='leechers'></a>", $downloaders, $row);
+                $HTMLOUT."
+            </div>
+        </div>
+    </div>";
 echo stdhead("{$lang['peerslist_stdhead']}") . $HTMLOUT . stdfoot();
 ?>
