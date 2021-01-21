@@ -29,7 +29,7 @@ $lang = array_merge( load_language('global'), load_language('fastdelete') );
 
     function deletetorrent($id)
 {
-    global $TRINITY20, $cache, $CURUSER, $lang;
+    global $TRINITY20, $cache, $CURUSER, $lang, $keys;
     sql_query("DELETE peers.*, files.*, comments.*, snatched.*, thanks.*, bookmarks.*, coins.*, rating.*, thumbsup.*, torrents.* FROM torrents 
 				 LEFT JOIN peers ON peers.torrent = torrents.id
 				 LEFT JOIN files ON files.torrent = torrents.id
@@ -46,7 +46,7 @@ $lang = array_merge( load_language('global'), load_language('fastdelete') );
 }
 function deletetorrent_xbt($id)
 {
-   global $TRINITY20, $cache, $CURUSER, $lang;
+   global $TRINITY20, $cache, $CURUSER, $lang, $keys;
    sql_query("UPDATE torrents SET flags = 1 WHERE id = ".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
    sql_query("DELETE files.*, comments.*, thankyou.*, thanks.*, thumbsup.*, bookmarks.*, coins.*, rating.*, xbt_files_users.* FROM xbt_files_users
                                      LEFT JOIN files ON files.torrent = xbt_files_users.fid
