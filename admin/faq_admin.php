@@ -332,7 +332,7 @@ function New_Cat_Form()
 }
 function New_Faq_Form()
 {
-    global $CURUSER, $lang;
+    global $CURUSER, $lang, $TRINITY20;
     $htmlout = '';
     $sql = sql_query("SELECT * FROM faq_cat") or sqlerr(__FILE__, __LINE__);
     if (!mysqli_num_rows($sql))
@@ -375,7 +375,7 @@ function Do_Error($heading, $text)
     $htmlout .= "$text\n";
     $htmlout .= "</div>";
     return $htmlout;
-    echo stdhead("Error") . $HTMLOUT . stdfoot();
+    echo stdhead("Error") . $htmlout . stdfoot();
     exit;
 }
 ?> 

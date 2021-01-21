@@ -27,7 +27,7 @@ function readMore($text, $char, $link)
 }
 function peer_list($array)
 {
-    global $TRINITY20, $lang;
+    global $TRINITY20, $lang, $CURUSER;
     $htmlout = '';
     $htmlout .= "
             {$lang['catol_user']}            {$lang['catol_port']}&amp;{$lang['catol_ip']}            {$lang['catol_ratio']}            {$lang['catol_downloaded']}            {$lang['catol_uploaded']}            {$lang['catol_started']}            {$lang['catol_finished']}       </tr>-->";
