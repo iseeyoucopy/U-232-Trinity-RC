@@ -438,7 +438,7 @@ function StatusBar()
     $usrclass = "&nbsp;<b>[" . get_user_class_name($CURUSER['class']) . "]</b>&nbsp;";
     else if ($CURUSER['class'] >= UC_STAFF) $usrclass = "&nbsp;<a href='" . $TRINITY20['baseurl'] . "/setclass.php'><b>[" . get_user_class_name($CURUSER['class']) . "]</b></a>&nbsp;";
     $htmlout .= "Welcome " . format_username($CURUSER) . "" . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "[" . get_user_class_name($CURUSER['class']) . "]" : $usrclass) . "
-    {$lang['gl_act_torrents']} :{$seed['yes']}<br>
+    {$lang['gl_act_torrents']} :<br>
     " . ($TRINITY20['achieve_sys_on'] ? "{$lang['gl_achpoints']}&nbsp;<a href='./achievementhistory.php?id={$CURUSER['id']}'>" . (int) $Achievement_Points['achpoints'] . "</a>&nbsp;" : "") . "<br>
     " . ($TRINITY20['seedbonus_on'] ? "{$lang['gl_karma']}: <a href='" . $TRINITY20['baseurl'] . "/mybonus.php'>{$CURUSER['seedbonus']}</a>" : "") . "<br>
     {$lang['gl_invites']}: <a href='" . $TRINITY20['baseurl'] . "/invite.php'>{$CURUSER['invites']}</a><br>
