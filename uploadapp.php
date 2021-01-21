@@ -130,7 +130,7 @@ if (isset($_POST["form"]) != 1) {
     ))) . ")");
     $cache->delete('new_uploadapp_');
     if (!$res) {
-        if (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)) == 1062) stderr($lang['uploadapp_error'], $lang['uploadapp_twice']);
+        if ($mysqli->errno) stderr($lang['uploadapp_error'], $lang['uploadapp_twice']);
         else stderr($lang['uploadapp_error'], $lang['uploadapp_tryagain']);
     } else {
         $subject = sqlesc("Uploader application");
