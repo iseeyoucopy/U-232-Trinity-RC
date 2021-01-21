@@ -129,9 +129,9 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
             </ul>
             <ul class='vertical menu'>
                 <li class='off-canvas-menu-item'><a href='" . $TRINITY20['baseurl'] . "/forums.php'>{$lang['gl_forums']}</a></li>
-                <li><a href='#'><a href='{$TRINITY20['baseurl']}/help.php'>Help</a></a></li>
+                <li><a href='" . $TRINITY20['baseurl']. "/help.php'>Help</a></li>
                 <li> <a href='" . $TRINITY20['baseurl'] . "/friends.php'>{$lang['gl_friends']}</a></li>
-                <li><a href='#' onclick='themes();'>{$lang['gl_theme']}</a></li></li>
+                <li><a href='#' onclick='themes();'>{$lang['gl_theme']}</a></li>
                 <li><a href='#' onclick='language_select();'>{$lang['gl_language_select']}</a></li>
                 <li><a href='" . $TRINITY20['baseurl'] . "/logout.php?hash_please={$salty}'>{$lang['gl_logout']}</a></li>
             </ul>
