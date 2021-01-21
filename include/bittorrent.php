@@ -371,10 +371,10 @@ function userlogin()
         );
         $user_fields = implode(', ', array_merge($user_fields_ar_int, $user_fields_ar_float, $user_fields_ar_str));
         $res = "SELECT {$user_fields}, ann_main.subject AS curr_ann_subject, ann_main.body AS curr_ann_body " . "FROM users AS u " . "LEFT JOIN announcement_main AS ann_main " . "ON ann_main.main_id = u.curr_ann_id " . "WHERE u.id = " . sqlesc($id)." AND u.enabled='yes' AND u.status = 'confirmed'" or sqlerr(__FILE__, __LINE__);
-        $result = $mysqli->query($res);
+        $result = sql_query($res);
         if (mysqli_num_rows($result) == 0) {
 			$salty_user = isset($row['username']) ? $row['username'] : '';
-            $salty = hash("tiger160,3", "Th15T3xtis5add3dto66uddy6he@water..." . $row['username'] . "");
+            $salty = hash("tiger160,3", "Th15T3xtis5add3dto66uddy6he@water..." . $salty_user . "");
             header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please={$salty}");
             //die;
             return;
@@ -388,9 +388,10 @@ function userlogin()
     }
     //==
     if (get_mycookie('pass') !== hash("sha3-512", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "")) {
-        $salty = hash("tiger160,3", "Th15T3xtis5add3dto66uddy6he@water..." . $row['username'] . "");
+        $salty_user = isset($row['username']) ? $row['username'] : '';
+        $salty = hash("tiger160,3", "Th15T3xtis5add3dto66uddy6he@water..." . $salty_user . "");
         header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please={$salty}");
-        die;
+        //die;
         return;
     }
 /*
@@ -1169,9 +1170,9 @@ function flood_limit($table)
 //== Sql query count by pdq
 function sql_query($query)
 {
-    global $query_stat;
+    global $query_stat, $mysqli;
     $query_start_time = microtime(true); // Start time
-    $result = mysqli_query($GLOBALS["___mysqli_ston"], $query);
+    $result = $mysqli->query($query);
     $query_end_time = microtime(true); // End time
     $querytime = ($query_end_time - $query_start_time);
     $query_stat[] = array(
