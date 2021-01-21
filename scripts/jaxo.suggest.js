@@ -26,7 +26,7 @@
 $(document).ready(function(){
 $.fn.search = function(data){
 var ele = $(this);var timer = 0; 
-$(this).bind('keyup input paste',function(){if(!(ele.val().length)){return false;}
+$(this).bind('keyup input',function(){if(!(ele.val().length)){return false;}
 $('.'+data.what).html('<i class="'+data.loader+'"></i>').show();
 clearTimeout (timer);timer = setTimeout(function()
 {$.ajax({url: data.script,data: ele.serialize()+'&'+$.param(data.additional),
