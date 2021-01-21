@@ -240,12 +240,12 @@ elseif ($action == "security") {
         ) , $lang['takeeditcp_email_body']);
         mail($email, "$thisdomain {$lang['takeeditcp_confirm']}", $body, "{$lang['takeeditcp_email_from']}{$TRINITY20['site_email']}");
         $emailquery = sql_query("SELECT id, username, email FROM users WHERE id=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-        $spm = mysqli_fetch_assoc($emailquery);
+        $spm = $emailquery->fetch_assoc();
         $dt = TIME_NOW;
         $subject = sqlesc($lang['takeeditcp_email_alert']);
         $msg = sqlesc("{$lang['takeeditcp_email_user']}[url={$TRINITY20['baseurl']}/userdetails.php?id=" . (int)$spm['id'] . "][b]" . htmlsafechars($spm['username']) . "[/b][/url]{$lang['takeeditcp_email_changed']}{$lang['takeeditcp_email_old']}" . htmlsafechars($spm['email']) . "{$lang['takeeditcp_email_new']}$email{$lang['takeeditcp_email_check']}");
         $pmstaff = sql_query('SELECT id FROM users WHERE class = ' . UC_ADMINISTRATOR) or sqlerr(__FILE__, __LINE__);
-        while ($arr = mysqli_fetch_assoc($pmstaff)) sql_query("INSERT INTO messages(sender, receiver, added, msg, subject) VALUES(0, " . sqlesc($arr['id']) . ", $dt, $msg, $subject)") or sqlerr(__FILE__, __LINE__);
+        while ($arr = $pmstaff->fetch_assoc()) sql_query("INSERT INTO messages(sender, receiver, added, msg, subject) VALUES(0, " . sqlesc($arr['id']) . ", $dt, $msg, $subject)") or sqlerr(__FILE__, __LINE__);
         $cache->delete('inbox_new::' . $arr['id']);
         $cache->delete('inbox_new_sb::' . $arr['id']);
         $urladd.= "&mailsent=1";

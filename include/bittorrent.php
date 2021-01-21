@@ -149,15 +149,15 @@ function getip() {
  }
 function dbconn($autoclean = false)
 {
-    global $TRINITY20;
+    global $TRINITY20, $mysqli;
     if (!@($GLOBALS["___mysqli_ston"] = mysqli_connect($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass']))) {
-        switch (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false))) {
+        switch ($mysqli->errno) {
         case 1040:
         case 2002:
             if ($_SERVER['REQUEST_METHOD'] == "GET") die("<html><head><meta http-equiv='refresh' content=\"5 $_SERVER[REQUEST_URI]\"></head><body><table border='0' width='100%' height='100%'><tr><td><h3 align='center'>The server load is very high at the moment. Retrying, please wait...</h3></td></tr></table></body></html>");
             else die("Too many users. Please press the Refresh button in your browser to retry.");
         default:
-            die("[" . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)) . "] dbconn: mysql_connect: " . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+            die("[" . $mysqli->errno . "] dbconn: mysql_connect: " . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
         }
     }
     ((bool)mysqli_query($GLOBALS["___mysqli_ston"], "USE {$TRINITY20['mysql_db']}")) or die('dbconn: mysql_select_db: ' . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
@@ -943,9 +943,9 @@ function stderr($heading, $text)
 // Basic MySQL error handler
 function sqlerr($file = '', $line = '')
 {
-    global $TRINITY20, $CURUSER;
+    global $TRINITY20, $CURUSER, $mysqli;
     $the_error = ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
-    $the_error_no = ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false));
+    $the_error_no = $mysqli->errno;
     if (SQL_DEBUG == 0) {
         exit();
     } else if ($TRINITY20['sql_error_log'] AND SQL_DEBUG == 1) {

@@ -15,7 +15,7 @@ function ann_sqlerr($file = '', $line = '')
 {
     global $TRINITY20, $CURUSER, $mysqli;
     $error = $mysqli->error;
-    $error_no = ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false));
+    $error_no = $mysqli->errno;
     if ($TRINITY20['ann_sql_error_log'] AND ANN_SQL_DEBUG == 1) {
         $_ann_sql_err = "\n===================================================";
         $_ann_sql_err.= "\n Date: " . date('r');
