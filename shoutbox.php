@@ -72,7 +72,7 @@ if (isset($_GET['delall']) && $CURUSER['class'] === UC_MAX) {
 // Staff edit
 if (isset($_GET['edit']) && $CURUSER['class'] >= UC_STAFF && is_valid_id($_GET['edit'])) {
     $sql = sql_query('SELECT id, text FROM shoutbox WHERE id=' . sqlesc($_GET['edit'])) or sqlerr(__FILE__, __LINE__);
-    $res = mysqli_fetch_assoc($sql);
+    $res = $sql->fetch_assoc();
     unset($sql);
     $HTMLOUT.= "<!DOCTYPE html>
 <head>
@@ -112,7 +112,7 @@ background: #000000 repeat-x left top;
 // Power Users+ can edit anyones single shouts //== pdq
 if (isset($_GET['edit']) && ($_GET['user'] == $CURUSER['id']) && ($CURUSER['class'] >= UC_POWER_USER && $CURUSER['class'] <= UC_STAFF) && is_valid_id($_GET['edit'])) {
     $sql = sql_query('SELECT id, text, userid FROM shoutbox WHERE userid =' . sqlesc($_GET['user']) . ' AND id=' . sqlesc($_GET['edit'])) or sqlerr(__FILE__, __LINE__);
-    $res = mysqli_fetch_assoc($sql);
+    $res = $sql->fetch_assoc();
     $HTMLOUT.= "<!DOCTYPE html>
 <head>
 <script type='text/javascript' src='./scripts/shout.js'></script>

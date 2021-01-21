@@ -442,7 +442,7 @@ function do_delete_rep()
         stderr($lang['rep_ad_delete_rep_err3'], $lang['rep_ad_delete_rep_err4']);
     }
     $sql = sql_query('SELECT reputation ' . 'FROM users ' . 'WHERE id = ' . sqlesc($input['reputationid'])) or sqlerr(__FILE__, __LINE__);
-    $User = mysqli_fetch_assoc($sql);
+    $User = $sql->fetch_assoc();
     // do the delete
     sql_query("DELETE FROM reputation WHERE reputationid=" . intval($r['reputationid']));
     sql_query("UPDATE users SET reputation = (reputation-{$r['reputation']} ) WHERE id=" . intval($r['userid']));
@@ -483,7 +483,7 @@ function do_edit_rep()
             @sql_query("UPDATE reputation SET reputation = " . intval($newrep) . ", reason = " . sqlesc($reason) . " WHERE reputationid = " . intval($r['reputationid']));
         }
         $sql = sql_query('SELECT reputation ' . 'FROM users ' . 'WHERE id = ' . sqlesc($input['reputationid'])) or sqlerr(__FILE__, __LINE__);
-        $User = mysqli_fetch_assoc($sql);
+        $User = $sql->fetch_assoc();
         $diff = $oldrep - $newrep;
         @sql_query("UPDATE users SET reputation = (reputation-{$diff}) WHERE id=" . intval($r['userid']));
         $update['rep'] = ($User['reputation'] - $diff);

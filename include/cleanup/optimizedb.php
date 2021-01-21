@@ -17,7 +17,7 @@ function docleanup($data)
     ignore_user_abort(1);
     $sql = sql_query("SHOW TABLE STATUS FROM {$TRINITY20['mysql_db']}");
     $oht = '';
-    while ($row = mysqli_fetch_assoc($sql)) {
+    while ($row = $sql->fetch_assoc()) {
         if ($row['Data_free'] > 100) {
             $oht.= $row['Data_free'] . ',';
         }

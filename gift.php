@@ -34,7 +34,7 @@ if ($open != 1) {
     stderr("Error", "Invalid url");
 }
 $sql = sql_query('SELECT seedbonus, invites, freeslots, uploaded ' . 'FROM users ' . 'WHERE id = ' . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$User = mysqli_fetch_assoc($sql);
+$User = $sql->fetch_assoc();
 if (isset($open) && $open == 1) {
     if ($today >= $xmasday) {
         //if (!($CURUSER["opt1"] & user_options::GOTGIFT)) {

@@ -38,7 +38,7 @@ if ($game) {
     $cardcount = 52;
     $points = $showcards = $aces = '';
     $sql = sql_query('SELECT uploaded, downloaded, bjwins, bjlosses ' . 'FROM users ' . 'WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-    $User = mysqli_fetch_assoc($sql);
+    $User = $sql->fetch_assoc();
     $User['uploaded'] = $User['uploaded'];
     $User['downloaded'] = $User['downloaded'];
     $User['bjwins'] = (int) $User['bjwins'];
@@ -371,7 +371,7 @@ if ($game) {
     }
 } else {
     $sql = sql_query('SELECT bjwins, bjlosses ' . 'FROM users ' . 'WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-    $User = mysqli_fetch_assoc($sql);
+    $User = $sql->fetch_assoc();
     $User['bjwins'] = (int) $User['bjwins'];
     $User['bjlosses'] = (int) $User['bjlosses'];
     $tot_wins = (int) $User['bjwins'];

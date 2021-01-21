@@ -112,7 +112,7 @@ case 'add':
         // ===add karma
         sql_query("UPDATE users SET seedbonus = seedbonus+" . sqlesc($TRINITY20['bonus_per_thanks']) . " WHERE id =" . sqlesc($uid)) or sqlerr(__FILE__, __LINE__);
         $sql = sql_query('SELECT seedbonus ' . 'FROM users ' . 'WHERE id = ' . sqlesc($uid)) or sqlerr(__FILE__, __LINE__);
-        $User = mysqli_fetch_assoc($sql);
+        $User = $sql->fetch_assoc();
         $update['seedbonus'] = ($User['seedbonus'] + $TRINITY20['bonus_per_thanks']);
         //header("Refresh: 1; url=details.php?id=$id");
         $cache->update_row($keys['user_stats'] . $uid, [

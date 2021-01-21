@@ -99,7 +99,7 @@ function Do_show()
             <td class='colhead'>Shortcut</td>
             <td class='colhead'>Min Class</td>
             <td class='colhead'>Tools</td></tr>";
-    while ($arr = mysqli_fetch_assoc($sql)) {
+    while ($arr = $sql->fetch_assoc()) {
         $htmlout .= "
             <tr>
             <td>" . intval($arr['id']) . "</td>
@@ -167,7 +167,7 @@ function Show_Cat_Edit_Form()
                 <td class='colhead'>Name</td>
                 <td class='colhead'>Shortcut</td>
                 <td class='colhead'>Min Class</td></tr>";
-    while ($row = mysqli_fetch_assoc($sql)) {
+    while ($row = $sql->fetch_assoc()) {
         $htmlout .= "<h2>Title No." . intval($row['id']) . "</h2>
         <form name='inputform' method='post' action='staffpanel.php?tool=rules_admin'>
         <input type='hidden' name='mode' value='takeedit_cat' />
@@ -199,7 +199,7 @@ function Show_Rules_Edit()
     if (!mysqli_num_rows($sql))
         stderr("SQL Error", "Nothing doing here!");
     $htmlout .= "<form name='compose' method='post' action='staffpanel.php?tool=rules_admin'>";
-    while ($row = mysqli_fetch_assoc($sql)) {
+    while ($row = $sql->fetch_assoc()) {
         $htmlout .= "<strong>Rules No." . intval($row['id']) . "</strong>";
         $htmlout .= "<br />
           <div style='text-align: left; width: 70%; border: 1px solid;'>
@@ -349,7 +349,7 @@ function New_Rules_Form()
 <input class='form-control' placeholder='TITLE' type='text' value='' name='title'><br><br>
 <select class='form-control' name='cat'>
 <option value=''>--Select--</option>";
-    while ($v = mysqli_fetch_assoc($sql)) {
+    while ($v = $sql->fetch_assoc()) {
         $htmlout .= "<option value='" . intval($v['id']) . "'>" . htmlsafechars($v['name']) . "</option>";
     }
     $htmlout .= "</select><br /><br />

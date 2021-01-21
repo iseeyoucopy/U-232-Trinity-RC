@@ -17,7 +17,7 @@ function docleanup($data)
     ignore_user_abort(1);
     $sql = sql_query("SHOW PROCESSLIST");
     $cnt = 0;
-    while ($arr = mysqli_fetch_assoc($sql)) {
+    while ($arr = $sql->fetch_assoc()) {
         if ($arr['db'] == $TRINITY20['mysql_db'] AND $arr['Command'] == 'Sleep' AND $arr['Time'] > 60) {
             sql_query("KILL {$arr['Id']}");
             $cnt++;

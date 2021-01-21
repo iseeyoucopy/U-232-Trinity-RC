@@ -74,7 +74,7 @@ if (isset($_GET['delall']) && $CURUSER['class'] == UC_MAX) {
 // Staff edit
 if (isset($_GET['edit']) && $CURUSER['class'] >= UC_STAFF && is_valid_id(htmlsafechars($_GET['edit']))) {
     $sql = sql_query('SELECT id, text FROM shoutbox WHERE staff_shout="yes" AND id=' . sqlesc($_GET['edit'])) or sqlerr(__FILE__, __LINE__);
-    $res = mysqli_fetch_assoc($sql);
+    $res = $sql->fetch_assoc();
     unset($sql);
     $HTMLOUT.= "<!DOCTYPE html><head>
 <script type='text/javascript' src='./scripts/shout.js'></script>

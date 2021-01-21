@@ -190,7 +190,7 @@ function bookmarktable($res)
         }
         //SHAREMARKS
         $bm = sql_query("SELECT * FROM bookmarks WHERE torrentid=" . sqlesc($id) . " AND userid=" . sqlesc($CURUSER['id']));
-        $bms = mysqli_fetch_assoc($bm);
+        $bms = $bm->fetch_assoc();
         if ($bms['private'] == 'yes' && $bms['userid'] == $CURUSER['id']) {
             $makepriv = "<a href='bookmarks.php?torrent={$id}&amp;action=public'><i class='fas fa-lock' title='{$lang['bookmarks_public2']}'></i></a>";
             $HTMLOUT.= "<td class='text-center'>{$makepriv}</td>";
@@ -318,7 +318,7 @@ function sharetable($res, $variant = "index")
         $HTMLOUT.= "'><b>$dispname</b></a>&nbsp;</td>";
         $HTMLOUT.= ($variant == "index" ? "<td align='center'><a href=\"download.php?torrent={$id}\"><img src='{$TRINITY20['pic_base_url']}zip.gif' border='0' alt='Download Bookmark!' title='Download Bookmark!' /></a></td>" : "");
         $bm = sql_query("SELECT * FROM bookmarks WHERE torrentid=" . sqlesc($id) . " AND userid=" . sqlesc($CURUSER['id']));
-        $bms = mysqli_fetch_assoc($bm);
+        $bms = $bm->fetch_assoc();
         $bookmarked = (empty($bms) ? '<a href=\'bookmarks.php?torrent=' . $id . '&amp;action=add\'><img src=\'' . $TRINITY20['pic_base_url'] . 'bookmark.gif\' border=\'0\' alt=\'Bookmark it!\' title=\'Bookmark it!\'></a>' : '<a href="bookmarks.php?torrent=' . $id . '&amp;action=delete"><img src=\'' . $TRINITY20['pic_base_url'] . 'aff_cross.gif\' border=\'0\' alt=\'Delete Bookmark!\' title=\'Delete Bookmark!\' /></a>');
         $HTMLOUT.= ($variant == "index" ? "<td align='center'>{$bookmarked}</td>" : "");
         if ($variant == "mytorrents") $HTMLOUT.= "</td><td align='center'><a href='edit.php?returnto=" . urlencode($_SERVER["REQUEST_URI"]) . "&amp;id=" . (int)$row['id'] . "'>{$lang["torrenttable_edit"]}</a>\n";

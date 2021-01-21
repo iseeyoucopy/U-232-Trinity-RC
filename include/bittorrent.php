@@ -641,7 +641,7 @@ function autoclean()
     global $TRINITY20;
     $now = TIME_NOW;
     $sql = sql_query("SELECT * FROM cleanup WHERE clean_on = 1 AND clean_time <= {$now} ORDER BY clean_time ASC LIMIT 0,1");
-    $row = mysqli_fetch_assoc($sql);
+    $row = $sql->fetch_assoc();
 	$cleanid = isset($row['clean_id']) ? $row['clean_id'] : '';
 	$cleanfile = isset($row['clean_file']) ? $row['clean_file'] : '';
     if ($cleanid) {

@@ -80,7 +80,7 @@ function manualclean()
     if (!is_numeric($params['cid'])) stderr($lang['cleanup_stderr'], $lang['cleanup_stderr2']);
     $params['cid'] = sqlesc($params['cid']);
     $sql = sql_query("SELECT * FROM cleanup WHERE clean_id = " . sqlesc($params['cid'])) or sqlerr(__file__, __line__);
-    $row = mysqli_fetch_assoc($sql);
+    $row = $sql->fetch_assoc();
     if ($row['clean_id']) {
         $next_clean = intval(TIME_NOW + ($row['clean_increment'] ? $row['clean_increment'] : 15 * 60));
         sql_query("UPDATE cleanup SET clean_time = " . sqlesc($next_clean) . " WHERE clean_id = " . sqlesc($row['clean_id'])) or sqlerr(__file__, __line__);
@@ -115,7 +115,7 @@ function cleanup_show_main()
     </tr>";
     $sql = sql_query("SELECT * FROM cleanup ORDER BY clean_time ASC " . $pager['limit']) or sqlerr(__FILE__, __LINE__);
     if (!mysqli_num_rows($sql)) stderr($lang['cleanup_stderr'], $lang['cleanup_panic']);
-    while ($row = mysqli_fetch_assoc($sql)) {
+    while ($row = $sql->fetch_assoc()) {
         $row['_clean_time'] = get_date($row['clean_time'], 'LONG');
         $row['clean_increment'] = $row['clean_increment'];
         $row['_class'] = $row['clean_on'] != 1 ? " style='color:red'" : '';
@@ -151,7 +151,7 @@ function cleanup_show_edit()
     $cid = intval($params['cid']);
     $sql = sql_query("SELECT * FROM cleanup WHERE clean_id = $cid");
     if (!mysqli_num_rows($sql)) stderr($lang['cleanup_stderr'], $lang['cleanup_stderr3']);
-    $row = mysqli_fetch_assoc($sql);
+    $row = $sql->fetch_assoc();
     $row['clean_title'] = htmlsafechars($row['clean_title'], ENT_QUOTES);
     $row['clean_desc'] = htmlsafechars($row['clean_desc'], ENT_QUOTES);
     $row['clean_file'] = htmlsafechars($row['clean_file'], ENT_QUOTES);

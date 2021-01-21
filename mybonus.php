@@ -567,7 +567,7 @@ if (isset($_GET['exchange'])) {
 			. 'FROM users '
 			. 'WHERE id = ' . sqlesc($userid)
 	) or sqlerr(__FILE__, __LINE__);
-	$User = mysqli_fetch_assoc($sql);
+	$User = $sql->fetch_assoc();
 
 	$bonus = (float)$User['seedbonus'];
 	$seedbonus = ($bonus - $points);

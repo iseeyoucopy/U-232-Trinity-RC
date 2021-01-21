@@ -55,7 +55,7 @@ if ($CURUSER["game_access"] == 0 || $CURUSER["game_access"] > 1 || $CURUSER['sus
     exit();
 }
 $sql = sql_query('SELECT uploaded, downloaded ' . 'FROM users ' . 'WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-$User = mysqli_fetch_assoc($sql);
+$User = $sql->fetch_assoc();
 $User['uploaded'] = $User['uploaded'];
 $User['downloaded'] = $User['downloaded'];
 //== Reset user gamble stats!
