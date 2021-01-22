@@ -38,7 +38,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
         if (!is_valid_id($forumid))
             stderr('Error', 'Invalid ID!');
         $res = sql_query('SELECT id FROM forums WHERE id='.sqlesc($forumid));
-        if ($res->num_row() == 0)
+        if ($res->num_rows() == 0)
             stderr('Error', 'No forum with that ID!');
         $name = htmlsafechars($_POST['name']);
         $description = htmlsafechars($_POST['description']);

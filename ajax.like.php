@@ -75,4 +75,3 @@ function comment_like_unlike()
         die($lang['ajlike_get_lost']);
     }
 }
-?>

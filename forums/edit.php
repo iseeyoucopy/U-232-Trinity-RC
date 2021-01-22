@@ -37,7 +37,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
         if (!is_valid_id($forumid))
             stderr('Error', 'Invalid ID!');
         $res = sql_query("SELECT name, description, min_class_read, min_class_write, min_class_create FROM forums WHERE id=".sqlesc($forumid)) or sqlerr(__FILE__, __LINE__);
-        if ($res->num_row() == 0)
+        if ($res->num_rows() == 0)
         stderr('Error', 'No forum found with that ID!');
         $forum = $res->fetch_assoc();
         if ($TRINITY20['forums_online'] == 0)

@@ -40,7 +40,7 @@ if (isset($_GET["total_donors"])) {
     $count = $row[0];
     $perpage = 15;
     $pager = pager($perpage, $count, "staffpanel.php?tool=donations&amp;action=donations&amp;");
-    if ($res->num_row() == 0) stderr($lang['donate_sorry'], $lang['donate_nofound']);
+    if ($res->num_rows() == 0) stderr($lang['donate_sorry'], $lang['donate_nofound']);
     $users = number_format(get_row_count("users", "WHERE total_donated != '0.00'"));
 	$HTMLOUT.="<div class='row'><div class='col-md-12'><h2>{$lang['donate_list_all']} [" . htmlsafechars($users) . "]</h2>";
 
@@ -53,7 +53,7 @@ else {
     $count = $row[0];
     $perpage = 15;
     $pager = pager($perpage, $count, "staffpanel.php?tool=donations&amp;action=donations&amp;");
-    if ($res->num_row() == 0) stderr($lang['donate_sorry'], $lang['donate_nofound']);
+    if ($res->num_rows() == 0) stderr($lang['donate_sorry'], $lang['donate_nofound']);
     $users = number_format(get_row_count("users", "WHERE donor='yes'"));
 	$HTMLOUT.="<div class='row'><div class='col-md-12'><h2>{$lang['donate_list_curr']} [" . htmlsafechars($users) . " ]</h2>";
 

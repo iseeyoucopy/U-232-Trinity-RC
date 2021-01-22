@@ -320,7 +320,7 @@ $HTMLOUT.="<div class='callout'>";
 $HTMLOUT .= "<div class='row'><span class='label'><h2>{$lang['spanel_options']}</h2><h3><a href='staffpanel.php?action=add' title={$lang['spanel_add_a_new_pg']}>{$lang['spanel_add_a_new_pg']}</a></h3></span></div>";
           }
         $res = sql_query('SELECT staffpanel.*, users.username ' . 'FROM staffpanel ' . 'LEFT JOIN users ON users.id = staffpanel.added_by ' . 'WHERE av_class <= ' . sqlesc($CURUSER['class']) . ' ' . 'ORDER BY av_class DESC, page_name ASC') or sqlerr(__FILE__, __LINE__);
-        if ($res->num_row() > 0) {
+        if ($res->num_rows() > 0) {
             $db_classes = $unique_classes = $mysql_data = array();
             while ($arr = $res->fetch_assoc())
                 $mysql_data[] = $arr;

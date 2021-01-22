@@ -39,7 +39,7 @@ if (!defined('BUNNY_PM_SYSTEM')) {
 //=== Get the info
 $res = sql_query('SELECT * FROM messages WHERE id=' . sqlesc($pm_id)) or sqlerr(__FILE__, __LINE__);
 $message = $res->fetch_assoc();
-if ($message['sender'] == $CURUSER['id'] && $message['sender'] == $CURUSER['id'] || $res->num_row() === 0) stderr($lang['pm_error'], $lang['pm_forward_err']);
+if ($message['sender'] == $CURUSER['id'] && $message['sender'] == $CURUSER['id'] || $res->num_rows() === 0) stderr($lang['pm_error'], $lang['pm_forward_err']);
 //=== if not from curuser then get who from
 if ($message['sender'] !== $CURUSER['id']) {
     $res_forward = sql_query('SELECT username FROM users WHERE id=' . sqlesc($message['sender'])) or sqlerr(__FILE__, __LINE__);

@@ -18,7 +18,7 @@ function docleanup($data)
     //=== Updated remove custom smilies by Bigjoos/pdq:)
     $res = sql_query("SELECT id, modcomment FROM users WHERE smile_until < " . TIME_NOW . " AND smile_until <> '0'") or sqlerr(__FILE__, __LINE__);
     $msgs_buffer = $users_buffer = array();
-    if ($res->num_row() > 0) {
+    if ($res->num_rows() > 0) {
         $subject = "Custom smilies expired.";
         $msg = "Your Custom smilies have timed out and has been auto-removed by the system. If you would like to have them again, exchange some Karma Bonus Points again. Cheers!\n";
         while ($arr = $res->fetch_assoc()) {

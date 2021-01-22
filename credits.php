@@ -63,7 +63,7 @@ return (strlen($txt)>$len ? substr($txt,0,$len-4) .'[...]':$txt);
   if ($action == 'edit' && $CURUSER['class'] >= UC_SYSOP){
 	$id = 0 + $_GET["id"];
 	$res = sql_query("SELECT name, description, category, u232lnk, status, credit FROM modscredits WHERE id =".$id."") or sqlerr(__FILE__, __LINE__);
-	if ($res->num_row() == 0)
+	if ($res->num_rows() == 0)
 	stderr("{$lang['credits_error']}", "{$lang['credits_nocr']}");
 	while($mod = $res->fetch_assoc()){
 
@@ -124,7 +124,7 @@ return (strlen($txt)>$len ? substr($txt,0,$len-4) .'[...]':$txt);
 	if (!is_valid_id($id))
 	stderr('Error', 'Invalid ID!');
 	$res = sql_query('SELECT id FROM modscredits WHERE id = '.sqlesc($id));
-	if ($res->num_row() == 0)
+	if ($res->num_rows() == 0)
 	stderr("{$lang['credits_error']}", "{$lang['credits_nocr']}");
 	
 	$name = $_POST['name'];

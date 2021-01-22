@@ -33,7 +33,7 @@ $lang = array_merge($lang, load_language('referrers'));
 $HTMLOUT = '';
 if (!isset($_GET['page']) ? $_GET['page'] = 0 : (int)$_GET['page']);
 $res = sql_query("SELECT * FROM referrers") or sqlerr(__FILE__, __LINE__);
-$count = $res->num_row();
+$count = $res->num_rows();
 if ($count > 0) {
     $HTMLOUT.= "<h1>{$lang['ref_last']}</h1>
 	<table class='table table-bordered'>
@@ -50,7 +50,7 @@ if ($count > 0) {
     $i = (int)$_GET['page'] * $perpage;
     $pager = pager($perpage, $count, "staffpanel.php?tool=referrers&amp;");
     $res = sql_query("SELECT r.*, u.id as uid, u.username FROM referrers AS r LEFT JOIN users AS u ON u.ip = r.ip ORDER BY date DESC {$pager['limit']}") or sqlerr(__FILE__, __LINE__);
-    if ($res->num_row() > 0) while ($data = $res->fetch_assoc()) {
+    if ($res->num_rows() > 0) while ($data = $res->fetch_assoc()) {
         $i++;
         $http_agent = htmlsafechars($data['browser']);
         if (strstr($http_agent, "Opera")) 

@@ -126,7 +126,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 	  {
 		//---- Make sure topic exists and is unlocked
 		$res = sql_query("SELECT locked, topic_name FROM topics WHERE id=".sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
-		if ($res->num_row() == 0)
+		if ($res->num_rows() == 0)
 			stderr('Error', 'Inexistent Topic!');
 		
 		$arr = $res->fetch_assoc();

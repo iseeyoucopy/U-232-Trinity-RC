@@ -57,7 +57,7 @@ $HTMLOUT.= "<table class='table table-bordered'>\n
 			 <input type='submit' value='{$lang['sysoplog_search']}' style='height: 20px' />\n
 			 </form></td></tr></table>";
 if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
-if ($res->num_row() == 0) {
+if ($res->num_rows() == 0) {
     $HTMLOUT.= "<b>{$lang['sysoplog_norecord']}</b>";
 } else {
     $HTMLOUT.= "<table class='table table-bordered'>

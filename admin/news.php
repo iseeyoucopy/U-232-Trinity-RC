@@ -96,7 +96,7 @@ if ($mode == 'edit') {
     $newsid = (int)$_GET["newsid"];
     if (!is_valid_id($newsid)) stderr($lang['news_error'], $lang['news_edit_invalid']);
     $res = sql_query("SELECT id, body, title, userid, added, anonymous, sticky FROM news WHERE id=" . sqlesc($newsid)) or sqlerr(__FILE__, __LINE__);
-    if ($res->num_row() != 1) stderr($lang['news_error'], $lang['news_edit_nonews']);
+    if ($res->num_rows() != 1) stderr($lang['news_error'], $lang['news_edit_nonews']);
     $arr = $res->fetch_assoc();
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $body = isset($_POST['body']) ? htmlsafechars($_POST['body']) : '';

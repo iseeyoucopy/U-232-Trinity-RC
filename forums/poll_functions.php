@@ -32,7 +32,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     exit();
 }
 		$res = sql_query("SELECT p.*, pa.id AS pa_id, pa.selection FROM postpolls AS p LEFT JOIN postpollanswers AS pa ON pa.pollid = p.id AND pa.userid = ".sqlesc($CURUSER['id'])." WHERE p.id=".sqlesc($pollid)) or sqlerr(__FILE__, __LINE__);
-		if ($res->num_row() > 0)
+		if ($res->num_rows() > 0)
 		{
 		 $arr1 = $res->fetch_assoc();
 		  $userid = (int)$CURUSER['id'];

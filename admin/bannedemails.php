@@ -74,7 +74,7 @@ $HTMLOUT.= begin_frame("{$lang['ad_banemail_current']}", true);
 //$HTMLOUT.= "<div class='col-md-3>{$lang["ad_banemail_current"]}";
 
 if ($count1 > $perpage) $HTMLOUT.= $pager['pagertop'];
-if ($res->num_row() == 0) $HTMLOUT.= "<p align='center'><b>{$lang['ad_banemail_nothing']}</b></p>\n";
+if ($res->num_rows() == 0) $HTMLOUT.= "<p align='center'><b>{$lang['ad_banemail_nothing']}</b></p>\n";
 else {
     $HTMLOUT.= "<table class='table table-bordered'>\n";
     $HTMLOUT.= "<tr><td class='colhead'>{$lang['ad_banemail_add1']}</td><td class='colhead' align='left'>{$lang['ad_banemail_email']}</td>" . "<td class='colhead' align='left'>{$lang['ad_banemail_by']}</td><td class='colhead' align='left'>{$lang['ad_banemail_comment']}</td><td class='colhead'>{$lang['ad_banemail_remove']}</td></tr>\n";

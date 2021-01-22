@@ -18,7 +18,7 @@ function docleanup($data)
     //=== Download ban removal by Bigjoos/pdq:)
     $res = sql_query("SELECT id, modcomment FROM users WHERE downloadpos > 1 AND downloadpos < " . TIME_NOW) or sqlerr(__FILE__, __LINE__);
     $msgs_buffer = $users_buffer = array();
-    if ($res->num_row() > 0) {
+    if ($res->num_rows() > 0) {
         $subject = "Download ban expired.";
         $msg = "Your Download ban has expired and has been auto-removed by the system.\n";
         while ($arr = $res->fetch_assoc()) {

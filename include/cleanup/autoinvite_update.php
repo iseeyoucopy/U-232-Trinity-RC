@@ -20,7 +20,7 @@ function docleanup($data)
     $joined = (TIME_NOW - 86400 * 90);
     $res = sql_query("SELECT id, uploaded, invites, downloaded, modcomment FROM users WHERE invites='1' AND class = " . UC_USER . " AND uploaded / downloaded <= $ratiocheck AND enabled='yes' AND added < $joined") or sqlerr(__FILE__, __LINE__);
     $msgs_buffer = $users_buffer = array();
-    if ($res->num_row() > 0) {
+    if ($res->num_rows() > 0) {
         $subject = "Auto Invites";
         $msg = "Congratulations, your user group met a set out criteria therefore you have been awarded 2 invites  :)\n Please use them carefully. Cheers " . $TRINITY20['site_name'] . " staff.\n";
         while ($arr = $res->fetch_assoc()) {

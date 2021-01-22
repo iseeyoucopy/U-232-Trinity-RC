@@ -15,7 +15,7 @@ function auto_post($subject = "Error - Subject Missing", $body = "Error - No Bod
 {
     global $CURUSER, $TRINITY20, $cache, $mysqli;
     $res = sql_query("SELECT id FROM topics WHERE forum_id = {$TRINITY20['staff']['forumid']} AND topic_name = " . sqlesc($subject));
-    if ($res->num_row() == 1) { // Topic already exists in the system forum.
+    if ($res->num_rows() == 1) { // Topic already exists in the system forum.
         $arr = $res->fetch_assoc();
         $topicid = (int)$arr['id'];
     } else { // Create new topic.

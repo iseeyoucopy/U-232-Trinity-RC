@@ -18,7 +18,7 @@ function docleanup($data)
     //=== Upload ban removal by Bigjoos/pdq:)
     $res = sql_query("SELECT id, modcomment FROM users WHERE uploadpos > 1 AND uploadpos < " . TIME_NOW) or sqlerr(__FILE__, __LINE__);
     $msgs_buffer = $users_buffer = array();
-    if ($res->num_row() > 0) {
+    if ($res->num_rows() > 0) {
         $subject = "Upload ban expired.";
         $msg = "Your Upload ban has expired and has been auto-removed by the system.\n";
         while ($arr = $res->fetch_assoc()) {

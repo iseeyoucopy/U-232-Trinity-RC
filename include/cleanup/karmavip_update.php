@@ -18,7 +18,7 @@ function docleanup($data)
     //=== Updated remove karma vip by Bigjoos/pdq - change class number '1' in the users_buffer and $update[class'] to whatever is under your vip class number
     $res = sql_query("SELECT id, modcomment FROM users WHERE vip_added='yes' AND vip_until < " . TIME_NOW . "") or sqlerr(__FILE__, __LINE__);
     $msgs_buffer = $users_buffer = array();
-    if ($res->num_row() > 0) {
+    if ($res->num_rows() > 0) {
         $subject = "VIP status expired.";
         $msg = "Your VIP status has timed out and has been auto-removed by the system. Become a VIP again by donating to {$TRINITY20['site_name']} , or exchanging some Karma Bonus Points. Cheers !\n";
         while ($arr = $res->fetch_assoc()) {

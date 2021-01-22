@@ -18,7 +18,7 @@ function docleanup($data)
     //=== Games ban removal by Bigjoos/pdq:)
     $res = sql_query("SELECT id, modcomment FROM users WHERE game_access > 1 AND game_access < " . TIME_NOW) or sqlerr(__FILE__, __LINE__);
     $msgs_buffer = $users_buffer = array();
-    if ($res->num_row() > 0) {
+    if ($res->num_rows() > 0) {
         $subject = "Games ban expired.";
         $msg = "Your Games ban has expired and has been auto-removed by the system.\n";
         while ($arr = $res->fetch_assoc()) {
