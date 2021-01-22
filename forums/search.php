@@ -53,7 +53,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 			"LEFT JOIN forums AS f ON f.id=t.forum_id ".
 			"LEFT JOIN users AS u ON u.id=p.user_id ".
 			"WHERE p.body LIKE ".sqlesc("%".$keywords."%")." ".$pager['limit']."") or sqlerr(__FILE__, __LINE__);
-			$num = mysqli_num_rows($res);
+			$num = $res->num_rows;
 			$HTMLOUT .= $pager['pagertop']."<br>";
 			$HTMLOUT .= "<div class='row'><div class='col-md-12'>";
             $HTMLOUT .="<table class='table table-bordered'>

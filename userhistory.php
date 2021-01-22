@@ -40,7 +40,7 @@ if ($action == "viewposts") {
     $pager = pager($perpage, $postcount, "userhistory.php?action=viewposts&amp;id=$userid&amp;");
     //------ Get user data
     $res = sql_query("SELECT id, username, class, donor, warned, leechwarn, pirate, king, chatpost, enabled FROM users WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($res) == 1) {
+    if ($res->num_rows == 1) {
         $arr = $res->fetch_assoc();
         $subject = "" . format_username($arr, true);
     } else $subject = $lang['posts_unknown'] . '[' . $userid . ']';
@@ -51,7 +51,7 @@ if ($action == "viewposts") {
 //    die("Query: ".$query);
 
     $res = sql_query($query) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($res) == 0) stderr($lang['stderr_errorhead'], $lang['top_noposts']);
+    if ($res->num_rows == 0) stderr($lang['stderr_errorhead'], $lang['top_noposts']);
     $HTMLOUT.= "<h1>{$lang['top_posthfor']} $subject</h1>\n";
     if ($postcount > $perpage) $HTMLOUT.= $pager['pagertop'];
     //------ Print table
@@ -110,7 +110,7 @@ if ($action == "viewcomments") {
     $pager = pager($perpage, $commentcount, "userhistory.php?action=viewcomments&amp;id=$userid&amp;");
     //------ Get user data
     $res = sql_query("SELECT id, class, username, donor, warned, leechwarn, chatpost, pirate, king, enabled FROM users WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($res) == 1) {
+    if ($res->num_rows == 1) {
         $arr = $res->fetch_assoc();
         $subject = "" . format_username($arr, true);
     } else $subject = $lang['posts_unknown'] . '[' . $userid . ']';
@@ -118,7 +118,7 @@ if ($action == "viewcomments") {
     $select_is = "t.name, c.torrent AS t_id, c.id, c.added, c.text";
     $query = "SELECT $select_is FROM $from_is WHERE $where_is ORDER BY $order_is {$pager['limit']}";
     $res = sql_query($query) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($res) == 0) stderr($lang['stderr_errorhead'], $lang['top_nocomms']);
+    if ($res->num_rows == 0) stderr($lang['stderr_errorhead'], $lang['top_nocomms']);
     $HTMLOUT.= "<h1>{$lang['top_commhfor']} $subject</h1>\n";
     if ($commentcount > $perpage) $HTMLOUT.= $pager['pagertop'];
     //------ Print table

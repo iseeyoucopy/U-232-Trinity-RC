@@ -71,7 +71,7 @@ $perpage = 25;
 $pager = pager($perpage, $count, "staffpanel.php?tool=acpmanage&amp;action=acpmanage&amp;");
 $res = sql_query("SELECT id, username, added, downloaded, uploaded, last_access, class, donor, warned, enabled, status FROM users WHERE enabled='no' OR status='pending' ORDER BY username DESC {$pager['limit']}");
  $HTMLOUT.= "<div class='row'><div class='col-md-12'><table class='table table-bordered'><tr><td>{$lang['text_du']}  $disabled</td><td> {$lang['text_pu']}  $pending</td></tr></table></div><br>";
-if (mysqli_num_rows($res) != 0) {
+if ($res->num_rows != 0) {
     if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
     $HTMLOUT.= "<div class='col-md-12'>";
     $HTMLOUT.= "<form action='staffpanel.php?tool=acpmanage&amp;action=acpmanage' method='post'>";

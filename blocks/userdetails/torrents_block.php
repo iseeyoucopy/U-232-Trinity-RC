@@ -11,7 +11,7 @@
  * ------------  @version V6  ------------------*
  */
 $r = sql_query("SELECT t.id, t.name, t.seeders, t.leechers, c.name AS cname, c.image FROM torrents t LEFT JOIN categories c ON t.category = c.id WHERE t.owner = " . sqlesc($id) . " ORDER BY t.name") or sqlerr(__FILE__, __LINE__);
-if ($r->num_rows() > 0) {
+if ($r->num_rows > 0) {
     $torrents = '';
    while ($a = $r->fetch_assoc()) {
         $cat = "<img src=\"{$TRINITY20['pic_base_url']}/caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($a['image']) . "\" title=\"" . htmlsafechars($a['cname']) . "\" alt=\"" . htmlsafechars($a['cname']) . "\">";

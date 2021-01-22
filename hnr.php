@@ -46,7 +46,7 @@ if (!$count)
     stderr("No Hit And Runs", "<font class='statusbartext'>It appears that <a class='altlink_default' href='userdetails.php?id=" . intval($arr['id']) . "'>" . htmlsafechars($arr['username']) . "</a> currently has no hit and runs.</font>");
 
 $r = sql_query("SELECT torrents.name,torrents.added AS torrent_added, snatched.start_date AS s, snatched.complete_date AS c, snatched.downspeed, snatched.seedtime, snatched.seeder, snatched.torrentid as tid, snatched.id, categories.id as category, categories.image, categories.name as catname, users.class, users.id, snatched.uploaded, snatched.downloaded, snatched.hit_and_run, snatched.mark_of_cain, snatched.complete_date, snatched.last_action, torrents.seeders, torrents.leechers, torrents.owner, snatched.start_date AS st, snatched.start_date FROM snatched JOIN users ON users.id = snatched.userid JOIN torrents ON torrents.id = snatched.torrentid JOIN categories ON categories.id = torrents.category WHERE snatched.finished='yes' AND userid=" . sqlesc($id) . " AND snatched.hit_and_run != '0' AND torrents.owner != " . sqlesc($id) . " ORDER BY snatched.id DESC {$pager['limit']}") or sqlerr(__FILE__, __LINE__);
-if ($r->num_rows() > 0) {
+if ($r->num_rows > 0) {
     
     $HTMLOUT .= "<div class='disclaimer'>
         <div style='background:#0C0C0C;height:25px;'>

@@ -126,8 +126,8 @@ function snatchtable_staff($res)
     } else {
         $res = sql_query("SELECT x.started AS s, x.completedtime AS c, x.mtime AS l_a, x.seedtime AS s_t, x.seedtime, x.leechtime AS l_t, x.leechtime, x.downspeed, x.upspeed, x.uploaded, x.downloaded, x.tid, x.started, x.completedtime, x.active, x.mtime, x.connectable, x.peer_id, cat.name, cat.image, t.size, t.seeders, t.leechers, t.owner, t.name AS torrent_name " . "FROM xbt_peers AS x " . "LEFT JOIN torrents AS t ON t.id = x.tid " . "LEFT JOIN categories AS cat ON cat.id = t.category " . "WHERE x.uid=" . sqlesc($id) . " AND x.tid IN (SELECT id FROM torrents) ORDER BY x.started DESC") or sqlerr(__FILE__, __LINE__);
     }
-    $count_snatched_staff = mysqli_num_rows($res);
-    if (mysqli_num_rows($res) > 0) {
+    $count_snatched_staff = $res->num_rows;
+    if ($res->num_rows > 0) {
         $user_snatches_data_staff = snatchtable_staff($res);
     } else {
         $user_snatches_data_staff = $lang['userdetails_s_nothing'];

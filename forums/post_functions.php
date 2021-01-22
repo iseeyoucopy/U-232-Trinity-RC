@@ -95,7 +95,7 @@ function insert_quick_jump_menu($currentforum = 0)
             stderr("Sorry", "The topic is locked.");
             $htmlout .= end_table();
             $htmlout .= end_main_frame();
-            echo stdhead("Compose" , true, $stdhead) . $htmlout . stdfoot($stdfoot);
+            //echo stdhead("Compose" , true, $stdhead) . $htmlout . stdfoot($stdfoot);
             exit();
         }
         if($CURUSER["class"] < $arr["min_class_read"]){
@@ -156,15 +156,15 @@ function insert_quick_jump_menu($currentforum = 0)
             stderr("Error", "Invalid ID!");
             $htmlout .= end_table();
             $htmlout .= end_main_frame();
-            echo stdhead("Compose", true, $stdhead) . $htmlout . stdfoot($stdfoot);
+            //echo stdhead("Compose", true, $stdhead) . $htmlout . stdfoot($stdfoot);
             exit();
         }
         $res = sql_query("SELECT posts.*, users.username FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id =".sqlesc($postid)) or sqlerr(__FILE__, __LINE__);
-        if (mysqli_num_rows($res) == 0) {
+        if ($res->num_rows == 0) {
             stderr("Error", "No post with this ID");
             $htmlout .= end_table();
             $htmlout .= end_main_frame();
-            echo stdhead("Error - No post with this ID", true, $stdhead) . $htmlout . stdfoot($stdfoot);
+            //echo stdhead("Error - No post with this ID", true, $stdhead) . $htmlout . stdfoot($stdfoot);
             exit();
         }
         $arr = $res->fetch_assoc();

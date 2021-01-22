@@ -81,7 +81,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
         if ($new_forumid != $forumid) {
             $post_count = (int)$topic_arr['post_count'];
             $res = sql_query("SELECT min_class_write FROM forums WHERE id=".sqlesc($new_forumid)) or sqlerr(__FILE__, __LINE__);
-            if (mysqli_num_rows($res) != 1)
+            if ($res->num_rows != 1)
                 stderr("Error...", "Forum not found!");
             $arr = $res->fetch_assoc();
             if ($CURUSER['class'] < (int)$arr['min_class_write'])

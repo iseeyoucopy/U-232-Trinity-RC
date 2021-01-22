@@ -50,7 +50,7 @@ function catch_up($id = 0)
 function get_forum_access_levels($forumid)
 {
     $res = sql_query("SELECT min_class_read, min_class_write, min_class_create FROM forums WHERE id=".sqlesc($forumid)) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($res) != 1)
+    if ($res->num_rows != 1)
         return false;
     $arr = $res->fetch_assoc();
     return array("read" => $arr["min_class_read"], "write" => $arr["min_class_write"], "create" => $arr["min_class_create"]);
@@ -59,7 +59,7 @@ function get_forum_access_levels($forumid)
 function get_topic_forum($topicid)
 {
     $res = sql_query("SELECT forum_id FROM topics WHERE id=".sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($res) != 1)
+    if ($res->num_rows != 1)
         return false;
     $arr = $res->fetch_assoc();
     return (int)$arr['forum_id'];
@@ -137,7 +137,7 @@ function forum_stats()
          $res = sql_query('SELECT id, username, class, donor, warned, enabled, chatpost, leechwarn, pirate, king '.
                   'FROM users WHERE forum_access >= '.$dt.' '.
                   'ORDER BY username ASC') or sqlerr(__FILE__, __LINE__);
-         $forum_actcount = mysqli_num_rows($res);
+         $forum_actcount = $res->num_rows;
          while ($arr = $res->fetch_assoc()) {
           if ($forum_activeusers)
           $forum_activeusers .= ",\n";

@@ -109,7 +109,7 @@ EOD;
     if ($delete != 0) {
         //=== be sure they should be deleting this...
         $res = sql_query('SELECT saved, receiver FROM messages WHERE id=' . sqlesc($delete)) or sqlerr(__FILE__, __LINE__);
-        if (mysqli_num_rows($res) > 0) {
+        if ($res->num_rows > 0) {
             $arr = $res->fetch_assoc();
             //if ($arr['receiver'] !== $CURUSER['id'])
             if ($arr['receiver'] != $CURUSER['id']) stderr($lang['pm_send_quote'], $lang['pm_send_thou']);

@@ -238,7 +238,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
     loggedinorreturn();
     if ($CURUSER['class'] < UC_STAFF) stderr("Error", "There is nothing for you here! Go play somewere else");
     $r = sql_query("SELECT p.*,u.username from promo as p LEFT JOIN users as u on p.creator=u.id ORDER by p.added,p.days_valid DESC") or sqlerr(__FILE__, __LINE__);
-    if ($r->num_rows() == 0) stderr("Error", "There is no promo if you want to make one click <a href=\"" . $_SERVER["PHP_SELF"] . "?do=addpromo\">here</a>");
+    if ($r->num_rows == 0) stderr("Error", "There is no promo if you want to make one click <a href=\"" . $_SERVER["PHP_SELF"] . "?do=addpromo\">here</a>");
     else {      
 	$HTMLOUT.= "<div class='row'><div class='col-md-12'><h2>Current Promos&nbsp;<font class=\"small\"><a href=\"" . $_SERVER["PHP_SELF"] . "?do=addpromo\">- Add promo</a></font></h2>";
 	$HTMLOUT.= "<script type='text/javascript'>

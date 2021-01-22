@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $time = trim(htmlsafechars($_POST["time"]));
     if (!$tid || !$time) stderr("{$lang['text_error']}", "{$lang['text_please']}");
     $res = sql_query("SELECT * FROM torrents WHERE id=".sqlesc($tid)) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($res) != 1) stderr("{$lang['text_error']}", "{$lang['text_bad']}");
+    if ($res->num_rows != 1) stderr("{$lang['text_error']}", "{$lang['text_bad']}");
     $arr = $res->fetch_assoc();
     $name = $arr['name'];
     $res = sql_query("INSERT INTO releases (releasename, time, releasetime, section) VALUES (".sqlesc($name).", ".sqlesc($time).", ".sqlesc($time).", 'Site add')") or sqlerr(__FILE__, __LINE__);

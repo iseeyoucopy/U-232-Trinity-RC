@@ -16,7 +16,7 @@ if (($last24_cache = $cache->get($keys['last24'])) === false) {
     $activeusers24 = '';
     $arr = mysqli_fetch_assoc(sql_query('SELECT * FROM avps WHERE arg = "last24"'));
     $res = sql_query('SELECT id, username, class, donor, title, warned, enabled, chatpost, leechwarn, pirate, king, perms ' . 'FROM users WHERE last_access >= ' . $time24 . ' ' . 'AND perms < ' . bt_options::PERMS_STEALTH . ' ORDER BY username ASC') or sqlerr(__FILE__, __LINE__);
-    $totalonline24 = mysqli_num_rows($res);
+    $totalonline24 = $res->num_rows;
     $_ss24 = $totalonline24;
     $last24record = get_date($arr['value_u'], '');
     $last24 = $arr['value_i'];

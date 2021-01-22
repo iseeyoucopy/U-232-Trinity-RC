@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $CURUSER['class'] >= UC_MAX) {
 // == Query update by Putyn
 $res = sql_query("SELECT a1.*, (SELECT COUNT(a2.id) FROM achievements AS a2 WHERE a2.achievement = a1.achievname) as count FROM achievementist AS a1 ORDER BY a1.id ") or sqlerr(__FILE__, __LINE__);
 $HTMLOUT = '';
-if (mysqli_num_rows($res) == 0) {
+if ($res->num_rows == 0) {
     require_once (BLOCK_DIR . 'achievements/ach_list_noachiev.php');
 } else {
     require_once (BLOCK_DIR . 'achievements/ach_list.php');

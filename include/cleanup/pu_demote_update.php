@@ -51,7 +51,7 @@ function docleanup($data)
         $res = sql_query("SELECT id, uploaded, downloaded, modcomment FROM users WHERE class = $class_value AND uploaded / downloaded < $minratio") or sqlerr(__FILE__, __LINE__);
         $subject     = "Auto Demotion";
         $msgs_buffer = $users_buffer = array();
-        if (mysqli_num_rows($res) > 0) {
+        if ($res->num_rows > 0) {
             $msg = "You have been auto-demoted from [b]{$class_name}[/b] to [b]{$prev_class_name}[/b] because your share ratio has dropped below {$minratio}.";
             
             while ($arr = $res->fetch_assoc()) {

@@ -18,7 +18,7 @@ function docleanup($data)
     //=== Chat Ban removal by Bigjoos/pdq:)
     $res = sql_query("SELECT id, modcomment FROM users WHERE chatpost > 1 AND chatpost < " . TIME_NOW) or sqlerr(__FILE__, __LINE__);
     $msgs_buffer = $users_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_rows > 0) {
         $subject = "Chat ban expired.";
         $msg = "Your Chat ban has expired and has been auto-removed by the system.\n";
         while ($arr = $res->fetch_assoc()) {

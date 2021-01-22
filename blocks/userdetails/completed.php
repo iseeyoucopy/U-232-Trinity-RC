@@ -20,7 +20,7 @@ if ($TRINITY20['hnr_online'] == 1 || $CURUSER['id'] == $id || $CURUSER['class'] 
     $r = sql_query("SELECT torrents.name, torrents.added AS torrent_added, xbt_peers.mtime AS c, xbt_peers.active, xbt_peers.left, xbt_peers.tid as tid, categories.id as category, categories.image, categories.name as catname, xbt_peers.uploaded, xbt_peers.downloaded, xbt_peers.mtime, xbt_peers.uid, torrents.seeders, torrents.leechers, torrents.owner FROM xbt_peers JOIN torrents ON torrents.id = xbt_peers.tid JOIN categories ON categories.id = torrents.category WHERE xbt_peers.completed>='1' AND uid=" . sqlesc($id) . " AND torrents.owner != " . sqlesc($id) . " ORDER BY xbt_peers.tid DESC") or sqlerr(__FILE__, __LINE__);
 }
     //=== completed
-    if ($r->num_rows() > 0) {
+    if ($r->num_rows > 0) {
         $completed.= "<table class='table table-bordered'>
     <tr>
     <td class='text-center'>{$lang['userdetails_type']}</td>
@@ -156,8 +156,8 @@ if ($TRINITY20['hnr_online'] == 1 || $CURUSER['id'] == $id || $CURUSER['class'] 
         $completed.= "</table>\n";
     }
     if ($completed && $CURUSER['class'] >= UC_POWER_USER || $completed && $user['id'] == $CURUSER['id']) {
-        if (!isset($_GET['completed'])) $HTMLOUT.= tr('<b>' . $lang['userdetails_completedt'] . '</b><br />', '[ <a href=\'./userdetails.php?id=' . $id . '&amp;completed=1#completed\' class=\'sublink\'>' .$lang['userdetails_c_show'] . '</a> ]&nbsp;&nbsp;-&nbsp;' . $r->num_rows() , 1);
-        elseif ($r->num_rows() == 0) $HTMLOUT.= tr('<b>' . $lang['userdetails_completedt'] . '</b><br />', '[ <a href=\'./userdetails.php?id=' . $id . '&amp;completed=1\' class=\'sublink\'>' .$lang['userdetails_c_show'] . '</a> ]&nbsp;&nbsp;-&nbsp;' . $r->num_rows() , 1);
+        if (!isset($_GET['completed'])) $HTMLOUT.= tr('<b>' . $lang['userdetails_completedt'] . '</b><br />', '[ <a href=\'./userdetails.php?id=' . $id . '&amp;completed=1#completed\' class=\'sublink\'>' .$lang['userdetails_c_show'] . '</a> ]&nbsp;&nbsp;-&nbsp;' . $r->num_rows , 1);
+        elseif ($r->num_rows == 0) $HTMLOUT.= tr('<b>' . $lang['userdetails_completedt'] . '</b><br />', '[ <a href=\'./userdetails.php?id=' . $id . '&amp;completed=1\' class=\'sublink\'>' .$lang['userdetails_c_show'] . '</a> ]&nbsp;&nbsp;-&nbsp;' . $r->num_rows , 1);
         else $HTMLOUT.= tr('<a name=\'completed\'><b>' . $lang['userdetails_completedt'] . '</b></a><br />[ <a href=\'./userdetails.php?id=' . $id . '#history\' class=\'sublink\'>' .$lang['userdetails_c_hide'] . '</a> ]', $completed, 1);
     }
 }

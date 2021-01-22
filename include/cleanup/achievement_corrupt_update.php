@@ -18,7 +18,7 @@ function docleanup($data)
     // Updated Corruption Counts
     $res = sql_query("SELECT users.id, users.corrupt, usersachiev.corrupt FROM users LEFT JOIN usersachiev ON users.id = usersachiev.id WHERE enabled = 'yes' AND users.corrupt >= '1' AND usersachiev.corrupt = '0'") or sqlerr(__FILE__, __LINE__);
     $msg_buffer = $usersachiev_buffer = $achievements_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_rows > 0) {
         $subject = sqlesc("New Achievement Earned!");
         $msg = sqlesc("Congratulations, you have just earned the [b]Corruption Counts[/b] achievement. :) [img]".$TRINITY20['baseurl']."/pic/achievements/corrupt.png[/img]");
         while ($arr = $res->fetch_assoc()) {

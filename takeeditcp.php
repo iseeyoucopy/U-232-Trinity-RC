@@ -167,7 +167,7 @@ elseif ($action == "security") {
     if ($email != $CURUSER["email"]) {
         if (!validemail($email)) stderr($lang['takeeditcp_err'], $lang['takeeditcp_not_valid_email']);
         $r = sql_query("SELECT id FROM users WHERE email=" . sqlesc($email)) or sqlerr(__FILE__, __LINE__);
-        if ($r->num_rows() > 0 || ($CURUSER["passhash"] != make_passhash($CURUSER['secret'], md5($chmailpass)))) stderr($lang['takeeditcp_err'], $lang['takeeditcp_address_taken']);
+        if ($r->num_rows > 0 || ($CURUSER["passhash"] != make_passhash($CURUSER['secret'], md5($chmailpass)))) stderr($lang['takeeditcp_err'], $lang['takeeditcp_address_taken']);
         $changedemail = 1;
     }
     if ($secretanswer != '') {

@@ -36,7 +36,7 @@ if ($remove) {
     if (empty($remove)) die($lang['freeusers_wtf']);
     $res = sql_query("SELECT id, username, class FROM users WHERE free_switch != 0 AND id = " . sqlesc($remove)) or sqlerr(__file__, __line__);
     $msgs_buffer = $users_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_rows > 0) {
         $msg = sqlesc($lang['freeusers_msg'] . $CURUSER['username'] . $lang['freeusers_period']);
         while ($arr = $res->fetch_assoc()) {
             $modcomment = sqlesc(get_date(TIME_NOW, 'DATE', 1) . $lang['freeusers_mod1'] . $CURUSER['username'] . " \n");

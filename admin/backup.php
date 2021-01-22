@@ -125,7 +125,7 @@ if (empty($mode)) {
     $HTMLOUT.= $lang['backup_welcome'];
     $HTMLOUT.= "<br /><h1 align='center'></h1>";
     $res = sql_query('SELECT db.id, db.name, db.added, u.id AS uid, u.username ' . 'FROM dbbackup AS db ' . 'LEFT JOIN users AS u ON u.id = db.userid ' . 'ORDER BY db.added DESC') or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_rows > 0) {
         $HTMLOUT.= "<form method='post' action='staffpanel.php?tool=backup&amp;mode=delete'>
    <input type='hidden' name='action' value='delete' />
    <table align='center' cellpadding='5' width='75%'>
@@ -226,7 +226,7 @@ if (empty($mode)) {
     if (!empty($ids)) {
         foreach ($ids as $id) if (!is_valid_id($id)) stderr($lang['backup_stderr'], $lang['backup_id']);
         $res = sql_query("SELECT name FROM dbbackup WHERE id IN (" . implode(', ', array_map('sqlesc', $ids)) . ")") or sqlerr(__FILE__, __LINE__);
-        $count = mysqli_num_rows($res);
+        $count = $res->num_rows;
         if ($count > 0) {
             while ($arr = $res->fetch_assoc()) {
                 $filename = $backupdir . '/' . $arr['name'];

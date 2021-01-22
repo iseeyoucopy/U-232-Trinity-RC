@@ -38,7 +38,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 					   "FROM attachmentdownloads AS atdl ".
 					   "LEFT JOIN attachments AS at ON at.id=atdl.file_id ".
 					   "WHERE file_id = ".sqlesc($fileid).($CURUSER['class'] < UC_STAFF ? " AND user_id=".sqlesc($CURUSER['id']) : '')) or sqlerr(__FILE__, __LINE__);
-	if (mysqli_num_rows($res) == 0)
+	if ($res->num_rows == 0)
 	die("<h2 align='center'>Nothing found!</h2>");
 	else
 	{

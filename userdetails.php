@@ -310,10 +310,10 @@ if ($CURUSER["id"] != $user["id"])
 	}
 elseif ($user["acceptpms"] == "yes") {
     $r = sql_query("SELECT id FROM blocks WHERE userid=" . sqlesc($user['id']) . " AND blockid=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-    $showpmbutton = ($r->num_rows() == 1 ? 0 : 1);
+    $showpmbutton = ($r->num_rows == 1 ? 0 : 1);
 } elseif ($user["acceptpms"] == "friends") {
     $r = sql_query("SELECT id FROM friends WHERE userid=" . sqlesc($user['id']) . " AND friendid=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-    $showpmbutton = ($r->num_rows() == 1 ? 1 : 0);
+    $showpmbutton = ($r->num_rows == 1 ? 1 : 0);
 }
 //== Add or Remove Friends - updated 2020 by iseeyoucopy
 if (($friends = $cache->get('Friends_' . $id)) === false) {

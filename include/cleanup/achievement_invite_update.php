@@ -18,7 +18,7 @@ function docleanup($data)
     // *Updated* Invites Achievements Mod by MelvinMeow
     $res = sql_query("SELECT id, invited, inviterach FROM usersachiev WHERE invited >= '1'") or sqlerr(__FILE__, __LINE__);
     $msg_buffer = $usersachiev_buffer = $achievements_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_rows > 0) {
         $dt = TIME_NOW;
         $subject = sqlesc("New Achievement Earned!");
         $points = rand(1, 3);

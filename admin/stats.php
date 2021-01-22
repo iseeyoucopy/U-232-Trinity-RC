@@ -51,7 +51,7 @@ $query = "SELECT u.id, u.username AS name, MAX(t.added) AS last, COUNT(DISTINCT 
       FROM users as u LEFT JOIN torrents as t ON u.id = t.owner LEFT JOIN peers as p ON t.id = p.torrent WHERE u.class > " . UC_UPLOADER . "
       GROUP BY u.id ORDER BY $orderby";
 $res = sql_query($query) or sqlerr(__FILE__, __LINE__);
-if (mysqli_num_rows($res) == 0) stdmsg($lang['stats_error'], $lang['stats_error1']);
+if ($res->num_rows == 0) stdmsg($lang['stats_error'], $lang['stats_error1']);
 else {
     //$HTMLOUT.= begin_frame($lang['stats_title1'], True);
     //$HTMLOUT.= begin_table();

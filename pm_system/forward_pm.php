@@ -38,7 +38,7 @@ if (!defined('BUNNY_PM_SYSTEM')) {
 //=== make sure they "should" be forwarding this PM
 $res = sql_query('SELECT * FROM messages WHERE id=' . sqlesc($pm_id)) or sqlerr(__FILE__, __LINE__);
 $message = $res->fetch_assoc();
-if (mysqli_num_rows($res) === 0) stderr($lang['pm_error'], $lang['pm_forwardpm_notfound']);
+if ($res->num_rows === 0) stderr($lang['pm_error'], $lang['pm_forwardpm_notfound']);
 if ($message['receiver'] == $CURUSER['id'] && $message['sender'] == $CURUSER['id']) stderr($lang['pm_error'], $lang['pm_forwardpm_gentleman']);
 //=== Try finding a user with specified name
 $res_username = sql_query('SELECT id, class, acceptpms, notifs FROM users WHERE LOWER(username)=LOWER(' . sqlesc(htmlsafechars($_POST['to'])) . ') LIMIT 1');

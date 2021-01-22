@@ -18,7 +18,7 @@ function docleanup($data)
     // Updated Avatar Setter Achievement
     $res = sql_query("SELECT id, avatarset FROM usersachiev WHERE avatarset = '1' AND avatarach = '0'") or sqlerr(__FILE__, __LINE__);
     $msg_buffer = $usersachiev_buffer = $achievements_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_rows > 0) {
         $subject = sqlesc("New Achievement Earned!");
         $msg = sqlesc("Congratulations, you have just earned the [b]Avatar Setter[/b] achievement. :) [img]".$TRINITY20['baseurl']."/pic/achievements/piratesheep.png[/img]");
         while ($arr = $res->fetch_assoc()) {

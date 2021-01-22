@@ -5,7 +5,7 @@
     //==cats
     $categories = '';
     $r = sql_query("SELECT id, image, name FROM categories ORDER BY name") or sqlerr(__FILE__, __LINE__);
-    if ($r->num_rows() > 0) {
+    if ($r->num_rows > 0) {
         $categories.= "<table><tr>\n";
         $i = 0;
         while ($a = $r->fetch_assoc()) {

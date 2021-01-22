@@ -23,7 +23,7 @@ function docleanup($data)
     $length = 3 * 7; // Give 3 weeks to let them sort there shit
     $res = sql_query("SELECT id, modcomment FROM users WHERE enabled='yes' AND class = " . UC_USER . " AND leechwarn = '0' AND uploaded / downloaded < $minratio AND uploaded / downloaded > $base_ratio AND downloaded >= $downloaded AND immunity = '0'") or sqlerr(__FILE__, __LINE__);
     $msgs_buffer = $users_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_rows > 0) {
         $dt = sqlesc(TIME_NOW);
         $subject = "Auto leech warned";
         $msg = "You have been warned and your download rights have been removed due to your low ratio. You need to get a ratio of 0.5 within the next 3 weeks or your Account will be disabled.";
@@ -63,7 +63,7 @@ function docleanup($data)
     $minratio = 0.5; // ratio > 0.5
     $res = sql_query("SELECT id, modcomment FROM users WHERE downloadpos = '0' AND leechwarn > '1' AND uploaded / downloaded >= $minratio") or sqlerr(__FILE__, __LINE__);
     $msgs_buffer = $users_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_rows > 0) {
         $subject = "Auto leech warning removed";
         $msg = "Your warning for a low ratio has been removed and your downloads enabled. We highly recommend you to keep your ratio positive to avoid being automatically warned again.\n";
         while ($arr = $res->fetch_assoc()) {
@@ -99,7 +99,7 @@ function docleanup($data)
     //== Disabled expired leechwarns
     $res = sql_query("SELECT id, modcomment FROM users WHERE leechwarn > '1' AND leechwarn < " . TIME_NOW . " AND leechwarn <> '0' ") or sqlerr(__FILE__, __LINE__);
     $users_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_rows > 0) {
         while ($arr = $res->fetch_assoc()) {
             $modcomment = $arr['modcomment'];
             $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - User disabled - Low ratio.\n" . $modcomment;
