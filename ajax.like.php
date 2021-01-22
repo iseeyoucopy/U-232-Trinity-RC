@@ -33,9 +33,9 @@ $tb_fields = array(
 );
 $agent = isset($_POST['agent']) ? htmlsafechars($_POST['agent']) : die('hell no');
 //$ip =                isset($_POST['i']) ? md5(getips()) == $_POST['i'] ? getips() : die('No Proper data') : die('hell no');
-$user_ag_chk = isset($_POST['ua']) ? md5($agent) == $_POST['ua'] ? true : die('Wrong User Agent') : die('No User Agent');
+$user_ag_chk = isset($_POST['ua']) ? (md5($agent) == $_POST['ua'] ? true : die('Wrong User Agent')) : die('No User Agent');
 $the_id = isset($_POST['one']) ? (int) $_POST['one'] : die('false');
-$type = isset($_POST['two']) ? (array_key_exists($_POST['two'][0], $tb_fields) && isset($_POST['two'][1])) ? $_POST['two'] : die('Data Missing') : die('Missing Data');
+$type = isset($_POST['two']) ? (array_key_exists($_POST['two'][0], $tb_fields) && (isset($_POST['two'][1])) ? $_POST['two'] : die('Data Missing')) : die('Missing Data');
 
 comment_like_unlike();
 function comment_like_unlike()

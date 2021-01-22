@@ -36,7 +36,7 @@ if (!$arr) stderr($lang['achievement_history_err'], $lang['achievement_history_e
 $achpoints = (int)$arr['achpoints'];
 $spentpoints = (int)$arr['spentpoints'];
 $res = sql_query("SELECT COUNT(*) FROM achievements WHERE userid =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-$row = mysqli_fetch_row($res);
+$row = $res->fetch_row();
 $count = $row[0];
 $perpage = 15;
 if (!$count) stderr($lang['achievement_history_no'], "{$lang['achievement_history_err2']}<a class='altlink' href='userdetails.php?id=" . (int)$arr['id'] . "'>" . htmlsafechars($arr['username']) . "</a>{$lang['achievement_history_err3']}");

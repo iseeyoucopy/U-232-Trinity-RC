@@ -21,7 +21,7 @@ $HTMLOUT = '';
 if (isset($_POST["form"]) != 1) {
     $res = sql_query("SELECT status FROM uploadapp WHERE userid = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
-	$status_arr = isset($arr['status']) ? int($arr['status']) : "";
+	$status_arr = isset($arr['status']) ? (int)$arr['status'] : "";
     if ($CURUSER['class'] >= UC_UPLOADER) 
 		stderr($lang['uploadapp_user_error'], $lang['uploadapp_alreadyup']);
     elseif 
@@ -39,7 +39,7 @@ if (isset($_POST["form"]) != 1) {
         } else {
         $res = sql_query("SELECT connectable FROM xbt_peers WHERE uid=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
         }
-        if ($row = mysqli_fetch_row($res)) {
+        if ($row = $res->fetch_row()) {
         $Conn_Y = (XBT_TRACKER === true ? 1 : 'yes');
             $connect = $row[0];
             if ($connect == $Conn_Y) $connectable = 'Yes';
@@ -137,7 +137,8 @@ if (isset($_POST["form"]) != 1) {
         $msg = sqlesc("An uploader application has just been filled in by [url={$TRINITY20['baseurl']}/userdetails.php?id=" . (int)$CURUSER['id'] . "][b]{$CURUSER['username']}[/b][/url]. Click [url={$TRINITY20['baseurl']}/staffpanel.php?tool=uploadapps&action=show][b]Here[/b][/url] to go to the uploader applications page.");
         $dt = TIME_NOW;
         $subres = sql_query('SELECT id FROM users WHERE class = ' . UC_STAFF) or sqlerr(__FILE__, __LINE__);
-        while ($arr = $subres->fetch_assoc()) sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, " . sqlesc($arr['id']) . ", $dt, $msg, $subject, 0)") or sqlerr(__FILE__, __LINE__);
+        while ($arr = $subres->fetch_assoc()) 
+            sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, " . sqlesc($arr['id']) . ", $dt, $msg, $subject, 0)") or sqlerr(__FILE__, __LINE__);
         $cache->delete('inbox_new::' . $arr['id']);
         $cache->delete('inbox_new_sb::' . $arr['id']);
         stderr($lang['uploadapp_appsent'], $lang['uploadapp_success']);

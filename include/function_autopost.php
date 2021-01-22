@@ -13,7 +13,7 @@
 // === auto post by retro
 function auto_post($subject = "Error - Subject Missing", $body = "Error - No Body") // Function to use the special system message forum
 {
-    global $CURUSER, $TRINITY20, $cache;
+    global $CURUSER, $TRINITY20, $cache, $mysqli;
     $res = sql_query("SELECT id FROM topics WHERE forum_id = {$TRINITY20['staff']['forumid']} AND topic_name = " . sqlesc($subject));
     if (mysqli_num_rows($res) == 1) { // Topic already exists in the system forum.
         $arr = $res->fetch_assoc();

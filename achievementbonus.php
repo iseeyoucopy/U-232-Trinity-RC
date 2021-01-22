@@ -30,7 +30,7 @@ $min = 1;
 $max = 32;
 $rand = (int) mt_rand((int) $min, (int) $max);
 $res = sql_query("SELECT achpoints FROM usersachiev WHERE id =" . sqlesc($id) . " AND achpoints >= '1'") or sqlerr(__FILE__, __LINE__);
-$row = mysqli_fetch_row($res);
+$row = $res->fetch_row();
 $count = $row['0'];
 if (!$count) {
     header("Refresh: 3; url=achievementhistory.php?id=$id");
