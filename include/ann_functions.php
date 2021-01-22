@@ -10,6 +10,10 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
+$mysqli = new mysqli($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass'], $TRINITY20['mysql_db']);
+if ($mysqli->connect_errno) {
+    err('Please call back later');
+  }
 //== Announce mysql error
 function ann_sqlerr($file = '', $line = '')
 {
@@ -24,6 +28,9 @@ function ann_sqlerr($file = '', $line = '')
         $_ann_sql_err.= "\n IP Address: " . $_SERVER['REMOTE_ADDR'];
         $_ann_sql_err.= "\n in file " . $file . " on line " . $line;
         $_ann_sql_err.= "\n URL:" . $_SERVER['REQUEST_URI'];
+		$error_username = isset($CURUSER['username']) ? $CURUSER['username'] : '';
+		$error_userid = isset($CURUSER['id']) ? $CURUSER['id'] : '';
+        $_ann_sql_err.= "\n Username: {$error_username}[{$error_userid}]";
         if ($FH = @fopen($TRINITY20['ann_sql_error_log'], 'a')) {
             @fwrite($FH, $_ann_sql_err);
             @fclose($FH);
@@ -33,9 +40,9 @@ function ann_sqlerr($file = '', $line = '')
 //==Announce Sql query logging
 function ann_sql_query($a_query)
 {
-    global $a_query_stat, $TRINITY20;
+    global $a_query_stat, $TRINITY20, $mysqli;
     $a_query_start_time = microtime(true); // Start time
-    $result = mysqli_query($GLOBALS["___mysqli_ston"], $a_query);
+    $result = $mysqli->query($a_query);
     $a_query_end_time = microtime(true); // End time
     $a_querytime = ($a_query_end_time - $a_query_start_time);
     $a_query_stat[] = array(
@@ -418,7 +425,8 @@ function portblacklisted($port)
 }
 function ann_sqlesc($x)
 {
-    if (is_int($x)) return (int)$x;
-    return sprintf('\'%s\'', mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $x));
+    global $mysqli;
+    if (is_integer($x)) return (int)$x;
+    return sprintf('\'%s\'', $mysqli->real_escape_string($x));
 }
 ?>
