@@ -80,8 +80,8 @@ return (strlen($txt)>$len ? substr($txt,0,$len-4) .'[...]':$txt);
   <td align='left' style='padding: 0px'>
   <select name='category'>";
 
-  $result=sql_query('SHOW COLUMNS FROM modscredits WHERE field=\'category\'');
-  while ($row=mysqli_fetch_row($result))
+  $result = sql_query('SHOW COLUMNS FROM modscredits WHERE field=\'category\'')  or sqlerr(__FILE__, __LINE__);
+  while ($row = $result->fetch_row())
   {
   foreach(explode("','",substr($row[1],6,-2)) as $v)
   {
@@ -99,7 +99,7 @@ return (strlen($txt)>$len ? substr($txt,0,$len-4) .'[...]':$txt);
   <select name='modstatus'>";
 
   $result=sql_query('SHOW COLUMNS FROM modscredits WHERE field=\'status\'');
-  while ($row=mysqli_fetch_row($result))
+  while ($row=$result->fetch_row())
   {
   foreach(explode("','",substr($row[1],6,-2)) as $y)
   {
@@ -177,7 +177,7 @@ Begin displaying the mods
     <td align='center' class='colhead'>{$lang['credits_credits']}</td>
     </tr>";
     
-  if($row = mysqli_fetch_array($res)){
+  if($row = $res->fetch_array()){
    do
    {
       $id = $row["id"];
@@ -204,7 +204,7 @@ Begin displaying the mods
       $HTMLOUT .="<td>".htmlsafechars($credit)."</td></tr>";
       }
    
-    while($row = mysqli_fetch_array($res));
+    while($row = $res->fetch_array());
     }
     else
     {

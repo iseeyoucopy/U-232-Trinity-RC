@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-function mksecret($len = 5)
+function mksecret($len = 24)
 {
     $salt = '';
     for ($i = 0; $i < $len; $i++) {
@@ -22,7 +22,7 @@ function mksecret($len = 5)
     }
     return $salt;
 }
-function make_passhash_login_key($len = 60)
+function make_passhash_login_key($len = 64)
 {
     $pass = mksecret($len);
     return password_hash($pass, PASSWORD_DEFAULT);

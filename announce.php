@@ -78,7 +78,10 @@ if (!$port || $port > 0xffff)
 	err("invalid port");
 if (!isset($event)) $event = "";
 $seeder = ($left == 0) ? "yes" : "no";
-if (!($db = @($GLOBALS["___mysqli_ston"] = mysqli_connect($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass'])) AND $select = @((bool)mysqli_query($db, "USE {$TRINITY20['mysql_db']}")))) err('Please call back later');
+$mysqli = new mysqli($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass'], $TRINITY20['mysql_db']);
+if ($mysqli -> connect_errno) {
+    err('Please call back later');
+  }
 $user = get_user_from_torrent_pass($torrent_pass);
 if (!$user) err('Invalid passkey. Please redownload the torrent from ' . $TRINITY20['baseurl']);
 $userid = (int)$user["id"];

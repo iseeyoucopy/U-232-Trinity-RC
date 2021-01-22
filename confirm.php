@@ -24,7 +24,7 @@ if (!preg_match("/^(?:[\d\w]){32}$/", $md5)) {
     stderr("{$lang['confirm_user_error']}", "{$lang['confirm_invalid_key']}");
 }
 dbconn();
-$res = sql_query("SELECT passhash, editsecret, status FROM users WHERE id =" . sqlesc($id));
+$res = sql_query("SELECT passhash, editsecret, status FROM users WHERE id =" . sqlesc($id))  or sqlerr(__FILE__, __LINE__);
 $row = $res->fetch_assoc();
 if (!$row) stderr("{$lang['confirm_user_error']}", "{$lang['confirm_invalid_id']}");
 if ($row['status'] != 'pending') {
@@ -33,7 +33,7 @@ if ($row['status'] != 'pending') {
 }
 $sec = $row['editsecret'];
 if ($md5 != $sec) stderr("{$lang['confirm_user_error']}", "{$lang['confirm_cannot_confirm']}");
-sql_query("UPDATE users SET status='confirmed', editsecret='' WHERE id=" . sqlesc($id) . " AND status='pending'");
+sql_query("UPDATE users SET status='confirmed', editsecret='' WHERE id=" . sqlesc($id) . " AND status='pending'") or sqlerr(__FILE__, __LINE__);
 $cache->update_row($keys['my_userid'] . $id, [
     'status' => 'confirmed'
 ], $TRINITY20['expires']['curuser']);
@@ -41,7 +41,6 @@ $cache->update_row('user' . $id, [
     'status' => 'confirmed'
 ], $TRINITY20['expires']['user_cache']);
 if (!$mysqli->affected_rows) stderr("{$lang['confirm_user_error']}", "{$lang['confirm_cannot_confirm']}");
-//$passh = md5($row["passhash"] . $_SERVER["REMOTE_ADDR"]);
 $passh = hash("sha3-512", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "");
 logincookie($id, $passh);
 header("Refresh: 0; url={$TRINITY20['baseurl']}/ok.php?type=confirm");

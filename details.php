@@ -181,7 +181,7 @@ $torrent_user_rep = isset($torrent_cache['rep']) ? $torrent_cache['rep'] : '';
 if (($torrent_user_rep = $cache->get('user_rep_' . $torrents['owner'])) === false) {
     $torrent_user_rep = array();
     $us = sql_query("SELECT reputation FROM users WHERE id =" . sqlesc($torrents['owner'])) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($us)) {
+    if ($us->num_rows) {
         $torrent_user_rep = $us->fetch_assoc();
         $cache->set('user_rep_' . $torrents['owner'], $torrent_user_rep, 14 * 86400);
     }
