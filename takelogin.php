@@ -41,7 +41,7 @@ function failedloginscheck()
     $total = 0;
     $ip = getip();
     $res = sql_query("SELECT SUM(attempts) FROM failedlogins WHERE ip=" . sqlesc($ip)) or sqlerr(__FILE__, __LINE__);
-    list($total) = mysqli_fetch_row($res);
+    list($total) = $res->fetch_row();
     if ($total >= $TRINITY20['failedlogins']) {
         sql_query("UPDATE failedlogins SET banned = 'yes' WHERE ip=" . sqlesc($ip)) or sqlerr(__FILE__, __LINE__);
         stderr($lang['tlogin_locked'], "{$lang['tlogin_lockerr1']} . <b>(" . htmlsafechars($ip) . ")</b> . {$lang['tlogin_lockerr2']}");
@@ -164,7 +164,7 @@ if ($no_log_ip) {
 }
 if (!$no_log_ip) {
     $res = sql_query("SELECT * FROM ips WHERE ip=$ip_escaped AND userid =" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($res) == 0) {
+    if ($res->num_row() == 0) {
         sql_query("INSERT INTO ips (userid, ip, lastlogin, type) VALUES (" . sqlesc($userid) . ", $ip_escaped , $added, 'Login')") or sqlerr(__FILE__, __LINE__);
         $cache->delete('ip_history_' . $userid);
     } else {

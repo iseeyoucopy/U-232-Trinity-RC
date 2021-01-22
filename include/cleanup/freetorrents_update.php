@@ -18,7 +18,7 @@ function docleanup($data)
     //=== Clean free
     $res = sql_query("SELECT id, free FROM torrents WHERE free > 1 AND free < " . TIME_NOW) or sqlerr(__FILE__, __LINE__);
     $Free_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_row() > 0) {
         while ($arr = $res->fetch_assoc()) {
             $Free_buffer[] = '(' . $arr['id'] . ', \'0\')';
             $cache->update_row('torrent_details_' . $arr['id'], [

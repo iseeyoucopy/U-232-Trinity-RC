@@ -83,7 +83,7 @@ function XBT_IP_CONVERT($a)
 $Which_ID = (XBT_TRACKER == true ? 'tid' : 'id');
 $Which_Table = (XBT_TRACKER == true ? 'xbt_peers' : 'peers');
 $res = sql_query("SELECT COUNT($Which_ID) FROM $Which_Table") or sqlerr(__FILE__, __LINE__);
-$row = mysqli_fetch_row($res);
+$row = $res->fetch_row();
 $count = $row[0];
 $peersperpage = 15;
 $HTMLOUT.= "<h2 align='center'>{$lang['wpeers_h2']}</h2>

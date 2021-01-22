@@ -12,7 +12,7 @@ if (!$arr) stderr($lang['achievement_history_err'], $lang['achievement_history_e
 $achpoints = (int)$arr['achpoints'];
 $spentpoints = (int)$arr['spentpoints'];
 $res = sql_query("SELECT COUNT(*) FROM achievements WHERE userid =" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-$row = mysqli_fetch_row($res);
+$row = $res->fetch_row();
 $count = $row[0];
 $perpage = 5;
 if (!$count) {

@@ -174,7 +174,7 @@ if (isset($_GET["action"])) {
 }
 if ($action == "article") {
     $res = sql_query("SELECT * FROM wiki WHERE $mode = '" . ($mode == "name" ? "$name" : "$id") . "'");
-    if (mysqli_num_rows($res) == 1) {
+    if ($res->num_row() == 1) {
         $HTMLOUT.= navmenu();
         $edit = '';
         $HTMLOUT.= "

@@ -181,7 +181,7 @@ $where = count($wherea) ? 'WHERE ' . join(' AND ', $wherea) : '';
 $where_key = 'todaywhere::' . sha1($where);
 if (($count = $cache->get($where_key)) === false) {
     $res = sql_query("SELECT COUNT(id) FROM torrents $where") or sqlerr(__FILE__, __LINE__);
-    $row = mysqli_fetch_row($res);
+    $row = $res->fetch_row();
     $count = (int) $row[0];
     $cache->set($where_key, $count, $TRINITY20['expires']['browse_where']);
 }
@@ -386,7 +386,7 @@ if (!$no_log_ip) {
     $userid = (int) $CURUSER['id'];
     $added = TIME_NOW;
     $res = sql_query("SELECT * FROM ips WHERE ip = " . sqlesc($ip) . " AND userid = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($res) == 0) {
+    if ($res->num_row() == 0) {
         sql_query("INSERT INTO ips (userid, ip, lastbrowse, type) VALUES (" . sqlesc($userid) . ", " . sqlesc($ip) . ", $added, 'Browse')") or sqlerr(__FILE__, __LINE__);
         $cache->delete('ip_history_' . $userid);
     } else {

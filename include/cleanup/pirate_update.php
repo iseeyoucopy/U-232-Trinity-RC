@@ -18,7 +18,7 @@ function docleanup($data)
     //=== Pirate status by Bigjoos/pdq:)
     $res = sql_query("SELECT id, modcomment FROM users WHERE pirate > 0 AND pirate < " . TIME_NOW) or sqlerr(__FILE__, __LINE__);
     $msgs_buffer = $users_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_row() > 0) {
         $subject = "Pirate status expired.";
         $msg = "Your Pirate status has timed out and has been auto-removed by the system. If you would like to have it again, exchange some Karma Bonus Points again. Cheers!\n";
         while ($arr = $res->fetch_assoc()) {

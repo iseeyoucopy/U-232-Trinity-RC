@@ -55,7 +55,7 @@ if ($action == "app" || $action == "show") {
         $where1 = "WHERE uploadapp.status = 'pending'";
     }
     $res = sql_query("SELECT COUNT(id) FROM uploadapp $where") or sqlerr(__FILE__, __LINE__);
-    $row = mysqli_fetch_row($res);
+    $row = $res->fetch_row();
     $count = $row[0];
     $perpage = 15;
     $pager = pager($perpage, $count, ".staffpanel.php?tool=uploadapps&amp;.");

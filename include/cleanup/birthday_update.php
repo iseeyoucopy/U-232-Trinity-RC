@@ -19,7 +19,7 @@ function docleanup($data)
     $current_date = getdate();
     $res = sql_query("SELECT id, username, class, donor, title, warned, enabled, chatpost, leechwarn, pirate, king, uploaded, birthday FROM users WHERE MONTH(birthday) = " . sqlesc($current_date['mon']) . " AND DAYOFMONTH(birthday) = " . sqlesc($current_date['mday']) . " ORDER BY username ASC") or sqlerr(__FILE__, __LINE__);
     $msgs_buffer = $users_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_row() > 0) {
         while ($arr = $res->fetch_assoc()) {
             $msg = "Hey there  " . htmlsafechars($arr['username']) . " happy birthday, hope you have a good day we awarded you 10 gig...Njoi.\n";
             $subject = "Its your birthday!!";

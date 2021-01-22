@@ -18,7 +18,7 @@ function docleanup($data)
     //===Reset Xmas gifts Bigjoos/pdq:)
     $res = sql_query("SELECT id, modcomment FROM users WHERE gotgift='yes'") or sqlerr(__FILE__, __LINE__);
     $users_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_row() > 0) {
         while ($arr = $res->fetch_assoc()) {
             $users_buffer[] = '(' . $arr['id'] . ', \'no\')';
             $cache->update_row('user' . $arr['id'], [

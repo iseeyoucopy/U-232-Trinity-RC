@@ -160,7 +160,7 @@ function insert_quick_jump_menu($currentforum = 0)
             exit();
         }
         $res = sql_query("SELECT posts.*, users.username FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id =".sqlesc($postid)) or sqlerr(__FILE__, __LINE__);
-        if (mysqli_num_rows($res) == 0) {
+        if ($res->num_row() == 0) {
             stderr("Error", "No post with this ID");
             $htmlout .= end_table();
             $htmlout .= end_main_frame();

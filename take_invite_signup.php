@@ -24,7 +24,7 @@ $lang = array_merge(load_language('global') , load_language('takesignup'));
 $newpage = new page_verify();
 $newpage->check('tkIs');
 $res = sql_query("SELECT COUNT(id) FROM users") or sqlerr(__FILE__, __LINE__);
-$arr = mysqli_fetch_row($res);
+$arr = $res->fetch_row();
 if ($arr[0] >= $TRINITY20['invites']) stderr($lang['stderr_errorhead'], sprintf($lang['stderr_ulimit'], $TRINITY20['invites']));
 if (!$TRINITY20['openreg_invites']) stderr('Sorry', 'Invite Signups are closed presently');
 if (!mkglobal('wantusername:wantpassword:passagain:email:invite' . ($TRINITY20['captcha_on'] ? ":captchaSelection:" : ":") . 'submitme:passhint:hintanswer')) stderr("Oops", "Missing form data - You must fill all fields");

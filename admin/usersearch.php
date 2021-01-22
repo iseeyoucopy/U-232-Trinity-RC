@@ -733,15 +733,15 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
     }
     //    </temporary>   /////////////////////////////////////////////////////
     $res = sql_query($queryc) or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_row($res);
+    $arr = $res->fetch_row();
     $count = $arr[0];
     $q1 = isset($q1) ? ($q1 . "&amp;") : "";
     $perpage = 30;
     $pager = pager($perpage, $count, "staffpanel.php?tool=usersearch&amp;action=usersearch&amp;" . $q1);
     $query1.= $pager['limit'];
     $res = sql_query($query1) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($res) == 0) stdmsg($lang['usersearch_warn'], $lang['usersearch_nouser']);
-    else if (mysqli_num_rows($res) == 1) {
+    if ($res->num_row() == 0) stdmsg($lang['usersearch_warn'], $lang['usersearch_nouser']);
+    else if ($res->num_row() == 1) {
         $usertt = mysqli_fetch_array($res);
         header('Location:userdetails.php?id=' . $usertt['id']);
         die();

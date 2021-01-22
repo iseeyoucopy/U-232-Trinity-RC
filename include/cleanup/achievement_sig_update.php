@@ -18,7 +18,7 @@ function docleanup($data)
     // Updated Signature Setter Achievement
     $res = sql_query("SELECT id, sigset FROM usersachiev WHERE sigset = '1' AND sigach = '0'") or sqlerr(__FILE__, __LINE__);
     $msg_buffer = $usersachiev_buffer = $achievements_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_row() > 0) {
         $subject = sqlesc("New Achievement Earned!");
         $msg = sqlesc("Congratulations, you have just earned the [b]Signature Setter[/b] achievement. :) [img]".$TRINITY20['baseurl']."/pic/achievements/signature.png[/img]");
         while ($arr = $res->fetch_assoc()) {

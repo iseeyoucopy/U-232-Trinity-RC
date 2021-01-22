@@ -18,7 +18,7 @@ function docleanup($data)
     // *Updated* Daily Shoutbox Achievements Mod by MelvinMeow
     $res = sql_query("SELECT id, dailyshouts, dailyshoutlvl FROM usersachiev WHERE dailyshouts >= '10'") or sqlerr(__FILE__, __LINE__);
     $msg_buffer = $usersachiev_buffer = $achievements_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_row() > 0) {
         $dt = TIME_NOW;
         $subject = sqlesc("New Achievement Earned!");
         $points = rand(1, 3);

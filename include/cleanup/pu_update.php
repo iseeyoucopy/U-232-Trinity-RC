@@ -59,7 +59,7 @@ function docleanup($data)
         //Search for users to be updated//
         $res = sql_query("SELECT id, uploaded, downloaded, invites, modcomment FROM users WHERE class = '$prev_class'  AND uploaded >= $limit AND uploaded / downloaded >= $minratio AND enabled='yes' AND added < $maxdt") or sqlerr(__FILE__, __LINE__);
         $msgs_buffer = $users_buffer = array();
-        if (mysqli_num_rows($res) > 0) {
+        if ($res->num_row() > 0) {
             
             $subject = "Class Promotion";
             $msg     = "Congratulations, you have been promoted to [b]" . $class_name . "[/b]. :)\n You get one extra invite.\n";

@@ -18,7 +18,7 @@ function docleanup($data)
     // *Updated* Upload Achievements Mod by MelvinMeow
     $res = sql_query("SELECT users.id, users.numuploads, usersachiev.ul FROM users LEFT JOIN usersachiev ON users.id = usersachiev.id WHERE enabled = 'yes' AND numuploads >= '1'") or sqlerr(__FILE__, __LINE__);
     $msg_buffer = $usersachiev_buffer = $achievements_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_row() > 0) {
         $dt = TIME_NOW;
         $subject = sqlesc("New Achievement Earned!");
         $points = rand(1, 3);

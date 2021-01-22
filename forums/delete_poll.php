@@ -35,7 +35,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     if (!is_valid_id($pollid))
         stderr("Error", "Invalid ID!");
     $res = sql_query("SELECT pp.id, t.id AS tid FROM postpolls AS pp LEFT JOIN topics AS t ON t.poll_id = pp.id WHERE pp.id=".sqlesc($pollid)) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($res) == 0)
+    if ($res->num_row() == 0)
         stderr("Error", "No poll found with that ID.");
     $arr = $res->fetch_assoc();
     $sure = isset($_GET['sure']) && (int) $_GET['sure'];

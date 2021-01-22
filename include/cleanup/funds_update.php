@@ -25,7 +25,7 @@ function docleanup($data)
     //== Donation Progress Mod Updated For Tbdev 2009/2010 by Bigjoos/pdq
     $res = sql_query("SELECT id, modcomment, vipclass_before FROM users WHERE donor='yes' AND donoruntil < " . TIME_NOW . " AND donoruntil <> '0'") or sqlerr(__FILE__, __LINE__);
     $msgs_buffer = $users_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_row() > 0) {
         $subject = "Donor status removed by system.";
         $msg = "Your Donor status has timed out and has been auto-removed by the system, and your Vip status has been removed. We would like to thank you once again for your support to {$TRINITY20['site_name']}. If you wish to re-new your donation, Visit the site paypal link. Cheers!\n";
         while ($arr = $res->fetch_assoc()) {

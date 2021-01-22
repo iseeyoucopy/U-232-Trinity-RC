@@ -44,14 +44,14 @@ if ($action == 'add') {
         sql_query("INSERT INTO messages (sender, receiver, added, subject, msg) VALUES (0, " . sqlesc($targetid) . ", '" . TIME_NOW . "', $subject, $body)") or sqlerr(__FILE__, __LINE__);
         $cache->delete('inbox_new::' . $targetid);
         $cache->delete('inbox_new_sb::' . $targetid);
-        if (mysqli_num_rows($r) == 1) stderr("Error", "User ID is already in your " . htmlsafechars($table_is) . " list.");
+        if ($r->num_rows() == 1) stderr("Error", "User ID is already in your " . htmlsafechars($table_is) . " list.");
         sql_query("INSERT INTO $table_is VALUES (0, " . sqlesc($userid) . ", " . sqlesc($targetid) . ", 'no')") or sqlerr(__FILE__, __LINE__);
         stderr("Request Added!", "The user will be informed of your Friend Request, you will be informed via PM upon confirmation.<br /><br /><a href='friends.php?id=$userid#$frag'><b>Go to your Friends List</b></a>", FALSE);
         die;
     }
     if ($type == 'block') {
         $r = sql_query("SELECT id FROM $table_is WHERE userid=" . sqlesc($userid) . " AND $field_is=" . sqlesc($targetid)) or sqlerr(__FILE__, __LINE__);
-        if (mysqli_num_rows($r) == 1) stderr("Error", "User ID is already in your " . htmlsafechars($table_is) . " list.");
+        if ($r->num_rows() == 1) stderr("Error", "User ID is already in your " . htmlsafechars($table_is) . " list.");
         sql_query("INSERT INTO $table_is VALUES (0, " . sqlesc($userid) . ", " . sqlesc($targetid) . ")") or sqlerr(__FILE__, __LINE__);
         $cache->delete('Blocks_' . $userid);
         $cache->delete('Friends_' . $userid);
@@ -149,7 +149,7 @@ $HTMLOUT = '';
 $i = 0;
 $res = sql_query("SELECT f.userid as id, u.username, u.class, u.avatar, u.title, u.donor, u.warned, u.enabled, u.leechwarn, u.chatpost, u.pirate, u.king, u.last_access, u.perms FROM friends AS f LEFT JOIN users as u ON f.userid = u.id WHERE friendid=" . sqlesc($CURUSER['id']) . " AND f.confirmed='no' AND NOT f.userid IN (SELECT blockid FROM blocks WHERE blockid=f.userid) ORDER BY username") or sqlerr(__FILE__, __LINE__);
 $friendsp = '';
-if (mysqli_num_rows($res) == 0) $friendsp = "<em>{$lang['friends_pending_empty']}.</em>";
+if ($res->num_row() == 0) $friendsp = "<em>{$lang['friends_pending_empty']}.</em>";
 else while ($friendp = $res->fetch_assoc()) {
     $dt = TIME_NOW - 180;
     $online = ($friendp["last_access"] >= $dt && $friendp['perms'] < bt_options::PERMS_STEALTH ? '&nbsp;<img src="' . $TRINITY20['baseurl'] . '/images/staff/online.png" border="0" alt="Online" title="Online" />' : '<img src="' . $TRINITY20['baseurl'] . '/images/staff/offline.png" border="0" alt="Offline" title="Offline" />');
@@ -167,7 +167,7 @@ else while ($friendp = $res->fetch_assoc()) {
 //== Awaiting start
 $res = sql_query("SELECT f.friendid as id, u.username, u.donor, u.class, u.warned, u.enabled, u.leechwarn, u.chatpost, u.pirate, u.king, u.last_access FROM friends AS f LEFT JOIN users as u ON f.friendid = u.id WHERE userid=" . sqlesc($userid) . " AND f.confirmed='no' ORDER BY username") or sqlerr(__FILE__, __LINE__);
 $friendreqs = '';
-if (mysqli_num_rows($res) == 0) $friendreqs = "<em>Your requests list is empty.</em>";
+if ($res->num_row() == 0) $friendreqs = "<em>Your requests list is empty.</em>";
 else {
     $i = 0;
     $friendreqs = "<table width='100%' cellspacing='0' cellpadding='0'>";
@@ -184,7 +184,7 @@ else {
 $i = 0;
 $res = sql_query("SELECT f.friendid as id, u.username, u.class, u.avatar, u.title, u.donor, u.warned, u.enabled, u.leechwarn, u.chatpost, u.pirate, u.king, u.last_access, u.uploaded, u.downloaded, u.country, u.perms FROM friends AS f LEFT JOIN users as u ON f.friendid = u.id WHERE userid=" . sqlesc($userid) . " AND f.confirmed='yes' ORDER BY username") or sqlerr(__FILE__, __LINE__);
 $friends = '';
-if (mysqli_num_rows($res) == 0) $friends = "<em>Your friends list is empty.</em>";
+if ($res->num_row() == 0) $friends = "<em>Your friends list is empty.</em>";
 else while ($friend = $res->fetch_assoc()) {
     $dt = TIME_NOW - 180;
     $online = ($friend["last_access"] >= $dt && $friend['perms'] < bt_options::PERMS_STEALTH ? '&nbsp;<img src="' . $TRINITY20['baseurl'] . '/images/staff/online.png" border="0" alt="Online" title="Online" />' : '<img src="' . $TRINITY20['baseurl'] . '/images/staff/offline.png" border="0" alt="Offline" title="Offline" />');
@@ -202,7 +202,7 @@ else while ($friend = $res->fetch_assoc()) {
 //== Enemies block
 $res = sql_query("SELECT b.blockid as id, u.username, u.donor, u.class, u.warned, u.enabled, u.leechwarn, u.chatpost, u.pirate, u.king, u.last_access FROM blocks AS b LEFT JOIN users as u ON b.blockid = u.id WHERE userid=" . sqlesc($userid) . " ORDER BY username") or sqlerr(__FILE__, __LINE__);
 $blocks = '';
-if (mysqli_num_rows($res) == 0) {
+if ($res->num_row() == 0) {
     $blocks = "{$lang['friends_blocks_empty']}<em>.</em>";
 } else {
     while ($block = $res->fetch_assoc()) {

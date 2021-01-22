@@ -70,7 +70,7 @@ if(isset($_GET['search'])) $search = strip_tags($_GET['search']);
 if (!$search) $where = "WHERE attempts LIKE " . sqlesc("%$search%") . "";
 else $where = "WHERE attempts LIKE" . sqlesc("%$search%") . "";
 $res = sql_query("SELECT COUNT(id) FROM failedlogins $where") or sqlerr(__FILE__, __LINE__);
-$row = mysqli_fetch_row($res);
+$row = $res->fetch_row();
 $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "staffpanel.php?tool=failedlogins&amp;action=failedlogins&amp;" . (!empty($search) ? "search=$search&amp;" : '') . "");
@@ -89,7 +89,7 @@ $HTMLOUT.= "<div class='row'><div class'col-md-8'><table class='table table-bord
 if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
 $HTMLOUT.= "<div class='row'><div class'col-md-8'><table class='table table-bordered'>\n";
 $res = sql_query("SELECT f.*,u.id as uid, u.username FROM failedlogins as f LEFT JOIN users as u ON u.ip = f.ip $where ORDER BY f.added DESC " . $pager['limit'] . "") or sqlerr(__FILE__, __LINE__);
-if (mysqli_num_rows($res) == 0) $HTMLOUT.= "<tr><td colspan='2'><b>{$lang['failed_message_nothing']}</b></td></tr>\n";
+if ($res->num_row() == 0) $HTMLOUT.= "<tr><td colspan='2'><b>{$lang['failed_message_nothing']}</b></td></tr>\n";
 else {
     $HTMLOUT.= "<tr><td class='colhead'>{$lang['failed_main_id']}</td><td class='colhead' align='left'>{$lang['failed_main_ip']}</td><td class='colhead' align='left'>{$lang['failed_main_added']}</td>" . "<td class='colhead' align='left'>{$lang['failed_main_attempts']}</td><td class='colhead' align='left'>{$lang['failed_main_status']}</td></tr>\n";
     while ($arr = $res->fetch_assoc()) {

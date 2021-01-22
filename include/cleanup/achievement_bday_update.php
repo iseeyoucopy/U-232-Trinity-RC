@@ -24,7 +24,7 @@ function docleanup($data)
     $maxdt6 = (TIME_NOW - 86400 * 2190); // 6 years
     $res = sql_query("SELECT users.id, users.added, usersachiev.bday FROM users LEFT JOIN usersachiev ON users.id = usersachiev.id WHERE enabled = 'yes' AND added < $maxdt") or sqlerr(__FILE__, __LINE__);
     $msg_buffer = $usersachiev_buffer = $achievements_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_row() > 0) {
         $dt = TIME_NOW;
         $subject = sqlesc("New Achievement Earned!");
         $points = rand(1, 3);

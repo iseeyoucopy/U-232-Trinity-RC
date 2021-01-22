@@ -18,7 +18,7 @@ function docleanup($data)
     //=== Pm ban removal by Bigjoos/pdq:)
     $res = sql_query("SELECT id, modcomment FROM users WHERE sendpmpos > 1 AND sendpmpos < " . TIME_NOW) or sqlerr(__FILE__, __LINE__);
     $msgs_buffer = $users_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_row() > 0) {
         $subject = "Pm ban expired.";
         $msg = "Your Pm ban has expired and has been auto-removed by the system.\n";
         while ($arr = $res->fetch_assoc()) {

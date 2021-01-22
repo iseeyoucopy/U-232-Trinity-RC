@@ -36,7 +36,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     if (!is_valid_id($postid))
     stderr('Error', 'Invalid ID!');
     $res = sql_query("SELECT p.user_id, p.topic_id, p.icon, p.body, t.locked, t.forum_id  " . "FROM posts AS p " . "LEFT JOIN topics AS t ON t.id = p.topic_id " . "WHERE p.id = ".sqlesc($postid)) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($res) == 0)
+    if ($res->num_row() == 0)
         stderr("Error", "No post with that ID!");
     $arr = $res->fetch_assoc();
     if (($CURUSER["id"] != $arr["user_id"] || $arr["locked"] == 'yes') && $CURUSER['class'] < UC_STAFF && !isMod($arr["forum_id"], "forum"))

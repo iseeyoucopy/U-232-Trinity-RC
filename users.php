@@ -69,7 +69,7 @@ $perpage = 25;
 $browsemenu = '';
 $pagemenu = '';
 $res = sql_query("SELECT COUNT(*) FROM users WHERE " . $query1) or sqlerr(__FILE__, __LINE__);
-$arr = mysqli_fetch_row($res);
+$arr = $res->fetch_row();
 if ($arr[0] > $perpage) {
     $pages = floor($arr[0] / $perpage);
     if ($pages * $perpage < $arr[0]) ++$pages;

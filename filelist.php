@@ -20,7 +20,7 @@ $lang = array_merge(load_language('global') , load_language('filelist'));
 $id = isset($_GET["id"]) ? (int)$_GET["id"] : 0;
 if (!is_valid_id($id)) stderr('USER ERROR', 'Bad id');
 $res = sql_query("SELECT COUNT(id) FROM files WHERE torrent =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-$row = mysqli_fetch_row($res);
+$row = $res->fetch_row();
 $count = $row[0];
 $perpage = 10;
 $pager = pager($perpage, $count, "filelist.php?id=$id&amp;");

@@ -1199,7 +1199,7 @@ function mysql_fetch_all($query, $default_value = Array())
     $r = @sql_query($query);
     $result = Array();
     if ($err = ($mysqli->errno)) return $err;
-    if (@mysqli_num_rows($r))
+    if (@$r->num_rows())
         while ($row = mysqli_fetch_array($r))$result[] = $row;
     if (count($result) == 0)
         return $default_value;

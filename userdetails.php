@@ -286,7 +286,7 @@ foreach ($countries as $cntry) if ($cntry['id'] == $user['country']) {
 //==userhits update by pdq
 if (!(isset($_GET["hit"])) && $CURUSER["id"] <> $user["id"]) {
     $res = sql_query("SELECT added FROM userhits WHERE userid =" . sqlesc($CURUSER['id']) . " AND hitid = " . sqlesc($id) . " LIMIT 1") or sqlerr(__FILE__, __LINE__);
-    $row = mysqli_fetch_row($res);
+    $row = $res->fetch_row();
 	$row = isset($row) ? $row : '1';
     if (!($row[0]  > TIME_NOW - 3600)) {
         $hitnumber = $user['hits'] + 1;
@@ -310,10 +310,10 @@ if ($CURUSER["id"] != $user["id"])
 	}
 elseif ($user["acceptpms"] == "yes") {
     $r = sql_query("SELECT id FROM blocks WHERE userid=" . sqlesc($user['id']) . " AND blockid=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-    $showpmbutton = (mysqli_num_rows($r) == 1 ? 0 : 1);
+    $showpmbutton = ($r->num_rows() == 1 ? 0 : 1);
 } elseif ($user["acceptpms"] == "friends") {
     $r = sql_query("SELECT id FROM friends WHERE userid=" . sqlesc($user['id']) . " AND friendid=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-    $showpmbutton = (mysqli_num_rows($r) == 1 ? 1 : 0);
+    $showpmbutton = ($r->num_rows() == 1 ? 1 : 0);
 }
 //== Add or Remove Friends - updated 2020 by iseeyoucopy
 if (($friends = $cache->get('Friends_' . $id)) === false) {

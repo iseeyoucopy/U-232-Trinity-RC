@@ -130,7 +130,7 @@ function class_check($class = 0, $staff = true, $pin = false)
                 /** get mysql_insert_id(); **/
                 $res = sql_query("SELECT id FROM posts WHERE topic_id = ".sqlesc($topicid)." 
                                   ORDER BY id DESC LIMIT 1") or sqlerr(__file__, __line__);
-                $arr = mysqli_fetch_row($res) or die('No staff post found');
+                $arr = $res->fetch_row() or die('No staff post found');
                 $postid = (int)$arr[0];
                 sql_query("UPDATE topics SET last_post = ".sqlesc($postid)." WHERE id = ".sqlesc($topicid)) or sqlerr(__file__, __line__);
                 /** PM Owner **/

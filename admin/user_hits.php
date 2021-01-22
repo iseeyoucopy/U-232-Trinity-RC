@@ -34,7 +34,7 @@ $HTMLOUT = '';
 $id = 0 + $_GET["id"];
 if (!is_valid_id($id) || $CURUSER['id'] <> $id && $CURUSER['class'] < UC_STAFF) $id = $CURUSER['id'];
 $res = sql_query("SELECT COUNT(id) FROM userhits WHERE hitid = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-$row = mysqli_fetch_row($res);
+$row = $res->fetch_row();
 $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "staffpanel.php?tool=user_hits&amp;id=$id&amp;");

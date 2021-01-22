@@ -34,10 +34,10 @@ $HTMLOUT = '';
 //$HTMLOUT.= begin_main_frame();
 $HTMLOUT.= "<div class='row'><div class='col-md-12'>";
 $res = sql_query("SELECT COUNT(id) FROM torrents") or sqlerr(__FILE__, __LINE__);
-$n = mysqli_fetch_row($res);
+$n = $res->fetch_row();
 $n_tor = $n[0];
 $res = sql_query("SELECT COUNT(id) FROM peers") or sqlerr(__FILE__, __LINE__);
-$n = mysqli_fetch_row($res);
+$n = $res->fetch_row();
 $n_peers = $n[0];
 $uporder = isset($_GET['uporder']) ? $_GET['uporder'] : '';
 $catorder = isset($_GET["catorder"]) ? $_GET["catorder"] : '';
@@ -51,7 +51,7 @@ $query = "SELECT u.id, u.username AS name, MAX(t.added) AS last, COUNT(DISTINCT 
       FROM users as u LEFT JOIN torrents as t ON u.id = t.owner LEFT JOIN peers as p ON t.id = p.torrent WHERE u.class > " . UC_UPLOADER . "
       GROUP BY u.id ORDER BY $orderby";
 $res = sql_query($query) or sqlerr(__FILE__, __LINE__);
-if (mysqli_num_rows($res) == 0) stdmsg($lang['stats_error'], $lang['stats_error1']);
+if ($res->num_row() == 0) stdmsg($lang['stats_error'], $lang['stats_error1']);
 else {
     //$HTMLOUT.= begin_frame($lang['stats_title1'], True);
     //$HTMLOUT.= begin_table();

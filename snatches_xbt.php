@@ -37,7 +37,7 @@ $res = sql_query("SELECT id, name FROM torrents WHERE id = " . sqlesc($id)) or s
 $arr = $res->fetch_assoc();
 if (!$arr) stderr("Error", "It appears that there is no torrent with that id.");
 $res = sql_query("SELECT COUNT(tid) FROM xbt_peers WHERE completedtime !=0 AND tid =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-$row = mysqli_fetch_row($res);
+$row = $res->fetch_row();
 $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "snatches.php?id=$id&amp;");

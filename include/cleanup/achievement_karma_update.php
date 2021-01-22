@@ -18,7 +18,7 @@ function docleanup($data)
     // *Updated* Bonus Point Achievements
     $res = sql_query("SELECT users.id, users.seedbonus, usersachiev.bonus FROM users LEFT JOIN usersachiev ON users.id = usersachiev.id WHERE enabled = 'yes' AND users.seedbonus >= '1' AND usersachiev.bonus >= '0'") or sqlerr(__FILE__, __LINE__);
     $msg_buffer = $usersachiev_buffer = $achievements_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_row() > 0) {
         $dt = TIME_NOW;
         $points = rand(1, 3);
         $subject = sqlesc("New Achievement Earned!");

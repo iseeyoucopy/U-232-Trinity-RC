@@ -104,7 +104,7 @@ elseif ($do == 'create_invite') {
         stderr($lang['invites_deny'], $lang['invites_disabled']);
     }
     $res = sql_query("SELECT COUNT(id) FROM users") or sqlerr(__FILE__, __LINE__);
-    $arr = mysqli_fetch_row($res);
+    $arr = $res->fetch_row();
     if ($arr[0] >= $TRINITY20['invites']) {
         stderr($lang['invites_error'], $lang['invites_limit']);
     }

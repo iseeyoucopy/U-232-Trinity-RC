@@ -28,7 +28,7 @@ function docleanup($data)
     $seedtime10 = 31536000; //1year
     $res = sql_query("SELECT distinct snatched.userid, snatched.seedtime, usersachiev.dayseed FROM snatched LEFT JOIN usersachiev ON snatched.userid = usersachiev.id WHERE seedtime >= " . sqlesc($seedtime)) or sqlerr(__FILE__, __LINE__);
     $msg_buffer = $usersachiev_buffer = $achievements_buffer = array();
-    if (mysqli_num_rows($res) > 0) {
+    if ($res->num_row() > 0) {
         $dt = TIME_NOW;
         $subject = sqlesc("New Achievement Earned!");
         $points = rand(1, 3);

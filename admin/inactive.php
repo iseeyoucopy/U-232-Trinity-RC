@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["userid"]) && (($action == "deluser") || ($action == "mail"))) stderr($lang['inactive_error'], "{$lang['inactive_selectuser']}");
       if ($action == "deluser" && (!empty($_POST["userid"]))) {
           $res   = sql_query("SELECT id, email, modcomment, username, added, last_access FROM users WHERE id IN (" . implode(", ", array_map("sqlesc", $_POST['userid'])) . ") ORDER BY last_access DESC ");
-          $count = mysqli_num_rows($res);
+          $count = $res->num_row();
           while ($arr = mysqli_fetch_array($res)) {
               $userid   = (int) $arr["id"];
               $username = htmlsafechars($arr["username"]);
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     if ($action == "mail" && (!empty($_POST["userid"]))) {
         $res = sql_query("SELECT id, email, modcomment, username, added, last_access FROM users WHERE id IN (" . implode(", ", array_map("sqlesc", $_POST['userid'])) . ") ORDER BY last_access DESC ");
-        $count = mysqli_num_rows($res);
+        $count = $res->num_row();
         while ($arr = mysqli_fetch_array($res)) {
             $id = (int)$arr["id"];
             $username = htmlsafechars($arr["username"]);
@@ -98,7 +98,7 @@ $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "staffpanel.php?tool=inactive&amp;");
 $res = sql_query("SELECT id,username,class,email,uploaded,downloaded,last_access FROM users WHERE last_access<" . sqlesc($dt) . " AND status='confirmed' AND enabled='yes' ORDER BY last_access DESC {$pager['limit']}") or sqlerr(__FILE__, __LINE__);
-$count_inactive = mysqli_num_rows($res);
+$count_inactive = $res->num_row();
 if ($count_inactive > 0) {
     //if ($count > $perpage)
     $HTMLOUT.= $pager['pagertop'];

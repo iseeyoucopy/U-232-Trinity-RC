@@ -63,7 +63,7 @@ if (isset($_GET["delete"])){
 // ===end
 $res = sql_query("SELECT id, username, donor, warned, class, chatpost, leechwarn, enabled FROM users WHERE id=".sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
 
-if (mysqli_num_rows($res) == 1) {
+if ($res->num_row() == 1) {
     $arr = mysqli_fetch_assoc($res);
 
     $subject = "<a class='altlink' href='{$TRINITY20['baseurl']}/userdetails.php?id=$userid'><b> ".htmlsafechars($arr['username'])."</b></a>";
@@ -90,7 +90,7 @@ if (isset($_GET["deleted"])) {
 //$HTMLOUT.= begin_frame();
 //$HTMLOUT.="<div class='container'>";
 $HTMLOUT.="<div class='row'><div class='col-md-12'>";
-if (mysqli_num_rows($res) == 0)
+if ($res->num_row() == 0)
    //$HTMLOUT.="<p align='center'><font size=\"+2\"><b>No Subscriptions Found</b></font></p><p>You are not yet subscribed to any forums...</p><p>To subscribe to a forum at <b>".$TRINITY20['site_name']."</b>, click the <b><i>Subscribe to this Forum</i></b> link at the top of the thread page.</p>";
 $HTMLOUT.="<p class=text-center'><b>No Subscriptions Found</b></p><p>You are not yet subscribed to any forums...</p><p>To subscribe to a forum at <b>".$TRINITY20['site_name']."</b>, click the <b><i>Subscribe to this Forum</i></b> link at the top of the thread page.</p>";
 

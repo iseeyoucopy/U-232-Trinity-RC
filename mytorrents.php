@@ -66,7 +66,7 @@ if (isset($_GET['sort']) && isset($_GET['type'])) {
 }
 $where = "WHERE owner = ".sqlesc($CURUSER["id"])." AND banned != 'yes'";
 $res = sql_query("SELECT COUNT(id) FROM torrents $where");
-$row = mysqli_fetch_row($res);
+$row = $res->fetch_row();
 $count = (int)$row[0];
 if (!$count) {
     $HTMLOUT.= "{$lang['mytorrents_no_torrents']}";

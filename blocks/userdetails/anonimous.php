@@ -2,10 +2,10 @@
 if ($CURUSER["id"] != $user["id"]) if ($CURUSER['class'] >= UC_STAFF) $showpmbtn = 1;
 elseif ($user["acceptpms"] == "yes") {
     $r = sql_query("SELECT id FROM blocks WHERE userid=" . sqlesc($user['id']) . " AND blockid=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-    $showpmbtn = (mysqli_num_rows($r) == 1 ? 0 : 1);
+    $showpmbtn = ($r->num_rows() == 1 ? 0 : 1);
 } elseif ($user["acceptpms"] == "friends") {
     $r = sql_query("SELECT id FROM friends WHERE userid=" . sqlesc($user['id']) . " AND friendid=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-    $showpmbtn = (mysqli_num_rows($r) == 1 ? 1 : 0);
+    $showpmbtn = ($r->num_rows() == 1 ? 1 : 0);
 }
 $HTMLOUT.= "<div class='card text-white bg-warning mb-3' style='max-width: 18rem;'>";
 $HTMLOUT.= "<tr><td>{$lang['userdetails_anonymous']}</td></tr>";

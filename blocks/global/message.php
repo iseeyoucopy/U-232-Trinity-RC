@@ -14,7 +14,7 @@
 if ($TRINITY20['msg_alert'] && $CURUSER) {
     if (($unread = $cache->get('inbox_new::' . $CURUSER['id'])) === false) {
         $res = sql_query('SELECT count(id) FROM messages WHERE receiver=' . sqlesc($CURUSER['id']) . ' && unread="yes" AND location = "1"') or sqlerr(__FILE__, __LINE__);
-        $arr = mysqli_fetch_row($res);
+        $arr = $res->fetch_row();
         $unread = (int)$arr[0];
         $cache->set('inbox_new::' . $CURUSER['id'], $unread, $TRINITY20['expires']['unread']);
     }

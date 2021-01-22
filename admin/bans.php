@@ -73,7 +73,7 @@ $res = sql_query("SELECT b.*, u.username FROM bans b LEFT JOIN users u on b.adde
 $HTMLOUT = '';
 $HTMLOUT.= "<div class='row'><div class='col-md-12'>";
 $HTMLOUT.= "<h1>{$lang['text_current']}</h1>\n";
-if (mysqli_num_rows($res) == 0) {
+if ($res->num_row() == 0) {
     $HTMLOUT.= "<p align='center'><b>{$lang['text_nothing']}</b></p>\n";
 } else {
     if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
