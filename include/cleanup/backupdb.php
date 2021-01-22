@@ -26,7 +26,7 @@ function tables($no_data = "")
 }
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $bdir;
+    global $TRINITY20, $queries, $bdir, $mysqli;
     set_time_limit(0);
     ignore_user_abort(1);
     $mysql_host = $TRINITY20['mysql_host'];

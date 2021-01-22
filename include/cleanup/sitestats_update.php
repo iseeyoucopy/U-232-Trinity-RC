@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $keys;
+    global $TRINITY20, $queries, $mysqli, $keys;
     set_time_limit(0);
     ignore_user_abort(1);
     //== 09 Stats
