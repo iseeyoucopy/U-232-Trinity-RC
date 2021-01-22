@@ -164,7 +164,7 @@ if ($no_log_ip) {
 }
 if (!$no_log_ip) {
     $res = sql_query("SELECT * FROM ips WHERE ip=$ip_escaped AND userid =" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-    if ($res->num_rows() == 0) {
+    if (mysqli_num_rows($res) == 0) {
         sql_query("INSERT INTO ips (userid, ip, lastlogin, type) VALUES (" . sqlesc($userid) . ", $ip_escaped , $added, 'Login')") or sqlerr(__FILE__, __LINE__);
         $cache->delete('ip_history_' . $userid);
     } else {

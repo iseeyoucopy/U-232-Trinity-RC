@@ -135,7 +135,7 @@ $HTMLOUT.= $message . '
      <img src="pic/smilies/shit.gif" alt="*" />' . $lang['shitlist_message2'] . '<img src="pic/smilies/shit.gif" alt="*" /></td>
    </tr>';
 $i = 1;
-if ($res->num_rows() == 0) {
+if (mysqli_num_rows($res) == 0) {
     $HTMLOUT.= '
    <tr>
       <td class="one" align="center" valign="top" colspan="4">

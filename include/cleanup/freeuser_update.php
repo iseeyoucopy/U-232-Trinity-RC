@@ -19,7 +19,7 @@ function docleanup($data)
     $res = sql_query("SELECT id, modcomment FROM users WHERE free_switch > 1 AND free_switch < " . TIME_NOW) or sqlerr(__FILE__, __LINE__);
     $msgs_buffer = array();
 	$users_buffer = array();
-    if ($res->num_rows() > 0) {
+    if (mysqli_num_rows($res) > 0) {
         $subject = "Freeleech expired.";
         $msg = "Your freeleech has expired and has been auto-removed by the system.\n";
         while ($arr = $res->fetch_assoc()) {

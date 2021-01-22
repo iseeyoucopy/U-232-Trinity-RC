@@ -103,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             else {
                 $res = sql_query("SELECT * FROM subtitles WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
                 $arr = $res->fetch_assoc();
-                if ($res->num_rows() == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
+                if (mysqli_num_rows($res) == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
                 if ($CURUSER["id"] != $arr["owner"] && $CURUSER['class'] < UC_MODERATOR) bark("{$lang['subtitles_youre_not_the_owner']}\n");
                 $updateset = array();
                 if ($arr["name"] != $releasename) $updateset[] = "name = " . sqlesc($releasename);
@@ -128,7 +128,7 @@ if ($mode == "upload" || $mode == "edit") {
         else {
             $res = sql_query("SELECT id, name, imdb, poster, fps, comment, cds, lang FROM subtitles WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
             $arr = $res->fetch_assoc();
-            if ($res->num_rows() == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
+            if (mysqli_num_rows($res) == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
         }
     }
     $HTMLOUT.= begin_main_frame();
@@ -214,7 +214,7 @@ elseif ($mode == "delete") {
     else {
         $res = sql_query("SELECT id, name, filename FROM subtitles WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         $arr = $res->fetch_assoc();
-        if ($res->num_rows() == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
+        if (mysqli_num_rows($res) == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
         $sure = (isset($_GET["sure"]) && $_GET["sure"] == "yes") ? "yes" : "no";
         if ($sure == "no") stderr("{$lang['subtitles_sanity_check']}...", "{$lang['subtitles_your_are_about_to_delete_subtitle']} <b>" . htmlsafechars($arr["name"]) . "</b> . Click <a href='subtitles.php?mode=delete&amp;id=$id&amp;sure=yes'>{$lang['gl_stdfoot_here']}</a> {$lang['gl_if_you_are_sure']}.", false);
         else {
@@ -232,7 +232,7 @@ elseif ($mode == "details") {
     else {
         $res = sql_query("SELECT s.id, s.name,s.lang, s.imdb,s.fps,s.poster,s.cds,s.hits,s.added,s.owner,s.comment, u.username FROM subtitles AS s LEFT JOIN users AS u ON s.owner=u.id  WHERE s.id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         $arr = $res->fetch_assoc();
-        if ($res->num_rows() == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
+        if (mysqli_num_rows($res) == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
         if ($arr["lang"] == "eng") $langs = "<img src=\"pic/flag/england.gif\" border=\"0\" alt=\"{$lang['gl_english']}\" title=\"{$lang['gl_english']}\" />";
         elseif ($arr["lang"] == "swe") $langs = "<img src=\"pic/flag/sweden.gif\" border=\"0\" alt=\"{$lang['gl_swedish']}\" title=\"{$lang['gl_swedish']}\" />";
         elseif ($arr["lang"] == "dan") $langs = "<img src=\"pic/flag/denmark.gif\" border=\"0\" alt=\"{$lang['gl_danish']}\" title=\"{$lang['gl_danish']}\" />";
@@ -279,7 +279,7 @@ elseif ($mode == "details") {
     else {
         $res = sql_query("SELECT id, name,filename FROM subtitles  WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         $arr = $res->fetch_assoc();
-        if ($res->num_rows() == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
+        if (mysqli_num_rows($res) == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
         $file = $TRINITY20['sub_up_dir'] . "/" . $arr["filename"];
         $fileContent = file_get_contents($file);
         $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
@@ -321,12 +321,12 @@ elseif ($mode == "details") {
 <input type='submit' value='{$lang['gl_search']}' />&nbsp;<input type='button' onclick=\"window.location.href='subtitles.php?mode=upload'\" value='Upload' />
 </form></fieldset></td></tr>";
     if ($s) {
-        $HTMLOUT.= "<tr><td style='border:none;'>{$lang['subtitles_search_result_for']} <i>'{$s}'</i><br />" . ($res->num_rows() == 0 ? $lang['subtitles_nothing_found'] : "") . "</td></tr>";
+        $HTMLOUT.= "<tr><td style='border:none;'>{$lang['subtitles_search_result_for']} <i>'{$s}'</i><br />" . (mysqli_num_rows($res) == 0 ? $lang['subtitles_nothing_found'] : "") . "</td></tr>";
     }
     $HTMLOUT.= "
 </table>
 <br />";
-    if ($res->num_rows() > 0) {
+    if (mysqli_num_rows($res) > 0) {
         if ($count > $perpage) $HTMLOUT.= "<div align=\"left\" style=\"padding:5px\">{$pager['pagertop']}</div>";
         $HTMLOUT.= "<table width='700' cellpadding='5' cellspacing='0' border='1' align='center' style='font-weight:bold'>
 <tr>

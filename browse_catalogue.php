@@ -441,7 +441,7 @@ if (!$no_log_ip) {
     $userid = (int) $CURUSER['id'];
     $added = TIME_NOW;
     $res = sql_query("SELECT * FROM ips WHERE ip = " . sqlesc($ip) . " AND userid = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-    if ($res->num_rows() == 0) {
+    if (mysqli_num_rows($res) == 0) {
         sql_query("INSERT INTO ips (userid, ip, lastbrowse, type) VALUES (" . sqlesc($userid) . ", " . sqlesc($ip) . ", $added, 'Browse')") or sqlerr(__FILE__, __LINE__);
         $cache->delete('ip_history_' . $userid);
     } else {

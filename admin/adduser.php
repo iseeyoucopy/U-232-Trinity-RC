@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         if ($mysqli->errno) {
             $res = sql_query(sprintf('SELECT id FROM users WHERE username = %s', sqlesc($insert['username']))) or sqlerr(__FILE__, __LINE__);
-            if ($res->num_rows()) {
+            if (mysqli_num_rows($res)) {
                 $arr = $res->fetch_assoc();
                 header(sprintf('refresh:3; url=userdetails.php?id=%d', (int)$arr['id']));
             }

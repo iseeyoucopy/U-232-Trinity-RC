@@ -88,7 +88,7 @@ $HTMLOUT.= "<table class='table table-bordered'>
 //<td class='colhead'>{$lang['moods_remove']}</td>
 "</tr>";
 $res = sql_query('SELECT * FROM moods ORDER BY id ASC') or sqlerr(__FILE__, __LINE__);
-if ($res->num_rows()) {
+if (mysqli_num_rows($res)) {
     $color = true;
     while ($arr = $res->fetch_assoc()) {
         $HTMLOUT.= '<tr ' . (($color = !$color) ? ' style="background-color:#000000;"' : 'style="background-color:#0f0f0f;"') . '>

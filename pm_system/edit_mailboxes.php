@@ -80,7 +80,7 @@ if (isset($_POST['action2'])) {
     case 'edit_boxes':
         //=== get info
         $res = sql_query('SELECT * FROM pmboxes WHERE userid=' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-        if ($res->num_rows() === 0) stderr($lang['pm_error'], $lang['pm_edmail_err1']);
+        if (mysqli_num_rows($res) === 0) stderr($lang['pm_error'], $lang['pm_edmail_err1']);
         while ($row = $res->fetch_assoc()) {
             //=== if name different AND safe, update it
             if (validusername($_POST['edit' . $row['id']]) && $_POST['edit' . $row['id']] !== '' && $_POST['edit' . $row['id']] !== $row['name']) {
@@ -165,7 +165,7 @@ if (isset($_POST['action2'])) {
 } //=== end of $_POST stuff
 //=== main page here :D
 $res = sql_query('SELECT * FROM pmboxes WHERE userid=' . sqlesc($CURUSER['id']) . ' ORDER BY name ASC') or sqlerr(__FILE__, __LINE__);
-if ($res->num_rows() > 0) {
+if (mysqli_num_rows($res) > 0) {
     //=== get all PM boxes for editing
     while ($row = $res->fetch_assoc()) {
         //==== get count from PM boxes
@@ -245,7 +245,7 @@ $HTMLOUT.= '<h1>' . $lang['pm_edmail_title'] . '</h1>' . $h1_thingie . '
 <div class="cell large-9 callout">
 <div class="card-section">' . $lang['pm_edmail_add_mbox'] . '<a data-toggle="info-message-box"><i class="fas fa-info-circle text-right"></i></a></div>
 <div class="dropdown-pane" id="info-message-box" data-dropdown data-hover="true" data-hover-pane="true">
-  ' . $lang['pm_edmail_as_a'] . '' . get_user_class_name($CURUSER['class']) . $lang['pm_edmail_you_may'] . $maxboxes . $lang['pm_edmail_pm_box'] . ($maxboxes !== 1 ? $lang['pm_edmail_pm_boxes'] : '') . '' . $lang['pm_edmail_other'] . '<br />' . $lang['pm_edmail_currently'] . '' . $res->num_rows() . $lang['pm_edmail_custom'] . ($res->num_rows() !== 1 ? $lang['pm_edmail_custom_es'] : '') . $lang['pm_edmail_may_add'] . ($maxboxes - $res->num_rows()) . ''. $lang['pm_edmail_more_extra'] . '<br /><br />
+  ' . $lang['pm_edmail_as_a'] . '' . get_user_class_name($CURUSER['class']) . $lang['pm_edmail_you_may'] . $maxboxes . $lang['pm_edmail_pm_box'] . ($maxboxes !== 1 ? $lang['pm_edmail_pm_boxes'] : '') . '' . $lang['pm_edmail_other'] . '<br />' . $lang['pm_edmail_currently'] . '' . mysqli_num_rows($res) . $lang['pm_edmail_custom'] . (mysqli_num_rows($res) !== 1 ? $lang['pm_edmail_custom_es'] : '') . $lang['pm_edmail_may_add'] . ($maxboxes - mysqli_num_rows($res)) . ''. $lang['pm_edmail_more_extra'] . '<br /><br />
         <span style="font-weight: bold;">' . $lang['pm_edmail_following'] . '</span>' . $lang['pm_edmail_chars'] . '<br />
 </div>';
 $HTMLOUT.= '<form action="pm_system.php" method="post">

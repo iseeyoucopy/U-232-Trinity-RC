@@ -18,7 +18,7 @@ function docleanup($data)
     // Updated Sheep Fondler
     $res = sql_query("SELECT id, sheepyset FROM usersachiev WHERE sheepyset = '1' AND sheepyach = '0'") or sqlerr(__FILE__, __LINE__);
     $msg_buffer = $usersachiev_buffer = $achievements_buffer = array();
-    if ($res->num_rows() > 0) {
+    if (mysqli_num_rows($res) > 0) {
         $subject = sqlesc("New Achievement Earned!");
         $msg = sqlesc("Congratulations, you have just earned the [b]Sheep Fondler[/b] achievement. :) [img]".$TRINITY20['baseurl']."/pic/achievements/sheepfondler.png[/img]");
         while ($arr = $res->fetch_assoc()) {

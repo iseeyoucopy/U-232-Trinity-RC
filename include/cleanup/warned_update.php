@@ -18,7 +18,7 @@ function docleanup($data)
     //=== Warn removal by Bigjoos/pdq:)
     $res = sql_query("SELECT id, modcomment FROM users WHERE warned > 1 AND warned < " . TIME_NOW) or sqlerr(__FILE__, __LINE__);
     $msgs_buffer = $users_buffer = array();
-    if ($res->num_rows() > 0) {
+    if (mysqli_num_rows($res) > 0) {
         $subject = "Warning expired.";
         $msg = "Your warning has expired and has been auto-removed by the system.\n";
         while ($arr = $res->fetch_assoc()) {

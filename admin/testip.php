@@ -39,7 +39,7 @@ if ($ip) {
     $nip = ip2long($ip);
     if ($nip == - 1) stderr($lang['testip_error'], $lang['testip_error1']);
     $res = sql_query("SELECT * FROM bans WHERE $nip >= first AND $nip <= last") or sqlerr(__FILE__, __LINE__);
-    if ($res->num_rows() == 0) {
+    if (mysqli_num_rows($res) == 0) {
         stderr($lang['testip_result'], sprintf($lang['testip_notice'], htmlentities($ip, ENT_QUOTES)));
     } else {
         $HTMLOUT.= "<table class='main' border='0' cellspacing='0' cellpadding='5'>

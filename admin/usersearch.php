@@ -740,8 +740,8 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
     $pager = pager($perpage, $count, "staffpanel.php?tool=usersearch&amp;action=usersearch&amp;" . $q1);
     $query1.= $pager['limit'];
     $res = sql_query($query1) or sqlerr(__FILE__, __LINE__);
-    if ($res->num_rows() == 0) stdmsg($lang['usersearch_warn'], $lang['usersearch_nouser']);
-    else if ($res->num_rows() == 1) {
+    if (mysqli_num_rows($res) == 0) stdmsg($lang['usersearch_warn'], $lang['usersearch_nouser']);
+    else if (mysqli_num_rows($res) == 1) {
         $usertt = mysqli_fetch_array($res);
         header('Location:userdetails.php?id=' . $usertt['id']);
         die();

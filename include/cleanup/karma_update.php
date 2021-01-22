@@ -25,7 +25,7 @@ function docleanup($data)
      $What_Table = (XBT_TRACKER == true ? 'xbt_peers' : 'peers');
      $What_Where = (XBT_TRACKER == true ? "`left` = 0 AND `active` = 1" : "seeder = 'yes' AND connectable = 'yes'");
      $res = sql_query('SELECT COUNT('.$What_id.') As tcount, '.$What_user_id.', seedbonus, users.id As users_id FROM '.$What_Table.' LEFT JOIN users ON users.id = '.$What_user_id.' WHERE '.$What_Where.' GROUP BY '.$What_user_id) or sqlerr(__FILE__, __LINE__);
-    if ($res->num_rows() > 0) {
+    if (mysqli_num_rows($res) > 0) {
         while ($arr = $res->fetch_assoc()) {
             /*if ($arr['tcount'] >= 5) $arr['tcount'] = 1;*/
             $Buffer_User = (XBT_TRACKER == true ? $arr['uid'] : $arr['userid']);

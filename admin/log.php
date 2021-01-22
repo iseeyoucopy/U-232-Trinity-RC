@@ -57,7 +57,7 @@ $HTMLOUT.= "<table class='striped'>
 			 <input type='submit' value='{$lang['log_search_btn']}' style='height: 20px'>
 			 </form></td></tr></table>";
 if ($count > $perpage) $HTMLOUT.= $pager['pagertop']."<br>";
-if ($res->num_rows() == 0) {
+if (mysqli_num_rows($res) == 0) {
     $HTMLOUT.= "<b>{$lang['text_logempty']}</b>";
 } else {
     $HTMLOUT.= "<table class='striped'>

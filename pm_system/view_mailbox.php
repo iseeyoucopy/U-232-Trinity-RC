@@ -92,7 +92,7 @@ $HTMLOUT.='
         <th></th>
     </tr>
 	</thead>';
-if ($res->num_rows() === 0) {
+if (mysqli_num_rows($res) === 0) {
     $HTMLOUT.= '
         <tr>
            <td><span style="font-weight: bold;">' . $lang['pm_mailbox_nomsg'] . '' . $mailbox_name . '</span></td>
@@ -125,7 +125,7 @@ while ($i <= ($maxbox > 200 ? 200 : $maxbox)) {
 }
 $per_page_drop_down.= '</select><input type="hidden" name="box" value="' . $mailbox . '" /></form>';
 //=== the bottom
-if ($res->num_rows() > 0) {
+if (mysqli_num_rows($res) > 0) {
 	$HTMLOUT.='<a href="javascript:SetChecked(1,\'pm[]\')">' .$lang['pm_search_selall'] . '</a>
 	<a href="javascript:SetChecked(0,\'pm[]\')">' .$lang['pm_search_unsellall'] . '</a>   
 	<input type="submit" class="button" name="move" value="' .$lang['pm_search_move_to'] . '"> ' . get_all_boxes() . ' or

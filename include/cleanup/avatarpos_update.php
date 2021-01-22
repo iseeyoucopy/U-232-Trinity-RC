@@ -18,7 +18,7 @@ function docleanup($data)
     //=== Avatar ban removal by Bigjoos/pdq:)
     $res = sql_query("SELECT id, modcomment FROM users WHERE avatarpos > 1 AND avatarpos < " . TIME_NOW) or sqlerr(__FILE__, __LINE__);
     $msgs_buffer = $users_buffer = array();
-    if ($res->num_rows() > 0) {
+    if (mysqli_num_rows($res) > 0) {
         $subject = "Avatar ban expired.";
         $msg = "Your Avatar ban has expired and has been auto-removed by the system.\n";
         while ($arr = $res->fetch_assoc()) {

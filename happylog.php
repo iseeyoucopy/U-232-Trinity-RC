@@ -28,7 +28,7 @@ $pager = pager($perpage, $count, "happylog.php?id=$id&amp;");
 $res = sql_query("SELECT h.userid, h.torrentid, h.date, h.multi, t.name FROM happylog as h LEFT JOIN torrents AS t on t.id=h.torrentid WHERE h.userid=" . sqlesc($id) . " ORDER BY h.date DESC " . $pager['limit']) or sqlerr(__FILE__, __LINE__);
 $HTMLOUT.= begin_main_frame();
 $HTMLOUT.= begin_frame("Happy hour log for " . htmlsafechars($user["username"]) . "");
-if ($res->num_rows() > 0) {
+if (mysqli_num_rows($res) > 0) {
     $HTMLOUT.= $pager['pagertop'];
     $HTMLOUT.= "<table class='table table-bordered'>
     <tr><td class='colhead' style='width:100%'>Torrent Name</td>

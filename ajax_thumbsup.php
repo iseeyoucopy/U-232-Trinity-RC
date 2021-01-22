@@ -19,7 +19,7 @@ $HTML = '';
 $id = (int)$_REQUEST['id'];
 $wtf = mysqli_num_rows(sql_query("SELECT id, type, torrentid, userid FROM thumbsup WHERE torrentid = " . sqlesc($id)));
 $res = sql_query("SELECT id, type, torrentid, userid FROM thumbsup WHERE userid = " . sqlesc($CURUSER['id']) . " AND torrentid = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-$thumbsup = $res->num_rows();
+$thumbsup = mysqli_num_rows($res);
 if ($thumbsup == 0) {
     sql_query("INSERT INTO thumbsup (userid, torrentid) VALUES (" . sqlesc($CURUSER['id']) . ", " . sqlesc($id) . ")") or sqlerr(__FILE__, __LINE__);
     $cache->delete('thumbs_up_' . $id);

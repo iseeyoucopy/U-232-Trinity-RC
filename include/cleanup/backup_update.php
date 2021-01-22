@@ -18,7 +18,7 @@ function docleanup($data)
     //== Delete old backup's
     $days = 3;
     $res = sql_query("SELECT id, name FROM dbbackup WHERE added < " . sqlesc(TIME_NOW - ($days * 86400))) or sqlerr(__FILE__, __LINE__);
-    if ($res->num_rows() > 0) {
+    if (mysqli_num_rows($res) > 0) {
         $ids = array();
         while ($arr = $res->fetch_assoc()) {
             $ids[] = (int)$arr['id'];

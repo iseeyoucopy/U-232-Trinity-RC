@@ -15,7 +15,7 @@ if (($active_users_cache = $cache->get($keys['act_users'] )) === false) {
     $activeusers = '';
     $active_users_cache = array();
     $res = sql_query('SELECT id, username, class, donor, title, warned, enabled, chatpost, leechwarn, pirate, king, perms ' . 'FROM users WHERE last_access >= ' . $dt . ' ' . 'AND perms < ' . bt_options::PERMS_STEALTH . ' ORDER BY username ASC') or sqlerr(__FILE__, __LINE__);
-    $actcount = $res->num_rows();
+    $actcount = mysqli_num_rows($res);
     $v = ($actcount != 1 ? 's' : '');
     while ($arr = $res->fetch_assoc()) {
         if ($activeusers) $activeusers.= ",";

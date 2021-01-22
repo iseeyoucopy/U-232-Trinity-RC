@@ -20,7 +20,7 @@ function docleanup($data)
     $dt = (TIME_NOW - $secs);
     $maxclass = UC_STAFF;
     $res = sql_query("SELECT id, username, parked, status, last_access, mail_notified, last_notified, email, added FROM users WHERE enabled='yes' AND parked='no' AND status='confirmed' AND class < $maxclass AND last_access < $dt AND mail_notified='no' AND last_notified='0' ORDER BY last_access ASC") or sqlerr(__FILE__, __LINE__);
-    if ($res->num_rows() > 0) {
+    if (mysqli_num_rows($res) > 0) {
         while ($arr = $res->fetch_assoc()){
             $userid = $arr["id"];
             $username = $arr["username"];

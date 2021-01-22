@@ -61,7 +61,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 	}
 	sql_query("UPDATE attachments SET times_downloaded=times_downloaded+1 WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
 	$res = sql_query("SELECT file_id FROM attachmentdownloads WHERE file_id=".sqlesc($id)." AND user_id=".sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-	if ($res->num_rows() == 0)
+	if (mysqli_num_rows($res) == 0)
 		sql_query("INSERT INTO attachmentdownloads (file_id, username, user_id, date, times_downloaded) VALUES (".sqlesc($id).", ".sqlesc($CURUSER['username']).", ".sqlesc($CURUSER['id']).", ".TIME_NOW.", 1)") or sqlerr(__FILE__, __LINE__);
 	else
 		sql_query("UPDATE attachmentdownloads SET times_downloaded = times_downloaded + 1 WHERE file_id = ".sqlesc($id)." AND user_id = ".sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);

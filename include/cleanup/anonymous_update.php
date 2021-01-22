@@ -18,7 +18,7 @@ function docleanup($data)
     //=== Anonymous profile by Bigjoos/pdq:)
     $res = sql_query("SELECT id, modcomment FROM users WHERE anonymous_until < " . TIME_NOW . " AND anonymous_until <> '0'") or sqlerr(__FILE__, __LINE__);
     $msgs_buffer = $users_buffer = array();
-    if ($res->num_rows() > 0) {
+    if (mysqli_num_rows($res) > 0) {
         $subject = "Anonymous profile expired.";
         $msg = "Your Anonymous profile has timed out and has been auto-removed by the system. If you would like to have it again, exchange some Karma Bonus Points again. Cheers!\n";
         while ($arr = $res->fetch_assoc()) {

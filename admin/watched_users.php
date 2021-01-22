@@ -163,7 +163,7 @@ $HTMLOUT .= '<div class="row"><div class="col-md-12"> '. $H1_thingie . '<br />
     <table class="table table-bordered">';
 //=== get the member info...
 $res = sql_query('SELECT id, username, added, watched_user_reason, watched_user, uploaded, downloaded, warned, suspended, enabled, donor, class, leechwarn, chatpost, pirate, king, invitedby FROM users WHERE watched_user != \'0\' ORDER BY ' . $ORDER_BY . $ASC) or sqlerr(__FILE__, __LINE__);
-$how_many = $res->num_rows();
+$how_many = mysqli_num_rows($res);
 if ($how_many > 0) {
     $div_link_number = 1;
     $HTMLOUT .= '
