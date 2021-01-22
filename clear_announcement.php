@@ -14,7 +14,7 @@ require_once(__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . '
 dbconn(false);
 loggedinorreturn();
 $query1 = sprintf('UPDATE users SET curr_ann_id = 0, curr_ann_last_check = \'0\' ' . 'WHERE id = %s AND curr_ann_id != 0', sqlesc($CURUSER['id']));
-sql_query($query1);
+sql_query($query1) or sqlerr(__FILE__, __LINE__);
 $cache->update_row('user' . $CURUSER['id'], [
     'curr_ann_id' => 0,
     'curr_ann_last_check' => 0

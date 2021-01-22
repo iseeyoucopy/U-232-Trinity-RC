@@ -58,7 +58,8 @@ if (strlen($search) > 4) {
     $p = "letter=a&amp;";
     $letter = "a";
 }
-$count = mysqli_fetch_row(sql_query("SELECT count(*) FROM torrents AS t $where"));
+$sql_qry = sql_query("SELECT count(*) FROM torrents AS t $where") or sqlerr(__FILE__, __LINE__);
+$count = $sql_qry->fetch_row();
 $perpage = 12;
 $pager = pager($perpage, $count[0], $_SERVER["PHP_SELF"] . "?" . $p);
 //$tid='';

@@ -166,11 +166,11 @@ if (($l_a = $cache->get($What_String_Key.$id)) === false) {
     $cache->set('last_action_' . $id, $l_a, 1800);
 }
 //==Thumbs Up
-if (($thumbs = $cache->get('thumbs_up_' . $id)) === false) {
+if (($thumbs = $cache->get('thumbs_up:' . $id)) === false) {
     $thumbs_query = sql_query("SELECT id, type, torrentid, userid FROM thumbsup WHERE torrentid = " . sqlesc($torrents['id']))  or sqlerr(__FILE__, __LINE__);
-    $thumbs = mysqli_num_rows($thumbs_query);
+    $thumbs = $thumbs_query->num_rows;
     $thumbs = (int)$thumbs;
-    $cache->set('thumbs_up_' . $id, $thumbs, 0);
+    $cache->set('thumbs_up:' . $id, $thumbs, 0);
 }
 //==
 /* seeders/leechers/completed caches pdq**/

@@ -71,7 +71,7 @@ if ($CURUSER['class'] < $player) {
 $query = "SELECT * from casino where userid = " . sqlesc($CURUSER['id']) . "";
 $result = sql_query($query) or sqlerr(__FILE__, __LINE__);
 if ($mysqli->affected_rows != 1) {
-    sql_query("INSERT INTO casino (userid, win, lost, trys, date, started) VALUES(" . sqlesc($CURUSER["id"]) . ", 0, 0, 0," . TIME_NOW . ",1)") or $mysqli->error;
+    sql_query("INSERT INTO casino (userid, win, lost, trys, date, started) VALUES(" . sqlesc($CURUSER["id"]) . ", 0, 0, 0," . TIME_NOW . ",1)") or sqlerr(__FILE__, __LINE__);
     $result = sql_query($query) or sqlerr(__FILE__, __LINE__);
 }
 $row = $result->fetch_assoc();
@@ -330,7 +330,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
     }
     //== Add a new bet
     $loca = sql_query("SELECT * FROM casino_bets WHERE challenged ='empty'") or sqlerr(__FILE__, __LINE__);
-    $totbets = mysqli_num_rows($loca);
+    $totbets = $loca->num_rows;
     if (isset($_POST['unit'])) {
         if (0 + $_POST["unit"] == '1') {
             $nobits = 0 + $_POST["amnt"] * $mb_basic;
@@ -356,7 +356,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
             }
         }
         $betsp = sql_query("SELECT id, amount FROM casino_bets WHERE userid = " . sqlesc($CURUSER['id']) . " ORDER BY time ASC") or sqlerr(__FILE__, __LINE__);
-        $tbet2 = mysqli_fetch_row($betsp);
+        $tbet2 = $betsp->fetch_row();
         $dummy = "<h2>{$lang['casino_bet_added_you_will_receive_a_pm_notify']}</h2>";
         $user = $CURUSER['username'];
         $bet = mksize($nobits);
@@ -382,7 +382,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
         }
     }
     $loca = sql_query("SELECT * FROM casino_bets WHERE challenged ='empty'");
-    $totbets = mysqli_num_rows($loca);
+    $totbets = $loca->num_rows;
 
 
     //== Output html begin
@@ -429,7 +429,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
             <td align=\"center\" width=\"15%\"><b>{$lang['casino_name']}</b></td><td width=\"15%\" align=\"center\"><b>{$lang['casino_amount']}</b></td>
             <td width=\"45%\" align=\"center\"><b>{$lang['casino_time']}</b></td><td align=\"center\"><b>{$lang['casino_take_bet']}</b></td>
             </tr>";
-    while ($res = $loca->fetch_assoc($loca)) {
+    while ($res = $loca->fetch_assoc()) {
         $HTMLOUT .= "<tr>
             <td align=\"center\">" . htmlsafechars($res['proposed']) . "</td>
             <td align=\"center\">" . htmlsafechars(mksize($res['amount'])) . "</td>

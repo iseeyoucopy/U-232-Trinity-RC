@@ -124,7 +124,7 @@ if ($action == 'viewbug') {
 } elseif ($action == 'bugs') {
     if ($CURUSER['class'] < UC_STAFF) stderr("{$lang['stderr_error']}", "{$lang['stderr_only_staff_can_view']}");
     $search_count = sql_query("SELECT COUNT(id) FROM bugs");
-    $row = mysqli_fetch_array($search_count);
+    $row = $search_count->fetch_array();
     $count = $row[0];
     $perpage = 10;
     $pager = pager($perpage, $count, 'bugs.php?action=bugs&amp;');

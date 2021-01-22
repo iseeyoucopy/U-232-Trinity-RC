@@ -41,7 +41,9 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
         $count = $row[0];
 	    if($count > 0)
 	    {
-		   $res = sql_query($query) or sqlerr(__FILE__, __LINE__);$ye = '';$i=1;
+		   $res = sql_query($query) or sqlerr(__FILE__, __LINE__);
+		   $ye = '';
+		   $i=1;
 	       while ($row = $res->fetch_assoc()) 
 		   {
 				if(empty($row['name'])){
