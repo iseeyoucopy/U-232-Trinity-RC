@@ -2759,7 +2759,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `passhash` varchar(64) CHARACTER SET utf8 DEFAULT NULL,
   `old_passhash` varchar(64) CHARACTER SET utf8 DEFAULT NULL,
   `loginhash` varchar(64) CHARACTER SET utf8 DEFAULT NULL,
-  `secret` varchar(20) CHARACTER SET utf8 DEFAULT NULL,
+  `secret` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `passkey` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
   `email` varchar(180) CHARACTER SET utf8 DEFAULT NULL,
   `status` enum('pending','confirmed') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'pending',

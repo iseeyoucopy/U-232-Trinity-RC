@@ -65,7 +65,7 @@ CREATE TABLE `achievements` (
   `achievementid` int(5) NOT NULL DEFAULT 0,
   UNIQUE KEY `id` (`id`),
   KEY `userid` (`userid`)
-) ENGINE=MyISAM AUTO_INCREMENT=4461 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4464 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +121,7 @@ CREATE TABLE `ajax_chat_messages` (
   PRIMARY KEY (`id`),
   KEY `message_condition` (`id`,`channel`,`dateTime`),
   KEY `dateTime` (`dateTime`)
-) ENGINE=MyISAM AUTO_INCREMENT=1763 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1792 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -359,7 +359,7 @@ CREATE TABLE `bookmarks` (
   `torrentid` int(10) unsigned NOT NULL DEFAULT 0,
   `private` enum('yes','no') CHARACTER SET utf8 NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -433,7 +433,7 @@ CREATE TABLE `casino_bets` (
   `winner` varchar(25) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -569,7 +569,7 @@ CREATE TABLE `cleanup_log` (
   `clog_ip` char(16) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   `clog_desc` text CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`clog_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=32759 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=33303 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -648,7 +648,7 @@ CREATE TABLE `dbbackup` (
   `name` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
   `added` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=154 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=155 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -695,6 +695,24 @@ CREATE TABLE `doublesignup` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `emails`
+--
+
+DROP TABLE IF EXISTS `emails`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `emails` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `sent_by` int(10) NOT NULL DEFAULT 0,
+  `subject` text DEFAULT NULL,
+  `message` text DEFAULT NULL,
+  `sent` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `events`
 --
 
@@ -730,7 +748,7 @@ CREATE TABLE `failedlogins` (
   `banned` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   `attempts` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=287 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=289 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1098,7 +1116,7 @@ CREATE TABLE `ips` (
   `lastannounce` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`)
-) ENGINE=InnoDB AUTO_INCREMENT=873 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=879 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1173,7 +1191,7 @@ CREATE TABLE `messages` (
   `staff_id` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `receiver` (`receiver`)
-) ENGINE=MyISAM AUTO_INCREMENT=7261 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7283 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1407,7 +1425,7 @@ CREATE TABLE `peers` (
   KEY `connectable` (`connectable`),
   KEY `userid` (`userid`),
   KEY `torrent_pass` (`torrent_pass`)
-) ENGINE=MyISAM AUTO_INCREMENT=495 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=501 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1458,7 +1476,7 @@ CREATE TABLE `poll_voters` (
   `user_id` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`vid`),
   KEY `poll_id` (`poll_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=629 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=630 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1556,7 +1574,7 @@ CREATE TABLE `posts` (
   KEY `topicid` (`topic_id`),
   KEY `userid` (`user_id`),
   FULLTEXT KEY `body` (`body`)
-) ENGINE=MyISAM AUTO_INCREMENT=146 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=149 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1647,7 +1665,7 @@ CREATE TABLE `read_posts` (
   PRIMARY KEY (`id`),
   KEY `topic_id` (`topic_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7068 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7070 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1682,7 +1700,7 @@ CREATE TABLE `referrers` (
   `page` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
   `date` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2315 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2347 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1724,7 +1742,7 @@ CREATE TABLE `reports` (
   `when_delt_with` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `delt_with` (`delt_with`)
-) ENGINE=MyISAM AUTO_INCREMENT=60 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1950,7 +1968,7 @@ CREATE TABLE `sitelog` (
   `txt` text CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `added` (`added`)
-) ENGINE=MyISAM AUTO_INCREMENT=238576 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=238604 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2182,7 +2200,7 @@ CREATE TABLE `thumbsup` (
   `userid` int(11) NOT NULL DEFAULT 0,
   `commentid` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2220,13 +2238,13 @@ CREATE TABLE `topics` (
   `anonymous` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'no',
   `num_ratings` int(10) unsigned NOT NULL DEFAULT 0,
   `rating_sum` int(10) unsigned NOT NULL DEFAULT 0,
-  `user_likes` text CHARACTER SET utf8 NOT NULL,
+  `user_likes` text CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `userid` (`user_id`),
   KEY `subject` (`topic_name`),
   KEY `lastpost` (`last_post`),
   KEY `locked_sticky` (`locked`,`sticky`)
-) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2426,7 +2444,7 @@ CREATE TABLE `userhits` (
   KEY `userid` (`userid`),
   KEY `added` (`added`),
   KEY `hitid` (`hitid`)
-) ENGINE=MyISAM AUTO_INCREMENT=2486 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2499 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2618,7 +2636,7 @@ CREATE TABLE `users` (
   KEY `warned` (`warned`),
   KEY `free_switch` (`free_switch`),
   KEY `T_Pass` (`torrent_pass`)
-) ENGINE=MyISAM AUTO_INCREMENT=2261 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2263 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2668,7 +2686,7 @@ CREATE TABLE `usersachiev` (
   `totalshouts` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=MyISAM AUTO_INCREMENT=2260 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2263 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2873,4 +2891,4 @@ CREATE TABLE `xbt_users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-22 19:29:01
+-- Dump completed on 2021-01-23 19:29:02
