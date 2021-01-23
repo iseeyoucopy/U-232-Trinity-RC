@@ -302,7 +302,7 @@ function cleanup_show_new()
 }
 function cleanup_take_new()
 {
-    global $params, $lang;
+    global $params, $lang, $mysqli;
     //ints
     foreach (array(
         'clean_increment',
@@ -362,7 +362,7 @@ function cleanup_take_new()
 }
 function cleanup_take_delete()
 {
-    global $params, $lang;
+    global $params, $lang, $mysqli;
     $opts = array(
         'options' => array(
             'min_range' => 1
@@ -381,7 +381,7 @@ function cleanup_take_delete()
 }
 function cleanup_take_unlock()
 {
-    global $params, $lang;
+    global $params, $lang, $mysqli;
     foreach (array(
         'cid',
         'clean_on'
