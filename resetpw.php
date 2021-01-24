@@ -88,7 +88,7 @@ if ($step == '1') {
     $fetch = $select->fetch_assoc();
     if (!$fetch) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error5']}");
     if (empty($answer)) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error6']}");
-    if ($fetch['hintanswer'] != md5($answer)) {
+    if ($fetch['hintanswer'] != hash("tiger128,4", "" . $answer . "")) {
         $ip = getip();
         $useragent = $_SERVER['HTTP_USER_AGENT'];
         $msg = "" . htmlsafechars($fetch['username']) . ", on " . get_date(TIME_NOW, '', 1, 0) . ", {$lang['main_message']}" . "\n\n{$lang['main_message1']} " . $ip . " (" . @gethostbyaddr($ip) . ")" . "\n {$lang['main_message2']} " . $useragent . "\n\n {$lang['main_message3']}\n {$lang['main_message4']}\n";
