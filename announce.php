@@ -207,7 +207,8 @@ foreach ($agentarray as $bannedclient) if (strpos($useragent, $bannedclient) !==
 if ($torrent['vip'] == 1 && $user['class'] < UC_VIP) err('VIP Access Required, You must be a VIP In order to view details or download this torrent! You may become a Vip By Donating to our site. Donating ensures we stay online to provide you with more Vip-Only Torrents!');
 $user_updateset = array();
 if (!isset($self)) {
-    $valid = mysqli_fetch_row(ann_sql_query("SELECT COUNT(*) FROM peers WHERE torrent=" . ann_sqlesc($torrentid) . " AND torrent_pass=" . ann_sqlesc($torrent_pass))) or ann_sqlerr(__FILE__, __LINE__);
+    $valid_qry = ann_sql_query("SELECT COUNT(*) FROM peers WHERE torrent=" . ann_sqlesc($torrentid) . " AND torrent_pass=" . ann_sqlesc($torrent_pass)) or ann_sqlerr(__FILE__, __LINE__);
+    $valid = $valid_qry->fetch_row();
     if ($valid[0] >= 3 && $seeder == 'yes') err("Connection limit exceeded!");
     if ($left > 0 && $user['class'] < UC_VIP && $TRINITY20['wait_times'] || $TRINITY20['max_slots']) {
     $ratio = (($user["downloaded"] > 0) ? ($user["uploaded"] / $user["downloaded"]) : 1);
@@ -379,7 +380,7 @@ if (portblacklisted($port)) {
 //==
 $a = 0;
 $res_snatch = ann_sql_query("SELECT seedtime, uploaded, downloaded, finished, start_date AS start_snatch FROM snatched WHERE torrentid = " . ann_sqlesc($torrentid) . " AND userid = " . ann_sqlesc($userid)) or ann_sqlerr(__FILE__, __LINE__);
-if (mysqli_num_rows($res_snatch) > 0) {
+if ($res_snatch->num_rows > 0) {
     $a = $res_snatch->fetch_assoc();
 }
 if (!$mysqli->affected_rows && $seeder == "no") ann_sql_query("INSERT LOW_PRIORITY INTO snatched (torrentid, userid, peer_id, ip, port, connectable, uploaded, downloaded, to_go, start_date, last_action, seeder, agent) VALUES (" . ann_sqlesc($torrentid) . ", " . ann_sqlesc($userid) . ", " . ann_sqlesc($peer_id) . ", " . ann_sqlesc($realip) . ", " . ann_sqlesc($port) . ", " . ann_sqlesc($connectable) . ", " . ann_sqlesc($uploaded) . ", " . ($TRINITY20['ratio_free'] ? "0" : "" . ann_sqlesc($downloaded) . "") . ", " . ann_sqlesc($left) . ", " . TIME_NOW . ", " . TIME_NOW . ", " . ann_sqlesc($seeder) . ", " . ann_sqlesc($agent) . ")") or ann_sqlerr(__FILE__, __LINE__);
