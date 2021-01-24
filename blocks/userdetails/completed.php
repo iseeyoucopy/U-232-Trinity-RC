@@ -20,8 +20,8 @@ if ($TRINITY20['hnr_online'] == 1 || $CURUSER['id'] == $id || $CURUSER['class'] 
     $r = sql_query("SELECT torrents.name, torrents.added AS torrent_added, xbt_peers.mtime AS c, xbt_peers.active, xbt_peers.left, xbt_peers.tid as tid, categories.id as category, categories.image, categories.name as catname, xbt_peers.uploaded, xbt_peers.downloaded, xbt_peers.mtime, xbt_peers.uid, torrents.seeders, torrents.leechers, torrents.owner FROM xbt_peers JOIN torrents ON torrents.id = xbt_peers.tid JOIN categories ON categories.id = torrents.category WHERE xbt_peers.completed>='1' AND uid=" . sqlesc($id) . " AND torrents.owner != " . sqlesc($id) . " ORDER BY xbt_peers.tid DESC") or sqlerr(__FILE__, __LINE__);
 }
     //=== completed
-    if ($r->num_rows > 0) {
-        $completed.= "<table class='table table-bordered'>
+    if ($r->num_rows < 0) {
+        $completed.= "<table class='table-expand'>
     <tr>
     <td class='text-center'>{$lang['userdetails_type']}</td>
     <td class='text-center'>{$lang['userdetails_name']}</td>
