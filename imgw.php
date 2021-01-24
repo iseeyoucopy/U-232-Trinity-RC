@@ -1,0 +1,47 @@
+<?php
+/**
+ * -------   U-232 Codename Trinity   ----------*
+ * ---------------------------------------------*
+ * --------  @authors U-232 Team  --------------*
+ * ---------------------------------------------*
+ * -----  @site https://u-232.duckdns.org/  ----*
+ * ---------------------------------------------*
+ * -----  @copyright 2020 U-232 Team  ----------*
+ * ---------------------------------------------*
+ * ------------  @version V6  ------------------*
+ */
+require_once (__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorrent.php');
+function valid_path($root, $input)
+{
+    $fullpath = $root . $input;
+    $fullpath = realpath($fullpath);
+    $root = realpath($root);
+    $rl = strlen($root);
+    return ($root != substr($fullpath, 0, $rl)) ? NULL : $fullpath;
+}
+/* Process request */
+if (isset($_SERVER['REQUEST_URI'])) {
+    $image = valid_path(IMDB_DIR, substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME'])));
+    if (!((($pi = pathinfo($image)) && preg_match('#^(jpg|jpeg|gif|png)$#i', $pi['extension'])) && $image && is_file($image))) die('^_^');
+    $img['last_mod'] = filemtime($image);
+    $img['date_fmt'] = 'D, d M Y H:i:s T';
+    $img['lm_date'] = date($img['date_fmt'], $img['last_mod']);
+    $img['ex_date'] = date($img['date_fmt'], time() + (86400 * 7));
+    $img['stop'] = false;
+    if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+        $img['since'] = explode(';', $_SERVER['HTTP_IF_MODIFIED_SINCE'], 2);
+        $img['since'] = strtotime($img['since'][0]);
+        if ($img['since'] == $img['last_mod']) {
+            header($_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified');
+            $img['stop'] = true;
+        }
+    }
+    header('Expires: ' . $img['ex_date']);
+    header('Cache-Control: private, max-age=604800');
+    if ($img['stop']) die();
+    header('Last-Modified: ' . $img['lm_date']);
+    header('Content-type: image/' . $pi['extension']);
+    readfile($image);
+    exit();
+}
+?>
