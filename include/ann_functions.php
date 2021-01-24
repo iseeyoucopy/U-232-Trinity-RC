@@ -66,12 +66,12 @@ function ann_sql_query($a_query)
 //== Crazyhour by pdq
 function crazyhour_announce()
 {
-    global $cache, $TRINITY20;
+    global $cache, $TRINITY20, $mysqli;
     $crazy_hour = (TIME_NOW + 3600);
     if (($cz['crazyhour'] = $cache->get('crazyhour')) === false) {
         $cz['sql'] = ann_sql_query('SELECT var, amount FROM freeleech WHERE type = "crazyhour"') or ann_sqlerr(__FILE__, __LINE__);
         $cz['crazyhour'] = array();
-        if (mysqli_num_rows($cz['sql']) !== 0) $cz['crazyhour'] = mysqli_fetch_assoc($cz['sql']);
+        if ($cz['sql']->num_rows !== 0) $cz['crazyhour'] = $cz['sql']->fetch_assoc();
         else {
             $cz['crazyhour']['var'] = mt_rand(TIME_NOW, (TIME_NOW + 86400));
             $cz['crazyhour']['amount'] = 0;
@@ -121,8 +121,8 @@ function freeleech_announce() {
    if (($fl['countdown'] = $cache->get('freeleech_countdown')) === false) { // pot_of_gold
       $fl['sql'] = ann_sql_query('SELECT var, amount FROM freeleech WHERE type = "countdown"') or ann_sqlerr(__FILE__, __LINE__);
       $fl['countdown'] = array();   
-      if (mysqli_num_rows($fl['sql']) !== 0)
-         $fl['countdown'] = mysqli_fetch_assoc($fl['sql']);
+      if ($fl['sql']->num_rows() !== 0)
+         $fl['countdown'] = $fl['sql']->fetch_assoc();
       else {
          $fl['countdown']['var'] = 0;
          //$fl['countdown']['amount'] = strtotime('next Monday');  // timestamp sunday
@@ -196,7 +196,7 @@ function get_user_from_torrent_pass($torrent_pass)
         );
         $user_fields = implode(', ', array_merge($user_fields_ar_int, $user_fields_ar_str));
         $user_query = ann_sql_query("SELECT " . $user_fields . " FROM users WHERE torrent_pass=" . ann_sqlesc($torrent_pass) . " AND enabled = 'yes'") or ann_sqlerr(__FILE__, __LINE__);
-        $user = mysqli_fetch_assoc($user_query);
+        $user = $user_query->fetch_assoc();
         foreach ($user_fields_ar_int as $i) $user[$i] = (int)$user[$i];
         foreach ($user_fields_ar_str as $i) $user[$i] = $user[$i];
         $cache->set($key, $user, $TRINITY20['expires']['user_passkey']);
@@ -284,8 +284,9 @@ function get_happy($torrentid, $userid)
     if (($happy = $cache->get($keys['happyhour'])) === false) {
         $res_happy = ann_sql_query("SELECT id, userid, torrentid, multiplier from happyhour where userid=" . ann_sqlesc($userid)) or ann_sqlerr(__FILE__, __LINE__);
         $happy = array();
-        if (mysqli_num_rows($res_happy)) {
-            while ($rowhappy = mysqli_fetch_assoc($res_happy)) $happy[$rowhappy['torrentid']] = $rowhappy['multiplier'];
+        if ($res_happy->num_rows) {
+            while ($rowhappy = $res_happy->fetch_assoc()) 
+                $happy[$rowhappy['torrentid']] = $rowhappy['multiplier'];
         }
         $cache->set($userid . '_happy', $happy, 0);
     }
@@ -301,8 +302,8 @@ function get_slots($torrentid, $userid)
     if (($slot = $cache->get('fllslot_' . $userid)) === false) {
         $res_slots = ann_sql_query('SELECT * FROM freeslots WHERE userid = ' . ann_sqlesc($userid)) or ann_sqlerr(__FILE__, __LINE__);
         $slot = array();
-        if (mysqli_num_rows($res_slots)) {
-            while ($rowslot = mysqli_fetch_assoc($res_slots)) $slot[] = $rowslot;
+        if ($res_slots->num_rows) {
+            while ($rowslot = $res_slots->fetch_assoc()) $slot[] = $rowslot;
         }
         $cache->set('fllslot_' . $userid, $slot, $ttl_slot);
     }
