@@ -379,28 +379,31 @@ elseif ($action == "personal") {
         $user_cache['birthday'] = $birthday;
         $cache->delete('birthdayusers');
     }
-    if (isset($_POST["country"]) && (($country = $_POST["country"]) != $CURUSER["country"]) && is_valid_id($country)) {
-    $updateset[] = "country = $country";
-    $curuser_cache['country'] = $country;
-    $user_cache['country'] = $country;
-    }
-    if (isset($_POST['language']) && (($language = (int)$_POST['language']) != $CURUSER['language'])) {
-        $updateset[] = 'language = ' . sqlesc($language);
-        $curuser_cache['language'] = $language;
-        $user_cache['language'] = $language;
-    }
-    if (isset($_POST["user_timezone"]) && preg_match('#^\-?\d{1,2}(?:\.\d{1,2})?$#', $_POST['user_timezone'])) {
-    $updateset[] = "time_offset = " . sqlesc($_POST['user_timezone']);
-    $updateset[] = "auto_correct_dst = " . (isset($_POST['checkdst']) ? 1 : 0);
-    $updateset[] = "dst_in_use = " . (isset($_POST['manualdst']) ? 1 : 0);
-    $curuser_cache['time_offset'] = $_POST['user_timezone'];
-    $user_cache['time_offset'] = $_POST['user_timezone'];
-    $curuser_cache['auto_correct_dst'] = (isset($_POST['checkdst']) ? 1 : 0);
-    $user_cache['auto_correct_dst'] = (isset($_POST['checkdst']) ? 1 : 0);
-    $curuser_cache['dst_in_use'] = (isset($_POST['manualdst']) ? 1 : 0);
-    $user_cache['dst_in_use'] = (isset($_POST['manualdst']) ? 1 : 0);
-    }
     $action = "personal";
+}
+elseif ($action == "location") {
+    if (isset($_POST["country"]) && (($country = $_POST["country"]) != $CURUSER["country"]) && is_valid_id($country)) {
+        $updateset[] = "country = $country";
+        $curuser_cache['country'] = $country;
+        $user_cache['country'] = $country;
+        }
+        if (isset($_POST['language']) && (($language = (int)$_POST['language']) != $CURUSER['language'])) {
+            $updateset[] = 'language = ' . sqlesc($language);
+            $curuser_cache['language'] = $language;
+            $user_cache['language'] = $language;
+        }
+        if (isset($_POST["user_timezone"]) && preg_match('#^\-?\d{1,2}(?:\.\d{1,2})?$#', $_POST['user_timezone'])) {
+        $updateset[] = "time_offset = " . sqlesc($_POST['user_timezone']);
+        $updateset[] = "auto_correct_dst = " . (isset($_POST['checkdst']) ? 1 : 0);
+        $updateset[] = "dst_in_use = " . (isset($_POST['manualdst']) ? 1 : 0);
+        $curuser_cache['time_offset'] = $_POST['user_timezone'];
+        $user_cache['time_offset'] = $_POST['user_timezone'];
+        $curuser_cache['auto_correct_dst'] = (isset($_POST['checkdst']) ? 1 : 0);
+        $user_cache['auto_correct_dst'] = (isset($_POST['checkdst']) ? 1 : 0);
+        $curuser_cache['dst_in_use'] = (isset($_POST['manualdst']) ? 1 : 0);
+        $user_cache['dst_in_use'] = (isset($_POST['manualdst']) ? 1 : 0);
+        }
+        $action = "location";
 }
 elseif ($action == "default") {
 //== Pm stuffs
