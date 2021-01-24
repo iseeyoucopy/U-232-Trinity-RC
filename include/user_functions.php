@@ -300,12 +300,12 @@ function min_class($min = UC_MIN, $max = UC_MAX)
 function format_username($user, $icons = true)
 {
     global $TRINITY20;
-    $userf_id = (isset($user['id']) ? (int)$user['id'] : '');
     $userf_class = (isset($user['class']) ? (int)$user['class'] : '') ;
-    if ($userf_id == 0) return 'System';
-    elseif ($user['username'] == '') return 'unknown[' . $userf_id . ']';
+    if (isset($user['id']) ? (int)$user['id'] : '' == 0) 
+        return 'System';
+    elseif ($user['username'] == '') return 'unknown[' . (isset($user['id']) ? (int)$user['id'] : '') . ']';
     $username = '<span style="color:#' . get_user_class_color($userf_class) . ';"><strong>' . htmlsafechars($user['username']) . '</strong></span>';
-    $str = '<span style="white-space: nowrap;"><a class="user_' . $userf_id . '" href="' . $TRINITY20['baseurl'] . '/userdetails.php?id=' . $userf_id . '" target="_blank">' . $username . '</a>';
+    $str = '<span style="white-space: nowrap;"><a class="user_' . (isset($user['id']) ? (int)$user['id'] : '') . '" href="' . $TRINITY20['baseurl'] . '/userdetails.php?id=' . (isset($user['id']) ? (int)$user['id'] : '') . '" target="_blank">' . $username . '</a>';
     if ($icons != false) {
         $str.= ($user['donor'] == 'yes' ? '<img src="' . $TRINITY20['pic_base_url'] . 'star.png" alt="Donor" title="Donor" />' : '');
         $str.= ($user['warned'] >= 1 ? '<img src="' . $TRINITY20['pic_base_url'] . 'alertred.png" alt="Warned" title="Warned" />' : '');
@@ -395,7 +395,7 @@ function avatar_stuff($avatar, $width = 80)
 function print_user_stuff($arr)
 {
     global $CURUSER, $TRINITY20;
-    return '<a href="userdetails.php?id=' . (isset($arr['id']) ? (int)$arr['id'] : '') . '" title="' . get_user_class_name($arr['class']) . '">
+    return '<a href="userdetails.php?id=' . (isset($arr['id']) ? (int)$arr['id'] : '') . '" title="' . get_user_class_name(isset($arr['class']) ? (int)$arr['class'] : '') . '">
   <span style="font-weight: bold;"></span></a>' . format_username($arr) . '';
 }
 //made by putyn@tbdev
