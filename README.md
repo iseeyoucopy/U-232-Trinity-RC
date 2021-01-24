@@ -1,6 +1,6 @@
 # U-232-Trinity-RC
- This version is an Release Candidate for development and testing
- This source is an upgraded version of U-232-V5
+    This version is an Release Candidate for development and testing
+
 # Basic Information 
    
     Code Base: U-232 
@@ -106,7 +106,7 @@ Open the upgrade.sql and update your database adding all additional entrys, once
 
 "Please note" Before you begin installation it's very important to configured your server correctly, including code dependencies.
 
-Ensure your error reporting is enabled on the server and you are logging the errors and not displaying them. A error on install is a failure to adhere to setup instructions. If you experience a failure then a properly configured server will report that issue, no excuses required. Install memcached and zend opcode cache before installing U-232 V5.
+Ensure your error reporting is enabled on the server and you are logging the errors and not displaying them. A error on install is a failure to adhere to setup instructions. If you experience a failure then a properly configured server will report that issue, no excuses required. Install memcached redis apcu and zend opcode cache before installing U-232 Trinity.
 
 Create a directory one up from root so it resides beside it not inside it, named bucket. Then inside the bucket folder make another and name it avatar, remember to chmod them to 777. If you use your own names for those folders then you need to edit bitbucket.php and img.php defines at top of the files. Then add a .htaccess and index.html files into both newly created folders. Then chmod those above folders.
 Then extract pic.tar.gz, Log_Viewer.tar.gz and GeoIp.tar.gz and ensure they are not inside an extra folder from being archived.
@@ -117,8 +117,9 @@ Then extract pic.tar.gz, Log_Viewer.tar.gz and GeoIp.tar.gz and ensure they are 
 - dir_list
 - uploads
 - uploadsub
-- imdb/cache
-- imdb/images
+  imdb/imdb/casts
+- imdb/imdb/casts
+- imdb/imdb/posters
 - include
 - include/backup
 - include/settings/settings.txt
@@ -158,14 +159,23 @@ All other snippets, mods and contributions for this version from CoLdFuSiOn, put
 U-232 wants to thank everyone who helped make it what it is today; shaping and directing our project, all through the thick and thin. It wouldn't have been possible without you. This includes our users and especially Beta Testers - thanks for installing and using u-232 source code as well as providing valuable feedback, bug reports, and opinions.
 
 # The Team
+    Lead coder Mindless (he was been and allways will be the leader of this source)
 
-Lead coder Mindless (he was been and allways will be the leader of this source)
+    Lead Coders iseeyoucopy, GodFather 
 
-Coders iseeyoucopy, stonebreath, GodFather 
+    Coders  stonebreath
 
-Lead Designer iseeyoucopy
+    Lead Designer iseeyoucopy
 
-Designers Support Credit's to Kidvision & others for designs used in the v0+v1+v2 Installer projects. Credit's to Roguesurfer for all v3&v4 design - Your a credit to this team. Credit's to swizzles and mistero for their work on framework intergration and design layout for v4. Credit's to son for v5 design work.
+# Designers Support 
+
+    Credit's to Kidvision & others for designs used in the v0+v1+v2 Installer projects. 
+
+    Credit's to Roguesurfer for all v3&v4 design - Your a credit to this team.
+
+    Credit's to swizzles and mistero for their work on framework intergration and design layout for v4. 
+
+    Credit's to son for v5 design work.
 
 
-# 2020 U-232 Code Name Trinity Edition RC©
+# 2021 U-232 Code Name Trinity - RC©
