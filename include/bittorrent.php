@@ -64,14 +64,6 @@ if (preg_match('/(?:\< *(?:java|script)|script\:|\+document\.)/i', serialize($_P
 if (preg_match('/(?:\< *(?:java|script)|script\:|\+document\.)/i', serialize($_COOKIE)))
   die('Forbidden');
 
-//== New Database class
-$db = new mysqli($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass'], $TRINITY20['mysql_db']);
-
-/* check connection */
-if ($db->connect_errno) {
-    printf("Connect failed: %s\n", $db->connect_error);
-    exit();
-}
 //== Updated 02/215
 function htmlsafechars($txt = '')
 {
