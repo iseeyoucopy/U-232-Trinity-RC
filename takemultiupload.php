@@ -296,7 +296,7 @@ foreach ($file_list as $key=>$f) {
 
 
     if ($TRINITY20['autoshout_on'] == 1) {
-        autoshout($message);
+        shout2($message);
         $cache->delete('shoutbox_');
     }
 

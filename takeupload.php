@@ -386,7 +386,7 @@ else
     ], $TRINITY20['expires']['user_stats']);
 }
 if ($TRINITY20['autoshout_on'] == 1) {
-    autoshout($message);
+    shout2($message);
     $cache->delete('shoutbox_');
 }
 header("Location: {$TRINITY20['baseurl']}/details.php?id=$id&uploaded=1");
