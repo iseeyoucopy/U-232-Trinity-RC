@@ -37,8 +37,8 @@ if ($action == '') {
             //=== catch any missed snatched stuff thingies to stop ghost leechers from getting peers (if the peers they have drop off)
             sql_query('UPDATE snatched SET seeder=\'no\' WHERE userid = ' . sqlesc($CURUSER['id']));
             //=== flush dem torrents!!! \o/
-            sql_query('DELETE FROM peers WHERE userid = ' . sqlesc($CURUSER['id']));
-            $number_of_torrents_flushed = mysqli_affected_rows();
+            sql_query('DELETE FROM peers WHERE userid = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+            $number_of_torrents_flushed = $mysqli->affected_rows();
             //=== add it to the log
             sql_query('INSERT INTO `sitelog` (`id`, `added`, `txt`) VALUES (NULL , ' . TIME_NOW . ', ' . sqlesc('<a class="altlink" href="userdetails.php?id=' . $CURUSER['id'] . '">' . $CURUSER['username'] . '</a> flushed <b>' . $number_of_torrents_flushed . '</b> torrents.') . ')');
         }
@@ -50,8 +50,8 @@ if ($action == '') {
             //=== catch any missed snatched stuff thingies to stop ghost leechers from getting peers (if the peers they have drop off)
             sql_query('UPDATE snatched SET seeder=\'no\' WHERE userid = ' . sqlesc($id));
             //=== flush dem torrents!!! \o/
-            sql_query('DELETE FROM peers WHERE userid = ' . sqlesc($id));
-            $number_of_torrents_flushed = mysqli_affected_rows();
+            sql_query('DELETE FROM peers WHERE userid = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+            $number_of_torrents_flushed = $mysqli->affected_rows();
             //=== add it to the log
             sql_query('INSERT INTO `sitelog` (`id`, `added`, `txt`) VALUES (NULL , ' . TIME_NOW . ', ' . sqlesc('<b>Staff Flush</b> <a class="altlink" href="userdetails.php?id=' . $CURUSER['id'] . '">' . $CURUSER['username'] . '</a> flushed <b>' . $number_of_torrents_flushed . '</b> torrents for <a class="altlink" href="userdetails.php?id=' . $id . '">' . $user_get_info['username'] . '</a>.') . ')');
         }
