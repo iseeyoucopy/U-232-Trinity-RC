@@ -517,6 +517,9 @@ if (curuser::$blocks['userdetails_page'] & block_userdetails::IPHISTORY && $BLOC
 if (curuser::$blocks['userdetails_page'] & block_userdetails::GENDER && $BLOCKS['userdetails_gender_on']) {
     require_once (BLOCK_DIR . 'userdetails/gender.php');
 }
+if (curuser::$blocks['userdetails_page'] & block_userdetails::AVATAR && $BLOCKS['userdetails_avatar_on']) {
+    require_once (BLOCK_DIR . 'userdetails/avatar.php');
+}
 if (curuser::$blocks['userdetails_page'] & block_userdetails::USERINFO && $BLOCKS['userdetails_userinfo_on']) {
     require_once (BLOCK_DIR . 'userdetails/userinfo.php');
 }

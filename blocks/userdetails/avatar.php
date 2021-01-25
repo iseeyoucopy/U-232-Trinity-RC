@@ -11,15 +11,10 @@
  * ------------  @version V6  ------------------*
  */
 if ($user["avatar"]) 
-	$HTMLOUT.= "<div class='col-md-2'>
-	<table class='table table-bordered'><tr><td><img class='img-polaroid' src='" . htmlsafechars($user["avatar"]) . "'></td></tr>
-		</table>
-	</div>";
+	$HTMLOUT.= "<tr><td class='rowhead'>{$lang['userdetails_avatar']}</td><td align='left'><img class='img-polaroid' src='" . htmlsafechars($user["avatar"]) . "'></td></tr>\n";
 else
-		$HTMLOUT.= "<div class='col-md-2'>
-	<table class='table table-bordered'><tr><td><img class='img-polaroid' src='{$TRINITY20['pic_base_url']}forumicons/default_avatar.gif'></td></tr>
-		</table>
-	</div>";
+	$HTMLOUT.= "
+	<tr><td class='rowhead'>{$lang['userdetails_avatar']}</td><td align='left'><img class='img-polaroid' src='{$TRINITY20['pic_base_url']}forumicons/default_avatar.gif'></td></tr>\n";
 //==end
 // End Class
 // End File
