@@ -23,7 +23,7 @@ if (($top10music_week = $cache->get('top10_music_week_')) === false) {
 		$top10music_week[] = $top10musicweek;
     $cache->set('top10_music_week_', $top10music_week);
 }
-    $HTMLOUT.= "<table class='stack'>
+    $HTMLOUT.= "<table>
             <thead><tr>
             <th scope='col'><b>*</b></th>
             <th scope='col'><b>Top 10 torrents in a week in Music</b></th>
