@@ -49,7 +49,7 @@ if (($top10tv_week = $cache->get('top10_tv_week_')) === false) {
     } else {
         //== If there are no torrents
         if (empty($top10tv_week)) 
-        $HTMLOUT.= "<tbody><tbody><tr><td>{$lang['top5torrents_no_torrents']}</td></tr></tbody></tbody>";
+        $HTMLOUT.= "<tbody><tr><td>{$lang['top5torrents_no_torrents']}</td></tr></tbody>";
     }
     $HTMLOUT.= "</table>";
 //==End	

@@ -11,8 +11,8 @@
  * ------------  @version V6  ------------------*
  */
 $HTMLOUT.='
-<div class="grid-x grid-margin-x">
-  <div class="cell large-6 large-offset-3"><div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
+  <div class="cell large-6 large-offset-3">
+  <div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
   <div class="orbit-wrapper">
     <div class="orbit-controls">
       <button class="orbit-previous"><span class="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
@@ -85,4 +85,4 @@ $HTMLOUT.='
     <button data-slide="9"><span class="show-for-sr"></span></button>
     <button data-slide="10"><span class="show-for-sr"></span></button>   
   </nav>
-</div></div></div>';
+</div></div>';
