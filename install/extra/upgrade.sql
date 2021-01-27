@@ -427,3 +427,4 @@ ALTER TABLE `users` ADD `altnick` varchar(32) COLLATE utf8_unicode_ci DEFAULT NU
 ALTER TABLE `users` ADD `pm_forced` enum('yes','no') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'yes'
 ALTER TABLE `users` ADD `ignore_list` text CHARACTER SET utf8
 ALTER TABLE `usercomments` ADD `user_likes` text CHARACTER SET utf8 NOT NULL
+ALTER TABLE `user_blocks` ADD `browse_page` int(10) unsigned NOT NULL DEFAULT '4'
