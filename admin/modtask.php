@@ -43,6 +43,7 @@ $postkey = PostKey(array(
 ));
 function remove_torrent_pass($torrent_pass)
 {
+    global $cache;
     if (strlen($torrent_pass) != 32 || !bin2hex($torrent_pass)) return false;
     $key = 'user::torrent_pass:::' . $torrent_pass;
     $cache->delete($key);

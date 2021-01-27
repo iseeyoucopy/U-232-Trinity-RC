@@ -413,52 +413,16 @@ if ($user["donor"] && $CURUSER["id"] == $user["id"] || $CURUSER["class"] == UC_S
     }
 }
 $HTMLOUT.= ($CURUSER['class'] >= UC_STAFF & $shit_list > 0) ? "<dd><b>{$lang['userdetails_shit1']} <a href='staffpanel.php?tool=shit_list&amp;action=shit_list'>{$lang['userdetails_here']}</a> {$lang['userdetails_shit2']}&nbsp;</b></dd>" : "";
-    //== watched user stuff ==//
+//== watched user stuff ==//
 if ($CURUSER['id'] !== $user['id'] && $CURUSER['class'] >= UC_STAFF)
 $HTMLOUT.= ($user['watched_user'] == 0) ? '' : '<p>'.$lang['userdetails_watchlist1'].' <a href="staffpanel.php?tool=watched_users" >'.$lang['userdetails_watchlist2'].'</a></p>';
 //== make sure people can't see their own naughty history by snuggles ==//
 if (($CURUSER['id'] !== $user['id']) && ($CURUSER['class'] >= UC_STAFF)) {
     //== watched user stuff ==//
-    $HTMLOUT .= '<div class="reveal" id="watched-user" data-reveal>
-		<div class="callout alert-callout-border warning">
-			<p>'.($user['watched_user'] > 0 ? $lang['userdetails_watched_since'] . get_date($user['watched_user'], '') : $lang['userdetails_not_watched']) . '</p>
-			<p style="color:red;font-size: small;">Note* '. $lang['userdetails_watch_change1']. '</p>
-			<p style="color:red;font-size: small;">' .$lang['userdetails_watch_change2'].'</p>
-		</div>
-		<form method="post" action="member_input.php" name="notes_for_staff">
-			<fieldset class="fieldset">
-				<input name="id" type="hidden" value="' . $id . '">
-				<input type="hidden" value="watched_user" name="action">
-				<legend>'.$lang['userdetails_add_watch'].'</legend>
-				<input type="radio" value="yes" name="add_to_watched_users"' . ($user['watched_user'] > 0 ? ' checked="checked"' : '') . ' id="watchedYes1"> 
-				<label for="watchedYes1">'.$lang['userdetails_yes1'].'</label>
-				<input type="radio" value="no" name="add_to_watched_users"' . ($user['watched_user'] == 0 ? ' checked="checked"' : '') . ' id="watchedNo1">
-				<label for="watchedYes1">'.$lang['userdetails_no1'].'</label>
-			</fieldset>
-			<textarea id="watched_reason" cols="50" rows="6" name="watched_reason">' . htmlsafechars($user['watched_user_reason']) . '</textarea>
-			<input id="watched_user_button" type="submit" value="'.$lang['userdetails_submit'].'" class="tiny button" name="watched_user_button">
-		</form>
-		<button class="close-button" data-close aria-label="Close modal" type="button">
-			<span aria-hidden="true">&times;</span>
-		</button>
-	</div>';
+    require_once (BLOCK_DIR . 'userdetails/watched_user.php');
     //== Staff Notes ==//
-    $HTMLOUT.= '<div class="reveal" id="staff-notes" data-reveal>
-			<form method="post" action="member_input.php" name="notes_for_staff">
-				<input name="id" type="hidden" value="' . (int)$user['id'] . '">
-				<input type="hidden" value="staff_notes" name="action" id="action">
-				<textarea id="new_staff_note" cols="50" rows="6" name="new_staff_note">' . htmlsafechars($user['staff_notes']) . '</textarea>
-				<input id="staff_notes_button" type="submit" value="'.$lang['userdetails_submit'].'" class="small button" name="staff_notes_button"/>
-			</form>
-			<button class="close-button" data-close aria-label="Close modal" type="button">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		</div>';
+    require_once (BLOCK_DIR . 'userdetails/staff_notes.php');
     //== System comments ==//
-    if (!empty($user_stats['modcomment']))
-		$HTMLOUT.= '<div class="reveal" id="system-comments" data-reveal>
-		 ' . format_comment($user_stats['modcomment']) . '
-		 </div>';
 }
 $HTMLOUT.= "<ul class='tabs' data-tabs id='userdetails-tabs{$user['id']}'>
 	<li class='tabs-title is-active'><a href='#torrents' aria-selected='true'>{$lang['userdetails_torrents']}</a></li>
@@ -466,7 +430,7 @@ $HTMLOUT.= "<ul class='tabs' data-tabs id='userdetails-tabs{$user['id']}'>
     <li class='tabs-title'><a href='#activity'>{$lang['userdetails_activity']}</a></li>
     <li class='tabs-title'><a href='#comments'>{$lang['userdetails_usercomments']}</a></li>
 	<li class='tabs-title'><a href='#general' data-toggle='userdetails-actions'>Actions</a></li>
-	" . ($CURUSER['class'] >= UC_STAFF && $user["class"] < $CURUSER['class'] ? '<li class="tabs-title"><a href="#general" data-toggle="edit_userModal">'.$lang['userdetails_edit_user'].'</a></li>' : '') . "</ul>";
+	" . ($CURUSER['class'] >= UC_STAFF && $user["class"] < $CURUSER['class'] ? '<li class="tabs-title"><a href="#edit_user">'.$lang['userdetails_edit_user'].'</a></li>' : '') . "</ul>";
 $HTMLOUT.= "<div class='tabs-content' data-tabs-content='userdetails-tabs{$user['id']}'>";
 $HTMLOUT.= "<div class='tabs-panel is-active' id='torrents'><table class='striped'>";
 if (curuser::$blocks['userdetails_page'] & block_userdetails::FLUSH && $BLOCKS['userdetails_flush_on']) {
@@ -558,14 +522,11 @@ $HTMLOUT.= "<div class='tabs-panel' id='comments'>";
 if (curuser::$blocks['userdetails_page'] & block_userdetails::USERCOMMENTS && $BLOCKS['userdetails_user_comments_on']) {
     require_once (BLOCK_DIR . 'userdetails/usercomments.php');
 }
-$HTMLOUT.= "</div></div>";
+$HTMLOUT.= "</div>";
 
 //==start edit userdetails
-$HTMLOUT.= "<div class='reveal' id='edit_userModal' data-reveal>
- <button class='close-button' data-close aria-label='Close reveal' type='button'>
-    <span aria-hidden='true'>&times;</span>
-  </button>";
 if ($CURUSER['class'] >= UC_STAFF && $user["class"] < $CURUSER['class']) {
+    $HTMLOUT.= "<div class='tabs-panel' id='edit_user'>";
     $HTMLOUT.= "<form method='post' action='staffpanel.php?tool=modtask'>";
     require_once CLASS_DIR . 'validator.php';
     $HTMLOUT.= validatorForm('ModTask_' . $user['id']);
@@ -573,213 +534,54 @@ if ($CURUSER['class'] >= UC_STAFF && $user["class"] < $CURUSER['class']) {
         $user['id'],
         $CURUSER['id']
     ));
-    $HTMLOUT.= "<input type='hidden' name='action' value='edituser'>";
-    $HTMLOUT.= "<input type='hidden' name='userid' value='$id'>";
-    $HTMLOUT.= "<input type='hidden' name='postkey' value='$postkey'>";
-    $HTMLOUT.= "<input type='hidden' name='returnto' value='userdetails.php?id=$id'>";
-    $HTMLOUT.= "<table class='table table-bordered'>";
-	$HTMLOUT.= "<input placeholder='{$lang['userdetails_title']}' type='text'name='title' value='" . htmlsafechars($user['title']) . "'>";
-    $avatar = htmlsafechars($user["avatar"]);
-    $HTMLOUT.= "<input placeholder='{$lang['userdetails_avatar_url']}' type='text' name='avatar' value='$avatar'>
-	<textarea placeholder='{$lang['userdetails_signature']}' cols='60' rows='2' name='signature'>" . htmlsafechars($user['signature']) . "</textarea>
-	{$lang['userdetails_signature_rights']}
-    <input name='signature_post' value='yes' type='radio'".($user['signature_post'] == "yes" ? "    checked='checked'" : "").">{$lang['userdetails_yes']}
-    <input name='signature_post' value='no' type='radio'".($user['signature_post'] == "no" ? " checked='checked'" : "").">{$lang['userdetails_disable_signature']}";
-    
-
-//== we do not want mods to be able to change user classes or amount donated...
-    // === Donor mod time based by snuggles
-
-    if ($CURUSER["class"] == UC_MAX) {
-        $donor = $user["donor"] == "yes";
-        $HTMLOUT.= "<b>{$lang['userdetails_donor']}</b>";
-        if ($donor) {
-            $donoruntil = (int)$user['donoruntil'];
-            if ($donoruntil == '0') $HTMLOUT.= $lang['userdetails_arbitrary'];
-            else {
-                $HTMLOUT.= "<b>" . $lang['userdetails_donor2'] . "</b> " . get_date($user['donoruntil'], 'DATE') . " ";
-                $HTMLOUT.= " [ " . mkprettytime($donoruntil - TIME_NOW) . " ] {$lang['userdetails_togo']}";
-            }
-        } else {
-            $HTMLOUT.= "{$lang['userdetails_dfor']}<select name='donorlength'><option value='0'>------</option><option value='4'>1 {$lang['userdetails_month']}</option>" . "<option value='6'>6 {$lang['userdetails_weeks']}</option><option value='8'>2 {$lang['userdetails_months']}</option><option value='10'>10 {$lang['userdetails_weeks']}</option>" . "<option value='12'>3 {$lang['userdetails_months']}</option><option value='255'>{$lang['userdetails_unlimited']}</option></select>";
+    $HTMLOUT.= "<input type='hidden' name='action' value='edituser'>
+        <input type='hidden' name='userid' value='$id'>
+        <input type='hidden' name='postkey' value='$postkey'>
+        <input type='hidden' name='returnto' value='userdetails.php?id=$id'>
+        <div class='grid-x  grid-margin-x callout primary'>";
+    require_once (BLOCK_DIR . 'userdetails/edit_userdetails/other.php');
+        if ($CURUSER["class"] == UC_MAX) {
+            require_once (BLOCK_DIR . 'userdetails/edit_userdetails/donor.php');
         }
-        $HTMLOUT.= "<b>{$lang['userdetails_cdonation']}</b>
-		<input placeholder='{$lang['userdetails_cdonation']}' type='text' name='donated' value=\"" . htmlsafechars($user["donated"]) . "\">" . "<b>{$lang['userdetails_tdonations']}</b>" . htmlsafechars($user["total_donated"]) . "";
-        if ($donor) {
-            $HTMLOUT.= "<div class='col-sm-2'><b>{$lang['userdetails_adonor']}</b><select name='donorlengthadd'><option value='0'>------</option><option value='4'>1 {$lang['userdetails_month']}</option>" . "<option value='6'>6 {$lang['userdetails_weeks']}</option><option value='8'>2 {$lang['userdetails_months']}</option><option value='10'>10 {$lang['userdetails_weeks']}</option>" . "<option value='12'>3 {$lang['userdetails_months']}</option><option value='255'>{$lang['userdetails_unlimited']}</option></select></div>";
-            
-	    $HTMLOUT.= "<div class='col-sm-2'>{$lang['userdetails_rdonor']}</b><input name='donor' value='no' type='checkbox'> [ {$lang['userdetails_bad']} ]</div>";
+        if ($CURUSER['class'] >= UC_STAFF && XBT_TRACKER == false) {
+            require_once (BLOCK_DIR . 'userdetails/edit_userdetails/free_slots.php');
         }
-        $HTMLOUT.= "<br>";
-    }
-    // ====End
-    if ($CURUSER['class'] == UC_STAFF && $user["class"] > UC_VIP) $HTMLOUT.= "<inputtype='hidden' name='class' value='{$user['class']}'>";
-    else {
-        $HTMLOUT.= "<div class='col-sm-1 text-right'>Class</div><div class='col-sm-4'><select name='class'>";
-        if ($CURUSER['class'] == UC_STAFF) $maxclass = UC_VIP;
-        else $maxclass = $CURUSER['class'] - 1;
-        for ($i = 0; $i <= $maxclass; ++$i) $HTMLOUT.= "<option value='$i'" . ($user["class"] == $i ? " selected='selected'" : "") . ">" . get_user_class_name($i) . "</option>";
-        $HTMLOUT.= "</select></div>";
-    }
-    $supportfor = htmlsafechars($user["supportfor"]);
- 
-$HTMLOUT.= "<br><div class='row'><div class='col-sm-6'><textarea placeholder='{$lang['userdetails_supportfor']}' cols='60' rows='2' name='supportfor'>{$supportfor}</textarea></div>";
-
- $HTMLOUT.= "<div class='col-sm-1'>{$lang['userdetails_support']}</div><div class='col-sm-3'><input type='radio' name='support' value='yes'".($user["support"] == "yes" ? " checked='checked'" : "").">{$lang['userdetails_yes']}<input type='radio' name='support' value='no'".($user["support"] == "no" ? " checked='checked'" : "").">{$lang['userdetails_no']}</div></div>";
-
-
-    $modcomment = htmlsafechars($user_stats["modcomment"]);
-    if ($CURUSER["class"] < UC_SYSOP) {
-        $HTMLOUT.= "<br><div class='col-sm-4'><p>{$lang['userdetails_comment']}</p><textarea class='shrink' placeholder='{$lang['userdetails_comment']}' cols='40' rows='6' name='modcomment' readonly='readonly'>$modcomment</textarea></div>";
-    } else {
-        $HTMLOUT.= "<br><div class='row'><div class='col-sm-4'><p>{$lang['userdetails_comment']}</p><textarea class='shrink' placeholder='{$lang['userdetails_comment']}' cols='40' rows='6' name='modcomment'>$modcomment</textarea></div>";
-    }
-    $HTMLOUT.= "<div class='col-sm-4'><p>{$lang['userdetails_add_comment']}</p><textarea class='shrink' placeholder='{$lang['userdetails_add_comment']}' cols='40' rows='6' name='addcomment'></textarea></div>";
-    //=== bonus comment
-    $bonuscomment = htmlsafechars($user_stats["bonuscomment"]);
-    $HTMLOUT.= "<div class='col-sm-4'><p>{$lang['userdetails_bonus_comment']}</p><textarea class='shrink' placeholder='{$lang['userdetails_bonus_comment']}' cols='40' rows='6' name='bonuscomment' readonly='readonly' style='background:purple;color:yellow;'>$bonuscomment</textarea></div></div>";
-    //==end
-   
- $HTMLOUT.= "<br><div class='col-sm-1'>{$lang['userdetails_enabled']}</div><div class='col-sm-2'><input name='enabled' value='yes' type='radio'" . ($enabled ? " checked='checked'" : "") . ">{$lang['userdetails_yes']} <input name='enabled' value='no' type='radio'" . (!$enabled ? " checked='checked'" : "") . ">{$lang['userdetails_no']}</div>";
-    
-
-
-
-
-if ($CURUSER['class'] >= UC_STAFF && XBT_TRACKER == false) {
-	require_once (BLOCK_DIR . 'userdetails/edit_userdetails/free_slots.php');
-}    
-if ($CURUSER['class'] >= UC_ADMINISTRATOR && XBT_TRACKER == false) {
-require_once (BLOCK_DIR . 'userdetails/edit_userdetails/free_switch.php');
-    }
-//==XBT - Can Leech
-if ($CURUSER['class'] >= UC_ADMINISTRATOR && XBT_TRACKER == true) {
-require_once (BLOCK_DIR . 'userdetails/edit_userdetails/can_leech.php');	
-}
-//==Download disable== editted for announce======//
-if ($CURUSER['class'] >= UC_STAFF && XBT_TRACKER == false) {
-	require_once (BLOCK_DIR . 'userdetails/edit_userdetails/download_disable.php');
-}
-//==Upload disable
-if ($CURUSER['class'] >= UC_STAFF) {
+        if ($CURUSER['class'] >= UC_ADMINISTRATOR && XBT_TRACKER == false) {
+            require_once (BLOCK_DIR . 'userdetails/edit_userdetails/free_switch.php');
+        }
+        if (XBT_TRACKER == true) {
+            require_once (BLOCK_DIR . 'userdetails/edit_userdetails/can_leech.php');
+        }
+        if ($CURUSER['class'] >= UC_STAFF && XBT_TRACKER == false) {
+            require_once (BLOCK_DIR . 'userdetails/edit_userdetails/download_disable.php');
+        }
     require_once (BLOCK_DIR . 'userdetails/edit_userdetails/upload_disable.php');
-}
-//==
-//==Pm disable
-if ($CURUSER['class'] >= UC_STAFF) {
 	require_once (BLOCK_DIR . 'userdetails/edit_userdetails/pm_disable.php');
-}
-//==Shoutbox disable
-if ($CURUSER['class'] >= UC_STAFF) {
 	require_once (BLOCK_DIR . 'userdetails/edit_userdetails/shoutbox_disable.php');
-}
-//==Avatar disable
-if ($CURUSER['class'] >= UC_STAFF) {
 	require_once (BLOCK_DIR . 'userdetails/edit_userdetails/avatar_disable.php');
-}
-//==Immunity
-if ($CURUSER['class'] >= UC_STAFF) {
 	require_once (BLOCK_DIR . 'userdetails/edit_userdetails/immunity.php');
-}
-//==Leech Warnings
-if ($CURUSER['class'] >= UC_STAFF) {
 	require_once (BLOCK_DIR . 'userdetails/edit_userdetails/leech_warn.php');
-}
-//==Warnings
-if ($CURUSER['class'] >= UC_STAFF) {
 	require_once (BLOCK_DIR . 'userdetails/edit_userdetails/warn.php');
-}
-//==Games disable
-if ($CURUSER['class'] >= UC_STAFF) {
-	require_once (BLOCK_DIR . 'userdetails/edit_userdetails/game_disable.php');
-}
-$HTMLOUT.="<div style='display:inline-block;height:100px;'></div>";
-//Adjust up/down
-if ($CURUSER['class'] >= UC_ADMINISTRATOR) {
-	require_once (BLOCK_DIR . 'userdetails/edit_userdetails/adjust_updown.php');
-}
-$HTMLOUT.="<div style='display:inline-block;height:50px;'></div>";
-// == Wait time, peers limit and torrents limit
-if ($CURUSER['class'] >= UC_STAFF && XBT_TRACKER == true) {
-	require_once (BLOCK_DIR . 'userdetails/edit_userdetails/peer_limit.php');
-}
-//==High speed php announce
-if ($CURUSER["class"] == UC_MAX && XBT_TRACKER == false) {
-	require_once (BLOCK_DIR . 'userdetails/edit_userdetails/high_speed_ann.php');
-}
-$HTMLOUT.="<div style='display:inline-block;height:50px;'></div>";
-//==Invites
-	require_once (BLOCK_DIR . 'userdetails/edit_userdetails/invites.php');
-// == seedbonus
-if ($CURUSER['class'] >= UC_STAFF) {
-require_once (BLOCK_DIR . 'userdetails/edit_userdetails/seedbonus.php');
-}
-// == rep
-if ($CURUSER['class'] >= UC_STAFF) {
-	require_once (BLOCK_DIR . 'userdetails/edit_userdetails/reputation.php');
-}
-$HTMLOUT.="<div style='display:inline-block;height:50px;'></div>";
-//==new row
-$HTMLOUT.= '<div class="row"><div class="col-sm-1">'.$lang['userdetails_hnr'].'<br><input class="form-control" type="text" name="hit_and_run_total" value="' . (int)$user['hit_and_run_total'] . '"></div>
-                 
-	<div class="col-sm-1">'.$lang['userdetails_suspended'].'<br><input name="suspended" value="yes" type="radio"'.($user['suspended'] == 'yes' ? ' checked="checked"' : '').'>'.$lang['userdetails_yes'].'
-                     <input name="suspended" value="no" type="radio"'.($user['suspended'] == 'no' ? ' checked="checked"' : '').'></div><div class="col-sm-4">'.$lang['userdetails_no'].'
-		 '.$lang['userdetails_suspended_reason'].'<input class="form-control" type="text" name="suspended_reason"></div>';
-$HTMLOUT.= "<br><div class='row'>
-	<div class='col-sm-2'>{$lang['userdetails_avatar_rights']}<br><input name='view_offensive_avatar' value='yes' type='radio'".($user['view_offensive_avatar'] == "yes" ? " checked='checked'" : "").">{$lang['userdetails_yes']}
-                  <input name='view_offensive_avatar' value='no' type='radio'".($user['view_offensive_avatar'] == "no" ? " checked='checked'" : "").">{$lang['userdetails_no']} </div>
-                 
-                <div class='col-sm-2'>{$lang['userdetails_offensive']}<br><input name='offensive_avatar' value='yes' type='radio'".($user['offensive_avatar'] == "yes" ? " checked='checked'" : "").">{$lang['userdetails_yes']}
-                  <input name='offensive_avatar' value='no' type='radio'".($user['offensive_avatar'] == "no" ? " checked='checked'" : "").">{$lang['userdetails_no']} </div>
-               
-                <div class='col-sm-2'>{$lang['userdetails_view_offensive']}<br>
-                 <input name='avatar_rights' value='yes' type='radio'".($user['avatar_rights'] == "yes" ? " checked='checked'" : "").">{$lang['userdetails_yes']}
-                  <input name='avatar_rights' value='no' type='radio'".($user['avatar_rights'] == "no" ? " checked='checked'" : "").">{$lang['userdetails_no']} </div>";
- 
-//users parked
-     $HTMLOUT.= "<div class='col-sm-1'>{$lang['userdetails_park']}<br><input name='parked' value='yes' type='radio'".($user["parked"] == "yes" ? " checked='checked'" : "").">{$lang['userdetails_yes']} <input name='parked' value='no' type='radio'".($user["parked"] == "no" ? " checked='checked'" : "").">{$lang['userdetails_no']}</div>";
-//end users parked     
-
-//reset passkey
-    $HTMLOUT.= "<div class='col-sm-2'>{$lang['userdetails_reset']}<br><input type='checkbox' name='reset_torrent_pass' value='1'><br><font class='small'>{$lang['userdetails_pass_msg']}</font></div></div>";
-//end reset    
-
-$HTMLOUT.="<div style='display:inline-block;height:50px;'></div>";
-
-//==ANOTHER ROW
-
-$HTMLOUT.= "
-<div class='row'>
-
-<div class='col-sm-2'>{$lang['userdetails_forum_rights']}<br><input name='forum_post' value='yes' type='radio'".($user['forum_post'] == "yes" ? " checked='checked'" : "").">{$lang['userdetails_yes']}
-                     <input name='forum_post' value='no' type='radio'".($user['forum_post'] == "no" ? " checked='checked'" : "")."><br>{$lang['userdetails_forums_no']}</div>";
-  
-
-$HTMLOUT .="<div class=\"col-sm-2\">Forum Moderator<br><input name=\"forum_mod\" value=\"yes\" type=radio " . ($user["forum_mod"]=="yes" ? "checked=\"checked\"" : "") . ">Yes <input name=\"forum_mod\" value=\"no\" type=\"radio\" " . ($user["forum_mod"]=="no" ? "checked=\"checked\"" : "") . ">No</div>";
-  
-
-$q = sql_query("SELECT o.id as oid, o.name as oname, f.id as fid, f.name as fname FROM `over_forums` as o LEFT JOIN forums as f ON f.forum_id = o.id ") or sqlerr(__FILE__, __LINE__);
-	if($q){
-	while($a = $q->fetch_assoc()){
-		$boo[$a['oname']][] = array($a['fid'],$a['fname']);
-	$forum_list = "<ul id=\"browser\" class=\"filetree treeview-gray\" style=\"width:50%;text-align:left;\">";
-	foreach($boo as $fo=>$foo) {
-		$forum_list .="<li class=\"closed\"><span class=\"folder\">".$fo."</span>";
-		$forum_list .="<ul>";
-			foreach($foo as $fooo)
-				$forum_list .= "<li><label for=\"forum_".$fooo[0]."\"><span class=\"file\" style=\"position:relative;width:200px;\"><b>".$fooo[1]."</b><div style=\"display:inline-block;width:15px;\"></div><input type=\"checkbox\" ".(stristr($user["forums_mod"],"[".$fooo[0]."]") ? "checked=\"checked\"" : "" )."style=\"right:0;top:0;position:absolute;\" name=\"forums[]\" id=\"forum_".$fooo[0]."\" value=\"".$fooo[0]."\"></span></label></li>";
-		$forum_list .= "</ul></li>";	
-	}
-	$forum_list .= "</ul>";
-  
-
-$HTMLOUT .="<div class=\"col-sm-8\">Forums List<br>".$forum_list."</div></div>";
-	}}
-    $HTMLOUT.= "<br><br><div class='row'><div class='col-sm-offset-5'><input type='submit' class='btn btn-default' value='{$lang['userdetails_okay']}'></div></div>";
-    $HTMLOUT.= "</table>";
-    $HTMLOUT.= "</form>";
+    require_once (BLOCK_DIR . 'userdetails/edit_userdetails/game_disable.php');
+    if ($CURUSER['class'] >= UC_ADMINISTRATOR) {
+        require_once (BLOCK_DIR . 'userdetails/edit_userdetails/adjust_updown.php');
     }
+    if ($CURUSER['class'] >= UC_STAFF && XBT_TRACKER == true) {
+        require_once (BLOCK_DIR . 'userdetails/edit_userdetails/peer_limit.php');
+    }
+    if ($CURUSER["class"] == UC_MAX && XBT_TRACKER == false) {
+        require_once (BLOCK_DIR . 'userdetails/edit_userdetails/high_speed_ann.php');
+    }
+    require_once (BLOCK_DIR . 'userdetails/edit_userdetails/invites.php');
+    require_once (BLOCK_DIR . 'userdetails/edit_userdetails/seedbonus.php');
+    require_once (BLOCK_DIR . 'userdetails/edit_userdetails/reputation.php');
+    require_once (BLOCK_DIR . 'userdetails/edit_userdetails/hit_and_run.php');
+    require_once (BLOCK_DIR . 'userdetails/edit_userdetails/parked_and_passkey.php');
+    //require_once (BLOCK_DIR . 'userdetails/edit_userdetails/forum_mod.php');
+    $HTMLOUT.= "<div class='cell medium-12'><input type='submit' class='button' value='{$lang['userdetails_okay']}'></div>";
+    $HTMLOUT.= "</form>";
+    $HTMLOUT.= "</div>";
+}
 $HTMLOUT.='</div>';
-//=== End edit userdetails
 echo stdhead("{$lang['userdetails_details']} " . $user["username"], true, $stdhead) . $HTMLOUT . stdfoot($stdfoot);
 ?>

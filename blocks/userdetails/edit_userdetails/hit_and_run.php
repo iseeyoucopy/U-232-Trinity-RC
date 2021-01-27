@@ -10,7 +10,8 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$HTMLOUT.= "<div class='input-group'>
-    <span class='input-group-label'>{$lang['userdetails_freeleech_slots']}</span>
-    <input class='input-group-field' type='text' name='freeslots' value='" . (int)$user['freeslots'] . "'>
-</div>";
+//==new row
+$HTMLOUT.= '<div class="input-group">
+    <span class="input-group-label">'.$lang['userdetails_hnr'].'</span>
+    <input class="input-group-field" type="text" name="hit_and_run_total" value="' . (int)$user['hit_and_run_total'] . '">
+</div>';

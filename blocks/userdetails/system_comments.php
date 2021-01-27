@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$HTMLOUT.= "<div class='input-group'>
-    <span class='input-group-label'>{$lang['userdetails_freeleech_slots']}</span>
-    <input class='input-group-field' type='text' name='freeslots' value='" . (int)$user['freeslots'] . "'>
-</div>";
+if (!empty($user_stats['modcomment']))
+$HTMLOUT.= '<div class="reveal" id="system-comments" data-reveal>
+ ' . format_comment($user_stats['modcomment']) . '
+ </div>';

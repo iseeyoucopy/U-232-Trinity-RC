@@ -1,19 +1,40 @@
 <?php
-        $sendpmpos = $user['sendpmpos'] != 1;
-        $HTMLOUT.= "<br><div class='row'><div class='col-sm-2'" . (!$sendpmpos ? ' rowspan="2"' : '') . ">{$lang['userdetails_pmpos']}</div>
-               <div class='col-sm-2'>" . ($sendpmpos ? "<input name='sendpmpos' value='42' type='radio'>{$lang['userdetails_remove_pm_d']}" : $lang['userdetails_no_disablement']) . "</div>";
-        if ($sendpmpos) {
-            if ($user['sendpmpos'] == 0) $HTMLOUT.= '<div class="col-sm-1">('.$lang['userdetails_unlimited_d'].')</div>';
-            else $HTMLOUT.= "<div class='col-sm-2'>{$lang['userdetails_until']} " . get_date($user['sendpmpos'], 'DATE') . " (" . mkprettytime($user['sendpmpos'] - TIME_NOW) . " {$lang['userdetails_togo']})</div><div class='col-sm-6'><!--<input placeholder='Comments' class='form-control' type='text' name='pmdisable_pm'>--></div></div>";
-        } else {
-            $HTMLOUT.= '<div class="col-sm-2">'.$lang['userdetails_disable_for'].'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <select name="sendpmpos">
-        <option value="0">------</option>
-        <option value="1">1 '.$lang['userdetails_week'].'</option>
-        <option value="2">2 '.$lang['userdetails_weeks'].'</option>
-        <option value="4">4 '.$lang['userdetails_weeks'].'</option>
-        <option value="8">8 '.$lang['userdetails_weeks'].'</option>
-        <option value="90">'.$lang['userdetails_unlimited'].'</option>
-        </select></div>
-        <div class="col-sm-6"><input placeholder="Comments" class="form-control" type="text" name="pmdisable_pm"></div></div>';
-        }
-?>
+/**
+ * -------   U-232 Codename Trinity   ----------*
+ * ---------------------------------------------*
+ * --------  @authors U-232 Team  --------------*
+ * ---------------------------------------------*
+ * -----  @site https://u-232.duckdns.org/  ----*
+ * ---------------------------------------------*
+ * -----  @copyright 2020 U-232 Team  ----------*
+ * ---------------------------------------------*
+ * ------------  @version V6  ------------------*
+ */
+if ($user['sendpmpos'] != 1) {
+    $HTMLOUT.= "<div class='cell medium-12'>
+    <fieldset class='fieldset'>
+    <legend>{$lang['userdetails_pmpos']}</legend>
+    <input name='sendpmpos' value='42' type='radio' id='sendpm_pos' aria-describedby='sendpm_pos'>
+    <label for='sendpm_pos'>{$lang['userdetails_remove_pm_d']}</label>";
+    if ($user['sendpmpos'] == 0) {
+        $HTMLOUT.= '<p class="help-text" id="sendpm_pos">('.$lang['userdetails_unlimited_d'].')<p>';
+    } else {
+        $HTMLOUT.= "<p class='help-text' id='sendpm_pos'>{$lang['userdetails_until']} " . get_date($user['sendpmpos'], 'DATE') . " (" . mkprettytime($user['sendpmpos'] - TIME_NOW) . " {$lang['userdetails_togo']})</p>";
+    } 
+    $HTMLOUT.= "</fieldset></div>";
+}
+if ($user['sendpmpos'] == 1) {
+    $HTMLOUT.= '<div class="input-group">
+        <span class="input-group-label">' . $lang['userdetails_pmpos'] . '</span>
+        <select class="input-group-field" name="sendpmpos">
+            <option value="0">' . $lang['userdetails_disable_for'] .'</option>
+            <option value="1">1 '.$lang['userdetails_week'].'</option>
+            <option value="2">2 '.$lang['userdetails_weeks'].'</option>
+            <option value="4">4 '.$lang['userdetails_weeks'].'</option>
+            <option value="8">8 '.$lang['userdetails_weeks'].'</option>
+            <option value="90">'.$lang['userdetails_unlimited'].'</option>
+        </select>
+        <span class="input-group-label">Comment</span>
+        <input class="input-group-field" type="text" name="pmdisable_pm">
+    </div>';
+}
