@@ -71,7 +71,7 @@ if ($CURUSER['class'] < $player) {
 $query = "SELECT * from casino where userid = " . sqlesc($CURUSER['id']) . "";
 $result = sql_query($query) or sqlerr(__FILE__, __LINE__);
 if ($mysqli->affected_rows != 1) {
-    sql_query("INSERT INTO casino (userid, win, lost, trys, date, started) VALUES(" . sqlesc($CURUSER["id"]) . ", 0, 0, 0," . TIME_NOW . ",1)") or sqlerr(__FILE__, __LINE__);
+    sql_query("INSERT INTO casino (userid, win, lost, trys, date) VALUES(" . sqlesc($CURUSER["id"]) . ", 0, 0, 0," . TIME_NOW . ")") or sqlerr(__FILE__, __LINE__);
     $result = sql_query($query) or sqlerr(__FILE__, __LINE__);
 }
 $row = $result->fetch_assoc();
