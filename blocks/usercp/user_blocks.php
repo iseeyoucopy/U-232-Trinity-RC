@@ -66,6 +66,11 @@ $checkbox_userdetails_report = ((curuser::$blocks['userdetails_page'] & block_us
 $checkbox_userdetails_userstatus = ((curuser::$blocks['userdetails_page'] & block_userdetails::USERSTATUS) ? ' checked="checked"' : '');
 $checkbox_userdetails_usercomments = ((curuser::$blocks['userdetails_page'] & block_userdetails::USERCOMMENTS) ? ' checked="checked"' : '');
 $checkbox_userdetails_showfriends = ((curuser::$blocks['userdetails_page'] & block_userdetails::SHOWFRIENDS) ? ' checked="checked"' : '');
+//**Browse Page */
+$checkbox_browse_viewcloud = ((curuser::$blocks['browse_page'] & block_browse::VIEWSCLOUD) ? ' checked="checked"' : '');
+$checkbox_browse_slider = ((curuser::$blocks['browse_page'] & block_browse::SLIDER) ? ' checked="checked"' : '');
+$checkbox_browse_clear_tag = ((curuser::$blocks['browse_page'] & block_browse::CLEAR_NEW_TAG_MANUALLY) ? ' checked="checked"' : '');
+
 $HTMLOUT.= '
 <ul class="tabs" data-deep-link="true" data-update-history="true" data-deep-link-smudge="true" data-deep-link-smudge-delay="500" data-tabs id="userblocks-tabs">
   <li class="tabs-title is-active"><a href="#panel1d" aria-selected="true">' . $lang['user_b_title1'] . '</a></li>
@@ -75,139 +80,174 @@ $HTMLOUT.= '
 </ul>
 <div class="tabs-content" data-tabs-content="userblocks-tabs">
   <div class="tabs-panel is-active" id="panel1d">
-        <table class="table bordered">
-        <tr><td><b>' . $lang['user_b_ie1'] . '</b></td><td>
-        <div class="switch tiny">
-        <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="ie_alert" name="ie_alert" value="yes" ' . $checkbox_index_ie_alert . '>
-        <label class="switch-paddle" for="ie_alert">
-        <span class="switch-active" aria-hidden="true">Yes</span>
-        <span class="switch-inactive" aria-hidden="true">No</span>
-        </label>
-        </div>
-    </td>
-    </tr>
-        <tr><td><b>' . $lang['user_b_nb1'] . '</b></td><td>
-        <div class="switch tiny">
-        <input onchange="this.form.submit()" class="switch-input" id="index_news" type="checkbox" name="news" ' . $checkbox_index_news . '>
-        <label class="switch-paddle" for="index_news">       
-        <span class="switch-active" aria-hidden="true">Yes</span>
-        <span class="switch-inactive" aria-hidden="true">No</span>
-        </label>
-        </div>
-    </td>
-    </tr>
-    <tr><td><b>' . $lang['user_b_sh1'] . '</b></td><td>
-    <div class="switch tiny">
-    <input onchange="this.form.submit()" class="switch-input" id="index_shoutbox" type="checkbox" name="shoutbox" ' . $checkbox_index_shoutbox . '>
-    <label class="switch-paddle" for="index_shoutbox"> 
-    <span class="switch-active" aria-hidden="true">Yes</span>
-    <span class="switch-inactive" aria-hidden="true">No</span>
-    </label>
-    </div>
-</td>
-        <tr><td><b>' . $lang['user_b_actu1'] . '</b></td><td>
-        <div class="switch tiny">
-        <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="active_users" name="active_users" value="yes"' . $checkbox_index_active_users . '>
-        <label class="switch-paddle" for="active_users">
-        <span class="switch-active" aria-hidden="true">Yes</span>
-        <span class="switch-inactive" aria-hidden="true">No</span>
-        </label>
-        </div>
-        </td>
+    <table>
+        <tr>
+            <td><b>' . $lang['user_b_ie1'] . '</b></td>
+            <td>
+                <div class="switch tiny">
+                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="ie_alert" name="ie_alert" value="yes" ' . $checkbox_index_ie_alert . '>
+                    <label class="switch-paddle" for="ie_alert">
+                        <span class="switch-active" aria-hidden="true">Yes</span>
+                        <span class="switch-inactive" aria-hidden="true">No</span>
+                    </label>
+                </div>
+            </td>
         </tr>
-        <tr><td><b>' . $lang['user_b_act24'] . '</b></td><td>
-        <div class="switch tiny">
-        <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="active_users2" name="last_24_active_users" value="yes"' . $checkbox_index_active_24h_users . '>
-        <label class="switch-paddle" for="active_users2">
-        <span class="switch-active" aria-hidden="true">Yes</span>
-        <span class="switch-inactive" aria-hidden="true">No</span>
-        </label>
-        </div>
-        </td>
+        <tr>
+            <td><b>' . $lang['user_b_nb1'] . '</b></td>
+            <td>
+                <div class="switch tiny">
+                    <input onchange="this.form.submit()" class="switch-input" id="index_news" type="checkbox" name="news" ' . $checkbox_index_news . '>
+                    <label class="switch-paddle" for="index_news">       
+                        <span class="switch-active" aria-hidden="true">Yes</span>
+                        <span class="switch-inactive" aria-hidden="true">No</span>
+                    </label>
+                </div>
+            </td>
         </tr>
-        <tr><td><b>' . $lang['user_b_bir1'] . '</b></td><td>
-        <div class="switch tiny">
-        <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="birthday_active_users" name="birthday_active_users" value="yes"' . $checkbox_index_active_birthday_users . '>
-        <label class="switch-paddle" for="birthday_active_users">
-        <span class="switch-active" aria-hidden="true">Yes</span>
-        <span class="switch-inactive" aria-hidden="true">No</span>
-        </label>
-        </div>
-        </td>
+        <tr>
+            <td><b>' . $lang['user_b_sh1'] . '</b></td>
+            <td>
+                <div class="switch tiny">
+                    <input onchange="this.form.submit()" class="switch-input" id="index_shoutbox" type="checkbox" name="shoutbox" ' . $checkbox_index_shoutbox . '>
+                    <label class="switch-paddle" for="index_shoutbox"> 
+                        <span class="switch-active" aria-hidden="true">Yes</span>
+                        <span class="switch-inactive" aria-hidden="true">No</span>
+                    </label>
+                </div>
+            </td>
         </tr>
-        <tr><td><b>' . $lang['user_b_sit1'] . '</b></td><td>
-        <div class="switch tiny">
-        <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="stats" name="stats" value="yes"' . $checkbox_index_stats . '>
-        <label class="switch-paddle" for="stats">
-        <span class="switch-active" aria-hidden="true">Yes</span>
-        <span class="switch-inactive" aria-hidden="true">No</span>
-        </label>
-        </div>
-        </td>
+        <tr>
+            <td><b>' . $lang['user_b_actu1'] . '</b></td>
+            <td>
+                <div class="switch tiny">
+                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="active_users" name="active_users" value="yes"' . $checkbox_index_active_users . '>
+                    <label class="switch-paddle" for="active_users">
+                        <span class="switch-active" aria-hidden="true">Yes</span>
+                        <span class="switch-inactive" aria-hidden="true">No</span>
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><b>' . $lang['user_b_act24'] . '</b></td>
+            <td>
+                <div class="switch tiny">
+                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="active_users2" name="last_24_active_users" value="yes"' . $checkbox_index_active_24h_users . '>
+                    <label class="switch-paddle" for="active_users2">
+                        <span class="switch-active" aria-hidden="true">Yes</span>
+                        <span class="switch-inactive" aria-hidden="true">No</span>
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><b>' . $lang['user_b_bir1'] . '</b></td>
+            <td>
+                <div class="switch tiny">
+                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="birthday_active_users" name="birthday_active_users" value="yes"' . $checkbox_index_active_birthday_users . '>
+                    <label class="switch-paddle" for="birthday_active_users">
+                        <span class="switch-active" aria-hidden="true">Yes</span>
+                        <span class="switch-inactive" aria-hidden="true">No</span>
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><b>' . $lang['user_b_sit1'] . '</b></td>
+            <td>
+                <div class="switch tiny">
+                <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="stats" name="stats" value="yes"' . $checkbox_index_stats . '>
+                    <label class="switch-paddle" for="stats">
+                        <span class="switch-active" aria-hidden="true">Yes</span>
+                        <span class="switch-inactive" aria-hidden="true">No</span>
+                    </label>
+                </div>
+            </td>
         </tr>     
-        <tr><td><b>' . $lang['user_b_disc1'] . '</b></td><td>
-         <div class="switch tiny">
-         <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="disclaimer" name="disclaimer" value="yes"' . $checkbox_index_disclaimer . '>
-         <label class="switch-paddle" for="disclaimer">
-         <span class="switch-active" aria-hidden="true">Yes</span>
-         <span class="switch-inactive" aria-hidden="true">No</span>
-         </label>
-         </div>
-        </td>
+        <tr>
+            <td><b>' . $lang['user_b_disc1'] . '</b></td>
+            <td>
+                <div class="switch tiny">
+                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="disclaimer" name="disclaimer" value="yes"' . $checkbox_index_disclaimer . '>
+                    <label class="switch-paddle" for="disclaimer">
+                        <span class="switch-active" aria-hidden="true">Yes</span>
+                        <span class="switch-inactive" aria-hidden="true">No</span>
+                    </label>
+                </div>
+            </td>
         </tr>   
-        <tr><td><b>' . $lang['user_b_last1'] . '</b></td><td>
-    <div class="switch tiny"><input onchange="this.form.submit()" class="switch-input" type="checkbox" id="latest_user" name="latest_user" value="yes"' . $checkbox_index_latest_user . '>
-    <label class="switch-paddle" for="latest_user">
-    <span class="switch-active" aria-hidden="true">Yes</span>
-    <span class="switch-inactive" aria-hidden="true">No</span>
-    </label>
-    </div>
+        <tr>
+            <td><b>' . $lang['user_b_last1'] . '</b></td>
+            <td>
+                <div class="switch tiny">
+                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="latest_user" name="latest_user" value="yes"' . $checkbox_index_latest_user . '>
+                    <label class="switch-paddle" for="latest_user">
+                        <span class="switch-active" aria-hidden="true">Yes</span>
+                        <span class="switch-inactive" aria-hidden="true">No</span>
+                    </label>
+                </div>
+            </td>
         </tr>   
-        <tr><td><b>' . $lang['user_b_fol1'] . '</b></td><td>
-    <div class="switch tiny"><input onchange="this.form.submit()" class="switch-input" type="checkbox" id="forumposts" name="forumposts" value="yes"' . $checkbox_index_latest_forumposts . '>
-    <label class="switch-paddle" for="forumposts">
-    <span class="switch-active" aria-hidden="true">Yes</span>
-    <span class="switch-inactive" aria-hidden="true">No</span>
-    </label>
-    </div>
-        </td>
+        <tr>
+            <td><b>' . $lang['user_b_fol1'] . '</b></td>
+            <td>
+                <div class="switch tiny">
+                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="forumposts" name="forumposts" value="yes"' . $checkbox_index_latest_forumposts . '>
+                    <label class="switch-paddle" for="forumposts">
+                        <span class="switch-active" aria-hidden="true">Yes</span>
+                        <span class="switch-inactive" aria-hidden="true">No</span>
+                    </label>
+                </div>
+            </td>
         </tr>       
-        <tr><td><b>' . $lang['user_b_torl1'] . '</b></td><td>
-        <div class="switch tiny"><input onchange="this.form.submit()" class="switch-input" type="checkbox" id="latest_torrents" name="latest_torrents" value="yes"' . $checkbox_index_latest_torrents . '>
-        <label class="switch-paddle" for="latest_torrents">
-        <span class="switch-active" aria-hidden="true">Yes</span>
-        <span class="switch-inactive" aria-hidden="true">No</span>
-        </label>
-        </div>
-        </td>
+        <tr>
+            <td><b>' . $lang['user_b_torl1'] . '</b></td>
+            <td>
+                <div class="switch tiny">
+                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="latest_torrents" name="latest_torrents" value="yes"' . $checkbox_index_latest_torrents . '>
+                    <label class="switch-paddle" for="latest_torrents">
+                        <span class="switch-active" aria-hidden="true">Yes</span>
+                        <span class="switch-inactive" aria-hidden="true">No</span>
+                    </label>
+                </div>
+            </td>
         </tr>
-        
-        <tr><td><b>' . $lang['user_b_tors1'] . '</b></td><td>
-        <div class="switch tiny"><input onchange="this.form.submit()" class="switch-input" type="checkbox" id="latest_torrents_scroll" name="latest_torrents_scroll" value="yes"' . $checkbox_index_latest_torrents_scroll . '>
-        <label class="switch-paddle" for="latest_torrents_scroll">
-        <span class="switch-active" aria-hidden="true">Yes</span>
-        <span class="switch-inactive" aria-hidden="true">No</span>
-        </label>
-        </div>
-        </td>
+        <tr>
+            <td><b>' . $lang['user_b_tors1'] . '</b></td>
+            <td>
+                <div class="switch tiny">
+                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="latest_torrents_scroll" name="latest_torrents_scroll" value="yes"' . $checkbox_index_latest_torrents_scroll . '>
+                    <label class="switch-paddle" for="latest_torrents_scroll">
+                        <span class="switch-active" aria-hidden="true">Yes</span>
+                        <span class="switch-inactive" aria-hidden="true">No</span>
+                    </label>
+                </div>
+            </td>
         </tr>       
-        <tr><td><b>' . $lang['user_b_ann1'] . '</b></td><td>
-    <div class="switch tiny"><input onchange="this.form.submit()" class="switch-input" type="checkbox" id="announcement" name="announcement" value="yes"' . $checkbox_index_announcement . '>
-    <label class="switch-paddle" for="announcement">
-    <span class="switch-active" aria-hidden="true">Yes</span>
-    <span class="switch-inactive" aria-hidden="true">No</span>
-    </label>
-    </div>
-        </td>
+        <tr>
+            <td><b>' . $lang['user_b_ann1'] . '</b></td>
+            <td>
+                <div class="switch tiny">
+                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="announcement" name="announcement" value="yes"' . $checkbox_index_announcement . '>
+                    <label class="switch-paddle" for="announcement">
+                        <span class="switch-active" aria-hidden="true">Yes</span>
+                        <span class="switch-inactive" aria-hidden="true">No</span>
+                    </label>
+                </div>
+            </td>
         </tr>       
-        <tr><td><b>' . $lang['user_b_don1'] . '</b></td><td>
-        <div class="switch tiny"><input onchange="this.form.submit()" class="switch-input" type="checkbox" id="donation_progress" name="donation_progress" value="yes"' . $checkbox_index_donation_progress . '>
-        <label class="switch-paddle" for="donation_progress">
-        <span class="switch-active" aria-hidden="true">Yes</span>
-        <span class="switch-inactive" aria-hidden="true">No</span>
-        </label>
-        </div>
-        </td>
+        <tr>
+        <td><b>' . $lang['user_b_don1'] . '</b></td>
+            <td>
+                <div class="switch tiny">
+                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="donation_progress" name="donation_progress" value="yes"' . $checkbox_index_donation_progress . '>
+                    <label class="switch-paddle" for="donation_progress">
+                        <span class="switch-active" aria-hidden="true">Yes</span>
+                        <span class="switch-inactive" aria-hidden="true">No</span>
+                    </label>
+                </div>
+            </td>
         </tr>
         <tr><td><b>' . $lang['user_b_adv1'] . '</b></td><td>
         <div class="switch tiny"><input onchange="this.form.submit()" class="switch-input" type="checkbox" id="advertisements" name="advertisements" value="yes"' . $checkbox_index_ads . '>
@@ -275,7 +315,7 @@ $HTMLOUT.= '
     </table>
      </div>
   <div class="tabs-panel" id="panel2d">
-        <table class="table table-bordered">        
+        <table>        
     <tr><td><b>' . $lang['user_s_free1'] . '</b></td><td>
         <div class="switch tiny"><input onchange="this.form.submit()" class="switch-input" type="checkbox" id="stdhead_freeleech" name="stdhead_freeleech" value="yes"' . $checkbox_global_freeleech . '>
         <label class="switch-paddle" for="stdhead_freeleech">
@@ -376,8 +416,8 @@ $HTMLOUT.= '
         </div>    
         </td>
        </tr>';
-if ($CURUSER['class'] >= UC_STAFF) {
-    $HTMLOUT.= '
+        if ($CURUSER['class'] >= UC_STAFF) {
+        $HTMLOUT.= '
         <tr><td><b>' . $lang['user_s_stq1'] . '</b></td><td>
         <div class="switch tiny"><input onchange="this.form.submit()" class="switch-input" type="checkbox" id="stdhead_stafftools" name="stdhead_stafftools" value="yes"' . $checkbox_global_stafftools . '>
         <label class="switch-paddle" for="stdhead_stafftools">
@@ -387,7 +427,7 @@ if ($CURUSER['class'] >= UC_STAFF) {
         </div>      
         </td>
         </tr>';
-}
+        }
        $HTMLOUT.= '</table>
        </div>
        <div class="tabs-panel" id="panel3d">
@@ -681,4 +721,43 @@ $HTMLOUT.= '
     </table>
     </div>
     <div class="tabs-panel" id="panel4d">
-    </div></div>';
+        <table>
+            <tr>
+                <td><b>' . $lang['usercp_scloud'] . '</b></td>
+                <td>
+                    <div class="switch tiny">
+                        <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="browse_viewscloud" name="browse_viewscloud" value="yes"' . $checkbox_browse_viewcloud . '>
+                        <label class="switch-paddle" for="browse_viewscloud">
+                            <span class="switch-active" aria-hidden="true">Yes</span>
+                            <span class="switch-inactive" aria-hidden="true">No</span>
+                        </label>
+                    </div>         
+                </td>
+            </tr>
+            <tr>
+                <td><b>Slider</b></td>
+                <td>
+                    <div class="switch tiny">
+                        <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="browse_slider" name="browse_slider" value="yes"' . $checkbox_browse_slider . '>
+                        <label class="switch-paddle" for="browse_slider">
+                            <span class="switch-active" aria-hidden="true">Yes</span>
+                            <span class="switch-inactive" aria-hidden="true">No</span>
+                        </label>
+                    </div>         
+                </td>
+            </tr>
+            <tr>
+                <td><b>'.$lang['usercp_clearnewtagmanually'].'</b></td>
+                <td>
+                    <div class="switch tiny">
+                        <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="browse_clear_tags" name="browse_clear_tags" value="yes"' . $checkbox_browse_clear_tag . '>
+                        <label class="switch-paddle" for="browse_clear_tags">
+                            <span class="switch-active" aria-hidden="true">Yes</span>
+                            <span class="switch-inactive" aria-hidden="true">No</span>
+                        </label>
+                    </div>         
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>';

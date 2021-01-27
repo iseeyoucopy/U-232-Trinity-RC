@@ -44,6 +44,7 @@ require_once CLASS_DIR . 'class_blocks_index.php';
 require_once CLASS_DIR . 'class_blocks_stdhead.php';
 require_once CLASS_DIR . 'class_blocks_userdetails.php';
 require_once CLASS_DIR . 'class_blocks_usercp.php';
+require_once CLASS_DIR . 'class_blocks_browse.php';
 require_once CLASS_DIR . 'class_bt_options.php';
 require_once CACHE_DIR . 'block_settings_cache.php';
 $cores = $cache->get('cores_');
@@ -550,6 +551,7 @@ function userlogin()
         $CURBLOCK['index_page'] = (int)$CURBLOCK['index_page'];
         $CURBLOCK['global_stdhead'] = (int)$CURBLOCK['global_stdhead'];
         $CURBLOCK['userdetails_page'] = (int)$CURBLOCK['userdetails_page'];
+        $CURBLOCK['browse_page'] = (int)$CURBLOCK['browse_page'];
 		//$CURBLOCK['usercp_page'] = (int)$CURBLOCK['usercp_page'];
         $cache->set($blocks_key, $CURBLOCK, 0);
     }

@@ -291,19 +291,16 @@ if (isset($cleansearchstr))
 	$title = "{$lang['browse_search']} $searchstr";
 else 
     $title = '';
-    ///Start top 10 torrents by categories in Slider
-    require_once (BLOCK_DIR . 'browse/slider_top10.php');
-if ($CURUSER['opt1'] & user_options::VIEWSCLOUD) {
-    $HTMLOUT.= "<div class='callout float-center text-center' style='width:80%;border:1px solid black;background-color:rgba(121,124,128,0.3);'>";
-    //print out the tag cloud
-    $HTMLOUT.= cloud() . "
-    </div>";
-}
 $HTMLOUT.= "<form role='form' method='get' action='browse.php'>";
 $i = 0;
 //Categories
-$HTMLOUT.= "<div class='grid-x grid-padding-x'>
-  <div class='column large-8 float-center'><ul class='accordion' data-accordion data-allow-all-closed='true'>
+    ///Start top 10 torrents by categories in Slider
+$HTMLOUT .='<div class="grid-x grid-margin-x">';
+if (curuser::$blocks['browse_page'] & block_browse::SLIDER && $BLOCKS['browse_slider_on']) {
+    require_once (BLOCK_DIR . 'browse/slider_top10.php');
+}
+$HTMLOUT.= "<div class='cell medium-8 large-offset-2'>
+<ul class='accordion' data-accordion data-allow-all-closed='true'>
   <li class='accordion-item is-closed' data-accordion-item>
     <a href='#' class='accordion-title'>Categories</a>
     <div class='accordion-content' data-tab-content>
@@ -325,7 +322,7 @@ $HTMLOUT.= '<div class="cell"><input type="checkbox" name="only_free" value="1"'
 <img src="'.$TRINITY20['pic_base_url'].'/free.png" height="42" width="42"></div>';
 $HTMLOUT.= "</div></div></li></ul></div></div>";
 //== clear new tag manually
-if ($CURUSER['opt1'] & user_options::CLEAR_NEW_TAG_MANUALLY) {
+if (curuser::$blocks['browse_page'] & block_browse::CLEAR_NEW_TAG_MANUALLY && $BLOCKS['browse_clear_tags_on']) {
     $new_button = "<a href='?clear_new=1'><input type='submit' value='clear new tag' class='button' /></a><br />";
 } else {
     //== clear new tag automatically
@@ -370,6 +367,12 @@ $HTMLOUT.= "
 <!--<a href='{$TRINITY20["baseurl"]}/browse_catalogue.php' class='btn btn-default btn-default'>Alternative Browse</a>-->
 <!--<a href='{$TRINITY20["baseurl"]}/catalogue.php' class='btn btn-default btn-default'>Search our Catalogue</a>-->
            </form><div class='res'></div>";
+if (curuser::$blocks['browse_page'] & block_browse::VIEWSCLOUD && $BLOCKS['browse_viewscloud_on']) {
+    $HTMLOUT.= "<div class='callout float-center text-center' style='width:80%;border:1px solid black;background-color:rgba(121,124,128,0.3);'>";
+    //print out the tag cloud
+    $HTMLOUT.= cloud() . "
+    </div>";
+}
 $HTMLOUT.= "{$new_button}";
 if (isset($cleansearchstr)) {
     $HTMLOUT.= "<div class='row'><div class='col-md-6 col-md-offset-4'><h2>{$lang['browse_search']} " . htmlsafechars($searchstr, ENT_QUOTES) . "</h2></div></div>\n";
