@@ -23,16 +23,14 @@ if (($top10movies_all = $cache->get('top10_movies_all_')) === false) {
 		$top10movies_all[] = $top10movie_all;
     $cache->set('top10_movies_all_', $top10movies_all);
 }
-    $HTMLOUT.= "
-            <div class='table-scroll'>
-            <table class='stripped'>
-            <thead><tr>
-            <th scope='col'><b>*</b></th>
-            <th scope='col'><b>TOP 10 Torrents of All Time In Movies</b></th>
-			<th scope='col'><i class='fas fa-check'></i></th>
-            <th scope='col'><i class='fas fa-arrow-up'></i></th>
-            <th scope='col'><i class='fas fa-arrow-down'></i></th>
-            </tr></thead>";
+    $HTMLOUT.= "<table class='top10'>
+            <tr>
+            <th><b>*</b></th>
+            <th><b>TOP 10 Torrents of All Time In Movies</b></th>
+			<th><i class='fas fa-check'></i></th>
+            <th><i class='fas fa-arrow-up'></i></th>
+            <th><i class='fas fa-arrow-down'></i></th>
+            </tr>";
 	if ($top10movies_all) {
 		$counter = 1;
         foreach ($top10movies_all as $top10moviesall) {
@@ -40,19 +38,19 @@ if (($top10movies_all = $cache->get('top10_movies_all_')) === false) {
             if (strlen($torrname) > 50) 
 				$torrname = substr($torrname, 0, 50) . "...";
             $HTMLOUT.= "
-            <tbody><tr>
-            <th scope='row'>". $counter++ ."</th>
-            <td><a href=\"{$TRINITY20['baseurl']}/details.php?id=" . (int)$top10moviesall['id'] . "&amp;hit=1\">{$torrname}</a></td>
+            <tr>
+            <td>". $counter++ ."</td>
+            <td><a class ='float-left' href='{$TRINITY20['baseurl']}/details.php?id=" . (int)$top10moviesall['id'] . "&amp;hit=1'>{$torrname}</a></td>
 			<td>" . (int)$top10moviesall['times_completed'] . "</td>
             <td>" . (int)$top10moviesall['seeders'] . "</td>
             <td>" . (int)$top10moviesall['leechers'] . "</td>     
-	        </tr></tbody>";
+	        </tr>";
         }
     } else {
         //== If there are no torrents
-        if (empty($top10movies_all)) $HTMLOUT.= "<div class='table-scroll'><table class='stripped'><tbody><tr><td>{$lang['top5torrents_no_torrents']}</td></tr></tbody>";
+        if (empty($top10movies_all)) $HTMLOUT.= "<tr><td>{$lang['top5torrents_no_torrents']}</td></tr>";
     }
-$HTMLOUT.= "</table></div>";
+$HTMLOUT.= "</table>";
 //==End	
 // End Class
 // End File

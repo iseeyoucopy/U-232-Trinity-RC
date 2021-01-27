@@ -24,13 +24,13 @@ if (($top10movies24 = $cache->get('top10_mov_24_')) === false) {
 		$top10movies24[] = $top10movie24;
     $cache->set('top10_mov_24_', $top10movies24);
 }
-    $HTMLOUT.= "<table class='stack'>
-            <thead><tr>
-            <th scope='col'><b>*</b></th>
-            <th scope='col'><b>Top 10 torrents in a week in Movies</b></th>
-			<th scope='col'><i class='fas fa-check'></i></th>
-            <th scope='col'><i class='fas fa-arrow-up'></i></th>
-            <th scope='col'><i class='fas fa-arrow-down'></i></th></tr></thead>";
+    $HTMLOUT.= "<table class='top10'>
+            <tr>
+            <th><b>*</b></th>
+            <th><b>Top 10 torrents in a week in Movies</b></th>
+			<th><i class='fas fa-check'></i></th>
+            <th><i class='fas fa-arrow-up'></i></th>
+            <th><i class='fas fa-arrow-down'></i></th></tr>";
 	if ($top10movies24) {
 		$counter = 1;
         foreach ($top10movies24 as $top10movie24arr) {
@@ -40,17 +40,17 @@ if (($top10movies24 = $cache->get('top10_mov_24_')) === false) {
             if (strlen($torrname) > 50) 
 				$torrname = substr($torrname, 0, 50) . "...";
             $HTMLOUT.= "
-            <tbody><tr>
-            <th scope='row'>". $counter++ ."</th>
-            <td><a href=\"{$TRINITY20['baseurl']}/details.php?id=" . (int)$top10movie24arr['id'] . "&amp;hit=1\">{$torrname}</a></td>
+            <tr>
+            <td>". $counter++ ."</td>
+            <td><a class ='float-left' href='{$TRINITY20['baseurl']}/details.php?id=" . (int)$top10movie24arr['id'] . "&amp;hit=1'>{$torrname}</a></td>
 			<td>" . (int)$top10movie24arr['times_completed'] . "</td>
           <td>" . (int)$top10movie24arr['seeders'] . "</td>
           <td>" . (int)$top10movie24arr['leechers'] . "</td>     
-	 </tr></tbody>";
+	 </tr>";
         }
     } else {
         //== If there are no torrents
-        if (empty($top10movies24)) $HTMLOUT.= "<tbody><tr><td>{$lang['top5torrents_no_torrents']}</td></tr></tbody>";
+        if (empty($top10movies24)) $HTMLOUT.= "<tr><td>{$lang['top5torrents_no_torrents']}</td></tr>";
     }
 $HTMLOUT.= "</table>";
 //==End	

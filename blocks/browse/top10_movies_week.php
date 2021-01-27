@@ -24,13 +24,13 @@ if (($top10moviesweek = $cache->get('top10_mov_week_')) === false) {
 		$top10moviesweek[] = $top10movieweek;
     $cache->set('top10_mov_week_', $top10moviesweek);
 }
-    $HTMLOUT.= "<table class='stack'>
-            <thead><tr>
-            <th scope='col'><b>*</b></th>
-            <th scope='col'><b>Top 10 torrents in a week in Movies</b></th>
-			<th scope='col'><i class='fas fa-check'></i></th>
-            <th scope='col'><i class='fas fa-arrow-up'></i></th>
-            <th scope='col'><i class='fas fa-arrow-down'></i></th></tr></thead>";
+    $HTMLOUT.= "<table class='top10'>
+            <tr>
+            <th><b>*</b></th>
+            <th><b>Top 10 torrents in a week in Movies</b></th>
+			<th><i class='fas fa-check'></i></th>
+            <th><i class='fas fa-arrow-up'></i></th>
+            <th><i class='fas fa-arrow-down'></i></th></tr>";
 	if ($top10moviesweek) {
 		$counter = 1;
         foreach ($top10moviesweek as $top10movieweekarr) {
@@ -40,17 +40,17 @@ if (($top10moviesweek = $cache->get('top10_mov_week_')) === false) {
             if (strlen($torrname) > 50) 
 				$torrname = substr($torrname, 0, 50) . "...";
             $HTMLOUT.= "
-            <tbody><tr>
-            <th scope='row'>". $counter++ ."</th>
-            <td><a href=\"{$TRINITY20['baseurl']}/details.php?id=" . (int)$top10movieweekarr['id'] . "&amp;hit=1\">{$torrname}</a></td>
+            <tr>
+            <td>". $counter++ ."</td>
+            <td><a class ='float-left' href='{$TRINITY20['baseurl']}/details.php?id=" . (int)$top10movieweekarr['id'] . "&amp;hit=1'>{$torrname}</a></td>
 			<td>" . (int)$top10movieweekarr['times_completed'] . "</td>
           <td>" . (int)$top10movieweekarr['seeders'] . "</td>
           <td>" . (int)$top10movieweekarr['leechers'] . "</td>     
-	 </tr></tbody>";
+	 </tr>";
         }
     } else {
         //== If there are no torrents
-        if (empty($top10moviesweek)) $HTMLOUT.= "<tbody><tr><td>{$lang['top5torrents_no_torrents']}</td></tr></tbody>";
+        if (empty($top10moviesweek)) $HTMLOUT.= "<tr><td>{$lang['top5torrents_no_torrents']}</td></tr>";
     }
 $HTMLOUT.= "</table>";
 //==End	

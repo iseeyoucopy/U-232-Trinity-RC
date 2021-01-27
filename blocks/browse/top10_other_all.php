@@ -22,13 +22,13 @@ if (($top10others = $cache->get('top10_other_')) === false) {
 		$top10others[] = $top10other;
     $cache->set('top10_other_', $top10others);
 }
-    $HTMLOUT.= "<table class='stack'>
-            <thead><tr>
-            <th scope='col'><b>*</b></th>
-            <th scope='col'><b>Top 10 torrents of all in Other Categories</b></th>
-			<th scope='col'><i class='fas fa-check'></i></th>
-            <th scope='col'><i class='fas fa-arrow-up'></i></th>
-            <th scope='col'><i class='fas fa-arrow-down'></i></th></tr></thead>";
+    $HTMLOUT.= "<table class='top10'>
+            <tr>
+            <th><b>*</b></th>
+            <th><b>Top 10 torrents of all in Other Categories</b></th>
+			<th><i class='fas fa-check'></i></th>
+            <th><i class='fas fa-arrow-up'></i></th>
+            <th><i class='fas fa-arrow-down'></i></th></tr>";
 	if ($top10others) {
 		$counter = 1;
         foreach ($top10others as $top10otherarr) {
@@ -38,17 +38,17 @@ if (($top10others = $cache->get('top10_other_')) === false) {
             if (strlen($torrname) > 50) 
 				$torrname = substr($torrname, 0, 50) . "...";
             $HTMLOUT.= "
-            <tbody><tr>
-            <th scope='row'>". $counter++ ."</th>
-            <td><a href=\"{$TRINITY20['baseurl']}/details.php?id=" . (int)$top10otherarr['id'] . "&amp;hit=1\">{$torrname}</a></td>
+            <tr>
+            <td>". $counter++ ."</td>
+            <td><a class ='float-left' href=\"{$TRINITY20['baseurl']}/details.php?id=" . (int)$top10otherarr['id'] . "&amp;hit=1\">{$torrname}</a></td>
 			<td>" . (int)$top10otherarr['times_completed'] . "</td>
           <td>" . (int)$top10otherarr['seeders'] . "</td>
           <td>" . (int)$top10otherarr['leechers'] . "</td>     
-	 </tr></tbody>";
+	 </tr>";
         }
     } else {
         //== If there are no torrents
-        if (empty($top10others)) $HTMLOUT.= "<tbody><tr><td>{$lang['top5torrents_no_torrents']}</td></tr></tbody>";
+        if (empty($top10others)) $HTMLOUT.= "<tr><td>{$lang['top5torrents_no_torrents']}</td></tr>";
     }
 $HTMLOUT.= "</table>";
 //==End	
