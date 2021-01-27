@@ -49,7 +49,7 @@ if (($top10music_24 = $cache->get('top10_music_24_')) === false) {
         }
     } else {
         //== If there are no torrents
-        if (empty($top10music_24)) $HTMLOUT.= "<tr><td>{$lang['top5torrents_no_torrents']}</td></tr>";
+        if (empty($top10music_24)) $HTMLOUT.= "<tbody><tr><td>{$lang['top5torrents_no_torrents']}</td></tr></tbody>";
     }
 $HTMLOUT.= "</table>";
 //==End	

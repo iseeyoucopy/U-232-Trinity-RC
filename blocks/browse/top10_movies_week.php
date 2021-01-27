@@ -50,7 +50,7 @@ if (($top10moviesweek = $cache->get('top10_mov_week_')) === false) {
         }
     } else {
         //== If there are no torrents
-        if (empty($top10moviesweek)) $HTMLOUT.= "<tr><td>{$lang['top5torrents_no_torrents']}</td></tr>";
+        if (empty($top10moviesweek)) $HTMLOUT.= "<tbody><tr><td>{$lang['top5torrents_no_torrents']}</td></tr></tbody>";
     }
 $HTMLOUT.= "</table>";
 //==End	
