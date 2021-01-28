@@ -29,7 +29,7 @@ if ($CURUSER['got_blocks'] == 'no') {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $updateset = [];
-    $setbits_index_page = $clrbits_index_page = $setbits_global_stdhead = $clrbits_global_stdhead = $setbits_userdetails_page = $clrbits_userdetails_page = $setbits_browse_page = $clrbits_browse_page =0;
+    $setbits_index_page = $clrbits_index_page = $setbits_global_stdhead = $clrbits_global_stdhead = $setbits_userdetails_page = $clrbits_userdetails_page = 0;
     //==Index
     if (isset($_POST['ie_alert'])) {
         $setbits_index_page|= block_index::IE_ALERT;
@@ -358,22 +358,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $clrbits_userdetails_page|= block_userdetails::SHOWFRIENDS;
     }
-    //** Browse Page */
-    if (isset($_POST['browse_viewscloud'])) {
-        $setbits_browse_page|= block_browse::VIEWSCLOUD;
-    } else {
-        $clrbits_browse_page|= block_browse::VIEWSCLOUD;
-    }
-    if (isset($_POST['browse_slider'])) {
-        $setbits_browse_page|= block_browse::SLIDER;
-    } else {
-        $clrbits_browse_page|= block_browse::SLIDER;
-    }
-    if (isset($_POST['browse_clear_tags'])) {
-        $setbits_browse_page|= block_browse::CLEAR_NEW_TAG_MANUALLY;
-    } else {
-        $clrbits_browse_page|= block_browse::CLEAR_NEW_TAG_MANUALLY;
-    }
     //== set n clear
     //** Index Page */
     if ($setbits_index_page) {
@@ -395,13 +379,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     if ($clrbits_userdetails_page) {
         $updateset[] = 'userdetails_page = (userdetails_page & ~' . $clrbits_userdetails_page . ')';
-    }
-    //** Browse Page */
-    if ($setbits_browse_page) {
-        $updateset[] = 'browse_page = (browse_page | ' . $setbits_browse_page . ')';
-    }
-    if ($clrbits_browse_page) {
-        $updateset[] = 'browse_page = (browse_page & ~' . $clrbits_browse_page . ')';
     }
     if (count($updateset)) {
         sql_query('UPDATE user_blocks SET ' . implode(',', $updateset) . ' WHERE userid = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);

@@ -48,7 +48,7 @@ $lang = array_merge(load_language('global') , load_language('browse') , load_lan
 
 if (function_exists('parked')) parked();
 
-$HTMLOUT = $searchin = $select_searchin = $where = $addparam = $new_button = $searchstr = $search_help_boolean = '';
+$HTMLOUT = $searchin = $select_searchin = $where = $addparam = $new_button = $searchstr = '';
 $HTMLOUT = "
 <script type='text/javascript' src='./scripts/jaxo.suggest.js'></script>
 <script type='text/javascript'>
@@ -58,20 +58,6 @@ $(\"input[placeholder='Search Torrents']\").search(options);
 });
 /*]]>*/
 </script>";
-$search_help_boolean = '<div class="callout default">
-	<div class="card-divider">
-<h2 class="text-center text-info">The boolean search supports the following operators:</h2>
-</div>
-	<div class="card-section">
- <p><span style="font-weight: bold;">+</span> A leading plus sign indicates that this word must be present.<br /><br />
-    <span style="font-weight: bold;">-</span> A leading minus sign indicates that this word must not be present.<br /><br />
-        By default (when neither + nor - is specified) the word is optional, but results that contain it are rated higher. <br /><br />
-    <span style="font-weight: bold;">*</span> The asterisk serves as the wildcard operator. Unlike the other operators, it should be appended to the word to be affected. Words match if they begin with the word preceding the * operator.<br /><br />
-    <span style="font-weight: bold;">> <</span> These two operators are used to change a word\'s contribution to the relevance value that is assigned to a word. The > operator increases the contribution and the < operator decreases it.<br /><br />
-    <span style="font-weight: bold;">~</span> A leading tilde acts as a negation operator, causing the word\'s contribution to the words\'s relevance to be negative. A row containing such a word is rated lower than others, but is not excluded altogether, as it would be with the - operator.<br /><br />
-    <span style="font-weight: bold;">" "</span> A phrase that is enclosed within double quotes return only results that contain the phrase literally, as it was typed. <br /><br />
-    <span style="font-weight: bold;">( )</span> Parentheses group words into subexpressions. Parenthesized groups can be nested.
-    </p></div></div>';
 $cats = genrelist();
 if (isset($_GET["search"])) {
     $searchstr = unesc($_GET["search"]);
@@ -292,35 +278,42 @@ if (isset($cleansearchstr))
 else 
     $title = '';
     ///Start top 10 torrents by categories in Slider
-$HTMLOUT .='<div class="grid-x grid-margin-x">';
 if (curuser::$blocks['browse_page'] & block_browse::SLIDER && $BLOCKS['browse_slider_on']) {
     require_once (BLOCK_DIR . 'browse/slider_top10.php');
 }
 $HTMLOUT.= "<form role='form' method='get' action='browse.php'>";
 $i = 0;
 //Categories
-$HTMLOUT.= "<div class='cell medium-8 large-offset-2'>
-<ul class='accordion' data-accordion data-allow-all-closed='true'>
-  <li class='accordion-item is-closed' data-accordion-item>
-    <a href='#' class='accordion-title'>Categories</a>
-    <div class='accordion-content' data-tab-content>
-      <div class='grid-x grid-padding-x small-up-4 medium-up-6 large-up-8'>";
-    foreach ($cats as $cat) {
-        if($cat['min_class'] <= $CURUSER['class']){
-            $HTMLOUT.= ($i) ? "" : "";
-            $HTMLOUT.= "<div class='cell'>
-      <input name='c" . (int)$cat['id'] . "'  type='checkbox' " . (in_array($cat['id'], $wherecatina) ? "checked='checked' " : "") . "value='1' >
-			 <a href='browse.php?cat=" . (int)$cat['id'] . "'> " . (($CURUSER['opt2'] & user_options_2::BROWSE_ICONS) ? "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($cat['image']) . "' alt='" . htmlsafechars($cat['name']) . "' title='" . htmlsafechars($cat['name']) . "' />" : "" . htmlsafechars($cat['name']) . "") . "</a></div>
-             ";
-            $i++;
-        }
-    }
-//=== Search only free :o)
-$only_free =((isset($_GET['only_free'])) ? intval($_GET['only_free']) : '');
-//=== checkbox for only free torrents
-$HTMLOUT.= '<div class="cell"><input type="checkbox" name="only_free" value="1"'.(isset($_GET['only_free']) ? ' checked="checked"' : '').'>
-<img src="'.$TRINITY20['pic_base_url'].'/free.png" height="42" width="42"></div>';
-$HTMLOUT.= "</div></div></li></ul></div></div>";
+$HTMLOUT .='<div class="grid-x grid-margin-x">';
+$HTMLOUT.= "<div class='cell large-12'>
+    <ul class='accordion' data-accordion data-allow-all-closed='true'>
+        <li class='accordion-item is-closed' data-accordion-item>
+            <a href='#' class='accordion-title'>Categories</a>
+            <div class='accordion-content' data-tab-content>
+                <div class='grid-x grid-padding-x small-up-4 medium-up-6 large-up-8'>";
+                    foreach ($cats as $cat) {
+                        if($cat['min_class'] <= $CURUSER['class']) {
+                            $HTMLOUT.= ($i) ? "" : "";
+                            $HTMLOUT.= "<div class='cell'>
+                            <input name='c" . (int)$cat['id'] . "'  type='checkbox' " . (in_array($cat['id'], $wherecatina) ? "checked='checked' " : "") . "value='1' >
+                            <a href='browse.php?cat=" . (int)$cat['id'] . "'> " . ((curuser::$blocks['browse_page'] & block_browse::ICONS && $BLOCKS['browse_icons_on']) ? "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($cat['image']) . "' alt='" . htmlsafechars($cat['name']) . "' title='" . htmlsafechars($cat['name']) . "'>" : "" . htmlsafechars($cat['name']) . "") . "</a>
+                            </div>";
+                            $i++;
+                        }
+                    }
+                            //=== Search only free :o)
+                            $only_free =((isset($_GET['only_free'])) ? intval($_GET['only_free']) : '');
+                            //=== checkbox for only free torrents
+                            $HTMLOUT.= '<div class="cell">
+                                <input type="checkbox" name="only_free" value="1"'.(isset($_GET['only_free']) ? ' checked="checked"' : '').'>
+                                <img src="'.$TRINITY20['pic_base_url'].'/free.png" height="42" width="42">
+                            </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+</div>';
 //== clear new tag manually
 if (curuser::$blocks['browse_page'] & block_browse::CLEAR_NEW_TAG_MANUALLY && $BLOCKS['browse_clear_tags_on']) {
     $new_button = "<a href='?clear_new=1'><input type='submit' value='clear new tag' class='button' /></a><br />";
@@ -364,9 +357,9 @@ $HTMLOUT.= '<div class="input-group">
   </div>
 </div>';
 $HTMLOUT.= "
-<!--<a href='{$TRINITY20["baseurl"]}/browse_catalogue.php' class='btn btn-default btn-default'>Alternative Browse</a>-->
-<!--<a href='{$TRINITY20["baseurl"]}/catalogue.php' class='btn btn-default btn-default'>Search our Catalogue</a>-->
-           </form><div class='res'></div>";
+<a href='{$TRINITY20["baseurl"]}/browse_catalogue.php' class='button'>Alternative Browse</a>
+<a href='{$TRINITY20["baseurl"]}/catalogue.php' class='button'>Search our Catalogue</a>
+</form><div class='res'></div>";
 if (curuser::$blocks['browse_page'] & block_browse::VIEWSCLOUD && $BLOCKS['browse_viewscloud_on']) {
     $HTMLOUT.= "<div class='callout float-center text-center' style='width:80%;border:1px solid black;background-color:rgba(121,124,128,0.3);'>";
     //print out the tag cloud

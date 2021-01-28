@@ -65,9 +65,13 @@ $BLOCKS = array(
 	'userdetails_user_status_on' => 1,
 	'userdetails_user_comments_on' => 1,
 	'userdetails_showfriends_on' => 1,
+	//BROWSE 
 	'browse_viewscloud_on' => 1,
 	'browse_slider_on' => 1,
 	'browse_clear_tags_on' => 1,
+	'browse_clear_tags_on' => 1,
+	'browse_icons_on' => 1,
+	'browse_split_on' => 1,
 );
 
 ?>

@@ -67,10 +67,6 @@ $checkbox_userdetails_userstatus = ((curuser::$blocks['userdetails_page'] & bloc
 $checkbox_userdetails_usercomments = ((curuser::$blocks['userdetails_page'] & block_userdetails::USERCOMMENTS) ? ' checked="checked"' : '');
 $checkbox_userdetails_showfriends = ((curuser::$blocks['userdetails_page'] & block_userdetails::SHOWFRIENDS) ? ' checked="checked"' : '');
 //**Browse Page */
-$checkbox_browse_viewcloud = ((curuser::$blocks['browse_page'] & block_browse::VIEWSCLOUD) ? ' checked="checked"' : '');
-$checkbox_browse_slider = ((curuser::$blocks['browse_page'] & block_browse::SLIDER) ? ' checked="checked"' : '');
-$checkbox_browse_clear_tag = ((curuser::$blocks['browse_page'] & block_browse::CLEAR_NEW_TAG_MANUALLY) ? ' checked="checked"' : '');
-
 $HTMLOUT.= '
 <ul class="tabs" data-deep-link="true" data-update-history="true" data-deep-link-smudge="true" data-deep-link-smudge-delay="500" data-tabs id="userblocks-tabs">
   <li class="tabs-title is-active"><a href="#panel1d" aria-selected="true">' . $lang['user_b_title1'] . '</a></li>
@@ -722,42 +718,6 @@ $HTMLOUT.= '
     </div>
     <div class="tabs-panel" id="panel4d">
         <table>
-            <tr>
-                <td><b>' . $lang['usercp_scloud'] . '</b></td>
-                <td>
-                    <div class="switch tiny">
-                        <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="browse_viewscloud" name="browse_viewscloud" value="yes"' . $checkbox_browse_viewcloud . '>
-                        <label class="switch-paddle" for="browse_viewscloud">
-                            <span class="switch-active" aria-hidden="true">Yes</span>
-                            <span class="switch-inactive" aria-hidden="true">No</span>
-                        </label>
-                    </div>         
-                </td>
-            </tr>
-            <tr>
-                <td><b>Slider</b></td>
-                <td>
-                    <div class="switch tiny">
-                        <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="browse_slider" name="browse_slider" value="yes"' . $checkbox_browse_slider . '>
-                        <label class="switch-paddle" for="browse_slider">
-                            <span class="switch-active" aria-hidden="true">Yes</span>
-                            <span class="switch-inactive" aria-hidden="true">No</span>
-                        </label>
-                    </div>         
-                </td>
-            </tr>
-            <tr>
-                <td><b>'.$lang['usercp_clearnewtagmanually'].'</b></td>
-                <td>
-                    <div class="switch tiny">
-                        <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="browse_clear_tags" name="browse_clear_tags" value="yes"' . $checkbox_browse_clear_tag . '>
-                        <label class="switch-paddle" for="browse_clear_tags">
-                            <span class="switch-active" aria-hidden="true">Yes</span>
-                            <span class="switch-inactive" aria-hidden="true">No</span>
-                        </label>
-                    </div>         
-                </td>
-            </tr>
         </table>
     </div>
 </div>';

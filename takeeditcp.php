@@ -41,7 +41,7 @@ function resize_image($in)
     return $out;
 }
 $action = isset($_POST["action"]) ? htmlsafechars(trim($_POST["action"])) : '';
-$updateset = $curuser_cache = $user_cache = array();
+$updateset = $updateset_block = $curuser_cache = $user_cache = array();
 $setbits = $clrbits = 0;
 //== Avatars stuffs
 if ($action == "avatar") {
@@ -261,43 +261,26 @@ elseif ($action == "torrents") {
     $curuser_cache['torrentsperpage'] = $torrentspp;
     $user_cache['torrentsperpage'] = $torrentspp;
     }
-    //==
-    if (isset($_POST['viewscloud'])) $setbits|= user_options::VIEWSCLOUD;
-    else $clrbits|= user_options::VIEWSCLOUD;
-    /*
-    $viewscloud = (isset($_POST['viewscloud']) && $_POST["viewscloud"] != "" ? "yes" : "no");{
-    $updateset[] = "viewscloud = ".sqlesc($viewscloud);
-    $curuser_cache['viewscloud'] = $viewscloud;
-    $user_cache['viewscloud'] = $viewscloud;
-    }
-    */
-    if (isset($_POST['clear_new_tag_manually'])) $setbits|= user_options::CLEAR_NEW_TAG_MANUALLY;
-    else $clrbits|= user_options::CLEAR_NEW_TAG_MANUALLY;
-    /*
-    $clear_new_tag_manually = (isset($_POST['clear_new_tag_manually']) && $_POST["clear_new_tag_manually"] != "" ? "yes" : "no");{
-    $updateset[] = "clear_new_tag_manually = " . sqlesc($clear_new_tag_manually);
-    $curuser_cache['clear_new_tag_manually'] = $clear_new_tag_manually;
-    $user_cache['clear_new_tag_manually'] = $clear_new_tag_manually;
-    }
-    */
-    if (isset($_POST['split'])) $setbits|= user_options_2::SPLIT;
-    else $clrbits|= user_options_2::SPLIT;
-    /*
-    $split = ($_POST["split"] == "yes" ? "yes" : "no");{
-    $updateset[] = "split = " . sqlesc($split);
-    $curuser_cache['split'] = $split;
-    $user_cache['split'] = $split;
-    }
-    */
-    if (isset($_POST['browse_icons'])) $setbits|= user_options_2::BROWSE_ICONS;
-    else $clrbits|= user_options_2::BROWSE_ICONS;
-    /*
-    $browse_icons = ($_POST["browse_icons"] == "yes" ? "yes" : "no");{
-    $updateset[] = "browse_icons = " . sqlesc($browse_icons);
-    $curuser_cache['browse_icons'] = $browse_icons;
-    $user_cache['browse_icons'] = $browse_icons;
-    }
-    */
+    //** Split Torrents by day */
+    if (isset($_POST['browse_split'])) $setbits |= block_browse::SPLIT;
+    else $clrbits|= block_browse::SPLIT;
+
+    //** Categories as images */
+    if (isset($_POST['browse_icons'])) $setbits |= block_browse::ICONS;
+    else $clrbits|= block_browse::ICONS;
+
+    //** Search Cloud */
+    if (isset($_POST['browse_viewscloud'])) $setbits |= block_browse::VIEWSCLOUD;
+    else $clrbits|= block_browse::VIEWSCLOUD;
+
+    //** Top 10 torrents Slider */
+    if (isset($_POST['browse_slider'])) $setbits |= block_browse::SLIDER;
+    else $clrbits|= block_browse::SLIDER;
+
+    //** Manually Clear New Tag */
+    if (isset($_POST['browse_clear_tags'])) $setbits |= block_browse::CLEAR_NEW_TAG_MANUALLY;
+    else $clrbits|= block_browse::CLEAR_NEW_TAG_MANUALLY;
+
     if (isset($_POST['categorie_icon']) && (($categorie_icon = (int)$_POST['categorie_icon']) != $CURUSER['categorie_icon']) && is_valid_id($categorie_icon)) {
         $updateset[] = 'categorie_icon = ' . sqlesc($categorie_icon);
         $curuser_cache['categorie_icon'] = $categorie_icon;
@@ -471,20 +454,16 @@ if ($user_cache) {
     $cache->update_row('user' . $CURUSER['id'], $user_cache, $TRINITY20['expires']['user_cache']);
 }
 if (sizeof($updateset) > 0) sql_query("UPDATE users SET " . implode(",", $updateset) . " WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
-if ($setbits || $clrbits) sql_query('UPDATE users SET opt1 = ((opt1 | ' . $setbits . ') & ~' . $clrbits . '), opt2 = ((opt2 | ' . $setbits . ') & ~' . $clrbits . ') WHERE id = ' . sqlesc($CURUSER["id"])) or sqlerr(__file__, __line__);
-// grab current data
-$res = sql_query('SELECT opt1, opt2 FROM users 
-                     WHERE id = ' . sqlesc($CURUSER["id"]) . ' LIMIT 1') or sqlerr(__file__, __line__);
-$row = $res->fetch_assoc();
-$row['opt1'] = (int)$row['opt1'];
-$row['opt2'] = (int)$row['opt2'];
-$cache->update_row($keys['my_userid'] . $CURUSER["id"], [
-    'opt1' => $row['opt1'],
-    'opt2' => $row['opt2']
-], $TRINITY20['expires']['curuser']);
-$cache->update_row('user_' . $CURUSER["id"], [
-    'opt1' => $row['opt1'],
-    'opt2' => $row['opt2']
-], $TRINITY20['expires']['user_cache']);
+    //** Browse Page */
+    if ($setbits) {
+        $updateset_block[] = 'browse_page = (browse_page | ' . $setbits . ')';
+    }
+    if ($clrbits) {
+        $updateset_block[] = 'browse_page = (browse_page & ~' . $clrbits . ')';
+    }
+    if (count($updateset_block)) {
+        sql_query('UPDATE user_blocks SET ' . implode(',', $updateset_block) . ' WHERE userid = ' . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
+    }
+    $cache->delete('blocks::' . $CURUSER["id"]);
 header("Location: {$TRINITY20['baseurl']}/usercp.php?edited=1&action=$action" . $urladd);
 ?>

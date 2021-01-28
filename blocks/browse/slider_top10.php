@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$HTMLOUT.='
+$HTMLOUT.='<div class="grid-x grid-margin-x">
   <div class="cell large-6 large-offset-3">
   <div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
   <div class="orbit-wrapper">
@@ -85,4 +85,4 @@ $HTMLOUT.='
     <button data-slide="9"><span class="show-for-sr"></span></button>
     <button data-slide="10"><span class="show-for-sr"></span></button>   
   </nav>
-</div></div>';
+</div></div></div>';
