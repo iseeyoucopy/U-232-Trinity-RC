@@ -291,14 +291,14 @@ if (isset($cleansearchstr))
 	$title = "{$lang['browse_search']} $searchstr";
 else 
     $title = '';
-$HTMLOUT.= "<form role='form' method='get' action='browse.php'>";
-$i = 0;
-//Categories
     ///Start top 10 torrents by categories in Slider
 $HTMLOUT .='<div class="grid-x grid-margin-x">';
 if (curuser::$blocks['browse_page'] & block_browse::SLIDER && $BLOCKS['browse_slider_on']) {
     require_once (BLOCK_DIR . 'browse/slider_top10.php');
 }
+$HTMLOUT.= "<form role='form' method='get' action='browse.php'>";
+$i = 0;
+//Categories
 $HTMLOUT.= "<div class='cell medium-8 large-offset-2'>
 <ul class='accordion' data-accordion data-allow-all-closed='true'>
   <li class='accordion-item is-closed' data-accordion-item>
