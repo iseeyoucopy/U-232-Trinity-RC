@@ -13,6 +13,7 @@
 //== loginlink mod - stonebreath/laffin
 require_once(__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
 require_once(INCL_DIR . 'user_functions.php');
+require_once (INCL_DIR . 'password_functions.php');
 dbconn();
 //== 09 failed logins thanks to pdq - Retro
 function failedloginscheck()
@@ -49,7 +50,7 @@ $hash1 = substr($qlogin, 0, 32);
 $hash2 = substr($qlogin, 32, 32);
 $hash3 = substr($qlogin, 64, 32);
 $hash1.= $hash2 . $hash3;
-$res = sql_query("SELECT id, username, passhash, enabled FROM users WHERE hash1 = " . sqlesc($hash1) . " AND class >= " . UC_STAFF . " AND status = 'confirmed' LIMIT 1") or sqlerr(__FILE__, __LINE__);
+$res = sql_query("SELECT id, username, hash3, enabled FROM users WHERE hash1 = " . sqlesc($hash1) . " AND class >= " . UC_STAFF . " AND status = 'confirmed' LIMIT 1") or sqlerr(__FILE__, __LINE__);
 $row = $res->fetch_assoc();
 $ip = getip();
 if (!$row) {
@@ -65,7 +66,7 @@ if (!$row) {
 if ($row['enabled'] == 'no') {
     stderr("Error", "This account has been disabled.");
 }
-$passh = hash("sha3-512", "" . $row["passhash"] . $_SERVER["REMOTE_ADDR"] . "");
+$passh = h_cook($row['hash3'], $_SERVER["REMOTE_ADDR"], $id);
 logincookie($row["id"], $passh);
 sql_query("DELETE FROM failedlogins WHERE ip = " . sqlesc($ip)) or sqlerr(__FILE__, __LINE__);
 $HTMLOUT = '';

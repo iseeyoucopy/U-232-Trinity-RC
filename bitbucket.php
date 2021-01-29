@@ -16,6 +16,7 @@
 require_once (__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorrent.php');
 require_once (INCL_DIR.'user_functions.php');
 require_once (INCL_DIR.'bbcode_functions.php');
+require_once (INCL_DIR.'password_functions.php');
 dbconn();
 loggedinorreturn();
 $lang = array_merge(load_language('global') , load_language('bitbucket'));
@@ -46,7 +47,7 @@ $bucketdir = (isset($_POST["avy"]) ? AVATAR_DIR.'/' : BITBUCKET_DIR.'/'.$folders
 $bucketlink = ((isset($_POST["avy"]) || (isset($_GET['images']) && $_GET['images'] == 2)) ? 'avatar/' : $folders.'/');
 $address = $TRINITY20['baseurl'].'/';
 //rename files and obscufate uploader
-$USERSALT = substr(md5($SaLty.$CURUSER['id']) , 0, 6);
+$USERSALT = substr(h_store($SaLty.$CURUSER['id']) , 0, 6);
 /* this is a hack, you should create folders named 2012, 2013, 2014, etc,
 * inside these folders you should have folders for the months named 01 to 12
 * then comment out the following 2 lines
@@ -57,8 +58,8 @@ if (!isset($_FILES['file'])) {
     if (isset($_GET["delete"])) {
         $getfile = htmlsafechars($_GET['delete']);
         $delfile = urldecode(encrypt_decrypt('decrypt', $getfile));
-        $delhash = md5($delfile.$USERSALT.$SaLt);
-        //$delhash = md5($delfile . $CURUSER['username'] . $SaLt);
+        $delhash = t_Hash($delfile, $USERSALT, $SaLt);
+		
         if ($delhash != $_GET['delhash']) stderr($lang['bitbucket_umm'], "{$lang['bitbucket_wayd']}");
         //$myfile = ROOT_DIR . '/' . $delfile; //== for pdq define directories
         //$myfile = '/home/yourdir/public_html/'.$delfile; // Full relative path to web root
@@ -150,12 +151,12 @@ document.getElementById(id).select();
                 $filename = basename($filename);
                 $filename = $bucketlink2.$filename;
                 $encryptedfilename = urlencode(encrypt_decrypt('encrypt', $filename));
-                $eid = md5($filename);
+                $eid = h_store($filename);
                 $HTMLOUT.= "<a href=\"{$address}img.php/{$filename}\"><img src=\"{$address}img.php/{$filename}\" width=\"200\" alt=\"\" /><br />{$address}img.php/{$filename}</a><br />";
                 $HTMLOUT.= "<p>{$lang['bitbucket_directlink']}<br /><input style=\"font-size: 9pt;text-align: center;\" id=\"d".$eid."d\" onclick=\"SelectAll('d".$eid."d');\" type=\"text\" size=\"70\" value=\"{$address}img.php/{$filename}\" readonly=\"readonly\" /></p>";
                 $HTMLOUT.= "<p align=\"center\">{$lang['bitbucket_tags']}<br /><input style=\"font-size: 9pt;text-align: center;\" id=\"t".$eid."t\" onclick=\"SelectAll('t".$eid."t');\" type=\"text\" size=\"70\" value=\"[img]{$address}img.php/{$filename}[/img]\" readonly=\"readonly\" /></p>";
                 $HTMLOUT.= "<p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?type=".((isset($_GET['images']) && $_GET['images'] == 2) ? '2' : '1')."&amp;avatar={$address}img.php/{$filename}\">{$lang['bitbucket_maketma']}</a></p>";
-                $HTMLOUT.= "<p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?type=".((isset($_GET['images']) && $_GET['images'] == 2) ? '2' : '1')."&amp;delete=".$encryptedfilename."&amp;delhash=".md5($filename.$USERSALT.$SaLt)."&amp;month=".(!isset($_GET['month']) ? date('m') : ($_GET['month'] < 10 ? '0' : '').(int)$_GET['month'])."&amp;year=".(!isset($_GET['year']) ? date('Y') : (int)$_GET['year'])."\">{$lang['bitbucket_delete']}</a></p><br />";
+                $HTMLOUT.= "<p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?type=".((isset($_GET['images']) && $_GET['images'] == 2) ? '2' : '1')."&amp;delete=".$encryptedfilename."&amp;delhash=".t_Hash($filename, $USERSALT, $SaLt)."&amp;month=".(!isset($_GET['month']) ? date('m') : ($_GET['month'] < 10 ? '0' : '').(int)$_GET['month'])."&amp;year=".(!isset($_GET['year']) ? date('Y') : (int)$_GET['year'])."\">{$lang['bitbucket_delete']}</a></p><br />";
             } else $HTMLOUT.= "{$lang['bitbucket_noimages']}";
         }
     }
@@ -238,9 +239,9 @@ function encrypt_decrypt($action, $string)
         $secret_key = '6818f23eef19d38dad1d2729991f6368';
         $secret_iv = '0ac35e3823616c810f86e526d1ed59e7';
         // hash
-        $key = hash('sha256', $secret_key);    
+        $key = h_store($secret_key);    
         // iv - encrypt method AES-256-CBC expects 16 bytes 
-        $iv = substr(hash('sha256', $secret_iv), 0, 16);
+        $iv = substr(h_store($secret_iv), 0, 16);
         if ( $action == 'encrypt' ) {
             $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
             $output = base64_encode($output);

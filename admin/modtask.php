@@ -26,6 +26,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     exit();
 }
 require_once (INCL_DIR . 'user_functions.php');
+require_once (INCL_DIR . 'password_functions.php');
 require_once (CLASS_DIR . 'page_verify.php');
 require_once (CLASS_DIR . 'class_check.php');
 require_once (INCL_DIR . 'function_autopost.php');
@@ -479,7 +480,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     //== Reset Torrent pass
     if ((isset($_POST['reset_torrent_pass'])) && ($_POST['reset_torrent_pass'])) {
         $newpasskeyversion = ($user['torrent_pass_version'] + 1);
-        $newpasskey = md5($user['username'] . TIME_NOW . $user['passhash']);
+        $newpasskey = t_Hash($user['username'], TIME_NOW, $user['hash3']);
         $modcomment = get_date(TIME_NOW, 'DATE', 1) . "{$lang['modtask_passkey']}" . sqlesc($user['torrent_pass']) . "{$lang['modtask_reset']}" . sqlesc($newpasskey) . "{$lang['modtask_by']}" . $CURUSER['username'] . ".\n" . $modcomment;
         $curuser_cache['torrent_pass'] = $newpasskey;
         $user_cache['torrent_pass'] = $newpasskey;

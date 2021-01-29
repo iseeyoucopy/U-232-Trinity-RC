@@ -13,6 +13,7 @@
 //== Manage friends by pdq
 require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
 require_once (INCL_DIR . 'user_functions.php');
+require_once (INCL_DIR . 'password_functions.php');
 dbconn(false);
 loggedinorreturn();
 $lang = array_merge(load_language('global') , load_language('friends'));
@@ -69,7 +70,7 @@ if ($action == 'confirm') {
     $sure = isset($_GET['sure']) ? intval($_GET['sure']) : false;
     $type = isset($_GET['type']) ? ($_GET['type'] == 'friend' ? 'friend' : 'block') : stderr($lang['friends_error'], 'LoL');
     if (!is_valid_id($targetid)) stderr("Error", "Invalid ID.");
-    $hash = md5('c@@me' . $CURUSER['id'] . $targetid . $type . 'confirm' . 'sa7t');
+    $hash = t_Hash($CURUSER['id'], $targetid, $type);
     if (!$sure) stderr("Confirm Friend", "Do you really want to confirm this person? Click\n<a href='?id=$userid&amp;action=confirm&amp;type=$type&amp;targetid=$targetid&amp;sure=1&amp;h=$hash'><b>here</b></a> if you are sure.", FALSE);
     if ($_GET['h'] != $hash) stderr('Error', 'what are you doing?');
     if ($type == 'friend') {
@@ -97,7 +98,7 @@ elseif ($action == 'delpending') {
     $sure = isset($_GET['sure']) ? intval($_GET['sure']) : false;
     $type = htmlsafechars($_GET['type']);
     if (!is_valid_id($targetid)) stderr("Error", "Invalid ID.");
-    $hash = md5('c@@me' . $CURUSER['id'] . $targetid . $type . 'confirm' . 'sa7t');
+    $hash = t_Hash($CURUSER['id'], $targetid, $type);
     if (!$sure) stderr("Delete $type Request", "Do you really want to delete this friend request? Click\n<a href='?id=$userid&amp;action=delpending&amp;type=$type&amp;targetid=$targetid&amp;sure=1&amp;h=$hash'><b>here</b></a> if you are sure.", FALSE);
     if ($_GET['h'] != $hash) stderr('Error', 'what are you doing?');
     if ($type == 'friend') {
@@ -117,7 +118,7 @@ elseif ($action == 'delete') {
     $sure = isset($_GET['sure']) ? intval($_GET['sure']) : false;
     $type = htmlsafechars($_GET['type']);
     if (!is_valid_id($targetid)) stderr("Error", "Invalid ID.");
-    $hash = md5('c@@me' . $CURUSER['id'] . $targetid . $type . 'confirm' . 'sa7t');
+    $hash = t_Hash($CURUSER['id'], $targetid, $type);
     if (!$sure) stderr("Delete $type", "Do you really want to delete a $type? Click\n<a href='?id=$userid&amp;action=delete&amp;type=$type&amp;targetid=$targetid&amp;sure=1&amp;h=$hash'><b>here</b></a> if you are sure.", FALSE);
     if ($_GET['h'] != $hash) stderr('Error', 'what are you doing?');
     if ($type == 'friend') {

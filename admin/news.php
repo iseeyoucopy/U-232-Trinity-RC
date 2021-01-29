@@ -26,6 +26,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 }
 require_once (INCL_DIR . 'user_functions.php');
 require_once (INCL_DIR . 'html_functions.php');
+require_once (INCL_DIR . 'password_functions.php');
 require_once (INCL_DIR . 'bbcode_functions.php');
 require_once (CLASS_DIR . 'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
@@ -59,7 +60,7 @@ if (!in_array($mode, $possible_modes)) stderr($lang['news_error'], $lang['news_e
 if ($mode == 'delete') {
     $newsid = (int)$_GET['newsid'];
     if (!is_valid_id($newsid)) stderr($lang['news_error'], $lang['news_del_invalid']);
-    $hash = md5('the@@saltto66??' . $newsid . 'add' . '@##mu55y==');
+    $hash = h_store($newsid);
     $sure = '';
     $sure = (isset($_GET['sure']) ? intval($_GET['sure']) : '');
     if (!$sure) stderr($lang['news_del_confirm'], $lang['news_del_click'] . "<a href='staffpanel.php?tool=news&amp;mode=delete&amp;sure=1&amp;h=$hash&amp;newsid=$newsid'>{$lang['news_del_here']}</a> {$lang['news_del_if']}", false);
@@ -145,7 +146,7 @@ if ($mode == 'news') {
         $title = $arr["title"];
         $added = get_date($arr["added"], 'LONG', 0, 1);
         $by = "<b>" . format_username($arr) . "</b>";
-        $hash = md5('the@@saltto66??' . $newsid . 'add' . '@##mu55y==');
+        $hash = h_store($newsid);
         $HTMLOUT.= "<table border='0' cellspacing='0' cellpadding='0'><tr><td class='embedded'>
         $added{$lang['news_created_by']}{$by}
         - [<a href='staffpanel.php?tool=news&amp;mode=edit&amp;newsid=$newsid'><b>{$lang['news_edit']}</b></a>]

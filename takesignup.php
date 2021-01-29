@@ -102,18 +102,15 @@ if ($TRINITY20['dupeaccount_check_on'] == 1) {
 	    $res = sql_query("SELECT * FROM users WHERE loginhash=" . sqlesc(get_mycookie('log_uid')));
         if($row = $res->fetch_assoc()){
 			if ($row['class'] < UC_SYSOP){
-		        $userid = $row['id'];
-		        $username = $row['username'];
-		        $e_mail = $row['email'];
 		        $u_ip = $ip;
 		        $n_username = $wantusername;     
                 $n_email = $email;
 		        $sign_time = time();
 		
-		        $msg = " User : " . $username . " identified by ID : " . $userid . " tried to create another account.\n New account with user : " . $n_username . " and email : " . $n_email . ".\n Email addres was banned, cheater user was warned ";
+		        $msg = " User : " . $row['username'] . " identified by ID : " . $row['id'] . " tried to create another account.\n New account with user : " . $n_username . " and email : " . $n_email . ".\n Email addres was banned, cheater user was warned ";
 		        sql_query("INSERT INTO bannedemails (added, addedby, comment, email) VALUES (" . TIME_NOW . ", '0', " . sqlesc($lang['takesignup_dupe']) . ", " . sqlesc($n_email) . ")") or sqlerr(__FILE__, __LINE__);
-		        sql_query("INSERT INTO doublesignup (userid, username, email, ip, sign_date, new_user, new_email, msg) VALUES (" . sqlesc($userid) . ", " . sqlesc($username) . ", " . sqlesc($e_mail) . ", " . sqlesc($u_ip) . ", " . TIME_NOW . ", " . sqlesc($n_username) . ", " . sqlesc($n_email) . ", " . sqlesc($lang['takesignup_msg_body2']) . ")") or sqlerr(__FILE__, __LINE__);
-		        sql_query("UPDATE users SET ip = ". sqlesc($u_ip) .", last_access = " . TIME_NOW . ", warned = '1', warn_reason = " . sqlesc($lang['takesignup_warn']) . " WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+		        sql_query("INSERT INTO doublesignup (userid, username, email, ip, sign_date, new_user, new_email, msg) VALUES (" . sqlesc($row['id']) . ", " . sqlesc($row['username']) . ", " . sqlesc($row['email']) . ", " . sqlesc($u_ip) . ", " . TIME_NOW . ", " . sqlesc($n_username) . ", " . sqlesc($n_email) . ", " . sqlesc($lang['takesignup_msg_body2']) . ")") or sqlerr(__FILE__, __LINE__);
+		        sql_query("UPDATE users SET ip = ". sqlesc($u_ip) .", last_access = " . TIME_NOW . ", warned = '1', warn_reason = " . sqlesc($lang['takesignup_warn']) . " WHERE id = " . sqlesc($row['id'])) or sqlerr(__FILE__, __LINE__);
 		        sql_query("INSERT INTO ajax_chat_messages (userID, userName, userRole, channel, dateTime, ip, text) VALUES (" . sqlesc($TRINITY20['bot_id']) . "," . sqlesc($TRINITY20['bot_name']) . "," . sqlesc($TRINITY20['bot_role']) . ",'4'," . sqlesc(TIME_DATE) . "," . sqlesc($_SERVER['REMOTE_ADDR']) . "," . sqlesc($msg) . ")") or sqlerr(__FILE__, __LINE__);
 		        stderr($lang['takesignup_user_error'], $lang['takesignup_msg_dupe3']);
             }
@@ -135,17 +132,24 @@ if (isset($_POST["user_timezone"]) && preg_match('#^\-?\d{1,2}(?:\.\d{1,2})?$#',
 // have a stab at getting dst parameter?
 $dst_in_use = localtime(TIME_NOW + ((int)$time_offset * 3600) , true);
 // TIMEZONE STUFF END
+$added = TIME_NOW;
 $secret = mksecret();
-$wantpasshash = make_passhash($wantpassword);
-$editsecret = (!$arr[0] ? "" : EMAIL_CONFIRM) ? make_passhash_login_key() : "";
-$wanthintanswer = hash("tiger128,4", "" . $hintanswer . "");
+$hash1 = t_Hash($email, $wantusername, $added);
+$hash2 = t_Hash($birthday, $secret, $pincode);
+$hash3 = t_Hash($birthday, $wantusername, $email);
+
+
+$wantpasshash = make_passhash($hash1, hash("ripemd160", $wantpassword), $hash2);
+$editsecret = (!$arr[0] ? "" : EMAIL_CONFIRM) ? make_passhash_login_key($email, $added) : "";
+$wanthintanswer = h_store($hintanswer.$email);
 $user_frees = (XBT_TRACKER == true ? 0 : TIME_NOW + 14 * 86400);
 check_banned_emails($email);
 $psecret = $editsecret;
-//$emails = encrypt_email($email);
-$ret = sql_query("INSERT INTO users (username, passhash, secret, editsecret, birthday, country, gender, pin_code, stylesheet, passhint, hintanswer, email, status, " . (!$arr[0] ? "class, " : "") . "added, last_access, time_offset, dst_in_use, free_switch) VALUES (" . implode(",", array_map("sqlesc", array(
+
+$ret = sql_query("INSERT INTO users (username, passhash, hash3, secret, editsecret, birthday, country, gender, pin_code, stylesheet, passhint, hintanswer, email, status, " . (!$arr[0] ? "class, " : "") . "added, last_access, time_offset, dst_in_use, free_switch) VALUES (" . implode(",", array_map("sqlesc", array(
     $wantusername,
     $wantpasshash,
+	$hash3,
     $secret,
     $editsecret,
     $birthday,
@@ -176,7 +180,7 @@ if (!$arr[0]) {
 }
 
 //==New member pm
-$added = TIME_NOW;
+//$added = TIME_NOW;
 $subject = sqlesc($lang['takesignup_msg_subject']);
 $msg = sqlesc("{$lang['takesignup_hey']} " . htmlsafechars($wantusername) . "{$lang['takesignup_msg_body0']} {$TRINITY20['site_name']} {$lang['takesignup_msg_body1']}");
 sql_query("INSERT INTO messages (sender, subject, receiver, msg, added) VALUES (0, $subject, " . sqlesc($id) . ", $msg, $added)") or sqlerr(__FILE__, __LINE__);
@@ -195,12 +199,12 @@ $latestuser_cache['king'] = 0;
 $cache->set('latestuser', $latestuser_cache, $TRINITY20['expires']['latestuser']);
 
 write_log("User account " . (int)$id . " (" . htmlsafechars($wantusername) . ") was succesfully register");
+
 if ($TRINITY20['autoshout_on'] == 1) {
     autoshout($message);
     $cache->delete('shoutbox_');
 }
     
-
 $body = str_replace(array(
     '<#SITENAME#>',
     '<#USEREMAIL#>',
@@ -212,12 +216,11 @@ $body = str_replace(array(
     $_SERVER['REMOTE_ADDR'],
     "{$TRINITY20['baseurl']}/confirm.php?id=$id&secret=$psecret"
 ) , $lang['takesignup_email_body']);
-
-//$passh = hash("ripemd160", "" . $row['passhash'] . $_SERVER["REMOTE_ADDR"] . "");
-$passh = hash("sha3-512", "" . $wantpasshash . $_SERVER["REMOTE_ADDR"] . "");
+$passh = h_cook($hash3, $_SERVER["REMOTE_ADDR"], $id);
 /*=== for dupe account ===*/
     $hashlog = make_hash_log($id, $passh);
-    if((empty($row['loginhash'])) || ($row['loginhash'] != $hashlog)){	
+$logs = (mysqli_fetch_assoc(sql_query("SELECT loginhash FROM users WHERE id= " . sqlesc($id)))) or sqlerr(__FILE__, __LINE__);
+if(empty($logs['loginhash']) || $logs['loginhash'] != $hashlog){
 	    sql_query('UPDATE users SET loginhash=' . sqlesc($hashlog) . ' WHERE id=' . sqlesc($id))or sqlerr(__FILE__, __LINE__);
 	    $a = (mysqli_fetch_row(sql_query("SELECT COUNT(id) FROM doublesignup WHERE userid=" . sqlesc($id)))) or sqlerr(__FILE__, __LINE__);
         if ($a[0] != 0){
@@ -230,5 +233,6 @@ if ($arr[0] || EMAIL_CONFIRM)
     mail($email, "{$TRINITY20['site_name']} {$lang['takesignup_confirm']}", $body, "{$lang['takesignup_from']} {$TRINITY20['site_email']}");
 else
 logincookie($id, $passh);
+
 header("Refresh: 0; url=ok.php?type=". (!$arr[0]? "sysop" : (EMAIL_CONFIRM ? "signup&email=" . urlencode($email) : "confirm")));
 ?>

@@ -15,6 +15,7 @@ require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 
 require_once (INCL_DIR . 'user_functions.php');
 require_once (INCL_DIR . 'html_functions.php');
 require_once (INCL_DIR . 'pager_functions.php');
+require_once (INCL_DIR . 'password_functions.php');
 dbconn();
 loggedinorreturn();
 $lang = array_merge(load_language('global'), load_language('subtitles'));
@@ -77,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "txt"
             );
             if (!in_array($ext, $allowed)) stderr($lang['subtitles_upload_failed'], $lang['subtitles_file_not_allowed_only']);
-            $new_name = md5(TIME_NOW);
+            $new_name = h_store(TIME_NOW);
             $filename = "$new_name.$ext";
             $date = TIME_NOW;
             $owner = (int)$CURUSER["id"];

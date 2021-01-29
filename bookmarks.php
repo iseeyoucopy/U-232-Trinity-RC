@@ -15,6 +15,7 @@ require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 
 require_once (INCL_DIR . 'user_functions.php');
 require_once (INCL_DIR . 'torrenttable_functions.php');
 require_once (INCL_DIR . 'pager_functions.php');
+require_once (INCL_DIR . 'password_functions.php');
 dbconn();
 loggedinorreturn();
 $lang = array_merge(load_language('global') , load_language('torrenttable_functions'), load_language('bookmark'));
@@ -36,7 +37,7 @@ if (in_array($action, $possible_actions)){
 $torrentid = (int)$_GET['torrent'];
 if (!is_valid_id($torrentid)) stderr($lang['bookmark_err'], $lang['bookmark_invalidid']);
 $sure = isset($_GET['sure']) ? 0 + $_GET['sure'] : '';
-$hash = md5('s5l6t0mu55yt4hwa7e5' . $torrentid . 'add' . 's5l6t0mu55yt4hwa7e5');
+$hash = h_store($torrentid);
 }
 
 if ($action == 'add') {

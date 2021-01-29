@@ -12,6 +12,7 @@
  */
 require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
 require_once (INCL_DIR . 'user_functions.php');
+require_once (INCL_DIR . 'password_functions.php');
 require_once INCL_DIR . 'bbcode_functions.php';
 dbconn(false);
 loggedinorreturn();
@@ -59,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $n_pms = (isset($_POST['n_pms']) ? (int)$_POST['n_pms'] : 0);
     $ann_query = (isset($_POST['ann_query']) ? rawurldecode(trim($_POST['ann_query'])) : '');
     $ann_hash = (isset($_POST['ann_hash']) ? trim($_POST['ann_hash']) : '');
-    if (hashit($ann_query, $n_pms) != $ann_hash) die(); // Validate POST...
+    if (HashIt($ann_query, $n_pms) != $ann_hash) die(); // Validate POST...
     if (!preg_match('/\\ASELECT.+?FROM.+?WHERE.+?\\z/', $ann_query)) stderr('Error', 'Misformed Query');
     if (!$n_pms) stderr('Error', 'No recipients');
     //== Preview POST data ...
