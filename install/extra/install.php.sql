@@ -2831,7 +2831,6 @@ CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
   `username` varchar(40) CHARACTER SET utf8 DEFAULT NULL,
   `passhash` varchar(64) CHARACTER SET utf8 DEFAULT NULL,
-  `hash4` varchar(128) CHARACTER SET utf8 DEFAULT NULL,
   `loginhash` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `secret` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `passkey` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -2988,7 +2987,6 @@ CREATE TABLE `users` (
   `torrents_limit` int(11) NOT NULL DEFAULT 1000,
   `forum_mod` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   `forums_mod` varchar(320) CHARACTER SET utf8 DEFAULT NULL,
-  `hash2` varchar(128) CHARACTER SET utf8 DEFAULT NULL,
   `altnick` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
   `forum_sort` enum('ASC','DESC') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'DESC',
   `pm_forced` enum('yes','no') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'no',
@@ -4037,13 +4035,6 @@ ALTER TABLE `user_blocks`
   ADD UNIQUE KEY `userid` (`userid`);
 
 --
--- Indexes for table `user_options`
---
-ALTER TABLE `user_options`
-  ADD UNIQUE KEY `id` (`id`),
-  ADD KEY `userid` (`userid`);
-
---
 -- Indexes for table `ustatus`
 --
 ALTER TABLE `ustatus`
@@ -4668,12 +4659,6 @@ ALTER TABLE `users`
 --
 ALTER TABLE `usersachiev`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `user_options`
---
-ALTER TABLE `user_options`
-  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ustatus`
