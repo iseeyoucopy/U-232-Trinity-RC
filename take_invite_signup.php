@@ -79,6 +79,37 @@ if ($TRINITY20['dupeip_check_on']) {
     $c = (mysqli_fetch_row(sql_query("SELECT COUNT(id) FROM users WHERE ip=" . sqlesc($_SERVER['REMOTE_ADDR'])))) or sqlerr(__FILE__, __LINE__);
     if ($c[0] != 0) stderr("Error", "The ip " . htmlsafechars($_SERVER['REMOTE_ADDR']) . " is already in use. We only allow one account per ip address.");
 }
+
+/*=== check for dupe account by GodFather ===*/
+if ($TRINITY20['dupeaccount_check_on'] == 1) {
+    if(!empty(get_mycookie('log_uid'))){
+	    $ip = getip();
+	    $res = sql_query("SELECT * FROM users WHERE loginhash=" . sqlesc(get_mycookie('log_uid')));
+        if($row = mysqli_fetch_assoc($res)){
+			if ($row['class'] < UC_SYSOP){
+		        $u_ip = $ip;
+		        $n_username = $wantusername;     
+                $n_email = $email;
+		        $sign_time = time();
+		
+		        $msg = " User : " . $row['username'] . " identified by ID : " . $row['id'] . " tried to create another account.\n New account with user : " . $n_username . " and email : " . $n_email . ".\n Email addres was banned, cheater user was warned ";
+		        sql_query("INSERT INTO bannedemails (added, addedby, comment, email) VALUES (" . TIME_NOW . ", '0', " . sqlesc($lang['takesignup_dupe']) . ", " . sqlesc($n_email) . ")") or sqlerr(__FILE__, __LINE__);
+		        sql_query("INSERT INTO doublesignup (userid, username, email, ip, sign_date, new_user, new_email, msg) VALUES (" . sqlesc($row['id']) . ", " . sqlesc($row['username']) . ", " . sqlesc($row['email']) . ", " . sqlesc($u_ip) . ", " . TIME_NOW . ", " . sqlesc($n_username) . ", " . sqlesc($n_email) . ", " . sqlesc($lang['takesignup_msg_body2']) . ")") or sqlerr(__FILE__, __LINE__);
+		        sql_query("UPDATE users SET ip = ". sqlesc($u_ip) .", last_access = " . TIME_NOW . ", warned = '1', warn_reason = " . sqlesc($lang['takesignup_warn']) . " WHERE id = " . sqlesc($row['id'])) or sqlerr(__FILE__, __LINE__);
+		        sql_query("INSERT INTO ajax_chat_messages (userID, userName, userRole, channel, dateTime, ip, text) VALUES (" . sqlesc($TRINITY20['bot_id']) . "," . sqlesc($TRINITY20['bot_name']) . "," . sqlesc($TRINITY20['bot_role']) . ",'4'," . sqlesc(TIME_DATE) . "," . sqlesc($_SERVER['REMOTE_ADDR']) . "," . sqlesc($msg) . ")") or sqlerr(__FILE__, __LINE__);
+		        stderr($lang['takesignup_user_error'], $lang['takesignup_msg_dupe3']);
+            }
+        }
+    }
+	
+	if(!empty($email)){
+	    $x = sql_query("SELECT id, comment FROM bannedemails WHERE email = " . sqlesc($email)) or sqlerr(__FILE__, __LINE__);
+        if ($yx = mysqli_fetch_assoc($x)) stderr("{$lang['takesignup_user_error']}", "{$lang['takesignup_bannedmail']}" . htmlsafechars($yx['comment']));
+    }
+}
+/*=== end check for dupe account ===*/
+
+
 // TIMEZONE STUFF
 if (isset($_POST["user_timezone"]) && preg_match('#^\-?\d{1,2}(?:\.\d{1,2})?$#', $_POST['user_timezone'])) {
     $time_offset = sqlesc($_POST['user_timezone']);
@@ -93,16 +124,22 @@ $rows = mysqli_num_rows($select_inv);
 $assoc = $select_inv->fetch_assoc();
 if ($rows == 0) stderr("Error", "Invite not found.\nPlease request a invite from one of our members.");
 if ($assoc["receiver"] != 0) stderr("Error", "Invite already taken.\nPlease request a new one from your inviter.");
+$added = TIME_NOW;
 $secret = mksecret();
-$wantpasshash = make_passhash($wantpassword);
-$editsecret = (!$arr[0] ? "" : make_passhash_login_key());
-$wanthintanswer = hash("tiger128,4", "" . $hintanswer . "");
+$hash1 = t_Hash($email, $wantusername, $added);
+$hash2 = t_Hash($birthday, $secret, $pincode);
+$hash3 = t_Hash($birthday, $wantusername, $email);
+
+$wantpasshash = make_passhash($hash1, hash("ripemd160", $wantpassword), $hash2);
+$editsecret = (!$arr[0] ? "" : make_passhash_login_key($email, $added));
+$wanthintanswer = h_store($hintanswer.$email);
 check_banned_emails($email);
 $user_frees = (TIME_NOW + 14 * 86400);
 //$emails = encrypt_email($email);
-$new_user = sql_query("INSERT INTO users (username, passhash, secret, passhint, hintanswer, editsecret, birthday, country, gender, stylesheet, invitedby, email, added, last_access, last_login, time_offset, dst_in_use, free_switch, pin_code) VALUES (" . implode(",", array_map("sqlesc", array(
+$new_user = sql_query("INSERT INTO users (username, passhash, hash3, secret, passhint, hintanswer, editsecret, birthday, country, gender, stylesheet, invitedby, email, added, last_access, last_login, time_offset, dst_in_use, free_switch, pin_code) VALUES (" . implode(",", array_map("sqlesc", array(
     $wantusername,
     $wantpasshash,
+	$hash3,
     $secret,
     $passhint,
     $wanthintanswer,

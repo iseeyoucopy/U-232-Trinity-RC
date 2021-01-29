@@ -33,25 +33,33 @@ $lang = array_merge($lang, load_language('ad_reset'));
 //== Reset Lost Password
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = trim(htmlsafechars($_POST['username']));
+	$password = $_POST['password'];
     $uid = (int)$_POST["uid"];
+	$row = (mysqli_fetch_assoc(sql_query("SELECT username, passhash, secret, hash3, email, added, pin_code, birthday FROM users WHERE username = " . sqlesc($username) . " AND id=" . sqlesc($uid))));
     $secret = mksecret();
+	$hash1 = t_Hash($row['email'], $row['username'], $row['added']);
+    $hash2 = t_Hash($row['birthday'], $secret, $row['pin_code']);
+    $hash3 = t_Hash($row['birthday'], $row['username'], $row['email']);	
+	
+	
+	if((isset($_POST['email']) && $_POST['email'] == $row['email']) || (isset($_POST['birthday']) && $_POST['birthday'] == $row['birthday'])|| (isset($_POST['username']) && $_POST['username'] == $row['username'])){ 
+	    $passhash = make_passhash($hash1, hash("ripemd160", $password), $hash2);
 	$hint = $_POST["hintanswer"];
-    $newpassword = make_passhash($newpass);
-	$wanthintanswer = md5($hint);
+	    $wanthintanswer = h_store($hint.$row['email']);
     $postkey = PostKey(array(
         $uid,
         $CURUSER['id']
     ));
-    $res = sql_query('UPDATE users SET secret=' . sqlesc($secret) . ', passhash=' . sqlesc($newpassword) . ', hintanswer='.sqlesc($wanthintanswer).' WHERE username=' . sqlesc($username) . ' AND id=' . sqlesc($uid) . ' AND class<' . $CURUSER['class']) or sqlerr(__file__, __line__);
-    $cache->update_row($keys['my_userid'] . $uid, [
+        $res = sql_query("UPDATE users SET secret=" . sqlesc($secret) . ", passhash=" . sqlesc($passhash) . ", hash3=" . sqlesc($hash3) . ", hintanswer=".sqlesc($wanthintanswer)." WHERE username=" . sqlesc($username) . " AND id=" . sqlesc($uid) . " AND class<" . $CURUSER['class']) or sqlerr(__FILE__, __LINE__);
+        $cache->update_row($keys['my_userid'] . $uid, [
         'secret' => $secret,
-        'passhash' => $newpassword,
-        'passhash' => $passhash
+            'passhash' => $passhash,
+			'hash3' => $hash3
     ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user' . $uid, [
         'secret' => $secret,
-        'passhash' => $newpassword,
-        'passhash' => $passhash
+		'passhash' => $passhash,
+            'hash3' => $hash3
     ], $TRINITY20['expires']['user_cache']);
 
     if ($mysqli->affected_rows != 1) stderr($lang['reset_stderr'], $lang['reset_stderr1']);
@@ -74,8 +82,8 @@ $HTMLOUT.= "<div class='row'><div class='col-md-12'><h1>{$lang['reset_title']}</
 <input size='40' name='username' /></td></tr>
 <tr>
 <tr>
-<td class='rowhead'>Hint</td><td>
-<input size='40' name='hintanswer' /></td></tr>
+<td class='rowhead'>Password</td><td>
+<input size='40' name='password' /></td></tr>
 <tr>
 <td colspan='2'>
 <input type='submit' class='btn' value='reset' />

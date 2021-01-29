@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
     $bonus_invites = (isset($_POST["bonus_invites"]) ? (int) $_POST["bonus_invites"] : 0);
     $bonus_karma = (isset($_POST["bonus_karma"]) ? (int) $_POST["bonus_karma"] : 0);
     if ($bonus_upload == 0 && $bonus_invites == 0 && $bonus_karma == 0) stderr("Error", "No gift for the new users ?! :w00t: give them some gifts :D");
-    $link = md5("promo_link" . TIME_NOW);
+    $link = hash("haval256,4", "promo_link" . TIME_NOW);
     $q = sql_query("INSERT INTO promo (name,added,days_valid,max_users,link,creator,bonus_upload,bonus_invites,bonus_karma) VALUES (" . implode(",", array_map("sqlesc", array(
         $promoname,
         TIME_NOW,
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
         //==Some variables for the new user :)
         $username = (isset($_POST["username"]) ? htmlsafechars($_POST["username"]) : "");
         if (empty($username)) stderr("Error", "You must pick a an username");
-        if (strlen($username) < 4 || strlen($username) > 12) stderr("Error", "Your username is to long or to short (min 4 char , max 12 char)");
+        if (strlen($username) < 6 || strlen($username) > 64) stderr("Error", "Your username is to long or to short (min 6 char , max 64 char)");
         $password = (isset($_POST["password"]) ? htmlsafechars($_POST["password"]) : "");
         $passwordagain = (isset($_POST["passwordagain"]) ? htmlsafechars($_POST["passwordagain"]) : "");
         if (empty($password) || empty($passwordagain)) stderr("Error", "You have to type your passwords twice");
@@ -76,17 +76,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
         //==Check if username or password already exists
         $var_check = sql_query("SELECT id, editsecret FROM users where username=" . sqlesc($username) . " OR email=" . sqlesc($email)) or sqlerr(__FILE__, __LINE__);
         if (mysqli_num_rows($var_check) == 1) stderr("Error", "Username or password already exists");
+		$added = TIME_NOW;
         $secret = mksecret();
-        $passhash = make_passhash($secret, md5($password));
-        //$editsecret = make_passhash_login_key();
-        $editsecret = (EMAIL_CONFIRM ? make_passhash_login_key() : "");
-        $res = sql_query("INSERT INTO users(username, passhash, secret, editsecret, email, added, uploaded, invites, seedbonus) VALUES (" . implode(",", array_map("sqlesc", array(
+        $hash2 = t_Hash($email, $username, $added);
+        $hash3 = t_Hash($secret, $birthday, $email);
+		
+		$hash1 = t_Hash($email, $username, $added);
+        $hash2 = t_Hash($birthday, $secret, $pincode);
+        $hash3 = t_Hash($birthday, $username, $email);
+        $passhash = make_passhash($hash1, hash("ripemd160", $wantpassword), $hash2);
+        $editsecret = (EMAIL_CONFIRM ? make_passhash_login_key($email, $added) : "");
+        $res = sql_query("INSERT INTO users(username, passhash, secret, editsecret, email, added, hash3, pin_code, uploaded, invites, seedbonus) VALUES (" . implode(",", array_map("sqlesc", array(
             $username,
             $passhash,
             $secret,
             $editsecret,
             $email,
-            TIME_NOW,
+            $added,
+			$hash3,
+			$pincode,
             ($ar_check["bonus_upload"] * 1073741824) ,
             $ar_check["bonus_invites"],
             $ar_check["bonus_karma"]

@@ -48,8 +48,8 @@ if ($action == "avatar") {
     $avatars = (isset($_POST['avatars']) && $_POST['avatars'] === 'yes' ? 'yes' : 'no');
     $offensive_avatar = (isset($_POST['offensive_avatar']) && $_POST['offensive_avatar'] === 'yes' ? 'yes' : 'no');
     $view_offensive_avatar = (isset($_POST['view_offensive_avatar']) && $_POST['view_offensive_avatar'] === 'yes' ? 'yes' : 'no');
-    if (!($CURUSER["avatarpos"] == 0 or $CURUSER["avatarpos"] != 1)) {
-        $avatar = trim(urldecode($avatars));
+    if (!($CURUSER["avatarpos"] == 0 OR $CURUSER["avatarpos"] != 1)) {
+        $avatar = trim(urldecode($_POST["avatar"]));
         if (preg_match("/^http:\/\/$/i", $avatar) or preg_match("/[?&;]/", $avatar) or preg_match("#javascript:#is", $avatar) or !preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\-!]+)$#iU", $avatar)) {
             $avatar = '';
         }
@@ -111,7 +111,7 @@ elseif ($action == "signature") {
         $user_cache['info'] = $info;
     }
     $signatures = (isset($_POST['signatures']) && $_POST['signatures'] === 'yes' ? 'yes' : 'no');
-    $signature = trim(urldecode($signatures));
+    $signature = trim(urldecode($_POST["signature"]));
     if (preg_match("/^http:\/\/$/i", $signature) or preg_match("/[?&;]/", $signature) or preg_match("#javascript:#is", $signature) or !preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\-!]+)$#iU", $signature)) {
         $signature = '';
     }
@@ -152,28 +152,38 @@ elseif ($action == "security") {
     if (!mkglobal("email:chpassword:passagain:chmailpass:secretanswer")) stderr($lang['takeeditcp_err'], $lang['takeeditcp_no_data']);
     
     if ($chpassword != "") {
-        if (strlen($chpassword) > 40) stderr($lang['takeeditcp_err'], $lang['takeeditcp_pass_long']);
+        if (strlen($chpassword) > 64) stderr($lang['takeeditcp_err'], $lang['takeeditcp_pass_long']);
         if ($chpassword != $passagain) stderr($lang['takeeditcp_err'], $lang['takeeditcp_pass_not_match']);
         $secret = mksecret();
-        $passhash = make_passhash($chpassword);
+		$hash1 = t_Hash($CURUSER['email'], $CURUSER['username'], $CURUSER['added']);
+        $hash2 = t_Hash($CURUSER['birthday'], $secret, $CURUSER['pin_code']);
+        $hash3 = t_Hash($CURUSER['birthday'], $CURUSER['username'], $CURUSER['email']);
+        $passhash = make_passhash($hash1, hash("ripemd160", $chpassword), $hash2);
         $updateset[] = "secret = " . sqlesc($secret);
         $updateset[] = "passhash = " . sqlesc($passhash);
+		$updateset[] = "hash3 = " . sqlesc($hash3);
         $curuser_cache['secret'] = $secret;
         $user_cache['secret'] = $secret;
         $curuser_cache['passhash'] = $passhash;
         $user_cache['passhash'] = $passhash;
-        logincookie($CURUSER["id"], hash("sha3-512", "" . $passhash . $_SERVER["REMOTE_ADDR"] . ""));
+		$curuser_cache['hash3'] = $hash3;
+        $user_cache['hash3'] = $hash3;
+		
+		$passh = h_cook($CURUSER['hash3'], $_SERVER["REMOTE_ADDR"], $CURUSER["id"]);
+        logincookie($CURUSER["id"], $passh);
     }
     if ($email != $CURUSER["email"]) {
+		$hash1 = t_Hash($CURUSER['email'], $CURUSER['username'], $CURUSER['added']);
+        $hash2 = t_Hash($CURUSER['birthday'], $CURUSER['secret'], $CURUSER['pin_code']);
         if (!validemail($email)) stderr($lang['takeeditcp_err'], $lang['takeeditcp_not_valid_email']);
         $r = sql_query("SELECT id FROM users WHERE email=" . sqlesc($email)) or sqlerr(__FILE__, __LINE__);
-        if ($r->num_rows > 0 || ($CURUSER["passhash"] != make_passhash($CURUSER['secret'], md5($chmailpass)))) stderr($lang['takeeditcp_err'], $lang['takeeditcp_address_taken']);
+        if (mysqli_num_rows($r) > 0 || !password_verify($hash1.hash("ripemd160", $chmailpass).$hash2, $CURUSER['passhash'])) stderr($lang['takeeditcp_err'], $lang['takeeditcp_address_taken']);
         $changedemail = 1;
     }
     if ($secretanswer != '') {
         if (strlen($secretanswer) > 40) stderr($lang['takeeditcp_sorry'], $lang['takeeditcp_secret_long']);
         if (strlen($secretanswer) < 6) stderr($lang['takeeditcp_sorry'], $lang['takeeditcp_secret_short']);
-        $new_secret_answer = md5($secretanswer);
+		$new_secret_answer = h_store($secretanswer.$CURUSER['email']);
         $updateset[] = "hintanswer = " . sqlesc($new_secret_answer);
         $curuser_cache['hintanswer'] = $new_secret_answer;
         $user_cache['hintanswer'] = $new_secret_answer;
@@ -218,7 +228,7 @@ elseif ($action == "security") {
     }
     if ($changedemail) {
         $sec = mksecret();
-        $hash = md5($sec . $email . $sec);
+        $hash = h_store($sec . $email . $sec);
         $obemail = urlencode($email);
         $updateset[] = "editsecret = " . sqlesc($sec);
         $curuser_cache['editsecret'] = $sec;

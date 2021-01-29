@@ -26,6 +26,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 }
 require_once (INCL_DIR . 'user_functions.php');
 require_once (INCL_DIR . 'pager_functions.php');
+require_once (INCL_DIR . 'password_functions.php');
 require_once (CLASS_DIR . 'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
@@ -802,7 +803,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
 <div align='center'>
 <input name='n_pms' type='hidden' value='" . $count . "' />
 <input name='ann_query' type='hidden' value='" . rawurlencode($announcement_query) . "' />
-<input name='ann_hash' type='hidden' value ='" . (hashit($announcement_query, $count)) . "' />
+<input name='ann_hash' type='hidden' value ='" . (HashIt($announcement_query, $count)) . "' />
 <button type='submit'>{$lang['usersearch_create_ann']}</button>
 </div></td>
 </tr>

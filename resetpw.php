@@ -84,11 +84,11 @@ if ($step == '1') {
     }
 } elseif ($step == '2') {
     if (!mkglobal('id:answer')) die();
-    $select = sql_query('SELECT id, username, hintanswer FROM users WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    $select = sql_query('SELECT id, username, birthday, added, pin_code, hintanswer, email FROM users WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
     $fetch = $select->fetch_assoc();
     if (!$fetch) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error5']}");
     if (empty($answer)) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error6']}");
-    if ($fetch['hintanswer'] != hash("tiger128,4", "" . $answer . "")) {
+    if (($fetch['hintanswer'] != h_store($answer.$fetch['email'])) && ($fetch['hintanswer'] != hash("tiger128,4", "" . $answer . "") && ($fetch['hintanswer'] != md5($answer)))) {
         $ip = getip();
         $useragent = $_SERVER['HTTP_USER_AGENT'];
         $msg = "" . htmlsafechars($fetch['username']) . ", on " . get_date(TIME_NOW, '', 1, 0) . ", {$lang['main_message']}" . "\n\n{$lang['main_message1']} " . $ip . " (" . @gethostbyaddr($ip) . ")" . "\n {$lang['main_message2']} " . $useragent . "\n\n {$lang['main_message3']}\n {$lang['main_message4']}\n";
@@ -97,7 +97,7 @@ if ($step == '1') {
         stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error7']}");
     }     else {
                     $sec = mksecret();
-                    $sechash =  md5($sec.$fetch['id'].$fetch['hintanswer']);
+                    $sechash =  h_cook($fetch['username'], $fetch['id'], $fetch['birthday']);
                     sql_query("UPDATE users SET editsecret = ".sqlesc($sec)." WHERE id = ".sqlesc($id));
                     $cache->update_row($keys['my_userid'] . $fetch["id"], ['editsecret' => $sec], $TRINITY20['expires']['curuser']);
                     $cache->update_row('user' . $fetch["id"], ['editsecret' => $sec], $TRINITY20['expires']['user_cache']);
@@ -129,28 +129,33 @@ if ($step == '1') {
         }
 } elseif ($step == '3') {
     if (!mkglobal('id:newpass:newpassagain:hash')) die();
-    if (strlen($hash) != 32 || !ctype_xdigit($hash))
+    if (strlen($hash) != 128)
     die('access denied');
-    $select = sql_query('SELECT id, editsecret, hintanswer FROM users WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    $select = sql_query('SELECT id, added, editsecret, hintanswer email, username, birthday, pin_code, secret FROM users WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
     $fetch = $select->fetch_assoc() or stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error8']}");
     if (empty($newpass)) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error9']}");
     if ($newpass != $newpassagain) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error10']}");
     if (strlen($newpass) < 6) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error11']}");
-    if (strlen($newpass) > 40) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error12']}");
-    if ($hash != md5($fetch['editsecret'].$fetch['id'].$fetch['hintanswer']))
+    if (strlen($newpass) > 64) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error12']}");
+    if ($hash != h_cook($fetch['username'], $fetch['id'], $fetch['birthday']))
         die('invalid hash');
     $secret = mksecret();
-    $newpassword = make_passhash($newpass);
-    sql_query('UPDATE users SET secret = ' . sqlesc($secret) . ', editsecret = "", passhash=' . sqlesc($newpassword) . ' WHERE id = ' . sqlesc($id) . ' AND editsecret = ' . sqlesc($fetch["editsecret"]));
+    $hash1 = t_Hash($row['email'], $row['username'], $row['added']);
+    $hash2 = t_Hash($row['birthday'], $secret, $row['pin_code']);
+    $hash3 = t_Hash($row['birthday'], $row['username'], $row['email']);
+    $newpassword = make_passhash($hash1, hash("ripemd160", $newpass), $hash2);
+    sql_query('UPDATE users SET editsecret = "", passhash=' . sqlesc($newpassword) . ', hash3=' . sqlesc($hash3) . ' WHERE id = ' . sqlesc($id) . ' AND editsecret = ' . sqlesc($fetch["editsecret"]));
     $cache->update_row($keys['my_userid'] . $id, [
         'secret' => $secret,
         'editsecret' => '',
-        'passhash' => $newpassword
+        'passhash' => $newpassword,
+		'hash3' => $hash3
     ], $TRINITY20['expires']['curuser']);
     $cache->update_row('user' . $id, [
         'secret' => $secret,
         'editsecret' => '',
-        'passhash' => $newpassword
+        'passhash' => $newpassword,
+		'hash3' => $hash3
     ], $TRINITY20['expires']['user_cache']);
     if (!$mysqli->affected_rows) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error13']}");
     else { 

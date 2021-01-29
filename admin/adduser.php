@@ -35,18 +35,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'username' => '',
         'email' => '',
         'passhash' => '',
+		'birthday' => '',
+		'pin_code' => '',
+		'hash3' => '',
         'status' => 'confirmed',
         'added' => TIME_NOW,
         'last_access' => TIME_NOW
     );
-    if (isset($_POST['username']) && strlen($_POST['username']) >= 5) $insert['username'] = $_POST['username'];
-    else stderr($lang['std_err'], $lang['err_username']);
+    if (isset($_POST['username']) && strlen($_POST['username']) >= 5) 
+	    $insert['username'] = $_POST['username'];
+    else 
+	    stderr($lang['std_err'], $lang['err_username']);
+    
+    if (isset($_POST['email']) && validemail($_POST['email'])) 
+	    $insert['email'] = htmlsafechars($_POST['email']);
+    else 
+	    stderr($lang['std_err'], $lang['err_email']);
+		
+	if (isset($_POST['birthday'])) 
+	    $insert['birthday'] = $_POST['birthday'];
+    else 
+	    stderr($lang['std_err'], $lang['err_birthday']);
+		
+	if (isset($_POST['pincode'])) 
+	    $insert['pin_code'] = $_POST['pincode'];
+    else 
+	    stderr($lang['std_err'], $lang['err_pincode']);
+		
+	$added = TIME_NOW;
+	$secret = mksecret();
+    $hash1 = t_Hash($insert['email'], $insert['username'], $added);
+    $hash2 = t_Hash($insert['birthday'], $secret, $insert['pin_code']);
+	$hash3 = t_Hash($insert['birthday'], $insert['username'], $insert['email']);
+	$insert['hash3'] = $hash3;
+	
     if (isset($_POST['password']) && isset($_POST['password2']) && strlen($_POST['password']) > 6 && $_POST['password'] == $_POST['password2']) {
-        $insert['passhash'] = make_passhash($_POST['password']);
+        $insert['passhash'] = make_passhash($hash1, hash("ripemd160", $_POST['password']), $hash2);
     } else stderr($lang['std_err'], $lang['err_password']);
-    if (isset($_POST['email']) && validemail($_POST['email'])) $insert['email'] = htmlsafechars($_POST['email']);
-    else stderr($lang['std_err'], $lang['err_email']);
-    if (sql_query(sprintf('INSERT INTO users (username, email, passhash, status, added, last_access) VALUES (%s)', join(', ', array_map('sqlesc', $insert))))) {
+    if (sql_query(sprintf('INSERT INTO users (username, email, passhash, birthday, pin_code, status, added, last_access, hash3) VALUES (%s)', join(', ', array_map('sqlesc', $insert))))) {
         $user_id = $mysqli->insert_id;
 		write_log("User account " . (int)$user_id . " (" . htmlsafechars($insert['username']) . ") was created by {$CURUSER['username']}");
         stderr($lang['std_success'], sprintf($lang['text_user_added'], $user_id));
@@ -71,6 +97,8 @@ $HTMLOUT = '<div class="row"><div class="col-md-12">
   <tr><td class="rowhead">' . $lang['text_password'] . '</td><td><input type="password" name="password" size="40" /></td></tr>
   <tr><td class="rowhead">' . $lang['text_password2'] . '</td><td><input type="password" name="password2" size="40" /></td></tr>
   <tr><td class="rowhead">' . $lang['text_email'] . '</td><td><input type="text" name="email" size="40" /></td></tr>
+  <tr><td class="rowhead">' . $lang['text_birthday'] . '</td><td><input type="text" name="birthday" size="40" /></td></tr>
+  <tr><td class="rowhead">' . $lang['text_pin_code'] . '</td><td><input type="text" name="pincode" size="40" /></td></tr>
   <tr><td colspan="2" align="center"><input type="submit" value="' . $lang['btn_okay'] . '" class="btn" /></td></tr>
   </table>
   </form></div></div>';
