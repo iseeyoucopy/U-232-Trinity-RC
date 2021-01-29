@@ -24,7 +24,7 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         $TRINITY20['language'] = isset($CURUSER['language']) ? "{$CURUSER['language']}" : $TRINITY20['language'];
     }
     $salty_username = isset($CURUSER['username']) ? "{$CURUSER['username']}" : '';
-    $salty = md5("Th15T3xtis5add3dto66uddy6he@water..." . $salty_username . "");
+    $salty = HashIt($TRINITY20['site']['salt'], $salty_username);
     $torrent_pass = isset($CURUSER['torrent_pass']) ? "{$CURUSER['torrent_pass']}" : '';
     //if (!isset($_NO_COMPRESS)) if (!ob_start('ob_gzhandler')) ob_start();
     $htmlout = '';
