@@ -293,6 +293,6 @@ $TRINITY20['staff_forums'] = array(
     1,
     2
 ); // these forum ID's' should exist and be a staff forum's to stop autoshouts
-$TRINITY20['variant'] = 'Codename Trinity';
+$TRINITY20['variant'] = 'U-232 Codename Trinity';
 define('TBVERSION', $TRINITY20['variant']);
 ?>
