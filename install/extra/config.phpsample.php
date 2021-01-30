@@ -281,6 +281,7 @@ $TRINITY20['bucket_maxsize'] = 500 * 1024; //max size set to 500kb
 //==Class check by pdq
 $TRINITY20['site']['owner'] = 1;
 //== Salt - change this
+$TRINITY20['site']['salt'] = hash_hmac("haval256,5", $TRINITY20['domain'], $TRINITY20['cipher_key']['key']); 
 $TRINITY20['site']['salt2'] = 'jgutyxcjsaka';
 //= Change staff pin daily or weekly
 $TRINITY20['staff']['staff_pin'] = 'uFie0y3Ihjkij8'; // should be mix of u/l case and min 12 chars length
