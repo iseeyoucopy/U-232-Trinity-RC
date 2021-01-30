@@ -2907,7 +2907,7 @@ CREATE TABLE `users` (
   `vipclass_before` int(10) NOT NULL DEFAULT 0,
   `parked` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   `passhint` int(10) UNSIGNED NOT NULL DEFAULT 0,
-  `hintanswer` varchar(40) CHARACTER SET utf8 DEFAULT NULL,
+  `hintanswer` varchar(128) CHARACTER SET utf8 DEFAULT NULL,
   `avatarpos` int(11) NOT NULL DEFAULT 1,
   `support` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   `supportfor` text CHARACTER SET utf8 DEFAULT NULL,
