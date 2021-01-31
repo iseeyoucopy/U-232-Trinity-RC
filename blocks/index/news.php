@@ -43,14 +43,14 @@ if ($news) {
             $HTMLOUT.= "
 <ul>
 <label class='text-left'>" . get_date($array['added'], 'DATE') . "{$lang['index_news_txt']}" . "" . htmlsafechars($array['title']) . "
-{$lang['index_news_added']}<b>" . (($array["anonymous"] == "yes" && $CURUSER['class'] < UC_STAFF && $array['userid'] != $CURUSER['id']) ? "<i>{$lang['index_news_anon']}</i>" : format_username($array)) . "</b>
+{$lang['index_news_added']}<b>" . (($CURUSER['opt1'] & user_options::ANONYMOUS && $CURUSER['class'] < UC_STAFF && $array['userid'] != $CURUSER['id']) ? "<i>{$lang['index_news_anon']}</i>" : format_username($array)) . "</b>
     {$button}</label>";
 $HTMLOUT.= "<div id=\"ka" . (int)$array['nid'] . "\" style=\"display:" . ($array['sticky'] == "yes" ? "" : "none") . ";\"> " . format_comment($array['body'], 0) . "</div></ul><br>";
             $news_flag = ($news_flag + 1);
         } else {
             $HTMLOUT.= "<div class='card-section'>
 <ul>
-<label class='text-left'>" . get_date($array['added'], 'DATE') . "{$lang['index_news_txt']}" . "" . htmlsafechars($array['title']) . "</a>{$lang['index_news_added']}<b>" . (($array["anonymous"] == "yes" && $CURUSER['class'] < UC_STAFF && $array['userid'] != $CURUSER['id']) ? "<i>{$lang['index_news_anon']}</i>" : format_username($array)) . "</b>
+<label class='text-left'>" . get_date($array['added'], 'DATE') . "{$lang['index_news_txt']}" . "" . htmlsafechars($array['title']) . "</a>{$lang['index_news_added']}<b>" . (($array['opt1'] & user_options::ANONYMOUS && $CURUSER['class'] < UC_STAFF && $array['userid'] != $CURUSER['id']) ? "<i>{$lang['index_news_anon']}</i>" : format_username($array)) . "</b>
     {$button}</label>";
 $HTMLOUT.= "<div id=\"ka" . (int)$array['nid'] . "\" style=\"display:" . ($array['sticky'] == "yes" ? "" : "none") . ";\"> " . format_comment($array['body'], 0) . "</div>
     </div></ul><br>";
