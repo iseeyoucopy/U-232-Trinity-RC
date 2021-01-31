@@ -1289,7 +1289,7 @@ var ajaxChat = {
 			(this.userRole >= '5' && this.allowUserMessageDelete && (userID === this.userID ||
 			parseInt(channelID) === parseInt(this.userID)+this.privateMessageDiff ||
 			parseInt(channelID) === parseInt(this.userID)+this.privateChannelDiff)) ||
-			this.userRole >= '7')) || this.userRole === '8') {
+			this.userRole === '7')) || this.userRole === '8') {
             return true;
 
         //if (this.userRole >= AJAX_CHAT_USER && this.allowUserMessageDelete && (userID === this.userID || parseInt(channelID) === parseInt(this.userID) + this.privateMessageDiff || parseInt(channelID) === parseInt(this.userID) + this.privateChannelDiff) ||

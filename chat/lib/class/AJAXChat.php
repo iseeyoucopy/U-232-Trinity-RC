@@ -1365,23 +1365,23 @@ class AJAXChat {
 			if($this->getUserRole() == AJAX_CHAT_SYSOP) {
 				$condition = '';
 			} else if($this->getUserRole() == AJAX_CHAT_ADMIN) {
-				$condition = '	AND userRole IN (6,5,4,3,2,1)';
+				$condition = ' AND userRole IN (6,5,4,3,2,1)';
 			} else if($this->getUserRole() == AJAX_CHAT_MODERATOR) {
-				$condition = '	AND userRole IN (5,4,3,2,1)';
+				$condition = ' AND userRole IN (5,4,3,2,1)';
 			} else if($this->getUserRole() == AJAX_CHAT_UPLOADER && $this->getConfig('allowUserMessageDelete')) {
-				$condition = 'AND (userID='.sqlesc($this->getUserID()).' OR
+				$condition = ' AND (userID='.sqlesc($this->getUserID()).' OR
 				             (channel = '.sqlesc($this->getPrivateMessageID()).' OR channel = '.sqlesc($this->getPrivateChannelID()).') 
 							 AND userRole NOT IN (8,7,6,5,3,2,1))';
 			} else if($this->getUserRole() == AJAX_CHAT_VIP && $this->getConfig('allowUserMessageDelete')) {
-				$condition = 'AND (userID='.sqlesc($this->getUserID()).' OR
+				$condition = ' AND (userID='.sqlesc($this->getUserID()).' OR
 				             (channel = '.sqlesc($this->getPrivateMessageID()).' OR channel = '.sqlesc($this->getPrivateChannelID()).') 
 							 AND userRole NOT IN (8,7,6,5,4,2,1))';
 			} else if($this->getUserRole() == AJAX_CHAT_POWER_USER && $this->getConfig('allowUserMessageDelete')) {
-				$condition = 'AND (userID='.sqlesc($this->getUserID()).' OR
+				$condition = ' AND (userID='.sqlesc($this->getUserID()).' OR
 				             (channel = '.sqlesc($this->getPrivateMessageID()).' OR channel = '.sqlesc($this->getPrivateChannelID()).') 
 							 AND userRole NOT IN (8,7,6,5,4,3,1))';
             } else if($this->getUserRole() == AJAX_CHAT_USER && $this->getConfig('allowUserMessageDelete')) {
-				$condition = 'AND (userID='.sqlesc($this->getUserID()).' OR
+				$condition = ' AND (userID='.sqlesc($this->getUserID()).' OR
 				             (channel = '.sqlesc($this->getPrivateMessageID()).' OR channel = '.sqlesc($this->getPrivateChannelID()).') 
 							 AND userRole NOT IN (8,7,6,5,4,3,2))';							 
 			} else {
@@ -1397,11 +1397,10 @@ class AJAXChat {
 			
 			// Create a new SQL query:
 			$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
+			if ($result > 0){
 			
-			if(mysqli_affected_rows($result) > 0) {
-				// Insert a deletion command to remove the message from the clients chatlists:
+			    // Insert a deletion command to remove the message from the clients chatlists:
 				$this->insertChatBotMessage($channel, '/delete '.$messageID);
-				return true;
 			}
 		}
 		return false;
