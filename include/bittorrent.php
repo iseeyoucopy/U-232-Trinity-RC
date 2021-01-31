@@ -330,7 +330,8 @@ function userlogin()
             'forums_mod',
             'altnick',
             'forum_sort',
-            'pm_forced'
+            'pm_forced',
+            `pin_code`
         );
         $user_fields = implode(', ', array_merge($user_fields_ar_int, $user_fields_ar_float, $user_fields_ar_str));
         $res = "SELECT {$user_fields}, ann_main.subject AS curr_ann_subject, ann_main.body AS curr_ann_body " . "FROM users AS u " . "LEFT JOIN announcement_main AS ann_main " . "ON ann_main.main_id = u.curr_ann_id " . "WHERE u.id = " . sqlesc($id)." AND u.enabled='yes' AND u.status = 'confirmed'" or sqlerr(__FILE__, __LINE__);
@@ -533,12 +534,12 @@ function userlogin()
     $blocks_key = 'blocks::' . $row['id'];
     if (($CURBLOCK = $cache->get($blocks_key)) === false) {
         $c_sql = sql_query('SELECT * FROM user_blocks WHERE userid = ' . sqlesc($row['id'])) or sqlerr(__FILE__, __LINE__);
-        if (mysqli_num_rows($c_sql) == 0) {
+        if ($c_sql->num_rows == 0) {
             sql_query('INSERT INTO user_blocks(userid) VALUES(' . sqlesc($row['id']) . ')');
             header('Location: index.php');
             die();
         }
-        $CURBLOCK = mysqli_fetch_assoc($c_sql);
+        $CURBLOCK = $c_sql->fetch_assoc();
         $CURBLOCK['index_page'] = (int)$CURBLOCK['index_page'];
         $CURBLOCK['global_stdhead'] = (int)$CURBLOCK['global_stdhead'];
         $CURBLOCK['userdetails_page'] = (int)$CURBLOCK['userdetails_page'];

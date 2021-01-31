@@ -140,9 +140,9 @@ if ($step == '1') {
     if ($hash != h_cook($fetch['username'], $fetch['id'], $fetch['birthday']))
         die('invalid hash');
     $secret = mksecret();
-    $hash1 = t_Hash($row['email'], $row['username'], $row['added']);
-    $hash2 = t_Hash($row['birthday'], $secret, $row['pin_code']);
-    $hash3 = t_Hash($row['birthday'], $row['username'], $row['email']);
+    $hash1 = t_Hash($fetch['email'], $fetch['username'], $fetch['added']);
+    $hash2 = t_Hash($fetch['birthday'], $secret, $fetch['pin_code']);
+    $hash3 = t_Hash($fetch['birthday'], $fetch['username'], $fetch['email']);
     $newpassword = make_passhash($hash1, hash("ripemd160", $newpass), $hash2);
     sql_query('UPDATE users SET editsecret = "", passhash=' . sqlesc($newpassword) . ', hash3=' . sqlesc($hash3) . ' WHERE id = ' . sqlesc($id) . ' AND editsecret = ' . sqlesc($fetch["editsecret"]));
     $cache->update_row($keys['my_userid'] . $id, [
