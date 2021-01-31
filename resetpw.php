@@ -131,7 +131,7 @@ if ($step == '1') {
     if (!mkglobal('id:newpass:newpassagain:hash')) die();
     if (strlen($hash) != 128)
     die('access denied');
-    $select = sql_query('SELECT id, added, editsecret, hintanswer email, username, birthday, pin_code, secret FROM users WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    $select = sql_query('SELECT id, added, email, username, birthday, pin_code FROM users WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
     $fetch = $select->fetch_assoc() or stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error8']}");
     if (empty($newpass)) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error9']}");
     if ($newpass != $newpassagain) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error10']}");
@@ -144,7 +144,7 @@ if ($step == '1') {
     $hash2 = t_Hash($fetch['birthday'], $secret, $fetch['pin_code']);
     $hash3 = t_Hash($fetch['birthday'], $fetch['username'], $fetch['email']);
     $newpassword = make_passhash($hash1, hash("ripemd160", $newpass), $hash2);
-    sql_query('UPDATE users SET editsecret = "", passhash=' . sqlesc($newpassword) . ', hash3=' . sqlesc($hash3) . ' WHERE id = ' . sqlesc($id) . ' AND editsecret = ' . sqlesc($fetch["editsecret"]));
+    sql_query('UPDATE users SET passhash=' . sqlesc($newpassword) . ', secret=' . sqlesc($secret) . ', hash3=' . sqlesc($hash3) . ' WHERE id = ' . sqlesc($id));
     $cache->update_row($keys['my_userid'] . $id, [
         'secret' => $secret,
         'editsecret' => '',

@@ -331,7 +331,7 @@ function userlogin()
             'altnick',
             'forum_sort',
             'pm_forced',
-            `pin_code`
+            'pin_code'
         );
         $user_fields = implode(', ', array_merge($user_fields_ar_int, $user_fields_ar_float, $user_fields_ar_str));
         $res = "SELECT {$user_fields}, ann_main.subject AS curr_ann_subject, ann_main.body AS curr_ann_body " . "FROM users AS u " . "LEFT JOIN announcement_main AS ann_main " . "ON ann_main.main_id = u.curr_ann_id " . "WHERE u.id = " . sqlesc($id)." AND u.enabled='yes' AND u.status = 'confirmed'" or sqlerr(__FILE__, __LINE__);
