@@ -223,7 +223,7 @@ function bookmarktable($res)
             $HTMLOUT.= "<td class='text-center'><b><a href='$What_Script_P"."$id#leechers'>" . number_format($row["leechers"]) . "</a></b></td>";
         } else $HTMLOUT.= "<td class='text-center'>0</td>";
         //UPLOADER
-        $HTMLOUT.= "<td class='text-center'>" . (isset($row["username"]) ? (($row["anonymous"] == "yes" && $CURUSER['class'] < UC_STAFF && $row['owner'] != $CURUSER['id']) ? "<i>" . $lang['torrenttable_anon'] . "</i>" : "<a href='userdetails.php?id=" . (int)$row["owner"] . "'><b>" . htmlsafechars($row["username"]) . "</b></a>") : "<i>(" . $lang["torrenttable_unknown_uploader"] . ")</i>") . "</td></tr>";
+        $HTMLOUT.= "<td class='text-center'>" . (isset($row["username"]) ? (($row['opt1'] & user_options::ANONYMOUS && $CURUSER['class'] < UC_STAFF && $row['owner'] != $CURUSER['id']) ? "<i>" . $lang['torrenttable_anon'] . "</i>" : "<a href='userdetails.php?id=" . (int)$row["owner"] . "'><b>" . htmlsafechars($row["username"]) . "</b></a>") : "<i>(" . $lang["torrenttable_unknown_uploader"] . ")</i>") . "</td></tr>";
     }
     $HTMLOUT.= "</tbody></table></div>";
     return $HTMLOUT;
