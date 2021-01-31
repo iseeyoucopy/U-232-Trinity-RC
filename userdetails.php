@@ -246,10 +246,6 @@ if (isset($_GET['delete_hit_and_run']) && $CURUSER['class'] >= UC_STAFF) {
     header('Location: ?id=' . $id . '&completed=1');
     die();
 }
-if ($user['ip'] && ($CURUSER['class'] >= UC_STAFF || $user['id'] == $CURUSER['id'])) {
-    $dom = @gethostbyaddr($user['ip']);
-    $addr = ($dom == $user['ip'] || @gethostbyname($dom) != $user['ip']) ? $user['ip'] : $user['ip'] . ' (' . $dom . ')';
-}
 /* #$^$&%$&@ invincible! NO IP LOGGING..pdq **/
 if ((($user['class'] == UC_MAX OR $user['id'] == $CURUSER['id']) || ($user['class'] < UC_MAX) && $CURUSER['class'] == UC_MAX) && isset($_GET['invincible'])) {
     require_once (INCL_DIR . 'invincible.php');
