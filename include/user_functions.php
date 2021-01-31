@@ -41,6 +41,7 @@ function shout2($msg)
 //== Parked function ==//
 function parked()
 {
+    require_once (CLASS_DIR . 'class_user_options.php');
     global $CURUSER;
     if ($CURUSER['opt1'] & user_options::PARKED) stderr("Error", "<b>Your account is currently parked.</b>");
 }
