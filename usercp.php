@@ -49,7 +49,6 @@ $possible_actions = [
     'location',
     'awards',
     'security',
-    'links',
     'torrents',
     'personal',
     'default',
@@ -92,9 +91,6 @@ elseif ($action == "torrents") {
 }
 elseif ($action == "personal") {
     require_once(BLOCK_DIR . 'usercp/personal.php');
-}
-elseif ($action == "links") {
-    require_once(BLOCK_DIR . 'usercp/links.php');
 }
 else {
     if ($action == "default")

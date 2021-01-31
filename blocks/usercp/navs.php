@@ -8,6 +8,5 @@ $HTMLOUT.= "<ul class='tabs' id='usercp-tabs'>
 	<li class='tabs-title'><a href='usercp.php?action=location'>{$lang['usercp_menu_loc']}</a></li>
 	<li class='tabs-title'><a href='usercp.php?action=torrents'>{$lang['usercp_menu_tts']}</a></li>				
 	<li class='tabs-title'><a href='usercp.php?action=personal'>{$lang['usercp_menu_pers']}</a></li>
-	<li class='tabs-title'><a href='usercp.php?action=links'>{$lang['usercp_menu_lnk']}</a></li>
 	<li class='tabs-title'><a href='usercp.php?action=user_blocks'>User Blocks</a></li>
 </ul>";
