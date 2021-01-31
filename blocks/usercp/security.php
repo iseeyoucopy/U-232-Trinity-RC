@@ -10,60 +10,145 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$HTMLOUT.= "
-	<table class='table table-bordered'>";
-    $HTMLOUT.= "<tr><td><input type='hidden' name='action' value='security' />{$lang['usercp_secu_opt']}</td></tr>";
-    if (get_parked() == '1') 
-        $HTMLOUT.= tr($lang['usercp_acc_parked'], "<input type='radio' name='parked'".($CURUSER["parked"] == "yes" ? " checked='checked'" : "")." value='yes' />".$lang['usercp_av_yes1']."
-    <input type='radio' name='parked'".($CURUSER["parked"] == "no" ? " checked='checked'" : "")." value='no' />".$lang['usercp_av_no1']."
-    <br /><font class='small' size='1'>{$lang['usercp_acc_parked_message']}<br />{$lang['usercp_acc_parked_message1']}</font>", 1);
-    $HTMLOUT.= tr($lang['usercp_acc_parked'], "<input type='checkbox' name='parked'" . (($CURUSER['opt1'] & user_options::PARKED) ? " checked='checked'" : "") . " value='yes' />
-    <br /><font class='small' size='1'>{$lang['usercp_acc_parked_message']}<br />{$lang['usercp_acc_parked_message1']}</font>", 1);
-    if (get_anonymous() != '0') $HTMLOUT.= tr($lang['usercp_anonymous'], "<input type='checkbox' name='anonymous'".($CURUSER["anonymous"] == "yes" ? " checked='checked'" : "")." /> {$lang['usercp_default_anonymous']}", 1);
-     $HTMLOUT.= tr("{$lang['usercp_secu_curr']}", "<input type='radio' name='hidecur'".($CURUSER["hidecur"] == "yes" ? " checked='checked'" : "")." value='yes' />".$lang['usercp_av_yes1']."<input type='radio' name='hidecur'".($CURUSER["hidecur"] == "no" ? " checked='checked'" : "")." value='no' />".$lang['usercp_av_no1']."", 1);
-    $HTMLOUT.= tr($lang['usercp_anonymous'], "<input type='checkbox' name='anonymous'" . (($CURUSER['opt1'] & user_options::ANONYMOUS) ? " checked='checked'" : "") . " /> {$lang['usercp_default_anonymous']}", 1);
-    $HTMLOUT.= tr("Hide current seed and leech", "<input type='checkbox' name='hidecur'" . (($CURUSER['opt1'] & user_options::HIDECUR) ? " checked='checked'" : "") . " value='yes' />(Hide your snatch lists)", 1);
-    $HTMLOUT.= tr($lang['usercp_email'], "<input type='text' name='email' size='50' value='" . htmlsafechars($CURUSER["email"]) . "' /><br />{$lang['usercp_email_pass']}<br /><input type='password' name='chmailpass' size='50' class='keyboardInput' onkeypress='showkwmessage();return false;' />", 1);
-    $HTMLOUT.= "<tr><td colspan='2' align='left'>{$lang['usercp_note']}</td></tr>\n";
-    //=== email forum stuff
-    $HTMLOUT.= tr($lang['usercp_email_shw'], '<input type="radio" name="show_email" '.($CURUSER['show_email'] == 'yes' ? ' checked="checked"' : '').' value="yes" />'.$lang['usercp_av_yes1'].'
-    <input type="radio" name="show_email" '.($CURUSER['show_email'] == 'no' ? ' checked="checked"' : '').' value="no" />'.$lang['usercp_av_no1'].'<br />
-    '.$lang['usercp_email_visi'].'', 1);
-    /*$HTMLOUT.= tr('Show Email', '<input class="styled" type="checkbox" name="show_email"' . (($CURUSER['opt1'] & user_options::SHOW_EMAIL) ? ' checked="checked"' : '') . ' value="yes" /> Yes<br />
-	  Do you wish to have your email address visible on the forums?', 1);*/
-    $HTMLOUT.= tr($lang['usercp_chpass'], "<input type='password' name='chpassword' size='50' class='keyboardInput' onkeypress='showkwmessage();return false;' />", 1);
-    $HTMLOUT.= tr($lang['usercp_pass_again'], "<input type='password' name='passagain' size='50' class='keyboardInput' onkeypress='showkwmessage();return false;' />", 1);
-    $secretqs = "<option value='0'>{$lang['usercp_none_select']}</option>\n";
-    $questions = array(
-        array(
-            "id" => "1",
-            "question" => "{$lang['usercp_q1']}"
-        ) ,
-        array(
-            "id" => "2",
-            "question" => "{$lang['usercp_q2']}"
-        ) ,
-        array(
-            "id" => "3",
-            "question" => "{$lang['usercp_q3']}"
-        ) ,
-        array(
-            "id" => "4",
-            "question" => "{$lang['usercp_q4']}"
-        ) ,
-        array(
-            "id" => "5",
-            "question" => "{$lang['usercp_q5']}"
-        ) ,
-        array(
-            "id" => "6",
-            "question" => "{$lang['usercp_q6']}"
-        )
-    );
-    foreach ($questions as $sctq) {
-        $secretqs.= "<option value='" . $sctq['id'] . "'" . ($CURUSER["passhint"] == $sctq['id'] ? " selected='selected'" : "") . ">" . $sctq['question'] . "</option>\n";
-    }
-    $HTMLOUT.= tr($lang['usercp_question'], "<select name='changeq'>\n$secretqs\n</select>", 1);
-    $HTMLOUT.= tr($lang['usercp_sec_answer'], "<input type='text' name='secretanswer' size='40' />", 1);
-    $HTMLOUT.= "<tr ><td align='center' colspan='2'><input class='btn btn-primary' type='submit' value='{$lang['usercp_sign_sub']}' style='height: 40px' /></td></tr>";
-$HTMLOUT.="</table>";
+$HTMLOUT .= "<input type='hidden' name='action' value='security'>
+<div class='card'>
+    <div class='card-divider'>{$lang['usercp_secu_opt']}</div>
+    <div class='card-section'>
+        <div class='grid-x grid-margin-x small-up-2 medium-up-3 large-up-4'>
+            <div class='cell'>
+                <div class='card'>
+                    <div class='card-divider' aria-describedby='parked_m'><strong>{$lang['usercp_acc_parked']}</strong></div>
+                    <div class='card-section float-center'>
+                        <div class='switch large'>
+                            <input onchange='this.form.submit()' class='input-group-field switch-input' type='checkbox' id='parked' name='parked'" . (($CURUSER['opt1'] & user_options::PARKED) ? " checked='checked'" : "") . " value='yes'>
+                            <label class='switch-paddle' for='parked'>
+                                <span class='switch-active' aria-hidden='true'>Yes</span>
+                                <span class='switch-inactive' aria-hidden='true'>No</span>
+                            </label>
+                        </div>
+                        <p class='help-text' id='parked_m'>{$lang['usercp_acc_parked_message']}</p>
+                        <p class='help-text' id='parked_m'>{$lang['usercp_acc_parked_message1']}</p>
+                    </div>
+                </div>
+            </div>";
+            if ($CURUSER['anonymous_until'] == '0'){
+            $HTMLOUT.= "<div class='cell'>
+                    <div class='card'>
+                    <div class='card-divider' aria-describedby='anonymous_m'><strong>{$lang['usercp_default_anonymous']}</strong></div>
+                    <div class='card-section float-center'>
+                        <div class='switch large'>
+                            <input onchange='this.form.submit()' class='input-group-field switch-input' type='checkbox' id='anonymous' name='anonymous'" . (($CURUSER['opt1'] & user_options::ANONYMOUS) ? " checked='checked'" : "") . " value='yes'>
+                            <label class='switch-paddle' for='anonymous'>
+                                <span class='switch-active' aria-hidden='true'>Yes</span>
+                                <span class='switch-inactive' aria-hidden='true'>No</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>";
+            }
+            $HTMLOUT.= "<div class='cell'>
+                <div class='card'>
+                    <div class='card-divider' aria-describedby='show_email_m'><strong>{$lang['usercp_email_shw']}</strong></div>
+                    <div class='card-section float-center'>
+                        <div class='switch large'>
+                            <input onchange='this.form.submit()' class='input-group-field switch-input' type='checkbox' id='show_email' name='show_email'" . (($CURUSER['opt1'] & user_options::SHOW_EMAIL) ? " checked='checked'" : "") . " value='yes'>
+                            <label class='switch-paddle' for='show_email'>
+                                <span class='switch-active' aria-hidden='true'>Yes</span>
+                                <span class='switch-inactive' aria-hidden='true'>No</span>
+                            </label>
+                        </div>
+                        <p class='help-text' id='show_email_m'>{$lang['usercp_email_visi']}</p>
+                    </div>
+                </div>
+            </div>
+            <div class='cell'>
+                <div class='card'>
+                    <div class='card-divider'><strong>{$lang['usercp_secu_curr']}</strong></div>
+                    <div class='card-section float-center'>
+                        <div class='switch large'>
+                            <input onchange='this.form.submit()' class='input-group-field switch-input' type='checkbox' id='hide_cur' name='hidecur'" . (($CURUSER['opt1'] & user_options::HIDECUR) ? " checked='checked'" : "") . " value='yes'>
+                            <label class='switch-paddle' for='hide_cur'>
+                                <span class='switch-active' aria-hidden='true'>Yes</span>
+                                <span class='switch-inactive' aria-hidden='true'>No</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='card'>
+            <div class='card-divider'><strong>{$lang['usercp_chpass']}</strong></div>
+            <div class='card-section float-center'>
+                <div class='input-group'>
+                    <span class='input-group-label'><i class='fas fa-unlock-alt'></i></span>
+                    <input class='input-group-field' placeholder='Type password' type='password' size='50'  name='chpassword'>
+                    <span class='input-group-label'><i class='fas fa-unlock-alt'></i></span>
+                    <input class='input-group-field' placeholder='{$lang['usercp_pass_again']}' type='password' size='50' name='passagain'>
+                    <div class='input-group-button'>
+                        <input class='button' type='submit' value='Change Password'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='card'>
+            <div class='card-divider'  aria-describedby='ch_email'><strong>{$lang['usercp_email']}</strong></div>
+            <div class='card-section float-center'>
+                <div class='input-group'>
+                    <span class='input-group-label'><i class='fas fa-at'></i></i></span>
+                    <input class='input-group-field' type='text' size='50' name='email' value='" . htmlsafechars($CURUSER["email"]) . "'>
+                    <span class='input-group-label'><i class='fas fa-unlock-alt'></i></span>
+                    <input class='input-group-field' placeholder='Please type your password' type='password' name='chmailpass' size='50'>
+                    <div class='input-group-button'>
+                        <input class='button' type='submit' value='Change Email'>
+                    </div>
+                </div>
+                <p class='help-text' id='ch_email'>{$lang['usercp_note']}</p>
+            </div>
+        </div>";
+        $secretqs = "<option value='0'>{$lang['usercp_none_select']}</option>";
+        $questions = array(
+            array(
+                "id" => "1",
+                "question" => "{$lang['usercp_q1']}"
+            ) ,
+            array(
+                "id" => "2",
+                "question" => "{$lang['usercp_q2']}"
+            ) ,
+            array(
+                "id" => "3",
+                "question" => "{$lang['usercp_q3']}"
+            ) ,
+            array(
+                "id" => "4",
+                "question" => "{$lang['usercp_q4']}"
+            ) ,
+            array(
+                "id" => "5",
+                "question" => "{$lang['usercp_q5']}"
+            ) ,
+            array(
+                "id" => "6",
+                "question" => "{$lang['usercp_q6']}"
+            )
+        );
+        foreach ($questions as $sctq) {
+            $secretqs.= "<option value='" . $sctq['id'] . "'" . ($CURUSER["passhint"] == $sctq['id'] ? " selected='selected'" : "") . ">" . $sctq['question'] . "</option>";
+        }
+        $HTMLOUT.= "<div class='card'>
+            <div class='card-divider'><strong>Secret</strong></div>
+            <div class='card-section float-center'>
+                <div class='input-group'>
+                    <span class='input-group-label'>{$lang['usercp_question']}</span>
+                    <select class='input-group-field' name='changeq'>$secretqs</select>
+                    <span class='input-group-label'>{$lang['usercp_sec_answer']}</span>
+                    <input class='input-group-field' type='text' name='secretanswer' size='50'>
+                    <div class='input-group-button'>
+                        <input class='button' type='submit' value='Change Secret'>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>";

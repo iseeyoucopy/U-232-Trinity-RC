@@ -188,39 +188,19 @@ elseif ($action == "security") {
         $curuser_cache['hintanswer'] = $new_secret_answer;
         $user_cache['hintanswer'] = $new_secret_answer;
     }
-    if (get_parked() == '1') {
-        //if (isset($_POST['parked'])) $setbits|= user_options::PARKED;
-        //else $clrbits|= user_options::PARKED;
-        if (isset($_POST["parked"]) && ($parked = $_POST["parked"]) != $CURUSER["parked"]){
-        $updateset[] = "parked = " . sqlesc($parked);
-        $curuser_cache['parked'] = $parked;
-        $user_cache['parked'] = $parked;
-        }
-        
-    }
-    if (get_anonymous() != '0') {
-        //if (isset($_POST['anonymous'])) $setbits|= user_options::ANONYMOUS;
-        //else $clrbits|= user_options::ANONYMOUS;
-        $anonymous = (isset($_POST['anonymous']) && $_POST["anonymous"] != "" ? "yes" : "no");
-        $updateset[] = "anonymous = ".sqlesc($anonymous);
-        $curuser_cache['anonymous'] = $anonymous;
-        $user_cache['anonymous'] = $anonymous;
-        
-    }
-    //if (isset($_POST['hidecur'])) $setbits|= user_options::HIDECUR;
-    //else $clrbits|= user_options::HIDECUR;
-    if (isset($_POST["hidecur"]) && ($hidecur = $_POST["hidecur"]) != $CURUSER["hidecur"]){
-    $updateset[] = "hidecur = " . sqlesc($hidecur);
-    $curuser_cache['hidecur'] = $hidecur;
-    $user_cache['hidecur'] = $hidecur;
-    }
-    //if (isset($_POST['show_email'])) $setbits|= user_options::SHOW_EMAIL;
-    //else $clrbits|= user_options::SHOW_EMAIL;
-    if (isset($_POST["show_email"]) && ($show_email = $_POST["show_email"]) != $CURUSER["show_email"]){
-    $updateset[] = "show_email= " . sqlesc($show_email);
-    $curuser_cache['show_email'] = $show_email;
-    $user_cache['show_email'] = $show_email;
-    }
+    /*Parked */
+    if (isset($_POST['parked'])) $setbits|= user_options::PARKED;
+    else $clrbits|= user_options::PARKED; 
+    /**Anonymous */       
+    if (isset($_POST['anonymous'])) $setbits|= user_options::ANONYMOUS;
+    else $clrbits|= user_options::ANONYMOUS;
+    /** Hide Current seed and leech */
+    if (isset($_POST['hidecur'])) $setbits|= user_options::HIDECUR;
+    else $clrbits|= user_options::HIDECUR;
+    /** Show Email */
+    if (isset($_POST['show_email'])) $setbits|= user_options::SHOW_EMAIL;
+    else $clrbits|= user_options::SHOW_EMAIL;
+
     if (isset($_POST["changeq"]) && (($changeq = (int)$_POST["changeq"]) != $CURUSER["passhint"]) && is_valid_id($changeq)) {
         $updateset[] = "passhint = " . sqlesc($changeq);
         $curuser_cache['passhint'] = $changeq;
@@ -463,7 +443,8 @@ if ($curuser_cache) {
 if ($user_cache) {
     $cache->update_row('user' . $CURUSER['id'], $user_cache, $TRINITY20['expires']['user_cache']);
 }
-if (sizeof($updateset) > 0) sql_query("UPDATE users SET " . implode(",", $updateset) . " WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
+if (sizeof($updateset) > 0) 
+    sql_query("UPDATE users SET " . implode(",", $updateset) . " WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
     //** Browse Page */
     if ($setbits) {
         $updateset_block[] = 'browse_page = (browse_page | ' . $setbits . ')';
@@ -475,5 +456,19 @@ if (sizeof($updateset) > 0) sql_query("UPDATE users SET " . implode(",", $update
         sql_query('UPDATE user_blocks SET ' . implode(',', $updateset_block) . ' WHERE userid = ' . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
     }
     $cache->delete('blocks::' . $CURUSER["id"]);
+if ($setbits || $clrbits) sql_query('UPDATE users SET opt1 = ((opt1 | ' . $setbits . ') & ~' . $clrbits . '), opt2 = ((opt2 | ' . $setbits . ') & ~' . $clrbits . ') WHERE id = ' . sqlesc($CURUSER["id"])) or sqlerr(__file__, __line__);
+// grab current data
+$res = sql_query('SELECT opt1, opt2 FROM users WHERE id = ' . sqlesc($CURUSER["id"]) . ' LIMIT 1') or sqlerr(__file__, __line__);
+$row = $res->fetch_assoc();
+$row['opt1'] = (int)$row['opt1'];
+$row['opt2'] = (int)$row['opt2'];
+$cache->update_row($keys['my_userid'] . $CURUSER["id"], [
+    'opt1' => $row['opt1'],
+    'opt2' => $row['opt2']
+], $TRINITY20['expires']['curuser']);
+$cache->update_row('user_' . $CURUSER["id"], [
+    'opt1' => $row['opt1'],
+    'opt2' => $row['opt2']
+], $TRINITY20['expires']['user_cache']);
 header("Location: {$TRINITY20['baseurl']}/usercp.php?edited=1&action=$action" . $urladd);
 ?>

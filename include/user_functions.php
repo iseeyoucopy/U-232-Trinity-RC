@@ -42,10 +42,7 @@ function shout2($msg)
 function parked()
 {
     global $CURUSER;
-    if ($CURUSER["parked"] == "yes") stderr("Error", "<b>Your account is currently parked.</b>");
-    //require_once (CLASS_DIR . 'class_user_options.php');
-    //global $CURUSER;
-    //if ($CURUSER['opt1'] & user_options::PARKED) stderr("Error", "<b>Your account is currently parked.</b>");
+    if ($CURUSER['opt1'] & user_options::PARKED) stderr("Error", "<b>Your account is currently parked.</b>");
 }
 //== Reputation function==//
 function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
@@ -60,8 +57,7 @@ function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
             return '<span title="Cache doesn\'t exist or zero length">Reputation: Offline</span>';
         }
         $user['g_rep_hide'] = isset($user['g_rep_hide']) ? $user['g_rep_hide'] : 0;
-        //$user['username'] = (($user['opt1'] & user_options::ANONYMOUS) ? $user['username'] : 'Anonymous');
-        $user['username'] = ($user['anonymous'] != 'yes') ? $user['username'] : 'Anonymous';
+        $user['username'] = (($user['opt1'] & user_options::ANONYMOUS) ? $user['username'] : 'Anonymous');
         // Hmmm...bit of jiggery-pokery here, couldn't think of a better way.
         $max_rep = max(array_keys($reputations));
         if ($user['reputation'] >= $max_rep) {
