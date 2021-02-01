@@ -16,12 +16,11 @@ if ($user['ip'] && ($CURUSER['class'] >= UC_STAFF || $user['id'] == $CURUSER['id
     $addr = ($dom == $user['ip'] || @gethostbyname($dom) != $user['ip']) ? $user['ip'] : $user['ip'] . ' (' . $dom . ')';
 }
 if (($iphistory = $cache->get('ip_history_' . $id)) === false) {
-    $ipto = sql_query("SELECT COUNT (id) FROM `users` AS iplist WHERE `ip` = " .sqlesc($user["ip"]) . " group by enabled") or sqlerr(__FILE__, __LINE__);
+    $ipto = sql_query("SELECT COUNT(id),enabled FROM `users` AS iplist WHERE `ip` = " .sqlesc($user["ip"]) . " group by enabled") or sqlerr(__FILE__, __LINE__);
     $row_countid = $ipto->fetch_row();
-    $ipto1 = sql_query("SELECT COUNT enabled FROM `users` AS iplist WHERE `ip` = " .sqlesc($user["ip"]) . " group by enabled") or sqlerr(__FILE__, __LINE__);
-    $row_countenable = $ipto1->fetch_row();
-    $ipuse[$row_countid[1]] = (int)$row_countid[0];
-    $ipuse[$row_countenable[1]] = (int)$row_countenable[0];
+    $row_countenable = $ipto->fetch_row();
+    $ipuse[isset($row_countid[1])] = (int)$row_countid[0];
+    $ipuse[isset($row_countenable[1])] = (int)$row_countenable[0];
     if (($ipuse['yes'] == 1 && $ipuse['no'] == 0) || ($ipuse['no'] == 1 && $ipuse['yes'] == 0)) 
         $use = "";
     else {
