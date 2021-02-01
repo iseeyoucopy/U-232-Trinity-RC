@@ -35,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'username' => '',
         'email' => '',
         'passhash' => '',
+		'secret' => '',
 		'birthday' => '',
 		'pin_code' => '',
 		'hash3' => '',
@@ -68,11 +69,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $hash2 = t_Hash($insert['birthday'], $secret, $insert['pin_code']);
 	$hash3 = t_Hash($insert['birthday'], $insert['username'], $insert['email']);
 	$insert['hash3'] = $hash3;
-	
+	$insert['secret'] = $secret;
     if (isset($_POST['password']) && isset($_POST['password2']) && strlen($_POST['password']) > 6 && $_POST['password'] == $_POST['password2']) {
         $insert['passhash'] = make_passhash($hash1, hash("ripemd160", $_POST['password']), $hash2);
     } else stderr($lang['std_err'], $lang['err_password']);
-    if (sql_query(sprintf('INSERT INTO users (username, email, passhash, birthday, pin_code, status, added, last_access, hash3) VALUES (%s)', join(', ', array_map('sqlesc', $insert))))) {
+    if (sql_query(sprintf('INSERT INTO users (username, email, passhash, secret, birthday, pin_code, hash3, status, added, last_access) VALUES (%s)', join(', ', array_map('sqlesc', $insert))))) {
+       
         $user_id = $mysqli->insert_id;
 		write_log("User account " . (int)$user_id . " (" . htmlsafechars($insert['username']) . ") was created by {$CURUSER['username']}");
         stderr($lang['std_success'], sprintf($lang['text_user_added'], $user_id));
