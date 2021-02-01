@@ -17,16 +17,14 @@ if ($user['ip'] && ($CURUSER['class'] >= UC_STAFF || $user['id'] == $CURUSER['id
 }
 if (($iphistory = $cache->get('ip_history_' . $id)) === false) {
     $ipto = sql_query("SELECT COUNT(id),enabled FROM `users` AS iplist WHERE `ip` = " .sqlesc($user["ip"]) . " group by enabled") or sqlerr(__FILE__, __LINE__);
-    $row_countid = $ipto->fetch_row();
-    $row_countenable = $ipto->fetch_row();
-    $ipuse[isset($row_countid[1])] = (int)$row_countid[0];
-    $ipuse[isset($row_countenable[1])] = (int)$row_countenable[0];
+    $row = $ipto->fetch_row();
+    $ipuse[$row[1]] = (int)$row[0];
     if (($ipuse['yes'] == 1 && $ipuse['no'] == 0) || ($ipuse['no'] == 1 && $ipuse['yes'] == 0)) 
         $use = "";
     else {
         $ipcheck = $user["ip"];
-        $enbl = $ipuse['yes'] ? $ipuse['yes'] . ' enabled ' : '';
-        $dbl = $ipuse['no'] ? $ipuse['no'] . ' disabled ' : '';
+        $enbl = isset($ipuse['yes']) ? $ipuse['yes'] . ' enabled ' : '';
+        $dbl = isset($ipuse['no']) ? $ipuse['no'] . ' disabled ' : '';
         $mid = $enbl && $dbl ? 'and' : '';
         $iphistory['use'] = "<b>(<font color='red'>{$lang['userdetails_ip_warn']}</font> <a href='staffpanel.php?tool=usersearch&amp;action=usersearch&amp;ip=$ipcheck'>{$lang['userdetails_ip_used']}$enbl $mid $dbl{$lang['userdetails_ip_users']}</a>)</b>";
     }
