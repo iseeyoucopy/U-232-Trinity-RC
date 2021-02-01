@@ -27,6 +27,8 @@ $lang = array(
     'text_username' => 'Username',
     'text_password' => 'Password',
     'text_password2' => 'Re-type password',
-    'text_email' => 'Email'
+    'text_email' => 'Email',
+	'text_birthday' => 'Birthday',
+	'text_pin_code' => 'Pincode'
 );
 ?>
