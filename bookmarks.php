@@ -116,6 +116,7 @@ if ($count == 0){
 function bookmarktable($res)
 {
     global $TRINITY20, $CURUSER, $lang;
+    require_once (CLASS_DIR . 'class_user_options.php');
     $HTMLOUT = $wait = '';
     $HTMLOUT.= "<div class='table-scroll'>
     <span>{$lang['bookmarks_icon']}
