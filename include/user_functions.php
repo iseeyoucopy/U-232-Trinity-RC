@@ -297,10 +297,10 @@ function min_class($min = UC_MIN, $max = UC_MAX)
 function format_username($user, $icons = true)
 {
     global $TRINITY20;
-    $userf_id = (isset($user['id']) ? (int)$user['id'] : '');
-    $userf_class = (isset($user['class']) ? (int)$user['class'] : '') ;
+    $userf_id = (isset($user['id']) ? (int)$user['id'] : 0);
+    $userf_class = (isset($user['class']) ? (int)$user['class'] : 0) ;
     if ($userf_id == 0) return 'System';
-    elseif ($user['username'] == '') return 'unknown[' . $userf_id . ']';
+    elseif ((isset($user['username']) ? htmlsafechars($user['username']) : '') == '') return 'unknown[' . $userf_id . ']';
     $username = '<span style="color:#' . get_user_class_color($userf_class) . ';"><strong>' . htmlsafechars($user['username']) . '</strong></span>';
     $str = '<span style="white-space: nowrap;"><a class="user_' . $userf_id . '" href="' . $TRINITY20['baseurl'] . '/userdetails.php?id=' . $userf_id . '" target="_blank">' . $username . '</a>';
     if ($icons != false) {
@@ -392,7 +392,7 @@ function avatar_stuff($avatar, $width = 80)
 function print_user_stuff($arr)
 {
     global $CURUSER, $TRINITY20;
-    return '<a href="userdetails.php?id=' . (isset($arr['id']) ? (int)$arr['id'] : '') . '" title="' . get_user_class_name($arr['class']) . '">
+    return '<a href="userdetails.php?id=' . (isset($arr['id']) ? (int)$arr['id'] : '') . '" title="' . get_user_class_name(isset($arr['class']) ? (int)$arr['class'] : '') . '">
   <span style="font-weight: bold;"></span></a>' . format_username($arr) . '';
 }
 //made by putyn@tbdev
