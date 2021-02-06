@@ -18,8 +18,10 @@ if ($user['ip'] && ($CURUSER['class'] >= UC_STAFF || $user['id'] == $CURUSER['id
 if (($iphistory = $cache->get('ip_history_' . $id)) === false) {
     $ipto = sql_query("SELECT COUNT(id),enabled FROM `users` AS iplist WHERE `ip` = " .sqlesc($user["ip"]) . " group by enabled") or sqlerr(__FILE__, __LINE__);
     $row = $ipto->fetch_row();
-    $ipuse[$row[1]] = (int)$row[0];
-    if (($ipuse['yes'] == 1 && $ipuse['no'] == 0) || ($ipuse['no'] == 1 && $ipuse['yes'] == 0)) 
+    $ipuse[$row[1]] = isset($row[0]) ? (int)$row[0] : '';
+    $ipuse_no = !empty($ipuse['no']) ? $ipuse['no'] : '';
+    $ipuse_yes = !empty($ipuse['yes']) ? $ipuse['yes'] : '';
+    if (($ipuse_yes == 1 && $ipuse_no == 0) || ($ipuse_no == 1 && $ipuse_yes == 0)) 
         $use = "";
     else {
         $ipcheck = $user["ip"];

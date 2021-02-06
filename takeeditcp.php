@@ -213,7 +213,7 @@ elseif ($action == "security") {
         $updateset[] = "editsecret = " . sqlesc($sec);
         $curuser_cache['editsecret'] = $sec;
         $user_cache['editsecret'] = $sec;
-        $thishost = $_SERVER["HTTP_HOST"];
+        $thishost = !empty($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : '';
         $thisdomain = preg_replace('/^www\./is', "", $thishost);
         $body = str_replace(array(
             '<#USERNAME#>',

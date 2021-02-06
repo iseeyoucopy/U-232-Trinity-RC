@@ -472,7 +472,7 @@ function userlogin()
     // Allowed staff
     if ($row["class"] >= UC_STAFF) {
         $allowed_ID = $TRINITY20['allowed_staff']['id'];
-        if (!in_array(((int) $row["id"]), $allowed_ID, true)) {
+        if (!in_array(((int)$row["id"]), $allowed_ID, true)) {
             $msg = "Fake Account Detected: Username: " . htmlsafechars($row["username"]) . " - UserID: " . (int) $row["id"] . " - UserIP : " . getip();
             // Demote and disable
             sql_query("UPDATE users SET enabled = 'no', class = 0 WHERE id =" . sqlesc($row["id"])) or sqlerr(__file__, __line__);
@@ -1159,8 +1159,9 @@ function strip_tags_array($ar)
 }
 function referer()
 {
+    $host = !empty($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : '';
     $http_referer = getenv("HTTP_REFERER");
-    if ((strstr($http_referer, $_SERVER["HTTP_HOST"]) == false) && ($http_referer != "")) {
+    if ((strstr($http_referer, $host) == false) && ($http_referer != "")) {
         $ip = $_SERVER['REMOTE_ADDR'];
         $http_agent = $_SERVER["HTTP_USER_AGENT"];
         $http_page = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
