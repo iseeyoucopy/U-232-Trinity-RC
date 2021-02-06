@@ -77,7 +77,7 @@ function tvmaze(&$torrents) {
         $tvmaze_link = sprintf('http://api.tvmaze.com/shows/%d', $tvmaze_id);
         $tvmaze_array = json_decode(file_get_contents($tvmaze_link), true);
         $tvmaze_array['origin_country'] = $tvmaze_array['network']['country']['name'];
-        if (count($tvmaze_array['genres']) > 0) {
+        if (empty($tvmaze_array['genres'])) {
             $tvmaze_array['genres2'] = implode(", ", array_map('strtolower', $tvmaze_array['genres']));
         }
 
