@@ -25,16 +25,17 @@ if (!defined('IN_TRINITY20_FORUM')) {
     exit();
 }
 $body = (isset($_POST['body']) ? htmlsafechars($_POST['body']) : '');
-$HTMLOUT .= begin_main_frame();
-$HTMLOUT .= begin_frame("Preview Post", true);
-$HTMLOUT .='
-	<table class="table table-bordered">
-	<tr><td class="forum_head" colspan="2"><span style="font-weight: bold;">Preview</span></td></tr>
-	<tr><td width="80" valign="top" class="one">' . avatar_stuff($CURUSER) . '</td>
-	<td valign="top" align="left" class="two">' . format_comment($body) . '</td>
-	</tr></table><div align="center">
-</div><br /><br />';
-$HTMLOUT .= end_frame();
-$HTMLOUT .= end_main_frame();
+$HTMLOUT .='<div class="card">
+    <div class="card-divider">Preview Post</div>
+    <div class="card-section">
+        <div class="divTable">
+            <div class"divTableBody">
+                <div class="divTableRow">
+                    <div class="divTableCell">' . avatar_stuff($CURUSER) . '</div>
+                    <div class="divTableCell">' . format_comment($body) . '</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>';
 echo stdhead('Preview') . $HTMLOUT . stdfoot();
-?>

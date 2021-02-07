@@ -10,19 +10,12 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-/****
-* Bleach Forums 
-* Rev u-232v5
-* Credits - Retro-Alex2005-Putyn-pdq-sir_snugglebunny-Bigjoos
-* Bigjoos 2015
-******
-*/
 if (!defined('IN_TRINITY20_FORUM')) {
     $HTMLOUT = '';
     $HTMLOUT.= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
         <head>
-        <meta charset="'.charset().'" />
+        <meta charset="' . charset() . '" />
         <title>ERROR</title>
         </head><body>
         <h1 style="text-align:center;">Error</h1>
@@ -32,58 +25,73 @@ if (!defined('IN_TRINITY20_FORUM')) {
     exit();
 }
 // -------- Action: Edit post
-    $postid = (int)$_GET["postid"];
-    if (!is_valid_id($postid))
-    stderr('Error', 'Invalid ID!');
-    $res = sql_query("SELECT p.user_id, p.topic_id, p.icon, p.body, t.locked, t.forum_id  " . "FROM posts AS p " . "LEFT JOIN topics AS t ON t.id = p.topic_id " . "WHERE p.id = ".sqlesc($postid)) or sqlerr(__FILE__, __LINE__);
-    if ($res->num_rows == 0)
+    $postid = (int) $_GET["postid"];
+    if (!is_valid_id($postid)) {
+        stderr('Error', 'Invalid ID!');
+    }
+    $res = sql_query("SELECT p.user_id, p.topic_id, p.icon, p.body, t.locked, t.forum_id  " . "FROM posts AS p " . "LEFT JOIN topics AS t ON t.id = p.topic_id " . "WHERE p.id = " . sqlesc($postid)) or sqlerr(__FILE__, __LINE__);
+    if ($res->num_rows== 0) {
         stderr("Error", "No post with that ID!");
+    }
     $arr = $res->fetch_assoc();
-    if (($CURUSER["id"] != $arr["user_id"] || $arr["locked"] == 'yes') && $CURUSER['class'] < UC_STAFF && !isMod($arr["forum_id"], "forum"))
+    if (($CURUSER["id"] != $arr["user_id"] || $arr["locked"] == 'yes') && $CURUSER['class'] < UC_STAFF && !isMod($arr["forum_id"], "forum")) {
         stderr("Error", "Access Denied!");
+    }
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $body = trim(htmlsafechars($_POST['body']));
         $posticon = (isset($_POST["iconid"]) ? 0 + $_POST["iconid"] : 0);
-        if (empty($body))
+        if (empty($body)) {
             stderr("Error", "Body cannot be empty!");
-        if(!isset($_POST['lasteditedby']))
-	      sql_query("UPDATE posts SET body=".sqlesc($body).", edit_date=".TIME_NOW.", edited_by=".sqlesc($CURUSER['id']).", icon=".sqlesc($posticon)." WHERE id=".sqlesc($postid)) or sqlerr(__FILE__, __LINE__);
-        else
-	      sql_query("UPDATE posts SET body=".sqlesc($body).", icon=".sqlesc($posticon)." WHERE id=".sqlesc($postid)) or sqlerr(__FILE__, __LINE__);
-        header("Location: {$TRINITY20['baseurl']}/forums.php?action=viewtopic&topicid=".(int)$arr['topic_id']."&page=p$postid#p$postid");
+        }
+        if (!isset($_POST['lasteditedby'])) {
+            sql_query("UPDATE posts SET body=" . sqlesc($body) . ", edit_date=" . TIME_NOW . ", edited_by=" . sqlesc($CURUSER['id']) . ", icon=" . sqlesc($posticon) . " WHERE id=" . sqlesc($postid)) or sqlerr(__FILE__, __LINE__);
+        } else {
+            sql_query("UPDATE posts SET body=" . sqlesc($body) . ", icon=" . sqlesc($posticon) . " WHERE id=" . sqlesc($postid)) or sqlerr(__FILE__, __LINE__);
+        }
+        header("Location: {$TRINITY20['baseurl']}/forums.php?action=viewtopic&topicid=" . (int) $arr['topic_id'] . "&page=p$postid#p$postid");
         exit();
     }
-    if ($TRINITY20['forums_online'] == 0)
-    $HTMLOUT .= stdmsg('Warning', 'Forums are currently in maintainance mode');
-    $HTMLOUT .= begin_main_frame();
-	 $HTMLOUT .="<h3>Edit Post</h3>";
-	 $HTMLOUT .="<form name='compose' method='post' action='{$TRINITY20['baseurl']}/forums.php?action=editpost&amp;postid=".$postid."'>
-	 <table border='1' cellspacing='0' cellpadding='5' width='100%'>
-	 <tr>
-	 <td class='rowhead' width='10%'>Body</td>
-	 <td align='left' style='padding: 0px'>";
-    $ebody = htmlsafechars($arr["body"]);
-    if (function_exists('textbbcode'))
-    $HTMLOUT .= textbbcode('compose', 'body', isset($ebody) ? $ebody : '');
-    else {
-    $HTMLOUT .="<textarea name='body' style='width:99%' rows='7'>{$ebody}</textarea>";
+    if ($TRINITY20['forums_online'] == 0) {
+        $HTMLOUT .= stdmsg('Warning', 'Forums are currently in maintainance mode');
     }
-	 $HTMLOUT .="</td></tr>";
-	 if ($CURUSER["class"] >= UC_STAFF)
-    $HTMLOUT.="<tr><td colspan='1' align='center'><input type='checkbox' name='lasteditedby' /></td><td align='left' colspan='1'>Don't show the Last edited by <font class='small'>(Staff Only)</font></td></tr>";
-	 $HTMLOUT.="<tr>
-	 <td align='center' colspan='2'>
-	 ".(post_icons($arr["icon"]))."
-	 </td>
-	 </tr>
-	 <tr>
-	 <td align='center' colspan='2'>
-	 <input type='submit' class='btn btn-primary' value='Update post' class='gobutton' />
-	 </td>
-	 </tr>
-	 </table>
-	 </form>";
-    $HTMLOUT .= end_main_frame();
+    $HTMLOUT .="<form name='compose' method='post' action='{$TRINITY20['baseurl']}/forums.php?action=editpost&amp;postid=".$postid."'>
+        <div class='card'>
+            <div class='card-section'>
+                <div class='grid-x grid-margin-x'>
+                    <div class='cell medium-6 large-8'>
+                        <div class='card'>
+                            <div class='card-divider'>Edit Post</div>
+                            <div class='card-section'>
+                                " . (function_exists('textbbcode') ? textbbcode('compose', 'body', htmlsafechars($arr["body"])) : "<textarea name='body' style='width:99%' rows='7'>" . htmlsafechars($arr["body"]). "</textarea>") . " 
+                            </div>
+                        </div>
+                    </div>
+                    <div class='cell medium-6 large-4'>
+                        <div class='card'>
+                            <div class='card-divider'>Post Icons (Optional)</div>
+                            <div class='card-section'>
+                                ".(post_icons($arr["icon"]))."
+                            </div>
+                        </div>";
+                        if ($CURUSER["class"] >= UC_STAFF)  {
+                            $HTMLOUT.="<div class='card'>
+                                <div class='card-divider'>Do you want to show the `Last edited by` ?</div>
+                                <div class='card-section float-center'>
+                                    <div class='switch'>
+                                        <input class='input-group-field switch-input' type='checkbox' id='lasteditedby_chk' name='lasteditedby' value='yes'>
+                                        <label class='switch-paddle' for='lasteditedby_chk'>
+                                            <span class='switch-active' aria-hidden='true'>Yes</span>
+                                            <span class='switch-inactive' aria-hidden='true'>No</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>";
+                        }
+                    $HTMLOUT.="</div>
+                </div>
+                <input type='submit' class='button float-center' value='Update post'>
+            </div>
+        </div>
+    </form>";
     echo stdhead("Edit Post", true, $stdhead) . $HTMLOUT . stdfoot($stdfoot);
     exit;
-?>

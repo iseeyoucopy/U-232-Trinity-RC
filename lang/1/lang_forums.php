@@ -16,6 +16,8 @@ $lang = array(
     'forums_no_auth' => "You are not authorized to post.  (Contact staff for the reason why.)",
     //FORUMS
     'forums_title' => "Forums",
+    'forums_title_edit' => "Edit Forum",
+    'forums_title_delete' => "Delete Forum",
     'forums_search' => "Search",
     'forums_view_unread' => "View unread",
     'forums_catchup' => "Catch up",
