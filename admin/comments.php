@@ -41,7 +41,7 @@ case "allComments":
         "ORDER BY c.id DESC";
         
         $query = sql_query("{$sql}");
-        $rows = mysqli_num_rows($query);
+        $rows = $query->num_rows;
 
         $Row_Count = 0;
 

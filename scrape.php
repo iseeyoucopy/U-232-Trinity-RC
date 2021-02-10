@@ -49,13 +49,13 @@ function check_bans($ip, &$reason = '')
     if (($ban = $cache->get($key)) === false) {
         $nip = ip2long($ip);
         $ban_sql = sql_query('SELECT comment FROM bans WHERE (first <= ' . $nip . ' AND last >= ' . $nip . ') LIMIT 1');
-        if (mysqli_num_rows($ban_sql)) {
-            $comment = mysqli_fetch_row($ban_sql);
+        if ($ban_sql->num_rows) {
+            $comment = $ban_sql->fetch_row();
             $reason = 'Manual Ban (' . $comment[0] . ')';
             $cache->set($key, $reason, 86400); // 86400 // banned
             return true;
         }
-        ((mysqli_free_result($ban_sql) || (is_object($ban_sql) && (get_class($ban_sql) == "mysqli_result"))) ? true : false);
+        $ban_sql->free();
         $cache->set($key, 0, 86400); // 86400 // not banned
         return false;
     } elseif (!$ban) return false;
@@ -121,11 +121,6 @@ if (isset($_GET['torrent_pass']) && strlen($_GET['torrent_pass']) != 32)
 $torrent_pass = isset($_GET['torrent_pass']) && ($_GET['torrent_pass'])  ? $_GET['torrent_pass'] : '';
 if (!$torrent_pass)
 	die('scrape error');
-
-if (!@($GLOBALS["___mysqli_ston"] = mysqli_connect($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass']))) {
-    exit();
-}
-@((bool)mysqli_query($GLOBALS["___mysqli_ston"], "USE {$TRINITY20['mysql_db']}")) or exit();
 /*
 $numhash = is_array($_GET['info_hash']) && count($_GET['info_hash']);
 $torrents = array();

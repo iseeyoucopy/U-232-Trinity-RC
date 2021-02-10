@@ -97,7 +97,7 @@ function wikisearch($input)
     ) , array(
         "\\%",
         "\\_"
-    ) , ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $input) : ((trigger_error($lang['wiki_error'], E_USER_ERROR)) ? "" : "")));
+    ) , $input->real_escape_string());
 }
 function wikireplace($input)
 {
@@ -180,7 +180,7 @@ if ($action == "article") {
         $HTMLOUT.= "
         <div id=\"wiki-container\">
   <div id=\"wiki-row\">";
-        while ($wiki = mysqli_fetch_array($res)) {
+        while ($wiki = $res->fetch_array(MYSQLI_BOTH)) {
             if ($wiki['lastedit']) {
                 $check = sql_query("SELECT username FROM users WHERE id = " . sqlesc($wiki['lastedituser']));
                 $checkit = $check->fetch_assoc();
@@ -200,9 +200,9 @@ if ($action == "article") {
         $HTMLOUT.= "</div>";
     } else {
         $search = sql_query("SELECT * FROM wiki WHERE name LIKE '%" . wikisearch($name) . "%'");
-        if (mysqli_num_rows($search) > 0) {
+        if ($search->num_rows > 0) {
             $HTMLOUT.= "Search results for: <b>" . htmlsafechars($name) . "</b>";
-            while ($wiki = mysqli_fetch_array($search)) {
+            while ($wiki = $search->fetch_array(MYSQLI_BOTH)) {
                 $search_w_query = sql_query("SELECT username FROM users WHERE id =" . sqlesc($wiki['userid']));
                 if ($wiki["userid"] !== 0) $wikiname = $search_w_query->fetch_assoc();
  $HTMLOUT.= "<div class=\"wiki-search\">
@@ -235,7 +235,7 @@ if ($action == "edit") {
         $HTMLOUT.= navmenu();
         $HTMLOUT.= "<div id=\"wiki-container\">
   <div id=\"wiki-row\">";
-        while ($wiki = mysqli_fetch_array($res)) {
+        while ($wiki = $res->fetch_array(MYSQLI_BOTH)) {
             $HTMLOUT.= "
 				<div id=\"wiki-content-left\" align=\"right\">
 					<form method=\"post\" action=\"wiki.php\">
@@ -252,10 +252,10 @@ if ($action == "edit") {
 }
 if ($action == "sort") {
     $sortres = sql_query("SELECT * FROM wiki WHERE name LIKE '$letter%' ORDER BY name");
-    if (mysqli_num_rows($sortres) > 0) {
+    if ($sortres->num_rows > 0) {
         $HTMLOUT.= navmenu();
         $HTMLOUT.= "{$lang['wiki_art_found_starting']}<b>" . htmlsafechars($letter) . "</b>";
-        while ($wiki = mysqli_fetch_array($sortres)) {
+        while ($wiki = $sortres->fetch_array(MYSQLI_ASSOC)) {
             $wiki_sort_q = sql_query("SELECT username FROM users WHERE id = " . sqlesc($wiki['userid'])) or sqlerr(__FILE__, __LINE__);
             if ($wiki["userid"] !== 0) $wikiname = $wiki_sort_q->fetch_assoc();
             $HTMLOUT.= "

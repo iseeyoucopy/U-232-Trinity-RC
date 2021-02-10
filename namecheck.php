@@ -49,7 +49,7 @@ if (strlen($_GET["wantusername"]) > 12) {
 
 $checkname = htmlsafechars($_GET["wantusername"]);
 $result = sql_query("SELECT username FROM users WHERE username = ".sqlesc($checkname)) or sqlerr(__FILE__, __LINE__);
-$numbers = mysqli_num_rows($result);
+$numbers = $result->num_rows;
 if ($numbers > 0) {
     while ($namecheck = $result->fetch_assoc()) {
         $HTMLOUT.= "<p class='text-danger'><i class='fas fa-times-circle'></i><strong>Sorry... Username - " . htmlsafechars($namecheck["username"]) . " is already in use.</strong></p>";

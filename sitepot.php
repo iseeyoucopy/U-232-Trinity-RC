@@ -140,7 +140,7 @@ if ($want_pot && (isset($pot_options[$want_pot]))) {
         /** shoutbox announce **/
         require_once(INCL_DIR . 'bbcode_functions.php');
         $res = sql_query("SELECT value_u FROM avps WHERE arg = 'sitepot'") or sqlerr(__file__, __line__);
-        $arr = mysqli_fetch_array($res);
+        $arr = $res->fetch_array(MYSQLI_ASSOC);
         $msg = " [color=green][b]24 HR FREELEECH[/b][/color] is now active! It will end at " . get_date($arr['value_u'], 'DATE') . ".";
         $cache->delete('shoutbox_');
         autoshout($msg);

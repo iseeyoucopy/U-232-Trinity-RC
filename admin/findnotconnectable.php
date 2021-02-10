@@ -38,7 +38,7 @@ if (isset($_GET["action1"]) && htmlsafechars($_GET["action1"]) == "list") {
 	<h1>{$lang['non_con_peers']}</h1>
 	{$lang['non_con_this']}<br /><p><font color='red'>*</font> {$lang['non_con_means']}<br />";
     $result = sql_query("select distinct userid from peers where connectable = 'no'");
-    $count = mysqli_num_rows($result);
+    $count = $result->num_rows;
     $HTMLOUT.= "$count {$lang['non_con_unique']}</p>";
     @((mysqli_free_result($result) || (is_object($result) && (get_class($result) == "mysqli_result"))) ? true : false);
     if (mysqli_num_rows($res2) == 0) $HTMLOUT.= "<p align='center'><b>{$lang['non_con_all']}</b></p>\n";
@@ -109,7 +109,7 @@ if (isset($_GET["action1"]) == "") {
 	<table class='table table-bordered'>\n
 	<tr><td class='colhead'>{$lang['non_con_by']}</td>
 	<td class='colhead'>{$lang['non_con_date']}</td><td class='colhead'>{$lang['non_con_elapsed']}</td></tr>";
-    while ($arr2 = mysqli_fetch_assoc($getlog)) {
+    while ($arr2 = $getlog->fetch_assoc()) {
         $r2 = sql_query("SELECT username FROM users WHERE id=" . sqlesc($arr2['user'])) or sqlerr(__FILE__, __LINE__);
         $a2 = $r2->fetch_assoc();
         $elapsed = get_date($arr2['date'], '', 0, 1);

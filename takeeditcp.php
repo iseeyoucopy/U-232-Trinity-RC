@@ -177,7 +177,7 @@ elseif ($action == "security") {
         $hash2 = t_Hash($CURUSER['birthday'], $CURUSER['secret'], $CURUSER['pin_code']);
         if (!validemail($email)) stderr($lang['takeeditcp_err'], $lang['takeeditcp_not_valid_email']);
         $r = sql_query("SELECT id FROM users WHERE email=" . sqlesc($email)) or sqlerr(__FILE__, __LINE__);
-        if (mysqli_num_rows($r) > 0 || !password_verify($hash1.hash("ripemd160", $chmailpass).$hash2, $CURUSER['passhash'])) stderr($lang['takeeditcp_err'], $lang['takeeditcp_address_taken']);
+        if ($r->num_rows > 0 || !password_verify($hash1.hash("ripemd160", $chmailpass).$hash2, $CURUSER['passhash'])) stderr($lang['takeeditcp_err'], $lang['takeeditcp_address_taken']);
         $changedemail = 1;
     }
     if ($secretanswer != '') {

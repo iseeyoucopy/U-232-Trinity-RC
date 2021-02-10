@@ -72,7 +72,8 @@ $ip_escaped = sqlesc(getip());
 $ip = getip();
 $added = TIME_NOW;
 if (!$row) {
-    $fail = (@mysqli_fetch_row(sql_query("SELECT COUNT(id) from failedlogins where ip=$ip_escaped"))) or sqlerr(__FILE__, __LINE__);
+    $fail_query = sql_query("SELECT COUNT(id) from failedlogins where ip=$ip_escaped") or sqlerr(__FILE__, __LINE__);
+    $fail = $fail_query->fetch_row();
     if ($fail[0] == 0) sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES ($ip_escaped, $added, 1)") or sqlerr(__FILE__, __LINE__);
     else sql_query("UPDATE failedlogins SET attempts = attempts + 1 where ip=$ip_escaped") or sqlerr(__FILE__, __LINE__);
     bark();
@@ -110,7 +111,8 @@ if ($TRINITY20['dupeaccount_check_on'] == 1) {
     }
 }	
 	if (!$pass_hash && !$tri_hash) {
-    $fail = (@mysqli_fetch_row(sql_query("SELECT COUNT(id) from failedlogins where ip=$ip_escaped"))) or sqlerr(__FILE__, __LINE__);
+    $fail_query = sql_query("SELECT COUNT(id) from failedlogins where ip=$ip_escaped") or sqlerr(__FILE__, __LINE__);
+    $fail = $fail_query->fetch_row();
     if ($fail[0] == 0) sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES ($ip_escaped, $added, 1)") or sqlerr(__FILE__, __LINE__);
     else sql_query("UPDATE failedlogins SET attempts = attempts + 1 where ip=$ip_escaped") or sqlerr(__FILE__, __LINE__);
     $to = ((int)$row["id"]);
@@ -138,7 +140,8 @@ $ip_escaped = sqlesc(getip());
 $ip = getip();
 $added = TIME_NOW;
 if (!$rows) {
-    $fail = (@mysqli_fetch_row(sql_query("SELECT COUNT(id) from failedlogins where ip=$ip_escaped"))) or sqlerr(__FILE__, __LINE__);
+    $fail_query = sql_query("SELECT COUNT(id) from failedlogins where ip=$ip_escaped") or sqlerr(__FILE__, __LINE__); 
+    $fail = $fail_query->fetch_row;
     if ($fail[0] == 0) sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES ($ip_escaped, $added, 1)") or sqlerr(__FILE__, __LINE__);
     else sql_query("UPDATE failedlogins SET attempts = attempts + 1 where ip=$ip_escaped") or sqlerr(__FILE__, __LINE__);
     bark();
@@ -147,7 +150,8 @@ $hash1 = t_Hash($rows['email'], $rows['username'], $rows['added']);
 $hash2 = t_Hash($rows['birthday'], $rows['secret'], $rows['pin_code']);
 $tri_hash = password_verify($hash1.hash("ripemd160", $password).$hash2, $rows['passhash']);
 if (!$tri_hash) {
-    $fail = (@mysqli_fetch_row(sql_query("SELECT COUNT(id) from failedlogins where ip=$ip_escaped"))) or sqlerr(__FILE__, __LINE__);
+    $fail_query = sql_query("SELECT COUNT(id) from failedlogins where ip=$ip_escaped") or sqlerr(__FILE__, __LINE__);
+    $fail = $fail_query->fetch_row();
     if ($fail[0] == 0) sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES ($ip_escaped, $added, 1)") or sqlerr(__FILE__, __LINE__);
     else sql_query("UPDATE failedlogins SET attempts = attempts + 1 where ip=$ip_escaped") or sqlerr(__FILE__, __LINE__);
     $to = ((int)$rows["id"]);
@@ -200,7 +204,8 @@ $passh = h_cook($rows["hash3"], $_SERVER["REMOTE_ADDR"], $rows["id"]);
 $hashlog = make_hash_log($rows['id'], $passh);
 if((empty($rows['loginhash'])) || ($rows['loginhash'] != $hashlog)){
 	sql_query('UPDATE users SET loginhash=' . sqlesc($hashlog) . ' WHERE id=' . sqlesc($rows['id']))or sqlerr(__FILE__, __LINE__);
-	$a = (mysqli_fetch_row(sql_query("SELECT COUNT(id) FROM doublesignup WHERE userid=" . sqlesc($rows['id'])))) or sqlerr(__FILE__, __LINE__);
+    $a_query = sql_query("SELECT COUNT(id) FROM doublesignup WHERE userid=" . sqlesc($rows['id'])) or sqlerr(__FILE__, __LINE__);
+	$a = $a_query->fetch_row();
     if ($a[0] != 0){
         sql_query('UPDATE doublesignup SET login_hash=' . sqlesc($hashlog) . ' WHERE userid=' . sqlesc($rows['id']))or sqlerr(__FILE__, __LINE__);
     }		

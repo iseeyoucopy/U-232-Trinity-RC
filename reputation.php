@@ -114,7 +114,7 @@ default:
     $this_rep = 'Post';
 }
 // does it or don't it?
-if (!mysqli_num_rows($forum)) {
+if (!$forum->num_rows) {
     rep_output($this_rep . ' Does Not Exist - Incorrect Access');
 }
 ///////////////////////////////////////////////
@@ -132,7 +132,7 @@ if (isset($res['minclassread'])) { // 'posts'
 ///////////////////////////////////////////////
 $repeat = sql_query("SELECT postid FROM reputation WHERE postid =" . sqlesc($input['pid']) . " AND whoadded=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
 //$repres = mysql_fetch_assoc( $forum ) or sqlerr(__LINE__,__FILE__);
-if (mysqli_num_rows($repeat) > 0 && $rep_locale != 'users') { // blOOdy eedjit check!
+if ($repeat->num_rows > 0 && $rep_locale != 'users') { // blOOdy eedjit check!
     rep_output('You have already added Rep to this ' . $this_rep . '!'); // Is insane!
 }
 ///////////////////////////////////////////////
@@ -148,7 +148,7 @@ if (!$is_mod) {
     //	Some trivial flood checking
     ///////////////////////////////////////////////
     $flood = sql_query("SELECT dateadd, userid FROM reputation WHERE whoadded = " . sqlesc($CURUSER['id']) . " ORDER BY dateadd DESC LIMIT 0 , " . sqlesc($klimit)) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($flood)) {
+    if ($flood->num_rows) {
         $i = 0;
         while ($check = $flood->fetch_assoc()) {
             if (($i < $GVARS['rep_repeat']) && ($check['userid'] == $CURUSER['id'])) { //$res['userid'] ) )
@@ -167,7 +167,7 @@ if (!$is_mod) {
 // Note: if you use another forum type, you may already have this GLOBAL available
 // So you can save a query here, else...
 $r = sql_query("SELECT COUNT(*) FROM posts WHERE user_id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-$a = mysqli_fetch_row($r);
+$a = $r->fetch_row();
 $CURUSER['posts'] = intval($a[0]);
 ///////////////////////////////////////////////
 // What's the reason for bothering me?
@@ -227,7 +227,7 @@ else {
                                         AND r.locale = " . sqlesc($input['locale']) . "
                                         ORDER BY dateadd DESC") or sqlerr(__FILE__, __LINE__);
         $reasonbits = '';
-        if (mysqli_num_rows($query1) !== false) {
+        if ($query1->num_rows !== false) {
             $total = 0;
             while ($postrep = $query1->fetch_assoc()) {
                 $total+= $postrep['reputation'];

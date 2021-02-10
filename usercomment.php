@@ -38,7 +38,7 @@ if ($action == "add") {
         $userid = 0 + $_POST["userid"];
         if (!is_valid_id($userid)) stderr($lang['gl_error'], $lang['gl_invalid_id']);
         $res = sql_query("SELECT username FROM users WHERE id =" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-        $arr = mysqli_fetch_array($res, MYSQLI_NUM);
+        $arr = $res->fetch_array(MYSQLI_NUM);
         if (!$arr) stderr($lang['gl_error'], $lang['usercomment_no_user_with_that_id']);
         $body = isset($_POST['body']) ? htmlsafechars($_POST['body']) : '';
         if (!$body) stderr($lang['gl_error'], $lang['usercomment_comment_body_cannot_be_empty']);

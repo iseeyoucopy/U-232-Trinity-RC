@@ -114,7 +114,7 @@ function cleanup_show_main()
       <td class='colhead' style='width: 40px;'>{$lang['cleanup_run_now']}</td>
     </tr>";
     $sql = sql_query("SELECT * FROM cleanup ORDER BY clean_time ASC " . $pager['limit']) or sqlerr(__FILE__, __LINE__);
-    if (!mysqli_num_rows($sql)) stderr($lang['cleanup_stderr'], $lang['cleanup_panic']);
+    if (!$sql->num_rows) stderr($lang['cleanup_stderr'], $lang['cleanup_panic']);
     while ($row = $sql->fetch_assoc()) {
         $row['_clean_time'] = get_date($row['clean_time'], 'LONG');
         $row['clean_increment'] = $row['clean_increment'];
@@ -150,7 +150,7 @@ function cleanup_show_edit()
     }
     $cid = intval($params['cid']);
     $sql = sql_query("SELECT * FROM cleanup WHERE clean_id = $cid");
-    if (!mysqli_num_rows($sql)) stderr($lang['cleanup_stderr'], $lang['cleanup_stderr3']);
+    if (!$sql->num_rows) stderr($lang['cleanup_stderr'], $lang['cleanup_stderr3']);
     $row = $sql->fetch_assoc();
     $row['clean_title'] = htmlsafechars($row['clean_title'], ENT_QUOTES);
     $row['clean_desc'] = htmlsafechars($row['clean_desc'], ENT_QUOTES);

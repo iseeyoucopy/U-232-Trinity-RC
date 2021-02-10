@@ -84,14 +84,18 @@ $gender = isset($_POST['gender']) && isset($_POST['gender']) ? htmlsafechars($_P
 // make sure user agrees to everything...
 if ($_POST["rulesverify"] != "yes" || $_POST["faqverify"] != "yes" || $_POST["ageverify"] != "yes") stderr($lang['takesignup_failed'], $lang['takesignup_qualify']);
 // check if username is already in use
-$check_uname = (mysqli_fetch_row(sql_query("SELECT COUNT(id) username FROM users WHERE username = ".sqlesc($wantusername)))) or sqlerr(__FILE__, __LINE__);
+$check_uname_query = sql_query("SELECT COUNT(id) username FROM users WHERE username = ".sqlesc($wantusername)) or sqlerr(__FILE__, __LINE__);
+$check_uname = $check_uname_query->fetch_row();
 if ($check_uname[0] != 0) stderr($lang['takesignup_user_error'], 'username already in use');
 // check if email addy is already in use
-$a = (mysqli_fetch_row(sql_query("SELECT COUNT(id) FROM users WHERE email=" . sqlesc($email)))) or sqlerr(__FILE__, __LINE__);
+$a_query = sql_query("SELECT COUNT(id) FROM users WHERE email=" . sqlesc($email)) or sqlerr(__FILE__, __LINE__);
+$a = $a_query->fetch_row();
 if ($a[0] != 0) stderr($lang['takesignup_user_error'], $lang['takesignup_email_used']);
 //=== check if ip addy is already in use
-/*if ($TRINITY20['dupeip_check_on'] == 1) {
-    $c = (mysqli_fetch_row(sql_query("SELECT COUNT(id) FROM users WHERE ip=" . sqlesc($_SERVER['REMOTE_ADDR'])))) or sqlerr(__FILE__, __LINE__);
+/*
+if ($TRINITY20['dupeip_check_on'] == 1) {
+    $c_query = sql_query("SELECT COUNT(id) FROM users WHERE ip=" . sqlesc($_SERVER['REMOTE_ADDR'])) or sqlerr(__FILE__, __LINE__);
+    $c = $c_query->fetch_row();
     if ($c[0] != 0) stderr($lang['takesignup_error'], "{$lang['takesignup_ip']}&nbsp;" . htmlsafechars($_SERVER['REMOTE_ADDR']) . "&nbsp;{$lang['takesignup_ip_used']}");
 }*/
 /*=== check for dupe account by GodFather ===*/
@@ -219,10 +223,12 @@ $body = str_replace(array(
 $passh = h_cook($hash3, $_SERVER["REMOTE_ADDR"], $id);
 /*=== for dupe account ===*/
     $hashlog = make_hash_log($id, $passh);
-$logs = (mysqli_fetch_assoc(sql_query("SELECT loginhash FROM users WHERE id= " . sqlesc($id)))) or sqlerr(__FILE__, __LINE__);
+$logs_query = sql_query("SELECT loginhash FROM users WHERE id= " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+$logs = $logs_query->fetch_assoc();
 if(empty($logs['loginhash']) || $logs['loginhash'] != $hashlog){
 	    sql_query('UPDATE users SET loginhash=' . sqlesc($hashlog) . ' WHERE id=' . sqlesc($id))or sqlerr(__FILE__, __LINE__);
-	    $a = (mysqli_fetch_row(sql_query("SELECT COUNT(id) FROM doublesignup WHERE userid=" . sqlesc($id)))) or sqlerr(__FILE__, __LINE__);
+        $a_query = sql_query("SELECT COUNT(id) FROM doublesignup WHERE userid=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+	    $a = $a_query->fetch_row();
         if ($a[0] != 0){
             sql_query('UPDATE doublesignup SET login_hash=' . sqlesc($hashlog) . ' WHERE userid=' . sqlesc($id))or sqlerr(__FILE__, __LINE__);
         }	

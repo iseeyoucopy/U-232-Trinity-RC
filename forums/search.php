@@ -30,7 +30,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     $keywords = (isset($_GET['keywords']) ? trim($_GET['keywords']) : '');
     if (!empty($keywords)) {
         $res = sql_query("SELECT COUNT(id) AS c FROM posts WHERE body LIKE " . sqlesc("%" . sqlwildcardesc($keywords) . "%")) or sqlerr(__FILE__, __LINE__);
-        $arr = mysqli_fetch_assoc($res);
+        $arr = $res->fetch_assoc();
         $count = (int) $arr['c'];
         $keywords = htmlsafechars($keywords);
         if ($count == 0) {
@@ -55,7 +55,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
                 <td><h4>Posted by</h4></td>
 			          </tr>";
             for ($i = 0; $i < $num; ++$i) {
-                $post = mysqli_fetch_assoc($res);
+                $post = $res->fetch_assoc();
                 if ($post['min_class_read'] > $CURUSER['class']) {
                     --$count;
                     continue;

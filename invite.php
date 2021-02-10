@@ -41,7 +41,7 @@ if ($CURUSER['suspended'] == 'yes') stderr($lang['invites_err1'], $lang['invites
  */
 if ($do == 'view_page') {
     $query = sql_query('SELECT * FROM users WHERE invitedby = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-    $rows = mysqli_num_rows($query);
+    $rows = $query->num_rows;
     $HTMLOUT = '';
     $HTMLOUT.= "
 <table class='table table-bordered table-striped'>
@@ -73,7 +73,7 @@ if ($do == 'view_page') {
     }
     $HTMLOUT.= "</table><br>";
     $select = sql_query('SELECT * FROM invite_codes WHERE sender = ' . sqlesc($CURUSER['id']) . ' AND status = "Pending"') or sqlerr(__FILE__, __LINE__);
-    $num_row = mysqli_num_rows($select);
+    $num_row = $select->num_rows;
     $HTMLOUT.= "<table class='table table-bordered table-striped'>" . "<tr class='tabletitle'><td colspan='6' class='colhead'><b>{$lang['invites_codes']}</b></td></tr>";
     if (!$num_row) {
         $HTMLOUT.= "<tr class='one'><td colspan='1'>{$lang['invites_nocodes']}</td></tr>";
@@ -128,7 +128,8 @@ elseif ($do == 'send_email') {
         $email = (isset($_POST['email']) ? htmlsafechars($_POST['email']) : '');
         $invite = (isset($_POST['code']) ? htmlsafechars($_POST['code']) : '');
         if (!$email) stderr($lang['invites_error'], $lang['invites_noemail']);
-        $check = (mysqli_fetch_row(sql_query('SELECT COUNT(id) FROM users WHERE email = ' . sqlesc($email)))) or sqlerr(__FILE__, __LINE__);
+        $check_query = sql_query('SELECT COUNT(id) FROM users WHERE email = ' . sqlesc($email)) or sqlerr(__FILE__, __LINE__);
+        $check = $check_query->fetch_row();
         if ($check[0] != 0) stderr($lang['invites_error'], $lang['invites_mail_err']);
         if (!validemail($email)) stderr($lang['invites_error'], $lang['invites_invalidemail']);
         $inviter = htmlsafechars($CURUSER['username']);

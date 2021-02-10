@@ -53,7 +53,7 @@ function insert_quick_jump_menu($currentforum = 0)
 	<div align='right'>Quick jump:
 	<font color='black'><select  name='forumid' onchange=\"if(this.options[this.selectedIndex].value != -1){ forms['jump'].submit() }\">";
     $res = sql_query("SELECT id, name, min_class_read FROM forums ORDER BY name") or sqlerr(__FILE__, __LINE__);
-    while ($arr = mysqli_fetch_assoc($res)) {
+    while ($arr = $res->fetch_assoc()) {
         if ($CURUSER['class'] >= $arr["min_class_read"]) {
             $htmlout .="<option value='" . (int) $arr["id"] . ($currentforum == $arr["id"] ? " selected='selected'" : "") . "'>" . htmlsafechars($arr["name"]) . "</option>";
         }
@@ -71,7 +71,7 @@ function insert_quick_jump_menu($currentforum = 0)
         $htmlout='';
         if ($newtopic) {
             $res = sql_query("SELECT name FROM forums WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-            $arr = mysqli_fetch_assoc($res) or die("Bad forum ID!");
+            $arr = $res->fetch_assoc() or die("Bad forum ID!");
             // $htmlout .="<h3>New topic in <a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".$id."'>".htmlsafechars($arr["name"])."</a> forum</h3>";
             $htmlout .="<!--<div class='navigation'>
 				<a href='index.php'>" . $TRINITY20["site_name"] . "</a> 
@@ -84,7 +84,7 @@ function insert_quick_jump_menu($currentforum = 0)
 				</div><br />-->";
         } else {
             $res = sql_query("SELECT t.forum_id, t.topic_name, t.locked, f.min_class_read, f.name AS forum_name FROM topics AS t LEFT JOIN forums AS f ON f.id = t.forum_id WHERE t.id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-            $arr = mysqli_fetch_assoc($res) or die("Forum error, Topic not found.");
+            $arr = $res->fetch_assoc() or die("Forum error, Topic not found.");
             $forum = htmlsafechars($arr["forum_name"]);
             $forumid = (int) $arr['forum_id'];
             if ($arr['locked'] == 'yes') {
@@ -163,7 +163,7 @@ function insert_quick_jump_menu($currentforum = 0)
                 echo stdhead("Error - No post with this ID", true, $stdhead) . $htmlout . stdfoot($stdfoot);
                 exit();
             }
-            $arr = mysqli_fetch_assoc($res);
+            $arr = $res->fetch_assoc();
         }
         $htmlout .="<tr>
 		<td class=row valign='top'>Body</td>

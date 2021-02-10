@@ -22,7 +22,7 @@ $ajax = isset($_GET["ajax"]) && $_GET["ajax"] == 1 ? true : false;
 $what = isset($_GET["what"]) && $_GET["what"] == "torrent" ? "torrent" : "topic";
 $ref = isset($_GET["ref"]) ? $_GET["ref"] : ($what == "torrent" ? "details.php" : "forums/view.php");
     $completeres = sql_query("SELECT * FROM " . (XBT_TRACKER == true ? "xbt_files_users" : "snatched") . " WHERE " . (XBT_TRACKER == true ? "completedtime !=0" : "complete_date !=0") . " AND " . (XBT_TRACKER == true ? "uid" : "userid") . " = " . $CURUSER['id'] . " AND " . (XBT_TRACKER == true ? "fid" : "torrentid") . " = " . $id);
-    $completecount = mysqli_num_rows($completeres);
+    $completecount = $completeres->num_rows;
     if ($what == 'torrent' && $completecount == 0) {
         stderr("Failed", "You must have downloaded this torrent in order to rate it. ");
     }

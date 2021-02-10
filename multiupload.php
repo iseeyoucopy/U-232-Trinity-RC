@@ -54,7 +54,7 @@ if ($res_request) {
 $request.= "</select></div><p class='help-text' id='requestHelpText'>{$lang['upload_add_fill']}</p>";
 //=== offers list if member has made any offers
 $res_offer = sql_query('SELECT id, offer_name FROM offers WHERE offered_by_user_id = ' . sqlesc($CURUSER['id']) . ' AND status = \'approved\' ORDER BY offer_name ASC');
-if (mysqli_num_rows($res_offer) > 0) {
+if ($res_offer->num_rows > 0) {
     $offers = "  
     <div class='input-group'>
     <span class='input-group-label'>{$lang['gl_offers']}</span>

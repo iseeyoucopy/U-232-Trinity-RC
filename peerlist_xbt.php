@@ -80,7 +80,7 @@ $subres = sql_query("SELECT u.username, u.anonymous, t.owner, t.anonymous as tan
     LEFT JOIN users u ON x.uid = u.id
 	LEFT JOIN torrents as t on t.id = x.tid
     WHERE active='1' AND x.tid = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-if (mysqli_num_rows($subres) == 0) stderr("{$lang['peerslist_warning']}", "{$lang['peerslist_no_data']}");
+if ($subres->num_rows == 0) stderr("{$lang['peerslist_warning']}", "{$lang['peerslist_no_data']}");
 while ($subrow = $subres->fetch_assoc()) {
     if ($subrow["left"] == 0) $seeders[] = $subrow;
     else $downloaders[] = $subrow;

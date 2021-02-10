@@ -61,7 +61,7 @@ case 'edit_cat':
     break;
 
 case 'cat_form':
-    show_cat_form();
+    //show_cat_form();
     break;
 
 default:
@@ -70,7 +70,7 @@ default:
 }
 function move_cat()
 {
-    global $TRINITY20, $params, $cache, $lang;
+    global $TRINITY20, $params, $cache, $lang, $mysqli;
     if ((!isset($params['id']) OR !is_valid_id($params['id'])) OR (!isset($params['new_cat_id']) OR !is_valid_id($params['new_cat_id']))) {
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
@@ -81,7 +81,7 @@ function move_cat()
     $new_cat_id = intval($params['new_cat_id']);
     // make sure both categories exist
     $q = sql_query("SELECT id FROM categories WHERE id IN($old_cat_id, $new_cat_id)");
-    if (2 != mysqli_num_rows($q)) {
+    if (2 != ($q->num_rows)) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
     //all go
@@ -100,7 +100,7 @@ function move_cat_form()
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
     $q = sql_query("SELECT * FROM categories WHERE id = " . intval($params['id']));
-    if (false == mysqli_num_rows($q)) {
+    if (false == $q->num_rows) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
     $r = $q->fetch_assoc();
@@ -116,7 +116,7 @@ function move_cat_form()
       <td>$select</td>
     </tr>";
     $htmlout = '';
-$htlmout .="<div class='row'><div class='col-md-12'>";
+$htmlout .="<div class='row'><div class='col-md-12'>";
     $htmlout.= "<form action='staffpanel.php?tool=categories&amp;action=categories' method='post'>
       <input type='hidden' name='mode' value='takemove_cat' />
       <input type='hidden' name='id' value='".intval($r['id'])."' />
@@ -139,12 +139,12 @@ $htlmout .="<div class='row'><div class='col-md-12'>";
       </tr>
       </table>
       </form>";
-$htlmout .="</div></div>";
+$htmlout .="</div></div>";
     echo stdhead($lang['categories_move_stdhead']. $r['name']) . $htmlout . stdfoot();
 }
 function add_cat()
 {
-    global $TRINITY20, $params, $cache, $lang;
+    global $TRINITY20, $params, $cache, $lang, $mysqli;
     foreach (array(
         'new_cat_name',
         'new_cat_desc',
@@ -170,12 +170,12 @@ function add_cat()
 }
 function delete_cat()
 {
-    global $TRINITY20, $params, $cache, $lang;
+    global $TRINITY20, $params, $cache, $lang, $mysqli;
     if (!isset($params['id']) OR !is_valid_id($params['id'])) {
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
     $q = sql_query("SELECT * FROM categories WHERE id = " . intval($params['id']));
-    if (false == mysqli_num_rows($q)) {
+    if (false == $q->num_rows) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
     $r = $q->fetch_assoc();
@@ -187,7 +187,7 @@ function delete_cat()
         $new_cat_id = intval($params['new_cat_id']);
         //make sure category isn't out of range before moving torrents! else orphans!
         $q = sql_query("SELECT COUNT(*) FROM categories WHERE id = " . sqlesc($new_cat_id));
-        $count = mysqli_fetch_array($q, MYSQLI_NUM);
+        $count = $q->fetch_array(MYSQLI_NUM);
         if (!$count[0]) {
             stderr($lang['categories_error'], $lang['categories_exist_error']);
         }
@@ -209,12 +209,12 @@ function delete_cat_form()
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
     $q = sql_query("SELECT * FROM categories WHERE id = " . intval($params['id']));
-    if (false == mysqli_num_rows($q)) {
+    if (false == $q->num_rows) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
     $r = $q->fetch_assoc();
     $q = sql_query("SELECT COUNT(*) FROM torrents WHERE category = " . intval($r['id']));
-    $count = mysqli_fetch_array($q, MYSQLI_NUM);
+    $count = $q->fetch_array(MYSQLI_NUM);
     $check = '';
     if ($count[0]) {
         $select = "<select name='new_cat_id'>\n<option value='0'>{$lang['categories_select']}</option>\n";
@@ -229,7 +229,7 @@ function delete_cat_form()
       </tr>";
     }
     $htmlout = '';
-$htlmout .="<div class='row'><div class='col-md-12'>";
+$htmlout .="<div class='row'><div class='col-md-12'>";
     $htmlout.= "<form action='staffpanel.php?tool=categories&amp;action=categories' method='post'>
       <input type='hidden' name='mode' value='takedel_cat' />
       <input type='hidden' name='id' value='" . (int)$r['id'] . "' />
@@ -261,12 +261,12 @@ $htlmout .="<div class='row'><div class='col-md-12'>";
       </tr>
       </table>
       </form>";
-$htlmout .="</div></div>";
+$htmlout .="</div></div>";
     echo stdhead($lang['categories_del_stdhead']. $r['name']) . $htmlout . stdfoot();
 }
 function edit_cat()
 {
-    global $TRINITY20, $params, $cache, $lang;
+    global $TRINITY20, $params, $cache, $lang, $mysqli;
     if (!isset($params['id']) OR !is_valid_id($params['id'])) {
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
@@ -302,7 +302,7 @@ function edit_cat_form()
     }
     $htmlout = '';
     $q = sql_query("SELECT * FROM categories WHERE id = " . intval($params['id']));
-    if (false == mysqli_num_rows($q)) {
+    if (false == $q->num_rows) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
     $r = $q->fetch_assoc();
@@ -447,7 +447,7 @@ function show_categories()
       <td>{$lang['categories_show_move']}</td>
     </tr>";
     $query = sql_query("SELECT * FROM categories ORDER BY id ASC");
-    if (false == mysqli_num_rows($query)) {
+    if (false == $query->num_rows) {
         $htmlout = '<h1>'.$lang['categories_show_oops'].'</h1>';
     } else {
         while ($row = $query->fetch_assoc()) {

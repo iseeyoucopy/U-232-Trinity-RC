@@ -33,7 +33,7 @@ $lang = array_merge($lang, load_language('ad_bans'));
 $remove = isset($_GET['remove']) ? (int)$_GET['remove'] : 0;
 if ($remove > 0) {
     $banned = sql_query('SELECT first, last FROM bans WHERE id = ' . sqlesc($remove)) or sqlerr(__FILE__, __LINE__);
-    if (!mysqli_num_rows($banned)) stderr($lang['stderr_error'], $lang['stderr_error1']);
+    if (!$banned->num_rows) stderr($lang['stderr_error'], $lang['stderr_error1']);
     $ban = $banned->fetch_assoc();
     $first = 0 + $ban['first'];
     $last = 0 + $ban['last'];
@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $CURUSER['class'] == UC_MAX) {
     die;
 }
 $bc = sql_query('SELECT COUNT(*) FROM bans') or sqlerr(__FILE__, __LINE__);
-$bcount = mysqli_fetch_row($bc);
+$bcount = $bc->fetch_row;
 $count = $bcount[0];
 $perpage = 15;
 $pager = pager($perpage, $count, 'staffpanel.php?tool=bans&amp;');

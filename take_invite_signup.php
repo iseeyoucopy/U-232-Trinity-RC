@@ -72,11 +72,13 @@ if (strlen((string)$pincode) != 4) stderr($lang['takesignup_user_error'], "Pin C
 $country = (((isset($_POST['country']) && is_valid_id($_POST['country'])) ? intval($_POST['country']) : 0));
 $gender = isset($_POST['gender']) && isset($_POST['gender']) ? htmlsafechars($_POST['gender']) : '';
 // check if email addy is already in use
-$a = (mysqli_fetch_row(sql_query('SELECT COUNT(id) FROM users WHERE email = ' . sqlesc($email)))) or sqlerr(__FILE__, __LINE__);
+$a_query = sql_query('SELECT COUNT(id) FROM users WHERE email = ' . sqlesc($email)) or sqlerr(__FILE__, __LINE__);
+$a = $a_query->fetch_row();
 if ($a[0] != 0) stderr('Error', 'The e-mail address <b>' . htmlsafechars($email) . '</b> is already in use.');
 //=== check if ip addy is already in use
 if ($TRINITY20['dupeip_check_on']) {
-    $c = (mysqli_fetch_row(sql_query("SELECT COUNT(id) FROM users WHERE ip=" . sqlesc($_SERVER['REMOTE_ADDR'])))) or sqlerr(__FILE__, __LINE__);
+    $c_query = sql_query("SELECT COUNT(id) FROM users WHERE ip=" . sqlesc($_SERVER['REMOTE_ADDR'])) or sqlerr(__FILE__, __LINE__);
+    $c = $c_query->fetch_row();
     if ($c[0] != 0) stderr("Error", "The ip " . htmlsafechars($_SERVER['REMOTE_ADDR']) . " is already in use. We only allow one account per ip address.");
 }
 
@@ -85,7 +87,7 @@ if ($TRINITY20['dupeaccount_check_on'] == 1) {
     if(!empty(get_mycookie('log_uid'))){
 	    $ip = getip();
 	    $res = sql_query("SELECT * FROM users WHERE loginhash=" . sqlesc(get_mycookie('log_uid')));
-        if($row = mysqli_fetch_assoc($res)){
+        if($row = $res->fetch_assoc()){
 			if ($row['class'] < UC_SYSOP){
 		        $u_ip = $ip;
 		        $n_username = $wantusername;     
@@ -104,7 +106,7 @@ if ($TRINITY20['dupeaccount_check_on'] == 1) {
 	
 	if(!empty($email)){
 	    $x = sql_query("SELECT id, comment FROM bannedemails WHERE email = " . sqlesc($email)) or sqlerr(__FILE__, __LINE__);
-        if ($yx = mysqli_fetch_assoc($x)) stderr("{$lang['takesignup_user_error']}", "{$lang['takesignup_bannedmail']}" . htmlsafechars($yx['comment']));
+        if ($yx = $x->fetch_assoc()) stderr("{$lang['takesignup_user_error']}", "{$lang['takesignup_bannedmail']}" . htmlsafechars($yx['comment']));
     }
 }
 /*=== end check for dupe account ===*/
@@ -120,7 +122,7 @@ if (isset($_POST["user_timezone"]) && preg_match('#^\-?\d{1,2}(?:\.\d{1,2})?$#',
 $dst_in_use = localtime(TIME_NOW + ((int)$time_offset * 3600) , true);
 // TIMEZONE STUFF END
 $select_inv = sql_query('SELECT sender, receiver, status FROM invite_codes WHERE code = ' . sqlesc($invite)) or sqlerr(__FILE__, __LINE__);
-$rows = mysqli_num_rows($select_inv);
+$rows = $select_inv->num_rows;
 $assoc = $select_inv->fetch_assoc();
 if ($rows == 0) stderr("Error", "Invite not found.\nPlease request a invite from one of our members.");
 if ($assoc["receiver"] != 0) stderr("Error", "Invite already taken.\nPlease request a new one from your inviter.");

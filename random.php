@@ -34,7 +34,7 @@ if (isset($_GET['cat'])) {
 }
 $cat_id = (isset($cat) ? '&cat=' . $cat : '');
 $res = sql_query('SELECT id FROM torrents ' . $where . ' ORDER BY RAND() LIMIT 1'); //dunno if adding LIMIT here would help any since dies after 1st row
-while (list($id) = mysqli_fetch_array($res)) {
+while (list($id) = $res->fetch_array(MYSQLI_BOTH)) {
     if ($id != NULL) {
         header("Location: details.php?id=" . $id . $cat_id . '&random'); //add &random to indicate on details.php random browsing
         die();

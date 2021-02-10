@@ -75,7 +75,7 @@ case 'setanswered':
 case 'view':
     if ($id > 0) {
         $q2 = sql_query('SELECT s.id, s.added, s.msg, s.subject, s.answered, s.answer, s.answeredby, s.sender, s.answer, u.username, u2.username as username2 FROM staffmessages as s LEFT JOIN users as u ON s.sender = u.id LEFT JOIN users as u2 ON s.answeredby = u2.id  WHERE s.id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-        if (mysqli_num_rows($q2) == 1) {
+        if ($q2->num_rows == 1) {
             $a = $q2->fetch_assoc();            
 $HTMLOUT.= "<div class='row'><div class='col-md-12'><h2>{$lang['staffbox_pm_view']}</h2></div></div>";
 $HTMLOUT.= "<div class='row'><div class='col-md-12'>";

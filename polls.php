@@ -30,7 +30,7 @@ function parse_poll()
                             ORDER BY polls.start_date DESC
                             LIMIT 1");
         //Did we find the poll?
-        if (!mysqli_num_rows($query)) {
+        if (!$query->num_rows) {
             return "Nothing to vote on right now!"; 
         }
         while ($row = $query->fetch_assoc()) {
@@ -114,7 +114,7 @@ function parse_poll()
     } else if ($check == 2) {
         // only for guests when view before vote is off
         $htmlout = poll_header($poll_data['pid'], htmlsafechars($poll_data['poll_question'], ENT_QUOTES));
-        $htmlout.= poll_show_no_guest_view();
+        //$htmlout.= poll_show_no_guest_view();
         $htmlout.= show_total_votes($total_votes);
     } else {
         $poll_answers = unserialize(stripslashes($poll_data['choices']));

@@ -94,7 +94,8 @@ $HTMLOUT.= tr("{$lang['details_add_byup']}", $uprow, 1);
 if ($CURUSER['class'] >= UC_STAFF) {
     if (!empty($torrents['checked_by'])) {
         if (($checked_by = $cache->get('checked_by_' . $id)) === false) {
-            $checked_by = mysqli_fetch_assoc(sql_query("SELECT id FROM users WHERE username=" . sqlesc($torrents['checked_by']))) or sqlerr(__FILE__, __LINE__);
+            $chckby_query = sql_query("SELECT id FROM users WHERE username=" . sqlesc($torrents['checked_by'])) or sqlerr(__FILE__, __LINE__);
+            $checked_by = $chckby_query->fetch_assoc();
             $cache->set('checked_by_' . $id, $checked_by, 30 * 86400);
         }
         $HTMLOUT.= "<tr>

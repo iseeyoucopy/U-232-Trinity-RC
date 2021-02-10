@@ -24,7 +24,7 @@ if (!empty($torrent_pass)) {
     if (strlen($torrent_pass) != 32) die("Your passkey is not long enough! Go to " . $TRINITY20['site_name'] . " and reset your passkey");
     else {
         $q0 = sql_query("SELECT * FROM users where torrent_pass = " . sqlesc($torrent_pass)) or sqlerr(__FILE__, __LINE__);
-        if (mysqli_num_rows($q0) == 0) die("Your passkey is invalid! Go to " . $TRINITY20['site_name'] . " and reset your passkey");
+        if ($q0->num_rows == 0) die("Your passkey is invalid! Go to " . $TRINITY20['site_name'] . " and reset your passkey");
         else $CURUSER = $q0->fetch_assoc();
     }
 } 

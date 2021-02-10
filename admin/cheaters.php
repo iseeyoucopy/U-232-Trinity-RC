@@ -44,7 +44,7 @@ if (isset($_POST["nowarned"]) && $_POST["nowarned"] == "nowarned") {
 $HTMLOUT.= "<div class='row'><div class='col-md-12'>";
 $HTMLOUT.= "<h2>{$lang['cheaters_users']}</h2>";
 $res = sql_query("SELECT COUNT(*) FROM cheaters") or sqlerr(__FILE__, __LINE__);
-$row = mysqli_fetch_array($res);
+$row = $res->fetch_array(MYSQLI_BOTH);
 $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "staffpanel.php?tool=cheaters&amp;action=cheaters&amp;");

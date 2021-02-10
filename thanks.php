@@ -28,7 +28,7 @@ function print_list()
     $qt = sql_query("SELECT th.userid, u.username, u.seedbonus FROM thanks as th INNER JOIN users as u ON u.id=th.userid WHERE th.torrentid=" . sqlesc($tid) . " ORDER BY u.class DESC") or sqlerr(__FILE__, __LINE__);
     $list = [];
     $hadTh = false;
-    if (mysqli_num_rows($qt) > 0) {
+    if ($qt->num_rows > 0) {
         while ($a = $qt->fetch_assoc()) {
             $list[] = '<a href=\'userdetails.php?id=' . (int) $a['userid'] . '\' target=\'' . $target . '\'>' . htmlsafechars($a['username']) . '</a>';
             $ids[] = (int) $a['userid'];

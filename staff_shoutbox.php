@@ -113,7 +113,7 @@ background: #000000 repeat-x left top;
 // Power Users+ can edit anyones single shouts //== pdq
 if (isset($_GET['edit']) && ($_GET['user'] == $CURUSER['id']) && ($CURUSER['class'] >= UC_POWER_USER && $CURUSER['class'] <= UC_STAFF) && is_valid_id(htmlsafechars($_GET['edit']))) {
     $sql = sql_query('SELECT id, text, userid FROM shoutbox WHERE staff_shout="yes" AND userid =' . sqlesc($_GET['user']) . ' AND id=' . sqlesc($_GET['edit'])) or sqlerr(__FILE__, __LINE__);
-    $res = mysqli_fetch_array($sql);
+    $res = $sql->fetch_array(MYSQLI_BOTH);
     $HTMLOUT.= "<!DOCTYPE html><head>
 <script type='text/javascript' src='./scripts/shout.js'></script>
 <style type='text/css'>
@@ -275,8 +275,8 @@ if (isset($_GET['staff_sent']) && ($_GET['staff_sent'] == "yes")) {
         $command = $vars[1];
         $user = $vars[2];
         $c = sql_query("SELECT id, class, modcomment FROM users where username=" . sqlesc($user)) or sqlerr(__FILE__, __LINE__);
-        $a = mysqli_fetch_row($c);
-        if (mysqli_num_rows($c) == 1 && $CURUSER["class"] > $a[1]) {
+        $a = $c->fetch_row();
+        if ($c->num_rows == 1 && $CURUSER["class"] > $a[1]) {
             switch ($command) {
             case "/EMPTY":
                 $what = 'deleted all shouts';
@@ -394,8 +394,8 @@ if (isset($_GET['staff_sent']) && ($_GET['staff_sent'] == "yes")) {
     } elseif (preg_match($private_pattern, $text, $vars)) {
         $to_user = 0;
         $p_res = sql_query(sprintf('SELECT id FROM users WHERE username = %s', sqlesc($vars[2]))) or exit($mysqli->error);
-        if (mysqli_num_rows($p_res) == 1) {
-            $p_arr = mysqli_fetch_row($p_res);
+        if ($p_res->num_rows == 1) {
+            $p_arr = $p_res->fetch_row();
             $to_user = (int) $p_arr[0];
         }
         if ($to_user != 0 && $to_user != $CURUSER['id']) {
@@ -408,7 +408,8 @@ if (isset($_GET['staff_sent']) && ($_GET['staff_sent'] == "yes")) {
         }
         $HTMLOUT.= "<script type=\"text/javascript\">parent.document.forms[0].staff_shbox_text.value='';</script>";
     } else {
-        $a = mysqli_fetch_row(sql_query("SELECT userid, date FROM shoutbox WHERE staff_shout='yes' ORDER by id DESC LIMIT 1")) or print("First shout or an error :)");
+        $a_query = sql_query("SELECT userid, date FROM shoutbox WHERE staff_shout='yes' ORDER by id DESC LIMIT 1") or print("First shout or an error :)");
+        $a = $a_query->fetch_row();
         if (empty($text) || strlen($text) == 1) {
             $HTMLOUT.= "<font class=\"small\" color=\"red\">Shout can't be empty</font>";
         } elseif ($a[0] == $userid && (TIME_NOW - $a[1]) < $limit && $CURUSER['class'] < UC_STAFF) {

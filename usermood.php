@@ -26,7 +26,7 @@ $more = (($CURUSER['perms'] & bt_options::UNLOCK_MORE_MOODS) ? 2 : 1);
 if (isset($_GET['id'])) {
     $moodid = (isset($_GET['id']) ? (int)$_GET['id'] : 1);
     $res_moods = sql_query('SELECT * FROM moods WHERE bonus < ' . sqlesc($more) . ' AND id = ' . sqlesc($moodid)) or sqlerr(__file__, __line__);
-    if (mysqli_num_rows($res_moods)) {
+    if ($res_moods->num_rows) {
         $rmood = $res_moods->fetch_assoc();
         sql_query('UPDATE users SET mood = ' . sqlesc($moodid) . ' WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
         $cache->update_row($keys['my_userid'] . $CURUSER['id'], [

@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
 } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "signup") {
     //==err("w00t");
     $r_check = sql_query("SELECT * FROM promo WHERE link=" . sqlesc($link)) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($r_check) == 0) stderr("Error", "The link your using is not a valid link");
+    if ($r_check->num_rows == 0) stderr("Error", "The link your using is not a valid link");
     else {
         $ar_check = $r_check->fetch_assoc();
         if ($ar_check["max_users"] == $ar_check["accounts_made"]) stderr("Error", "Sorry account limit (" . htmlsafechars($ar_check["max_users"]) . ") on this link has been reached ");
@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
         check_banned_emails($email);
         //==Check if username or password already exists
         $var_check = sql_query("SELECT id, editsecret FROM users where username=" . sqlesc($username) . " OR email=" . sqlesc($email)) or sqlerr(__FILE__, __LINE__);
-        if (mysqli_num_rows($var_check) == 1) stderr("Error", "Username or password already exists");
+        if ($var_check->num_rows == 1) stderr("Error", "Username or password already exists");
 		$added = TIME_NOW;
         $secret = mksecret();
         $hash2 = t_Hash($email, $username, $added);
@@ -169,7 +169,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
     if (empty($link)) stderr("Error", "There is no link found! Please check the link");
     else {
         $r_promo = sql_query("SELECT * from promo where link=" . sqlesc($link)) or sqlerr(__FILE__, __LINE__);
-        if (mysqli_num_rows($r_promo) == 0) stderr("Error", "There is no promo with that link ");
+        if ($r_promo->num_rows == 0) stderr("Error", "There is no promo with that link ");
         else {
             $ar = $r_promo->fetch_assoc();
             if ($ar["max_users"] == $ar["accounts_made"]) stderr("Error", "Sorry account limit (" . htmlsafechars($ar["max_users"]) . ") on this link has been reached ");
@@ -202,7 +202,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
     if ($id == 0) die("Can't find id");
     else {
         $q1 = sql_query("SELECT name, users FROM promo WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-        if (mysqli_num_rows($q1) == 1) {
+        if ($q1->num_rows == 1) {
             $a1 = $q1->fetch_assoc();
             if (!empty($a1["users"])) {
                 $users = explode(",", $a1["users"]);

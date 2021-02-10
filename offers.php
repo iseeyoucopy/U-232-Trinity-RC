@@ -63,7 +63,7 @@ case 'vote':
     if (!isset($id) || !is_valid_id($id) || !isset($vote) || !is_valid_id($vote)) stderr('USER ERROR', 'Bad id / bad vote');
     //=== see if they voted yet
     $res_did_they_vote = sql_query('SELECT vote FROM offer_votes WHERE user_id = ' . sqlesc($CURUSER['id']) . ' AND offer_id = ' . sqlesc($id));
-    $row_did_they_vote = mysqli_fetch_row($res_did_they_vote);
+    $row_did_they_vote = $res_did_they_vote->fetch_row();
     if (isset($row_did_they_vote[0]) == '') {
         $yes_or_no = ($vote == 1 ? 'yes' : 'no');
         sql_query('INSERT INTO offer_votes (offer_id, user_id, vote) VALUES (' . sqlesc($id) . ', ' . sqlesc($CURUSER['id']) . ', \'' . $yes_or_no . '\')');
@@ -81,7 +81,7 @@ case 'default':
     require_once INCL_DIR . 'pager_new.php';
     //=== get stuff for the pager
     $count_query = sql_query('SELECT COUNT(id) FROM offers');
-    $count_arr = mysqli_fetch_row($count_query);
+    $count_arr = $count_query->fetch_row();
     $count = $count_arr[0];
     $page = isset($_GET['page']) ? (int)$_GET['page'] : 0;
     $perpage = isset($_GET['perpage']) ? (int)$_GET['perpage'] : 20;
@@ -146,7 +146,7 @@ case 'offer_details':
     $arr = $res->fetch_assoc();
     //=== see if they voted yet
     $res_did_they_vote = sql_query('SELECT vote FROM offer_votes WHERE user_id = ' . sqlesc($CURUSER['id']) . ' AND offer_id = ' . sqlesc($id));
-    $row_did_they_vote = mysqli_fetch_row($res_did_they_vote);
+    $row_did_they_vote = $res_did_they_vote->fetch_row();
     if (isset($row_did_they_vote[0]) == '') {
         $vote_yes = '<form method="post" action="offers.php">
                     <input type="hidden" name="action" value="vote" />

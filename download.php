@@ -19,7 +19,7 @@ $lang = array_merge(load_language('global') , load_language('download'));
 $T_Pass = isset($_GET['torrent_pass']) && strlen($_GET['torrent_pass']) == 32 ? $_GET['torrent_pass'] : '';
 if (!empty($T_Pass)) {
     $q0 = sql_query("SELECT * FROM users where torrent_pass = " . sqlesc($T_Pass)) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($q0) == 0) die($lang['download_passkey']);
+    if ($q0->num_rows == 0) die($lang['download_passkey']);
     else $CURUSER = $q0->fetch_assoc();
 } else loggedinorreturn();
 if (function_exists('parked')) parked();
@@ -106,7 +106,8 @@ $cache->delete('top5_tor_');
 $cache->delete('last5_tor_');
 $cache->delete('scroll_tor_');
 if (!isset($CURUSER['torrent_pass']) || strlen($CURUSER['torrent_pass']) != 32) {
-    $xbt_config = mysqli_fetch_row(sql_query("SELECT value FROM xbt_config WHERE name='torrent_pass_private_key'")) or sqlerr(__FILE__, __LINE__);
+    $xbt_config_query = sql_query("SELECT value FROM xbt_config WHERE name='torrent_pass_private_key'") or sqlerr(__FILE__, __LINE__);
+    $xbt_config = $xbt_config_query->fetch_row();
     $site_key = $xbt_config['0']; // the value of torrent_pass_private_key that is stored in the xbt_config table
     $info_hash = $row['info_hash']; // the torrent info_hash
     $torrent_pass_version = $CURUSER['torrent_pass_version']; // the torrent_pass_version that is stored in the users table for the user in question

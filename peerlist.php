@@ -15,6 +15,7 @@ require_once (INCL_DIR . 'user_functions.php');
 require_once (INCL_DIR . 'bt_client_functions.php');
 require_once (INCL_DIR . 'html_functions.php');
 dbconn(false);
+
 loggedinorreturn();
 $lang = array_merge(load_language('global') , load_language('peerlist'));
 $id = (int)$_GET['id'];
@@ -71,7 +72,7 @@ $subres = sql_query("SELECT u.username, u.anonymous, t.owner, t.anonymous as tan
     LEFT JOIN users u ON p.userid = u.id
 	LEFT JOIN torrents as t on t.id = p.torrent
     WHERE p.torrent = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-if (mysqli_num_rows($subres) == 0) stderr("{$lang['peerslist_warning']}", "{$lang['peerslist_no_data']}");
+if ($subres->num_rows == 0) stderr("{$lang['peerslist_warning']}", "{$lang['peerslist_no_data']}");
 while ($subrow = $subres->fetch_assoc()) {
     if ($subrow["seeder"] == "yes") $seeders[] = $subrow;
     else $downloaders[] = $subrow;

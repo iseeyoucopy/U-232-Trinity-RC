@@ -28,7 +28,7 @@ $langs = array(
 );
 function radioinfo($radio)
 {
-    global $langs, $TRINITY20, $cache, $CURUSER;
+    global $langs, $TRINITY20, $cache, $CURUSER, $radio_host, $radio_port, $radio_password;
     $xml = $html = $history = ''; 
     if ($hand = @fsockopen($radio_host, $radio_port, $errno, $errstr, 30)) {
         fputs($hand, "GET /admin.cgi?pass=" . $radio_password . "&mode=viewxml HTTP/1.1\nUser-Agent:Mozilla/5.0 " . "(Windows; U; Windows NT 6.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6\n\n");
@@ -60,7 +60,7 @@ function radioinfo($radio)
             $html.= '<li><b>Playlist history: </b> ' . (count($history) > 0 ? join(', ', $history) : 'No playlist history') . '</li>';
             if (empty($users_ip) === false) {
                 $q1 = sql_query('SELECT id, username FROM users WHERE ip IN (' . $users_ip . ') ORDER BY username ASC') or sqlerr(__FILE__, __LINE__);
-                if (mysqli_num_rows($q1) == 0) $html.= '<li><b>Listeners</b>: currently no listener from site </li>';
+                if ($q1->num_rows == 0) $html.= '<li><b>Listeners</b>: currently no listener from site </li>';
                 else {
                     $users = array();
                     while ($a1 = $q1->fetch_assoc()) $users[] = ($CURUSER['id'] == $a1['id'] || $CURUSER['class'] >= UC_STAFF) ? sprintf('<a href="/userdetails.php?id=%d">%s</a>', $a1['id'], $a1['username']) : 'Anonymous';

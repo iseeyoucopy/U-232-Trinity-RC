@@ -21,7 +21,7 @@ $HTMLOUT = '';
 $id = (isset($_GET["id"]) ? 0 + $_GET["id"] : "0");
 if ($id == "0") stderr("Err", "I dont think so!");
 $ur = sql_query("SELECT username from users WHERE id=" . sqlesc($id));
-$user = mysqli_fetch_array($ur) or stderr("Error", "No user found");
+$user = $ur->fetch_array(MYSQLI_ASSOC) or stderr("Error", "No user found");
 $count = get_row_count("happylog", "WHERE userid=" . sqlesc($id));
 $perpage = 30;
 $pager = pager($perpage, $count, "happylog.php?id=$id&amp;");

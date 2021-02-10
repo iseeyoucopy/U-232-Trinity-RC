@@ -36,7 +36,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
         if (mysqli_num_rows($res) == 0) {
             stderr("Error", "No poll found with that ID.");
         }
-        $poll = mysqli_fetch_assoc($res);
+        $poll = $res->fetch_assoc();
     }
     if ($_SERVER["REQUEST_METHOD"] == "POST" && !$topicid) {
         $topicid = ($subaction == "edit" ? (int) $poll['tid'] : (int) $_POST["updatetopicid"]);

@@ -34,7 +34,7 @@ $query = sql_query("SELECT * FROM polls
                             LEFT JOIN poll_voters ON polls.pid = poll_voters.poll_id
                             AND poll_voters.user_id = {$CURUSER['id']} 
                             WHERE pid = " . sqlesc($poll_id));
-if (!mysqli_num_rows($query) == 1) {
+if (!$query->num_rows == 1) {
     stderr('ERROR', 'No poll with that ID');
 }
 $poll_data = $query->fetch_assoc();

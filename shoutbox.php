@@ -276,8 +276,8 @@ if (isset($_GET['sent']) && ($_GET['sent'] == "yes")) {
         $command = $vars[1];
         $user = $vars[2];
         $c = sql_query("SELECT id, class, modcomment FROM users where username=" . sqlesc($user)) or sqlerr(__FILE__, __LINE__);
-        $a = mysqli_fetch_row($c);
-        if (mysqli_num_rows($c) == 1 && $CURUSER["class"] > $a[1]) {
+        $a = $c->fetch_row();
+        if ($c->num_rows == 1 && $CURUSER["class"] > $a[1]) {
             switch ($command) {
             case "/EMPTY":
                 $what = $lang['shoutbox_empty_all'];
@@ -395,8 +395,8 @@ if (isset($_GET['sent']) && ($_GET['sent'] == "yes")) {
     } elseif (preg_match($private_pattern, $text, $vars)) {
         $to_user = 0;
         $p_res = sql_query(sprintf('SELECT id FROM users WHERE username = %s', sqlesc($vars[2]))) or exit($mysqli->error);
-        if (mysqli_num_rows($p_res) == 1) {
-            $p_arr = mysqli_fetch_row($p_res);
+        if ($p_res->num_rows == 1) {
+            $p_arr = $p_res->fetch_row();
             $to_user = (int) $p_arr[0];
         }
         if ($to_user != 0 && $to_user != $CURUSER['id']) {
@@ -409,7 +409,8 @@ if (isset($_GET['sent']) && ($_GET['sent'] == "yes")) {
         }
         $HTMLOUT.= "<script type=\"text/javascript\">parent.document.forms[0].shbox_text.value='';</script>";
     } else {
-        $a = mysqli_fetch_row(sql_query("SELECT userid, date FROM shoutbox WHERE staff_shout='no' ORDER by id DESC LIMIT 1")) or print("First shout or an error :)");
+        $a_query = sql_query("SELECT userid, date FROM shoutbox WHERE staff_shout='no' ORDER by id DESC LIMIT 1") or print("First shout or an error :)");
+        $a = $a_query->fetch_row();
         if (empty($text) || strlen($text) == 1) {
             $HTMLOUT.= "<font class=\"small\" color=\"red\">Shout can't be empty</font>";
         } elseif ($a[0] == $userid && (TIME_NOW - $a[1]) < $limit && $CURUSER['class'] < UC_STAFF) {

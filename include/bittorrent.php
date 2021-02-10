@@ -378,7 +378,7 @@ function userlogin()
             sqlesc($row['id']) or sqlerr(__FILE__, __LINE__)
         );
         $result = sql_query($query);
-        if (mysqli_num_rows($result)) { // Main Result set exists
+        if ($result->num_rows) { // Main Result set exists
             $ann_row = $result->fetch_assoc();
             $query = sqlesc($ann_row['sql_query']);
             // Ensure it only selects...
@@ -389,7 +389,7 @@ function userlogin()
             // row if the existing query matches any attributes.
             $query .= ' AND u.id = ' . sqlesc($row['id']) . ' LIMIT 1';
             $result = sql_query($query);
-            if (mysqli_num_rows($result)) { // Announcement valid for member
+            if ($result->num_rows) { // Announcement valid for member
                 $row['curr_ann_id'] = (int) $ann_row['main_id'];
                 // Create two row elements to hold announcement subject and body.
                 $row['curr_ann_subject'] = htmlsafechars($ann_row['subject']);
@@ -895,10 +895,9 @@ function searchfield($s)
 }
 function get_row_count($table, $suffix = "")
 {
-    global $mysqli;
     if ($suffix) $suffix = " $suffix";
-    ($r = sql_query("SELECT COUNT(*) FROM $table$suffix")) or die($mysqli->error);
-    ($a = mysqli_fetch_row($r)) or die($mysqli->error);
+    ($r = sql_query("SELECT COUNT(*) FROM $table$suffix")) or sqlerr(__FILE__, __LINE__);
+    ($a = $r->fetch_row()) or sqlerr(__FILE__, __LINE__);
     return $a[0];
 }
 function stderr($heading, $text)

@@ -64,7 +64,7 @@ $lang = array_merge($lang, load_language('ad_modpanel'));
 	 <td>
 	 <select name='new_forumid'>";
        $res = sql_query("SELECT id, name, min_class_write FROM forums ORDER BY name") or sqlerr(__FILE__, __LINE__);
-       while ($arr = mysqli_fetch_assoc($res)) {
+       while ($arr = $res->fetch_assoc()) {
            if ($CURUSER['class'] >= $arr["min_class_write"]) {
                $HTMLOUT .= '<option value="' . (int) $arr["id"] . '"' . ($arr["id"] == $forumid ? ' selected="selected"' : '') . '>' . htmlsafechars($arr["name"]) . '</option>';
            }

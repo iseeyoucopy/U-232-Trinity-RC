@@ -113,7 +113,7 @@ if (XBT_TRACKER == true) {
     $sql = "SELECT sn.userid, sn.id, sn.torrentid, sn.timesann, sn.hit_and_run, sn.mark_of_cain, sn.uploaded, sn.downloaded, sn.start_date, sn.complete_date, sn.seeder, sn.leechtime, sn.seedtime, u.username, t.name " . "FROM snatched AS sn " . "LEFT JOIN users AS u ON u.id=sn.userid " . "LEFT JOIN torrents AS t ON t.id=sn.torrentid WHERE complete_date != '0'" . "ORDER BY sn.complete_date DESC " . $pager['limit'];
 }
 $result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
-if (mysqli_num_rows($result) != 0) {
+if ($result->num_rows != 0) {
     if (XBT_TRACKER == true) {
         $HTMLOUT.= "<table class='table table-bordered'>
 <tr>

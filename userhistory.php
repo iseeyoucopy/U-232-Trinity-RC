@@ -80,7 +80,7 @@ if ($action == "viewposts") {
         $body = format_comment($arr["body"]);
         if (is_valid_id($arr['edited_by'])) {
             $subres = sql_query("SELECT username FROM users WHERE id=" . sqlesc($arr['edited_by']));
-            if (mysqli_num_rows($subres) == 1) {
+            if ($subres->num_rows == 1) {
                 $subrow = $subres->fetch_assoc();
                 $body.= "<p><font size='1' class='small'>{$lang['posts_lasteditedby']} <a href='userdetails.php?id=" . (int)$arr['edited_by'] . "'><b>" . htmlsafechars($subrow['username']) . "</b></a> {$lang['posts_at']} " . get_date($arr['edit_date'], 'LONG', 0, 1) . "</font></p>\n";
             }
@@ -132,7 +132,7 @@ if ($action == "viewcomments") {
         $torrentid = (int)$arr["t_id"];
         //find the page; this code should probably be in details.php instead
         $subres = sql_query("SELECT COUNT(*) FROM comments WHERE torrent = " . sqlesc($torrentid) . " AND id < " . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
-        $subrow = mysqli_fetch_row($subres);
+        $subrow = $subres->fetch_row();
         $count = $subrow[0];
         $comm_page = floor($count / 20);
         $page_url = $comm_page ? "&amp;page=$comm_page" : "";

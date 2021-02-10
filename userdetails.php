@@ -222,7 +222,7 @@ if (($user_stats = $cache->get($What_Cache.$id)) === false) {
 }
 if (($user_status = $cache->get('user_status_' . $id)) === false) {
     $sql_2 = sql_query('SELECT * FROM ustatus WHERE userid = ' . sqlesc($id));
-    if (mysqli_num_rows($sql_2)) $user_status = $sql_2->fetch_assoc();
+    if ($sql_2->num_rows) $user_status = $sql_2->fetch_assoc();
     else $user_status = array(
         'last_status' => '',
         'last_update' => 0,
@@ -314,12 +314,12 @@ elseif ($user["acceptpms"] == "yes") {
 //== Add or Remove Friends - updated 2020 by iseeyoucopy
 if (($friends = $cache->get('Friends_' . $id)) === false) {
 	$r3 = sql_query("SELECT id FROM friends WHERE userid=" . sqlesc($CURUSER['id']) . " AND friendid=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-	$friends = mysqli_num_rows($r3);
+	$friends = $r3->num_rows;
 	$cache->set('Friends_' . $id, $friends, 10);
 }
 if (($blocks = $cache->get('Blocks_' . $id)) === false) {
 	$r4 = sql_query("SELECT id FROM blocks WHERE userid=" . sqlesc($CURUSER['id']) . " AND blockid=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-	$blocks = mysqli_num_rows($r4);
+	$blocks = $r4->num_rows;
 	$cache->set('Blocks_' . $id, $blocks, 10);
 }
 //== Join date 
@@ -337,7 +337,7 @@ else
 		$lastseen = get_date($user['last_access'], '', 0, 1);
 if (($shit_list = $cache->get('shit_list_' . $id)) === false) {
 	$check_if_theyre_shitty = sql_query("SELECT suspect FROM shit_list WHERE userid=" . sqlesc($CURUSER['id']) . " AND suspect=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-	list($shit_list) = mysqli_fetch_row($check_if_theyre_shitty);
+	list($shit_list) = $check_if_theyre_shitty->fetch_row();
 	$cache->set('shit_list_' . $id, $shit_list, $TRINITY20['expires']['shit_list']);
 	}
 $HTMLOUT = $perms = $stealth = $suspended = $watched_user = '';
