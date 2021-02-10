@@ -56,7 +56,7 @@ case 'new':
     $res_name = sql_query('SELECT username FROM users WHERE id=' . sqlesc($shit_list_id));
     $arr_name = $res_name->fetch_assoc();
     $check_if_there = sql_query('SELECT suspect FROM shit_list WHERE userid=' . sqlesc($CURUSER['id']) . ' AND suspect=' . sqlesc($shit_list_id));
-    if (mysqli_num_rows($check_if_there) == 1) stderr($lang['shitlist_stderr'], $lang['shitlist_already1'] . htmlsafechars($arr_name['username']) . $lang['shitlist_already2']);
+    if ($check_if_there->num_rows == 1) stderr($lang['shitlist_stderr'], $lang['shitlist_already1'] . htmlsafechars($arr_name['username']) . $lang['shitlist_already2']);
     $level_of_shittyness = '';
     $level_of_shittyness.= '<select name="shittyness"><option value="0">' . $lang['shitlist_level'] . '</option>';
     $i = 1;
@@ -98,7 +98,7 @@ case 'add':
     $return_to = str_replace('&amp;', '&', htmlsafechars($_POST['return_to']));
     if (!is_valid_id($shit_list_id) || !is_valid_id($shittyness)) stderr($lang['shitlist_stderr'], $lang['shitlist_stderr2']);
     $check_if_there = sql_query('SELECT suspect FROM shit_list WHERE userid=' . sqlesc($CURUSER['id']) . ' AND suspect=' . sqlesc($shit_list_id));
-    if (mysqli_num_rows($check_if_there) == 1) stderr($lang['shitlist_stderr'], $lang['shitlist_stderr3']);
+    if ($check_if_there->num_rows == 1) stderr($lang['shitlist_stderr'], $lang['shitlist_stderr3']);
     sql_query('INSERT INTO shit_list VALUES (' . $CURUSER['id'] . ',' . sqlesc($shit_list_id) . ', ' . sqlesc($shittyness) . ', ' . TIME_NOW . ', ' . sqlesc($_POST['text']) . ')');
     $cache->delete('shit_list_' . $shit_list_id);
     $message = '<h1>' . $lang['shitlist_success'] . '</h1><a class="altlink" href="' . $return_to . '"><span class="btn" style="padding:1px;">' . $lang['shitlist_success1'] . '</span></a>';
@@ -141,7 +141,7 @@ if ($res->num_rows == 0) {
       <td class="one" align="center" valign="top" colspan="4">
       <img src="pic/smilies/shit.gif" alt="*" />' . $lang['shitlist_empty'] . '<img src="pic/smilies/shit.gif" alt="*" /></td>
    </tr>';
-} else while ($shit_list = mysqli_fetch_array($res)) {
+} else while ($shit_list = $res->fetch_array(MYSQLI_BOTH)) {
     $shit = '';
     for ($poop = 1; $poop <= $shit_list['shittyness']; $poop++) {
         $shit.= ' <img src="pic/smilies/shit.gif" title="' . (int)$shit_list['shittyness'] . '' . $lang['shitlist_scale'] . '" alt="*" />';

@@ -36,7 +36,7 @@ if (isset($_GET["total_donors"])) {
     $total_donors = 0 + $_GET["total_donors"];
     if ($total_donors != '1') stderr($lang['donate_err'], $lang['donate_err1']);
     $res = sql_query("SELECT COUNT(*) FROM users WHERE total_donated != '0.00' AND enabled='yes'") or sqlerr(__FILE__, __LINE__);
-    $row = mysqli_fetch_array($res);
+    $row = $res->fetch_array(MYSQLI_BOTH);
     $count = $row[0];
     $perpage = 15;
     $pager = pager($perpage, $count, "staffpanel.php?tool=donations&amp;action=donations&amp;");
@@ -49,7 +49,7 @@ if (isset($_GET["total_donors"])) {
 // ===end total donors
 else {
     $res = sql_query("SELECT COUNT(id) FROM users WHERE donor='yes'") or sqlerr(__FILE__, __LINE__);
-    $row = mysqli_fetch_array($res);
+    $row = $res->fetch_array(MYSQLI_BOTH);
     $count = $row[0];
     $perpage = 15;
     $pager = pager($perpage, $count, "staffpanel.php?tool=donations&amp;action=donations&amp;");

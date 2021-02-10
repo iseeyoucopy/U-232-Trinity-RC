@@ -76,7 +76,7 @@ case 'edit' :
 default :
 $htmlout = "<div class='row'><div class='col-md-12'><h2>{$lang['forum_mngr_title']}</h2>";
 $r1 = sql_query('select name, id, description, min_class_view, forum_id, sort FROM over_forums ORDER BY sort') or  sqlerr(__FILE__,__LINE__);
-$f_count = mysqli_num_rows($r1);
+$f_count = $r1->num_rows;
 if(!$f_count)
 $htmlout .= "<h2>{$lang['forum_mngr_err4']}</h2>";
 else {
@@ -112,7 +112,7 @@ else {
 		$htmlout .= "<h2>{$lang['forum_mngr_warn3']}</h2>";
 	if($do =='edit' && $id) {
 		$r3 = sql_query('select name, id, description , min_class_view ,forum_id, sort FROM over_forums WHERE id ='.sqlesc($id)) or sqlerr(__FILE__,__LINE__);
-		if(!mysqli_num_rows($r3))
+		if(!$r3->num_rows)
 			$htmlout .= "<h2>{$lang['forum_mngr_warn4']}</h2>";
 
 		else {

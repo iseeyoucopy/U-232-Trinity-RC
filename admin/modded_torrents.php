@@ -96,7 +96,8 @@ if (isset($_GET['type']) && in_array($_GET['type'], $modes)) {
         $beginOfDay = strtotime("midnight", TIME_NOW);
         $endOfDay = strtotime("tomorrow", $beginOfDay) - 1;
         $_time = (($mode == 'yesterday') ? $endOfDay : $beginOfDay);
-        $res = mysqli_fetch_row(sql_query("SELECT COUNT(*) FROM torrents WHERE checked_when >= $_time AND checked_by <> '' "));
+        $query_res = sql_query("SELECT COUNT(*) FROM torrents WHERE checked_when >= $_time AND checked_by <> '' ");
+        $res = $query_res->fetch_row();
         $count = $res[0];
         if ($count < 1) {
             $HTMLOUT.= '<br/><br/><h3 align="center">'.$lang['mtor_no_torrents_have_been_modded'].' ' . $mode . '.</h3><br/><br/>';

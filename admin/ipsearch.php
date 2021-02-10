@@ -72,7 +72,7 @@ if ($ip) {
 			 GROUP BY u.id
 		   ) AS ipsearch";
     $res = sql_query($queryc) or sqlerr(__FILE__, __LINE__);
-    $row = mysqli_fetch_array($res);
+    $row = $res->fetch_array(MYSQLI_BOTH);
     $count = $row[0];
     if ($count == 0) {
         $HTMLOUT.= "<br /><b>No users found</b>\n";
@@ -114,12 +114,12 @@ if ($ip) {
         if ($user['last_ip']) {
             $nip = ip2long($user['last_ip']);
             $res1 = sql_query("SELECT COUNT(*) FROM bans WHERE $nip >= first AND $nip <= last") or sqlerr(__FILE__, __LINE__);
-            $array = mysqli_fetch_row($res1);
+            $array = $res1->fetch_row();
             if ($array[0] == 0) $ipstr = $user['last_ip'];
             else $ipstr = "<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=testip&amp;action=testip&amp;ip=" . htmlsafechars($user['last_ip']) . "'><font color='#FF0000'><b>" . htmlsafechars($user["last_ip"]) . "</b></font></a>";
         } else $ipstr = "---";
         $resip = sql_query("SELECT ip FROM ips WHERE userid=" . sqlesc($user["id"]) . " GROUP BY ips.ip") or sqlerr(__FILE__, __LINE__);
-        $iphistory = mysqli_num_rows($resip);
+        $iphistory = $resip->num_rows;
         if ($user["invitedby"] > 0) {
             $res2 = sql_query("SELECT username FROM users WHERE id=" . sqlesc($user["invitedby"]) . "");
             $array = $res2->fetch_assoc();

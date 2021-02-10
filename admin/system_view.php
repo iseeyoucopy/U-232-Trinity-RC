@@ -73,7 +73,7 @@ function sql_get_version()
     if (!$row = $query->fetch_assoc()) {
         unset($row);
         $query = sql_query("SHOW VARIABLES LIKE 'version'");
-        $row = mysqli_fetch_row($query);
+        $row = $query->fetch_row();
         $row['version'] = $row[1];
     }
     $true_version = $row['version'];
@@ -88,7 +88,7 @@ $load_limit = "--";
 $server_load_found = 0;
 $using_cache = 0;
 $avp = @sql_query("SELECT value_s FROM avps WHERE arg = 'loadlimit'");
-if (false !== $row = mysqli_fetch_assoc($avp)) {
+if (false !== $row = $avp->fetch_assoc()) {
     $loadinfo = explode("-", $row['value_s']);
     if (intval($loadinfo[1]) > (time() - 20)) {
         $server_load_found = 1;

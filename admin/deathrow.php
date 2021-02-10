@@ -150,7 +150,7 @@ if ($CURUSER["class"] >= UC_STAFF) {
     unset($res);
 }
 $res = sql_query("SELECT COUNT(tid) FROM deathrow") or sqlerr(__FILE__, __LINE__);
-$row = mysqli_fetch_array($res, MYSQLI_NUM);
+$row = $res->fetch_array(MYSQLI_NUM);
 $count = $row[0];
 if ($count) {
     $perpage = 25;

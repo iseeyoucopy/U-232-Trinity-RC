@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //FROM HERE
             // CAN REMOVE THE QUERY I THINK.   $old_max = UC_MAX;  OR EVEN  $new_max = UC_MAX +1;  << BOTH WORK
             $res = sql_query("SELECT * from class_config WHERE name IN ('UC_MAX') ") or sqlerr(__FILE__, __LINE__);
-            while ($arr = mysqli_fetch_array($res)) {
+            while ($arr = $res->fetch_array(MYSQLI_BOTH)) {
                 $old_max = $arr['value'];
                 $new_max = $arr['value'] +1;
                 sql_query("UPDATE class_config SET value = '$new_max' WHERE name = 'UC_MAX'") or sqlerr(__FILE__, __LINE__);
@@ -121,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //FROM HERE
             //SAME AS ABOVE $new_staff = UC_STAFF +1; THEN UPDATE DB WITH THAT
             $res = sql_query("SELECT * from class_config WHERE name = 'UC_STAFF'") or sqlerr(__FILE__, __LINE__);
-            while ($arr = mysqli_fetch_array($res)) {
+            while ($arr = $res->fetch_array(MYSQLI_BOTH)) {
                 if ($value <= $arr['value']) {
                     $new_staff = $arr['value'] +1;
                     sql_query("UPDATE class_config SET value = '$new_staff' WHERE name = 'UC_STAFF'") or sqlerr(__FILE__, __LINE__);
@@ -207,19 +207,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($mode == 'remove') {
         $name = isset($_POST['remove']) ? htmlsafechars($_POST['remove']) : stderr($lang['classcfg_error'], $lang['classcfg_error_required']);
         $res = sql_query("SELECT value from class_config WHERE name = '$name' ") or sqlerr(__FILE__, __LINE__);
-        while ($arr = mysqli_fetch_array($res)) {
+        while ($arr = $res->fetch_array(MYSQLI_BOTH)) {
             $value = $arr['value'];
         }
         //FIND UC_MAX;
         $res = sql_query("SELECT * from class_config WHERE name IN ('UC_MAX') ") or sqlerr(__FILE__, __LINE__);
-        while ($arr = mysqli_fetch_array($res)) {
+        while ($arr = $res->fetch_array(MYSQLI_BOTH)) {
             $old_max = $arr['value'];
             $new_max = $arr['value'] -1;
             sql_query("UPDATE class_config SET value = '$new_max' WHERE name = 'UC_MAX'") or sqlerr(__FILE__, __LINE__);
         }
         //FIND AND UPDATE UC_STAFF
         $res = sql_query("SELECT * from class_config WHERE name = 'UC_STAFF'") or sqlerr(__FILE__, __LINE__);
-        while ($arr = mysqli_fetch_array($res)) {
+        while ($arr = $res->fetch_array(MYSQLI_BOTH)) {
             if ($value <= $arr['value']) {
                 $new_staff = $arr['value'] -1;
                 sql_query("UPDATE class_config SET value = '$new_staff' WHERE name = 'UC_STAFF'") or sqlerr(__FILE__, __LINE__);

@@ -46,7 +46,7 @@ $to_username = $res_username->fetch_assoc();
 if (mysqli_num_rows($res_username) === 0) stderr($lang['pm_error'], $lang['pm_forwardpm_nomember']);
 //=== make sure the reciever has space in their box
 $res_count = sql_query('SELECT COUNT(id) FROM messages WHERE receiver = ' . sqlesc($to_username['id']) . ' AND location = 1') or sqlerr(__FILE__, __LINE__);
-if (mysqli_num_rows($res_count) > ($maxbox * 6) && $CURUSER['class'] < UC_STAFF) stderr($lang['pm_forwardpm_srry'], $lang['pm_forwardpm_full']);
+if ($res_count->num_rows > ($maxbox * 6) && $CURUSER['class'] < UC_STAFF) stderr($lang['pm_forwardpm_srry'], $lang['pm_forwardpm_full']);
 //=== allow suspended users to PM / forward to staff only
 if ($CURUSER['suspended'] === 'yes') {
     $res = sql_query('SELECT class FROM users WHERE id = ' . sqlesc($to_username['id'])) or sqlerr(__FILE__, __LINE__);

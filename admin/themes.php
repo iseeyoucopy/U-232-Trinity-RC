@@ -44,7 +44,7 @@ if (isset($_GET['act'])) {
         $ID = (int)$_GET['id'];
         if (!is_valid_id($ID)) stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
         $TEMPLATE = sql_query("SELECT * FROM stylesheets WHERE id=" . sqlesc($ID) . " LIMIT 1");
-        $TEM = mysqli_fetch_array($TEMPLATE);
+        $TEM = $TEMPLATE->fetch_array();
         $HTML.= "<div class='row'><div class='col-md-12'>
 			<form action='{$TRINITY20['baseurl']}/staffpanel.php?tool=themes&amp;action=themes&amp;act=4' method='post'>
          <input type='hidden' value='" . (int)$TEM['id'] . "' name='uri' />
@@ -71,7 +71,7 @@ if (isset($_GET['act'])) {
     }
     if ($ACT == 3) { //--ADD NEW
         $IDS = sql_query("SELECT id FROM stylesheets");
-        while ($ID = mysqli_fetch_array($IDS)) {
+        while ($ID = $IDS->fetch_array()) {
             if (file_exists("templates/" . (int)$ID['id'] . "/template.php")) $TAKEN[] = "<font color='green'>$ID[id]</font>";
             else $TAKEN[] = "<font color='red'>$ID[id]</font>";
         }
@@ -98,7 +98,7 @@ if (isset($_GET['act'])) {
         $NAME = htmlsafechars($_POST['title']);
         if (!is_valid_id($ID)) stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
         $CURRENT = sql_query("SELECT * FROM stylesheets WHERE id=" . sqlesc($URI));
-        $CUR = mysqli_fetch_array($CURRENT);
+        $CUR = $CURRENT->fetch_array();
         if ($ID != $CUR['id']) $EDIT[] = "id=" . sqlesc($ID);
         if ($URI != $CUR['uri']) $EDIT[] = "uri=" . sqlesc($URI);
         if ($NAME != $CUR['name']) $EDIT[] = "name=" . sqlesc($NAME);
@@ -112,7 +112,8 @@ if (isset($_GET['act'])) {
         if (!isset($_POST['sure'])) header("Location: staffpanel.php?tool=themes");
         if (isset($_POST['sure']) && $_POST['sure'] != 1) header("Location: staffpanel.php?tool=themes");
         sql_query("DELETE FROM stylesheets WHERE id=" . sqlesc($ID));
-        $RANDSTYLE = mysqli_fetch_array(sql_query("SELECT id FROM stylesheets ORDER BY RAND() LIMIT 1"));
+        $query_RAND = sql_query("SELECT id FROM stylesheets ORDER BY RAND() LIMIT 1");
+        $RANDSTYLE = $query_RAND->fetch_array(MYSQLI_NUM);
         sql_query("UPDATE users SET stylesheet=" . sqlesc($RANDSTYLE['id']) . " WHERE stylesheet=" . sqlesc($ID));
         header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=themes&action=themes&msg=2");
     }
@@ -152,7 +153,7 @@ if (!isset($_GET['act'])) {
 		<td class='colhead'>{$lang['themes_e_d']}</td>
 		</tr>";
     $TEMPLATES = sql_query("SELECT * FROM stylesheets");
-    while ($TE = mysqli_fetch_array($TEMPLATES)) {
+    while ($TE = $TEMPLATES->fetch_array(MYSQLI_BOTH)) {
         $HTML.= "
 			<tr>
 			<td align='left'>$TE[id]</td>

@@ -25,7 +25,7 @@ $HTMLOUT.= "<table class='table table-bordered'>
 $query1 = sprintf('SELECT m.main_id, m.subject, m.body FROM announcement_main AS m ' . 'LEFT JOIN announcement_process AS p ' . 'ON m.main_id = p.main_id AND p.user_id = %s ' . 'WHERE p.status = 2', sqlesc($CURUSER['id']));
 $result = sql_query($query1);
 $ann_list = array();
-while ($x = mysqli_fetch_array($result)) $ann_list[] = $x;
+while ($x = $result->fetch_array(MYSQLI_BOTH)) $ann_list[] = $x;
 unset($x);
 unset($result);
 reset($ann_list);

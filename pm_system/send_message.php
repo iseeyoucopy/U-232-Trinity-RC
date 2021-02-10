@@ -55,7 +55,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
     //=== make sure they have space
     $res_count = sql_query('SELECT COUNT(*) FROM messages WHERE receiver = ' . sqlesc($receiver) . ' AND location = 1') or sqlerr(__FILE__, __LINE__);
     $arr_count = mysqli_fetch_row($res_count);
-    if (mysqli_num_rows($res_count) > ($maxbox * 6) && $CURUSER['class'] < UC_STAFF) stderr($lang['pm_forwardpm_srry'], $lang['pm_forwardpm_full']);
+    if ($res_count->num_rows > ($maxbox * 6) && $CURUSER['class'] < UC_STAFF) stderr($lang['pm_forwardpm_srry'], $lang['pm_forwardpm_full']);
 																	   
     //=== Make sure recipient wants this message
     if ($CURUSER['class'] < UC_STAFF) {

@@ -55,7 +55,8 @@ $row = $res->fetch_assoc();
 $ip = getip();
 if (!$row) {
     $added = TIME_NOW;
-    $fail = (mysqli_fetch_row(sql_query("SELECT COUNT(id) from failedlogins where ip=" . sqlesc($ip)))) or sqlerr(__FILE__, __LINE__);
+    $fail_query = sql_query("SELECT COUNT(id) from failedlogins where ip=" . sqlesc($ip)) or sqlerr(__FILE__, __LINE__);
+    $fail = ($fail_query->fetch_row());
     if ($fail[0] == 0) {
         sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES (" . sqlesc($ip) . ", " . sqlesc($added) . ", 1)") or sqlerr(__FILE__, __LINE__);
     } else {

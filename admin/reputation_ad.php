@@ -99,7 +99,7 @@ function show_level()
     $title = $lang['rep_ad_show_title'];
     $html = "<p>{$lang['rep_ad_show_html1']}<br />{$lang['rep_ad_show_html2']}</p><br />";
     $query = sql_query('SELECT * FROM reputationlevel ORDER BY minimumreputation ASC');
-    if (!mysqli_num_rows($query)) {
+    if (!$query->num_rows) {
         do_update('new');
         return;
     }
@@ -189,7 +189,7 @@ function do_update($type = "")
     }
     // what we gonna do?
     if ($type == 'new') {
-        @sql_query("INSERT INTO reputationlevel ( minimumreputation, level ) 
+        sql_query("INSERT INTO reputationlevel ( minimumreputation, level ) 
 							VALUES  ($minrep, $level )");
     } elseif ($type == 'edit') {
         $levelid = intval($input['reputationlevelid']);
@@ -199,16 +199,16 @@ function do_update($type = "")
         // check it's a valid rep id
         $query = sql_query("SELECT reputationlevelid FROM reputationlevel WHERE 
 									reputationlevelid={$levelid}");
-        if (!mysqli_num_rows($query)) {
+        if (!$query->num_rows) {
             stderr('', $lang['rep_ad_update_err4']);
         }
-        @sql_query("UPDATE reputationlevel SET minimumreputation = $minrep, level = $level 
+        sql_query("UPDATE reputationlevel SET minimumreputation = $minrep, level = $level 
 							WHERE reputationlevelid = $levelid");
     } else {
         $ids = $input['reputation'];
         if (is_array($ids) && count($ids)) {
             foreach ($ids as $k => $v) {
-                @sql_query("UPDATE reputationlevel SET minimumreputation = " . intval($v) . " WHERE reputationlevelid = " . intval($k));
+                sql_query("UPDATE reputationlevel SET minimumreputation = " . intval($v) . " WHERE reputationlevelid = " . intval($k));
             }
         } else {
             stderr('', $lang['rep_ad_update_err4']);
@@ -230,11 +230,11 @@ function do_delete()
     $levelid = intval($input['reputationlevelid']);
     // check the id is valid within db
     $query = sql_query("SELECT reputationlevelid FROM reputationlevel WHERE reputationlevelid=$levelid");
-    if (!mysqli_num_rows($query)) {
+    if (!$query->num_rows) {
         stderr('', $lang['rep_ad_delete_no']);
     }
     // if we here, we delete it!
-    @sql_query("DELETE FROM reputationlevel WHERE reputationlevelid=$levelid");
+    sql_query("DELETE FROM reputationlevel WHERE reputationlevelid=$levelid");
     rep_cache();
     redirect('staffpanel.php?tool=reputation_ad&amp;mode=done', $lang['rep_ad_delete_success'], 5);
 }
@@ -331,20 +331,20 @@ function view_list()
             stderr($lang['rep_ad_view_err1'], $lang['rep_ad_view_err2']);
         }
         if (!empty($input['leftby'])) {
-            $left_b = @sql_query("SELECT id FROM users WHERE username = " . sqlesc($input['leftby']));
-            if (!mysqli_num_rows($left_b)) {
+            $left_b = sql_query("SELECT id FROM users WHERE username = " . sqlesc($input['leftby']));
+            if (!$left_b->num_rows) {
                 stderr($lang['rep_ad_view_err3'], $lang['rep_ad_view_err4'] . htmlsafechars($input['leftby'], ENT_QUOTES));
             }
-            $leftby = mysqli_fetch_assoc($left_b);
+            $leftby = $left_b->fetch_assoc();
             $who = $leftby['id'];
             $cond = "r.whoadded=" . $who;
         }
         if (!empty($input['leftfor'])) {
-            $left_f = @sql_query("SELECT id FROM users WHERE username = " . sqlesc($input['leftfor']));
-            if (!mysqli_num_rows($left_f)) {
+            $left_f = sql_query("SELECT id FROM users WHERE username = " . sqlesc($input['leftfor']));
+            if (!$left_f->num_rows) {
                 stderr($lang['rep_ad_view_err3'], $lang['rep_ad_view_err4'] . htmlsafechars($input['leftfor'], ENT_QUOTES));
             }
-            $leftfor = mysqli_fetch_assoc($left_f);
+            $leftfor = $left_f->fetch_assoc();
             $user = $leftfor['id'];
             $cond.= ($cond ? " AND" : "") . " r.userid=" . $user;
         }
@@ -408,7 +408,7 @@ function view_list()
 									left join users leftfor on leftfor.id=r.userid 
 									left join users leftby on leftby.id=r.whoadded 
 									WHERE $cond ORDER BY $order LIMIT $first,$deflimit");
-        if (!mysqli_num_rows($query)) {
+        if (!$query->num_rows) {
             stderr($lang['rep_ad_view_err3'], $lang['rep_ad_view_err5']);
         }
         while ($r = $query->fetch_assoc()) {
@@ -480,12 +480,12 @@ function do_edit_rep()
     }
     if ($oldrep != $newrep) {
         if ($r['reason'] != $reason) {
-            @sql_query("UPDATE reputation SET reputation = " . intval($newrep) . ", reason = " . sqlesc($reason) . " WHERE reputationid = " . intval($r['reputationid']));
+            sql_query("UPDATE reputation SET reputation = " . intval($newrep) . ", reason = " . sqlesc($reason) . " WHERE reputationid = " . intval($r['reputationid']));
         }
         $sql = sql_query('SELECT reputation ' . 'FROM users ' . 'WHERE id = ' . sqlesc($input['reputationid'])) or sqlerr(__FILE__, __LINE__);
         $User = $sql->fetch_assoc();
         $diff = $oldrep - $newrep;
-        @sql_query("UPDATE users SET reputation = (reputation-{$diff}) WHERE id=" . intval($r['userid']));
+        sql_query("UPDATE users SET reputation = (reputation-{$diff}) WHERE id=" . intval($r['userid']));
         $update['rep'] = ($User['reputation'] - $diff);
         $cache->update_row($keys['my_userid'] . $r['userid'], [
             'reputation' => $update['rep']
@@ -574,8 +574,8 @@ function get_month_dropdown($i = 0)
 function rep_cache()
 {
     global $lang, $TRINITY20;
-    $query = @sql_query("SELECT * FROM reputationlevel");
-    if (!mysqli_num_rows($query)) {
+    $query = sql_query("SELECT * FROM reputationlevel");
+    if (!$query->num_rows) {
         stderr($lang['rep_ad_cache_cache'], $lang['rep_ad_cache_none']);
     }
     $rep_cache_file = "{$TRINITY20['baseurl']}/cache/rep_cache.php";

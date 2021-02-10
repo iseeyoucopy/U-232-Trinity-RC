@@ -45,8 +45,8 @@ elseif ($edit_mood['action'] == 'remove') {
 */
 if ($edit_mood['action'] == 'edit' && $edit_mood['id']) {
     $edit_mood['res'] = sql_query('SELECT * FROM moods WHERE id = ' . sqlesc($edit_mood['id'])) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($edit_mood['res'])) {
-        $edit_mood['arr'] = mysqli_fetch_assoc($edit_mood['res']);
+    if ($edit_mood['res']->num_rows) {
+        $edit_mood['arr'] = $edit_mood['res']->fetch_assoc();
         $HTMLOUT.= "<div class='row'><div class='col-md-12'><h1>{$lang['moods_edit']}</h1>
             <form method='post' action='staffpanel.php?tool=edit_moods&amp;action=edited'>
             <table class='table table-bordered'>

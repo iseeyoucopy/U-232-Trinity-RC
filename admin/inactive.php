@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       if ($action == "deluser" && (!empty($_POST["userid"]))) {
           $res   = sql_query("SELECT id, email, modcomment, username, added, last_access FROM users WHERE id IN (" . implode(", ", array_map("sqlesc", $_POST['userid'])) . ") ORDER BY last_access DESC ");
           $count = $res->num_rows;
-          while ($arr = mysqli_fetch_array($res)) {
+          while ($arr = $res->fetch_array(MYSQLI_BOTH)) {
               $userid   = (int) $arr["id"];
               $username = htmlsafechars($arr["username"]);
               $res_del = sql_query(account_delete($userid)) or sqlerr(__FILE__, __LINE__);
@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($action == "mail" && (!empty($_POST["userid"]))) {
         $res = sql_query("SELECT id, email, modcomment, username, added, last_access FROM users WHERE id IN (" . implode(", ", array_map("sqlesc", $_POST['userid'])) . ") ORDER BY last_access DESC ");
         $count = $res->num_rows;
-        while ($arr = mysqli_fetch_array($res)) {
+        while ($arr = $res->fetch_array(MYSQLI_BOTH)) {
             $id = (int)$arr["id"];
             $username = htmlsafechars($arr["username"]);
             $email = htmlsafechars($arr["email"]);
@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 $dt = TIME_NOW - ($days * 86400);
 $res = sql_query("SELECT COUNT(id) FROM users WHERE last_access<" . sqlesc($dt) . " AND status='confirmed' AND enabled='yes' ORDER BY last_access DESC");
-$row = mysqli_fetch_array($res);
+$row = $res->fetch_array(MYSQLI_BOTH);
 $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "staffpanel.php?tool=inactive&amp;");

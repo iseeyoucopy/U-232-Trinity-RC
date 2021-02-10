@@ -37,7 +37,7 @@ function write_staffs2()
     $iconfigfile = "<" . "?php\n/**\n{$lang['staffcfg_file_created']}" . date('M d Y H:i:s') . ".\n{$lang['staffcfg_mod_by']}\n**/\n";
     $ri = sql_query("SELECT id, username, class FROM users WHERE class BETWEEN " . UC_STAFF . " AND " . UC_MAX . " ORDER BY id ASC") or sqlerr(__file__, __line__);
     $iconfigfile.= "" . $t . "['allowed_staff']['id'] = array(";
-    while ($ai = mysqli_fetch_assoc($ri)) {
+    while ($ai = $ri->fetch_assoc()) {
         $ids[] = $ai['id'];
         $usernames[] = "'" . $ai["username"] . "' => 1";
     }

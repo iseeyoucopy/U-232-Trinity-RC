@@ -139,7 +139,7 @@ case "results":
         "ORDER BY c.added DESC";
 
         $query = sql_query("{$sql}") or sqlerr(__FILE__, __LINE__);
-        $rows = mysqli_num_rows($query);
+        $rows = $query->num_rows;
 
         $Row_Count = 0;
 
@@ -203,7 +203,7 @@ $sql = "SELECT c.id, c.user, c.torrent, c.text, c.ori_text, c.added, c.checked_b
 "LIMIT 10";
 
 $query = sql_query("{$sql}");
-$rows = mysqli_num_rows($query);
+$rows = $query->num_rows;
 $Row_Count = 0;
 
 //==== HTML Output

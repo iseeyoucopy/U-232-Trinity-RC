@@ -180,7 +180,7 @@ if ($how_many > 0) {
         $count2 = (++$count2) % 2;
         $class = ($count2 == 0 ? 'one' : 'two');
         $invitor_res = sql_query('SELECT id, username, donor, class, enabled, warned, leechwarn, chatpost, pirate, king, suspended FROM users WHERE id=' . sqlesc($arr['invitedby'])) or sqlerr(__FILE__, __LINE__);
-        $invitor_arr = mysqli_fetch_assoc($invitor_res);
+        $invitor_arr = $invitor_res->fetch_assoc();
         $the_flip_box = '
         [ <a id="d' . $div_link_number . '_open" style="font-weight:bold;cursor:pointer;">'.$lang['watched_viewreason'].'</a> ]
         <div align="left" id="d' . $div_link_number . '" style="display:none">' . format_comment($arr['watched_user_reason']) . '</div>';

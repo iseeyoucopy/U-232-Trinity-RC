@@ -38,7 +38,7 @@ if (!empty($search)) $where = "WHERE txt LIKE " . sqlesc("%$search%") . "";
 $secs = 30 * 86400;
 sql_query("DELETE FROM infolog WHERE " . TIME_NOW . " - added > $secs") or sqlerr(__FILE__, __LINE__);
 $res = sql_query("SELECT COUNT(id) FROM infolog $where");
-$row = mysqli_fetch_array($res);
+$row = $res->fetch_array(MYSQLI_BOTH);
 $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "staffpanel.php?tool=sysoplog&amp;action=sysoplog&amp;" . (!empty($search) ? "search=$search&amp;" : '') . "");

@@ -113,7 +113,7 @@ case "hnrwarn":
     break;
 }
 $g = sql_query($query) or sqlerr(__FILE__, __LINE__);
-$count = mysqli_num_rows($g);
+$count = $g->num_rows;
 $HTMLOUT .="<div class='row'><div class='col-md-12'><h2>$title&nbsp;<font class=\"small\">[total - " . $count . " user" . ($count > 1 ? "s" : "") . "]</font>&nbsp;&nbsp;$link</h2> ";
 if ($count == 0) $HTMLOUT.= stdmsg($lang['hnrwarn_hey'], $lang['hnrwarn_none'] . strtolower($title));
 else {
@@ -128,7 +128,7 @@ else {
 			<td class='colhead' align='center' nowrap='nowrap'>{$lang['hnrwarn_form_join']}</td>
 			<td class='colhead' align='center' nowrap='nowrap'><input type='checkbox' name='checkall' /></td>
 		</tr>";
-    while ($a = mysqli_fetch_assoc($g)) {
+    while ($a = $g->fetch_assoc()) {
         $tip = ($do == "hnrwarn" ? $lang['hnrwarn_tip1'] . htmlsafechars($a["warn_reason"]) . "<br />" : $lang['hnrwarn_tip2'] . htmlsafechars($a["disable_reason"]));
         $HTMLOUT.= "<tr>
 				  <td align='left' width='100%'><a href='userdetails.php?id=" . (int)$a["id"] . "' onmouseover=\"Tip('($tip)')\" onmouseout=\"UnTip()\">" . htmlsafechars($a["username"]) . "</a></td>

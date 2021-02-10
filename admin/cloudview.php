@@ -58,7 +58,7 @@ checkflag = "false";
 /*]]>*/
 </script>';
 $search_count = sql_query("SELECT COUNT(id) FROM searchcloud");
-$row = mysqli_fetch_array($search_count);
+$row = $search_count->fetch_array(MYSQLI_NUM);
 $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "staffpanel.php?tool=cloudview&amp;action=cloudview&amp;");

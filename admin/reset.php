@@ -35,7 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = trim(htmlsafechars($_POST['username']));
 	$password = $_POST['password'];
     $uid = (int)$_POST["uid"];
-	$row = (mysqli_fetch_assoc(sql_query("SELECT username, passhash, secret, hash3, email, added, pin_code, birthday FROM users WHERE username = " . sqlesc($username) . " AND id=" . sqlesc($uid))));
+    $query = sql_query("SELECT username, passhash, secret, hash3, email, added, pin_code, birthday FROM users WHERE username = " . sqlesc($username) . " AND id=" . sqlesc($uid));
+	$row = $query->fetch_assoc();
     $secret = mksecret();
 	$hash1 = t_Hash($row['email'], $row['username'], $row['added']);
     $hash2 = t_Hash($row['birthday'], $secret, $row['pin_code']);

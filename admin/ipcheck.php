@@ -50,7 +50,7 @@ while ($ras = $res->fetch_assoc()) {
 
     if ($ip <> $ras['ip']) {
         $ros = sql_query("SELECT id, username, class, email, chatpost, pirate, king, leechwarn, added, last_access, downloaded, uploaded, ip, warned, donor, enabled FROM users WHERE ip=" . sqlesc($ras['ip']) . " ORDER BY id") or sqlerr(__FILE__, __LINE__);
-        $num2 = mysqli_num_rows($ros);
+        $num2 = $ros->num_rows;
         if ($num2 > 1) {
             $uc++;
             while ($arr = $ros->fetch_assoc()) {

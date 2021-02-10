@@ -46,7 +46,7 @@ $HTMLOUT = '';
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 0;
 $perpage = isset($_GET['perpage']) ? (int)$_GET['perpage'] : 15;
 $res_count = sql_query($query) or sqlerr(__FILE__, __LINE__);
-$arr_count = mysqli_fetch_row($res_count);
+$arr_count = $res_count->fetch_row();
 $count = ($arr_count[0] > 0 ? $arr_count[0] : 0);
 list($menu, $LIMIT) = pager_new($count, $perpage, $page, 'staffpanel.php?tool=hit_and_run');
 if(XBT_TRACKER === false) {
@@ -58,13 +58,13 @@ $hit_and_run_rez = sql_query($query_2) or sqlerr(__FILE__, __LINE__);
 $HTMLOUT.= '<div class="row"><div class="col-md-12"><h2>' . (!isset($_GET['really_bad']) ? $lang['hitnrun_chance'] : $lang['hitnrun_nochance']) . '</h2><br /> 
 		<a class="altlink" href="staffpanel.php?tool=hit_and_run">' . $lang['hitnrun_show_current'] . '</a> || <a class="altlink" href="staffpanel.php?tool=hit_and_run&amp;really_bad=show_them">' . $lang['hitnrun_show_disabled'] . '</a><br /><br />
 		' . ($arr_count[0] > $perpage ? '<p>' . $menu . '</p>' : '') . '
-		<table class="table table-bordered">' . (mysqli_num_rows($hit_and_run_rez) > 0 ? '<tr><td  class="colhead">' . $lang['hitnrun_avatar'] . '</td>
+		<table class="table table-bordered">' . ($hit_and_run_rez->num_rows > 0 ? '<tr><td  class="colhead">' . $lang['hitnrun_avatar'] . '</td>
 		<td  class="colhead"><b>' . $lang['hitnrun_member'] . '</b></td>
 		<td class="colhead"><b>' . $lang['hitnrun_torrent'] . '</b></td>
 		<td class="colhead"><b>' . $lang['hitnrun_times'] . '</b></td>
 		<td class="colhead"><b>' . $lang['hitnrun_stats'] . '</b></td>
 		<td class="colhead">' . $lang['hitnrun_actions'] . '</td>' : '<tr><td>' . $lang['hitnrun_none'] . '</td>') . '</tr>';
-while ($hit_and_run_arr = mysqli_fetch_assoc($hit_and_run_rez)) {
+while ($hit_and_run_arr = $hit_and_run_rez->fetch_assoc()) {
     //=== Xbt Tracker or Default Announce
         $Xbt_Seed = (XBT_TRACKER === true ? $hit_and_run_arr['active'] !== 1 : $hit_and_run_arr['seeder'] !== 'yes');
         $Uid_ID = (XBT_TRACKER === true ? $hit_and_run_arr['uid'] : $hit_and_run_arr['userid']);

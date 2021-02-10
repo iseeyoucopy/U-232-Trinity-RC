@@ -743,7 +743,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
     $res = sql_query($query1) or sqlerr(__FILE__, __LINE__);
     if ($res->num_rows == 0) stdmsg($lang['usersearch_warn'], $lang['usersearch_nouser']);
     else if ($res->num_rows == 1) {
-        $usertt = mysqli_fetch_array($res);
+        $usertt = $res->fetch_array(MYSQLI_BOTH);
         header('Location:userdetails.php?id=' . $usertt['id']);
         die();
     } else {
@@ -754,16 +754,16 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
         <td class='colhead' align='left'>{$lang['usersearch_ip']}</td>
         <td class='colhead' align='left'>{$lang['usersearch_email']}</td>" . "<td class='colhead' align='left'>{$lang['usersearch_joined']}</td>" . "<td class='colhead' align='left'>{$lang['usersearch_lastseen']}</td>" . "<td class='colhead' align='left'>{$lang['usersearch_asts']}</td>" . "<td class='colhead' align='left'>{$lang['usersearch_enabled']}</td>" . "<td class='colhead'>{$lang['usersearch_pR']}</td>" . "<td class='colhead'>{$lang['usersearch_pUL']}</td>" . "<td class='colhead'>{$lang['usersearch_pDL']}</td>" . "<td class='colhead'>{$lang['usersearch_history']}</td></tr>";
         $ids = '';
-        while ($user = mysqli_fetch_array($res)) {
+        while ($user = $res->fetch_array(MYSQLI_BOTH)) {
             if ($user['ip']) {
                 $nip = ip2long($user['ip']);
                 $auxres = sql_query("SELECT COUNT(*) FROM bans WHERE $nip >= first AND $nip <= last") or sqlerr(__FILE__, __LINE__);
-                $array = mysqli_fetch_row($auxres);
+                $array = $auxres->fetch_row();
                 if ($array[0] == 0) $ipstr = $user['ip'];
                 else $ipstr = "<a href='staffpanel.php?tool=testip&amp;action=testip&amp;ip=" . htmlsafechars($user['ip']) . "'><font color='#FF0000'><b>" . htmlsafechars($user['ip']) . "</b></font></a>";
             } else $ipstr = "---";
             $auxres = sql_query("SELECT SUM(uploaded) AS pul, SUM(downloaded) AS pdl FROM peers WHERE userid = " . sqlesc($user['id'])) or sqlerr(__FILE__, __LINE__);
-            $array = mysqli_fetch_array($auxres);
+            $array = $auxres->fetch_array();
             $pul = $array['pul'];
             $pdl = $array['pdl'];
             if ($pdl > 0) $partial = ratios($pul, $pdl) . " (" . mksize($pul) . "/" . mksize($pdl) . ")";
@@ -773,10 +773,10 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
       FROM posts AS p LEFT JOIN topics as t ON p.topic_id = t.id
       LEFT JOIN forums AS f ON t.forum_id = f.id
       WHERE p.user_id = " . sqlesc($user['id']) . " AND f.min_class_read <= " . sqlesc($CURUSER['class'])) or sqlerr(__FILE__, __LINE__);
-            $n = mysqli_fetch_row($auxres);
+            $n = $auxres->fetch_row();
             $n_posts = $n[0];
             $auxres = sql_query("SELECT COUNT(id) FROM comments WHERE user = " . sqlesc($user['id'])) or sqlerr(__FILE__, __LINE__);
-            $n = mysqli_fetch_row($auxres);
+            $n = $auxres->fetch_row();
             $n_comments = $n[0];
             $ids.= (int)$user['id'] . ':';
             $HTMLOUT.= "<tr><td><b><a href='userdetails.php?id=" . (int)$user['id'] . "'>" . htmlsafechars($user['username']) . "</a></b>" . ($user["donor"] == "yes" ? "<img src='pic/star.gif' alt=\"{$lang['usersearch_donor']}\" />" : "") . ($user["warned"] == "yes" ? "<img src=\"pic/warned.gif\" alt=\"{$lang['usersearch_warned']}\" />" : "") . "</td>

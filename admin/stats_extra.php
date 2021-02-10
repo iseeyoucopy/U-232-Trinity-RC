@@ -114,7 +114,7 @@ default:
 }
 function show_views()
 {
-    global $inbound, $month_names, $lang;
+    global $inbound, $month_names, $lang, $TRINITY20;
     $page_title = $lang['stats_ex_ptitle'];
     $page_detail = $lang['stats_ex_pdetail'];
     /* This function not available in this version, you need tbdev2010 */
@@ -157,7 +157,7 @@ function show_views()
     <td>{$lang['stats_ex_result']}</td>
     <td>{$lang['stats_ex_count']}</td>
     </tr>";
-    if (mysqli_num_rows($q)) {
+    if ($q->num_rows) {
         while ($row = $q->fetch_assoc()) {
             if ($row['result_count'] > $max_result) {
                 $max_result = $row['result_count'];
@@ -175,7 +175,7 @@ function show_views()
             }
             $img_width.= '%';
             $htmlout.= "<tr>
-    			<td valign='middle'>$date</td>
+    			<td valign='middle'>$data</td>
     			<td valign='middle'><img src='{$TRINITY20['pic_base_url']}/bar_left.gif' border='0' width='4' height='11' align='middle' alt='' /><img src='{$TRINITY20['pic_base_url']}/bar.gif' border='0' width='$img_width' height='11' align='middle' alt='' /><img src='{$TRINITY20['pic_base_url']}/bar_right.gif' border='0' width='4' height='11' align='middle' alt='' /></td>
 					<td valign='middle'><center>{$data['result_count']}</center></td>
 					</tr>";
@@ -292,7 +292,7 @@ function result_screen($mode = 'reg')
     <td>{$lang['stats_ex_result']}</td>
     <td>{$lang['stats_ex_count']}</td>
     </tr>";
-    if (mysqli_num_rows($q1)) {
+    if ($q1->num_rows) {
         while ($row = $q1->fetch_assoc()) {
             if ($row['result_count'] > $max_result) {
                 $max_result = $row['result_count'];

@@ -127,10 +127,10 @@ if (isset($_POST['user_names'])) {
     foreach ($searched_users[0] as $search_users) {
         $search_users = trim($search_users);
         $res_search_usernames = sql_query('SELECT id, username, class, donor, suspended, leechwarn, chatpost, pirate, king, warned, enabled, uploaded, downloaded, invitedby, email, ip, added, last_access FROM users WHERE username LIKE \'%' . $search_users . '%\'');
-        if (mysqli_num_rows($res_search_usernames) == 0) {
+        if ($res_search_usernames->num_rows == 0) {
             $not_found.= '<span style="color: blue;">' . $search_users . '</span><br />';
         } else {
-            $arr = mysqli_fetch_array($res_search_usernames);
+            $arr = $res_search_usernames->fetch_array(MYSQLI_BOTH);
             $number = 1;
             $random_number = mt_rand(1, 666666666);
             //=== change colors
@@ -182,11 +182,11 @@ if (isset($_POST['msg_to_analyze'])) {
     $matches_for_email.= '<h1>' . $lang['mega_emails'] . '</h1>';
     foreach ($email_to_test[0] as $tested_email) {
         $res_search_others = sql_query('SELECT id, username, class, donor, suspended, leechwarn, chatpost, pirate, king, warned, enabled, uploaded, downloaded, invitedby, email, ip, added, last_access FROM users WHERE email LIKE \'' . $tested_email . '\'');
-        if (mysqli_num_rows($res_search_others) == 0) {
+        if ($res_search_others->num_rows == 0) {
             $no_matches_for_this_email.= '<span style="color: blue;">' . $lang['mega_no_exact'] . '<span style="color: blue;">' . $tested_email . '</span><br />';
         } else {
             $number = 1;
-            while ($arr = mysqli_fetch_array($res_search_others)) {
+            while ($arr = $res_search_others->fetch_array(MYSQLI_BOTH)) {
                 if ($arr['username'] !== '') {
                     //=== change colors
                     $count = (++$count) % 2;
@@ -194,7 +194,7 @@ if (isset($_POST['msg_to_analyze'])) {
                     //=== get inviter
                     if ($arr['invitedby'] > 0) {
                         $res_inviter = sql_query('SELECT id, username, class, donor, suspended, leechwarn, chatpost, pirate, king, warned, enabled FROM users WHERE id = ' . sqlesc($arr['invitedby']));
-                        $arr_inviter = mysqli_fetch_array($res_inviter);
+                        $arr_inviter = $res_inviter->fetch_array(MYSQLI_BOTH);
                         $inviter = ($arr_inviter['username'] !== '' ? print_user_stuff($arr_inviter) : 'open signups');
                     } else {
                         $inviter = $lang['mega_open'];
@@ -241,11 +241,11 @@ if (isset($_POST['msg_to_analyze'])) {
     $similar_emails = 0;
     foreach ($email_to_test_like[0] as $tested_email_like) {
         $res_search_others_like = sql_query('SELECT id, username, class, donor, suspended, leechwarn, chatpost, pirate, king, warned, enabled, email FROM users WHERE email LIKE \'%' . $tested_email_like . '%\'');
-        if (mysqli_num_rows($res_search_others_like) > 0) {
+        if ($res_search_others_like->num_rows > 0) {
             $email = preg_replace('/[^a-zA-Z0-9_-\s]/', '', $tested_email_like);
             $similar_emails.= '<h1>' . $lang['mega_email_using'] . ' "' . $email . '" </h1>';
             $number = 1;
-            while ($arr = mysqli_fetch_array($res_search_others_like)) {
+            while ($arr = $res_search_others_like->fetch_array()) {
                 $similar_emails.= str_ireplace($email, '<span style="color: red; font-weight: bold;">' . $email . '</span>', $arr['email']) . $lang['mega_used_by'] . print_user_stuff($arr) . '<br />';
             }
         }
@@ -260,7 +260,7 @@ if (isset($_POST['msg_to_analyze'])) {
     $number_of_matches = preg_match_all($regex, $ip_history, $ip_to_test);
     foreach ($ip_to_test[0] as $tested_ip) {
         $res_search_others = sql_query('SELECT id, username, class, donor, suspended, leechwarn, chatpost, pirate, king, warned, enabled, uploaded, downloaded, invitedby, email, ip, added, last_access FROM users WHERE ip LIKE \'%' . $tested_ip . '%\'');
-        if (mysqli_num_rows($res_search_others) == 0) {
+        if ($res_search_others->num_rows == 0) {
             $no_matches_for_this_ip.= '<span style="color: blue;">No matches for IP: ' . $tested_ip . '</span><br />';
         } else {
             $matches_for_ip.= '<h1>' . $lang['mega_used_ip'] . ' ' . $tested_ip . '</h1>
@@ -275,7 +275,7 @@ if (isset($_POST['msg_to_analyze'])) {
     <td class="colhead" align="center">' . $lang['mega_ip'] . '</td>
     <td class="colhead" align="left">' . $lang['mega_invited_by'] . '</td>
     </tr>';
-            while ($arr = mysqli_fetch_array($res_search_others)) {
+            while ($arr = $res_search_others->fetch_array()) {
                 if ($arr['username'] !== '') {
                     //=== change colors
                     $count = (++$count) % 2;
@@ -283,7 +283,7 @@ if (isset($_POST['msg_to_analyze'])) {
                     //=== get inviter
                     if ($arr['invitedby'] > 0) {
                         $res_inviter = sql_query('SELECT id, username, class, donor, suspended, leechwarn, chatpost, pirate, king, warned, enabled FROM users WHERE id = ' . sqlesc($arr['invitedby']));
-                        $arr_inviter = mysqli_fetch_array($res_inviter);
+                        $arr_inviter = $res_inviter->fetch_array(MYSQLI_BOTH);
                         $inviter = ($arr_inviter['username'] !== '' ? print_user_stuff($arr_inviter) : $lang['mega_open']);
                     } else {
                         $inviter = $lang['mega_open'];
@@ -324,12 +324,12 @@ if (isset($_POST['invite_code'])) {
         stderr($lang['mega_error'], $lang['mega_bad_invite']);
     } else {
         $inviter = sql_query('SELECT u.id, u.username, u.ip, u.last_access, u.email, u.added, u.class, u.leechwarn, u.chatpost, u.pirate, u.king, u.uploaded, u.downloaded, u.donor, u.enabled, u.warned, u.suspended, u.invitedby, i.id AS invite_id, i.added AS invite_added FROM users AS u LEFT JOIN invites AS i ON u.id = i.sender WHERE  i.code = ' . sqlesc($invite_code));
-        $user = mysqli_fetch_array($inviter);
+        $user = $inviter->fetch_array(MYSQLI_BOTH);
         if ($user['username'] == '') {
             $HTMLOUT.= stdmsg($lang['mega_error'], $lang['mega_invite_gone']);
         } else {
             $u1 = sql_query('SELECT id, username, donor, class, enabled, leechwarn, chatpost, pirate, king, warned, suspended FROM users WHERE  id=' . sqlesc($user['invitedby']));
-            $user1 = mysqli_fetch_array($u1);
+            $user1 = $u1->fetch_array(MYSQLI_BOTH);
             $HTMLOUT.= '<h1>' . print_user_stuff($user) . $lang['mega_made'] . $invite_code . '  (' . get_date($user['invite_added'], '') . ')</h1>
                 <table class="table table-bordered">
                 <tr>
@@ -358,12 +358,12 @@ if (isset($_POST['invite_code'])) {
                 </table>';
         }
         $invited = sql_query('SELECT u.id, u.username, u.ip, u.last_access, u.email, u.added, u.leechwarn, u.chatpost, u.pirate, u.king, u.class, u.uploaded, u.downloaded, u.donor, u.enabled, u.warned, u.suspended, u.invitedby, i.id AS invite_id FROM users AS u LEFT JOIN invites AS i ON u.id = i.receiver WHERE  i.code = ' . sqlesc($invite_code));
-        $user_invited = mysqli_fetch_array($invited);
+        $user_invited = $invited->fetch_array(MYSQLI_BOTH);
         if ($user_invited['username'] == '') {
             $HTMLOUT.= stdmsg($lang['mega_error'],$lang['mega_not_used']);
         } else {
             $u2 = sql_query('SELECT id, username, donor, class, enabled, warned, leechwarn, chatpost, pirate, king, suspended FROM users WHERE id=' . sqlesc($user_invited['invitedby']));
-            $user2 = mysqli_fetch_array($u2);
+            $user2 = $u2->fetch_array();
             $HTMLOUT.= '<h1>' . print_user_stuff($user_invited) . $lang['mega_used_from'] . print_user_stuff($user) . '</h1>
                 <table class="table table-bordered">
                 <tr>

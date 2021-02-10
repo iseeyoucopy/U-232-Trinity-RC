@@ -77,7 +77,7 @@ default :
 $htmlout .= "<div class='row'><div class='col-md-12'><h2>{$lang['fm_forummanager']}</h2>";
 
 $r1 = sql_query('select f.name as f_name, f.id as fid, f.description,f.min_class_read,f.min_class_write, f.min_class_create, o.name as o_name,o.id as oid FROM forums as f LEFT JOIN over_forums as o ON f.forum_id = o.id ORDER BY f.sort') or  sqlerr(__FILE__,__LINE__);
-$f_count = mysqli_num_rows($r1);
+$f_count = $r1->num_rows;
 if(!$f_count)
 $htmlout .= stdmsg($lang['fm_mp_err1'], $lang['fm_mp_err4']);
 else {
@@ -118,7 +118,7 @@ else {
 		$htmlout .= stdmsg($lang['fm_mp_warn2'], $lang['fm_mp_warn3']);
 	if($do =='edit' && $id) {
 		$r3 = sql_query('select f.name as f_name , f.id as fid , f.description , f.min_class_read , f.min_class_write , f.min_class_create, f.forum_id, f.sort FROM forums as f WHERE f.id ='.sqlesc($id)) or sqlerr(__FILE__,__LINE__);
-		if(!mysqli_num_rows($r3))
+		if(!$r3->num_rows)
 			$htmlout .= stdmsg($lang['fm_mp_warn2'], $lang['fm_mp_warn4']);
 		else {
 			$edit_action = true;

@@ -128,10 +128,10 @@ $res = @sql_query('SHOW GLOBAL STATUS') or sqlerr(__FILE__, __LINE__);
 while ($row = $res->fetch_row()) {
     $serverStatus[$row[0]] = $row[1];
 }
-@((mysqli_free_result($res) || (is_object($res) && (get_class($res) == "mysqli_result"))) ? true : false);
+$res->free_result();
 unset($res);
 unset($row);
-$res = @sql_query('SELECT UNIX_TIMESTAMP() - ' . $serverStatus['Uptime']);
+$res = sql_query('SELECT UNIX_TIMESTAMP() - ' . $serverStatus['Uptime']);
 $row = $res->fetch_row();
 $HTMLOUT.= "<table class='table table-bordered'>
       <tr>
@@ -141,7 +141,7 @@ $HTMLOUT.= "<table class='table table-bordered'>
         </td>
       </tr>
       </table><br />";
-((mysqli_free_result($res) || (is_object($res) && (get_class($res) == "mysqli_result"))) ? true : false);
+$res->free_result();
 unset($res);
 unset($row);
 //Get query statistics

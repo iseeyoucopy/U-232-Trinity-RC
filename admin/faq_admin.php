@@ -76,7 +76,7 @@ function Do_show()
 {
     global $TRINITY20, $lang;
     $sql = sql_query("SELECT * FROM faq_cat") or sqlerr(__FILE__, __LINE__);
-    if (!mysqli_num_rows($sql))
+    if (!$sql->num_rows)
         stderr("Error", "There Are No Categories. <br /><br />
         <span class='btn'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_new'>Add Category</a></span>");
     $htmlout = '';
@@ -156,7 +156,7 @@ function Show_Cat_Edit_Form()
         $htmlout .= Do_Error("Error", "No Section selected");
     $cat_id = (int) $_GET['catid'];
     $sql = sql_query("SELECT * FROM faq_cat WHERE id = " . sqlesc($cat_id)) or sqlerr(__FILE__, __LINE__);
-    if (!mysqli_num_rows($sql))
+    if (!$sql->num_rows)
         stderr("SQL Error", "Nothing doing here!");
     $htmlout .="<table class='table table-bordered table-striped'>
                 <tr>
@@ -191,7 +191,7 @@ function Show_Faq_Edit()
         stderr("Error", "No Section selected");
     $cat_id = (int) $_GET['catid'];
     $sql = sql_query("SELECT * FROM faq WHERE type = " . sqlesc($cat_id)) or sqlerr(__FILE__, __LINE__);
-    if (!mysqli_num_rows($sql))
+    if (!$sql->num_rows)
         stderr("SQL Error", "Nothing doing here!");
     $htmlout .= "<form name='compose' method='post' action='staffpanel.php?tool=faq_admin'>";
 
@@ -335,7 +335,7 @@ function New_Faq_Form()
     global $CURUSER, $lang, $TRINITY20;
     $htmlout = '';
     $sql = sql_query("SELECT * FROM faq_cat") or sqlerr(__FILE__, __LINE__);
-    if (!mysqli_num_rows($sql))
+    if (!$sql->num_rows)
         stderr("Error", "There Are No Categories. <br /><br />
         <span class='btn'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_add'>Add Category</a></span>");
     $htmlout .= "

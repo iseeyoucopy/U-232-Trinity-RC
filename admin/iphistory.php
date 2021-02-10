@@ -66,10 +66,10 @@ if (isset($_GET["setseedbox2"])) {
     }
 }
 $res = sql_query("SELECT username FROM users WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-$user = mysqli_fetch_array($res) or stderr("{$lang['stderr_error']}", "{$lang['stderr_noid']}");
+$user = $res->fetch_array(MYSQLI_BOTH) or stderr("{$lang['stderr_error']}", "{$lang['stderr_noid']}");
 $username = htmlsafechars($user["username"]);
 $resip = sql_query("SELECT * FROM ips WHERE userid = " . sqlesc($id) . " GROUP BY ip ORDER BY id DESC") or sqlerr(__FILE__, __LINE__);
-$ipcount = mysqli_num_rows($resip);
+$ipcount = $resip->num_rows;
 $HTMLOUT = '';
 $HTMLOUT.= "<table class='table table-bordered'>
                 <tr><td class='colhead' align='center'>{$lang['iphistory_usedby']}<a class='altlink_white' href='userdetails.php?id=$id'><b>$username</b></a></td></tr>
@@ -91,7 +91,7 @@ $HTMLOUT.= "<table class='table table-bordered'>
                 <td align='center' class='colhead'>{$lang['iphistory_delete']}</td>
                 <td align='center' class='colhead'>{$lang['iphistory_ban']}</td>
                 </tr>";
-while ($iphistory = mysqli_fetch_array($resip)) {
+while ($iphistory = $resip->fetch_array(MYSQLI_NUM)) {
     $host = gethostbyaddr($iphistory['ip']); //Hostname
     $userip = htmlsafechars($iphistory['ip']); //Users Ip
     $ipid = (int)$iphistory['id']; // IP ID
@@ -115,11 +115,11 @@ while ($iphistory = mysqli_fetch_array($resip)) {
     $iptype = htmlsafechars($iphistory['type']); // IP was first used on
     $queryc = "SELECT COUNT(id) FROM (SELECT u.id FROM users AS u WHERE u.ip = " . sqlesc($iphistory['ip']) . " UNION SELECT u.id FROM users AS u RIGHT JOIN ips ON u.id= ips.userid WHERE ips.ip =" . sqlesc($iphistory['ip']) . " GROUP BY u.id) AS ipsearch";
     $resip2 = sql_query($queryc) or sqlerr(__FILE__, __LINE__);
-    $arrip2 = mysqli_fetch_row($resip2);
+    $arrip2 = $resip2->fetch_row();
     $ipcount = $arrip2[0];
     $nip = ip2long($iphistory['ip']);
     $banres = sql_query("SELECT COUNT(*) FROM bans WHERE '$nip' >= first AND '$nip' <= last") or sqlerr(__FILE__, __LINE__);
-    $banarr = mysqli_fetch_row($banres);
+    $banarr = $banres->fetch_row();
     if ($banarr[0] == 0) if ($ipcount > 1) {
         $ipshow = "<b><a class='altlink' href='staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=" . htmlsafechars($iphistory['ip']) . "'><font color='black'>" . htmlsafechars($iphistory['ip']) . "</font></a></b>";
     } else {

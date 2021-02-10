@@ -36,7 +36,7 @@ if (isset($mode) && $mode == 'change') {
     $uname = htmlsafechars($_POST["uname"]);
     if ($_POST["uname"] == "" || $_POST["uid"] == "") stderr($lang['namechanger_err'], $lang['namechanger_missing']);
     $nc_sql = sql_query("SELECT class FROM users WHERE id = " . sqlesc($uid)) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($nc_sql)) {
+    if ($nc_sql->num_rows) {
         $classuser = $nc_sql->fetch_assoc();
         if ($classuser['class'] >= UC_STAFF) stderr($lang['namechanger_err'], $lang['namechanger_cannot']);
         $change = sql_query("UPDATE users SET username=" . sqlesc($uname) . " WHERE id=" . sqlesc($uid)) or sqlerr(__FILE__, __LINE__);

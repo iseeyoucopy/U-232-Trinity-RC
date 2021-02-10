@@ -113,7 +113,7 @@ case "leechwarn":
     break;
 }
 $g = sql_query($query) or print ($mysqli->error);
-$count = mysqli_num_rows($g);
+$count = $g->num_rows;
 $HTMLOUT .="<div class='row'><div class='col-md-12'><h2>$title&nbsp;<font class=\"small\">[{$lang['leechwarn_total']}" . $count . $lang['leechwarn_user'] . ($count > 1 ? $lang['leechwarn_s'] : "") . "]</font>&nbsp;&nbsp;$link</h2> ";
 if ($count == 0) $HTMLOUT.= stdmsg($lang['leechwarn_hey'], $lang['leechwarn_none'] . strtolower($title));
 else {
@@ -128,7 +128,7 @@ else {
 			<td class='colhead' align='center' nowrap='nowrap'>{$lang['leechwarn_joined']}</td>
 			<td class='colhead' align='center' nowrap='nowrap'><input type='checkbox' name='checkall' /></td>
 		</tr>";
-    while ($a = mysqli_fetch_assoc($g)) {
+    while ($a = $g->fetch_assoc()) {
         $tip = ($do == "leechwarn" ? $lang['leechwarn_warned_for'] . htmlsafechars($a["warn_reason"]) . "<br />" . $lang['leechwarn_warned_till'] . get_date($a["leechwarn"], 'DATE', 1) . " - " . mkprettytime($a['leechwarn'] - TIME_NOW) : $lang['leechwarn_disabled_for'] . htmlsafechars($a["disable_reason"]));
         $HTMLOUT.= "<tr>
 				  <td align='left' width='100%'><a href='userdetails.php?id=" . (int)$a["id"] . "' onmouseover=\"Tip('($tip)')\" onmouseout=\"UnTip()\">" . htmlsafechars($a["username"]) . "</a></td>

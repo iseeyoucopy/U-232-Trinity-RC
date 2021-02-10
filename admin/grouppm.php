@@ -84,8 +84,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     break;
 
                 case "all_friends":
-                    {$fq = sql_query("SELECT friendid FROM friends WHERE userid=" . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
-                        if (mysqli_num_rows($fq)) while ($fa = mysqli_fetch_row($fq)) $ids[] = $fa[0];
+                    {
+                        $fq = sql_query("SELECT friendid FROM friends WHERE userid=" . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
+                        if ($fq->num_rows) 
+                            while ($fa = $fq->fetch_row()) 
+                                $ids[] = $fa[0];
                     }
                     break;
                 }
@@ -98,7 +101,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (sizeof($classes) > 0) $where[] = "u.class IN (" . join(",", $classes) . ")";
         if (sizeof($where) > 0) {
             $q1 = sql_query("SELECT u.id FROM users AS u WHERE " . join(" OR ", $where)) or sqlerr(__FILE__, __LINE__);
-            if (mysqli_num_rows($q1) > 0) while ($a = mysqli_fetch_row($q1)) $ids[] = $a[0];
+            if ($q1->num_rows > 0) 
+                while ($a = $q1->fetch_row()) 
+                    $ids[] = $a[0];
         }
         $ids = array_unique($ids);
         if (sizeof($ids) > 0) {

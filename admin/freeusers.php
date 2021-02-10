@@ -59,7 +59,7 @@ if ($remove) {
     } else die($lang['freeusers_fail']);
 }
 $res2 = sql_query("SELECT id, username, class, free_switch FROM users WHERE free_switch != 0 ORDER BY username ASC") or sqlerr(__file__, __line__);
-$count = mysqli_num_rows($res2);
+$count = $res2->num_rows;
 $HTMLOUT.= "<h1>{$lang['freeusers_head']} ($count)</h1>";
 if ($count == 0) $HTMLOUT.= '<p align="center"><b>'.$lang['freeusers_nothing'].'</b></p>';
 else {

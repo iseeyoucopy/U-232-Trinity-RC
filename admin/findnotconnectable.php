@@ -40,8 +40,8 @@ if (isset($_GET["action1"]) && htmlsafechars($_GET["action1"]) == "list") {
     $result = sql_query("select distinct userid from peers where connectable = 'no'");
     $count = $result->num_rows;
     $HTMLOUT.= "$count {$lang['non_con_unique']}</p>";
-    @((mysqli_free_result($result) || (is_object($result) && (get_class($result) == "mysqli_result"))) ? true : false);
-    if (mysqli_num_rows($res2) == 0) $HTMLOUT.= "<p align='center'><b>{$lang['non_con_all']}</b></p>\n";
+    $result->free();
+    if ($res2->num_rows == 0) $HTMLOUT.= "<p align='center'><b>{$lang['non_con_all']}</b></p>\n";
     else {
         $HTMLOUT.= "<div class='row'><div class='col-md-12'><table class='table table-bordered'>\n";
         $HTMLOUT.= "<tr><td class='colhead'>{$lang['non_con_name']}</td><td class='colhead'>{$lang['non_con_tor']}</td><td class='colhead'>{$lang['non_con_client']}</td></tr>\n";

@@ -126,7 +126,7 @@ case "warned":
     break;
 }
 $g = sql_query($query) or print($mysqli->error);
-$count = mysqli_num_rows($g);
+$count = $g->num_rows;
 $HTMLOUT .="<div class='row'><div class='col-md-12'><h2>$title&nbsp;<font class=\"small\">[{$lang['warn_total']}" . $count . $lang['warn_total_user'] . ($count > 1 ? $lang['warn_total_user_plural'] : "") . "]</font>&nbsp;&nbsp;$link</h2> ";
 if ($count == 0) {
     $HTMLOUT.= stdmsg($lang['warn_hey'], $lang['warn_hey_msg'] . strtolower($title));
@@ -142,7 +142,7 @@ if ($count == 0) {
                         <td class='colhead' align='center' nowrap='nowrap'>{$lang["warn_joined"]}</td>
                         <td class='colhead' align='center' nowrap='nowrap'><input type='checkbox' name='checkall' /></td>
                 </tr>";
-    while ($a = mysqli_fetch_assoc($g)) {
+    while ($a = $g->fetch_assoc()) {
         $tip = ($do == "warned" ? $lang['warn_for'] . $a["warn_reason"] . "<br />" . $lang['warn_till'] . get_date($a["warned"], 'DATE', 1) . " - " . mkprettytime($a['warned'] - TIME_NOW) : $lang['warn_disabled_for'] . $a["disable_reason"]);
         $HTMLOUT.= "<tr>
                                   <td align='left' width='100%'><a href='userdetails.php?id=" . (int) $a["id"] . "' onmouseover=\"Tip('($tip)')\" onmouseout=\"UnTip()\">" . htmlsafechars($a["username"]) . "</a></td>

@@ -73,7 +73,7 @@ function delete_poll()
 }
 function update_poll()
 {
-    global $TRINITY20, $CURUSER, $cache, $lang;
+    global $TRINITY20, $CURUSER, $cache, $lang, $mysqli;
     $total_votes = 0;
     if (!isset($_POST['pid']) OR !is_valid_id($_POST['pid'])) stderr($lang['poll_up_usr_err'], $lang['poll_up_no_poll']);
     $pid = intval($_POST['pid']);
@@ -100,7 +100,7 @@ function update_poll()
 }
 function insert_new_poll()
 {
-    global $TRINITY20, $CURUSER, $cache, $lang;
+    global $TRINITY20, $CURUSER, $cache, $lang, $mysqli;
     if (!isset($_POST['poll_question']) OR empty($_POST['poll_question'])) stderr($lang['poll_inp_usr_err'], $lang['poll_inp_no_title']);
     $poll_title = sqlesc(htmlsafechars(strip_tags($_POST['poll_question']) , ENT_QUOTES));
     //get the main crux of the poll data
@@ -135,7 +135,7 @@ function edit_poll_form()
     $poll_choices = '';
     $poll_votes = '';
     $query = sql_query("SELECT * FROM polls WHERE pid = " . intval($_GET['pid']));
-    if (false == mysqli_num_rows($query)) return $lang['poll_epf_no_poll'];
+    if (false == $query->num_rows) return $lang['poll_epf_no_poll'];
     $poll_data = $query->fetch_assoc();
     $poll_answers = $poll_data['choices'] ? unserialize(stripslashes($poll_data['choices'])) : array();
     foreach ($poll_answers as $question_id => $data) {
@@ -163,7 +163,7 @@ function show_poll_archive()
     global $TRINITY20, $lang;
     $HTMLOUT = '';
     $query = sql_query("SELECT * FROM polls ORDER BY start_date DESC");
-    if (false == mysqli_num_rows($query)) {
+    if (false == $query->num_rows) {
         $HTMLOUT = "<h2>{$lang['poll_spa_no_polls']}</h2>
       <br />
       <a href='staffpanel.php?tool=polls_manager&amp;action=polls_manager&amp;mode=new'><span class='btn' style='padding:3px;' title='{$lang['poll_spa_add_title']}'><img style='vertical-align:top;' src='{$TRINITY20['pic_base_url']}/polls/p_add.gif' alt='{$lang['poll_spa_add_alt']}' />&nbsp;{$lang['poll_spa_add']}</span></a>";

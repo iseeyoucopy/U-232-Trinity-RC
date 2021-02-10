@@ -85,7 +85,7 @@ case 'upload_credit':
     if ($free_for_classes === 1) {
         $res_GB = sql_query('SELECT id, uploaded, modcomment FROM users WHERE enabled = \'yes\' AND suspended = \'no\'') or sqlerr(__FILE__, __LINE__);
         $pm_buffer = $users_buffer = [];
-        if (mysqli_num_rows($res_GB) > 0) {
+        if ($res_GB->num_rows > 0) {
             $subject = sqlesc($lang['bonusmanager_up_added']);
             $msg = sqlesc($lang['bonusmanager_up_addedmsg'] . $bonus_added . $lang['bonusmanager_up_addedmsg1'] . $TRINITY20['site_name'] . "{$lang['bonusmanager_up_addedmsg2']}{$lang['bonusmanager_up_addedmsg22']}" . $GB . " " . $GB_new . "");
             while ($arr_GB = $res_GB->fetch_assoc()) {
@@ -120,7 +120,7 @@ case 'upload_credit':
             if (ctype_digit($class)) {
                 $res_GB = sql_query('SELECT id, uploaded, modcomment FROM users WHERE enabled = \'yes\' AND suspended = \'no\' AND class = ' . $class);
                 $pm_buffer = $users_buffer = [];
-                if (mysqli_num_rows($res_GB) > 0) {
+                if ($res_GB->num_rows > 0) {
                     $subject = sqlesc($lang['bonusmanager_up_added']);
                     $msg = sqlesc($lang['bonusmanager_up_addedmsg'] . $bonus_added . $lang['bonusmanager_up_addedmsg3'] . $TRINITY20['site_name'] . $lang['bonusmanager_up_addedmsg2']);
                     while ($arr_GB = $res_GB->fetch_assoc()) {
@@ -164,7 +164,7 @@ case 'karma':
     if ($free_for_classes === 1) {
         $res_karma = sql_query('SELECT id, seedbonus, modcomment FROM users WHERE enabled = \'yes\' AND suspended = \'no\'') or sqlerr(__FILE__, __LINE__);
         $pm_buffer = $users_buffer = [];
-        if (mysqli_num_rows($res_karma) > 0) {
+        if ($res_karma->num_rows > 0) {
             $subject = sqlesc($lang['bonusmanager_karma_added']);
             $msg = sqlesc($lang['bonusmanager_karma_addedmsg'] . $karma . $lang['bonusmanager_karma_addedmsg1'] . $TRINITY20['site_name'] . $lang['bonusmanager_karma_addedmsg2']);
             while ($arr_karma = $res_karma->fetch_assoc()) {
@@ -199,7 +199,7 @@ case 'karma':
             if (ctype_digit($class)) {
                 $res_karma = sql_query('SELECT id, seedbonus, modcomment FROM users WHERE enabled = \'yes\' AND suspended = \'no\' AND class = ' . $class);
                 $pm_buffer = $users_buffer = [];
-                if (mysqli_num_rows($res_karma) > 0) {
+                if ($res_karma->num_rows > 0) {
                     $subject = sqlesc($lang['bonusmanager_karma_added']);
                     $msg = sqlesc($lang['bonusmanager_karma_addedmsg'] . $karma . $lang['bonusmanager_karma_addedmsg3'] . $TRINITY20['site_name'] . $lang['bonusmanager_karma_addedmsg2']);
                     while ($arr_karma = $res_karma->fetch_assoc()) {
@@ -243,7 +243,7 @@ case 'freeslots':
     if ($free_for_classes === 1) {
         $res_freeslots = sql_query('SELECT id, freeslots, modcomment FROM users WHERE enabled = \'yes\' AND suspended = \'no\'') or sqlerr(__FILE__, __LINE__);
         $pm_buffer = $users_buffer = [];
-        if (mysqli_num_rows($res_freeslots) > 0) {
+        if ($res_freeslots->num_rows > 0) {
             $subject = sqlesc($lang['bonusmanager_freeslots_added']);
             $msg = sqlesc($lang['bonusmanager_freeslots_addedmsg'] . $freeslots . $lang['bonusmanager_freeslots_addedmsg1'] . $TRINITY20['site_name'] . $lang['bonusmanager_freeslots_addedmsg2']);
             while ($arr_freeslots = $res_freeslots->fetch_assoc()) {
@@ -280,7 +280,7 @@ case 'freeslots':
             if (ctype_digit($class)) {
                 $res_freeslots = sql_query('SELECT id, freeslots, modcomment FROM users WHERE enabled = \'yes\' AND suspended = \'no\' AND class = ' . $class);
                 $pm_buffer = $users_buffer = [];
-                if (mysqli_num_rows($res_freeslots) > 0) {
+                if ($res_freeslots->num_rows > 0) {
                     $subject = sqlesc($lang['bonusmanager_freeslots_added']);
                     $msg = sqlesc($lang['bonusmanager_freeslots_addedmsg'] . $freeslots . $lang['bonusmanager_freeslots_addedmsg3'] . $TRINITY20['site_name'] . $lang['bonusmanager_freeslots_addedmsg2']);
                     while ($arr_freeslots = $res_freeslots->fetch_assoc()) {
@@ -326,7 +326,7 @@ case 'invite':
     if ($free_for_classes === 1) {
         $res_invites = sql_query('SELECT id, invites, modcomment FROM users WHERE enabled = \'yes\' AND suspended = \'no\' AND invite_on = \'yes\'');
         $pm_buffer = $users_buffer = [];
-        if (mysqli_num_rows($res_invites) > 0) {
+        if ($res_invites->num_rows > 0) {
             $subject = sqlesc($lang['bonusmanager_invite_added']);
             $msg = sqlesc($lang['bonusmanager_invite_addedmsg'] . $invites . $lang['bonusmanager_invite_addedmsg1'] . $TRINITY20['site_name'] . $lang['bonusmanager_invite_addedmsg2']);
             while ($arr_invites = $res_invites->fetch_assoc()) {
@@ -363,7 +363,7 @@ case 'invite':
             if (ctype_digit($class)) {
                 $res_invites = sql_query('SELECT id, invites, modcomment FROM users WHERE enabled = \'yes\' AND suspended = \'no\' AND invite_on = \'yes\' AND class = ' . $class);
                 $pm_buffer = $users_buffer = [];
-                if (mysqli_num_rows($res_invites) > 0) {
+                if ($res_invites->num_rows > 0) {
                     $subject = sqlesc($lang['bonusmanager_invite_added']);
                     $msg = sqlesc($lang['bonusmanager_invite_addedmsg'] . $invites . $lang['bonusmanager_invite_addedmsg3'] . $TRINITY20['site_name'] . $lang['bonusmanager_invite_addedmsg2']);
                     while ($arr_invites = $res_invites->fetch_assoc()) {
@@ -410,7 +410,7 @@ case 'pm':
     if ($free_for_classes === 1) {
         $res_pms = sql_query('SELECT id FROM users WHERE enabled = \'yes\' AND suspended = \'no\'');
         $pm_buffer = [];
-        if (mysqli_num_rows($res_pms) > 0) {
+        if ($res_pms->num_rows > 0) {
             $subject = sqlesc(htmlsafechars($_POST['subject']));
             $body = sqlesc(htmlsafechars($_POST['body']));
             while ($arr_pms = $res_pms->fetch_assoc()) {
@@ -432,7 +432,7 @@ case 'pm':
             if (ctype_digit($class)) {
                 $res_pms = sql_query('SELECT id FROM users WHERE enabled = \'yes\' AND suspended = \'no\' AND class = ' . $class);
                 $pm_buffer = [];
-                if (mysqli_num_rows($res_pms) > 0) {
+                if ($res_pms->num_rows > 0) {
                     $subject = sqlesc(htmlsafechars($_POST['subject']));
                     $body = sqlesc(htmlsafechars($_POST['body']));
                     while ($arr_pms = $res_pms->fetch_assoc()) {

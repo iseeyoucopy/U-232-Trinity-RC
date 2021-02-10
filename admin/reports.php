@@ -87,7 +87,7 @@ if ((isset($_GET["delete"])) && ($CURUSER["class"] == UC_MAX)) {
 }
 // === get the count make the page
 $res = sql_query("SELECT count(id) FROM reports") or sqlerr(__FILE__, __LINE__);
-$row = mysqli_fetch_array($res);
+$row = $res->fetch_array(MYSQLI_BOTH);
 $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "staffpanel.php?tool=reports&amp;");

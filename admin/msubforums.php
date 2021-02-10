@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               </tr>";
 
 
-    while ($a = mysqli_fetch_assoc($r_list)) {
+    while ($a = $r_list->fetch_assoc()) {
 
         
 		$HTMLOUT .="<tr>
