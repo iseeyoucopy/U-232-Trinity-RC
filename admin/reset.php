@@ -35,23 +35,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = trim(htmlsafechars($_POST['username']));
 	$password = $_POST['password'];
     $uid = (int)$_POST["uid"];
-    $query = sql_query("SELECT username, passhash, secret, hash3, email, added, pin_code, birthday FROM users WHERE username = " . sqlesc($username) . " AND id=" . sqlesc($uid));
+    $query = sql_query("SELECT username, passhash, secret, hash3, email, hintanswer, added, pin_code, birthday FROM users WHERE username = " . sqlesc($username) . " AND id=" . sqlesc($uid));
 	$row = $query->fetch_assoc();
     $secret = mksecret();
 	$hash1 = t_Hash($row['email'], $row['username'], $row['added']);
     $hash2 = t_Hash($row['birthday'], $secret, $row['pin_code']);
-    $hash3 = t_Hash($row['birthday'], $row['username'], $row['email']);	
-	
-	
-	if((isset($_POST['email']) && $_POST['email'] == $row['email']) || (isset($_POST['birthday']) && $_POST['birthday'] == $row['birthday'])|| (isset($_POST['username']) && $_POST['username'] == $row['username'])){ 
-	    $passhash = make_passhash($hash1, hash("ripemd160", $password), $hash2);
+    $hash3 = t_Hash($row['birthday'], $row['username'], $row['email']);		
+	if ((isset($_POST['email']) && $_POST['email'] == $row['email']) || (isset($_POST['birthday']) && $_POST['birthday'] == $row['birthday'])|| (isset($_POST['username']) && $_POST['username'] == $row['username'])) 
+	$passhash = make_passhash($hash1, hash("ripemd160", $password), $hash2);
 	$hint = $_POST["hintanswer"];
-	    $wanthintanswer = h_store($hint.$row['email']);
+	$wanthintanswer = h_store($hint.$row['email']);
     $postkey = PostKey(array(
         $uid,
         $CURUSER['id']
     ));
-        $res = sql_query("UPDATE users SET secret=" . sqlesc($secret) . ", passhash=" . sqlesc($passhash) . ", hash3=" . sqlesc($hash3) . ", hintanswer=".sqlesc($wanthintanswer)." WHERE username=" . sqlesc($username) . " AND id=" . sqlesc($uid) . " AND class<" . $CURUSER['class']) or sqlerr(__FILE__, __LINE__);
+    $res = sql_query("UPDATE users SET secret=" . sqlesc($secret) . ", passhash=" . sqlesc($passhash) . ", hash3=" . sqlesc($hash3) . ", hintanswer=".sqlesc($wanthintanswer)." WHERE username=" . sqlesc($username) . " AND id=" . sqlesc($uid) . " AND class<" . $CURUSER['class']) or sqlerr(__FILE__, __LINE__);
         $cache->update_row($keys['my_userid'] . $uid, [
         'secret' => $secret,
             'passhash' => $passhash,
