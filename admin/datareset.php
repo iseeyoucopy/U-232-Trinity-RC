@@ -36,7 +36,7 @@ $HTMLOUT = "";
 function deletetorrent($tid)
 {
     global $TRINITY20, $cache, $CURUSER, $lang, $keys;
-    sql_query("DELETE peers.*, files.*, comments.*, snatched.*, thanks.*, bookmarks.*, coins.*, rating.*, torrents.* FROM torrents 
+    sql_query("DELETE peers.*, files.*, comments.*, snatched.*, thanks.*, bookmarks.*, coins.*, rating.*, ajax_chat_messages.*, torrents.* FROM torrents 
 				 LEFT JOIN peers ON peers.torrent = torrents.id
 				 LEFT JOIN files ON files.torrent = torrents.id
 				 LEFT JOIN comments ON comments.torrent = torrents.id
@@ -45,6 +45,7 @@ function deletetorrent($tid)
 				 LEFT JOIN coins ON coins.torrentid = torrents.id
 				 LEFT JOIN rating ON rating.torrent = torrents.id
 				 LEFT JOIN snatched ON snatched.torrentid = torrents.id
+				 LEFT JOIN ajax_chat_messages ON ajax_chat_messages.torrent_id = torrents.id
 				 WHERE torrents.id =" . sqlesc($tid)) or sqlerr(__FILE__, __LINE__);
     unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
     $cache->delete($keys['my_peers'] . $CURUSER['id']);
@@ -53,7 +54,7 @@ function deletetorrent_xbt($tid)
 {
     global $TRINITY20, $cache, $CURUSER, $lang, $keys;
     sql_query("UPDATE torrents SET flags = 1 WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    sql_query("DELETE files.*, comments.*, xbt_files_users.*, thanks.*, bookmarks.*, coins.*, rating.*, torrents.* FROM torrents 
+    sql_query("DELETE files.*, comments.*, xbt_files_users.*, thanks.*, bookmarks.*, coins.*, rating.*, ajax_chat_messages.*, torrents.* FROM torrents 
 				 LEFT JOIN files ON files.torrent = torrents.id
 				 LEFT JOIN comments ON comments.torrent = torrents.id
 				 LEFT JOIN thanks ON thanks.torrentid = torrents.id
@@ -61,6 +62,7 @@ function deletetorrent_xbt($tid)
 				 LEFT JOIN coins ON coins.torrentid = torrents.id
 				 LEFT JOIN rating ON rating.torrent = torrents.id
 				 LEFT JOIN xbt_files_users ON xbt_files_users.fid = torrents.id
+				 LEFT JOIN ajax_chat_messages ON ajax_chat_messages.torrent_id = torrents.id
 				 WHERE torrents.id =" . sqlesc($tid) . " AND flags=1") or sqlerr(__FILE__, __LINE__);
     unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
     $cache->delete($keys['my_xbt_peers'] . $CURUSER['id']);
