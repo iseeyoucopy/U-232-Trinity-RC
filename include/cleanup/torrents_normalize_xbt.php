@@ -18,7 +18,7 @@ function docleanup($data)
     do {
         $res = sql_query("SELECT id FROM torrents");
         $ar = array();
-        while ($row = mysqli_fetch_array($res, MYSQLI_NUM)) {
+        while ($row = $res->fetch_array(MYSQLI_NUM)) {
             $id = $row[0];
             $ar[$id] = 1;
         }
