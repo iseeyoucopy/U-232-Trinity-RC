@@ -222,7 +222,9 @@ CREATE TABLE `ajax_chat_messages` (
   `channel` int(11) NOT NULL DEFAULT 0,
   `dateTime` datetime NOT NULL DEFAULT '2000-01-01 00:00:10',
   `ip` varbinary(16) DEFAULT NULL,
-  `text` text CHARACTER SET utf8 DEFAULT NULL
+  `text` text CHARACTER SET utf8 DEFAULT NULL,
+  `torrent_id` int(10) NOT NULL DEFAULT 0,
+  `visible` enum('yes','no') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'yes'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------

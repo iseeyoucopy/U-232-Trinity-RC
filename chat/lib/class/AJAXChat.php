@@ -1933,7 +1933,7 @@ class AJAXChat {
 					ajax_chat_messages
 				WHERE
 					'.$this->getMessageCondition().'
-					'.$this->getMessageFilter().'
+					'.$this->getMessageFilter().' AND visible=\'yes\'
 				ORDER BY
 					id
 					DESC
@@ -2002,7 +2002,7 @@ class AJAXChat {
 					ajax_chat_messages
 				WHERE
 					'.$this->getTeaserMessageCondition().'
-					'.$this->getMessageFilter().'
+					'.$this->getMessageFilter().' AND visible=\'yes\'
 				ORDER BY
 					id
 					DESC
