@@ -975,7 +975,7 @@ class AJAXChat {
 				} else {
 					// Check the role of the user to kick:
 					$kickUserRole = $this->getRoleFromID($kickUserID);
-					if($kickUserRole >= AJAX_CHAT_MODERTOR) {
+					if($kickUserRole >= AJAX_CHAT_MODERATOR) {
 						// Admins and moderators may not be kicked:
 						$this->insertChatBotMessage(
 							$this->getPrivateMessageID(),
