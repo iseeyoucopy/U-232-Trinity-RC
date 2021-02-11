@@ -195,7 +195,7 @@ function class_check($class = 0, $staff = true, $pin = false)
        }
             if (($class = $cache->get('av_class_'.$ending)) == false) {
             $classid = sql_query("SELECT av_class FROM staffpanel WHERE file_name LIKE '%$ending%'") or sqlerr(__file__,__line__);
-            $classid = mysqli_fetch_assoc($classid);
+            $classid = $classid->fetch_assoc();
             $class = isset($classid['av_class']) ? (int)$classid['av_class'] : '';
             $cache->set('av_class_' . $ending, $class, 900); //== test values 15 minutes to 0 once delete key in place //==
        }

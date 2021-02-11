@@ -13,7 +13,7 @@
 if (!defined('IN_LOTTERY')) die('You can\'t access this file directly!');
 //get config from database
 $lconf = sql_query('SELECT * FROM lottery_config') or sqlerr(__FILE__, __LINE__);
-while ($ac = mysqli_fetch_assoc($lconf)) $lottery_config[$ac['name']] = $ac['value'];
+while ($ac = $lconf->fetch_assoc()) $lottery_config[$ac['name']] = $ac['value'];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $tickets = isset($_POST['tickets']) ? 0 + $_POST['tickets'] : '';
     if (!$tickets) stderr('Hmm', 'How many tickets you wanna buy?');

@@ -12,7 +12,8 @@
  */
 //==Stats Begin
 if (($stats_cache = $cache->get($keys['site_stats'])) === false) {
-    $stats_cache = mysqli_fetch_assoc(sql_query("SELECT *, seeders + leechers AS peers, seeders / leechers AS ratio, unconnectables / (seeders + leechers) AS ratiounconn FROM stats WHERE id = '1' LIMIT 1"));
+    $stats_cache_query = sql_query("SELECT *, seeders + leechers AS peers, seeders / leechers AS ratio, unconnectables / (seeders + leechers) AS ratiounconn FROM stats WHERE id = '1' LIMIT 1");
+    $stats_cache = $stats_cache_query->fetch_assoc();
     $stats_cache['seeders'] = (int)$stats_cache['seeders'];
     $stats_cache['leechers'] = (int)$stats_cache['leechers'];
     $stats_cache['regusers'] = (int)$stats_cache['regusers'];

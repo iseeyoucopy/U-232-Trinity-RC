@@ -12,7 +12,8 @@
  */
 /** latestuser index **/
 if (($latestuser_cache = $cache->get($keys['latestuser'])) === false) {
-    $latestuser_cache = mysqli_fetch_assoc(sql_query('SELECT id, username, class, donor, warned, enabled, chatpost, leechwarn, pirate, king FROM users WHERE status="confirmed" ORDER BY id DESC LIMIT 1'));
+    $latestuser_cache_query = sql_query('SELECT id, username, class, donor, warned, enabled, chatpost, leechwarn, pirate, king FROM users WHERE status="confirmed" ORDER BY id DESC LIMIT 1') or sqlerr(__FILE__, __LINE__);
+    $latestuser_cache = $latestuser_cache_query->fetch_assoc();
     $latestuser_cache['id'] = (int)$latestuser_cache['id'];
     $latestuser_cache['class'] = (int)$latestuser_cache['class'];
     $latestuser_cache['warned'] = (int)$latestuser_cache['warned'];

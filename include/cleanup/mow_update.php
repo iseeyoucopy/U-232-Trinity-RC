@@ -17,8 +17,8 @@ function docleanup($data)
     ignore_user_abort(1);
     //== Movie of the week
     $res_tor = sql_query("SELECT id, name FROM torrents WHERE times_completed > 0 AND category IN (" . join(", ", $TRINITY20['movie_cats']) . ") ORDER BY times_completed DESC LIMIT 1") or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($res_tor) > 0) {
-        $arr = mysqli_fetch_assoc($res_tor);
+    if ($res_tor->num_rows > 0) {
+        $arr = $res_tor->fetch_assoc();
         sql_query("UPDATE avps SET value_u=" . sqlesc($arr['id']) . ", value_i=" . sqlesc(TIME_NOW) . " WHERE avps.arg='bestfilmofweek'") or sqlerr(__FILE__, __LINE__);
         $cache->delete('top_movie_2');
         write_log("Torrent [" . (int)$arr["id"] . "]&nbsp;[" . htmlentities($arr["name"]) . "] was set 'Best Film of the Week' by system");

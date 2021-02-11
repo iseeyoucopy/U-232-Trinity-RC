@@ -43,7 +43,7 @@ if ($message['receiver'] == $CURUSER['id'] && $message['sender'] == $CURUSER['id
 //=== Try finding a user with specified name
 $res_username = sql_query('SELECT id, class, acceptpms, notifs FROM users WHERE LOWER(username)=LOWER(' . sqlesc(htmlsafechars($_POST['to'])) . ') LIMIT 1');
 $to_username = $res_username->fetch_assoc();
-if (mysqli_num_rows($res_username) === 0) stderr($lang['pm_error'], $lang['pm_forwardpm_nomember']);
+if ($res_username->num_rows === 0) stderr($lang['pm_error'], $lang['pm_forwardpm_nomember']);
 //=== make sure the reciever has space in their box
 $res_count = sql_query('SELECT COUNT(id) FROM messages WHERE receiver = ' . sqlesc($to_username['id']) . ' AND location = 1') or sqlerr(__FILE__, __LINE__);
 if ($res_count->num_rows > ($maxbox * 6) && $CURUSER['class'] < UC_STAFF) stderr($lang['pm_forwardpm_srry'], $lang['pm_forwardpm_full']);
@@ -59,11 +59,11 @@ if ($CURUSER['class'] < UC_STAFF) {
     if ($to_username['acceptpms'] === 'no') stderr($lang['pm_error'], $lang['pm_forwardpm_dont_accept']);
     //=== if this member has blocked the sender
     $res2 = sql_query('SELECT id FROM blocks WHERE userid=' . sqlesc($to_username['id']) . ' AND blockid=' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-    if (mysqli_num_rows($res2) === 1) stderr($lang['pm_forwardpm_refused'], $lang['pm_forwardpm_blocked']);
+    if ($res2->num_rows === 1) stderr($lang['pm_forwardpm_refused'], $lang['pm_forwardpm_blocked']);
     //=== finally if they only allow PMs from friends
     if ($to_username['acceptpms'] === 'friends') {
         $res2 = sql_query('SELECT * FROM friends WHERE userid=' . sqlesc($to_username['id']) . ' AND friendid=' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-        if (mysqli_num_rows($res2) != 1) stderr($lang['pm_forwardpm_refused'], $lang['pm_forwardpm_accept']);
+        if ($res2->num_rows != 1) stderr($lang['pm_forwardpm_refused'], $lang['pm_forwardpm_accept']);
     }
 }
 //=== ok... all is good... let's get the info and send it :D

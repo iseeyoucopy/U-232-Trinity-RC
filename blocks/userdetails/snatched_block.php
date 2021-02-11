@@ -58,8 +58,8 @@ if ($user['opt1'] & user_options::HIDECUR || $CURUSER['id'] == $id || $CURUSER['
         } else {
          $ressnatch = sql_query("SELECT x.*, t.name AS name, c.name AS catname, c.image AS catimg FROM xbt_peers AS x INNER JOIN torrents AS t ON x.tid = t.id LEFT JOIN categories AS c ON t.category = c.id WHERE x.uid =" . sqlesc($user['id'])." AND x.tid IN (SELECT id FROM torrents)") or sqlerr(__FILE__, __LINE__);
         }
-		$count_snatched = mysqli_num_rows($ressnatch);
-        if (mysqli_num_rows($ressnatch) > 0) {
+		$count_snatched = $ressnatch->num_rows;
+        if ($ressnatch->num_rows > 0) {
 			$user_snatches_data = snatchtable($ressnatch);
 			$cache->set('user_snatches_data_' . $id, $user_snatches_data, $TRINITY20['expires']['user_snatches_data']);
         } else {

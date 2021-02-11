@@ -123,9 +123,9 @@ if (!defined('IN_TRINITY20_FORUM')) {
         }
         // === PM subscribed members
         $res_sub = sql_query("SELECT user_id FROM subscriptions WHERE topic_id=" . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
-        while ($row = mysqli_fetch_assoc($res_sub)) {
+        while ($row = $res_sub->fetch_assoc()) {
             $res_yes = sql_query("SELECT subscription_pm, username FROM users WHERE id=" . sqlesc($row["user_id"])) or sqlerr(__FILE__, __LINE__);
-            $arr_yes = mysqli_fetch_assoc($res_yes);
+            $arr_yes = $res_yes->fetch_assoc();
             $msg = "Hey there!!! \n a thread you subscribed to: " . htmlsafechars($arr["topic_name"]) . " has had a new post!\n click [url=" . $TRINITY20['baseurl'] . "/forums.php?action=viewtopic&topicid=" . $topicid . "&page=last][b]HERE[/b][/url] to read it!\n\nTo view your subscriptions, or un-subscribe, click [url=" . $TRINITY20['baseurl'] . "/subscriptions.php][b]HERE[/b][/url].\n\ncheers.";
             if ($arr_yes["subscription_pm"] == 'yes' && $row["user_id"] != $CURUSER["id"]) {
                 sql_query("INSERT INTO messages (sender, subject, receiver, added, msg) VALUES(" . sqlesc($TRINITY20['bot_id']) . ", " . sqlesc("New post in subscribed thread!") . ", " . sqlesc($row['user_id']) . ", '" . TIME_NOW . "', " . sqlesc($msg) . ")") or sqlerr(__FILE__, __LINE__);
@@ -138,7 +138,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
                                   "INNER JOIN topics AS t ON p.id = t.last_post " .
                                   "WHERE t.id =" . sqlesc($topicid) . " AND p.user_id=" . sqlesc($userid) . " AND p.added > " . (TIME_NOW - 1*86400) . " " .
                                   "ORDER BY p.added asc LIMIT 1") or sqlerr(__FILE__, __LINE__);
-        if (mysqli_num_rows($doublepost) == 0 || $CURUSER['class'] >= UC_STAFF) {
+        if ($doublepost->num_rows == 0 || $CURUSER['class'] >= UC_STAFF) {
             $added = sqlesc(TIME_NOW);
             $body = sqlesc($body);
             $anonymous = (isset($_POST['anonymous']) && $_POST["anonymous"] != "" ? "yes" : "no");
@@ -170,7 +170,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 
             update_topic_last_post($topicid);
         } else {
-            $results = mysqli_fetch_assoc($doublepost);
+            $results = $doublepost->fetch_assoc();
             $postid = (int) $results['last_post'];
             sql_query("UPDATE posts SET body =" . sqlesc(trim($results['body']) . "\n\n" . $body) . ", edit_date=" . TIME_NOW . ", edited_by=" . sqlesc($userid) . ", icon=" . sqlesc($posticon) . " WHERE id=" . sqlesc($postid)) or sqlerr(__FILE__, __LINE__);
         }

@@ -60,10 +60,10 @@ $HTMLOUT.= "
     /**  Mod by dokty, rewrote by pdq  **/    
 $my_points = 0;
     if (($torrent['torrent_points_'] = $cache->get('coin_points_' . $id)) === false) {
-        $sql_points = sql_query('SELECT userid, points FROM coins WHERE torrentid=' . sqlesc($id));
+        $sql_points = sql_query('SELECT userid, points FROM coins WHERE torrentid=' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         $torrent['torrent_points_'] = array();
-        if (mysqli_num_rows($sql_points) !== 0) {
-            while ($points_cache = mysqli_fetch_assoc($sql_points)) $torrent['torrent_points_'][$points_cache['userid']] = $points_cache['points'];
+        if ($sql_points->num_rows !== 0) {
+            while ($points_cache = $sql_points->fetch_assoc()) $torrent['torrent_points_'][$points_cache['userid']] = $points_cache['points'];
         }
         $cache->set('coin_points_' . $id, $torrent['torrent_points_'], 0);
     }

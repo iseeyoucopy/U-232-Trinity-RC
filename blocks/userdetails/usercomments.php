@@ -15,7 +15,7 @@ $HTMLOUT.= "<h1>{$lang['userdetails_comm_left']}<a href='userdetails.php?id=$id'
     <a name='startcomments'></a>";
 $commentbar = "<a href='usercomment.php?action=add&amp;userid={$id}'>Add a comment</a>\n";
 $subres = sql_query("SELECT COUNT(id) FROM usercomments WHERE userid = " . sqlesc($id));
-$subrow = mysqli_fetch_array($subres, MYSQLI_NUM);
+$subrow = $subres->fetch_array(MYSQLI_NUM);
 $count = $subrow[0];
 if (!$count) {
     $HTMLOUT.= "<h2>{$lang['userdetails_comm_yet']}</h2>\n";

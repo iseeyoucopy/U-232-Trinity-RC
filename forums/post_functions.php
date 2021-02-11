@@ -210,10 +210,10 @@ function insert_quick_jump_menu($currentforum = 0)
         // ------ Get 10 last posts if this is a reply
         if (!$newtopic && $TRINITY20['show_last_10']) {
             $postres = sql_query("SELECT p.id, p.added, p.body, p.anonymous, u.id AS uid, u.enabled, u.class, u.donor, u.warned, u.chatpost, u.leechwarn, u.pirate, u.king, u.username, u.avatar, u.offensive_avatar " . "FROM posts AS p " . "LEFT JOIN users AS u ON u.id = p.user_id " . "WHERE p.topic_id=" . sqlesc($id) . " " . "ORDER BY p.id DESC LIMIT 10") or sqlerr(__FILE__, __LINE__);
-            if (mysqli_num_rows($postres) > 0) {
+            if ($postres->num_rows > 0) {
                 $htmlout .="<br />";
                 $htmlout .= begin_frame("10 last posts, in reverse order");
-                while ($post = mysqli_fetch_assoc($postres)) {
+                while ($post = $postres->fetch_assoc()) {
                     //$avatar = ($CURUSER["avatars"] == "all" ? htmlsafechars($post["avatar"]) : ($CURUSER["avatars"] == "some" && $post["offavatar"] == "no" ? htmlsafechars($post["avatar"]) : ""));
                     $avatar = ($CURUSER["avatars"] == "yes" ? avatar_stuff($post) : "");
                     if ($post['anonymous'] == 'yes') {

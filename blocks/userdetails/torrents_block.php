@@ -72,7 +72,7 @@ if (XBT_TRACKER == true) {
                         ON t.category = c.id 
                         WHERE x.uid=" . sqlesc($id))
                         or sqlerr(__FILE__, __LINE__);
-    while ($arr = mysqli_fetch_assoc($res_tb)) {
+    while ($arr = $res_tb->fetch_assoc()) {
         if ($arr['left'] == '0') 
 			$seeding[] = $arr;
         else 
@@ -98,7 +98,7 @@ if (XBT_TRACKER == true) {
                 ON t.category = c.id 
                 WHERE p.userid=" . sqlesc($id))
                 or sqlerr(__FILE__, __LINE__);
-    while ($arr = mysqli_fetch_assoc($res_tb)) {
+    while ($arr = $res_tb->fetch_assoc()) {
         if ($arr['seeder'] == 'yes') $seeding[] = $arr;
         else $leeching[] = $arr;
     }

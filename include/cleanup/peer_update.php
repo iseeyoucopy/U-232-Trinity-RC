@@ -20,7 +20,7 @@ function docleanup($data)
     $torrent_seeds = $torrent_leeches = array();
     $deadtime = TIME_NOW - floor($TRINITY20['announce_interval'] * 1.3);
     $dead_peers = sql_query('SELECT torrent, userid, peer_id, seeder FROM peers WHERE last_action < ' . $deadtime);
-    while ($dead_peer = mysqli_fetch_assoc($dead_peers)) {
+    while ($dead_peer = $dead_peers->fetch_assoc()) {
         $torrentid = (int)$dead_peer['torrent'];
         $userid = (int)$dead_peer['userid'];
         $seed = $dead_peer['seeder'] === 'yes'; // you use 'yes' i thinks :P

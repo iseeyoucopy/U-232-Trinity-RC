@@ -34,7 +34,7 @@ $message = $res->fetch_assoc();
 if (!$res)	stderr($lang['pm_error'], $lang['pm_viewmsg_err']);
 //=== get user stuff ===//
 $res_user_stuff = sql_query('SELECT id, username, uploaded, warned, suspended, enabled, donor, class, avatar, leechwarn, chatpost, pirate, king, opt1, opt2 FROM users WHERE id=' . ($message['sender'] === $CURUSER['id'] ? sqlesc($message['receiver']) : sqlesc($message['sender']))) or sqlerr(__FILE__, __LINE__);
-$arr_user_stuff = mysqli_fetch_assoc($res_user_stuff);
+$arr_user_stuff = $res_user_stuff->fetch_assoc();
 $id = isset($arr_user_stuff['id']) ? (int)$arr_user_stuff['id'] : '';
 //=== Mark message read ===//
 sql_query('UPDATE messages SET unread=\'no\' WHERE id=' . sqlesc($pm_id) . ' AND receiver=' . sqlesc($CURUSER['id']) . ' LIMIT 1') or sqlerr(__FILE__, __LINE__);
@@ -52,7 +52,7 @@ $avatar = (!$CURUSER['opt1'] & user_options::AVATARS ? '' : (empty($arr_user_stu
 if ($message['location'] > 1) {
     //=== get name of PM box if not in or out ===//
     $res_box_name = sql_query('SELECT name FROM pmboxes WHERE userid = ' . sqlesc($CURUSER['id']) . ' AND boxnumber=' . sqlesc($mailbox) . ' LIMIT 1') or sqlerr(__FILE__, __LINE__);
-    $arr_box_name = mysqli_fetch_row($res_box_name);
+    $arr_box_name = $res_box_name->fetch_row();
     if ($res->num_rows === 0) stderr($lang['pm_error'], $lang['pm_mailbox_invalid']);
     $mailbox_name = htmlsafechars($arr_box_name[0]);
     $other_box_info = '<p class="text-center"><span style="color: red;">' . $lang['pm_mailbox_asterisc'] . '</span><span style="font-weight: bold;">' . $lang['pm_mailbox_note'] . '</span>

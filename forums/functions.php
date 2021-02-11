@@ -38,7 +38,7 @@ function catch_up($id = 0)
             sql_query("UPDATE read_posts SET last_post_read=" . sqlesc($postid) . " WHERE id =" . sqlesc($arr['r_id'])) or sqlerr(__FILE__, __LINE__);
         }
     }
-    ((mysqli_free_result($res) || (is_object($res) && (get_class($res) == "mysqli_result"))) ? true : false);
+    $res->free();
 }
 // -------- Returns the minimum read/write class levels of a forum
 function get_forum_access_levels($forumid)

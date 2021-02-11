@@ -54,7 +54,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == $save_or_edit) {
     } elseif ($save_or_edit === 'send') {
         //=== Try finding a user with specified name
         $res_receiver = sql_query('SELECT id, class, acceptpms, notifs, email, class, username FROM users WHERE LOWER(username)=LOWER(' . sqlesc(htmlsafechars($_POST['to'])) . ') LIMIT 1');
-        $arr_receiver = mysqli_fetch_assoc($res_receiver);
+        $arr_receiver = $res_receiver->fetch_assoc();
         if (!is_valid_id($arr_receiver['id'])) stderr($lang['pm_error'], $lang['pm_forwardpm_nomember']);
         $receiver = intval($arr_receiver['id']);
         //=== allow suspended users to PM / forward to staff only
@@ -65,7 +65,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == $save_or_edit) {
         }
         //=== make sure they have space
         $res_count = sql_query('SELECT COUNT(id) FROM messages WHERE receiver = ' . sqlesc($receiver) . ' AND location = 1') or sqlerr(__FILE__, __LINE__);
-        $arr_count = mysqli_fetch_row($res_count);
+        $arr_count = $res_count->fetch_row();
         if ($res_count->num_rows > ($maxbox * 6) && $CURUSER['class'] < UC_STAFF) stderr($lang['pm_forwardpm_srry'], $lang['pm_forwardpm_full']);
         //=== Make sure recipient wants this message
         if ($CURUSER['class'] < UC_STAFF) {
@@ -73,13 +73,13 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == $save_or_edit) {
             switch ($should_i_send_this) {
             case 'yes':
                 $r = sql_query('SELECT id FROM blocks WHERE userid = ' . sqlesc($receiver) . ' AND blockid = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-                $block = mysqli_fetch_row($r);
+                $block = $r->fetch_row();
                 if ($block[0] > 0) stderr($lang['pm_forwardpm_refused'], htmlsafechars($arr_receiver['username']) . $lang['pm_send_blocked']);
                 break;
 
             case 'friends':
                 $r = sql_query('SELECT id FROM friends WHERE userid = ' . sqlesc($receiver) . ' AND friendid = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-                $friend = mysqli_fetch_row($r);
+                $friend = $r->fetch_row();
                 if ($friend[0] > 0) stderr($lang['pm_forwardpm_refused'], htmlsafechars($arr_receiver['username']) . $lang['pm_send_onlyf']);
                 break;
 

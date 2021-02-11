@@ -167,7 +167,7 @@ function search_text_in_db($searchstr, $base_sql, $where_search, $add_where = ar
             $sql = $base_sql . ' WHERE ' . $search;
             $result = sql_query($sql);
             $row = array();
-            while ($temp_row = mysqli_fetch_row($result)) {
+            while ($temp_row = $result->fetch_row()) {
                 $row[$temp_row['id']] = 1;
                 if (!$word_count) {
                     $result_list[$temp_row['id']] = 1;

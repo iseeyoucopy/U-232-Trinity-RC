@@ -25,10 +25,13 @@ if (!defined('IN_TRINITY20_CRON')) {
     exit();
 }
 require_once "config.php";
-if (!@($GLOBALS["___mysqli_ston"] = mysqli_connect($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass']))) {
-    sqlerr(__FILE__, __LINE__);
-}
-((bool)mysqli_query($GLOBALS["___mysqli_ston"], "USE {$TRINITY20['mysql_db']}")) or sqlerr(__FILE__, 'dbconn: mysql_select_db: ' . $mysqli->error);
+
+$mysqli = new mysqli($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass'], $TRINITY20['mysql_db']);
+if ($mysqli -> connect_errno) {
+    echo "Connection Problems" . PHP_EOL;
+    echo"Sorry, U-232 was unable to connect to the database. This may be caused by the server being busy. Please try again later. " . $mysqli -> connect_error;
+    exit();
+  }
 $now = TIME_NOW;
 $sql = sql_query("SELECT * FROM cleanup WHERE clean_cron_key = '{$argv[1]}' LIMIT 0,1");
 $row = $sql->fetch_assoc();
@@ -45,6 +48,7 @@ if ($row['clean_id']) {
 }
 function sqlesc($x)
 {
-    return "'" . ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $x) : ((trigger_error("Err", E_USER_ERROR)) ? "" : "")) . "'";
+    global $mysqli;
+    return $mysqli->real_escape_string($x);
 }
 ?>

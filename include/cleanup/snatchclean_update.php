@@ -24,11 +24,11 @@ function docleanup($data)
 
     $snatchedcounts = array();
     $snatchedres = sql_query("SELECT torrentid, COUNT(*) AS count FROM snatched WHERE complete_date > 0 GROUP BY torrentid");
-    while ($row = mysqli_fetch_assoc($snatchedres)) {
+    while ($row = $snatchedres->fetch_assoc()) {
         $snatchedcounts[$row['torrentid']] = (int)$row['count'];
     }
     $tcompletedres = sql_query("SELECT id, times_completed FROM torrents");
-    while ($row2 = mysqli_fetch_assoc($tcompletedres)) {
+    while ($row2 = $tcompletedres->fetch_assoc()) {
         if(array_key_exists($row2['id'], $snatchedcounts) && $row2['times_completed'] != $snatchedcounts[$row2['id']]) {
             sql_query("UPDATE torrents SET times_completed = ".$snatchedcounts[$row2['id']] . " WHERE id = " . $row2['id']);
         }

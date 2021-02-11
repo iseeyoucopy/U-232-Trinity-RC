@@ -25,7 +25,7 @@ function docleanup($data)
     }
     //=== hit and run... disable Downloading rights if they have x marks of cain
     $res_fuckers = sql_query('SELECT COUNT(*) AS poop, xbt_peers.uid, users.username, users.modcomment, users.hit_and_run_total, users.downloadpos, users.can_leech FROM xbt_peers LEFT JOIN users ON xbt_peers.uid = users.id WHERE xbt_peers.mark_of_cain = \'yes\' AND users.hnrwarn = \'no\' AND users.immunity = \'0\' GROUP BY xbt_peers.uid') or sqlerr(__FILE__, __LINE__);
-    while ($arr_fuckers = mysqli_fetch_assoc($res_fuckers)) {
+    while ($arr_fuckers = $res_fuckers->fetch_assoc()) {
         if ($arr_fuckers['poop'] > $TRINITY20['cainallowed'] && $arr_fuckers['downloadpos'] == 1) {
             //=== set them to no DLs
             $subject = sqlesc('Download disabled by System');
@@ -65,9 +65,9 @@ function docleanup($data)
     }
     //=== hit and run... turn their DLs back on if they start seeding again
     $res_good_boy = sql_query('SELECT id, username, modcomment FROM users WHERE hnrwarn = \'yes\' AND downloadpos = \'0\' AND can_leech=\'0\'') or sqlerr(__FILE__, __LINE__);
-    while ($arr_good_boy = mysqli_fetch_assoc($res_good_boy)) {
+    while ($arr_good_boy = $res_good_boy->fetch_assoc()) {
         $res_count = sql_query('SELECT COUNT(*) FROM xbt_peers WHERE seedtime >= '.sqlesc($secs).' AND uid = '.sqlesc($arr_good_boy['id']).' AND mark_of_cain = \'yes\' AND active=\'1\'') or sqlerr(__FILE__, __LINE__);
-        $arr_count = mysqli_fetch_row($res_count);
+        $arr_count = $res_count->fetch_row();
         if ($arr_count[0] < $TRINITY20['cainallowed']) {
             //=== set them to yes DLs
             $subject = sqlesc('Download restored by System');

@@ -95,7 +95,7 @@ if (isset($_POST['action2'])) {
                 //=== get messages to move
                 $remove_messages_res = sql_query('SELECT id FROM messages WHERE location=' . sqlesc($row['boxnumber']) . '  AND receiver=' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
                 //== move the messages to the inbox
-                while ($remove_messages_arr = mysqli_fetch_assoc($remove_messages_res)) {
+                while ($remove_messages_arr = $remove_messages_res->fetch_assoc()) {
                     sql_query('UPDATE messages SET location=1 WHERE id=' . sqlesc($remove_messages_arr['id'])) or sqlerr(__FILE__, __LINE__);
                 }
                 //== delete the box
@@ -170,7 +170,7 @@ if ($res->num_rows > 0) {
     while ($row = $res->fetch_assoc()) {
         //==== get count from PM boxes
         $res_count = sql_query('SELECT COUNT(id) FROM messages WHERE  location = ' . sqlesc($row['boxnumber']) . ' AND receiver = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-        $arr_count = mysqli_fetch_row($res_count);
+        $arr_count = $res_count->fetch_row();
         $messages = (int)$arr_count[0];
         $all_my_boxes.= '
                     <tr>

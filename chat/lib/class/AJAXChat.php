@@ -1631,7 +1631,7 @@ class AJAXChat {
 				array_push($this->_bannedUsersData, $row);
 			}
 			
-			mysqli_free_result($result);
+			$result->free();
 		}
 		
 		if($key) {
@@ -1749,7 +1749,7 @@ class AJAXChat {
 		// Create a new SQL query:
 		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
-		if(mysqli_num_rows($result) > 0) {
+		if($result->num_rows > 0) {
 			$condition = '';
 			while($row = $result->fetch_assoc()) {
 				if(!empty($condition))
@@ -1766,7 +1766,7 @@ class AJAXChat {
 				
 			}
 			
-			mysqli_free_result($result);
+			$result->free();
 			
 			$sql = 'DELETE FROM
 						ajax_chat_online
@@ -1957,7 +1957,7 @@ class AJAXChat {
 			);		
 			$messages = $message.$messages;
 		}
-		mysqli_free_result($result);		
+		$result->free();		
 		
 		$messages = '<messages>'.$messages.'</messages>';
 		return $messages;
@@ -2029,7 +2029,7 @@ class AJAXChat {
 			$message .= '</message>';
 			$messages = $message.$messages;
 		}
-		mysqli_free_result($result);
+		$result->free();
 		
 		$messages = '<messages>'.$messages.'</messages>';
 		return $messages;
@@ -2190,7 +2190,7 @@ class AJAXChat {
 			$xml .= '<text><![CDATA['.$this->encodeSpecialChars($row['text']).']]></text>';
 			$xml .= '</message>';
 		}
-		mysqli_free_result($result);
+		$result->free();
 
 		$xml .= '</messages>';
 		
@@ -2285,7 +2285,7 @@ class AJAXChat {
 				array_push($this->_onlineUsersData, $row);
 			}
 			
-			mysqli_free_result($result);
+			$result->free();
 		}
 		
 		if($channelIDs || $key) {
@@ -2454,7 +2454,7 @@ class AJAXChat {
 				array_push($this->_invitations, $row['channel']);
 			}
 			
-			mysqli_free_result($result);
+			$result->free();
 		}
 		return $this->_invitations;
 	}

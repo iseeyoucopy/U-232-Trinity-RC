@@ -59,7 +59,7 @@ if (!in_array($sort, $possible_sort)) {
 if ($member) {
     $res_username = sql_query('SELECT id, username, class, warned, suspended, leechwarn, chatpost, pirate, king, enabled, donor FROM users WHERE LOWER(username)=LOWER(' . sqlesc($member) . ') LIMIT 1') or sqlerr(__FILE__, __LINE__);
     $arr_username = $res_username->fetch_assoc();
-    if (mysqli_num_rows($res_username) === 0) stderr($lang['pm_error'], $lang['pm_forwardpm_nomember']);
+    if ($res_username->num_rows === 0) stderr($lang['pm_error'], $lang['pm_forwardpm_nomember']);
     //=== if searching by member...
     $and_member = ($mailbox >= 1 ? ' AND sender = ' . sqlesc($arr_username['id']) . ' AND saved = \'yes\' ' : ' AND receiver = ' . sqlesc($arr_username['id']) . ' AND saved = \'yes\' ');
     $the_username = print_user_stuff($arr_username);
@@ -187,7 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $res_search = sql_query("SELECT *, ( (1.3 * (MATCH(subject) AGAINST (" . sqlesc($search) . " IN BOOLEAN MODE))) + (0.6 * (MATCH(msg) AGAINST (" . sqlesc($search) . " IN BOOLEAN MODE)))) AS relevance FROM messages WHERE ( MATCH(subject,msg) AGAINST (" . sqlesc($search) . " IN BOOLEAN MODE) ) $and_member $location $what_in_out ORDER BY " . sqlesc($sort) . " $desc_asc LIMIT " . $limit) or sqlerr(__FILE__, __LINE__);
         break;
     }
-    $num_result = mysqli_num_rows($res_search);
+    $num_result = $res_search->num_rows;
     //=== show the search resaults \o/o\o/o\o/
     $HTMLOUT.= '<h1>' . $lang['pm_search_your_for'] . '' . ($keywords ? '"' . $keywords . '"' : ($member ? $lang['pm_search_member'] . htmlsafechars($arr_username['username']) . $lang['pm_search_pms'] : ($member_sys ? $lang['pm_search_sysmsg'] : ''))) . '</h1>
         <div style="text-align: center;">' . ($num_result < $limit ? $lang['pm_search_returned'] : $lang['pm_search_show_first']) . ' <span style="font-weight: bold;">' . $num_result . '</span> 
@@ -223,7 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $arr_box = ($row['location'] == 1 ? $lang['pm_inbox'] : ($row['location'] == - 1 ? $lang['pm_sentbox'] : ($row['location'] == - 2 ? $lang['pm_drafts'] : '')));
         if ($all_boxes && $arr_box === '') {
             $res_box_name = sql_query('SELECT name FROM pmboxes WHERE userid = ' . sqlesc($CURUSER['id']) . ' AND boxnumber = ' . sqlesc($row['location'])) or sqlerr(__FILE__, __LINE__);
-            $arr_box_name = mysqli_fetch_assoc($res_box_name);
+            $arr_box_name = $res_box_name->fetch_assoc();
             $arr_box = htmlsafechars($arr_box_name['name']);
         }
         //==== highlight search terms... from Jaits search forums mod

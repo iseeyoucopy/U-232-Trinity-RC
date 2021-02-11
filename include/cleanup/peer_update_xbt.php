@@ -19,7 +19,7 @@ function docleanup($data)
     $torrent_seeds = $torrent_leeches = array();
     $deadtime = TIME_NOW - floor($TRINITY20['announce_interval'] * 1.3);
     $dead_peers = sql_query('SELECT tid, uid, peer_id, `left`, `active` FROM xbt_peers WHERE mtime < ' . $deadtime);
-    while ($dead_peer = mysqli_fetch_assoc($dead_peers)) {
+    while ($dead_peer = $dead_peers->fetch_assoc()) {
         $torrentid = (int)$dead_peer['tid'];
         $userid = (int)$dead_peer['uid'];
         $seed = $dead_peer['left'] === 0;

@@ -19,7 +19,7 @@ if ($CURUSER['id'] == $id || $CURUSER['class'] >= UC_STAFF) {
         } else {
         $q1 = sql_query('SELECT connectable, port ,agent FROM peers WHERE userid = ' . sqlesc($id) . ' LIMIT 1') or sqlerr(__FILE__, __LINE__);
         }
-        $port_data = mysqli_fetch_row($q1);
+        $port_data = $q1->fetch_row();
         $cache->set('port_data_' . $id, $port_data, $TRINITY20['expires']['port_data']);
     }
     if ($port_data > 0) {

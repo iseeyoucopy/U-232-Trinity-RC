@@ -23,7 +23,7 @@ function docleanup($data)
                           LEFT JOIN topics t ON f.id = t.forum_id
                           LEFT JOIN posts p ON t.id = p.topic_id
                           GROUP BY f.id');
-    while ($forum = mysqli_fetch_assoc($forums)) {
+    while ($forum = $forums->fetch_assoc()) {
         $forum['posts'] = $forum['topics'] > 0 ? $forum['posts'] : 0;
         sql_query('UPDATE forums SET post_count = ' . sqlesc($forum['posts']) . ', topic_count = ' . sqlesc($forum['topics']) . ' WHERE id=' . sqlesc($forum['id']));
     }

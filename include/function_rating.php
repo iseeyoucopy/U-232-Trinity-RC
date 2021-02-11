@@ -29,7 +29,7 @@ function getRate($id, $what)
     $keys['rating_count'] = 'rating_count_' . $what . '_' . $id . '_' . $CURUSER['id'];
     if (($completecount = $cache->get($keys['rating_count'])) === false) {
     $completeres = sql_query("SELECT * FROM " . (XBT_TRACKER == true ? "xbt_peers" : "snatched") . " WHERE " . (XBT_TRACKER == true ? "completedtime !=0" : "complete_date !=0") . " AND " . (XBT_TRACKER == true ? "tid" : "userid") . " = " . $CURUSER['id'] . " AND " . (XBT_TRACKER == true ? "tid" : "torrentid") . " = " . $id);
-    $completecount = mysqli_num_rows($completeres);
+    $completecount = $completeres->num_rows;
     $cache->set($keys['rating_count'], $completecount, 180);
     }
     // outputs

@@ -12,8 +12,8 @@
  */
 if ($TRINITY20['report_alert'] && $CURUSER['class'] >= UC_STAFF) {
     if (($delt_with = $cache->get('new_report_')) === false) {
-        $res_reports = sql_query("SELECT COUNT(id) FROM reports WHERE delt_with = '0'");
-        list($delt_with) = mysqli_fetch_row($res_reports);
+        $res_reports = sql_query("SELECT COUNT(id) FROM reports WHERE delt_with = '0'") or sqlerr(__FILE__, __LINE__);
+        list($delt_with) = $res_reports->fetch_row();
         $cache->set('new_report_', $delt_with, $TRINITY20['expires']['alerts']);
     }
     if ($delt_with > 0) {

@@ -48,12 +48,12 @@ if (!defined('IN_TRINITY20_FORUM')) {
             if (($locked && $CURUSER['class'] < UC_STAFF) ? true : $voted) {
                 $uservote = ($arr1["selection"] != '' ? (int) $arr1["selection"] : -1);
                 $res_v = sql_query("SELECT selection FROM postpollanswers WHERE pollid=" . sqlesc($pollid) . " AND selection < 20");
-                $tvotes = mysqli_num_rows($res_v);
+                $tvotes = $res_v->num_rows;
                 $vs = $os = [];
                 for ($i=0;$i<20;$i++) {
                     $vs[$i]=0;
                 }
-                while ($arr_v = mysqli_fetch_row($res_v)) {
+                while ($arr_v = $res_v->fetch_row) {
                     $vs[$arr_v[0]] += 1;
                 }
                 reset($o);
@@ -112,7 +112,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
                 } else {
                     $res_vv = sql_query("SELECT pa.userid, u.username, u.anonymous FROM postpollanswers AS pa LEFT JOIN users AS u ON u.id = pa.userid WHERE pa.pollid=" . sqlesc($pollid)) or sqlerr(__FILE__, __LINE__);
                     $voters = '';
-                    while ($arr_vv = mysqli_fetch_assoc($res_vv)) {
+                    while ($arr_vv = $res_vv->fetch_assoc()) {
                         if (!empty($voters) && !empty($arr_vv['username'])) {
                             $voters .= ', ';
                         }

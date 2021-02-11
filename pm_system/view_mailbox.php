@@ -39,8 +39,8 @@ if (!defined('BUNNY_PM_SYSTEM')) {
 if ($mailbox > 1) {
     //== get name of PM box if not in or out
     $res_box_name = sql_query('SELECT name FROM pmboxes WHERE userid = ' . sqlesc($CURUSER['id']) . ' AND boxnumber=' . sqlesc($mailbox) . ' LIMIT 1') or sqlerr(__FILE__, __LINE__);
-    $arr_box_name = mysqli_fetch_row($res_box_name);
-    if (mysqli_num_rows($res_box_name) === 0) stderr($lang['pm_error'], $lang['pm_mailbox_invalid']);
+    $arr_box_name = $res_box_name->fetch_row();
+    if ($res_box_name->num_rows === 0) stderr($lang['pm_error'], $lang['pm_mailbox_invalid']);
     $mailbox_name = htmlsafechars($arr_box_name[0]);
     $other_box_info = '<p align="center"><span style="color: red;">' . $lang['pm_mailbox_asterisc'] . '</span><span style="font-weight: bold;">' . $lang['pm_mailbox_note'] . '</span>
                                             ' . $lang['pm_mailbox_max'] . '<span style="font-weight: bold;">' . $maxbox . '</span>' . $lang['pm_mailbox_either'] . '
@@ -49,7 +49,7 @@ if ($mailbox > 1) {
 //==== get count from PM boxs & get image & % box full
 //=== get stuff for the pager
 $res_count = sql_query('SELECT COUNT(id) FROM messages WHERE ' . ($mailbox === PM_INBOX ? 'receiver = ' . sqlesc($CURUSER['id']) . ' AND location = 1' : ($mailbox === PM_SENTBOX ? 'sender = ' . sqlesc($CURUSER['id']) . ' AND (saved = \'yes\' || unread= \'yes\') AND draft = \'no\' ' : 'receiver = ' . sqlesc($CURUSER['id'])) . ' AND location = ' . sqlesc($mailbox))) or sqlerr(__FILE__, __LINE__);
-$arr_count = mysqli_fetch_row($res_count);
+$arr_count = $res_count->fetch_row();
 $messages = $arr_count[0];
 //==== get count from PM boxs & get image & % box full
 $filled = $messages > 0 ? (($messages / $maxbox) * 100) : 0;

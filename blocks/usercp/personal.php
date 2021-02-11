@@ -1,6 +1,6 @@
 <?php
 $templates = sql_query("SELECT id, name FROM stylesheets ORDER BY id");
-while ($templ = mysqli_fetch_assoc($templates)) {
+while ($templ = $templates->fetch_assoc()) {
     if (file_exists("templates/".intval($templ['id'])."/template.php")) $stylesheets.= "<option value='" . (int)$templ['id'] . "'" . ($templ['id'] == $CURUSER['stylesheet'] ? " selected='selected'" : "") . ">" . htmlsafechars($templ['name']) . "</option>";
 }
 $HTMLOUT.= "

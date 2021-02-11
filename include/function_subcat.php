@@ -5,7 +5,7 @@ function genrelist2()
     global $cache, $TRINITY20;
     if (!($cats = $cache->get('categories'))) {
         $row = sql_query("SELECT id, name, image, parent_id, tabletype, min_class FROM categories ORDER BY name");
-        while ($mysqlcats = mysqli_fetch_assoc($row))
+        while ($mysqlcats = $row->fetch_assoc())
             $allcats[] = $mysqlcats;
         $allcats2 = $allcats;
         $i = 0;

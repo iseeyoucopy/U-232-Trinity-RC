@@ -153,13 +153,13 @@ function check_bans($ip, &$reason = '')
     if (($ban = $cache->get($key)) === false && $ip != '127.0.0.1') { 
         $nip = ip2long($ip);
         $ban_sql = sql_query('SELECT comment FROM bans WHERE (first <= ' . $nip . ' AND last >= ' . $nip . ') LIMIT 1');
-        if (mysqli_num_rows($ban_sql)) {
-            $comment = mysqli_fetch_row($ban_sql);
+        if ($ban_sql->num_rows) {
+            $comment = $ban_sql->fetch_row();
             $reason = 'Manual Ban (' . $comment[0] . ')';
             $cache->set($key, $reason, 86400); // 86400 // banned
             return true;
         }
-        ((mysqli_free_result($ban_sql) || (is_object($ban_sql) && (get_class($ban_sql) == "mysqli_result"))) ? true : false);
+        $ban_sql->free();
         $cache->set($key, 0, 86400); // 86400 // not banned
         return false;
     } elseif (!$ban) return false;
@@ -507,7 +507,7 @@ function userlogin()
         );
         $stats_fields = implode(', ', array_merge($stats_fields_ar_int, $stats_fields_ar_float, $stats_fields_ar_str));
         $s = sql_query("SELECT " . $stats_fields . " FROM users WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-        $stats = mysqli_fetch_assoc($s);
+        $stats = $s->fetch_assoc();
         foreach ($stats_fields_ar_int as $i) $stats[$i] = (int)$stats[$i];
         foreach ($stats_fields_ar_float as $i) $stats[$i] = (float)$stats[$i];
         foreach ($stats_fields_ar_str as $i) $stats[$i] = $stats[$i];
@@ -519,7 +519,7 @@ function userlogin()
     //==
     if (($ustatus = $cache->get($keys['user_status'] . $id)) === false) {
         $sql2 = sql_query('SELECT * FROM ustatus WHERE userid = ' . sqlesc($id));
-        if (mysqli_num_rows($sql2)) $ustatus = mysqli_fetch_assoc($sql2);
+        if ($sql2->num_rows) $ustatus = $sql2->fetch_assoc();
         else $ustatus = array(
             'last_status' => '',
             'last_update' => 0,
@@ -685,8 +685,8 @@ function make_freeslots($userid, $key)
     if (($slot = $cache->get($key . $userid)) === false) {
         $res_slots = sql_query('SELECT * FROM freeslots WHERE userid = ' . sqlesc($userid)) or sqlerr(__file__, __line__);
         $slot = array();
-        if (mysqli_num_rows($res_slots)) {
-            while ($rowslot = mysqli_fetch_assoc($res_slots)) $slot[] = $rowslot;
+        if ($res_slots->num_rows) {
+            while ($rowslot = $res_slots->fetch_assoc()) $slot[] = $rowslot;
         }
         $cache->set($key . $userid, $slot, 86400 * 7);
     }
@@ -699,7 +699,7 @@ function make_bookmarks($userid, $key)
     if (($book = $cache->get($key . $userid)) === false) {
         $res_books = sql_query('SELECT * FROM bookmarks WHERE userid = ' . sqlesc($userid)) or sqlerr(__file__, __line__);
         $book = array();
-        if (mysqli_num_rows($res_books)) {
+        if ($res_books->num_rows) {
             while ($rowbook = $res_books->fetch_assoc()) $book[] = $rowbook;
         }
         $cache->set($key . $userid, $book, 86400 * 7); // 7 days
@@ -726,8 +726,8 @@ function create_moods($force = false)
     if (($mood = $cache->get($key)) === false || $force) {
         $res_moods = sql_query('SELECT * FROM moods ORDER BY id ASC') or sqlerr(__file__, __line__);
         $mood = array();
-        if (mysqli_num_rows($res_moods)) {
-            while ($rmood = mysqli_fetch_assoc($res_moods)) {
+        if ($res_moods->num_rows) {
+            while ($rmood = $res_moods->fetch_assoc()) {
                 $mood['image'][$rmood['id']] = $rmood['image'];
                 $mood['name'][$rmood['id']] = $rmood['name'];
             }
@@ -1189,7 +1189,7 @@ function mysql_fetch_all($query, $default_value = Array())
     $result = Array();
     if ($err = ($mysqli->errno)) return $err;
     if (@$r->num_rows)
-        while ($row = mysqli_fetch_array($r))$result[] = $row;
+        while ($row = $r->fetch_array(MYSQLI_BOTH)) $result[] = $row;
     if (count($result) == 0)
         return $default_value;
     return $result;

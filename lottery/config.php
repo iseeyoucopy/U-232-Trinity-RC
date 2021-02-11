@@ -14,7 +14,7 @@ if (!defined('IN_LOTTERY')) die('You can\'t access this file directly!');
 if ($CURUSER['class'] < UC_MODERATOR) stderr('Err', 'What you doing here dude?');
 //get the config from db
 $lconf = sql_query('SELECT * FROM lottery_config') or sqlerr(__FILE__, __LINE__);
-while ($ac = mysqli_fetch_assoc($lconf)) $lottery_config[$ac['name']] = $ac['value'];
+while ($ac = $lconf->fetch_assoc()) $lottery_config[$ac['name']] = $ac['value'];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //can't be 0
     foreach (array(

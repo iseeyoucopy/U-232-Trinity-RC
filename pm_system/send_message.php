@@ -40,7 +40,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
     //$returnto = htmlsafechars($_POST['returnto']);
     //=== get user info from DB
     $res_receiver = sql_query('SELECT id, acceptpms, notifs, email, class, username FROM users WHERE id=' . sqlesc($receiver)) or sqlerr(__FILE__, __LINE__);
-    $arr_receiver = mysqli_fetch_assoc($res_receiver);
+    $arr_receiver = $res_receiver->fetch_assoc();
     if (!is_valid_id(intval($_POST['receiver'])) || !is_valid_id($arr_receiver['id'])) stderr($lang['pm_error'], $lang['pm_send_not_found']);
     if (!isset($_POST['body'])) stderr($lang['pm_error'], $lang['pm_send_nobody']);
 							   
@@ -54,7 +54,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
     }
     //=== make sure they have space
     $res_count = sql_query('SELECT COUNT(*) FROM messages WHERE receiver = ' . sqlesc($receiver) . ' AND location = 1') or sqlerr(__FILE__, __LINE__);
-    $arr_count = mysqli_fetch_row($res_count);
+    $arr_count = $res_count->fetch_row();
     if ($res_count->num_rows > ($maxbox * 6) && $CURUSER['class'] < UC_STAFF) stderr($lang['pm_forwardpm_srry'], $lang['pm_forwardpm_full']);
 																	   
     //=== Make sure recipient wants this message
@@ -63,7 +63,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
         switch ($should_i_send_this) {
         case 'yes':
             $r = sql_query('SELECT id FROM blocks WHERE userid = ' . sqlesc($receiver) . ' AND blockid = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-            $block = mysqli_fetch_row($r);
+            $block = $r->fetch_row();
 			$block1 = isset($block) ? $block : "";
             if ($block1[0] > 0) stderr($lang['pm_forwardpm_refused'], htmlsafechars($arr_receiver['username']) . $lang['pm_send_blocked']);
 																															   
@@ -71,7 +71,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
 
         case 'friends':
             $r = sql_query('SELECT id FROM friends WHERE userid = ' . sqlesc($receiver) . ' AND friendid = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-            $friend = mysqli_fetch_row($r);
+            $friend = $r->fetch_row();
             if ($friend[0] > 0) stderr($lang['pm_forwardpm_refused'], htmlsafechars($arr_receiver['username']) . $lang['pm_send_onlyf']);
 																															 
             break;
@@ -137,14 +137,14 @@ if (!is_valid_id($receiver)) stderr($lang['pm_error'], $lang['pm_send_mid']);
 							
 													
 $res_member = sql_query('SELECT username FROM users WHERE id = ' . sqlesc($receiver)) or sqlerr(__FILE__, __LINE__);
-$arr_member = mysqli_fetch_row($res_member);
+$arr_member = $res_member->fetch_row();
 //=== if reply
 if ($replyto != 0) {
     if (!validusername($arr_member[0])) stderr($lang['pm_error'], $lang['pm_send_mid']);
 														
     //=== make sure they should be replying to this PM...
     $res_old_message = sql_query('SELECT receiver, sender, subject, msg FROM messages WHERE id = ' . sqlesc($replyto)) or sqlerr(__FILE__, __LINE__);
-    $arr_old_message = mysqli_fetch_assoc($res_old_message);
+    $arr_old_message = $res_old_message->fetch_assoc();
     //print $arr_old_message['sender'];
     //exit();
     if ($arr_old_message['sender'] == $CURUSER['id']) stderr($lang['pm_error'], $lang['pm_send_slander']);

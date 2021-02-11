@@ -15,9 +15,9 @@ function searchcloud($limit = 50)
     global $cache, $TRINITY20;
     if (!($return = $cache->get('searchcloud'))) {
         $search_q = sql_query('SELECT searchedfor,howmuch FROM searchcloud ORDER BY id DESC ' . ($limit > 0 ? 'LIMIT ' . $limit : '')) or sqlerr(__FILE__, __LINE__);
-        if (mysqli_num_rows($search_q)) {
+        if ($search_q->num_rows) {
             $return = array();
-            while ($search_a = mysqli_fetch_assoc($search_q)) $return[$search_a['searchedfor']] = $search_a['howmuch'];
+            while ($search_a = $search_q->fetch_assoc()) $return[$search_a['searchedfor']] = $search_a['howmuch'];
             ksort($return);
             $cache->set('searchcloud', $return, 0);
             return $return;

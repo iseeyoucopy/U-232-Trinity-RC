@@ -23,8 +23,8 @@ function docleanup($data)
     $warn = (TIME_NOW - $sec);
     $maxclass = UC_STAFF;
     $res_in = sql_query("SELECT id, parked, status, last_access, mail_notified, last_notified FROM users WHERE parked='no' AND status='confirmed' AND class < $maxclass AND last_access < $dt AND mail_notified='yes' AND last_notified < $warn ORDER BY id ASC");
-    if(mysqli_num_rows($res_in) > 0) {
-	while ($arr = mysqli_fetch_assoc($res_in)){
+    if($res_in->num_rows > 0) {
+	while ($arr = $res_in->fetch_assoc()){
 	    $userid = isset($arr['id']) ? intval($arr['id']) : "";
 	    sql_query(account_delete($userid)) or sqlerr(__FILE__, __LINE__);
             if ($mysqli->affected_rows !== false) {

@@ -19,7 +19,7 @@ function docleanup($data)
     $secs = 30 * 86400;
     $dt = sqlesc(TIME_NOW - $secs);
     sql_query("DELETE FROM funds WHERE added < $dt");
-    //if (mysqli_affected_rows() > 0)
+    //if ($mysqli->affected_rows() > 0)
     $cache->delete('totalfunds_');
     // ===End
     //== Donation Progress Mod Updated For Tbdev 2009/2010 by Bigjoos/pdq

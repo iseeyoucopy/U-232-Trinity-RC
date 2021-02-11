@@ -18,7 +18,7 @@ foreach ($categorie as $key => $value) $change[$value['id']] = array(
 );
 if (($top10music_all = $cache->get('top10_music_all_')) === false) {
     $res_musicall = sql_query("SELECT id, times_completed, seeders, poster, leechers, name, category from torrents WHERE category IN (".join(", ",$TRINITY20['music_cats']).") ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}") or sqlerr(__FILE__, __LINE__);
-    while ($top10musicall = mysqli_fetch_assoc($res_musicall)) 
+    while ($top10musicall = $res_musicall->fetch_assoc()) 
 		$top10music_all[] = $top10musicall;
     $cache->set('top10_music_all_', $top10music_all);
 }
