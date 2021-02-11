@@ -175,11 +175,11 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         $htmlout .= '
         <div class="grid-container"><!--  Start main grid-container-->';
             $htmlout.= "
-            <div class='off-canvas-wrapper'>
-            <div class='off-canvas-absolute position-right' id='profile-dropdown' data-off-canvas>
+            <div class='off-canvas position-top' id='profile-dropdown' style='height:3rem; width:100%; z-index: 100;' data-off-canvas>
             " . StatusBar() . "
             </div>
-            <div class='off-canvas-absolute position-left' id='alerts-dropdown' data-off-canvas>
+            <div class='off-canvas-wrapper'>
+            <div class='off-canvas-absolute position-top' id='alerts-dropdown' data-off-canvas>
             <div class='grid-x grid-padding-x'>
             <div class='cell'>
             <p class='text-center'>All allerts</p>";
@@ -413,13 +413,13 @@ function StatusBar()
     if (!empty($seed['conn'])) {
         switch ($seed['conn']) {
             case 1:
-                $connectable = "<i class='fas fa-times greeniconcolor'></i>";
+                $connectable = "<span style='color: #82c115;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_connectable']}'><i class='fas fa-times'></i></span>";
                 break;
             case 2:
-                $connectable = "<i class='fas fa-check-circle greeniconcolor'></i>";
+                $connectable = "<span style='color: #f10917;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_connectable']}'><i class='fas fa-check-circle'></i></span>";
                 break;
             default:
-                $connectable = "N/A";
+                $connectable = "<span data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='Connectable - Unknown'><i class='fas fa-question'></i></span>";
         }
     } else $connectable = 'N/A';
     if (($Achievement_Points = $cache->get('user_achievement_points_' . $CURUSER['id'])) === false) {
@@ -437,21 +437,20 @@ function StatusBar()
     if ($CURUSER['override_class'] != 255) 
     $usrclass = "&nbsp;<b>[" . get_user_class_name($CURUSER['class']) . "]</b>&nbsp;";
     else if ($CURUSER['class'] >= UC_STAFF) $usrclass = "&nbsp;<a href='" . $TRINITY20['baseurl'] . "/setclass.php'><b>[" . get_user_class_name($CURUSER['class']) . "]</b></a>&nbsp;";
-    $htmlout .= "Welcome " . format_username($CURUSER) . "" . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "[" . get_user_class_name($CURUSER['class']) . "]" : $usrclass) . "
-    {$lang['gl_act_torrents']} :<br>
-    " . ($TRINITY20['achieve_sys_on'] ? "{$lang['gl_achpoints']}&nbsp;<a href='./achievementhistory.php?id={$CURUSER['id']}'>" . (int) $Achievement_Points['achpoints'] . "</a>&nbsp;" : "") . "<br>
-    " . ($TRINITY20['seedbonus_on'] ? "{$lang['gl_karma']}: <a href='" . $TRINITY20['baseurl'] . "/mybonus.php'>{$CURUSER['seedbonus']}</a>" : "") . "<br>
-    {$lang['gl_invites']}: <a href='" . $TRINITY20['baseurl'] . "/invite.php'>{$CURUSER['invites']}</a><br>
-    Free Slots: " . $CURUSER['freeslots'] . "<br>
-    " . ($TRINITY20['rep_sys_on'] ? "{$lang['gl_rep']}:{$member_reputation}" : "") . "<br>
-    {$lang['gl_shareratio']}" . member_ratio($CURUSER['uploaded'], $TRINITY20['ratio_free'] ? '0' : $CURUSER['downloaded']) . "<br>";
+    $htmlout .= "Welcome " . format_username($CURUSER) . "" . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "[" . get_user_class_name($CURUSER['class']) . "]" : $usrclass) . " | 
+    {$lang['gl_act_torrents']} : | 
+    " . ($TRINITY20['achieve_sys_on'] ? "<span style='color: #82c115;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_achpoints']}'><i class='fas fa-award'></i></span> <a href='./achievementhistory.php?id={$CURUSER['id']}'>" . (int) $Achievement_Points['achpoints'] . "</a>&nbsp;" : "") . " | 
+    " . ($TRINITY20['seedbonus_on'] ? "<span style='color: #82c115;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_karma']}'><i class='fas fa-coins'></i></span> : <a href='" . $TRINITY20['baseurl'] . "/mybonus.php'>{$CURUSER['seedbonus']}</a>" : "") . " | <span style='color: Tomato;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_invites']}'><i class='fas fa-user-plus'></i></span> : <a href='" . $TRINITY20['baseurl'] . "/invite.php'>{$CURUSER['invites']}</a> | 
+    Free Slots: " . $CURUSER['freeslots'] . " | 
+    " . ($TRINITY20['rep_sys_on'] ? "{$lang['gl_rep']}:{$member_reputation}" : "") . " | 
+    <span style='color: Tomato;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_shareratio']}'><i class='fas fa-chart-pie'></i></span> " . member_ratio($CURUSER['uploaded'], $TRINITY20['ratio_free'] ? '0' : $CURUSER['downloaded']) . " | ";
 
     if ($TRINITY20['ratio_free']) {
-        $htmlout .= "{$lang['gl_uploaded']}:" . $upped . "<br>";
+        $htmlout .= "<span style='color: #82c115;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_uploaded']}'><i class='fas fa-upload'></i></span> " . $upped . " | ";
     } else {
-        $htmlout .= "{$lang['gl_uploaded']}:{$upped}<br>
-		{$lang['gl_downloaded']}:{$downed}<br>
-		{$lang['gl_connectable']}:{$connectable}<br>";
+        $htmlout .= "<span style='color: #82c115;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_uploaded']}'><i class='fas fa-upload'></i></span> {$upped} | 
+		<span style='color: #f10917;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_downloaded']}'><i class='fas fa-download'></i></span> {$downed} | 
+		{$connectable} | ";
     }
     $htmlout .= "{$lang['gl_hnr']}: <a href='" . $TRINITY20['baseurl'] . "/hnr.php?id=" . $CURUSER['id'] . "'>{$hitnruns}</a>";
     return $htmlout;
