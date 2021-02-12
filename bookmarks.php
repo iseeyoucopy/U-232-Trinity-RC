@@ -105,7 +105,7 @@ if (!is_valid_id($userid)) stderr($lang['bookmarks_err'], $lang['bookmark_invali
 if ($userid != $CURUSER["id"]) stderr($lang['bookmarks_err'], "{$lang['bookmarks_denied']}<a href=\"bookmarks.php?action=viewsharemarks&amp;id=" . $userid . "\">{$lang['bookmarks_here']}</a>");
 $pagetitle = $lang['bookmarks_stdhead'];
 $res = sql_query("SELECT COUNT(id) FROM bookmarks WHERE userid = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$row = $res->fetch_array();
+$row = $res->fetch_array(MYSQLI_BOTH);
 $count = $row[0];
 if ($count == 0){
     $HTMLOUT.= "<h1>{$lang['bookmarks_my']}</h1>";
@@ -246,12 +246,12 @@ if (!$torrentsperpage) $torrentsperpage = 25;
 $userid = isset($_GET['id']) ? (int)$_GET['id'] : $CURUSER['id'];
 if (!is_valid_id($userid)) stderr($lang['bookmarks_err'], $lang['bookmark_invalidid']);
 $res = sql_query("SELECT id, username FROM users WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$arr = $res->fetch_array();
+$arr = $res->fetch_array(MYSQLI_BOTH);
 if ($arr == 0) {
      stderr($lang['bookmarks_err'], $lang['bookmark_invalidid']);
 } else {
 $res = sql_query("SELECT COUNT(id) FROM bookmarks WHERE private='no' AND userid = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-$row = $res->fetch_array();
+$row = $res->fetch_array(MYSQLI_BOTH);
 $count = $row[0];
 if ($count == 0){
     header("Refresh: 3; url={$TRINITY20['baseurl']}/bookmarks.php");

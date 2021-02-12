@@ -177,7 +177,7 @@ Begin displaying the mods
     <td align='center' class='colhead'>{$lang['credits_credits']}</td>
     </tr>";
     
-  if($row = $res->fetch_array()){
+  if($row = $res->fetch_array(MYSQLI_BOTH)){
    do
    {
       $id = $row["id"];
@@ -204,7 +204,7 @@ Begin displaying the mods
       $HTMLOUT .="<td>".htmlsafechars($credit)."</td></tr>";
       }
    
-    while($row = $res->fetch_array());
+    while($row = $res->fetch_array(MYSQLI_BOTH));
     }
     else
     {

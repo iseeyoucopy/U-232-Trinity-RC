@@ -81,7 +81,7 @@ if ($action == 'add') {
             stderr("{$lang['comment_error']}", "{$lang['comment_invalid_id']}");
         }
         $res = sql_query("SELECT $sql_1 WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-        $arr = $res->fetch_array();
+        $arr = $res->fetch_array(MYSQLI_BOTH);
         if (!$arr) {
             stderr("{$lang['comment_error']}", "No $locale with that ID.");
         }

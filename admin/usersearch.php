@@ -763,7 +763,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
                 else $ipstr = "<a href='staffpanel.php?tool=testip&amp;action=testip&amp;ip=" . htmlsafechars($user['ip']) . "'><font color='#FF0000'><b>" . htmlsafechars($user['ip']) . "</b></font></a>";
             } else $ipstr = "---";
             $auxres = sql_query("SELECT SUM(uploaded) AS pul, SUM(downloaded) AS pdl FROM peers WHERE userid = " . sqlesc($user['id'])) or sqlerr(__FILE__, __LINE__);
-            $array = $auxres->fetch_array();
+            $array = $auxres->fetch_array(MYSQLI_BOTH);
             $pul = $array['pul'];
             $pdl = $array['pdl'];
             if ($pdl > 0) $partial = ratios($pul, $pdl) . " (" . mksize($pul) . "/" . mksize($pdl) . ")";
