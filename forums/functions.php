@@ -26,7 +26,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 }
 function catch_up($id = 0)
 {
-    global $CURUSER, $TRINITY20;
+    global $CURUSER, $TRINITY20, $mysqli;
     $userid = (int) $CURUSER['id'];
     $res = sql_query("SELECT t.id, t.last_post, r.id AS r_id, r.last_post_read " . "FROM topics AS t " . "LEFT JOIN posts AS p ON p.id = t.last_post " . "LEFT JOIN read_posts AS r ON r.user_id=" . sqlesc($userid) . " AND r.topic_id=t.id " . "WHERE p.added > " . sqlesc(TIME_NOW - $TRINITY20['readpost_expiry']) .
         (!empty($id) ? ' AND t.id ' . (is_array($id) ? 'IN (' . implode(', ', $id) . ')' : '= ' . sqlesc($id)) : '')) or sqlerr(__FILE__, __LINE__);
@@ -39,6 +39,7 @@ function catch_up($id = 0)
         }
     }
     $res->free();
+    $mysqli->next_result();
 }
 // -------- Returns the minimum read/write class levels of a forum
 function get_forum_access_levels($forumid)

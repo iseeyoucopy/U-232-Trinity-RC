@@ -36,6 +36,7 @@ $res = sql_query('SELECT
 					f.min_class_read <= '.sqlesc($CURUSER['class'])) or sqlerr(__FILE__, __LINE__);
 $arr = $res->fetch_assoc();
 $res->free();
+$mysqli->next_result();
 $count = (int)$arr['post_count'];
 if (empty($count))
     stderr('Sorry', 'No posts in the last 24 hours.');
@@ -96,5 +97,6 @@ $HTMLOUT .= "<div class='container'>
                 }
                 $HTMLOUT .= "</div>";
                 $res->free();
+                $mysqli->next_result();
     $HTMLOUT .= $pager['pagerbottom'];
     echo stdhead('Today Posts (Last 24 Hours)') . $HTMLOUT . stdfoot($stdfoot);

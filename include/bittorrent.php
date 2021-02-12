@@ -145,9 +145,9 @@ function status_change($id)
 }
 	 
 //== check bans by djGrrr <3 pdq
-function check_bans($ip, &$reason = '')
+function check_bans($ip, $reason = '')
 {
-    global $TRINITY20, $cache, $c;
+    global $TRINITY20, $cache, $c, $mysqli;
     //$ip_decrypt = $c->decrypt($ip);
     $key = 'bans::' . $ip;
     if (($ban = $cache->get($key)) === false && $ip != '127.0.0.1') { 
@@ -160,6 +160,7 @@ function check_bans($ip, &$reason = '')
             return true;
         }
         $ban_sql->free();
+        $mysqli->next_result();
         $cache->set($key, 0, 86400); // 86400 // not banned
         return false;
     } elseif (!$ban) return false;
@@ -170,7 +171,7 @@ function check_bans($ip, &$reason = '')
 }
 function userlogin()
 {
-    global $TRINITY20, $cache, $keys, $CURBLOCK, $mood, $whereis, $CURUSER, $c;
+    global $TRINITY20, $cache, $keys, $CURBLOCK, $mood, $whereis, $CURUSER, $c, $reason;
     unset($GLOBALS["CURUSER"]);
     $dt = TIME_NOW;
     $ip = getip();

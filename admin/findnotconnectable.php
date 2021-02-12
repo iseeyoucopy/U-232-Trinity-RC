@@ -41,6 +41,7 @@ if (isset($_GET["action1"]) && htmlsafechars($_GET["action1"]) == "list") {
     $count = $result->num_rows;
     $HTMLOUT.= "$count {$lang['non_con_unique']}</p>";
     $result->free();
+    $mysqli->next_result();
     if ($res2->num_rows == 0) $HTMLOUT.= "<p align='center'><b>{$lang['non_con_all']}</b></p>\n";
     else {
         $HTMLOUT.= "<div class='row'><div class='col-md-12'><table class='table table-bordered'>\n";

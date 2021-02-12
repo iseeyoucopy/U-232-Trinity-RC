@@ -51,6 +51,7 @@ if ((isset($_POST[$action]) ? htmlsafechars($_POST[$action]) : '') == 'clear') {
         $count++;
     }
     $res->free();
+    $mysqli->next_result();
     if ($count > 0) {
         $perpage = 25;
         $pager = pager($perpage, $count, $TRINITY20['baseurl'] . '/forums.php?action=' . $action . '&amp;');
@@ -126,6 +127,7 @@ if ((isset($_POST[$action]) ? htmlsafechars($_POST[$action]) : '') == 'clear') {
 				</tr>";
         }
         $res->free();
+        $mysqli->next_result();
         $HTMLOUT .= "<tr>
 				<td class='tfoot' align='right' colspan='3'>
 					<input class='btn btn-primary dropdown-toggle' type='button' value='Check All' onclick=\"this.value = check(form);\" />&nbsp;<input class='btn btn-primary dropdown-toggle' type='submit' value='Clear selected' />

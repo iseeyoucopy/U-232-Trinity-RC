@@ -44,7 +44,7 @@ function getip()
 
 function check_bans($ip, &$reason = '')
 {
-    global $TRINITY20, $cache;
+    global $TRINITY20, $cache, $mysqli;
     $key = 'bans::' . $ip;
     if (($ban = $cache->get($key)) === false) {
         $nip = ip2long($ip);
@@ -56,6 +56,7 @@ function check_bans($ip, &$reason = '')
             return true;
         }
         $ban_sql->free();
+        $mysqli->next_result();
         $cache->set($key, 0, 86400); // 86400 // not banned
         return false;
     } elseif (!$ban) return false;
