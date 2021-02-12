@@ -151,8 +151,8 @@ var ajaxChatConfig = {
 
 	// Defines the list of allowed emoticon codes:
 	emoticonCodes: [
-		'&#128540;',
-		'&#128540;',
+		':)',
+		':(',
 		';)',
 		':P',
 		':D',
@@ -219,7 +219,7 @@ var ajaxChatConfig = {
 	// You should set these to be the same as the ones in config.php to avoid confusion.
 
 	// Session identification, used for style and setting cookies:
-	sessionName: 'ajax_chat',
+	sessionName: 'chat',
 	// The time in days until the style and setting cookies expire:
 	cookieExpiration: 365,
 	// The path of the cookies, '/' allows to read the cookies from all directories:
@@ -229,13 +229,13 @@ var ajaxChatConfig = {
 	// If enabled, cookies must be sent over secure (SSL/TLS encrypted) connections:
 	cookieSecure: null,
 	// The name of the chat bot:
-	chatBotName: 'U232_Bot',
+	chatBotName: 'System',
 	// The userID of the chat bot:
 	chatBotID: 2,
 	// Allow/Disallow registered users to delete their own messages:
 	allowUserMessageDelete: true,
 	// Minutes until a user is declared inactive (last status update) - the minimum is 2 minutes:
-	inactiveTimeout: 2,
+	inactiveTimeout: 1,
 	// UserID plus this value are private channels (this is also the max userID and max channelID):
 	privateChannelDiff: 500000000,
 	// UserID plus this value are used for private messages:

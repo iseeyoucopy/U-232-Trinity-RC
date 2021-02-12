@@ -147,14 +147,28 @@
 	color:gray;
 }
 #ajaxChatContent .user {
-	color:#000;
+	color:#8e35ef;
 }
+#ajaxChatContent .power_user {
+	color:#f9a200;
+}
+#ajaxChatContent .vip {
+	color:#009f00;
+}
+#ajaxChatContent .uploader {
+	color:#0000ff;
+}
+
 #ajaxChatContent .moderator {
-	color:#00AA00;
+	color:#fe2e2e;
 }
-#ajaxChatContent .admin {
-	color:red;
+#ajaxChatContent .administrator {
+	color:#b000b0;
 }
+#ajaxChatContent .sysop {
+	color:#FF0000;
+}
+
 #ajaxChatContent .chatBot {
 	color:#FF6600;
 }

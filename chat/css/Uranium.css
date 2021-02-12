@@ -6,6 +6,7 @@
 @import url('fonts.css');
 @import url('print.css');
 @import url('custom.css');
+@import url('colors.css');
 html {
     height: 100%;
 }
@@ -182,39 +183,6 @@ input, select, textarea, #content #chatList, #content #onlineListContainer, #con
 #content #chatList .rowOdd.private, #content #chatList .rowEven.private {
 	background-color: #0C3A00;
     background-image: linear-gradient(to bottom, #1C5417, #05410E);
-}
-#content .guest {
-	color:gray;
-}
-#content .customUser {
-	color:#645a30;
-}
-#content .user {
-	color:#8e35ef;
-}
-#content .power-user {
-	color:#f9a200;
-}
-#content .vip {
-	color:#009f00;
-}
-#content .uploader {
-	color:#0000ff;
-}
-#content .moderator {
-	color:#fe2e2e;
-}
-#content .admin {
-	color:#b000b0;
-}
-#content .sysop {
-	color:#FF0000;
-}
-#content .chatBot {
-	color:#FF6600;
-}
-#content #chatList .chatBotErrorMessage {
-	color:red;
 }
 #content #chatList a {
 	color:#4c9546;

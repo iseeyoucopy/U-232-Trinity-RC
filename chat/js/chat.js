@@ -1,3 +1,4 @@
+
 /*
  * @package AJAX_Chat
  * @author Sebastian Tschan
@@ -48,6 +49,7 @@ var ajaxChat = {
 	cookieSecure: null,
 	chatBotName: null,
 	chatBotID: null,
+	chatBotRole: null,
 	allowUserMessageDelete: null,
 	inactiveTimeout: null,
 	privateChannelDiff: null,
@@ -141,6 +143,7 @@ var ajaxChat = {
 		this.cookieSecure			= config['cookieSecure'];
 		this.chatBotName			= config['chatBotName'];
 		this.chatBotID				= config['chatBotID'];
+		this.chatBotRole            = config['chatBotRole'];
 		this.allowUserMessageDelete	= config['allowUserMessageDelete'];
 		this.inactiveTimeout		= Math.max(config['inactiveTimeout'],2);
 		this.privateChannelDiff		= config['privateChannelDiff'];
@@ -1065,7 +1068,7 @@ var ajaxChat = {
 					+ this.lang['userMenuWhereis']
 					+ '</a></li>';
 			}
-			if(this.userRole === '5' || this.userRole === '6' || this.userRole === '7') {
+			if(this.userRole === '4' || this.userRole === '5' || this.userRole === '6') {
 				menu	+= '<li><a href="javascript:ajaxChat.insertMessageWrapper(\'/kick '
 						+ encodedUserName
 						+ ' \');">'
@@ -1098,11 +1101,11 @@ var ajaxChat = {
 					+ '<li><a href="javascript:ajaxChat.insertMessageWrapper(\'/roll \');">'
 					+ this.lang['userMenuRoll']
 					+ '</a></li>';
-			if(this.userRole >= '5') {
+			if(this.userRole >= '4') {
 				menu	+= '<li><a href="javascript:ajaxChat.sendMessageWrapper(\'/join\');">'
 						+ this.lang['userMenuEnterPrivateRoom']
 						+ '</a></li>';
-				if(this.userRole === '5' || this.userRole === '6' || this.userRole === '7') {
+				if(this.userRole === '4' || this.userRole === '5' || this.userRole === '6') {
 					menu	+= '<li><a href="javascript:ajaxChat.sendMessageWrapper(\'/bans\');">'
 							+ this.lang['userMenuBans']
 							+ '</a></li>';
@@ -1153,7 +1156,7 @@ var ajaxChat = {
 			new Date(),
 			this.chatBotID,
 			this.getEncodedChatBotName(),
-			8,
+			this.chatBotRole,
 			null,
 			messageText,
 			null
@@ -1167,7 +1170,8 @@ var ajaxChat = {
 		}
 
         // Don't show any private messages messages in staff,support, announce and news channels
-        if ((this.channelName === 'Staff' && parseInt(channelID) !== parseInt(this.channelID)) ||
+        if ((this.channelName === 'Sysop' && parseInt(channelID) !== parseInt(this.channelID)) ||
+        	(this.channelName === 'Staff' && parseInt(channelID) !== parseInt(this.channelID)) ||
             (this.channelName === 'Announce' && parseInt(channelID) !== parseInt(this.channelID)) ||
             (this.channelName === 'News' && parseInt(channelID) !== parseInt(this.channelID))) {
             if (!this.DOMbuffering) {
@@ -1178,8 +1182,8 @@ var ajaxChat = {
         }
 
         // Don't show any message in announce or news channels from users
-        if ((this.channelName === 'Announce' && parseInt(userRole) !== 8) ||
-            (this.channelName === 'News' && parseInt(userRole) !== 8)) {
+        if ((this.channelName === 'Announce' && parseInt(userRole) !== this.chatBotRole) ||
+            (this.channelName === 'News' && parseInt(userRole) !== this.chatBotRole)) {
             if (!this.DOMbuffering) {
                 this.updateDOM('chatList', this.DOMbuffer, this.settings['postDirection']);
                 this.DOMbuffer = "";
@@ -1283,19 +1287,20 @@ var ajaxChat = {
 	},
 
 	isAllowedToDeleteMessage: function(messageID, userID, userRole, channelID) {
-		if((((this.userRole >= '1' && this.allowUserMessageDelete && (userID === this.userID ||
+		/*if((((this.userRole >= '0' && this.allowUserMessageDelete && (userID === this.userID ||
 			parseInt(channelID) === parseInt(this.userID)+this.privateMessageDiff ||
 			parseInt(channelID) === parseInt(this.userID)+this.privateChannelDiff)) ||
-			(this.userRole >= '5' && this.allowUserMessageDelete && (userID === this.userID ||
+			(this.userRole >= '4' && this.allowUserMessageDelete && (userID === this.userID ||
 			parseInt(channelID) === parseInt(this.userID)+this.privateMessageDiff ||
 			parseInt(channelID) === parseInt(this.userID)+this.privateChannelDiff)) ||
-			this.userRole === '7')) || this.userRole === '8') {
-            return true;
+			this.userRole === '6')) || this.userRole === this.chatBotRole) {
+            return true;*/
 
-        //if (this.userRole >= AJAX_CHAT_USER && this.allowUserMessageDelete && (userID === this.userID || parseInt(channelID) === parseInt(this.userID) + this.privateMessageDiff || parseInt(channelID) === parseInt(this.userID) + this.privateChannelDiff) ||
-          // (this.userRole >= AJAX_CHAT_MODERATOR && this.allowUserMessageDelete && this.userRole > userRole) || (this.userRole >= AJAX_CHAT_SYSOP && (this.userRole > userRole || userRole === '8'))
-           // ) {
-           // return true;
+        if (this.userRole >= UC_MIN && this.allowUserMessageDelete && (userID === this.userID || parseInt(channelID) === parseInt(this.userID) + this.privateMessageDiff || parseInt(channelID) === parseInt(this.userID) + this.privateChannelDiff) ||
+           (this.userRole >= UC_STAFF && this.allowUserMessageDelete && this.userRole > userRole) || 
+		   (this.userRole === UC_MAX && (this.userRole > userRole || userRole === this.chatBotRole))
+            ) {
+            return true;
 
 
         }
@@ -1588,28 +1593,7 @@ var ajaxChat = {
 	},
 
 	getRoleClass: function(roleID) {
-		switch(parseInt(roleID)) {
-			case 0:
-				return 'guest';
-			case 1:
-				return 'user';
-			case 2:
-				return 'power-user';
-			case 3:
-				return 'vip';
-			case 4:
-				return 'uploader';
-			case 5:
-				return 'moderator';
-			case 6:
-				return 'admin';
-			case 7:
-				return 'sysop';
-            case 8:
-				return 'chatBot';
-			default:
-				return 'default';
-		}
+		return roleID;
 	},
 
 	handleInputFieldKeyDown: function(event) {

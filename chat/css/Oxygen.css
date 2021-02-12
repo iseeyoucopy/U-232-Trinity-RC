@@ -10,7 +10,7 @@
 @import url('fonts.css');
 @import url('print.css');
 @import url('custom.css');
-
+@import url('colors.css');
 /* Buttons */
 #content #bbCodeContainer input, #content #logoutButton, #content #submitButton, #loginForm #loginButton {
 	background-color:#0066B9;
@@ -102,7 +102,7 @@
 #content .moderator {
 	color:#fe2e2e;
 }
-#content .admin {
+#content .administrator {
 	color:#b000b0;
 }
 #content .sysop {

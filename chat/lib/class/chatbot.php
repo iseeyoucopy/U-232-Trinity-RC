@@ -1,4 +1,15 @@
 <?php
+/**
+ * -------   U-232 Codename Trinity   ----------*
+ * ---------------------------------------------*
+ * --------  @authors U-232 Team  --------------*
+ * ---------------------------------------------*
+ * -----  @site https://u-232.duckdns.org/  ----*
+ * ---------------------------------------------*
+ * -----  @copyright 2020 U-232 Team  ----------*
+ * ---------------------------------------------*
+ * ------------  @version V6  ------------------*
+ */
 // Chat bot messages
 if(stristr($text, 'hello')) {
 	// KEYWORDS TRIGGER START
@@ -23,7 +34,7 @@ if(stristr($text, ':hmmm:')) {
 	);
 }
 
-if(stristr($text, '@U-232_Bot')) {
+if(stristr($text, 'System')) {
     $this->insertChatBotMessage(
 	$this->getChannel(),
 		"Are You Talking To Me?\n" 

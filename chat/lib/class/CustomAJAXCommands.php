@@ -1,11 +1,22 @@
 <?php
+/**
+ * -------   U-232 Codename Trinity   ----------*
+ * ---------------------------------------------*
+ * --------  @authors U-232 Team  --------------*
+ * ---------------------------------------------*
+ * -----  @site https://u-232.duckdns.org/  ----*
+ * ---------------------------------------------*
+ * -----  @copyright 2020 U-232 Team  ----------*
+ * ---------------------------------------------*
+ * ------------  @version V6  ------------------*
+ */
 /*
  * @package AJAX_Chat_Commands
  * @author Jared Williams
  * @copyright (c) Jared Williams 2013
  * @link https://www.jaredwilliams.com.au
  */
- 
+class CustomCommands extends AJAXChat {
 $textParts[0] = strtolower($textParts[0]);
 
 for ($i=0; $i<99; $i++) {
@@ -78,7 +89,7 @@ switch($textParts[0]) {
 	break;
 	case '!moon':
 		// If not permitted or user not specified, kick self
-		if ($this->getUserRole() == AJAX_CHAT_ADMIN && $textParts[1] != NULL) {
+		if ($this->getUserRole() == UC_ADMINISTRATOR && $textParts[1] != NULL) {
 			if ($textParts[1] == 'random') {
 				$array = $this->getOnlineUsersData();
 				shuffle($array);
@@ -121,7 +132,7 @@ switch($textParts[0]) {
 	break;
 	case '!identify':
 		// Only allow admins to work on the database
-		if ($this->getUserRole() == AJAX_CHAT_ADMIN && $textParts[1]) {
+		if ($this->getUserRole() == UC_ADMINISTRATOR && $textParts[1]) {
 			$this->insertChatBotMessage($this->getChannel(),"Username is ".$textParts[1]." and the user ID is ".$this->getIDFromName($textParts[1]));
 		} else {
 			$this->insertChatBotMessage($this->getChannel(),"Your username is ".$this->getUserName()." and your user ID is ".$this->getIDFromName($this->getUserName()));
@@ -249,7 +260,7 @@ switch($textParts[0]) {
 	//***************************** DATABASE
 	case '!db':
 		// Only allow admins to work on the database
-		if ($this->getUserRole() == AJAX_CHAT_ADMIN) {
+		if ($this->getUserRole() == UC_ADMINISTRATOR) {
 			// Check if starts with "ajax_chat" for security
 			if (substr($textParts[2],0,9) == 'ajax_chat') {
 				switch (strtolower($textParts[1])) {
@@ -277,7 +288,7 @@ switch($textParts[0]) {
 							$result = mysql_fetch_array($query);
 
 							// If user added the entry, allow him to remove it
-							if ($query && ($this->getIDFromName($this->getUserName()) == $result['user'] || $this->getUserRole() == AJAX_CHAT_ADMIN)) {
+							if ($query && ($this->getIDFromName($this->getUserName()) == $result['user'] || $this->getUserRole() == UC_ADMIN)) {
 								$query = mysql_query("DELETE FROM ".$textParts[2]." WHERE id=".$textParts[3]."");
 
 								if ($query == TRUE) { 
@@ -375,7 +386,7 @@ switch($textParts[0]) {
 			
 				// If command name and value exist
 				if ($_name && $_value) {
-					$query = mysql_query("SELECT * FROM ajax_chat_usercustom WHERE name='".mysql_real_escape_string($_name)."'");
+					$query = mysql_query("SELECT * FROM UC_USERcustom WHERE name='".mysql_real_escape_string($_name)."'");
 					$rows = mysql_num_rows($query);
 					
 					// Make sure locked parameter is safe
@@ -393,7 +404,7 @@ switch($textParts[0]) {
 							if ($_lock == -1) $_lock = 0;
 						
 							// Insert new command
-							$query = mysql_query("INSERT INTO ajax_chat_usercustom (`id`, `name`, `value`, `locked`, `lastuser`, `user`) VALUES (NULL, '".mysql_real_escape_string($_name)."', '".mysql_real_escape_string($_value)."', '".$_lock."', '".$this->getUserID()."', '".$this->getUserID()."')");
+							$query = mysql_query("INSERT INTO UC_USERcustom (`id`, `name`, `value`, `locked`, `lastuser`, `user`) VALUES (NULL, '".mysql_real_escape_string($_name)."', '".mysql_real_escape_string($_value)."', '".$_lock."', '".$this->getUserID()."', '".$this->getUserID()."')");
 
 							if ($query == TRUE) {
 								$this->insertChatBotMessage($this->getChannel(),"Custom command [b]".$_name."[/b] has been added by ".$this->getUserName());
@@ -430,7 +441,7 @@ switch($textParts[0]) {
 									}
 								}
 								
-								$query = mysql_query("UPDATE ajax_chat_usercustom SET value='".mysql_real_escape_string($_value)."',locked='".$_lock."',lastuser='".$this->getUserID()."' WHERE name='".mysql_real_escape_string($_name)."'");
+								$query = mysql_query("UPDATE UC_USERcustom SET value='".mysql_real_escape_string($_value)."',locked='".$_lock."',lastuser='".$this->getUserID()."' WHERE name='".mysql_real_escape_string($_name)."'");
 		
 								if ($query) {
 									$this->insertChatBotMessage($this->getChannel(),"Custom command [b]".$_name."[/b] has been updated by ".$this->getUserName()."".$islocked."");
@@ -460,7 +471,7 @@ switch($textParts[0]) {
 					$extra = '';
 				}
 				
-				$query = mysql_query("SELECT * FROM ajax_chat_usercustom".$extra."");
+				$query = mysql_query("SELECT * FROM UC_USERcustom".$extra."");
 
 				if ($query) {
 					$message = '';
@@ -491,7 +502,7 @@ switch($textParts[0]) {
 			case 'lookup':
 				// If a command was passed
 				if ($textParts[2]) {
-					$query = mysql_query("SELECT * FROM ajax_chat_usercustom WHERE name='".$textParts[2]."'");
+					$query = mysql_query("SELECT * FROM UC_USERcustom WHERE name='".$textParts[2]."'");
 					$numrows = mysql_num_rows($query);
 
 					if ($numrows == 1) {
@@ -689,7 +700,7 @@ switch($textParts[0]) {
 			break;
 			case 'speedround':
 				// Only admins or mods
-				if ($this->getUserRole() == AJAX_CHAT_ADMIN || $this->getUserRole() == AJAX_CHAT_MODERATOR) {
+				if ($this->getUserRole() == UC_ADMINISTRATOR || $this->getUserRole() == UC_MODERATOR) {
 					$query = mysql_query("SELECT * FROM `ajax_chat_custom` WHERE name='trivia'");
 
 					if ($query && $textParts[2]) {
@@ -741,7 +752,7 @@ switch($textParts[0]) {
 			break;
 			case 'on':
 				// Only admins can turn it on
-				if ($this->getUserRole() == AJAX_CHAT_ADMIN || $this->getUserRole() == AJAX_CHAT_MODERATOR || $this->getIDFromName($this->getUserName()) == 9 || $this->getIDFromName($this->getUserName()) == 24) {
+				if ($this->getUserRole() == UC_ADMINISTRATOR || $this->getUserRole() == UC_MODERATOR || $this->getIDFromName($this->getUserName()) == 9 || $this->getIDFromName($this->getUserName()) == 24) {
 					// Check if it's already started
 					$query = mysql_query("SELECT * FROM `ajax_chat_custom` WHERE name='trivia'");
 
@@ -776,7 +787,7 @@ switch($textParts[0]) {
 			break;
 			case 'off':
 				// Only admins can turn it off
-				if ($this->getUserRole() == AJAX_CHAT_ADMIN || $this->getUserRole() == AJAX_CHAT_MODERATOR || $this->getIDFromName($this->getUserName()) == 9 || $this->getIDFromName($this->getUserName()) == 24) {
+				if ($this->getUserRole() == UC_ADMINISTRATOR || $this->getUserRole() == UC_MODERATOR || $this->getIDFromName($this->getUserName()) == 9 || $this->getIDFromName($this->getUserName()) == 24) {
 					// Check if it's already started
 					$query = mysql_query("SELECT * FROM `ajax_chat_custom` WHERE name='trivia'");
 
@@ -864,7 +875,7 @@ switch($textParts[0]) {
 				}
 			break;
 			case 'reset':
-				if ($this->getUserRole() == AJAX_CHAT_ADMIN || $this->getUserRole() == AJAX_CHAT_MODERATOR || $this->getIDFromName($this->getUserName()) == 9 || $this->getIDFromName($this->getUserName()) == 24) {
+				if ($this->getUserRole() == UC_ADMINISTRATOR || $this->getUserRole() == UC_MODERATOR || $this->getIDFromName($this->getUserName()) == 9 || $this->getIDFromName($this->getUserName()) == 24) {
 					$this->insertChatBotMessage($this->getChannel(),"[color=blue]Trivia:[/color] Quick resetting");
 					$this->insertMessage("!trivia off");
 					$this->insertMessage("!trivia on");
@@ -1028,7 +1039,7 @@ switch($textParts[0]) {
 //				break;
 				case 'elim':
 					// Only admins can turn on elimination mode
-					if ($this->getUserRole() == AJAX_CHAT_ADMIN || $this->getUserRole() == AJAX_CHAT_MODERATOR) {
+					if ($this->getUserRole() == UC_ADMINISTRATOR || $this->getUserRole() == UC_MODERATOR) {
 						// If it is on, turn on elimination mode
 						if ($hotpotato['value'] == 'on') {
 							$query_elim = mysql_query("SELECT * FROM `ajax_chat_custom` WHERE name='hotelim'");
@@ -1061,7 +1072,7 @@ switch($textParts[0]) {
 				break;
 				case 'on':
 					// Only admins or mods
-					if ($this->getUserRole() == AJAX_CHAT_ADMIN || $this->getUserRole() == AJAX_CHAT_MODERATOR) {
+					if ($this->getUserRole() == UC_ADMINISTRATOR || $this->getUserRole() == UC_MODERATOR) {
 						// If not started, start it
 						if ($hotpotato['value'] == 'off') {
 							// Turn it on
@@ -1087,7 +1098,7 @@ switch($textParts[0]) {
 				break;
 				case 'off':
 					// Only admins or mods
-					if ($this->getUserRole() == AJAX_CHAT_ADMIN || $this->getUserRole() == AJAX_CHAT_MODERATOR) {
+					if ($this->getUserRole() == UC_ADMINISTRATOR || $this->getUserRole() == UC_MODERATOR) {
 						// If it is on, turn it off
 						if ($hotpotato['value'] == 'on') {
 							// Turn it off
@@ -1112,7 +1123,7 @@ switch($textParts[0]) {
 					}
 				break;
 				case 'reset':
-					if ($this->getUserRole() == AJAX_CHAT_ADMIN || $this->getUserRole() == AJAX_CHAT_MODERATOR) {
+					if ($this->getUserRole() == UC_ADMINISTRATOR || $this->getUserRole() == UC_MODERATOR) {
 						$this->insertChatBotMessage($this->getChannel(),"[color=orange]Hot Potato:[/color] Quick resetting");
 						$this->insertMessage("!hot off");
 						$this->insertMessage("!hot on");
@@ -1154,7 +1165,7 @@ switch($textParts[0]) {
 								// If elimination round is on and is ready to continue game (user is 0) or;
 								// If elimination round is on and there are more than 0 passes or user is admin
 								if($this->getIDFromName($this->getUserName()) == $hotuser['user'] || 
-											($elim == 'on' && ($currentuser == '0' && $passcount > 0 || ($passcount == 0 && $this->getUserRole() == AJAX_CHAT_ADMIN))))
+											($elim == 'on' && ($currentuser == '0' && $passcount > 0 || ($passcount == 0 && $this->getUserRole() == UC_ADMINISTRATOR))))
 								{
 									
 									// Calculate different timeframes user can throw
@@ -1235,7 +1246,7 @@ switch($textParts[0]) {
 										$this->insertChatBotMessage($this->getChannel(),"[color=orange]Hot Potato:[/color] [color=red]Super sudden death engaged! 1 second inbetween throws![/color]");
 									}
 								// If no user has the potato and user is allowed, throw it randomly
-								} elseif ($hotuser['user'] == '0' && ($this->getUserRole() == AJAX_CHAT_ADMIN || $this->getUserRole() == AJAX_CHAT_MODERATOR)) {
+								} elseif ($hotuser['user'] == '0' && ($this->getUserRole() == UC_ADMINISTRATOR || $this->getUserRole() == UC_MODERATOR)) {
 									if (array_count_values($array) > 2) {
 										// Update with random user
 										$query = mysql_query("UPDATE `ajax_chat_custom` SET value='".time()."',user='".$randuser_id."' WHERE name='hotuser'");
@@ -1289,7 +1300,7 @@ switch($textParts[0]) {
 
 	// Enable debug
 	case '!debug':
-		if ($this->getUserRole() == AJAX_CHAT_ADMIN) {
+		if ($this->getUserRole() == UC_ADMINISTRATOR) {
 			$query = mysql_query("UPDATE `ajax_chat_custom` SET value='".mysql_real_escape_string($textParts[1])."' WHERE name='debug'");
 
 			if ($query == TRUE) {
@@ -1317,7 +1328,7 @@ switch($textParts[0]) {
 		$this->insertMessage('!away');
 	break;
 	case '/takeover':
-		if($this->getUserRole() == AJAX_CHAT_ADMIN || $this->getUserRole() == AJAX_CHAT_MODERATOR) {
+		if($this->getUserRole() == UC_ADMINISTRATOR || $this->getUserRole() == UC_MODERATOR) {
 			$this->insertChatBotMessage( $this->getChannel(), $text );
 		} else {
 			$success = FALSE;
@@ -1328,7 +1339,7 @@ switch($textParts[0]) {
 		if (substr($textParts[0], 0, 1) == '!') {
 			$com = ltrim($textParts[0],'!');
 
-			$query = mysql_query("SELECT * FROM ajax_chat_usercustom WHERE name='".mysql_real_escape_string($com)."'");
+			$query = mysql_query("SELECT * FROM UC_USERcustom WHERE name='".mysql_real_escape_string($com)."'");
 
 			$custom = mysql_fetch_array($query);
 

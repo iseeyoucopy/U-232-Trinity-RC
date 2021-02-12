@@ -1,4 +1,15 @@
 <?php
+/**
+ * -------   U-232 Codename Trinity   ----------*
+ * ---------------------------------------------*
+ * --------  @authors U-232 Team  --------------*
+ * ---------------------------------------------*
+ * -----  @site https://u-232.duckdns.org/  ----*
+ * ---------------------------------------------*
+ * -----  @copyright 2020 U-232 Team  ----------*
+ * ---------------------------------------------*
+ * ------------  @version V6  ------------------*
+ */
 /*
  * @package AJAX_Chat
  * @author Sebastian Tschan
@@ -12,7 +23,6 @@
 error_reporting(E_ALL);
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php';
 dbconn();
-global $CURUSER, $TRINITY20;
 
 // Include custom libraries and initialization code:
 require_once(AJAXCHAT_DIR . 'lib' . DIRECTORY_SEPARATOR . 'custom.php');

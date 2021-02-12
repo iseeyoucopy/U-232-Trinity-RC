@@ -55,6 +55,7 @@ $TRINITY20['mysql_db'] = '#mysql_db';
 //== Cookie setup
 $TRINITY20['cookie_prefix'] = '#cookie_prefix'; // This allows you to have multiple trackers, eg for demos, testing etc.
 $TRINITY20['cookie_path'] = '#cookie_path'; // ATTENTION: You should never need this unless the above applies eg: /tbdev
+$TRINITY20['cookie_ajax_path'] = '/chat';
 $TRINITY20['cookie_domain'] = '#cookie_domain'; // set to eg: .somedomain.com or is subdomain set to: .sub.somedomain.com
 $TRINITY20['domain'] = '#domain';
 //== Memcache expires
@@ -155,8 +156,8 @@ $TRINITY20['minvotes'] = 1;
 $TRINITY20['max_dead_torrent_time'] = 6 * 3600;
 $TRINITY20['language'] = 1;
 $TRINITY20['bot_id'] = 2;
-$TRINITY20['bot_name'] = 'U232_bot';
-$TRINITY20['bot_role'] = 8;
+$TRINITY20['bot_name'] = 'System';
+$TRINITY20['bot_role'] = 100;
 $TRINITY20['staffpanel_online'] = 1;
 $TRINITY20['wait_times'] = 0;
 $TRINITY20['max_slots'] = 0;
