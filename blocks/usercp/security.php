@@ -82,7 +82,7 @@ $HTMLOUT .= "<input type='hidden' name='action' value='security'>
             <div class='card-section float-center'>
                 <div class='input-group'>
                     <span class='input-group-label'><i class='fas fa-unlock-alt'></i></span>
-                    <input class='input-group-field' placeholder='Type password' type='password' size='50'  name='chpassword'>
+                    <input class='input-group-field' placeholder='Type password' type='password' size='50'  name='chpassword' autocomplete='new-password'>
                     <span class='input-group-label'><i class='fas fa-unlock-alt'></i></span>
                     <input class='input-group-field' placeholder='{$lang['usercp_pass_again']}' type='password' size='50' name='passagain'>
                     <div class='input-group-button'>
