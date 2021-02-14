@@ -160,7 +160,7 @@ $TRINITY20['messageTextMaxLength'] = 2000;
 $TRINITY20['maxMessageRate'] = 20;
 
 // Defines the default time in minutes a user gets banned if kicked from a moderator without ban minutes parameter:
-$TRINITY20['defaultBanTime'] = 60;
+$TRINITY20['defaultBanTime'] = 120;
 
 // Argument that is given to the handleLogout JavaScript method:
 //$TRINITY20['logoutData'] = './?logout=true';
@@ -178,9 +178,9 @@ $TRINITY20['logsRequestMessagesLimit'] = 10;
 $TRINITY20['logsFirstYear'] = 2019;
 
 // Defines if old messages are purged from the database:
-$TRINITY20['logsPurgeLogs'] = false;
+$TRINITY20['logsPurgeLogs'] = true;
 // Max time difference in days for old messages before they are purged from the database:
-$TRINITY20['logsPurgeTimeDiff'] = 10;
+$TRINITY20['logsPurgeTimeDiff'] = 15;
 
 // Defines if registered users (including moderators) have access to the logs (admins are always granted access):
 $TRINITY20['logsUserAccess'] = false;
