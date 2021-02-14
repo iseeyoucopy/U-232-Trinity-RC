@@ -54,9 +54,15 @@ $HTMLOUT .="</div>";
 	}
 
 	if (curuser::$blocks['index_page'] & block_index::SHOUTBOX && $BLOCKS['shoutbox_on']) {
+	
 $HTMLOUT .="<div id='SHOUTBOX'>";
+    if($CURUSER['chatpost'] == 1){
     	require_once (BLOCK_DIR . 'index/shoutbox.php');
+	} else{
+		$HTMLOUT .="<div class='callout success'><h1 class='text-center' style='font-size: 1.50rem;'><b>You are banned on chat.</b></h1></div>";
+	}
 $HTMLOUT .="</div>";
+	 		 
 	}
 
 	if (curuser::$blocks['index_page'] & block_index::NEWS && $BLOCKS['news_on']) {

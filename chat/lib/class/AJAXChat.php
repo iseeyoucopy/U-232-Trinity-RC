@@ -36,11 +36,8 @@ class AJAXChat {
 	var $_Trinity;
 	var $_CurUser;
 	function __construct() {
-		global $TRINITY20, $CURUSER;
-		$this->_Trinity = $TRINITY20;
+		global $TRINITY20;
 		$this->_config = $TRINITY20;
-		$this->_CurUser = $CURUSER;
-		//$this->_CurUser = isset($CURUSER) ? $CURUSER : "";
 		$this->initialize();
 	}
 
@@ -101,26 +98,24 @@ class AJAXChat {
 	
 
 	function initSession() {
-		
+		global $TRINITY20, $CURUSER;
+		$dt = $_SERVER['REQUEST_TIME'] - 180;
 		// Start the PHP session (if not already started):
+		
 		if(!session_id()) {
 		  $this->startSession();
 		}
+		
 		if (!$this->canChat()) {
-            return;
+			$this->logout();
+			die;
         }
-	
-		if($this->isLoggedIn()) {
-			// Logout if we receive a logout request, the chat has been closed or the userID could not be revalidated:
-			if($this->getRequestVar('logout') || !$this->isChatOpen() || !$this->revalidateUserID()) {
-				$this->logout();
-				return;
-			}
-			// Logout if the Session IP is not the same when logged in and ipCheck is enabled:
-			if($this->getConfig('ipCheck') && ($this->getSessionIP() === null || $this->getSessionIP() != $_SERVER['REMOTE_ADDR'])) {
-				$this->logout('IP');
-				return;
-			}
+		
+		if($this->isLoggedIn() && ($CURUSER['last_access'] <= $dt || $this->getRequestVar('logout') || !$this->isChatOpen() || !$this->revalidateUserID())) {
+
+			$this->logout();
+			return;
+			
 		} else if(
 			// Login if auto-login enabled or a login, userName or shoutbox parameter is given:
 			$this->getConfig('forceAutoLogin') ||
@@ -148,13 +143,13 @@ class AJAXChat {
 			$this->setLangCodeCookie();
 		}
 		
-		$this->initCustomSession();
+		//$this->initCustomSession();
 	}
 	
-    function canChat(){
-        if ($this->_CurUser['chatpost'] !== 1 || $this->_CurUser['status'] !== 'confirmed') {
-            $this->addInfoMessage('errorBanned');
-
+	function canChat(){
+		global $CURUSER;
+        if ($CURUSER['chatpost'] !== 1 || $CURUSER['status'] !== 'confirmed') {
+			$this->addInfoMessage('errorBanned');
             return false;
         }
 
@@ -529,7 +524,7 @@ class AJAXChat {
 	}
 	
 	function addToOnlineList() {
-		$sql = 'INSERT INTO ajax_chat_online (
+		sql_query('INSERT INTO ajax_chat_online (
 		            userID,
 					userName,
 					userRole,
@@ -543,26 +538,21 @@ class AJAXChat {
 					'.sqlesc($this->getUserRole()).',
 					'.sqlesc($this->getChannel()).',
 					NOW(),
-					'.sqlesc($this->ipToStorageFormat($_SERVER['REMOTE_ADDR'])).') ON DUPLICATE KEY UPDATE userID = userID';	
-		
-		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
+					'.sqlesc($this->ipToStorageFormat($_SERVER['REMOTE_ADDR'])).') ON DUPLICATE KEY UPDATE userID = userID')or sqlerr(__FILE__, __LINE__);
 		
 		$this->resetOnlineUsersData();
 	}
 	
 	function removeFromOnlineList() {
-		$sql = 'DELETE FROM
+		sql_query('DELETE FROM
 					ajax_chat_online
 				WHERE
-					userID = '.sqlesc($this->getUserID()).'';
-		
-		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
-		
+					userID = '.sqlesc($this->getUserID())) or sqlerr(__FILE__, __LINE__);
 		$this->removeUserFromOnlineUsersData();
 	}
 	
 	function updateOnlineList() {
-		$sql = 'UPDATE
+		sql_query('UPDATE
 					ajax_chat_online
 				SET
 					userName 	= '.sqlesc($this->getUserName()).',
@@ -570,10 +560,8 @@ class AJAXChat {
 					dateTime 	= NOW(),
 					ip			= '.sqlesc($this->ipToStorageFormat($_SERVER['REMOTE_ADDR'])).'
 				WHERE
-					userID = '.sqlesc($this->getUserID()).'';
+					userID = '.sqlesc($this->getUserID())) or sqlerr(__FILE__, __LINE__);
 					
-		// Create a new SQL query:
-		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		$this->resetOnlineUsersData();
 	}
 	
@@ -1280,17 +1268,14 @@ class AJAXChat {
 
 	function deleteMessage($messageID) {
 		// Retrieve the channel of the given message:
-		$sql = 'SELECT
+		$result = sql_query('SELECT
 					channel
 				FROM
 					ajax_chat_messages
 				WHERE
-					id='.sqlesc($messageID).'';
-		
-		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
+					id='.sqlesc($messageID)) or sqlerr(__FILE__, __LINE__);
 		
 		$row = $result->fetch_assoc();
-		
 		if($row['channel'] !== null) {
 			$channel = $row['channel'];
 		
@@ -1313,12 +1298,10 @@ class AJAXChat {
 			}
 	
 			// Remove given message from the database:
-			$sql = 'DELETE FROM ajax_chat_messages WHERE id='.sqlesc($messageID).''.$condition.'';
+			$result = sql_query('DELETE FROM ajax_chat_messages WHERE id='.sqlesc($messageID).''.$condition) or sqlerr(__FILE__, __LINE__);
 			
-			$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
-			
-			if ($result){
-				// Insert a deletion command to remove the message from the clients chatlists:
+		    if($result > 0) {
+			    // Insert a deletion command to remove the message from the clients chatlists:
 				$this->insertChatBotMessage($channel, '/delete '.$messageID);
 			}
 		}
@@ -1380,7 +1363,7 @@ class AJAXChat {
 		
 		$ip = $ip ? $ip : $_SERVER['REMOTE_ADDR'];
 		
-		$sql = 'INSERT INTO ajax_chat_messages (
+		sql_query('INSERT INTO ajax_chat_messages (
 								userID,
 								userName,
 								userRole,
@@ -1396,15 +1379,12 @@ class AJAXChat {
 					'.sqlesc($channelID).',
 					NOW(),
 					'.sqlesc($this->ipToStorageFormat($ip)).',
-					'.sqlesc($text).'
-				)';
-
-		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
+					'.sqlesc($text).')'
+				) or sqlerr(__FILE__, __LINE__);
 		
-		$data = 'UPDATE usersachiev SET dailyshouts=dailyshouts+1, weeklyshouts = weeklyshouts+1, monthlyshouts = monthlyshouts+1, totalshouts = totalshouts+1 WHERE id = '.sqlesc($userID);
-		$result = sql_query($data) or sqlerr(__FILE__, __LINE__);
+		sql_query('UPDATE usersachiev SET dailyshouts=dailyshouts+1, weeklyshouts = weeklyshouts+1, monthlyshouts = monthlyshouts+1, totalshouts = totalshouts+1 WHERE id = '.sqlesc($userID)) or sqlerr(__FILE__, __LINE__);
 		
-		if($this->getConfig('socketServerEnabled')) {
+		/*if($this->getConfig('socketServerEnabled')) {
 			$this->sendSocketMessage(
 				$this->getSocketBroadcastMessage(
 					$this->db->getLastInsertedID(),
@@ -1417,7 +1397,7 @@ class AJAXChat {
 					$mode
 				)
 			);	
-		}
+		}*/
 	}
 
 	function getSocketBroadcastMessage(
@@ -1515,13 +1495,10 @@ class AJAXChat {
 		}
 
 		// Remove given User from online list:
-		$sql = 'DELETE FROM
+		sql_query('DELETE FROM
 					ajax_chat_online
 				WHERE
-					userID = '.sqlesc($userID).'';
-		
-		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
-		
+					userID = '.sqlesc($userID)) or sqlerr(__FILE__, __LINE__);
 		// Update the socket server authentication for the kicked user:
 		if($this->getConfig('socketServerEnabled')) {
 			$this->updateSocketAuthentication($userID);
@@ -1531,26 +1508,24 @@ class AJAXChat {
 	}
 
 	function getBannedUsersData($key=null, $value=null) {
+		global $mysqli;
 		if($this->_bannedUsersData === null) {
 			$this->_bannedUsersData = array();
 
-			$sql = 'SELECT
+			$result = sql_query('SELECT
 						userID,
 						userName,
 						ip
 					FROM
 						ajax_chat_bans
-					WHERE
-						NOW() < dateTime';
-	
-			$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
+					') or sqlerr(__FILE__, __LINE__);
 			
 			while($row = $result->fetch_assoc()) {
 				$row['ip'] = $this->ipFromStorageFormat($row['ip']);
 				array_push($this->_bannedUsersData, $row);
 			}
-			//$free = $result->free();
-			mysqli_free_result($result);
+			$result->free();
+			$mysqli->next_result();
 		}
 		
 		if($key) {
@@ -1580,6 +1555,7 @@ class AJAXChat {
 	}
 	
 	function banUser($userName, $banMinutes=null, $userID=null) {
+		global $TRINITY20, $cache, $keys;
 		if($userID === null) {
 			$userID = $this->getIDFromName($userName);
 		}
@@ -1587,7 +1563,6 @@ class AJAXChat {
 		if(!$ip || $userID === null) {
 			return;
 		}
-
 		// Remove expired bans:
 		$this->removeExpiredBans();
 		
@@ -1597,68 +1572,83 @@ class AJAXChat {
 			$banMinutes = $this->getConfig('defaultBanTime');
 		}
 		
-		$sql = 'INSERT INTO ajax_chat_bans (
-					userID,
-					userName,
-					dateTime,
-					ip
-				)
-				VALUES (
-					'.sqlesc($userID).',
-					'.sqlesc($userName).',
-					DATE_ADD(NOW(), interval '.sqlesc($banMinutes).' MINUTE),
-					'.sqlesc($this->ipToStorageFormat($ip)).'
-				)';	
+		sql_query('INSERT INTO ajax_chat_bans (userID, userName, dateTime, ip)
+				   VALUES ('.sqlesc($userID).', 
+				           '.sqlesc($userName).', 
+						   DATE_ADD(NOW(), interval '.sqlesc($banMinutes).' MINUTE), 
+						   '.sqlesc($this->ipToStorageFormat($ip)).')') or sqlerr(__FILE__, __LINE__);	
 		
-		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
-		
+		sql_query("UPDATE users SET chatpost = '0' WHERE id = ".sqlesc($userID)) or sqlerr(__FILE__, __LINE__);
+		$cache->update_row($keys['my_userid'] . $userID, [
+                'chatpost' => 0
+        ], $TRINITY20['expires']['curuser']);
+        $cache->update_row('user' . $userID, [
+            'chatpost' => 0
+        ], $TRINITY20['expires']['user_cache']);
 	}
 	
 	function unbanUser($userName) {
-		$sql = 'DELETE FROM
-					ajax_chat_bans
-				WHERE
-					userName = '.sqlesc($userName).'';
+		global $TRINITY20, $cache, $keys;
+		$result = sql_query("SELECT userID FROM ajax_chat_bans WHERE userName = ".sqlesc($userName))or sqlerr(__FILE__, __LINE__);
+		while($row = $result->fetch_assoc()) {
+		    sql_query("UPDATE users SET chatpost = '1' WHERE id = ".sqlesc($row['userID'])) or sqlerr(__FILE__, __LINE__);
+		$cache->update_row($keys['my_userid'] . $row['userID'], [
+                'chatpost' => 1
+        ], $TRINITY20['expires']['curuser']);
+        $cache->update_row('user' . $row['userID'], [
+            'chatpost' => 1
+        ], $TRINITY20['expires']['user_cache']);
+		}
+		sql_query('DELETE FROM ajax_chat_bans WHERE userName = '.sqlesc($userName)) or sqlerr(__FILE__, __LINE__);
 		
-		
-		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		
 	}
 	
 	function removeExpiredBans() {
-		$sql = 'DELETE FROM
-					ajax_chat_bans
-				WHERE
-					dateTime < NOW();';
-		
-		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
-		
+		global $TRINITY20,$cache, $keys;
+		$result = sql_query('SELECT a.userID, a.userName, a.dateTime, u.id, u.username 
+		                     FROM ajax_chat_bans AS a LEFT JOIN users AS u ON a.userID = u.id AND a.userName = u.username WHERE dateTime < NOW()');	
+		$count = $result->num_rows;
+		if($count > 0) {
+			while($row = $result->fetch_assoc()) {
+			    sql_query("UPDATE users SET chatpost = '1' WHERE id = ".sqlesc($row['userID'])) or sqlerr(__FILE__, __LINE__);
+		        $cache->update_row($keys['my_userid'] . $row['userID'], [
+                    'chatpost' => 1
+                ], $TRINITY20['expires']['curuser']);
+                $cache->update_row('user' . $row['userID'], [
+                    'chatpost' => 1
+                ], $TRINITY20['expires']['user_cache']);
+				
+		        sql_query("DELETE FROM ajax_chat_bans WHERE userID = ".sqlesc($row['userID']))or sqlerr(__FILE__, __LINE__);
+			}
+		}	
 	}
 	
 	function setInactive($userID, $userName=null) {
+		global $CURUSER;
 		$dt = $_SERVER['REQUEST_TIME'] - 180;
 		$condition = 'userID = '.sqlesc($userID);
 		if($userName !== null) {
 			$condition .= ' OR userName='.sqlesc($userName);
 		}
-		    $sql = 'UPDATE
-					    ajax_chat_online
-				    SET
-					    dateTime = DATE_SUB(NOW(), interval '.(intval($this->getConfig('inactiveTimeout'))+1).' MINUTE)
-				    WHERE
-					    '.$condition.' AND '.$this->_CurUser['id'].' = '.sqlesc($userID).' AND '.$this->_CurUser['last_access'].' <= '.sqlesc($dt).'';
-					
-		    $result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
+		sql_query('UPDATE ajax_chat_online 
+		SET dateTime = DATE_SUB(NOW(), interval '.(intval($this->getConfig('inactiveTimeout'))+1).' MINUTE) 
+		WHERE '.$condition.' 
+		AND '.$CURUSER['id'].' = '.sqlesc($userID).' 
+		AND '.$CURUSER['last_access'].' <= '.sqlesc($dt)) or sqlerr(__FILE__, __LINE__);;
 		
 		    $this->resetOnlineUsersData();
 	}
 	
 	function removeInactive() {
+		global $mysqli;
 		$dt = $_SERVER['REQUEST_TIME'] - 180;
 			
-		$sql = 'SELECT a.userID, a.userName, a.channel, a.dateTime, u.id, u.username, u.last_access FROM ajax_chat_online AS a LEFT JOIN users AS u ON a.userID = u.id AND a.userName = u.username WHERE NOW() > DATE_ADD(a.dateTime, interval '.$this->getConfig('inactiveTimeout').' MINUTE) AND u.last_access <= '. sqlesc($dt).'';	
+		$result = sql_query('SELECT a.userID, a.userName, a.channel, a.dateTime, u.id, u.username, u.last_access FROM ajax_chat_online AS a 
+		                     LEFT JOIN users AS u ON a.userID = u.id AND a.userName = u.username 
+							 WHERE NOW() > DATE_ADD(a.dateTime, interval '.$this->getConfig('inactiveTimeout').' MINUTE) 
+							 AND u.last_access <= '. sqlesc($dt))or sqlerr(__FILE__, __LINE__);	
 		
-		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 		$count = $result->num_rows;
 		if($count > 0) {
 			$condition = '';
@@ -1676,14 +1666,9 @@ class AJAXChat {
 				$this->removeUserFromOnlineUsersData($row['userID']);
 				
 			}
-			//$free = $result->free();
-			mysqli_free_result($result);
-			$sql = 'DELETE FROM
-						ajax_chat_online
-					WHERE
-						'.$condition.'';
-			
-			$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
+			$result->free();
+            $mysqli->next_result();
+			sql_query('DELETE FROM ajax_chat_online WHERE '.$condition);
 			
 		}
 	}
@@ -1829,8 +1814,9 @@ class AJAXChat {
 	}
 
 	function getChatViewMessagesXML() {
+		global $mysqli;
 		// Get the last messages in descending order (this optimises the LIMIT usage):
-		$sql = 'SELECT
+		$result = sql_query('SELECT
 					id,
 					userID,
 					userName,
@@ -1846,9 +1832,7 @@ class AJAXChat {
 				ORDER BY
 					id
 					DESC
-				LIMIT '.$this->getConfig('requestMessagesLimit').'';
-
-		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
+				LIMIT '.$this->getConfig('requestMessagesLimit')) or sqlerr(__FILE__, __LINE__);
 		
 		$messages = '';
 		
@@ -1865,8 +1849,8 @@ class AJAXChat {
 			);		
 			$messages = $message.$messages;
 		}
-		//$free = $result->free();
-		mysqli_free_result($result);		
+		$result->free();
+        $mysqli->next_result();		
 		
 		$messages = '<messages>'.$messages.'</messages>';
 		return $messages;
@@ -1898,8 +1882,9 @@ class AJAXChat {
 	}
 
 	function getTeaserViewMessagesXML() {
+		global $mysqli;
 		// Get the last messages in descending order (this optimises the LIMIT usage):
-		$sql = 'SELECT
+		$result = sql_query('SELECT
 					id,
 					userID,
 					userName,
@@ -1915,10 +1900,7 @@ class AJAXChat {
 				ORDER BY
 					id
 					DESC
-				LIMIT '.$this->getConfig('requestMessagesLimit').'';
-
-		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
-		
+				LIMIT '.$this->getConfig('requestMessagesLimit')) or sqlerr(__FILE__, __LINE__);
 		
 		$messages = '';
 		
@@ -1937,8 +1919,8 @@ class AJAXChat {
 			$message .= '</message>';
 			$messages = $message.$messages;
 		}
-		//$free = $result->free();
-		mysqli_free_result($result);
+		$result->free();
+	    $mysqli->next_result();
 		
 		$messages = '<messages>'.$messages.'</messages>';
 		return $messages;
@@ -2062,7 +2044,8 @@ class AJAXChat {
 	}
 
 	function getLogsViewMessagesXML() {
-		$sql = 'SELECT
+		global $mysqli;
+		$result = sql_query('SELECT
 					id,
 					userID,
 					userName,
@@ -2077,10 +2060,7 @@ class AJAXChat {
 					'.$this->getLogsViewCondition().'
 				ORDER BY
 					id
-				LIMIT '.$this->getConfig('logsRequestMessagesLimit').'';
-					
-		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
-		
+				LIMIT '.$this->getConfig('logsRequestMessagesLimit')) or sqlerr(__FILE__, __LINE__);
 
 		$xml = '<messages>';
 		while($row = $result->fetch_assoc()) {
@@ -2098,8 +2078,8 @@ class AJAXChat {
 			$xml .= '<text><![CDATA['.$this->encodeSpecialChars($row['text']).']]></text>';
 			$xml .= '</message>';
 		}
-		//$free = $result->free();
-		mysqli_free_result($result);
+		$result->free();
+		$mysqli->next_result();
 
 		$xml .= '</messages>';
 		
@@ -2116,13 +2096,10 @@ class AJAXChat {
 	}
 		
 	function purgeLogs() {
-		$sql = 'DELETE FROM
+		sql_query('DELETE FROM
 					ajax_chat_messages
 				WHERE
-					dateTime < DATE_SUB(NOW(), interval '.$this->getConfig('logsPurgeTimeDiff').' DAY);';
-		
-		// Create a new SQL query:
-		$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
+					dateTime < DATE_SUB(NOW(), interval '.$this->getConfig('logsPurgeTimeDiff').' DAY)') or sqlerr(__FILE__, __LINE__);
 		
 	}
 	
@@ -2171,10 +2148,11 @@ class AJAXChat {
 	}
 
 	function getOnlineUsersData($channelIDs=null, $key=null, $value=null) {
+		global $mysqli;
 		if($this->_onlineUsersData === null) {
 			$this->_onlineUsersData = array();
 			
-			$sql = 'SELECT
+			$result = sql_query('SELECT
 						userID,
 						userName,
 						userRole,
@@ -2184,17 +2162,14 @@ class AJAXChat {
 					FROM
 						ajax_chat_online
 					ORDER BY
-						userRole DESC;';
-			
-			// Create a new SQL query:
-			$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
+						userRole DESC') or sqlerr(__FILE__, __LINE__);
 			
 			while($row = $result->fetch_assoc()) {
 				$row['ip'] = $this->ipFromStorageFormat($row['ip']);
 				array_push($this->_onlineUsersData, $row);
 			}
-			//$free = $result->free();
-			mysqli_free_result($result);
+			$result->free();
+			$mysqli->next_result();
 		}
 		
 		if($channelIDs || $key) {
@@ -2345,6 +2320,7 @@ class AJAXChat {
 	}
 	
 	function getInvitations() {
+		global $mysqli;
 		if($this->_invitations === null) {
 			$this->_invitations = array();
 			
@@ -2362,8 +2338,8 @@ class AJAXChat {
 			while($row = $result->fetch_assoc()) {
 				array_push($this->_invitations, $row['channel']);
 			}
-			//$free = $result->free();
-			mysqli_free_result($result);
+			$result->free();
+			$mysqli->next_result();
 		}
 		return $this->_invitations;
 	}
@@ -2437,7 +2413,7 @@ class AJAXChat {
 		$this->setSessionVar('LoginUserName', $name);
 	}
 
-	function getUserRole() {		
+	function getUserRole() {
 		$userRole = $this->getSessionVar('UserRole');
 		return $userRole;
 	}

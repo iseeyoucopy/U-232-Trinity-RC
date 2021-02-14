@@ -20,32 +20,36 @@
 
 class CustomAJAXChat extends AJAXChat {
 	
-	//function __construct(){
-       //parent::__construct();
+	function __construct(){
+       parent::__construct();
 	   
-    //}
+    }
 	function revalidateUserID() {
-		if($this->getUserRole() >= UC_USER && $this->getUserID() === $this->_CurUser['id']) {
+		global $CURUSER;
+		if($this->getUserRole() >= UC_USER && $this->getUserID() === $CURUSER['id']) {
 			return true;
 		}
 		return false;
 	}
 	// Initialize custom request variables:
 	function initCustomRequestVars() {
+		global $CURUSER;
 		//Auto-login users:
-        if(!$this->getRequestVar('logout') && $this->getUserID() === $this->_CurUser['id']) {
+        if(!$this->getRequestVar('logout') && $this->getUserID() === $CURUSER['id']) {
 			$this->setRequestVar('login', true);
 		}
 	}
     function getValidLoginUserData() {
-		
-		$userData = array();
-		$userData['userID'] = $this->_CurUser['id'];
-		$userData['userName'] = $this->trimUserName($this->_CurUser['username']);
-		$user_class = $this->_CurUser['override_class'] != 255 ? $this->_CurUser['override_class'] : $this->_CurUser['class'];
-		$userData['userRole'] = $user_class;
+		global $CURUSER;
+		if (isset($CURUSER)){
+		    $userData = array();
+		    $userData['userID'] = $CURUSER['id'];
+		    $userData['userName'] = $this->trimUserName($CURUSER['username']);
+		    $user_class = $CURUSER['override_class'] != 255 ? $CURUSER['override_class'] : $CURUSER['class'];
+		    $userData['userRole'] = $user_class;
 			
 		return $userData;
+		}
 	}
 	
 	function &getChannels() {
@@ -54,11 +58,11 @@ class CustomAJAXChat extends AJAXChat {
 			$this->_channels = array();
 			// Get the channels, the user has access to:
 			if($this->getUserRole() == UC_SYSOP) {
-				$validChannels = $this->_Trinity['ajax_chat']['sysop_access'];
+				$validChannels = $TRINITY20['ajax_chat']['sysop_access'];
 			}elseif($this->getUserRole() >= UC_MODERATOR && $this->getUserRole() <= UC_ADMINISTRATOR) {
-				$validChannels = $this->_Trinity['ajax_chat']['staff_access'];
+				$validChannels = $TRINITY20['ajax_chat']['staff_access'];
 			}else {
-				$validChannels = $this->_Trinity['ajax_chat']['user_access'];
+				$validChannels = $TRINITY20['ajax_chat']['user_access'];
 			}
 			
 			// Add the valid channels to the channel list (the defaultChannelID is always valid):
@@ -107,9 +111,10 @@ class CustomAJAXChat extends AJAXChat {
 		return $this->_allChannels;
 	}
 	function getCustomChannels() {
+		global $TRINITY20;
 		// List containing the custom channels:
 		$channels = null;
-        $channels = $this->_Trinity['ajax_chat']['channels'];
+        $channels = $TRINITY20['ajax_chat']['channels'];
 		return array_flip($channels);
 	}
 	
