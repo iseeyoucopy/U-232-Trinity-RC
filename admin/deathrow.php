@@ -50,7 +50,7 @@ function calctime($val)
 
 function delete_torrent($delete_array, $page)
 {
-    global $TRINITY20, $CURUSER, $cache, $lang;
+    global $TRINITY20, $CURUSER, $cache, $lang, $keys;
     if (empty($delete_array)) return false;
     $delete = array();
     foreach ($delete_array as $remove) $delete[] = 0 + $remove;
@@ -78,7 +78,7 @@ function delete_torrent($delete_array, $page)
         $cache->delete('torrent_xbt_data_' . $id);
         $cache->delete('torrent_details_txt' . $id);
         $cache->delete('coin_points_' . $id);;
-        $cache->delete('similiar_tor_' . $id);
+        $cache->delete($keys['similar_tor'] . $id);
         $dt = sqlesc(TIME_NOW - (14 * 86400)); // lose karma if deleted within 2 weeks
         if ($row['added'] < $dt) sql_query("UPDATE users SET seedbonus = seedbonus-15.0 WHERE id = ".sqlesc($row['owner'])) or sqlerr(__FILE__, __LINE__);
     }
