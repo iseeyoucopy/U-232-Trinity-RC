@@ -100,7 +100,7 @@ $my_points = 0;
 }
 $sr = floor($sr * 1000) / 1000;
 $sr = "<font color='" . get_ratio_color($sr) . "'>" . number_format($sr, 3) . "</font>&nbsp;&nbsp;<img src='pic/smilies/{$s}.gif' alt='' />";
-if ($torrents['free'] >= 1 || $torrents['freetorrent'] >= 1 || $isfree['yep'] || $free_slot OR $double_slot != 0 || $CURUSER['free_switch'] != 0) {
+if ($torrents['free'] >= 1 || $torrents['freetorrent'] >= 1 || $isfree['yep'] || ($free_slot OR $double_slot == 'yes') || $CURUSER['free_switch'] != 0) {
     $HTMLOUT.= "<tr>
         <td>{$lang['details_add_ratio1']}</td>
         <td class='details-text-ellipsis'><del>{$sr}&nbsp;&nbsp;{$lang['details_add_ratio2']}</del> <b><font size='' color='#FF0000'>{$lang['details_add_ratio3']}</font></b>{$lang['details_add_ratio4']}</td></tr>";
