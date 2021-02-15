@@ -19,9 +19,6 @@ $HTMLOUT.= '</div>';
 //==09 Poster mod
 $HTMLOUT .= "<div style='display:block;height:20px'></div>";
     $Free_Slot = (XBT_TRACKER == true ? '' : $freeslot);
-    $Free_Slot_Zip = (XBT_TRACKER == true ? '' : $freeslot_zip);
-    $Free_Slot_Text = (XBT_TRACKER == true ? '' : $freeslot_text);
-  
 $HTMLOUT.= "
 <div class='cell large-8'>
     <table class='striped'>
@@ -31,19 +28,9 @@ $HTMLOUT.= "
 			{$lang['details_download']}</td>
             <td>
 			<a data-toggle='download-torrent'><i class='fas fa-download'></i></a>
-			<a data-toggle='download-text'><i class='fas fa-file-alt'></i></a>
-			<a data-toggle='download-zip'><i class='fas fa-file-archive'></i></a>
 			<div class='dropdown-pane padding-bottom-0' id='download-torrent' data-dropdown data-auto-focus='true' data-hover-pane='true'>
 				<a href='download.php?torrent={$id} 'title='Download torrent'><i class='fas fa-download'></i>Download torrent</a>				
 				<p>{$Free_Slot}</p>
-			</div>
-			<div class='dropdown-pane padding-bottom-0' id='download-text' data-dropdown data-auto-focus='true' data-hover-pane='true'>
-				<a href='download.php?torrent={$id}&amp;text=1' title='Download torrent as text'><i class='fas fa-file-alt'></i>Download torrent as text</a>
-				<p>{$Free_Slot_Text}</p>
-			</div>
-			<div class='dropdown-pane padding-bottom-0' id='download-zip' data-dropdown data-auto-focus='true' data-hover-pane='true'>
-				<a href='download.php?torrent={$id}&amp;zip=1' title='Download torrent as zip'><i class='fas fa-file-archive'></i>Download torrent as zip</a>
-				<p>{$Free_Slot_Zip}</p>
 			</div>
             </td>
             </tr>";
