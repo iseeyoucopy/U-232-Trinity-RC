@@ -69,7 +69,7 @@ if (isset($_GET['slot'])) {
     $added = (TIME_NOW + 14 * 86400);
     $slots_sql = sql_query('SELECT * FROM freeslots WHERE torrentid = ' . sqlesc($id) . ' AND userid = ' . sqlesc($CURUSER['id']));
     $slot = $slots_sql->fetch_assoc();
-    $used_slot = $slot['torrentid'] == $id && $slot['userid'] == $CURUSER['id'];
+    $used_slot = $slot['torrentid'] ?? '' == $id && $slot['userid'] ?? '' == $CURUSER['id'];
     /* freeslot **/
     if ($_GET['slot'] == 'free') {
         if ($used_slot && $slot['free'] == 'yes') stderr('Doh!', 'Freeleech slot already in use.');
