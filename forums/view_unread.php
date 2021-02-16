@@ -27,7 +27,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 }
 // -------- Action: View unread posts
 if ((isset($_POST[$action]) ? htmlsafechars($_POST[$action]) : '') == 'clear') {
-    $topic_ids = (isset($_POST['topic_id']) ? $_POST['topic_id'] : []);
+    $topic_ids = ($_POST['topic_id'] ?? []);
     if (empty($topic_ids)) {
         header('Location: ' . $TRINITY20['baseurl'] . '/forums.php?action=' . $action);
         exit();

@@ -75,11 +75,11 @@ if ($mysqli->affected_rows != 1) {
     ($result = sql_query($query)) || sqlerr(__FILE__, __LINE__);
 }
 $row = $result->fetch_assoc();
-$user_win = isset($row["win"]) ? $row["win"] : '';
-$user_lost = isset($row["lost"]) ? $row["lost"] : '';
+$user_win = $row["win"] ?? '';
+$user_lost = $row["lost"] ?? '';
 $user_trys = isset($row["trys"]) ? (int) $row["trys"] : '';
 $user_date = isset($row["date"]) ? (int) $row["date"] : '';
-$user_deposit = isset($row["deposit"]) ? $row["deposit"] : '';
+$user_deposit = $row["deposit"] ?? '';
 $user_enableplay = isset($row["enableplay"]) ? htmlsafechars($row["enableplay"]) : '';
 if ($user_enableplay == "no") {
     stderr($lang['gl_sorry'], "" . htmlsafechars($CURUSER["username"]) . " {$lang['casino_your_banned_from_casino']}");
@@ -159,9 +159,9 @@ $betmb_options = [
     $bet_value6 => 1,
     $bet_value7 => 1
 ];
-$post_color = (isset($_POST['color']) ? $_POST['color'] : '');
-$post_number = (isset($_POST['number']) ? $_POST['number'] : '');
-$post_betmb = (isset($_POST['betmb']) ? $_POST['betmb'] : '');
+$post_color = ($_POST['color'] ?? '');
+$post_number = ($_POST['number'] ?? '');
+$post_betmb = ($_POST['betmb'] ?? '');
 if (isset($color_options[$post_color], $number_options[$post_number])   || isset($betmb_options[$post_betmb])) {
     $betmb = $_POST["betmb"];
     if (isset($_POST["number"])) {
@@ -236,7 +236,7 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
         $tbet = $loc->fetch_assoc();
         $nogb = isset($tbet['amount']) ? mksize($tbet['amount']) : '';
         $tbet_userid = isset($tbet['userid']) ? (int)$tbet['userid'] : "";
-        $tbet_challenged = isset($tbet['challenged']) ? $tbet['challenged'] : "";
+        $tbet_challenged = $tbet['challenged'] ?? "";
         if ($CURUSER['id'] == $tbet_userid) {
             stderr($lang['gl_sorry'], "{$lang['casino_you_want_to_bet_against_yourself_lol']} ?&nbsp;&nbsp;&nbsp;$goback");
         } elseif ($tbet_challenged != "empty") {

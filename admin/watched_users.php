@@ -41,7 +41,7 @@ $div_link_number = $count = 0;
 if (isset($_GET['remove'])) {
     if ($CURUSER['class'] < UC_STAFF)
         stderr($lang['watched_stderr'], $lang['watched_stderr1']);
-    $remove_me_Ive_been_good = (isset($_POST['wu']) ? $_POST['wu'] : $_GET['wu']);
+    $remove_me_Ive_been_good = ($_POST['wu'] ?? $_GET['wu']);
     $removed_log = '';
     //=== if single delete use
     if (isset($_GET['wu'])) {

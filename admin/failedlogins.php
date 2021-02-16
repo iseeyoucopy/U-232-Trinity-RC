@@ -32,7 +32,7 @@ $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $HTMLOUT = "";
 $lang = array_merge($lang, load_language('failedlogins'));
-$mode = (isset($_GET['mode']) ? $_GET['mode'] : '');
+$mode = ($_GET['mode'] ?? '');
 $id = isset($_GET['id']) ? (int)$_GET['id'] : '';
 function validate($id)
 {

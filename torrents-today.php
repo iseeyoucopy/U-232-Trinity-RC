@@ -104,7 +104,7 @@ if (isset($_GET['only_free']) && $_GET['only_free'] == 1) {
     $addparam.= "only_free=1&amp;";
 }
 $category = (isset($_GET["cat"])) ? (int) $_GET["cat"] : false;
-$all = isset($_GET["all"]) ? $_GET["all"] : false;
+$all = $_GET["all"] ?? false;
 if (!$all) {
     if (!$_GET && $CURUSER["notifs"]) {
         $all = true;

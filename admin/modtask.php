@@ -936,7 +936,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
 	$modcomment = get_date( TIME_NOW, 'DATE', 1 ) . " ".$CURUSER["username"]." ".$whatm." forum moderator rights\n" . $modcomment;
         }
 
-        $forums = isset($_POST["forums"]) ? $_POST["forums"] : "";
+        $forums = $_POST["forums"] ?? "";
     if(!empty($forums) && count($forums)>0 && $forum_mod == "yes") {
 	$foo = "[".implode("][",$forums)."]";
 	($q = sql_query("SELECT id FROM topics WHERE forum_id IN (".implode(",",$forums).") ")) || sqlerr(__FILE__, __LINE__);

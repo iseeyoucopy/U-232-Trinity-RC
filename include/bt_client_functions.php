@@ -41,7 +41,7 @@ function MainlineDecodePeerId($id_data, $id_name)
 {
     $version_str = "";
     for ($i = 0; $i <= strlen($id_data); $i++) {
-        $c = isset($id_data[$i]) ? $id_data[$i] : '-';
+        $c = $id_data[$i] ?? '-';
         if ($c != '-' && ctype_alnum($c)) $version_str.= "$c.";
     }
     $version_str = substr($version_str, 0, strlen($version_str) - 1);

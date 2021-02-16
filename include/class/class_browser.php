@@ -13,7 +13,7 @@
 //== Get browser by ruudrp
 function getBrowser()
 {
-    $u_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+    $u_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
     $bname = 'Unknown';
     $platform = 'Unknown';
     $version = "";

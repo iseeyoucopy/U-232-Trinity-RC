@@ -37,7 +37,7 @@ $comment_id = (isset($_GET['comment_id']) ? (int) $_GET['comment_id'] : (isset($
 $category = (isset($_GET['category']) ? (int) $_GET['category'] : (isset($_POST['category']) ? (int) $_POST['category'] : 0));
 $offered_by_id = isset($_GET['offered_by_id']) ? (int) $_GET['offered_by_id'] : 0;
 $vote = isset($_POST['vote']) ? (int) $_POST['vote'] : 0;
-$posted_action = strip_tags((isset($_GET['action']) ? $_GET['action'] : (isset($_POST['action']) ? $_POST['action'] : '')));
+$posted_action = strip_tags(($_GET['action'] ?? $_POST['action'] ?? ''));
 //=== add all possible actions here and check them to be sure they are ok
 $valid_actions = array(
     'add_new_offer',
@@ -501,7 +501,7 @@ case 'add_comment':
         header('Location: /offers.php?action=offer_details&id=' . $id . '&viewcomm=' . $newid . '#comm' . $newid);
         die();
     }
-    $body = htmlsafechars((isset($_POST['descr']) ? $_POST['descr'] : ''));
+    $body = htmlsafechars(($_POST['descr'] ?? ''));
     $HTMLOUT.= $top_menu . '<form method="post" action="offers.php?action=add_comment">
     <input type="hidden" name="id" value="' . $id . '"/>' . (isset($_POST['button']) && $_POST['button'] == 'Preview' ? '
     <table class="table table-hover table-bordered">
@@ -546,7 +546,7 @@ case 'edit_comment':
     $arr = $res->fetch_assoc();
     if (!$arr) stderr('Error', 'Invalid ID.');
     if ($arr['user'] != $CURUSER['id'] && $CURUSER['class'] < UC_STAFF) stderr('Error', 'Permission denied.');
-    $body = htmlsafechars((isset($_POST['descr']) ? $_POST['descr'] : $arr['text']));
+    $body = htmlsafechars(($_POST['descr'] ?? $arr['text']));
     if (isset($_POST['button']) && $_POST['button'] == 'Edit') {
         if ($body == '') stderr('Error', 'Comment body cannot be empty!');
         sql_query('UPDATE comments SET text=' . sqlesc($body) . ', editedat=' . TIME_NOW . ', editedby=' . sqlesc($CURUSER['id']) . ' WHERE id=' . sqlesc($comment_id)) || sqlerr(__FILE__, __LINE__);
@@ -613,7 +613,7 @@ case 'delete_comment':
     
 case 'alter_status':
     if ($CURUSER['class'] < UC_STAFF) stderr('Error', 'Permission denied.');
-    $set_status = strip_tags(isset($_POST['set_status']) ? $_POST['set_status'] : '');
+    $set_status = strip_tags($_POST['set_status'] ?? '');
     //=== add all possible status' check them to be sure they are ok
     $ok_stuff = array(
         'approved',

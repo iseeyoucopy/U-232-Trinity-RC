@@ -20,7 +20,7 @@ $lang = array_merge(load_language('global'));
 $poll_id = isset($_GET['pollid']) ? (int) $_GET['pollid'] : false;
 if (!is_valid_id($poll_id)) stderr('ERROR', 'No poll with that ID');
 $vote_cast = array();
-$_POST['choice'] = isset($_POST['choice']) ? $_POST['choice'] : array();
+$_POST['choice'] = $_POST['choice'] ?? array();
 //-----------------------------------------
 // Permissions check
 //-----------------------------------------
@@ -41,7 +41,7 @@ $poll_data = $query->fetch_assoc();
 if ($poll_data['user_id']) {
     stderr('ERROR', 'You have already voted!');
 }
-$_POST['nullvote'] = isset($_POST['nullvote']) ? $_POST['nullvote'] : 0;
+$_POST['nullvote'] = $_POST['nullvote'] ?? 0;
 if (!$_POST['nullvote']) {
     if (is_array($_POST['choice']) && count($_POST['choice'])) {
         foreach ($_POST['choice'] as $question_id => $choice_id) {

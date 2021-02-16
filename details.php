@@ -117,7 +117,7 @@ if (($torrents = $cache->get('torrent_details_' . $id)) === false) {
     foreach ($tor_fields_ar_str as $i) $torrents[$i] = $torrents[$i];
     $cache->set('torrent_details_' . $id, $torrents, $TRINITY20['expires']['torrent_details']);
 }
-	$tor_cat = isset($torrents['category']) ? $torrents['category'] : '';
+	$tor_cat = $torrents['category'] ?? '';
    if ($change[$tor_cat]['min_class'] > $CURUSER['class']) stderr("{$lang['details_user_error']}", "{$lang['details_bad_id']}");
 //==
 if (($torrents_xbt = $cache->get('torrent_xbt_data_' . $id)) === false && XBT_TRACKER == true) {
@@ -136,7 +136,7 @@ if (($pretime = $cache->get('torrent_pretime_'.$id)) === false) {
     $prename = htmlsafechars($torrents['name']);
     ($pre_q = sql_query("SELECT time FROM releases WHERE releasename = " . sqlesc($prename))) || sqlerr(__FILE__, __LINE__);
     $pret = $pre_q->fetch_assoc();
-	$pretimere = isset($pret['time']) ? $pret['time'] : '';
+	$pretimere = $pret['time'] ?? '';
     $pretime['time'] = strtotime($pretimere);
     $cache->set('torrent_pretime_'.$id, $pretime, $TRINITY20['expires']['torrent_pretime']);
 }
@@ -177,7 +177,7 @@ if (($thumbs = $cache->get('thumbs_up:' . $id)) === false) {
 $torrents['times_completed'] = ((XBT_TRACKER === false || $torrents_xbt['times_completed'] === false || $torrents_xbt['times_completed'] === 0 || $torrents_xbt['times_completed'] === false) ? $torrents['times_completed'] : $torrents_xbt['times_completed']);
 
 //==rep user query by pdq
-$torrent_user_rep = isset($torrent_cache['rep']) ? $torrent_cache['rep'] : '';
+$torrent_user_rep = $torrent_cache['rep'] ?? '';
 if (($torrent_user_rep = $cache->get('user_rep_' . $torrents['owner'])) === false) {
     $torrent_user_rep = array();
     ($us = sql_query("SELECT reputation FROM users WHERE id =" . sqlesc($torrents['owner']))) || sqlerr(__FILE__, __LINE__);

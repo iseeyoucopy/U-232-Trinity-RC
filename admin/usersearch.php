@@ -78,14 +78,14 @@ $options = array(
     $lang['usersearch_between']
 );
 foreach ($options as $i => $option) {
-    echo "<option value='$i' " . (((isset($_POST['rt']) ? $_POST['rt'] : "3") == "$i") ? "selected='selected'" : "") . ">" . $option . "</option>\n";
+    echo "<option value='$i' " . ((($_POST['rt'] ?? "3") == "$i") ? "selected='selected'" : "") . ">" . $option . "</option>\n";
 }
 ?>
     </select>
     <input name="r" type="text" value=""<?php
-echo isset($_POST['r']) ? $_POST['r'] : '' ?>" size="5" maxlength="4" />
+echo $_POST['r'] ?? '' ?>" size="5" maxlength="4" />
     <input name="r2" type="text" value=""<?php
-echo isset($_POST['r2']) ? $_POST['r2'] : '' ?>" size="5" maxlength="4" /></td>
+echo $_POST['r2'] ?? '' ?>" size="5" maxlength="4" /></td>
 
   <td valign="middle" class='rowhead'><?php
 echo $lang['usersearch_status'] ?></td>
@@ -98,7 +98,7 @@ $options = array(
     $lang['usersearch_pending']
 );
 foreach ($options as $i => $option) {
-    echo "<option value='$i' " . (((isset($_POST['st']) ? $_POST['st'] : "0") == "$i") ? "selected='selected'" : "") . ">" . $option . "</option>\n";
+    echo "<option value='$i' " . ((($_POST['st'] ?? "0") == "$i") ? "selected='selected'" : "") . ">" . $option . "</option>\n";
 }
 ?>
     </select></td></tr>
@@ -106,12 +106,12 @@ foreach ($options as $i => $option) {
 echo $lang['usersearch_email'] ?></td>
   <td <?php
 echo (isset($_POST['em']) && !empty($_POST['em'])) ? $highlight : "" ?>><input name="em" type="text" value=""<?php
-echo isset($_POST['em']) ? $_POST['em'] : '' ?>" size="25" /></td>
+echo $_POST['em'] ?? '' ?>" size="25" /></td>
   <td valign="middle" class='rowhead'><?php
 echo $lang['usersearch_ip'] ?></td>
   <td <?php
 echo (isset($_POST['ip']) && !empty($_POST['ip'])) ? $highlight : "" ?>><input name="ip" type="text" value=""<?php
-echo isset($_POST['ip']) ? $_POST['ip'] : '' ?>" maxlength="17" /></td>
+echo $_POST['ip'] ?? '' ?>" maxlength="17" /></td>
 
   <td valign="middle" class='rowhead'><?php
 echo $lang['usersearch_acstatus'] ?></td>
@@ -124,7 +124,7 @@ $options = array(
     $lang['usersearch_disabled']
 );
 foreach ($options as $i => $option) {
-    echo "<option value='$i' " . (((isset($_POST['as']) ? $_POST['as'] : "0") == "$i") ? "selected='selected'" : "") . ">" . $option . "</option>\n";
+    echo "<option value='$i' " . ((($_POST['as'] ?? "0") == "$i") ? "selected='selected'" : "") . ">" . $option . "</option>\n";
 }
 ?>
     </select></td></tr>
@@ -133,12 +133,12 @@ foreach ($options as $i => $option) {
 echo $lang['usersearch_comments'] ?></td>
   <td <?php
 echo (isset($_POST['co']) && !empty($_POST['co'])) ? $highlight : "" ?>><input name="co" type="text" value=""<?php
-echo isset($_POST['co']) ? $_POST['co'] : "" ?>" size="25" /></td>
+echo $_POST['co'] ?? "" ?>" size="25" /></td>
   <td valign="middle" class='rowhead'><?php
 echo $lang['usersearch_mask'] ?></td>
   <td <?php
 echo (isset($_POST['ma']) && !empty($_POST['ma'])) ? $highlight : "" ?>><input name="ma" type="text" value=""<?php
-echo isset($_POST['ma']) ? $_POST['ma'] : "" ?>" maxlength="17" /></td>
+echo $_POST['ma'] ?? "" ?>" maxlength="17" /></td>
   <td valign="middle" class='rowhead'><?php
 echo $lang['usersearch_class'] ?></td>
   <td <?php
@@ -147,7 +147,7 @@ echo (isset($_POST['c']) && !empty($_POST['c'])) ? $highlight : "" ?>><select na
 $class = isset($_POST['c']) ? (int)$_POST['c'] : '';
 if (!is_valid_id($class)) $class = '';
 for ($i = 2;; ++$i) {
-    if ($c = get_user_class_name($i - 2)) echo ("<option value='" . $i . "'" . ((isset($class) ? $class : 0) == $i ? " selected='selected'" : "") . ">$c</option>\n");
+    if ($c = get_user_class_name($i - 2)) echo ("<option value='" . $i . "'" . (($class ?? 0) == $i ? " selected='selected'" : "") . ">$c</option>\n");
     else break;
 }
 ?>
@@ -167,16 +167,16 @@ $options = array(
     $lang['usersearch_between']
 );
 foreach ($options as $i => $option) {
-    echo "<option value='$i' " . (((isset($_POST['dt']) ? $_POST['dt'] : "0") == "$i") ? "selected='selected'" : "") . ">" . $option . "</option>\n";
+    echo "<option value='$i' " . ((($_POST['dt'] ?? "0") == "$i") ? "selected='selected'" : "") . ">" . $option . "</option>\n";
 }
 ?>
     </select>
 
     <input name="d" type="text" value=""<?php
-echo isset($_POST['d']) ? $_POST['d'] : '' ?>" size="12" maxlength="10" />
+echo $_POST['d'] ?? '' ?>" size="12" maxlength="10" />
 
     <input name="d2" type="text" value=""<?php
-echo isset($_POST['d2']) ? $_POST['d2'] : '' ?>" size="12" maxlength="10" /></td>
+echo $_POST['d2'] ?? '' ?>" size="12" maxlength="10" /></td>
 
 
   <td valign="middle" class='rowhead'><?php
@@ -192,16 +192,16 @@ $options = array(
     $lang['usersearch_between']
 );
 foreach ($options as $i => $option) {
-    echo "<option value='$i' " . (((isset($_POST['ult']) ? $_POST['ult'] : "0") == "$i") ? "selected='selected'" : "") . ">" . $option . "</option>\n";
+    echo "<option value='$i' " . ((($_POST['ult'] ?? "0") == "$i") ? "selected='selected'" : "") . ">" . $option . "</option>\n";
 }
 ?>
     </select>
 
     <input name="ul" type="text" id="ul" size="8" maxlength="7" value=""<?php
-echo isset($_POST['ul']) ? $_POST['ul'] : '' ?>" />
+echo $_POST['ul'] ?? '' ?>" />
 
     <input name="ul2" type="text" id="ul2" size="8" maxlength="7" value=""<?php
-echo isset($_POST['ul2']) ? $_POST['ul2'] : '' ?>" /></td>
+echo $_POST['ul2'] ?? '' ?>" /></td>
   <td valign="middle" class="rowhead"><?php
 echo $lang['usersearch_donor'] ?></td>
 
@@ -214,7 +214,7 @@ $options = array(
     $lang['usersearch_no']
 );
 foreach ($options as $i => $option) {
-    echo "<option value='$i' " . (((isset($_POST['do']) ? $_POST['do'] : "0") == "$i") ? "selected='selected'" : "") . ">" . $option . "</option>\n";
+    echo "<option value='$i' " . ((($_POST['do'] ?? "0") == "$i") ? "selected='selected'" : "") . ">" . $option . "</option>\n";
 }
 ?>
 	</select></td></tr>
@@ -233,16 +233,16 @@ $options = array(
     $lang['usersearch_between']
 );
 foreach ($options as $i => $option) {
-    echo "<option value='$i' " . (((isset($_POST['lst']) ? $_POST['lst'] : "0") == "$i") ? "selected='selected'" : "") . ">" . $option . "</option>\n";
+    echo "<option value='$i' " . ((($_POST['lst'] ?? "0") == "$i") ? "selected='selected'" : "") . ">" . $option . "</option>\n";
 }
 ?>
   </select>
 
   <input name="ls" type="text" value=""<?php
-echo isset($_POST['ls']) ? $_POST['ls'] : '' ?>" size="12" maxlength="10" />
+echo $_POST['ls'] ?? '' ?>" size="12" maxlength="10" />
 
   <input name="ls2" type="text" value=""<?php
-echo isset($_POST['ls2']) ? $_POST['ls2'] : '' ?>" size="12" maxlength="10" /></td>
+echo $_POST['ls2'] ?? '' ?>" size="12" maxlength="10" /></td>
 	  <td valign="middle" class='rowhead'><?php
 echo $lang['usersearch_downloaded'] ?></td>
 
@@ -256,16 +256,16 @@ $options = array(
     $lang['usersearch_between']
 );
 foreach ($options as $i => $option) {
-    echo "<option value='$i' " . (((isset($_POST['dlt']) ? $_POST['dlt'] : "0") == "$i") ? "selected='selected'" : "") . ">" . $option . "</option>\n";
+    echo "<option value='$i' " . ((($_POST['dlt'] ?? "0") == "$i") ? "selected='selected'" : "") . ">" . $option . "</option>\n";
 }
 ?>
     </select>
 
     <input name="dl" type="text" id="dl" size="8" maxlength="7" value=""<?php
-echo isset($_POST['dl']) ? $_POST['dl'] : '' ?>" />
+echo $_POST['dl'] ?? '' ?>" />
 
     <input name="dl2" type="text" id="dl2" size="8" maxlength="7" value=""<?php
-echo isset($_POST['dl2']) ? $_POST['dl2'] : '' ?>" /></td>
+echo $_POST['dl2'] ?? '' ?>" /></td>
 
 	<td valign="middle" class='rowhead'><?php
 echo $lang['usersearch_warned'] ?></td>
@@ -279,7 +279,7 @@ $options = array(
     $lang['usersearch_no']
 );
 foreach ($options as $i => $option) {
-    echo "<option value='$i' " . (((isset($_POST['w']) ? $_POST['w'] : "0") == "$i") ? "selected='selected'" : "") . ">" . $option . "</option>\n";
+    echo "<option value='$i' " . ((($_POST['w'] ?? "0") == "$i") ? "selected='selected'" : "") . ">" . $option . "</option>\n";
 }
 ?>
 	</select></td></tr>
@@ -706,14 +706,14 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
         $q1.= ($q1 !== '' ? "&amp;" : "") . "dip=$disabled";
     }
     // active
-    $active = isset($_POST['ac']) ? $_POST['ac'] : '';
+    $active = $_POST['ac'] ?? '';
     if ($active == "1") {
         $distinct = "DISTINCT ";
         $join_is.= " LEFT JOIN peers AS p ON u.id = p.userid";
         $q1.= ($q1 !== '' ? "&amp;" : "") . "ac=$active";
     }
     $from_is = isset($join_is) ? "users AS u" . $join_is : "users AS u";
-    $distinct = isset($distinct) ? $distinct : "";
+    $distinct = $distinct ?? "";
     $where_is = empty($where_is) ? "" : $where_is;
     $queryc = "SELECT COUNT(" . $distinct . "u.id) FROM " . $from_is . (($where_is == "") ? "":" WHERE $where_is ");
     $querypm = "FROM " . $from_is . (($where_is == "") ? " " : " WHERE $where_is ");

@@ -18,7 +18,7 @@ if (!$CURUSER) {
 }
 dbconn();
 $lang = array_merge(load_language('global') , load_language('ok'));
-$type = isset($_GET['type']) ? $_GET['type'] : '';
+$type = $_GET['type'] ?? '';
 $HTMLOUT = '';
 $HTMLOUT.= '<div class="grid-container">
 	        <div class="grid-x grid-padding-x align-center-middle text-center margin-top-3">

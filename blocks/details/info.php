@@ -74,7 +74,7 @@ $HTMLOUT.= "</table></div><!-- closing cell medium -->
 //==Report Torrent Link
 $HTMLOUT.= tr("{$lang['details_add_rprt1']}", "<form action='report.php?type=Torrent&amp;id=$id' method='post'><input class='button primary' type='submit' name='submit' value='".$lang['details_add_rprt2']."' />&nbsp;&nbsp;<strong><em class='label label-primary'>{$lang['details_add_rprt3']}<a href='rules.php'>{$lang['details_add_rprt4']}</a></em></strong></form>", 1);
 //== Tor Reputation by pdq
-$torrent_rep = isset($torrent_cache['rep']) ? $torrent_cache['rep'] : '';
+$torrent_rep = $torrent_cache['rep'] ?? '';
 if ($torrent_rep && $TRINITY20['rep_sys_on']) {
     $torrents = array_merge($torrents, $torrent_rep);
     $member_reputation = get_reputation($torrents, 'torrents', $torrents['anonymous']);

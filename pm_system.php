@@ -109,7 +109,7 @@ default:
     break;
 }
 //=== get action and check to see if it's ok...
-$returnto = isset($_GET['returnto']) ? $_GET['returnto'] : '/index.php';
+$returnto = $_GET['returnto'] ?? '/index.php';
 $possible_actions = array(
     'view_mailbox',
     'use_draft',

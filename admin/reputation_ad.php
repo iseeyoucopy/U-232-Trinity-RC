@@ -31,7 +31,7 @@ $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_rep_ad'));
 $input = array_merge($_GET, $_POST);
-$input['mode'] = isset($input['mode']) ? $input['mode'] : '';
+$input['mode'] = $input['mode'] ?? '';
 $now_date = "";
 $reputationid = 0;
 $time_offset = 0;
@@ -148,9 +148,9 @@ function show_form($type = 'edit')
         $extra = "<input type='button' value='{$lang['rep_ad_form_back']}' accesskey='b' class='btn' onclick='javascript:history.back(1)' />";
     }
     $css = "style='font-weight: bold;color: #ffffff;background-color: #0055A4;padding: 5px;'";
-    $replevid = isset($res['reputationlevelid']) ? $res['reputationlevelid'] : '';
-    $replevel = isset($res['level']) ? $res['level'] : '';
-    $minrep = isset($res['minimumreputation']) ? $res['minimumreputation'] : '';
+    $replevid = $res['reputationlevelid'] ?? '';
+    $replevel = $res['level'] ?? '';
+    $minrep = $res['minimumreputation'] ?? '';
     $html.= "<div class='row'><div class='col-md-12'>";
     $html.= "<form action='staffpanel.php?tool=reputation_ad' name='show_rep_form' method='post'>
 				<input name='reputationlevelid' value='{$replevid}' type='hidden' />
@@ -313,10 +313,10 @@ function view_list()
     // I hate work, but someone has to do it!
     if (isset($input['dolist'])) {
         $links = "";
-        $input['orderby'] = isset($input['orderby']) ? $input['orderby'] : '';
+        $input['orderby'] = $input['orderby'] ?? '';
         //$cond = ''; //experiment
         $who = isset($input['who']) ? (int) $input['who'] : 0;
-        $user = isset($input['user']) ? $input['user'] : 0;
+        $user = $input['user'] ?? 0;
         $first = isset($input['page']) ? (int) $input['page'] : 0;
         $cond = $who !== 0 ? "r.whoadded=" . sqlesc($who) : '';
         $start = isset($input['startstamp']) ? (int) $input['startstamp'] : mktime(0, 0, 0, $input['start']['month'], $input['start']['day'], $input['start']['year']) + $time_offset;

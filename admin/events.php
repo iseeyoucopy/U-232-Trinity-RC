@@ -100,7 +100,7 @@ return false;
 /*]]>*/
 </script>";
 if (!is_array($scheduled_events)) {
-    $_POST = (isset($_POST) ? $_POST : '');
+    $_POST = ($_POST ?? '');
     $HTMLOUT.= "{$lang['events_err_load']}";
 } else {
     foreach (array_keys($_POST) as $key) {

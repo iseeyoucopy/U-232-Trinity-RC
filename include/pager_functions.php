@@ -85,8 +85,8 @@ function pager_rep($data)
         'start' => '',
         'end' => ''
     );
-    $section = $data['span'] = isset($data['span']) ? $data['span'] : 2;
-    $parameter = isset($data['parameter']) ? $data['parameter'] : 'page';
+    $section = $data['span'] = $data['span'] ?? 2;
+    $parameter = $data['parameter'] ?? 'page';
     $mini = isset($data['mini']) ? 'mini' : '';
     if ($data['count'] > 0) {
         $pager['pages'] = ceil($data['count'] / $data['perpage']);

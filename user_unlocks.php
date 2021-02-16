@@ -41,7 +41,7 @@ $stdhead = [
 
 $lang = array_merge(load_language('global'), load_language('user_unlocks'));
 
-$id = (isset($_GET['id']) ? $_GET['id'] : $CURUSER['id']);
+$id = ($_GET['id'] ?? $CURUSER['id']);
 if (!is_valid_id($id) || $CURUSER['class'] < UC_STAFF) {
     $id = $CURUSER['id'];
 }

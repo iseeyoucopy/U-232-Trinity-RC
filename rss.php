@@ -14,7 +14,7 @@ require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 
 dbconn();
 $torrent_pass = (isset($_GET["torrent_pass"]) ? htmlsafechars($_GET["torrent_pass"]) : '');
 $feed = (isset($_GET["type"]) && $_GET['type'] == 'dl' ? 'dl' : 'web');
-$cats = (isset($_GET["cats"]) ? $_GET["cats"] : '');
+$cats = ($_GET["cats"] ?? '');
 if ($cats) {
     $validate_cats = explode(',', $cats);
     $cats = implode(', ', array_map('intval', $validate_cats));

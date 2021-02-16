@@ -20,17 +20,17 @@ PIN idea by SirSnuggleBunny.
 /** 
 // USAGE in staff pages: //
 // below:
-* dbconn();
-* loggedinorreturn();
+ * dbconn();
+ * loggedinorreturn();
 // add:
-* require_once 'include/class_check.php';
-* class_check(UC_MODERATOR);                // staff class check
+ * require_once 'include/class_check.php';
+ * class_check(UC_MODERATOR);                // staff class check
 // require PIN:
-* require_once 'include/class_check.php';
-* class_check(UC_MODERATOR, true, true); // staff class check & require PIN
+ * require_once 'include/class_check.php';
+ * class_check(UC_MODERATOR, true, true); // staff class check & require PIN
 // USAGE in non-staff pages: //
-* require_once 'include/class_check.php';
-* class_check(UC_POWER_USER, false);     // use for non-staff pages
+ * require_once 'include/class_check.php';
+ * class_check(UC_POWER_USER, false);     // use for non-staff pages
 // END //
 */
 if (!defined('TBVERSION')) { //cannot access this file directly
@@ -111,7 +111,7 @@ function class_check($class = 0, $staff = true, $pin = false)
             //require_once(INCL_DIR.'bans.php');
             //make_bans($ip, $_SERVER['REMOTE_ADDR'], 'Bad Class. Join IRC for assistance.');
             /** auto post to forums**/
-            $body = sqlesc("User " . $CURUSER['username'] . " - " . $ip . "\n Class " . $CURUSER['class'] . "\n Current page: " . $_SERVER['PHP_SELF'] . ", Previous page: " . (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'no referer') . ", Action: " . $_SERVER['REQUEST_URI'] . "\n Member has been disabled and demoted by class check system.");
+            $body = sqlesc("User " . $CURUSER['username'] . " - " . $ip . "\n Class " . $CURUSER['class'] . "\n Current page: " . $_SERVER['PHP_SELF'] . ", Previous page: " . ($_SERVER['HTTP_REFERER'] ?? 'no referer') . ", Action: " . $_SERVER['REQUEST_URI'] . "\n Member has been disabled and demoted by class check system.");
             /*
             $body2 = sqlesc("User ".$CURUSER['username']." - ".$ip.
                            " Class ".$CURUSER['class'].

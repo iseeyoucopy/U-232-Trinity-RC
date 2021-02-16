@@ -18,19 +18,19 @@ require_once(__DIR__ . "/function_menu.php");
 require_once(__DIR__ . "/functions.php");
 
   $pager="";
-	$name = (isset($_GET["sub_name"]) ? $_GET["sub_name"] : "");
+	$name = ($_GET["sub_name"] ?? "");
 		if($name)
 	$pager = "sub_name=".$name."&amp;";
-	$searchby = (isset($_GET["searchby"]) ? $_GET["searchby"] : "");
+	$searchby = ($_GET["searchby"] ?? "");
 		if($searchby)
 	$pager .="searchby=".$searchby."&amp;";
-	$lang = (isset($_GET["lang"]) ? $_GET["lang"] : "all");
+	$lang = ($_GET["lang"] ?? "all");
 		if($lang)
 	$pager .="lang=".$lang."&amp;";
-	$fps = (isset($_GET["fps"]) ? $_GET["fps"] : "");
+	$fps = ($_GET["fps"] ?? "");
 		if($fps)
 	$pager .="fps=".$fls."&amp;";
-	$format = (isset($_GET["format"]) ? $_GET["format"] : "");
+	$format = ($_GET["format"] ?? "");
 		if($format)
 	$pager .="format=".$format."&amp;";
 	$cds = (isset($_GET["cds"]) ? 0+$_GET["cds"] : "");

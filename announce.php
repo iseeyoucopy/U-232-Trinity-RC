@@ -389,7 +389,7 @@ if (isset($self) && $event == "stopped") {
 $seeder = 'no';
     ann_sql_query("DELETE FROM peers WHERE $selfwhere") || ann_sqlerr(__FILE__, __LINE__);
     //=== only run the function if the ratio is below 1
-	$a_finishd = isset($a['finished']) ? $a['finished'] : "";
+	$a_finishd = $a['finished'] ?? "";
 	$a_upload = isset($a['uploaded']) ? (float)$a['uploaded'] : 0;
 	$a_downld = isset($a['downloaded']) ? (float)$a['downloaded'] : 0;
     if (($a_upload + $upthis) < ($a_downld + $downthis) && $a_finishd == 'yes') {

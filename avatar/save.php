@@ -23,7 +23,7 @@ $set['pack'] = isset($_POST['pack']) ? htmlsafechars($_POST['pack']) : 1;
 $set['showuser'] = isset($_POST['showuser']) && htmlsafechars($_POST['showuser']) == 1 ? 1 : 0;
 for ($i = 1; $i <= 3; $i++) {
     $set['line' . $i]['title'] = isset($_POST['line' . $i]) ? str_replace('&amp;', '&', $_POST['line' . $i]) : '';
-    $set['line' . $i]['value'] = isset($_POST['drp' . $i]) ? $_POST['drp' . $i] : '';
+    $set['line' . $i]['value'] = $_POST['drp' . $i] ?? '';
 }
 if (!empty($user) && $do == 'save') {
     print (file_put_contents($_settings . $user . ".set", serialize($set)) ? 1 : 0);

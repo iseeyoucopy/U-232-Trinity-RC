@@ -91,7 +91,7 @@ if (is_array($required_class)) {
 } elseif ($CURUSER['class'] != $required_class) {
     stderr($lang['backup_stderr'], $lang['backup_stderr1']);
 }
-$mode = (isset($_GET['mode']) ? $_GET['mode'] : (isset($_POST['mode']) ? $_POST['mode'] : ''));
+$mode = ($_GET['mode'] ?? $_POST['mode'] ?? '');
 if (empty($mode)) {
     $HTMLOUT.= "<script type='text/javascript'>
         /*<![CDATA[*/
@@ -224,7 +224,7 @@ if (empty($mode)) {
     header("Content-Length: " . filesize($filename));
     readfile($filename);
 } elseif ($mode == 'delete') {
-    $ids = (isset($_POST["ids"]) ? $_POST["ids"] : (isset($_GET['id']) ? array(
+    $ids = ($_POST["ids"] ?? (isset($_GET['id']) ? array(
         $_GET['id']
     ) : array()));
     if (!empty($ids)) {
