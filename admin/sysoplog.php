@@ -68,20 +68,20 @@ if ($res->num_rows == 0) {
       </tr>";
     while ($arr = $res->fetch_assoc()) {
         $color = '#FF4763';
-        if (strpos($arr['txt'], $lang['sysoplog_warned'])) $color = "#FF0000";
-        if (strpos($arr['txt'], $lang['sysoplog_leechw'])) $color = "#9ED9D0";
-        if (strpos($arr['txt'], $lang['sysoplog_down'])) $color = "#62D962";
-        if (strpos($arr['txt'], $lang['sysoplog_imun'])) $color = "#FFFF00";
-        if (strpos($arr['txt'], $lang['sysoplog_enable'])) $color = "#47FFE3";
-        if (strpos($arr['txt'], $lang['sysoplog_donor'])) $color = "#FF8112";
-        if (strpos($arr['txt'], $lang['sysoplog_uptotal'])) $color = "#14ED00";
-        if (strpos($arr['txt'], $lang['sysoplog_downtotal'])) $color = "#5A63C7";
-        if (strpos($arr['txt'], $lang['sysoplog_invitet'])) $color = "#54ACBA";
-        if (strpos($arr['txt'], $lang['sysoplog_seed'])) $color = "#BA6154";
-        if (strpos($arr['txt'], $lang['sysoplog_rep'])) $color = "#57AD00";
-        if (strpos($arr['txt'], $lang['sysoplog_prom'])) $color = "#E01E00";
-        if (strpos($arr['txt'], $lang['sysoplog_dem'])) $color = "#BA5480";
-        if (strpos($arr['txt'], $lang['sysoplog_web'])) $color = "#00CFA2";
+        if (strpos($arr['txt'], (string) $lang['sysoplog_warned'])) $color = "#FF0000";
+        if (strpos($arr['txt'], (string) $lang['sysoplog_leechw'])) $color = "#9ED9D0";
+        if (strpos($arr['txt'], (string) $lang['sysoplog_down'])) $color = "#62D962";
+        if (strpos($arr['txt'], (string) $lang['sysoplog_imun'])) $color = "#FFFF00";
+        if (strpos($arr['txt'], (string) $lang['sysoplog_enable'])) $color = "#47FFE3";
+        if (strpos($arr['txt'], (string) $lang['sysoplog_donor'])) $color = "#FF8112";
+        if (strpos($arr['txt'], (string) $lang['sysoplog_uptotal'])) $color = "#14ED00";
+        if (strpos($arr['txt'], (string) $lang['sysoplog_downtotal'])) $color = "#5A63C7";
+        if (strpos($arr['txt'], (string) $lang['sysoplog_invitet'])) $color = "#54ACBA";
+        if (strpos($arr['txt'], (string) $lang['sysoplog_seed'])) $color = "#BA6154";
+        if (strpos($arr['txt'], (string) $lang['sysoplog_rep'])) $color = "#57AD00";
+        if (strpos($arr['txt'], (string) $lang['sysoplog_prom'])) $color = "#E01E00";
+        if (strpos($arr['txt'], (string) $lang['sysoplog_dem'])) $color = "#BA5480";
+        if (strpos($arr['txt'], (string) $lang['sysoplog_web'])) $color = "#00CFA2";
         $date = get_date($arr['added'], 'DATE');
         $time = get_date($arr['added'], 'LONG', 0, 1);
         $HTMLOUT.= "<tr class='tableb'><td style='background-color:$color'><font color='black'>{$date}</font></td>

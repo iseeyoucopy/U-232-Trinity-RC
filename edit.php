@@ -102,7 +102,7 @@ $subs_list.= "";
 $i = 0;
 foreach ($subs as $s) {
     $subs_list.= ($i && $i % 4 == 0) ? "" : "";
-    $subs_list.= "<label class='checkbox-inline'><input name=\"subs[]\" " . (strpos($row["subs"], $s["id"]) !== false ? " checked='checked'" : "") . "  type=\"checkbox\" value=\"" . (int)$s["id"] . "\" />" . htmlsafechars($s["name"]) . "</label>\n";
+    $subs_list.= "<label class='checkbox-inline'><input name=\"subs[]\" " . (strpos($row["subs"], (string) $s["id"]) !== false ? " checked='checked'" : "") . "  type=\"checkbox\" value=\"" . (int)$s["id"] . "\" />" . htmlsafechars($s["name"]) . "</label>\n";
     ++$i;
 }
 $subs_list.= "";

@@ -49,7 +49,7 @@ $search = (isset($_GET["search"]) ? htmlsafechars($_GET["search"]) : "");
 if (strlen($search) > 4) {
     $where = "WHERE t.name LIKE" . sqlesc("%" . $search . "%");
     $p = "search=" . $search . "&amp;";
-} elseif (strlen($letter) == 1 && strpos("abcdefghijklmnopqrstuvwxyz", $letter) !== false) {
+} elseif (strlen($letter) == 1 && strpos("abcdefghijklmnopqrstuvwxyz", (string) $letter) !== false) {
     $where = "WHERE t.name LIKE '" . $letter . "%'";
     $p = "letter=" . $letter . "&amp;";
 } else {

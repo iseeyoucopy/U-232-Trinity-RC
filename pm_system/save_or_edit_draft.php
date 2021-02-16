@@ -43,7 +43,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'save as draft') {
         sql_query('UPDATE messages SET msg = ' . $body . ', subject = ' . $subject . ' WHERE id = ' . sqlesc($pm_id)) || sqlerr(__FILE__, __LINE__);
     }
     //=== Check if messages was saved as draft
-    if ($mysqli->affected_rows === 0) stderr($lang[pm_error], $lang['pm_draft_wasnt']);
+    if ($mysqli->affected_rows === 0) stderr($lang[\PM_ERROR], $lang['pm_draft_wasnt']);
     header('Location: /pm_system.php?action=view_mailbox&box=-2&new_draft=1');
     die();
 } //=== end save draft

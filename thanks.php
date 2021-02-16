@@ -40,7 +40,7 @@ function print_list()
             'list' => (count($list) > 0 ? implode(', ', $list) : 'Not yet') ,
             'hadTh' => $hadTh,
             'status' => true
-        ]);
+        ], JSON_THROW_ON_ERROR);
     } else {
         $form = $hadTh ? "" : "<br/><form action='thanks.php' method='post'><input type='submit' class='btn' name='submit' value='Say thanks' /><input type='hidden' name='torrentid' value='{$tid}' /><input type='hidden' name='action' value='add' /></form>";
         $out = (count($list) > 0 ? implode(', ', $list) : 'Not yet');
@@ -103,7 +103,7 @@ case 'add':
                 echo($ajax ? json_encode([
                     'status' => false,
                     'err' => $msg
-                ]) : $msg);
+                ], JSON_THROW_ON_ERROR) : $msg);
             }
         }
     }

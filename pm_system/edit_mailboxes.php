@@ -221,7 +221,7 @@ $per_page_drop_down.= '</select>';
         $i = 0;
         while ($a = $r->fetch_assoc()) {
             $categories.= ($i && $i % 2 == 0) ? "</tr><tr>" : "";
-            $categories.= "<td class='bottom' style='padding-right: 5px'><input name='cat".(int)$a['id']."' type='checkbox' " . (strpos($CURUSER['notifs'], "[cat{$a['id']}]") !== false ? " checked='checked'" : "") . " value='yes' />&nbsp;<a class='catlink' href='browse.php?cat=".(int)$a['id']."'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($a['image']) . "' alt='" . htmlsafechars($a['name']) . "' title='" . htmlsafechars($a['name']) . "' /></a>&nbsp;" . htmlspecialchars($a["name"]) . "</td>\n";
+            $categories.= "<td class='bottom' style='padding-right: 5px'><input name='cat".(int)$a['id']."' type='checkbox' " . (strpos($CURUSER['notifs'], (string) "[cat{$a['id']}]") !== false ? " checked='checked'" : "") . " value='yes' />&nbsp;<a class='catlink' href='browse.php?cat=".(int)$a['id']."'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($a['image']) . "' alt='" . htmlsafechars($a['name']) . "' title='" . htmlsafechars($a['name']) . "' /></a>&nbsp;" . htmlspecialchars($a["name"]) . "</td>\n";
             ++$i;
         }
         $categories.= "</tr></table>";

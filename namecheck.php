@@ -32,7 +32,7 @@ function validusername($username)
     // The following characters are allowed in user names
     $allowedchars = $lang['takesignup_allowed_chars'];
     for ($i = 0; $i < $namelength; ++$i) {
-        if (strpos($allowedchars, $username[$i]) === false) return false;
+        if (strpos($allowedchars, (string) $username[$i]) === false) return false;
     }
     return true;
 }

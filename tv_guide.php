@@ -41,7 +41,7 @@ $lcountry = (isset($_REQUEST['country']))? $_REQUEST["country"]:"US";
 if (($tvsched = $cache->get('schedule_new'.$lcountry)) === false) {
 	$date = date(('Y-m-d'));
     $tvmaze = file_get_contents('https://api.tvmaze.com/schedule?country='.$lcountry.'&date='.$date);
-    $tvsched = json_decode($tvmaze, true);
+    $tvsched = json_decode($tvmaze, true, 512, JSON_THROW_ON_ERROR);
 if ((is_countable($tvsched) ? count($tvsched) : 0) > 0)
     $cache->set('schedule_new'.$lcountry, $tvsched, 60 * 60);
 }

@@ -23,7 +23,7 @@ $HTMLOUT.= "<input type='hidden' name='action' value='torrents'>
         while ($a = $r->fetch_assoc()) {
             $categories.= ($i && $i % 3 == 0) ? "</tr><tr>" : "";
             $categories.= "<td>
-                <input name='cat{$a['id']}' type='checkbox' " . (strpos($CURUSER['notifs'], "[cat{$a['id']}]") !== false ? " checked='checked'" : "") . " value='yes'>
+                <input name='cat{$a['id']}' type='checkbox' " . (strpos($CURUSER['notifs'], (string) "[cat{$a['id']}]") !== false ? " checked='checked'" : "") . " value='yes'>
                 <a class='catlink' href='browse.php?cat={$a['id']}'>
                 <img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlspecialchars($a['image']) . "' alt='" . htmlspecialchars($a['name']) . "' title='" . htmlspecialchars($a['name']) . "'></a>&nbsp;" . htmlspecialchars($a["name"]) . "
             </td>";

@@ -240,7 +240,7 @@ if (isset($_POST['msg_to_analyze'])) {
     foreach ($email_to_test_like[0] as $tested_email_like) {
         $res_search_others_like = sql_query('SELECT id, username, class, donor, suspended, leechwarn, chatpost, pirate, king, warned, enabled, email FROM users WHERE email LIKE \'%' . $tested_email_like . '%\'');
         if ($res_search_others_like->num_rows > 0) {
-            $email = preg_replace('/[^a-zA-Z0-9_-\s]/', '', $tested_email_like);
+            $email = preg_replace('/[^a-zA-Z0-9_\-\s]/', '', $tested_email_like);
             $similar_emails.= '<h1>' . $lang['mega_email_using'] . ' "' . $email . '" </h1>';
             $number = 1;
             while ($arr = $res_search_others_like->fetch_array()) {

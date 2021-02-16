@@ -254,7 +254,7 @@ if (!function_exists('highlight')) {
             return $subject;
         }
         $find = $subject;
-        while ($find = stristr($find, $search)) { // find $search text in $subject - case insensitive
+        while ($find = stristr($find, (string) $search)) { // find $search text in $subject - case insensitive
             $srchtxt = substr($find, 0, $srchlen); // get new search text
             $find = substr($find, $srchlen);
             $subject = str_replace($srchtxt, $hlstart . $srchtxt . $hlend, $subject); // highlight founded case insensitive search text

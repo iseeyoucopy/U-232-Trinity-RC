@@ -14,22 +14,22 @@ if(isset($_GET['id']) && $_GET['id'] !== '');
 	if (($tvshow = $cache->get('tv_show_'.$show_id)) === false) {
 		$date = date(('Y-m-d'));
 	$tvmaze = file_get_contents('https://api.tvmaze.com/shows/'.$show_id.'?embed[]=episodes&embed[]=cast');
-    $tvshow = json_decode($tvmaze, true);
+    $tvshow = json_decode($tvmaze, true, 512, JSON_THROW_ON_ERROR);
 	}
 	if (($tvshow_s = $cache->get('tv_show_ep_'.$show_id)) === false) {
 		$date = date(('Y-m-d'));
 	$tvmaze_s= file_get_contents('https://api.tvmaze.com/shows/'.$show_id.'/seasons');
-    $tvshow_s = json_decode($tvmaze_s, true);
+    $tvshow_s = json_decode($tvmaze_s, true, 512, JSON_THROW_ON_ERROR);
 	}
 	if (($tvshow_ep = $cache->get('tv_show_ep_'.$show_id)) === false) {
 	$date = date(('Y-m-d'));
 	$tvmaze_ep= file_get_contents('https://api.tvmaze.com/shows/'.$show_id.'/episodes');
-    $tvshow_ep = json_decode($tvmaze_ep, true);
+    $tvshow_ep = json_decode($tvmaze_ep, true, 512, JSON_THROW_ON_ERROR);
 	}	
 	if (($tvshow_cast = $cache->get('tv_show_cast_'.$show_id)) === false) {
 	$date = date(('Y-m-d'));
 	$tvmaze_cast= file_get_contents('https://api.tvmaze.com/shows/'.$show_id.'/cast');
-    $tvshow_cast = json_decode($tvmaze_cast, true);
+    $tvshow_cast = json_decode($tvmaze_cast, true, 512, JSON_THROW_ON_ERROR);
 	}
 	$image = ($tvshow['image']['original'] != '') ? "<img src='".$tvshow['image']['original']."' style='width:214; height:305px;'>":"<img src='" .$TRINITY20['pic_base_url']."/noposter.png' style='width:214; height:305px;'>";  		
 	$unwantedChars = array(',', '!', '?', "'"); // create array with unwanted chars

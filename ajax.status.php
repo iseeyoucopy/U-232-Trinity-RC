@@ -36,7 +36,7 @@ function jsonmsg($arr)
     return json_encode(array(
         'msg' => $arr[0],
         'status' => $arr[1]
-    ));
+    ), JSON_THROW_ON_ERROR);
 }
 $vdo = array(
     'edit' => 1,
