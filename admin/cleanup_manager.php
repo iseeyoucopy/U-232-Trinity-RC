@@ -347,7 +347,7 @@ function cleanup_take_new()
     }
     // new clean time =
     $params['clean_time'] = (int) (time() + $params['clean_increment']);
-    $params['clean_cron_key'] = md5(uniqid()); // just for now.
+    $params['clean_cron_key'] = md5(uniqid('', true)); // just for now.
     //one more time around! LoL
     foreach ($params as $k => $v) {
         $params[$k] = sqlesc($v);

@@ -14,7 +14,7 @@ function checkdir(&$dirs)
 {
     foreach ($dirs as $dir => $x) {
         if (is_dir($dir)) {
-            $fn = $dir . uniqid(time()) . '.tmp';
+            $fn = $dir . uniqid(time(), true) . '.tmp';
             if (@file_put_contents($fn, '1')) {
                 unlink($fn);
                 $dirs[$dir] = 1;
