@@ -430,7 +430,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
         if ($mask == "" || $mask == "255.255.255.255") $where_is.= (empty($where_is) ? "":" AND ") . "u.ip = '$ip'";
         else {
             if (substr($mask, 0, 1) == "/") {
-                $n = substr($mask, 1, strlen($mask) - 1);
+                $n = substr($mask, 1);
                 if (!is_numeric($n) || $n < 0 || $n > 32) {
                     stdmsg($lang['usersearch_error'], $lang['usersearch_badmask']);
                     stdfoot();

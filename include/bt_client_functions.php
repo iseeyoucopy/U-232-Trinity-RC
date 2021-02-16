@@ -34,7 +34,7 @@ function StdDecodePeerId($id_data, $id_name)
             $version_str.= "$c.";
         } else break;
     }
-    $version_str = substr($version_str, 0, strlen($version_str) - 1);
+    $version_str = substr($version_str, 0, -1);
     return "$id_name $version_str";
 }
 function MainlineDecodePeerId($id_data, $id_name)
@@ -44,7 +44,7 @@ function MainlineDecodePeerId($id_data, $id_name)
         $c = $id_data[$i] ?? '-';
         if ($c != '-' && ctype_alnum($c)) $version_str.= "$c.";
     }
-    $version_str = substr($version_str, 0, strlen($version_str) - 1);
+    $version_str = substr($version_str, 0, -1);
     return "$id_name $version_str";
 }
 function DecodeVersionString($ver_data, $id_name)
