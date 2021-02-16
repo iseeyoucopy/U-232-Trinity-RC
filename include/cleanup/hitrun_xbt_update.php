@@ -33,8 +33,10 @@ function docleanup($data)
             $modcomment = $arr_fuckers['modcomment'];
             $modcomment = get_date(TIME_NOW, 'DATE', 1)." - Download rights removed for H and R - AutoSystem.\n".$modcomment;
             $modcom = sqlesc($modcomment);
+            $_pms = (array) $_pms;
             $_pms[] = '(0,'.sqlesc($arr_fuckers['uid']).','.sqlesc(TIME_NOW).','.$msg.','.$subject.',0)';
-		      $_users[] = '('.sqlesc($arr_fuckers['uid']).','.sqlesc($arr_fuckers['poop']).',0, \'yes\',0,'.$modcom.')';
+		      $_users = (array) $_users;
+        $_users[] = '('.sqlesc($arr_fuckers['uid']).','.sqlesc($arr_fuckers['poop']).',0, \'yes\',0,'.$modcom.')';
             if(count($_pms) > 0)
 	         sql_query("INSERT INTO messages (sender, receiver, added, msg, subject, poster) VALUES ".implode(',',$_pms)) || sqlerr(__FILE__, __LINE__);	
 	         if(count($_users) > 0)
@@ -75,8 +77,10 @@ function docleanup($data)
             $modcomment = $arr_good_boy['modcomment'];
             $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - Download rights restored from H and R - AutoSystem.\n" . $modcomment;
             $modcom = sqlesc($modcomment);
+            $_pms = (array) $_pms;
             $_pms[] = '(0,'.sqlesc($arr_good_boy['id']).','.sqlesc(TIME_NOW).','.$msg.','.$subject.',0)';
-		      $_users[] = '('.sqlesc($arr_good_boy['id']).',1,\'no\',1,'.$modcom.')';
+		      $_users = (array) $_users;
+        $_users[] = '('.sqlesc($arr_good_boy['id']).',1,\'no\',1,'.$modcom.')';
             if(count($_pms) > 0)
 	         sql_query("INSERT INTO messages (sender, receiver, added, msg, subject, poster) VALUES ".implode(',',$_pms)) || sqlerr(__FILE__, __LINE__);	
 	         if(count($_users) > 0)

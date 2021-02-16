@@ -463,6 +463,7 @@ if (isset($_GET['staff_sent']) && ($_GET['staff_sent'] == "yes")) {
 if (($shouts = $cache->get('staff_shoutbox_')) === false) {
     ($res = sql_query("SELECT s.id, s.userid, s.date, s.text, s.to_user, s.staff_shout, u.username, u.pirate, u.king, u.class, u.donor, u.warned, u.leechwarn, u.enabled, u.chatpost, u.perms FROM shoutbox AS s LEFT JOIN users AS u ON s.userid=u.id WHERE s.staff_shout ='yes' ORDER BY s.id DESC LIMIT 150")) || sqlerr(__FILE__, __LINE__);
     while ($shout = $res->fetch_assoc()) {
+        $shouts = (array) $shouts;
         $shouts[] = $shout;
     }
     $cache->set('staff_shoutbox_', $shouts, $TRINITY20['expires']['staff_shoutbox']);

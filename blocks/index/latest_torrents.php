@@ -65,7 +65,10 @@ $HTMLOUT.="<div class='card'>
 ";
 if (($top5torrents = $cache->get('top5_tor_')) === false) {
     ($res = sql_query("SELECT id, seeders, poster, leechers, name, category from torrents ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}")) || sqlerr(__FILE__, __LINE__);
-    while ($top5torrent = $res->fetch_assoc()) $top5torrents[] = $top5torrent;
+    while ($top5torrent = $res->fetch_assoc()) {
+        $top5torrents = (array) $top5torrents;
+        $top5torrents[] = $top5torrent;
+    }
     $cache->set('top5_tor_', $top5torrents);
 }
 if ($top5torrents && count($top5torrents) > 0) {
@@ -102,7 +105,10 @@ if ($top5torrents) {
 if (($last5torrents = $cache->get('last5_tor_')) === false) {
     $sql = "SELECT id, seeders, poster, leechers, name, category FROM torrents WHERE visible='yes' ORDER BY added DESC LIMIT {$TRINITY20['latest_torrents_limit']}";
     ($result = sql_query($sql)) || sqlerr(__FILE__, __LINE__);
-    while ($last5torrent = $result->fetch_assoc()) $last5torrents[] = $last5torrent;
+    while ($last5torrent = $result->fetch_assoc()) {
+        $last5torrents = (array) $last5torrents;
+        $last5torrents[] = $last5torrent;
+    }
     $cache->set('last5_tor_', $last5torrents, $TRINITY20['expires']['last5_torrents']);
 }
 if ($last5torrents && count($last5torrents) > 0) {

@@ -220,7 +220,10 @@ function countries()
     global $cache, $TRINITY20;
     if (($ret = $cache->get('countries::arr')) === false) {
         ($res = sql_query("SELECT id, name, flagpic FROM countries ORDER BY name ASC")) || sqlerr(__FILE__, __LINE__);
-        while ($row = $res->fetch_assoc()) $ret[] = $row;
+        while ($row = $res->fetch_assoc()) {
+            $ret = (array) $ret;
+            $ret[] = $row;
+        }
         $cache->set('countries::arr', $ret, $TRINITY20['expires']['user_flag']);
     }
     return $ret;
