@@ -10,3 +10,9 @@ Log_Viewer/
 torrents/
 vendor/
 foundation/
+.idea/misc.xml
+.idea/modules.xml
+.idea/php.xml
+.idea/U-232-Trinity-RC.iml
+.idea/vcs.xml
+.idea/workspace.xml
