@@ -64,23 +64,23 @@ class AJAXChat {
 		$this->_requestVars = array();
 		$this->_requestVars['ajax']			= isset($_REQUEST['ajax'])			? true							: false;
 		$this->_requestVars['userID']		= isset($_REQUEST['userID'])		? (int)$_REQUEST['userID']		: null;
-		$this->_requestVars['userName']		= isset($_REQUEST['userName'])		? $_REQUEST['userName']			: null;
+		$this->_requestVars['userName']		= $_REQUEST['userName'] ?? null;
 		$this->_requestVars['channelID']	= isset($_REQUEST['channelID'])		? (int)$_REQUEST['channelID']	: null;
-		$this->_requestVars['channelName']	= isset($_REQUEST['channelName'])	? $_REQUEST['channelName']		: null;
-		$this->_requestVars['text']			= isset($_POST['text'])				? $_POST['text']				: null;
+		$this->_requestVars['channelName']	= $_REQUEST['channelName'] ?? null;
+		$this->_requestVars['text']			= $_POST['text'] ?? null;
 		$this->_requestVars['lastID']		= isset($_REQUEST['lastID'])		? (int)$_REQUEST['lastID']		: 0;
 		$this->_requestVars['login']		= isset($_REQUEST['login'])			? true							: false;
 		$this->_requestVars['logout']		= isset($_REQUEST['logout'])		? true							: false;
-		$this->_requestVars['password']		= isset($_REQUEST['password'])		? $_REQUEST['password']			: null;
-		$this->_requestVars['view']			= isset($_REQUEST['view'])			? $_REQUEST['view']				: null;
+		$this->_requestVars['password']		= $_REQUEST['password'] ?? null;
+		$this->_requestVars['view']			= $_REQUEST['view'] ?? null;
 		$this->_requestVars['year']			= isset($_REQUEST['year'])			? (int)$_REQUEST['year']		: null;
 		$this->_requestVars['month']		= isset($_REQUEST['month'])			? (int)$_REQUEST['month']		: null;
 		$this->_requestVars['day']			= isset($_REQUEST['day'])			? (int)$_REQUEST['day']			: null;
 		$this->_requestVars['hour']			= isset($_REQUEST['hour'])			? (int)$_REQUEST['hour']		: null;
-		$this->_requestVars['search']		= isset($_REQUEST['search'])		? $_REQUEST['search']			: null;
+		$this->_requestVars['search']		= $_REQUEST['search'] ?? null;
 		$this->_requestVars['shoutbox']		= isset($_REQUEST['shoutbox'])		? true							: false;
-		$this->_requestVars['getInfos']		= isset($_REQUEST['getInfos'])		? $_REQUEST['getInfos']			: null;
-		$this->_requestVars['lang']			= isset($_REQUEST['lang'])			? $_REQUEST['lang']				: null;
+		$this->_requestVars['getInfos']		= $_REQUEST['getInfos'] ?? null;
+		$this->_requestVars['lang']			= $_REQUEST['lang'] ?? null;
 		$this->_requestVars['delete']		= isset($_REQUEST['delete'])		? (int)$_REQUEST['delete']		: null;
 		
 		// Initialize custom request variables:
@@ -322,7 +322,7 @@ class AJAXChat {
 	function initView() {
 		$this->_view = null;
 		// "chat" is the default view:
-		$view = ($this->getRequestVar('view') === null) ? 'chat' : $this->getRequestVar('view');
+		$view = $this->getRequestVar('view') ?? 'chat';
 		if($this->hasAccessTo($view)) {
 			$this->_view = $view;
 		}
@@ -450,10 +450,7 @@ class AJAXChat {
 		}
 		// Validate the resulting channelID:
 		if(!$this->validateChannel($channelID)) {
-			if($this->getChannel() !== null) {
-				return $this->getChannel();
-			}
-			return $this->getConfig('defaultChannelID');
+			return $this->getChannel() ?? $this->getConfig('defaultChannelID');
 		}
 		return $channelID;
 	}
@@ -1487,7 +1484,7 @@ class AJAXChat {
 			return;
 		}
 
-		$banMinutes = ($banMinutes !== null) ? $banMinutes : $this->getConfig('defaultBanTime');
+		$banMinutes = $banMinutes ?? $this->getConfig('defaultBanTime');
 
 		if($banMinutes) {
 			// Ban User for the given time in minutes:
@@ -2205,7 +2202,7 @@ class AJAXChat {
 		if(!$this->_onlineUsersData) {
 			return;
 		}
-		$userID = ($userID === null) ? $this->getUserID() : $userID;
+		$userID = $userID ?? $this->getUserID();
 		for($i=0, $iMax = count($this->_onlineUsersData); $i< $iMax; $i++) {
 			if($this->_onlineUsersData[$i]['userID'] == $userID) {
 				array_splice($this->_onlineUsersData, $i, 1);
@@ -2357,7 +2354,7 @@ class AJAXChat {
 	function addInvitation($userID, $channelID=null) {
 		$this->removeExpiredInvitations();
 
-		$channelID = ($channelID === null) ? $this->getChannel() : $channelID;
+		$channelID = $channelID ?? $this->getChannel();
 
 		$sql = 'INSERT INTO ajax_chat_invitations (
 					userID,
@@ -2375,7 +2372,7 @@ class AJAXChat {
 	}
 
 	function removeInvitation($userID, $channelID=null) {
-		$channelID = ($channelID === null) ? $this->getChannel() : $channelID;
+		$channelID = $channelID ?? $this->getChannel();
 
 		$sql = 'DELETE FROM
 					ajax_chat_invitations
@@ -2505,7 +2502,7 @@ class AJAXChat {
 
 	function getLangCode() {
 		// Get the langCode from request or cookie:
-		$langCodeCookie = isset($_COOKIE[$this->getConfig('sessionName').'_lang']) ? $_COOKIE[$this->getConfig('sessionName').'_lang'] : null;
+		$langCodeCookie = $_COOKIE[$this->getConfig('sessionName').'_lang'] ?? null;
 		$langCode = $this->getRequestVar('lang') ? $this->getRequestVar('lang') : $langCodeCookie;
 		// Check if the langCode is valid:
 		if(!in_array($langCode, $this->getConfig('langAvailable'))) {
@@ -2681,8 +2678,8 @@ class AJAXChat {
 		return
 			(isset($_SERVER['HTTPS']) ? 'https://' : 'http://').
 			(isset($_SERVER['REMOTE_USER']) ? $_SERVER['REMOTE_USER'].'@' : '').
-			(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : ($_SERVER['SERVER_NAME'].
-			(isset($_SERVER['HTTPS']) && $_SERVER['SERVER_PORT'] == 443 || $_SERVER['SERVER_PORT'] == 80 ? '' : ':'.$_SERVER['SERVER_PORT']))).
+			($_SERVER['HTTP_HOST'] ?? ($_SERVER['SERVER_NAME'].
+                    (isset($_SERVER['HTTPS']) && $_SERVER['SERVER_PORT'] == 443 || $_SERVER['SERVER_PORT'] == 80 ? '' : ':'.$_SERVER['SERVER_PORT']))).
 			substr($_SERVER['SCRIPT_NAME'],0, strrpos($_SERVER['SCRIPT_NAME'], '/')+1);
 	}
 
@@ -2844,7 +2841,7 @@ class AJAXChat {
 	}
 
 	function isUserOnline($userID=null) {
-		$userID = ($userID === null) ? $this->getUserID() : $userID;
+		$userID = $userID ?? $this->getUserID();
 		$userDataArray = $this->getOnlineUsersData(null,'userID',$userID);
 		if($userDataArray && count($userDataArray) > 0) {
 			return true;
@@ -2853,7 +2850,7 @@ class AJAXChat {
 	}
 
 	function isUserNameInUse($userName=null) {
-		$userName = ($userName === null) ? $this->getUserName() : $userName;
+		$userName = $userName ?? $this->getUserName();
 		$userDataArray = $this->getOnlineUsersData(null,'userName',$userName);
 		if($userDataArray && count($userDataArray) > 0) {
 			return true;

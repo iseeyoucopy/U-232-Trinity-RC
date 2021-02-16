@@ -46,7 +46,7 @@ class SimpleCache implements CacheInterface
         // be confused for a `false` value), so we'll check existence with getMulti
         $multi = $this->store->getMulti(array($key));
 
-        return isset($multi[$key]) ? $multi[$key] : $default;
+        return $multi[$key] ?? $default;
     }
 
     /**

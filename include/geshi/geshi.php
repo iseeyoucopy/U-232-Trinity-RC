@@ -3467,8 +3467,7 @@ class GeSHi {
         foreach (array_keys($this->language_data['KEYWORDS']) as $k) {
             if (!$this->use_classes) {
                 $attributes = ' style="' .
-                    (isset($this->language_data['STYLES']['KEYWORDS'][$k]) ?
-                    $this->language_data['STYLES']['KEYWORDS'][$k] : "") . '"';
+                    ($this->language_data['STYLES']['KEYWORDS'][$k] ?? "") . '"';
             } else {
                 $attributes = ' class="kw' . $k . '"';
             }
@@ -4538,11 +4537,7 @@ class GeSHi {
      */
     protected function get_line_style($line) {
         $style = null;
-        if (isset($this->highlight_extra_lines_styles[$line])) {
-            $style = $this->highlight_extra_lines_styles[$line];
-        } else { // if no "extra" style assigned
-            $style = $this->highlight_extra_lines_style;
-        }
+        $style = $this->highlight_extra_lines_styles[$line] ?? $this->highlight_extra_lines_style;
 
         return $style;
     }
