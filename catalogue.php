@@ -42,8 +42,7 @@ function peer_list($array)
 " . (get_date($p["started"], 'LONG', 0, 1)) . "            <td align='center'>" . (get_date($p["finishedat"], 'LONG', 0, 1)) . "  ";
     
 }
-    $htmlout .= "";
-    return $htmlout;
+    return $htmlout . "";
 }
 $letter = (isset($_GET["letter"]) ? htmlsafechars($_GET["letter"]) : "");
 $search = (isset($_GET["search"]) ? htmlsafechars($_GET["search"]) : "");
@@ -58,7 +57,7 @@ if (strlen($search) > 4) {
     $p = "letter=a&amp;";
     $letter = "a";
 }
-$sql_qry = sql_query("SELECT count(*) FROM torrents AS t $where") or sqlerr(__FILE__, __LINE__);
+($sql_qry = sql_query("SELECT count(*) FROM torrents AS t $where")) || sqlerr(__FILE__, __LINE__);
 $count = $sql_qry->fetch_row();
 $perpage = 12;
 $pager = pager($perpage, $count[0], $_SERVER["PHP_SELF"] . "?" . $p);
@@ -68,13 +67,13 @@ $pager = pager($perpage, $count[0], $_SERVER["PHP_SELF"] . "?" . $p);
 //$bottom = '';
 $rows = array();
 $tids = array();
-$t = sql_query("SELECT t.id,t.name,t.leechers,t.seeders,t.poster,t.times_completed as snatched,t.owner,t.size,t.added,t.descr, u.username as user FROM torrents as t LEFT JOIN users AS u on u.id=t.owner $where ORDER BY t.name ASC " . $pager['limit']) or sqlerr(__FILE__, __LINE__);
+($t = sql_query("SELECT t.id,t.name,t.leechers,t.seeders,t.poster,t.times_completed as snatched,t.owner,t.size,t.added,t.descr, u.username as user FROM torrents as t LEFT JOIN users AS u on u.id=t.owner $where ORDER BY t.name ASC " . $pager['limit'])) || sqlerr(__FILE__, __LINE__);
 while ($ta = $t->fetch_assoc()) {
     $rows[] = $ta;
     $tid[] = (int) $ta["id"];
 }
 if (isset($tids) && count($tids)) {
-    $p = sql_query("SELECT p.id,p.torrent as tid,p.seeder, p.finishedat, p.downloadoffset, p.uploadoffset, p.ip, p.port, p.uploaded, p.downloaded, p.started AS started, p.last_action AS last_action, u.id as p_uid , u.username as p_user FROM peers AS p LEFT JOIN users as u on u.id=p.userid WHERE p.torrent IN (" . join(",", $tid) . ") AND p.seeder = 'yes' AND to_go=0 LIMIT 5") or sqlerr(__FILE__, __LINE__);
+    ($p = sql_query("SELECT p.id,p.torrent as tid,p.seeder, p.finishedat, p.downloadoffset, p.uploadoffset, p.ip, p.port, p.uploaded, p.downloaded, p.started AS started, p.last_action AS last_action, u.id as p_uid , u.username as p_user FROM peers AS p LEFT JOIN users as u on u.id=p.userid WHERE p.torrent IN (" . implode(",", $tid) . ") AND p.seeder = 'yes' AND to_go=0 LIMIT 5")) || sqlerr(__FILE__, __LINE__);
     while ($pa = $p->fetch_assoc())
         $peers[$pa["tid"]][] = $pa;
 }
