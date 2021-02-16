@@ -37,17 +37,14 @@ if (isset($_GET['phpinfo']) && $_GET['phpinfo']) {
     preg_match("#<body>(.*)</body>#is", $parsed, $match1);
     $php_body = $match1[1];
     // PREVENT WRAP: Most cookies
-    $php_body = str_replace("; ", ";<br />", $php_body);
     // PREVENT WRAP: Very long string cookies
-    $php_body = str_replace("%3B", "<br />", $php_body);
+    $php_body = str_replace(["; ", "%3B"], [";<br />", "<br />"], $php_body);
     // PREVENT WRAP: Serialized array string cookies
-    $php_body = str_replace(";i:", ";<br />i:", $php_body);
     // PREVENT WRAP: LS_COLORS env
-    $php_body = str_replace(":*.", "<br />:*.", $php_body);
+    $php_body = str_replace([";i:", ":*."], [";<br />i:", "<br />:*."], $php_body);
     // PREVENT WRAP: PATH env
-    $php_body = str_replace("bin:/", "bin<br />:/", $php_body);
     // PREVENT WRAP: Cookie %2C split
-    $php_body = str_replace("%2C", "%2C<br />", $php_body);
+    $php_body = str_replace(array("bin:/", "%2C"), ["bin<br />:/", "%2C<br />"], $php_body);
     // PREVENT WRAP: Cookie , split
     $php_body = preg_replace("#,(\d+),#", ",<br />\\1,", $php_body);
     $php_style = "<style type='text/css'>

@@ -86,8 +86,7 @@ function searchfield($entry)
     );
     $entry = strip_tags(utf_strtolower($entry));
     $entry = str_replace(' +', ' and ', $entry);
-    $entry = str_replace(' -', ' not ', $entry);
-    $entry = str_replace(' |', ' or ', $entry);
+    $entry = str_replace([' -', ' |'], [' not ', ' or '], $entry);
     //
     // Filter out strange characters like ^, $, &, change "it's" to "its"
     //

@@ -152,13 +152,11 @@ function parse_poll()
         if (isset($_GET['mode']) && $_GET['mode'] == 'show') {
             $htmlout = str_replace("<!--SHOW-->", button_show_voteable() , $htmlout);
         } else {
-            $htmlout = str_replace("<!--SHOW-->", button_show_results() , $htmlout);
-            $htmlout = str_replace("<!--VOTE-->", button_vote() , $htmlout);
+            $htmlout = str_replace(["<!--SHOW-->", "<!--VOTE-->"], [button_show_results(), button_vote()], $htmlout);
         }
     } else {
         //this section not for reviewing votes!
-        $htmlout = str_replace("<!--VOTE-->", button_vote() , $htmlout);
-        $htmlout = str_replace("<!--SHOW-->", button_null_vote() , $htmlout);
+        $htmlout = str_replace(["<!--VOTE-->", "<!--SHOW-->"], [button_vote(), button_null_vote()], $htmlout);
     }
     return $htmlout;
 }

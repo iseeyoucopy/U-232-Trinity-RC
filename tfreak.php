@@ -28,8 +28,8 @@ function rsstfreakinfo() {
         $icount++;
     }
     $html = str_replace(array('“','”'), '"', $html);
-    $html = str_replace(array("’","‘", "‘"), "'", $html);
     //$html.='';
-    return str_replace("–", "-", $html);
+    return str_replace(["’", "‘", "‘", "–"], ["'", "'", "'", "-"], $html);
 }
+
 ?>
