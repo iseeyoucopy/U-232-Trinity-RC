@@ -237,7 +237,7 @@ if (isset($cleansearchstr) && $searchstr != '') {
         $wherea[] = '`name` LIKE ' . sqlesc('%' . str_replace($s, $r, $matches[1]) . '%');
     } elseif (strpos($searchstr, '*') !== false || strpos($searchstr, '?') !== false) {
         $wherea[] = '`name` LIKE ' . sqlesc(str_replace($s, $r, $searchstr));
-    } elseif (preg_match('/^[A-Za-z0-9][a-zA-Z0-9()._-]+-\w*[A-Za-z0-9]$/iD', $searchstr)) {
+    } elseif (preg_match('/^[A-Za-z0-9][a-zA-Z0-9()._-]+\-\w*[A-Za-z0-9]$/iD', $searchstr)) {
         $wherea[] = '`name` = ' . sqlesc($searchstr);
     } else {
         $wherea[] = 'MATCH (`search_text`, `filename`, `newgenre`) AGAINST (' . sqlesc($searchstr) . ' IN BOOLEAN MODE)';

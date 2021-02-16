@@ -120,7 +120,7 @@ if ($data['used_memory_percentage'] >= $settings['used_memory_percentage_high_th
 if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) 
     && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'
 ) {
-    echo json_encode($data);
+    echo json_encode($data, JSON_THROW_ON_ERROR);
     exit;
 }
 

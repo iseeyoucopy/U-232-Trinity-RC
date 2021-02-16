@@ -65,7 +65,7 @@ function getBrowser()
         // see how many we have
         $i = is_countable($matches['browser']) ? count($matches['browser']) : 0;
         if ($i != 1) {
-            $version = strripos($u_agent, "Version") < strripos($u_agent, $ub) ? $matches['version'][0] : $matches['version'][1];
+            $version = strripos($u_agent, "Version") < strripos($u_agent, (string) $ub) ? $matches['version'][0] : $matches['version'][1];
         } else {
             $version = $matches['version'][0];
         }

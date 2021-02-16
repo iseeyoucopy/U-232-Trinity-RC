@@ -14,7 +14,7 @@ if(isset($_GET['id']) && $_GET['id'] !== '');
 	if (($tvepisode = $cache->get('tv_show_ep_'.$show_id)) === false) {
 	$date = date(('Y-m-d'));
 	$tvmaze_ep= file_get_contents('https://api.tvmaze.com/episodes/'.$show_id.'');
-    $tvepisode = json_decode($tvmaze_ep, true);
+    $tvepisode = json_decode($tvmaze_ep, true, 512, JSON_THROW_ON_ERROR);
 	}	
 	$image = ($tvepisode['image']['original'] != '') ? "<img src='".$tvepisode['image']['original']."' style='width:214; height:305px;'>":"<img src='" .$TRINITY20['pic_base_url']."/noposter.png' style='width:214; height:305px;'>";  		
 	$unwantedChars = array(',', '!', '?', "'"); // create array with unwanted chars

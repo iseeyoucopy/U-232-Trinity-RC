@@ -122,7 +122,7 @@ function search_text_in_db($searchstr, $base_sql, $where_search, $add_where = ar
         if ($lower_searchstr != $searchstr) {
             $search_full_string = true;
             foreach ($match_types AS $_null => $match_type) {
-                if (strpos($lower_searchstr, $match_type) !== false) {
+                if (strpos($lower_searchstr, (string) $match_type) !== false) {
                     $search_full_string = false;
                 }
             }

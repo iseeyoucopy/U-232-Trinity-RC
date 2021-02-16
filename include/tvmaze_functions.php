@@ -56,7 +56,7 @@ function tvmaze(&$torrents) {
     if (($tvmaze_id = $cache->get($memkey)) === false) {
         //get tvmaze id
         $tvmaze_link = sprintf('http://api.tvmaze.com/singlesearch/shows?q=%s', urlencode($tvmaze['name']));
-        $tvmaze_array = json_decode(file_get_contents($tvmaze_link), true);
+        $tvmaze_array = json_decode(file_get_contents($tvmaze_link), true, 512, JSON_THROW_ON_ERROR);
         if ($tvmaze_array) {
             $tvmaze_id = $tvmaze_array['id'];
             $cache->set($memkey, $tvmaze_id, 0);
@@ -75,7 +75,7 @@ function tvmaze(&$torrents) {
         //get tvmaze show info
         $tvmaze['name'] = preg_replace('/\d{4}.$/', '', $tvmaze['name']);
         $tvmaze_link = sprintf('http://api.tvmaze.com/shows/%d', $tvmaze_id);
-        $tvmaze_array = json_decode(file_get_contents($tvmaze_link), true);
+        $tvmaze_array = json_decode(file_get_contents($tvmaze_link), true, 512, JSON_THROW_ON_ERROR);
         $tvmaze_array['origin_country'] = $tvmaze_array['network']['country']['name'];
         if (empty($tvmaze_array['genres'])) {
             $tvmaze_array['genres2'] = implode(", ", array_map('strtolower', $tvmaze_array['genres']));

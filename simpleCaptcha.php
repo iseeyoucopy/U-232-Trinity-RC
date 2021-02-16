@@ -35,7 +35,7 @@ $resp = array();
 header("Content-Type: application/json");
 if (!isset($images) || !is_array($images) || count($images) < 3) {
     $resp['error'] = "There aren\'t enough images!";
-    echo json_encode($resp);
+    echo json_encode($resp, JSON_THROW_ON_ERROR);
     exit;
 }
 if (isset($_POST['numImages']) && strlen($_POST['numImages']) > 0) {
@@ -70,6 +70,6 @@ for ($i = 0; $i < count($used); ++$i) {
         'file' => $images[$used[$i]]
     );
 }
-echo json_encode($resp);
+echo json_encode($resp, JSON_THROW_ON_ERROR);
 exit;
 ?>

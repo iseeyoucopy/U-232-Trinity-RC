@@ -81,7 +81,7 @@ function _strlastpos($haystack, $needle, $offset = 0)
     $addLen = strlen($needle);
     $endPos = $offset - $addLen;
     while (true) {
-        if (($newPos = strpos($haystack, $needle, $endPos + $addLen)) === false) break;
+        if (($newPos = strpos($haystack, (string) $needle, $endPos + $addLen)) === false) break;
         $endPos = $newPos;
     }
     return ($endPos >= 0) ? $endPos : false;
@@ -133,11 +133,11 @@ function format_quotes($s)
     // Get position of opening quotes
     $openval = array();
     $pos = - 1;
-    foreach ($openquote as $val) $openval[] = $pos = strpos($s, $val, $pos + 1);
+    foreach ($openquote as $val) $openval[] = $pos = strpos($s, (string) $val, $pos + 1);
     // Get position of closing quotes
     $closeval = array();
     $pos = - 1;
-    foreach ($closequote as $val) $closeval[] = $pos = strpos($s, $val, $pos + 1);
+    foreach ($closequote as $val) $closeval[] = $pos = strpos($s, (string) $val, $pos + 1);
     foreach ($openval as $i => $openval) {
         if ($openval > $closeval[$i]) return $s;
     } // Cannot close before opening. Return raw string...
@@ -171,7 +171,7 @@ function islocal($link)
         $l[1] = substr($title, strlen($title) - round($limit / 3));
         $lshort = $l[0] . "..." . $l[1];
     } else $lshort = $title;
-    return "&nbsp;<a href=\"" . ((stristr($url, $TRINITY20['url']) !== false) ? "" : "https://anonym.to/?") . $url . "\" target=\"_blank\">" . $lshort . "</a>";
+    return "&nbsp;<a href=\"" . ((stristr($url, (string) $TRINITY20['url']) !== false) ? "" : "https://anonym.to/?") . $url . "\" target=\"_blank\">" . $lshort . "</a>";
 }
 function format_urls($s)
 {
