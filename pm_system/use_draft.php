@@ -48,23 +48,23 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == $save_or_edit) {
     $urgent = sqlesc((isset($_POST['urgent']) && $_POST['urgent'] == 'yes' && $CURUSER['class'] >= UC_STAFF) ? 'yes' : 'no');
     if ($save_or_edit === 'save') {
         sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, location, draft, unread, saved) VALUES  
-                                                                        (' . sqlesc($CURUSER['id']) . ', ' . sqlesc($CURUSER['id']) . ',' . TIME_NOW . ', ' . $body . ', ' . $subject . ', \'-2\', \'yes\',\'no\',\'yes\')') or sqlerr(__FILE__, __LINE__);
+                                                                        (' . sqlesc($CURUSER['id']) . ', ' . sqlesc($CURUSER['id']) . ',' . TIME_NOW . ', ' . $body . ', ' . $subject . ', \'-2\', \'yes\',\'no\',\'yes\')') || sqlerr(__FILE__, __LINE__);
     } elseif ($save_or_edit === 'edit') {
-        sql_query('UPDATE messages SET msg = ' . $body . ', subject = ' . $subject . ' WHERE id = ' . sqlesc($pm_id)) or sqlerr(__FILE__, __LINE__);
+        sql_query('UPDATE messages SET msg = ' . $body . ', subject = ' . $subject . ' WHERE id = ' . sqlesc($pm_id)) || sqlerr(__FILE__, __LINE__);
     } elseif ($save_or_edit === 'send') {
         //=== Try finding a user with specified name
         $res_receiver = sql_query('SELECT id, class, acceptpms, notifs, email, class, username FROM users WHERE LOWER(username)=LOWER(' . sqlesc(htmlsafechars($_POST['to'])) . ') LIMIT 1');
         $arr_receiver = $res_receiver->fetch_assoc();
         if (!is_valid_id($arr_receiver['id'])) stderr($lang['pm_error'], $lang['pm_forwardpm_nomember']);
-        $receiver = intval($arr_receiver['id']);
+        $receiver = (int) $arr_receiver['id'];
         //=== allow suspended users to PM / forward to staff only
         if ($CURUSER['suspended'] === 'yes') {
-            $res = sql_query('SELECT class FROM users WHERE id = ' . sqlesc($receiver)) or sqlerr(__FILE__, __LINE__);
+            ($res = sql_query('SELECT class FROM users WHERE id = ' . sqlesc($receiver))) || sqlerr(__FILE__, __LINE__);
             $row = $res->fetch_assoc();
             if ($row['class'] < UC_STAFF) stderr($lang['pm_error'], $lang['pm_send_your_acc']);
         }
         //=== make sure they have space
-        $res_count = sql_query('SELECT COUNT(id) FROM messages WHERE receiver = ' . sqlesc($receiver) . ' AND location = 1') or sqlerr(__FILE__, __LINE__);
+        ($res_count = sql_query('SELECT COUNT(id) FROM messages WHERE receiver = ' . sqlesc($receiver) . ' AND location = 1')) || sqlerr(__FILE__, __LINE__);
         $arr_count = $res_count->fetch_row();
         if ($res_count->num_rows > ($maxbox * 6) && $CURUSER['class'] < UC_STAFF) stderr($lang['pm_forwardpm_srry'], $lang['pm_forwardpm_full']);
         //=== Make sure recipient wants this message
@@ -72,13 +72,13 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == $save_or_edit) {
             $should_i_send_this = ($arr_receiver['acceptpms'] == 'yes' ? 'yes' : ($arr_receiver['acceptpms'] == 'no' ? 'no' : ($arr_receiver['acceptpms'] == 'friends' ? 'friends' : '')));
             switch ($should_i_send_this) {
             case 'yes':
-                $r = sql_query('SELECT id FROM blocks WHERE userid = ' . sqlesc($receiver) . ' AND blockid = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+                ($r = sql_query('SELECT id FROM blocks WHERE userid = ' . sqlesc($receiver) . ' AND blockid = ' . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
                 $block = $r->fetch_row();
                 if ($block[0] > 0) stderr($lang['pm_forwardpm_refused'], htmlsafechars($arr_receiver['username']) . $lang['pm_send_blocked']);
                 break;
 
             case 'friends':
-                $r = sql_query('SELECT id FROM friends WHERE userid = ' . sqlesc($receiver) . ' AND friendid = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+                ($r = sql_query('SELECT id FROM friends WHERE userid = ' . sqlesc($receiver) . ' AND friendid = ' . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
                 $friend = $r->fetch_row();
                 if ($friend[0] > 0) stderr($lang['pm_forwardpm_refused'], htmlsafechars($arr_receiver['username']) . $lang['pm_send_onlyf']);
                 break;
@@ -90,7 +90,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == $save_or_edit) {
         }
         //=== ok all is well... post the message :D
         sql_query('INSERT INTO messages (poster, sender, receiver, added, msg, subject, saved, unread, location, urgent) VALUES 
-                            (' . sqlesc($CURUSER['id']) . ', ' . sqlesc($CURUSER['id']) . ', ' . $receiver . ', ' . TIME_NOW . ', ' . $body . ', ' . $subject . ', \'yes\', \'yes\', 1,' . $urgent . ')') or sqlerr(__FILE__, __LINE__);
+                            (' . sqlesc($CURUSER['id']) . ', ' . sqlesc($CURUSER['id']) . ', ' . $receiver . ', ' . TIME_NOW . ', ' . $body . ', ' . $subject . ', \'yes\', \'yes\', 1,' . $urgent . ')') || sqlerr(__FILE__, __LINE__);
         $cache->delete('inbox_new::' . $receiver);
         $cache->delete('inbox_new_sb::' . $receiver);
         //=== make sure it worked then...
@@ -136,7 +136,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'preview') {
     </table><br />';
 } else {
     //=== Get the info
-    $res = sql_query('SELECT * FROM messages WHERE id=' . sqlesc($pm_id)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query('SELECT * FROM messages WHERE id=' . sqlesc($pm_id))) || sqlerr(__FILE__, __LINE__);
     $message = $res->fetch_assoc();
     $subject = htmlsafechars($message['subject']);
     $draft = $message['msg'];

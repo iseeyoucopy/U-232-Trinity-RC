@@ -40,8 +40,8 @@ if (isset($_POST['action2'])) {
     //=== add more boxes...
     switch ($action2) {
     case 'change_pm':
-        $change_pm_number = (isset($_POST['change_pm_number']) ? intval($_POST['change_pm_number']) : 20);
-        sql_query('UPDATE users SET pms_per_page = ' . sqlesc($change_pm_number) . ' WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+        $change_pm_number = (isset($_POST['change_pm_number']) ? (int) $_POST['change_pm_number'] : 20);
+        sql_query('UPDATE users SET pms_per_page = ' . sqlesc($change_pm_number) . ' WHERE id = ' . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
         $cache->update_row('user' . $CURUSER['id'], [
             'pms_per_page' => $change_pm_number
         ], $TRINITY20['expires']['user_cache']);
@@ -56,7 +56,7 @@ if (isset($_POST['action2'])) {
         //=== make sure they posted something...
         if ($_POST['new'] === '') stderr($lang['pm_error'], $lang['pm_edmail_err']);
         //=== Get current highest box number
-        $res = sql_query('SELECT boxnumber FROM pmboxes WHERE userid = ' . sqlesc($CURUSER['id']) . ' ORDER BY boxnumber  DESC LIMIT 1') or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query('SELECT boxnumber FROM pmboxes WHERE userid = ' . sqlesc($CURUSER['id']) . ' ORDER BY boxnumber  DESC LIMIT 1')) || sqlerr(__FILE__, __LINE__);
         $box_arr = $res->fetch_row();
         $box = ($box_arr[0] < 2 ? 2 : ($box_arr[0] + 1));
         //=== let's add the new boxes to the DB
@@ -64,7 +64,7 @@ if (isset($_POST['action2'])) {
         foreach ($new_box as $key => $add_it) {
             if (validusername($add_it) && $add_it !== '') {
                 $name = htmlsafechars($add_it);
-                sql_query('INSERT INTO pmboxes (userid, name, boxnumber) VALUES (' . sqlesc($CURUSER['id']) . ', ' . sqlesc($name) . ', ' . sqlesc($box) . ')') or sqlerr(__FILE__, __LINE__);
+                sql_query('INSERT INTO pmboxes (userid, name, boxnumber) VALUES (' . sqlesc($CURUSER['id']) . ', ' . sqlesc($name) . ', ' . sqlesc($box) . ')') || sqlerr(__FILE__, __LINE__);
                 $cache->delete('get_all_boxes' . $CURUSER['id']);
                 $cache->delete('insertJumpTo' . $CURUSER['id']);
             }
@@ -76,16 +76,16 @@ if (isset($_POST['action2'])) {
         die();
         break;
         //=== edit boxes
-        
+
     case 'edit_boxes':
         //=== get info
-        $res = sql_query('SELECT * FROM pmboxes WHERE userid=' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query('SELECT * FROM pmboxes WHERE userid=' . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
         if ($res->num_rows === 0) stderr($lang['pm_error'], $lang['pm_edmail_err1']);
         while ($row = $res->fetch_assoc()) {
             //=== if name different AND safe, update it
             if (validusername($_POST['edit' . $row['id']]) && $_POST['edit' . $row['id']] !== '' && $_POST['edit' . $row['id']] !== $row['name']) {
                 $name = htmlsafechars($_POST['edit' . $row['id']]);
-                sql_query('UPDATE pmboxes SET name=' . sqlesc($name) . ' WHERE id=' . sqlesc($row['id']) . ' LIMIT 1') or sqlerr(__FILE__, __LINE__);
+                sql_query('UPDATE pmboxes SET name=' . sqlesc($name) . ' WHERE id=' . sqlesc($row['id']) . ' LIMIT 1') || sqlerr(__FILE__, __LINE__);
                 $cache->delete('get_all_boxes' . $CURUSER['id']);
                 $cache->delete('insertJumpTo' . $CURUSER['id']);
                 $worked = '&name=1';
@@ -93,13 +93,13 @@ if (isset($_POST['action2'])) {
             //=== if name is empty, delete the box(es) and send the PMs back to the inbox..
             if ($_POST['edit' . $row['id']] == '') {
                 //=== get messages to move
-                $remove_messages_res = sql_query('SELECT id FROM messages WHERE location=' . sqlesc($row['boxnumber']) . '  AND receiver=' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+                ($remove_messages_res = sql_query('SELECT id FROM messages WHERE location=' . sqlesc($row['boxnumber']) . '  AND receiver=' . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
                 //== move the messages to the inbox
                 while ($remove_messages_arr = $remove_messages_res->fetch_assoc()) {
-                    sql_query('UPDATE messages SET location=1 WHERE id=' . sqlesc($remove_messages_arr['id'])) or sqlerr(__FILE__, __LINE__);
+                    sql_query('UPDATE messages SET location=1 WHERE id=' . sqlesc($remove_messages_arr['id'])) || sqlerr(__FILE__, __LINE__);
                 }
                 //== delete the box
-                sql_query('DELETE FROM pmboxes WHERE id=' . sqlesc($row['id']) . '  LIMIT 1') or sqlerr(__FILE__, __LINE__);
+                sql_query('DELETE FROM pmboxes WHERE id=' . sqlesc($row['id']) . '  LIMIT 1') || sqlerr(__FILE__, __LINE__);
                 $cache->delete('get_all_boxes' . $CURUSER['id']);
                 $cache->delete('insertJumpTo' . $CURUSER['id']);
                 $deleted = '&box_delete=1';
@@ -110,10 +110,10 @@ if (isset($_POST['action2'])) {
         die();
         break;
         //=== message settings     yes/no/friends
-        
+
     case 'message_settings':
         $updateset = array();
-        $change_pm_number = (isset($_POST['change_pm_number']) ? intval($_POST['change_pm_number']) : 20);
+        $change_pm_number = (isset($_POST['change_pm_number']) ? (int) $_POST['change_pm_number'] : 20);
         $updateset[] = 'pms_per_page = ' . sqlesc($change_pm_number);
         $curuser_cache['pms_per_page'] = $change_pm_number;
         $user_cache['pms_per_page'] = $change_pm_number;
@@ -139,7 +139,7 @@ if (isset($_POST['action2'])) {
         $notifs.= ($emailnotif == 'yes' ? $lang['pm_edmail_email_1'] : '');
         $cats = genrelist();
         //==cats
-            $r = sql_query("SELECT id FROM categories WHERE min_class < " . sqlesc($CURUSER['class'])) or sqlerr(__FILE__, __LINE__);
+            ($r = sql_query("SELECT id FROM categories WHERE min_class < " . sqlesc($CURUSER['class']))) || sqlerr(__FILE__, __LINE__);
         $rows = $r->num_rows;
         for ($i = 0; $i < $rows; ++$i) {
         $a = $r->fetch_assoc();
@@ -148,13 +148,13 @@ if (isset($_POST['action2'])) {
         $updateset[] = "notifs = " . sqlesc($notifs) . "";
         $curuser_cache['notifs'] = $notifs;
         $user_cache['notifs'] = $notifs;
-        if ($curuser_cache) {
+        if ($curuser_cache !== []) {
             $cache->update_row($keys['my_userid'] . $CURUSER['id'], $curuser_cache, $TRINITY20['expires']['curuser']);
         }
-        if ($user_cache) {
+        if ($user_cache !== []) {
             $cache->update_row('user' . $CURUSER['id'], $user_cache, $TRINITY20['expires']['user_cache']);
         }
-        sql_query('UPDATE users SET ' . implode(', ', $updateset) . ' WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+        sql_query('UPDATE users SET ' . implode(', ', $updateset) . ' WHERE id = ' . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
         $worked = '&pms=1';
         //=== redirect back with messages :P
         header('Location: pm_system.php?action=edit_mailboxes' . $worked);
@@ -164,12 +164,12 @@ if (isset($_POST['action2'])) {
     
 } //=== end of $_POST stuff
 //=== main page here :D
-$res = sql_query('SELECT * FROM pmboxes WHERE userid=' . sqlesc($CURUSER['id']) . ' ORDER BY name ASC') or sqlerr(__FILE__, __LINE__);
+($res = sql_query('SELECT * FROM pmboxes WHERE userid=' . sqlesc($CURUSER['id']) . ' ORDER BY name ASC')) || sqlerr(__FILE__, __LINE__);
 if ($res->num_rows > 0) {
     //=== get all PM boxes for editing
     while ($row = $res->fetch_assoc()) {
         //==== get count from PM boxes
-        $res_count = sql_query('SELECT COUNT(id) FROM messages WHERE  location = ' . sqlesc($row['boxnumber']) . ' AND receiver = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+        ($res_count = sql_query('SELECT COUNT(id) FROM messages WHERE  location = ' . sqlesc($row['boxnumber']) . ' AND receiver = ' . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
         $arr_count = $res_count->fetch_row();
         $messages = (int)$arr_count[0];
         $all_my_boxes.= '
@@ -211,11 +211,11 @@ $per_page_drop_down = '<select name="change_pm_number">';
 $i = 20;
 while ($i <= ($maxbox > 200 ? 200 : $maxbox)) {
     $per_page_drop_down.= '<option class="body" value="' . $i . '" ' . ($CURUSER['pms_per_page'] == $i ? ' selected="selected"' : '') . '>' . $i . '' . $lang['pm_edmail_perpage'] . '</option>';
-    $i = ($i < 100 ? $i = $i + 10 : $i = $i + 25);
+    $i = ($i < 100 ? $i += 10 : ($i += 25));
 }
 $per_page_drop_down.= '</select>';
 //==cats
-        $r = sql_query('SELECT id, image, name FROM categories WHERE min_class < ' . sqlesc($CURUSER['class']) . ' ORDER BY name') or sqlerr(__FILE__, __LINE__);
+        ($r = sql_query('SELECT id, image, name FROM categories WHERE min_class < ' . sqlesc($CURUSER['class']) . ' ORDER BY name')) || sqlerr(__FILE__, __LINE__);
     if ($r->num_rows > 0) {
         $categories.= "<table class='striped'><tr>";
         $i = 0;

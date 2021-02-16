@@ -33,7 +33,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'save draft') {
     $body = sqlesc($_POST['body']);
     $subject = sqlesc(strip_tags($_POST['subject']));
     sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, location, draft, unread, saved) VALUES  
-                                                                        (' . sqlesc($CURUSER['id']) . ', ' . sqlesc($CURUSER['id']) . ',' . TIME_NOW . ', ' . $body . ', ' . $subject . ', \'-2\', \'yes\',\'no\',\'yes\')') or sqlerr(__FILE__, __LINE__);
+                                                                        (' . sqlesc($CURUSER['id']) . ', ' . sqlesc($CURUSER['id']) . ',' . TIME_NOW . ', ' . $body . ', ' . $subject . ', \'-2\', \'yes\',\'no\',\'yes\')') || sqlerr(__FILE__, __LINE__);
     $cache->delete('inbox_new::' . $CURUSER['id']);
     $cache->delete('inbox_new_sb::' . $CURUSER['id']);
     $new_draft_id = $mysqli->insert_id;

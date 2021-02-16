@@ -38,7 +38,7 @@ if (!defined('BUNNY_PM_SYSTEM')) {
 //=== get mailbox name
 if ($mailbox > 1) {
     //== get name of PM box if not in or out
-    $res_box_name = sql_query('SELECT name FROM pmboxes WHERE userid = ' . sqlesc($CURUSER['id']) . ' AND boxnumber=' . sqlesc($mailbox) . ' LIMIT 1') or sqlerr(__FILE__, __LINE__);
+    ($res_box_name = sql_query('SELECT name FROM pmboxes WHERE userid = ' . sqlesc($CURUSER['id']) . ' AND boxnumber=' . sqlesc($mailbox) . ' LIMIT 1')) || sqlerr(__FILE__, __LINE__);
     $arr_box_name = $res_box_name->fetch_row();
     if ($res_box_name->num_rows === 0) stderr($lang['pm_error'], $lang['pm_mailbox_invalid']);
     $mailbox_name = htmlsafechars($arr_box_name[0]);
@@ -48,7 +48,7 @@ if ($mailbox > 1) {
 }
 //==== get count from PM boxs & get image & % box full
 //=== get stuff for the pager
-$res_count = sql_query('SELECT COUNT(id) FROM messages WHERE ' . ($mailbox === PM_INBOX ? 'receiver = ' . sqlesc($CURUSER['id']) . ' AND location = 1' : ($mailbox === PM_SENTBOX ? 'sender = ' . sqlesc($CURUSER['id']) . ' AND (saved = \'yes\' || unread= \'yes\') AND draft = \'no\' ' : 'receiver = ' . sqlesc($CURUSER['id'])) . ' AND location = ' . sqlesc($mailbox))) or sqlerr(__FILE__, __LINE__);
+($res_count = sql_query('SELECT COUNT(id) FROM messages WHERE ' . ($mailbox === PM_INBOX ? 'receiver = ' . sqlesc($CURUSER['id']) . ' AND location = 1' : ($mailbox === PM_SENTBOX ? 'sender = ' . sqlesc($CURUSER['id']) . ' AND (saved = \'yes\' || unread= \'yes\') AND draft = \'no\' ' : 'receiver = ' . sqlesc($CURUSER['id'])) . ' AND location = ' . sqlesc($mailbox)))) || sqlerr(__FILE__, __LINE__);
 $arr_count = $res_count->fetch_row();
 $messages = $arr_count[0];
 //==== get count from PM boxs & get image & % box full
@@ -59,12 +59,12 @@ $num_messages = number_format($filled, 0);
 $link = 'pm_system.php?action=view_mailbox&amp;box=' . $mailbox . ($perpage < $messages ? '&amp;page=' . $page : '') . '&amp;order_by=' . $order_by . $desc_asc;
 list($menu, $LIMIT) = pager_new($messages, $perpage, $page, $link);
 //=== get message info we need to display then all nice and tidy like \o/
-$res = sql_query('SELECT m.id AS message_id, m.sender, m.receiver, m.added, m.subject, m.unread, m.urgent, u.id, u.username, u.uploaded, u.downloaded, u.warned, u.suspended, u.enabled, u.donor, u.class, u.avatar, u.opt1, u.opt2,  u.leechwarn, u.chatpost, u.pirate, u.king, f.id AS friend, b.id AS blocked FROM messages AS m 
+($res = sql_query('SELECT m.id AS message_id, m.sender, m.receiver, m.added, m.subject, m.unread, m.urgent, u.id, u.username, u.uploaded, u.downloaded, u.warned, u.suspended, u.enabled, u.donor, u.class, u.avatar, u.opt1, u.opt2,  u.leechwarn, u.chatpost, u.pirate, u.king, f.id AS friend, b.id AS blocked FROM messages AS m 
                             LEFT JOIN users AS u ON u.id=m.' . ($mailbox === PM_SENTBOX ? 'receiver' : 'sender') . ' 
                             LEFT JOIN friends AS f ON f.userid = ' . $CURUSER['id'] . ' AND f.friendid = m.sender
                             LEFT JOIN blocks AS b ON b.userid = ' . $CURUSER['id'] . ' AND b.blockid = m.sender
                             WHERE ' . ($mailbox === PM_INBOX ? 'receiver = ' . $CURUSER['id'] . ' AND location = 1' : ($mailbox === PM_SENTBOX ? 'sender = ' . $CURUSER['id'] . ' AND (saved = \'yes\' || unread= \'yes\') AND draft = \'no\' ' : 'receiver = ' . $CURUSER['id'] . ' AND location = ' . sqlesc($mailbox))) . ' 
-                            ORDER BY ' . $order_by . (isset($_GET['ASC']) ? ' ASC ' : ' DESC ') . $LIMIT) or sqlerr(__FILE__, __LINE__);
+                            ORDER BY ' . $order_by . (isset($_GET['ASC']) ? ' ASC ' : ' DESC ') . $LIMIT)) || sqlerr(__FILE__, __LINE__);
 //=== Start Page
 //echo stdhead(htmlsafechars($mailbox_name));
 //=== let's make the table
@@ -99,7 +99,7 @@ if ($res->num_rows === 0) {
         </tr>';
 } else {
     while ($row = $res->fetch_assoc()) {
-        $subject = (!empty($row['subject']) ? htmlsafechars($row['subject']) : $lang['pm_search_nosubject']);
+        $subject = (empty($row['subject']) ? $lang['pm_search_nosubject'] : htmlsafechars($row['subject']));
         $who_sent_it = ($row['id'] == 0 ? '<span style="font-weight: bold;">'. $lang['pm_forward_system'] . '</span>' : print_user_stuff($row));
         $read_unread = ($row['unread'] === 'yes' ? '<i class="fas fa-envelope"></i>' : '<i class="fas fa-envelope-open"></i>');
         $extra = ($row['unread'] === 'yes' ? $lang['pm_mailbox_char1'] . '<span style="color: red;">' . $lang['pm_mailbox_unread'] . '</span>' . $lang['pm_mailbox_char2'] . '' : '') . ($row['urgent'] === 'yes' ? '<span style="color: red;">' . $lang['pm_mailbox_urgent'] . '</span>' : '');
@@ -121,7 +121,7 @@ $per_page_drop_down = '<form action="pm_system.php" method="post">
 $i = 20;
 while ($i <= ($maxbox > 200 ? 200 : $maxbox)) {
     $per_page_drop_down.= '<option value="' . $link . '&amp;change_pm_number=' . $i . '"  ' . ($CURUSER['pms_per_page'] == $i ? ' selected="selected"' : '') . '>' . $i . '' .$lang['pm_edmail_perpage'] . '</option>';
-    $i = ($i < 100 ? $i = $i + 10 : $i = $i + 25);
+    $i = ($i < 100 ? $i += 10 : ($i += 25));
 }
 $per_page_drop_down.= '</select><input type="hidden" name="box" value="' . $mailbox . '" /></form>';
 //=== the bottom
