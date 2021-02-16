@@ -16,11 +16,11 @@ dbconn();
 $_settings = $_SERVER["DOCUMENT_ROOT"] . "/avatar/settings/";
 function calctime($val)
 {
-    $days = intval($val / 86400);
+    $days = (int) ($val / 86400);
     $val-= $days * 86400;
-    $hours = intval($val / 3600);
+    $hours = (int) ($val / 3600);
     $val-= $hours * 3600;
-    $mins = intval($val / 60);
+    $mins = (int) ($val / 60);
     $secs = $val - ($mins * 60);
     return "$days days,$hours hrs,$mins minutes";
 }
@@ -90,7 +90,7 @@ function getStats($user, $forced = false)
 {
     global $_settings, $countries;
     if (!file_exists($_settings . $user . ".set") || !is_array($var = unserialize(file_get_contents($_settings . $user . ".set")))) return false;
-    $query = sql_query("SELECT u.id, u.irctotal, u.last_login, u.onlinetime, u.reputation, u.hits, u.uploaded, u.downloaded, u.country, u.browser, count(p.id) as posts ,count(c.id) as comments FROM users as u LEFT JOIN posts as p ON u.id = p.user_id LEFT JOIN comments as c ON c.user = u.id WHERE u.username = " . sqlesc($user) . " GROUP BY u.id") or sqlerr(__FILE__, __LINE__); //or die('Error Error Error! 1');
+    ($query = sql_query("SELECT u.id, u.irctotal, u.last_login, u.onlinetime, u.reputation, u.hits, u.uploaded, u.downloaded, u.country, u.browser, count(p.id) as posts ,count(c.id) as comments FROM users as u LEFT JOIN posts as p ON u.id = p.user_id LEFT JOIN comments as c ON c.user = u.id WHERE u.username = " . sqlesc($user) . " GROUP BY u.id")) || sqlerr(__FILE__, __LINE__); //or die('Error Error Error! 1');
     if ($query->num_rows != 1) die('Error Error Error! 2');
     $a = $query->fetch_assoc();
     $ops = array(
