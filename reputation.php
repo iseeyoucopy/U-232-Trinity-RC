@@ -312,7 +312,7 @@ else {
         //	HTML/CSS for 'add reputaion'
         //	Feel free to alter HTML/CSS here
         ///////////////////////////////////////////////
-        $res['anon'] = ($res['anon'] ?? 'no');
+        $res['anon'] ??= 'no';
         $rep_text = sprintf("What do you think of %s's " . $this_rep . "?", ($res['anon'] == 'yes' ? 'Anonymous' : htmlsafechars($res['username'])));
         $negativerep = $is_mod || $GVARS['g_rep_negative'];
         $closewindow = false;

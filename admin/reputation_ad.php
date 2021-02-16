@@ -31,7 +31,7 @@ $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_rep_ad'));
 $input = array_merge($_GET, $_POST);
-$input['mode'] = $input['mode'] ?? '';
+$input['mode'] ??= '';
 $now_date = "";
 $reputationid = 0;
 $time_offset = 0;
@@ -313,7 +313,7 @@ function view_list()
     // I hate work, but someone has to do it!
     if (isset($input['dolist'])) {
         $links = "";
-        $input['orderby'] = $input['orderby'] ?? '';
+        $input['orderby'] ??= '';
         //$cond = ''; //experiment
         $who = isset($input['who']) ? (int) $input['who'] : 0;
         $user = $input['user'] ?? 0;

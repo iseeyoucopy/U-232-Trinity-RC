@@ -30,7 +30,7 @@ $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_poll_manager'));
 $params = array_merge($_GET, $_POST);
-$params['mode'] = $params['mode'] ?? '';
+$params['mode'] ??= '';
 $TRINITY20['max_poll_questions'] = 2;
 $TRINITY20['max_poll_choices_per_question'] = 20;
 switch ($params['mode']) {
@@ -312,7 +312,7 @@ function makepoll()
                 continue;
             }
             $questions[$question_id]['choice'][$choice_id] = htmlsafechars(strip_tags($choice) , ENT_QUOTES);
-            $_POST['votes'] = $_POST['votes'] ?? 0;
+            $_POST['votes'] ??= 0;
             $questions[$question_id]['votes'][$choice_id] = (int) $_POST['votes'][$question_id . '_' . $choice_id];
             $poll_total_votes+= $questions[$question_id]['votes'][$choice_id];
         }

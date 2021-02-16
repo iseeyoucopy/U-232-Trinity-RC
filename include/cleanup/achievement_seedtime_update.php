@@ -17,15 +17,15 @@ function docleanup($data)
     ignore_user_abort(1);
     // *Updated* Seedtime Achievements Mod by MelvinMeow
     $seedtime = 604800; // 7days
-    $seedtime2 = 1209600; // 14days
-    $seedtime3 = 1814400; // 21days
-    $seedtime4 = 2419200; // 28days
-    $seedtime5 = 3888000; // 45days
-    $seedtime6 = 5184000; // 60days
-    $seedtime7 = 7776000; // 90days
-    $seedtime8 = 10368000; // 120days
-    $seedtime9 = 12960000; // 200days
-    $seedtime10 = 31536000; //1year
+    $seedtime2 = 1_209_600; // 14days
+    $seedtime3 = 1_814_400; // 21days
+    $seedtime4 = 2_419_200; // 28days
+    $seedtime5 = 3_888_000; // 45days
+    $seedtime6 = 5_184_000; // 60days
+    $seedtime7 = 7_776_000; // 90days
+    $seedtime8 = 10_368_000; // 120days
+    $seedtime9 = 12_960_000; // 200days
+    $seedtime10 = 31_536_000; //1year
     ($res = sql_query("SELECT distinct snatched.userid, snatched.seedtime, usersachiev.dayseed FROM snatched LEFT JOIN usersachiev ON snatched.userid = usersachiev.id WHERE seedtime >= " . sqlesc($seedtime))) || sqlerr(__FILE__, __LINE__);
     $msg_buffer = $usersachiev_buffer = $achievements_buffer = array();
     if ($res->num_rows > 0) {

@@ -537,7 +537,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
             $where_is.= (isset($where_is) ? " AND ":"") . "u.class<" . $CURUSER['class'];
         }
     }
-    $unit = 1073741824; // 1GB
+    $unit = 1_073_741_824; // 1GB
     // uploaded
     if (is_set_not_empty('ul')) {
         $ul = trim($_POST['ul']);
@@ -715,7 +715,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
         $q1.= ($q1 !== '' ? "&amp;" : "") . "ac=$active";
     }
     $from_is = isset($join_is) ? "users AS u" . $join_is : "users AS u";
-    $distinct = $distinct ?? "";
+    $distinct ??= "";
     $where_is = empty($where_is) ? "" : $where_is;
     $queryc = "SELECT COUNT(" . $distinct . "u.id) FROM " . $from_is . (($where_is == "") ? "":" WHERE $where_is ");
     $querypm = "FROM " . $from_is . (($where_is == "") ? " " : " WHERE $where_is ");
@@ -793,8 +793,8 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
           <td><div align='center'>" . htmlsafechars($user['status']) . "</div></td>
           <td><div align='center'>" . htmlsafechars($user['enabled']) . "</div></td>
           <td><div align='center'>" . ratios($pul, $pdl) . "</div></td>
-          <td><div align='right'>" . number_format($pul / 1048576) . "</div></td>
-          <td><div align='right'>" . number_format($pdl / 1048576) . "</div></td>
+          <td><div align='right'>" . number_format($pul / 1_048_576) . "</div></td>
+          <td><div align='right'>" . number_format($pdl / 1_048_576) . "</div></td>
           <td><div align='center'>" . ($n_posts ? "<a href='userhistory.php?action=viewposts&amp;id=" . (int)$user['id'] . "'>$n_posts</a>" : $n_posts) . "|" . ($n_comments ? "<a href='userhistory.php?action=viewcomments&amp;id=" . (int)$user['id'] . "'>$n_comments</a>" : $n_comments) . "</div></td></tr>\n";
         }
         $HTMLOUT.= "</table>";

@@ -123,7 +123,7 @@ function docleanup($data)
                 $cache->delete('inbox_new_sb::' . $arr['id']);
                 $var1 = 'bonus';
             }
-            if ($seedbonus >= 1000000 && $lvl == 10) {
+            if ($seedbonus >= 1_000_000 && $lvl == 10) {
                 $msg = sqlesc("Congratulations, you have just earned the [b]Bonus Banker LVL11[/b] achievement. :) [img]".$TRINITY20['baseurl']."/pic/achievements/bonus11.png[/img]");
                 $msgs_buffer[] = '(0,' . $arr['id'] . ',' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
                 $achievements_buffer[] = '(' . $arr['id'] . ', ' . TIME_NOW . ', \'Bonus Banker LVL11\', \'bonus11.png\' , \'Earned at least 1000000 bonus points.\')';

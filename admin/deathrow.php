@@ -104,7 +104,7 @@ if (!empty($_POST['remove'])) {
 // Give 'em 5 days to seed back their torrent (no peers, not seeded with in x days)
 $x_time = 604800; // Delete Routine 1 // 5 days
 // Give 'em 7 days to seed back their torrent (no peers, not snatched in x days)
-$y_time = 2419200; // Delete Routine 2 // 28 days
+$y_time = 2_419_200; // Delete Routine 2 // 28 days
 // Give 'em 2 days to seed back their torrent (no seeder activity within x hours of torrent upload)
 $z_time = 2 * 86400; // Delete Routine 3 // 2 days
 $dx_time = sqlesc(TIME_NOW - $x_time);

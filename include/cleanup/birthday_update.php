@@ -25,7 +25,7 @@ function docleanup($data)
             $subject = "Its your birthday!!";
             $msgs_buffer[] = '(0,' . $arr['id'] . ', ' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
             $users_buffer[] = '(' . $arr['id'] . ', 10737418240)';
-            $update['uploaded'] = ($arr['uploaded'] + 10737418240);
+            $update['uploaded'] = ($arr['uploaded'] + 10_737_418_240);
             $cache->update_row($keys['user_stats'] . $arr['id'], [
                 'uploaded' => $update['uploaded']
             ], $TRINITY20['expires']['u_stats']);

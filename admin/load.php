@@ -61,7 +61,7 @@ function uptime()
             60 => $lang['index_load_hour'],
             1 => $lang['index_load_minute']
         );
-        $n = 2419200;
+        $n = 2_419_200;
         $periods = array();
         $shown = false;
         $uptime = substr($uptime, 0, strpos($uptime, " "));
