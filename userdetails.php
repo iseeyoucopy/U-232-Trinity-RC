@@ -283,7 +283,7 @@ foreach ($countries as $cntry) if ($cntry['id'] == $user['country']) {
 if (!(isset($_GET["hit"])) && $CURUSER["id"] != $user["id"]) {
     ($res = sql_query("SELECT added FROM userhits WHERE userid =" . sqlesc($CURUSER['id']) . " AND hitid = " . sqlesc($id) . " LIMIT 1")) || sqlerr(__FILE__, __LINE__);
     $row = $res->fetch_row();
-	$row = isset($row) ? $row : '1';
+	$row = $row ?? '1';
     if (!$row[0] <= !(TIME_NOW - 3600)) {
         $hitnumber = $user['hits'] + 1;
         sql_query("UPDATE users SET hits = hits + 1 WHERE id = " . sqlesc($id)) || sqlerr(__FILE__, __LINE__);

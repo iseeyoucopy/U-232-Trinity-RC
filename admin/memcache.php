@@ -525,7 +525,7 @@ EOB;
     
 }
 // TODO, AUTH
-$_GET['op'] = isset($_GET['op']) ? $_GET['op'] : '1';
+$_GET['op'] = $_GET['op'] ?? '1';
 $PHP_SELF = isset($_SERVER['PHP_SELF']) ? htmlentities(strip_tags($_SERVER['PHP_SELF'], '')) : '';
 $PHP_SELF .= '?';
 $time = time();

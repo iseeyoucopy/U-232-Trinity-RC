@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $out = '';
     $out.= '<div class="row"><div class="col-md-12"><h2>'. $lang["floodlimit_editflood"] .'</h2>';
     $out.= '<form method=\'post\' action=\'\' ><table class="table table-bordered"><tr><td>'.$lang['floodlimit_userclass'].'</td><td>'.$lang['floodlimit_limit'].'</td></tr>';
-    for ($i = UC_MIN; $i <= UC_MAX; $i++) $out.= '<tr><td>' . get_user_class_name($i) . '</td><td><input name=\'limit[' . $i . ']\' type=\'text\' size=\'10\' value=\'' . (isset($limit[$i]) ? $limit[$i] : 0) . '\'/></td></tr>';
+    for ($i = UC_MIN; $i <= UC_MAX; $i++) $out.= '<tr><td>' . get_user_class_name($i) . '</td><td><input name=\'limit[' . $i . ']\' type=\'text\' size=\'10\' value=\'' . ($limit[$i] ?? 0) . '\'/></td></tr>';
     $out.= '<tr><td>'.$lang['floodlimit_note'].'</td></tr><tr><td><input type=\'submit\' value=\''.$lang['floodlimit_save'].'\' /></td></tr>';
     $out.= '</table></form>';
     $out .= '</div></div>';

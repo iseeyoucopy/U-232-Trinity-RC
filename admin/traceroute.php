@@ -46,8 +46,8 @@ if ($register_globals) {
     $ip = getenv(REMOTE_ADDR);
     $self = $PHP_SELF;
 } else {
-    $action = isset($_POST["action"]) ? $_POST["action"] : '';
-    $host = isset($_POST["host"]) ? $_POST["host"] : '';
+    $action = $_POST["action"] ?? '';
+    $host = $_POST["host"] ?? '';
     $ip = $_SERVER['REMOTE_ADDR'];
     $self = $_SERVER['SCRIPT_NAME'];
 }

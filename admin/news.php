@@ -85,7 +85,7 @@ if ($mode == 'add') {
     if (!$body) stderr($lang['news_error'], $lang['news_add_item']);
     $title = htmlsafechars($_POST['title']);
     if (!$title) stderr($lang['news_error'], $lang['news_add_title']);
-    $added = isset($_POST["added"]) ? $_POST["added"] : '';
+    $added = $_POST["added"] ?? '';
     if (!$added) $added = TIME_NOW;
     sql_query("INSERT INTO news (userid, added, body, title, sticky, anonymous) VALUES (" . sqlesc($CURUSER['id']) . "," . sqlesc($added) . ", " . sqlesc($body) . ", " . sqlesc($title) . ", " . sqlesc($sticky) . ", " . sqlesc($anonymous) . ")") || sqlerr(__FILE__, __LINE__);
     $cache->delete($keys['latest_news']);

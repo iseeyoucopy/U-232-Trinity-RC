@@ -32,7 +32,7 @@ function tvrage_format($tvrage_data, $tvrage_type)
     );
     foreach ($tvrage_data as $key => $data) {
         if (!isset($tvrage_display[$tvrage_type][$key])) continue;
-        $tvrage_display[$tvrage_type][$key] = is_string($data) ? sprintf($tvrage_display[$tvrage_type][$key], $data) : sprintf($tvrage_display[$tvrage_type][$key], $data['number'], $data['title'], date('M/d/Y - l', strtotime($data['airdate'])) , (isset($data['url']) ? $data['url'] : '') , (isset($data['summary']) ? $data['summary'] : ''));
+        $tvrage_display[$tvrage_type][$key] = is_string($data) ? sprintf($tvrage_display[$tvrage_type][$key], $data) : sprintf($tvrage_display[$tvrage_type][$key], $data['number'], $data['title'], date('M/d/Y - l', strtotime($data['airdate'])) , ($data['url'] ?? '') , ($data['summary'] ?? ''));
     }
     if (!isset($tvrage_data['ended'])) unset($tvrage_display[$tvrage_type]['ended']);
     return implode('<br/><br/>', $tvrage_display[$tvrage_type]);
@@ -45,7 +45,7 @@ function tvrage(&$torrents)
     if (preg_match("/^(.*)S(\d+)(E(\d+))?/", $torrents['name'], $tmp)) $tvrage = array(
         'name' => str_replace('.', ' ', $tmp[1]) ,
         'season' => (int)$tmp[2],
-        'episode' => (int)(isset($tmp[4]) ? $tmp[4] : 0)
+        'episode' => (int)($tmp[4] ?? 0)
     );
     else $tvrage = array(
         'name' => str_replace('.', ' ', $torrents['name']) ,

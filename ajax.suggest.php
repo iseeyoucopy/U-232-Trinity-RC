@@ -29,7 +29,7 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
 							4 => 'hits',
 							5 => 'vip'
 						);
-	$outhtml = "<style>.hover:hover{color:".(isset($_POST["color"]) ? $_POST["color"] : 'green')."}</style><table border='0' style='width:100%;border:0px;' ><tr><td>";		
+	$outhtml = "<style>.hover:hover{color:".($_POST["color"] ?? 'green')."}</style><table border='0' style='width:100%;border:0px;' ><tr><td>";		
 		if(empty($_POST['search'])){die(false);}
 		$wh = isset($_POST["order"]) ? (int)$_POST["order"] : 2;
 		$orderby .= isset($wh) && array_key_exists($wh,$order) ? sqlesc($order[$wh]) : 'id';

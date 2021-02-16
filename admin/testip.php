@@ -31,9 +31,9 @@ class_check($class);
 $lang = array_merge($lang, load_language('ad_testip'));
 $HTMLOUT = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $ip = isset($_POST["ip"]) ? $_POST["ip"] : false;
+    $ip = $_POST["ip"] ?? false;
 } else {
-    $ip = isset($_GET["ip"]) ? $_GET["ip"] : false;
+    $ip = $_GET["ip"] ?? false;
 }
 if ($ip) {
     $nip = ip2long($ip);

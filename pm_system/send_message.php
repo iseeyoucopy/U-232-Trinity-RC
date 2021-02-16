@@ -36,7 +36,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
     $save = ((isset($_POST['save']) && $_POST['save'] === 1) ? 'yes' : 'no');
     $delete = sqlesc((isset($_POST['delete']) && $_POST['delete'] !== 0) ? (int) $_POST['delete'] : 0);
     $urgent = sqlesc((isset($_POST['urgent']) && $_POST['urgent'] == 'yes' && $CURUSER['class'] >= UC_STAFF) ? 'yes' : 'no');
-    $returnto = htmlsafechars(isset($_POST['returnto']) ? $_POST['returnto'] : '');
+    $returnto = htmlsafechars($_POST['returnto'] ?? '');
     //$returnto = htmlsafechars($_POST['returnto']);
     //=== get user info from DB
     ($res_receiver = sql_query('SELECT id, acceptpms, notifs, email, class, username FROM users WHERE id=' . sqlesc($receiver))) || sqlerr(__FILE__, __LINE__);
@@ -64,7 +64,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
         case 'yes':
             ($r = sql_query('SELECT id FROM blocks WHERE userid = ' . sqlesc($receiver) . ' AND blockid = ' . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
             $block = $r->fetch_row();
-			$block1 = isset($block) ? $block : "";
+			$block1 = $block ?? "";
             if ($block1[0] > 0) stderr($lang['pm_forwardpm_refused'], htmlsafechars($arr_receiver['username']) . $lang['pm_send_blocked']);
 																															   
             break;
@@ -131,7 +131,7 @@ EOD;
 //=== basic page :D
 $receiver = (isset($_GET['receiver']) ? (int) $_GET['receiver'] : (isset($_POST['receiver']) ? (int) $_POST['receiver'] : 0));
 $replyto = (isset($_GET['replyto']) ? (int) $_GET['replyto'] : (isset($_POST['replyto']) ? (int) $_POST['replyto'] : 0));
-$returnto = htmlsafechars(isset($_POST['returnto']) ? $_POST['returnto'] : '');
+$returnto = htmlsafechars($_POST['returnto'] ?? '');
 if ($receiver === 0) stderr($lang['pm_error'], $lang['pm_send_sysbot']);
 if (!is_valid_id($receiver)) stderr($lang['pm_error'], $lang['pm_send_mid']);
 							

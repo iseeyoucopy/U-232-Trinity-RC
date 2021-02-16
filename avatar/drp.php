@@ -42,7 +42,7 @@ for ($i = 1; $i <= $opCount; $i++) {
     $drp['op3'][] = "<option value=\"" . $i . "\" " . ($_POST['drp3'] == $i || $var['line3']['value'] == $i ? "selected=\"selected\"" : "") . ">" . $op[$i] . "</option>";
 }
 foreach ($drp as $key => $ops) $temp[$key] = implode('', $ops);
-for ($i = 1; $i <= 3; $i++) $temp['line' . $i] = isset($var['line' . $i]['title']) ? $var['line' . $i]['title'] : '';
+for ($i = 1; $i <= 3; $i++) $temp['line' . $i] = $var['line' . $i]['title'] ?? '';
 $temp['showuser'] = isset($var['showuser']) && $var['showuser'] == 1 ? 1 : 0;
 print (json_encode($temp));
 ?>

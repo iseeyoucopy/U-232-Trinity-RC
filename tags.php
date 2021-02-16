@@ -34,7 +34,7 @@ function insert_tag($name, $description, $syntax, $example, $remarks)
 $HTMLOUT = '';
 $HTMLOUT.= begin_main_frame();
 $HTMLOUT.= begin_frame("Tags");
-$test = isset($_POST["test"]) ? $_POST["test"] : '';
+$test = $_POST["test"] ?? '';
 $HTMLOUT.= "{$lang['tags_title']}
 
     <form method='post' action='?'>

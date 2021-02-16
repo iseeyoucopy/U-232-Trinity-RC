@@ -64,9 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!preg_match('/\\ASELECT.+?FROM.+?WHERE.+?\\z/', $ann_query)) stderr('Error', 'Misformed Query');
     if ($n_pms === 0) stderr('Error', 'No recipients');
     //== Preview POST data ...
-    $body = trim((isset($_POST['body']) ? $_POST['body'] : ''));
-    $subject = trim((isset($_POST['subject']) ? $_POST['subject'] : ''));
-    $expiry = 0 + (isset($_POST['expiry']) ? $_POST['expiry'] : 0);
+    $body = trim(($_POST['body'] ?? ''));
+    $subject = trim(($_POST['subject'] ?? ''));
+    $expiry = 0 + ($_POST['expiry'] ?? 0);
     if ((isset($_POST['buttonval']) && $_POST['buttonval'] == 'Submit')) {
         //== Check values before inserting into row...
         if (empty($body)) stderr('Error', 'No body to announcement');

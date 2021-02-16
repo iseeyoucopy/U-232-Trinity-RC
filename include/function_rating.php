@@ -33,9 +33,9 @@ function getRate($id, $what)
     $cache->set($keys['rating_count'], $completecount, 180);
     }
     // outputs
-	$rating_count = isset($rating_cache["count"]) ? $rating_cache["count"] : 0;
+	$rating_count = $rating_cache["count"] ?? 0;
 	$p = ($rating_count > 0 ? round((($rating_cache["sum"] / $rating_count) * 20) , 2) : 0);
-	$rating_r = isset($rating_cache["rated"]) ? $rating_cache["rated"] : '';
+	$rating_r = $rating_cache["rated"] ?? '';
     if ($rating_r) $rate = "<ul class=\"star-rating\" title=\"You rated this " . $what . " " . htmlsafechars($rating_cache["rating"]) . " star" . (htmlsafechars($rating_cache["rating"]) > 1 ? "s" : "") . "\"><li style=\"width: " . $p . "%;\" class=\"current-rating\">.</li></ul>";
     elseif ($what == 'torrent') $rate = "<ul class=\"star-rating\" title=\"You must download this " . $what . " in order to rate it.\"><li style=\"width: %;\" class=\"current-rating\">" . $p .".</li></ul>";
     else {

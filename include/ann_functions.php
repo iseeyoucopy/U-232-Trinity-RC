@@ -28,8 +28,8 @@ function ann_sqlerr($file = '', $line = '')
         $_ann_sql_err.= "\n IP Address: " . $_SERVER['REMOTE_ADDR'];
         $_ann_sql_err.= "\n in file " . $file . " on line " . $line;
         $_ann_sql_err.= "\n URL:" . $_SERVER['REQUEST_URI'];
-		$error_username = isset($CURUSER['username']) ? $CURUSER['username'] : '';
-		$error_userid = isset($CURUSER['id']) ? $CURUSER['id'] : '';
+		$error_username = $CURUSER['username'] ?? '';
+		$error_userid = $CURUSER['id'] ?? '';
         $_ann_sql_err.= "\n Username: {$error_username}[{$error_userid}]";
         if ($FH = @fopen($TRINITY20['ann_sql_error_log'], 'a')) {
             @fwrite($FH, $_ann_sql_err);

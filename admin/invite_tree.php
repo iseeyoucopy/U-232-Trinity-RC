@@ -128,7 +128,7 @@ if ($id !== 0) {
     $id = '';
     //=== search members
     $search = isset($_GET['search']) ? strip_tags(trim($_GET['search'])) : '';
-    $class = isset($_GET['class']) ? $_GET['class'] : '-';
+    $class = $_GET['class'] ?? '-';
     $letter = '';
     $q = '';
     if ($class == '-' || !ctype_digit($class)) $class = '';

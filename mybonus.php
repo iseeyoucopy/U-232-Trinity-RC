@@ -902,7 +902,7 @@ if (isset($_GET['exchange'])) {
 			);
 			$pm['message_thief'] = sqlesc("Hey %s\nYou robbed:\n%s\nYour total reputation is now [b]%d[/b] but you lost [b]%d[/b] karma points ");
 			$foo = [50 => 3, 100 => 3, 150 => 4, 200 => 5, 250 => 5, 300 => 6];
-			$user_limit = isset($foo[$rep_to_steal]) ? $foo[$rep_to_steal] : 0;
+			$user_limit = $foo[$rep_to_steal] ?? 0;
 			($qr = sql_query(
 				'select id,username,reputation,seedbonus FROM users WHERE id <> ' . $thief_id . ' AND reputation >= ' . $rep_to_steal . ' ORDER BY RAND() LIMIT ' . $user_limit
 			)) || sqlerr(__FILE__, __LINE__);

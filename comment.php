@@ -47,7 +47,7 @@ $extra_link = '';
 $sql_1 = 'name, owner, comments, anonymous FROM torrents'; // , anonymous
 $name = 'name';
 $table_type = $locale . 's';
-$_GET['type'] = (isset($_GET['type']) ? $_GET['type'] : (isset($_POST['locale']) ? $_POST['locale'] : ''));
+$_GET['type'] = ($_GET['type'] ?? $_POST['locale'] ?? '');
 if (isset($_GET['type'])) {
     $type_options = [
         'torrent' => 'details',
@@ -89,9 +89,9 @@ if ($action == 'add') {
         if ($body === '') {
             stderr("{$lang['comment_error']}", "{$lang['comment_body']}");
         }
-        $owner = (isset($arr['owner']) ? $arr['owner'] : 0);
+        $owner = ($arr['owner'] ?? 0);
         $arr['anonymous'] = (isset($arr['anonymous']) && $arr['anonymous'] == 'yes' ? 'yes' : 'no');
-        $arr['comments'] = (isset($arr['comments']) ? $arr['comments'] : 0);
+        $arr['comments'] = ($arr['comments'] ?? 0);
         if ($CURUSER['id'] == $owner && $arr['anonymous'] == 'yes' || (isset($_POST['anonymous']) && $_POST['anonymous'] == 'yes')) {
             $anon = "'yes'";
         } else {
@@ -141,7 +141,7 @@ if ($action == 'add') {
         stderr("{$lang['comment_error']}", "No $locale with that ID.");
     }
     $HTMLOUT = '';
-    $body = htmlsafechars((isset($_POST['body']) ? $_POST['body'] : ''));
+    $body = htmlsafechars(($_POST['body'] ?? ''));
     $HTMLOUT.= "<h1>{$lang['comment_add']}'" . htmlsafechars($arr[$name]) . "'</h1>
       <br /><form name='compose' method='post' action='comment.php?action=add'>
       <input type='hidden' name='tid' value='{$id}'/>
@@ -184,7 +184,7 @@ if ($action == 'add') {
         stderr("{$lang['comment_error']}", "{$lang['comment_denied']}");
     }
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $body = (isset($_POST['body']) ? $_POST['body'] : '');
+        $body = ($_POST['body'] ?? '');
         if ($body == '') {
             stderr("{$lang['comment_error']}", "{$lang['comment_body']}");
         }
@@ -241,7 +241,7 @@ if ($action == 'add') {
         if ($TRINITY20['karma'] && isset($CURUSER['seedbonus'])) {
             sql_query("UPDATE users SET seedbonus = seedbonus-3.0 WHERE id =" . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
         }
-        $arr['comments'] = (isset($arr['comments']) ? $arr['comments'] : 0);
+        $arr['comments'] = ($arr['comments'] ?? 0);
         $update['comments'] = ($arr['comments'] - 1);
         $cache->update_row('torrent_details_' . $id, [
             'comments' => $update['comments']

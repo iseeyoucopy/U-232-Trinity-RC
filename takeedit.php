@@ -223,12 +223,12 @@ $release_group_choices = array(
     'p2p' => 2,
     'none' => 3
 ); {
-    $release_group = (isset($_POST['release_group']) ? $_POST['release_group'] : 'none');
+    $release_group = ($_POST['release_group'] ?? 'none');
     if (isset($release_group_choices[$release_group])) $updateset[] = "release_group = " . sqlesc($release_group);
     $torrent_cache['release_group'] = $release_group;
 }
 //==09 Genre Mod without mysql table by Traffic
-$genreaction = (isset($_POST['genre']) ? $_POST['genre'] : ''); {
+$genreaction = ($_POST['genre'] ?? ''); {
     $genre = '';
 }
 if ($genreaction != "keep") {

@@ -69,8 +69,8 @@ class_check(UC_STAFF);
 $action = (isset($_GET['action']) ? htmlsafechars($_GET['action']) : (isset($_POST['action']) ? htmlsafechars($_POST['action']) : NULL));
 $id = (isset($_GET['id']) ? (int) $_GET['id'] : (isset($_POST['id']) ? (int) $_POST['id'] : NULL));
 $class_color = (function_exists('get_user_class_color'));
-$tool = (isset($_GET['tool']) ? $_GET['tool'] : (isset($_POST['tool']) ? $_POST['tool'] : NULL));
-$tool = isset($_GET['tool']) ? $_GET['tool'] : '';
+$tool = ($_GET['tool'] ?? $_POST['tool'] ?? NULL);
+$tool = $_GET['tool'] ?? '';
 
 //Might as well build this from the DB I think.//
 $staff_tools = array(
@@ -171,7 +171,7 @@ $staff_tools = array(
 if (in_array($tool, $staff_tools) && file_exists(ADMIN_DIR . $staff_tools[$tool] . '.php')) {
     require_once ADMIN_DIR . $staff_tools[$tool] . '.php';
 } elseif ($action == 'delete' && is_valid_id($id) && $CURUSER['class'] == UC_MAX) {
-    $sure = ((isset($_GET['sure']) ? $_GET['sure'] : '') == 'yes');
+    $sure = (($_GET['sure'] ?? '') == 'yes');
     ($res = sql_query('SELECT av_class' . (!$sure || $CURUSER['class'] <= UC_MAX ? ', page_name' : '') . ' FROM staffpanel WHERE id = ' . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
     if ($CURUSER['class'] < $arr['av_class'])
@@ -200,7 +200,7 @@ if (in_array($tool, $staff_tools) && file_exists(ADMIN_DIR . $staff_tools[$tool]
         $arr = $res->fetch_assoc();
     }
     foreach ($names as $name)
-        $$name = (isset($_POST[$name]) ? $_POST[$name] : ($action == 'edit' ? $arr[$name] : ''));
+        $$name = ($_POST[$name] ?? ($action == 'edit' ? $arr[$name] : ''));
     if ($action == 'edit' && $CURUSER['class'] < $av_class)
         stderr($lang['spanel_error'], $lang['spanel_cant_edit_this_pg']);
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {

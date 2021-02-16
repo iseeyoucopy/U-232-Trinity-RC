@@ -133,8 +133,8 @@ if (isset($_POST['action2'])) {
         $updateset[] = 'deletepms = ' . sqlesc($deletepms);
         $curuser_cache['deletepms'] = $deletepms;
         $user_cache['deletepms'] = $deletepms;
-        $pmnotif = (isset($_POST['pmnotif']) ? $_POST['pmnotif'] : '');
-        $emailnotif = (isset($_POST['emailnotif']) ? $_POST['emailnotif'] : '');
+        $pmnotif = ($_POST['pmnotif'] ?? '');
+        $emailnotif = ($_POST['emailnotif'] ?? '');
         $notifs = ($pmnotif == 'yes' ? $lang['pm_edmail_pm_1'] : '');
         $notifs.= ($emailnotif == 'yes' ? $lang['pm_edmail_email_1'] : '');
         $cats = genrelist();

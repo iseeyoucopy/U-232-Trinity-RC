@@ -385,13 +385,13 @@ elseif ($action == "default") {
         'friends' => 2,
         'no' => 3
     );
-    $pmnotif = isset($_POST["pmnotif"]) ? $_POST["pmnotif"] : '';
+    $pmnotif = $_POST["pmnotif"] ?? '';
     $pmnotifs = ($pmnotif == 'yes' ? "[pm]" : "");
     $updateset[] = "notifs = " . sqlesc($pmnotifs) . "";
     $curuser_cache['notifs'] = $pmnotifs;
     $user_cache['notifs'] = $pmnotifs;
     //== Accept PM
-    $acceptpms = (isset($_POST['acceptpms']) ? $_POST['acceptpms'] : 'all');
+    $acceptpms = ($_POST['acceptpms'] ?? 'all');
     if (isset($acceptpms_choices[$acceptpms])) $updateset[] = "acceptpms = " . sqlesc($acceptpms);
     $curuser_cache['acceptpms'] = $acceptpms;
     $user_cache['acceptpms'] = $acceptpms;

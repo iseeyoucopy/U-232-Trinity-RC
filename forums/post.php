@@ -176,7 +176,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
         }
     }
 
-    if ($Multi_forum['configs']['use_attachment_mod'] && ((isset($_POST['uploadattachment']) ? $_POST['uploadattachment'] : '') == 'yes')) {
+    if ($Multi_forum['configs']['use_attachment_mod'] && (($_POST['uploadattachment'] ?? '') == 'yes')) {
         $file = htmlsafechars($_FILES['file']);
         $fname = htmlsafechars($file['name']);
         $size = (int) $file['size'];

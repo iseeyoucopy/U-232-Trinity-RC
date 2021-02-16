@@ -30,7 +30,7 @@ $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_categories'));
 $params = array_merge($_GET, $_POST);
-$params['mode'] = isset($params['mode']) ? $params['mode'] : '';
+$params['mode'] = $params['mode'] ?? '';
 switch ($params['mode']) {
 case 'takemove_cat':
     move_cat();

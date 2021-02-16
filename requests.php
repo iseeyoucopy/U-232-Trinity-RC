@@ -505,7 +505,7 @@ case 'add_comment':
         header('Location: /requests.php?action=request_details&id=' . $id . '&viewcomm=' . $newid . '#comm' . $newid);
         die();
     }
-    $body = htmlsafechars((isset($_POST['descr']) ? $_POST['descr'] : ''));
+    $body = htmlsafechars(($_POST['descr'] ?? ''));
     $HTMLOUT.= $top_menu . '<form method="post" action="requests.php?action=add_comment">
     <input type="hidden" name="id" value="' . $id . '"/>
     ' . (isset($_POST['button']) && $_POST['button'] == $lang['req_det_prvw'] ? '
@@ -536,7 +536,7 @@ case 'edit_comment':
     $arr = $res->fetch_assoc();
     if (!$arr) stderr($lang['error_error'], $lang['error_invalid']);
     if ($arr['user'] != $CURUSER['id'] && $CURUSER['class'] < UC_STAFF) stderr($lang['error_error'], $lang['req_add_err8']);
-    $body = htmlsafechars((isset($_POST['descr']) ? $_POST['descr'] : $arr['text']));
+    $body = htmlsafechars(($_POST['descr'] ?? $arr['text']));
     if (isset($_POST['button']) && $_POST['button'] == $lang['req_det_edit']) {
         if ($body == '') stderr($lang['error_error'], $lang['error_error2']);
         sql_query('UPDATE comments SET text=' . sqlesc($body) . ', editedat=' . TIME_NOW . ', editedby=' . sqlesc($CURUSER['id']) . ' WHERE id=' . sqlesc($comment_id)) || sqlerr(__FILE__, __LINE__);
