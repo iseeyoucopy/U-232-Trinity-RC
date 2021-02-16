@@ -443,10 +443,10 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         $mpdown = $_POST["downchange"];
         if ($uploadtoadd > 0) {
             if ($mpup == "plus") {
-                $newupload = $user["uploaded"] + ($formatup == 'mb' ? ($uploadtoadd * 1048576) : ($uploadtoadd * 1073741824));
+                $newupload = $user["uploaded"] + ($formatup == 'mb' ? ($uploadtoadd * 1_048_576) : ($uploadtoadd * 1_073_741_824));
                 $modcomment = get_date(TIME_NOW, 'DATE', 1) . " {$lang['modtask_add_upload']} (" . $uploadtoadd . " " . $formatup . ") {$lang['modtask_by']} " . $CURUSER['username'] . "\n" . $modcomment;
             } else {
-                $newupload = $user["uploaded"] - ($formatup == 'mb' ? ($uploadtoadd * 1048576) : ($uploadtoadd * 1073741824));
+                $newupload = $user["uploaded"] - ($formatup == 'mb' ? ($uploadtoadd * 1_048_576) : ($uploadtoadd * 1_073_741_824));
                 if ($newupload >= 0) $modcomment = get_date(TIME_NOW, 'DATE', 1) . " {$lang['modtask_subtract_upload']} (" . $uploadtoadd . " " . $formatup . ") {$lang['modtask_by']} " . $CURUSER['username'] . "\n" . $modcomment;
             }
             if ($newupload >= 0) $updateset[] = "uploaded = " . sqlesc($newupload) . "";
@@ -456,10 +456,10 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         }
         if ($downloadtoadd > 0) {
             if ($mpdown == "plus") {
-                $newdownload = $user["downloaded"] + ($formatdown == 'mb' ? ($downloadtoadd * 1048576) : ($downloadtoadd * 1073741824));
+                $newdownload = $user["downloaded"] + ($formatdown == 'mb' ? ($downloadtoadd * 1_048_576) : ($downloadtoadd * 1_073_741_824));
                 $modcomment = get_date(TIME_NOW, 'DATE', 1) . " {$lang['modtask_added_download']} (" . $downloadtoadd . " " . $formatdown . ") {$lang['modtask_by']} " . $CURUSER['username'] . "\n" . $modcomment;
             } else {
-                $newdownload = $user["downloaded"] - ($formatdown == 'mb' ? ($downloadtoadd * 1048576) : ($downloadtoadd * 1073741824));
+                $newdownload = $user["downloaded"] - ($formatdown == 'mb' ? ($downloadtoadd * 1_048_576) : ($downloadtoadd * 1_073_741_824));
                 if ($newdownload >= 0) $modcomment = get_date(TIME_NOW, 'DATE', 1) . " {$lang['modtask_subtract_download']} (" . $downloadtoadd . " " . $formatdown . ") {$lang['modtask_by']} " . $CURUSER['username'] . "\n" . $modcomment;
             }
             if ($newdownload >= 0) $updateset[] = "downloaded = " . sqlesc($newdownload) . "";

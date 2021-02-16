@@ -77,10 +77,10 @@ if (isset($_POST['all_or_selected_classes'])) {
 switch ($action) {
 case 'upload_credit':
     $GB = isset($_POST['GB']) ? 0 + $_POST['GB'] : 0;
-    if ($GB < 1073741824 || $GB > 53687091200) { //=== forgot to enter GB or wrong numbers
+    if ($GB < 1_073_741_824 || $GB > 53_687_091_200) { //=== forgot to enter GB or wrong numbers
         stderr($lang['bonusmanager_up_err'], $lang['bonusmanager_up_err1']);
     }
-    $bonus_added = ($GB / 1073741824);
+    $bonus_added = ($GB / 1_073_741_824);
     //=== if for all classes
     if ($free_for_classes === 1) {
         ($res_GB = sql_query('SELECT id, uploaded, modcomment FROM users WHERE enabled = \'yes\' AND suspended = \'no\'')) || sqlerr(__FILE__, __LINE__);

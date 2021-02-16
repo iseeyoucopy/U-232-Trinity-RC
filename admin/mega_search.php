@@ -130,7 +130,7 @@ if (isset($_POST['user_names'])) {
         } else {
             $arr = $res_search_usernames->fetch_array(MYSQLI_BOTH);
             $number = 1;
-            $random_number = random_int(1, 666666666);
+            $random_number = random_int(1, 666_666_666);
             //=== change colors
             $count = (++$count) % 2;
             $class2 = ($count == 0 ? 'one' : 'two');
@@ -197,7 +197,7 @@ if (isset($_POST['msg_to_analyze'])) {
                     } else {
                         $inviter = $lang['mega_open'];
                     }
-                    $random_number = random_int(1, 666666666);
+                    $random_number = random_int(1, 666_666_666);
                     $matches_for_email.= '<tr>
     <td align="left" class="' . $class2 . '">' . print_user_stuff($arr) . '</td>
     <td align="center" class="' . $class2 . '">' . htmlsafechars($arr['email']) . '</td>
@@ -288,7 +288,7 @@ if (isset($_POST['msg_to_analyze'])) {
                     }
                     //=== highlight the matched IP in the ip history \\o\o/o//
                     //$ip_history = nl2br($arr['ip_history']);
-                    $random_number = random_int(1, 666666666);
+                    $random_number = random_int(1, 666_666_666);
                     $matches_for_ip.= '<tr>
                             <td align="left" class="' . $class2 . '">' . print_user_stuff($arr) . '</td>
                             <td align="center" class="' . $class2 . '"><span style="color: red; font-weight: bold;">' . $tested_ip . ' </span></td>

@@ -1204,7 +1204,7 @@ if (isset($_GET['exchange'])) {
 				"SELECT s.uploaded, s.downloaded, t.name FROM snatched AS s LEFT JOIN torrents AS t ON t.id = s.torrentid WHERE s.userid = " . sqlesc($userid) . " AND torrentid = " . sqlesc($torrent_number) . " LIMIT 1"
 			)) || sqlerr(__FILE__, __LINE__);
 			$arr_snatched = $res_snatched->fetch_assoc();
-			if (isset($arr_snatched['size']) > 6442450944) {
+			if (isset($arr_snatched['size']) > 6_442_450_944) {
 				stderr(
 					$lang['bonus_error'],
 					"One to One ratio only works on torrents smaller then 6GB!<br /><br />Back to your <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>Karma Bonus Points</a> page."

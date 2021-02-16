@@ -16,7 +16,7 @@ function docleanup($data)
     set_time_limit(1200);
     ignore_user_abort(1);
     //== Delete shout
-    $secs = 2 * 8640000;
+    $secs = 2 * 8_640_000;
     $dt = sqlesc(TIME_NOW - $secs);
     sql_query("DELETE FROM shoutbox WHERE " . TIME_NOW . " - date > $secs") || sqlerr(__FILE__, __LINE__);
     $cache->delete('shoutbox_');

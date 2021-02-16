@@ -57,7 +57,7 @@ function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
         if (!isset($reputations) || !is_array($reputations) || count($reputations) < 1) {
             return '<span title="Cache doesn\'t exist or zero length">Reputation: Offline</span>';
         }
-        $user['g_rep_hide'] = $user['g_rep_hide'] ?? 0;
+        $user['g_rep_hide'] ??= 0;
         $user['username'] = isset($user['opt1']) & user_options::ANONYMOUS ? $user['username'] : 'Anonymous';
         // Hmmm...bit of jiggery-pokery here, couldn't think of a better way.
         $max_rep = max(array_keys($reputations));

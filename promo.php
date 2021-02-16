@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
             $added,
 			$hash3,
 			$pincode,
-            ($ar_check["bonus_upload"] * 1073741824) ,
+            ($ar_check["bonus_upload"] * 1_073_741_824) ,
             $ar_check["bonus_invites"],
             $ar_check["bonus_karma"]
         ))) . ") ")) || sqlerr(__FILE__, __LINE__);
@@ -180,7 +180,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
 						  <tr><td class='colhead' align='center' colspan='2'>Promo : " . htmlsafechars($ar["name"]) . " </td></tr>
 						  <tr><td nowrap='nowrap' align='right'>Bonuses</td>
 							  <td align='left' width='100%'>
-								" . ($ar["bonus_upload"] > 0 ? "<b>upload</b>:&nbsp;" . mksize($ar["bonus_upload"] * 1073741824) . "<br />" : "") . "
+								" . ($ar["bonus_upload"] > 0 ? "<b>upload</b>:&nbsp;" . mksize($ar["bonus_upload"] * 1_073_741_824) . "<br />" : "") . "
 								" . ($ar["bonus_invites"] > 0 ? "<b>invites</b>:&nbsp;" . ((int) $ar["bonus_invites"]) . "<br />" : "") . "
 								" . ($ar["bonus_karma"] > 0 ? "<b>karma</b>:&nbsp;" . ((int) $ar["bonus_karma"]) . "<br />" : "") . "
 								</td></tr>
@@ -283,7 +283,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
 				<td nowrap='nowrap' align='center'>" . (date("d/M-Y", ($ar["added"] + (86400 * $ar["days_valid"])))) . "</td>
 				<td nowrap='nowrap' align='center'>" . ((int) $ar["max_users"]) . "</td>
 				<td nowrap='nowrap' align='center'>" . ($ar["accounts_made"] > 0 ? "<a href=\"javascript:link(" . (int)$ar["id"] . ")\" >" . (int)$ar["accounts_made"] . "</a>" : 0) . "</td>
-				<td nowrap='nowrap' align='center'>" . (mksize($ar["bonus_upload"] * 1073741824)) . "</td>
+				<td nowrap='nowrap' align='center'>" . (mksize($ar["bonus_upload"] * 1_073_741_824)) . "</td>
 				<td nowrap='nowrap' align='center'>" . ((int) $ar["bonus_invites"]) . "</td>
 				<td nowrap='nowrap' align='center'>" . ((int) $ar["bonus_karma"]) . "</td>
 				<td nowrap='nowrap' align='center'><a href='userdetails.php?id=" . (int)$ar["creator"] . "'>" . htmlsafechars($ar["username"]) . "</a></td>

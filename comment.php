@@ -47,7 +47,7 @@ $extra_link = '';
 $sql_1 = 'name, owner, comments, anonymous FROM torrents'; // , anonymous
 $name = 'name';
 $table_type = $locale . 's';
-$_GET['type'] = ($_GET['type'] ?? $_POST['locale'] ?? '');
+$_GET['type'] ??= $_POST['locale'] ?? '';
 if (isset($_GET['type'])) {
     $type_options = [
         'torrent' => 'details',
@@ -91,7 +91,7 @@ if ($action == 'add') {
         }
         $owner = ($arr['owner'] ?? 0);
         $arr['anonymous'] = (isset($arr['anonymous']) && $arr['anonymous'] == 'yes' ? 'yes' : 'no');
-        $arr['comments'] = ($arr['comments'] ?? 0);
+        $arr['comments'] ??= 0;
         if ($CURUSER['id'] == $owner && $arr['anonymous'] == 'yes' || (isset($_POST['anonymous']) && $_POST['anonymous'] == 'yes')) {
             $anon = "'yes'";
         } else {
@@ -241,7 +241,7 @@ if ($action == 'add') {
         if ($TRINITY20['karma'] && isset($CURUSER['seedbonus'])) {
             sql_query("UPDATE users SET seedbonus = seedbonus-3.0 WHERE id =" . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
         }
-        $arr['comments'] = ($arr['comments'] ?? 0);
+        $arr['comments'] ??= 0;
         $update['comments'] = ($arr['comments'] - 1);
         $cache->update_row('torrent_details_' . $id, [
             'comments' => $update['comments']

@@ -17,7 +17,7 @@ dbconn();
 $donate_goods = array(
     $TRINITY20['paypal_config']['gb_donated_1'] => array(
         'to_add' => array(
-            'uploaded' => $TRINITY20['paypal_config']['up_amt_1'] * 1073741824,
+            'uploaded' => $TRINITY20['paypal_config']['up_amt_1'] * 1_073_741_824,
             'invites' => $TRINITY20['paypal_config']['inv_amt_1'],
             'seedbonus' => $TRINITY20['paypal_config']['kp_amt_1'],
             'total_donated' => $TRINITY20['paypal_config']['gb_donated_1'],
@@ -42,7 +42,7 @@ $donate_goods = array(
     ) ,
     $TRINITY20['paypal_config']['gb_donated_2'] => array(
         'to_add' => array(
-            'uploaded' => $TRINITY20['paypal_config']['up_amt_2'] * 1073741824,
+            'uploaded' => $TRINITY20['paypal_config']['up_amt_2'] * 1_073_741_824,
             'invites' => $TRINITY20['paypal_config']['inv_amt_2'],
             'seedbonus' => $TRINITY20['paypal_config']['kp_amt_2'],
             'total_donated' => $TRINITY20['paypal_config']['gb_donated_2'],
@@ -67,7 +67,7 @@ $donate_goods = array(
     ) ,
     $TRINITY20['paypal_config']['gb_donated_3'] => array(
         'to_add' => array(
-            'uploaded' => $TRINITY20['paypal_config']['up_amt_3'] * 1073741824,
+            'uploaded' => $TRINITY20['paypal_config']['up_amt_3'] * 1_073_741_824,
             'invites' => $TRINITY20['paypal_config']['inv_amt_3'],
             'seedbonus' => $TRINITY20['paypal_config']['kp_amt_3'],
             'total_donated' => $TRINITY20['paypal_config']['gb_donated_3'],
@@ -92,7 +92,7 @@ $donate_goods = array(
     ) ,
     $TRINITY20['paypal_config']['gb_donated_4'] => array(
         'to_add' => array(
-            'uploaded' => $TRINITY20['paypal_config']['up_amt_4'] * 1073741824,
+            'uploaded' => $TRINITY20['paypal_config']['up_amt_4'] * 1_073_741_824,
             'invites' => $TRINITY20['paypal_config']['inv_amt_4'],
             'seedbonus' => $TRINITY20['paypal_config']['kp_amt_4'],
             'total_donated' => $TRINITY20['paypal_config']['gb_donated_4'],
@@ -117,7 +117,7 @@ $donate_goods = array(
     ) ,
     $TRINITY20['paypal_config']['gb_donated_5'] => array(
         'to_add' => array(
-            'uploaded' => $TRINITY20['paypal_config']['up_amt_5'] * 1073741824,
+            'uploaded' => $TRINITY20['paypal_config']['up_amt_5'] * 1_073_741_824,
             'invites' => $TRINITY20['paypal_config']['inv_amt_5'],
             'seedbonus' => $TRINITY20['paypal_config']['kp_amt_5'],
             'total_donated' => $TRINITY20['paypal_config']['gb_donated_5'],
@@ -142,7 +142,7 @@ $donate_goods = array(
     ) ,
     $TRINITY20['paypal_config']['gb_donated_6'] => array(
         'to_add' => array(
-            'uploaded' => $TRINITY20['paypal_config']['up_amt_6'] * 1073741824,
+            'uploaded' => $TRINITY20['paypal_config']['up_amt_6'] * 1_073_741_824,
             'invites' => $TRINITY20['paypal_config']['inv_amt_6'],
             'seedbonus' => $TRINITY20['paypal_config']['kp_amt_6'],
             'total_donated' => $TRINITY20['paypal_config']['gb_donated_6'],

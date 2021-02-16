@@ -276,9 +276,7 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
     //==Media tag
     if (stripos($s, '[media=') !== false) {
     $s = preg_replace_callback("#\[media=(youtube|liveleak|GameTrailers|vimeo|imdb)\](.+?)\[/media\]#is",
-    function($media_tag) {
-      return _MediaTag($media_tag[2], $media_tag[1]);
-    },
+    fn($media_tag) => _MediaTag($media_tag[2], $media_tag[1]),
     $s);
     }
 
@@ -299,9 +297,7 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
    // [php]code[/php]
    if (stripos($s, '[php]') !== false) {
    $s = preg_replace_callback("#\[(php|sql|html)\](.+?)\[\/\\1\]#is",
-   function($source_highlight) {
-      return source_highlighter($source_highlight[2], $source_highlight[1]);
-   },
+   fn($source_highlight) => source_highlighter($source_highlight[2], $source_highlight[1]),
    $s);
    }
     // Maintain spacing
