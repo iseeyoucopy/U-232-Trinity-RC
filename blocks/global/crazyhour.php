@@ -21,7 +21,7 @@ function crazyhour()
         $crazyhour['crazyhour'] = array();
         if ($crazyhour['crazyhour_sql']->num_rows !== 0) $crazyhour['crazyhour'] = $crazyhour['crazyhour_sql']->fetch_assoc();
         else {
-            $crazyhour['crazyhour']['var'] = mt_rand(TIME_NOW, (TIME_NOW + 86400));
+            $crazyhour['crazyhour']['var'] = random_int(TIME_NOW, (TIME_NOW + 86400));
             $crazyhour['crazyhour']['amount'] = 0;
             sql_query('UPDATE freeleech SET var = ' . $crazyhour['crazyhour']['var'] . ', amount = ' . $crazyhour['crazyhour']['amount'] . ' WHERE type = "crazyhour"') || sqlerr(__FILE__, __LINE__);
         }
@@ -32,7 +32,7 @@ function crazyhour()
         $cz_lock = $cache->set('crazyhour_lock', 1, 10);
         if ($cz_lock !== false) {
             $crazyhour['crazyhour_new'] = mktime(23, 59, 59, date('m') , date('d') , date('y'));
-            $crazyhour['crazyhour']['var'] = mt_rand($crazyhour['crazyhour_new'], ($crazyhour['crazyhour_new'] + 86400));
+            $crazyhour['crazyhour']['var'] = random_int($crazyhour['crazyhour_new'], ($crazyhour['crazyhour_new'] + 86400));
             $crazyhour['crazyhour']['amount'] = 0;
             $crazyhour['remaining'] = ($crazyhour['crazyhour']['var'] - TIME_NOW);
             sql_query('UPDATE freeleech SET var = ' . $crazyhour['crazyhour']['var'] . ', amount = ' . $crazyhour['crazyhour']['amount'] . ' WHERE type = "crazyhour"') || sqlerr(__FILE__, __LINE__);

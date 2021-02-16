@@ -32,7 +32,7 @@ $lang = array_merge($lang, load_language('ad_mysql_overview'));
 if (isset($_GET['Do']) && isset($_GET['table'])) {
     $Do = ($_GET['Do'] === "T") ? sqlesc($_GET['Do']) : ""; //for later use!
     //Make sure the GET only has alpha letters and nothing else
-    if (!ereg('[^A-Za-z_]+', $_GET['table'])) {
+    if (!preg_match('#[^A-Za-z_]+#m', $_GET['table'])) {
         $Table = '`' . $_GET['table'] . '`'; //add backquotes to GET or we is doomed!
         
     } else {

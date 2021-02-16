@@ -20,7 +20,7 @@ function docleanup($data)
     $msg_buffer = $usersachiev_buffer = $achievements_buffer = array();
     if ($res->num_rows > 0) {
         $dt = TIME_NOW;
-        $points = rand(1, 3);
+        $points = random_int(1, 3);
         $subject = sqlesc("New Achievement Earned!");
         while ($arr = $res->fetch_assoc()) {
             $seedbonus = (float)$arr['seedbonus'];

@@ -38,7 +38,7 @@ $stdfoot = array(
 $keys['forum_stats'] = 'forum_statistics';
 $HTMLOUT = "";
 if (($forum_stats_cache = $cache->get($keys['forum_stats'])) === false) {
-    ($$count_query = sql_query("SELECT COUNT (id) FROM posts")) || sqlerr(__FILE__, __LINE__);
+    (${$count_query} = sql_query("SELECT COUNT (id) FROM posts")) || sqlerr(__FILE__, __LINE__);
     $count_arr = $count_query->fetch_row();
     $count = $count_arr[0];
     $cache->set($keys['forum_stats'], $forum_stats_cache, $TRINITY20['expires']['site_stats']);

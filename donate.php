@@ -18,7 +18,7 @@ require_once (CACHE_DIR . 'paypal_settings.php');
 dbconn(false);
 loggedinorreturn();
 $lang = array_merge(load_language('global'));
-$nick = ($CURUSER ? $CURUSER["username"] : ("Guest" . rand(1000, 9999)));
+$nick = ($CURUSER ? $CURUSER["username"] : ("Guest" . random_int(1000, 9999)));
 $form_template = <<<PAYPAL
 <form action='https://www.{$TRINITY20['paypal_config']['sandbox']}paypal.com/cgi-bin/webscr' method='post'>
 <input type='hidden' name='business' value='{$TRINITY20['paypal_config']['email']}' />

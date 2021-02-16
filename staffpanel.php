@@ -200,7 +200,7 @@ if (in_array($tool, $staff_tools) && file_exists(ADMIN_DIR . $staff_tools[$tool]
         $arr = $res->fetch_assoc();
     }
     foreach ($names as $name)
-        $$name = ($_POST[$name] ?? ($action == 'edit' ? $arr[$name] : ''));
+        ${$name} = ($_POST[$name] ?? ($action == 'edit' ? $arr[$name] : ''));
     if ($action == 'edit' && $CURUSER['class'] < $av_class)
         stderr($lang['spanel_error'], $lang['spanel_cant_edit_this_pg']);
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
