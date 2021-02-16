@@ -124,7 +124,7 @@ function localisedDate($timestamp = - 1, $format = '')
 $HTMLOUT = '';
 $HTMLOUT.= "<h2>{$lang['mysql_stats_status']}</h2>";
 //$res = @mysql_query('SHOW STATUS') or sqlerr(__FILE__,__LINE__);
-$res = @sql_query('SHOW GLOBAL STATUS') or sqlerr(__FILE__, __LINE__);
+($res = @sql_query('SHOW GLOBAL STATUS')) || sqlerr(__FILE__, __LINE__);
 while ($row = $res->fetch_row()) {
     $serverStatus[$row[0]] = $row[1];
 }
@@ -163,18 +163,18 @@ $TRAFFIC_STATS.= "<table class='table table-bordered'>
             </tr>
             <tr>
                 <td>{$lang['mysql_stats_received']}</td>
-                <td  align='right'>&nbsp;" . join(' ', byteformat($serverStatus['Bytes_received'])) . "&nbsp;</td>
-                <td  align='right'>&nbsp;" . join(' ', byteformat($serverStatus['Bytes_received'] * 3600 / $serverStatus['Uptime'])) . "&nbsp;</td>
+                <td  align='right'>&nbsp;" . implode(' ', byteformat($serverStatus['Bytes_received'])) . "&nbsp;</td>
+                <td  align='right'>&nbsp;" . implode(' ', byteformat($serverStatus['Bytes_received'] * 3600 / $serverStatus['Uptime'])) . "&nbsp;</td>
             </tr>
             <tr>
                 <td>{$lang['mysql_stats_sent']}</td>
-                <td  align='right'>&nbsp;" . join(' ', byteformat($serverStatus['Bytes_sent'])) . "&nbsp;</td>
-                <td  align='right'>&nbsp;" . join(' ', byteformat($serverStatus['Bytes_sent'] * 3600 / $serverStatus['Uptime'])) . "&nbsp;</td>
+                <td  align='right'>&nbsp;" . implode(' ', byteformat($serverStatus['Bytes_sent'])) . "&nbsp;</td>
+                <td  align='right'>&nbsp;" . implode(' ', byteformat($serverStatus['Bytes_sent'] * 3600 / $serverStatus['Uptime'])) . "&nbsp;</td>
             </tr>
             <tr>
                 <td bgcolor='grey'>&{$lang['mysql_stats_total']}</td>
-                <td bgcolor='grey' align='right'>&nbsp;" . join(' ', byteformat($serverStatus['Bytes_received'] + $serverStatus['Bytes_sent'])) . "&nbsp;</td>
-                <td bgcolor='grey' align='right'>&nbsp;" . join(' ', byteformat(($serverStatus['Bytes_received'] + $serverStatus['Bytes_sent']) * 3600 / $serverStatus['Uptime'])) . "&nbsp;</td>
+                <td bgcolor='grey' align='right'>&nbsp;" . implode(' ', byteformat($serverStatus['Bytes_received'] + $serverStatus['Bytes_sent'])) . "&nbsp;</td>
+                <td bgcolor='grey' align='right'>&nbsp;" . implode(' ', byteformat(($serverStatus['Bytes_received'] + $serverStatus['Bytes_sent']) * 3600 / $serverStatus['Uptime'])) . "&nbsp;</td>
             </tr>
         </table>";
 $TRAFFIC_STATS2 = "<table class='table table-bordered'>
@@ -185,7 +185,7 @@ $TRAFFIC_STATS2 = "<table class='table table-bordered'>
             <td>{$lang['mysql_stats_failed']}</td>
             <td  align='right'>&nbsp;" . number_format($serverStatus['Aborted_connects'], 0, '.', ',') . "&nbsp;</td>
             <td  align='right'>&nbsp;" . number_format(($serverStatus['Aborted_connects'] * 3600 / $serverStatus['Uptime']) , 2, '.', ',') . "&nbsp;</td>
-            <td  align='right'>&nbsp;" . (($serverStatus['Connections'] > 0) ? number_format(($serverStatus['Aborted_connects'] * 100 / $serverStatus['Connections']) , 2, '.', ',') . "&nbsp;%" : "---" . "&nbsp;") . "</td>
+            <td  align='right'>&nbsp;" . (($serverStatus['Connections'] > 0) ? number_format(($serverStatus['Aborted_connects'] * 100 / $serverStatus['Connections']) , 2, '.', ',') . "&nbsp;%" : '---&nbsp;') . "</td>
         </tr>
         <tr>
             <td>{$lang['mysql_stats_aborted']}</td>

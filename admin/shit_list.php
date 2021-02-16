@@ -48,7 +48,7 @@ switch ($action2) {
     //=== action2: new
     
 case 'new':
-    $shit_list_id = (isset($_GET['shit_list_id']) ? intval($_GET['shit_list_id']) : 0);
+    $shit_list_id = (isset($_GET['shit_list_id']) ? (int) $_GET['shit_list_id'] : 0);
     $return_to = str_replace('&amp;', '&', htmlsafechars($_GET['return_to']));
     $cache->delete('shit_list_' . $CURUSER['id']);
     if ($shit_list_id == $CURUSER["id"]) stderr($lang['shitlist_stderr'], $lang['shitlist_stderr1']);
@@ -93,8 +93,8 @@ case 'new':
     //=== action2: add
     
 case 'add':
-    $shit_list_id = (isset($_POST['shit_list_id']) ? intval($_POST['shit_list_id']) : 0);
-    $shittyness = (isset($_POST['shittyness']) ? intval($_POST['shittyness']) : 0);
+    $shit_list_id = (isset($_POST['shit_list_id']) ? (int) $_POST['shit_list_id'] : 0);
+    $shittyness = (isset($_POST['shittyness']) ? (int) $_POST['shittyness'] : 0);
     $return_to = str_replace('&amp;', '&', htmlsafechars($_POST['return_to']));
     if (!is_valid_id($shit_list_id) || !is_valid_id($shittyness)) stderr($lang['shitlist_stderr'], $lang['shitlist_stderr2']);
     $check_if_there = sql_query('SELECT suspect FROM shit_list WHERE userid=' . sqlesc($CURUSER['id']) . ' AND suspect=' . sqlesc($shit_list_id));
@@ -106,8 +106,8 @@ case 'add':
     //=== action2: delete
     
 case 'delete':
-    $shit_list_id = (isset($_GET['shit_list_id']) ? intval($_GET['shit_list_id']) : 0);
-    $sure = (isset($_GET['sure']) ? intval($_GET['sure']) : '');
+    $shit_list_id = (isset($_GET['shit_list_id']) ? (int) $_GET['shit_list_id'] : 0);
+    $sure = (isset($_GET['sure']) ? (int) $_GET['sure'] : '');
     if (!is_valid_id($shit_list_id)) stderr($lang['shitlist_stderr'], $lang['shitlist_stderr2']);
     $res_name = sql_query('SELECT username FROM users WHERE id=' . sqlesc($shit_list_id));
     $arr_name = $res_name->fetch_assoc();

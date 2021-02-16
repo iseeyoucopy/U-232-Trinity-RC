@@ -69,8 +69,8 @@ function uptime()
         while (list($k, $v) = each($mults)) {
             $nmbr = floor($uptime / $n);
             $uptime-= ($nmbr * $n);
-            $n = $n / $k;
-            if ($nmbr) {
+            $n /= $k;
+            if ($nmbr !== 0.0) {
                 if ($shown) $res.= ", ";
                 $res.= "$nmbr $v" . is_s($nmbr);
                 $shown = true;

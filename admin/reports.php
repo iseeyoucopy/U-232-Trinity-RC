@@ -73,7 +73,7 @@ if ((isset($_GET["deal_with_report"])) || (isset($_POST["deal_with_report"]))) {
     if (!is_valid_id($_POST['id'])) stderr("{$lang['reports_error']}", "{$lang['reports_error3']}");
     $how_delt_with = "how_delt_with = " . sqlesc($_POST["how_delt_with"]);
     $when_delt_with = "when_delt_with = " . sqlesc(TIME_NOW);
-    sql_query("UPDATE reports SET delt_with = 1, $how_delt_with, $when_delt_with , who_delt_with_it =" . sqlesc($CURUSER['id']) . " WHERE delt_with!=1 AND id =" . sqlesc($_POST['id'])) or sqlerr(__FILE__, __LINE__);
+    sql_query("UPDATE reports SET delt_with = 1, $how_delt_with, $when_delt_with , who_delt_with_it =" . sqlesc($CURUSER['id']) . " WHERE delt_with!=1 AND id =" . sqlesc($_POST['id'])) || sqlerr(__FILE__, __LINE__);
     $cache->delete('new_report_');
 }
 // === end deal_with_report
@@ -81,12 +81,12 @@ if ((isset($_GET["deal_with_report"])) || (isset($_POST["deal_with_report"]))) {
 $HTMLOUT.= "<table class='table table-bordered'><tr><td class='colhead'><h1>{$lang['reports_active']}</h1></td></tr><tr><td class='clearalt6' align='center'>";
 // === if get delete
 if ((isset($_GET["delete"])) && ($CURUSER["class"] == UC_MAX)) {
-    $res = sql_query("DELETE FROM reports WHERE id =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("DELETE FROM reports WHERE id =" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $cache->delete('new_report_');
     $HTMLOUT.= "<h1>{$lang['reports_deleted']}</h1>\n";
 }
 // === get the count make the page
-$res = sql_query("SELECT count(id) FROM reports") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT count(id) FROM reports")) || sqlerr(__FILE__, __LINE__);
 $row = $res->fetch_array(MYSQLI_BOTH);
 $count = $row[0];
 $perpage = 15;
@@ -118,9 +118,13 @@ else {
         } else {
             $solved_in_wtf = $arr_info["when_delt_with"] - $arr_info["added"];
             $solved_in = "&nbsp;[" . round_time($solved_in_wtf) . "]";
-            if ($solved_in_wtf > 4 * 3600) $solved_color = "red";
-            else if ($solved_in_wtf > 2 * 3600) $solved_color = "yellow";
-            else if ($solved_in_wtf <= 3600) $solved_color = "green";
+            if ($solved_in_wtf > 4 * 3600) {
+                $solved_color = "red";
+            } elseif ($solved_in_wtf > 2 * 3600) {
+                $solved_color = "yellow";
+            } elseif ($solved_in_wtf <= 3600) {
+                $solved_color = "green";
+            }
         }
         // === has it been delt with yet?
         if ($arr_info["delt_with"]) {

@@ -38,7 +38,7 @@ $do = isset($_GET['do']) && in_array($_GET['do'],$v_do) ? htmlsafechars($_GET['d
 $this_url = 'staffpanel.php?tool=forummanager&action=forummanager';
 switch($do) {
 case 'delete' : 
-	if(!$id)
+	if($id === 0)
 	stderr($lang['fm_mp_err1'], $lang['fm_mp_warn3']);
 	if(sql_query('DELETE f.*,t.*,p.*,r.* FROM forums AS f LEFT JOIN topics AS t ON t.forum_id = f.id LEFT JOIN posts AS p ON p.topic_id = t.id  LEFT JOIN read_posts AS r ON r.topic_id = t.id WHERE f.id ='.sqlesc($id))) {
 		header('Refresh:2; url='.$this_url);
@@ -76,7 +76,7 @@ case 'edit' :
 default :
 $htmlout .= "<div class='row'><div class='col-md-12'><h2>{$lang['fm_forummanager']}</h2>";
 
-$r1 = sql_query('select f.name as f_name, f.id as fid, f.description,f.min_class_read,f.min_class_write, f.min_class_create, o.name as o_name,o.id as oid FROM forums as f LEFT JOIN over_forums as o ON f.forum_id = o.id ORDER BY f.sort') or  sqlerr(__FILE__,__LINE__);
+($r1 = sql_query('select f.name as f_name, f.id as fid, f.description,f.min_class_read,f.min_class_write, f.min_class_create, o.name as o_name,o.id as oid FROM forums as f LEFT JOIN over_forums as o ON f.forum_id = o.id ORDER BY f.sort')) || sqlerr(__FILE__,__LINE__);
 $f_count = $r1->num_rows;
 if(!$f_count)
 $htmlout .= stdmsg($lang['fm_mp_err1'], $lang['fm_mp_err4']);
@@ -117,7 +117,7 @@ else {
 	if($do == 'edit' && !$id)
 		$htmlout .= stdmsg($lang['fm_mp_warn2'], $lang['fm_mp_warn3']);
 	if($do =='edit' && $id) {
-		$r3 = sql_query('select f.name as f_name , f.id as fid , f.description , f.min_class_read , f.min_class_write , f.min_class_create, f.forum_id, f.sort FROM forums as f WHERE f.id ='.sqlesc($id)) or sqlerr(__FILE__,__LINE__);
+		($r3 = sql_query('select f.name as f_name , f.id as fid , f.description , f.min_class_read , f.min_class_write , f.min_class_create, f.forum_id, f.sort FROM forums as f WHERE f.id ='.sqlesc($id))) || sqlerr(__FILE__,__LINE__);
 		if(!$r3->num_rows)
 			$htmlout .= stdmsg($lang['fm_mp_warn2'], $lang['fm_mp_warn4']);
 		else {
@@ -133,7 +133,7 @@ $htmlout .= "<form action='".$this_url."' method='post'>
 	<tr><td align='right' valign='top'>{$lang['fm_mp_fname']}</td><td align='left'><input type='text' value='".($edit_action ? htmlsafechars($a3['f_name']) : '')."'name='forumname' size='40' /></td></tr>
 	<tr><td align='right' valign='top'>{$lang['fm_mp_description']}</td><td align='left'><textarea rows='3' cols='38' name='forumdescr'>".($edit_action ? htmlsafechars($a3['description']) : '')."</textarea></td></tr>";
 	$htmlout .= "<tr><td align='right' valign='top'>{$lang['fm_mp_over2']}</td><td align='left'><select name='overforum'>";
-	$r2 = sql_query('SELECT id,name FROM over_forums ORDER BY name') or sqlerr(__FILE__,__LINE__);
+	($r2 = sql_query('SELECT id,name FROM over_forums ORDER BY name')) || sqlerr(__FILE__,__LINE__);
 	while($a = $r2->fetch_assoc())
 		$htmlout .="<option value='".(int)$a['id']."' ".($edit_action && ($a['id'] == $a3['forum_id']) ? 'selected=\'selected\'' : '').">".htmlsafechars($a['name'])."</option>";
 	$htmlout .= "</select></td></tr>";

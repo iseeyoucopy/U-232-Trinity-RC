@@ -43,21 +43,21 @@ function validate($id)
 //==Actions
 if ($mode == 'ban') {
     validate($id);
-    sql_query("UPDATE failedlogins SET banned = 'yes' WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    sql_query("UPDATE failedlogins SET banned = 'yes' WHERE id=" . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     header('Refresh: 2; url=' . $TRINITY20['baseurl'] . '/staffpanel.php?tool=failedlogins');
     stderr($lang['failed_success'], "{$lang['failed_message_ban']}");
     exit();
 }
 if ($mode == 'removeban') {
     validate($id);
-    sql_query("UPDATE failedlogins SET banned = 'no' WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    sql_query("UPDATE failedlogins SET banned = 'no' WHERE id=" . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     header('Refresh: 2; url=' . $TRINITY20['baseurl'] . '/staffpanel.php?tool=failedlogins');
     stderr($lang['failed_success'], "{$lang['failed_message_unban']}");
     exit();
 }
 if ($mode == 'delete') {
     validate($id);
-    sql_query("DELETE FROM failedlogins WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    sql_query("DELETE FROM failedlogins WHERE id=" . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     header('Refresh: 2; url=' . $TRINITY20['baseurl'] . '/staffpanel.php?tool=failedlogins');
     stderr($lang['failed_success'], "{$lang['failed_message_deleted']}");
     exit();
@@ -67,14 +67,14 @@ if ($mode == 'delete') {
 $where = '';
 $search = isset($_POST['search']) ? strip_tags($_POST['search']) : '';
 if(isset($_GET['search'])) $search = strip_tags($_GET['search']);
-if (!$search) $where = "WHERE attempts LIKE " . sqlesc("%$search%") . "";
+if ($search === '') $where = "WHERE attempts LIKE " . sqlesc("%$search%") . "";
 else $where = "WHERE attempts LIKE" . sqlesc("%$search%") . "";
-$res = sql_query("SELECT COUNT(id) FROM failedlogins $where") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT COUNT(id) FROM failedlogins $where")) || sqlerr(__FILE__, __LINE__);
 $row = $res->fetch_row();
 $count = $row[0];
 $perpage = 15;
-$pager = pager($perpage, $count, "staffpanel.php?tool=failedlogins&amp;action=failedlogins&amp;" . (!empty($search) ? "search=$search&amp;" : '') . "");
-if (!$where) stderr($lang['failed_main_nofail'], $lang['failed_main_nofail_msg']);
+$pager = pager($perpage, $count, "staffpanel.php?tool=failedlogins&amp;action=failedlogins&amp;" . (empty($search) ? '' : "search=$search&amp;") . "");
+if ($where === '') stderr($lang['failed_main_nofail'], $lang['failed_main_nofail_msg']);
 $HTMLOUT = "<div class='container'>";
 $HTMLOUT.= "<div class='row'><div class'col-md-8'><table class='table table-bordered'>\n
              <tr>
@@ -88,7 +88,7 @@ $HTMLOUT.= "<div class='row'><div class'col-md-8'><table class='table table-bord
 			 </form></td></tr></table></div></div>";
 if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
 $HTMLOUT.= "<div class='row'><div class'col-md-8'><table class='table table-bordered'>\n";
-$res = sql_query("SELECT f.*,u.id as uid, u.username FROM failedlogins as f LEFT JOIN users as u ON u.ip = f.ip $where ORDER BY f.added DESC " . $pager['limit'] . "") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT f.*,u.id as uid, u.username FROM failedlogins as f LEFT JOIN users as u ON u.ip = f.ip $where ORDER BY f.added DESC " . $pager['limit'] . "")) || sqlerr(__FILE__, __LINE__);
 if ($res->num_rows == 0) $HTMLOUT.= "<tr><td colspan='2'><b>{$lang['failed_message_nothing']}</b></td></tr>\n";
 else {
     $HTMLOUT.= "<tr><td class='colhead'>{$lang['failed_main_id']}</td><td class='colhead' align='left'>{$lang['failed_main_ip']}</td><td class='colhead' align='left'>{$lang['failed_main_added']}</td>" . "<td class='colhead' align='left'>{$lang['failed_main_attempts']}</td><td class='colhead' align='left'>{$lang['failed_main_status']}</td></tr>\n";

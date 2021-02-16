@@ -71,17 +71,17 @@ default:
 function move_cat()
 {
     global $TRINITY20, $params, $cache, $lang, $mysqli;
-    if ((!isset($params['id']) OR !is_valid_id($params['id'])) OR (!isset($params['new_cat_id']) OR !is_valid_id($params['new_cat_id']))) {
+    if (!isset($params['id']) || !is_valid_id($params['id']) || (!isset($params['new_cat_id']) || !is_valid_id($params['new_cat_id']))) {
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
-    if (!is_valid_id($params['new_cat_id']) OR ($params['id'] == $params['new_cat_id'])) {
+    if (!is_valid_id($params['new_cat_id']) || $params['id'] == $params['new_cat_id']) {
         stderr($lang['categories_error'], $lang['categories_move_error2']);
     }
-    $old_cat_id = intval($params['id']);
-    $new_cat_id = intval($params['new_cat_id']);
+    $old_cat_id = (int) $params['id'];
+    $new_cat_id = (int) $params['new_cat_id'];
     // make sure both categories exist
     $q = sql_query("SELECT id FROM categories WHERE id IN($old_cat_id, $new_cat_id)");
-    if (2 != ($q->num_rows)) {
+    if (2 != $q->num_rows) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
     //all go
@@ -96,10 +96,10 @@ function move_cat()
 function move_cat_form()
 {
     global $params, $lang;
-    if (!isset($params['id']) OR !is_valid_id($params['id'])) {
+    if (!isset($params['id']) || !is_valid_id($params['id'])) {
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
-    $q = sql_query("SELECT * FROM categories WHERE id = " . intval($params['id']));
+    $q = sql_query("SELECT * FROM categories WHERE id = " . (int) $params['id']);
     if (false == $q->num_rows) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
@@ -119,7 +119,7 @@ function move_cat_form()
 $htmlout .="<div class='row'><div class='col-md-12'>";
     $htmlout.= "<form action='staffpanel.php?tool=categories&amp;action=categories' method='post'>
       <input type='hidden' name='mode' value='takemove_cat' />
-      <input type='hidden' name='id' value='".intval($r['id'])."' />
+      <input type='hidden' name='id' value='".(int) $r['id']."' />
     
       <table class='table table-bordered'>
       <tr>
@@ -151,9 +151,9 @@ function add_cat()
         'new_cat_image',
         'new_cat_minclass'
     ) as $x) {
-        if (!isset($params[$x]) OR ($x != 'new_cat_minclass' AND empty($params[$x]))) stderr($lang['categories_error'], $lang['categories_add_error1']);
+        if (!isset($params[$x]) || $x != 'new_cat_minclass' && empty($params[$x])) stderr($lang['categories_error'], $lang['categories_add_error1']);
     }
-    if (!preg_match("/^cat_[A-Za-z0-9_]+\.(?:gif|jpg|jpeg|png)$/i", $params['new_cat_image'])) {
+    if (!preg_match("/^cat_\\w+\\.(?:gif|jpg|jpeg|png)\$/i", $params['new_cat_image'])) {
         stderr($lang['categories_error'], $lang['categories_add_error2']);
     }
     $cat_name = sqlesc($params['new_cat_name']);
@@ -171,20 +171,20 @@ function add_cat()
 function delete_cat()
 {
     global $TRINITY20, $params, $cache, $lang, $mysqli;
-    if (!isset($params['id']) OR !is_valid_id($params['id'])) {
+    if (!isset($params['id']) || !is_valid_id($params['id'])) {
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
-    $q = sql_query("SELECT * FROM categories WHERE id = " . intval($params['id']));
+    $q = sql_query("SELECT * FROM categories WHERE id = " . (int) $params['id']);
     if (false == $q->num_rows) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
     $r = $q->fetch_assoc();
-    $old_cat_id = intval($r['id']);
+    $old_cat_id = (int) $r['id'];
     if (isset($params['new_cat_id'])) {
-        if (!is_valid_id($params['new_cat_id']) OR ($r['id'] == $params['new_cat_id'])) {
+        if (!is_valid_id($params['new_cat_id']) || $r['id'] == $params['new_cat_id']) {
             stderr($lang['categories_error'], $lang['categories_exist_error']);
         }
-        $new_cat_id = intval($params['new_cat_id']);
+        $new_cat_id = (int) $params['new_cat_id'];
         //make sure category isn't out of range before moving torrents! else orphans!
         $q = sql_query("SELECT COUNT(*) FROM categories WHERE id = " . sqlesc($new_cat_id));
         $count = $q->fetch_array(MYSQLI_NUM);
@@ -205,15 +205,15 @@ function delete_cat()
 function delete_cat_form()
 {
     global $params, $lang;
-    if (!isset($params['id']) OR !is_valid_id($params['id'])) {
+    if (!isset($params['id']) || !is_valid_id($params['id'])) {
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
-    $q = sql_query("SELECT * FROM categories WHERE id = " . intval($params['id']));
+    $q = sql_query("SELECT * FROM categories WHERE id = " . (int) $params['id']);
     if (false == $q->num_rows) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
     $r = $q->fetch_assoc();
-    $q = sql_query("SELECT COUNT(*) FROM torrents WHERE category = " . intval($r['id']));
+    $q = sql_query("SELECT COUNT(*) FROM torrents WHERE category = " . (int) $r['id']);
     $count = $q->fetch_array(MYSQLI_NUM);
     $check = '';
     if ($count[0]) {
@@ -267,7 +267,7 @@ $htmlout .="</div></div>";
 function edit_cat()
 {
     global $TRINITY20, $params, $cache, $lang, $mysqli;
-    if (!isset($params['id']) OR !is_valid_id($params['id'])) {
+    if (!isset($params['id']) || !is_valid_id($params['id'])) {
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
     foreach (array(
@@ -276,16 +276,16 @@ function edit_cat()
         'cat_image',
         'edit_cat_minclass'
     ) as $x) {
-        if (!isset($params[$x]) OR ($x != 'edit_cat_minclass' AND empty($params[$x]))) stderr($lang['categories_error'], $lang['categories_add_error1']);
+        if (!isset($params[$x]) || $x != 'edit_cat_minclass' && empty($params[$x])) stderr($lang['categories_error'], $lang['categories_add_error1']);
     }
-    if (!preg_match("/^cat_[A-Za-z0-9_]+\.(?:gif|jpg|jpeg|png)$/i", $params['cat_image'])) {
+    if (!preg_match("/^cat_\\w+\\.(?:gif|jpg|jpeg|png)\$/i", $params['cat_image'])) {
         stderr($lang['categories_error'], $lang['categories_edit_error2']);
     }
     $cat_name = sqlesc($params['cat_name']);
     $cat_desc = sqlesc($params['cat_desc']);
     $cat_image = sqlesc($params['cat_image']);
     $min_class = sqlesc($params['edit_cat_minclass']);
-    $cat_id = intval($params['id']);
+    $cat_id = (int) $params['id'];
     sql_query("UPDATE categories SET name = $cat_name, cat_desc = $cat_desc, image = $cat_image, min_class = $min_class WHERE id = $cat_id");
     $cache->delete('genrelist');
     if (-1 == $mysqli->affected_rows) {
@@ -297,11 +297,11 @@ function edit_cat()
 function edit_cat_form()
 {
     global $TRINITY20, $params, $lang;
-    if (!isset($params['id']) OR !is_valid_id($params['id'])) {
+    if (!isset($params['id']) || !is_valid_id($params['id'])) {
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
     $htmlout = '';
-    $q = sql_query("SELECT * FROM categories WHERE id = " . intval($params['id']));
+    $q = sql_query("SELECT * FROM categories WHERE id = " . (int) $params['id']);
     if (false == $q->num_rows) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
@@ -309,14 +309,12 @@ function edit_cat_form()
     $dh = opendir($TRINITY20['pic_base_url'] . 'caticons/1');
     $files = array();
     while (false !== ($file = readdir($dh))) {
-        if (($file != ".") && ($file != "..")) {
-            if (preg_match("/^cat_[A-Za-z0-9_]+\.(?:gif|jpg|jpeg|png)$/i", $file)) {
-                $files[] = $file;
-            }
+        if (($file != ".") && ($file != "..") && preg_match("/^cat_\\w+\\.(?:gif|jpg|jpeg|png)\$/i", $file)) {
+            $files[] = $file;
         }
     }
     closedir($dh);
-    if (is_array($files) AND count($files)) {
+    if (is_array($files) && count($files)) {
         $select = "<select name='cat_image'>\n<option value='0'>{$lang['categories_edit_select']}</option>\n";
         foreach ($files as $f) {
             $selected = ($f == $r['image']) ? " selected='selected'" : "";
@@ -369,14 +367,12 @@ function show_categories()
     $dh = opendir($TRINITY20['pic_base_url'] . 'caticons/1');
     $files = array();
     while (false !== ($file = readdir($dh))) {
-        if (($file != ".") && ($file != "..")) {
-            if (preg_match("/^cat_[A-Za-z0-9_]+\.(?:gif|jpg|jpeg|png)$/i", $file)) {
-                $files[] = $file;
-            }
+        if (($file != ".") && ($file != "..") && preg_match("/^cat_\\w+\\.(?:gif|jpg|jpeg|png)\$/i", $file)) {
+            $files[] = $file;
         }
     }
     closedir($dh);
-    if (is_array($files) AND count($files)) {
+    if (is_array($files) && count($files)) {
         $select = "<select name='new_cat_image'>\n<option value='0'>{$lang['categories_edit_select']}</option>\n";
         foreach ($files as $f) {
             $i = 0;

@@ -31,7 +31,7 @@ $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_ipcheck'));
 $HTMLOUT = "";
-$res = sql_query("SELECT count(*) AS dupl, ip FROM users WHERE enabled = 'yes' AND ip <> '' AND ip <> '127.0.0.0' GROUP BY ip ORDER BY dupl DESC, ip") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT count(*) AS dupl, ip FROM users WHERE enabled = 'yes' AND ip <> '' AND ip <> '127.0.0.0' GROUP BY ip ORDER BY dupl DESC, ip")) || sqlerr(__FILE__, __LINE__);
 $HTMLOUT.= "<div class='row'><div class='col-md-12'>";
 $HTMLOUT.= "<table class='table table-bordered'>
 <tr>
@@ -48,8 +48,8 @@ $uc = 0;
 while ($ras = $res->fetch_assoc()) {
     if ($ras["dupl"] <= 1) break;
 
-    if ($ip <> $ras['ip']) {
-        $ros = sql_query("SELECT id, username, class, email, chatpost, pirate, king, leechwarn, added, last_access, downloaded, uploaded, ip, warned, donor, enabled FROM users WHERE ip=" . sqlesc($ras['ip']) . " ORDER BY id") or sqlerr(__FILE__, __LINE__);
+    if ($ip != $ras['ip']) {
+        ($ros = sql_query("SELECT id, username, class, email, chatpost, pirate, king, leechwarn, added, last_access, downloaded, uploaded, ip, warned, donor, enabled FROM users WHERE ip=" . sqlesc($ras['ip']) . " ORDER BY id")) || sqlerr(__FILE__, __LINE__);
         $num2 = $ros->num_rows;
         if ($num2 > 1) {
             $uc++;
@@ -60,8 +60,7 @@ while ($ras = $res->fetch_assoc()) {
                 $downloaded = mksize($arr["downloaded"]);
                 $added = get_date($arr['added'], 'DATE', 1, 0);
                 $last_access = get_date($arr['last_access'], '', 1, 0);
-                if ($uc % 2 == 0) $utc = "";
-                else $utc = " bgcolor=\"333333\"";
+                $utc = $uc % 2 == 0 ? "" : " bgcolor=\"333333\"";
                 $HTMLOUT.= "<tr$utc><td align='left'><a href='userdetails.php?id=" . (int)$arr['id'] . "'>" . format_username($arr, true) . "</a></td>
                                   <td style='max-width:130px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;'>" . htmlsafechars($arr['email']) . "</td>
                                   <td>$added</td>

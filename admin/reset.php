@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $uid,
         $CURUSER['id']
     ));
-    $res = sql_query("UPDATE users SET secret=" . sqlesc($secret) . ", passhash=" . sqlesc($passhash) . ", hash3=" . sqlesc($hash3) . ", hintanswer=".sqlesc($wanthintanswer)." WHERE username=" . sqlesc($username) . " AND id=" . sqlesc($uid) . " AND class<" . $CURUSER['class']) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("UPDATE users SET secret=" . sqlesc($secret) . ", passhash=" . sqlesc($passhash) . ", hash3=" . sqlesc($hash3) . ", hintanswer=".sqlesc($wanthintanswer)." WHERE username=" . sqlesc($username) . " AND id=" . sqlesc($uid) . " AND class<" . $CURUSER['class'])) || sqlerr(__FILE__, __LINE__);
         $cache->update_row($keys['my_userid'] . $uid, [
         'secret' => $secret,
             'passhash' => $passhash,

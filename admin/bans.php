@@ -32,7 +32,7 @@ class_check($class);
 $lang = array_merge($lang, load_language('ad_bans'));
 $remove = isset($_GET['remove']) ? (int)$_GET['remove'] : 0;
 if ($remove > 0) {
-    $banned = sql_query('SELECT first, last FROM bans WHERE id = ' . sqlesc($remove)) or sqlerr(__FILE__, __LINE__);
+    ($banned = sql_query('SELECT first, last FROM bans WHERE id = ' . sqlesc($remove))) || sqlerr(__FILE__, __LINE__);
     if (!$banned->num_rows) stderr($lang['stderr_error'], $lang['stderr_error1']);
     $ban = $banned->fetch_assoc();
     $first = 0 + $ban['first'];
@@ -42,7 +42,7 @@ if ($remove > 0) {
         $cache->delete('bans::' . $ip);
     }
     if (is_valid_id($remove)) {
-        sql_query("DELETE FROM bans WHERE id=" . sqlesc($remove)) or sqlerr(__FILE__, __LINE__);
+        sql_query("DELETE FROM bans WHERE id=" . sqlesc($remove)) || sqlerr(__FILE__, __LINE__);
         $removed = sprintf($lang['text_banremoved'], $remove);
         write_log("{$removed}" . $CURUSER['id'] . " (" . $CURUSER['username'] . ")");
     }
@@ -60,16 +60,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $CURUSER['class'] == UC_MAX) {
         $key = 'bans::' . long2ip($i);
         $cache->delete($key);
     }
-    sql_query("INSERT INTO bans (added, addedby, first, last, comment) VALUES($added, " . sqlesc($CURUSER['id']) . ", " . sqlesc($first) . ", " . sqlesc($last) . ", " . sqlesc($comment) . ")") or sqlerr(__FILE__, __LINE__);
+    sql_query("INSERT INTO bans (added, addedby, first, last, comment) VALUES($added, " . sqlesc($CURUSER['id']) . ", " . sqlesc($first) . ", " . sqlesc($last) . ", " . sqlesc($comment) . ")") || sqlerr(__FILE__, __LINE__);
     header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=bans");
     die;
 }
-$bc = sql_query('SELECT COUNT(*) FROM bans') or sqlerr(__FILE__, __LINE__);
+($bc = sql_query('SELECT COUNT(*) FROM bans')) || sqlerr(__FILE__, __LINE__);
 $bcount = $bc->fetch_row;
 $count = $bcount[0];
 $perpage = 15;
 $pager = pager($perpage, $count, 'staffpanel.php?tool=bans&amp;');
-$res = sql_query("SELECT b.*, u.username FROM bans b LEFT JOIN users u on b.addedby = u.id ORDER BY added DESC {$pager['limit']}") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT b.*, u.username FROM bans b LEFT JOIN users u on b.addedby = u.id ORDER BY added DESC {$pager['limit']}")) || sqlerr(__FILE__, __LINE__);
 $HTMLOUT = '';
 $HTMLOUT.= "<div class='row'><div class='col-md-12'>";
 $HTMLOUT.= "<h1>{$lang['text_current']}</h1>\n";

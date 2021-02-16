@@ -25,13 +25,13 @@ $edit_mood['image'] = (isset($edit_params['image']) ? $edit_params['image'] : 0)
 $edit_mood['bonus'] = (isset($edit_params['bonus']) ? (int)$edit_params['bonus'] : 0);
 if ($edit_mood['action'] == 'added') {
     if ($edit_mood['name'] && $edit_mood['name'] && $edit_mood['name'] && ($edit_mood['name'] != ''.$lang['moods_example'].'' && $edit_mood['image'] != 'smile1.gif')) {
-        sql_query('INSERT INTO moods (name, image, bonus) VALUES (' . sqlesc($edit_mood['name']) . ', ' . sqlesc($edit_mood['image']) . ', ' . sqlesc($edit_mood['bonus']) . ')') or sqlerr(__FILE__, __LINE__);
+        sql_query('INSERT INTO moods (name, image, bonus) VALUES (' . sqlesc($edit_mood['name']) . ', ' . sqlesc($edit_mood['image']) . ', ' . sqlesc($edit_mood['bonus']) . ')') || sqlerr(__FILE__, __LINE__);
         $cache->delete('topmoods');
         write_log('<b>'.$lang['moods_added'].'</b> ' . htmlsafechars($CURUSER['username']) . ' - ' . htmlsafechars($edit_mood['name']) . '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/' . htmlsafechars($edit_mood['image']) . '" alt="" />');
     }
 } elseif ($edit_mood['action'] == 'edited') {
     if ($edit_mood['name'] && $edit_mood['name'] && $edit_mood['name']) {
-        sql_query('UPDATE moods SET name = ' . sqlesc($edit_mood['name']) . ', image = ' . sqlesc($edit_mood['image']) . ', bonus = ' . sqlesc($edit_mood['bonus']) . ' WHERE id = ' . sqlesc($edit_mood['id'])) or sqlerr(__FILE__, __LINE__);
+        sql_query('UPDATE moods SET name = ' . sqlesc($edit_mood['name']) . ', image = ' . sqlesc($edit_mood['image']) . ', bonus = ' . sqlesc($edit_mood['bonus']) . ' WHERE id = ' . sqlesc($edit_mood['id'])) || sqlerr(__FILE__, __LINE__);
         $cache->delete('topmoods');
         write_log('<b>'.$lang['moods_edited'].'</b> ' . htmlsafechars($CURUSER['username']) . ' - ' . htmlsafechars($edit_mood['name']) . '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/' . htmlsafechars($edit_mood['image']) . '" alt="" />');
     }
@@ -44,7 +44,7 @@ elseif ($edit_mood['action'] == 'remove') {
 }
 */
 if ($edit_mood['action'] == 'edit' && $edit_mood['id']) {
-    $edit_mood['res'] = sql_query('SELECT * FROM moods WHERE id = ' . sqlesc($edit_mood['id'])) or sqlerr(__FILE__, __LINE__);
+    ($edit_mood['res'] = sql_query('SELECT * FROM moods WHERE id = ' . sqlesc($edit_mood['id']))) || sqlerr(__FILE__, __LINE__);
     if ($edit_mood['res']->num_rows) {
         $edit_mood['arr'] = $edit_mood['res']->fetch_assoc();
         $HTMLOUT.= "<div class='row'><div class='col-md-12'><h1>{$lang['moods_edit']}</h1>
@@ -87,7 +87,7 @@ $HTMLOUT.= "<table class='table table-bordered'>
       <td class='colhead'>{$lang['moods_edit1']}</td>" .
 //<td class='colhead'>{$lang['moods_remove']}</td>
 "</tr>";
-$res = sql_query('SELECT * FROM moods ORDER BY id ASC') or sqlerr(__FILE__, __LINE__);
+($res = sql_query('SELECT * FROM moods ORDER BY id ASC')) || sqlerr(__FILE__, __LINE__);
 if ($res->num_rows) {
     $color = true;
     while ($arr = $res->fetch_assoc()) {

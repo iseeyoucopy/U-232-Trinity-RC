@@ -62,13 +62,13 @@ if ($mode == 'delete') {
     if (!is_valid_id($newsid)) stderr($lang['news_error'], $lang['news_del_invalid']);
     $hash = h_store($newsid);
     $sure = '';
-    $sure = (isset($_GET['sure']) ? intval($_GET['sure']) : '');
+    $sure = (isset($_GET['sure']) ? (int) $_GET['sure'] : '');
     if (!$sure) stderr($lang['news_del_confirm'], $lang['news_del_click'] . "<a href='staffpanel.php?tool=news&amp;mode=delete&amp;sure=1&amp;h=$hash&amp;newsid=$newsid'>{$lang['news_del_here']}</a> {$lang['news_del_if']}", false);
     if ($_GET['h'] != $hash) stderr($lang['news_error'], $lang['news_del_what']);
     function deletenewsid($newsid)
     {
         global $CURUSER, $cache,$keys;
-        sql_query("DELETE FROM news WHERE id = " . sqlesc($newsid) . " AND userid = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+        sql_query("DELETE FROM news WHERE id = " . sqlesc($newsid) . " AND userid = " . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
         $cache->delete($keys['latest_news']);
     }
     $HTMLOUT.= deletenewsid($newsid);
@@ -87,7 +87,7 @@ if ($mode == 'add') {
     if (!$title) stderr($lang['news_error'], $lang['news_add_title']);
     $added = isset($_POST["added"]) ? $_POST["added"] : '';
     if (!$added) $added = TIME_NOW;
-    sql_query("INSERT INTO news (userid, added, body, title, sticky, anonymous) VALUES (" . sqlesc($CURUSER['id']) . "," . sqlesc($added) . ", " . sqlesc($body) . ", " . sqlesc($title) . ", " . sqlesc($sticky) . ", " . sqlesc($anonymous) . ")") or sqlerr(__FILE__, __LINE__);
+    sql_query("INSERT INTO news (userid, added, body, title, sticky, anonymous) VALUES (" . sqlesc($CURUSER['id']) . "," . sqlesc($added) . ", " . sqlesc($body) . ", " . sqlesc($title) . ", " . sqlesc($sticky) . ", " . sqlesc($anonymous) . ")") || sqlerr(__FILE__, __LINE__);
     $cache->delete($keys['latest_news']);
     header("Refresh: 3; url=staffpanel.php?tool=news&mode=news");
     $mysqli->affected_rows == 1 ? stderr($lang['news_success'], $lang['news_add_success']) : stderr($lang['news_add_oopss'], $lang['news_add_something']);
@@ -96,7 +96,7 @@ if ($mode == 'add') {
 if ($mode == 'edit') {
     $newsid = (int)$_GET["newsid"];
     if (!is_valid_id($newsid)) stderr($lang['news_error'], $lang['news_edit_invalid']);
-    $res = sql_query("SELECT id, body, title, userid, added, anonymous, sticky FROM news WHERE id=" . sqlesc($newsid)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id, body, title, userid, added, anonymous, sticky FROM news WHERE id=" . sqlesc($newsid))) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows != 1) stderr($lang['news_error'], $lang['news_edit_nonews']);
     $arr = $res->fetch_assoc();
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -106,7 +106,7 @@ if ($mode == 'edit') {
         if ($body == "") stderr($lang['news_error'], $lang['news_edit_body']);
         $title = htmlsafechars($_POST['title']);
         if ($title == "") stderr($lang['news_error'], $lang['news_edit_title']);
-        sql_query("UPDATE news SET body=" . sqlesc($body) . ", sticky=" . sqlesc($sticky) . ", anonymous=" . sqlesc($anonymous) . ", title=" . sqlesc($title) . " WHERE id=" . sqlesc($newsid)) or sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE news SET body=" . sqlesc($body) . ", sticky=" . sqlesc($sticky) . ", anonymous=" . sqlesc($anonymous) . ", title=" . sqlesc($title) . " WHERE id=" . sqlesc($newsid)) || sqlerr(__FILE__, __LINE__);
         $cache->delete($keys['latest_news']);
         header("Refresh: 3; url=staffpanel.php?tool=news&mode=news");
         stderr($lang['news_success'], $lang['news_edit_success']);
@@ -129,7 +129,7 @@ if ($mode == 'edit') {
 }
 //==Final Actions
 if ($mode == 'news') {
-    $res = sql_query("SELECT n.id AS newsid, n.body, n.title, n.userid, n.added, n.anonymous, u.id, u.username, u.class, u.warned, u.chatpost, u.pirate, u.king, u.leechwarn, u.enabled, u.donor FROM news AS n LEFT JOIN users AS u ON u.id=n.userid ORDER BY sticky, added DESC") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT n.id AS newsid, n.body, n.title, n.userid, n.added, n.anonymous, u.id, u.username, u.class, u.warned, u.chatpost, u.pirate, u.king, u.leechwarn, u.enabled, u.donor FROM news AS n LEFT JOIN users AS u ON u.id=n.userid ORDER BY sticky, added DESC")) || sqlerr(__FILE__, __LINE__);
     $HTMLOUT.= begin_main_frame();
     $HTMLOUT.= begin_frame();
     $HTMLOUT.= "<div class='container' ><form method='post' name='compose' action='staffpanel.php?tool=news&amp;mode=add'>

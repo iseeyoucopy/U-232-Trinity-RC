@@ -102,14 +102,12 @@ function parseMemcacheResults($str)
 function dumpCacheSlab($server, $slabId, $limit)
 {
     list($host, $port) = explode(':', $server);
-    $resp = sendMemcacheCommand($host, $port, 'stats cachedump ' . $slabId . ' ' . $limit);
-    return $resp;
+    return sendMemcacheCommand($host, $port, 'stats cachedump ' . $slabId . ' ' . $limit);
 }
 function flushServer($server)
 {
     list($host, $port) = explode(':', $server);
-    $resp = sendMemcacheCommand($host, $port, 'flush_all');
-    return $resp;
+    return sendMemcacheCommand($host, $port, 'flush_all');
 }
 function getCacheItems()
 {
@@ -279,12 +277,12 @@ function graphics_avail()
 }
 function bsize($s)
 {
-    foreach (array(
+    foreach (array_keys(array(
         '',
         'K',
         'M',
         'G'
-    ) as $i => $k) {
+    )) as $i) {
         if ($s < 1024) break;
 
         $s/= 1024;
@@ -303,7 +301,7 @@ function menu_entry($ob, $title)
 function getHeader()
 {
     global $TRINITY20;
-    $header = <<<EOB
+    return <<<EOB
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head><title>MEMCACHE INFO</title>
@@ -496,15 +494,13 @@ input {
 </div>
 <div class=content>
 EOB;
-    return $header;
 }
 function getFooter()
 {
     global $VERSION;
-    $footer = '</div></div><!-- Based on apc.php ' . $VERSION . '--></body>
+    return '</div></div><!-- Based on apc.php ' . $VERSION . '--></body>
 </html>
 ';
-    return $footer;
 }
 function getMenu()
 {
@@ -529,9 +525,9 @@ EOB;
     
 }
 // TODO, AUTH
-$_GET['op'] = !isset($_GET['op']) ? '1' : $_GET['op'];
+$_GET['op'] = isset($_GET['op']) ? $_GET['op'] : '1';
 $PHP_SELF = isset($_SERVER['PHP_SELF']) ? htmlentities(strip_tags($_SERVER['PHP_SELF'], '')) : '';
-$PHP_SELF = $PHP_SELF . '?';
+$PHP_SELF .= '?';
 $time = time();
 // sanitize _GET
 foreach ($_GET as $key => $g) {
@@ -573,7 +569,7 @@ if (isset($_GET['IMG'])) {
                         $px = $x + 40 * 2;
                         $py = ($placeindex - 15) * 12 + 6;
                     } else {
-                        $px = $x + 40 * 2 + 100 * intval(($placeindex - 15) / 15);
+                        $px = $x + 40 * 2 + 100 * (int) (($placeindex - 15) / 15);
                         $py = ($placeindex % 15) * 12 + 6;
                     }
                     imagefilledrectangle($im, $px, $py + 3, $px - 4, $py - 3, $color2);
@@ -633,14 +629,14 @@ if (isset($_GET['IMG'])) {
                 $angle_to = ($free * 360) / $tsize;
                 $perc = sprintf("%.2f%%", ($free * 100) / $tsize);
                 fill_arc($image, $x, $y, $size, $angle_from, $angle_from + $angle_to, $col_black, $col_green, $perc);
-                $angle_from = $angle_from + $angle_to;
+                $angle_from += $angle_to;
             }
             if ($used > 0) {
                 // draw used
                 $angle_to = ($used * 360) / $tsize;
                 $perc = sprintf("%.2f%%", ($used * 100) / $tsize);
                 fill_arc($image, $x, $y, $size, $angle_from, $angle_from + $angle_to, $col_black, $col_red, '(' . $perc . ')');
-                $angle_from = $angle_from + $angle_to;
+                $angle_from += $angle_to;
             }
         }
         break;

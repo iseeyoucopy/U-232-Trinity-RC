@@ -40,7 +40,7 @@ class_check($class);
 $lang = array_merge($lang);
 $HTMLOUT = '';
 //=== if we got here from a members page, get their info... if not, ask for a username to get the info...
-$id = (isset($_GET['id']) ? intval($_GET['id']) : (isset($_POST['id']) ? intval($_POST['id']) : 0));
+$id = (isset($_GET['id']) ? (int) $_GET['id'] : (isset($_POST['id']) ? (int) $_POST['id'] : 0));
 if ($id !== 0) {
     $rez_user = sql_query('SELECT username, warned, suspended, enabled, donor, invitedby FROM users WHERE id = ' . sqlesc($id));
     $arr_user = $rez_user->fetch_assoc();
@@ -134,7 +134,7 @@ if ($id !== 0) {
     if ($class == '-' || !ctype_digit($class)) $class = '';
     if ($search != '' || $class) {
         $query = 'username LIKE ' . sqlesc("%$search%") . ' AND status=\'confirmed\'';
-        if ($search) $q = 'search=' . htmlsafechars($search);
+        if ($search !== '') $q = 'search=' . htmlsafechars($search);
     } else {
         $letter = isset($_GET['letter']) ? trim((string)$_GET['letter']) : '';
         if (strlen($letter) > 1) die;
@@ -144,7 +144,7 @@ if ($id !== 0) {
     }
     if (ctype_digit($class)) {
         $query.= ' AND class=' . sqlesc($class);
-        $q.= ($q ? '&amp;' : '') . 'class=' . $class;
+        $q.= ($q !== '' ? '&amp;' : '') . 'class=' . $class;
     }
     //=== start the page
     $HTMLOUT.= '<h1>'.$lang['invite_search'].'</h1>
@@ -169,7 +169,7 @@ if ($id !== 0) {
     $count = 0;
     foreach ($cc as $L) {
         $HTMLOUT.= ($count == 10) ? '<br /><br />' : '';
-        if (!strcmp($L, $letter)) $HTMLOUT.= ' <span class="btn" style="background:orange;">' . strtoupper($L) . '</span>';
+        if (strcmp($L, $letter) === 0) $HTMLOUT.= ' <span class="btn" style="background:orange;">' . strtoupper($L) . '</span>';
         else $HTMLOUT.= ' <a href="staffpanel.php?tool=invite_tree&amp;action=invite_tree&amp;letter=' . $L . '"><span class="btn">' . strtoupper($L) . '</span></a>';
         $count++;
     }

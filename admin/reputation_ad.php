@@ -132,7 +132,7 @@ function show_form($type = 'edit')
     global $input, $lang;
     $html = $lang['rep_ad_form_html'];
     if ($type == 'edit') {
-        $query = sql_query('SELECT * FROM reputationlevel WHERE reputationlevelid=' . intval($input['reputationlevelid'])) or sqlerr(__LINE__, __FILE__);
+        ($query = sql_query('SELECT * FROM reputationlevel WHERE reputationlevelid=' . (int) $input['reputationlevelid'])) || sqlerr(__LINE__, __FILE__);
         if (!$res = $query->fetch_assoc()) {
             stderr($lang['rep_ad_form_error'], $lang['rep_ad_form_error_msg']);
         }
@@ -184,7 +184,7 @@ function do_update($type = "")
             stderr('', $lang['rep_ad_update_err2']);
         }
         $level = sqlesc($level);
-        $minrep = sqlesc(intval($input['minimumreputation']));
+        $minrep = sqlesc((int) $input['minimumreputation']);
         $redirect = '' . $lang['rep_ad_update_saved'] . ' <i>' . htmlsafechars($input['level'], ENT_QUOTES) . '</i> ' . $lang['rep_ad_update_success'] . '';
     }
     // what we gonna do?
@@ -192,7 +192,7 @@ function do_update($type = "")
         sql_query("INSERT INTO reputationlevel ( minimumreputation, level ) 
 							VALUES  ($minrep, $level )");
     } elseif ($type == 'edit') {
-        $levelid = intval($input['reputationlevelid']);
+        $levelid = (int) $input['reputationlevelid'];
         if (!is_valid_id($levelid)) {
             stderr('', $lang['rep_ad_update_err3']);
         }
@@ -208,7 +208,7 @@ function do_update($type = "")
         $ids = $input['reputation'];
         if (is_array($ids) && count($ids)) {
             foreach ($ids as $k => $v) {
-                sql_query("UPDATE reputationlevel SET minimumreputation = " . intval($v) . " WHERE reputationlevelid = " . intval($k));
+                sql_query("UPDATE reputationlevel SET minimumreputation = " . (int) $v . " WHERE reputationlevelid = " . (int) $k);
             }
         } else {
             stderr('', $lang['rep_ad_update_err4']);
@@ -227,7 +227,7 @@ function do_delete()
     if (!isset($input['reputationlevelid']) || !is_valid_id($input['reputationlevelid'])) {
         stderr('', 'No valid ID.');
     }
-    $levelid = intval($input['reputationlevelid']);
+    $levelid = (int) $input['reputationlevelid'];
     // check the id is valid within db
     $query = sql_query("SELECT reputationlevelid FROM reputationlevel WHERE reputationlevelid=$levelid");
     if (!$query->num_rows) {
@@ -255,7 +255,7 @@ function show_form_rep()
 					left join topics t on p.topic_id=t.id
 					left join users leftfor on leftfor.id=r.userid
 					left join users leftby on leftby.id=r.whoadded
-					WHERE reputationid = " . intval($input['reputationid']));
+					WHERE reputationid = " . (int) $input['reputationid']);
     if (!$res = $query->fetch_assoc()) {
         stderr('', $lang['rep_ad_rep_form_erm']);
     }
@@ -317,10 +317,10 @@ function view_list()
         //$cond = ''; //experiment
         $who = isset($input['who']) ? (int) $input['who'] : 0;
         $user = isset($input['user']) ? $input['user'] : 0;
-        $first = isset($input['page']) ? intval($input['page']) : 0;
-        $cond = $who ? "r.whoadded=" . sqlesc($who) : '';
-        $start = isset($input['startstamp']) ? intval($input['startstamp']) : mktime(0, 0, 0, $input['start']['month'], $input['start']['day'], $input['start']['year']) + $time_offset;
-        $end = isset($input['endstamp']) ? intval($input['endstamp']) : mktime(0, 0, 0, $input['end']['month'], $input['end']['day'] + 1, $input['end']['year']) + $time_offset;
+        $first = isset($input['page']) ? (int) $input['page'] : 0;
+        $cond = $who !== 0 ? "r.whoadded=" . sqlesc($who) : '';
+        $start = isset($input['startstamp']) ? (int) $input['startstamp'] : mktime(0, 0, 0, $input['start']['month'], $input['start']['day'], $input['start']['year']) + $time_offset;
+        $end = isset($input['endstamp']) ? (int) $input['endstamp'] : mktime(0, 0, 0, $input['end']['month'], $input['end']['day'] + 1, $input['end']['year']) + $time_offset;
         if (!$start) {
             $start = TIME_NOW - (3600 * 24 * 30);
         }
@@ -346,13 +346,13 @@ function view_list()
             }
             $leftfor = $left_f->fetch_assoc();
             $user = $leftfor['id'];
-            $cond.= ($cond ? " AND" : "") . " r.userid=" . $user;
+            $cond.= ($cond !== '' ? " AND" : "") . " r.userid=" . $user;
         }
         if ($start) {
-            $cond.= ($cond ? " AND" : "") . " r.dateadd >= $start";
+            $cond.= ($cond !== '' ? " AND" : "") . " r.dateadd >= $start";
         }
         if ($end) {
-            $cond.= ($cond ? " AND" : "") . " r.dateadd <= $end";
+            $cond.= ($cond !== '' ? " AND" : "") . " r.dateadd <= $end";
         }
         switch ($input['orderby']) {
         case 'leftbyuser':
@@ -373,9 +373,9 @@ function view_list()
         $html = "<div class='row'><div class='col-md-12'><h2>{$lang['rep_ad_view_cmts']}</h2>";
         $table_header = "<table class='table table-bordered'><tr $css>";
         $table_header.= "<td width='5%'>{$lang['rep_ad_view_id']}</td>";
-        $table_header.= "<td width='20%'><a href='staffpanel.php?tool=reputation_ad&amp;mode=list&amp;dolist=1&amp;who=" . intval($who) . "&amp;user=" . intval($user) . "&amp;orderby=leftbyuser&amp;startstamp=$start&amp;endstamp=$end&amp;page=$first'>{$lang['rep_ad_view_by']}</a></td>";
-        $table_header.= "<td width='20%'><a href='staffpanel.php?tool=reputation_ad&amp;mode=list&amp;dolist=1&amp;who=" . intval($who) . "&amp;user=" . intval($user) . "&amp;orderby=leftforuser&amp;startstamp=$start&amp;endstamp=$end&amp;page=$first'>{$lang['rep_ad_view_for']}</a></td>";
-        $table_header.= "<td width='17%'><a href='staffpanel.php?tool=reputation_ad&amp;mode=list&amp;dolist=1&amp;who=" . intval($who) . "&amp;user=" . intval($user) . "&amp;orderby=date&amp;startstamp=$start&amp;endstamp=$end&amp;page=$first'>{$lang['rep_ad_view_date']}</a></td>";
+        $table_header.= "<td width='20%'><a href='staffpanel.php?tool=reputation_ad&amp;mode=list&amp;dolist=1&amp;who=" . (int) $who . "&amp;user=" . (int) $user . "&amp;orderby=leftbyuser&amp;startstamp=$start&amp;endstamp=$end&amp;page=$first'>{$lang['rep_ad_view_by']}</a></td>";
+        $table_header.= "<td width='20%'><a href='staffpanel.php?tool=reputation_ad&amp;mode=list&amp;dolist=1&amp;who=" . (int) $who . "&amp;user=" . (int) $user . "&amp;orderby=leftforuser&amp;startstamp=$start&amp;endstamp=$end&amp;page=$first'>{$lang['rep_ad_view_for']}</a></td>";
+        $table_header.= "<td width='17%'><a href='staffpanel.php?tool=reputation_ad&amp;mode=list&amp;dolist=1&amp;who=" . (int) $who . "&amp;user=" . (int) $user . "&amp;orderby=date&amp;startstamp=$start&amp;endstamp=$end&amp;page=$first'>{$lang['rep_ad_view_date']}</a></td>";
         $table_header.= "<td width='5%'>{$lang['rep_ad_view_point']}</td>";
         $table_header.= "<td width='23%'>{$lang['rep_ad_view_reason']}</td>";
         $table_header.= "<td width='10%'>{$lang['rep_ad_view_controls']}</td></tr>";
@@ -396,7 +396,7 @@ function view_list()
                 'count' => $total['cnt'],
                 'perpage' => $deflimit,
                 'start_value' => $first,
-                'url' => "staffpanel.php?tool=reputation_ad&amp;mode=list&amp;dolist=1&amp;who=" . intval($who) . "&amp;user=" . intval($user) . "&amp;orderby=$orderby&amp;startstamp=$start&amp;endstamp=$end"
+                'url' => "staffpanel.php?tool=reputation_ad&amp;mode=list&amp;dolist=1&amp;who=" . (int) $who . "&amp;user=" . (int) $user . "&amp;orderby=$orderby&amp;startstamp=$start&amp;endstamp=$end"
             ]);
         }
         // mofo query!
@@ -437,15 +437,15 @@ function do_delete_rep()
         stderr($lang['rep_ad_delete_rep_err1'], $lang['rep_ad_delete_rep_err2']);
     }
     // check it's a valid ID.
-    $query = sql_query("SELECT reputationid, reputation, userid FROM reputation WHERE reputationid=" . intval($input['reputationid']));
+    $query = sql_query("SELECT reputationid, reputation, userid FROM reputation WHERE reputationid=" . (int) $input['reputationid']);
     if (($r = $query->fetch_assoc()) === false) {
         stderr($lang['rep_ad_delete_rep_err3'], $lang['rep_ad_delete_rep_err4']);
     }
-    $sql = sql_query('SELECT reputation ' . 'FROM users ' . 'WHERE id = ' . sqlesc($input['reputationid'])) or sqlerr(__FILE__, __LINE__);
+    ($sql = sql_query('SELECT reputation ' . 'FROM users ' . 'WHERE id = ' . sqlesc($input['reputationid']))) || sqlerr(__FILE__, __LINE__);
     $User = $sql->fetch_assoc();
     // do the delete
-    sql_query("DELETE FROM reputation WHERE reputationid=" . intval($r['reputationid']));
-    sql_query("UPDATE users SET reputation = (reputation-{$r['reputation']} ) WHERE id=" . intval($r['userid']));
+    sql_query("DELETE FROM reputation WHERE reputationid=" . (int) $r['reputationid']);
+    sql_query("UPDATE users SET reputation = (reputation-{$r['reputation']} ) WHERE id=" . (int) $r['userid']);
     $update['rep'] = ($User['reputation'] - $r['reputation']);
     $cache->update_row($keys['my_userid'] . $r['userid'], [
         'reputation' => $update['rep']
@@ -471,21 +471,21 @@ function do_edit_rep()
             stderr($lang['rep_ad_edit_txt'], $lang['rep_ad_edit_long']);
         }
     }
-    $oldrep = intval($input['oldreputation']);
-    $newrep = intval($input['reputation']);
+    $oldrep = (int) $input['oldreputation'];
+    $newrep = (int) $input['reputation'];
     // valid ID?
-    $query = sql_query("SELECT reputationid, reason, userid FROM reputation WHERE reputationid=" . intval($input['reputationid']));
+    $query = sql_query("SELECT reputationid, reason, userid FROM reputation WHERE reputationid=" . (int) $input['reputationid']);
     if (false === $r = $query->fetch_assoc()) {
         stderr($lang['rep_ad_edit_input'], $lang['rep_ad_edit_noid']);
     }
-    if ($oldrep != $newrep) {
+    if ($oldrep !== $newrep) {
         if ($r['reason'] != $reason) {
-            sql_query("UPDATE reputation SET reputation = " . intval($newrep) . ", reason = " . sqlesc($reason) . " WHERE reputationid = " . intval($r['reputationid']));
+            sql_query("UPDATE reputation SET reputation = " . (int) $newrep . ", reason = " . sqlesc($reason) . " WHERE reputationid = " . (int) $r['reputationid']);
         }
-        $sql = sql_query('SELECT reputation ' . 'FROM users ' . 'WHERE id = ' . sqlesc($input['reputationid'])) or sqlerr(__FILE__, __LINE__);
+        ($sql = sql_query('SELECT reputation ' . 'FROM users ' . 'WHERE id = ' . sqlesc($input['reputationid']))) || sqlerr(__FILE__, __LINE__);
         $User = $sql->fetch_assoc();
         $diff = $oldrep - $newrep;
-        sql_query("UPDATE users SET reputation = (reputation-{$diff}) WHERE id=" . intval($r['userid']));
+        sql_query("UPDATE users SET reputation = (reputation-{$diff}) WHERE id=" . (int) $r['userid']);
         $update['rep'] = ($User['reputation'] - $diff);
         $cache->update_row($keys['my_userid'] . $r['userid'], [
             'reputation' => $update['rep']
@@ -579,11 +579,17 @@ function rep_cache()
         stderr($lang['rep_ad_cache_cache'], $lang['rep_ad_cache_none']);
     }
     $rep_cache_file = "{$TRINITY20['baseurl']}/cache/rep_cache.php";
-    $rep_out = "<" . "?php\n\n\$reputations = array(\n";
+    $rep_out = '<?php
+
+$reputations = array(
+';
     while ($row = $query->fetch_assoc()) {
         $rep_out.= "\t{$row['minimumreputation']} => '{$row['level']}',\n";
     }
-    $rep_out.= "\n);\n\n?" . ">";
+    $rep_out.= '
+);
+
+?>';
     clearstatcache($rep_cache_file);
     if (is_file($rep_cache_file) && is_writable($rep_cache_file)) {
         $filenum = fopen($rep_cache_file, 'w');

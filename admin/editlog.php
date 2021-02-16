@@ -83,25 +83,23 @@ $directories[] = './admin/';
 foreach ($directories AS $x) {
     if ($handle = opendir($x)) {
         while (false !== ($file = readdir($handle))) {
-            if ($file != "." && $file != "..") {
-                if (!is_dir($x . '/' . $file)) {
-                    $fetch_set[$i]['modify'] = filemtime($x . $file);
-                    $fetch_set[$i]['size'] = filesize($x . $file);
-                    $fetch_set[$i]['name'] = $x . $file;
-                    $fetch_set[$i]['key'] = $i;
-                    $i++;
-                }
+            if ($file != "." && $file != ".." && !is_dir($x . '/' . $file)) {
+                $fetch_set[$i]['modify'] = filemtime($x . $file);
+                $fetch_set[$i]['size'] = filesize($x . $file);
+                $fetch_set[$i]['name'] = $x . $file;
+                $fetch_set[$i]['key'] = $i;
+                $i++;
             }
         }
         closedir($handle);
     }
 }
-if (!$exist OR (isset($_POST['update']) AND ($_POST['update'] == 'Update'))) {
+if (!$exist || isset($_POST['update']) && $_POST['update'] == 'Update') {
     // Create first disk image of files
     // OR update existing data...
     $data = serialize($fetch_set);
     $handle = fopen($file_data, "w");
-    fputs($handle, $data);
+    fwrite($handle, $data);
     fclose($handle);
     $data = unserialize($data);
 }
@@ -114,14 +112,14 @@ foreach ($current as $x) {
     // Search the data sets for differences
     foreach ($last AS $y) {
         if ($x['name'] == $y['name']) {
-            if (($x['size'] == $y['size']) AND ($x['modify'] == $y['modify'])) {
+            if ($x['size'] == $y['size'] && $x['modify'] == $y['modify']) {
                 unset($current[$x['key']]);
                 unset($last[$y['key']]);
             } else $current[$x['key']]['status'] = 'modified';
         }
         if (isset($last[$y['key']])) $last[$y['key']]['status'] = 'deleted';
     }
-    if (isset($current[$x['key']]['name']) AND !isset($current[$x['key']]['status'])) $current[$x['key']]['status'] = 'new';
+    if (isset($current[$x['key']]['name']) && !isset($current[$x['key']]['status'])) $current[$x['key']]['status'] = 'new';
 }
 $current+= $last; // Add deleted entries to current list
 unset($last);
@@ -154,7 +152,7 @@ foreach ($current AS $x) {
         $count++;
     }
 }
-if (!$count) {
+if ($count === 0) {
     $HTMLOUT.= "
 <tr>
 <td align='center' colspan='2'><b>{$lang['editlog_no_new']}</b></td>
@@ -184,7 +182,7 @@ foreach ($current AS $x) {
         $count++;
     }
 }
-if (!$count) {
+if ($count === 0) {
     $HTMLOUT.= "
 <tr>
 <td align='center' colspan='2'><b>{$lang['editlog_no_modified']}</b></td>
@@ -214,7 +212,7 @@ foreach ($current AS $x) {
         $count++;
     }
 }
-if (!$count) {
+if ($count === 0) {
     $HTMLOUT.= "
 <tr>
 <td align='center' colspan='2'><b>{$lang['editlog_no_deleted']}</b></td>

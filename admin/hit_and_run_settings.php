@@ -36,18 +36,18 @@ if (!in_array($CURUSER['id'], $allowed_ids))
 */
 //$update = '';
 //get the config from db
-$pconf = sql_query('SELECT * FROM hit_and_run_settings') or sqlerr(__FILE__, __LINE__);
+($pconf = sql_query('SELECT * FROM hit_and_run_settings')) || sqlerr(__FILE__, __LINE__);
 while ($ac = $pconf->fetch_assoc()) $hit_and_run_settings[$ac['name']] = $ac['value'];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    foreach ($hit_and_run_settings as $c_name => $c_value) if (isset($_POST[$c_name]) && $_POST[$c_name] != $c_value) $update[] = '(' . sqlesc($c_name) . ',' . sqlesc(is_array($_POST[$c_name]) ? join('|', $_POST[$c_name]) : $_POST[$c_name]) . ')';
-    if (sql_query('INSERT INTO hit_and_run_settings(name,value) VALUES ' . join(',', $update) . ' ON DUPLICATE KEY update value=values(value)')) {
+    foreach ($hit_and_run_settings as $c_name => $c_value) if (isset($_POST[$c_name]) && $_POST[$c_name] != $c_value) $update[] = '(' . sqlesc($c_name) . ',' . sqlesc(is_array($_POST[$c_name]) ? implode('|', $_POST[$c_name]) : $_POST[$c_name]) . ')';
+    if (sql_query('INSERT INTO hit_and_run_settings(name,value) VALUES ' . implode(',', $update) . ' ON DUPLICATE KEY update value=values(value)')) {
         $t = '$TRINITY20[\'';
         $configfile = "<" . $lang['hnr_settings_this'] . date('M d Y H:i:s') . $lang['hnr_settings_stoner'];
         $res = sql_query("SELECT * from hit_and_run_settings ");
         while ($arr = $res->fetch_assoc()) {
             $configfile.= "" . $t . "$arr[name]'] = $arr[value];\n";
         }
-        $configfile.= "?" . ">";
+        $configfile.= '?>';
         $filenum = fopen('./cache/hit_and_run_settings.php', 'w');
         ftruncate($filenum, 0);
         fwrite($filenum, $configfile);
@@ -62,7 +62,7 @@ $HTMLOUT.= "<h3>{$lang['hnr_settings_title']}</h3>
 <table class='table table-bordered'>";
 $HTMLOUT.= "
 
-<tr><td>{$lang['hnr_settings_online']}</td><td>{$lang['hnr_settings_yes']}<input type='radio' name='hnr_online' value='1' " . ($hit_and_run_settings['hnr_online'] ? 'checked=\'checked\'' : '') . " />{$lang['hnr_settings_no']}<input type='radio' name='hnr_online' value='0' " . (!$hit_and_run_settings['hnr_online'] ? 'checked=\'checked\'' : '') . " /></td></tr>
+<tr><td>{$lang['hnr_settings_online']}</td><td>{$lang['hnr_settings_yes']}<input type='radio' name='hnr_online' value='1' " . ($hit_and_run_settings['hnr_online'] ? 'checked=\'checked\'' : '') . " />{$lang['hnr_settings_no']}<input type='radio' name='hnr_online' value='0' " . ($hit_and_run_settings['hnr_online'] ? '' : 'checked=\'checked\'') . " /></td></tr>
 <!-- Set Class's Here With UC_ -->
 <tr><td>{$lang['hnr_settings_fclass']}</td><td><input type='text' name='firstclass' size='20' value='" . htmlsafechars($hit_and_run_settings['firstclass']) . "' /></td></tr>
 <tr><td>{$lang['hnr_settings_sclass']}</td><td><input type='text' name='secondclass' size='20' value='" . htmlsafechars($hit_and_run_settings['secondclass']) . "' /></td></tr>

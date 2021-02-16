@@ -12,9 +12,9 @@
  */
 /**
  * OPcache GUI
- * 
+ *
  * A simple but effective single-file GUI for the OPcache PHP extension.
- * 
+ *
  * @author Andrew Collington, andy@amnuts.com
  * @license MIT, http://acollington.mit-license.org/
  */
@@ -84,7 +84,7 @@ function rc($at = null)
     if ($at !== null) {
         $i = $at;
     } else {
-        echo (++$i % 2 ? 'even' : 'odd');
+        echo (++$i % 2 !== 0 ? 'even' : 'odd');
     }
 }
 
@@ -357,9 +357,9 @@ $host = (function_exists('gethostname')
                 $parts = array_filter(explode(DIRECTORY_SEPARATOR, dirname($s['full_path'])));
                 if (!empty($settings['compress_path_threshold'])) {
                     echo '<span class="showmore"><span class="button">…</span><span class="text" style="display:none;">' . DIRECTORY_SEPARATOR;
-                    echo join(DIRECTORY_SEPARATOR, array_slice($parts, 0, $settings['compress_path_threshold'])) . DIRECTORY_SEPARATOR;
+                    echo implode(DIRECTORY_SEPARATOR, array_slice($parts, 0, $settings['compress_path_threshold'])) . DIRECTORY_SEPARATOR;
                     echo '</span>';
-                    echo join(DIRECTORY_SEPARATOR, array_slice($parts, $settings['compress_path_threshold']));
+                    echo implode(DIRECTORY_SEPARATOR, array_slice($parts, $settings['compress_path_threshold']));
                     if (count($parts) > $settings['compress_path_threshold']) {
                         echo DIRECTORY_SEPARATOR;
                     }

@@ -46,14 +46,14 @@ function deletetorrent($tid)
 				 LEFT JOIN rating ON rating.torrent = torrents.id
 				 LEFT JOIN snatched ON snatched.torrentid = torrents.id
 				 LEFT JOIN ajax_chat_messages ON ajax_chat_messages.torrent_id = torrents.id
-				 WHERE torrents.id =" . sqlesc($tid)) or sqlerr(__FILE__, __LINE__);
+				 WHERE torrents.id =" . sqlesc($tid)) || sqlerr(__FILE__, __LINE__);
     unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
     $cache->delete($keys['my_peers'] . $CURUSER['id']);
 }
 function deletetorrent_xbt($tid)
 {
     global $TRINITY20, $cache, $CURUSER, $lang, $keys;
-    sql_query("UPDATE torrents SET flags = 1 WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    sql_query("UPDATE torrents SET flags = 1 WHERE id = " . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     sql_query("DELETE files.*, comments.*, xbt_files_users.*, thanks.*, bookmarks.*, coins.*, rating.*, ajax_chat_messages.*, torrents.* FROM torrents 
 				 LEFT JOIN files ON files.torrent = torrents.id
 				 LEFT JOIN comments ON comments.torrent = torrents.id
@@ -63,7 +63,7 @@ function deletetorrent_xbt($tid)
 				 LEFT JOIN rating ON rating.torrent = torrents.id
 				 LEFT JOIN xbt_files_users ON xbt_files_users.fid = torrents.id
 				 LEFT JOIN ajax_chat_messages ON ajax_chat_messages.torrent_id = torrents.id
-				 WHERE torrents.id =" . sqlesc($tid) . " AND flags=1") or sqlerr(__FILE__, __LINE__);
+				 WHERE torrents.id =" . sqlesc($tid) . " AND flags=1") || sqlerr(__FILE__, __LINE__);
     unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
     $cache->delete($keys['my_xbt_peers'] . $CURUSER['id']);
 }
@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (get_row_count("torrents", "where id=" . sqlesc($tid)) != 1) {
         stderr($lang['datareset_stderr'], $lang['datareset_stderr2']);
     }
-    $q1 = sql_query("SELECT s.downloaded as sd , t.id as tid, t.name,t.size, u.username,u.id as uid,u.downloaded as ud FROM torrents as t LEFT JOIN snatched as s ON s.torrentid = t.id LEFT JOIN users as u ON u.id = s.userid WHERE t.id =" . sqlesc($tid)) or sqlerr(__FILE__, __LINE__);
+    ($q1 = sql_query("SELECT s.downloaded as sd , t.id as tid, t.name,t.size, u.username,u.id as uid,u.downloaded as ud FROM torrents as t LEFT JOIN snatched as s ON s.torrentid = t.id LEFT JOIN users as u ON u.id = s.userid WHERE t.id =" . sqlesc($tid))) || sqlerr(__FILE__, __LINE__);
     while ($a = $q1->fetch_assoc()) {
         $newd = ($a["ud"] > 0 ? $a["ud"] - $a["sd"] : 0);
         $new_download[] = "(" . $a["uid"] . "," . $newd . ")";
@@ -92,9 +92,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ], $TRINITY20['expires']['curuser']);
     }
     //==Send the pm !!
-    sql_query("INSERT into messages (sender, receiver, added, msg) VALUES " . join(",", array_map("sqlesc", $pms))) or sqlerr(__FILE__, __LINE__);
+    sql_query("INSERT into messages (sender, receiver, added, msg) VALUES " . implode(",", array_map("sqlesc", $pms))) || sqlerr(__FILE__, __LINE__);
     //==Update user download amount
-    sql_query("INSERT INTO users (id,downloaded) VALUES " . join(",", array_map("sqlesc", $new_download)) . " ON DUPLICATE key UPDATE downloaded=values(downloaded)") or sqlerr(__FILE__, __LINE__);
+    sql_query("INSERT INTO users (id,downloaded) VALUES " . implode(",", array_map("sqlesc", $new_download)) . " ON DUPLICATE key UPDATE downloaded=values(downloaded)") || sqlerr(__FILE__, __LINE__);
     if (XBT_TRACKER == true) {
         deletetorrent_xbt($tid);
     } else {

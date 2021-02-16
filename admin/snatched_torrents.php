@@ -101,7 +101,7 @@ $HTMLOUT.= "<h2 align='center'>{$lang['ad_snatched_torrents_allsnatched']}</h2>
 $HTMLOUT .="<div class='row'><div class='col-md-12'>";
 $Which_ID = (XBT_TRACKER == true ? 'fid' : 'id');
 $Which_Table = (XBT_TRACKER == true ? 'xbt_files_users' : 'snatched');
-$res = sql_query("SELECT COUNT($Which_ID) FROM $Which_Table") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT COUNT($Which_ID) FROM $Which_Table")) || sqlerr(__FILE__, __LINE__);
 $row = $res->fetch_row();
 $count = $row[0];
 $snatchedperpage = 15;
@@ -112,7 +112,7 @@ if (XBT_TRACKER == true) {
 } else {
     $sql = "SELECT sn.userid, sn.id, sn.torrentid, sn.timesann, sn.hit_and_run, sn.mark_of_cain, sn.uploaded, sn.downloaded, sn.start_date, sn.complete_date, sn.seeder, sn.leechtime, sn.seedtime, u.username, t.name " . "FROM snatched AS sn " . "LEFT JOIN users AS u ON u.id=sn.userid " . "LEFT JOIN torrents AS t ON t.id=sn.torrentid WHERE complete_date != '0'" . "ORDER BY sn.complete_date DESC " . $pager['limit'];
 }
-$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
+($result = sql_query($sql)) || sqlerr(__FILE__, __LINE__);
 if ($result->num_rows != 0) {
     if (XBT_TRACKER == true) {
         $HTMLOUT.= "<table class='table table-bordered'>

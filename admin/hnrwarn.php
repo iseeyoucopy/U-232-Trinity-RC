@@ -55,14 +55,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $act = isset($_POST["action"]) && in_array($_POST["action"], $valid) ? $_POST["action"] : false;
     if (!$act) stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_wrong']);
     if ($act == "delete") {
-        if (sql_query("DELETE FROM users WHERE id IN (" . join(",", $_uids) . ")")) {
+        if (sql_query("DELETE FROM users WHERE id IN (" . implode(",", $_uids) . ")")) {
             $c = $mysqli->affected_rows;
             header("Refresh: 2; url=" . $r);
             stderr($lang['hnrwarn_success'], $c . $lang['hnrwarn_user'] . ($c > 1 ? $lang['hnrwarn_s'] : "") . $lang['hnrwarn_deleted']);
         } else stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_wrong']);
     }
     if ($act == "disable") {
-        if (sql_query("UPDATE users set enabled='no', modcomment=CONCAT(" . sqlesc(get_date(TIME_NOW, 'DATE', 1) . $lang['hnrwarn_disabled'] . $CURUSER['username'] . "\n") . ",modcomment) WHERE id IN (" . join(",", $_uids) . ")")) {
+        if (sql_query("UPDATE users set enabled='no', modcomment=CONCAT(" . sqlesc(get_date(TIME_NOW, 'DATE', 1) . $lang['hnrwarn_disabled'] . $CURUSER['username'] . "\n") . ",modcomment) WHERE id IN (" . implode(",", $_uids) . ")")) {
             foreach ($_uids as $uid) {
                 $cache->update_row($keys['my_userid'] . $uid, [
                     'enabled' => 'no'
@@ -88,9 +88,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $cache->update_row('user' . $id, [
             'hnrwarn' => 'no'
         ], $TRINITY20['expires']['user_cache']);
-        if (count($pms)) {
-            $g = sql_query("INSERT INTO messages(sender,receiver,subject,msg,added) VALUE " . join(",", $pms)) or sqlerr(__FILE__, __LINE__);
-            $q1 = sql_query("UPDATE users set hnrwarn='no', modcomment=CONCAT(" . sqlesc(get_date(TIME_NOW, 'DATE', 1) . $lang['hnrwarn_rem_log'] . $CURUSER['username'] . "\n") . ",modcomment) WHERE id IN (" . join(",", $_uids) . ")") or sqlerr(__FILE__, __LINE__);
+        if (count($pms) > 0) {
+            ($g = sql_query("INSERT INTO messages(sender,receiver,subject,msg,added) VALUE " . implode(",", $pms))) || sqlerr(__FILE__, __LINE__);
+            ($q1 = sql_query("UPDATE users set hnrwarn='no', modcomment=CONCAT(" . sqlesc(get_date(TIME_NOW, 'DATE', 1) . $lang['hnrwarn_rem_log'] . $CURUSER['username'] . "\n") . ",modcomment) WHERE id IN (" . implode(",", $_uids) . ")")) || sqlerr(__FILE__, __LINE__);
             if ($g && $q1) {
                 header("Refresh: 2; url=" . $r);
                 stderr($lang['hnrwarn_success'], count($pms) . $lang['hnrwarn_user'] . (count($pms) > 1 ? "s" : "") . $lang['hnrwarn_rem_suc']);
@@ -112,7 +112,7 @@ case "hnrwarn":
     $link = "<a href=\"staffpanel.php?tool=hnrwarn&amp;action=hnrwarn&amp;do=disabled\">{$lang['hnrwarn_disabled_users']}</a>";
     break;
 }
-$g = sql_query($query) or sqlerr(__FILE__, __LINE__);
+($g = sql_query($query)) || sqlerr(__FILE__, __LINE__);
 $count = $g->num_rows;
 $HTMLOUT .="<div class='row'><div class='col-md-12'><h2>$title&nbsp;<font class=\"small\">[total - " . $count . " user" . ($count > 1 ? "s" : "") . "]</font>&nbsp;&nbsp;$link</h2> ";
 if ($count == 0) $HTMLOUT.= stdmsg($lang['hnrwarn_hey'], $lang['hnrwarn_none'] . strtolower($title));

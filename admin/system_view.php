@@ -29,7 +29,7 @@ require_once (CLASS_DIR . 'class_check.php');
 class_check(UC_MAX, true, true);
 $lang = array_merge($lang, load_language('ad_systemview'));
 $htmlout = '';
-if (isset($_GET['phpinfo']) AND $_GET['phpinfo']) {
+if (isset($_GET['phpinfo']) && $_GET['phpinfo']) {
     @ob_start();
     phpinfo();
     $parsed = @ob_get_contents();
@@ -90,7 +90,7 @@ $using_cache = 0;
 $avp = @sql_query("SELECT value_s FROM avps WHERE arg = 'loadlimit'");
 if (false !== $row = $avp->fetch_assoc()) {
     $loadinfo = explode("-", $row['value_s']);
-    if (intval($loadinfo[1]) > (time() - 20)) {
+    if ((int) $loadinfo[1] > (time() - 20)) {
         $server_load_found = 1;
         $using_cache = 1;
         $load_limit = $loadinfo[0];
@@ -104,7 +104,7 @@ if (!$server_load_found) {
             $load_avg = explode(" ", $data);
             $load_limit = trim($load_avg[0]);
         }
-    } else if (strstr(strtolower(PHP_OS) , 'win')) {
+    } elseif (strstr(strtolower(PHP_OS) , 'win')) {
         $serverstats = @shell_exec("typeperf \"Processor(_Total)\% Processor Time\" -sc 1");
         if ($serverstats) {
             $server_reply = explode("\n", str_replace("\r", "", $serverstats));
@@ -112,11 +112,9 @@ if (!$server_load_found) {
             $statline = explode(",", str_replace('"', '', $serverstats[0]));
             $load_limit = round($statline[1], 4);
         }
-    } else {
-        if ($serverstats = @exec("uptime")) {
-            preg_match("/(?:averages)?\: ([0-9\.]+),[\s]+([0-9\.]+),[\s]+([0-9\.]+)/", $serverstats, $load);
-            $load_limit = $load[1];
-        }
+    } elseif ($serverstats = @exec("uptime")) {
+        preg_match("/(?:averages)?\: ([0-9\.]+),[\s]+([0-9\.]+),[\s]+([0-9\.]+)/", $serverstats, $load);
+        $load_limit = $load[1];
     }
     if ($load_limit) {
         @sql_query("UPDATE avps SET value_s = '" . $load_limit . "-" . time() . "' WHERE arg = 'loadlimit'");
@@ -127,7 +125,7 @@ if (strstr(strtolower(PHP_OS) , 'win')) {
     $mem = @shell_exec('systeminfo');
     if ($mem) {
         $server_reply = explode("\n", str_replace("\r", "", $mem));
-        if (count($server_reply)) {
+        if (count($server_reply) > 0) {
             foreach ($server_reply as $info) {
                 if (strstr($info, "Total Physical Memory")) {
                     $total_memory = trim(str_replace(":", "", strrchr($info, ":")));
@@ -154,11 +152,7 @@ if (strstr(strtolower(PHP_OS) , 'win')) {
     $tasks = @shell_exec("top -b -n 1");
     $tasks = str_replace(" ", " ", $tasks);
 }
-if (!$tasks) {
-    $tasks = "<i>{$lang['system_unable']}</i>";
-} else {
-    $tasks = "<pre>" . $tasks . "</pre>";
-}
+$tasks = $tasks === '' ? "<i>{$lang['system_unable']}</i>" : "<pre>" . $tasks . "</pre>";
 $load_limit = $load_limit . " ({$lang['system_fromcache']}" . ($using_cache == 1 ? "<span style='color:green;font-weight:bold;'>{$lang['system_true']})</span>" : "<span style='color:red;font-weight:bold;'>{$lang['system_false']})</span>");
 $html[] = array(
     $lang['system_mysql'],

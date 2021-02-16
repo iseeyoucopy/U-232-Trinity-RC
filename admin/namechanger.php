@@ -35,11 +35,11 @@ if (isset($mode) && $mode == 'change') {
     $uid = (int)$_POST["uid"];
     $uname = htmlsafechars($_POST["uname"]);
     if ($_POST["uname"] == "" || $_POST["uid"] == "") stderr($lang['namechanger_err'], $lang['namechanger_missing']);
-    $nc_sql = sql_query("SELECT class FROM users WHERE id = " . sqlesc($uid)) or sqlerr(__FILE__, __LINE__);
+    ($nc_sql = sql_query("SELECT class FROM users WHERE id = " . sqlesc($uid))) || sqlerr(__FILE__, __LINE__);
     if ($nc_sql->num_rows) {
         $classuser = $nc_sql->fetch_assoc();
         if ($classuser['class'] >= UC_STAFF) stderr($lang['namechanger_err'], $lang['namechanger_cannot']);
-        $change = sql_query("UPDATE users SET username=" . sqlesc($uname) . " WHERE id=" . sqlesc($uid)) or sqlerr(__FILE__, __LINE__);
+        ($change = sql_query("UPDATE users SET username=" . sqlesc($uname) . " WHERE id=" . sqlesc($uid))) || sqlerr(__FILE__, __LINE__);
         $cache->update_row($keys['my_userid'] . $uid, [
             'username' => $uname
         ], $TRINITY20['expires']['curuser']);
@@ -49,10 +49,10 @@ if (isset($mode) && $mode == 'change') {
         $added = TIME_NOW;
         $changed = sqlesc("{$lang['namechanger_changed_to']} $uname");
         $subject = sqlesc($lang['namechanger_changed']);
-        if (!$change) {
-            if ($mysqli->errno) stderr($lang['namechanger_borked'], $lang['namechanger_already_exist']);
+        if (!$change && $mysqli->errno) {
+            stderr($lang['namechanger_borked'], $lang['namechanger_already_exist']);
         }
-        sql_query("INSERT INTO messages (sender, receiver, msg, subject, added) VALUES(0, $uid, $changed, $subject, $added)") or sqlerr(__FILE__, __LINE__);
+        sql_query("INSERT INTO messages (sender, receiver, msg, subject, added) VALUES(0, $uid, $changed, $subject, $added)") || sqlerr(__FILE__, __LINE__);
         header("Refresh: 2; url=staffpanel.php?tool=namechanger");
         stderr($lang['namechanger_success'], $lang['namechanger_u_changed'] . htmlsafechars($uname) . $lang['namechanger_please']);
     }

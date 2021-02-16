@@ -46,12 +46,11 @@ if ($ip) {
         $where1 = "u.ip = '$ip'";
         $where2 = "ips.ip = '$ip'";
         $dom = @gethostbyaddr($ip);
-        if ($dom == $ip || @gethostbyname($dom) != $ip) $addr = "";
-        else $addr = $dom;
+        $addr = $dom == $ip || @gethostbyname($dom) != $ip ? "" : $dom;
     } else {
         if (substr($mask, 0, 1) == "/") {
             $n = substr($mask, 1, strlen($mask) - 1);
-            if (!is_numeric($n) or $n < 0 or $n > 32) {
+            if (!is_numeric($n) || $n < 0 || $n > 32) {
                 $HTMLOUT.= stdmsg($lang['ipsearch_error'], $lang['ipsearch_subnet']);
                 echo stdhead("IP Search") . $HTMLOUT . stdfoot();
                 die();
@@ -71,7 +70,7 @@ if ($ip) {
 			 UNION SELECT u.id FROM users AS u RIGHT JOIN ips ON u.id = ips.userid WHERE $where2
 			 GROUP BY u.id
 		   ) AS ipsearch";
-    $res = sql_query($queryc) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query($queryc)) || sqlerr(__FILE__, __LINE__);
     $row = $res->fetch_array(MYSQLI_BOTH);
     $count = $row[0];
     if ($count == 0) {
@@ -102,7 +101,7 @@ if ($ip) {
 		  GROUP BY id
 		  ORDER BY $orderby
 		  " . $pager['limit'] . "";
-    $res = sql_query($query1) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query($query1)) || sqlerr(__FILE__, __LINE__);
     $HTMLOUT.="<div class='row><div class='col-md-12'><h4 class='text-center'>" . htmlsafechars($count) . " {$lang['ipsearch_have_used']}" . htmlsafechars($ip) . " (" . htmlsafechars($addr) . ")</h4></div></div>";
     if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
     $HTMLOUT.= "<table class='table table-bordered'>\n";
@@ -113,12 +112,12 @@ if ($ip) {
         if ($user['last_access'] == '0') $user['last_access'] = '---';
         if ($user['last_ip']) {
             $nip = ip2long($user['last_ip']);
-            $res1 = sql_query("SELECT COUNT(*) FROM bans WHERE $nip >= first AND $nip <= last") or sqlerr(__FILE__, __LINE__);
+            ($res1 = sql_query("SELECT COUNT(*) FROM bans WHERE $nip >= first AND $nip <= last")) || sqlerr(__FILE__, __LINE__);
             $array = $res1->fetch_row();
             if ($array[0] == 0) $ipstr = $user['last_ip'];
             else $ipstr = "<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=testip&amp;action=testip&amp;ip=" . htmlsafechars($user['last_ip']) . "'><font color='#FF0000'><b>" . htmlsafechars($user["last_ip"]) . "</b></font></a>";
         } else $ipstr = "---";
-        $resip = sql_query("SELECT ip FROM ips WHERE userid=" . sqlesc($user["id"]) . " GROUP BY ips.ip") or sqlerr(__FILE__, __LINE__);
+        ($resip = sql_query("SELECT ip FROM ips WHERE userid=" . sqlesc($user["id"]) . " GROUP BY ips.ip")) || sqlerr(__FILE__, __LINE__);
         $iphistory = $resip->num_rows;
         if ($user["invitedby"] > 0) {
             $res2 = sql_query("SELECT username FROM users WHERE id=" . sqlesc($user["invitedby"]) . "");

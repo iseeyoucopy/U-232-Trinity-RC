@@ -32,7 +32,7 @@ class_check($class);
 $lang = array_merge($lang, load_language('non_con'));
 $HTMLOUT = '';
 if (isset($_GET["action1"]) && htmlsafechars($_GET["action1"]) == "list") {
-    $res2 = sql_query("SELECT userid, seeder, torrent, agent FROM peers WHERE connectable='no' ORDER BY userid DESC") or sqlerr(__FILE__, __LINE__);
+    ($res2 = sql_query("SELECT userid, seeder, torrent, agent FROM peers WHERE connectable='no' ORDER BY userid DESC")) || sqlerr(__FILE__, __LINE__);
     $HTMLOUT.= "<h3><a href='staffpanel.php?tool=findnotconnectable&amp;action=findnotconnectable&amp;action1=sendpm'>{$lang['non_con_sendall']}</a></h3>
 	<h3><a href='staffpanel.php?tool=findnotconnectable&amp;action=findnotconnectable'>{$lang['non_con_view']}</a></h3>
 	<h1>{$lang['non_con_peers']}</h1>
@@ -47,7 +47,7 @@ if (isset($_GET["action1"]) && htmlsafechars($_GET["action1"]) == "list") {
         $HTMLOUT.= "<div class='row'><div class='col-md-12'><table class='table table-bordered'>\n";
         $HTMLOUT.= "<tr><td class='colhead'>{$lang['non_con_name']}</td><td class='colhead'>{$lang['non_con_tor']}</td><td class='colhead'>{$lang['non_con_client']}</td></tr>\n";
         while ($arr2 = $res2->fetch_assoc()) {
-            $r2 = sql_query("SELECT username FROM users WHERE id=" . sqlesc($arr2['userid'])) or sqlerr(__FILE__, __LINE__);
+            ($r2 = sql_query("SELECT username FROM users WHERE id=" . sqlesc($arr2['userid']))) || sqlerr(__FILE__, __LINE__);
             $a2 = $r2->fetch_assoc();
             $HTMLOUT.= "<tr><td><a href='userdetails.php?id=" . (int)$arr2['userid'] . "'>" . htmlsafechars($a2['username']) . "</a></td><td align='left'><a href='details.php?id=" . (int)$arr2['torrent'] . "&amp;dllist=1#seeders'>" . (int)$arr2['torrent'] . "</a>";
             if ($arr2['seeder'] == 'yes') $HTMLOUT.= "<font color='red'>*</font>";
@@ -63,9 +63,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $query = sql_query("SELECT distinct userid FROM peers WHERE connectable='no'");
     while ($dat = $query->fetch_assoc()) {
         $subject = "Connectability";
-        sql_query("INSERT INTO messages (sender, receiver, added, msg, subject) VALUES (0, " . sqlesc($dat['userid']) . ", " . sqlesc(TIME_NOW) . ", " . sqlesc($msg) . ", " . sqlesc($subject) . ")") or sqlerr(__FILE__, __LINE__);
+        sql_query("INSERT INTO messages (sender, receiver, added, msg, subject) VALUES (0, " . sqlesc($dat['userid']) . ", " . sqlesc(TIME_NOW) . ", " . sqlesc($msg) . ", " . sqlesc($subject) . ")") || sqlerr(__FILE__, __LINE__);
     }
-    sql_query("INSERT INTO notconnectablepmlog (user, date) VALUES (" . sqlesc($CURUSER['id']) . ", " . sqlesc($dt) . ")") or sqlerr(__FILE__, __LINE__);
+    sql_query("INSERT INTO notconnectablepmlog (user, date) VALUES (" . sqlesc($CURUSER['id']) . ", " . sqlesc($dt) . ")") || sqlerr(__FILE__, __LINE__);
     header("Refresh: 0; url=staffpanel.php?tool=findnotconnectable");
 }
 if (isset($_GET["action1"]) && htmlsafechars($_GET["action1"]) == "sendpm") {
@@ -102,7 +102,7 @@ NOTE: No HTML Code Allowed. (NO HTML)
 ";
 }
 if (isset($_GET["action1"]) == "") {
-    $getlog = sql_query("SELECT * FROM `notconnectablepmlog` ORDER BY date DESC LIMIT 20") or sqlerr(__FILE__, __LINE__);
+    ($getlog = sql_query("SELECT * FROM `notconnectablepmlog` ORDER BY date DESC LIMIT 20")) || sqlerr(__FILE__, __LINE__);
     $HTMLOUT.= "<div class='row'><div class='col-md-12'><h1>{$lang['non_con_uncon']}</h1>
 	<h3><a href='staffpanel.php?tool=findnotconnectable&amp;action=findnotconnectable&amp;action1=sendpm'>{$lang['non_con_sendall']}</a></h3>
 	<h3><a href='staffpanel.php?tool=findnotconnectable&amp;action=findnotconnectable&amp;action1=list'>{$lang['non_con_list']}</a></h3><p>
@@ -111,7 +111,7 @@ if (isset($_GET["action1"]) == "") {
 	<tr><td class='colhead'>{$lang['non_con_by']}</td>
 	<td class='colhead'>{$lang['non_con_date']}</td><td class='colhead'>{$lang['non_con_elapsed']}</td></tr>";
     while ($arr2 = $getlog->fetch_assoc()) {
-        $r2 = sql_query("SELECT username FROM users WHERE id=" . sqlesc($arr2['user'])) or sqlerr(__FILE__, __LINE__);
+        ($r2 = sql_query("SELECT username FROM users WHERE id=" . sqlesc($arr2['user']))) || sqlerr(__FILE__, __LINE__);
         $a2 = $r2->fetch_assoc();
         $elapsed = get_date($arr2['date'], '', 0, 1);
         $HTMLOUT.= "<tr><td class='colhead'><a href='userdetails.php?id=" . (int)$arr2['user'] . "'>" . htmlsafechars($a2['username']) . "</a></td><td class='colhead'>" . get_date($arr2['date'], '') . "</td><td>$elapsed</td></tr>";

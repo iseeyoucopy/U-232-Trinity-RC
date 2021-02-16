@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           while ($arr = $res->fetch_array(MYSQLI_BOTH)) {
               $userid   = (int) $arr["id"];
               $username = htmlsafechars($arr["username"]);
-              $res_del = sql_query(account_delete($userid)) or sqlerr(__FILE__, __LINE__);
+              ($res_del = sql_query(account_delete($userid))) || sqlerr(__FILE__, __LINE__);
               if ($mysqli->affected_rows !== false) {
                   $cache->delete($keys['my_userid'] . $userid);
                   $cache->delete('user' . $userid);
@@ -85,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($record_mail) {
             $date = TIME_NOW;
             $userid = (int)$CURUSER["id"];
-            if ($count > 0 && $mail) sql_query("UPDATE avps SET value_i=" . sqlesc($date) . ", value_u=" . sqlesc($count) . ", value_s=" . sqlesc($userid) . " WHERE arg='inactivemail'") or sqlerr(__FILE__, __LINE__);
+            if ($count > 0 && $mail) sql_query("UPDATE avps SET value_i=" . sqlesc($date) . ", value_u=" . sqlesc($count) . ", value_s=" . sqlesc($userid) . " WHERE arg='inactivemail'") || sqlerr(__FILE__, __LINE__);
         }
         if ($mail) stderr($lang['inactive_success'], "{$lang['inactive_msgsent']} <a href='" . $TRINITY20['baseurl'] . "/staffpanel.php?tool=inactive'>{$lang['inactive_back']}</a>");
         else stderr($lang['inactive_error'], "{$lang['inactive_tryagain']}");
@@ -97,7 +97,7 @@ $row = $res->fetch_array(MYSQLI_BOTH);
 $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "staffpanel.php?tool=inactive&amp;");
-$res = sql_query("SELECT id,username,class,email,uploaded,downloaded,last_access FROM users WHERE last_access<" . sqlesc($dt) . " AND status='confirmed' AND enabled='yes' ORDER BY last_access DESC {$pager['limit']}") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT id,username,class,email,uploaded,downloaded,last_access FROM users WHERE last_access<" . sqlesc($dt) . " AND status='confirmed' AND enabled='yes' ORDER BY last_access DESC {$pager['limit']}")) || sqlerr(__FILE__, __LINE__);
 $count_inactive = $res->num_rows;
 if ($count_inactive > 0) {
     //if ($count > $perpage)

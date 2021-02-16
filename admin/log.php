@@ -36,14 +36,14 @@ if(isset($_GET['search'])) $search = strip_tags($_GET['search']);
 if (!empty($search)) $where = "WHERE txt LIKE " . sqlesc("%$search%") . "";
 // delete items older than 1 month
 $secs = 30 * 86400;
-sql_query("DELETE FROM sitelog WHERE " . TIME_NOW . " - added > " . sqlesc($secs)) or sqlerr(__FILE__, __LINE__);
+sql_query("DELETE FROM sitelog WHERE " . TIME_NOW . " - added > " . sqlesc($secs)) || sqlerr(__FILE__, __LINE__);
 $resx = sql_query("SELECT COUNT(*) FROM sitelog $where");
 $rowx = $resx->fetch_array(MYSQLI_NUM);
 $count = $rowx[0];
 $perpage = 15;
-$pager = pager($perpage, $count, "staffpanel.php?tool=log&amp;action=log&amp;" . (!empty($search) ? "search=$search&amp;" : '') . "");
+$pager = pager($perpage, $count, "staffpanel.php?tool=log&amp;action=log&amp;" . (empty($search) ? '' : "search=$search&amp;") . "");
 $HTMLOUT = '';
-$res = sql_query("SELECT added, txt FROM sitelog $where ORDER BY added DESC {$pager['limit']} ") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT added, txt FROM sitelog $where ORDER BY added DESC {$pager['limit']} ")) || sqlerr(__FILE__, __LINE__);
 $HTMLOUT .="<div class='grid-x grid-margin-x'><div class='cell medium-12'>";
 $HTMLOUT.= "<h1>{$lang['text_sitelog']}</h1>";
 $HTMLOUT.= "<table class='striped'>

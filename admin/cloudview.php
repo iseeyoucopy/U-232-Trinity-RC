@@ -63,7 +63,7 @@ $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "staffpanel.php?tool=cloudview&amp;action=cloudview&amp;");
 if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
-$search_q = sql_query('SELECT id, searchedfor, ip, howmuch FROM searchcloud ORDER BY howmuch DESC ' . $pager['limit']) or sqlerr(__FILE__, __LINE__);
+($search_q = sql_query('SELECT id, searchedfor, ip, howmuch FROM searchcloud ORDER BY howmuch DESC ' . $pager['limit'])) || sqlerr(__FILE__, __LINE__);
 $HTMLOUT.="<div class='row'><div class='col-md-12'><h2>{$lang['cloudview_overview']}</h2>";
 $HTMLOUT.= "
 <form method='post' action='staffpanel.php?tool=cloudview&amp;action=cloudview'>
