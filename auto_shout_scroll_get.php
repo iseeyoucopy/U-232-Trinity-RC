@@ -21,7 +21,10 @@ echo "";
 //== cache the data
 if (($shouts = $cache->get($keys['auto_shoutbox'])) === false) {
     ($res = sql_query("SELECT text FROM shoutbox WHERE staff_shout ='no' AND autoshout ='yes' ORDER BY id DESC LIMIT 10")) || sqlerr(__FILE__, __LINE__);
-    while ($shout = $res->fetch_assoc()) $shouts[] = $shout;
+    while ($shout = $res->fetch_assoc()) {
+        $shouts = (array) $shouts;
+        $shouts[] = $shout;
+    }
     $cache->set($keys['auto_shoutbox'], $shouts, $TRINITY20['expires']['shoutbox']);
 }
 

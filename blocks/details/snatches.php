@@ -38,7 +38,10 @@ if (($Detail_Snatch = $cache->get($What_cache . $id)) === false) {
 } else {
       ($Main_Q = sql_query("SELECT s.*, s.userid AS su, torrents.username as username1, users.username as username2, torrents.anonymous as anonymous1, users.anonymous as anonymous2, size, parked, warned, enabled, class, chatpost, leechwarn, donor, timesann, owner FROM snatched AS s INNER JOIN users ON s.userid = users.id INNER JOIN torrents ON s.torrentid = torrents.id WHERE complete_date !=0 AND torrentid = " . sqlesc($id) . " ORDER BY complete_date DESC " . $pager['limit'])) || sqlerr(__FILE__, __LINE__);
 }
-    while ($snatched_torrent = $Main_Q->fetch_assoc()) $Detail_Snatch[] = $snatched_torrent;
+    while ($snatched_torrent = $Main_Q->fetch_assoc()) {
+        $Detail_Snatch = (array) $Detail_Snatch;
+        $Detail_Snatch[] = $snatched_torrent;
+    }
     $cache->set($What_cache . $id, $Detail_Snatch, $TRINITY20['expires']['details_snatchlist']);
 }
 

@@ -1472,7 +1472,7 @@ the user class is just for show, but what the hell :p Add more or edit to your l
 $HTMLOUT .= "<div class='card'>
 <div class='card-divider'>Karma Bonus Point's system</div>";
 //== 09 Ezeros freeleech contribution - Bigjoos.Ezero
-$fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $half_down_enabled = $top_donators = $top_donators2 = $top_donators3 = '';
+$fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $half_down_enabled = $top_donators = $top_donators2 = $top_donators3 = [];
 // eZER0's mod for bonus contribution
 // Limited this to 3 because of performance reasons and i wanted to go through last 3 events, anyway the most we can have
 // is that halfdownload is enabled, double upload is enabled as well as freeleech !
@@ -1662,6 +1662,7 @@ if (($top_donators = $cache->get('top_donators_')) === false) {
 		"SELECT bonuslog.id, SUM(bonuslog.donation) AS total, users.username, users.id AS userid, users.pirate, users.king, users.class, users.donor, users.warned, users.leechwarn, users.enabled, users.chatpost FROM bonuslog LEFT JOIN users ON bonuslog.id=users.id WHERE bonuslog.type = 'freeleech' GROUP BY bonuslog.id ORDER BY total DESC LIMIT 10;"
 	)) || sqlerr(__FILE__, __LINE__);
 	while ($top_donator = $a->fetch_assoc()) {
+		$top_donators = (array) $top_donators;
 		$top_donators[] = $top_donator;
 	}
 	$cache->set('top_donators_', $top_donators, 0);
@@ -1688,6 +1689,7 @@ if (($top_donators2 = $cache->get('top_donators2_')) === false) {
 		"SELECT bonuslog.id, SUM(bonuslog.donation) AS total, users.username, users.id AS userid, users.pirate, users.king, users.class, users.donor, users.warned, users.leechwarn, users.enabled, users.chatpost FROM bonuslog LEFT JOIN users ON bonuslog.id=users.id WHERE bonuslog.type = 'doubleupload' GROUP BY bonuslog.id ORDER BY total DESC LIMIT 10;"
 	)) || sqlerr(__FILE__, __LINE__);
 	while ($top_donator2 = $b->fetch_assoc()) {
+		$top_donators2 = (array) $top_donators2;
 		$top_donators2[] = $top_donator2;
 	}
 	$cache->set('top_donators2_', $top_donators2, 0);

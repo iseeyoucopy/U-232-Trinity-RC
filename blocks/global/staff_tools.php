@@ -20,7 +20,10 @@ $htmlout.='<div class="off-canvas position-left" id="StaffPanel" data-off-canvas
     </button>';
  if (($mysql_data = $cache->get('is_staff_' . $CURUSER['class'])) === false) {
  ($res = sql_query('SELECT * FROM staffpanel WHERE av_class <= ' . sqlesc($CURUSER['class']) . ' ORDER BY page_name ASC')) || sqlerr(__FILE__, __LINE__);
-  while ($arr = $res->fetch_assoc()) $mysql_data[] = $arr;
+  while ($arr = $res->fetch_assoc()) {
+      $mysql_data = (array) $mysql_data;
+      $mysql_data[] = $arr;
+  }
  $cache->set('is_staff_' . $CURUSER['class'], $mysql_data, $TRINITY20['expires']['staff_check']);
   }
   if ($mysql_data) { 

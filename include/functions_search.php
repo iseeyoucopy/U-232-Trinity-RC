@@ -127,6 +127,7 @@ function search_text_in_db($searchstr, $base_sql, $where_search, $add_where = ar
                 }
             }
             if ($search_full_string) {
+                $split_search = (array) $split_search;
                 $split_search[] = $lower_searchstr;
             }
         }

@@ -343,6 +343,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
         foreach ($names as $name) {
             if (substr($name, 0, 1) == '~') {
                 if ($name == '~') continue;
+                $names_exc = (array) $names_exc;
                 $names_exc[] = substr($name, 1);
             } else $names_inc[] = $name;
         }
@@ -493,6 +494,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
             foreach ($comments as $comment) {
                 if (substr($comment, 0, 1) == '~') {
                     if ($comment == '~') continue;
+                    $comments_exc = (array) $comments_exc;
                     $comments_exc[] = substr($comment, 1);
                 } else $comments_inc[] = $comment;
             }

@@ -19,8 +19,10 @@ foreach ($categorie as $key => $value) $change[$value['id']] = array(
 if (($top10music_week = $cache->get('top10_music_week_')) === false) {
     $tortimeweekmusic = $_SERVER['REQUEST_TIME'] - 604800;
     ($res_musicw = sql_query("SELECT id, times_completed, seeders, poster, leechers, name, category from torrents WHERE last_action >= {$tortimeweekmusic}  AND category IN (".implode(", ",$TRINITY20['music_cats']).") ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}")) || sqlerr(__FILE__, __LINE__);
-    while ($top10musicweek = $res_musicw->fetch_assoc()) 
-		$top10music_week[] = $top10musicweek;
+    while ($top10musicweek = $res_musicw->fetch_assoc()) {
+        $top10music_week = (array) $top10music_week;
+        $top10music_week[] = $top10musicweek;
+    }
     $cache->set('top10_music_week_', $top10music_week);
 }
     $HTMLOUT.= "<table class='top10'>

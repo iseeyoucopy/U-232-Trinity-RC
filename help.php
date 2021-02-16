@@ -51,7 +51,10 @@ if (($faqs = $cache->get('faqs__')) === false) {
 $rules = array();
 if (($rules = $cache->get('rules__')) === false) {
 $q = sql_query("SELECT rules_cat.id, rules_cat.name, rules_cat.shortcut, rules_cat.min_view, rules.type, rules.title, rules.text FROM rules_cat LEFT JOIN rules ON rules.type=rules_cat.id WHERE rules_cat.min_view <=" . sqlesc($CURUSER['class']));
-while ($item1 = $q->fetch_assoc()) $rules[] = $item1;
+while ($item1 = $q->fetch_assoc()) {
+    $rules = (array) $rules;
+    $rules[] = $item1;
+}
 $cache->set('rules__', $rules, $TRINITY20['expires']['rules']);
 }
 $HTMLOUT.= "<li><a href='#'>Rules</a>
