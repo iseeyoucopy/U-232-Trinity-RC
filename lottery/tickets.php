@@ -12,7 +12,7 @@
  */
 if (!defined('IN_LOTTERY')) die('You can\'t access this file directly!');
 //get config from database
-$lconf = sql_query('SELECT * FROM lottery_config') or sqlerr(__FILE__, __LINE__);
+($lconf = sql_query('SELECT * FROM lottery_config')) || sqlerr(__FILE__, __LINE__);
 while ($ac = $lconf->fetch_assoc()) $lottery_config[$ac['name']] = $ac['value'];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $tickets = isset($_POST['tickets']) ? 0 + $_POST['tickets'] : '';
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($user_tickets + $tickets > $lottery_config['user_tickets']) stderr('Hmmm', 'You reached your limit max is ' . $lottery_config['user_tickets'] . ' ticket(s)');
     if ($CURUSER['seedbonus'] < $tickets * $lottery_config['ticket_amount']) stderr('Hmmmm', 'You need more points to buy the amount of tickets you want');
     for ($i = 1; $i <= $tickets; $i++) $t[] = '(' . $CURUSER['id'] . ')';
-    if (sql_query('INSERT INTO tickets(user) VALUES ' . join(', ', $t))) {
+    if (sql_query('INSERT INTO tickets(user) VALUES ' . implode(', ', $t))) {
         sql_query('UPDATE users SET seedbonus = seedbonus - ' . ($tickets * $lottery_config['ticket_amount']) . ' WHERE id = ' . $CURUSER['id']);
         $seedbonus_new = $CURUSER['seedbonus'] - ($tickets * $lottery_config['ticket_amount']);
         $What_Cache = (XBT_TRACKER == true ? 'userstats_xbt_' : $keys['user_stats']);
@@ -46,7 +46,7 @@ $lottery['current_user'] = array();
 $lottery['current_user']['tickets'] = array();
 $lottery['total_tickets'] = 0;
 //select the total amount of tickets
-$qt = sql_query('SELECT id,user FROM tickets ORDER BY id ASC ') or sqlerr(__FILE__, __LINE__);
+($qt = sql_query('SELECT id,user FROM tickets ORDER BY id ASC ')) || sqlerr(__FILE__, __LINE__);
 while ($at = $qt->fetch_assoc()) {
     $lottery['total_tickets']+= 1;
     if ($at['user'] == $CURUSER['id']) $lottery['current_user']['tickets'][] = $at['id'];
@@ -77,7 +77,7 @@ $html.= "<ul style='text-align:left;'>
     <li>Winner(s) will get <b>" . $lottery['per_user'] . "</b> added to their seedbonus amount</li>
     <li>The Winners will be announced once the lottery has closed and posted on the home page.</li>";
 if (!$lottery_config['use_prize_fund']) $html.= "<li>The more tickets that are sold the bigger the pot will be !</li>";
-if (count($lottery['current_user']['tickets'])) $html.= "<li>You own ticket numbers : <b>" . join('</b>, <b>', $lottery['current_user']['tickets']) . "</b></li>";
+if (count($lottery['current_user']['tickets']) > 0) $html.= "<li>You own ticket numbers : <b>" . implode('</b>, <b>', $lottery['current_user']['tickets']) . "</b></li>";
 $html.= "</ul><hr/>
    <table class='table table-bordered'>
     <tr>
