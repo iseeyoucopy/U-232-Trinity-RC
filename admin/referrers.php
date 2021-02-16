@@ -53,17 +53,18 @@ if ($count > 0) {
     if ($res->num_rows > 0) while ($data = $res->fetch_assoc()) {
         $i++;
         $http_agent = htmlsafechars($data['browser']);
-        if (strstr($http_agent, "Opera")) {
+        if (strpos($http_agent, "Opera") !== false) {
 									$browser = "<i class='fab fa-opera' alt='Opera' title='Opera'></i>&nbsp;&nbsp;Opera";
-								} elseif (strstr($http_agent, "Konqueror")) {
+								} elseif (strpos($http_agent, "Konqueror") !== false) {
 									$browser = "<i class='fab fa-opera' alt='Opera' title='Opera'></i>&nbsp;&nbsp;Opera";
-								} elseif (strstr($http_agent, "MSIE")) {
+								} elseif (strpos($http_agent, "MSIE") !== false) {
 									$browser = "<i class='fab fa-internet-explorer'  alt='IE' title='IE'></i>&nbsp;&nbsp;IE";
-								} elseif (strstr($http_agent, "Chrome")) {
+								} elseif (strpos($http_agent, "Chrome") !== false) {
 									$browser = "<i class='fab fa-chrome' alt='Chrome' title='Chrome'></i>&nbsp;&nbsp;Chrome";
-								} elseif ((strstr($http_agent, "Nav")) || (strstr($http_agent, "Gold")) || (strstr($http_agent, "X11")) || (strstr($http_agent, "Mozilla")) || (strstr($http_agent, "Netscape"))) {
+								} elseif ((strpos($http_agent, "Nav") !== false) || (strpos($http_agent, "Gold") !== false) || (strpos($http_agent,
+                    "X11") !== false) || (strpos($http_agent, "Mozilla") !== false) || (strpos($http_agent, "Netscape") !== false)) {
 									$browser = "<i class='fab fa-firefox' alt='FireFox' title='FireFox'></i>&nbsp;&nbsp;Mozilla";
-								} elseif (strstr($http_agent, "Safari")) {
+								} elseif (strpos($http_agent, "Safari") !== false) {
 									$browser = "<i class='fab fa-safari' alt='Safari' title='Safari'></i>&nbsp;&nbsp;Chrome";
 								} else 
 			$browser = $lang['ref_unknow'];

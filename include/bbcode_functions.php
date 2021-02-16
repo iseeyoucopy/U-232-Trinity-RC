@@ -156,21 +156,21 @@ function islocal($link)
         'https://',
         'https://www'
     ) , '', $TRINITY20['baseurl']);
-    if (false !== stristr($link[0], '[url=')) {
+    if (stripos($link[0], '[url=') !== false) {
         $url = trim($link[1]);
         $title = trim($link[2]);
-        if (false !== stristr($link[2], '[img]')) {
+        if (stripos($link[2], '[img]') !== false) {
             $flag = true;
             $title = preg_replace("/\[img]((http|https):\/\/[^\s'\"<>]+(\.(jpg|gif|png)))\[\/img\]/i", "<img src=\"\\1\" alt=\"\" border=\"0\" />", $title);
         }
-    } elseif (false !== stristr($link[0], '[url]')) $url = $title = trim($link[1]);
+    } elseif (stripos($link[0], '[url]') !== false) $url = $title = trim($link[1]);
     else $url = $title = trim($link[2]);
     if (strlen($title) > $limit && $flag == false) {
         $l[0] = substr($title, 0, ($limit / 2));
         $l[1] = substr($title, strlen($title) - round($limit / 3));
         $lshort = $l[0] . "..." . $l[1];
     } else $lshort = $title;
-    return "&nbsp;<a href=\"" . ((stristr($url, (string) $TRINITY20['url']) !== false) ? "" : "https://anonym.to/?") . $url . "\" target=\"_blank\">" . $lshort . "</a>";
+    return "&nbsp;<a href=\"" . ((stripos($url, (string)$TRINITY20['url']) !== false) ? "" : "https://anonym.to/?") . $url . "\" target=\"_blank\">" . $lshort . "</a>";
 }
 function format_urls($s)
 {

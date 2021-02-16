@@ -514,9 +514,9 @@ class IMDB
                     }
                     $sMatch = $aMatch[2][$i];
 
-                    if ('big' === strtolower($sSize) && false !== strstr($aMatch[2][$i], '@._')) {
+                    if ('big' === strtolower($sSize) && strpos($aMatch[2][$i], '@._') !== false) {
                         $sMatch = substr($aMatch[2][$i], 0, strpos($aMatch[2][$i], '@._')) . '@.jpg';
-                    } elseif ('mid' === strtolower($sSize) && false !== strstr($aMatch[2][$i], '@._')) {
+                    } elseif ('mid' === strtolower($sSize) && strpos($aMatch[2][$i], '@._') !== false) {
                         $sMatch = substr($aMatch[2][$i], 0, strpos($aMatch[2][$i], '@._')) . '@._V1_UX214_AL_.jpg';
                     }
 
@@ -528,7 +528,7 @@ class IMDB
                             $sMatch = $sLocal;
                         } else {
                             //the 'big' image isn't available, try the 'mid' one (vice versa)
-                            if ('big' === strtolower($sSize) && false !== strstr($aMatch[2][$i], '@._')) {
+                            if ('big' === strtolower($sSize) && strpos($aMatch[2][$i], '@._') !== false) {
                                 //trying the 'mid' one
                                 $sMatch =
                                     substr($aMatch[2][$i], 0, strpos($aMatch[2][$i], '@._')) . '@._V1_UX214_AL_.jpg';
@@ -1135,7 +1135,7 @@ class IMDB
         if (true === $this->isReady) {
             $sMatch = IMDBHelper::matchRegex($this->sSource, self::IMDB_POSTER, 1);
             if (false !== $sMatch) {
-                if ('big' === strtolower($sSize) && false !== strstr($sMatch, '@._')) {
+                if ('big' === strtolower($sSize) && strpos($sMatch, '@._') !== false) {
                     $sMatch = substr($sMatch, 0, strpos($sMatch, '@._')) . '@.jpg';
                 }
                 if (false === $bDownload) {

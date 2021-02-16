@@ -30,7 +30,7 @@ No</div>";
 					<label for='forum_".$fooo[0]."'>
 						<span class='file' style='position:relative;width:200px;'>
 							<b>".$fooo[1]."</b>
-							<input type='checkbox' ".(stristr($user["forums_mod"],"[".$fooo[0]."]") ? "checked='checked'" : "" )."style='right:0;top:0;position:absolute;' name='forums[]' id='forum_".$fooo[0]."' value='".$fooo[0]."'>
+							<input type='checkbox' ".(stripos($user["forums_mod"], "[".$fooo[0]."]") !== false ? "checked='checked'" : "" )."style='right:0;top:0;position:absolute;' name='forums[]' id='forum_".$fooo[0]."' value='".$fooo[0]."'>
 						</span>
 					</label>
 				</div>";
