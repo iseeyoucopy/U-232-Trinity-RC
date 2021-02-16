@@ -23,31 +23,14 @@ $HTMLOUT = '';
 if (!function_exists('htmlsafechars')) {
     function htmlsafechars($var)
     {
-        return str_replace(array(
+        return str_replace([
+            ,
             '&',
             '>',
             '<',
             '"',
             '\''
-        ) , array(
-            '&amp;',
-            '&gt;',
-            '&lt;',
-            '&quot;',
-            '&#039;'
-        ) , str_replace(array(
-            '&gt;',
-            '&lt;',
-            '&quot;',
-            '&#039;',
-            '&amp;'
-        ) , array(
-            '>',
-            '<',
-            '"',
-            '\'',
-            '&'
-        ) , $var));
+        ];
     }
 }
 

@@ -2161,8 +2161,7 @@ class GeSHi {
         $start_time = microtime();
 
         // Replace all newlines to a common form.
-        $code = str_replace("\r\n", "\n", $this->source);
-        $code = str_replace("\r", "\n", $code);
+        $code = str_replace(["\r\n", "\r"], "\n", $this->source);
 
         // check whether language_data is available
         if (empty($this->language_data)) {
@@ -2868,10 +2867,7 @@ class GeSHi {
                                 // Short-cut through all the multiline code
                                 if ($check_linenumbers) {
                                     // strreplace to put close span and open span around multiline newlines
-                                    $test_str = str_replace(
-                                        "\n", "</span>\n<span$attributes>",
-                                        str_replace("\n ", "\n&nbsp;", $test_str)
-                                    );
+                                    $test_str = str_replace(["\n ", "\n"], ["\n&nbsp;", "</span>\n<span$attributes>"], $test_str);
                                 }
                             }
 
@@ -3653,8 +3649,7 @@ class GeSHi {
         // NOW we add the span thingy ;)
         //
 
-        $stuff_to_parse = str_replace('<|', '<span', $stuff_to_parse);
-        $stuff_to_parse = str_replace ( '|>', '</span>', $stuff_to_parse );
+        $stuff_to_parse = str_replace(array('<|', '|>'), ['<span', '</span>'], $stuff_to_parse);
         return substr($stuff_to_parse, 1);
     }
 

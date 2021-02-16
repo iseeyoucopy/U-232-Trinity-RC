@@ -95,8 +95,7 @@ function validate_imgs($s){
         $headers = @get_headers($array);
         $headers0 = $headers[0] ?? '';
         if (strpos($headers0, "200") === false) {
-            $s = str_replace("[img]" . $array . "[/img]", "", $s);
-            $s = str_replace("[img=" . $array . "]", "", $s);
+            $s = str_replace(["[img]".$array."[/img]", "[img=".$array."]"], "", $s);
         }
     }
     return $s;
@@ -192,19 +191,14 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
     // to &xxx;), hence all the extra smilies. I created a new :wink: label, removed
     // the ;) one, and replace all genuine ;) by :wink: before escaping the body.
     // (What took us so long? :blush:)- wyz
-    $s = str_replace(';)', ':wink:', $s);
     // fix messed up links
-    $s = str_replace('&amp;', '&', $s);
+    $s = str_replace([';)', '&amp;'], [':wink:', '&'], $s);
     if ($strip_html) $s = htmlsafechars($s, ENT_QUOTES, charset());
     if (preg_match("#function\s*\((.*?)\|\|#is", $s)) {
-        $s = str_replace(":", "&#58;", $s);
-        $s = str_replace("[", "&#91;", $s);
-        $s = str_replace("]", "&#93;", $s);
-        $s = str_replace(")", "&#41;", $s);
-        $s = str_replace("(", "&#40;", $s);
-        $s = str_replace("{", "&#123;", $s);
-        $s = str_replace("}", "&#125;", $s);
-        $s = str_replace("$", "&#36;", $s);
+        $s = str_replace(array(":", "["), ["&#58;", "&#91;"], $s);
+        $s = str_replace(array("]", ")"), ["&#93;", "&#41;"], $s);
+        $s = str_replace(array("(", "{"), ["&#40;", "&#123;"], $s);
+        $s = str_replace(array("}", "$"), ["&#125;", "&#36;"], $s);
     }
     // BBCode to find...
     $bb_code_in = array(

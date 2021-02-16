@@ -1173,7 +1173,9 @@ sql_query_where_parser($Ag){$Ag=trim(preg_replace('/WHERE[\s]?[(]?\(?/','',$Ag))
 as$oj)$Z[]=trim($oj);if(count($rj)==1)$rj=array();elseif(count($rj)>1)$Z=array();return
 where_to_query($Z,$rj);}function
 where_to_query($mj=array(),$nj=array()){global$b;$Ob=array();foreach(array('and'=>$mj,'or'=>$nj)as$U=>$Z){if(is_array($Z)){foreach($Z
-as$Kc){[$ob,$xf,$X]=explode(" ",$Kc,3);if($ob=="_id"){$X=str_replace('MongoDB\BSON\ObjectID("',"",$X);$X=str_replace('")',"",$X);$lb='MongoDB\BSON\ObjectID';$X=new$lb($X);}if(!in_array($xf,$b->operators))continue;if(preg_match('~^\(f\)(.+)~',$xf,$B)){$X=(float)$X;$xf=$B[1];}elseif(preg_match('~^\(date\)(.+)~',$xf,$B)){$Qb=new
+as$Kc){[$ob,$xf,$X]=explode(" ",$Kc,3);if($ob=="_id"){
+    $X= str_replace(['MongoDB\BSON\ObjectID("', '")'], "", $X);
+    $lb = 'MongoDB\BSON\ObjectID';$X=new$lb($X);}if(!in_array($xf,$b->operators))continue;if(preg_match('~^\(f\)(.+)~',$xf,$B)){$X=(float)$X;$xf=$B[1];}elseif(preg_match('~^\(date\)(.+)~',$xf,$B)){$Qb=new
 DateTime($X);$lb='MongoDB\BSON\UTCDatetime';$X=new$lb($Qb->getTimestamp()*1000);$xf=$B[1];}switch($xf){case'=':$xf='$eq';break;case'!=':$xf='$ne';break;case'>':$xf='$gt';break;case'<':$xf='$lt';break;case'>=':$xf='$gte';break;case'<=':$xf='$lte';break;case'regex':$xf='$regex';break;default:continue
 2;}if($U=='and')$Ob['$and'][]=array($ob=>array($xf=>$X));elseif($U=='or')$Ob['$or'][]=array($ob=>array($xf=>$X));}}}return$Ob;}$zf=array("=","!=",">","<",">=","<=","regex","(f)=","(f)!=","(f)>","(f)<","(f)>=","(f)<=","(date)=","(date)!=","(date)>","(date)<","(date)>=","(date)<=",);}function
 table($v){return$v;}function

@@ -33,11 +33,9 @@ foreach ($items as $item) {
     
     $icount++;
 }
-$html = str_replace(array('“', '”'), '"', $html);
-$html = str_replace(array("’", "‘", "‘"), "'", $html);
-$html = str_replace("–", "-", $html);
-$html = str_replace('="/images/', '="http://torrentfreak.com/images/', $html);
+$html = str_replace(['“', '”', "’", "‘", "‘"], ['"', '"', "'", "'", "'"], $html);
+$html = str_replace(["–", '="/images/'], ["-", '="http://torrentfreak.com/images/'], $html);
 
-$html.= "</div></div>";
+$html .= "</div></div>";
 echo (stdhead('Torrent freak news') . $html . stdfoot());
 ?>
