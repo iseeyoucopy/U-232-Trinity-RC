@@ -16,7 +16,7 @@
 function StdDecodePeerId($id_data, $id_name)
 {
     $version_str = "";
-    for ($i = 0; $i <= strlen($id_data); $i++) {
+    for ($i = 0, $iMax = strlen($id_data); $i <= $iMax; $i++) {
         $c = $id_data[$i];
         if ($id_name == "BitTornado" || $id_name == "ABC") {
             if ($c != '-' && ctype_digit($c)) $version_str.= "$c.";
@@ -34,17 +34,17 @@ function StdDecodePeerId($id_data, $id_name)
             $version_str.= "$c.";
         } else break;
     }
-    $version_str = substr($version_str, 0, strlen($version_str) - 1);
+    $version_str = substr($version_str, 0, -1);
     return "$id_name $version_str";
 }
 function MainlineDecodePeerId($id_data, $id_name)
 {
     $version_str = "";
-    for ($i = 0; $i <= strlen($id_data); $i++) {
+    for ($i = 0, $iMax = strlen($id_data); $i <= $iMax; $i++) {
         $c = $id_data[$i] ?? '-';
         if ($c != '-' && ctype_alnum($c)) $version_str.= "$c.";
     }
-    $version_str = substr($version_str, 0, strlen($version_str) - 1);
+    $version_str = substr($version_str, 0, -1);
     return "$id_name $version_str";
 }
 function DecodeVersionString($ver_data, $id_name)
@@ -156,7 +156,7 @@ function getagent($httpagent, $peer_id = "")
     }
     // Rufus
     if (substr($peer_id, 2, 2) == 'RS') {
-        for ($i = 0; $i <= strlen(substr($peer_id, 4, 9)); $i++) {
+        for ($i = 0, $iMax = strlen(substr($peer_id, 4, 9)); $i <= $iMax; $i++) {
             $c = $peer_id[$i + 4];
             if (ctype_alnum($c) || $c == chr(0)) $rufus_chk = true;
             else break;

@@ -101,7 +101,7 @@ if (!$server_load_found) {
             $load_avg = explode(" ", $data);
             $load_limit = trim($load_avg[0]);
         }
-    } elseif (strstr(strtolower(PHP_OS) , 'win')) {
+    } elseif (strpos(strtolower(PHP_OS), 'win') !== false) {
         $serverstats = @shell_exec("typeperf \"Processor(_Total)\% Processor Time\" -sc 1");
         if ($serverstats) {
             $server_reply = explode("\n", str_replace("\r", "", $serverstats));
@@ -118,16 +118,16 @@ if (!$server_load_found) {
     }
 }
 $total_memory = $avail_memory = "--";
-if (strstr(strtolower(PHP_OS) , 'win')) {
+if (strpos(strtolower(PHP_OS), 'win') !== false) {
     $mem = @shell_exec('systeminfo');
     if ($mem) {
         $server_reply = explode("\n", str_replace("\r", "", $mem));
         if (count($server_reply) > 0) {
             foreach ($server_reply as $info) {
-                if (strstr($info, "Total Physical Memory")) {
+                if (strpos($info, "Total Physical Memory") !== false) {
                     $total_memory = trim(str_replace(":", "", strrchr($info, ":")));
                 }
-                if (strstr($info, "Available Physical Memory")) {
+                if (strpos($info, "Available Physical Memory") !== false) {
                     $avail_memory = trim(str_replace(":", "", strrchr($info, ":")));
                 }
             }
@@ -142,7 +142,7 @@ if (strstr(strtolower(PHP_OS) , 'win')) {
     $avail_memory = $mem[3] . ' MB';
 }
 $disabled_functions = @ini_get('disable_functions') ? str_replace(",", ", ", @ini_get('disable_functions')) : "<i>{$lang['system_noinf']}</i>";
-if (strstr(strtolower(PHP_OS) , 'win')) {
+if (strpos(strtolower(PHP_OS), 'win') !== false) {
     $tasks = @shell_exec("tasklist");
     $tasks = str_replace(" ", " ", $tasks);
 } else {

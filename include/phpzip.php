@@ -124,7 +124,7 @@ class PHPZip
         $crc = crc32($data);
         $zdata = gzcompress($data);
         $c_len = strlen($zdata);
-        $zdata = substr(substr($zdata, 0, strlen($zdata) - 4) , 2); // fix crc bug
+        $zdata = substr(substr($zdata, 0, -4) , 2); // fix crc bug
         $fr.= pack('V', $crc); // crc32
         $fr.= pack('V', $c_len); // compressed filesize
         $fr.= pack('V', $unc_len); // uncompressed filesize

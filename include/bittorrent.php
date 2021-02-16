@@ -1161,7 +1161,7 @@ function referer()
 {
     $host = !empty($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : '';
     $http_referer = getenv("HTTP_REFERER");
-    if ((strstr($http_referer, $host) == false) && ($http_referer != "")) {
+    if ((strpos($http_referer, $host) === false) && ($http_referer != "")) {
         $ip = $_SERVER['REMOTE_ADDR'];
         $http_agent = $_SERVER["HTTP_USER_AGENT"];
         $http_page = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
