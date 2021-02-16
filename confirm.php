@@ -18,7 +18,7 @@ if (!$CURUSER) {
     get_template();
 }
 $lang = array_merge(load_language('global') , load_language('confirm'));
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 $confirm = isset($_GET['secret']) ? $_GET['secret'] : '';
 if (!is_valid_id($id)) stderr("{$lang['confirm_user_error']}", "{$lang['confirm_invalid_id']}");
 //if (!preg_match("/^(?:[\d\w]){32}$/", $md5)) {
