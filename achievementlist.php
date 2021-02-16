@@ -25,14 +25,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $CURUSER['class'] >= UC_MAX) {
     $notes = htmlsafechars($_POST["notes"]);
     $clienticon = htmlsafechars($clienticon);
     $achievname = htmlsafechars($achievname);
-    sql_query("INSERT INTO achievementist (achievname, notes, clienticon) VALUES(" . sqlesc($achievname) . ", " . sqlesc($notes) . ", " . sqlesc($clienticon) . ")") or sqlerr(__FILE__, __LINE__);
+    sql_query("INSERT INTO achievementist (achievname, notes, clienticon) VALUES(" . sqlesc($achievname) . ", " . sqlesc($notes) . ", " . sqlesc($clienticon) . ")") || sqlerr(__FILE__, __LINE__);
     $message = "{$lang['achlst_new_ach_been_added']}. {$lang['achlst_achievement']}: [{$achievname}]";
     //autoshout($message);
     //$doUpdate = true;
     
 }
 // == Query update by Putyn
-$res = sql_query("SELECT a1.*, (SELECT COUNT(a2.id) FROM achievements AS a2 WHERE a2.achievement = a1.achievname) as count FROM achievementist AS a1 ORDER BY a1.id ") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT a1.*, (SELECT COUNT(a2.id) FROM achievements AS a2 WHERE a2.achievement = a1.achievname) as count FROM achievementist AS a1 ORDER BY a1.id ")) || sqlerr(__FILE__, __LINE__);
 $HTMLOUT = '';
 if ($res->num_rows == 0) {
     require_once (BLOCK_DIR . 'achievements/ach_list_noachiev.php');
