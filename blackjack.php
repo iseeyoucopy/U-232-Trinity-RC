@@ -92,11 +92,11 @@ if ($game) {
             cheater_check($arr['gameover'] == 'yes');
             $cardids = [];
             for ($i = 0; $i <= 1; $i++) {
-                $cardids[] = mt_rand(1, $cardcount);
+                $cardids[] = random_int(1, $cardcount);
             }
             foreach ($cardids as $cardid) {
                 while (in_array($cardid, $cardids)) {
-                    $cardid = mt_rand(1, $cardcount);
+                    $cardid = random_int(1, $cardcount);
                 }
                 $cardres = sql_query("SELECT points, pic FROM cards WHERE id='$cardid'");
                 $cardarr = $cardres->fetch_assoc();
@@ -133,9 +133,9 @@ if ($game) {
             }
         } elseif (($start_ != 'yes' && isset($_POST['continue']) != 'yes') && !$gameover) {
             cheater_check(empty($playerarr));
-            $cardid = mt_rand(1, $cardcount);
+            $cardid = random_int(1, $cardcount);
             while (in_array($cardid, $arr)) {
-                $cardid = mt_rand(1, $cardcount);
+                $cardid = random_int(1, $cardcount);
             }
             $cardres = sql_query("SELECT points, pic FROM cards WHERE id='$cardid'");
             $cardarr = $cardres->fetch_assoc();

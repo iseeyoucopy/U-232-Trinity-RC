@@ -21,7 +21,7 @@ function docleanup($data)
     if ($res->num_rows > 0) {
         $dt = TIME_NOW;
         $subject = sqlesc("New Achievement Earned!");
-        $points = rand(1, 3);
+        $points = random_int(1, 3);
         while ($arr = $res->fetch_assoc()) {
             $reqfilled = (int)$arr['reqfilled'];
             $lvl = (int)$arr['reqlvl'];

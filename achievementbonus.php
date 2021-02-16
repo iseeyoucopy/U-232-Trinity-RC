@@ -28,7 +28,7 @@ $lang = array_merge(load_language('global'), load_language('achievementbonus'));
 $id = (int) $CURUSER['id'];
 $min = 1;
 $max = 32;
-$rand = (int) mt_rand((int) $min, (int) $max);
+$rand = (int) random_int((int) $min, (int) $max);
 ($res = sql_query("SELECT achpoints FROM usersachiev WHERE id =" . sqlesc($id) . " AND achpoints >= '1'")) || sqlerr(__FILE__, __LINE__);
 $row = $res->fetch_row();
 $count = $row['0'];
@@ -117,7 +117,7 @@ if ($bonus_type == 4) {
     ], $TRINITY20['expires']['user_stats']);
 }
 if ($bonus_type == 5) {
-    $rand_fail = rand(1, 5);
+    $rand_fail = random_int(1, 5);
     if ($rand_fail == 1) {
         $msg = "{$lang['gl_sorry']}, {$lang['achbon_failed_msg1']}";
         sql_query("UPDATE usersachiev SET achpoints = achpoints-1, spentpoints = spentpoints+1 WHERE id =" . sqlesc($id)) || sqlerr(__FILE__, __LINE__);

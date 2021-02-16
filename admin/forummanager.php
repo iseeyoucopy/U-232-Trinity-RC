@@ -53,7 +53,7 @@ case 'process_edit' :
 		if($empty_check && empty($_POST[$key]))
 		stderr($lang['fm_mp_err1'], $lang['fm_mp_err3']);
 		else 
-			$$key = sqlesc($_POST[$key]);
+			${$key} = sqlesc($_POST[$key]);
 	}
 	$explode_do = explode('_',$do);
 	switch(end($explode_do)){

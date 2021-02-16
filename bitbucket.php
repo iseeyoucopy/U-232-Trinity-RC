@@ -229,7 +229,7 @@ function bucketrand()
 {
     $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $out = '';
-    for ($i = 0; $i < 6; $i++) $out.= $chars[mt_rand(0, 61) ];
+    for ($i = 0; $i < 6; $i++) $out.= $chars[random_int(0, 61) ];
     return $out;
 }
 function encrypt_decrypt($action, $string) 
