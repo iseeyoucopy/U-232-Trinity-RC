@@ -3920,7 +3920,7 @@ class GeSHi {
                             $attrs['class'][] = "ln-xtra";
                         }
                     } else {
-                        array_push($attrs['style'], $this->get_line_style($i));
+                        $attrs['style'][] = $this->get_line_style($i);
                     }
                 }
 

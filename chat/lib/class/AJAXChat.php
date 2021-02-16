@@ -172,10 +172,10 @@ class AJAXChat {
 				if($this->getConfig('logsUserAccessChannelList') && !in_array($channel, $this->getConfig('logsUserAccessChannelList'))) {
 					continue;
 				}
-				array_push($channels, $channel);
+				$channels[] = $channel;
 			}
-			array_push($channels, $this->getPrivateMessageID());
-			array_push($channels, $this->getPrivateChannelID());
+			$channels[] = $this->getPrivateMessageID();
+			$channels[] = $this->getPrivateChannelID();
 		} else {
 			// The channelID "ALL" authenticates for all channels:
 			$channels = array('ALL');
@@ -1027,12 +1027,12 @@ class AJAXChat {
 				$channels = $this->getChannels();
 				// Add the own private channel if allowed:
 				if($this->isAllowedToCreatePrivateChannel()) {
-					array_push($channels, $this->getPrivateChannelID());
+					$channels[] = $this->getPrivateChannelID();
 				}
 				// Add the invitation channels:
 				foreach($this->getInvitations() as $channelID) {
 					if(!in_array($channelID, $channels)) {
-						array_push($channels, $channelID);
+						$channels[] = $channelID;
 					}
 				}
 				$this->insertChatBotMessage(
@@ -1072,13 +1072,13 @@ class AJAXChat {
 		$channelNames = $this->getChannelNames();
 		// Add the own private channel, if allowed:
 		if($this->isAllowedToCreatePrivateChannel()) {
-			array_push($channelNames, $this->getPrivateChannelName());
+			$channelNames[] = $this->getPrivateChannelName();
 		}
 		// Add the invitation channels:
 		foreach($this->getInvitations() as $channelID) {
 			$channelName = $this->getChannelNameFromChannelID($channelID);
 			if($channelName !== null && !in_array($channelName, $channelNames)) {
-				array_push($channelNames, $channelName);
+				$channelNames[] = $channelName;
 			}
 		}
 		$this->insertChatBotMessage(
@@ -1522,7 +1522,7 @@ class AJAXChat {
 			
 			while($row = $result->fetch_assoc()) {
 				$row['ip'] = $this->ipFromStorageFormat($row['ip']);
-				array_push($this->_bannedUsersData, $row);
+				$this->_bannedUsersData[] = $row;
 			}
 			$result->free();
 			$mysqli->next_result();
@@ -1536,12 +1536,12 @@ class AJAXChat {
 				}
 				if($value) {
 					if($bannedUserData[$key] == $value) {
-						array_push($bannedUsersData, $bannedUserData);
+						$bannedUsersData[] = $bannedUserData;
 					} else {
 						continue;
 					}
 				} else {
-					array_push($bannedUsersData, $bannedUserData[$key]);	
+					$bannedUsersData[] = $bannedUserData[$key];
 				}
 			}
 			return $bannedUsersData;
@@ -2125,7 +2125,7 @@ class AJAXChat {
 			$this->_infoMessages[$type] = array();
 		}	
 		if(!in_array($info, $this->_infoMessages[$type])) {
-			array_push($this->_infoMessages[$type], $info);
+			$this->_infoMessages[$type][] = $info;
 		}
 	}
 	
@@ -2166,7 +2166,7 @@ class AJAXChat {
 			
 			while($row = $result->fetch_assoc()) {
 				$row['ip'] = $this->ipFromStorageFormat($row['ip']);
-				array_push($this->_onlineUsersData, $row);
+				$this->_onlineUsersData[] = $row;
 			}
 			$result->free();
 			$mysqli->next_result();
@@ -2184,15 +2184,15 @@ class AJAXChat {
 					}
 					if($value !== null) {
 						if($userData[$key] == $value) {
-							array_push($onlineUsersData, $userData);
+							$onlineUsersData[] = $userData;
 						} else {
 							continue;
 						}
 					} else {
-						array_push($onlineUsersData, $userData[$key]);	
+						$onlineUsersData[] = $userData[$key];
 					}
 				} else {
-					array_push($onlineUsersData, $userData);
+					$onlineUsersData[] = $userData;
 				}
 			}
 			return $onlineUsersData;
@@ -2336,7 +2336,7 @@ class AJAXChat {
 			$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
 			
 			while($row = $result->fetch_assoc()) {
-				array_push($this->_invitations, $row['channel']);
+				$this->_invitations[] = $row['channel'];
 			}
 			$result->free();
 			$mysqli->next_result();
