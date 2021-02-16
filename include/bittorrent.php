@@ -338,7 +338,7 @@ function userlogin()
         $res = "SELECT {$user_fields}, ann_main.subject AS curr_ann_subject, ann_main.body AS curr_ann_body " . "FROM users AS u " . "LEFT JOIN announcement_main AS ann_main " . "ON ann_main.main_id = u.curr_ann_id " . "WHERE u.id = " . sqlesc($id)." AND u.enabled='yes' AND u.status = 'confirmed'" or sqlerr(__FILE__, __LINE__);
         $result = sql_query($res);
         if ($result->num_rows == 0) {
-			$salty_user = isset($row['username']) ? $row['username'] : '';
+			$salty_user = $row['username'] ?? '';
 			$salty = HashIt($TRINITY20['site']['salt'], $salty_user);
             header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please={$salty}");
             return;
@@ -352,7 +352,7 @@ function userlogin()
     }
     //==
     if (get_mycookie('pass') !== h_cook($row['hash3'], $_SERVER["REMOTE_ADDR"], $row["id"])) {
-        $salty_user = isset($row['username']) ? $row['username'] : '';
+        $salty_user = $row['username'] ?? '';
         $salty = HashIt($TRINITY20['site']['salt'], $row['username']);
         header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please={$salty}");
         return;
@@ -559,7 +559,7 @@ function userlogin()
     $userupdate1 = "last_access_numb = " . TIME_NOW;
     //end online-time
     $update_time = ($row['onlinetime'] + $update_time);
-    $add_set = (isset($add_set)) ? $add_set : '';
+    $add_set = $add_set ?? '';
      if (($row['last_access'] != '0') AND (($row['last_access']) < ($dt - 180))/** 3 mins **/ || ($row['ip'] !== $ip)) 
     {
         sql_query("UPDATE users SET where_is =" . sqlesc($whereis) . ", ip=".sqlesc($ip).$add_set.", last_access=" . TIME_NOW . ", $userupdate0, $userupdate1 WHERE id=" . sqlesc($row['id']));
@@ -606,10 +606,10 @@ function autoclean()
     $now = TIME_NOW;
     $sql = sql_query("SELECT * FROM cleanup WHERE clean_on = 1 AND clean_time <= {$now} ORDER BY clean_time ASC LIMIT 0,1");
     $row = $sql->fetch_assoc();
-	$cleanid = isset($row['clean_id']) ? $row['clean_id'] : '';
-	$cleanfile = isset($row['clean_file']) ? $row['clean_file'] : '';
+	$cleanid = $row['clean_id'] ?? '';
+	$cleanfile = $row['clean_file'] ?? '';
     if ($cleanid) {
-        $next_clean = intval($now + (isset($row['clean_increment']) ? $row['clean_increment'] : 15 * 60));
+        $next_clean = intval($now + ($row['clean_increment'] ?? (15 * 60)));
         sql_query("UPDATE cleanup SET clean_time = ".sqlesc($next_clean)." WHERE clean_id = ".sqlesc($cleanid));
         if (file_exists(CLEAN_DIR . '' . $cleanfile)) {
             require_once (CLEAN_DIR . 'clean_log.php');
@@ -925,8 +925,8 @@ function sqlerr($file = '', $line = '')
         $_error_string.= "\n IP Address: " . $_SERVER['REMOTE_ADDR'];
         $_error_string.= "\n in file " . $file . " on line " . $line;
         $_error_string.= "\n URL:" . $_SERVER['REQUEST_URI'];
-		$error_username = isset($CURUSER['username']) ? $CURUSER['username'] : '';
-		$error_userid = isset($CURUSER['id']) ? $CURUSER['id'] : '';
+		$error_username = $CURUSER['username'] ?? '';
+		$error_userid = $CURUSER['id'] ?? '';
         $_error_string.= "\n Username: {$error_username}[{$error_userid}]";
         if ($FH = @fopen($TRINITY20['sql_error_log'], 'a')) {
             @fwrite($FH, $_error_string);
@@ -969,7 +969,7 @@ function unixstamp_to_human($unix = 0)
 {
     $offset = get_time_offset();
     $tmp = gmdate('j,n,Y,G,i', $unix + $offset);
-    list($day, $month, $year, $hour, $min) = explode(',', $tmp);
+    [$day, $month, $year, $hour, $min] = explode(',', $tmp);
     return array(
         'day' => $day,
         'month' => $month,
@@ -1161,7 +1161,7 @@ function referer()
 {
     $host = !empty($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : '';
     $http_referer = getenv("HTTP_REFERER");
-    if ((strstr($http_referer, $host) == false) && ($http_referer != "")) {
+    if ((strpos($http_referer, $host) === false) && ($http_referer != "")) {
         $ip = $_SERVER['REMOTE_ADDR'];
         $http_agent = $_SERVER["HTTP_USER_AGENT"];
         $http_page = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];

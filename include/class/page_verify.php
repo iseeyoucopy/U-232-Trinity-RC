@@ -30,10 +30,10 @@ class page_verify
     function create($task_name = 'Default')
     {
         global $CURUSER, $TRINITY20, $_SESSION;
-		$session_task = isset($CURUSER['id']) ? $CURUSER['id'] : '';
+		$session_task = $CURUSER['id'] ?? '';
         $_SESSION['Task_Time'] = TIME_NOW;
         $_SESSION['Task'] = md5('user_id:'.$session_task.'::taskname-'.$task_name.'::'.$_SESSION['Task_Time']);
-        $_SESSION['HTTP_USER_AGENT'] = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+        $_SESSION['HTTP_USER_AGENT'] = $_SERVER['HTTP_USER_AGENT'] ?? '';
         //$_SESSION['HTTP_USER_AGENT'] = $_SERVER['HTTP_USER_AGENT'];
     }
     function check($task_name = 'Default')
@@ -42,7 +42,7 @@ class page_verify
         $returl = (isset($_SERVER['HTTP_REFERER']) ? htmlsafechars($_SERVER['HTTP_REFERER']) : $TRINITY20['baseurl']."/login.php");
         $returl = str_replace('&amp;', '&', $returl);
         if (isset($_SESSION['HTTP_USER_AGENT']) && $_SESSION['HTTP_USER_AGENT'] != $_SERVER['HTTP_USER_AGENT']) stderr("Error", "Please resubmit the form. <a href='".$returl."'>Click HERE</a>", false);
-		$session_task_id = isset($CURUSER['id']) ? $CURUSER['id'] : '';
+		$session_task_id = $CURUSER['id'] ?? '';
         if (isset($session_task) && $session_task != md5('user_id:'.$session_task_id.'::taskname-'.$task_name.'::'.$_SESSION['Task_Time'])) stderr("Error", "Please resubmit the form. <a href='".$returl."'>Click HERE</a>", false);
         $this->create();
     }

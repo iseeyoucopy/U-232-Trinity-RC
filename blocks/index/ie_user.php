@@ -11,7 +11,7 @@
  * ------------  @version V6  ------------------*
  */
 $browser = $_SERVER['HTTP_USER_AGENT'];
-if (preg_match("/MSIE/i", $browser)) //browser is IE
+if (false !== stripos($browser, "MSIE")) //browser is IE
 {
     $HTMLOUT.= "<div class='card'>
 	<div class='card-divider'>

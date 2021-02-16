@@ -11,7 +11,7 @@
  * ------------  @version V6  ------------------*
  */
 // Chat bot messages
-if(stristr($text, 'hello')) {
+if(stripos($text, 'hello') !== false) {
 	// KEYWORDS TRIGGER START
     $this->insertChatBotMessage(
 	$this->getChannel(),
@@ -19,7 +19,7 @@ if(stristr($text, 'hello')) {
 	);
 }
 
-if(stristr($text, 'hi')) {
+if(stripos($text, 'hi') !== false) {
 	// KEYWORDS TRIGGER START
     $this->insertChatBotMessage(
 	$this->getChannel(),
@@ -27,42 +27,42 @@ if(stristr($text, 'hi')) {
 	);
 }
 
-if(stristr($text, ':hmmm:')) {
+if(stripos($text, ':hmmm:') !== false) {
     $this->insertChatBotMessage(
 	$this->getChannel(),
 		"Dont Think To Hard!.......You Might Hurt Yourself!\n" 
 	);
 }
 
-if(stristr($text, 'System')) {
+if(stripos($text, 'System') !== false) {
     $this->insertChatBotMessage(
 	$this->getChannel(),
 		"Are You Talking To Me?\n" 
 	);
 }
 
-if(stristr($text, ':laugh:')) {
+if(stripos($text, ':laugh:') !== false) {
     $this->insertChatBotMessage(
 	$this->getChannel(),
 		"Whats so funny?.....Im Guessing Your Face!\n" 
 	);
 }
 
-if(stristr($text, ':whistle:')) {
+if(stripos($text, ':whistle:') !== false) {
     $this->insertChatBotMessage(
 	$this->getChannel(),
 		":blush: Awww You Whistling At My Sexy Robot Parts?\n" 
 	);
 }
 
-if(stristr($text, 'NEW UPLOAD')) {
+if(stripos($text, 'NEW UPLOAD') !== false) {
     $this->insertChatBotMessage(
 	$this->getChannel(),
 		":w00t:\n" 
 	);
 }
 
-if(stristr($text, 'NEW INTERNAL UPLOAD')) {
+if(stripos($text, 'NEW INTERNAL UPLOAD') !== false) {
     $this->insertChatBotMessage(
 	$this->getChannel(),
 		":w00t:\n" 

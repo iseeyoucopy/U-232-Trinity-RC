@@ -250,7 +250,7 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
 function stdfoot($stdfoot = false)
 {
     global $CURUSER, $TRINITY20, $start, $query_stat, $cache, $querytime, $lang;
-    $user_id = isset($CURUSER['id']) ? $CURUSER['id'] : '';
+    $user_id = $CURUSER['id'] ?? '';
     $debug = (SQL_DEBUG && in_array($user_id, $TRINITY20['allowed_staff']['id']) ? 1 : 0);
     $seconds = microtime(true) - $start;
     $r_seconds = round($seconds, 5);
@@ -271,7 +271,7 @@ function stdfoot($stdfoot = false)
 		<script src="' . $TRINITY20['baseurl'] . '/scripts/' . $JS . '.js"></script>';
     }
     $querytime = 0;
-    $max_class = isset($CURUSER['class']) ? $CURUSER['class'] : '';
+    $max_class = $CURUSER['class'] ?? '';
     if ($CURUSER) {
         if ($query_stat && $debug) {
             $htmlfoot .= "

@@ -80,9 +80,9 @@ class StampedeProtector implements KeyValueStore
     public function get($key, &$token = null)
     {
         $values = $this->getMulti(array($key), $tokens);
-        $token = isset($tokens[$key]) ? $tokens[$key] : null;
+        $token = $tokens[$key] ?? null;
 
-        return isset($values[$key]) ? $values[$key] : false;
+        return $values[$key] ?? false;
     }
 
     /**

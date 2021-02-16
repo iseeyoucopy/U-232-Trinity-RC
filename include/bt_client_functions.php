@@ -16,7 +16,7 @@
 function StdDecodePeerId($id_data, $id_name)
 {
     $version_str = "";
-    for ($i = 0; $i <= strlen($id_data); $i++) {
+    for ($i = 0, $iMax = strlen($id_data); $i <= $iMax; $i++) {
         $c = $id_data[$i];
         if ($id_name == "BitTornado" || $id_name == "ABC") {
             if ($c != '-' && ctype_digit($c)) $version_str.= "$c.";
@@ -34,17 +34,17 @@ function StdDecodePeerId($id_data, $id_name)
             $version_str.= "$c.";
         } else break;
     }
-    $version_str = substr($version_str, 0, strlen($version_str) - 1);
+    $version_str = substr($version_str, 0, -1);
     return "$id_name $version_str";
 }
 function MainlineDecodePeerId($id_data, $id_name)
 {
     $version_str = "";
-    for ($i = 0; $i <= strlen($id_data); $i++) {
+    for ($i = 0, $iMax = strlen($id_data); $i <= $iMax; $i++) {
         $c = $id_data[$i] ?? '-';
         if ($c != '-' && ctype_alnum($c)) $version_str.= "$c.";
     }
-    $version_str = substr($version_str, 0, strlen($version_str) - 1);
+    $version_str = substr($version_str, 0, -1);
     return "$id_name $version_str";
 }
 function DecodeVersionString($ver_data, $id_name)
@@ -103,7 +103,7 @@ function getagent($httpagent, $peer_id = "")
     if (substr($peer_id, 0, 7) == 'martini') return "Martini Man"; // Martini Man
     if (substr($peer_id, 4, 6) == 'btfans') return "SimpleBT"; // SimpleBT
     if (substr($peer_id, 3, 9) == 'SimpleBT?') return "SimpleBT"; // SimpleBT
-    if (preg_match("/MFC_Tear_Sample/", preg_quote($httpagent))) return "SimpleBT";
+    if (false !== strpos(preg_quote($httpagent), "MFC_Tear_Sample")) return "SimpleBT";
     if (substr($peer_id, 0, 5) == 'btuga') return "BTugaXP"; // BTugaXP
     if (substr($peer_id, 0, 5) == 'BTuga') return "BTuga"; // BTugaXP
     if (substr($peer_id, 0, 5) == 'oernu') return "BTugaXP"; // BTugaXP
@@ -145,7 +145,7 @@ function getagent($httpagent, $peer_id = "")
         if (preg_match("/^Python/", $httpagent, $matches)) return "Spoofing BT Client"; // Spoofing BT Client
         return StdDecodePeerId(substr($peer_id, 3, 7) , "Azureus");
     }
-    if (preg_match("/Azureus/", $peer_id)) return "Azureus 2.0.3.2";
+    if (false !== strpos($peer_id, "Azureus")) return "Azureus 2.0.3.2";
     // BitComet/BitLord/BitVampire/Modded FUTB BitComet
     if (substr($peer_id, 0, 4) == 'exbc' || substr($peer_id, 1, 3) == 'UTB') {
         if (substr($peer_id, 0, 4) == 'FUTB') return DecodeVersionString(substr($peer_id, 4, 2) , "BitComet Mod1");
@@ -156,7 +156,7 @@ function getagent($httpagent, $peer_id = "")
     }
     // Rufus
     if (substr($peer_id, 2, 2) == 'RS') {
-        for ($i = 0; $i <= strlen(substr($peer_id, 4, 9)); $i++) {
+        for ($i = 0, $iMax = strlen(substr($peer_id, 4, 9)); $i <= $iMax; $i++) {
             $c = $peer_id[$i + 4];
             if (ctype_alnum($c) || $c == chr(0)) $rufus_chk = true;
             else break;

@@ -117,7 +117,7 @@ while ($hit_and_run_arr = $hit_and_run_rez->fetch_assoc()) {
                 //$minus_ratio = ($days_over_14 - $torrent_needed_seed_time) - ($hit_and_run_arr['uload'] / $hit_and_run_arr['dload'] * 86400);
                 break;
             }
-            $minus_ratio = (preg_match("/-/i", $minus_ratio) ? 0 : $minus_ratio);
+            $minus_ratio = (false !== stripos($minus_ratio, "-") ? 0 : $minus_ratio);
             $color = ($minus_ratio > 0 ? get_ratio_color($minus_ratio) : 'limegreen');
             $users = $hit_and_run_arr;
             $users['id'] = (int)$Uid_ID;
