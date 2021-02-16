@@ -60,13 +60,13 @@ $GLOBALS["byteUnits"] = array(
 );
 function byteformat($value, $limes = 2, $comma = 0)
 {
-    $dh = pow(10, $comma);
-    $li = pow(10, $limes);
+    $dh = 10 ** $comma;
+    $li = 10 ** $limes;
     $return_value = $value;
     $unit = $GLOBALS['byteUnits'][0];
     for ($d = 6, $ex = 15; $d >= 1; $d--, $ex-= 3) {
-        if (isset($GLOBALS['byteUnits'][$d]) && $value >= $li * pow(10, $ex)) {
-            $value = round($value / (pow(1024, $d) / $dh)) / $dh;
+        if (isset($GLOBALS['byteUnits'][$d]) && $value >= $li * (10 ** $ex)) {
+            $value = round($value / ((1024 ** $d) / $dh)) / $dh;
             $unit = $GLOBALS['byteUnits'][$d];
             break 1;
         } // end if

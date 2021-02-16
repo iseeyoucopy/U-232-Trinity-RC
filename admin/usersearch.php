@@ -435,7 +435,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
                     stdmsg($lang['usersearch_error'], $lang['usersearch_badmask']);
                     stdfoot();
                     die();
-                } else $mask = long2ip(pow(2, 32) - pow(2, 32 - $n));
+                } else $mask = long2ip((2 ** 32) - (2 ** (32 - $n)));
             } elseif (!preg_match($regex, $mask)) {
                 stdmsg($lang['usersearch_error'], $lang['usersearch_badmask']);
                 stdfoot();
