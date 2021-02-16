@@ -82,7 +82,7 @@ $user = get_user_from_torrent_pass($torrent_pass);
 if (!$user) err('Invalid passkey. Please redownload the torrent from ' . $TRINITY20['baseurl']);
 $userid = (int)$user["id"];
 $user['perms'] = (int)$user['perms'];
-if ($user['enabled'] == 'no') err('Permission denied, you\'re not enabled');
+if ($user['enabled'] == 0) err('Permission denied, you\'re not enabled');
 //== Start ip logger - Melvinmeow, Mindless, pdq
 if (ANN_IP_LOGGING == 1) {
     $no_log_ip = ($user['perms'] & bt_options::PERMS_NO_IP);
@@ -346,7 +346,7 @@ if (!isset($self)) {
         }
     }
     //=== abnormal upload detection
-    if ($user['highspeed'] == 'no' && $upthis > 103872) {
+    if ($user['highspeed'] == 0 && $upthis > 103872) {
         //=== Work out time difference
         $diff = (TIME_NOW - $self['ts']);
         $rate = ($upthis / ($diff + 1));
@@ -509,11 +509,11 @@ if ($seeder == 'yes') {
         'lastseed' => TIME_NOW
     ], 1800);
 }
-if (count($torrent_updateset) > 0) 
+if ((is_countable($torrent_updateset) ? count($torrent_updateset) : 0) > 0) 
 	ann_sql_query('UPDATE LOW_PRIORITY torrents SET ' . implode(',', $torrent_updateset) . ' WHERE id = ' . ann_sqlesc($torrentid)) || ann_sqlerr(__FILE__, __LINE__);
-if (count($snatch_updateset) > 0) 
+if ((is_countable($snatch_updateset) ? count($snatch_updateset) : 0) > 0) 
 	ann_sql_query('UPDATE LOW_PRIORITY snatched SET ' . implode(',', $snatch_updateset) . ' WHERE torrentid = ' . ann_sqlesc($torrentid) . ' AND userid = ' . ann_sqlesc($userid)) || ann_sqlerr(__FILE__, __LINE__);
-if (count($user_updateset) > 0) {
+if ((is_countable($user_updateset) ? count($user_updateset) : 0) > 0) {
     ann_sql_query('UPDATE LOW_PRIORITY users SET ' . implode(',', $user_updateset) . ' WHERE id = ' . ann_sqlesc($userid)) || ann_sqlerr(__FILE__, __LINE__);
     $cache->delete($keys['user_stats'] . $userid);
     $cache->delete('user_stats_' . $userid);

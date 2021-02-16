@@ -25,11 +25,11 @@ function dltable($name, $arr, $torrent)
 {
     global $CURUSER, $lang, $TRINITY20;
     $htmlout = '';
-    if (count($arr) === 0) return $htmlout = "
+    if ((is_countable($arr) ? count($arr) : 0) === 0) return $htmlout = "
         <p>{$lang['peerslist_no']} $name {$lang['peerslist_data_available']}</p>";
     $htmlout.= "
     <table class='striped'>
-    <tr><td colspan='11' class='text-left'>" . count($arr) . " $name</td></tr>
+    <tr><td colspan='11' class='text-left'>" . (is_countable($arr) ? count($arr) : 0) . " $name</td></tr>
     <tr><td class='text-center'><i class='fas fa-user' title='{$lang['peerslist_user_ip']}'></i></td>
     <td class='text-center'><i class='fas fa-link' title='{$lang['peerslist_connectable']}'></i></td>
     <td class='text-center'><i class='fas fa-upload' title='{$lang['peerslist_uploaded']}'></i></td>

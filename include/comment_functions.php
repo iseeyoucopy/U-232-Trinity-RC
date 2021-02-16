@@ -36,10 +36,10 @@ function commenttable($rows, $variant = 'torrent')
         $likes = empty($row['user_likes']) ? '' : explode(',', $row['user_likes']);
         if (!empty($likes) && count(array_unique($likes)) > 0) {
             if (in_array($CURUSER['id'], $likes)) {
-                if (count($likes) == 1) {
+                if ((is_countable($likes) ? count($likes) : 0) == 1) {
                     $att_str = jq('You like this');
                 } elseif (count(array_unique($likes)) > 1) {
-                    $att_str = jq('You and&nbsp;') . ((count(array_unique($likes)) - 1) == '1' ? '1 other person likes this' : (count($likes) - 1) . '&nbsp;others like this');
+                    $att_str = jq('You and&nbsp;') . ((count(array_unique($likes)) - 1) == '1' ? '1 other person likes this' : ((is_countable($likes) ? count($likes) : 0) - 1) . '&nbsp;others like this');
                 }
             } elseif (!(in_array($CURUSER['id'], $likes))) {
                 if (count(array_unique($likes)) == 1) {
@@ -101,10 +101,10 @@ function usercommenttable($rows)
         $likes = empty($row['user_likes']) ? '' : explode(',', $row['user_likes']);
         if (!empty($likes) && count(array_unique($likes)) > 0) {
             if (in_array($CURUSER['id'], $likes)) {
-                if (count($likes) == 1) {
+                if ((is_countable($likes) ? count($likes) : 0) == 1) {
                     $att_str = jq('You like this');
                 } elseif (count(array_unique($likes)) > 1) {
-                    $att_str = jq('You and&nbsp;') . ((count(array_unique($likes)) - 1) == '1' ? '1 other person likes this' : (count($likes) - 1) . '&nbsp;others like this');
+                    $att_str = jq('You and&nbsp;') . ((count(array_unique($likes)) - 1) == '1' ? '1 other person likes this' : ((is_countable($likes) ? count($likes) : 0) - 1) . '&nbsp;others like this');
                 }
             } elseif (!(in_array($CURUSER['id'], $likes))) {
                 if (count(array_unique($likes)) == 1) {

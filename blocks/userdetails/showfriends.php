@@ -21,7 +21,7 @@ if (($users_friends = $cache->get($keys['user_friends'])) === false) {
     }
     $cache->set($keys['user_friends'], $users_friends, 0);
 }
-if ($users_friends && count($users_friends) > 0) {
+if ($users_friends && (is_countable($users_friends) ? count($users_friends) : 0) > 0) {
     $user_friends = "<table width='100%' class='main' border='1' cellspacing='0' cellpadding='5'>\n" . "<tr><td class='colhead' width='20'>{$lang['userdetails_avatar']}</td><td class='colhead'>{$lang['userdetails_username']}" . ($CURUSER['class'] >= UC_STAFF ? $lang['userdetails_fip'] : "") . "</td><td class='colhead' align='center'>{$lang['userdetails_uploaded']}</td>" . ($TRINITY20['ratio_free'] ? "" : "<td class='colhead' align='center'>{$lang['userdetails_downloaded']}</td>") . "<td class='colhead' align='center'>{$lang['userdetails_ratio']}</td><td class='colhead' align='center'>{$lang['userdetails_status']}</td></tr>\n";
     if ($users_friends) {
         foreach ($users_friends as $a) {

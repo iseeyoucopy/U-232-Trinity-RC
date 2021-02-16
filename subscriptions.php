@@ -114,7 +114,7 @@ while ($arr = $res->fetch_assoc()) {
     $added = get_date($arr2["added"], 'DATE',1,0) . " GMT (" . (get_date($arr2["added"], 'LONG',1,0)) . ")";
     $count2 = '';
     // =======change colors
-    if ($count2 == 0) {
+    if (0 == 0) {
         $count2 += 1;
         $class = "one";
     } else {

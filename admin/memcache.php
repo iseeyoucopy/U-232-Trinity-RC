@@ -86,7 +86,7 @@ function parseMemcacheResults($str)
             $res[$l[0]][$l[1]] = $l[2];
             if ($l[0] == 'VALUE') { // next line is the value
                 $res[$l[0]][$l[1]] = array();
-                list($flag, $size) = explode(' ', $l[2]);
+                [$flag, $size] = explode(' ', $l[2]);
                 $res[$l[0]][$l[1]]['stat'] = array(
                     'flag' => $flag,
                     'size' => $size
@@ -101,12 +101,12 @@ function parseMemcacheResults($str)
 }
 function dumpCacheSlab($server, $slabId, $limit)
 {
-    list($host, $port) = explode(':', $server);
+    [$host, $port] = explode(':', $server);
     return sendMemcacheCommand($host, $port, 'stats cachedump ' . $slabId . ' ' . $limit);
 }
 function flushServer($server)
 {
-    list($host, $port) = explode(':', $server);
+    [$host, $port] = explode(':', $server);
     return sendMemcacheCommand($host, $port, 'flush_all');
 }
 function getCacheItems()
@@ -535,7 +535,7 @@ foreach ($_GET as $key => $g) {
 }
 // singleout
 // when singleout is set, it only gives details for that server.
-if (isset($_GET['singleout']) && $_GET['singleout'] >= 0 && $_GET['singleout'] < count($MEMCACHE_SERVERS)) {
+if (isset($_GET['singleout']) && $_GET['singleout'] >= 0 && $_GET['singleout'] < (is_countable($MEMCACHE_SERVERS) ? count($MEMCACHE_SERVERS) : 0)) {
     $MEMCACHE_SERVERS = array(
         $MEMCACHE_SERVERS[$_GET['singleout']]
     );
@@ -678,9 +678,9 @@ case 1: // host stats
 		<table cellspacing="0"><tbody>
 		<tr class="tr-1"><td class="td-0">PHP Version</td><td>$phpversion</td></tr>
 EOB;
-    echo "<tr class='tr-0'><td class='td-0'>Memcached Host" . ((count($MEMCACHE_SERVERS) > 1) ? 's' : '') . "</td><td>";
+    echo "<tr class='tr-0'><td class='td-0'>Memcached Host" . (((is_countable($MEMCACHE_SERVERS) ? count($MEMCACHE_SERVERS) : 0) > 1) ? 's' : '') . "</td><td>";
     $i = 0;
-    if (!isset($_GET['singleout']) && count($MEMCACHE_SERVERS) > 1) {
+    if (!isset($_GET['singleout']) && (is_countable($MEMCACHE_SERVERS) ? count($MEMCACHE_SERVERS) : 0) > 1) {
         foreach ($MEMCACHE_SERVERS as $server) {
             echo ($i + 1) . '. <a href="' . $TRINITY20['baseurl'] . '/staffpanel.php?tool=memcache&amp;singleout=' . $i++ . '">' . $server . '</a><br/>';
         }
@@ -795,7 +795,7 @@ case 4: //item dump
     // somebody has to do a fix to this.
     $theKey = htmlentities(base64_decode($_GET['key']));
     $theserver = $MEMCACHE_SERVERS[(int)$_GET['server']];
-    list($h, $p) = explode(':', $theserver);
+    [$h, $p] = explode(':', $theserver);
     $r = sendMemcacheCommand($h, $p, 'get ' . $theKey);
     echo <<<EOB
         <div class="info"><table cellspacing="0"><tbody>
@@ -815,7 +815,7 @@ case 5: // item delete
     }
     $theKey = htmlentities(base64_decode($_GET['key']));
     $theserver = $MEMCACHE_SERVERS[(int)$_GET['server']];
-    list($h, $p) = explode(':', $theserver);
+    [$h, $p] = explode(':', $theserver);
     $r = sendMemcacheCommand($h, $p, 'delete ' . $theKey);
     echo 'Deleting ' . $theKey . ':' . $r;
     break;

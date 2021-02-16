@@ -46,7 +46,7 @@ $do = isset($_GET["do"]) && $_GET["do"] == "disabled" ? "disabled" : "leechwarn"
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $r = $_POST["ref"] ?? $this_url;
     $_uids = isset($_POST["users"]) ? array_map('mkint', $_POST["users"]) : 0;
-    if ($_uids == 0 || count($_uids) == 0) stderr($lang['leechwarn_stderror'], $lang['leechwarn_nouser']);
+    if ($_uids == 0 || (is_countable($_uids) ? count($_uids) : 0) == 0) stderr($lang['leechwarn_stderror'], $lang['leechwarn_nouser']);
     $valid = array(
         "unwarn",
         "disable",

@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($msg)) $err[] = $lang['grouppm_nomsg'];
     //$msg .= "\n This is a group message !";
     if (empty($groups)) $err[] = $lang['grouppm_nogrp'];
-    if (count($err) == 0) {
+    if ((is_countable($err) ? count($err) : 0) == 0) {
         $where = $classes = $ids = array();
         foreach ($groups as $group) {
             if (is_string($group)) {
@@ -146,7 +146,7 @@ function dropdown()
     return $r . "</select>";
 }
 $HTMLOUT.= "<div class='row'><div class='col-md-12'>";
-if (count($err) > 0) {
+if ((is_countable($err) ? count($err) : 0) > 0) {
     $class = (stristr($err[0], "sent!") == true ? "sent" : "notsent");
     $errs = "<ul><li>" . implode("</li><li>", $err) . "</li></ul>";
     $HTMLOUT.= "<div class=\"" . $class . "\">$errs</div>";

@@ -45,7 +45,7 @@ function categories_table($cats, $wherecatina, $linkpage = '', $display = 'block
     $html = "";
     $html .= "<div id=\"cats\" style=\"display: {$display};\"><table><tbody align=\"left\"><tr>";
     $i = 0;
-    $ncats = count($cats);
+    $ncats = is_countable($cats) ? count($cats) : 0;
     $catsperrow = $TRINITY20['catperrow'];
     if (!empty($ncats));
     foreach ($cats as $cat) {
@@ -65,7 +65,7 @@ function categories_table($cats, $wherecatina, $linkpage = '', $display = 'block
             $html .= "<td>&nbsp;</td>";
     }
     $html .= "</tr></tbody></table></div>";
-    if (count($cats) > 0);
+    if ((is_countable($cats) ? count($cats) : 0) > 0);
     foreach ($cats as $cat) {
         $subcats = isset($cat['subcategory']) && is_array($cat['subcategory']) ? $cat['subcategory'] : array();
         if (count($subcats) > 0) {
@@ -85,7 +85,7 @@ function subcategories_table($cats, $wherecatina = array(), $linkpage = '', $nca
     $html .= "<tbody align=\"left\"><tr>";
     $catsperrow = $TRINITY20['catperrow'];
     $i = 0;
-    if (count($subcats) > 0)
+    if ((is_countable($subcats) ? count($subcats) : 0) > 0)
         foreach ($subcats as $cat) {
             $html .= ($i && $i % $catsperrow == 0) ? "</tr><tr>" : "";
             $html .= "<td class=\"one\" style=\"padding-bottom: 2px;padding-left: 7px;white-space: nowrap;\">
@@ -93,7 +93,7 @@ function subcategories_table($cats, $wherecatina = array(), $linkpage = '', $nca
     " . (($linkpage != '') ? "<a href=\"{$linkpage}?cats{$cats['tabletype']}[]={$cat['id']}\"><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlspecialchars($cat['image']) . "' alt='" . htmlspecialchars($cat['name']) . "' title='" . htmlspecialchars($cat['name']) . "' /></a>" : htmlspecialchars($cat['name'])) . "</td>\n";
             $i++;
         }
-    $nsubcats = count($subcats);
+    $nsubcats = is_countable($subcats) ? count($subcats) : 0;
     $nrows = ceil($nsubcats / $catsperrow);
     $lastrowcols = $nsubcats % $catsperrow;
     if ($lastrowcols != 0) {
@@ -109,10 +109,10 @@ function validsubcat($subcatid, $cats)
 {
     //Find Category with subcat
     $i = 0;
-    if (count($cats) > 0);
+    if ((is_countable($cats) ? count($cats) : 0) > 0);
     foreach ($cats as $cat) {
         $subcats = $cat['subcategory'];
-        if (count($subcats) > 0) {
+        if ((is_countable($subcats) ? count($subcats) : 0) > 0) {
             foreach ($subcats as $subcat) {
                 if ($subcat['id'] == $subcatid)
                     return True;

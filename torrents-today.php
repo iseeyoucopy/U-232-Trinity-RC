@@ -285,7 +285,7 @@ foreach ($cats as $cat) {
     $i++;
 }
 $alllink = "<div align='left'>&nbsp;</div>";
-$ncats = count($cats);
+$ncats = is_countable($cats) ? count($cats) : 0;
 $nrows = ceil($ncats / $TRINITY20['catsperrow']);
 $lastrowcols = $ncats % $TRINITY20['catsperrow'];
 if ($lastrowcols != 0) {

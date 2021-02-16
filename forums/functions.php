@@ -80,7 +80,7 @@ function subforums($arr) {
     $sub = "<font class='small'>Subforums:";
     $i = 0;
     foreach($arr as $k) {
-        $sub .= "&nbsp;<img src='{$TRINITY20['pic_base_url']}bullet_" . ($k["new"] == 1 ? "green.png" : "white.png") . "' width='8' title='".($k["new"] == 1 ? "New posts" : "Not new")."' border='0' alt='Subforum' /><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$k["id"]."'>".htmlsafechars($k["name"])."</a>" . (count($arr)-1 === $i ? "" : ",");
+        $sub .= "&nbsp;<img src='{$TRINITY20['pic_base_url']}bullet_" . ($k["new"] == 1 ? "green.png" : "white.png") . "' width='8' title='".($k["new"] == 1 ? "New posts" : "Not new")."' border='0' alt='Subforum' /><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$k["id"]."'>".htmlsafechars($k["name"])."</a>" . ((is_countable($arr) ? count($arr) : 0)-1 === $i ? "" : ",");
         $i++;
     }
     return $sub . "</font>";
@@ -112,7 +112,7 @@ function isMod($id, $what="topic")
 function showMods($ars) {
     $mods = "<font class='small'>Led by:&nbsp;";
     $i = 0;
-    $count = count($ars);
+    $count = is_countable($ars) ? count($ars) : 0;
     foreach($ars as $a) {
         $mods .= "<a href='userdetails.php?id=" . (int)$a[0] . "'>" . htmlsafechars($a[1]) . "</a>" . ($count -1 === $i ? "":" ,");
         $i++;
@@ -208,7 +208,7 @@ function show_forums($forid, $subforums = false, $sfa = "", $mods_array = "", $s
             $img = "<span class='forum_status forum_offlock ajax_mark_read' title='Forum Contains No Posts' ></span>";
         }
         if ($subforums == false && !empty($sfa[$forumid])) {
-            list($subposts, $subtopics) = get_count($sfa[$forumid]["count"]);
+            [$subposts, $subtopics] = get_count($sfa[$forumid]["count"]);
             $topics = $forums_arr["topic_count"] + $subtopics;
             $posts = $forums_arr["post_count"] + $subposts;
         } else {

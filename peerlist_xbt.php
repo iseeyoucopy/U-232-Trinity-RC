@@ -42,10 +42,10 @@ function dltable($name, $arr, $torrent)
 {
     global $CURUSER, $lang, $TRINITY20;
     $htmlout = '';
-    if (count($arr) === 0) return $htmlout = "<div align='left'><b>{$lang['peerslist_no']} $name {$lang['peerslist_data_available']}</b></div>\n";
+    if ((is_countable($arr) ? count($arr) : 0) === 0) return $htmlout = "<div align='left'><b>{$lang['peerslist_no']} $name {$lang['peerslist_data_available']}</b></div>\n";
     $htmlout = "\n";
     $htmlout.= "<table class='table table-bordered'>\n";
-    $htmlout.= "<tr><td colspan='11' class='colhead'>" . count($arr) . " $name</td></tr>" . "<tr><td class='colhead'>{$lang['peerslist_user_ip']}</td>" . "<td class='colhead' align='right'>{$lang['peerslist_uploaded']}</td>" . "<td class='colhead' align='right'>{$lang['peerslist_rate']}</td>" . "" . ($TRINITY20['ratio_free'] ? "" : "<td class='colhead' align='right'>{$lang['peerslist_downloaded']}</td>") . "" . "" . ($TRINITY20['ratio_free'] ? "" : "<td class='colhead' align='right'>{$lang['peerslist_rate']}</td>") . "" . "<td class='colhead' align='right'>{$lang['peerslist_ratio']}</td>" . "<td class='colhead' align='right'>{$lang['peerslist_complete']}</td>" . "<td class='colhead' align='right'>{$lang['peerslist_idle']}</td>" . "<td class='colhead' align='left'>{$lang['peerslist_client']}</td></tr>\n";
+    $htmlout.= "<tr><td colspan='11' class='colhead'>" . (is_countable($arr) ? count($arr) : 0) . " $name</td></tr>" . "<tr><td class='colhead'>{$lang['peerslist_user_ip']}</td>" . "<td class='colhead' align='right'>{$lang['peerslist_uploaded']}</td>" . "<td class='colhead' align='right'>{$lang['peerslist_rate']}</td>" . "" . ($TRINITY20['ratio_free'] ? "" : "<td class='colhead' align='right'>{$lang['peerslist_downloaded']}</td>") . "" . "" . ($TRINITY20['ratio_free'] ? "" : "<td class='colhead' align='right'>{$lang['peerslist_rate']}</td>") . "" . "<td class='colhead' align='right'>{$lang['peerslist_ratio']}</td>" . "<td class='colhead' align='right'>{$lang['peerslist_complete']}</td>" . "<td class='colhead' align='right'>{$lang['peerslist_idle']}</td>" . "<td class='colhead' align='left'>{$lang['peerslist_client']}</td></tr>\n";
     $now = TIME_NOW;
     $mod = $CURUSER['class'] >= UC_STAFF;
     foreach ($arr as $e) {

@@ -23,7 +23,7 @@ if (($topics = $cache->get($keys['last_postsb'] . $CURUSER['class'])) === false)
 	}
 	$cache->set($keys['last_postsb'] . $CURUSER['class'], $topics, $TRINITY20['expires']['latestposts']);
 }
-if ($topics && count($topics) > 0) {
+if ($topics && (is_countable($topics) ? count($topics) : 0) > 0) {
 	$HTMLOUT .= "<div class='card'>
 	<div class='card-divider'>
 		{$lang['latestposts_title']}

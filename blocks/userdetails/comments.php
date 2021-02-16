@@ -13,7 +13,7 @@
 //==comments
 if (($torrentcomments = $cache->get('torrent_comments_' . $id)) === false) {
     ($res = sql_query("SELECT COUNT(id) FROM comments WHERE user=" . sqlesc($user['id']))) || sqlerr(__FILE__, __LINE__);
-    list($torrentcomments) = $res->fetch_row();
+    [$torrentcomments] = $res->fetch_row();
     $cache->set('torrent_comments_' . $id, $torrentcomments, $TRINITY20['expires']['torrent_comments']);
 }
 if ($CURUSER['id'] == $id || $CURUSER['class'] >= UC_STAFF) {

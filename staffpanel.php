@@ -255,7 +255,7 @@ if (in_array($tool, $staff_tools) && file_exists(ADMIN_DIR . $staff_tools[$tool]
     }
     $HTMLOUT.="<div class='callout'>";
     if (!empty($errors)) {
-        $HTMLOUT .= stdmsg($lang['spanel_there'].' ' . (count($errors) > 1 ? 'are' : 'is') . ' ' . count($errors) . ' error' . (count($errors) > 1 ? 's' : '') . ' '.$lang['spanel_in_the_form'].'.', '<b>' . implode('<br />', $errors) . '</b>');
+        $HTMLOUT .= stdmsg($lang['spanel_there'].' ' . ((is_countable($errors) ? count($errors) : 0) > 1 ? 'are' : 'is') . ' ' . (is_countable($errors) ? count($errors) : 0) . ' error' . ((is_countable($errors) ? count($errors) : 0) > 1 ? 's' : '') . ' '.$lang['spanel_in_the_form'].'.', '<b>' . implode('<br />', $errors) . '</b>');
         $HTMLOUT .= "<br>";
     }
     $HTMLOUT .= "<form class='form-horizontal' method='post' action='{$_SERVER['PHP_SELF']}'>

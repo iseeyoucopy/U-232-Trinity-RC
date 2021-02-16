@@ -104,7 +104,7 @@ function tvmaze(&$torrents) {
         $cache->update_row('torrent_details_' . $torrents['id'], [
             'poster' => $img,
         ], 0);
-        if (count($row_update) > 0) {
+        if ((is_countable($row_update) ? count($row_update) : 0) > 0) {
             sql_query('UPDATE torrents set ' . implode(', ', $row_update) . ' WHERE id = ' . $torrents['id']) || sqlerr(__FILE__, __LINE__);
         }
 

@@ -171,7 +171,7 @@ if (!in_array('.'.pathinfo($file, PATHINFO_EXTENSION), $formats)) stderr($lang['
 if (!function_exists('exif_imagetype')) {
     function exif_imagetype($filename)
     {
-        if ((list($width, $height, $type, $attr) = getimagesize($filename)) !== false) {
+        if (([$width, $height, $type, $attr] = getimagesize($filename)) !== false) {
             return $type;
         }
         return false;

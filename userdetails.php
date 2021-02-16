@@ -334,7 +334,7 @@ $joindate = $user['added'] == 0 ? "{$lang['userdetails_na']}" : get_date($user['
 	$lastseen = $lastseen == 0 ? "{$lang['userdetails_never']}" : get_date($user['last_access'], '', 0, 1);
 if (($shit_list = $cache->get('shit_list_' . $id)) === false) {
 	($check_if_theyre_shitty = sql_query("SELECT suspect FROM shit_list WHERE userid=" . sqlesc($CURUSER['id']) . " AND suspect=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
-	list($shit_list) = $check_if_theyre_shitty->fetch_row();
+	[$shit_list] = $check_if_theyre_shitty->fetch_row();
 	$cache->set('shit_list_' . $id, $shit_list, $TRINITY20['expires']['shit_list']);
 	}
 $HTMLOUT = $perms = $stealth = $suspended = $watched_user = '';

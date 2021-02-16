@@ -1716,6 +1716,7 @@ if (($top_donators3 = $cache->get('top_donators3_')) === false) {
 		"SELECT bonuslog.id, SUM(bonuslog.donation) AS total, users.username, users.id AS userid, users.pirate, users.king, users.class, users.donor, users.warned, users.leechwarn, users.enabled, users.chatpost FROM bonuslog LEFT JOIN users ON bonuslog.id=users.id WHERE bonuslog.type = 'halfdownload' GROUP BY bonuslog.id ORDER BY total DESC LIMIT 10;"
 	)) || sqlerr(__FILE__, __LINE__);
 	while ($top_donator3 = $c->fetch_assoc()) {
+		$top_donators3 = (array) $top_donators3;
 		$top_donators3[] = $top_donator3;
 	}
 	$cache->set('top_donators3_', $top_donators3, 0);

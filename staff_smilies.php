@@ -42,7 +42,7 @@ $htmlout = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 $count = 0;
 $ctr = 0;
 global $staff_smilies;
-while ((list($code, $url) = each($staff_smilies))) {
+while (([$code, $url] = each($staff_smilies))) {
     if ($count % 3 == 0) $htmlout.= "<tr>";
     $htmlout.= "<td align='center'><a href=\"javascript: SmileIT('" . str_replace("'", "\'", $code) . "','" . htmlsafechars($_GET['form']) . "','" . htmlsafechars($_GET['text']) . "')\"><img border='0' src='./pic/smilies/" . $url . "' alt='' /></a></td>";
     $count++;

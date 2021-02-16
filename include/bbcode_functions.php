@@ -108,8 +108,8 @@ function check_BBcode($html)
     $openedtags = $result[1];
     preg_match_all('#</([a-z]+)>#iU', $html, $result);
     $closedtags = $result[1];
-    $len_opened = count($openedtags);
-    if (count($closedtags) === $len_opened) {
+    $len_opened = is_countable($openedtags) ? count($openedtags) : 0;
+    if ((is_countable($closedtags) ? count($closedtags) : 0) === $len_opened) {
         return $html;
     }
     $openedtags = array_reverse($openedtags);
@@ -126,9 +126,9 @@ function check_BBcode($html)
 function format_quotes($s)
 {
     preg_match_all('/\\[quote.*?\\]/', $s, $result, PREG_PATTERN_ORDER);
-    $openquotecount = count($openquote = $result[0]);
+    $openquotecount = is_countable($openquote = $result[0]) ? count($openquote = $result[0]) : 0;
     preg_match_all('/\\[\/quote\\]/', $s, $result, PREG_PATTERN_ORDER);
-    $closequotecount = count($closequote = $result[0]);
+    $closequotecount = is_countable($closequote = $result[0]) ? count($closequote = $result[0]) : 0;
     if ($openquotecount !== $closequotecount) return $s; // quote mismatch. Return raw string...
     // Get position of opening quotes
     $openval = array();

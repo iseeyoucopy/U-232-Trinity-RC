@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'user_tickets' => 0,
         'end_date' => 0
     ) as $key => $type) {
-        if (isset($_POST[$key]) && ($type == 0 && $_POST[$key] == 0 || $type == 1 && count($_POST[$key]) == 0)) stderr('Err', 'You forgot to fill some data');
+        if (isset($_POST[$key]) && ($type == 0 && $_POST[$key] == 0 || $type == 1 && (is_countable($_POST[$key]) ? count($_POST[$key]) : 0) == 0)) stderr('Err', 'You forgot to fill some data');
     }
     foreach ($lottery_config as $c_name => $c_value) if (isset($_POST[$c_name]) && $_POST[$c_name] != $c_value) $update[] = '(' . sqlesc($c_name) . ',' . sqlesc(is_array($_POST[$c_name]) ? implode('|', $_POST[$c_name]) : $_POST[$c_name]) . ')';
     if (sql_query('INSERT INTO lottery_config(name,value) VALUES ' . implode(',', $update) . ' ON DUPLICATE KEY update value=values(value)')) stderr('Success', 'Lottery configuration was saved! Click <a href=\'lottery.php?do=config\'>here to get back</a>');

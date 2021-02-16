@@ -114,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($arr["fps"] != $fps) $updateset[] = "fps = " . sqlesc($fps);
                 if ($arr["cds"] != $cd) $updateset[] = "cds = " . sqlesc($cd);
                 if ($arr["comment"] != $comment) $updateset[] = "comment = " . sqlesc($comment);
-                if (count($updateset) > 0) sql_query("UPDATE subtitles SET " . implode(",", $updateset) . " WHERE id =".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
+                if ((is_countable($updateset) ? count($updateset) : 0) > 0) sql_query("UPDATE subtitles SET " . implode(",", $updateset) . " WHERE id =".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
                 header("Refresh: 0; url=subtitles.php?mode=details&id=$id");
             }
         } //end edit

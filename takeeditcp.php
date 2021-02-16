@@ -443,7 +443,7 @@ if ($curuser_cache) {
 if ($user_cache) {
     $cache->update_row('user' . $CURUSER['id'], $user_cache, $TRINITY20['expires']['user_cache']);
 }
-if (count($updateset) > 0) 
+if ((is_countable($updateset) ? count($updateset) : 0) > 0) 
     sql_query("UPDATE users SET " . implode(",", $updateset) . " WHERE id = " . sqlesc($CURUSER["id"])) || sqlerr(__FILE__, __LINE__);
     //** Browse Page */
     if ($setbits !== 0) {
@@ -452,7 +452,7 @@ if (count($updateset) > 0)
     if ($clrbits !== 0) {
         $updateset_block[] = 'browse_page = (browse_page & ~' . $clrbits . ')';
     }
-    if (count($updateset_block) > 0) {
+    if ((is_countable($updateset_block) ? count($updateset_block) : 0) > 0) {
         sql_query('UPDATE user_blocks SET ' . implode(',', $updateset_block) . ' WHERE userid = ' . sqlesc($CURUSER["id"])) || sqlerr(__FILE__, __LINE__);
     }
     $cache->delete('blocks::' . $CURUSER["id"]);

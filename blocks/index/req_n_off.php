@@ -94,7 +94,7 @@ if (($offers = $cache->get('offers_')) === false) {
         $cache->update_row('offers_', $offers, $TRINITY20['expires']['off_limit']);
     }
 }
-if (count($offers) > 0) {
+if ((is_countable($offers) ? count($offers) : 0) > 0) {
     $HTMLOUT.= "<table class='table table-striped table-bordered'>";
     $HTMLOUT.= " <thead><tr>
                 <th class='col-md-1 text-left'><b>{$lang['req_off_cat']}</b></th>

@@ -33,7 +33,7 @@ function searchcloud_insert($word)
     $searchcloud = searchcloud();
     $ip = getip();
     $howmuch = isset($searchcloud[$word]) ? $searchcloud[$word] + 1 : 1;
-    if (!count($searchcloud) || !isset($searchcloud[$word])) {
+    if (!(is_countable($searchcloud) ? count($searchcloud) : 0) || !isset($searchcloud[$word])) {
         $searchcloud[$word] = $howmuch;
         $cache->set('searchcloud', $searchcloud, 0);
     } else {

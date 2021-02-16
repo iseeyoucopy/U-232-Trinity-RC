@@ -58,7 +58,7 @@ if (!$_POST['nullvote']) {
     }
     $poll_answers = unserialize(stripslashes($poll_data['choices']));
     reset($poll_answers);
-    if (count($vote_cast) < count($poll_answers)) {
+    if (count($vote_cast) < (is_countable($poll_answers) ? count($poll_answers) : 0)) {
         stderr('ERROR', 'No vote');
     }
     @sql_query("INSERT INTO poll_voters (user_id, ip_address, poll_id, vote_date)

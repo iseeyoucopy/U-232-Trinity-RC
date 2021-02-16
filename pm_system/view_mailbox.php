@@ -57,7 +57,7 @@ $filled = $messages > 0 ? (($messages / $maxbox) * 100) : 0;
 $mailbox_pic = get_percent_completed_image(round($filled));
 $num_messages = number_format($filled, 0);
 $link = 'pm_system.php?action=view_mailbox&amp;box=' . $mailbox . ($perpage < $messages ? '&amp;page=' . $page : '') . '&amp;order_by=' . $order_by . $desc_asc;
-list($menu, $LIMIT) = pager_new($messages, $perpage, $page, $link);
+[$menu, $LIMIT] = pager_new($messages, $perpage, $page, $link);
 //=== get message info we need to display then all nice and tidy like \o/
 ($res = sql_query('SELECT m.id AS message_id, m.sender, m.receiver, m.added, m.subject, m.unread, m.urgent, u.id, u.username, u.uploaded, u.downloaded, u.warned, u.suspended, u.enabled, u.donor, u.class, u.avatar, u.opt1, u.opt2,  u.leechwarn, u.chatpost, u.pirate, u.king, f.id AS friend, b.id AS blocked FROM messages AS m 
                             LEFT JOIN users AS u ON u.id=m.' . ($mailbox === PM_SENTBOX ? 'receiver' : 'sender') . ' 

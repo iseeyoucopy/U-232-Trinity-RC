@@ -41,7 +41,7 @@ function failedloginscheck()
     $total = 0;
     $ip = getip();
     ($res = sql_query("SELECT SUM(attempts) FROM failedlogins WHERE ip=" . sqlesc($ip))) || sqlerr(__FILE__, __LINE__);
-    list($total) = $res->fetch_row();
+    [$total] = $res->fetch_row();
     if ($total >= $TRINITY20['failedlogins']) {
         sql_query("UPDATE failedlogins SET banned = 'yes' WHERE ip=" . sqlesc($ip)) || sqlerr(__FILE__, __LINE__);
         stderr($lang['tlogin_locked'], "{$lang['tlogin_lockerr1']} . <b>(" . htmlsafechars($ip) . ")</b> . {$lang['tlogin_lockerr2']}");

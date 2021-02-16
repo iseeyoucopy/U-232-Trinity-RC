@@ -52,7 +52,7 @@ while ($at = $qt->fetch_assoc()) {
     if ($at['user'] == $CURUSER['id']) $lottery['current_user']['tickets'][] = $at['id'];
 }
 //set the current user total tickets amount
-$lottery['current_user']['total_tickets'] = count($lottery['current_user']['tickets']);
+$lottery['current_user']['total_tickets'] = is_countable($lottery['current_user']['tickets']) ? count($lottery['current_user']['tickets']) : 0;
 //check if the prize setting is set to calculate the totat pot
 if ($lottery_config['use_prize_fund']) $lottery['total_pot'] = $lottery_config['prize_fund'];
 else $lottery['total_pot'] = $lottery_config['ticket_amount'] * $lottery['total_tickets'];
@@ -77,7 +77,7 @@ $html.= "<ul style='text-align:left;'>
     <li>Winner(s) will get <b>" . $lottery['per_user'] . "</b> added to their seedbonus amount</li>
     <li>The Winners will be announced once the lottery has closed and posted on the home page.</li>";
 if (!$lottery_config['use_prize_fund']) $html.= "<li>The more tickets that are sold the bigger the pot will be !</li>";
-if (count($lottery['current_user']['tickets']) > 0) $html.= "<li>You own ticket numbers : <b>" . implode('</b>, <b>', $lottery['current_user']['tickets']) . "</b></li>";
+if ((is_countable($lottery['current_user']['tickets']) ? count($lottery['current_user']['tickets']) : 0) > 0) $html.= "<li>You own ticket numbers : <b>" . implode('</b>, <b>', $lottery['current_user']['tickets']) . "</b></li>";
 $html.= "</ul><hr/>
    <table class='table table-bordered'>
     <tr>

@@ -36,7 +36,7 @@ $htmlout = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
     }
     </script>
     <table class='table'>";
-$count = count($customsmilies);
+$count = is_countable($customsmilies) ? count($customsmilies) : 0;
 global $customsmilies;
 foreach($customsmilies as $code => $url) {
     if ($count % 3 == 0) $htmlout.= "<tr>";

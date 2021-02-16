@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     die;
 }
 require_once (CACHE_DIR . 'free_cache.php');
-if (isset($free) && (count($free) < 1)) {
+if (isset($free) && ((is_countable($free) ? count($free) : 0) < 1)) {
     $HTMLOUT.= '<h1>'.$lang['freelech_current'].'</h1>
                  <p align="center"><b>'.$lang['freelech_nofound'].'</b></p>';
 } else {

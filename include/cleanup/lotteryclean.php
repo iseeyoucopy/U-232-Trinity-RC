@@ -22,7 +22,7 @@ function docleanup($data)
         while ($a = $q->fetch_assoc()) $tickets[] = $a;
         shuffle($tickets);
         $lottery['winners'] = array();
-        $lottery['total_tickets'] = count($tickets);
+        $lottery['total_tickets'] = is_countable($tickets) ? count($tickets) : 0;
         for ($i = 0; $i < $lottery['total_tickets']; $i++) {
             if (!isset($lottery['winners'][$tickets[$i]['uid']])) $lottery['winners'][$tickets[$i]['uid']] = $tickets[$i];
             if ($lottery_config['total_winners'] == count($lottery['winners'])) break;
@@ -42,8 +42,8 @@ function docleanup($data)
             '(\'lottery_winners_amount\',' . $lottery['user_pot'] . ')',
             '(\'lottery_winners\',\'' . implode('|', array_keys($lottery['winners'])) . '\')'
         );
-        if (count($_userq) > 0) sql_query('INSERT INTO users(id,seedbonus,modcomment) VALUES ' . implode(',', $_userq) . ' ON DUPLICATE KEY UPDATE seedbonus = values(seedbonus), modcomment = values(modcomment)') || die($mysqli->error);
-        if (count($_pms) > 0) sql_query('INSERT INTO messages(sender, receiver, subject, msg, added) VALUES ' . implode(',', $_pms)) || die($mysqli->error);
+        if ((is_countable($_userq) ? count($_userq) : 0) > 0) sql_query('INSERT INTO users(id,seedbonus,modcomment) VALUES ' . implode(',', $_userq) . ' ON DUPLICATE KEY UPDATE seedbonus = values(seedbonus), modcomment = values(modcomment)') || die($mysqli->error);
+        if ((is_countable($_pms) ? count($_pms) : 0) > 0) sql_query('INSERT INTO messages(sender, receiver, subject, msg, added) VALUES ' . implode(',', $_pms)) || die($mysqli->error);
         sql_query('INSERT INTO lottery_config(name,value) VALUES ' . implode(',', $lconfig_update) . ' ON DUPLICATE KEY UPDATE value=values(value)') || die($mysqli->error);
         sql_query('DELETE FROM tickets') || die($mysqli->error);
     }

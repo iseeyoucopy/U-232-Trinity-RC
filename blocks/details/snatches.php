@@ -45,7 +45,7 @@ if (($Detail_Snatch = $cache->get($What_cache . $id)) === false) {
     $cache->set($What_cache . $id, $Detail_Snatch, $TRINITY20['expires']['details_snatchlist']);
 }
 
-if (($Detail_Snatch && count($Detail_Snatch) > 0 && $CURUSER['class'] >= UC_STAFF)) {
+if (($Detail_Snatch && (is_countable($Detail_Snatch) ? count($Detail_Snatch) : 0) > 0 && $CURUSER['class'] >= UC_STAFF)) {
     if ($Count > $perpage) 
 		$HTMLOUT.= $pager['pagertop'];
  //== \\0//

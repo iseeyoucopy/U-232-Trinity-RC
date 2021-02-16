@@ -90,7 +90,7 @@ case 'default':
     $count = $count_arr[0];
     $page = isset($_GET['page']) ? (int)$_GET['page'] : 0;
     $perpage = isset($_GET['perpage']) ? (int)$_GET['perpage'] : 5;
-    list($menu, $LIMIT) = pager_new($count, $perpage, $page, 'requests.php?' . ($perpage == 5 ? '' : '&amp;perpage=' . $perpage));
+    [$menu, $LIMIT] = pager_new($count, $perpage, $page, 'requests.php?' . ($perpage == 5 ? '' : '&amp;perpage=' . $perpage));
     ($main_query_res = sql_query('SELECT r.id AS request_id, r.request_name, r.category, r.added, r.requested_by_user_id, r.filled_by_user_id, r.filled_torrent_id, r.vote_yes_count, r.vote_no_count, r.comments, u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.leechwarn, u.chatpost, u.pirate, u.king,
 c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT JOIN categories AS c ON r.category = c.id LEFT JOIN users AS u ON r.requested_by_user_id = u.id ORDER BY r.added DESC ' . $LIMIT)) || sqlerr(__FILE__, __LINE__);
     if (($count = 0) !== 0) {
@@ -223,7 +223,7 @@ case 'request_details':
         //=== get stuff for the pager
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 0;
         $perpage = isset($_GET['perpage']) ? (int)$_GET['perpage'] : 5;
-        list($menu, $LIMIT) = pager_new($count, $perpage, $page, 'requests.php?action=request_details&amp;id=' . $id, ($perpage == 5 ? '' : '&amp;perpage=' . $perpage) . '#comments');
+        [$menu, $LIMIT] = pager_new($count, $perpage, $page, 'requests.php?action=request_details&amp;id=' . $id, ($perpage == 5 ? '' : '&amp;perpage=' . $perpage) . '#comments');
         ($subres = sql_query('SELECT c.request, c.id AS comment_id, c.text, c.added, c.editedby, c.editedat, u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.avatar, u.offensive_avatar, u.leechwarn, u.chatpost, u.pirate, u.king, u.title FROM comments AS c LEFT JOIN users AS u ON c.user = u.id WHERE c.request = ' . sqlesc($id) . ' ORDER BY c.id ' . $LIMIT)) || sqlerr(__FILE__, __LINE__);
         $allrows = array();
         while ($subrow = $subres->fetch_assoc()) $allrows[] = $subrow;

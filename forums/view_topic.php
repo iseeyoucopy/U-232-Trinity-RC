@@ -71,7 +71,7 @@ $pagemenu1 = "<div class='pagination'>
         <i style='font-size: 14px;' class='fa fa-paperclip'></i>&nbsp;&nbsp;Pages&nbsp;</span>&nbsp;&nbsp;";
 $perpage   = $Multi_forum['configs']['postsperpage'];
 $pages     = ceil($postcount / $perpage);
-if ($page == "p") {
+if ($page == 0) {
     $findpost = substr($page, 1);
     ($res = sql_query("SELECT id FROM posts WHERE topic_id=" . sqlesc($topicid) . " ORDER BY added")) || sqlerr(__FILE__, __LINE__);
     $i = 1;
@@ -333,10 +333,10 @@ while ($arr = $res->fetch_assoc()) {
     $likes = empty($arr['user_likes']) ? '' : explode(',', $arr['user_likes']);
     if (!empty($likes) && count(array_unique($likes)) > 0) {
         if (in_array($CURUSER['id'], $likes)) {
-            if (count($likes) == 1) {
+            if ((is_countable($likes) ? count($likes) : 0) == 1) {
                 $att_str = jq('You like this');
             } elseif (count(array_unique($likes)) > 1) {
-                $att_str = jq('You and&nbsp;') . ((count(array_unique($likes)) - 1) == '1' ? '1 other person likes this' : (count($likes) - 1) . '&nbsp;others like this');
+                $att_str = jq('You and&nbsp;') . ((count(array_unique($likes)) - 1) == '1' ? '1 other person likes this' : ((is_countable($likes) ? count($likes) : 0) - 1) . '&nbsp;others like this');
             }
         } elseif (!(in_array($CURUSER['id'], $likes))) {
             if (count(array_unique($likes)) == 1) {

@@ -36,7 +36,7 @@ function DoStaff($staff, $staffclass, $cols = 2)
     $htmlout = '';
     $dt = TIME_NOW - 180;
     if (!empty($staff)) {
-    $counter = count($staff);
+    $counter = is_countable($staff) ? count($staff) : 0;
     $rows = ceil($counter / $cols);
     $cols = ($counter < $cols) ? $counter : $cols;
     $r = 0;
