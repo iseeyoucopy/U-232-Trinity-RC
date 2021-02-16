@@ -22,7 +22,7 @@ require_once (CLASS_DIR . 'class_user_options_2.php');
 dbconn(false);
 loggedinorreturn();
 if (isset($_GET['clear_new']) && $_GET['clear_new'] == 1) {
-    sql_query("UPDATE users SET last_browse=" . TIME_NOW . " WHERE id=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+    sql_query("UPDATE users SET last_browse=" . TIME_NOW . " WHERE id=" . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
     $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
         'last_browse' => TIME_NOW
     ], $TRINITY20['expires']['curuser']);
@@ -126,7 +126,7 @@ if (isset($_GET['sort']) && isset($_GET['type'])) {
         break;
     }
     $orderby = "ORDER BY {$column} " . $ascdesc;
-    $pagerlink = "sort=" . intval($_GET['sort']) . "&amp;type={$linkascdesc}&amp;";
+    $pagerlink = "sort=" . (int) $_GET['sort'] . "&amp;type={$linkascdesc}&amp;";
 } else {
     $orderby = "ORDER BY sticky ASC, id DESC";
     $pagerlink = "";
@@ -135,18 +135,16 @@ $wherea = $wherecatina = array();
 if (isset($_GET["incldead"]) && $_GET["incldead"] == 1) {
     $addparam.= "incldead=1&amp;";
     if (!isset($CURUSER) || $CURUSER["class"] < UC_ADMINISTRATOR) $wherea[] = "banned != 'yes'";
+} elseif (isset($_GET["incldead"]) && $_GET["incldead"] == 2) {
+    $addparam.= "incldead=2&amp;";
+    $wherea[] = "visible = 'no'";
 } else {
-    if (isset($_GET["incldead"]) && $_GET["incldead"] == 2) {
-        $addparam.= "incldead=2&amp;";
-        $wherea[] = "visible = 'no'";
-    } else {
-     //$addparam.= "incldead=0&amp;";
-     $wherea[] = "visible = 'yes'";
-    }
+ //$addparam.= "incldead=0&amp;";
+ $wherea[] = "visible = 'yes'";
 }
 //=== added an only free torrents option \\o\o/o//
 if (isset($_GET['only_free']) && $_GET['only_free'] == 1) {
-    if (XBT_TRACKER == true ? $wherea[] = "freetorrent >= '1'" : $wherea[] = "free >= '1'");
+    if ((XBT_TRACKER == true ? $wherea[] = "freetorrent >= '1'" : $wherea[] = "free >= '1'") !== '');
     //$wherea[] = "free >= '1'";
     $addparam.= "only_free=1&amp;";
 }
@@ -157,11 +155,9 @@ $all = isset($_GET["all"]) ? $_GET["all"] : false;
             $all = true;
             foreach ($cats as $cat) {
                 $all&= $cat['id'];
-                if (strpos($CURUSER["notifs"], "[cat" . $cat['id'] . "]") !== false) {
-                    if($cat['min_class'] <= $CURUSER['class']){
-                        $wherecatina[] = $cat['id'];
-                        $addparam.= "c{$cat['id']}=1&amp;";
-                    }
+                if (strpos($CURUSER["notifs"], "[cat" . $cat['id'] . "]") !== false && $cat['min_class'] <= $CURUSER['class']) {
+                    $wherecatina[] = $cat['id'];
+                    $addparam.= "c{$cat['id']}=1&amp;";
                 }
             }
         } elseif ($category) {
@@ -173,11 +169,9 @@ $all = isset($_GET["all"]) ? $_GET["all"] : false;
             $all = true;
             foreach ($cats as $cat) {
                 $all&= isset($_GET["c{$cat['id']}"]);
-                if (isset($_GET["c{$cat['id']}"])) {
-                    if($cat['min_class'] <= $CURUSER['class']){
-                        $wherecatina[] = $cat['id'];
-                        $addparam.= "c{$cat['id']}=1&amp;";
-                    }
+                if (isset($_GET["c{$cat['id']}"]) && $cat['min_class'] <= $CURUSER['class']) {
+                    $wherecatina[] = $cat['id'];
+                    $addparam.= "c{$cat['id']}=1&amp;";
                 }
             }
         }
@@ -197,55 +191,53 @@ $all = isset($_GET["all"]) ? $_GET["all"] : false;
                 $wherecatina2[] = $cat['id'];
             }
         }
-        $wherea[] = 'category IN (' . join(', ', $wherecatina2) . ') ';
+        $wherea[] = 'category IN (' . implode(', ', $wherecatina2) . ') ';
         $addparam = "";
     }
 
-if (count($wherecatina) > 1) $wherea[] = 'category IN (' . join(', ', $wherecatina) . ') ';
+if (count($wherecatina) > 1) $wherea[] = 'category IN (' . implode(', ', $wherecatina) . ') ';
 elseif (count($wherecatina) == 1) $wherea[] = 'category =' . $wherecatina[0];
-if (isset($cleansearchstr)) {
-    //== boolean search by djgrr
-    if ($searchstr != '') {
-        $addparam.= 'search=' . rawurlencode($searchstr) . '&amp;searchin='.$select_searchin.'&amp;incldead='.intval($selected).'&amp;';
-        $searchstring = str_replace(array(
-            '_',
-            '.',
-            '-'
-        ) , ' ', $searchstr);
-        $s = array(
-            '*',
-            '?',
-            '.',
-            '-',
-            ' '
-        );
-        $r = array(
-            '%',
-            '_',
-            '_',
-            '_',
-            '_'
-        );
-        if (preg_match('/^\"(.+)\"$/i', $searchstring, $matches)) $wherea[] = '`name` LIKE ' . sqlesc('%' . str_replace($s, $r, $matches[1]) . '%');
-        elseif (strpos($searchstr, '*') !== false || strpos($searchstr, '?') !== false) $wherea[] = '`name` LIKE ' . sqlesc(str_replace($s, $r, $searchstr));
-        elseif (preg_match('/^[A-Za-z0-9][a-zA-Z0-9()._-]+-[A-Za-z0-9_]*[A-Za-z0-9]$/iD', $searchstr)) $wherea[] = '`name` = ' . sqlesc($searchstr);
-        else $wherea[] = 'MATCH (`search_text`, `filename`, `newgenre`, `tags`) AGAINST (' . sqlesc($searchstr) . ' IN BOOLEAN MODE)';
-        //......
-        $searcha = explode(' ', $cleansearchstr);
-        //==Memcache search cloud by putyn
-        searchcloud_insert($cleansearchstr);
-        //==
-        foreach ($searcha as $foo) {
-            foreach ($searchin as $boo) $searchincrt[] = sprintf('%s LIKE \'%s\'', $boo, '%' . $foo . '%');
-        }
-        $wherea[] = '( ' . join(' OR ', $searchincrt) . ' )';
+//== boolean search by djgrr
+if (isset($cleansearchstr) && $searchstr != '') {
+    $addparam.= 'search=' . rawurlencode($searchstr) . '&amp;searchin='.$select_searchin.'&amp;incldead='.(int) $selected.'&amp;';
+    $searchstring = str_replace(array(
+        '_',
+        '.',
+        '-'
+    ) , ' ', $searchstr);
+    $s = array(
+        '*',
+        '?',
+        '.',
+        '-',
+        ' '
+    );
+    $r = array(
+        '%',
+        '_',
+        '_',
+        '_',
+        '_'
+    );
+    if (preg_match('/^\"(.+)\"$/i', $searchstring, $matches)) $wherea[] = '`name` LIKE ' . sqlesc('%' . str_replace($s, $r, $matches[1]) . '%');
+    elseif (strpos($searchstr, '*') !== false || strpos($searchstr, '?') !== false) $wherea[] = '`name` LIKE ' . sqlesc(str_replace($s, $r, $searchstr));
+    elseif (preg_match('/^[A-Za-z0-9][a-zA-Z0-9()._-]+-\w*[A-Za-z0-9]$/iD', $searchstr)) $wherea[] = '`name` = ' . sqlesc($searchstr);
+    else $wherea[] = 'MATCH (`search_text`, `filename`, `newgenre`, `tags`) AGAINST (' . sqlesc($searchstr) . ' IN BOOLEAN MODE)';
+    //......
+    $searcha = explode(' ', $cleansearchstr);
+    //==Memcache search cloud by putyn
+    searchcloud_insert($cleansearchstr);
+    //==
+    foreach ($searcha as $foo) {
+        foreach ($searchin as $boo) $searchincrt[] = sprintf('%s LIKE \'%s\'', $boo, '%' . $foo . '%');
     }
+    $wherea[] = '( ' . implode(' OR ', $searchincrt) . ' )';
 }
 
-$where = count($wherea) ? 'WHERE ' . join(' AND ', $wherea) : '';
+$where = count($wherea) > 0 ? 'WHERE ' . implode(' AND ', $wherea) : '';
 $where_key = 'where::' . sha1($where);
 if (($count = $cache->get($where_key)) === false) {
-    $res = sql_query("SELECT COUNT(id) FROM torrents $where") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT COUNT(id) FROM torrents $where")) || sqlerr(__FILE__, __LINE__);
     $row = $res->fetch_row();
     $count = (int)$row[0];
     $cache->set($where_key, $count, $TRINITY20['expires']['browse_where']);
@@ -268,15 +260,12 @@ if ($count) {
     $pager = pager($torrentsperpage, $count, "browse.php?" . $addparam);
    
     $query = "SELECT id, search_text, category, leechers, seeders, bump, tags, release_group, subs, name, times_completed, size, added, poster, descr, type, free, freetorrent, silver, comments, numfiles, filename, anonymous, sticky, nuked, vip, nukereason, newgenre, description, owner, username, youtube, checked_by, IF(nfo <> '', 1, 0) as nfoav," . "IF(num_ratings < {$TRINITY20['minvotes']}, NULL, ROUND(rating_sum / num_ratings, 1)) AS rating " . "FROM torrents {$where} {$orderby} {$pager['limit']}";
-    $res = sql_query($query) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query($query)) || sqlerr(__FILE__, __LINE__);
 } else {
     unset($query);
 }
 
-if (isset($cleansearchstr)) 
-	$title = "{$lang['browse_search']} $searchstr";
-else 
-    $title = '';
+$title = isset($cleansearchstr) ? "{$lang['browse_search']} $searchstr" : '';
     ///Start top 10 torrents by categories in Slider
 if (curuser::$blocks['browse_page'] & block_browse::SLIDER && $BLOCKS['browse_slider_on']) {
     require_once (BLOCK_DIR . 'browse/slider_top10.php');
@@ -293,7 +282,7 @@ $HTMLOUT.= "<div class='cell large-12'>
                 <div class='grid-x grid-padding-x small-up-4 medium-up-6 large-up-8'>";
                     foreach ($cats as $cat) {
                         if($cat['min_class'] <= $CURUSER['class']) {
-                            $HTMLOUT.= ($i) ? "" : "";
+                            $HTMLOUT.= ($i !== 0) ? "" : "";
                             $HTMLOUT.= "<div class='cell'>
                             <input name='c" . (int)$cat['id'] . "'  type='checkbox' " . (in_array($cat['id'], $wherecatina) ? "checked='checked' " : "") . "value='1' >
                             <a href='browse.php?cat=" . (int)$cat['id'] . "'> " . ((curuser::$blocks['browse_page'] & block_browse::ICONS && $BLOCKS['browse_icons_on']) ? "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($cat['image']) . "' alt='" . htmlsafechars($cat['name']) . "' title='" . htmlsafechars($cat['name']) . "'>" : "" . htmlsafechars($cat['name']) . "") . "</a>
@@ -302,7 +291,7 @@ $HTMLOUT.= "<div class='cell large-12'>
                         }
                     }
                             //=== Search only free :o)
-                            $only_free =((isset($_GET['only_free'])) ? intval($_GET['only_free']) : '');
+                            $only_free =((isset($_GET['only_free'])) ? (int) $_GET['only_free'] : '');
                             //=== checkbox for only free torrents
                             $HTMLOUT.= '<div class="cell">
                                 <input type="checkbox" name="only_free" value="1"'.(isset($_GET['only_free']) ? ' checked="checked"' : '').'>
@@ -374,14 +363,12 @@ if ($count) {
     $HTMLOUT.="<!--<br /><div class='row'><div class='col-md-3 col-md-offset-5'><div style='display:inline-block;width:4px';></div><a href='{$TRINITY20["baseurl"]}/catalogue.php' class='btn btn-default btn-default'>Search our Catalogue</a></div></div><br /><br />-->";
     $HTMLOUT.= torrenttable($res);
     $HTMLOUT.= $pager['pagerbottom']."<br />";
+} elseif (isset($cleansearchstr)) {
+    $HTMLOUT.= "<div class='row'><div class='col-md-6 col-md-offset-4'><h2>{$lang['browse_not_found']}</h2>";
+    $HTMLOUT.= "{$lang['browse_tryagain']}</div></div>\n";
 } else {
-    if (isset($cleansearchstr)) {
-        $HTMLOUT.= "<div class='row'><div class='col-md-6 col-md-offset-4'><h2>{$lang['browse_not_found']}</h2>";
-        $HTMLOUT.= "{$lang['browse_tryagain']}</div></div>\n";
-    } else {
-        $HTMLOUT.= "<div class='row'><div class='col-md-6 col-md-offset-5'><h2>{$lang['browse_nothing']}</h2>\n";
-        $HTMLOUT.= "{$lang['browse_sorry']}</div></div>\n";
-    }
+    $HTMLOUT.= "<div class='row'><div class='col-md-6 col-md-offset-5'><h2>{$lang['browse_nothing']}</h2>\n";
+    $HTMLOUT.= "{$lang['browse_sorry']}</div></div>\n";
 }
 $HTMLOUT.= "";
 /*
