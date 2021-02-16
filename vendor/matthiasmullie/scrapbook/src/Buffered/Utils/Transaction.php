@@ -133,7 +133,7 @@ class Transaction implements KeyValueStore
          * servers, just has to be unique every time it's called in this
          * one particular request - which it is.
          */
-        $token = uniqid();
+        $token = uniqid('', true);
         $this->tokens[$token] = serialize($value);
 
         return $value;
@@ -169,7 +169,7 @@ class Transaction implements KeyValueStore
         // any tokens we get will be unreliable, so generate some replacements
         // (more elaborate explanation in get())
         foreach ($values as $key => $value) {
-            $token = uniqid();
+            $token = uniqid('', true);
             $tokens[$key] = $token;
             $this->tokens[$token] = serialize($value);
         }
