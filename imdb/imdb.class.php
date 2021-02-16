@@ -1741,7 +1741,7 @@ class IMDBHelper extends IMDB
      */
     public static function saveImageCast($sUrl, $cId)
     {
-        if ( ! preg_match('~http~', $sUrl)) {
+        if (false === strpos($sUrl, "http")) {
             return 'imdb/cast/not-found.jpg';
         }
 
