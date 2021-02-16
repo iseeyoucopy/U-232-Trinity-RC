@@ -28,8 +28,8 @@ if (!defined('IN_TRINITY20_FORUM')) {
     if (!is_valid_id($topicid)) {
         stderr('Error', 'Invalid ID');
     }
-    $r = sql_query("SELECT t.id, t.topic_name " . ($Multi_forum['configs']['use_poll_mod'] ? ",t.poll_id" : "") . ",t.forum_id,(SELECT COUNT(p.id) FROM posts as p where p.topic_id=" . sqlesc($topicid) . ") AS posts FROM topics as t WHERE t.id=" . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
-    $a = $r->fetch_assoc() or stderr("Error", "No topic was found");
+    ($r = sql_query("SELECT t.id, t.topic_name " . ($Multi_forum['configs']['use_poll_mod'] ? ",t.poll_id" : "") . ",t.forum_id,(SELECT COUNT(p.id) FROM posts as p where p.topic_id=" . sqlesc($topicid) . ") AS posts FROM topics as t WHERE t.id=" . sqlesc($topicid))) || sqlerr(__FILE__, __LINE__);
+    ($a = $r->fetch_assoc()) || stderr("Error", "No topic was found");
     if ($CURUSER["class"] >= UC_STAFF || isMod($a["forum_id"], "forum")) {
         $sure = isset($_GET['sure']) && (int) $_GET['sure'];
         if (!$sure) {
@@ -37,7 +37,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
         } else {
             write_log("topicdelete", "Topic <b>" . htmlsafechars($a["topic_name"]) . "</b> was deleted by <a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int) $CURUSER['id'] . "'>" . htmlsafechars($CURUSER['username']) . "</a>.");
             if ($Multi_forum['configs']['use_attachment_mod']) {
-                $res = sql_query("SELECT attachments.file_name " . "FROM posts " . "LEFT JOIN attachments ON attachments.post_id = posts.id " . "WHERE posts.topic_id = " . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
+                ($res = sql_query("SELECT attachments.file_name " . "FROM posts " . "LEFT JOIN attachments ON attachments.post_id = posts.id " . "WHERE posts.topic_id = " . sqlesc($topicid))) || sqlerr(__FILE__, __LINE__);
                 while ($arr = $res->fetch_assoc()) {
                     if (!empty($arr['filename']) && is_file($Multi_forum['configs']['attachment_dir'] . "/" . $arr['filename'])) {
                         unlink($Multi_forum['configs']['attachment_dir'] . "/" . $arr['filename']);
@@ -47,7 +47,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
             sql_query("DELETE posts, topics " .
                 ($Multi_forum['configs']['use_attachment_mod'] ? ", attachments, attachmentdownloads " : "") .
                 ($Multi_forum['configs']['use_poll_mod'] ? ", postpolls, postpollanswers " : "") . "FROM topics " . "LEFT JOIN posts ON posts.topic_id = topics.id " .
-                ($Multi_forum['configs']['use_attachment_mod'] ? "LEFT JOIN attachments ON attachments.post_id = posts.id " . "LEFT JOIN attachmentdownloads ON attachmentdownloads.file_id = attachments.id " : "") . ($Multi_forum['configs']['use_poll_mod'] ? "LEFT JOIN postpolls ON postpolls.id = topics.poll_id " . "LEFT JOIN postpollanswers ON postpollanswers.pollid = postpolls.id " : "") . "WHERE topics.id=" . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
+                ($Multi_forum['configs']['use_attachment_mod'] ? "LEFT JOIN attachments ON attachments.post_id = posts.id " . "LEFT JOIN attachmentdownloads ON attachmentdownloads.file_id = attachments.id " : "") . ($Multi_forum['configs']['use_poll_mod'] ? "LEFT JOIN postpolls ON postpolls.id = topics.poll_id " . "LEFT JOIN postpollanswers ON postpollanswers.pollid = postpolls.id " : "") . "WHERE topics.id=" . sqlesc($topicid)) || sqlerr(__FILE__, __LINE__);
             header('Location: ' . $TRINITY20['baseurl'] . '/forums.php?action=viewforum&forumid=' . (int) $a["forumid"]);
             exit();
         }

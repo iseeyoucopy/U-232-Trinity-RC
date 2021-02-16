@@ -32,7 +32,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
         if (!is_valid_id($pollid)) {
             stderr("Error", "Invalid ID!");
         }
-        $res = sql_query("SELECT pp.*, t.id AS tid FROM postpolls AS pp LEFT JOIN topics AS t ON t.poll_id = pp.id WHERE pp.id=" . sqlesc($pollid)) or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query("SELECT pp.*, t.id AS tid FROM postpolls AS pp LEFT JOIN topics AS t ON t.poll_id = pp.id WHERE pp.id=" . sqlesc($pollid))) || sqlerr(__FILE__, __LINE__);
         if ($res->num_rows == 0) {
             stderr("Error", "No poll found with that ID.");
         }
@@ -89,7 +89,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
                             "option18 = " . sqlesc($option18) . ", " .
                             "option19 = " . sqlesc($option19) . ", " .
                             "sort = " . sqlesc($sort) . " " .
-                    "WHERE id = " . sqlesc((int) $poll["id"])) or sqlerr(__FILE__, __LINE__);
+                    "WHERE id = " . sqlesc((int) $poll["id"])) || sqlerr(__FILE__, __LINE__);
         } else {
             if (!is_valid_id($topicid)) {
                 stderr('Error', 'Invalid topic ID!');
@@ -117,10 +117,10 @@ if (!defined('IN_TRINITY20_FORUM')) {
                             ", " . sqlesc($option17) .
                             ", " . sqlesc($option18) .
                             ", " . sqlesc($option19) .
-                            ", " . sqlesc($sort) . ")") or sqlerr(__FILE__, __LINE__);
+                            ", " . sqlesc($sort) . ")") || sqlerr(__FILE__, __LINE__);
                                             
             $pollnum = $mysqli->insert_id;
-            sql_query("UPDATE topics SET poll_id=" . sqlesc($pollnum) . " WHERE id=" . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
+            sql_query("UPDATE topics SET poll_id=" . sqlesc($pollnum) . " WHERE id=" . sqlesc($topicid)) || sqlerr(__FILE__, __LINE__);
         }
         header("Location: {$TRINITY20['baseurl']}/forums.php?action=viewtopic&topicid=$topicid");
         exit();
@@ -163,7 +163,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 	<input type='radio' name='sort' value='yes' " . ($subaction == "edit" ? ($poll["sort"] != "no" ? " checked='checked'" : "") : '') . " />Yes
 	<input type='radio' name='sort' value='no' " . ($subaction == "edit" ? ($poll["sort"] == "no" ? " checked='checked'" : "") : '') . " />No
 	</td></tr>
-	<tr><td colspan='2' align='center'><input type='submit' value='" . ($pollid ? 'Edit poll' : 'Create poll') . "' style='height: 20pt' /></td></tr>
+	<tr><td colspan='2' align='center'><input type='submit' value='" . ($pollid !== 0 ? 'Edit poll' : 'Create poll') . "' style='height: 20pt' /></td></tr>
 	</table>
 	<p align='center'><font color='red'>*</font> required</p>
 	</form>";

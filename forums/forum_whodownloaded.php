@@ -28,10 +28,10 @@ if (!defined('IN_TRINITY20_FORUM')) {
     if (!is_valid_id($fileid)) {
         die('Invalid ID!');
     }
-    $res = sql_query("SELECT file_id, at.file_name, at.user_id, username, atdl.times_downloaded, date, at.times_downloaded AS dl " .
+    ($res = sql_query("SELECT file_id, at.file_name, at.user_id, username, atdl.times_downloaded, date, at.times_downloaded AS dl " .
                        "FROM attachmentdownloads AS atdl " .
                        "LEFT JOIN attachments AS at ON at.id=atdl.file_id " .
-                       "WHERE file_id = " . sqlesc($fileid) . ($CURUSER['class'] < UC_STAFF ? " AND user_id=" . sqlesc($CURUSER['id']) : '')) or sqlerr(__FILE__, __LINE__);
+                       "WHERE file_id = " . sqlesc($fileid) . ($CURUSER['class'] < UC_STAFF ? " AND user_id=" . sqlesc($CURUSER['id']) : ''))) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows== 0) {
         die("<h2 align='center'>Nothing found!</h2>");
     } else {

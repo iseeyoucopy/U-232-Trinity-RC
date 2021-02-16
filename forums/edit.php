@@ -27,7 +27,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 $forumid = (int)$_GET["forumid"];
 if ($CURUSER['class'] >= MAX_CLASS || isMod($forumid, "forum")) {
     if (!is_valid_id($forumid)) stderr('Error', 'Invalid ID!');
-    $res = sql_query("SELECT 
+    ($res = sql_query("SELECT 
                         name, 
                         description, 
                         min_class_read, 
@@ -36,7 +36,7 @@ if ($CURUSER['class'] >= MAX_CLASS || isMod($forumid, "forum")) {
                     FROM 
                         forums 
                     WHERE 
-                        id=".sqlesc($forumid)) or sqlerr(__FILE__, __LINE__);
+                        id=".sqlesc($forumid))) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows == 0) stderr('Error', 'No forum found with that ID!');
     $forum = $res->fetch_assoc();
     if ($TRINITY20['forums_online'] == 0) 

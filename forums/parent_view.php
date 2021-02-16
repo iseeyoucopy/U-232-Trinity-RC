@@ -28,9 +28,9 @@ if (!defined('IN_TRINITY20_FORUM')) {
 $ovfid = (isset($_GET["forid"]) ? (int) $_GET["forid"] : 0);
 if (!is_valid_id($ovfid))
     stderr('Error', 'Invalid ID!');
-$res = sql_query("SELECT name FROM over_forums WHERE id=" . sqlesc($ovfid)) or sqlerr(__FILE__, __LINE__);
-$arr = $res->fetch_assoc() or stderr('Sorry', 'No forums with that ID!');
-sql_query("UPDATE users SET forum_access = " . TIME_NOW . " WHERE id=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT name FROM over_forums WHERE id=" . sqlesc($ovfid))) || sqlerr(__FILE__, __LINE__);
+($arr = $res->fetch_assoc()) || stderr('Sorry', 'No forums with that ID!');
+sql_query("UPDATE users SET forum_access = " . TIME_NOW . " WHERE id=" . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
 if ($TRINITY20['forums_online'] == 0)
     $HTMLOUT .= stdmsg('Warning', 'Forums are currently in maintainance mode');
 $HTMLOUT .= "

@@ -29,7 +29,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     if (!is_valid_id($postid)) {
         stderr('Error', 'Invalid ID!');
     }
-    $res = sql_query("SELECT p.user_id, p.topic_id, p.icon, p.body, t.locked, t.forum_id  " . "FROM posts AS p " . "LEFT JOIN topics AS t ON t.id = p.topic_id " . "WHERE p.id = " . sqlesc($postid)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT p.user_id, p.topic_id, p.icon, p.body, t.locked, t.forum_id  " . "FROM posts AS p " . "LEFT JOIN topics AS t ON t.id = p.topic_id " . "WHERE p.id = " . sqlesc($postid))) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows== 0) {
         stderr("Error", "No post with that ID!");
     }
@@ -44,9 +44,9 @@ if (!defined('IN_TRINITY20_FORUM')) {
             stderr("Error", "Body cannot be empty!");
         }
         if (!isset($_POST['lasteditedby'])) {
-            sql_query("UPDATE posts SET body=" . sqlesc($body) . ", edit_date=" . TIME_NOW . ", edited_by=" . sqlesc($CURUSER['id']) . ", icon=" . sqlesc($posticon) . " WHERE id=" . sqlesc($postid)) or sqlerr(__FILE__, __LINE__);
+            sql_query("UPDATE posts SET body=" . sqlesc($body) . ", edit_date=" . TIME_NOW . ", edited_by=" . sqlesc($CURUSER['id']) . ", icon=" . sqlesc($posticon) . " WHERE id=" . sqlesc($postid)) || sqlerr(__FILE__, __LINE__);
         } else {
-            sql_query("UPDATE posts SET body=" . sqlesc($body) . ", icon=" . sqlesc($posticon) . " WHERE id=" . sqlesc($postid)) or sqlerr(__FILE__, __LINE__);
+            sql_query("UPDATE posts SET body=" . sqlesc($body) . ", icon=" . sqlesc($posticon) . " WHERE id=" . sqlesc($postid)) || sqlerr(__FILE__, __LINE__);
         }
         header("Location: {$TRINITY20['baseurl']}/forums.php?action=viewtopic&topicid=" . (int) $arr['topic_id'] . "&page=p$postid#p$postid");
         exit();

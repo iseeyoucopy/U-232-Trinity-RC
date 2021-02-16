@@ -28,7 +28,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     if (!is_valid_id($pollid)) {
         stderr("Error", "Invalid ID!");
     }
-    $res = sql_query("SELECT pp.id, t.id AS tid FROM postpolls AS pp LEFT JOIN topics AS t ON t.poll_id = pp.id WHERE pp.id=" . sqlesc($pollid)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT pp.id, t.id AS tid FROM postpolls AS pp LEFT JOIN topics AS t ON t.poll_id = pp.id WHERE pp.id=" . sqlesc($pollid))) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows == 0) {
         stderr("Error", "No poll found with that ID.");
     }

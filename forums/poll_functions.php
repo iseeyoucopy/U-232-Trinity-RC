@@ -24,7 +24,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     echo $HTMLOUT;
     exit();
 }
-        $res = sql_query("SELECT p.*, pa.id AS pa_id, pa.selection FROM postpolls AS p LEFT JOIN postpollanswers AS pa ON pa.pollid = p.id AND pa.userid = " . sqlesc($CURUSER['id']) . " WHERE p.id=" . sqlesc($pollid)) or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query("SELECT p.*, pa.id AS pa_id, pa.selection FROM postpolls AS p LEFT JOIN postpollanswers AS pa ON pa.pollid = p.id AND pa.userid = " . sqlesc($CURUSER['id']) . " WHERE p.id=" . sqlesc($pollid))) || sqlerr(__FILE__, __LINE__);
         if ($res->num_rows > 0) {
             $arr1 = $res->fetch_assoc();
             $userid = (int) $CURUSER['id'];
@@ -44,7 +44,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
             $HTMLOUT .="</h2></td></tr>";
             $HTMLOUT .="<tr><td align='center' class='clearalt7'>
 		  <table width='55%'><tr><td class='clearalt6'><div align='center'><b>{$question}</b></div>";
-            $voted = (is_valid_id($arr1['pa_id']) ? true : false);
+            $voted = ((bool) is_valid_id($arr1['pa_id']));
             if (($locked && $CURUSER['class'] < UC_STAFF) ? true : $voted) {
                 $uservote = ($arr1["selection"] != '' ? (int) $arr1["selection"] : -1);
                 $res_v = sql_query("SELECT selection FROM postpollanswers WHERE pollid=" . sqlesc($pollid) . " AND selection < 20");
@@ -57,7 +57,8 @@ if (!defined('IN_TRINITY20_FORUM')) {
                     $vs[$arr_v[0]] += 1;
                 }
                 reset($o);
-                for ($i = 0; $i < count($o); ++$i) {
+                $oCount = count($o);
+                for ($i = 0; $i < $oCount; ++$i) {
                     if ($o[$i]) {
                         $os[$i] = [$vs[$i], $o[$i]];
                     }
@@ -78,13 +79,13 @@ if (!defined('IN_TRINITY20_FORUM')) {
                 $HTMLOUT .="<br />
 			  <table width='100%' style='border:none;' cellpadding='5'>";
                 foreach ($os as $a) {
-                    if ($i == $uservote) {
+                    if ($i === $uservote) {
                         $a[1] .= " *";
                     }
                     $p = ($tvotes == 0 ? 0 : round($a[0] / $tvotes * 100));
-                    $c = ($i % 2 ? '' : "poll");
+                    $c = ($i % 2 !== 0 ? '' : "poll");
                     $p = ($tvotes == 0 ? 0 : round($a[0] / $tvotes * 100));
-                    $c = ($i % 2 ? '' : "poll");
+                    $c = ($i % 2 !== 0 ? '' : "poll");
                     $HTMLOUT .="<tr>";
                     $HTMLOUT .="<td width='1%' style='padding:3px;white-space:nowrap;' class='embedded" . $c . "'>" . htmlsafechars($a[1]) . "</td>
 					<td width='99%' class='embedded" . $c . "' align='center'>
@@ -105,12 +106,12 @@ if (!defined('IN_TRINITY20_FORUM')) {
                 }
             }
             $HTMLOUT .="</form></td></tr></table>";
-            $listvotes = (isset($_GET['listvotes']) ? true : false);
+            $listvotes = (isset($_GET['listvotes']));
             if ($CURUSER['class'] >= UC_ADMINISTRATOR) {
                 if (!$listvotes) {
                     $HTMLOUT .="[<font class='small'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid&amp;listvotes'>List Voters</a></font>]";
                 } else {
-                    $res_vv = sql_query("SELECT pa.userid, u.username, u.anonymous FROM postpollanswers AS pa LEFT JOIN users AS u ON u.id = pa.userid WHERE pa.pollid=" . sqlesc($pollid)) or sqlerr(__FILE__, __LINE__);
+                    ($res_vv = sql_query("SELECT pa.userid, u.username, u.anonymous FROM postpollanswers AS pa LEFT JOIN users AS u ON u.id = pa.userid WHERE pa.pollid=" . sqlesc($pollid))) || sqlerr(__FILE__, __LINE__);
                     $voters = '';
                     while ($arr_vv = $res_vv->fetch_assoc()) {
                         if (!empty($voters) && !empty($arr_vv['username'])) {

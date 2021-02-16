@@ -28,14 +28,14 @@ function catch_up($id = 0)
 {
     global $CURUSER, $TRINITY20, $mysqli;
     $userid = (int) $CURUSER['id'];
-    $res = sql_query("SELECT t.id, t.last_post, r.id AS r_id, r.last_post_read " . "FROM topics AS t " . "LEFT JOIN posts AS p ON p.id = t.last_post " . "LEFT JOIN read_posts AS r ON r.user_id=" . sqlesc($userid) . " AND r.topic_id=t.id " . "WHERE p.added > " . sqlesc(TIME_NOW - $TRINITY20['readpost_expiry']) .
-        (!empty($id) ? ' AND t.id ' . (is_array($id) ? 'IN (' . implode(', ', $id) . ')' : '= ' . sqlesc($id)) : '')) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT t.id, t.last_post, r.id AS r_id, r.last_post_read " . "FROM topics AS t " . "LEFT JOIN posts AS p ON p.id = t.last_post " . "LEFT JOIN read_posts AS r ON r.user_id=" . sqlesc($userid) . " AND r.topic_id=t.id " . "WHERE p.added > " . sqlesc(TIME_NOW - $TRINITY20['readpost_expiry']) .
+        (empty($id) ? '' : ' AND t.id ' . (is_array($id) ? 'IN (' . implode(', ', $id) . ')' : '= ' . sqlesc($id))))) || sqlerr(__FILE__, __LINE__);
     while ($arr = $res->fetch_assoc()) {
         $postid = (int) $arr['lastpost'];
         if (!is_valid_id($arr['r_id'])) {
-            sql_query("INSERT INTO read_posts (user_id, topic_id, last_post_read) VALUES" . sqlesc($userid) . ", " . sqlesc($arr['id']) . ", " . sqlesc($postid) . ")") or sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO read_posts (user_id, topic_id, last_post_read) VALUES" . sqlesc($userid) . ", " . sqlesc($arr['id']) . ", " . sqlesc($postid) . ")") || sqlerr(__FILE__, __LINE__);
         } elseif ($arr['last_post_read'] < $postid) {
-            sql_query("UPDATE read_posts SET last_post_read=" . sqlesc($postid) . " WHERE id =" . sqlesc($arr['r_id'])) or sqlerr(__FILE__, __LINE__);
+            sql_query("UPDATE read_posts SET last_post_read=" . sqlesc($postid) . " WHERE id =" . sqlesc($arr['r_id'])) || sqlerr(__FILE__, __LINE__);
         }
     }
     $res->free();
@@ -44,7 +44,7 @@ function catch_up($id = 0)
 // -------- Returns the minimum read/write class levels of a forum
 function get_forum_access_levels($forumid)
 {
-    $res = sql_query("SELECT min_class_read, min_class_write, min_class_create FROM forums WHERE id=" . sqlesc($forumid)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT min_class_read, min_class_write, min_class_create FROM forums WHERE id=" . sqlesc($forumid))) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows != 1) {
         return false;
     }
@@ -54,7 +54,7 @@ function get_forum_access_levels($forumid)
 // -------- Returns the forum ID of a topic, or false on error
 function get_topic_forum($topicid)
 {
-    $res = sql_query("SELECT forum_id FROM topics WHERE id=" . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT forum_id FROM topics WHERE id=" . sqlesc($topicid))) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows != 1) {
         return false;
     }
@@ -64,13 +64,13 @@ function get_topic_forum($topicid)
 // -------- Returns the ID of the last post of a forum
 function update_topic_last_post($topicid)
 {
-    $res = sql_query("SELECT MAX(id) AS id FROM posts WHERE topic_id=" . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
-    $arr = $res->fetch_assoc() or die("No post found");
-    sql_query("UPDATE topics SET last_post=" . sqlesc($arr['id']) . " WHERE id=" . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT MAX(id) AS id FROM posts WHERE topic_id=" . sqlesc($topicid))) || sqlerr(__FILE__, __LINE__);
+    ($arr = $res->fetch_assoc()) || die("No post found");
+    sql_query("UPDATE topics SET last_post=" . sqlesc($arr['id']) . " WHERE id=" . sqlesc($topicid)) || sqlerr(__FILE__, __LINE__);
 }
 function get_forum_last_post($forumid)
 {
-    $res = sql_query("SELECT MAX(last_post) AS last_post FROM topics WHERE forum_id=" . sqlesc($forumid)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT MAX(last_post) AS last_post FROM topics WHERE forum_id=" . sqlesc($forumid))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
     $postid = (int) $arr['last_post'];
     return (is_valid_id($postid) ? $postid : 0);
@@ -80,11 +80,10 @@ function subforums($arr) {
     $sub = "<font class='small'>Subforums:";
     $i = 0;
     foreach($arr as $k) {
-        $sub .= "&nbsp;<img src='{$TRINITY20['pic_base_url']}bullet_" . ($k["new"] == 1 ? "green.png" : "white.png") . "' width='8' title='".($k["new"] == 1 ? "New posts" : "Not new")."' border='0' alt='Subforum' /><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$k["id"]."'>".htmlsafechars($k["name"])."</a>" . ((count($arr)-1) == $i ? "" : ",");
+        $sub .= "&nbsp;<img src='{$TRINITY20['pic_base_url']}bullet_" . ($k["new"] == 1 ? "green.png" : "white.png") . "' width='8' title='".($k["new"] == 1 ? "New posts" : "Not new")."' border='0' alt='Subforum' /><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$k["id"]."'>".htmlsafechars($k["name"])."</a>" . (count($arr)-1 === $i ? "" : ",");
         $i++;
     }
-    $sub .= "</font>";
-    return $sub;
+    return $sub . "</font>";
 }
 function get_count($arr)
 {
@@ -103,9 +102,9 @@ function isMod($id, $what="topic")
     global $CURUSER;
     if ($what == "topic") {
         $topics = topicmods($CURUSER["id"], "", true);
-        return (stristr($topics, "[" . $id . "]") == true ? true : false);
+        return (stristr($topics, "[" . $id . "]") == true);
     } elseif ($what == "forum") {
-        return (stristr($CURUSER["forums_mod"], "[" . $id . "]") == true ? true : false);
+        return (stristr($CURUSER["forums_mod"], "[" . $id . "]") == true);
     } else {
         return false;
     }
@@ -115,11 +114,10 @@ function showMods($ars) {
     $i = 0;
     $count = count($ars);
     foreach($ars as $a) {
-        $mods .= "<a href='userdetails.php?id=" . (int)$a[0] . "'>" . htmlsafechars($a[1]) . "</a>" . (($count -1) == $i ? "":" ,");
+        $mods .= "<a href='userdetails.php?id=" . (int)$a[0] . "'>" . htmlsafechars($a[1]) . "</a>" . ($count -1 === $i ? "":" ,");
         $i++;
     }
-    $mods .= "</font>";
-    return $mods;
+    return $mods . "</font>";
 }
 function forum_stats()
 {
@@ -130,12 +128,12 @@ function forum_stats()
         $dt = $_SERVER['REQUEST_TIME'] - 180;
         $htmlout = $forum_activeusers = '';
         $forum_active_users_cache = [];
-        $res = sql_query('SELECT id, username, class, donor, warned, enabled, chatpost, leechwarn, pirate, king ' .
+        ($res = sql_query('SELECT id, username, class, donor, warned, enabled, chatpost, leechwarn, pirate, king ' .
                   'FROM users WHERE forum_access >= ' . $dt . ' ' .
-                  'ORDER BY username ASC') or sqlerr(__FILE__, __LINE__);
+                  'ORDER BY username ASC')) || sqlerr(__FILE__, __LINE__);
         $forum_actcount = $res->num_rows;
         while ($arr = $res->fetch_assoc()) {
-            if ($forum_activeusers) {
+            if ($forum_activeusers !== '') {
                 $forum_activeusers .= ",\n";
             }
             $forum_activeusers .= '<b>' . format_username($arr) . '</b>';
@@ -146,16 +144,15 @@ function forum_stats()
     }
     if (!$forum_active_users_cache['activeusers'])
         $forum_active_users_cache['activeusers'] = 'There have been no active users in the last 15 minutes.';
-    $htmlout.= 'Active users on Forum:&nbsp;&nbsp;<span class="badge success disabled">'.$forum_active_users_cache["actcount"].'</span>
-        <div class="callout">' . $forum_active_users_cache['activeusers'] . '</div>';
-    return $htmlout;
+    return $htmlout . ('Active users on Forum:&nbsp;&nbsp;<span class="badge success disabled">'.$forum_active_users_cache["actcount"].'</span>
+        <div class="callout">' . $forum_active_users_cache['activeusers'] . '</div>');
 }
 function show_forums($forid, $subforums = false, $sfa = "", $mods_array = "", $show_mods = false)
 {
     global $CURUSER, $TRINITY20, $Multi_forum;
     $mods_array = forummods();
     $htmlout='';
-    $forums_res = sql_query("SELECT f.id, f.name, f.description, f.post_count, f.topic_count, f.min_class_read, p.added, p.topic_id, p.anonymous, p.user_id, p.id AS pid, u.id AS uid, u.username, u.class, u.donor, u.enabled, u.warned, u.chatpost, u.leechwarn, u.pirate, u.king, t.topic_name, t.last_post, r.last_post_read " . "FROM forums AS f " . "LEFT JOIN posts AS p ON p.id = (SELECT MAX(last_post) FROM topics WHERE forum_id = f.id) " . "LEFT JOIN users AS u ON u.id = p.user_id " . "LEFT JOIN topics AS t ON t.id = p.topic_id " . "LEFT JOIN read_posts AS r ON r.user_id = " . sqlesc($CURUSER['id']) . " AND r.topic_id = p.topic_id " . "WHERE " . ($subforums == false ? "f.forum_id = " . sqlesc($forid) . " AND f.place =-1 ORDER BY f.forum_id ASC" : "f.place=" . sqlesc($forid) . " ORDER BY f.id ASC") . "") or sqlerr(__FILE__, __LINE__);
+    ($forums_res = sql_query("SELECT f.id, f.name, f.description, f.post_count, f.topic_count, f.min_class_read, p.added, p.topic_id, p.anonymous, p.user_id, p.id AS pid, u.id AS uid, u.username, u.class, u.donor, u.enabled, u.warned, u.chatpost, u.leechwarn, u.pirate, u.king, t.topic_name, t.last_post, r.last_post_read " . "FROM forums AS f " . "LEFT JOIN posts AS p ON p.id = (SELECT MAX(last_post) FROM topics WHERE forum_id = f.id) " . "LEFT JOIN users AS u ON u.id = p.user_id " . "LEFT JOIN topics AS t ON t.id = p.topic_id " . "LEFT JOIN read_posts AS r ON r.user_id = " . sqlesc($CURUSER['id']) . " AND r.topic_id = p.topic_id " . "WHERE " . ($subforums == false ? "f.forum_id = " . sqlesc($forid) . " AND f.place =-1 ORDER BY f.forum_id ASC" : "f.place=" . sqlesc($forid) . " ORDER BY f.id ASC") . "")) || sqlerr(__FILE__, __LINE__);
     $htmlout.= "<div class='divTable'>";
     while ($forums_arr = $forums_res->fetch_assoc()) {
         if ($CURUSER['class'] < $forums_arr["min_class_read"]) {
@@ -191,20 +188,18 @@ function show_forums($forid, $subforums = false, $sfa = "", $mods_array = "", $s
             } else {
                 $lastpost = "N/A";
             }
-        } else {
-            if (is_valid_id($forums_arr['pid'])) {
-                if ($forums_arr["anonymous"] == "yes") {
-                    if ($CURUSER['class'] < UC_STAFF && $forums_arr["user_id"] != $CURUSER["id"]) {
-                        $lastpost ="" . get_date($forums_arr["added"], 'LONG', 1, 0) . "<br />" . "by <i>Anonymous</i><br />" . "in <a href='" . $TRINITY20['baseurl'] . "/forums.php?action=viewtopic&amp;topicid=" . (int) $forums_arr["topic_id"] . "&amp;page=p$lastpostid#p$lastpostid'><b>" . htmlsafechars($forums_arr['topic_name']) . "</b></a>";
-                    } else {
-                        $lastpost ="" . get_date($forums_arr["added"], 'LONG', 1, 0) . "<br />" . "by <i>Anonymous[</i><a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int) $forums_arr["user_id"] . "'><b>" . format_username($user_stuff, true) . "</b></a>]<br />" . "in <a href='{$TRINITY20['baseurl']}/forums.php??action=viewtopic&amp;topicid=" . (int) $forums_arr["topic_id"] . "&amp;page=p$lastpostid#p$lastpostid'><b>" . htmlsafechars($forums_arr['topic_name']) . "</b></a>";
-                    }
+        } elseif (is_valid_id($forums_arr['pid'])) {
+            if ($forums_arr["anonymous"] == "yes") {
+                if ($CURUSER['class'] < UC_STAFF && $forums_arr["user_id"] != $CURUSER["id"]) {
+                    $lastpost ="" . get_date($forums_arr["added"], 'LONG', 1, 0) . "<br />" . "by <i>Anonymous</i><br />" . "in <a href='" . $TRINITY20['baseurl'] . "/forums.php?action=viewtopic&amp;topicid=" . (int) $forums_arr["topic_id"] . "&amp;page=p$lastpostid#p$lastpostid'><b>" . htmlsafechars($forums_arr['topic_name']) . "</b></a>";
                 } else {
-                    $lastpost = "<span class='smalltext'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=" . (int) $forums_arr["topic_id"] . "&amp;page=p$lastpostid#p$lastpostid'>" . htmlsafechars($forums_arr['topic_name']) . "</a><br />" . "" . get_date($forums_arr["added"], 'LONG', 1, 0) . "<br />" . "by <a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int) $forums_arr["user_id"] . "'>" . format_username($user_stuff, true) . "</a> ";
+                    $lastpost ="" . get_date($forums_arr["added"], 'LONG', 1, 0) . "<br />" . "by <i>Anonymous[</i><a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int) $forums_arr["user_id"] . "'><b>" . format_username($user_stuff, true) . "</b></a>]<br />" . "in <a href='{$TRINITY20['baseurl']}/forums.php??action=viewtopic&amp;topicid=" . (int) $forums_arr["topic_id"] . "&amp;page=p$lastpostid#p$lastpostid'><b>" . htmlsafechars($forums_arr['topic_name']) . "</b></a>";
                 }
             } else {
-                $lastpost = "N/A";
+                $lastpost = "<span class='smalltext'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=" . (int) $forums_arr["topic_id"] . "&amp;page=p$lastpostid#p$lastpostid'>" . htmlsafechars($forums_arr['topic_name']) . "</a><br />" . "" . get_date($forums_arr["added"], 'LONG', 1, 0) . "<br />" . "by <a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int) $forums_arr["user_id"] . "'>" . format_username($user_stuff, true) . "</a> ";
             }
+        } else {
+            $lastpost = "N/A";
         }
         $image_to_use = ($forums_arr['added'] > (TIME_NOW - $TRINITY20['readpost_expiry'])) ? ((int) $forums_arr['pid'] > $forums_arr['last_post_read']) : 0;
         if (is_valid_id($forums_arr['pid'])) {
@@ -227,7 +222,7 @@ function show_forums($forid, $subforums = false, $sfa = "", $mods_array = "", $s
                 <a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".$forumid."'>
                     <strong>".htmlsafechars($forums_arr["name"])."</strong>
                 </a>
-                <br>" . ((!empty($forums_arr["description"])) ? htmlsafechars($forums_arr["description"]) : '') . "<br>
+                <br>" . ((empty($forums_arr["description"])) ? '' : htmlsafechars($forums_arr["description"])) . "<br>
                 " . (($subforums == false && !empty($sfa[$forumid])) ? subforums($sfa[$forumid]["topics"]) : '') . "
                 " . (($show_mods == true && isset($mods_array[$forumid])) ? showMods($mods_array[$forumid]) : '') . "
             </div>
@@ -249,8 +244,7 @@ function show_forums($forid, $subforums = false, $sfa = "", $mods_array = "", $s
         $htmlout.="</div>
     </div>";
     }
-	$htmlout.="</div>";
-    return $htmlout;
+    return $htmlout . "</div>";
 }
 if (!function_exists('highlight')) {
     function highlight($search, $subject, $hlstart = '<b><font color=\"red\">', $hlend = '</font></b>')
