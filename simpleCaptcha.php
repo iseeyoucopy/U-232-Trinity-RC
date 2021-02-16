@@ -64,7 +64,7 @@ $_SESSION['simpleCaptchaAnswer'] = sha1($selectText . $SALT);
 $resp['text'] = '' . $selectText;
 $resp['images'] = array();
 shuffle($used);
-for ($i = 0; $i < count($used); ++$i) {
+for ($i = 0, $iMax = count($used); $i < $iMax; ++$i) {
     $resp['images'][] = array(
         'hash' => sha1($used[$i] . $SALT) ,
         'file' => $images[$used[$i]]

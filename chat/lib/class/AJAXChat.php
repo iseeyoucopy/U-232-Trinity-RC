@@ -2206,7 +2206,7 @@ class AJAXChat {
 			return;
 		}
 		$userID = ($userID === null) ? $this->getUserID() : $userID;
-		for($i=0; $i<count($this->_onlineUsersData); $i++) {
+		for($i=0, $iMax = count($this->_onlineUsersData); $i< $iMax; $i++) {
 			if($this->_onlineUsersData[$i]['userID'] == $userID) {
 				array_splice($this->_onlineUsersData, $i, 1);
 				break;	
@@ -3014,7 +3014,7 @@ class AJAXChat {
 	         $bw = fread($f, filesize($file));
 	         $badwords = explode("\n",$bw);
 
-	         for ($i=0; $i<count($badwords); ++$i)
+	         for ($i=0, $iMax = count($badwords); $i< $iMax; ++$i)
 	             $badwords[$i] = trim($badwords[$i]);
 	         $s = str_ireplace($badwords, "*censored*", $s);
 	      }
