@@ -17,7 +17,7 @@ foreach ($categorie as $key => $value) $change[$value['id']] = array(
 );
 if (($top10tv_week = $cache->get('top10_tv_week_')) === false) {
     $tortime24tv = $_SERVER['REQUEST_TIME'] - 604800;
-    $res_tvw = sql_query("SELECT id, times_completed, seeders, leechers, name from torrents WHERE last_action >= {$tortime24tv} AND category IN (".join(", ",$TRINITY20['tv_cats']).") ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}") or sqlerr(__FILE__, __LINE__);
+    ($res_tvw = sql_query("SELECT id, times_completed, seeders, leechers, name from torrents WHERE last_action >= {$tortime24tv} AND category IN (".implode(", ",$TRINITY20['tv_cats']).") ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}")) || sqlerr(__FILE__, __LINE__);
     while ($top10tvs_week = $res_tvw->fetch_assoc()) 
 		$top10tv_week[] = $top10tvs_week;
     $cache->set('top10_tv_week_', $top10tv_week);
@@ -32,12 +32,12 @@ if (($top10tv_week = $cache->get('top10_tv_week_')) === false) {
             <th><i class='fas fa-arrow-down'></i></th>
             </tr>";
 	if ($top10tv_week) {
-		$counter = 1;
-        foreach ($top10tv_week as $top10tvsweek) {
-            $torrname = htmlsafechars($top10tvsweek['name']);
-            if (strlen($torrname) > 50) 
+     $counter = 1;
+     foreach ($top10tv_week as $top10tvsweek) {
+         $torrname = htmlsafechars($top10tvsweek['name']);
+         if (strlen($torrname) > 50) 
 				$torrname = substr($torrname, 0, 50) . "...";
-            $HTMLOUT.= "
+         $HTMLOUT.= "
             <tr>
             <td>". $counter++ ."</td>
             <td><a class ='float-left' href='{$TRINITY20['baseurl']}/details.php?id=" . (int)$top10tvsweek['id'] . "&amp;hit=1'>{$torrname}</a></td>
@@ -45,12 +45,10 @@ if (($top10tv_week = $cache->get('top10_tv_week_')) === false) {
             <td>" . (int)$top10tvsweek['seeders'] . "</td>
             <td>" . (int)$top10tvsweek['leechers'] . "</td>     
 	        </tr>";
-        }
-    } else {
-        //== If there are no torrents
-        if (empty($top10tv_week)) 
-        $HTMLOUT.= "<tbody><tr><td>{$lang['top5torrents_no_torrents']}</td></tr></tbody>";
-    }
+     }
+ } elseif (empty($top10tv_week)) {
+     $HTMLOUT.= "<tbody><tr><td>{$lang['top5torrents_no_torrents']}</td></tr></tbody>";
+ }
     $HTMLOUT.= "</table>";
 //==End	
 // End Class

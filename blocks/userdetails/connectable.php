@@ -15,9 +15,9 @@ if ($CURUSER['id'] == $id || $CURUSER['class'] >= UC_STAFF) {
         $What_Cache = (XBT_TRACKER == true ? 'port_data_xbt_' : 'port_data_' );
     if (($port_data = $cache->get($What_Cache . $id)) === false) {
         if(XBT_TRACKER == true) {
-        $q1 = sql_query('SELECT `active` FROM `xbt_peers` WHERE uid = ' . sqlesc($id) . ' LIMIT 1') or sqlerr(__FILE__, __LINE__);
+        ($q1 = sql_query('SELECT `active` FROM `xbt_peers` WHERE uid = ' . sqlesc($id) . ' LIMIT 1')) || sqlerr(__FILE__, __LINE__);
         } else {
-        $q1 = sql_query('SELECT connectable, port ,agent FROM peers WHERE userid = ' . sqlesc($id) . ' LIMIT 1') or sqlerr(__FILE__, __LINE__);
+        ($q1 = sql_query('SELECT connectable, port ,agent FROM peers WHERE userid = ' . sqlesc($id) . ' LIMIT 1')) || sqlerr(__FILE__, __LINE__);
         }
         $port_data = $q1->fetch_row();
         $cache->set('port_data_' . $id, $port_data, $TRINITY20['expires']['port_data']);

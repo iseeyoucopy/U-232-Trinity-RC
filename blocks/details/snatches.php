@@ -21,7 +21,7 @@ $Which_Key_ID = (XBT_TRACKER == true ? 'snatched_count_xbt_' : 'snatched_count_'
 $keys['Snatched_Count'] = $Which_Key_ID . $id;
 
     if (($Row_Count = $cache->get($keys['Snatched_Count'])) === false) {
-$Count_Q = sql_query("SELECT COUNT($Which_ID) FROM $What_Table $What_Value AND $Which_T_ID =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+($Count_Q = sql_query("SELECT COUNT($Which_ID) FROM $What_Table $What_Value AND $Which_T_ID =" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 $Row_Count = $Count_Q->fetch_row();
 $cache->set($keys['Snatched_Count'], $Row_Count, $TRINITY20['expires']['details_snatchlist']);
 }
@@ -34,9 +34,9 @@ $HTMLOUT.= "<div class='callout'>{$lang['details_add_snatch1']}<a href='{$TRINIT
 if (($Detail_Snatch = $cache->get($What_cache . $id)) === false) {
     if (XBT_TRACKER == true) {
      //== \\0//
-      $Main_Q = sql_query("SELECT x.*, x.uid AS su, torrents.username as username1, users.username as username2, torrents.anonymous as anonymous1, users.anonymous as anonymous2, size, parked, warned, enabled, class, chatpost, leechwarn, donor, owner FROM xbt_peers AS x INNER JOIN users ON x.uid = users.id INNER JOIN torrents ON x.tid = torrents.id WHERE completedtime !=0 AND tid = " . sqlesc($id) . " ORDER BY completedtime DESC " . $pager['limit']) or sqlerr(__FILE__, __LINE__);
+      ($Main_Q = sql_query("SELECT x.*, x.uid AS su, torrents.username as username1, users.username as username2, torrents.anonymous as anonymous1, users.anonymous as anonymous2, size, parked, warned, enabled, class, chatpost, leechwarn, donor, owner FROM xbt_peers AS x INNER JOIN users ON x.uid = users.id INNER JOIN torrents ON x.tid = torrents.id WHERE completedtime !=0 AND tid = " . sqlesc($id) . " ORDER BY completedtime DESC " . $pager['limit'])) || sqlerr(__FILE__, __LINE__);
 } else {
-      $Main_Q = sql_query("SELECT s.*, s.userid AS su, torrents.username as username1, users.username as username2, torrents.anonymous as anonymous1, users.anonymous as anonymous2, size, parked, warned, enabled, class, chatpost, leechwarn, donor, timesann, owner FROM snatched AS s INNER JOIN users ON s.userid = users.id INNER JOIN torrents ON s.torrentid = torrents.id WHERE complete_date !=0 AND torrentid = " . sqlesc($id) . " ORDER BY complete_date DESC " . $pager['limit']) or sqlerr(__FILE__, __LINE__);
+      ($Main_Q = sql_query("SELECT s.*, s.userid AS su, torrents.username as username1, users.username as username2, torrents.anonymous as anonymous1, users.anonymous as anonymous2, size, parked, warned, enabled, class, chatpost, leechwarn, donor, timesann, owner FROM snatched AS s INNER JOIN users ON s.userid = users.id INNER JOIN torrents ON s.torrentid = torrents.id WHERE complete_date !=0 AND torrentid = " . sqlesc($id) . " ORDER BY complete_date DESC " . $pager['limit'])) || sqlerr(__FILE__, __LINE__);
 }
     while ($snatched_torrent = $Main_Q->fetch_assoc()) $Detail_Snatch[] = $snatched_torrent;
     $cache->set($What_cache . $id, $Detail_Snatch, $TRINITY20['expires']['details_snatchlist']);
@@ -89,8 +89,8 @@ if (($Detail_Snatch && count($Detail_Snatch) > 0 && $CURUSER['class'] >= UC_STAF
 </thead>";
 }
 if ($Detail_Snatch) {
-        foreach ($Detail_Snatch as $D_S) {
-          
+    foreach ($Detail_Snatch as $D_S) {
+      
 if (XBT_TRACKER == true) {
            //== \\0//
            $ratio = ($D_S["downloaded"] > 0 ? number_format($D_S["uploaded"] / $D_S["downloaded"], 3) : ($D_S["uploaded"] > 0 ? "Inf." : "---"));
@@ -142,14 +142,12 @@ $snatched_torrent.= "<tbody><tr>
         }
 
 }
-
-$snatched_torrent.= "</table>";
-$HTMLOUT.= "<div class='card-section table-scroll'>$snatched_torrent</div>";
-} else
-{
- if (empty($Detail_Snatch)) $HTMLOUT.= "<p class='text-center'>{$lang['details_add_snatch4']}</p>
+    $snatched_torrent.= "</table>";
+    $HTMLOUT.= "<div class='card-section table-scroll'>$snatched_torrent</div>";
+} elseif (empty($Detail_Snatch)) {
+    $HTMLOUT.= "<p class='text-center'>{$lang['details_add_snatch4']}</p>
 <p class=text-center'>{$lang['details_add_snatch5']}</p>";
-   }
+}
 }
 $HTMLOUT .="";
 }

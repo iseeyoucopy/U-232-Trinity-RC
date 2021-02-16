@@ -5,7 +5,7 @@
 	<td><input type='hidden' name='action' value='avatar'>{$lang['usercp_av_opt']}</td>
 	</tr>";
     //==Disable avatar selection
-    if (!($CURUSER["avatarpos"] == 0 OR $CURUSER["avatarpos"] != 1)) {
+    if (!($CURUSER["avatarpos"] == 0 || $CURUSER["avatarpos"] != 1)) {
         $HTMLOUT.= "<tr><td class='rowhead'>{$lang['usercp_avatar']}</td><td><input name='avatar' size='50' value='" . htmlsafechars($CURUSER["avatar"]) . "' /><br />
     <font class='small'>{$lang['usercp_av_mess1']}\n<br />
     {$lang['usercp_av_mess2']} <a href='{$TRINITY20['baseurl']}/avatar/index.php'>{$lang['usercp_av_mess3']}</a>.<br />

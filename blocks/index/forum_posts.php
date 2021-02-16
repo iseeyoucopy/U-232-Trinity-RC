@@ -16,7 +16,7 @@ $HTMLOUT .= "";
 $page = 1;
 $num = 0;
 if (($topics = $cache->get($keys['last_postsb'] . $CURUSER['class'])) === false) {
-	$topicres = sql_query("SELECT t.id, t.user_id, t.topic_name, t.locked, t.forum_id, t.last_post, t.sticky, t.views, t.anonymous AS tan, f.min_class_read, f.name " . ", (SELECT COUNT(id) FROM posts WHERE topic_id=t.id) AS p_count " . ", p.user_id AS puser_id, p.added, p.anonymous AS pan " . ", u.id AS uid, u.username " . ", u2.username AS u2_username " . "FROM topics AS t " . "LEFT JOIN forums AS f ON f.id = t.forum_id " . "LEFT JOIN posts AS p ON p.id=(SELECT MAX(id) FROM posts WHERE topic_id = t.id) " . "LEFT JOIN users AS u ON u.id=p.user_id " . "LEFT JOIN users AS u2 ON u2.id=t.user_id " . "WHERE f.min_class_read <= " . $CURUSER['class'] . " " . "ORDER BY t.last_post DESC LIMIT {$TRINITY20['latest_posts_limit']}") or sqlerr(__FILE__, __LINE__);
+	($topicres = sql_query("SELECT t.id, t.user_id, t.topic_name, t.locked, t.forum_id, t.last_post, t.sticky, t.views, t.anonymous AS tan, f.min_class_read, f.name " . ", (SELECT COUNT(id) FROM posts WHERE topic_id=t.id) AS p_count " . ", p.user_id AS puser_id, p.added, p.anonymous AS pan " . ", u.id AS uid, u.username " . ", u2.username AS u2_username " . "FROM topics AS t " . "LEFT JOIN forums AS f ON f.id = t.forum_id " . "LEFT JOIN posts AS p ON p.id=(SELECT MAX(id) FROM posts WHERE topic_id = t.id) " . "LEFT JOIN users AS u ON u.id=p.user_id " . "LEFT JOIN users AS u2 ON u2.id=t.user_id " . "WHERE f.min_class_read <= " . $CURUSER['class'] . " " . "ORDER BY t.last_post DESC LIMIT {$TRINITY20['latest_posts_limit']}")) || sqlerr(__FILE__, __LINE__);
 	while ($topic = $topicres->fetch_assoc()) $topics[] = $topic;
 	$cache->set($keys['last_postsb'] . $CURUSER['class'], $topics, $TRINITY20['expires']['latestposts']);
 }
@@ -40,7 +40,7 @@ if ($topics && count($topics) > 0) {
 			$topicid = (int)$topicarr['id'];
 			$topic_userid = (int)$topicarr['user_id'];
 			$perpage = empty($CURUSER['postsperpage']) ? 10 : (int)$CURUSER['postsperpage'];
-			if (!$perpage) $perpage = 24;
+			if ($perpage === 0) $perpage = 24;
 			$posts = 0 + $topicarr['p_count'];
 			$replies = max(0, $posts - 1);
 			$first = ($page * $perpage) - $perpage + 1;
@@ -64,16 +64,16 @@ if ($topics && count($topics) > 0) {
 			}
 			$added = get_date($topicarr['added'], '', 0, 1);
 			if ($topicarr['pan'] == 'yes') {
-				if ($CURUSER['class'] < UC_STAFF && $topicarr['user_id'] != $CURUSER['id']) $username = (!empty($topicarr['username']) ? "<i>{$lang['index_fposts_anonymous']}</i>" : "<i>{$lang['index_fposts_unknow']}</i>");
-				else $username = (!empty($topicarr['username']) ? "<i>{$lang['index_fposts_anonymous']}</i>&nbsp;&nbsp;<a href='" . $TRINITY20['baseurl'] . "/userdetails.php?id=" . (int)$topicarr['puser_id'] . "'><b>[" . htmlsafechars($topicarr['username']) . "]</b></a>" : "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>");
+				if ($CURUSER['class'] < UC_STAFF && $topicarr['user_id'] != $CURUSER['id']) $username = (empty($topicarr['username']) ? "<i>{$lang['index_fposts_unknow']}</i>" : "<i>{$lang['index_fposts_anonymous']}</i>");
+				else $username = (empty($topicarr['username']) ? "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>" : "<i>{$lang['index_fposts_anonymous']}</i>&nbsp;&nbsp;<a href='" . $TRINITY20['baseurl'] . "/userdetails.php?id=" . (int)$topicarr['puser_id'] . "'><b>[" . htmlsafechars($topicarr['username']) . "]</b></a>");
 			} else {
-				$username = (!empty($topicarr['username']) ? "<a href='" . $TRINITY20['baseurl'] . "/userdetails.php?id=" . (int)$topicarr['puser_id'] . "'><b>" . htmlsafechars($topicarr['username']) . "</b></a>" : "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>");
+				$username = (empty($topicarr['username']) ? "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>" : "<a href='" . $TRINITY20['baseurl'] . "/userdetails.php?id=" . (int)$topicarr['puser_id'] . "'><b>" . htmlsafechars($topicarr['username']) . "</b></a>");
 			}
 			if ($topicarr['tan'] == 'yes') {
-				if ($CURUSER['class'] < UC_STAFF && $topicarr['user_id'] != $CURUSER['id']) $author = (!empty($topicarr['u2_username']) ? "<i>{$lang['index_fposts_anonymous']}</i>" : ($topic_userid == '0' ? "<i>System</i>" : "<i>{$lang['index_fposts_unknow']}</i>"));
-				else $author = (!empty($topicarr['u2_username']) ? "<i>{$lang['index_fposts_anonymous']}</i>&nbsp;&nbsp;<a href='" . $TRINITY20['baseurl'] . "/userdetails.php?id=" . $topic_userid . "'><b>[" . htmlsafechars($topicarr['u2_username']) . "]</b></a>" : ($topic_userid == '0' ? "<i>System</i>" : "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>"));
+				if ($CURUSER['class'] < UC_STAFF && $topicarr['user_id'] != $CURUSER['id']) $author = (empty($topicarr['u2_username']) ? $topic_userid == '0' ? "<i>System</i>" : "<i>{$lang['index_fposts_unknow']}</i>" : ("<i>{$lang['index_fposts_anonymous']}</i>"));
+				else $author = (empty($topicarr['u2_username']) ? $topic_userid == '0' ? "<i>System</i>" : "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>" : ("<i>{$lang['index_fposts_anonymous']}</i>&nbsp;&nbsp;<a href='" . $TRINITY20['baseurl'] . "/userdetails.php?id=" . $topic_userid . "'><b>[" . htmlsafechars($topicarr['u2_username']) . "]</b></a>"));
 			} else {
-				$author = (!empty($topicarr['u2_username']) ? "<a href='" . $TRINITY20['baseurl'] . "/userdetails.php?id=" . $topic_userid . "'><b>" . htmlsafechars($topicarr['u2_username']) . "</b></a>" : ($topic_userid == '0' ? "<i>System</i>" : "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>"));
+				$author = (empty($topicarr['u2_username']) ? $topic_userid == '0' ? "<i>System</i>" : "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>" : ("<a href='" . $TRINITY20['baseurl'] . "/userdetails.php?id=" . $topic_userid . "'><b>" . htmlsafechars($topicarr['u2_username']) . "</b></a>"));
 			}
 			$staffimg = ($topicarr['min_class_read'] >= UC_STAFF ? "<img src='" . $TRINITY20['pic_base_url'] . "staff.png' border='0' alt='Staff forum' title='Staff Forum' />" : '');
 			$stickyimg = ($topicarr['sticky'] == 'yes' ? "<img src='" . $TRINITY20['pic_base_url'] . "sticky.gif' border='0' alt='{$lang['index_fposts_sticky']}' title='{$lang['index_fposts_stickyt']}' />&nbsp;&nbsp;" : '');
@@ -88,9 +88,8 @@ if ($topics && count($topics) > 0) {
 					</tr>";
 		}
 		$HTMLOUT .= "</table></div>";
-	} else {
-		//if there are no posts...
-		if (empty($topics)) $HTMLOUT .= "<tr><td>{$lang['latestposts_no_posts']}</td></tr></table>";
+	} elseif (empty($topics)) {
+		$HTMLOUT .= "<tr><td>{$lang['latestposts_no_posts']}</td></tr></table>";
 	}
 	$HTMLOUT .= "</div>";
 }

@@ -26,17 +26,17 @@ if (($cache_share_ratio = $cache->get($What_Cache.$id)) === false) {
 //=== get times per class
 switch (true) {
     //===  member
-    
+
 case ($user['class'] == UC_USER):
     $days = 2;
     break;
     //=== Member +
-    
+
 case ($user['class'] == UC_POWER_USER):
     $days = 1.5;
     break;
     //=== Member ++
-    
+
 case ($user['class'] == UC_VIP || $user['class'] == UC_UPLOADER || $user['class'] == UC_STAFF || $user['class'] == UC_ADMINISTRATOR || $user['class'] == UC_SYSOP):
     $days = 0.5;
     break;

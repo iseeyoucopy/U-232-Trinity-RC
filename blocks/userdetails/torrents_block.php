@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$r = sql_query("SELECT 
+($r = sql_query("SELECT 
     t.id, 
     t.name, 
     t.seeders, 
@@ -21,8 +21,7 @@ $r = sql_query("SELECT
     LEFT JOIN categories c 
     ON t.category = c.id 
     WHERE t.owner = " . sqlesc($id) . " 
-    ORDER BY t.name") 
-    or sqlerr(__FILE__, __LINE__);
+    ORDER BY t.name")) || sqlerr(__FILE__, __LINE__);
     if ($r->num_rows > 0) {
     $torrents = '';
     $torrents.= '<div class="divTable">'.'
@@ -51,7 +50,7 @@ $r = sql_query("SELECT
         $torrents.= '</div>';
 }
 if (XBT_TRACKER == true) {
-    $res_tb = sql_query("SELECT 
+    ($res_tb = sql_query("SELECT 
                         x.tid, 
                         x.uploaded, 
                         x.downloaded, 
@@ -70,8 +69,7 @@ if (XBT_TRACKER == true) {
                         ON x.tid = t.id 
                         LEFT JOIN categories c 
                         ON t.category = c.id 
-                        WHERE x.uid=" . sqlesc($id))
-                        or sqlerr(__FILE__, __LINE__);
+                        WHERE x.uid=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     while ($arr = $res_tb->fetch_assoc()) {
         if ($arr['left'] == '0') 
 			$seeding[] = $arr;
@@ -79,7 +77,7 @@ if (XBT_TRACKER == true) {
 			$leeching[] = $arr;
     }
 } else {
-    $res_tb = sql_query(
+    ($res_tb = sql_query(
         "SELECT p.torrent, 
                 p.uploaded, 
                 p.downloaded, 
@@ -96,8 +94,7 @@ if (XBT_TRACKER == true) {
                 ON p.torrent = t.id 
                 LEFT JOIN categories c 
                 ON t.category = c.id 
-                WHERE p.userid=" . sqlesc($id))
-                or sqlerr(__FILE__, __LINE__);
+                WHERE p.userid=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     while ($arr = $res_tb->fetch_assoc()) {
         if ($arr['seeder'] == 'yes') $seeding[] = $arr;
         else $leeching[] = $arr;
@@ -106,14 +103,15 @@ if (XBT_TRACKER == true) {
 function maketable($res_tb)
 {
     global $TRINITY20, $lang, $CURUSER;
-   
+
     $htmlout = '';
     foreach ($res_tb as $arr) {
         if ($arr["downloaded"] > 0) {
             $ratio = number_format($arr["uploaded"] / $arr["downloaded"], 3);
             $ratio = "<font color='" . get_ratio_color($ratio) . "'>$ratio</font>";
-        } else if ($arr["uploaded"] > 0) $ratio = "{$lang['userdetails_inf']}";
-        else $ratio = "---";
+        } elseif ($arr["uploaded"] > 0) {
+            $ratio = "{$lang['userdetails_inf']}";
+        } else $ratio = "---";
         $catimage = "{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$arr['image']}";
         $catname = "&nbsp;&nbsp;".htmlsafechars($arr["catname"]);
         $catimage = "<img src=\"" . htmlsafechars($catimage) . "\" title=\"$catname\" alt=\"$catname\" width='42' height='42' />";

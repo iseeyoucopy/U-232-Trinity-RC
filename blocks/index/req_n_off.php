@@ -30,7 +30,7 @@ $HTMLOUT.="<div class='card'>
 	<div class='card-section'>";
 $requests = array();
 if (($requests = $cache->get($keys['requests'])) === false) {
-    $res = sql_query("SELECT r.id AS request_id, r.request_name, r.category, r.comments, r.added, r.vote_yes_count, r.vote_no_count, r.filled_by_user_id, u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.leechwarn, u.chatpost, u.pirate, u.king FROM requests AS r LEFT JOIN users AS u ON r.requested_by_user_id = u.id WHERE filled_by_user_id = '' ORDER BY added DESC LIMIT {$TRINITY20['requests']['req_limit']}") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT r.id AS request_id, r.request_name, r.category, r.comments, r.added, r.vote_yes_count, r.vote_no_count, r.filled_by_user_id, u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.leechwarn, u.chatpost, u.pirate, u.king FROM requests AS r LEFT JOIN users AS u ON r.requested_by_user_id = u.id WHERE filled_by_user_id = '' ORDER BY added DESC LIMIT {$TRINITY20['requests']['req_limit']}")) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows) {
         while ($request = $res->fetch_assoc()) $requests[] = $request;
         $cache->set($keys['requests'], $requests, $TRINITY20['expires']['req_limit']);
@@ -54,7 +54,7 @@ if (!empty($requests)) {
             $requestarr['cat_name'] = htmlsafechars($change[$requestarr['category']]['name']);
 	    $requestarr['cat_pic'] = htmlsafechars($change[$requestarr['category']]['image']);
    	    $request_f =($requestarr['filled_by_user_id'] > 0 ? '<a href="details.php?id=' . (int)$requestarr['filled_torrent_id'] . '" title='.$lang['req_off_goto'].'><span style="color: limegreen;font-weight: bold;">'.$lang['req_off_yes1'].'</span></a>' : '<span style="color: red;font-weight: bold;">'.$lang['req_off_no1'].'</span>'); 
-            
+
 if (strlen($torrname) > 50) $torrname = substr($torrname, 0, 50) . "...";
             $HTMLOUT.= " <tbody><tr>
                <td class='text-center'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($requestarr["cat_pic"]) . "' alt='" . htmlsafechars($requestarr["cat_name"]) . "' title='" . htmlsafechars($requestarr["cat_name"]) . "' /></td>
@@ -68,12 +68,9 @@ if (strlen($torrname) > 50) $torrname = substr($torrname, 0, 50) . "...";
 </tr></tbody>";
         }
         $HTMLOUT.= "</table></div>";
+    } elseif (empty($requests)) {
+        $HTMLOUT.= "<tbody><tr><td class='text-left' colspan='5'>{$lang['req_off_noreq']}</td></tr></tbody></table></div>";
     }
- 
-else {
-     //== If there are no requests
-        if (empty($requests)) $HTMLOUT.= "<tbody><tr><td class='text-left' colspan='5'>{$lang['req_off_noreq']}</td></tr></tbody></table></div>";
-}
 }
 //==End
 $HTMLOUT.= "</div>";
@@ -85,7 +82,7 @@ $HTMLOUT.="<div class='card'>
 	<div class='card-section'>";
 $offers = array();
 if (($offers = $cache->get('offers_')) === false) {
-    $res = sql_query("SELECT o.id AS offer_id, o.offer_name, o.category, o.comments, o.added, o.filled_torrent_id, o.vote_yes_count, o.vote_no_count, o.status, u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.leechwarn, u.chatpost, u.pirate, u.king FROM offers AS o LEFT JOIN users AS u ON o.offered_by_user_id = u.id WHERE filled_torrent_id = 0 ORDER BY added DESC LIMIT {$TRINITY20['offers']['off_limit']}") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT o.id AS offer_id, o.offer_name, o.category, o.comments, o.added, o.filled_torrent_id, o.vote_yes_count, o.vote_no_count, o.status, u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.leechwarn, u.chatpost, u.pirate, u.king FROM offers AS o LEFT JOIN users AS u ON o.offered_by_user_id = u.id WHERE filled_torrent_id = 0 ORDER BY added DESC LIMIT {$TRINITY20['offers']['off_limit']}")) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows) {
         while ($offer = $res->fetch_assoc()) $offers[] = $offer;
         $cache->update_row('offers_', $offers, $TRINITY20['expires']['off_limit']);
@@ -121,12 +118,9 @@ if (count($offers) > 0) {
 </tr></tbody>";
         }
         $HTMLOUT.= "</table></div>";
+    } elseif (empty($offers)) {
+        $HTMLOUT.= "<tbody><tr><td class='text-left' colspan='5'>{$lang['req_off_nooff']}</td></tr></tbody></table></div>";
     }
- 
-else {
-   //== If there are no offers
-        if (empty($offers)) $HTMLOUT.= "<tbody><tr><td class='text-left' colspan='5'>{$lang['req_off_nooff']}</td></tr></tbody></table></div>";
-}
 }
 //==End
 $HTMLOUT.= "</div></div></div>";

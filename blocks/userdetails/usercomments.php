@@ -24,7 +24,7 @@ if (!$count) {
     $pager = pager(5, $count, "userdetails.php?id=$id&amp;", array(
         'lastpagedefault' => 1
     ));
-    $subres = sql_query("SELECT usercomments.id, usercomments.text, usercomments.user, usercomments.added, usercomments.editedby, usercomments.editedat, usercomments.edit_name, usercomments.user_likes, users.avatar, users.warned, users.username, users.title, users.class, users.leechwarn, users.chatpost, users.pirate, users.king, users.donor FROM usercomments LEFT JOIN users ON usercomments.user = users.id WHERE userid = ".sqlesc($id)." ORDER BY usercomments.id {$pager['limit']}") or sqlerr(__FILE__, __LINE__);
+    ($subres = sql_query("SELECT usercomments.id, usercomments.text, usercomments.user, usercomments.added, usercomments.editedby, usercomments.editedat, usercomments.edit_name, usercomments.user_likes, users.avatar, users.warned, users.username, users.title, users.class, users.leechwarn, users.chatpost, users.pirate, users.king, users.donor FROM usercomments LEFT JOIN users ON usercomments.user = users.id WHERE userid = ".sqlesc($id)." ORDER BY usercomments.id {$pager['limit']}")) || sqlerr(__FILE__, __LINE__);
     $allrows = array();
     while ($subrow = $subres->fetch_assoc()) $allrows[] = $subrow;
     $HTMLOUT.= ($commentbar);

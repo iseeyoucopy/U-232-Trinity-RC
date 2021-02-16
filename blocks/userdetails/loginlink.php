@@ -14,7 +14,7 @@
 if ($CURUSER['class'] >= UC_STAFF && $id == $CURUSER['id']) {
     $hash1 = $cache->get('hash1_' . $id);
     if ($hash1 === false) {
-        $res = sql_query("SELECT hash1 FROM users WHERE id = " . sqlesc($CURUSER['id']) . " AND class >= " . UC_STAFF) or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query("SELECT hash1 FROM users WHERE id = " . sqlesc($CURUSER['id']) . " AND class >= " . UC_STAFF)) || sqlerr(__FILE__, __LINE__);
         $hash1 = $res->fetch_assoc();
         $cache->set('hash1_' . $id, $hash1, $TRINITY20['expires']['user_hash']);
     }

@@ -20,7 +20,7 @@ $HTMLOUT.= "<div class='card'>
 $prefix = 'min5l3ss';
 $news = $cache->get($keys['latest_news']);
 if ($news === false) {
-    $res = sql_query("SELECT " . $prefix . ".id AS nid, " . $prefix . ".userid, " . $prefix . ".added, " . $prefix . ".title, " . $prefix . ".body, " . $prefix . ".sticky, " . $prefix . ".anonymous, u.username, u.id, u.class, u.warned, u.chatpost, u.pirate, u.king, u.leechwarn, u.enabled, u.donor FROM news AS " . $prefix . " LEFT JOIN users AS u ON u.id = " . $prefix . ".userid WHERE " . $prefix . ".added + ( 3600 *24 *45 ) > " . TIME_NOW . " ORDER BY sticky, " . $prefix . ".added DESC LIMIT 10") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT " . $prefix . ".id AS nid, " . $prefix . ".userid, " . $prefix . ".added, " . $prefix . ".title, " . $prefix . ".body, " . $prefix . ".sticky, " . $prefix . ".anonymous, u.username, u.id, u.class, u.warned, u.chatpost, u.pirate, u.king, u.leechwarn, u.enabled, u.donor FROM news AS " . $prefix . " LEFT JOIN users AS u ON u.id = " . $prefix . ".userid WHERE " . $prefix . ".added + ( 3600 *24 *45 ) > " . TIME_NOW . " ORDER BY sticky, " . $prefix . ".added DESC LIMIT 10")) || sqlerr(__FILE__, __LINE__);
     while ($array = $res->fetch_assoc()) $news[] = $array;
     $cache->set($keys['latest_news'], $news, $TRINITY20['expires']['latest_news']);
 }
@@ -46,7 +46,7 @@ if ($news) {
 {$lang['index_news_added']}<b>" . (($CURUSER['opt1'] & user_options::ANONYMOUS && $CURUSER['class'] < UC_STAFF && $array['userid'] != $CURUSER['id']) ? "<i>{$lang['index_news_anon']}</i>" : format_username($array)) . "</b>
     {$button}</label>";
 $HTMLOUT.= "<div id=\"ka" . (int)$array['nid'] . "\" style=\"display:" . ($array['sticky'] == "yes" ? "" : "none") . ";\"> " . format_comment($array['body'], 0) . "</div></ul><br>";
-            $news_flag = ($news_flag + 1);
+            $news_flag += 1;
         } else {
             $HTMLOUT.= "<div class='card-section'>
 <ul>

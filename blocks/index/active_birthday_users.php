@@ -15,10 +15,10 @@ $current_date = getdate();
 if (($birthday_users_cache = $cache->get($keys['birthdayusers'])) === false) {
     $birthdayusers = '';
     $birthday_users_cache = array();
-    $res = sql_query("SELECT id, username, class, donor, title, warned, enabled, chatpost, leechwarn, pirate, king, birthday, perms FROM users WHERE MONTH(birthday) = " . sqlesc($current_date['mon']) . " AND DAYOFMONTH(birthday) = " . sqlesc($current_date['mday']) . " AND perms < " . bt_options::PERMS_STEALTH . " ORDER BY username ASC") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id, username, class, donor, title, warned, enabled, chatpost, leechwarn, pirate, king, birthday, perms FROM users WHERE MONTH(birthday) = " . sqlesc($current_date['mon']) . " AND DAYOFMONTH(birthday) = " . sqlesc($current_date['mday']) . " AND perms < " . bt_options::PERMS_STEALTH . " ORDER BY username ASC")) || sqlerr(__FILE__, __LINE__);
     $actcount = $res->num_rows;
     while ($arr = $res->fetch_assoc()) {
-        if ($birthdayusers) $birthdayusers.= ",";
+        if ($birthdayusers !== '') $birthdayusers.= ",";
         $birthdayusers.= '<b>' . format_username($arr) . '</b>';
     }
     $birthday_users_cache['birthdayusers'] = $birthdayusers;

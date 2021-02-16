@@ -15,7 +15,7 @@ $HTMLOUT.= "<script type='text/javascript'>
     /*]]>*/
     </script>";
 $countries = "<option value='0'>---- {$lang['usercp_none']} ----</option>\n";
-$ct_r = sql_query("SELECT id,name FROM countries ORDER BY name") or sqlerr(__FILE__, __LINE__);
+($ct_r = sql_query("SELECT id,name FROM countries ORDER BY name")) || sqlerr(__FILE__, __LINE__);
 while ($ct_a = $ct_r->fetch_assoc()) {
     $countries.= "<option value='" . (int)$ct_a['id'] . "'" . ($CURUSER["country"] == $ct_a['id'] ? " selected='selected'" : "") . ">" . htmlsafechars($ct_a['name']) . "</option>\n";
 }
@@ -27,16 +27,8 @@ foreach ($TZ as $off => $words) {
     }
 }
 $time_select.= "</select>";
-if ($CURUSER['dst_in_use']) {
-    $dst_check = 'checked="checked"';
-} else {
-    $dst_check = '';
-}
-if ($CURUSER['auto_correct_dst']) {
-    $dst_correction = 'checked="checked"';
-} else {
-    $dst_correction = '';
-}
+$dst_check = $CURUSER['dst_in_use'] ? 'checked="checked"' : '';
+$dst_correction = $CURUSER['auto_correct_dst'] ? 'checked="checked"' : '';
  $HTMLOUT.= "
 	<table class='table table-bordered'>";
     $HTMLOUT.= "<tr><td><input type='hidden' name='action' value='location' />{$lang['usercp_loc_opt']}</td></tr>";

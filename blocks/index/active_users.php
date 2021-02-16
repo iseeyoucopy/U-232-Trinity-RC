@@ -14,11 +14,11 @@ if (($active_users_cache = $cache->get($keys['act_users'] )) === false) {
     $dt = $_SERVER['REQUEST_TIME'] - 180;
     $activeusers = '';
     $active_users_cache = array();
-    $res = sql_query('SELECT id, username, class, donor, title, warned, enabled, chatpost, leechwarn, pirate, king, perms ' . 'FROM users WHERE last_access >= ' . $dt . ' ' . 'AND perms < ' . bt_options::PERMS_STEALTH . ' ORDER BY username ASC') or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query('SELECT id, username, class, donor, title, warned, enabled, chatpost, leechwarn, pirate, king, perms ' . 'FROM users WHERE last_access >= ' . $dt . ' ' . 'AND perms < ' . bt_options::PERMS_STEALTH . ' ORDER BY username ASC')) || sqlerr(__FILE__, __LINE__);
     $actcount = $res->num_rows;
     $v = ($actcount != 1 ? 's' : '');
     while ($arr = $res->fetch_assoc()) {
-        if ($activeusers) $activeusers.= ",";
+        if ($activeusers !== '') $activeusers.= ",";
         $activeusers.= format_username($arr);
     }
     $active_users_cache['activeusers'] = $activeusers;

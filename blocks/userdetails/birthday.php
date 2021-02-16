@@ -21,12 +21,8 @@ if ($user['birthday'] != '0') {
     if ($month2 < $month1) {
         $age = $year2 - $year1 - 1;
     }
-    if ($month2 == $month1) {
-        if ($day2 < $day1) {
-            $age = $year2 - $year1 - 1;
-        } else {
-            $age = $year2 - $year1;
-        }
+    if ($month2 === $month1) {
+        $age = $day2 < $day1 ? $year2 - $year1 - 1 : $year2 - $year1;
     }
     if ($month2 > $month1) {
         $age = $year2 - $year1;

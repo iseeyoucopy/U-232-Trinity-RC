@@ -13,7 +13,7 @@
 $xmasday = mktime(0, 0, 0, 12, 25, date("Y"));
 $today = mktime(date("G") , date("i") , date("s") , date("m") , date("d") , date("Y"));
 //if (($CURUSER["opt1"] & user_options::GOTGIFT) && $today <> $xmasday) {
-if ($CURUSER["gotgift"] == 'no' && $today <> $xmasday) {
+if ($CURUSER["gotgift"] == 'no' && $today !== $xmasday) {
     $HTMLOUT .= "<div class='card'>
         <div class='card-divider'>{$lang['index_xmas_gift']}</div>
         <div class='card-section'>

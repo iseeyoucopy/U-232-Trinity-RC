@@ -11,8 +11,7 @@
  * ------------  @version V6  ------------------*
  */
 // happy hour
-if(XBT_TRACKER == false OR $TRINITY20['happy_hour'] == true) {
-if ($CURUSER) {
+if ((XBT_TRACKER == false || $TRINITY20['happy_hour'] == true) && $CURUSER) {
     require_once (INCL_DIR . 'function_happyhour.php');
     if (happyHour("check")) {
         $htmlout.= "
@@ -21,7 +20,6 @@ if ($CURUSER) {
 		<span class='custom info alert alert-success'>
         {$lang['gl_happyhour1']}<br /> " . ((happyCheck("check") == 255) ? "{$lang['gl_happyhour2']}" : "{$lang['gl_happyhour3']}") . "<br /><font color='red'><b> " . happyHour("time") . " </b></font> {$lang['gl_happyhour4']}</span></a></li>";
     }
-}
 }
 //==
 // End Class
