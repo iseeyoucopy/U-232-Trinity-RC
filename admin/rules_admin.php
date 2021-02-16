@@ -78,39 +78,50 @@ function Do_show()
     global $TRINITY20, $lang;
     ($sql = sql_query("SELECT * FROM rules_cat")) || sqlerr(__FILE__, __LINE__);
     if (!$sql->num_rows)
-        stderr("Error", "There Are No Categories. <br /><br />
-       <span class='btn'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=cat_new'>Add Category</a></span>");
+        stderr("Error", "There Are No Categories. <span><a class='tiny button' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=cat_new'>Add Category</a></span>");
     $htmlout = '';
     $htmlout .= "
-            <div class='container'>
-<div class='row'>
-<div class='col-sm-3 col-sm-offset-5'>  
-<h2><b>{$lang['rules_cat_title']}</b></div></div>
-<div class='row'>
-      <div class='col-sm-col-4 col-sm-offset-2'>
-            <span class='btn'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=cat_new'>{$lang['rules_btn_newcat']}</a></span>&nbsp;
-            <span class='btn'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=rules_new'>{$lang['rules_btn_newrule']}</a></span>
-            </div><br>
-            <div class='col-sm-8 col-sm-offset-2'>     
-<table class='table table-bordered table-striped'>
-            <tr>
-            <td class='colhead'>Id</td>
-            <td class='colhead'>Name</td>
-            <td class='colhead'>Shortcut</td>
-            <td class='colhead'>Min Class</td>
-            <td class='colhead'>Tools</td></tr>";
+        <div class='card'>
+            <div class='card-divider'>{$lang['rules_cat_title']}</div>
+            <div class='card-section'>
+                <div class='small button-group'>
+                    <a class='button' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=cat_new'>{$lang['rules_btn_newcat']}</a>
+                    <a class='button' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=rules_new'>{$lang['rules_btn_newrule']}</a>
+                </div>
+            <table>
+            <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Name</td>
+                    <td>Shortcut</td>
+                    <td>Min Class</td>
+                    <td>Tools</td>
+                </tr>
+            </thead>";
     while ($arr = $sql->fetch_assoc()) {
         $htmlout .= "
+        <tbody>
             <tr>
-            <td>" . (int) $arr['id'] . "</td>
-            <td><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=rules_edit&amp;catid=" . (int) $arr['id'] . "'>" . htmlsafechars($arr['name']) . "</a></td>
-            <td>" . htmlsafechars($arr['shortcut']) . "</td>
-            <td>" . htmlsafechars($arr['min_view']) . "</td>
-            <td><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=cat_edit&amp;catid=" . (int) $arr['id'] . "'><img src='{$TRINITY20['pic_base_url']}button_edit2.gif' height='15px' width='14px' alt='{$lang['rules_edit']}' style='padding-right:3px' /></a>
-            <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=cat_delete&amp;catid=" . (int) $arr['id'] . "'><img src='{$TRINITY20['pic_base_url']}button_delete2.gif' height='13px' width='13px' alt='{$lang['rules_delete']}' style='padding-left:3px' /></a></td>
-            </tr>";
+                <td>" . (int) $arr['id'] . "</td>
+                <td><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=rules_edit&amp;catid=" . (int) $arr['id'] . "'>" . htmlsafechars($arr['name']) . "</a></td>
+                <td>" . htmlsafechars($arr['shortcut']) . "</td>
+                <td>" . htmlsafechars($arr['min_view']) . "</td>
+                <td>
+                    <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=cat_edit&amp;catid=" . (int) $arr['id'] . "'>
+                        <span data-tooltip tabindex='1' title='{$lang['rules_edit']}'>
+                            <i class='fas fa-edit'></i>
+                        </span>
+                    </a>
+                    <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=cat_delete&amp;catid=" . (int) $arr['id'] . "'>
+                        <span data-tooltip tabindex='1' title='{$lang['rules_delete']}'>
+                            <i class='fas fa-trash-alt'></i>
+                        </span>
+                    </a>
+                </td>
+            </tr>
+        </tbody>";
     }
-    $htmlout .= "</table></div></div></div>";
+    $htmlout .= "</table></div></div>";
     echo stdhead("{$lang['rules_rules']}") . $htmlout . stdfoot();
     exit();
 }
@@ -141,8 +152,8 @@ function Cat_Delete($chk = false)
     if (!is_valid_id($id))
         stderr("Error", "Bad ID!");
     if (!$chk) {
-        stderr("Sanity Check!", "You're about to delete a rules category, this will delete ALL content within that category! <br />
-<a href='staffpanel.php?tool=rules_admin&amp;catid={$id}&amp;mode=cat_delete_chk'><span style='font-weight: bold; color: green'>Continue?</span></a>
+        stderr("Sanity Check!", "You're about to delete a rules category, this will delete ALL content within that category!
+        <a class='button' href='staffpanel.php?tool=rules_admin&amp;catid={$id}&amp;mode=cat_delete_chk'><span style='font-weight: bold; color: green'>Continue?</span></a>
 or <a href='staffpanel.php?tool=rules_admin'><span style='font-weight: bold; color: red'>Cancel?</span></a>");
     }
     sql_query("DELETE FROM rules WHERE type = " . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
@@ -162,28 +173,39 @@ function Show_Cat_Edit_Form()
     ($sql = sql_query("SELECT * FROM rules_cat WHERE id = " . sqlesc($cat_id))) || sqlerr(__FILE__, __LINE__);
     if (!$sql->num_rows)
         stderr("SQL Error", "Nothing doing here!");
-    $htmlout .= "<table class='table table-bordered table-striped'>
+    $htmlout .= "<div class='card'><table>
+            <thead>
                 <tr>
                 <td class='colhead'>Name</td>
                 <td class='colhead'>Shortcut</td>
-                <td class='colhead'>Min Class</td></tr>";
+                <td class='colhead'>Min Class</td></tr>
+            </thead>";
     while ($row = $sql->fetch_assoc()) {
-        $htmlout .= "<h2>Title No." . (int) $row['id'] . "</h2>
+        $htmlout .= "<div class='card-divider'>Title No." . (int) $row['id'] . "</div>
+        <div class='card-section'>
         <form name='inputform' method='post' action='staffpanel.php?tool=rules_admin'>
-        <input type='hidden' name='mode' value='takeedit_cat' />
-        <input type='hidden' name='cat' value='" . (int) $row['id'] . "' />
-        <tr><td><input type='text' value='" . htmlsafechars($row['name']) . "' name='name' style='width:380px;' /></td>
-        <td><input type='text' value='" . htmlsafechars($row['shortcut']) . "' name='shortcut' style='width:380px;' /></td>
+        <input type='hidden' name='mode' value='takeedit_cat'>
+        <input type='hidden' name='cat' value='" . (int) $row['id'] . "'>
+        <tbody>
+        <tr><td><input type='text' value='" . htmlsafechars($row['name']) . "' name='name'></td>
+        <td><input type='text' value='" . htmlsafechars($row['shortcut']) . "' name='shortcut'></td>
 
-        <td><select name='min_view'>";
-        for ($i = 0; $i <= $maxclass; ++$i) {
-            $htmlout .= '<option value="' . $i . '"'.($row['min_view'] == $i ? " selected='selected'" : "").'">' . get_user_class_name($i) . '</option>';
-        }
-        $htmlout .= "</select></td>
-        <td colspan='4'><input type='submit' name='submit' value='Edit' class='button' /></td>
-        </tr></form>";
+        <td>
+            <div class='input-group'>
+                <select class='input-group-field'>name='min_view'>";
+                for ($i = 0; $i <= $maxclass; ++$i) {
+                    $htmlout .= '<option value="' . $i . '"'.($row['min_view'] == $i ? " selected='selected'" : "").'">' . get_user_class_name($i) . '</option>';
+                }
+                $htmlout .= "</select>
+                <div class='input-group-button'>
+                    <input class='button' type='submit' name='submit' value='Edit'>
+                </div>
+            </div></td>
+        </tr>
+        </tbody></form>
+        </div>";
     }
-    $htmlout .= "</table>";
+    $htmlout .= "</table></div>";
     echo stdhead("Edit options") . $htmlout . stdfoot();
     exit();
 }
@@ -198,32 +220,34 @@ function Show_Rules_Edit()
     ($sql = sql_query("SELECT * FROM rules WHERE type = " . sqlesc($cat_id))) || sqlerr(__FILE__, __LINE__);
     if (!$sql->num_rows)
         stderr("SQL Error", "Nothing doing here!");
-    $htmlout .= "<form name='compose' method='post' action='staffpanel.php?tool=rules_admin'>";
+    $htmlout .= "<div class='card'><form name='compose' method='post' action='staffpanel.php?tool=rules_admin'>";
     while ($row = $sql->fetch_assoc()) {
-        $htmlout .= "<strong>Rules No." . (int) $row['id'] . "</strong>";
-        $htmlout .= "<br />
-          <div style='text-align: left; width: 70%; border: 1px solid;'>
-          <input type='text' value='" . htmlsafechars($row['title']) . "' name='fdata[{$row['id']}][title]' style='width:650px;' />
-          <span style='float:right;'>
-          <input type='checkbox' name='fdata[{$row['id']}][rules_id]' value='" . (int) $row['id'] . "' />
-          </span>
-          <br />
-          <textarea name='fdata[{$row['id']}][text]' rows='10' cols='20' style='width:650px;'>" . htmlsafechars($row['text']) . "</textarea>
-          </div><br />";
+        $htmlout .= "<div class='card-divider'><strong>Rules No." . (int) $row['id'] . "</strong></div>";
+        $htmlout .= "<div class='card-section'>
+            <div class='input-group'>
+                <input class='input-group-field' type='text' value='" . htmlsafechars($row['title']) . "' name='fdata[{$row['id']}][title]'>
+                <input class='input-group-field' type='checkbox' name='fdata[{$row['id']}][rules_id]' value='" . (int) $row['id'] . "'>
+            </div>
+            <textarea name='fdata[{$row['id']}][text]' rows='10' cols='20'>" . htmlsafechars($row['text']) . "</textarea>
+        </div>";
     }
-    $htmlout .= "<input type='submit' name='submit' value='With Selected' class='button' />&nbsp;
-         <select name='mode'>
-         <option value=''>--- Select One ---</option>
-         <option value='takeedit_rules'>Update Rules</option>
-         <option value='rules_delete'>Delete Rules</option>
-         </select>
-         </form>";
+    $htmlout .= "<div class='input-group'>
+        <select class='input-group-field'  name='mode'>
+            <option value=''>--- Select One ---</option>
+            <option value='takeedit_rules'>Update Rules</option>
+            <option value='rules_delete'>Delete Rules</option>
+        </select>
+        <div class='input-group-buttons'>
+            <input type='submit' name='submit' value='With Selected' class='button'>
+        </div>
+        </div>
+         </form></div>";
     echo stdhead("Edit options") . $htmlout . stdfoot();
     exit();
 }
 function Do_Rules_Update()
 {
-    global $cache;
+    global $cache, $mysqli;
     $time = TIME_NOW;
     $updateset = array();
     if (!isset($_POST['fdata']) || !is_array($_POST['fdata']))
@@ -254,7 +278,7 @@ function Do_Rules_Update()
 }
 function Do_Cat_Update()
 {
-    global $cache;
+    global $cache, $mysqli;
     $cat_id = (int) $_POST['cat'];
     $min_view = sqlesc((int) $_POST['min_view']);
     if (!is_valid_id($cat_id))
@@ -273,7 +297,7 @@ function Do_Cat_Update()
 }
 function Do_Cat_Add()
 {
-    global $TRINITY20, $cache;
+    global $TRINITY20, $cache, $mysqli;
     $htmlout = '';
     if (empty($_POST['name']) || strlen($_POST['name']) > 100)
         stderr("Error", "Field is blank or length too long!");
@@ -293,7 +317,7 @@ function Do_Cat_Add()
 }
 function Do_Rules_Add()
 {
-    global $lang, $cache;
+    global $lang, $cache, $mysqli;
     $cat_id = sqlesc((int) $_POST['cat']);
     if (!is_valid_id($cat_id))
         stderr("Error", "No id");
@@ -314,49 +338,66 @@ function New_Cat_Form()
     global $CURUSER, $lang;
     $htmlout = '';
     $maxclass = $CURUSER['class'];
-    $htmlout .= "<h2>Add A New Title</h2>
-<form class='form-inline' name='inputform' method='post' action='staffpanel.php?tool=rules_admin'>
-    <table class='table table-bordered table-striped'>
-                <tr>
-<input type='hidden' name='mode' value='cat_add' />
-<td align='left'><input class='form-control' placeholder='NAME' type='text' value='' name='name'></td>
-<td><input class='form-control' placeholder='SHORTCUT' type='text' value='' name='shortcut'></td>
-<td><select class='form-control'  name='min_view'>";
-    for ($i = 0; $i <= $maxclass; ++$i) {
-        $htmlout .= '<option value="' . $i . '">' . get_user_class_name($i) . '</option>';
-    }
-    $htmlout .= "</select></td>
-<td colspan='3'><input class='form-control' type='submit' name='submit' value='Add' class='btn btn-default' /></td>
-</tr></table></form>";
+    $htmlout .= "<div class='card'>
+        <div class='card-divider'>Add A New Title</div>
+        <div class='card-section'>
+            <form class='form-inline' name='inputform' method='post' action='staffpanel.php?tool=rules_admin'>
+                <table>
+                    <thead>
+                        <tr>
+                            <input type='hidden' name='mode' value='cat_add'>
+                            <td>
+                                <input placeholder='NAME' type='text' value='' name='name'>
+                            </td>
+                            <td>
+                                <input placeholder='SHORTCUT' type='text' value='' name='shortcut'>
+                            </td>
+                            <td>
+                                <select name='min_view'>";
+                                for ($i = 0; $i <= $maxclass; ++$i) {
+                                    $htmlout .= '<option value="' . $i . '">' . get_user_class_name($i) . '</option>';
+                                }
+                                $htmlout .= "</select>
+                            </td>
+                            <td colspan='3'>
+                                <input class='form-control' type='submit' name='submit' value='Add' class='btn btn-default'>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </form>
+        </div>
+    </div>";
     echo stdhead("Add New Category") . $htmlout . stdfoot();
     exit();
 }
 function New_Rules_Form()
 {
-    global $CURUSER, $lang;
+    global $TRINITY20;
     $htmlout = '';
     ($sql = sql_query("SELECT * FROM rules_cat")) || sqlerr(__FILE__, __LINE__);
     if (!$sql->num_rows)
-        stderr("Error", "There Are No Categories. <br /><br />
-<span class='btn'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=cat_add'>Add Category</a></span>");
-    $htmlout .= "
-<div class='container'>
-<div class='row'>
-<div class='col-sm-10 col-sm-offset-1 panel'><h2>Add A New section</h2>
-<form class='form-inline' name='inputform' method='post' action='staffpanel.php?tool=rules_admin'>
-<input class='form-control' type='hidden' name='mode' value='takeadd_rules' />
-<input class='form-control' placeholder='TYPE' type='hidden'type='text' value='' name='type'>
-<input class='form-control' placeholder='TITLE' type='text' value='' name='title'><br><br>
-<select class='form-control' name='cat'>
-<option value=''>--Select--</option>";
-    while ($v = $sql->fetch_assoc()) {
-        $htmlout .= "<option value='" . (int) $v['id'] . "'>" . htmlsafechars($v['name']) . "</option>";
-    }
-    $htmlout .= "</select><br /><br />
-<textarea name='text' rows='15' cols='20' class='textbox' style='width:650px;'>
-</textarea><br />
-<input class='form-control' type='submit' name='save_cat' value='Add' class='btn btn-default' />
-</form></div></div></div>";
+        stderr("Error", "There Are No Categories. <a class='tiny button' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=cat_add'>Add Category</a>");
+    $htmlout .= "<div class='card'>
+        <div class='card-divider'>Add A New section</div>
+        <div class='card-section'>
+            <form name='inputform' method='post' action='staffpanel.php?tool=rules_admin'>
+                <div class='input-group'>
+                    <input class='input-group-field' type='hidden' name='mode' value='takeadd_rules'>
+                    <input class='input-group-field' placeholder='TYPE' type='hidden'type='text' value='' name='type'>
+                    <input class='input-group-field' placeholder='TITLE' type='text' value='' name='title'>
+                <select class='input-group-field' name='cat'>
+                <option value=''>--Select--</option>";
+                    while ($v = $sql->fetch_assoc()) {
+                        $htmlout .= "<option value='" . (int) $v['id'] . "'>" . htmlsafechars($v['name']) . "</option>";
+                    }
+                    $htmlout .= "</select>
+                </div>
+                <textarea name='text' rows='15' cols='20' class='textbox'></textarea><br />
+                <input type='submit' name='save_cat' value='Add' class='button'>
+            </form>
+        </div>
+    </div>";
     echo stdhead("Add New Rule") . $htmlout . stdfoot();
     exit();
 }
@@ -371,7 +412,7 @@ function Do_Info($text)
 }
 function Do_Error($heading, $text)
 {
-    global $TRINITY20;
+    global $TRINITY20, $HTMLOUT;
     $htmlout = '';
     $htmlout .= "<div class='errorhead'><img src='{$TRINITY20['pic_base_url']}warned.gif' alt='Warned' /> $heading</div><div class='errorbody'>\n";
     $htmlout .= "$text\n";
