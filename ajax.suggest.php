@@ -36,12 +36,12 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
 		$limit = isset($_POST["limit"]) ? (int)$_POST["limit"] : 10;
 		$where = isset($_POST["search"]) ? sprintf('WHERE name LIKE \'%s\'','%'.$_POST["search"].'%') : die(false);
 		$query = "SELECT id, name FROM torrents $where $orderby LIMIT $limit";
-    	$res = sql_query("SELECT COUNT(id) FROM torrents $where") or sqlerr(__FILE__, __LINE__);
+    	($res = sql_query("SELECT COUNT(id) FROM torrents $where")) || sqlerr(__FILE__, __LINE__);
         $row = $res->fetch_row();
         $count = $row[0];
 	    if($count > 0)
 	    {
-		   $res = sql_query($query) or sqlerr(__FILE__, __LINE__);
+		   ($res = sql_query($query)) || sqlerr(__FILE__, __LINE__);
 		   $ye = '';
 		   $i=1;
 	       while ($row = $res->fetch_assoc()) 
