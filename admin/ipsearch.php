@@ -48,7 +48,7 @@ if ($ip) {
         $dom = @gethostbyaddr($ip);
         $addr = $dom == $ip || @gethostbyname($dom) != $ip ? "" : $dom;
     } else {
-        if (substr($mask, 0, 1) == "/") {
+        if ($mask[0] == "/") {
             $n = substr($mask, 1);
             if (!is_numeric($n) || $n < 0 || $n > 32) {
                 $HTMLOUT.= stdmsg($lang['ipsearch_error'], $lang['ipsearch_subnet']);

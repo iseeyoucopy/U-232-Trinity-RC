@@ -72,7 +72,7 @@ function _common_get_record($gi, $seek_country)
     }
     $record = new geoiprecord;
     $record_buf_pos = 0;
-    $char = ord(substr($record_buf, $record_buf_pos, 1));
+    $char = ord($record_buf[$record_buf_pos]);
     $record->country_code = $gi->GEOIP_COUNTRY_CODES[$char];
     $record->country_code3 = $gi->GEOIP_COUNTRY_CODES3[$char];
     $record->country_name = $gi->GEOIP_COUNTRY_NAMES[$char];
@@ -81,10 +81,10 @@ function _common_get_record($gi, $seek_country)
     $str_length = 0;
 
     // Get region
-    $char = ord(substr($record_buf, $record_buf_pos + $str_length, 1));
+    $char = ord($record_buf[$record_buf_pos + $str_length]);
     while ($char != 0) {
         $str_length++;
-        $char = ord(substr($record_buf, $record_buf_pos + $str_length, 1));
+        $char = ord($record_buf[$record_buf_pos + $str_length]);
     }
     if ($str_length > 0) {
         $record->region = substr($record_buf, $record_buf_pos, $str_length);
@@ -92,10 +92,10 @@ function _common_get_record($gi, $seek_country)
     $record_buf_pos += $str_length + 1;
     $str_length = 0;
     // Get city
-    $char = ord(substr($record_buf, $record_buf_pos + $str_length, 1));
+    $char = ord($record_buf[$record_buf_pos + $str_length]);
     while ($char != 0) {
         $str_length++;
-        $char = ord(substr($record_buf, $record_buf_pos + $str_length, 1));
+        $char = ord($record_buf[$record_buf_pos + $str_length]);
     }
     if ($str_length > 0) {
         $record->city = substr($record_buf, $record_buf_pos, $str_length);
@@ -103,10 +103,10 @@ function _common_get_record($gi, $seek_country)
     $record_buf_pos += $str_length + 1;
     $str_length = 0;
     // Get postal code
-    $char = ord(substr($record_buf, $record_buf_pos + $str_length, 1));
+    $char = ord($record_buf[$record_buf_pos + $str_length]);
     while ($char != 0) {
         $str_length++;
-        $char = ord(substr($record_buf, $record_buf_pos + $str_length, 1));
+        $char = ord($record_buf[$record_buf_pos + $str_length]);
     }
     if ($str_length > 0) {
         $record->postal_code = substr($record_buf, $record_buf_pos, $str_length);
@@ -117,12 +117,12 @@ function _common_get_record($gi, $seek_country)
     $latitude = 0;
     $longitude = 0;
     for ($j = 0; $j < 3; ++$j) {
-        $char = ord(substr($record_buf, $record_buf_pos++, 1));
+        $char = ord($record_buf[$record_buf_pos++]);
         $latitude += ($char << ($j * 8));
     }
     $record->latitude = ($latitude / 10000) - 180;
     for ($j = 0; $j < 3; ++$j) {
-        $char = ord(substr($record_buf, $record_buf_pos++, 1));
+        $char = ord($record_buf[$record_buf_pos++]);
         $longitude += ($char << ($j * 8));
     }
     $record->longitude = ($longitude / 10000) - 180;
@@ -130,7 +130,7 @@ function _common_get_record($gi, $seek_country)
         $metroarea_combo = 0;
         if ($record->country_code == "US") {
             for ($j = 0; $j < 3; ++$j) {
-                $char = ord(substr($record_buf, $record_buf_pos++, 1));
+                $char = ord($record_buf[$record_buf_pos++]);
                 $metroarea_combo += ($char << ($j * 8));
             }
             $record->metro_code = $record->dma_code = floor($metroarea_combo / 1000);

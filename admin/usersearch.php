@@ -341,7 +341,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
     );
     if ($names[0] !== "") {
         foreach ($names as $name) {
-            if (substr($name, 0, 1) == '~') {
+            if ($name[0] == '~') {
                 if ($name == '~') continue;
                 $names_exc = (array) $names_exc;
                 $names_exc[] = substr($name, 1);
@@ -429,7 +429,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
         $mask = trim($_POST['ma']);
         if ($mask == "" || $mask == "255.255.255.255") $where_is.= (empty($where_is) ? "":" AND ") . "u.ip = '$ip'";
         else {
-            if (substr($mask, 0, 1) == "/") {
+            if ($mask[0] == "/") {
                 $n = substr($mask, 1);
                 if (!is_numeric($n) || $n < 0 || $n > 32) {
                     stdmsg($lang['usersearch_error'], $lang['usersearch_badmask']);
@@ -492,7 +492,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
         $comments = explode(' ', trim($_POST['co']));
         if ($comments[0] !== "") {
             foreach ($comments as $comment) {
-                if (substr($comment, 0, 1) == '~') {
+                if ($comment[0] == '~') {
                     if ($comment == '~') continue;
                     $comments_exc = (array) $comments_exc;
                     $comments_exc[] = substr($comment, 1);
