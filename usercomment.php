@@ -37,7 +37,7 @@ if ($action == "add") {
         //die();
         $userid = 0 + $_POST["userid"];
         if (!is_valid_id($userid)) stderr($lang['gl_error'], $lang['gl_invalid_id']);
-        $res = sql_query("SELECT username FROM users WHERE id =" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query("SELECT username FROM users WHERE id =" . sqlesc($userid))) || sqlerr(__FILE__, __LINE__);
         $arr = $res->fetch_array(MYSQLI_NUM);
         if (!$arr) stderr($lang['gl_error'], $lang['usercomment_no_user_with_that_id']);
         $body = isset($_POST['body']) ? htmlsafechars($_POST['body']) : '';
@@ -50,7 +50,7 @@ if ($action == "add") {
     }
     $userid = 0 + $_GET["userid"];
     if (!is_valid_id($userid)) stderr($lang['gl_error'], $lang['gl_invalid_id']);
-    $res = sql_query("SELECT username FROM users WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT username FROM users WHERE id = " . sqlesc($userid))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
     if (!$arr) stderr($lang['gl_error'], $lang['usercomment_no_user_with_that_id']);
     $HTMLOUT.= "<h1>{$lang['usercomment_add_a_comment_for']} '" . htmlsafechars($arr["username"]) . "'</h1>
@@ -62,7 +62,7 @@ if ($action == "add") {
     $res = sql_query("SELECT usercomments.id, usercomments.text, usercomments.editedby, usercomments.editedat, usercomments.added, usercomments.edit_name, username, users.id as user, users.avatar, users.title, users.anonymous, users.class, users.donor, users.warned, users.leechwarn, users.chatpost FROM usercomments LEFT JOIN users ON usercomments.user = users.id WHERE user = " . sqlesc($userid) . " ORDER BY usercomments.id DESC LIMIT 5");
     $allrows = array();
     while ($row = $res->fetch_assoc()) $allrows[] = $row;
-    if (count($allrows)) {
+    if (count($allrows) > 0) {
         $HTMLOUT.= "<h2>{$lang['usercomment_most_recent_comments_in_reverse_order']}</h2>\n";
         $HTMLOUT.= usercommenttable($allrows);
     }
@@ -71,7 +71,7 @@ if ($action == "add") {
 } elseif ($action == "edit") {
     $commentid = 0 + $_GET["cid"];
     if (!is_valid_id($commentid)) stderr($lang['gl_error'], $lang['gl_invalid_id']);
-    $res = sql_query("SELECT c.*, u.username, u.id FROM usercomments AS c LEFT JOIN users AS u ON c.userid = u.id WHERE c.id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT c.*, u.username, u.id FROM usercomments AS c LEFT JOIN users AS u ON c.userid = u.id WHERE c.id=" . sqlesc($commentid))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
     if (!$arr) stderr($lang['gl_error'], $lang['gl_invalid_id']);
     if ($arr["user"] != $CURUSER["id"] && $CURUSER['class'] < UC_STAFF) stderr($lang['gl_error'], "{$lang['usercomment_permission_denied']}");
@@ -80,7 +80,7 @@ if ($action == "add") {
         $returnto = htmlsafechars($_POST["returnto"]);
         if ($body == "") stderr($lang['gl_error'], $lang['usercomment_comment_body_cannot_be_empty']);
         $editedat = sqlesc(TIME_NOW);
-        sql_query("UPDATE usercomments SET text=" . sqlesc($body) . ", editedat={$editedat}, edit_name=".sqlesc($CURUSER['username']).", editedby=" . sqlesc($CURUSER['id']) . " WHERE id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE usercomments SET text=" . sqlesc($body) . ", editedat={$editedat}, edit_name=".sqlesc($CURUSER['username']).", editedby=" . sqlesc($CURUSER['id']) . " WHERE id=" . sqlesc($commentid)) || sqlerr(__FILE__, __LINE__);
         if ($returnto) header("Location: $returnto");
         else header("Location: {$TRINITY20['baseurl']}/userdetails.php?id={$userid}");
         die;
@@ -103,13 +103,13 @@ if ($action == "add") {
         //stderr($lang['usercomment_delete_comment'], "{$lang['usercomment_you_are_about_to_delete_a_comment_click']}\n" . "<a href='usercomment.php?action=delete&amp;cid={$commentid}&amp;sure=1&amp;returnto=".urlencode($_SERVER['PHP_SELF'])."'>{$lang['gl_stdfoot_here']}</a> {$lang['gl_if_you_are_sure']}.");
         
     }
-    $res = sql_query("SELECT id, userid FROM usercomments WHERE id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id, userid FROM usercomments WHERE id=" . sqlesc($commentid))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
-    if ($arr['id'] != $CURUSER['id']) {
-        if ($CURUSER['class'] < UC_STAFF) stderr($lang['gl_error'], "{$lang['usercomment_permission_denied']}");
+    if ($arr['id'] != $CURUSER['id'] && $CURUSER['class'] < UC_STAFF) {
+        stderr($lang['gl_error'], "{$lang['usercomment_permission_denied']}");
     }
     if ($arr) $userid = (int)$arr["userid"];
-    sql_query("DELETE FROM usercomments WHERE id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
+    sql_query("DELETE FROM usercomments WHERE id=" . sqlesc($commentid)) || sqlerr(__FILE__, __LINE__);
     if ($userid && $mysqli->affected_rows > 0) sql_query("UPDATE users SET comments = comments - 1 WHERE id = " . sqlesc($userid));
     $returnto = htmlsafechars($_GET["returnto"]);
     if ($returnto) header("Location: $returnto");
@@ -119,7 +119,7 @@ if ($action == "add") {
     if ($CURUSER['class'] < UC_STAFF) stderr($lang['gl_error'], "{$lang['usercomment_permission_denied']}");
     $commentid = 0 + $_GET["cid"];
     if (!is_valid_id($commentid)) stderr($lang['gl_error'], $lang['gl_invalid_id']);
-    $res = sql_query("SELECT c.*, u.username FROM usercomments AS c LEFT JOIN users AS u ON c.userid = u.id WHERE c.id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT c.*, u.username FROM usercomments AS c LEFT JOIN users AS u ON c.userid = u.id WHERE c.id=" . sqlesc($commentid))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
     if (!$arr) stderr($lang['gl_error'], $lang['gl_invalid_id']);
     $HTMLOUT.= "<h1>Original contents of comment #{$commentid}</h1>

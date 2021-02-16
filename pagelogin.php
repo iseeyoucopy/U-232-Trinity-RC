@@ -21,10 +21,10 @@ function failedloginscheck()
     global $TRINITY20;
     $total = 0;
     $ip = getip();
-    $res = sql_query("SELECT SUM(attempts) FROM failedlogins WHERE ip=" . sqlesc($ip)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT SUM(attempts) FROM failedlogins WHERE ip=" . sqlesc($ip))) || sqlerr(__FILE__, __LINE__);
     list($total) = $res->fetch_row();
     if ($total >= $TRINITY20['failedlogins']) {
-        sql_query("UPDATE failedlogins SET banned = 'yes' WHERE ip=" . sqlesc($ip)) or sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE failedlogins SET banned = 'yes' WHERE ip=" . sqlesc($ip)) || sqlerr(__FILE__, __LINE__);
         stderr("Login Locked!", "You have <b>Exceeded</b> the allowed maximum login attempts without successful login, therefore your ip address <b>(" . htmlsafechars($ip) . ")</b> has been locked out for 24 hours.");
     }
 }
@@ -50,17 +50,17 @@ $hash1 = substr($qlogin, 0, 32);
 $hash2 = substr($qlogin, 32, 32);
 $hash3 = substr($qlogin, 64, 32);
 $hash1.= $hash2 . $hash3;
-$res = sql_query("SELECT id, username, hash3, enabled FROM users WHERE hash1 = " . sqlesc($hash1) . " AND class >= " . UC_STAFF . " AND status = 'confirmed' LIMIT 1") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT id, username, hash3, enabled FROM users WHERE hash1 = " . sqlesc($hash1) . " AND class >= " . UC_STAFF . " AND status = 'confirmed' LIMIT 1")) || sqlerr(__FILE__, __LINE__);
 $row = $res->fetch_assoc();
 $ip = getip();
 if (!$row) {
     $added = TIME_NOW;
-    $fail_query = sql_query("SELECT COUNT(id) from failedlogins where ip=" . sqlesc($ip)) or sqlerr(__FILE__, __LINE__);
+    ($fail_query = sql_query("SELECT COUNT(id) from failedlogins where ip=" . sqlesc($ip))) || sqlerr(__FILE__, __LINE__);
     $fail = ($fail_query->fetch_row());
     if ($fail[0] == 0) {
-        sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES (" . sqlesc($ip) . ", " . sqlesc($added) . ", 1)") or sqlerr(__FILE__, __LINE__);
+        sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES (" . sqlesc($ip) . ", " . sqlesc($added) . ", 1)") || sqlerr(__FILE__, __LINE__);
     } else {
-        sql_query("UPDATE failedlogins SET attempts = attempts + 1 WHERE ip=" . sqlesc($ip)) or sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE failedlogins SET attempts = attempts + 1 WHERE ip=" . sqlesc($ip)) || sqlerr(__FILE__, __LINE__);
     }
     bark();
 }
@@ -69,7 +69,7 @@ if ($row['enabled'] == 'no') {
 }
 $passh = h_cook($row['hash3'], $_SERVER["REMOTE_ADDR"], $row['id']);
 logincookie($row["id"], $passh);
-sql_query("DELETE FROM failedlogins WHERE ip = " . sqlesc($ip)) or sqlerr(__FILE__, __LINE__);
+sql_query("DELETE FROM failedlogins WHERE ip = " . sqlesc($ip)) || sqlerr(__FILE__, __LINE__);
 $HTMLOUT = '';
 $HTMLOUT.= "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN'
 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>

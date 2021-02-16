@@ -19,7 +19,7 @@ $lang = array_merge(load_language('global') , load_language('uploadapp'));
 $HTMLOUT = '';
 // Fill in application
 if (isset($_POST["form"]) != 1) {
-    $res = sql_query("SELECT status FROM uploadapp WHERE userid = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT status FROM uploadapp WHERE userid = " . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
 	$status_arr = isset($arr['status']) ? (int)$arr['status'] : "";
     if ($CURUSER['class'] >= UC_UPLOADER) 
@@ -35,15 +35,14 @@ if (isset($_POST["form"]) != 1) {
         <table class='table table-bordered'>";
         $ratio = member_ratio($CURUSER['uploaded'], $CURUSER['downloaded']);
         if (XBT_TRACKER === false) {
-        $res = sql_query("SELECT connectable FROM peers WHERE userid=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query("SELECT connectable FROM peers WHERE userid=" . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
         } else {
-        $res = sql_query("SELECT connectable FROM xbt_peers WHERE uid=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query("SELECT connectable FROM xbt_peers WHERE uid=" . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
         }
         if ($row = $res->fetch_row()) {
         $Conn_Y = (XBT_TRACKER === true ? 1 : 'yes');
             $connect = $row[0];
-            if ($connect == $Conn_Y) $connectable = 'Yes';
-            else $connectable = 'No';
+            $connectable = $connect == $Conn_Y ? 'Yes' : 'No';
         } else $connectable = 'Pending';
         $HTMLOUT.= "<tr>
         <td class='rowhead'>{$lang['uploadapp_username']}</td>
@@ -136,9 +135,9 @@ if (isset($_POST["form"]) != 1) {
         $subject = sqlesc("Uploader application");
         $msg = sqlesc("An uploader application has just been filled in by [url={$TRINITY20['baseurl']}/userdetails.php?id=" . (int)$CURUSER['id'] . "][b]{$CURUSER['username']}[/b][/url]. Click [url={$TRINITY20['baseurl']}/staffpanel.php?tool=uploadapps&action=show][b]Here[/b][/url] to go to the uploader applications page.");
         $dt = TIME_NOW;
-        $subres = sql_query('SELECT id FROM users WHERE class = ' . UC_STAFF) or sqlerr(__FILE__, __LINE__);
+        ($subres = sql_query('SELECT id FROM users WHERE class = ' . UC_STAFF)) || sqlerr(__FILE__, __LINE__);
         while ($arr = $subres->fetch_assoc()) 
-            sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, " . sqlesc($arr['id']) . ", $dt, $msg, $subject, 0)") or sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, " . sqlesc($arr['id']) . ", $dt, $msg, $subject, 0)") || sqlerr(__FILE__, __LINE__);
         $cache->delete('inbox_new::' . $arr['id']);
         $cache->delete('inbox_new_sb::' . $arr['id']);
         stderr($lang['uploadapp_appsent'], $lang['uploadapp_success']);

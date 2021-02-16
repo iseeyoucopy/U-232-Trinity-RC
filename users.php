@@ -22,7 +22,7 @@ $q1 = '';
 if ($class == '-' || !ctype_digit($class)) $class = '';
 if ($search != '' || $class) {
     $query1 = "username LIKE " . sqlesc("%$search%") . " AND status='confirmed'";
-    if ($search) $q1 = "search=" . htmlsafechars($search);
+    if ($search !== '') $q1 = "search=" . htmlsafechars($search);
 } else {
     $letter = isset($_GET['letter']) ? trim((string)$_GET["letter"]) : '';
     if (strlen($letter) > 1) die;
@@ -32,7 +32,7 @@ if ($search != '' || $class) {
 }
 if (ctype_digit($class)) {
     $query1.= " AND class=$class";
-    $q1.= ($q1 ? "&amp;" : "") . "class=$class";
+    $q1.= ($q1 !== '' ? "&amp;" : "") . "class=$class";
 }
 $HTMLOUT = '';
 $HTMLOUT.= "<fieldset class='header panel panel-default'><h2 class='text-center'>{$lang['head_users']}</h2>\n";
@@ -57,7 +57,7 @@ $HTMLOUT.= "<div class='text-center'>";
 $count = 0;
 foreach ($cc as $L) {
     $HTMLOUT.= ($count == 10) ? "<br /><br />" : '';
-    if (!strcmp($L, $letter)) $HTMLOUT.= "<span class='btn' style='background:orange;'>" . strtoupper($L) . "</span>\n";
+    if (strcmp($L, $letter) === 0) $HTMLOUT.= "<span class='btn' style='background:orange;'>" . strtoupper($L) . "</span>\n";
     else $HTMLOUT.= "<a href='users.php?letter=$L'><span class='btn'>" . strtoupper($L) . "</span></a>\n";
     $count++;
 }
@@ -68,13 +68,16 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $perpage = 25;
 $browsemenu = '';
 $pagemenu = '';
-$res = sql_query("SELECT COUNT(*) FROM users WHERE " . $query1) or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT COUNT(*) FROM users WHERE " . $query1)) || sqlerr(__FILE__, __LINE__);
 $arr = $res->fetch_row();
 if ($arr[0] > $perpage) {
     $pages = floor($arr[0] / $perpage);
     if ($pages * $perpage < $arr[0]) ++$pages;
-    if ($page < 1) $page = 1;
-    else if ($page > $pages) $page = $pages;
+    if ($page < 1) {
+        $page = 1;
+    } elseif ($page > $pages) {
+        $page = $pages;
+    }
     for ($i = 1; $i <= $pages; ++$i) {
         $PageNo = $i + 1;
         if ($PageNo < ($page - 2)) continue;
@@ -89,7 +92,7 @@ if ($arr[0] > $perpage) {
 }
 $offset = ($page * $perpage) - $perpage;
 if ($arr[0] > 0) {
-    $res = sql_query("SELECT users.*, countries.name, countries.flagpic FROM users FORCE INDEX ( username ) LEFT JOIN countries ON country = countries.id WHERE $query1 ORDER BY username LIMIT $offset,$perpage") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT users.*, countries.name, countries.flagpic FROM users FORCE INDEX ( username ) LEFT JOIN countries ON country = countries.id WHERE $query1 ORDER BY username LIMIT $offset,$perpage")) || sqlerr(__FILE__, __LINE__);
 	$HTMLOUT.= "<div class='container-fluid text-center'>";
     $HTMLOUT.= "<table class='table table-condensed'>\n";
     $HTMLOUT.= "<tr><td class='colhead' align='left'>{$lang['users_username']}</td><td class='colhead'>{$lang['users_regd']}</td><td class='colhead'>{$lang['users_la']}</td><td class='colhead' align='left'>{$lang['users_class']}</td><td class='colhead'>{$lang['users_country']}</td></tr>\n";

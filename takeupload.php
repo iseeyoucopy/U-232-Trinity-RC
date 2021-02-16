@@ -26,13 +26,13 @@ ini_set('memory_limit', '64M');
 $auth_key = array(
     '2d257f64005d740db092a6b91170ab5f'
 );
-$gotkey   = isset($_POST['key']) && strlen($_POST['key']) == 32 && in_array($_POST['key'], $auth_key) ? true : false;
+$gotkey   = isset($_POST['key']) && strlen($_POST['key']) == 32 && in_array($_POST['key'], $auth_key);
 $lang     = array_merge(load_language('global'), load_language('takeupload'));
 if (!$gotkey) {
     $newpage = new page_verify();
     $newpage->check('taud');
 }
-if ($CURUSER['class'] < UC_UPLOADER OR $CURUSER["uploadpos"] == 0 || $CURUSER["uploadpos"] > 1 || $CURUSER['suspended'] == 'yes') {
+if ($CURUSER['class'] < UC_UPLOADER || ($CURUSER["uploadpos"] == 0 || $CURUSER["uploadpos"] > 1 || $CURUSER['suspended'] == 'yes')) {
     header("Location: {$TRINITY20['baseurl']}/upload.php");
     exit();
 }
@@ -113,9 +113,9 @@ if (isset($_POST['half_length']) && ($half_length = 0 + $_POST['half_length'])) 
 }
 /// end
 //==Xbt freetorrent
-$freetorrent = (((isset($_POST['freetorrent']) && is_valid_id($_POST['freetorrent'])) ? intval($_POST['freetorrent']) : 0));
+$freetorrent = (((isset($_POST['freetorrent']) && is_valid_id($_POST['freetorrent'])) ? (int) $_POST['freetorrent'] : 0));
 $descr       = strip_tags(isset($_POST['descr']) ? trim($_POST['descr']) : '');
-if (!$descr)
+if ($descr === '')
     stderr($lang['takeupload_failed'], $lang['takeupload_no_descr']);
 $description = strip_tags(isset($_POST['description']) ? trim($_POST['description']) : '');
 if (isset($_POST['strip']) && $_POST['strip']) {
@@ -128,8 +128,8 @@ if (isset($_POST['strip']) && $_POST['strip']) {
 $catid = (0 + $_POST["type"]);
 if (!is_valid_id($catid))
     stderr($lang['takeupload_failed'], $lang['takeupload_no_cat']);
-$request             = (((isset($_POST['request']) && is_valid_id($_POST['request'])) ? intval($_POST['request']) : 0));
-$offer               = (((isset($_POST['offer']) && is_valid_id($_POST['offer'])) ? intval($_POST['offer']) : 0));
+$request             = (((isset($_POST['request']) && is_valid_id($_POST['request'])) ? (int) $_POST['request'] : 0));
+$offer               = (((isset($_POST['offer']) && is_valid_id($_POST['offer'])) ? (int) $_POST['offer'] : 0));
 $subs                = isset($_POST["subs"]) ? implode(",", $_POST['subs']) : "";
 $release_group_array = array(
     'scene' => 1,
@@ -175,7 +175,7 @@ $plen       = $info['piece length'];
 $pieces_len = strlen($info['pieces']);
 if ($pieces_len % 20 != 0)
     stderr('Error', 'invalid pieces');
-if ($plen % 4096)
+if ($plen % 4096 !== 0)
     stderr('Error', 'piece size is not mod(4096), wtf kind of torrent is that?');
 $filelist = array();
 if (isset($info['length'])) {
@@ -193,7 +193,7 @@ if (isset($info['length'])) {
     if (bencdec::get_type($info['files']) != 'list')
         stderr('Error', 'invalid files, not a list');
     $flist =& $info['files'];
-    if (!count($flist))
+    if (count($flist) === 0)
         stderr('Error', 'no files');
     $totallen = 0;
     foreach ($flist as $fn) {
@@ -210,7 +210,7 @@ if (isset($info['length'])) {
                 stderr('Error', 'filename type error');
             $ffa[] = $ffe;
         }
-        if (!count($ffa))
+        if (count($ffa) === 0)
             stderr('Error', 'filename error');
         $ffe        = implode('/', $ffa);
         $filelist[] = array(
@@ -292,7 +292,7 @@ function file_list($arr, $id)
 {
     foreach ($arr as $v)
         $new[] = "($id," . sqlesc($v[0]) . "," . $v[1] . ")";
-    return join(",", $new);
+    return implode(",", $new);
 }
 sql_query("INSERT INTO files (torrent, filename, size) VALUES " . file_list($filelist, $id));
 //==
@@ -305,12 +305,12 @@ chmod($dir, 0664);
 
 //=== if it was an offer notify the folks who liked it :D
 if ($offer > 0) {
-    $res_offer = sql_query('SELECT user_id FROM offer_votes WHERE vote = \'yes\' AND user_id != ' . sqlesc($CURUSER['id']) . ' AND offer_id = ' . sqlesc($offer)) or sqlerr(__FILE__, __LINE__);
+    ($res_offer = sql_query('SELECT user_id FROM offer_votes WHERE vote = \'yes\' AND user_id != ' . sqlesc($CURUSER['id']) . ' AND offer_id = ' . sqlesc($offer))) || sqlerr(__FILE__, __LINE__);
     $subject = sqlesc('An offer you voted for has been uploaded!');
     $message = sqlesc("Hi, \n An offer you were interested in has been uploaded!!! \n\n Click  [url=" . $TRINITY20['baseurl'] . "/details.php?id=" . $id . "]" . htmlsafechars($torrent, ENT_QUOTES) . "[/url] to see the torrent page!");
     while ($arr_offer = $res_offer->fetch_assoc()) {
         sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, saved, location) 
-    VALUES(0, ' . sqlesc($arr_offer['user_id']) . ', ' . TIME_NOW . ', ' . $message . ', ' . $subject . ', \'yes\', 1)') or sqlerr(__FILE__, __LINE__);
+    VALUES(0, ' . sqlesc($arr_offer['user_id']) . ', ' . TIME_NOW . ', ' . $message . ', ' . $subject . ', \'yes\', 1)') || sqlerr(__FILE__, __LINE__);
         $cache->delete('inbox_new::' . $arr_offer['user_id']);
         $cache->delete('inbox_new_sb::' . $arr_offer['user_id']);
     }
@@ -320,17 +320,17 @@ if ($offer > 0) {
 $filled = 0;
 //=== if it was a request notify the folks who voted :D
 if ($request > 0) {
-    $res_req = sql_query('SELECT user_id FROM request_votes WHERE vote = \'yes\' AND request_id = ' . sqlesc($request)) or sqlerr(__FILE__, __LINE__);
+    ($res_req = sql_query('SELECT user_id FROM request_votes WHERE vote = \'yes\' AND request_id = ' . sqlesc($request))) || sqlerr(__FILE__, __LINE__);
     $subject = sqlesc('A  request you were interested in has been uploaded!');
     $message = sqlesc("Hi :D \n A request you were interested in has been uploaded!!! \n\n Click  [url=" . $TRINITY20['baseurl'] . "/details.php?id=" . $id . "]" . htmlsafechars($torrent, ENT_QUOTES) . "[/url] to see the torrent page!");
     while ($arr_req = $res_req->fetch_assoc()) {
         sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, saved, location) 
-    VALUES(0, ' . sqlesc($arr_req['user_id']) . ', ' . TIME_NOW . ', ' . $message . ', ' . $subject . ', \'yes\', 1)') or sqlerr(__FILE__, __LINE__);
+    VALUES(0, ' . sqlesc($arr_req['user_id']) . ', ' . TIME_NOW . ', ' . $message . ', ' . $subject . ', \'yes\', 1)') || sqlerr(__FILE__, __LINE__);
         $cache->delete('inbox_new::' . $arr_req['user_id']);
         $cache->delete('inbox_new_sb::' . $arr_req['user_id']);
     }
-    sql_query('UPDATE requests SET filled_by_user_id = ' . sqlesc($CURUSER['id']) . ', filled_torrent_id = ' . sqlesc($id) . ' WHERE id = ' . sqlesc($request)) or sqlerr(__FILE__, __LINE__);
-    sql_query("UPDATE usersachiev SET reqfilled = reqfilled + 1 WHERE id =" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+    sql_query('UPDATE requests SET filled_by_user_id = ' . sqlesc($CURUSER['id']) . ', filled_torrent_id = ' . sqlesc($id) . ' WHERE id = ' . sqlesc($request)) || sqlerr(__FILE__, __LINE__);
+    sql_query("UPDATE usersachiev SET reqfilled = reqfilled + 1 WHERE id =" . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
     write_log('Request for torrent ' . $id . ' (' . htmlsafechars($torrent) . ') was filled by ' . $CURUSER['username']);
     $filled = 1;
 }
@@ -345,7 +345,7 @@ if (($fd1 = @fopen("rss.xml", "w")) && ($fd2 = fopen("rssdd.xml", "w"))) {
     $s = "<?xml version=\"1.0\" encoding=\"iso-8859-1\" ?>\n<rss version=\"0.91\">\n<channel>\n" . "<title>{$TRINITY20['site_name']}</title>\n<description>TRINITY20 is the best!</description>\n<link>{$TRINITY20['baseurl']}/</link>\n";
     @fwrite($fd1, $s);
     @fwrite($fd2, $s);
-    $r = sql_query("SELECT id,name,descr,filename,category FROM torrents ORDER BY added DESC LIMIT 15") or sqlerr(__FILE__, __LINE__);
+    ($r = sql_query("SELECT id,name,descr,filename,category FROM torrents ORDER BY added DESC LIMIT 15")) || sqlerr(__FILE__, __LINE__);
     while ($a = $r->fetch_assoc()) {
         $cat = $cats[$a["category"]];
         $s   = "<item>\n<title>" . htmlsafechars($a["name"] . " ($cat)") . "</title>\n" . "<description>" . htmlsafechars($a["descr"]) . "</description>\n";
@@ -375,7 +375,7 @@ else
         $message = "New Torrent : Category = ".htmlsafechars($Cat_Name['cat_name']).", [url={$TRINITY20['baseurl']}/details.php?id=$id] " . htmlsafechars($torrent) . "[/url] Uploaded by " . htmlsafechars($CURUSER["username"]) . "";
         $messages = "{$TRINITY20['site_name']} New Torrent : Category = ".htmlsafechars($Cat_Name['cat_name']).", $torrent Uploaded By: $anon " . mksize($totallen) . " {$TRINITY20['baseurl']}/details.php?id=$id";
     //===add karma
-    sql_query("UPDATE users SET seedbonus=seedbonus+" . sqlesc($TRINITY20['bonus_per_upload']) . ", numuploads=numuploads+1 WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
+    sql_query("UPDATE users SET seedbonus=seedbonus+" . sqlesc($TRINITY20['bonus_per_upload']) . ", numuploads=numuploads+1 WHERE id = " . sqlesc($CURUSER["id"])) || sqlerr(__FILE__, __LINE__);
     //===end
     $update['seedbonus'] = ($CURUSER['seedbonus'] + $TRINITY20['bonus_per_upload']);
     $cache->update_row($keys['user_stats'] . $CURUSER["id"], [

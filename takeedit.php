@@ -49,7 +49,7 @@ function valid_torrent_name($torrent_name)
 if (!function_exists('is_valid_url')) {
     function is_valid_url($link)
     {
-        return preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $link);
+        return preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:\d+)?(/.*)?$|i', $link);
     }
 }
 /**
@@ -58,8 +58,8 @@ if (!function_exists('is_valid_url')) {
  * @End
  */
 $nfoaction = '';
-$select_torrent = sql_query('SELECT name, descr, category, visible, vip, release_group, poster, url, newgenre, description, anonymous, sticky, owner, allow_comments, nuked, nukereason, filename, save_as, youtube, tags, info_hash, freetorrent FROM torrents WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-$fetch_assoc = $select_torrent->fetch_assoc() or stderr('Error', 'No torrent with this ID!');
+($select_torrent = sql_query('SELECT name, descr, category, visible, vip, release_group, poster, url, newgenre, description, anonymous, sticky, owner, allow_comments, nuked, nukereason, filename, save_as, youtube, tags, info_hash, freetorrent FROM torrents WHERE id = ' . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
+($fetch_assoc = $select_torrent->fetch_assoc()) || stderr('Error', 'No torrent with this ID!');
 $infohash = $fetch_assoc['info_hash'];
 if ($CURUSER['id'] != $fetch_assoc['owner'] && $CURUSER['class'] < MIN_CLASS) stderr('You\'re not the owner!', 'How did that happen?');
 $updateset = $torrent_cache = $torrent_txt_cache = array();
@@ -70,11 +70,11 @@ $dname = $fetch_assoc['save_as'];
 if ((isset($_POST['nfoaction'])) && ($_POST['nfoaction'] == 'update')) {
     if (empty($_FILES['nfo']['name'])) stderr('Updated failed', 'No NFO!');
     if ($_FILES['nfo']['size'] == 0) stderr('Updated failed', '0-byte NFO!');
-    if (!preg_match('/^(.+)\.[' . join(']|[', $possible_extensions) . ']$/si', $_FILES['nfo']['name'])) stderr('Updated failed', 'Invalid extension. <b>' . join(', ', $possible_extensions) . '</b> only!', false);
+    if (!preg_match('/^(.+)\.[' . implode(']|[', $possible_extensions) . ']$/si', $_FILES['nfo']['name'])) stderr('Updated failed', 'Invalid extension. <b>' . implode(', ', $possible_extensions) . '</b> only!', false);
     if (!empty($_FILES['nfo']['name']) && $_FILES['nfo']['size'] > NFO_SIZE) stderr('Updated failed', 'NFO is too big! Max ' . number_format(NFO_SIZE) . ' bytes!');
     if (@is_uploaded_file($_FILES['nfo']['tmp_name']) && @filesize($_FILES['nfo']['tmp_name']) > 0) $updateset[] = "nfo = " . sqlesc(str_replace("\x0d\x0d\x0a", "\x0d\x0a", file_get_contents($_FILES['nfo']['tmp_name'])));
     $torrent_cache['nfo'] = str_replace("\x0d\x0d\x0a", "\x0d\x0a", file_get_contents($_FILES['nfo']['tmp_name']));
-} else if ($nfoaction == "remove") {
+} elseif ($nfoaction == "remove") {
     $updateset[] = "nfo = ''";
     $torrent_cache['nfo'] = '';
 }
@@ -130,7 +130,6 @@ if ($CURUSER['class'] > UC_STAFF) {
 /**
  *
  * @Custom Mods
- *
  */
 //== Subs
 if (in_array($category, $TRINITY20['movie_cats'])) {
@@ -141,7 +140,7 @@ if (in_array($category, $TRINITY20['movie_cats'])) {
 // ==09 Sticky torrents
 if (($sticky = (isset($_POST['sticky']) != '' ? 'yes' : 'no')) != $fetch_assoc['sticky']) {
     $updateset[] = 'sticky = ' . sqlesc($sticky);
-    if ($sticky == 'yes') sql_query("UPDATE usersachiev SET stickyup = stickyup + 1 WHERE id = " . sqlesc($fetch_assoc['owner'])) or sqlerr(__FILE__, __LINE__);
+    if ($sticky == 'yes') sql_query("UPDATE usersachiev SET stickyup = stickyup + 1 WHERE id = " . sqlesc($fetch_assoc['owner'])) || sqlerr(__FILE__, __LINE__);
     //$torrent_cache['sticky'] = $sticky;
 }
 // ==09 Simple nuke/reason mod
@@ -202,7 +201,7 @@ if (($freetorrent = (isset($_POST['freetorrent']) != '' ? '1' : '0')) != $fetch_
 }
 //==09 Imdb mod
 if (isset($_POST['url']) && (($url = $_POST['url']) != $fetch_assoc['url'])) {
-    if (!preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $url) && !empty($url))
+    if (!preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:\d+)?(/.*)?$|i', $url) && !empty($url))
     //if (!preg_match("/^(http|https):\/\/[^\s'\"<>]+\.(jpg|gif|png)$/i", $url))
     stderr('Updated failed', 'Make sure you include http:// in the URL.');
     $updateset[] = 'url = ' . sqlesc($url);
@@ -241,8 +240,8 @@ if ($genreaction != "keep") {
     $torrent_cache['newgenre'] = $genre;
 }
 //==End - now update the sets
-if (sizeof($updateset) > 0) sql_query('UPDATE torrents SET ' . implode(',', $updateset) . ' WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-if ($torrent_cache) {
+if (count($updateset) > 0) sql_query('UPDATE torrents SET ' . implode(',', $updateset) . ' WHERE id = ' . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
+if ($torrent_cache !== []) {
     $cache->update_row('torrent_details_' . $id, $torrent_cache, $TRINITY20['expires']['torrent_details']);
     $cache->delete('top5_tor_');
     $cache->delete('last5_tor_');

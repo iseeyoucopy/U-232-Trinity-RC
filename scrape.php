@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once ('include/ann_config.php');
+require_once (__DIR__ . '/include/ann_config.php');
 require_once (INCL_DIR . 'ann_functions.php');
 require_once (INCL_DIR . 'class/class_bt_options.php');
 
@@ -32,7 +32,7 @@ function getip()
         'HTTP_FORWARDED',
         'REMOTE_ADDR'
     ) as $key) {
-        if (array_key_exists($key, $_SERVER) === true) {
+        if (array_key_exists($key, $_SERVER)) {
             foreach (array_map('trim', explode(',', $_SERVER[$key])) as $ip) {
                 if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
                     return $ip;

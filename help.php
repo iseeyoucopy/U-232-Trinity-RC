@@ -26,7 +26,7 @@ $HTMLOUT.= "<ul class='vertical menu drilldown' data-drilldown data-auto-height=
 <ul class='menu vertical nested'>";
 $count = 0;
 $cats = array();
-$q = sql_query("SELECT * FROM faq_cat WHERE min_view <=" . sqlesc($CURUSER['class'])) or sqlerr (__file__, __line__);
+($q = sql_query("SELECT * FROM faq_cat WHERE min_view <=" . sqlesc($CURUSER['class']))) || sqlerr (__file__, __line__);
 while ($item = $q->fetch_assoc()) {
     $cats[] = $item;
 }
@@ -44,7 +44,7 @@ $HTMLOUT.= "</ul></li>";
 $count = 0;
 if (($faqs = $cache->get('faqs__')) === false) {
     $faqs = array();
-    $q2 = sql_query("SELECT * FROM faq")  or sqlerr (__FILE__, __LINE__);
+    ($q2 = sql_query("SELECT * FROM faq")) || sqlerr (__FILE__, __LINE__);
     while ($row = $q2->fetch_assoc()) $faqs[] = $row;
     $cache->set('faqs__', $faqs, $TRINITY20['expires']['faqs']);
 }

@@ -360,28 +360,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     //== set n clear
     //** Index Page */
-    if ($setbits_index_page) {
+    if ($setbits_index_page !== 0) {
         $updateset[] = 'index_page = (index_page | ' . $setbits_index_page . ')';
     }
-    if ($clrbits_index_page) {
+    if ($clrbits_index_page !== 0) {
         $updateset[] = 'index_page = (index_page & ~' . $clrbits_index_page . ')';
     }
     //** Global alerts */
-    if ($setbits_global_stdhead) {
+    if ($setbits_global_stdhead !== 0) {
         $updateset[] = 'global_stdhead = (global_stdhead | ' . $setbits_global_stdhead . ')';
     }
-    if ($clrbits_global_stdhead) {
+    if ($clrbits_global_stdhead !== 0) {
         $updateset[] = 'global_stdhead = (global_stdhead & ~' . $clrbits_global_stdhead . ')';
     }
     //** Userdetails Page */
-    if ($setbits_userdetails_page) {
+    if ($setbits_userdetails_page !== 0) {
         $updateset[] = 'userdetails_page = (userdetails_page | ' . $setbits_userdetails_page . ')';
     }
-    if ($clrbits_userdetails_page) {
+    if ($clrbits_userdetails_page !== 0) {
         $updateset[] = 'userdetails_page = (userdetails_page & ~' . $clrbits_userdetails_page . ')';
     }
-    if (count($updateset)) {
-        sql_query('UPDATE user_blocks SET ' . implode(',', $updateset) . ' WHERE userid = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    if (count($updateset) > 0) {
+        sql_query('UPDATE user_blocks SET ' . implode(',', $updateset) . ' WHERE userid = ' . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     }
     $cache->delete('blocks::' . $id);
     header("Location: {$TRINITY20['baseurl']}/usercp.php?edited=1&action=user_blocks#user-block");

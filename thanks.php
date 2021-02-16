@@ -20,12 +20,12 @@ if (!isset($CURUSER)) {
 $uid = (int) $CURUSER['id'];
 $tid = isset($_POST['torrentid']) ? (int) $_POST['torrentid'] : (isset($_GET['torrentid']) ? (int) $_GET['torrentid'] : 0);
 $do = isset($_POST['action']) ? htmlsafechars($_POST['action']) : (isset($_GET['action']) ? htmlsafechars($_GET['action']) : 'list');
-$ajax = isset($_POST['ajax']) && $_POST['ajax'] == 1 ? true : false;
+$ajax = isset($_POST['ajax']) && $_POST['ajax'] == 1;
 function print_list()
 {
     global $uid, $tid, $ajax;
     $target = $ajax ? '_self' : '_parent';
-    $qt = sql_query("SELECT th.userid, u.username, u.seedbonus FROM thanks as th INNER JOIN users as u ON u.id=th.userid WHERE th.torrentid=" . sqlesc($tid) . " ORDER BY u.class DESC") or sqlerr(__FILE__, __LINE__);
+    ($qt = sql_query("SELECT th.userid, u.username, u.seedbonus FROM thanks as th INNER JOIN users as u ON u.id=th.userid WHERE th.torrentid=" . sqlesc($tid) . " ORDER BY u.class DESC")) || sqlerr(__FILE__, __LINE__);
     $list = [];
     $hadTh = false;
     if ($qt->num_rows > 0) {
@@ -33,17 +33,17 @@ function print_list()
             $list[] = '<a href=\'userdetails.php?id=' . (int) $a['userid'] . '\' target=\'' . $target . '\'>' . htmlsafechars($a['username']) . '</a>';
             $ids[] = (int) $a['userid'];
         }
-        $hadTh = in_array($uid, $ids) ? true : false;
+        $hadTh = in_array($uid, $ids);
     }
     if ($ajax) {
         return json_encode([
-            'list' => (count($list) > 0 ? join(', ', $list) : 'Not yet') ,
+            'list' => (count($list) > 0 ? implode(', ', $list) : 'Not yet') ,
             'hadTh' => $hadTh,
             'status' => true
         ]);
     } else {
-        $form = !$hadTh ? "<br/><form action='thanks.php' method='post'><input type='submit' class='btn' name='submit' value='Say thanks' /><input type='hidden' name='torrentid' value='{$tid}' /><input type='hidden' name='action' value='add' /></form>" : "";
-        $out = (count($list) > 0 ? join(', ', $list) : 'Not yet');
+        $form = $hadTh ? "" : "<br/><form action='thanks.php' method='post'><input type='submit' class='btn' name='submit' value='Say thanks' /><input type='hidden' name='torrentid' value='{$tid}' /><input type='hidden' name='action' value='add' /></form>";
+        $out = (count($list) > 0 ? implode(', ', $list) : 'Not yet');
 
         return <<<IFRAME
         
@@ -110,8 +110,8 @@ case 'add':
     header("Refresh: 0; url=details.php?id=$tid");
     if ($TRINITY20['seedbonus_on'] == 1) {
         // ===add karma
-        sql_query("UPDATE users SET seedbonus = seedbonus+" . sqlesc($TRINITY20['bonus_per_thanks']) . " WHERE id =" . sqlesc($uid)) or sqlerr(__FILE__, __LINE__);
-        $sql = sql_query('SELECT seedbonus ' . 'FROM users ' . 'WHERE id = ' . sqlesc($uid)) or sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE users SET seedbonus = seedbonus+" . sqlesc($TRINITY20['bonus_per_thanks']) . " WHERE id =" . sqlesc($uid)) || sqlerr(__FILE__, __LINE__);
+        ($sql = sql_query('SELECT seedbonus ' . 'FROM users ' . 'WHERE id = ' . sqlesc($uid))) || sqlerr(__FILE__, __LINE__);
         $User = $sql->fetch_assoc();
         $update['seedbonus'] = ($User['seedbonus'] + $TRINITY20['bonus_per_thanks']);
         //header("Refresh: 1; url=details.php?id=$id");

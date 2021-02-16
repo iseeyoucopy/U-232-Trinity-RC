@@ -29,8 +29,7 @@ function insert_tag($name, $description, $syntax, $example, $remarks)
     $htmlout.= "<tr valign='top'><td>{$lang['tags_example']}</td><td><tt>$example</tt></td></tr>\n";
     $htmlout.= "<tr valign='top'><td>{$lang['tags_result']}</td><td>$result</td></tr>\n";
     if ($remarks != "") $htmlout.= "<tr><td>{$lang['tags_remarks']}</td><td>$remarks</td></tr>\n";
-    $htmlout.= "</table>\n";
-    return $htmlout;
+    return $htmlout . "</table>\n";
 }
 $HTMLOUT = '';
 $HTMLOUT.= begin_main_frame();

@@ -23,25 +23,23 @@ if (!$CURUSER) {
 }
 $lang = array_merge(load_language('global') , load_language('takesignup'));
 if (!$TRINITY20['openreg']) stderr($lang['stderr_errorhead'], "{$lang['takesignup_invite_only']}<a href='" . $TRINITY20['baseurl'] . "/invite_signup.php'><b>&nbsp;{$lang['takesignup_here']}</b></a>");
-$res = sql_query("SELECT COUNT(id) FROM users") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT COUNT(id) FROM users")) || sqlerr(__FILE__, __LINE__);
 $arr = $res->fetch_row();
 if ($arr[0] >= $TRINITY20['maxusers']) stderr($lang['takesignup_error'], $lang['takesignup_limit']);
 $newpage = new page_verify();
 $newpage->check('tesu');
 if (!mkglobal('wantusername:wantpassword:passagain:email' . ($TRINITY20['captcha_on'] ? ":captchaSelection:" : ":") . 'submitme:passhint:hintanswer:country')) stderr($lang['takesignup_user_error'], $lang['takesignup_form_data']);
 if ($submitme != 'Register') stderr($lang['takesignup_x_head'], $lang['takesignup_x_body']);
-if ($TRINITY20['captcha_on']) {
-    if (empty($captchaSelection) || $_SESSION['simpleCaptchaAnswer'] != $captchaSelection) {
-        header("Location: {$TRINITY20['baseurl']}/signup.php");
-        exit;
-    }
+if ($TRINITY20['captcha_on'] && (empty($captchaSelection) || $_SESSION['simpleCaptchaAnswer'] != $captchaSelection)) {
+    header("Location: {$TRINITY20['baseurl']}/signup.php");
+    exit;
 }
 function validusername($username)
 {
     global $lang;
     if ($username == "") return false;
     $namelength = strlen($username);
-    if (($namelength < 3) OR ($namelength > 32)) {
+    if ($namelength < 3 || $namelength > 32) {
         stderr($lang['takesignup_user_error'], $lang['takesignup_username_length']);
     }
     // The following characters are allowed in user names
@@ -79,16 +77,16 @@ if ((date('Y') - $_POST['year']) < 17)
 	stderr($lang['takesignup_error'], $lang['takesignup_yearsold']);
 if (!(isset($_POST['country']))) 
 	stderr($lang['takesignup_error'], $lang['takesignup_country']);
-$country = (((isset($_POST['country']) && is_valid_id($_POST['country'])) ? intval($_POST['country']) : 0));
+$country = (((isset($_POST['country']) && is_valid_id($_POST['country'])) ? (int) $_POST['country'] : 0));
 $gender = isset($_POST['gender']) && isset($_POST['gender']) ? htmlsafechars($_POST['gender']) : '';
 // make sure user agrees to everything...
 if ($_POST["rulesverify"] != "yes" || $_POST["faqverify"] != "yes" || $_POST["ageverify"] != "yes") stderr($lang['takesignup_failed'], $lang['takesignup_qualify']);
 // check if username is already in use
-$check_uname_query = sql_query("SELECT COUNT(id) username FROM users WHERE username = ".sqlesc($wantusername)) or sqlerr(__FILE__, __LINE__);
+($check_uname_query = sql_query("SELECT COUNT(id) username FROM users WHERE username = ".sqlesc($wantusername))) || sqlerr(__FILE__, __LINE__);
 $check_uname = $check_uname_query->fetch_row();
 if ($check_uname[0] != 0) stderr($lang['takesignup_user_error'], 'username already in use');
 // check if email addy is already in use
-$a_query = sql_query("SELECT COUNT(id) FROM users WHERE email=" . sqlesc($email)) or sqlerr(__FILE__, __LINE__);
+($a_query = sql_query("SELECT COUNT(id) FROM users WHERE email=" . sqlesc($email))) || sqlerr(__FILE__, __LINE__);
 $a = $a_query->fetch_row();
 if ($a[0] != 0) stderr($lang['takesignup_user_error'], $lang['takesignup_email_used']);
 //=== check if ip addy is already in use
@@ -104,25 +102,22 @@ if ($TRINITY20['dupeaccount_check_on'] == 1) {
     if(!empty(get_mycookie('log_uid'))){
 	    $ip = getip();
 	    $res = sql_query("SELECT * FROM users WHERE loginhash=" . sqlesc(get_mycookie('log_uid')));
-        if($row = $res->fetch_assoc()){
-			if ($row['class'] < UC_SYSOP){
-		        $u_ip = $ip;
-		        $n_username = $wantusername;     
-                $n_email = $email;
-		        $sign_time = time();
-		
-		        $msg = " User : " . $row['username'] . " identified by ID : " . $row['id'] . " tried to create another account.\n New account with user : " . $n_username . " and email : " . $n_email . ".\n Email addres was banned, cheater user was warned ";
-		        sql_query("INSERT INTO bannedemails (added, addedby, comment, email) VALUES (" . TIME_NOW . ", '0', " . sqlesc($lang['takesignup_dupe']) . ", " . sqlesc($n_email) . ")") or sqlerr(__FILE__, __LINE__);
-		        sql_query("INSERT INTO doublesignup (userid, username, email, ip, sign_date, new_user, new_email, msg) VALUES (" . sqlesc($row['id']) . ", " . sqlesc($row['username']) . ", " . sqlesc($row['email']) . ", " . sqlesc($u_ip) . ", " . TIME_NOW . ", " . sqlesc($n_username) . ", " . sqlesc($n_email) . ", " . sqlesc($lang['takesignup_msg_body2']) . ")") or sqlerr(__FILE__, __LINE__);
-		        sql_query("UPDATE users SET ip = ". sqlesc($u_ip) .", last_access = " . TIME_NOW . ", warned = '1', warn_reason = " . sqlesc($lang['takesignup_warn']) . " WHERE id = " . sqlesc($row['id'])) or sqlerr(__FILE__, __LINE__);
-		        sql_query("INSERT INTO ajax_chat_messages (userID, userName, userRole, channel, dateTime, ip, text) VALUES (" . sqlesc($TRINITY20['bot_id']) . "," . sqlesc($TRINITY20['bot_name']) . "," . sqlesc($TRINITY20['bot_role']) . ",'4'," . sqlesc(TIME_DATE) . "," . sqlesc($_SERVER['REMOTE_ADDR']) . "," . sqlesc($msg) . ")") or sqlerr(__FILE__, __LINE__);
-		        stderr($lang['takesignup_user_error'], $lang['takesignup_msg_dupe3']);
-            }
+        if (($row = $res->fetch_assoc()) && $row['class'] < UC_SYSOP) {
+            $u_ip = $ip;
+            $n_username = $wantusername;
+            $n_email = $email;
+            $sign_time = time();
+            $msg = " User : " . $row['username'] . " identified by ID : " . $row['id'] . " tried to create another account.\n New account with user : " . $n_username . " and email : " . $n_email . ".\n Email addres was banned, cheater user was warned ";
+            sql_query("INSERT INTO bannedemails (added, addedby, comment, email) VALUES (" . TIME_NOW . ", '0', " . sqlesc($lang['takesignup_dupe']) . ", " . sqlesc($n_email) . ")") || sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO doublesignup (userid, username, email, ip, sign_date, new_user, new_email, msg) VALUES (" . sqlesc($row['id']) . ", " . sqlesc($row['username']) . ", " . sqlesc($row['email']) . ", " . sqlesc($u_ip) . ", " . TIME_NOW . ", " . sqlesc($n_username) . ", " . sqlesc($n_email) . ", " . sqlesc($lang['takesignup_msg_body2']) . ")") || sqlerr(__FILE__, __LINE__);
+            sql_query("UPDATE users SET ip = ". sqlesc($u_ip) .", last_access = " . TIME_NOW . ", warned = '1', warn_reason = " . sqlesc($lang['takesignup_warn']) . " WHERE id = " . sqlesc($row['id'])) || sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO ajax_chat_messages (userID, userName, userRole, channel, dateTime, ip, text) VALUES (" . sqlesc($TRINITY20['bot_id']) . "," . sqlesc($TRINITY20['bot_name']) . "," . sqlesc($TRINITY20['bot_role']) . ",'4'," . sqlesc(TIME_DATE) . "," . sqlesc($_SERVER['REMOTE_ADDR']) . "," . sqlesc($msg) . ")") || sqlerr(__FILE__, __LINE__);
+            stderr($lang['takesignup_user_error'], $lang['takesignup_msg_dupe3']);
         }
     }
 	
 	if(!empty($email)){
-	    $x = sql_query("SELECT id, comment FROM bannedemails WHERE email = " . sqlesc($email)) or sqlerr(__FILE__, __LINE__);
+	    ($x = sql_query("SELECT id, comment FROM bannedemails WHERE email = " . sqlesc($email))) || sqlerr(__FILE__, __LINE__);
         if ($yx = $x->fetch_assoc()) stderr("{$lang['takesignup_user_error']}", "{$lang['takesignup_bannedmail']}" . htmlsafechars($yx['comment']));
     }
 }
@@ -144,13 +139,13 @@ $hash3 = t_Hash($birthday, $wantusername, $email);
 
 
 $wantpasshash = make_passhash($hash1, hash("ripemd160", $wantpassword), $hash2);
-$editsecret = (!$arr[0] ? "" : EMAIL_CONFIRM) ? make_passhash_login_key($email, $added) : "";
+$editsecret = ($arr[0] ? EMAIL_CONFIRM : "") ? make_passhash_login_key($email, $added) : "";
 $wanthintanswer = h_store($hintanswer.$email);
 $user_frees = (XBT_TRACKER == true ? 0 : TIME_NOW + 14 * 86400);
 check_banned_emails($email);
 $psecret = $editsecret;
 
-$ret = sql_query("INSERT INTO users (username, passhash, hash3, secret, editsecret, birthday, country, gender, pin_code, stylesheet, passhint, hintanswer, email, status, " . (!$arr[0] ? "class, " : "") . "added, last_access, time_offset, dst_in_use, free_switch) VALUES (" . implode(",", array_map("sqlesc", array(
+($ret = sql_query("INSERT INTO users (username, passhash, hash3, secret, editsecret, birthday, country, gender, pin_code, stylesheet, passhint, hintanswer, email, status, " . ($arr[0] ? "" : "class, ") . "added, last_access, time_offset, dst_in_use, free_switch) VALUES (" . implode(",", array_map("sqlesc", array(
     $wantusername,
     $wantpasshash,
 	$hash3,
@@ -165,19 +160,19 @@ $ret = sql_query("INSERT INTO users (username, passhash, hash3, secret, editsecr
     $wanthintanswer,
     $email,
     (!$arr[0] || !EMAIL_CONFIRM ? 'confirmed' : 'pending')
-))) . ", " . (!$arr[0] ? UC_SYSOP . ", " : "") . "" . TIME_NOW . "," . TIME_NOW . " , $time_offset, {$dst_in_use['tm_isdst']}, $user_frees)") or sqlerr(__FILE__, __LINE__);
+))) . ", " . ($arr[0] ? "" : UC_SYSOP . ", ") . "" . TIME_NOW . "," . TIME_NOW . " , $time_offset, {$dst_in_use['tm_isdst']}, $user_frees)")) || sqlerr(__FILE__, __LINE__);
 
 $cache->delete('birthdayusers');
 
 $message = "{$lang['takesignup_welcome']} {$TRINITY20['site_name']} {$lang['takesignup_member']} ".htmlsafechars($wantusername)."";
 
-if (!$ret) {
-    if ($mysqli->errno) stderr($lang['takesignup_user_error'], $lang['takesignup_user_exists']);
+if (!$ret && $mysqli->errno) {
+    stderr($lang['takesignup_user_error'], $lang['takesignup_user_exists']);
 }
 
 $id = $mysqli->insert_id;
 
-sql_query("INSERT INTO usersachiev (id, username) VALUES (" . sqlesc($id) . ", " . sqlesc($wantusername) . ")") or sqlerr(__FILE__, __LINE__);
+sql_query("INSERT INTO usersachiev (id, username) VALUES (" . sqlesc($id) . ", " . sqlesc($wantusername) . ")") || sqlerr(__FILE__, __LINE__);
 
 if (!$arr[0]) {
     write_staffs();
@@ -187,7 +182,7 @@ if (!$arr[0]) {
 //$added = TIME_NOW;
 $subject = sqlesc($lang['takesignup_msg_subject']);
 $msg = sqlesc("{$lang['takesignup_hey']} " . htmlsafechars($wantusername) . "{$lang['takesignup_msg_body0']} {$TRINITY20['site_name']} {$lang['takesignup_msg_body1']}");
-sql_query("INSERT INTO messages (sender, subject, receiver, msg, added) VALUES (0, $subject, " . sqlesc($id) . ", $msg, $added)") or sqlerr(__FILE__, __LINE__);
+sql_query("INSERT INTO messages (sender, subject, receiver, msg, added) VALUES (0, $subject, " . sqlesc($id) . ", $msg, $added)") || sqlerr(__FILE__, __LINE__);
 
 //==End new member pm
 $latestuser_cache['id'] = (int)$id;
@@ -223,14 +218,14 @@ $body = str_replace(array(
 $passh = h_cook($hash3, $_SERVER["REMOTE_ADDR"], $id);
 /*=== for dupe account ===*/
     $hashlog = make_hash_log($id, $passh);
-$logs_query = sql_query("SELECT loginhash FROM users WHERE id= " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+($logs_query = sql_query("SELECT loginhash FROM users WHERE id= " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 $logs = $logs_query->fetch_assoc();
 if(empty($logs['loginhash']) || $logs['loginhash'] != $hashlog){
-	    sql_query('UPDATE users SET loginhash=' . sqlesc($hashlog) . ' WHERE id=' . sqlesc($id))or sqlerr(__FILE__, __LINE__);
-        $a_query = sql_query("SELECT COUNT(id) FROM doublesignup WHERE userid=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+	    sql_query('UPDATE users SET loginhash=' . sqlesc($hashlog) . ' WHERE id=' . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
+        ($a_query = sql_query("SELECT COUNT(id) FROM doublesignup WHERE userid=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 	    $a = $a_query->fetch_row();
         if ($a[0] != 0){
-            sql_query('UPDATE doublesignup SET login_hash=' . sqlesc($hashlog) . ' WHERE userid=' . sqlesc($id))or sqlerr(__FILE__, __LINE__);
+            sql_query('UPDATE doublesignup SET login_hash=' . sqlesc($hashlog) . ' WHERE userid=' . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
         }	
     }
 /*=== ===*/
@@ -240,5 +235,5 @@ if ($arr[0] || EMAIL_CONFIRM)
 else
 logincookie($id, $passh);
 
-header("Refresh: 0; url=ok.php?type=". (!$arr[0]? "sysop" : (EMAIL_CONFIRM ? "signup&email=" . urlencode($email) : "confirm")));
+header("Refresh: 0; url=ok.php?type=". ($arr[0]? EMAIL_CONFIRM ? "signup&email=" . urlencode($email) : "confirm" : ("sysop")));
 ?>

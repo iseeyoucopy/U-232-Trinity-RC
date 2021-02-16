@@ -91,9 +91,7 @@ elseif ($action == "torrents") {
 }
 elseif ($action == "personal") {
     require_once(BLOCK_DIR . 'usercp/personal.php');
-}
-else {
-    if ($action == "default")
+} elseif ($action == "default") {
     require_once(BLOCK_DIR . 'usercp/pms.php');
 }
 $HTMLOUT.= "</form>";

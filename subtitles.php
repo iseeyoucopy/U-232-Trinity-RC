@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $cd,
                 $date,
                 $owner
-            ))) . ")") or sqlerr(__FILE__, __LINE__);
+            ))) . ")") || sqlerr(__FILE__, __LINE__);
             move_uploaded_file($temp_name, "{$TRINITY20['sub_up_dir']}/$filename");
             $id = $mysqli->insert_id;
             header("Refresh: 0; url=subtitles.php?mode=details&id=$id");
@@ -102,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $id = isset($_POST["id"]) ? (int) $_POST["id"] : 0;
             if ($id == 0) stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
             else {
-                $res = sql_query("SELECT * FROM subtitles WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+                ($res = sql_query("SELECT * FROM subtitles WHERE id=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
                 $arr = $res->fetch_assoc();
                 if ($res->num_rows == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
                 if ($CURUSER["id"] != $arr["owner"] && $CURUSER['class'] < UC_MODERATOR) bark("{$lang['subtitles_youre_not_the_owner']}\n");
@@ -114,11 +114,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($arr["fps"] != $fps) $updateset[] = "fps = " . sqlesc($fps);
                 if ($arr["cds"] != $cd) $updateset[] = "cds = " . sqlesc($cd);
                 if ($arr["comment"] != $comment) $updateset[] = "comment = " . sqlesc($comment);
-                if (count($updateset) > 0) sql_query("UPDATE subtitles SET " . join(",", $updateset) . " WHERE id =".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+                if (count($updateset) > 0) sql_query("UPDATE subtitles SET " . implode(",", $updateset) . " WHERE id =".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
                 header("Refresh: 0; url=subtitles.php?mode=details&id=$id");
             }
         } //end edit
-        
+
     } //end upload && edit
     
 } //end POST
@@ -127,7 +127,7 @@ if ($mode == "upload" || $mode == "edit") {
         $id = isset($_GET["id"]) ? (int) $_GET["id"] : 0;
         if ($id == 0) stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
         else {
-            $res = sql_query("SELECT id, name, imdb, poster, fps, comment, cds, lang FROM subtitles WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+            ($res = sql_query("SELECT id, name, imdb, poster, fps, comment, cds, lang FROM subtitles WHERE id=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
             $arr = $res->fetch_assoc();
             if ($res->num_rows == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
         }
@@ -213,13 +213,13 @@ elseif ($mode == "delete") {
     $id = isset($_GET["id"]) ? (int)$_GET["id"] : 0;
     if ($id == 0) stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
     else {
-        $res = sql_query("SELECT id, name, filename FROM subtitles WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query("SELECT id, name, filename FROM subtitles WHERE id=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
         $arr = $res->fetch_assoc();
         if ($res->num_rows == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
         $sure = (isset($_GET["sure"]) && $_GET["sure"] == "yes") ? "yes" : "no";
         if ($sure == "no") stderr("{$lang['subtitles_sanity_check']}...", "{$lang['subtitles_your_are_about_to_delete_subtitle']} <b>" . htmlsafechars($arr["name"]) . "</b> . Click <a href='subtitles.php?mode=delete&amp;id=$id&amp;sure=yes'>{$lang['gl_stdfoot_here']}</a> {$lang['gl_if_you_are_sure']}.", false);
         else {
-            sql_query("DELETE FROM subtitles WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+            sql_query("DELETE FROM subtitles WHERE id=".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
             $file = $TRINITY20['sub_up_dir'] . '/' . $arr["filename"];
             @unlink($file);
             header("Refresh: 0; url=subtitles.php");
@@ -231,7 +231,7 @@ elseif ($mode == "details") {
     $id = isset($_GET["id"]) ? (int) $_GET["id"] : 0;
     if ($id == 0) stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
     else {
-        $res = sql_query("SELECT s.id, s.name,s.lang, s.imdb,s.fps,s.poster,s.cds,s.hits,s.added,s.owner,s.comment, u.username FROM subtitles AS s LEFT JOIN users AS u ON s.owner=u.id  WHERE s.id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query("SELECT s.id, s.name,s.lang, s.imdb,s.fps,s.poster,s.cds,s.hits,s.added,s.owner,s.comment, u.username FROM subtitles AS s LEFT JOIN users AS u ON s.owner=u.id  WHERE s.id=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
         $arr = $res->fetch_assoc();
         if ($res->num_rows == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
         if ($arr["lang"] == "eng") $langs = "<img src=\"pic/flag/england.gif\" border=\"0\" alt=\"{$lang['gl_english']}\" title=\"{$lang['gl_english']}\" />";
@@ -278,7 +278,7 @@ elseif ($mode == "details") {
     $id = isset($_GET["id"]) ? (int) $_GET["id"] : 0;
     if ($id == 0) stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
     else {
-        $res = sql_query("SELECT id, name,filename FROM subtitles  WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query("SELECT id, name,filename FROM subtitles  WHERE id=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
         $arr = $res->fetch_assoc();
         if ($res->num_rows == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
         $file = $TRINITY20['sub_up_dir'] . "/" . $arr["filename"];
@@ -307,7 +307,7 @@ elseif ($mode == "details") {
     if ($count == 0 && !$s && !$w) stdmsg("", "{$lang['subtitles_there_is_no_subtitle']} <a href=\"subtitles.php?mode=upload\">{$lang['gl_stdfoot_here']}</a> {$lang['subtitles_and_start_uploading']}.", false);
     $perpage = 15;
     $pager = pager($perpage, $count, "subtitles.php?" . $link);
-    $res = sql_query("SELECT s.id, s.name,s.lang, s.imdb,s.fps,s.poster,s.cds,s.hits,s.added,s.owner,s.comment, u.username FROM subtitles AS s LEFT JOIN users AS u ON s.owner=u.id $where ORDER BY s.added DESC {$pager['limit']}") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT s.id, s.name,s.lang, s.imdb,s.fps,s.poster,s.cds,s.hits,s.added,s.owner,s.comment, u.username FROM subtitles AS s LEFT JOIN users AS u ON s.owner=u.id $where ORDER BY s.added DESC {$pager['limit']}")) || sqlerr(__FILE__, __LINE__);
     $HTMLOUT.= "<table width='700' cellpadding='5' cellspacing='0' border='0' align='center' style='font-weight:bold'>
 <tr><td style='border:none' valign='middle'>
 <fieldset style='text-align:center; border:#0066CC solid 1px; background-color:#999999'>

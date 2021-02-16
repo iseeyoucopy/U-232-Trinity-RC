@@ -34,14 +34,14 @@ function deletetorrent($id)
                                  LEFT JOIN thumbsup ON thumbsup.torrentid = torrents.id
 				 LEFT JOIN snatched ON snatched.torrentid = torrents.id
 				 LEFT JOIN ajax_chat_messages ON ajax_chat_messages.torrent_id = torrents.id
-				 WHERE torrents.id =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+				 WHERE torrents.id =" . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
     $cache->delete($keys['my_peers'] . $CURUSER['id']);
 }
 function deletetorrent_xbt($id)
 {
    global $TRINITY20, $cache, $CURUSER, $lang, $keys;
-   sql_query("UPDATE torrents SET flags = 1 WHERE id = ".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+   sql_query("UPDATE torrents SET flags = 1 WHERE id = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
    sql_query("DELETE files.*, comments.*, thankyou.*, thanks.*, thumbsup.*, bookmarks.*, coins.*, rating.*, ajax_chat_messages.*, xbt_files_users.* FROM xbt_files_users
                                      LEFT JOIN files ON files.torrent = xbt_files_users.fid
                                      LEFT JOIN comments ON comments.torrent = xbt_files_users.fid
@@ -52,7 +52,7 @@ function deletetorrent_xbt($id)
                                      LEFT JOIN rating ON rating.torrent = xbt_files_users.fid
                                      LEFT JOIN thumbsup ON thumbsup.torrentid = xbt_files_users.fid
 									 LEFT JOIN ajax_chat_messages ON ajax_chat_messages.torrent_id = xbt_files_users.fid
-                                     WHERE xbt_files_users.fid =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+                                     WHERE xbt_files_users.fid =" . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
         unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
         $cache->delete($keys['my_xbt_peers'] . $CURUSER['id']);
     }
@@ -88,7 +88,7 @@ $cache->delete('torrent_details_text' . $id);
 write_log("{$lang['delete_torrent']} $id ({$row['name']}){$lang['delete_deleted_by']}{$CURUSER['username']} ($reasonstr)\n");
 if ($TRINITY20['seedbonus_on'] == 1) {
     //===remove karma
-    sql_query("UPDATE users SET seedbonus = seedbonus-".sqlesc($TRINITY20['bonus_per_delete'])." WHERE id = " . sqlesc($row["owner"])) or sqlerr(__FILE__, __LINE__);
+    sql_query("UPDATE users SET seedbonus = seedbonus-".sqlesc($TRINITY20['bonus_per_delete'])." WHERE id = " . sqlesc($row["owner"])) || sqlerr(__FILE__, __LINE__);
     $update['seedbonus'] = ($CURUSER['seedbonus'] - $TRINITY20['bonus_per_delete']);
     $update['seedbonus'] = ($CURUSER['seedbonus'] - $TRINITY20['bonus_per_delete']);
     $cache->update_row($keys['user_stats'] . $row["owner"], [
@@ -100,11 +100,11 @@ if ($TRINITY20['seedbonus_on'] == 1) {
     //===end
     
 }
-if ($CURUSER["id"] != $row["owner"] AND $CURUSER['pm_on_delete'] == 'yes') {
+if ($CURUSER["id"] != $row["owner"] && $CURUSER['pm_on_delete'] == 'yes') {
     $added = TIME_NOW;
     $pm_on = (int)$row["owner"];
     $message = "Torrent $id (" . htmlsafechars($row['name']) . ") has been deleted.\n  Reason: $reasonstr";
-    sql_query("INSERT INTO messages (sender, receiver, msg, added) VALUES(0, " . sqlesc($pm_on) . "," . sqlesc($message) . ", $added)") or sqlerr(__FILE__, __LINE__);
+    sql_query("INSERT INTO messages (sender, receiver, msg, added) VALUES(0, " . sqlesc($pm_on) . "," . sqlesc($message) . ", $added)") || sqlerr(__FILE__, __LINE__);
     $cache->delete('inbox_new::' . $pm_on);
     $cache->delete('inbox_new_sb::' . $pm_on);
 }

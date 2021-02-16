@@ -29,18 +29,18 @@ $userid = 0 + $CURUSER["id"];
 if (!is_valid_id($userid)) {
     stderr("Error", "Invalid ID");
 }
-$open = (isset($_GET['open']) ? intval($_GET['open']) : 0);
+$open = (isset($_GET['open']) ? (int) $_GET['open'] : 0);
 if ($open != 1) {
     stderr("Error", "Invalid url");
 }
-$sql = sql_query('SELECT seedbonus, invites, freeslots, uploaded ' . 'FROM users ' . 'WHERE id = ' . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+($sql = sql_query('SELECT seedbonus, invites, freeslots, uploaded ' . 'FROM users ' . 'WHERE id = ' . sqlesc($userid))) || sqlerr(__FILE__, __LINE__);
 $User = $sql->fetch_assoc();
 if (isset($open) && $open == 1) {
     if ($today >= $xmasday) {
         //if (!($CURUSER["opt1"] & user_options::GOTGIFT)) {
         if ($CURUSER["gotgift"] == 'no') {
             if ($gift == "upload") {
-                sql_query("UPDATE users SET invites=invites+1, uploaded=uploaded+1024*1024*1024*10, freeslots=freeslots+1, gotgift='yes' WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+                sql_query("UPDATE users SET invites=invites+1, uploaded=uploaded+1024*1024*1024*10, freeslots=freeslots+1, gotgift='yes' WHERE id=" . sqlesc($userid)) || sqlerr(__FILE__, __LINE__);
                 $update['invites'] = ($User['invites'] + 1);
                 $update['uploaded'] = ($User['uploaded'] + 1024 * 1024 * 1024 * 10);
                 $update['freeslots'] = ($User['freeslots'] + 1);
@@ -65,7 +65,7 @@ if (isset($open) && $open == 1) {
 Thanks for your support and sharing through year " . date('Y') . " ! <br /> Merry Christmas and a happy New Year from {$TRINITY20['site_name']}  Crew ! Redirecting in 5..4..3..2..1");
             }
             if ($gift == "bonus") {
-                sql_query("UPDATE users SET invites=invites+3,  seedbonus = seedbonus + 1750, gotgift='yes' WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+                sql_query("UPDATE users SET invites=invites+3,  seedbonus = seedbonus + 1750, gotgift='yes' WHERE id=" . sqlesc($userid)) || sqlerr(__FILE__, __LINE__);
                 $update['invites'] = ($User['invites'] + 3);
                 $update['seedbonus'] = ($User['seedbonus'] + 1750);
                 $cache->update_row($keys['user_stats'] . $userid, [
@@ -87,7 +87,7 @@ Thanks for your support and sharing through year " . date('Y') . " ! <br /> Merr
 Thanks for your support and sharing through year " . date('Y') . " ! <br /> Merry Christmas and a happy New Year from {$TRINITY20['site_name']}  Crew ! Redirecting in 5..4..3..2..1");
             }
             if ($gift == "invites") {
-                sql_query("UPDATE users SET invites=invites+2, seedbonus = seedbonus + 2000, freeslots=freeslots+3, gotgift='yes' WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+                sql_query("UPDATE users SET invites=invites+2, seedbonus = seedbonus + 2000, freeslots=freeslots+3, gotgift='yes' WHERE id=" . sqlesc($userid)) || sqlerr(__FILE__, __LINE__);
                 $update['invites'] = ($User['invites'] + 2);
                 $update['seedbonus'] = ($User['seedbonus'] + 2000);
                 $update['freeslots'] = ($User['freeslots'] + 3);
@@ -112,7 +112,7 @@ Thanks for your support and sharing through year " . date('Y') . " ! <br /> Merr
 Thanks for your support and sharing through year " . date('Y') . " ! <br /> Merry Christmas and a happy New Year from {$TRINITY20['site_name']} Crew ! Redirecting in 5..4..3..2..1");
             }
             if ($gift == "bonus2") {
-                sql_query("UPDATE users SET invites=invites+3, uploaded=uploaded+1024*1024*1024*20, seedbonus = seedbonus + 2500, freeslots=freeslots+5, gotgift='yes' WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+                sql_query("UPDATE users SET invites=invites+3, uploaded=uploaded+1024*1024*1024*20, seedbonus = seedbonus + 2500, freeslots=freeslots+5, gotgift='yes' WHERE id=" . sqlesc($userid)) || sqlerr(__FILE__, __LINE__);
                 $update['invites'] = ($User['invites'] + 3);
                 $update['seedbonus'] = ($User['seedbonus'] + 2500);
                 $update['freeslots'] = ($User['freeslots'] + 5);

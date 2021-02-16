@@ -31,16 +31,14 @@ $stdhead = array(
 );
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!mkglobal('email' . ($TRINITY20['captcha_on'] ? ":captchaSelection" : "") . '')) stderr("Oops", "Missing form data - You must fill all fields");
-    if ($TRINITY20['captcha_on']) {
-        if (empty($captchaSelection) || $_SESSION['simpleCaptchaAnswer'] != $captchaSelection) {
-            header('Location: recover.php');
-            exit();
-        }
+    if ($TRINITY20['captcha_on'] && (empty($captchaSelection) || $_SESSION['simpleCaptchaAnswer'] != $captchaSelection)) {
+        header('Location: recover.php');
+        exit();
     }
     $email = trim($_POST["email"]);
     if (!validemail($email)) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_invalidemail']}");
-    $res = sql_query("SELECT id, hintanswer FROM users WHERE email=" . sqlesc($email) . " LIMIT 1") or sqlerr(__FILE__, __LINE__);
-    $arr = $res->fetch_assoc() or stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_notfound']}");
+    ($res = sql_query("SELECT id, hintanswer FROM users WHERE email=" . sqlesc($email) . " LIMIT 1")) || sqlerr(__FILE__, __LINE__);
+    ($arr = $res->fetch_assoc()) || stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_notfound']}");
 	$hintanswer = $arr['hintanswer'];
 	if (strlen($hintanswer) != 32 || !ctype_xdigit($hintanswer))
     die('access denied');
@@ -59,7 +57,7 @@ If you did not do this please contact us at contact@u-232.servebeer.com
     //$body = sprintf($lang['email_request'], , $_SERVER["REMOTE_ADDR"], $TRINITY20['baseurl'], $arr["id"]) . $TRINITY20['site_name'];
 	// More headers
 	$headers = "From:{$TRINITY20['site_email']}" . "\r\n";
-    mail($email, $subject, $body, $headers) or stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_nomail']}");
+    mail($email, $subject, $body, $headers) || stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_nomail']}");
     stderr($lang['stderr_successhead'], $lang['stderr_confmailsent']);
 } else {
     $HTMLOUT = '';

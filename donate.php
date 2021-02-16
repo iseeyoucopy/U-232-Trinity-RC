@@ -98,7 +98,7 @@ $donate = array(
         'Imunnity '.$TRINITY20['paypal_config']['imm_dur_6'].' weeks'
     ) ,
 );
-$done = isset($_GET['done']) && $_GET['done'] == 1 ? true : false;
+$done = isset($_GET['done']) && $_GET['done'] == 1;
 if ($TRINITY20['paypal_config']['enable'] == 0 ) {
 $out = stdmsg('Sorry','Donation system is currently offline.')."<br>";
 } else {

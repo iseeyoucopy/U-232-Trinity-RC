@@ -35,7 +35,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array("Accept: application/json"));
 $response = curl_exec($ch);
 curl_close($ch);
 $result = json_decode($response, true);
-$image = ($config['images']['base_url'] . $config['images']['poster_sizes'][3] . $result['poster_path']!='') ? "<img src='" . $config['images']['base_url'] . $config['images']['poster_sizes'][3] . $result['poster_path'] . "'>":"<img src='" .$TRINITY20['pic_base_url']."/noposter.png'>";
+$image = ($config['images']['base_url'] . $config['images']['poster_sizes'][3] . $result['poster_path'] != '') ? "<img src='" . $config['images']['base_url'] . $config['images']['poster_sizes'][3] . $result['poster_path'] . "'>":"<img src='" .$TRINITY20['pic_base_url']."/noposter.png'>";
 		$date = date_format(date_create($result['release_date']), 'Y');
 $HTMLOUT = "<div class='row callout'>";
 $HTMLOUT .= "

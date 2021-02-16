@@ -32,14 +32,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($CURUSER["tenpercent"] == "yes") {
         stderr("Used", "It appears that you have already used your 10% addition.");
     }
-    $sure = (isset($_POST['sure']) ? intval($_POST['sure']) : '');
+    $sure = (isset($_POST['sure']) ? (int) $_POST['sure'] : '');
     if (!$sure) {
         stderr("Are you sure?", "It appears that you are not yet sure whether you want to add 10% to your upload or not. Once you are sure you can <a href='tenpercent.php'>return</a> to the 10% page.");
     }
     $time = TIME_NOW;
     $subject = "10% Addition";
     $msg = "Today, " . get_date($time, 'LONG', 0, 1) . ", you have increased your total upload amount by 10% from [b]" . mksize($uploaded) . "[/b] to [b]" . mksize($newuploaded) . "[/b], which brings your ratio to [b]" . $newratio . "[/b].";
-    $res = sql_query("UPDATE users SET uploaded = uploaded * 1.1, tenpercent = 'yes' WHERE id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("UPDATE users SET uploaded = uploaded * 1.1, tenpercent = 'yes' WHERE id = " . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
     $update['uploaded'] = ($CURUSER['uploaded'] * 1.1);
     $cache->update_row($keys['user_stats'] . $CURUSER['id'], [
         'uploaded' => $update['uploaded']
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
         'tenpercent' => 'yes'
     ], $TRINITY20['expires']['user_cache']);
-    $res1 = sql_query("INSERT INTO messages (sender, poster, receiver, subject, msg, added) VALUES (0, 0, " . sqlesc($CURUSER['id']) . ", " . sqlesc($subject) . ", " . sqlesc($msg) . ", '" . TIME_NOW . "')") or sqlerr(__FILE__, __LINE__);
+    ($res1 = sql_query("INSERT INTO messages (sender, poster, receiver, subject, msg, added) VALUES (0, 0, " . sqlesc($CURUSER['id']) . ", " . sqlesc($subject) . ", " . sqlesc($msg) . ", '" . TIME_NOW . "')")) || sqlerr(__FILE__, __LINE__);
     $cache->delete('inbox_new::' . $CURUSER['id']);
     $cache->delete('inbox_new_sb::' . $CURUSER['id']);
     if (!$res) {

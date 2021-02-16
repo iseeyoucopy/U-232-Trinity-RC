@@ -24,7 +24,7 @@ if ($CURUSER['notifs']) {
         999
     ); // junk data
     foreach ($parts as $x) if (substr($x, 0, 3) === 'cat') $cats[] = substr($x, 3);
-    $where = (count($cats) === 2) ? '' : 'WHERE category IN(' . join(',', $cats) . ') AND visible=\'yes\'';
+    $where = (count($cats) === 2) ? '' : 'WHERE category IN(' . implode(',', $cats) . ') AND visible=\'yes\'';
 }
 /** end **/
 // possible to shuffle torrents within specific category, overides previous $where

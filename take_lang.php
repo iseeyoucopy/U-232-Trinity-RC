@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //exit();
 
     if ($lid > 0 && $lid != $CURUSER['id']) {
-        sql_query('UPDATE users SET language=' . sqlesc($lid) . ' WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+        sql_query('UPDATE users SET language=' . sqlesc($lid) . ' WHERE id = ' . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
     }
     $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
         'language' => $lid

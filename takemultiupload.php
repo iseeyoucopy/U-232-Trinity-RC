@@ -26,13 +26,13 @@ ini_set('memory_limit', '64M');
 $auth_key = [
     '2d257f64005d740db092a6b91170ab5f'
 ];
-$gotkey   = isset($_POST['key']) && strlen($_POST['key']) == 32 && in_array($_POST['key'], $auth_key) ? true : false;
+$gotkey   = isset($_POST['key']) && strlen($_POST['key']) == 32 && in_array($_POST['key'], $auth_key);
 $lang     = array_merge(load_language('global'), load_language('takeupload'));
 if (!$gotkey) {
     $newpage = new page_verify();
     $newpage->check('tamud');
 }
-if ($CURUSER['class'] < UC_UPLOADER or $CURUSER["uploadpos"] == 0 || $CURUSER["uploadpos"] > 1 || $CURUSER['suspended'] == 'yes') {
+if ($CURUSER['class'] < UC_UPLOADER || ($CURUSER["uploadpos"] == 0 || $CURUSER["uploadpos"] > 1 || $CURUSER['suspended'] == 'yes')) {
     header("Location: {$TRINITY20['baseurl']}/upload.php");
     exit();
 }
@@ -49,7 +49,7 @@ function file_list($arr, $id)
     foreach ($arr as $v) {
         $new[] = "($id," . sqlesc($v[0]) . "," . $v[1] . ")";
     }
-    return join(",", $new);
+    return implode(",", $new);
 }
 $cats = "";
     $res  = sql_query("SELECT id, name FROM categories");
@@ -183,7 +183,7 @@ foreach ($file_list as $key=>$f) {
             continue;
         }
         $flist =& $info['files'];
-        if (!count($flist)) {
+        if (count($flist) === 0) {
             continue;
         }
         $totallen = 0;
@@ -204,7 +204,7 @@ foreach ($file_list as $key=>$f) {
                 }
                 $ffa[] = $ffe;
             }
-            if (!count($ffa)) {
+            if (count($ffa) === 0) {
                 continue;
             }
             $ffe        = implode('/', $ffa);
@@ -305,7 +305,7 @@ foreach ($file_list as $key=>$f) {
         $s = "<?xml version=\"1.0\" encoding=\"iso-8859-1\" ?>\n<rss version=\"0.91\">\n<channel>\n" . "<title>{$TRINITY20['site_name']}</title>\n<description>TRINITY20 is the best!</description>\n<link>{$TRINITY20['baseurl']}/</link>\n";
         @fwrite($fd1, $s);
         @fwrite($fd2, $s);
-        $r = sql_query("SELECT id,name,descr,filename,category FROM torrents ORDER BY added DESC LIMIT 15") or sqlerr(__FILE__, __LINE__);
+        ($r = sql_query("SELECT id,name,descr,filename,category FROM torrents ORDER BY added DESC LIMIT 15")) || sqlerr(__FILE__, __LINE__);
         while ($a = $r->fetch_assoc()) {
             $cat = $cats[$a["category"]];
             $s   = "<item>\n<title>" . htmlsafechars($a["name"] . " ($cat)") . "</title>\n" . "<description>" . htmlsafechars($a["descr"]) . "</description>\n";
@@ -335,7 +335,7 @@ $cache->delete('scroll_tor_');
 if ($TRINITY20['seedbonus_on'] == 1) {
     $bonus_val = ($TRINITY20['bonus_per_upload']*$successful);
     //===add karma
-    sql_query("UPDATE users SET seedbonus=seedbonus+" . sqlesc($bonus_val) . ", numuploads=numuploads+1 WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
+    sql_query("UPDATE users SET seedbonus=seedbonus+" . sqlesc($bonus_val) . ", numuploads=numuploads+1 WHERE id = " . sqlesc($CURUSER["id"])) || sqlerr(__FILE__, __LINE__);
     //===end
     $update['seedbonus'] = ($CURUSER['seedbonus'] + $bonus_val);
     $cache->update_row($keys['user_stats'] . $CURUSER["id"], [

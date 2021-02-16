@@ -454,7 +454,7 @@ switch (true) {
 		die;
 
 	case (isset($_GET['bump_success']) && $_GET['bump_success'] == 1):
-		$res_free = sql_query('SELECT id,name FROM torrents WHERE id = ' . sqlesc(0 + $_GET['t_name'])) or sqlerr(__FILE__, __LINE__);
+		($res_free = sql_query('SELECT id,name FROM torrents WHERE id = ' . sqlesc(0 + $_GET['t_name']))) || sqlerr(__FILE__, __LINE__);
 		$arr_free = $res_free->fetch_assoc();
 		stderr(
 			'Success!',
@@ -562,11 +562,11 @@ if (isset($_GET['exchange'])) {
 		stderr($lang['bonus_error'], $lang['bonus_smellrat']);
 	}
 
-	$sql = sql_query(
+	($sql = sql_query(
 		'SELECT uploaded, downloaded, seedbonus, bonuscomment, free_switch, warned, invites, freeslots, reputation '
 			. 'FROM users '
 			. 'WHERE id = ' . sqlesc($userid)
-	) or sqlerr(__FILE__, __LINE__);
+	)) || sqlerr(__FILE__, __LINE__);
 	$User = $sql->fetch_assoc();
 
 	$bonus = (float)$User['seedbonus'];
@@ -589,7 +589,7 @@ if (isset($_GET['exchange'])) {
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for upload bonus.\n " . $bonuscomment;
 			sql_query(
 				"UPDATE users SET uploaded = " . sqlesc($upload + $arr_points['menge']) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row(
 				$keys['user_stats'] . $userid,
 				['uploaded' => $upload + $arr_points['menge'], 'seedbonus' => $seedbonus],
@@ -616,7 +616,7 @@ if (isset($_GET['exchange'])) {
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for 100 rep points.\n " . $bonuscomment;
 			sql_query(
 				"UPDATE users SET reputation = " . sqlesc($rep) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row('user' . $userid, ['reputation' => $rep], $TRINITY20['expires']['user_cache']);
 			$cache->update_row($keys['my_userid'] . $userid, ['reputation' => $rep], $TRINITY20['expires']['curuser']);
 			$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
@@ -641,7 +641,7 @@ if (isset($_GET['exchange'])) {
 			$immunity = (86400 * 365 + TIME_NOW);
 			sql_query(
 				"UPDATE users SET immunity = " . sqlesc($immunity) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row('user' . $userid, ['immunity' => $immunity], $TRINITY20['expires']['user_cache']);
 			$cache->update_row($keys['my_userid'] . $userid, ['immunity' => $immunity], $TRINITY20['expires']['curuser']);
 			$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
@@ -666,7 +666,7 @@ if (isset($_GET['exchange'])) {
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for user blocks access.\n " . $bonuscomment;
 			sql_query(
 				"UPDATE users SET got_blocks = 'yes', seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row('user' . $userid, ['got_blocks' => 'yes'], $TRINITY20['expires']['user_cache']);
 			$cache->update_row($keys['my_userid'] . $userid, ['got_blocks' => 'yes'], $TRINITY20['expires']['curuser']);
 			$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
@@ -691,7 +691,7 @@ if (isset($_GET['exchange'])) {
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for user unlocks access.\n " . $bonuscomment;
 			sql_query(
 				"UPDATE users SET got_moods = 'yes', seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row('user' . $userid, ['got_moods' => 'yes'], $TRINITY20['expires']['user_cache']);
 			$cache->update_row($keys['my_userid'] . $userid, ['got_moods' => 'yes'], $TRINITY20['expires']['curuser']);
 			$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
@@ -713,7 +713,7 @@ if (isset($_GET['exchange'])) {
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for 14 days Anonymous profile.\n " . $bonuscomment;
 			sql_query(
 				"UPDATE users SET anonymous_until = " . sqlesc($anonymous_until) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row('user' . $userid, ['anonymous_until' => $anonymous_until], $TRINITY20['expires']['user_cache']);
 			$cache->update_row($keys['my_userid'] . $userid, ['anonymous_until' => $anonymous_until], $TRINITY20['expires']['curuser']);
 			$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
@@ -735,7 +735,7 @@ if (isset($_GET['exchange'])) {
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for 14 days Anonymous profile.\n " . $bonuscomment;
 			sql_query(
 				"UPDATE users SET parked_until = " . sqlesc($parked_until) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row('user' . $userid, ['parked_until' => $parked_until], $TRINITY20['expires']['user_cache']);
 			$cache->update_row($keys['my_userid'] . $userid, ['parked_until' => $parked_until], $TRINITY20['expires']['curuser']);
 			$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
@@ -757,7 +757,7 @@ if (isset($_GET['exchange'])) {
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for download credit removal.\n " . $bonuscomment;
 			sql_query(
 				"UPDATE users SET downloaded = " . sqlesc($download - $arr_points['menge']) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row(
 				$keys['user_stats'] . $userid,
 				['downloaded' => $download - $arr_points['menge'], 'seedbonus' => $seedbonus],
@@ -781,7 +781,7 @@ if (isset($_GET['exchange'])) {
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for One year of freeleech.\n " . $bonuscomment;
 			sql_query(
 				"UPDATE users SET free_switch = " . sqlesc($free_switch) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row('user' . $userid, ['free_switch' => $free_switch], $TRINITY20['expires']['user_cache']);
 			$cache->update_row($keys['my_userid'] . $userid, ['free_switch' => $free_switch], $TRINITY20['expires']['curuser']);
 			$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
@@ -801,7 +801,7 @@ if (isset($_GET['exchange'])) {
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for freeslots.\n " . $bonuscomment;
 			sql_query(
 				"UPDATE users SET freeslots = " . sqlesc($slots) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row('user' . $userid, ['freeslots' => $slots], $TRINITY20['expires']['user_cache']);
 			$cache->update_row($keys['my_userid'] . $userid, ['freeslots' => $slots], $TRINITY20['expires']['curuser']);
 			$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
@@ -825,7 +825,7 @@ if (isset($_GET['exchange'])) {
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " invites for bonus points.\n" . $bonuscomment;
 			sql_query(
 				"UPDATE users SET invites = " . sqlesc($inv) . ", seedbonus = " . sqlesc($karma) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid) . " AND invites =" . sqlesc($invites)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row('user' . $userid, ['invites' => $inv], $TRINITY20['expires']['user_cache']);
 			$cache->update_row($keys['my_userid'] . $userid, ['invites' => $inv], $TRINITY20['expires']['curuser']);
 			$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $karma], $TRINITY20['expires']['u_stats']);
@@ -846,7 +846,7 @@ if (isset($_GET['exchange'])) {
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " invites for bonus points.\n" . $bonuscomment;
 			sql_query(
 				"UPDATE users SET invites = " . sqlesc($inv) . ", freeslots =" . sqlesc($fslot) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid) . " AND invites = " . sqlesc($invites)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row('user' . $userid, ['invites' => $inv, 'freeslots' => $fslot], $TRINITY20['expires']['user_cache']);
 			$cache->update_row($keys['my_userid'] . $userid, ['invites' => $inv, 'freeslots' => $fslot], $TRINITY20['expires']['curuser']);
 			$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
@@ -861,7 +861,7 @@ if (isset($_GET['exchange'])) {
 
 		case 'pirate':
             //=== trade for 2 weeks pirate status
-			if ($CURUSER['pirate'] != 0 or $CURUSER['king'] != 0) {
+			if ($CURUSER['pirate'] != 0 || $CURUSER['king'] != 0) {
 				stderr(
 					$lang['bonus_error'],
 					"Now why would you want to add what you already have?<br />go back to your <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a> page and think that one over."
@@ -872,7 +872,7 @@ if (isset($_GET['exchange'])) {
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for 2 weeks Pirate + freeleech Status.\n " . $bonuscomment;
 			sql_query(
 				"UPDATE users SET free_switch = " . sqlesc($free_switch) . ", pirate = " . sqlesc($pirate) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row('user' . $userid, ['free_switch' => $free_switch, 'pirate' => $pirate], $TRINITY20['expires']['user_cache']);
 			$cache->update_row($keys['my_userid'] . $userid, ['free_switch' => $free_switch, 'pirate' => $pirate], $TRINITY20['expires']['curuser']);
 			$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
@@ -903,9 +903,9 @@ if (isset($_GET['exchange'])) {
 			$pm['message_thief'] = sqlesc("Hey %s\nYou robbed:\n%s\nYour total reputation is now [b]%d[/b] but you lost [b]%d[/b] karma points ");
 			$foo = [50 => 3, 100 => 3, 150 => 4, 200 => 5, 250 => 5, 300 => 6];
 			$user_limit = isset($foo[$rep_to_steal]) ? $foo[$rep_to_steal] : 0;
-			$qr = sql_query(
+			($qr = sql_query(
 				'select id,username,reputation,seedbonus FROM users WHERE id <> ' . $thief_id . ' AND reputation >= ' . $rep_to_steal . ' ORDER BY RAND() LIMIT ' . $user_limit
-			) or sqlerr(__FILE__, __LINE__);
+			)) || sqlerr(__FILE__, __LINE__);
 			$update_users = $pms = $robbed_user = [];
 			while ($ar = $qr->fetch_assoc()) {
 				$new_rep = $ar['reputation'] - $rep_to_steal;
@@ -922,15 +922,15 @@ if (isset($_GET['exchange'])) {
                 //$cache->delete('inbox_new_sb::'.$pms);
                 // end
 			}
-			if (count($update_users)) {
+			if (count($update_users) > 0) {
 				$new_bonus = $thief_bonus - $points;
 				$new_rep = $thief_rep + ($user_limit * $rep_to_steal);
 				$update_users[] = '(' . $thief_id . ',' . $new_rep . ',' . $new_bonus . ')';
-				$pms[] = '(0,' . $thief_id . ',' . TIME_NOW . ',' . $pm['subject_thief'] . ',' . sprintf($pm['message_thief'], $thief_name, join("\n", $robbed_users), $new_rep, $points) . ')';
+				$pms[] = '(0,' . $thief_id . ',' . TIME_NOW . ',' . $pm['subject_thief'] . ',' . sprintf($pm['message_thief'], $thief_name, implode("\n", $robbed_users), $new_rep, $points) . ')';
 				sql_query(
-					'INSERT INTO users(id,reputation,seedbonus) VALUES ' . join(',', $update_users) . ' ON DUPLICATE KEY UPDATE reputation=values(reputation),seedbonus=values(seedbonus) '
-				) or sqlerr(__FILE__, __LINE__);
-				sql_query('INSERT INTO messages(sender,receiver,added,subject,msg) VALUES ' . join(',', $pms)) or sqlerr(__FILE__, __LINE__);
+					'INSERT INTO users(id,reputation,seedbonus) VALUES ' . implode(',', $update_users) . ' ON DUPLICATE KEY UPDATE reputation=values(reputation),seedbonus=values(seedbonus) '
+				) || sqlerr(__FILE__, __LINE__);
+				sql_query('INSERT INTO messages(sender,receiver,added,subject,msg) VALUES ' . implode(',', $pms)) || sqlerr(__FILE__, __LINE__);
                 //== cache updates ???
 				$cache->update_row($keys['my_userid'] . $thief_id, ['reputation' => $new_rep], $TRINITY20['expires']['curuser']);
 				$cache->update_row('user' . $thief_id, ['reputation' => $new_rep], $TRINITY20['expires']['user_cache']);
@@ -946,7 +946,7 @@ if (isset($_GET['exchange'])) {
 
 		case 'king':
             //=== trade for one month king status
-			if ($CURUSER['king'] != 0 or $CURUSER['pirate'] != 0) {
+			if ($CURUSER['king'] != 0 || $CURUSER['pirate'] != 0) {
 				stderr(
 					$lang['bonus_error'],
 					"Now why would you want to add what you already have?<br />go back to your <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a> page and think that one over."
@@ -957,7 +957,7 @@ if (isset($_GET['exchange'])) {
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for 1 month King + freeleech Status.\n " . $bonuscomment;
 			sql_query(
 				"UPDATE users SET free_switch = " . sqlesc($free_switch) . ", king = " . sqlesc($king) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row('user' . $userid, ['free_switch' => $free_switch, 'king' => $king], $TRINITY20['expires']['user_cache']);
 			$cache->update_row($keys['my_userid'] . $userid, ['free_switch' => $free_switch, 'king' => $king], $TRINITY20['expires']['curuser']);
 			$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
@@ -989,13 +989,13 @@ if (isset($_GET['exchange'])) {
 				$message = sqlesc("FreeLeech [ON]");
 				sql_query(
 					"INSERT INTO events (userid, overlayText, startTime, endTime, displayDates, freeleechEnabled) VALUES (" . sqlesc($userid) . ", $message, $now, $end, 1, 1)"
-				) or sqlerr(__FILE__, __LINE__);
+				) || sqlerr(__FILE__, __LINE__);
 				$norefund = ($donation + $pointspool) % $points;
 				$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $donation . " Points contributed for freeleech.\n " . $bonuscomment;
 				sql_query(
 					"UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ",  bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-				) or sqlerr(__FILE__, __LINE__);
-				sql_query("UPDATE bonus SET pointspool = " . sqlesc($norefund) . " WHERE id = '11' LIMIT 1") or sqlerr(__FILE__, __LINE__);
+				) || sqlerr(__FILE__, __LINE__);
+				sql_query("UPDATE bonus SET pointspool = " . sqlesc($norefund) . " WHERE id = '11' LIMIT 1") || sqlerr(__FILE__, __LINE__);
 				$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
 				$cache->update_row(
 					'user_stats_' . $userid,
@@ -1019,11 +1019,11 @@ if (isset($_GET['exchange'])) {
 				die;
 			} else {
                 // add to the pool
-				sql_query("UPDATE bonus SET pointspool = pointspool + " . sqlesc($donation) . " WHERE id = '11' LIMIT 1") or sqlerr(__FILE__, __LINE__);
+				sql_query("UPDATE bonus SET pointspool = pointspool + " . sqlesc($donation) . " WHERE id = '11' LIMIT 1") || sqlerr(__FILE__, __LINE__);
 				$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $donation . " Points contributed for freeleech.\n " . $bonuscomment;
 				sql_query(
 					"UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-				) or sqlerr(__FILE__, __LINE__);
+				) || sqlerr(__FILE__, __LINE__);
 				$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
 				$cache->update_row(
 					'user_stats_' . $userid,
@@ -1066,13 +1066,13 @@ if (isset($_GET['exchange'])) {
 				$message = sqlesc("DoubleUpload [ON]");
 				sql_query(
 					"INSERT INTO events(userid, overlayText, startTime, endTime, displayDates, duploadEnabled) VALUES (" . sqlesc($userid) . ", $message, $now, $end, 1, 1)"
-				) or sqlerr(__FILE__, __LINE__);
+				) || sqlerr(__FILE__, __LINE__);
 				$norefund = ($donation + $pointspool) % $points;
 				$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $donation . " Points contributed for doubleupload.\n " . $bonuscomment;
 				sql_query(
 					"UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ",  bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-				) or sqlerr(__FILE__, __LINE__);
-				sql_query("UPDATE bonus SET pointspool = " . sqlesc($norefund) . " WHERE id = '12' LIMIT 1") or sqlerr(__FILE__, __LINE__);
+				) || sqlerr(__FILE__, __LINE__);
+				sql_query("UPDATE bonus SET pointspool = " . sqlesc($norefund) . " WHERE id = '12' LIMIT 1") || sqlerr(__FILE__, __LINE__);
 				$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
 				$cache->update_row(
 					'user_stats_' . $userid,
@@ -1095,11 +1095,11 @@ if (isset($_GET['exchange'])) {
 				die;
 			} else {
                 // add to the pool
-				sql_query("UPDATE bonus SET pointspool = pointspool + " . sqlesc($donation) . " WHERE id = '12' LIMIT 1") or sqlerr(__FILE__, __LINE__);
+				sql_query("UPDATE bonus SET pointspool = pointspool + " . sqlesc($donation) . " WHERE id = '12' LIMIT 1") || sqlerr(__FILE__, __LINE__);
 				$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $donation . " Points contributed for doubleupload.\n " . $bonuscomment;
 				sql_query(
 					"UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-				) or sqlerr(__FILE__, __LINE__);
+				) || sqlerr(__FILE__, __LINE__);
 				$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
 				$cache->update_row(
 					'user_stats_' . $userid,
@@ -1142,13 +1142,13 @@ if (isset($_GET['exchange'])) {
 				$message = sqlesc("HalfDownload [ON]");
 				sql_query(
 					"INSERT INTO events(userid, overlayText, startTime, endTime, displayDates, hdownEnabled) VALUES (" . sqlesc($userid) . ", $message, $now, $end, 1, 1)"
-				) or sqlerr(__FILE__, __LINE__);
+				) || sqlerr(__FILE__, __LINE__);
 				$norefund = ($donation + $pointspool) % $points;
 				$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $donation . " Points contributed for Halfdownload.\n " . $bonuscomment;
 				sql_query(
 					"UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ",  bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-				) or sqlerr(__FILE__, __LINE__);
-				sql_query("UPDATE bonus SET pointspool = " . sqlesc($norefund) . " WHERE id = '13' LIMIT 1") or sqlerr(__FILE__, __LINE__);
+				) || sqlerr(__FILE__, __LINE__);
+				sql_query("UPDATE bonus SET pointspool = " . sqlesc($norefund) . " WHERE id = '13' LIMIT 1") || sqlerr(__FILE__, __LINE__);
 				$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
 				$cache->update_row(
 					'user_stats_' . $userid,
@@ -1169,11 +1169,11 @@ if (isset($_GET['exchange'])) {
 				die;
 			} else {
                 // add to the pool
-				sql_query("UPDATE bonus SET pointspool = pointspool + " . sqlesc($donation) . " WHERE id = '13' LIMIT 1") or sqlerr(__FILE__, __LINE__);
+				sql_query("UPDATE bonus SET pointspool = pointspool + " . sqlesc($donation) . " WHERE id = '13' LIMIT 1") || sqlerr(__FILE__, __LINE__);
 				$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points contributed for halfdownload.\n " . $bonuscomment;
 				sql_query(
 					"UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-				) or sqlerr(__FILE__, __LINE__);
+				) || sqlerr(__FILE__, __LINE__);
 				$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
 				$cache->update_row(
 					'user_stats_' . $userid,
@@ -1200,9 +1200,9 @@ if (isset($_GET['exchange'])) {
 		case 'ratio':
             //=== trade for one torrent 1:1 ratio
 			$torrent_number = (int)$_POST['torrent_id'];
-			$res_snatched = sql_query(
+			($res_snatched = sql_query(
 				"SELECT s.uploaded, s.downloaded, t.name FROM snatched AS s LEFT JOIN torrents AS t ON t.id = s.torrentid WHERE s.userid = " . sqlesc($userid) . " AND torrentid = " . sqlesc($torrent_number) . " LIMIT 1"
-			) or sqlerr(__FILE__, __LINE__);
+			)) || sqlerr(__FILE__, __LINE__);
 			$arr_snatched = $res_snatched->fetch_assoc();
 			if (isset($arr_snatched['size']) > 6442450944) {
 				stderr(
@@ -1224,12 +1224,12 @@ if (isset($_GET['exchange'])) {
 			}
 			sql_query(
 				"UPDATE snatched SET uploaded = " . sqlesc($arr_snatched['downloaded']) . ", hit_and_run = '0', mark_of_cain = 'no' WHERE userid = " . sqlesc($userid) . " AND torrentid = " . sqlesc($torrent_number)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$difference = $arr_snatched['downloaded'] - $arr_snatched['uploaded'];
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for 1 to 1 ratio on torrent: " . htmlsafechars($arr_snatched['name']) . " " . $torrent_number . ", " . $difference . " added .\n " . $bonuscomment;
 			sql_query(
 				"UPDATE users SET uploaded = " . sqlesc($upload + $difference) . ", bonuscomment = " . sqlesc($bonuscomment) . ", seedbonus = " . sqlesc($seedbonus) . " WHERE id = " . sqlesc($userid)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row(
 				$keys['user_stats'] . $userid,
 				['uploaded' => $upload + $difference, 'seedbonus' => $seedbonus],
@@ -1246,8 +1246,8 @@ if (isset($_GET['exchange'])) {
 
 		case 'bump':
             //=== Reanimate a torrent
-			$torrent_number = isset($_POST['torrent_id']) ? intval($_POST['torrent_id']) : 0;
-			$res_free = sql_query('SELECT name FROM torrents WHERE id = ' . sqlesc($torrent_number)) or sqlerr(__FILE__, __LINE__);
+			$torrent_number = isset($_POST['torrent_id']) ? (int) $_POST['torrent_id'] : 0;
+			($res_free = sql_query('SELECT name FROM torrents WHERE id = ' . sqlesc($torrent_number))) || sqlerr(__FILE__, __LINE__);
 			$arr_free = $res_free->fetch_assoc();
 			if ($arr_free['name'] == '') {
 				stderr(
@@ -1259,10 +1259,10 @@ if (isset($_GET['exchange'])) {
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points to Reanimate torrent: " . $arr_free['name'] . ".\n " . $bonuscomment;
 			sql_query(
 				'UPDATE users SET bonuscomment = ' . sqlesc($bonuscomment) . ', seedbonus = ' . sqlesc($seedbonus) . ' WHERE id = ' . sqlesc($userid)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			sql_query(
 				'UPDATE torrents SET bump = \'yes\', free=' . sqlesc($free_time) . ', added = ' . TIME_NOW . ' WHERE id = ' . sqlesc($torrent_number)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
 			$cache->update_row(
 				'user_stats_' . $userid,
@@ -1286,7 +1286,7 @@ if (isset($_GET['exchange'])) {
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for 1 month VIP Status.\n " . $bonuscomment;
 			sql_query(
 				"UPDATE users SET class = " . UC_VIP . ", vip_added = 'yes', vip_until = " . sqlesc($vip_until) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row('user' . $userid, ['class' => 2, 'vip_added' => 'yes', 'vip_until' => $vip_until], $TRINITY20['expires']['user_cache']);
 			$cache->update_row($keys['my_userid'] . $userid, ['class' => 2, 'vip_added' => 'yes', 'vip_until' => $vip_until], $TRINITY20['expires']['curuser']);
 			$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
@@ -1308,18 +1308,18 @@ if (isset($_GET['exchange'])) {
 				);
 			}
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for removing warning.\n " . $bonuscomment;
-			$res_warning = sql_query("SELECT modcomment FROM users WHERE id =" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+			($res_warning = sql_query("SELECT modcomment FROM users WHERE id =" . sqlesc($userid))) || sqlerr(__FILE__, __LINE__);
 			$arr = $res_warning->fetch_assoc();
 			$modcomment = htmlsafechars($arr['modcomment']);
 			$modcomment = get_date(TIME_NOW, 'DATE', 1) . " - Warning removed by - Bribe with Karma.\n" . $modcomment;
 			$modcom = sqlesc($modcomment);
 			sql_query(
 				"UPDATE users SET warned = '0', seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . ", modcomment = " . sqlesc($modcom) . " WHERE id = " . sqlesc($userid)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$dt = sqlesc(TIME_NOW);
 			$subject = sqlesc("Warning removed by Karma.");
 			$msg = sqlesc("Your warning has been removed by the big Karma payoff... Please keep on your best behaviour from now on.\n");
-			sql_query("INSERT INTO messages (sender, receiver, added, msg, subject) VALUES(0, " . sqlesc($userid) . ", $dt, $msg, $subject)") or sqlerr(__FILE__, __LINE__);
+			sql_query("INSERT INTO messages (sender, receiver, added, msg, subject) VALUES(0, " . sqlesc($userid) . ", $dt, $msg, $subject)") || sqlerr(__FILE__, __LINE__);
 			$cache->update_row('user' . $userid, ['warned' => 0], $TRINITY20['expires']['user_cache']);
 			$cache->update_row($keys['my_userid'] . $userid, ['warned' => 0], $TRINITY20['expires']['curuser']);
 			$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
@@ -1340,7 +1340,7 @@ if (isset($_GET['exchange'])) {
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for 1 month of custom smilies.\n " . $bonuscomment;
 			sql_query(
 				"UPDATE users SET smile_until = " . sqlesc($smile_until) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row('user' . $userid, ['smile_until' => $smile_until], $TRINITY20['expires']['user_cache']);
 			$cache->update_row($keys['my_userid'] . $userid, ['smile_until' => $smile_until], $TRINITY20['expires']['curuser']);
 			$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
@@ -1360,7 +1360,7 @@ if (isset($_GET['exchange'])) {
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for invites.\n " . $bonuscomment;
 			sql_query(
 				"UPDATE users SET invites = " . sqlesc($inv) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row('user' . $userid, ['invites' => $inv], $TRINITY20['expires']['user_cache']);
 			$cache->update_row($keys['my_userid'] . $userid, ['invites' => $inv], $TRINITY20['expires']['curuser']);
 			$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
@@ -1387,7 +1387,7 @@ the user class is just for show, but what the hell :p Add more or edit to your l
 			$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points for custom title. Old title was {$CURUSER['title']} new title is " . $title . ".\n " . $bonuscomment;
 			sql_query(
 				"UPDATE users SET title = " . sqlesc($title) . ", seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-			) or sqlerr(__FILE__, __LINE__);
+			) || sqlerr(__FILE__, __LINE__);
 			$cache->update_row('user' . $userid, ['title' => $title], $TRINITY20['expires']['user_cache']);
 			$cache->update_row($keys['my_userid'] . $userid, ['title' => $title], $TRINITY20['expires']['curuser']);
 			$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
@@ -1421,19 +1421,19 @@ the user class is just for show, but what the hell :p Add more or edit to your l
 				$bonuscomment_gift = get_date(TIME_NOW, 'DATE', 1) . " - recieved " . $points . " Points as gift from {$CURUSER['username']} .\n " . $bonuscomment_gift;
 				$seedbonus = $bonus - $points;
 				$giftbonus1 = $userseedbonus + $points;
-				if ($userid == $useridgift) {
+				if ($userid === $useridgift) {
 					header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?gift_fail=1");
 					die;
 				}
-				if (!$useridgift) {
+				if ($useridgift === 0) {
 					header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?gift_fail_user=1");
 					die;
 				}
-				sql_query("SELECT bonuscomment,id FROM users WHERE id = " . sqlesc($useridgift)) or sqlerr(__FILE__, __LINE__);
+				sql_query("SELECT bonuscomment,id FROM users WHERE id = " . sqlesc($useridgift)) || sqlerr(__FILE__, __LINE__);
                 //=== and to post to the person who gets the gift!
 				sql_query(
 					"UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-				) or sqlerr(__FILE__, __LINE__);
+				) || sqlerr(__FILE__, __LINE__);
 				sql_query(
 					"UPDATE users SET seedbonus = " . sqlesc($giftbonus1) . ", bonuscomment = " . sqlesc($bonuscomment_gift) . " WHERE id = " . sqlesc($useridgift)
 				);
@@ -1453,7 +1453,7 @@ the user class is just for show, but what the hell :p Add more or edit to your l
 				$subject = sqlesc("Someone Loves you");
 				$added = sqlesc(TIME_NOW);
 				$msg = sqlesc("You have been given a gift of $points Karma points by " . format_username($CURUSER));
-				sql_query("INSERT INTO messages (sender, subject, receiver, msg, added) VALUES(0, $subject, $useridgift, $msg, $added)") or sqlerr(__FILE__, __LINE__);
+				sql_query("INSERT INTO messages (sender, subject, receiver, msg, added) VALUES(0, $subject, $useridgift, $msg, $added)") || sqlerr(__FILE__, __LINE__);
 				delete_id_keys('inbox_new::' . $useridgift);
 				delete_id_keys('inbox_new_sb::' . $useridgift);
 				header(
@@ -1493,7 +1493,7 @@ if (XBT_TRACKER == false) {
 				if ($endTime > TIME_NOW && $startTime < TIME_NOW) {
 					if (array_key_exists('freeleechEnabled', $scheduled_event)) {
 						$freeleechEnabled = $scheduled_event['freeleechEnabled'];
-						if ($scheduled_event['freeleechEnabled']) {
+						if ($scheduled_event['freeleechEnabled'] !== []) {
 							$freeleech_start_time = $scheduled_event['startTime'];
 							$freeleech_end_time = $scheduled_event['endTime'];
 							$freeleech_enabled = true;
@@ -1501,7 +1501,7 @@ if (XBT_TRACKER == false) {
 					}
 					if (array_key_exists('duploadEnabled', $scheduled_event)) {
 						$duploadEnabled = $scheduled_event['duploadEnabled'];
-						if ($scheduled_event['duploadEnabled']) {
+						if ($scheduled_event['duploadEnabled'] !== []) {
 							$double_upload_start_time = $scheduled_event['startTime'];
 							$double_upload_end_time = $scheduled_event['endTime'];
 							$double_upload_enabled = true;
@@ -1509,7 +1509,7 @@ if (XBT_TRACKER == false) {
 					}
 					if (array_key_exists('hdownEnabled', $scheduled_event)) {
 						$hdownEnabled = $scheduled_event['hdownEnabled'];
-						if ($scheduled_event['hdownEnabled']) {
+						if ($scheduled_event['hdownEnabled'] !== []) {
 							$half_down_start_time = $scheduled_event['startTime'];
 							$half_down_end_time = $scheduled_event['endTime'];
 							$half_down_enabled = true;
@@ -1652,27 +1652,15 @@ if (XBT_TRACKER == false) {
 			break;
 	}
 
-	if ($freeleech_enabled) {
-		$fstatus = "<strong><font color='green'>&nbsp;ON&nbsp;</font></strong>";
-	} else {
-		$fstatus = $font_color_fl . "";
-	}
-	if ($double_upload_enabled) {
-		$dstatus = "<strong><font color='green'>&nbsp;ON&nbsp;</font></strong>";
-	} else {
-		$dstatus = $font_color_du . "";
-	}
-	if ($half_down_enabled) {
-		$hstatus = "<strong><font color='green'>&nbsp;ON&nbsp;</font></strong>";
-	} else {
-		$hstatus = $font_color_hd . "";
-	}
+	$fstatus = $freeleech_enabled ? "<strong><font color='green'>&nbsp;ON&nbsp;</font></strong>" : $font_color_fl . "";
+	$dstatus = $double_upload_enabled ? "<strong><font color='green'>&nbsp;ON&nbsp;</font></strong>" : $font_color_du . "";
+	$hstatus = $half_down_enabled ? "<strong><font color='green'>&nbsp;ON&nbsp;</font></strong>" : $font_color_hd . "";
 }
 //==09 Ezeros freeleech contribution top 10 - pdq.Bigjoos
 if (($top_donators = $cache->get('top_donators_')) === false) {
-	$a = sql_query(
+	($a = sql_query(
 		"SELECT bonuslog.id, SUM(bonuslog.donation) AS total, users.username, users.id AS userid, users.pirate, users.king, users.class, users.donor, users.warned, users.leechwarn, users.enabled, users.chatpost FROM bonuslog LEFT JOIN users ON bonuslog.id=users.id WHERE bonuslog.type = 'freeleech' GROUP BY bonuslog.id ORDER BY total DESC LIMIT 10;"
-	) or sqlerr(__FILE__, __LINE__);
+	)) || sqlerr(__FILE__, __LINE__);
 	while ($top_donator = $a->fetch_assoc()) {
 		$top_donators[] = $top_donator;
 	}
@@ -1689,19 +1677,16 @@ if (!empty($top_donators)) {
 			$user_stuff['id'] = (int)$a['userid'];
 			$top_donator .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$top_donators_id'>" . format_username($user_stuff) . "</a> [$damount_donated]";
 		}
-	} else {
-        //== If there are no donators
-		if (empty($top_donators)) {
-			$top_donator .= "Nobodys contibuted yet !!";
-		}
+	} elseif (empty($top_donators)) {
+		$top_donator .= "Nobodys contibuted yet !!";
 	}
 }
 //$cache->delete('top_donators_');
 //==
 if (($top_donators2 = $cache->get('top_donators2_')) === false) {
-	$b = sql_query(
+	($b = sql_query(
 		"SELECT bonuslog.id, SUM(bonuslog.donation) AS total, users.username, users.id AS userid, users.pirate, users.king, users.class, users.donor, users.warned, users.leechwarn, users.enabled, users.chatpost FROM bonuslog LEFT JOIN users ON bonuslog.id=users.id WHERE bonuslog.type = 'doubleupload' GROUP BY bonuslog.id ORDER BY total DESC LIMIT 10;"
-	) or sqlerr(__FILE__, __LINE__);
+	)) || sqlerr(__FILE__, __LINE__);
 	while ($top_donator2 = $b->fetch_assoc()) {
 		$top_donators2[] = $top_donator2;
 	}
@@ -1718,19 +1703,16 @@ if (!empty($top_donators2)) {
 			$user_stuff['id'] = (int)$b['userid'];
 			$top_donator2 .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$top_donators2_id'>" . format_username($user_stuff) . "</a> [$damount_donated2]";
 		}
-	} else {
-        //== If there are no donators
-		if (empty($top_donators2)) {
-			$top_donator2 .= "Nobodys contibuted yet !!";
-		}
+	} elseif (empty($top_donators2)) {
+		$top_donator2 .= "Nobodys contibuted yet !!";
 	}
 }
 //$cache->delete('top_donators2_');
 //==
 if (($top_donators3 = $cache->get('top_donators3_')) === false) {
-	$c = sql_query(
+	($c = sql_query(
 		"SELECT bonuslog.id, SUM(bonuslog.donation) AS total, users.username, users.id AS userid, users.pirate, users.king, users.class, users.donor, users.warned, users.leechwarn, users.enabled, users.chatpost FROM bonuslog LEFT JOIN users ON bonuslog.id=users.id WHERE bonuslog.type = 'halfdownload' GROUP BY bonuslog.id ORDER BY total DESC LIMIT 10;"
-	) or sqlerr(__FILE__, __LINE__);
+	)) || sqlerr(__FILE__, __LINE__);
 	while ($top_donator3 = $c->fetch_assoc()) {
 		$top_donators3[] = $top_donator3;
 	}
@@ -1747,11 +1729,8 @@ if (!empty($top_donators3)) {
 			$user_stuff['id'] = (int)$c['userid'];
 			$top_donator3 .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$top_donators3_id'>" . format_username($user_stuff) . "</a> [$damount_donated3]";
 		}
-	} else {
-        //== If there are no donators
-		if (empty($top_donators3)) {
-			$top_donator3 .= "Nobodys contibuted yet !!";
-		}
+	} elseif (empty($top_donators3)) {
+		$top_donator3 .= "Nobodys contibuted yet !!";
 	}
 }
 //$cache->delete('top_donators3_');
@@ -1790,7 +1769,7 @@ $HTMLOUT .= "<div class='card-section'>
 </div><table>
 			<div class='grid-x grid-padding-x small-up-1 medium-up-2 large-up-3' data-equalizer data-equalize-by-row='true' id='my_bonus'>";
 
-$res = sql_query("SELECT * FROM bonus WHERE enabled = 'yes' ORDER BY id ASC") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT * FROM bonus WHERE enabled = 'yes' ORDER BY id ASC")) || sqlerr(__FILE__, __LINE__);
 while ($gets = $res->fetch_assoc()) {
 	switch (true) {
 		case ($gets['id'] == 5):
@@ -2018,7 +1997,7 @@ while ($gets = $res->fetch_assoc()) {
 		</form>";
 	}
 
-	if ($bonus >= $gets['points'] or $bonus >= $gets['minpoints']) {
+	if ($bonus >= $gets['points'] || $bonus >= $gets['minpoints']) {
 		switch (true) {
 			case ($gets['id'] == 7):
 				$HTMLOUT .= "";

@@ -41,9 +41,9 @@ if (isset($_GET["subscribe"])){
 
     if ((get_row_count("subscriptions", "WHERE user_id=".sqlesc($CURUSER['id'])." AND topic_id = ".sqlesc($topicid))) > 0)
         stderr("Error", "Already subscribed to thread number <b>".(int)($topicid)."</b> Click <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid'> <b>Here</b></a> to go back to the thread. Or click <a href='{$TRINITY20['baseurl']}/subscriptions.php'> <b>Here</b></a> to view your subscriptions.");
-    sql_query("INSERT INTO subscriptions (user_id, topic_id) VALUES (".sqlesc($CURUSER['id']).", ".sqlesc($topicid).")") or sqlerr(__FILE__, __LINE__);
-    $res = sql_query("SELECT topic_name FROM `topics` WHERE id=".sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
-    $arr = $res->fetch_assoc() or stderr("Error", "Bad forum id!");
+    sql_query("INSERT INTO subscriptions (user_id, topic_id) VALUES (".sqlesc($CURUSER['id']).", ".sqlesc($topicid).")") || sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT topic_name FROM `topics` WHERE id=".sqlesc($topicid))) || sqlerr(__FILE__, __LINE__);
+    ($arr = $res->fetch_assoc()) || stderr("Error", "Bad forum id!");
     $forumname = htmlsafechars($arr["topic_name"]);
     stderr("Success", "Successfully subscribed to thread <b>".($forumname)."</b> Click <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid'> <b>Here</b></a> to go back to the thread. Or click <a href='{$TRINITY20['baseurl']}/subscriptions.php'> <b>Here</b></a> to view your subscriptions.");
 }
@@ -55,13 +55,13 @@ if (isset($_GET["delete"])){
 
     $checked = htmlsafechars($_GET['deletesubscription']);
     foreach ($checked as $delete) {
-    sql_query("DELETE FROM subscriptions WHERE user_id = ".sqlesc($CURUSER['id'])." AND topic_id=" . sqlesc($delete)) or sqlerr(__FILE__, __LINE__);
+    sql_query("DELETE FROM subscriptions WHERE user_id = ".sqlesc($CURUSER['id'])." AND topic_id=" . sqlesc($delete)) || sqlerr(__FILE__, __LINE__);
     }
 
     header("Refresh: 0; url={$TRINITY20['baseurl']}/subscriptions.php?deleted=1");
 }
 // ===end
-$res = sql_query("SELECT id, username, donor, warned, class, chatpost, leechwarn, enabled FROM users WHERE id=".sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT id, username, donor, warned, class, chatpost, leechwarn, enabled FROM users WHERE id=".sqlesc($userid))) || sqlerr(__FILE__, __LINE__);
 
 if ($res->num_rows == 1) {
     $arr = $res->fetch_assoc();
@@ -76,7 +76,7 @@ $from_is = "subscriptions AS p LEFT JOIN topics as t ON p.topic_id = t.id LEFT J
 $select_is = "f.id AS f_id, f.name, t.id AS t_id, t.topic_name, t.last_post, r.last_post_read, p.topic_id";
 $query = "SELECT $select_is FROM $from_is WHERE $where_is ORDER BY $order_is";
 
-$res = sql_query($query) or sqlerr(__FILE__, __LINE__);
+($res = sql_query($query)) || sqlerr(__FILE__, __LINE__);
 
 $HTMLOUT='';
 $HTMLOUT.="<h4>Subscribed Forums for{$subject}</h4><p align='center'>To be notified via PM when there is a new post, go to your <a class='altlink' href='{$TRINITY20['baseurl']}/my.php'>profile</a> and set <b><i>PM on Subscriptions</i></b> to yes</p>\n";
@@ -105,7 +105,7 @@ while ($arr = $res->fetch_assoc()) {
     $select_is = "t.id, p.*";
     $where_is = "t.id = $topicid AND f.min_class_read <= " . $CURUSER['class'];
     $queryposts = "SELECT $select_is FROM $from_is WHERE $where_is ORDER BY $order_is";
-    $res2 = sql_query($queryposts) or sqlerr(__FILE__, __LINE__);
+    ($res2 = sql_query($queryposts)) || sqlerr(__FILE__, __LINE__);
     $arr2 = $res2->fetch_assoc();
     $postid = (int)$arr2["id"];
     $posterid = (int)$arr2["user_id"];
@@ -115,7 +115,7 @@ while ($arr = $res->fetch_assoc()) {
     $count2 = '';
     // =======change colors
     if ($count2 == 0) {
-        $count2 = $count2 + 1;
+        $count2 += 1;
         $class = "one";
     } else {
         $count2 = 0;
@@ -153,8 +153,8 @@ $HTMLOUT.="<form action=\"".$_SERVER["PHP_SELF"]."\" method=\"post\">
 <table class='table table-bordered'>
 <tr>
 <td class='colhead text-center'>
-<a class='altlink' href='{$TRINITY20['baseurl']}/subscriptions.php?action=".(isset($_GET["action"]) ? (htmlsafechars($_GET["action"])) : "")."&amp;box=".(isset($_GET["box"]) ? (intval($_GET["box"])) : "") . "&amp;check=yes'>select all</a> -
-<a class='altlink' href='{$TRINITY20['baseurl']}/subscriptions.php?action=".(isset($_GET["action"]) ? (htmlsafechars($_GET["action"])) : '')."&amp;box=".(isset($_GET["box"]) ? (intval($_GET["box"])) : '')."&amp;uncheck=yes'>un-select all</a>
+<a class='altlink' href='{$TRINITY20['baseurl']}/subscriptions.php?action=".(isset($_GET["action"]) ? (htmlsafechars($_GET["action"])) : "")."&amp;box=".(isset($_GET["box"]) ? ((int) $_GET["box"]) : "") . "&amp;check=yes'>select all</a> -
+<a class='altlink' href='{$TRINITY20['baseurl']}/subscriptions.php?action=".(isset($_GET["action"]) ? (htmlsafechars($_GET["action"])) : '')."&amp;box=".(isset($_GET["box"]) ? ((int) $_GET["box"]) : '')."&amp;uncheck=yes'>un-select all</a>
 <input class='button' type='submit' name='delete' value='Delete' /> selected</td></tr></table></form>";
 $HTMLOUT.= "</div></div>";
 echo stdhead('Subscriptions') . $HTMLOUT . stdfoot();

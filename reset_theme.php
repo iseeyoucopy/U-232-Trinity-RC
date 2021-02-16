@@ -18,7 +18,7 @@ $lang = array_merge(load_language('global'));
 global $cache, $TRINITY20;
 $sid = 1;
 if ($sid > 0 && $sid != $CURUSER['id'])
-    sql_query('UPDATE users SET stylesheet=' . sqlesc($sid) . ' WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+    sql_query('UPDATE users SET stylesheet=' . sqlesc($sid) . ' WHERE id = ' . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
     $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
         'stylesheet' => $sid
     ], $TRINITY20['expires']['curuser']);

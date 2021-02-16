@@ -172,13 +172,13 @@ function mk_update_query($amount, $user_id)
     $query = array();
     foreach ($donate_goods[$amount]['to_add'] as $field => $value) $query[] = sprintf('%s = %s + %d', $field, $field, $value);
     foreach ($donate_goods[$amount]['to_update'] as $field => $value) $query[] = sprintf('%s = %s', $field, $value);
-    return sprintf('update users set %s where id = %d', join(', ', $query) , $user_id);
+    return sprintf('update users set %s where id = %d', implode(', ', $query) , $user_id);
 }
 function paypallog($txt)
 {
     file_put_contents(ROOT_DIR . '/logs/paypal.txt', "\n[" . date('h:m D-M-Y') . "]\n" . $txt, FILE_APPEND);
 }
-if (sizeof($_POST) == 0) paypallog('There is no _POST from paypal');
+if (count($_POST) == 0) paypallog('There is no _POST from paypal');
 $request = 'cmd=_notify-validate';
 foreach ($_POST as $p_key => $p_value) $request.= '&' . $p_key . '=' . urlencode(stripslashes($p_value));
 $header = "POST /cgi-bin/webscr HTTP/1.0\r\n";
@@ -186,28 +186,28 @@ $header.= "Host: www.paypal.com\r\n";
 $header.= "Content-Type: application/x-www-form-urlencoded\r\n";
 $header.= "Content-Length: " . strlen($request) . "\r\n\r\n";
 if ($hand = fsockopen('ssl://www.paypal.com', 443, $errno, $errstr, 30)) {
-    fputs($hand, $header . $request);
+    fwrite($hand, $header . $request);
     $paypal_data = '';
     while (!feof($hand)) $paypal_data.= fgets($hand, 128);
     $vars['uid'] = isset($_POST['custom']) ? (int)$_POST['custom'] : 0;
     $vars['amount'] = isset($_POST['mc_gross']) ? (int)$_POST['mc_gross'] : 0;
     $vars['memo'] = isset($_POST['memo']) ? htmlsafechars($_POST['memo']) : '';
     if (stripos($paypal_data, 'VERIFIED') !== false) {
-        $user_query = sql_query(sprintf('SELECT COUNT(id) FROM users WHERE id = %d', $vars['uid'])) or paypallog($mysqli->error);
+        ($user_query = sql_query(sprintf('SELECT COUNT(id) FROM users WHERE id = %d', $vars['uid']))) || paypallog($mysqli->error);
         if ($user_query->num_rows== 1) {
             //update the user and add the goodies
-            sql_query(mk_update_query($vars['amount'], $vars['uid'])) or paypallog($mysqli->error);
+            sql_query(mk_update_query($vars['amount'], $vars['uid'])) || paypallog($mysqli->error);
             //instead of updating the cache delete it :P
             $cache->delete($keys['my_userid'] . $vars['uid']);
             $cache->delete('user' . $vars['uid']);
             $cache->delete($keys['user_stats'] . $vars['uid']);
             $cache->delete('user_stats_' . $vars['uid']);
             //update total funds
-            sql_query(sprintf('INSERT INTO funds(cash,user,added) VALUES (%d,%d,%d)', $vars['amount'], $vars['uid'], TIME_NOW)) or paypallog($mysqli->error);
+            sql_query(sprintf('INSERT INTO funds(cash,user,added) VALUES (%d,%d,%d)', $vars['amount'], $vars['uid'], TIME_NOW)) || paypallog($mysqli->error);
             //clear the cache for the funds
             $cache->delete('totalfunds_');
             $msg[] = '(' . $vars['uid'] . ',0,' . sqlesc('Donation - processed') . ',' . sqlesc("Your donation was processed by paypal and our system\nWe remind you that you donated " . $vars['amount'] . $TRINITY20['paypal_config']['currency'] . "\nIf you forgot what you'll get check the donation page again\nStaff from " . $TRINITY20['site_name'] . " is grateful for your donation\nIf you have any question's feel free to contact someone from staff") . ',' . TIME_NOW . ')';
-            $msg[] = '(' . $TRINITY20['paypal_config']['staff'] . ',0,' . sqlesc('Donation - made') . ',' . sqlesc("This [url=" . $TRINITY20['baseurl'] . "/userdetails.php?id=" . (int)$vars['uid'] . "]user[/url] - donated " . $vars['amount'] . $TRINITY20['paypal_config']['currency'] . (!empty($vars['memo']) ? "\nUser sent a message with his donation:\n[b]" . $vars['memo'] . "[/b]" : '')) . ',' . TIME_NOW . ')';
+            $msg[] = '(' . $TRINITY20['paypal_config']['staff'] . ',0,' . sqlesc('Donation - made') . ',' . sqlesc("This [url=" . $TRINITY20['baseurl'] . "/userdetails.php?id=" . (int)$vars['uid'] . "]user[/url] - donated " . $vars['amount'] . $TRINITY20['paypal_config']['currency'] . (empty($vars['memo']) ? '' : "\nUser sent a message with his donation:\n[b]" . $vars['memo'] . "[/b]")) . ',' . TIME_NOW . ')';
         } else paypallog('Could not find user with id = ' . $vars['uid']);
     } elseif (stripos($paypal_data, 'INVALID') !== false) {
         //something went wrong log data
@@ -216,7 +216,7 @@ if ($hand = fsockopen('ssl://www.paypal.com', 443, $errno, $errstr, 30)) {
         $msg[] = '(' . $vars['uid'] . ',0,' . sqlesc('Donation - problem') . ',' . sqlesc("We are sorry to announce you that paypal rejected the donation please contact the staff\n" . $TRINITY20['site_name'] . "'s staff") . ',' . TIME_NOW . ')';
         $msg[] = '(' . $TRINITY20['paypal_config']['staff'] . ',0,' . sqlesc('Donation - problem') . ',' . sqlesc("This [url=" . $TRINITY20['baseurl'] . "/userdetails.php?id=" . (int)$vars['uid'] . "]user[/url] - donated but there was a problem with paypal. Check paypal log!") . ',' . TIME_NOW . ')';
     }
-    sql_query('INSERT INTO messages(receiver,sender,subject,msg,added) VALUES ' . join(',', $msg)) or paypallog($mysqli->error);
+    sql_query('INSERT INTO messages(receiver,sender,subject,msg,added) VALUES ' . implode(',', $msg)) || paypallog($mysqli->error);
     //clear memcache for staff
     $cache->delete('inbox_new::' . $TRINITY20['paypal_config']['staff']);
     $cache->delete('inbox_new_sb::' . $TRINITY20['paypal_config']['staff']);

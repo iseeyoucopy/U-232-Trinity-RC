@@ -20,7 +20,7 @@ $radio_password = 'somepassword';
 $langs = array(
     'CURRENTLISTENERS' => 'Current listeners: <b>%d</b>',
     'SERVERTITLE' => 'Server: <b>%s</b>',
-    'SERVERURL' => 'Server url: <b>%s' .'</b>',
+    'SERVERURL' => 'Server url: <b>%s</b>',
     'SONGTITLE' => 'Current song: <b>%s</b>',
     'BITRATE' => 'Bitrate: <b>%s kb</b>',
     'BITRATE' => 'Bitrate: <b>%s kb</b>',
@@ -31,7 +31,7 @@ function radioinfo($radio)
     global $langs, $TRINITY20, $cache, $CURUSER, $radio_host, $radio_port, $radio_password;
     $xml = $html = $history = ''; 
     if ($hand = @fsockopen($radio_host, $radio_port, $errno, $errstr, 30)) {
-        fputs($hand, "GET /admin.cgi?pass=" . $radio_password . "&mode=viewxml HTTP/1.1\nUser-Agent:Mozilla/5.0 " . "(Windows; U; Windows NT 6.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6\n\n");
+        fwrite($hand, "GET /admin.cgi?pass=" . $radio_password . "&mode=viewxml HTTP/1.1\nUser-Agent:Mozilla/5.0 " . "(Windows; U; Windows NT 6.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6\n\n");
         while (!feof($hand)) $xml.= fgets($hand, 1024);
         preg_match_all('/\<(SERVERTITLE|SERVERURL|SONGTITLE|STREAMSTATUS|BITRATE|CURRENTLISTENERS|PEAKLISTENERS)\>(.*?)<\/\\1\>/iU', $xml, $tempdata, PREG_SET_ORDER);
         foreach ($tempdata as $t2) $data[$t2[1]] = isset($langs[$t2[1]]) ? sprintf($langs[$t2[1]], $t2[2]) : $t2[2];
@@ -44,7 +44,7 @@ function radioinfo($radio)
             $history[] = '<b>&nbsp;' . $temph3[2][1] . '</b> <sub>(' . get_date($temph3[2][0], 'DATE') . ')</sub>';
         }
         preg_match_all('/\<HOSTNAME>(.*?)<\/HOSTNAME>/', $xml, $temph);
-        if (count($temph[1])) $users_ip = join(', ', array_map('sqlesc', $temph[1]));
+        if (count($temph[1]) > 0) $users_ip = implode(', ', array_map('sqlesc', $temph[1]));
         if ($data['STREAMSTATUS'] == 0) return 'Sorry ' . $CURUSER['username'] . '... : Server ' . $radio_host . ' is online but there is no stream';
         else {
             unset($data['STREAMSTATUS']);
@@ -57,18 +57,17 @@ function radioinfo($radio)
             $html = '<fieldset>
                 <legend>' . $TRINITY20['site_name'] . ' radio</legend><ul>';
             foreach ($data as $d) $html.= '<li><b>' . $d . '</b></li>';
-            $html.= '<li><b>Playlist history: </b> ' . (count($history) > 0 ? join(', ', $history) : 'No playlist history') . '</li>';
-            if (empty($users_ip) === false) {
-                $q1 = sql_query('SELECT id, username FROM users WHERE ip IN (' . $users_ip . ') ORDER BY username ASC') or sqlerr(__FILE__, __LINE__);
+            $html.= '<li><b>Playlist history: </b> ' . (count($history) > 0 ? implode(', ', $history) : 'No playlist history') . '</li>';
+            if (!empty($users_ip)) {
+                ($q1 = sql_query('SELECT id, username FROM users WHERE ip IN (' . $users_ip . ') ORDER BY username ASC')) || sqlerr(__FILE__, __LINE__);
                 if ($q1->num_rows == 0) $html.= '<li><b>Listeners</b>: currently no listener from site </li>';
                 else {
                     $users = array();
                     while ($a1 = $q1->fetch_assoc()) $users[] = ($CURUSER['id'] == $a1['id'] || $CURUSER['class'] >= UC_STAFF) ? sprintf('<a href="/userdetails.php?id=%d">%s</a>', $a1['id'], $a1['username']) : 'Anonymous';
-                    $html.= '<li><b>Listeners</b>: ' . join(', ', $users) . '</li>';
+                    $html.= '<li><b>Listeners</b>: ' . implode(', ', $users) . '</li>';
                 }
             }
-            $html.= '</ul></fieldset>';
-            return $html;
+            return $html . '</ul></fieldset>';
         }
     } else $html.= '<fieldset><legend>' . $TRINITY20['site_name'] . ' radio</legend>
     <font size="3" color="red"><img src="' . $TRINITY20['pic_base_url'] . 'off1.gif" alt="Off" title="Off" border="0" /><br />

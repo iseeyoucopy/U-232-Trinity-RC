@@ -48,9 +48,9 @@ if ($action == "avatar") {
     $avatars = (isset($_POST['avatars']) && $_POST['avatars'] === 'yes' ? 'yes' : 'no');
     $offensive_avatar = (isset($_POST['offensive_avatar']) && $_POST['offensive_avatar'] === 'yes' ? 'yes' : 'no');
     $view_offensive_avatar = (isset($_POST['view_offensive_avatar']) && $_POST['view_offensive_avatar'] === 'yes' ? 'yes' : 'no');
-    if (!($CURUSER["avatarpos"] == 0 OR $CURUSER["avatarpos"] != 1)) {
+    if (!($CURUSER["avatarpos"] == 0 || $CURUSER["avatarpos"] != 1)) {
         $avatar = trim(urldecode($_POST["avatar"]));
-        if (preg_match("/^http:\/\/$/i", $avatar) or preg_match("/[?&;]/", $avatar) or preg_match("#javascript:#is", $avatar) or !preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\-!]+)$#iU", $avatar)) {
+        if (preg_match("/^http:\/\/$/i", $avatar) || preg_match("/[?&;]/", $avatar) || preg_match("#javascript:#is", $avatar) || !preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\-!]+)$#iU", $avatar)) {
             $avatar = '';
         }
     }
@@ -62,8 +62,8 @@ if ($action == "avatar") {
         if ($img_size[0] < 5 || $img_size[1] < 5) {
             stderr($lang['takeeditcp_user_error'], $lang['takeeditcp_small_image']);
         }
-        sql_query("UPDATE usersachiev SET avatarset=avatarset+1 WHERE id=" . sqlesc($CURUSER["id"]) . " AND avatarset = '0'") or sqlerr(__FILE__, __LINE__);
-        if (($img_size[0] > $TRINITY20['av_img_width']) or ($img_size[1] > $TRINITY20['av_img_height'])) {
+        sql_query("UPDATE usersachiev SET avatarset=avatarset+1 WHERE id=" . sqlesc($CURUSER["id"]) . " AND avatarset = '0'") || sqlerr(__FILE__, __LINE__);
+        if ($img_size[0] > $TRINITY20['av_img_width'] || $img_size[1] > $TRINITY20['av_img_height']) {
             $image = resize_image(array(
                 'max_width' => $TRINITY20['av_img_width'],
                 'max_height' => $TRINITY20['av_img_height'],
@@ -83,7 +83,7 @@ if ($action == "avatar") {
     }
     $updateset[] = 'offensive_avatar = '.sqlesc($offensive_avatar);
     $updateset[] = 'view_offensive_avatar = '.sqlesc($view_offensive_avatar);
-    if (!($CURUSER["avatarpos"] == 0 or $CURUSER["avatarpos"] != 1)) {
+    if (!($CURUSER["avatarpos"] == 0 || $CURUSER["avatarpos"] != 1)) {
         $updateset[] = "avatar = " . sqlesc($avatar);
     }
     $updateset[] = 'avatars = '.sqlesc($avatars);
@@ -112,15 +112,15 @@ elseif ($action == "signature") {
     }
     $signatures = (isset($_POST['signatures']) && $_POST['signatures'] === 'yes' ? 'yes' : 'no');
     $signature = trim(urldecode($_POST["signature"]));
-    if (preg_match("/^http:\/\/$/i", $signature) or preg_match("/[?&;]/", $signature) or preg_match("#javascript:#is", $signature) or !preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\-!]+)$#iU", $signature)) {
+    if (preg_match("/^http:\/\/$/i", $signature) || preg_match("/[?&;]/", $signature) || preg_match("#javascript:#is", $signature) || !preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\-!]+)$#iU", $signature)) {
         $signature = '';
     }
     if (!empty($signature)) {
         $img_size = @GetImageSize($signature);
         if ($img_size == FALSE || !in_array($img_size['mime'], $TRINITY20['allowed_ext'])) stderr($lang['takeeditcp_uerr'], $lang['takeeditcp_img_unsupported']);
         if ($img_size[0] < 5 || $img_size[1] < 5) stderr($lang['takeeditcp_uerr'], $lang['takeeditcp_img_to_small']);
-        sql_query("UPDATE usersachiev SET sigset=sigset+1 WHERE id=" . sqlesc($CURUSER["id"]) . " AND sigset = '0'") or sqlerr(__FILE__, __LINE__);
-        if (($img_size[0] > $TRINITY20['sig_img_width']) OR ($img_size[1] > $TRINITY20['sig_img_height'])) {
+        sql_query("UPDATE usersachiev SET sigset=sigset+1 WHERE id=" . sqlesc($CURUSER["id"]) . " AND sigset = '0'") || sqlerr(__FILE__, __LINE__);
+        if ($img_size[0] > $TRINITY20['sig_img_width'] || $img_size[1] > $TRINITY20['sig_img_height']) {
             $image = resize_image(array(
                 'max_width' => $TRINITY20['sig_img_width'],
                 'max_height' => $TRINITY20['sig_img_height'],
@@ -176,7 +176,7 @@ elseif ($action == "security") {
 		$hash1 = t_Hash($CURUSER['email'], $CURUSER['username'], $CURUSER['added']);
         $hash2 = t_Hash($CURUSER['birthday'], $CURUSER['secret'], $CURUSER['pin_code']);
         if (!validemail($email)) stderr($lang['takeeditcp_err'], $lang['takeeditcp_not_valid_email']);
-        $r = sql_query("SELECT id FROM users WHERE email=" . sqlesc($email)) or sqlerr(__FILE__, __LINE__);
+        ($r = sql_query("SELECT id FROM users WHERE email=" . sqlesc($email))) || sqlerr(__FILE__, __LINE__);
         if ($r->num_rows > 0 || !password_verify($hash1.hash("ripemd160", $chmailpass).$hash2, $CURUSER['passhash'])) stderr($lang['takeeditcp_err'], $lang['takeeditcp_address_taken']);
         $changedemail = 1;
     }
@@ -213,7 +213,7 @@ elseif ($action == "security") {
         $updateset[] = "editsecret = " . sqlesc($sec);
         $curuser_cache['editsecret'] = $sec;
         $user_cache['editsecret'] = $sec;
-        $thishost = !empty($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : '';
+        $thishost = empty($_SERVER["HTTP_HOST"]) ? '' : $_SERVER["HTTP_HOST"];
         $thisdomain = preg_replace('/^www\./is', "", $thishost);
         $body = str_replace(array(
             '<#USERNAME#>',
@@ -229,13 +229,13 @@ elseif ($action == "security") {
             "{$TRINITY20['baseurl']}/confirmemail.php?uid={$CURUSER['id']}&key=$hash&email=$obemail"
         ) , $lang['takeeditcp_email_body']);
         mail($email, "$thisdomain {$lang['takeeditcp_confirm']}", $body, "{$lang['takeeditcp_email_from']}{$TRINITY20['site_email']}");
-        $emailquery = sql_query("SELECT id, username, email FROM users WHERE id=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+        ($emailquery = sql_query("SELECT id, username, email FROM users WHERE id=" . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
         $spm = $emailquery->fetch_assoc();
         $dt = TIME_NOW;
         $subject = sqlesc($lang['takeeditcp_email_alert']);
         $msg = sqlesc("{$lang['takeeditcp_email_user']}[url={$TRINITY20['baseurl']}/userdetails.php?id=" . (int)$spm['id'] . "][b]" . htmlsafechars($spm['username']) . "[/b][/url]{$lang['takeeditcp_email_changed']}{$lang['takeeditcp_email_old']}" . htmlsafechars($spm['email']) . "{$lang['takeeditcp_email_new']}$email{$lang['takeeditcp_email_check']}");
-        $pmstaff = sql_query('SELECT id FROM users WHERE class = ' . UC_ADMINISTRATOR) or sqlerr(__FILE__, __LINE__);
-        while ($arr = $pmstaff->fetch_assoc()) sql_query("INSERT INTO messages(sender, receiver, added, msg, subject) VALUES(0, " . sqlesc($arr['id']) . ", $dt, $msg, $subject)") or sqlerr(__FILE__, __LINE__);
+        ($pmstaff = sql_query('SELECT id FROM users WHERE class = ' . UC_ADMINISTRATOR)) || sqlerr(__FILE__, __LINE__);
+        while ($arr = $pmstaff->fetch_assoc()) sql_query("INSERT INTO messages(sender, receiver, added, msg, subject) VALUES(0, " . sqlesc($arr['id']) . ", $dt, $msg, $subject)") || sqlerr(__FILE__, __LINE__);
         $cache->delete('inbox_new::' . $arr['id']);
         $cache->delete('inbox_new_sb::' . $arr['id']);
         $urladd.= "&mailsent=1";
@@ -303,7 +303,7 @@ elseif ($action == "personal") {
             'status' => $CURUSER['last_status'],
             'date' => $CURUSER['last_update']
         );
-        sql_query('INSERT INTO ustatus(userid,last_status,last_update,archive) VALUES(' . sqlesc($CURUSER['id']) . ',' . sqlesc($status) . ',' . TIME_NOW . ',' . sqlesc(serialize($status_archive)) . ') ON DUPLICATE KEY UPDATE last_status=values(last_status),last_update=values(last_update),archive=values(archive)') or sqlerr(__FILE__, __LINE__);
+        sql_query('INSERT INTO ustatus(userid,last_status,last_update,archive) VALUES(' . sqlesc($CURUSER['id']) . ',' . sqlesc($status) . ',' . TIME_NOW . ',' . sqlesc(serialize($status_archive)) . ') ON DUPLICATE KEY UPDATE last_status=values(last_status),last_update=values(last_update),archive=values(archive)') || sqlerr(__FILE__, __LINE__);
         $cache->delete($keys['user_status'] . $CURUSER['id']);
         $cache->delete('user_status_' . $CURUSER['id']);
     }
@@ -338,7 +338,7 @@ elseif ($action == "personal") {
         $curuser_cache['website'] = $website;
         $user_cache['website'] = $website;
     }
-    if ($CURUSER['birthday'] == '0000-00-00' OR $CURUSER['birthday'] == '1801-01-01') {
+    if ($CURUSER['birthday'] == '0000-00-00' || $CURUSER['birthday'] == '1801-01-01') {
         $year = isset($_POST["year"]) ? 0 + $_POST["year"] : 0;
         $month = isset($_POST["month"]) ? 0 + $_POST["month"] : 0;
         $day = isset($_POST["day"]) ? 0 + $_POST["day"] : 0;
@@ -443,22 +443,22 @@ if ($curuser_cache) {
 if ($user_cache) {
     $cache->update_row('user' . $CURUSER['id'], $user_cache, $TRINITY20['expires']['user_cache']);
 }
-if (sizeof($updateset) > 0) 
-    sql_query("UPDATE users SET " . implode(",", $updateset) . " WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
+if (count($updateset) > 0) 
+    sql_query("UPDATE users SET " . implode(",", $updateset) . " WHERE id = " . sqlesc($CURUSER["id"])) || sqlerr(__FILE__, __LINE__);
     //** Browse Page */
-    if ($setbits) {
+    if ($setbits !== 0) {
         $updateset_block[] = 'browse_page = (browse_page | ' . $setbits . ')';
     }
-    if ($clrbits) {
+    if ($clrbits !== 0) {
         $updateset_block[] = 'browse_page = (browse_page & ~' . $clrbits . ')';
     }
-    if (count($updateset_block)) {
-        sql_query('UPDATE user_blocks SET ' . implode(',', $updateset_block) . ' WHERE userid = ' . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
+    if (count($updateset_block) > 0) {
+        sql_query('UPDATE user_blocks SET ' . implode(',', $updateset_block) . ' WHERE userid = ' . sqlesc($CURUSER["id"])) || sqlerr(__FILE__, __LINE__);
     }
     $cache->delete('blocks::' . $CURUSER["id"]);
-if ($setbits || $clrbits) sql_query('UPDATE users SET opt1 = ((opt1 | ' . $setbits . ') & ~' . $clrbits . '), opt2 = ((opt2 | ' . $setbits . ') & ~' . $clrbits . ') WHERE id = ' . sqlesc($CURUSER["id"])) or sqlerr(__file__, __line__);
+if ($setbits || $clrbits) sql_query('UPDATE users SET opt1 = ((opt1 | ' . $setbits . ') & ~' . $clrbits . '), opt2 = ((opt2 | ' . $setbits . ') & ~' . $clrbits . ') WHERE id = ' . sqlesc($CURUSER["id"])) || sqlerr(__file__, __line__);
 // grab current data
-$res = sql_query('SELECT opt1, opt2 FROM users WHERE id = ' . sqlesc($CURUSER["id"]) . ' LIMIT 1') or sqlerr(__file__, __line__);
+($res = sql_query('SELECT opt1, opt2 FROM users WHERE id = ' . sqlesc($CURUSER["id"]) . ' LIMIT 1')) || sqlerr(__file__, __line__);
 $row = $res->fetch_assoc();
 $row['opt1'] = (int)$row['opt1'];
 $row['opt2'] = (int)$row['opt2'];

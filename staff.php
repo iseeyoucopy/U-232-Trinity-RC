@@ -24,7 +24,7 @@ $stdhead = array(
 );
 $support = $staffs = array();
 $htmlout = $firstline = $support = '';
-$query = sql_query("SELECT u.id, u.perms, u.username, u.support, u.supportfor, u.email, u.last_access, u.class, u.title, u.country, u.status, countries.flagpic, countries.name FROM users AS u LEFT  JOIN countries ON countries.id = u.country WHERE u.class >= " . UC_STAFF . " OR u.support='yes' AND u.status='confirmed' ORDER BY username") or sqlerr(__FILE__, __LINE__);
+($query = sql_query("SELECT u.id, u.perms, u.username, u.support, u.supportfor, u.email, u.last_access, u.class, u.title, u.country, u.status, countries.flagpic, countries.name FROM users AS u LEFT  JOIN countries ON countries.id = u.country WHERE u.class >= " . UC_STAFF . " OR u.support='yes' AND u.status='confirmed' ORDER BY username")) || sqlerr(__FILE__, __LINE__);
 unset($support);
     while ($arr2 = $query->fetch_assoc()) {
         if($arr2['class'] >= UC_STAFF) $staffs[$arr2["class"]][] = $arr2;

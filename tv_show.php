@@ -31,7 +31,7 @@ if(isset($_GET['id']) && $_GET['id'] !== '');
 	$tvmaze_cast= file_get_contents('https://api.tvmaze.com/shows/'.$show_id.'/cast');
     $tvshow_cast = json_decode($tvmaze_cast, true);
 	}
-	$image = ($tvshow['image']['original']!='') ? "<img src='".$tvshow['image']['original']."' style='width:214; height:305px;'>":"<img src='" .$TRINITY20['pic_base_url']."/noposter.png' style='width:214; height:305px;'>";  		
+	$image = ($tvshow['image']['original'] != '') ? "<img src='".$tvshow['image']['original']."' style='width:214; height:305px;'>":"<img src='" .$TRINITY20['pic_base_url']."/noposter.png' style='width:214; height:305px;'>";  		
 	$unwantedChars = array(',', '!', '?', "'"); // create array with unwanted chars
 	$HTMLOUT = $name = $type = $language = $status = $runtime = $premiered = $rating = $official_site = $summary = $number = $schedule_time = $updated = "";
 	$name = str_replace($unwantedChars,"",(htmlentities($tvshow['name'])));
