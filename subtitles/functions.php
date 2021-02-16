@@ -14,7 +14,7 @@
 //|search for subtiles on http://www.opensubtitles.org/    |\\
 //|made by putyn @tbdev 27/2/2009                          |\\
 //|--------------------------------------------------------|\\
-require_once("xml2array.php");
+require_once(__DIR__ . "/xml2array.php");
 
 	function requestXML($name,$searchby,$lang,$cds,$format,$fps,$offset)
 		{
@@ -38,7 +38,7 @@ require_once("xml2array.php");
 			}
 			$link = "http://www.opensubtitles.org/en/search".$search.$optional."/simplexml";
 			
-				$xml = file_get_contents($link) or die ("can't connect to host to get the xml data");
+				($xml = file_get_contents($link)) || die ("can't connect to host to get the xml data");
 			return $xml;
 		}	
 	
@@ -46,8 +46,7 @@ require_once("xml2array.php");
 		{
 			$xml = new Xml2Array();
 			$xml->setXml($source);
-			$array = $xml->get_array();
-			return ($array);
+			return ($xml->get_array());
 		}
 	function get_details($array)
 		{
@@ -73,8 +72,8 @@ require_once("xml2array.php");
 			$pager="";
 			if($itemsfound > 40)
 				$links = ($itemsfound/40);
-				if (intval($links) != $links) 
-					$links = intval($links)+1;
+				if ((int) $links != $links) 
+					$links = (int) $links+1;
 			if($links > 1){
 				$pager="";
 				for($i=0;$i<$links;$i++)

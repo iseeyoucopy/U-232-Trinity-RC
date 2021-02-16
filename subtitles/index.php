@@ -14,8 +14,8 @@
 //|search for subtiles on http://www.opensubtitles.org/    |\\
 //|made by putyn @tbdev 27/2/2009                          |\\
 //|--------------------------------------------------------|\\
-require_once("function_menu.php");
-require_once("functions.php");
+require_once(__DIR__ . "/function_menu.php");
+require_once(__DIR__ . "/functions.php");
 
   $pager="";
 	$name = (isset($_GET["sub_name"]) ? $_GET["sub_name"] : "");

@@ -27,8 +27,7 @@ function build_menu($name,$arr,$val="")
 			{
 				$menu .="<option value=\"".$value."\" ".($value == $val ? "selected=\"selected\"" : "").">".$opname."</option>\n";
 			}
-		$menu .="</select>";
-		return $menu;
+		return $menu . "</select>";
 	}
 //arrays for menu 
 $lang_menu = array(
