@@ -270,7 +270,7 @@ if (empty($mode)) {
          </tr>
   <tr>
   <td>{$lang['backup_mysqldump']}<br /><font class='small'>" . $mysqldump_path . "</font></td>
-  <td width='1%' align='center'><b>" . (preg_match('/mysqldump/i', exec($mysqldump_path)) ? "<font color='green'>{$lang['backup_yes']}</font>" : "<font color='red'>{$lang['backup_no']}</font>") . "</b></td>
+  <td width='1%' align='center'><b>" . (false !== stripos(exec($mysqldump_path), "mysqldump") ? "<font color='green'>{$lang['backup_yes']}</font>" : "<font color='red'>{$lang['backup_no']}</font>") . "</b></td>
          </tr>
   <tr>
   <td>{$lang['backup_downafter']}</td>

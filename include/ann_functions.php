@@ -391,7 +391,7 @@ function benc_dict($d)
 }
 function hash_where($name, $hash)
 {
-    $shhash = preg_replace('/ *$/s', "", $hash);
+    $shhash = rtrim($hash, ' ');
     return "($name = " . ann_sqlesc($hash) . " OR $name = " . ann_sqlesc($shhash) . ")";
 }
 function portblacklisted($port)
