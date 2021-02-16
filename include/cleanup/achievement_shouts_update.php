@@ -16,7 +16,7 @@ function docleanup($data)
     set_time_limit(0);
     ignore_user_abort(1);
     // *Updated* Daily Shoutbox Achievements Mod by MelvinMeow
-    $res = sql_query("SELECT id, dailyshouts, dailyshoutlvl FROM usersachiev WHERE dailyshouts >= '10'") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id, dailyshouts, dailyshoutlvl FROM usersachiev WHERE dailyshouts >= '10'")) || sqlerr(__FILE__, __LINE__);
     $msg_buffer = $usersachiev_buffer = $achievements_buffer = array();
     if ($res->num_rows > 0) {
         $dt = TIME_NOW;
@@ -78,9 +78,9 @@ function docleanup($data)
         }
         $count = count($achievements_buffer);
         if ($count > 0) {
-            sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) or sqlerr(__FILE__, __LINE__);
-            sql_query("INSERT INTO achievements (userid, date, achievement, icon, description) VALUES " . implode(', ', $achievements_buffer) . " ON DUPLICATE key UPDATE date=values(date),achievement=values(achievement),icon=values(icon),description=values(description)") or sqlerr(__FILE__, __LINE__);
-            sql_query("INSERT INTO usersachiev (id, $var1, achpoints) VALUES " . implode(', ', $usersachiev_buffer) . " ON DUPLICATE key UPDATE $var1=values($var1), achpoints=achpoints+values(achpoints)") or sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) || sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO achievements (userid, date, achievement, icon, description) VALUES " . implode(', ', $achievements_buffer) . " ON DUPLICATE key UPDATE date=values(date),achievement=values(achievement),icon=values(icon),description=values(description)") || sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO usersachiev (id, $var1, achpoints) VALUES " . implode(', ', $usersachiev_buffer) . " ON DUPLICATE key UPDATE $var1=values($var1), achpoints=achpoints+values(achpoints)") || sqlerr(__FILE__, __LINE__);
             if ($queries > 0) write_log("Achievements Cleanup: Achievements Shouter Completed using $queries queries. Shouter Achievements awarded to - " . $count . " Member(s)");
         }
         unset($usersachiev_buffer, $achievements_buffer, $msgs_buffer, $count);

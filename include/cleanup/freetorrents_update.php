@@ -16,7 +16,7 @@ function docleanup($data)
     set_time_limit(0);
     ignore_user_abort(1);
     //=== Clean free
-    $res = sql_query("SELECT id, free FROM torrents WHERE free > 1 AND free < " . TIME_NOW) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id, free FROM torrents WHERE free > 1 AND free < " . TIME_NOW)) || sqlerr(__FILE__, __LINE__);
     $Free_buffer = array();
     if ($res->num_rows > 0) {
         while ($arr = $res->fetch_assoc()) {
@@ -27,7 +27,7 @@ function docleanup($data)
         }
         $count = count($Free_buffer);
         if ($count > 0) {
-            sql_query("INSERT INTO torrents (id, free) VALUES " . implode(', ', $Free_buffer) . " ON DUPLICATE key UPDATE free=values(free)") or sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO torrents (id, free) VALUES " . implode(', ', $Free_buffer) . " ON DUPLICATE key UPDATE free=values(free)") || sqlerr(__FILE__, __LINE__);
             write_log("Cleanup - Removed Free from " . $count . " torrents");
         }
         unset($Free_buffer, $count);

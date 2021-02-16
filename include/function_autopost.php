@@ -19,17 +19,17 @@ function auto_post($subject = "Error - Subject Missing", $body = "Error - No Bod
         $arr = $res->fetch_assoc();
         $topicid = (int)$arr['id'];
     } else { // Create new topic.
-        sql_query("INSERT INTO topics (user_id, forum_id, topic_name) VALUES({$TRINITY20['bot_id']}, {$TRINITY20['staff']['forumid']}, $subject)") or sqlerr(__FILE__, __LINE__);
+        sql_query("INSERT INTO topics (user_id, forum_id, topic_name) VALUES({$TRINITY20['bot_id']}, {$TRINITY20['staff']['forumid']}, $subject)") || sqlerr(__FILE__, __LINE__);
         $topicid = $mysqli->insert_id;
     $cache->delete('last_posts_' . $CURUSER['class']);
     $cache->delete('forum_posts_' . $CURUSER['id']);
     }
     $added = TIME_NOW;
-    sql_query("INSERT INTO posts (topic_id, user_id, added, body) " . "VALUES(" . sqlesc($topicid) . ", {$TRINITY20['bot_id']}, $added, ".sqlesc($body).")") or sqlerr(__FILE__, __LINE__);
-    $res = sql_query("SELECT id FROM posts WHERE topic_id=" . sqlesc($topicid) . " ORDER BY id DESC LIMIT 1") or sqlerr(__FILE__, __LINE__);
-    $arr = $res->fetch_row() or die("No post found");
+    sql_query("INSERT INTO posts (topic_id, user_id, added, body) " . "VALUES(" . sqlesc($topicid) . ", {$TRINITY20['bot_id']}, $added, ".sqlesc($body).")") || sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id FROM posts WHERE topic_id=" . sqlesc($topicid) . " ORDER BY id DESC LIMIT 1")) || sqlerr(__FILE__, __LINE__);
+    ($arr = $res->fetch_row()) || die("No post found");
     $postid = $arr[0];
-    sql_query("UPDATE topics SET last_post=" . sqlesc($postid) . " WHERE id=" . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
+    sql_query("UPDATE topics SET last_post=" . sqlesc($postid) . " WHERE id=" . sqlesc($topicid)) || sqlerr(__FILE__, __LINE__);
     $cache->delete('last_posts_' . $CURUSER['class']);
     $cache->delete('forum_posts_' . $CURUSER['id']);
     }

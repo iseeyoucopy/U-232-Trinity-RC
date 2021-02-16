@@ -91,7 +91,7 @@ function searchfield($entry)
     //
     // Filter out strange characters like ^, $, &, change "it's" to "its"
     //
-    for ($i = 0; $i < sizeof($drop_char_match); $i++) {
+    for ($i = 0; $i < count($drop_char_match); $i++) {
         $entry = str_replace($drop_char_match[$i], $drop_char_replace[$i], $entry);
     }
     return $entry;
@@ -110,7 +110,7 @@ function search_text_in_db($searchstr, $base_sql, $where_search, $add_where = ar
         'not',
         'and'
     );
-    $add_where = (sizeof($add_where) ? ' AND ' . implode(' AND ', $add_where) : '');
+    $add_where = (count($add_where) !== 0 ? ' AND ' . implode(' AND ', $add_where) : '');
     $cleansearchstr = searchfield($searchstr);
     $lower_searchstr = utf_strtolower($searchstr);
     if ($strict) {
@@ -119,7 +119,7 @@ function search_text_in_db($searchstr, $base_sql, $where_search, $add_where = ar
         );
     } else {
         $split_search = split_words($cleansearchstr);
-        if ($lower_searchstr <> $searchstr) {
+        if ($lower_searchstr != $searchstr) {
             $search_full_string = true;
             foreach ($match_types AS $_null => $match_type) {
                 if (strpos($lower_searchstr, $match_type) !== false) {
@@ -135,7 +135,7 @@ function search_text_in_db($searchstr, $base_sql, $where_search, $add_where = ar
     $current_match_type = 'and';
     $word_match = array();
     $result_list = array();
-    for ($i = 0; $i < sizeof($split_search); $i++) {
+    for ($i = 0; $i < count($split_search); $i++) {
         if (utf_strlen(str_replace(array(
             '*',
             '%'
@@ -169,17 +169,17 @@ function search_text_in_db($searchstr, $base_sql, $where_search, $add_where = ar
             $row = array();
             while ($temp_row = $result->fetch_row()) {
                 $row[$temp_row['id']] = 1;
-                if (!$word_count) {
+                if ($word_count === 0) {
                     $result_list[$temp_row['id']] = 1;
-                } else if ($current_match_type == 'or') {
+                } elseif ($current_match_type == 'or') {
                     $result_list[$temp_row['id']] = 1;
-                } else if ($current_match_type == 'not') {
+                } elseif ($current_match_type == 'not') {
                     $result_list[$temp_row['id']] = 0;
                 }
             }
             if ($current_match_type == 'and' && $word_count) {
                 @reset($result_list);
-                foreach ($result_list AS $id => $match_count) {
+                foreach (array_keys($result_list) AS $id) {
                     if (!isset($row[$id]) || !$row[$id]) {
                         //$result_list[$id] = 0;
                         @$result_list[$id]-= 1;

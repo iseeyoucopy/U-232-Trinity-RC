@@ -16,7 +16,7 @@ function docleanup($data)
     set_time_limit(0);
     ignore_user_abort(1);
     /** sync torrent counts - pdq **/
-    $tsql = 'SELECT t.id, t.seeders, (
+    ($tsql = 'SELECT t.id, t.seeders, (
     SELECT COUNT(*)
     FROM xbt_peers
     WHERE tid = t.id AND `left` = "0"
@@ -32,7 +32,7 @@ function docleanup($data)
     WHERE torrent = t.id
     ) AS comments_num
     FROM torrents AS t
-    ORDER BY t.id ASC' or sqlerr(__FILE__, __LINE__);
+    ORDER BY t.id ASC') || sqlerr(__FILE__, __LINE__);
     $updatetorrents = array();
     $tq = sql_query($tsql);
     while ($t = $tq->fetch_assoc()) {
@@ -40,7 +40,7 @@ function docleanup($data)
     }
     $tq->free();
     $mysqli->next_result();
-    if (count($updatetorrents)) sql_query('INSERT INTO torrents (id, seeders, leechers, comments) VALUES ' . implode(', ', $updatetorrents) . ' ON DUPLICATE KEY UPDATE seeders = VALUES(seeders), leechers = VALUES(leechers), comments = VALUES(comments)') or sqlerr(__FILE__, __LINE__);
+    if (count($updatetorrents) > 0) sql_query('INSERT INTO torrents (id, seeders, leechers, comments) VALUES ' . implode(', ', $updatetorrents) . ' ON DUPLICATE KEY UPDATE seeders = VALUES(seeders), leechers = VALUES(leechers), comments = VALUES(comments)') || sqlerr(__FILE__, __LINE__);
     unset($updatetorrents);
     if ($queries > 0) write_log("XBT Torrent clean-------------------- XBT Torrent cleanup Complete using $queries queries --------------------");
     if (false !== $mysqli->affected_rows) {

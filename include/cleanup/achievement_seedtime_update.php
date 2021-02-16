@@ -26,7 +26,7 @@ function docleanup($data)
     $seedtime8 = 10368000; // 120days
     $seedtime9 = 12960000; // 200days
     $seedtime10 = 31536000; //1year
-    $res = sql_query("SELECT distinct snatched.userid, snatched.seedtime, usersachiev.dayseed FROM snatched LEFT JOIN usersachiev ON snatched.userid = usersachiev.id WHERE seedtime >= " . sqlesc($seedtime)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT distinct snatched.userid, snatched.seedtime, usersachiev.dayseed FROM snatched LEFT JOIN usersachiev ON snatched.userid = usersachiev.id WHERE seedtime >= " . sqlesc($seedtime))) || sqlerr(__FILE__, __LINE__);
     $msg_buffer = $usersachiev_buffer = $achievements_buffer = array();
     if ($res->num_rows > 0) {
         $dt = TIME_NOW;
@@ -139,9 +139,9 @@ function docleanup($data)
         }
         $count = count($achievements_buffer);
         if ($count > 0) {
-            sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) or sqlerr(__FILE__, __LINE__);
-            sql_query("INSERT INTO achievements (userid, date, achievement, icon, description) VALUES " . implode(', ', $achievements_buffer) . " ON DUPLICATE key UPDATE date=values(date),achievement=values(achievement),icon=values(icon),description=values(description)") or sqlerr(__FILE__, __LINE__);
-            sql_query("INSERT INTO usersachiev (id, $var1, achpoints) VALUES " . implode(', ', $usersachiev_buffer) . " ON DUPLICATE key UPDATE $var1=values($var1), achpoints=achpoints+values(achpoints)") or sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) || sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO achievements (userid, date, achievement, icon, description) VALUES " . implode(', ', $achievements_buffer) . " ON DUPLICATE key UPDATE date=values(date),achievement=values(achievement),icon=values(icon),description=values(description)") || sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO usersachiev (id, $var1, achpoints) VALUES " . implode(', ', $usersachiev_buffer) . " ON DUPLICATE key UPDATE $var1=values($var1), achpoints=achpoints+values(achpoints)") || sqlerr(__FILE__, __LINE__);
             if ($queries > 0) write_log("Achievements Cleanup: Achievements Seedtime Completed using $queries queries. Seedtime Achievements awarded to - " . $count . " Member(s)");
         }
         unset($usersachiev_buffer, $achievements_buffer, $msgs_buffer, $count);

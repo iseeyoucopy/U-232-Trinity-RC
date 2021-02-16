@@ -18,7 +18,7 @@ function docleanup($data)
     // Remove expired referrers...	
 	 $days = 30*86400; // 30 days
 	 $dt = (TIME_NOW - $days);
-	 sql_query("DELETE FROM referrers WHERE date < ".sqlesc($dt)) or sqlerr(__FILE__, __LINE__);
+	 sql_query("DELETE FROM referrers WHERE date < ".sqlesc($dt)) || sqlerr(__FILE__, __LINE__);
 	 // End Delete Last Referrers
     if ($queries > 0) write_log("Referrer Clean -------------------- Referrer cleanup Complete using $queries queries --------------------");
     if (false !== $mysqli->affected_rows) {

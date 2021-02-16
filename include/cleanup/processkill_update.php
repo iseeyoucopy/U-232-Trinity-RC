@@ -18,7 +18,7 @@ function docleanup($data)
     $sql = sql_query("SHOW PROCESSLIST");
     $cnt = 0;
     while ($arr = $sql->fetch_assoc()) {
-        if ($arr['db'] == $TRINITY20['mysql_db'] AND $arr['Command'] == 'Sleep' AND $arr['Time'] > 60) {
+        if ($arr['db'] == $TRINITY20['mysql_db'] && $arr['Command'] == 'Sleep' && $arr['Time'] > 60) {
             sql_query("KILL {$arr['Id']}");
             $cnt++;
         }

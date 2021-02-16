@@ -10,10 +10,10 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once ('emoticons.php');
+require_once (__DIR__ . '/emoticons.php');
 function source_highlighter($source, $lang2geshi)
 {
-    require_once ('geshi/geshi.php');
+    require_once (__DIR__ . '/geshi/geshi.php');
     $source = str_replace(array(
         "&#039;",
         "&gt;",
@@ -46,7 +46,7 @@ function source_highlighter($source, $lang2geshi)
 function _MediaTag($content, $type)
 {
     global $TRINITY20;
-    if ($content == '' OR $type == '') return;
+    if ($content == '' || $type == '') return;
     $return = '';
     switch ($type) {
     case 'youtube':
@@ -56,13 +56,13 @@ function _MediaTag($content, $type)
         $return = preg_replace("#^http://(?:|www\.)liveleak\.com/view\?i=([_a-zA-Z0-9\-]+)+?$#i", "<object type='application/x-shockwave-flash' height='355' width='425' data='http://www.liveleak.com/e/\\1'><param name='movie' value='http://www.liveleak.com/e/\\1' /><param name='allowScriptAccess' value='sameDomain' /><param name='quality' value='best' /><param name='bgcolor' value='#FFFFFF' /><param name='scale' value='noScale' /><param name='salign' value='TL' /><param name='FlashVars' value='playerMode=embedded' /><param name='wmode' value='transparent' /></object>", $content);
         break;
     case 'GameTrailers':
-        $return = preg_replace("#^http://(?:|www\.)gametrailers\.com/video/([\-_a-zA-Z0-9\-]+)+?/([0-9]+)+?$#i", "<object type='application/x-shockwave-flash' height='355' width='425' data='http://www.gametrailers.com/remote_wrap.php?mid=\\2'><param name='movie' value='http://www.gametrailers.com/remote_wrap.php?mid=\\2' /><param name='allowScriptAccess' value='sameDomain' /> <param name='allowFullScreen' value='true' /><param name='quality' value='high' /></object>", $content);
+        $return = preg_replace("#^http://(?:|www\\.)gametrailers\\.com/video/([\\-_a-zA-Z0-9\\-]+)+?/(\\d+)+?\$#i", "<object type='application/x-shockwave-flash' height='355' width='425' data='http://www.gametrailers.com/remote_wrap.php?mid=\\2'><param name='movie' value='http://www.gametrailers.com/remote_wrap.php?mid=\\2' /><param name='allowScriptAccess' value='sameDomain' /> <param name='allowFullScreen' value='true' /><param name='quality' value='high' /></object>", $content);
         break;
     case 'imdb':
         $return = preg_replace("#^http://(?:|www\.)imdb\.com/video/screenplay/([_a-zA-Z0-9\-]+)+?$#i", "<div class='\\1'><div style=\"padding: 3px; background-color: transparent; border: none; width:690px;\"><div style=\"text-transform: uppercase; border-bottom: 1px solid #CCCCCC; margin-bottom: 3px; font-size: 0.8em; font-weight: bold; display: block;\"><span onclick=\"if (this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display != '') { this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display = ''; this.innerHTML = '<b>Imdb Trailer: </b><a href=\'#\' onclick=\'return false;\'>hide</a>'; } else { this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display = 'none'; this.innerHTML = '<b>Imdb Trailer: </b><a href=\'#\' onclick=\'return false;\'>show</a>'; }\" ><b>Imdb Trailer: </b><a href=\"#\" onclick=\"return false;\">show</a></span></div><div class=\"quotecontent\"><div style=\"display: none;\"><iframe style='vertical-align: middle;' src='http://www.imdb.com/video/screenplay/\\1/player' scrolling='no' width='660' height='490' frameborder='0'></iframe></div></div></div></div>", $content);
         break;
     case 'vimeo':
-        $return = preg_replace("#^http://(?:|www\.)vimeo\.com/([0-9]+)+?$#i", "<object type='application/x-shockwave-flash' width='425' height='355' data='http://vimeo.com/moogaloop.swf?clip_id=\\1&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1'>
+        $return = preg_replace("#^http://(?:|www\\.)vimeo\\.com/(\\d+)+?\$#i", "<object type='application/x-shockwave-flash' width='425' height='355' data='http://vimeo.com/moogaloop.swf?clip_id=\\1&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1'>
     <param name='allowFullScreen' value='true' />
     <param name='allowScriptAccess' value='sameDomain' />
     <param name='movie' value='http://vimeo.com/moogaloop.swf?clip_id=\\1&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1' />
@@ -91,12 +91,12 @@ function validate_imgs($s){
     $end = "+\.(?:jpe?g|png|gif)";
     preg_match_all("!" . $start . "(.*)" . $end . "!Ui", $s, $result);
     $array = $result[0];
-    for ($i = 0; $i < count($array); $i++) {
-        $headers = @get_headers($array[$i]);
-		$headers0 = $headers[0] ?? '';
+    foreach ($array as $i => $array) {
+        $headers = @get_headers($array);
+        $headers0 = $headers[0] ?? '';
         if (strpos($headers0, "200") === false) {
-            $s = str_replace("[img]" . $array[$i] . "[/img]", "", $s);
-            $s = str_replace("[img=" . $array[$i] . "]", "", $s);
+            $s = str_replace("[img]" . $array . "[/img]", "", $s);
+            $s = str_replace("[img=" . $array . "]", "", $s);
         }
     }
     return $s;
@@ -109,7 +109,7 @@ function check_BBcode($html)
     preg_match_all('#</([a-z]+)>#iU', $html, $result);
     $closedtags = $result[1];
     $len_opened = count($openedtags);
-    if (count($closedtags) == $len_opened) {
+    if (count($closedtags) === $len_opened) {
         return $html;
     }
     $openedtags = array_reverse($openedtags);
@@ -129,7 +129,7 @@ function format_quotes($s)
     $openquotecount = count($openquote = $result[0]);
     preg_match_all('/\\[\/quote\\]/', $s, $result, PREG_PATTERN_ORDER);
     $closequotecount = count($closequote = $result[0]);
-    if ($openquotecount != $closequotecount) return $s; // quote mismatch. Return raw string...
+    if ($openquotecount !== $closequotecount) return $s; // quote mismatch. Return raw string...
     // Get position of opening quotes
     $openval = array();
     $pos = - 1;
@@ -138,11 +138,12 @@ function format_quotes($s)
     $closeval = array();
     $pos = - 1;
     foreach ($closequote as $val) $closeval[] = $pos = strpos($s, $val, $pos + 1);
-    for ($i = 0; $i < count($openval); $i++) if ($openval[$i] > $closeval[$i]) return $s; // Cannot close before opening. Return raw string...
+    foreach ($openval as $i => $openval) {
+        if ($openval > $closeval[$i]) return $s;
+    } // Cannot close before opening. Return raw string...
             $s = str_replace("[quote]", "<blockquote><cite>Quote:</cite>", $s);
 			$s = preg_replace("/\\[quote=(.+?)\\]/", "<blockquote><cite>\\1 wrote:</cite>", $s);
-            $s = str_replace("[/quote]", "<br /></blockquote>", $s);
-    return $s;
+    return str_replace("[/quote]", "<br /></blockquote>", $s);
 }
 function islocal($link)
 {
@@ -319,8 +320,7 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
         //$s = str_replace($code, '<span id="'.$attr.'"></span>', $s);
     }
     $s = format_quotes($s);
-    $s = check_BBcode($s);
-    return $s;
+    return check_BBcode($s);
 }
 //=== smilie function
 function get_smile()
@@ -365,7 +365,7 @@ HTML;
 		$bbcodebody.= <<<HTML
 		<span id="clickableAwesomeFont"><i class="fas fa-comment-alt" onclick="tag('mcom')" title="Mod comment" alt="Mod comment"></i></span>
 HTML;
-    $bbcodebody.= <<<HTML
+    return $bbcodebody . <<<HTML
 	<select class="input-group-field" name="fontfont" id="fontfont" onchange="font('font',this.value);" title="Font face">
           <option value="0">Font</option>
           <option value="Arial" style="font-family: Arial;">Arial</option>
@@ -437,7 +437,6 @@ HTML;
   </div>
 </div>
 HTML;
-    return $bbcodebody;
 }
 function user_key_codes($key)
 {

@@ -18,7 +18,7 @@ function docleanup($data)
     //== Failed logins
     $secs = 1 * 86400; // Delete failed login attempts per one day.
     $dt = (TIME_NOW - $secs); // calculate date.
-    sql_query("DELETE FROM failedlogins WHERE added < $dt") or sqlerr(__FILE__, __LINE__);
+    sql_query("DELETE FROM failedlogins WHERE added < $dt") || sqlerr(__FILE__, __LINE__);
     if ($queries > 0) write_log("Expired failed login clean-------------------- Expired failed logins cleanup Complete using $queries queries --------------------");
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";

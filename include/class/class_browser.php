@@ -56,7 +56,7 @@ function getBrowser()
         $ub,
         'other'
     );
-    $pattern = '#(?<browser>' . join('|', $known) . ')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
+    $pattern = '#(?<browser>' . implode('|', $known) . ')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
     if($u_agent != '') {
         if (!preg_match_all($pattern, $u_agent, $matches)) {
             // we have no matching number just continue
@@ -65,13 +65,7 @@ function getBrowser()
         // see how many we have
         $i = count($matches['browser']);
         if ($i != 1) {
-            //we will have two since we are not using 'other' argument yet
-            //see if version is before or after the name
-            if (strripos($u_agent, "Version") < strripos($u_agent, $ub)) {
-                $version = $matches['version'][0];
-            } else {
-                $version = $matches['version'][1];
-            }
+            $version = strripos($u_agent, "Version") < strripos($u_agent, $ub) ? $matches['version'][0] : $matches['version'][1];
         } else {
             $version = $matches['version'][0];
         }

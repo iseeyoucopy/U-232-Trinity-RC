@@ -1,4 +1,4 @@
- <?php
+<?php
 /**
  * -------   U-232 Codename Trinity   ----------*
  * ---------------------------------------------*
@@ -18,7 +18,7 @@ function docleanup($data)
     //== Updated demote power users
     
     //Get promotion rules from DB//
-    $pconf = sql_query('SELECT * FROM class_promo ORDER BY id ASC ') or sqlerr(__FILE__, __LINE__);
+    ($pconf = sql_query('SELECT * FROM class_promo ORDER BY id ASC ')) || sqlerr(__FILE__, __LINE__);
     while ($ac = $pconf->fetch_assoc()) {
         $class_config[$ac['name']]['id']        = $ac['id'];
         $class_config[$ac['name']]['name']      = $ac['name'];
@@ -48,7 +48,7 @@ function docleanup($data)
         while ($arr2 = $res2->fetch_assoc()) {
             $prev_class_name = $arr2['classname'];
         }
-        $res = sql_query("SELECT id, uploaded, downloaded, modcomment FROM users WHERE class = $class_value AND uploaded / downloaded < $minratio") or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query("SELECT id, uploaded, downloaded, modcomment FROM users WHERE class = $class_value AND uploaded / downloaded < $minratio")) || sqlerr(__FILE__, __LINE__);
         $subject     = "Auto Demotion";
         $msgs_buffer = $users_buffer = array();
         if ($res->num_rows > 0) {
@@ -76,8 +76,8 @@ function docleanup($data)
             }
             $count = count($users_buffer);
             if ($count > 0) {
-                sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) or sqlerr(__FILE__, __LINE__);
-                sql_query("INSERT INTO users (id, class, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE class=values(class),modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
+                sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) || sqlerr(__FILE__, __LINE__);
+                sql_query("INSERT INTO users (id, class, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE class=values(class),modcomment=values(modcomment)") || sqlerr(__FILE__, __LINE__);
                 write_log("Cleanup: Demoted " . $count . " member(s) from $class_name to $prev_class_name");
                 status_change($userid); //== For Retros announcement mod
             }

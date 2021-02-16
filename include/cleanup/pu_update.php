@@ -1,4 +1,4 @@
- <?php
+<?php
 /**
  * -------   U-232 Codename Trinity   ----------*
  * ---------------------------------------------*
@@ -24,7 +24,7 @@ function docleanup($data)
     UPLOADED AMOUNT ($LIMIT)
     */
     //Get promotion rules from DB//
-    $pconf = sql_query('SELECT * FROM class_promo ORDER BY id ASC ') or sqlerr(__FILE__, __LINE__);
+    ($pconf = sql_query('SELECT * FROM class_promo ORDER BY id ASC ')) || sqlerr(__FILE__, __LINE__);
     while ($ac = $pconf->fetch_assoc()) {
         $class_config[$ac['name']]['id']        = $ac['id'];
         $class_config[$ac['name']]['name']      = $ac['name'];
@@ -57,7 +57,7 @@ function docleanup($data)
             $prev_class_name = $arr2['classname'];
         }
         //Search for users to be updated//
-        $res = sql_query("SELECT id, uploaded, downloaded, invites, modcomment FROM users WHERE class = '$prev_class'  AND uploaded >= $limit AND uploaded / downloaded >= $minratio AND enabled='yes' AND added < $maxdt") or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query("SELECT id, uploaded, downloaded, invites, modcomment FROM users WHERE class = '$prev_class'  AND uploaded >= $limit AND uploaded / downloaded >= $minratio AND enabled='yes' AND added < $maxdt")) || sqlerr(__FILE__, __LINE__);
         $msgs_buffer = $users_buffer = array();
         if ($res->num_rows > 0) {
             
@@ -88,8 +88,8 @@ function docleanup($data)
             }
             $count = count($users_buffer);
             if ($count > 0) {
-                sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) or sqlerr(__FILE__, __LINE__);
-                sql_query("INSERT INTO users (id, class, invites, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE class=values(class), invites = invites+values(invites), modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
+                sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) || sqlerr(__FILE__, __LINE__);
+                sql_query("INSERT INTO users (id, class, invites, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE class=values(class), invites = invites+values(invites), modcomment=values(modcomment)") || sqlerr(__FILE__, __LINE__);
                 write_log("Cleanup: Promoted " . $count . " member(s) from " . $prev_class_name . " to " . $class_name . "");
                 status_change($userid); //== For Retros announcement mod
             }

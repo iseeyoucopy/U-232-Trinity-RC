@@ -19,7 +19,7 @@ function docleanup($data)
     $secs = 350 * 86400;
     $dt = (TIME_NOW - $secs);
     $maxclass = UC_STAFF;
-    $res = sql_query("SELECT id, username, parked, status, last_access, mail_notified, last_notified, email, added FROM users WHERE enabled='yes' AND parked='no' AND status='confirmed' AND class < $maxclass AND last_access < $dt AND mail_notified='no' AND last_notified='0' ORDER BY last_access ASC") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id, username, parked, status, last_access, mail_notified, last_notified, email, added FROM users WHERE enabled='yes' AND parked='no' AND status='confirmed' AND class < $maxclass AND last_access < $dt AND mail_notified='no' AND last_notified='0' ORDER BY last_access ASC")) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows > 0) {
         while ($arr = $res->fetch_assoc()){
             $userid = $arr["id"];
@@ -41,7 +41,7 @@ function docleanup($data)
         }
             
     }
-    sql_query("UPDATE users SET mail_notified = 'yes', last_notified = ".TIME_NOW ." WHERE enabled='yes' AND parked='no' AND status='confirmed' AND class < $maxclass AND last_access < $dt AND mail_notified='no' AND last_notified='0' ORDER BY last_access ASC") or sqlerr(__FILE__, __LINE__);
+    sql_query("UPDATE users SET mail_notified = 'yes', last_notified = ".TIME_NOW ." WHERE enabled='yes' AND parked='no' AND status='confirmed' AND class < $maxclass AND last_access < $dt AND mail_notified='no' AND last_notified='0' ORDER BY last_access ASC") || sqlerr(__FILE__, __LINE__);
     if ($queries > 0) write_log("Mail Inactive -------------------- Mail Inactive Users Complete using $queries queries--------------------");
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " users mailed.";

@@ -19,12 +19,12 @@ function docleanup($data)
     if ($TRINITY20['hnr_online'] == 1){
     //===09 hnr by sir_snugglebunny
     $secs =  43200;
-    $res = sql_query('SELECT tid, uid FROM xbt_peers WHERE seedtime = \'0\' OR seedtime < '.sqlesc($secs).' AND completed >=\'1\' AND downloaded >\'0\'') or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query('SELECT tid, uid FROM xbt_peers WHERE seedtime = \'0\' OR seedtime < '.sqlesc($secs).' AND completed >=\'1\' AND downloaded >\'0\'')) || sqlerr(__FILE__, __LINE__);
     while ($arr = $res->fetch_assoc()) {
-        sql_query('UPDATE xbt_peers SET mark_of_cain = \'yes\', hit_and_run = '.TIME_NOW.' WHERE  tid='.sqlesc($arr['tid']).' AND uid='.sqlesc($arr['uid'])) or sqlerr(__FILE__, __LINE__);
+        sql_query('UPDATE xbt_peers SET mark_of_cain = \'yes\', hit_and_run = '.TIME_NOW.' WHERE  tid='.sqlesc($arr['tid']).' AND uid='.sqlesc($arr['uid'])) || sqlerr(__FILE__, __LINE__);
     }
     //=== hit and run... disable Downloading rights if they have x marks of cain
-    $res_fuckers = sql_query('SELECT COUNT(*) AS poop, xbt_peers.uid, users.username, users.modcomment, users.hit_and_run_total, users.downloadpos, users.can_leech FROM xbt_peers LEFT JOIN users ON xbt_peers.uid = users.id WHERE xbt_peers.mark_of_cain = \'yes\' AND users.hnrwarn = \'no\' AND users.immunity = \'0\' GROUP BY xbt_peers.uid') or sqlerr(__FILE__, __LINE__);
+    ($res_fuckers = sql_query('SELECT COUNT(*) AS poop, xbt_peers.uid, users.username, users.modcomment, users.hit_and_run_total, users.downloadpos, users.can_leech FROM xbt_peers LEFT JOIN users ON xbt_peers.uid = users.id WHERE xbt_peers.mark_of_cain = \'yes\' AND users.hnrwarn = \'no\' AND users.immunity = \'0\' GROUP BY xbt_peers.uid')) || sqlerr(__FILE__, __LINE__);
     while ($arr_fuckers = $res_fuckers->fetch_assoc()) {
         if ($arr_fuckers['poop'] > $TRINITY20['cainallowed'] && $arr_fuckers['downloadpos'] == 1) {
             //=== set them to no DLs
@@ -36,9 +36,9 @@ function docleanup($data)
             $_pms[] = '(0,'.sqlesc($arr_fuckers['uid']).','.sqlesc(TIME_NOW).','.$msg.','.$subject.',0)';
 		      $_users[] = '('.sqlesc($arr_fuckers['uid']).','.sqlesc($arr_fuckers['poop']).',0, \'yes\',0,'.$modcom.')';
             if(count($_pms) > 0)
-	         sql_query("INSERT INTO messages (sender, receiver, added, msg, subject, poster) VALUES ".implode(',',$_pms)) or sqlerr(__FILE__, __LINE__);	
+	         sql_query("INSERT INTO messages (sender, receiver, added, msg, subject, poster) VALUES ".implode(',',$_pms)) || sqlerr(__FILE__, __LINE__);	
 	         if(count($_users) > 0)
-	         sql_query("INSERT INTO users(id,hit_and_run_total,downloadpos,hnrwarn,can_leech,modcomment) VALUES ".implode(',',$_users)." ON DUPLICATE key UPDATE hit_and_run_total=hit_and_run_total+values(hit_and_run_total),downloadpos=values(downloadpos),hnrwarn=values(hnrwarn),can_leech=values(can_leech),modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
+	         sql_query("INSERT INTO users(id,hit_and_run_total,downloadpos,hnrwarn,can_leech,modcomment) VALUES ".implode(',',$_users)." ON DUPLICATE key UPDATE hit_and_run_total=hit_and_run_total+values(hit_and_run_total),downloadpos=values(downloadpos),hnrwarn=values(hnrwarn),can_leech=values(can_leech),modcomment=values(modcomment)") || sqlerr(__FILE__, __LINE__);
 	    unset($_pms,$_users);
             $update['hit_and_run_total'] = ($arr_fuckers['hit_and_run_total'] + $arr_fuckers['poop']);
             $cache->update_row('user' . $arr_fuckers['uid'], [
@@ -64,9 +64,9 @@ function docleanup($data)
         }
     }
     //=== hit and run... turn their DLs back on if they start seeding again
-    $res_good_boy = sql_query('SELECT id, username, modcomment FROM users WHERE hnrwarn = \'yes\' AND downloadpos = \'0\' AND can_leech=\'0\'') or sqlerr(__FILE__, __LINE__);
+    ($res_good_boy = sql_query('SELECT id, username, modcomment FROM users WHERE hnrwarn = \'yes\' AND downloadpos = \'0\' AND can_leech=\'0\'')) || sqlerr(__FILE__, __LINE__);
     while ($arr_good_boy = $res_good_boy->fetch_assoc()) {
-        $res_count = sql_query('SELECT COUNT(*) FROM xbt_peers WHERE seedtime >= '.sqlesc($secs).' AND uid = '.sqlesc($arr_good_boy['id']).' AND mark_of_cain = \'yes\' AND active=\'1\'') or sqlerr(__FILE__, __LINE__);
+        ($res_count = sql_query('SELECT COUNT(*) FROM xbt_peers WHERE seedtime >= '.sqlesc($secs).' AND uid = '.sqlesc($arr_good_boy['id']).' AND mark_of_cain = \'yes\' AND active=\'1\'')) || sqlerr(__FILE__, __LINE__);
         $arr_count = $res_count->fetch_row();
         if ($arr_count[0] < $TRINITY20['cainallowed']) {
             //=== set them to yes DLs
@@ -78,10 +78,10 @@ function docleanup($data)
             $_pms[] = '(0,'.sqlesc($arr_good_boy['id']).','.sqlesc(TIME_NOW).','.$msg.','.$subject.',0)';
 		      $_users[] = '('.sqlesc($arr_good_boy['id']).',1,\'no\',1,'.$modcom.')';
             if(count($_pms) > 0)
-	         sql_query("INSERT INTO messages (sender, receiver, added, msg, subject, poster) VALUES ".implode(',',$_pms)) or sqlerr(__FILE__, __LINE__);	
+	         sql_query("INSERT INTO messages (sender, receiver, added, msg, subject, poster) VALUES ".implode(',',$_pms)) || sqlerr(__FILE__, __LINE__);	
 	         if(count($_users) > 0)
-	         sql_query("INSERT INTO users(id,downloadpos,hnrwarn,can_leech,modcomment) VALUES ".implode(',',$_users)." ON DUPLICATE key UPDATE downloadpos=values(downloadpos),hnrwarn=values(hnrwarn),can_leech=values(can_leech),modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
-                 sql_query('UPDATE xbt_peers SET mark_of_cain = \'no\', hit_and_run = \'0\' WHERE uid='.sqlesc($arr_good_boy['id'])) or sqlerr(__FILE__, __LINE__);
+	         sql_query("INSERT INTO users(id,downloadpos,hnrwarn,can_leech,modcomment) VALUES ".implode(',',$_users)." ON DUPLICATE key UPDATE downloadpos=values(downloadpos),hnrwarn=values(hnrwarn),can_leech=values(can_leech),modcomment=values(modcomment)") || sqlerr(__FILE__, __LINE__);
+                 sql_query('UPDATE xbt_peers SET mark_of_cain = \'no\', hit_and_run = \'0\' WHERE uid='.sqlesc($arr_good_boy['id'])) || sqlerr(__FILE__, __LINE__);
             //tid='.sqlesc($arr['tid']).' AND
 	    unset($_pms,$_users);
         $cache->update_row('user' . $arr_good_boy['id'], [

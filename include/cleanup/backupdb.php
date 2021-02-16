@@ -15,14 +15,14 @@ function tables($no_data = "")
     global $TRINITY20;
     if (!empty($no_data));
     $no_data = explode("|", $no_data);
-    $r = sql_query("SHOW TABLES") or sqlerr(__FILE__, __LINE__);
+    ($r = sql_query("SHOW TABLES")) || sqlerr(__FILE__, __LINE__);
     while ($a = $r->fetch_assoc()) $temp[] = $a;
     foreach ($temp as $k => $tname) {
         $tn = $tname["Tables_in_{$TRINITY20['mysql_db']}"];
         if (in_array($tn, $no_data)) continue;
         $tables[] = $tn;
     }
-    return join(" ", $tables);
+    return implode(" ", $tables);
 }
 function docleanup($data)
 {
@@ -43,7 +43,7 @@ function docleanup($data)
         if ((TIME_NOW - filemtime($file)) > 3 * 86400) unlink($file);
     }
     $ext = "db_" . date("m_d_y", TIME_NOW) . ".sql.bz2";
-    sql_query("INSERT INTO dbbackup (name, added, userid) VALUES (" . sqlesc($ext) . ", " . TIME_NOW . ", " . $TRINITY20['site']['owner'] . ")") or sqlerr(__FILE__, __LINE__);
+    sql_query("INSERT INTO dbbackup (name, added, userid) VALUES (" . sqlesc($ext) . ", " . TIME_NOW . ", " . $TRINITY20['site']['owner'] . ")") || sqlerr(__FILE__, __LINE__);
     if ($queries > 0) write_log("Auto-dbbackup----------------------Auto Back Up Complete using $queries queries---------------------");
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";

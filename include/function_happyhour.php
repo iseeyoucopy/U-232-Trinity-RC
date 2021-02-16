@@ -19,14 +19,12 @@ function happyHour($action)
     if ($action == "generate") {
         $nextDay = date("Y-m-d", TIME_NOW + 86400);
         $nextHoura = mt_rand(0, 2);
-        if ($nextHoura == 2) $nextHourb = mt_rand(0, 3);
-        else $nextHourb = mt_rand(0, 9);
+        $nextHourb = $nextHoura == 2 ? mt_rand(0, 3) : mt_rand(0, 9);
         $nextHour = $nextHoura . $nextHourb;
         $nextMina = mt_rand(0, 5);
         $nextMinb = mt_rand(0, 9);
         $nextMin = $nextMina . $nextMinb;
-        $happyHour = $nextDay . " " . $nextHour . ":" . $nextMin . "";
-        return $happyHour;
+        return $nextDay . " " . $nextHour . ":" . $nextMin . "";
     }
     $file = $TRINITY20['happyhour'];
     $happy = unserialize(file_get_contents($file));
@@ -35,15 +33,14 @@ function happyHour($action)
     $curDate = TIME_NOW;
     $nextDate = $happyHour + 3600;
     //action check
-    if ($action == "check") {
-        if ($happyDate < $curDate && $nextDate >= $curDate) return true;
+    if ($action == "check" && ($happyDate < $curDate && $nextDate >= $curDate)) {
+        return true;
     }
     //action time left
     if ($action == "time") {
         $timeLeft = mkprettytime(($happyHour + 3600) - TIME_NOW);
         $timeLeft = explode(":", $timeLeft);
-        $time = ($timeLeft[0] . " min : " . $timeLeft[1] . " sec");
-        return $time;
+        return $timeLeft[0] . " min : " . $timeLeft[1] . " sec";
     }
     //this will set all torrent free or just one category
     if ($action == "todo") {
@@ -54,8 +51,8 @@ function happyHour($action)
     }
     //this will generate the multiplier so every torrent downloaded in the happy hour will have upload multiplied but this
     if ($action == "multiplier") {
-        $multiplier = rand(11, 55) / 10; //max value of the multiplier will be 5,5 || you could change it to a higher or a lower value
-        return $multiplier;
+        //max value of the multiplier will be 5,5 || you could change it to a higher or a lower value
+        return rand(11, 55) / 10;
     }
 }
 function happyCheck($action, $id = NUll)
@@ -95,6 +92,6 @@ function happyFile($act)
 function happyLog($userid, $torrentid, $multi)
 {
     $time = sqlesc(TIME_NOW);
-    sql_query("INSERT INTO happylog (userid, torrentid,multi, date) VALUES(".sqlesc($userid).", ".sqlesc($torrentid).", ".sqlesc($multi).", $time)") or sqlerr(__FILE__, __LINE__);
+    sql_query("INSERT INTO happylog (userid, torrentid,multi, date) VALUES(".sqlesc($userid).", ".sqlesc($torrentid).", ".sqlesc($multi).", $time)") || sqlerr(__FILE__, __LINE__);
 }
 ?>

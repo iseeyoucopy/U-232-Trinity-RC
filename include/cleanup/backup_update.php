@@ -17,7 +17,7 @@ function docleanup($data)
     ignore_user_abort(1);
     //== Delete old backup's
     $days = 3;
-    $res = sql_query("SELECT id, name FROM dbbackup WHERE added < " . sqlesc(TIME_NOW - ($days * 86400))) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id, name FROM dbbackup WHERE added < " . sqlesc(TIME_NOW - ($days * 86400)))) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows > 0) {
         $ids = array();
         while ($arr = $res->fetch_assoc()) {
@@ -25,7 +25,7 @@ function docleanup($data)
             $filename = $TRINITY20['backup_dir'] . '/' . $arr['name'];
             if (is_file($filename)) unlink($filename);
         }
-        sql_query('DELETE FROM dbbackup WHERE id IN (' . implode(', ', $ids) . ')') or sqlerr(__FILE__, __LINE__);
+        sql_query('DELETE FROM dbbackup WHERE id IN (' . implode(', ', $ids) . ')') || sqlerr(__FILE__, __LINE__);
     }
     //== end
     if ($queries > 0) write_log("Backup Clean -------------------- Backup Clean Complete using $queries queries--------------------");

@@ -23,7 +23,7 @@ function docleanup($data)
     $cache->delete('totalfunds_');
     // ===End
     //== Donation Progress Mod Updated For Tbdev 2009/2010 by Bigjoos/pdq
-    $res = sql_query("SELECT id, modcomment, vipclass_before FROM users WHERE donor='yes' AND donoruntil < " . TIME_NOW . " AND donoruntil <> '0'") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id, modcomment, vipclass_before FROM users WHERE donor='yes' AND donoruntil < " . TIME_NOW . " AND donoruntil <> '0'")) || sqlerr(__FILE__, __LINE__);
     $msgs_buffer = $users_buffer = array();
     if ($res->num_rows > 0) {
         $subject = "Donor status removed by system.";
@@ -53,9 +53,9 @@ function docleanup($data)
         }
         $count = count($users_buffer);
         if ($count > 0) {
-            sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) or sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) || sqlerr(__FILE__, __LINE__);
             sql_query("INSERT INTO users (id, class, donor, donoruntil, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE class=values(class),
-            donor=values(donor),donoruntil=values(donoruntil),modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
+            donor=values(donor),donoruntil=values(donoruntil),modcomment=values(modcomment)") || sqlerr(__FILE__, __LINE__);
             write_log("Cleanup: Donation status expired - " . $count . " Member(s)");
         }
         unset($users_buffer, $msgs_buffer, $update, $count);

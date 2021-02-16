@@ -24,7 +24,7 @@ function docleanup($data)
      $What_user_id = (XBT_TRACKER == true ? 'uid' : 'userid');
      $What_Table = (XBT_TRACKER == true ? 'xbt_peers' : 'peers');
      $What_Where = (XBT_TRACKER == true ? "`left` = 0 AND `active` = 1" : "seeder = 'yes' AND connectable = 'yes'");
-     $res = sql_query('SELECT COUNT('.$What_id.') As tcount, '.$What_user_id.', seedbonus, users.id As users_id FROM '.$What_Table.' LEFT JOIN users ON users.id = '.$What_user_id.' WHERE '.$What_Where.' GROUP BY '.$What_user_id) or sqlerr(__FILE__, __LINE__);
+     ($res = sql_query('SELECT COUNT('.$What_id.') As tcount, '.$What_user_id.', seedbonus, users.id As users_id FROM '.$What_Table.' LEFT JOIN users ON users.id = '.$What_user_id.' WHERE '.$What_Where.' GROUP BY '.$What_user_id)) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows > 0) {
         while ($arr = $res->fetch_assoc()) {
             /*if ($arr['tcount'] >= 5) $arr['tcount'] = 1;*/
@@ -42,7 +42,7 @@ function docleanup($data)
         }
         $count = count($users_buffer);
         if ($count > 0) {
-            sql_query("INSERT INTO users (id,seedbonus) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE seedbonus=seedbonus+values(seedbonus)") or sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO users (id,seedbonus) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE seedbonus=seedbonus+values(seedbonus)") || sqlerr(__FILE__, __LINE__);
             write_log("Cleanup - " . $count . " users received seedbonus");
         }
         unset($users_buffer, $update, $count);

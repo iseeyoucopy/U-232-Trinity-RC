@@ -22,7 +22,7 @@ function docleanup($data)
             $id = $row[0];
             $ar[$id] = 1;
         }
-        if (!count($ar)) break;
+        if (count($ar) === 0) break;
 
         $dp = opendir($TRINITY20['torrent_dir']);
         if (!$dp) break;
@@ -37,7 +37,7 @@ function docleanup($data)
             unlink($ff);
         }
         closedir($dp);
-        if (!count($ar2)) break;
+        if (count($ar2) === 0) break;
 
         $delids = array();
         foreach (array_keys($ar) as $k) {
@@ -45,8 +45,8 @@ function docleanup($data)
             $delids[] = $k;
             unset($ar[$k]);
         }
-        if (count($delids)) {
-            $ids = join(",", $delids);
+        if (count($delids) > 0) {
+            $ids = implode(",", $delids);
             sql_query("DELETE torrents t, xbt_peers x, files f FROM torrents t
                   left join files f on f.torrent=t.id
                   left join xbt_peers x on x.tid=t.id

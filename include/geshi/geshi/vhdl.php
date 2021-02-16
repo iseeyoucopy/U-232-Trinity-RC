@@ -163,9 +163,7 @@ $language_data = array (
         ),
     'REGEXPS' => array(
         //Based literals, scientific notation, and time units
-        0 => '(\b\d+#[[:xdigit:]_]+#)|'.
-            '(\b[\d_]+(\.[\d_]+)?[eE][+\-]?[\d_]+)|'.
-            '(\b(hr|min|sec|ms|us|ns|ps|fs)\b)',
+        0 => '(\b\d+#[[:xdigit:]_]+#)|(\b[\d_]+(\.[\d_]+)?[eE][+\-]?[\d_]+)|(\b(hr|min|sec|ms|us|ns|ps|fs)\b)',
         //Character literals
         /* GeSHi won't match this pattern for some reason and QUOTEMARKS
          * can't be used because it interferes with attribute parsing */

@@ -32,7 +32,7 @@ function docleanup($data)
                                  LEFT JOIN thumbsup ON thumbsup.torrentid = torrents.id
 				 LEFT JOIN snatched ON snatched.torrentid = torrents.id
 				 LEFT JOIN ajax_chat_messages ON ajax_chat_messages.torrent_id = torrents.id
-				 WHERE torrents.id = ".sqlesc($arr['id'])) or sqlerr(__FILE__, __LINE__);
+				 WHERE torrents.id = ".sqlesc($arr['id'])) || sqlerr(__FILE__, __LINE__);
         @unlink("{$TRINITY20['torrent_dir']}/{$arr['id']}.torrent");
         write_log("Torrent ".(int)$arr['id']." (".htmlsafechars($arr['name']).") was deleted by system (older than $days days and no seeders)");
     }

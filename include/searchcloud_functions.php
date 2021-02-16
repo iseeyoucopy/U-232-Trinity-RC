@@ -14,7 +14,7 @@ function searchcloud($limit = 50)
 {
     global $cache, $TRINITY20;
     if (!($return = $cache->get('searchcloud'))) {
-        $search_q = sql_query('SELECT searchedfor,howmuch FROM searchcloud ORDER BY id DESC ' . ($limit > 0 ? 'LIMIT ' . $limit : '')) or sqlerr(__FILE__, __LINE__);
+        ($search_q = sql_query('SELECT searchedfor,howmuch FROM searchcloud ORDER BY id DESC ' . ($limit > 0 ? 'LIMIT ' . $limit : ''))) || sqlerr(__FILE__, __LINE__);
         if ($search_q->num_rows) {
             $return = array();
             while ($search_a = $search_q->fetch_assoc()) $return[$search_a['searchedfor']] = $search_a['howmuch'];
@@ -41,7 +41,7 @@ function searchcloud_insert($word)
             $word => $howmuch
         ], 0);
     }
-    sql_query('INSERT INTO searchcloud(searchedfor,howmuch,ip) VALUES (' . sqlesc($word) . ',1,' . sqlesc($ip) . ') ON DUPLICATE KEY UPDATE howmuch=howmuch+1') or sqlerr(__FILE__, __LINE__);
+    sql_query('INSERT INTO searchcloud(searchedfor,howmuch,ip) VALUES (' . sqlesc($word) . ',1,' . sqlesc($ip) . ') ON DUPLICATE KEY UPDATE howmuch=howmuch+1') || sqlerr(__FILE__, __LINE__);
 }
 function cloud()
 {
@@ -74,8 +74,7 @@ function cloud()
             //spew out some html malarky!
             $cloud_tags[] = '<a style="color:' . $colour_array[mt_rand(0, 5) ] . '; font-size: ' . floor($size) . 'px' . '" class="tag_cloud" href="browse.php?search=' . urlencode($tag) . '&amp;searchin=all&amp;incldead=1' . '" title="\'' . htmlsafechars($tag) . '\' returned a count of ' . $count . '">' . htmlsafechars(stripslashes($tag)) . '</a>';
         }
-        $cloud_html = join("\n", $cloud_tags) . "\n";
-        return $cloud_html;
+        return implode("\n", $cloud_tags) . "\n";
     }
 }
 ?>

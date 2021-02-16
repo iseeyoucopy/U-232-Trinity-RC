@@ -73,7 +73,7 @@ function torrenttable($res, $variant = "index")
         } else
             $oldlink[] = sprintf('%s=%s', urlencode($key), urlencode($var));
     }
-    $oldlink = !empty($oldlink) ? join('&amp;', array_map('htmlsafechars', $oldlink)) .'&amp;' : '';   
+    $oldlink = empty($oldlink) ? '' : implode('&amp;', array_map('htmlsafechars', $oldlink)) .'&amp;';   
     $links = array(
         'link1',
         'link2',
@@ -179,17 +179,17 @@ function torrenttable($res, $variant = "index")
             $newgenre = array();
             $row['newgenre'] = explode(',', $row['newgenre']);
             foreach ($row['newgenre'] as $foo) $newgenre[] = '<a href="browse.php?search=' . trim(strtolower($foo)) . '&amp;searchin=genre&amp;incldead=0">' . $foo . '</a>';
-            $newgenre = '&nbsp;•&nbsp;&nbsp;<i class="fa fa-tag"></i>&nbsp;<i>' . join(', ', $newgenre) . '</i>';
+            $newgenre = '&nbsp;•&nbsp;&nbsp;<i class="fa fa-tag"></i>&nbsp;<i>' . implode(', ', $newgenre) . '</i>';
         }
         $tags = '';
         if (!empty($row['tags'])) {
             $tags = array();
             $row['tags'] = explode(',', $row['tags']);
             foreach ($row['tags'] as $boo) $tags[] = '<a href="browse.php?search=' . trim(strtolower($boo)) . '&amp;searchin=tags&amp;incldead=0">' . $boo . '</a>';
-            $tags = '<i>' . join(', ', $tags) . '</i>';
+            $tags = '<i>' . implode(', ', $tags) . '</i>';
         }
         $alltags = '';
-        $alltags = "{$newgenre}". (!empty($newgenre) ? "&comma;&nbsp;{$tags}" : (!empty($tags) ? "&nbsp;•&nbsp;&nbsp;<i class='fa fa-tag'></i>&nbsp;{$tags}" : ""));
+        $alltags = "{$newgenre}". (empty($newgenre) ? empty($tags) ? "" : "&nbsp;•&nbsp;&nbsp;<i class='fa fa-tag'></i>&nbsp;{$tags}" : ("&comma;&nbsp;{$tags}"));
         /*vip torrent*/
         $viponly = ($row["vip"] == 1 ? "<i class='fas fa-star' style='color:yellow' title='Vip Torrent'></i>&nbsp;" : "");        
         /*freeleech Torrent*/
@@ -216,7 +216,7 @@ function torrenttable($res, $variant = "index")
         if (!empty($book)) foreach ($book as $bk) {
             if ($bk['torrentid'] == $id) $booked = 1;
         }
-        $rm_status = (!$booked ? ' style="display:none;"' : ' style="display:inline;"');
+        $rm_status = ($booked ? ' style="display:inline;"' : ' style="display:none;"');
         $bm_status = ($booked ? ' style="display:none;"' : ' style="display:inline;"');
         $bookmark = '<span id="bookmark' . $id . '"' . $bm_status . '>
                     <a href="bookmarks.php?torrent=' . $id . '&amp;action=add" class="bookmark" name="' . $id . '">
@@ -254,8 +254,8 @@ function torrenttable($res, $variant = "index")
         /*seeders - leechers*/
         $What_Script_P = (XBT_TRACKER == true ? 'peerlist_xbt.php?id=' : 'peerlist.php?id=' );
         $ratio = ($row['leechers'] != 0 && $row['seeders'] != 0 ? $row['seeders'] / $row['leechers'] : 1);
-        $htmlout.= "<td class='text-center' style='padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;'><b>".($row['seeders'] !=0 ? "<a href='$What_Script_P"."$id#seeders'><font color='".get_slr_color($ratio)."'>".(int)$row["seeders"]."</font></a>" : "<font color='".get_slr_color($ratio)."'>".(int)$row["seeders"]."</font>")."</b></td>";
-        $htmlout.= "<td class='text-center' style='padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;'><b>".($row['leechers'] !=0 ? "<a href='$What_Script_P"."$id#leechers'><font color='" . linkcolor($row["leechers"]) . "'>".(int)$row["leechers"]."</font></a>" : "<font color='" . linkcolor($row["leechers"]) . "'>".(int)$row["leechers"]."</font>")."</b></td>";
+        $htmlout.= "<td class='text-center' style='padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;'><b>".($row['seeders'] != 0 ? "<a href='$What_Script_P"."$id#seeders'><font color='".get_slr_color($ratio)."'>".(int)$row["seeders"]."</font></a>" : "<font color='".get_slr_color($ratio)."'>".(int)$row["seeders"]."</font>")."</b></td>";
+        $htmlout.= "<td class='text-center' style='padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;'><b>".($row['leechers'] != 0 ? "<a href='$What_Script_P"."$id#leechers'><font color='" . linkcolor($row["leechers"]) . "'>".(int)$row["leechers"]."</font></a>" : "<font color='" . linkcolor($row["leechers"]) . "'>".(int)$row["leechers"]."</font>")."</b></td>";
         /*staff tools*/
         if ($CURUSER['class'] >= UC_STAFF && $variant == "index")  {
                 $url = "edit.php?id=" .(int)$row["id"];
@@ -266,7 +266,6 @@ function torrenttable($res, $variant = "index")
         /*end ttable*/
         $htmlout.= "</tr>";
     }
-    $htmlout.= "</tbody></table></div>";
-    return $htmlout;
+    return $htmlout . "</tbody></table></div>";
 }
 ?>

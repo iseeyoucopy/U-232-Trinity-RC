@@ -16,7 +16,7 @@ function docleanup($data)
     set_time_limit(0);
     ignore_user_abort(1);
     //=== Free user removal by Bigjoos/pdq:)
-    $res = sql_query("SELECT id, modcomment FROM users WHERE free_switch > 1 AND free_switch < " . TIME_NOW) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id, modcomment FROM users WHERE free_switch > 1 AND free_switch < " . TIME_NOW)) || sqlerr(__FILE__, __LINE__);
     $msgs_buffer = array();
 	$users_buffer = array();
     if ($res->num_rows > 0) {
@@ -43,8 +43,8 @@ function docleanup($data)
         }
         $count = count($users_buffer);
         if ($count > 0) {
-			sql_query("INSERT INTO messages (sender, receiver, added, msg, subject) VALUES " . implode(', ', $msgs_buffer)) or sqlerr(__FILE__, __LINE__);
-            sql_query("INSERT INTO users (id, free_switch, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE free_switch=values(free_switch), modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
+			sql_query("INSERT INTO messages (sender, receiver, added, msg, subject) VALUES " . implode(', ', $msgs_buffer)) || sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO users (id, free_switch, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE free_switch=values(free_switch), modcomment=values(modcomment)") || sqlerr(__FILE__, __LINE__);
             write_log("Cleanup - Removed Freeleech from " . $count . " members");
         }
         unset($users_buffer, $msgs_buffer, $count);

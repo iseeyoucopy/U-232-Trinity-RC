@@ -35,7 +35,7 @@ function tvrage_format($tvrage_data, $tvrage_type)
         $tvrage_display[$tvrage_type][$key] = is_string($data) ? sprintf($tvrage_display[$tvrage_type][$key], $data) : sprintf($tvrage_display[$tvrage_type][$key], $data['number'], $data['title'], date('M/d/Y - l', strtotime($data['airdate'])) , (isset($data['url']) ? $data['url'] : '') , (isset($data['summary']) ? $data['summary'] : ''));
     }
     if (!isset($tvrage_data['ended'])) unset($tvrage_display[$tvrage_type]['ended']);
-    return join('<br/><br/>', $tvrage_display[$tvrage_type]);
+    return implode('<br/><br/>', $tvrage_display[$tvrage_type]);
 }
 function tvrage(&$torrents)
 {
@@ -76,7 +76,7 @@ function tvrage(&$torrents)
             $tvrage_showinfo[$data[1]] = $data[2];
         }
         preg_match_all('/\<genre\>(.*?)\<\/genre>/', $tvrage_xml, $tmp);
-        if (count($tmp[1])) $tvrage_showinfo['genres'] = join(', ', array_map('strtolower', $tmp[1]));
+        if (count($tmp[1]) > 0) $tvrage_showinfo['genres'] = implode(', ', array_map('strtolower', $tmp[1]));
         if (empty($torrents['newgenre'])) $row_update[] = 'newgenre = ' . sqlesc(ucwords($tvrage_showinfo['genres']));
         //==The torrent cache
         $cache->update_row('torrent_details_' . $torrents['id'], [
@@ -87,7 +87,7 @@ function tvrage(&$torrents)
         $cache->update_row('torrent_details_' . $torrents['id'], [
             'poster' => $tvrage_showinfo['image']
         ], 0);
-        if (count($row_update)) sql_query('UPDATE torrents set ' . join(', ', $row_update) . ' WHERE id = ' . $torrents['id']) or sqlerr(__FILE__, __LINE__);
+        if (count($row_update) > 0) sql_query('UPDATE torrents set ' . implode(', ', $row_update) . ' WHERE id = ' . $torrents['id']) || sqlerr(__FILE__, __LINE__);
         $tvrage_showinfo = tvrage_format($tvrage_showinfo, 'show') . '<br/>';
         $cache->set($memkey, $tvrage_showinfo, 0);
         $tvrage_data.= $tvrage_showinfo;
