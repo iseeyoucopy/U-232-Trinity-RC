@@ -53,11 +53,17 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
 function block_cache()
 {
     global $block_set_cache, $lang;
-    $block_out = "<" . "?php\n\n\$BLOCKS = array(\n";
+    $block_out = '<?php
+
+$BLOCKS = array(
+';
     foreach ($_POST as $k => $v) {
-        $block_out.= ($k == 'block_undefined') ? "\t'{$k}' => '" . htmlsafechars($v) . "',\n" : "\t'{$k}' => " . intval($v) . ",\n";
+        $block_out.= ($k == 'block_undefined') ? "\t'{$k}' => '" . htmlsafechars($v) . "',\n" : "\t'{$k}' => " . (int) $v . ",\n";
     }
-    $block_out.= "\n);\n\n?" . ">";
+    $block_out.= '
+);
+
+?>';
     if (is_file($block_set_cache) && is_writable(pathinfo($block_set_cache, PATHINFO_DIRNAME))) {
         $filenum = fopen($block_set_cache, 'w');
         ftruncate($filenum, 0);

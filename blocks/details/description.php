@@ -18,7 +18,7 @@ $searchname = substr($torrents['name'], 0, 6);
 $query1 = str_replace(" ", ".", sqlesc("%" . $searchname . "%"));
 $query2 = str_replace(".", " ", sqlesc("%" . $searchname . "%"));
 if (($sim_torrents = $cache->get($keys['similar_tor'] . $id)) === false) {
-    $r = sql_query("SELECT id, name, size, added, seeders, leechers, category FROM torrents WHERE name LIKE {$query1} AND id <> " . sqlesc($id) . " OR name LIKE {$query2} AND id <> " . sqlesc($id) . " ORDER BY name") or sqlerr(__FILE__, __LINE__);
+    ($r = sql_query("SELECT id, name, size, added, seeders, leechers, category FROM torrents WHERE name LIKE {$query1} AND id <> " . sqlesc($id) . " OR name LIKE {$query2} AND id <> " . sqlesc($id) . " ORDER BY name")) || sqlerr(__FILE__, __LINE__);
     while ($sim_torrent = $r->fetch_assoc()) $sim_torrents[] = $sim_torrent;
     $cache->set($keys['similar_tor'] . $id, $sim_torrents, 86400);
 }
@@ -53,9 +53,9 @@ if ($sim_torrents && count($sim_torrents) > 0) {
             <td>{$leechers}</td></tr></tbody>";
         }
         $sim_torrent.= "</table><div>";
- $HTMLOUT.= "<table class='striped'><tr><td align='right' class='heading'>{$lang['details_similiar']}<a href=\"javascript: klappe_news('a5')\"><img border=\"0\" src=\"pic/plus.png\" id=\"pica5".(int)$a['id']."\" alt=\"[Hide/Show]\" title=\"[Hide/Show]\" /></a><div id=\"ka5\" style=\"display: none;\"><br />$sim_torrent</div></td></tr></table>";
-    } else {
-        if (empty($sim_torrents)) $HTMLOUT.= "
+        $HTMLOUT.= "<table class='striped'><tr><td align='right' class='heading'>{$lang['details_similiar']}<a href=\"javascript: klappe_news('a5')\"><img border=\"0\" src=\"pic/plus.png\" id=\"pica5".(int)$a['id']."\" alt=\"[Hide/Show]\" title=\"[Hide/Show]\" /></a><div id=\"ka5\" style=\"display: none;\"><br />$sim_torrent</div></td></tr></table>";
+    } elseif (empty($sim_torrents)) {
+        $HTMLOUT.= "
         <table class='striped'>\n
         <tr>
         <td>{$lang['details_sim_no1']}" . htmlsafechars($torrents["name"]) . "{$lang['details_sim_no2']}</td>

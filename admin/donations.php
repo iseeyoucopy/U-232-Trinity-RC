@@ -35,7 +35,7 @@ $HTMLOUT = $count2 = "";
 if (isset($_GET["total_donors"])) {
     $total_donors = 0 + $_GET["total_donors"];
     if ($total_donors != '1') stderr($lang['donate_err'], $lang['donate_err1']);
-    $res = sql_query("SELECT COUNT(*) FROM users WHERE total_donated != '0.00' AND enabled='yes'") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT COUNT(*) FROM users WHERE total_donated != '0.00' AND enabled='yes'")) || sqlerr(__FILE__, __LINE__);
     $row = $res->fetch_array(MYSQLI_BOTH);
     $count = $row[0];
     $perpage = 15;
@@ -44,11 +44,11 @@ if (isset($_GET["total_donors"])) {
     $users = number_format(get_row_count("users", "WHERE total_donated != '0.00'"));
 	$HTMLOUT.="<div class='row'><div class='col-md-12'><h2>{$lang['donate_list_all']} [" . htmlsafechars($users) . "]</h2>";
 
-    $res = sql_query("SELECT id, username, email, added, donated, donoruntil, total_donated FROM users WHERE total_donated != '0.00' ORDER BY id DESC " . $pager['limit'] . "") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id, username, email, added, donated, donoruntil, total_donated FROM users WHERE total_donated != '0.00' ORDER BY id DESC " . $pager['limit'] . "")) || sqlerr(__FILE__, __LINE__);
 }
 // ===end total donors
 else {
-    $res = sql_query("SELECT COUNT(id) FROM users WHERE donor='yes'") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT COUNT(id) FROM users WHERE donor='yes'")) || sqlerr(__FILE__, __LINE__);
     $row = $res->fetch_array(MYSQLI_BOTH);
     $count = $row[0];
     $perpage = 15;
@@ -57,7 +57,7 @@ else {
     $users = number_format(get_row_count("users", "WHERE donor='yes'"));
 	$HTMLOUT.="<div class='row'><div class='col-md-12'><h2>{$lang['donate_list_curr']} [" . htmlsafechars($users) . " ]</h2>";
 
-    $res = sql_query("SELECT id, username, email, added, donated, total_donated, donoruntil FROM users WHERE donor='yes' ORDER BY id DESC " . $pager['limit'] . "") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id, username, email, added, donated, total_donated, donoruntil FROM users WHERE donor='yes' ORDER BY id DESC " . $pager['limit'] . "")) || sqlerr(__FILE__, __LINE__);
 }
 if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
 $HTMLOUT.= "<table class='table table-bordered'>";
@@ -66,7 +66,7 @@ $HTMLOUT.= "<tr><td class='colhead'>{$lang['donate_id']}</td><td class='colhead'
 while ($arr = $res->fetch_assoc()) {
     // =======change colors
     if ($count2 == 0) {
-        $count2 = $count2 + 1;
+        $count2 += 1;
         $class = "one";
     } else {
         $count2 = 0;

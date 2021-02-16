@@ -32,8 +32,8 @@ function docleanup($data)
     foreach (array_keys($torrent_seeds) as $tid) {
         $update = array();
         adjust_torrent_peers($tid, -$torrent_seeds[$tid], -$torrent_leeches[$tid], 0);
-        if ($torrent_seeds[$tid]) $update[] = 'seeders = (seeders - ' . $torrent_seeds[$tid] . ')';
-        if ($torrent_leeches[$tid]) $update[] = 'leechers = (leechers - ' . $torrent_leeches[$tid] . ')';
+        if ($torrent_seeds[$tid] !== 0) $update[] = 'seeders = (seeders - ' . $torrent_seeds[$tid] . ')';
+        if ($torrent_leeches[$tid] !== 0) $update[] = 'leechers = (leechers - ' . $torrent_leeches[$tid] . ')';
         sql_query('UPDATE torrents SET ' . implode(', ', $update) . ' WHERE id = ' . $tid);
     }
     if ($queries > 0) write_log("Peers clean-------------------- Peer cleanup Complete using $queries queries --------------------");

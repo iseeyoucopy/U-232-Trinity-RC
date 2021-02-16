@@ -32,14 +32,14 @@ function invincible($id, $invincible = true, $bypass_bans = true)
     }
     // update perms
     if ($setbits || $clrbits) sql_query('UPDATE users SET perms = ((perms | ' . $setbits . ') & ~' . $clrbits . ') 
-                 WHERE id = ' . sqlesc($id)) or sqlerr(__file__, __line__);
+                 WHERE id = ' . sqlesc($id)) || sqlerr(__file__, __line__);
     // grab current data
-    $res = sql_query('SELECT username, torrent_pass, ip, perms, modcomment FROM users 
-                     WHERE id = ' . sqlesc($id) . ' LIMIT 1') or sqlerr(__file__, __line__);
+    ($res = sql_query('SELECT username, torrent_pass, ip, perms, modcomment FROM users 
+                     WHERE id = ' . sqlesc($id) . ' LIMIT 1')) || sqlerr(__file__, __line__);
     $row = $res->fetch_assoc();
     $row['perms'] = (int)$row['perms'];
     // delete from iplog current ip
-    sql_query('DELETE FROM `ips` WHERE userid = ' .sqlesc($id)) or sqlerr(__file__, __line__);
+    sql_query('DELETE FROM `ips` WHERE userid = ' .sqlesc($id)) || sqlerr(__file__, __line__);
     // delete any iplog caches
     $cache->delete('ip_history_' . $id);
     $cache->delete('u_passkey_' . $row['torrent_pass']);
@@ -47,7 +47,7 @@ function invincible($id, $invincible = true, $bypass_bans = true)
     $modcomment = get_date(TIME_NOW, '', 1) . ' - ' . $display . $lang['invincible_thanks_to'] . $CURUSER['username'] . "\n" . $row['modcomment'];
     //ipf = '.sqlesc($ip).',
     sql_query('UPDATE users SET ip = ' . sqlesc($ip) . ', modcomment = ' . sqlesc($modcomment) . '
-              WHERE id = ' . sqlesc($id)) or sqlerr(__file__, __line__);
+              WHERE id = ' . sqlesc($id)) || sqlerr(__file__, __line__);
     //'ipf'   => $ip,
     // update ip in caches
     //$cache->delete('user'.$id);

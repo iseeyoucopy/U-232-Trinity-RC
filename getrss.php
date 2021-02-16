@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $cats = isset($_POST['cats']) ? array_map('mkint', $_POST['cats']) : array();
     if (count($cats) == 0) stderr($lang['getrss_error'], $lang['getrss_nocat']);
     $feed = isset($_POST['feed']) && $_POST['feed'] == 'dl' ? 'dl' : 'web';
-    $rsslink = $TRINITY20['baseurl'] . '/rss.php?cats=' . join(',', $cats) . ($feed == 'dl' ? '&amp;type=dl' : '') . '&amp;torrent_pass=' . $CURUSER['torrent_pass'];
+    $rsslink = $TRINITY20['baseurl'] . '/rss.php?cats=' . implode(',', $cats) . ($feed == 'dl' ? '&amp;type=dl' : '') . '&amp;torrent_pass=' . $CURUSER['torrent_pass'];
     $HTMLOUT = "<div align=\"center\"><h2>{$lang['getrss_result']}</h2><br/>
 		<input type=\"text\" size=\"120\" readonly=\"readonly\" value=\"{$rsslink}\" onclick=\"select()\" />
 	</div>";
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <tr>
 	<td align="right" valign="top">{$lang['getrss_cat']}</td><td align="left" width="100%">
 HTML;
-    $q1 = sql_query('SELECT id, name, image FROM categories ORDER BY id') or sqlerr(__FILE__, __LINE__);
+    ($q1 = sql_query('SELECT id, name, image FROM categories ORDER BY id')) || sqlerr(__FILE__, __LINE__);
     $i = 0;
     while ($a = $q1->fetch_assoc()) {
         if ($i % 5 == 0 && $i > 0) $HTMLOUT.= "<br/>";

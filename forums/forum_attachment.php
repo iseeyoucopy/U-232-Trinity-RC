@@ -34,8 +34,8 @@ if (!defined('IN_TRINITY20_FORUM')) {
     if (!is_valid_id($id)) {
         die('Invalid Attachment ID!');
     }
-    $at = sql_query("SELECT file_name, user_id, extension FROM attachments WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $resat = $at->fetch_assoc() or die('No attachment with that ID!');
+    ($at = sql_query("SELECT file_name, user_id, extension FROM attachments WHERE id=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
+    ($resat = $at->fetch_assoc()) || die('No attachment with that ID!');
     $filename = $Multi_forum['configs']['attachment_dir'] . '/' . $resat['file_name'];
     if (!is_file($filename)) {
         die('Inexistent attachment.');
@@ -51,15 +51,15 @@ if (!defined('IN_TRINITY20_FORUM')) {
         sql_query("DELETE attachments, attachmentdownloads " .
                     "FROM attachments " .
                     "LEFT JOIN attachmentdownloads ON attachmentdownloads.file_id = attachments.id " .
-                    "WHERE attachments.id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+                    "WHERE attachments.id=" . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
         die("<font color='red'>File successfully deleted...</font>");
     }
-    sql_query("UPDATE attachments SET times_downloaded=times_downloaded+1 WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $res = sql_query("SELECT file_id FROM attachmentdownloads WHERE file_id=" . sqlesc($id) . " AND user_id=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+    sql_query("UPDATE attachments SET times_downloaded=times_downloaded+1 WHERE id=" . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT file_id FROM attachmentdownloads WHERE file_id=" . sqlesc($id) . " AND user_id=" . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows == 0) {
-        sql_query("INSERT INTO attachmentdownloads (file_id, username, user_id, date, times_downloaded) VALUES (" . sqlesc($id) . ", " . sqlesc($CURUSER['username']) . ", " . sqlesc($CURUSER['id']) . ", " . TIME_NOW . ", 1)") or sqlerr(__FILE__, __LINE__);
+        sql_query("INSERT INTO attachmentdownloads (file_id, username, user_id, date, times_downloaded) VALUES (" . sqlesc($id) . ", " . sqlesc($CURUSER['username']) . ", " . sqlesc($CURUSER['id']) . ", " . TIME_NOW . ", 1)") || sqlerr(__FILE__, __LINE__);
     } else {
-        sql_query("UPDATE attachmentdownloads SET times_downloaded = times_downloaded + 1 WHERE file_id = " . sqlesc($id) . " AND user_id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE attachmentdownloads SET times_downloaded = times_downloaded + 1 WHERE file_id = " . sqlesc($id) . " AND user_id = " . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
     }
     $arr=0;
     header("Pragma: public");

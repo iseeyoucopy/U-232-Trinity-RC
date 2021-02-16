@@ -43,7 +43,7 @@ if (isset($_GET['Do']) && isset($_GET['table'])) {
     //preg match the sql incase it was hijacked somewhere!(will use CHECK|ANALYZE|REPAIR|later
     if (preg_match('@^(CHECK|ANALYZE|REPAIR|OPTIMIZE)[[:space:]]TABLE[[:space:]]' . $Table . '$@i', $sql)) {
         //all good? Do it!
-        @sql_query($sql) or sqlerr(__FILE__, __LINE__);
+        @sql_query($sql) || sqlerr(__FILE__, __LINE__);
         header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=mysql_overview&action=mysql_overview&Do=F");
         exit;
     }
@@ -117,7 +117,7 @@ $HTMLOUT.= "<h2>{$lang['mysql_over_title']}</h2>
             
     <!-- End table headers -->";
 $count = 0;
-$res = @sql_query("SHOW TABLE STATUS FROM {$TRINITY20['mysql_db']}") or stderr(__FILE__, __LINE__);
+($res = @sql_query("SHOW TABLE STATUS FROM {$TRINITY20['mysql_db']}")) || stderr(__FILE__, __LINE__);
 while ($row = $res->fetch_array(MYSQLI_BOTH)) {
     list($formatted_Avg, $formatted_Abytes) = byteformat($row['Avg_row_length']);
     list($formatted_Dlength, $formatted_Dbytes) = byteformat($row['Data_length']);

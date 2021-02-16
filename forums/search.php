@@ -29,7 +29,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     $found = '';
     $keywords = (isset($_GET['keywords']) ? trim($_GET['keywords']) : '');
     if (!empty($keywords)) {
-        $res = sql_query("SELECT COUNT(id) AS c FROM posts WHERE body LIKE " . sqlesc("%" . sqlwildcardesc($keywords) . "%")) or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query("SELECT COUNT(id) AS c FROM posts WHERE body LIKE " . sqlesc("%" . sqlwildcardesc($keywords) . "%"))) || sqlerr(__FILE__, __LINE__);
         $arr = $res->fetch_assoc();
         $count = (int) $arr['c'];
         $keywords = htmlsafechars($keywords);
@@ -38,12 +38,12 @@ if (!defined('IN_TRINITY20_FORUM')) {
         } else {
             $perpage = 10;
             $pager = pager($perpage, $count, $TRINITY20['baseurl'] . '/forums.php?action=' . $action . '&keywords=' . $keywords . '&');
-            $res = sql_query("SELECT p.id, p.topic_id, p.user_id, p.added, t.forum_id, t.topic_name, f.name, f.min_class_read, u.username " .
+            ($res = sql_query("SELECT p.id, p.topic_id, p.user_id, p.added, t.forum_id, t.topic_name, f.name, f.min_class_read, u.username " .
             "FROM posts AS p " .
             "LEFT JOIN topics AS t ON t.id=p.topic_id " .
             "LEFT JOIN forums AS f ON f.id=t.forum_id " .
             "LEFT JOIN users AS u ON u.id=p.user_id " .
-            "WHERE p.body LIKE " . sqlesc("%" . $keywords . "%") . " " . $pager['limit'] . "") or sqlerr(__FILE__, __LINE__);
+            "WHERE p.body LIKE " . sqlesc("%" . $keywords . "%") . " " . $pager['limit'] . "")) || sqlerr(__FILE__, __LINE__);
             $num = $res->num_rows;
             $HTMLOUT .= $pager['pagertop'] . "<br>";
             $HTMLOUT .= "<div class='row'><div class='col-md-12'>";

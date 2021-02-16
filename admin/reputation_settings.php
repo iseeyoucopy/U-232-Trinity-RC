@@ -43,14 +43,20 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
 function rep_cache()
 {
     global $rep_set_cache, $TRINITY20, $lang;
-    $rep_out = "<" . "?php\n\n\$GVARS = array(\n";
+    $rep_out = '<?php
+
+$GVARS = array(
+';
     foreach ($_POST as $k => $v) {
-        $rep_out.= ($k == 'rep_undefined') ? "\t'{$k}' => '" . htmlsafechars($v, ENT_QUOTES) . "',\n" : "\t'{$k}' => " . intval($v) . ",\n";
+        $rep_out.= ($k == 'rep_undefined') ? "\t'{$k}' => '" . htmlsafechars($v, ENT_QUOTES) . "',\n" : "\t'{$k}' => " . (int) $v . ",\n";
     }
     $rep_out.= "\t'g_rep_negative' => TRUE,\n";
     $rep_out.= "\t'g_rep_seeown' => TRUE,\n";
     $rep_out.= "\t'g_rep_use' => \$CURUSER['class'] > UC_USER ? TRUE : FALSE\n";
-    $rep_out.= "\n);\n\n?" . ">";
+    $rep_out.= '
+);
+
+?>';
     if (file_exists($rep_set_cache) && is_writable(pathinfo($rep_set_cache, PATHINFO_DIRNAME))) {
         $filenum = fopen($rep_set_cache, 'w');
         ftruncate($filenum, 0);

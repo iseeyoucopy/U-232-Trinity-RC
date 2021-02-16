@@ -30,8 +30,8 @@ function docleanup($data)
     }
     foreach (array_keys($torrent_seeds) as $tid) {
         $update = array();
-        if ($torrent_seeds[$tid]) $update[] = 'seeders = (seeders - ' . $torrent_seeds[$tid] . ')';
-        if ($torrent_leeches[$tid]) $update[] = 'leechers = (leechers - ' . $torrent_leeches[$tid] . ')';
+        if ($torrent_seeds[$tid] !== 0) $update[] = 'seeders = (seeders - ' . $torrent_seeds[$tid] . ')';
+        if ($torrent_leeches[$tid] !== 0) $update[] = 'leechers = (leechers - ' . $torrent_leeches[$tid] . ')';
         sql_query('UPDATE torrents SET ' . implode(', ', $update) . ' WHERE id = ' . sqlesc($tid));
     }
     if ($queries > 0) write_log("XBT Peers clean-------------------- XBT Peer cleanup Complete using $queries queries --------------------");

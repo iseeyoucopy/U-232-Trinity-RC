@@ -62,12 +62,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $ann_hash = (isset($_POST['ann_hash']) ? trim($_POST['ann_hash']) : '');
     if (HashIt($ann_query, $n_pms) != $ann_hash) die(); // Validate POST...
     if (!preg_match('/\\ASELECT.+?FROM.+?WHERE.+?\\z/', $ann_query)) stderr('Error', 'Misformed Query');
-    if (!$n_pms) stderr('Error', 'No recipients');
+    if ($n_pms === 0) stderr('Error', 'No recipients');
     //== Preview POST data ...
     $body = trim((isset($_POST['body']) ? $_POST['body'] : ''));
     $subject = trim((isset($_POST['subject']) ? $_POST['subject'] : ''));
     $expiry = 0 + (isset($_POST['expiry']) ? $_POST['expiry'] : 0);
-    if ((isset($_POST['buttonval']) AND $_POST['buttonval'] == 'Submit')) {
+    if ((isset($_POST['buttonval']) && $_POST['buttonval'] == 'Submit')) {
         //== Check values before inserting into row...
         if (empty($body)) stderr('Error', 'No body to announcement');
         if (empty($subject)) stderr('Error', 'No subject to announcement');
@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
  	<input type='hidden' name='ann_hash' value='" . $ann_hash . "' />
  	</form><br /><br />
  	</div></td></tr></table>";
-    if ($body) {
+    if ($body !== '') {
         $newtime = TIME_NOW + (86400 * $expiry);
         $HTMLOUT.= "<table class='table table-bordered'>
  	<tr><td bgcolor='#663366' align='center' valign='baseline'><h2><font color='white'>Announcement: 

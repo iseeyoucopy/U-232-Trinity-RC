@@ -32,7 +32,7 @@ $valid = array(
         'file' => $lottery_root . 'tickets.php'
     ) ,
 );
-$do = isset($_GET['do']) && in_array($_GET['do'], array_keys($valid)) ? $_GET['do'] : '';
+$do = isset($_GET['do']) && array_key_exists($_GET['do'], $valid) ? $_GET['do'] : '';
 if ($CURUSER["game_access"] == 0 || $CURUSER["game_access"] > 1 || $CURUSER['suspended'] == 'yes') {
     stderr("Error", "Your gaming rights have been disabled.");
     exit();
@@ -54,7 +54,7 @@ default:
     $html = '';
 $html .= "<div class='row'><div class='col-md-12'>";
     //get config from database
-    $lconf = sql_query('SELECT * FROM lottery_config') or sqlerr(__FILE__, __LINE__);
+    ($lconf = sql_query('SELECT * FROM lottery_config')) || sqlerr(__FILE__, __LINE__);
     while ($ac = $lconf->fetch_assoc()) $lottery_config[$ac['name']] = $ac['value'];    
 if (!$lottery_config['enable']) $html.= "<div class='row'><div class='col-md-12'><h2>Sorry, the lottery is closed at the moment</h2>";    
 if ($lottery_config['end_date'] > TIME_NOW) 
@@ -66,10 +66,10 @@ $html.= "<div class='row'><div class='col-md-12'><h2>Lottery in progress. Lotter
         $html.= stdmsg('Last lottery', '' . get_date($lottery_config['lottery_winners_time'], 'LONG') . '');
         $uids = (strpos($lottery_config['lottery_winners'], '|') ? explode('|', $lottery_config['lottery_winners']) : $lottery_config['lottery_winners']);
         $last_winners = array();
-        $qus = sql_query('SELECT id,username FROM users WHERE id ' . (is_array($uids) ? 'IN (' . join(',', $uids) . ')' : '=' . $uids)) or sqlerr(__FILE__, __LINE__);
+        ($qus = sql_query('SELECT id,username FROM users WHERE id ' . (is_array($uids) ? 'IN (' . implode(',', $uids) . ')' : '=' . $uids))) || sqlerr(__FILE__, __LINE__);
         while ($aus = $qus->fetch_assoc()) $last_winners[] = "<a href='userdetails.php?id=" . (int)$aus['id'] . "'>" . htmlsafechars($aus['username']) . "</a>";
         
-        $html.= stdmsg("Lottery Winners Info", "<ul style='text-align:left;'><li>Last winners: " . join(', ', $last_winners) . "</li><li>Amount won	(each): " . $lottery_config['lottery_winners_amount'] . "</li></ul><br />
+        $html.= stdmsg("Lottery Winners Info", "<ul style='text-align:left;'><li>Last winners: " . implode(', ', $last_winners) . "</li><li>Amount won	(each): " . $lottery_config['lottery_winners_amount'] . "</li></ul><br />
         <p style='text-align:center'>" . ($CURUSER['class'] >= $valid['config']['minclass'] ? "<a href='lottery.php?do=config'>[Lottery configuration]</a>&nbsp;&nbsp;" : "Nothing Configured Atm Sorry") . "</p>");
  } else {      
       $html .= "<div class='row'><div class='col-md-12'>";  

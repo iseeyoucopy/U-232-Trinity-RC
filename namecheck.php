@@ -23,7 +23,7 @@ function validusername($username)
     global $lang;
     if ($username == "") return false;
     $namelength = strlen($username);
-    if (($namelength < 3) OR ($namelength > 32)) {
+    if ($namelength < 3 || $namelength > 32) {
         $HTMLOUT = "";
         $HTMLOUT.= "<p class='text-danger'>{$lang['takesignup_username_length']}</p>";
         echo $HTMLOUT;
@@ -48,7 +48,7 @@ if (strlen($_GET["wantusername"]) > 12) {
 }
 
 $checkname = htmlsafechars($_GET["wantusername"]);
-$result = sql_query("SELECT username FROM users WHERE username = ".sqlesc($checkname)) or sqlerr(__FILE__, __LINE__);
+($result = sql_query("SELECT username FROM users WHERE username = ".sqlesc($checkname))) || sqlerr(__FILE__, __LINE__);
 $numbers = $result->num_rows;
 if ($numbers > 0) {
     while ($namecheck = $result->fetch_assoc()) {

@@ -30,15 +30,15 @@ if (!is_valid_id($forumid)) stderr('Error', 'Invalid ID!');
 $page = (isset($_GET["page"]) ? (int)$_GET["page"] : 0);
 $userid = (int)$CURUSER["id"];
 // ------ Get forum details
-$res = sql_query("SELECT
+($res = sql_query("SELECT
 				f.name AS forum_name, 
 				f.min_class_read, 
 				(SELECT COUNT(id) FROM topics WHERE forum_id = f.id) AS t_count " . "
 			FROM 
 				forums AS f " . "
 			WHERE 
-			f.id = " . sqlesc($forumid)) or sqlerr(__FILE__, __LINE__);
-$arr = $res->fetch_assoc() or stderr('Error', 'No forum with that ID!');
+			f.id = " . sqlesc($forumid))) || sqlerr(__FILE__, __LINE__);
+($arr = $res->fetch_assoc()) || stderr('Error', 'No forum with that ID!');
 if ($CURUSER['class'] < $arr["min_class_read"]) stderr('Error', 'Access Denied!');
 $perpage = (empty($CURUSER['topicsperpage']) ? 20 : (int)$CURUSER['topicsperpage']);
 $num = (int)$arr['t_count'];
@@ -56,14 +56,14 @@ $menu1 = "<ul class='pagination'>
 $menu2 = '';
 $lastspace = false;
 for ($i = 1; $i <= $pages; ++$i) {
-    if ($i == $page)
-        $menu2 .= "<span class='sr-only'>$i</span>&nbsp;";
-    else if ($i > 3 && ($i < $pages - 2) && ($page - $i > 3 || $i - $page > 3)) {
-        if ($lastspace)
-            continue;
-        $menu2 .= "... \n";
-        $lastspace = true;
-    } else {
+    if ($i === $page) {
+					$menu2 .= "<span class='sr-only'>$i</span>&nbsp;";
+				} elseif ($i > 3 && ($i < $pages - 2) && ($page - $i > 3 || $i - $page > 3)) {
+					if ($lastspace)
+         continue;
+					$menu2 .= "... \n";
+					$lastspace = true;
+				} else {
         $menu2 .= "<a class='page-link' href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=$forumid&amp;page=$i'>$i</a>";
         $lastspace = false;
     }
@@ -72,9 +72,9 @@ for ($i = 1; $i <= $pages; ++$i) {
 }
 	$menu1 .= ($page == 1 ? "" : "<a class='page-link' href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=$forumid&amp;page=".($page - 1)."'>&lt;&lt;&nbsp;Prev</a>");
 	$mlb = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-	$menu3 = ($last == $num ? "" : "<a class='page-link' href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=$forumid&amp;page=".($page + 1)."'>Next&nbsp;&gt;&gt;</a></ul>");
+	$menu3 = ($last === $num ? "" : "<a class='page-link' href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=$forumid&amp;page=".($page + 1)."'>Next&nbsp;&gt;&gt;</a></ul>");
     $offset = $first - 1;
-    $topics_res = sql_query("SELECT 
+    ($topics_res = sql_query("SELECT 
 							t.id, 
 							t.user_id, 
 							t.views, 
@@ -126,14 +126,14 @@ for ($i = 1; $i <= $pages; ++$i) {
 							t.sticky, 
 							t.last_post 
 						DESC LIMIT 
-							$offset, $perpage") or sqlerr(__FILE__, __LINE__);
+							$offset, $perpage")) || sqlerr(__FILE__, __LINE__);
     // subforums
-    $r_subforums = sql_query("SELECT 
+    ($r_subforums = sql_query("SELECT 
 							id 
 						FROM 
 							forums 
 						WHERE 
-							place=".sqlesc($forumid)) or sqlerr(__FILE__, __LINE__);
+							place=".sqlesc($forumid))) || sqlerr(__FILE__, __LINE__);
 	$subforums = $r_subforums->num_rows;
 	$HTMLOUT .= "<div class='container'>
 		<div class='card'>
@@ -197,12 +197,12 @@ for ($i = 1; $i <= $pages; ++$i) {
 			$pollim = $topic_arr['poll_id'] > "0";
 			($Multi_forum['configs']['use_poll_mod'] ? $topicpoll = is_valid_id($topic_arr["poll_id"]) : NULL);
 			$tpages = floor($topic_arr['p_count'] / $Multi_forum['configs']['postsperpage']);
-			if (($tpages * $Multi_forum['configs']['postsperpage']) != $topic_arr['p_count'])
+			if ($tpages * $Multi_forum['configs']['postsperpage'] != $topic_arr['p_count'])
 				++$tpages;
 			if ($tpages > 1)
 			{
 				$topicpages = "&nbsp;(<img src='".$TRINITY20['pic_base_url']."multipage.gif' alt='Multiple pages' title='Multiple pages' />";
-				$split = ($tpages > 10) ? true : false;
+				$split = $tpages > 10;
 				$flag = false;
 				for ($i = 1; $i <= $tpages; ++$i)
 				{

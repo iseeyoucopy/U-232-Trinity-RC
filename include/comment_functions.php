@@ -33,11 +33,7 @@ function commenttable($rows, $variant = 'torrent')
         $htmlout.= "<p class='sub'>#".(int)$row["id"]." {$lang["commenttable_by"]} ";
         // --------------- likes start------
         $att_str = '';
-        if (!empty($row['user_likes'])) {
-            $likes = explode(',', $row['user_likes']);
-        } else {
-            $likes = '';
-        }
+        $likes = empty($row['user_likes']) ? '' : explode(',', $row['user_likes']);
         if (!empty($likes) && count(array_unique($likes)) > 0) {
             if (in_array($CURUSER['id'], $likes)) {
                 if (count($likes) == 1) {
@@ -60,11 +56,10 @@ function commenttable($rows, $variant = 'torrent')
                 $htmlout.= ($CURUSER['class'] >= UC_STAFF ? 'Anonymous - Posted by: <b>' . htmlsafechars($row['username']) . '</b> ID: ' . (int)$row['user'] . '' : 'Anonymous') . ' ';
             } else {
                 $title = $row["title"];
-                if ($title == "") $title = get_user_class_name($row["class"]);
-                else $title = htmlsafechars($title);
+                $title = $title == "" ? get_user_class_name($row["class"]) : htmlsafechars($title);
                 $username = htmlsafechars($row['username']);
                 $avatar1 = ($row['anonymous'] == 'yes' ? "<img src=\'pic/anonymous_1.jpg\' width=\'150\' height=\'150\' border=\'0\' alt=\'Avatar\' title=\'Avatar\' />" : "<img src=\'" . htmlsafechars($row['avatar']) . "\' width=\'150\' height=\'150\' border=\'0\' alt=\'Avatar\' title=\'Avatar\' />");
-                if (!$avatar1) $avatar1 = "{$TRINITY20['pic_base_url']}default_avatar.gif";
+                if ($avatar1 === '') $avatar1 = "{$TRINITY20['pic_base_url']}default_avatar.gif";
                 $htmlout.= "<a name='comm" . (int)$row["id"] . "' onmouseover=\"Tip('<b>$username</b><br />$avatar1');\" onmouseout=\"UnTip();\" href='userdetails.php?id=" . (int)$row["user"] . "'><b>" . htmlsafechars($row["username"]) . "</b></a>" . ($row["donor"] == "yes" ? "<img src='pic/star.gif' alt='" . $lang["commenttable_donor_alt"] . "' />" : "") . ($row["warned"] == "yes" ? "<img src='pic/warned.gif' alt='" . $lang["commenttable_warned_alt"] . "' />" : "") . " ($title)\n";
                 if($TRINITY20['mood_sys_on']) {
                 $htmlout.= '<a href="javascript:;" onclick="PopUp(\'usermood.php\',\'Mood\',530,500,1,1);">
@@ -103,11 +98,7 @@ function usercommenttable($rows)
     foreach ($rows as $row) {
         // --------------- likes start------
         $att_str = '';
-        if (!empty($row['user_likes'])) {
-            $likes = explode(',', $row['user_likes']);
-        } else {
-            $likes = '';
-        }
+        $likes = empty($row['user_likes']) ? '' : explode(',', $row['user_likes']);
         if (!empty($likes) && count(array_unique($likes)) > 0) {
             if (in_array($CURUSER['id'], $likes)) {
                 if (count($likes) == 1) {
@@ -128,8 +119,7 @@ function usercommenttable($rows)
         $htmlout.= "<p class='sub'>#" . (int)$row["id"] . " by ";
         if (isset($row["username"])) {
             $title = $row["title"];
-            if ($title == "") $title = get_user_class_name($row["class"]);
-            else $title = htmlsafechars($title);
+            $title = $title == "" ? get_user_class_name($row["class"]) : htmlsafechars($title);
             $htmlout.= "<a name='comm" . (int)$row['id'] . "' href='userdetails.php?id=" . (int)$row['user'] . "'><b>" . htmlsafechars($row['username']) . "</b></a>" . ($row["donor"] == "yes" ? "<img src=\"{$TRINITY20['pic_base_url']}star.gif\" alt='{$lang['userdetails_donor']}' />" : "") . ($row["warned"] >= "1" ? "<img src=" . "\"{$TRINITY20['pic_base_url']}warned.gif\" alt=\"{$lang['userdetails_warned']}\" />" : "") . " ($title)\n";
         } else $htmlout.= "<a name=\"comm" . (int)$row["id"] . "\"><i>{$lang['userdetails_orphaned']}</i></a>\n";
         $htmlout.= " " . get_date($row["added"], 'DATE', 0, 1) . "" . ($userid == $CURUSER["id"] || $row["user"] == $CURUSER["id"] || $CURUSER['class'] >= UC_STAFF ? " - [<a href='usercomment.php?action=edit&amp;cid=" . (int)$row['id'] . "'>{$lang['userdetails_comm_edit']}</a>]" : "") . ($userid == $CURUSER["id"] || $CURUSER['class'] >= UC_STAFF ? " - [<a href='usercomment.php?action=delete&amp;cid=" . (int)$row['id'] . "'>{$lang['userdetails_comm_delete']}</a>]" : "") . ($row["editedby"] && $CURUSER['class'] >= UC_STAFF ? " - [<a href='usercomment.php?action=vieworiginal&amp;cid=" . (int)$row['id'] . "'>{$lang['userdetails_comm_voriginal']}</a>]" : "") . "&nbsp;<span id='mlike' data-com='" . (int)$row["id"] . "' class='user_comm {$wht}'>[" . ucfirst($wht) . "]</span><span class='tot-" . (int)$row["id"] . "' data-tot='" . (!empty($likes) && count(array_unique($likes)) > 0 ? count(array_unique($likes)) : '') . "'>&nbsp;{$att_str}</span></p>\n";

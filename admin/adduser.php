@@ -73,14 +73,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['password']) && isset($_POST['password2']) && strlen($_POST['password']) > 6 && $_POST['password'] == $_POST['password2']) {
         $insert['passhash'] = make_passhash($hash1, hash("ripemd160", $_POST['password']), $hash2);
     } else stderr($lang['std_err'], $lang['err_password']);
-    if (sql_query(sprintf('INSERT INTO users (username, email, passhash, secret, birthday, pin_code, hash3, status, added, last_access) VALUES (%s)', join(', ', array_map('sqlesc', $insert))))) {
+    if (sql_query(sprintf('INSERT INTO users (username, email, passhash, secret, birthday, pin_code, hash3, status, added, last_access) VALUES (%s)', implode(', ', array_map('sqlesc', $insert))))) {
        
         $user_id = $mysqli->insert_id;
 		write_log("User account " . (int)$user_id . " (" . htmlsafechars($insert['username']) . ") was created by {$CURUSER['username']}");
         stderr($lang['std_success'], sprintf($lang['text_user_added'], $user_id));
     } else {
         if ($mysqli->errno) {
-            $res = sql_query(sprintf('SELECT id FROM users WHERE username = %s', sqlesc($insert['username']))) or sqlerr(__FILE__, __LINE__);
+            ($res = sql_query(sprintf('SELECT id FROM users WHERE username = %s', sqlesc($insert['username'])))) || sqlerr(__FILE__, __LINE__);
             if ($res->num_rows) {
                 $arr = $res->fetch_assoc();
                 header(sprintf('refresh:3; url=userdetails.php?id=%d', (int)$arr['id']));

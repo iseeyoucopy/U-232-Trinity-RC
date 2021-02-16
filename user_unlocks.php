@@ -73,12 +73,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // update perms
     if ($setbits || $clrbits) {
         sql_query('UPDATE users SET perms = ((perms | ' . $setbits . ') & ~' . $clrbits . ') 
-                 WHERE id = ' . sqlesc($id)) or sqlerr(__file__, __line__);
+                 WHERE id = ' . sqlesc($id)) || sqlerr(__file__, __line__);
     }
     if ($id == $CURUSER['id']) {
         // grab current data
-        $res = sql_query('SELECT perms FROM users 
-                     WHERE id = ' . sqlesc($id) . ' LIMIT 1') or sqlerr(__file__, __line__);
+        ($res = sql_query('SELECT perms FROM users 
+                     WHERE id = ' . sqlesc($id) . ' LIMIT 1')) || sqlerr(__file__, __line__);
         $row = $res->fetch_assoc();
         $row['perms'] = (int) $row['perms'];
         $cache->update_row($keys['my_userid'] . $id, [
@@ -91,9 +91,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header('Location: ' . $TRINITY20['baseurl'] . '/user_unlocks.php');
     exit();
 }
-$checkbox_unlock_moods = (($CURUSER['perms'] & bt_options::UNLOCK_MORE_MOODS) ? ' checked="checked"' : '');
-$checkbox_unlock_stealth = (($CURUSER['perms'] & bt_options::PERMS_STEALTH) ? ' checked="checked"' : '');
-$checkbox_unlock_nofknbeep = (($CURUSER['perms'] & bt_options::NOFKNBEEP) ? ' checked="checked"' : '');
+$checkbox_unlock_moods = ((($CURUSER['perms'] & bt_options::UNLOCK_MORE_MOODS) !== 0) ? ' checked="checked"' : '');
+$checkbox_unlock_stealth = ((($CURUSER['perms'] & bt_options::PERMS_STEALTH) !== 0) ? ' checked="checked"' : '');
+$checkbox_unlock_nofknbeep = ((($CURUSER['perms'] & bt_options::NOFKNBEEP) !== 0) ? ' checked="checked"' : '');
 $HTMLOUT = '';
 $HTMLOUT.= begin_frame();
 $HTMLOUT.= '<div class="container"><form action="" method="post">        

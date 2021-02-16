@@ -41,7 +41,7 @@ $IMDB = new IMDB($torrents['url']);
 	$cast = ($IMDB->getCastAndCharacter(0,false));
 	$cast_images = $IMDB->getCastImages();
 	if (empty($torrents['poster'])) {
-		sql_query('UPDATE torrents SET poster = ' . sqlesc($poster) . ' WHERE id = ' . $torrents['id']) or sqlerr(__FILE__, __LINE__);
+		sql_query('UPDATE torrents SET poster = ' . sqlesc($poster) . ' WHERE id = ' . $torrents['id']) || sqlerr(__FILE__, __LINE__);
     }
 
     //==The torrent cache

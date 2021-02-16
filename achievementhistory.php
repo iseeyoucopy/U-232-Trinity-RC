@@ -30,12 +30,12 @@ $HTMLOUT = "";
 $id = (int)$_GET["id"];
 
 if (!is_valid_id($id)) stderr($lang['achievement_history_err'], $lang['achievement_history_err1']);
-$res = sql_query("SELECT users.id, users.username, usersachiev.achpoints, usersachiev.spentpoints FROM users LEFT JOIN usersachiev ON users.id = usersachiev.id WHERE users.id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT users.id, users.username, usersachiev.achpoints, usersachiev.spentpoints FROM users LEFT JOIN usersachiev ON users.id = usersachiev.id WHERE users.id = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 $arr = $res->fetch_assoc();
 if (!$arr) stderr($lang['achievement_history_err'], $lang['achievement_history_err1']);
 $achpoints = (int)$arr['achpoints'];
 $spentpoints = (int)$arr['spentpoints'];
-$res = sql_query("SELECT COUNT(*) FROM achievements WHERE userid =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT COUNT(*) FROM achievements WHERE userid =" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 $row = $res->fetch_row();
 $count = $row[0];
 $perpage = 15;

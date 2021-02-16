@@ -12,7 +12,7 @@
  */
 $progress = '';
 if (($totalfunds_cache = $cache->get($keys['ttl_funds'])) === false) {
-    $totalfunds_cache_query = sql_query("SELECT sum(cash) as total_funds FROM funds") or sqlerr(__FILE__, __LINE__);
+    ($totalfunds_cache_query = sql_query("SELECT sum(cash) as total_funds FROM funds")) || sqlerr(__FILE__, __LINE__);
     $totalfunds_cache = $totalfunds_cache_query->fetch_assoc();
     $totalfunds_cache["total_funds"] = (int)$totalfunds_cache["total_funds"];
     $cache->set($keys['ttl_funds'], $totalfunds_cache, $TRINITY20['expires']['total_funds']);

@@ -42,7 +42,7 @@ if (isset($_POST['ids'])) {
     $ids = $_POST["ids"];
     foreach ($ids as $id) if (!is_valid_id($id)) stderr($lang['std_error'], $lang['text_invalid']);
     $do = isset($_POST["do"]) ? htmlsafechars(trim($_POST["do"])) : '';
-    if ($do == 'enabled') sql_query("UPDATE users SET enabled = 'yes' WHERE ID IN(" . join(', ', array_map('sqlesc',$ids)) . ") AND enabled = 'no'") or sqlerr(__FILE__, __LINE__);
+    if ($do == 'enabled') sql_query("UPDATE users SET enabled = 'yes' WHERE ID IN(" . implode(', ', array_map('sqlesc',$ids)) . ") AND enabled = 'no'") || sqlerr(__FILE__, __LINE__);
     $cache->update_row($keys['my_userid'] . $id, [
         'enabled' => 'yes'
     ], $TRINITY20['expires']['curuser']);
@@ -50,7 +50,7 @@ if (isset($_POST['ids'])) {
         'enabled' => 'yes'
     ], $TRINITY20['expires']['user_cache']);
     //else
-    if ($do == 'confirm') sql_query("UPDATE users SET status = 'confirmed' WHERE ID IN(" . join(', ', array_map('sqlesc', $ids)) . ") AND status = 'pending'") or sqlerr(__FILE__, __LINE__);
+    if ($do == 'confirm') sql_query("UPDATE users SET status = 'confirmed' WHERE ID IN(" . implode(', ', array_map('sqlesc', $ids)) . ") AND status = 'pending'") || sqlerr(__FILE__, __LINE__);
     $cache->update_row($keys['my_userid'] . $id, [
         'status' => 'confirmed'
     ], $TRINITY20['expires']['curuser']);
@@ -58,7 +58,7 @@ if (isset($_POST['ids'])) {
         'status' => 'confirmed'
     ], $TRINITY20['expires']['user_cache']);
     //else
-    if ($do == 'delete') sql_query("DELETE FROM users WHERE ID IN(" . join(', ', array_map('sqlesc',$ids)) . ") AND class < 3") or sqlerr(__FILE__, __LINE__);
+    if ($do == 'delete') sql_query("DELETE FROM users WHERE ID IN(" . implode(', ', array_map('sqlesc',$ids)) . ") AND class < 3") || sqlerr(__FILE__, __LINE__);
     else {
         header('Location: staffpanel.php?tool=acpmanage&amp;action=acpmanage');
         exit;

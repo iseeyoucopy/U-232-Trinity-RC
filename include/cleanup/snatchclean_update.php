@@ -17,7 +17,7 @@ function docleanup($data)
     ignore_user_abort(1);
     //== Delete snatched
     $dt = (TIME_NOW - (30 * 86400));
-    sql_query("DELETE FROM snatched WHERE complete_date < ".sqlesc($dt)) or sqlerr(__FILE__, __LINE__);
+    sql_query("DELETE FROM snatched WHERE complete_date < ".sqlesc($dt)) || sqlerr(__FILE__, __LINE__);
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     }

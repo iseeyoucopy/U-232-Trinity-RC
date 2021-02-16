@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
     $bonus_karma = (isset($_POST["bonus_karma"]) ? (int) $_POST["bonus_karma"] : 0);
     if ($bonus_upload == 0 && $bonus_invites == 0 && $bonus_karma == 0) stderr("Error", "No gift for the new users ?! :w00t: give them some gifts :D");
     $link = hash("haval256,4", "promo_link" . TIME_NOW);
-    $q = sql_query("INSERT INTO promo (name,added,days_valid,max_users,link,creator,bonus_upload,bonus_invites,bonus_karma) VALUES (" . implode(",", array_map("sqlesc", array(
+    ($q = sql_query("INSERT INTO promo (name,added,days_valid,max_users,link,creator,bonus_upload,bonus_invites,bonus_karma) VALUES (" . implode(",", array_map("sqlesc", array(
         $promoname,
         TIME_NOW,
         $days_valid,
@@ -49,12 +49,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
         $bonus_upload,
         $bonus_invites,
         $bonus_karma
-    ))) . ") ") or sqlerr(__FILE__, __LINE__);
+    ))) . ") ")) || sqlerr(__FILE__, __LINE__);
     if (!$q) stderr("Error", "Something wrong happned, please retry");
     else stderr("Success", "The promo link <b>" . htmlsafechars($promoname) . "</b> was added! here is the link <br /><input type=\"text\" name=\"promo-link\" value=\"" . $TRINITY20['baseurl'] . $_SERVER["PHP_SELF"] . "?do=signup&amp;link=" . $link . "\" size=\"80\" onclick=\"select();\"  /><br/><a href=\"" . $_SERVER["PHP_SELF"] . "\"><input type=\"button\" value=\"Back to Promos\" /></a>");
 } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "signup") {
     //==err("w00t");
-    $r_check = sql_query("SELECT * FROM promo WHERE link=" . sqlesc($link)) or sqlerr(__FILE__, __LINE__);
+    ($r_check = sql_query("SELECT * FROM promo WHERE link=" . sqlesc($link))) || sqlerr(__FILE__, __LINE__);
     if ($r_check->num_rows == 0) stderr("Error", "The link your using is not a valid link");
     else {
         $ar_check = $r_check->fetch_assoc();
@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
         if (!validemail($email)) stderr("Error", "That dosen't look like an email adress");
         check_banned_emails($email);
         //==Check if username or password already exists
-        $var_check = sql_query("SELECT id, editsecret FROM users where username=" . sqlesc($username) . " OR email=" . sqlesc($email)) or sqlerr(__FILE__, __LINE__);
+        ($var_check = sql_query("SELECT id, editsecret FROM users where username=" . sqlesc($username) . " OR email=" . sqlesc($email))) || sqlerr(__FILE__, __LINE__);
         if ($var_check->num_rows == 1) stderr("Error", "Username or password already exists");
 		$added = TIME_NOW;
         $secret = mksecret();
@@ -86,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
         $hash3 = t_Hash($birthday, $username, $email);
         $passhash = make_passhash($hash1, hash("ripemd160", $wantpassword), $hash2);
         $editsecret = (EMAIL_CONFIRM ? make_passhash_login_key($email, $added) : "");
-        $res = sql_query("INSERT INTO users(username, passhash, secret, editsecret, email, added, hash3, pin_code, uploaded, invites, seedbonus) VALUES (" . implode(",", array_map("sqlesc", array(
+        ($res = sql_query("INSERT INTO users(username, passhash, secret, editsecret, email, added, hash3, pin_code, uploaded, invites, seedbonus) VALUES (" . implode(",", array_map("sqlesc", array(
             $username,
             $passhash,
             $secret,
@@ -98,12 +98,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
             ($ar_check["bonus_upload"] * 1073741824) ,
             $ar_check["bonus_invites"],
             $ar_check["bonus_karma"]
-        ))) . ") ") or sqlerr(__FILE__, __LINE__);
+        ))) . ") ")) || sqlerr(__FILE__, __LINE__);
         if ($res) {
             //==Updating promo table
             $userid = $mysqli->insert_id;
             $users = (empty($ar_check["users"]) ? $userid : $ar_check["users"] . "," . $userid);
-            sql_query("update promo set accounts_made=accounts_made+1 , users=" . sqlesc($users) . " WHERE id=" . sqlesc($ar_check["id"])) or sqlerr(__FILE__, __LINE__);
+            sql_query("update promo set accounts_made=accounts_made+1 , users=" . sqlesc($users) . " WHERE id=" . sqlesc($ar_check["id"])) || sqlerr(__FILE__, __LINE__);
             //==Email part :)
             $sec = $editsecret;
             $subject = $TRINITY20['site_name'] . " user registration confirmation";
@@ -121,12 +121,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
         } else stderr("Error", "Something odd happned please retry");
     }
 } elseif ($do == "delete" && $id > 0) {
-    $r = sql_query("SELECT name FROM promo WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    ($r = sql_query("SELECT name FROM promo WHERE id=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     if ($sure == "no") {
         $a = $r->fetch_assoc();
         stderr("Sanity check...", "You are about to delete promo <b>" . htmlsafechars($a["name"]) . "</b>, if you are sure click <a href=\"" . $_SERVER["PHP_SELF"] . "?do=delete&amp;id=" . $id . "&amp;sure=yes\">here</a>");
     } elseif ($sure == "yes") {
-        if (sql_query("DELETE FROM promo where id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__)) {
+        if (sql_query("DELETE FROM promo where id=" . sqlesc($id)) || sqlerr(__FILE__, __LINE__)) {
             header("Refresh: 2; url=" . $_SERVER["PHP_SELF"]);
             stderr("Success", "Promo was deleted!");
         } else stderr("Error", "Odd things happned!Contact your coder!");
@@ -168,7 +168,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
 } elseif ($do == "signup") {
     if (empty($link)) stderr("Error", "There is no link found! Please check the link");
     else {
-        $r_promo = sql_query("SELECT * from promo where link=" . sqlesc($link)) or sqlerr(__FILE__, __LINE__);
+        ($r_promo = sql_query("SELECT * from promo where link=" . sqlesc($link))) || sqlerr(__FILE__, __LINE__);
         if ($r_promo->num_rows == 0) stderr("Error", "There is no promo with that link ");
         else {
             $ar = $r_promo->fetch_assoc();
@@ -201,12 +201,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
 } elseif ($do == "accounts") {
     if ($id == 0) die("Can't find id");
     else {
-        $q1 = sql_query("SELECT name, users FROM promo WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+        ($q1 = sql_query("SELECT name, users FROM promo WHERE id=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
         if ($q1->num_rows == 1) {
             $a1 = $q1->fetch_assoc();
             if (!empty($a1["users"])) {
                 $users = explode(",", $a1["users"]);
-                if (!empty($users)) $q2 = sql_query("SELECT id, username, added FROM users WHERE id IN (" . join(",", $users) . ")") or sqlerr(__FILE__, __LINE__);
+                if (!empty($users)) ($q2 = sql_query("SELECT id, username, added FROM users WHERE id IN (" . implode(",", $users) . ")")) || sqlerr(__FILE__, __LINE__);
                 $HTMLOUT = "
           <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN''http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
           <html xmlns='http://www.w3.org/1999/xhtml'>
@@ -245,7 +245,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
 } else {
     loggedinorreturn();
     if ($CURUSER['class'] < UC_STAFF) stderr("Error", "There is nothing for you here! Go play somewere else");
-    $r = sql_query("SELECT p.*,u.username from promo as p LEFT JOIN users as u on p.creator=u.id ORDER by p.added,p.days_valid DESC") or sqlerr(__FILE__, __LINE__);
+    ($r = sql_query("SELECT p.*,u.username from promo as p LEFT JOIN users as u on p.creator=u.id ORDER by p.added,p.days_valid DESC")) || sqlerr(__FILE__, __LINE__);
     if ($r->num_rows == 0) stderr("Error", "There is no promo if you want to make one click <a href=\"" . $_SERVER["PHP_SELF"] . "?do=addpromo\">here</a>");
     else {      
 	$HTMLOUT.= "<div class='row'><div class='col-md-12'><h2>Current Promos&nbsp;<font class=\"small\"><a href=\"" . $_SERVER["PHP_SELF"] . "?do=addpromo\">- Add promo</a></font></h2>";
@@ -277,8 +277,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
 			</tr>";
         while ($ar = $r->fetch_assoc()) {
             $active = (($ar["max_users"] == $ar["accounts_made"]) || (($ar["added"] + (86400 * $ar["days_valid"])) < TIME_NOW)) ? false : true;
-            $HTMLOUT.= "<tr " . (!$active ? "title=\"This promo has ended\"" : "") . ">
-				<td nowrap='nowrap' align='center'>" . (htmlsafechars($ar["name"])) . "<br /><input type='text' " . (!$active ? "disabled=\"disabled\"" : "") . " value='" . ($TRINITY20['baseurl'] . $_SERVER["PHP_SELF"] . "?do=signup&amp;link=" . $ar["link"]) . "' size='60' name='" . (htmlsafechars($ar["name"])) . "' onclick='select();' /></td>
+            $HTMLOUT.= "<tr " . ($active ? "" : "title=\"This promo has ended\"") . ">
+				<td nowrap='nowrap' align='center'>" . (htmlsafechars($ar["name"])) . "<br /><input type='text' " . ($active ? "" : "disabled=\"disabled\"") . " value='" . ($TRINITY20['baseurl'] . $_SERVER["PHP_SELF"] . "?do=signup&amp;link=" . $ar["link"]) . "' size='60' name='" . (htmlsafechars($ar["name"])) . "' onclick='select();' /></td>
 				<td nowrap='nowrap' align='center'>" . (date("d/M-Y", $ar["added"])) . "</td>
 				<td nowrap='nowrap' align='center'>" . (date("d/M-Y", ($ar["added"] + (86400 * $ar["days_valid"])))) . "</td>
 				<td nowrap='nowrap' align='center'>" . ((int) $ar["max_users"]) . "</td>

@@ -29,25 +29,26 @@ $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language ('ad_paypal_settings'));
 //get the config from db
-$pconf = sql_query('SELECT * FROM paypal_config') or sqlerr(__FILE__, __LINE__);
+($pconf = sql_query('SELECT * FROM paypal_config')) || sqlerr(__FILE__, __LINE__);
 while ($ac = $pconf->fetch_assoc()) 
 $paypal_config[$ac['name']] = $ac['value'];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $update = array();
-    foreach ($paypal_config as $c_name => $c_value) if (isset($_POST[$c_name]) && $_POST[$c_name] != $c_value) $update[] = '(' . sqlesc($c_name) . ',' . sqlesc(is_array($_POST[$c_name]) ? join('|', $_POST[$c_name]) : $_POST[$c_name]) . ')';
-    if (sql_query('INSERT INTO paypal_config(name,value) VALUES ' . join(',', $update) . ' ON DUPLICATE KEY update value=values(value)')) {
+    foreach ($paypal_config as $c_name => $c_value) if (isset($_POST[$c_name]) && $_POST[$c_name] != $c_value) $update[] = '(' . sqlesc($c_name) . ',' . sqlesc(is_array($_POST[$c_name]) ? implode('|', $_POST[$c_name]) : $_POST[$c_name]) . ')';
+    if (sql_query('INSERT INTO paypal_config(name,value) VALUES ' . implode(',', $update) . ' ON DUPLICATE KEY update value=values(value)')) {
      $t = '$TRINITY20';
 $iconfigfile = "<" . "?php\n/**\n{$lang['paypal_file_created']}" . date('M d Y H:i:s') . ".\n{$lang['paypal_site']}.\n**/\n";
      $res = sql_query("SELECT * from paypal_config ");
      while ($arr = $res->fetch_assoc()) {
-        if($arr['name']=="email")
-        $iconfigfile.= "" . $t . "['paypal_config']['$arr[name]'] = '$arr[value]';\n";
-        else if($arr['name']=="sandbox")
-        $iconfigfile.= "" . $t . "['paypal_config']['$arr[name]'] = '$arr[value]';\n";
-        else
+        if ($arr['name']=="email") {
+            $iconfigfile.= "" . $t . "['paypal_config']['$arr[name]'] = '$arr[value]';\n";
+        } elseif ($arr['name']=="sandbox") {
+            $iconfigfile.= "" . $t . "['paypal_config']['$arr[name]'] = '$arr[value]';\n";
+        } else
         $iconfigfile.= "" . $t . "['paypal_config']['$arr[name]'] = $arr[value];\n";
     }
-    $iconfigfile.= "\n?" . ">";
+    $iconfigfile.= '
+?>';
     $filenum = fopen('./cache/paypal_settings.php', 'w');
     ftruncate($filenum, 0);
     fwrite($filenum, $iconfigfile);
@@ -62,7 +63,7 @@ $HTMLOUT.= "
 <h2><b><i>{$lang['paypal_global_title']}</i></b></h2>
 <form action='staffpanel.php?tool=paypal_settings' method='post'>
 <table class='table table-bordered'>
-<tr><td>{$lang['paypal_donate']}</td><td align='left'>{$lang['paypal_yes']}<input type='radio' name='enable' value='1' " . ($paypal_config['enable'] ? 'checked=\'checked\'' : '') . " />{$lang['paypal_no']}<input type='radio' name='enable' value='0' " . (!$paypal_config['enable'] ? 'checked=\'checked\'' : '') . " /></td></tr>
+<tr><td>{$lang['paypal_donate']}</td><td align='left'>{$lang['paypal_yes']}<input type='radio' name='enable' value='1' " . ($paypal_config['enable'] ? 'checked=\'checked\'' : '') . " />{$lang['paypal_no']}<input type='radio' name='enable' value='0' " . ($paypal_config['enable'] ? '' : 'checked=\'checked\'') . " /></td></tr>
 <tr><td>{$lang['paypal_email']}</td><td><input type='text' class='form-control' name='email' size='25' value='" . htmlsafechars($paypal_config['email']) . "' /></td></tr>
 <tr><td>{$lang['paypal_currency']}</td><td><input type='text' class='form-control' name='currency' size='4' value='" . htmlsafechars($paypal_config['currency']) . "' /></td></tr>
 <tr><td>{$lang['paypal_user_pm']}</td><td><input type='text' class='form-control' name='staff' size='2' value='" . htmlsafechars($paypal_config['staff']) . "' /></td></tr>

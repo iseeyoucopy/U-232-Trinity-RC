@@ -79,7 +79,7 @@ case "allComments":
                         'added' => (int) $comment['added']
                 );
                 //==== Alternate colors in table rows generated using MySQLI
-                $Row_Class = $Row_Count % 2 ? 'regular' : 'alternate';
+                $Row_Class = $Row_Count % 2 !== 0 ? 'regular' : 'alternate';
 
                 //==== HTML Output
                 $HTMLOUT .= "<tr class='{$Row_Class}'>" . 
@@ -138,7 +138,7 @@ case "results":
         "WHERE c.text LIKE " . sqlesc("%{$_POST['keywords']}%") .
         "ORDER BY c.added DESC";
 
-        $query = sql_query("{$sql}") or sqlerr(__FILE__, __LINE__);
+        ($query = sql_query("{$sql}")) || sqlerr(__FILE__, __LINE__);
         $rows = $query->num_rows;
 
         $Row_Count = 0;
@@ -170,7 +170,7 @@ case "results":
                 );
 
                 //==== Alternate colors in table rows generated using MySQLI
-                $Row_Class = $Row_Count % 2 ? 'regular' : 'alternate';
+                $Row_Class = $Row_Count % 2 !== 0 ? 'regular' : 'alternate';
 
                 //==== HTML Output
                 $HTMLOUT .= "<tr class='{$Row_Class}'>" .
@@ -240,7 +240,7 @@ while($comment = $query->fetch_assoc()) {
                 'added' => (int) $comment['added']
         );
         //==== Alternate colors in table rows generated using MySQLI
-        $Row_Class = $Row_Count % 2 ? 'regular' : 'alternate';
+        $Row_Class = $Row_Count % 2 !== 0 ? 'regular' : 'alternate';
 
         //==== HTML Output
         $HTMLOUT .= "<tr class='{$Row_Class}'>" .

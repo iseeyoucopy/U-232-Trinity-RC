@@ -80,13 +80,13 @@ if ($action == 'add') {
         if (!is_valid_id($id)) {
             stderr("{$lang['comment_error']}", "{$lang['comment_invalid_id']}");
         }
-        $res = sql_query("SELECT $sql_1 WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query("SELECT $sql_1 WHERE id = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
         $arr = $res->fetch_array(MYSQLI_BOTH);
         if (!$arr) {
             stderr("{$lang['comment_error']}", "No $locale with that ID.");
         }
         $body = (isset($_POST['body']) ? trim($_POST['body']) : '');
-        if (!$body) {
+        if ($body === '') {
             stderr("{$lang['comment_error']}", "{$lang['comment_body']}");
         }
         $owner = (isset($arr['owner']) ? $arr['owner'] : 0);
@@ -100,10 +100,10 @@ if ($action == 'add') {
 
         sql_query("INSERT INTO comments (user, $locale, added, text, ori_text, anonymous) VALUES (" . sqlesc($CURUSER["id"]) . ", " . sqlesc($id) . ", " . TIME_NOW . ", " . sqlesc($body) . ", " . sqlesc($body) . ", $anon)");
         $newid = $mysqli->insert_id;
-        sql_query("UPDATE $table_type SET comments = comments + 1 WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE $table_type SET comments = comments + 1 WHERE id = " . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
         if ($TRINITY20['seedbonus_on'] == 1) {
             if ($TRINITY20['karma'] && isset($CURUSER['seedbonus'])) {
-                sql_query("UPDATE users SET seedbonus = seedbonus+" . sqlesc($TRINITY20['bonus_per_comment']) . " WHERE id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+                sql_query("UPDATE users SET seedbonus = seedbonus+" . sqlesc($TRINITY20['bonus_per_comment']) . " WHERE id = " . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
             }
             $update['comments'] = ($arr['comments'] + 1);
             $cache->update_row('torrent_details_' . $id, [
@@ -119,13 +119,13 @@ if ($action == 'add') {
             //===end
         }
         // --- pm if new comment mod---//
-        $cpm = sql_query("SELECT commentpm FROM users WHERE id = " . sqlesc($owner)) or sqlerr(__FILE__, __LINE__);
+        ($cpm = sql_query("SELECT commentpm FROM users WHERE id = " . sqlesc($owner))) || sqlerr(__FILE__, __LINE__);
         $cpm_r = $cpm->fetch_assoc();
         if ($cpm_r['commentpm'] == 'yes') {
             $added = TIME_NOW;
             $subby = sqlesc("Someone has left a comment");
             $notifs = sqlesc("You have received a comment on your torrent [url={$TRINITY20['baseurl']}/details.php?id={$id}] " . htmlsafechars($arr['name']) . "[/url].");
-            sql_query("INSERT INTO messages (sender, receiver, subject, msg, added) VALUES(0, " . sqlesc($arr['owner']) . ", $subby, $notifs, $added)") or sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO messages (sender, receiver, subject, msg, added) VALUES(0, " . sqlesc($arr['owner']) . ", $subby, $notifs, $added)") || sqlerr(__FILE__, __LINE__);
         }
         // ---end---//
         header("Refresh: 0; url=$locale_link.php?id=$id$extra_link&viewcomm=$newid#comm$newid");
@@ -135,7 +135,7 @@ if ($action == 'add') {
     if (!is_valid_id($id)) {
         stderr("{$lang['comment_error']}", "{$lang['comment_invalid_id']}");
     }
-    $res = sql_query("SELECT $sql_1 WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT $sql_1 WHERE id = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
     if (!$arr) {
         stderr("{$lang['comment_error']}", "No $locale with that ID.");
@@ -160,7 +160,7 @@ if ($action == 'add') {
     while ($row = $res->fetch_assoc()) {
         $allrows[] = $row;
     }
-    if (count($allrows)) {
+    if (count($allrows) > 0) {
         require_once(INCL_DIR . 'html_functions.php');
         require_once(INCL_DIR . 'bbcode_functions.php');
         require_once(INCL_DIR . 'user_functions.php');
@@ -175,7 +175,7 @@ if ($action == 'add') {
     if (!is_valid_id($commentid)) {
         stderr("{$lang['comment_error']}", "{$lang['comment_invalid_id']}");
     }
-    $res = sql_query("SELECT c.*, t.$name, t.id as tid FROM comments AS c LEFT JOIN $table_type AS t ON c.$locale = t.id WHERE c.id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT c.*, t.$name, t.id as tid FROM comments AS c LEFT JOIN $table_type AS t ON c.$locale = t.id WHERE c.id=" . sqlesc($commentid))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
     if (!$arr) {
         stderr("{$lang['comment_error']}", "{$lang['comment_invalid_id']}.");
@@ -191,9 +191,9 @@ if ($action == 'add') {
         $text = htmlsafechars($body);
         $editedat = TIME_NOW;
         if (isset($_POST['lasteditedby']) || $CURUSER['class'] < UC_STAFF) {
-            sql_query("UPDATE comments SET text=" . sqlesc($text) . ", editedat=$editedat, edit_name=" . sqlesc($CURUSER['username']) . ", editedby=" . sqlesc($CURUSER['id']) . " WHERE id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
+            sql_query("UPDATE comments SET text=" . sqlesc($text) . ", editedat=$editedat, edit_name=" . sqlesc($CURUSER['username']) . ", editedby=" . sqlesc($CURUSER['id']) . " WHERE id=" . sqlesc($commentid)) || sqlerr(__FILE__, __LINE__);
         } else {
-            sql_query("UPDATE comments SET text=" . sqlesc($text) . ", editedat=$editedat, editedby=0 WHERE id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
+            sql_query("UPDATE comments SET text=" . sqlesc($text) . ", editedat=$editedat, editedby=0 WHERE id=" . sqlesc($commentid)) || sqlerr(__FILE__, __LINE__);
         }
         header("Refresh: 0; url=$locale_link.php?id=" . (int) $arr['tid'] . "$extra_link&viewcomm=$commentid#comm$commentid");
         die;
@@ -227,19 +227,19 @@ if ($action == 'add') {
         stderr("{$lang['comment_delete']}", "{$lang['comment_about_delete']}\n" . "<a href='comment.php?action=delete&amp;cid=$commentid&amp;tid=$tid&amp;sure=1" . ($locale == 'request' ? '&amp;type=request' : '') . "'>
           here</a> {$lang['comment_delete_sure']}");
     }
-    $res = sql_query("SELECT $locale FROM comments WHERE id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT $locale FROM comments WHERE id=" . sqlesc($commentid))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
     $id = 0;
     if ($arr) {
         $id = $arr[$locale];
     }
-    sql_query("DELETE FROM comments WHERE id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
+    sql_query("DELETE FROM comments WHERE id=" . sqlesc($commentid)) || sqlerr(__FILE__, __LINE__);
     if ($id && $mysqli->affected_rows > 0) {
         sql_query("UPDATE $table_type SET comments = comments - 1 WHERE id = " . sqlesc($id));
     }
     if ($TRINITY20['seedbonus_on'] == 1) {
         if ($TRINITY20['karma'] && isset($CURUSER['seedbonus'])) {
-            sql_query("UPDATE users SET seedbonus = seedbonus-3.0 WHERE id =" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+            sql_query("UPDATE users SET seedbonus = seedbonus-3.0 WHERE id =" . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
         }
         $arr['comments'] = (isset($arr['comments']) ? $arr['comments'] : 0);
         $update['comments'] = ($arr['comments'] - 1);
@@ -265,7 +265,7 @@ if ($action == 'add') {
     if (!is_valid_id($commentid)) {
         stderr("{$lang['comment_error']}", "{$lang['comment_invalid_id']}");
     }
-    $res = sql_query("SELECT c.*, t.$name FROM comments AS c LEFT JOIN $table_type AS t ON c.$locale = t.id WHERE c.id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT c.*, t.$name FROM comments AS c LEFT JOIN $table_type AS t ON c.$locale = t.id WHERE c.id=" . sqlesc($commentid))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
     if (!$arr) {
         stderr("{$lang['comment_error']}", "{$lang['comment_invalid_id']} $commentid.");

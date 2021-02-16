@@ -52,7 +52,7 @@ function parse_poll()
         $poll_footer = 'You have already voted';
     }
     //Does we want the creator to vote on their own poll?
-    if (($poll_data['starter_id'] == $CURUSER['id']) and ($GVARS['allow_creator_vote'] != 1)) {
+    if ($poll_data['starter_id'] == $CURUSER['id'] && $GVARS['allow_creator_vote'] !== 1) {
         $check = 1;
         $poll_footer = 'poll_you_created';
     }
@@ -73,11 +73,9 @@ function parse_poll()
         }
     */
     //allow viewing of poll results before voting?
-    if ($GVARS['allow_result_view'] == 1) {
-        if (isset($_GET['mode']) && $_GET['mode'] == 'show') {
-            $check = 1;
-            $poll_footer = "";
-        }
+    if ($GVARS['allow_result_view'] === 1 && (isset($_GET['mode']) && $_GET['mode'] == 'show')) {
+        $check = 1;
+        $poll_footer = "";
     }
     if ($check == 1) {
         //ok, lets get this show on the road!
@@ -91,27 +89,27 @@ function parse_poll()
             $tv_poll = 0;
             //get total votes for each choice
             foreach ($poll_answers[$id]['votes'] as $number) {
-                $tv_poll+= intval($number);
+                $tv_poll+= (int) $number;
             }
             // Get the choises from the unserialised array
             foreach ($data['choice'] as $choice_id => $text) {
                 $choice = htmlsafechars($text, ENT_QUOTES);
-                $votes = intval($data['votes'][$choice_id]);
+                $votes = (int) $data['votes'][$choice_id];
                 if (strlen($choice) < 1) {
                     continue;
                 }
-                if ($GVARS['allow_poll_tags']) {
+                if ($GVARS['allow_poll_tags'] !== 0) {
                     $choice = preg_replace("/\[url=([^()<>\s]+?)\]((\s|.)+?)\[\/url\]/i", "<a href=\"\\1\">\\2</a>", $choice);
                 }
                 $percent = $votes == 0 ? 0 : $votes / $tv_poll * 100;
                 $percent = sprintf('%.2f', $percent);
-                $width = $percent > 0 ? intval($percent * 2) : 0;
+                $width = $percent > 0 ? (int) ($percent * 2) : 0;
                 $choice_html.= poll_show_rendered_choice($choice_id, $votes, $id, $choice, $percent, $width);
             }
             $htmlout.= poll_show_rendered_question($id, $question, $choice_html);
         }
         $htmlout.= show_total_votes($tv_poll);
-    } else if ($check == 2) {
+    } elseif ($check == 2) {
         // only for guests when view before vote is off
         $htmlout = poll_header($poll_data['pid'], htmlsafechars($poll_data['poll_question'], ENT_QUOTES));
         //$htmlout.= poll_show_no_guest_view();
@@ -128,15 +126,15 @@ function parse_poll()
             // get choices for this question
             foreach ($data['choice'] as $choice_id => $text) {
                 $choice = htmlsafechars($text, ENT_QUOTES);
-                $votes = intval($data['votes'][$choice_id]);
+                $votes = (int) $data['votes'][$choice_id];
                 if (strlen($choice) < 1) {
                     continue;
                 }
                 //do we wanna allow URL's and if so convert them
-                if ($GVARS['allow_poll_tags']) {
+                if ($GVARS['allow_poll_tags'] !== 0) {
                     $choice = $s = preg_replace("/\[url=([^()<>\s]+?)\]((\s|.)+?)\[\/url\]/i", "<a href=\"\\1\">\\2</a>", $choice);
                 }
-                if (isset($data['multi']) AND $data['multi'] == 1) {
+                if (isset($data['multi']) && $data['multi'] == 1) {
                     $choice_html.= poll_show_form_choice_multi($choice_id, $votes, $id, $choice);
                 } else {
                     $choice_html.= poll_show_form_choice($choice_id, $votes, $id, $choice);
@@ -150,19 +148,17 @@ function parse_poll()
     $htmlout.= poll_footer();
     if ($poll_footer != "") {
         $htmlout = str_replace("<!--VOTE-->", $poll_footer, $htmlout);
-    } else {
-        if ($GVARS['allow_result_view'] == 1) {
-            if (isset($_GET['mode']) && $_GET['mode'] == 'show') {
-                $htmlout = str_replace("<!--SHOW-->", button_show_voteable() , $htmlout);
-            } else {
-                $htmlout = str_replace("<!--SHOW-->", button_show_results() , $htmlout);
-                $htmlout = str_replace("<!--VOTE-->", button_vote() , $htmlout);
-            }
+    } elseif ($GVARS['allow_result_view'] === 1) {
+        if (isset($_GET['mode']) && $_GET['mode'] == 'show') {
+            $htmlout = str_replace("<!--SHOW-->", button_show_voteable() , $htmlout);
         } else {
-            //this section not for reviewing votes!
+            $htmlout = str_replace("<!--SHOW-->", button_show_results() , $htmlout);
             $htmlout = str_replace("<!--VOTE-->", button_vote() , $htmlout);
-            $htmlout = str_replace("<!--SHOW-->", button_null_vote() , $htmlout);
         }
+    } else {
+        //this section not for reviewing votes!
+        $htmlout = str_replace("<!--VOTE-->", button_vote() , $htmlout);
+        $htmlout = str_replace("<!--SHOW-->", button_null_vote() , $htmlout);
     }
     return $htmlout;
 }
@@ -174,7 +170,7 @@ function parse_poll()
 function poll_header($pid = "", $poll_q = "")
 {
     global $TRINITY20;
-    $htmlout= "<script type=\"text/javascript\">
+    return "<script type=\"text/javascript\">
     /*<![CDATA[*/
     function go_gadget_show()
     {
@@ -190,15 +186,13 @@ function poll_header($pid = "", $poll_q = "")
     
 
 ";
-    return $htmlout;
 }
   function poll_footer()
 {
-    $htmlout= "<span><!--VOTE-->&nbsp;<!--SHOW--></span>
+    return "<span><!--VOTE-->&nbsp;<!--SHOW--></span>
           <span><!-- no content --></span>
 
     </form>";
-    return $htmlout;
 }
 function poll_show_rendered_choice($choice_id = "", $votes = "", $id = "", $answer = "", $percentage = "", $width = "")
 {
@@ -222,55 +216,46 @@ function poll_show_rendered_choice($choice_id = "", $votes = "", $id = "", $answ
 }
 function poll_show_rendered_question($id = "", $question = "", $choice_html = "")
 {
-    $htmlout= "
+    return "
      <div class='text-left'><strong>{$question}</strong></div>
      $choice_html";
-    return $htmlout;
 }
 function show_total_votes($total_votes = "")
 {
-    $htmlout= "<div class='text-left'><b>Total Votes: $total_votes</b></div>";
-    return $htmlout;
+    return "<div class='text-left'><b>Total Votes: $total_votes</b></div>";
 }
 function poll_show_form_choice_multi($choice_id = "", $votes = "", $id = "", $answer = "")
 {
-    $htmlout= "
+    return "
     <tr><td style='colspan=3'><input type='checkbox' name='choice_{$id}_{$choice_id}' value='1'  />&nbsp;<b>$answer</b></td></tr>";
-    return $htmlout;
 }
 function poll_show_form_choice($choice_id = "", $votes = "", $id = "", $answer = "")
 {
-    $htmlout= "
+    return "
     <tr><td style='nowrap=nowrap'><input type='radio' name='choice[{$id}]' value='$choice_id'  />&nbsp;<strong>$answer</strong></td></tr>";
-    return $htmlout;
 }
 function poll_show_form_question($id = "", $question = "", $choice_html = "")
 {
-    $htmlout= "
+    return "
     <div align='left'>
       <div style='padding:4px;'><span class='postdetails'><strong>{$question}</strong></span></div>
       $choice_html
     </div>";
-    return $htmlout;
 }
 function button_show_voteable()
 {
-    $htmlout= "<input class='btn btn-default' type='button' name='viewresult' value='Show Votes'  title='Goto poll voting' onclick=\"go_gadget_vote()\" />";
-    return $htmlout;
+    return "<input class='btn btn-default' type='button' name='viewresult' value='Show Votes'  title='Goto poll voting' onclick=\"go_gadget_vote()\" />";
 }
 function button_show_results()
 {
-    $htmlout= "<input class='btn btn-default' type='button' value='Results' title='Show all poll rsults' onclick=\"go_gadget_show()\" />";
-    return $htmlout;
+    return "<input class='btn btn-default' type='button' value='Results' title='Show all poll rsults' onclick=\"go_gadget_show()\" />";
 }
 function button_vote()
 {
-    $htmlout= "<input class='btn btn-default' type='submit' name='submit' value='Vote' title='Poll Vote' />";
-    return $htmlout;
+    return "<input class='btn btn-default' type='submit' name='submit' value='Vote' title='Poll Vote' />";
 }
 function button_null_vote()
 {
-    $htmlout= "<input class='btn btn-default' type='submit' name='nullvote' value='View Results (Null Vote)' title='View results, but forfeit your vote in this poll' />";
-    return $htmlout;
+    return "<input class='btn btn-default' type='submit' name='nullvote' value='View Results (Null Vote)' title='View results, but forfeit your vote in this poll' />";
 }
 ?>

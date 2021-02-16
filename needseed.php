@@ -36,9 +36,9 @@ if ($needed == "leechers") {
     $HTMLOUT.="<div class='row'><div class='col-md-12'>";
     $Dur = TIME_NOW - 86400 * 7; //== 7 days
     if (XBT_TRACKER === true) {
-    $res = sql_query("SELECT x.fid, x.uid, u.username, u.uploaded, u.downloaded, t.name, t.seeders, t.leechers, t.category " . "FROM xbt_files_users AS x " . "LEFT JOIN users AS u ON u.id=x.uid " . "LEFT JOIN torrents AS t ON t.id=x.fid WHERE x.left = '0' AND active='1'" . "AND u.downloaded > '1024' AND u.added < $Dur ORDER BY u.uploaded / u.downloaded ASC LIMIT 20") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT x.fid, x.uid, u.username, u.uploaded, u.downloaded, t.name, t.seeders, t.leechers, t.category " . "FROM xbt_files_users AS x " . "LEFT JOIN users AS u ON u.id=x.uid " . "LEFT JOIN torrents AS t ON t.id=x.fid WHERE x.left = '0' AND active='1'" . "AND u.downloaded > '1024' AND u.added < $Dur ORDER BY u.uploaded / u.downloaded ASC LIMIT 20")) || sqlerr(__FILE__, __LINE__);
     } else {
-    $res = sql_query("SELECT p.id, p.userid, p.torrent, u.username, u.uploaded, u.downloaded, t.name, t.seeders, t.leechers, t.category " . "FROM peers AS p " . "LEFT JOIN users AS u ON u.id=p.userid " . "LEFT JOIN torrents AS t ON t.id=p.torrent WHERE p.seeder = 'yes' " . "AND u.downloaded > '1024' AND u.added < $Dur ORDER BY u.uploaded / u.downloaded ASC LIMIT 20") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT p.id, p.userid, p.torrent, u.username, u.uploaded, u.downloaded, t.name, t.seeders, t.leechers, t.category " . "FROM peers AS p " . "LEFT JOIN users AS u ON u.id=p.userid " . "LEFT JOIN torrents AS t ON t.id=p.torrent WHERE p.seeder = 'yes' " . "AND u.downloaded > '1024' AND u.added < $Dur ORDER BY u.uploaded / u.downloaded ASC LIMIT 20")) || sqlerr(__FILE__, __LINE__);
     }
     if ($res->num_rows > 0) {
         $HTMLOUT.= "<table class='table table-bordered'>
@@ -62,7 +62,7 @@ $HTMLOUT.= "</div></div>";
 } else {
 $HTMLOUT.="<div class='row'><div class='col-md-12'><h2>{$lang['needseed_sin']}&nbsp;&nbsp;-&nbsp;&nbsp;[<a href='?needed=leechers' class='altlink'>{$lang['needseed_tns']}</a>]</h2></div></div>";
     $HTMLOUT.="<div class='row'><div class='col-md-12'>";
-    $res = sql_query("SELECT id, name, seeders, leechers, added, category FROM torrents WHERE leechers >= 0 AND seeders = 0 ORDER BY leechers DESC LIMIT 20") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id, name, seeders, leechers, added, category FROM torrents WHERE leechers >= 0 AND seeders = 0 ORDER BY leechers DESC LIMIT 20")) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows > 0) {
         $HTMLOUT.= "<table class='table table-bordered'>
         <tr><td class='colhead'>{$lang['needseed_cat']}</td><td class='colhead'>{$lang['needseed_tor']}</td><td class='colhead'>{$lang['needseed_seed']}</td><td class='colhead'>{$lang['needseed_leech']}</td></tr>\n";

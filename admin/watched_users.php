@@ -47,10 +47,10 @@ if (isset($_GET['remove'])) {
     if (isset($_GET['wu'])) {
         if (is_valid_id($remove_me_Ive_been_good)) {
             //=== get mod comments for member
-            $res = sql_query('SELECT username, modcomment FROM users WHERE id=' . sqlesc($remove_me_Ive_been_good)) or sqlerr(__FILE__, __LINE__);
+            ($res = sql_query('SELECT username, modcomment FROM users WHERE id=' . sqlesc($remove_me_Ive_been_good))) || sqlerr(__FILE__, __LINE__);
             $user = $res->fetch_assoc();
             $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - {$lang['watched_removed']} $CURUSER[username].\n" . $user['modcomment'];
-            sql_query('UPDATE users SET watched_user = \'0\', modcomment=' . sqlesc($modcomment) . ' WHERE id=' . sqlesc($remove_me_Ive_been_good)) or sqlerr(__FILE__, __LINE__);
+            sql_query('UPDATE users SET watched_user = \'0\', modcomment=' . sqlesc($modcomment) . ' WHERE id=' . sqlesc($remove_me_Ive_been_good)) || sqlerr(__FILE__, __LINE__);
             $cache->update_row($keys['my_userid'] . $remove_me_Ive_been_good, [
                 'watched_user' => 0
             ], $TRINITY20['expires']['curuser']);
@@ -67,10 +67,10 @@ if (isset($_GET['remove'])) {
         foreach ($remove_me_Ive_been_good as $id) {
             if (is_valid_id($id)) {
                 //=== get mod comments for member
-                $res = sql_query('SELECT username, modcomment FROM users WHERE id=' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+                ($res = sql_query('SELECT username, modcomment FROM users WHERE id=' . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
                 $user = $res->fetch_assoc();
                 $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - {$lang['watched_removed']} $CURUSER[username].\n" . $user['modcomment'];
-                sql_query('UPDATE users SET watched_user = \'0\', modcomment=' . sqlesc($modcomment) . ' WHERE id=' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+                sql_query('UPDATE users SET watched_user = \'0\', modcomment=' . sqlesc($modcomment) . ' WHERE id=' . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
                 $cache->begin_transaction($keys['my_userid'] . $id);
                 $cache->update_row(false, array(
                     'watched_user' => 0
@@ -101,7 +101,7 @@ if (isset($_GET['add'])) {
     $member_whos_been_bad = (int) $_GET['id'];
     if (is_valid_id($member_whos_been_bad)) {
         //=== make sure they are not being watched...
-        $res = sql_query('SELECT modcomment, watched_user, watched_user_reason, username FROM users WHERE id=' . sqlesc($member_whos_been_bad)) or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query('SELECT modcomment, watched_user, watched_user_reason, username FROM users WHERE id=' . sqlesc($member_whos_been_bad))) || sqlerr(__FILE__, __LINE__);
         $user = $res->fetch_assoc();
         if ($user['watched_user'] > 0)
             stderr($lang['watched_stderr'], htmlsafechars($user['username']) . ' ' . $lang['watched_already'] . '<a href="userdetails.php?id=' . $member_whos_been_bad . '" >' . $lang['watched_backto'] . ' ' . htmlsafechars($user['username']) . '\'s ' . $lang['watched_profile'] . '</a>');
@@ -128,7 +128,7 @@ if (isset($_GET['add'])) {
         //=== all is good, let's enter them \o/
         $watched_user_reason = htmlsafechars($_POST['reason']);
         $modcomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $lang['watched_addedwu'] . " $CURUSER[username].\n" . $user['modcomment'];
-        sql_query('UPDATE users SET watched_user = ' . TIME_NOW . ', modcomment=' . sqlesc($modcomment) . ', watched_user_reason = ' . sqlesc($watched_user_reason) . ' WHERE id=' . sqlesc($member_whos_been_bad)) or sqlerr(__FILE__, __LINE__);
+        sql_query('UPDATE users SET watched_user = ' . TIME_NOW . ', modcomment=' . sqlesc($modcomment) . ', watched_user_reason = ' . sqlesc($watched_user_reason) . ' WHERE id=' . sqlesc($member_whos_been_bad)) || sqlerr(__FILE__, __LINE__);
         $cache->update_row($keys['my_userid'] . $member_whos_been_bad, [
             'watched_user' => TIME_NOW
         ], $TRINITY20['expires']['curuser']);
@@ -162,7 +162,7 @@ $HTMLOUT .= '<div class="row"><div class="col-md-12"> '. $H1_thingie . '<br />
         <h1>'.$lang['watched_users'].'[ ' . $watched_users . ' ]</h1>
     <table class="table table-bordered">';
 //=== get the member info...
-$res = sql_query('SELECT id, username, added, watched_user_reason, watched_user, uploaded, downloaded, warned, suspended, enabled, donor, class, leechwarn, chatpost, pirate, king, invitedby FROM users WHERE watched_user != \'0\' ORDER BY ' . $ORDER_BY . $ASC) or sqlerr(__FILE__, __LINE__);
+($res = sql_query('SELECT id, username, added, watched_user_reason, watched_user, uploaded, downloaded, warned, suspended, enabled, donor, class, leechwarn, chatpost, pirate, king, invitedby FROM users WHERE watched_user != \'0\' ORDER BY ' . $ORDER_BY . $ASC)) || sqlerr(__FILE__, __LINE__);
 $how_many = $res->num_rows;
 if ($how_many > 0) {
     $div_link_number = 1;
@@ -179,7 +179,7 @@ if ($how_many > 0) {
         //=== change colors
         $count2 = (++$count2) % 2;
         $class = ($count2 == 0 ? 'one' : 'two');
-        $invitor_res = sql_query('SELECT id, username, donor, class, enabled, warned, leechwarn, chatpost, pirate, king, suspended FROM users WHERE id=' . sqlesc($arr['invitedby'])) or sqlerr(__FILE__, __LINE__);
+        ($invitor_res = sql_query('SELECT id, username, donor, class, enabled, warned, leechwarn, chatpost, pirate, king, suspended FROM users WHERE id=' . sqlesc($arr['invitedby']))) || sqlerr(__FILE__, __LINE__);
         $invitor_arr = $invitor_res->fetch_assoc();
         $the_flip_box = '
         [ <a id="d' . $div_link_number . '_open" style="font-weight:bold;cursor:pointer;">'.$lang['watched_viewreason'].'</a> ]

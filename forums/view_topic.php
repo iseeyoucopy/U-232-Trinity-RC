@@ -30,12 +30,12 @@ if ($Multi_forum['configs']['use_poll_mod'] && $_SERVER['REQUEST_METHOD'] == "PO
     $choice = htmlsafechars($_POST['choice']);
     $pollid = (int) $_POST["pollid"];
     if (ctype_digit($choice) && $choice < 256 && $choice == floor($choice)) {
-        $res = sql_query("SELECT pa.id " . "FROM postpolls AS p " . "LEFT JOIN postpollanswers AS pa ON pa.pollid = p.id AND pa.userid=" . sqlesc($userid) . " " . "WHERE p.id = " . sqlesc($pollid)) or sqlerr(__FILE__, __LINE__);
-        $arr = $res->fetch_assoc() or stderr('Sorry', 'Inexistent poll!');
+        ($res = sql_query("SELECT pa.id " . "FROM postpolls AS p " . "LEFT JOIN postpollanswers AS pa ON pa.pollid = p.id AND pa.userid=" . sqlesc($userid) . " " . "WHERE p.id = " . sqlesc($pollid))) || sqlerr(__FILE__, __LINE__);
+        ($arr = $res->fetch_assoc()) || stderr('Sorry', 'Inexistent poll!');
         if (is_valid_id($arr['id'])) {
             stderr("Error...", "Dupe vote");
         }
-        sql_query("INSERT INTO postpollanswers (pollid, userid, selection) VALUES(" . sqlesc($pollid) . ", " . sqlesc($userid) . ", " . sqlesc($choice) . ")") or sqlerr(__FILE__, __LINE__);
+        sql_query("INSERT INTO postpollanswers (pollid, userid, selection) VALUES(" . sqlesc($pollid) . ", " . sqlesc($userid) . ", " . sqlesc($choice) . ")") || sqlerr(__FILE__, __LINE__);
         if ($mysqli->affected_rows() != 1) {
             stderr("Error...", "An error occured. Your vote has not been counted.");
         }
@@ -49,14 +49,14 @@ if (!is_valid_id($topicid)) {
 }
 $page = (isset($_GET["page"]) ? (int) $_GET["page"] : 0);
 // ------ Get topic info
-$res = sql_query("SELECT " . ($Multi_forum['configs']['use_poll_mod'] ? 't.poll_id, ' : '') . "t.locked, t.num_ratings, t.rating_sum,  t.topic_name, t.sticky, t.user_id AS t_userid, t.forum_id, f.name AS forum_name, f.min_class_read, f.min_class_write, f.min_class_create, (SELECT COUNT(id)FROM posts WHERE topic_id = t.id) AS p_count " . "FROM topics AS t " . "LEFT JOIN forums AS f ON f.id = t.forum_id " . "WHERE t.id = " . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
-$arr = $res->fetch_assoc() or stderr("Error", "Topic not found");
-($res->free_result() ? true : false);
+($res = sql_query("SELECT " . ($Multi_forum['configs']['use_poll_mod'] ? 't.poll_id, ' : '') . "t.locked, t.num_ratings, t.rating_sum,  t.topic_name, t.sticky, t.user_id AS t_userid, t.forum_id, f.name AS forum_name, f.min_class_read, f.min_class_write, f.min_class_create, (SELECT COUNT(id)FROM posts WHERE topic_id = t.id) AS p_count " . "FROM topics AS t " . "LEFT JOIN forums AS f ON f.id = t.forum_id " . "WHERE t.id = " . sqlesc($topicid))) || sqlerr(__FILE__, __LINE__);
+($arr = $res->fetch_assoc()) || stderr("Error", "Topic not found");
+((bool) $res->free_result());
 ($Multi_forum['configs']['use_poll_mod'] ? $pollid = (int) $arr["poll_id"] : null);
 $t_userid  = (int) $arr['t_userid'];
-$locked    = ($arr['locked'] == 'yes' ? true : false);
+$locked    = ($arr['locked'] == 'yes');
 $subject   = $arr['topic_name'];
-$sticky    = ($arr['sticky'] == "yes" ? true : false);
+$sticky    = ($arr['sticky'] == "yes");
 $forumid   = (int) $arr['forum_id'];
 $forum     = htmlsafechars($arr["forum_name"]);
 $postcount = (int) $arr['p_count'];
@@ -64,7 +64,7 @@ if ($CURUSER["class"] < $arr["min_class_read"]) {
     stderr("Error", "You are not permitted to view this topic.");
 }
 // ------ Update hits column
-sql_query("UPDATE topics SET views = views + 1 WHERE id=" . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
+sql_query("UPDATE topics SET views = views + 1 WHERE id=" . sqlesc($topicid)) || sqlerr(__FILE__, __LINE__);
 //------ Make page menu
 $pagemenu1 = "<div class='pagination'>
     <span class='tiny button'>
@@ -73,7 +73,7 @@ $perpage   = $Multi_forum['configs']['postsperpage'];
 $pages     = ceil($postcount / $perpage);
 if ($page == "p") {
     $findpost = substr($page, 1);
-    $res = sql_query("SELECT id FROM posts WHERE topic_id=" . sqlesc($topicid) . " ORDER BY added") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id FROM posts WHERE topic_id=" . sqlesc($topicid) . " ORDER BY added")) || sqlerr(__FILE__, __LINE__);
     $i = 1;
     while ($arr = $res->fetch_row()) {
         if ($arr[0] == $findpost) {
@@ -85,12 +85,10 @@ if ($page == "p") {
 }
 if ($page == "last") {
     $page = $pages;
-} else {
-    if ($page < 1) {
-        $page = 1;
-    } elseif ($page > $pages) {
-        $page = $pages;
-    }
+} elseif ($page < 1) {
+    $page = 1;
+} elseif ($page > $pages) {
+    $page = $pages;
 }
 $offset    = ((int) $page * $perpage) - $perpage;
 $offset    = ($offset < 0 ? 0 : $offset);
@@ -112,7 +110,7 @@ $HTMLOUT .= "<div class='navigation'>
                 </div><br />";
 $HTMLOUT .= "<div class='grid-container'>";
 if ($Multi_forum['configs']['use_poll_mod'] && is_valid_id($pollid)) {
-    $res = sql_query("SELECT p.*, pa.id AS pa_id, pa.selection FROM postpolls AS p LEFT JOIN postpollanswers AS pa ON pa.pollid = p.id AND pa.userid = " . sqlesc($CURUSER['id']) . " WHERE p.id=" . sqlesc($pollid)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT p.*, pa.id AS pa_id, pa.selection FROM postpolls AS p LEFT JOIN postpollanswers AS pa ON pa.pollid = p.id AND pa.userid = " . sqlesc($CURUSER['id']) . " WHERE p.id=" . sqlesc($pollid))) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows > 0) {
         $arr1     = $res->fetch_assoc();
         $userid   = (int) $CURUSER['id'];
@@ -143,7 +141,7 @@ if ($Multi_forum['configs']['use_poll_mod'] && is_valid_id($pollid)) {
             <div class='card-divider'><strong>Poll: {$question}</strong></div>
 <div class='card-section'>
          ";
-        $voted = (is_valid_id($arr1['pa_id']) ? true : false);
+        $voted = ((bool) is_valid_id($arr1['pa_id']));
         if (($locked && $CURUSER['class'] < UC_STAFF) ? true : $voted) {
             $uservote = ($arr1["selection"] != '' ? (int) $arr1["selection"] : -1);
             $res_v    = sql_query("SELECT selection FROM postpollanswers WHERE pollid=" . sqlesc($pollid) . " AND selection < 20");
@@ -156,7 +154,8 @@ if ($Multi_forum['configs']['use_poll_mod'] && is_valid_id($pollid)) {
                 $vs[$arr_v[0]] += 1;
             }
             reset($o);
-            for ($i = 0; $i < count($o); ++$i) {
+            $oCount = count($o);
+            for ($i = 0; $i < $oCount; ++$i) {
                 if ($o[$i]) {
                     $os[$i] = [
                         $vs[$i],
@@ -180,13 +179,13 @@ if ($Multi_forum['configs']['use_poll_mod'] && is_valid_id($pollid)) {
             $HTMLOUT .= "<br />
               ";
             foreach ($os as $a) {
-                if ($i == $uservote) {
+                if ($i === $uservote) {
                     $a[1] .= " *";
                 }
                 $p = ($tvotes == 0 ? 0 : round($a[0] / $tvotes * 100));
-                $c = ($i % 2 ? '' : "poll");
+                $c = ($i % 2 !== 0 ? '' : "poll");
                 $p = ($tvotes == 0 ? 0 : round($a[0] / $tvotes * 100));
-                $c = ($i % 2 ? '' : "poll");
+                $c = ($i % 2 !== 0 ? '' : "poll");
                 $HTMLOUT .= "<label>" . htmlsafechars($a[1]) . "</label>
                 <div class='progress' role='progressbar' tabindex='0' aria-valuenow='" . $p . "' aria-valuemin='0' aria-valuetext='25 percent' aria-valuemax='100'>
                     <span class='progress-meter' style='width: " . $p . "%'>
@@ -204,19 +203,19 @@ if ($Multi_forum['configs']['use_poll_mod'] && is_valid_id($pollid)) {
             }
         }
         $HTMLOUT .= "";
-        if ($userid == $t_userid || $CURUSER['class'] >= UC_STAFF) {
+        if ($userid === $t_userid || $CURUSER['class'] >= UC_STAFF) {
             $HTMLOUT .= "<a class='tiny button' href='{$TRINITY20['baseurl']}/forums.php?action=makepoll&amp;subaction=edit&amp;pollid=" . $pollid . "'><strong>Edit</strong></a>";
             if ($CURUSER['class'] >= UC_STAFF) {
                 $HTMLOUT .= "<a class='tiny button' href='{$TRINITY20['baseurl']}/forums.php?action=deletepoll&amp;pollid=" . $pollid . "'><strong>Delete</strong></a>";
             }
         }
         $HTMLOUT .= "";
-        $listvotes = (isset($_GET['listvotes']) ? true : false);
+        $listvotes = (isset($_GET['listvotes']));
         if ($CURUSER['class'] >= UC_ADMINISTRATOR) {
             if (!$listvotes) {
                 $HTMLOUT .= "<a class='tiny button' href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid&amp;listvotes'><strong>List Voters</strong></a>";
             } else {
-                $res_vv = sql_query("SELECT pa.userid, u.username, u.anonymous FROM postpollanswers AS pa LEFT JOIN users AS u ON u.id = pa.userid WHERE pa.pollid=" . sqlesc($pollid)) or sqlerr(__FILE__, __LINE__);
+                ($res_vv = sql_query("SELECT pa.userid, u.username, u.anonymous FROM postpollanswers AS pa LEFT JOIN users AS u ON u.id = pa.userid WHERE pa.pollid=" . sqlesc($pollid))) || sqlerr(__FILE__, __LINE__);
                 $voters = '';
                 while ($arr_vv = $res_vv->fetch_assoc()) {
                     if (!empty($voters) && !empty($arr_vv['username'])) {
@@ -265,13 +264,13 @@ $keys['now_viewing'] = 'now_viewing_topic';
 if (($topic_users_cache = $cache->get($keys['now_viewing'])) === false) {
     $topicusers        = '';
     $topic_users_cache = [];
-    $res = sql_query('SELECT n_v.user_id, u.id, u.username, u.class, u.donor, u.suspended, u.warned, u.enabled, u.chatpost, u.leechwarn, u.pirate, u.king, u.perms FROM now_viewing AS n_v LEFT JOIN users AS u ON n_v.user_id = u.id WHERE topic_id = ' . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query('SELECT n_v.user_id, u.id, u.username, u.class, u.donor, u.suspended, u.warned, u.enabled, u.chatpost, u.leechwarn, u.pirate, u.king, u.perms FROM now_viewing AS n_v LEFT JOIN users AS u ON n_v.user_id = u.id WHERE topic_id = ' . sqlesc($topicid))) || sqlerr(__FILE__, __LINE__);
     $actcount = $res->num_rows;
     while ($arr = $res->fetch_assoc()) {
-        if ($topicusers) {
+        if ($topicusers !== '') {
             $topicusers .= ",\n";
         }
-        $topicusers .= ($arr['perms'] & bt_options::PERMS_STEALTH ? '<i>UnKn0wn</i>' : format_username($arr));
+        $topicusers .= (($arr['perms'] & bt_options::PERMS_STEALTH) !== 0 ? '<i>UnKn0wn</i>' : format_username($arr));
     }
     $topic_users_cache['topic_users'] = $topicusers;
     $topic_users_cache['actcount']    = $actcount;
@@ -324,18 +323,14 @@ $HTMLOUT .= "
              /*]]>*/
              </script>";
 // ------ echo table
-$res = sql_query("SELECT p.id, p.added, p.user_id, p.added, p.body, p.edited_by, p.edit_date, p.icon, p.anonymous as p_anon, p.user_likes, u.id AS uid, u.username as uusername, u.class, u.avatar, u.offensive_avatar, u.donor, u.title, u.username, u.reputation, u.mood, u.anonymous, u.country, u.enabled, u.warned, u.chatpost, u.leechwarn, u.pirate, u.king, u.uploaded, u.downloaded, u.signature, u.last_access, (SELECT COUNT(id)  FROM posts WHERE user_id = u.id) AS posts_count, u2.username as u2_username " . ($Multi_forum['configs']['use_attachment_mod'] ? ", at.id as at_id, at.file_name as at_filename, at.post_id as at_postid, at.size as at_size, at.times_downloaded as at_downloads, at.user_id as at_owner " : "") . ", (SELECT last_post_read FROM read_posts WHERE user_id = " . sqlesc((int) $CURUSER['id']) . " AND topic_id = p.topic_id LIMIT 1) AS last_post_read " . "FROM posts AS p " . "LEFT JOIN users AS u ON p.user_id = u.id " . ($Multi_forum['configs']['use_attachment_mod'] ? "LEFT JOIN attachments AS at ON at.post_id = p.id " : "") . "LEFT JOIN users AS u2 ON u2.id = p.edited_by " . "WHERE p.topic_id = " . sqlesc($topicid) . " ORDER BY id LIMIT $offset, $perpage") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT p.id, p.added, p.user_id, p.added, p.body, p.edited_by, p.edit_date, p.icon, p.anonymous as p_anon, p.user_likes, u.id AS uid, u.username as uusername, u.class, u.avatar, u.offensive_avatar, u.donor, u.title, u.username, u.reputation, u.mood, u.anonymous, u.country, u.enabled, u.warned, u.chatpost, u.leechwarn, u.pirate, u.king, u.uploaded, u.downloaded, u.signature, u.last_access, (SELECT COUNT(id)  FROM posts WHERE user_id = u.id) AS posts_count, u2.username as u2_username " . ($Multi_forum['configs']['use_attachment_mod'] ? ", at.id as at_id, at.file_name as at_filename, at.post_id as at_postid, at.size as at_size, at.times_downloaded as at_downloads, at.user_id as at_owner " : "") . ", (SELECT last_post_read FROM read_posts WHERE user_id = " . sqlesc((int) $CURUSER['id']) . " AND topic_id = p.topic_id LIMIT 1) AS last_post_read " . "FROM posts AS p " . "LEFT JOIN users AS u ON p.user_id = u.id " . ($Multi_forum['configs']['use_attachment_mod'] ? "LEFT JOIN attachments AS at ON at.post_id = p.id " : "") . "LEFT JOIN users AS u2 ON u2.id = p.edited_by " . "WHERE p.topic_id = " . sqlesc($topicid) . " ORDER BY id LIMIT $offset, $perpage")) || sqlerr(__FILE__, __LINE__);
 $pc = $res->num_rows;
 $pn = 0;
 while ($arr = $res->fetch_assoc()) {
     ++$pn;
     // --------------- likes start------
     $att_str = '';
-    if (!empty($arr['user_likes'])) {
-        $likes = explode(',', $arr['user_likes']);
-    } else {
-        $likes = '';
-    }
+    $likes = empty($arr['user_likes']) ? '' : explode(',', $arr['user_likes']);
     if (!empty($likes) && count(array_unique($likes)) > 0) {
         if (in_array($CURUSER['id'], $likes)) {
             if (count($likes) == 1) {
@@ -376,10 +371,10 @@ while ($arr = $res->fetch_assoc()) {
     $postername       = format_username($user_stuff, true);
     $width = '75';
     $avatar           = ($CURUSER["avatars"] == "yes" ? (($arr['p_anon'] == 'yes' && $CURUSER['class'] < UC_STAFF) ? '<img style="max-width:' . $width . 'px;" src="' . $TRINITY20['pic_base_url'] . 'anonymous_1.jpg" alt="avatar" />' : avatar_stuff($arr)) : "");
-    $title2           = (!empty($postername) ? (empty($arr['title']) ? "(" . get_user_class_name($arr['class']) . ")" : "(" . (htmlsafechars($arr['title'])) . ")") : '');
-    $title            = ($arr['p_anon'] == 'yes' ? '<i>' . "Anonymous" . '</i>' : htmlsafechars($title2));
+    $title2           = (empty($postername) ? ('') : (empty($arr['title']) ? "(" . get_user_class_name($arr['class']) . ")" : "(" . (htmlsafechars($arr['title'])) . ")"));
+    $title            = ($arr['p_anon'] == 'yes' ? '<i>Anonymous</i>' : htmlsafechars($title2));
     $class_name       = (($arr['p_anon'] == 'yes' && $CURUSER['class'] < UC_STAFF) ? "Anonymous" : get_user_class_name($arr["class"]));
-    $forumposts       = (!empty($postername) ? ($arr['posts_count'] != 0 ? (int) $arr['posts_count'] : 'N/A') : 'N/A');
+    $forumposts       = (empty($postername) ? ('N/A') : ($arr['posts_count'] != 0 ? (int) $arr['posts_count'] : 'N/A'));
     if ($arr["p_anon"] == "yes") {
         if ($CURUSER['class'] < UC_STAFF) {
             $by = "<i>Anonymous</i>";
@@ -387,7 +382,7 @@ while ($arr = $res->fetch_assoc()) {
             $by = "<i>Anonymous</i> [<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$posterid'> " . $postername . "</a>]" . ($arr['enabled'] == 'no' ? "<img src='" . $TRINITY20['pic_base_url'] . "disabled.gif' alt='This account is disabled' style='margin-left: 2px' />" : '') . "$title";
         }
     } else {
-        $by = (!empty($postername) ? "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$posterid'>" . $postername . "</a>" . ($arr['enabled'] == 'no' ? "<img src='" . $TRINITY20['pic_base_url'] . "disabled.gif' alt='This account is disabled' style='margin-left: 2px' />" : '') : "unknown[" . $posterid . "]") . "";
+        $by = (empty($postername) ? "unknown[" . $posterid . "]" : "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$posterid'>" . $postername . "</a>" . ($arr['enabled'] == 'no' ? "<img src='" . $TRINITY20['pic_base_url'] . "disabled.gif' alt='This account is disabled' style='margin-left: 2px' />" : '')) . "";
     }
     if (empty($avatar)) {
         $avatar = "<img src='" . $TRINITY20['pic_base_url'] . $Multi_forum['configs']['forum_pics']['default_avatar'] . "' width='50' height='60' alt='Avatar' title='Avatar' />";
@@ -456,10 +451,10 @@ while ($arr = $res->fetch_assoc()) {
     }
     //$HTMLOUT .="</td><td style='border:none;'><a href='#top'><img align='right' src='{$TRINITY20['pic_base_url']}".$Multi_forum['configs']['forum_pics']['arrow_up']."' alt='Top' /></a></td></tr></table></td></tr>";
     $highlight = (isset($_GET['highlight']) ? htmlsafechars($_GET['highlight']) : '');
-    $body      = (!empty($highlight) ? highlight(htmlsafechars(trim($highlight)), format_comment($arr['body'])) : format_comment($arr['body']));
+    $body      = (empty($highlight) ? format_comment($arr['body']) : highlight(htmlsafechars(trim($highlight)), format_comment($arr['body'])));
     if ($Multi_forum['configs']['use_attachment_mod'] && ((!empty($arr['at_filename']) && is_valid_id($arr['at_id'])) && $arr['at_postid'] == $postid)) {
         foreach ($Multi_forum['configs']['allowed_file_extensions'] as $allowed_file_extension) {
-            if (substr($arr['at_filename'], -2) or substr($arr['at_filename'], -3) == $allowed_file_extension) {
+            if (substr($arr['at_filename'], -2) || substr($arr['at_filename'], -3) == $allowed_file_extension) {
                 $aimg = $allowed_file_extension;
             }
         }
@@ -536,7 +531,7 @@ $HTMLOUT .= "</div><br /><br /><br />";
 if ($locked) {
     $HTMLOUT .= "";
 } else {
-    if ($Multi_forum['configs']['use_poll_mod'] && (($userid == $t_userid || $CURUSER['class'] >= UC_STAFF || isMod($forumid, "forum")) && !is_valid_id($pollid))) {
+    if ($Multi_forum['configs']['use_poll_mod'] && (($userid === $t_userid || $CURUSER['class'] >= UC_STAFF || isMod($forumid, "forum")) && !is_valid_id($pollid))) {
         $HTMLOUT .= "<div style='display:block;height:2em;'></div>";
         $HTMLOUT .= "<form style='margin-top:-6em' method='post' action='forums.php'>
 <input type='hidden' name='action' value='makepoll' />
@@ -587,9 +582,9 @@ if ($locked) {
 }
 if (($postid > $lpr) && ($postadd > (TIME_NOW - $TRINITY20['readpost_expiry']))) {
     if ($lpr) {
-        sql_query("UPDATE read_posts SET last_post_read=" . sqlesc($postid) . " WHERE user_id=" . sqlesc($userid) . " AND topic_id=" . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE read_posts SET last_post_read=" . sqlesc($postid) . " WHERE user_id=" . sqlesc($userid) . " AND topic_id=" . sqlesc($topicid)) || sqlerr(__FILE__, __LINE__);
     } else {
-        sql_query("INSERT INTO read_posts (user_id, topic_id, last_post_read) VALUES(" . sqlesc($userid) . ", " . sqlesc($topicid) . ", " . sqlesc($postid) . ")") or sqlerr(__FILE__, __LINE__);
+        sql_query("INSERT INTO read_posts (user_id, topic_id, last_post_read) VALUES(" . sqlesc($userid) . ", " . sqlesc($topicid) . ", " . sqlesc($postid) . ")") || sqlerr(__FILE__, __LINE__);
     }
 }
 // ------ Mod options

@@ -15,9 +15,9 @@ require_once (CACHE_DIR.'hit_and_run_settings.php');
 if ($TRINITY20['hnr_online'] == 1 || $CURUSER['id'] == $id || $CURUSER['class'] >= UC_POWER_USER) {
     $completed = $count2 = $dlc = '';
     if (XBT_TRACKER === false) {
-    $r = sql_query("SELECT torrents.name, torrents.added AS torrent_added, snatched.complete_date AS c, snatched.downspeed, snatched.seedtime, snatched.seeder, snatched.torrentid as tid, snatched.id, categories.id as category, categories.image, categories.name as catname, snatched.uploaded, snatched.downloaded, snatched.hit_and_run, snatched.mark_of_cain, snatched.complete_date, snatched.last_action, torrents.seeders, torrents.leechers, torrents.owner, snatched.start_date AS st, snatched.start_date FROM snatched JOIN torrents ON torrents.id = snatched.torrentid JOIN categories ON categories.id = torrents.category WHERE snatched.finished='yes' AND userid=" . sqlesc($id) . " AND torrents.owner != " . sqlesc($id) . " ORDER BY snatched.id DESC") or sqlerr(__FILE__, __LINE__);
+    ($r = sql_query("SELECT torrents.name, torrents.added AS torrent_added, snatched.complete_date AS c, snatched.downspeed, snatched.seedtime, snatched.seeder, snatched.torrentid as tid, snatched.id, categories.id as category, categories.image, categories.name as catname, snatched.uploaded, snatched.downloaded, snatched.hit_and_run, snatched.mark_of_cain, snatched.complete_date, snatched.last_action, torrents.seeders, torrents.leechers, torrents.owner, snatched.start_date AS st, snatched.start_date FROM snatched JOIN torrents ON torrents.id = snatched.torrentid JOIN categories ON categories.id = torrents.category WHERE snatched.finished='yes' AND userid=" . sqlesc($id) . " AND torrents.owner != " . sqlesc($id) . " ORDER BY snatched.id DESC")) || sqlerr(__FILE__, __LINE__);
 } else {
-    $r = sql_query("SELECT torrents.name, torrents.added AS torrent_added, xbt_peers.mtime AS c, xbt_peers.active, xbt_peers.left, xbt_peers.tid as tid, categories.id as category, categories.image, categories.name as catname, xbt_peers.uploaded, xbt_peers.downloaded, xbt_peers.mtime, xbt_peers.uid, torrents.seeders, torrents.leechers, torrents.owner FROM xbt_peers JOIN torrents ON torrents.id = xbt_peers.tid JOIN categories ON categories.id = torrents.category WHERE xbt_peers.completed>='1' AND uid=" . sqlesc($id) . " AND torrents.owner != " . sqlesc($id) . " ORDER BY xbt_peers.tid DESC") or sqlerr(__FILE__, __LINE__);
+    ($r = sql_query("SELECT torrents.name, torrents.added AS torrent_added, xbt_peers.mtime AS c, xbt_peers.active, xbt_peers.left, xbt_peers.tid as tid, categories.id as category, categories.image, categories.name as catname, xbt_peers.uploaded, xbt_peers.downloaded, xbt_peers.mtime, xbt_peers.uid, torrents.seeders, torrents.leechers, torrents.owner FROM xbt_peers JOIN torrents ON torrents.id = xbt_peers.tid JOIN categories ON categories.id = torrents.category WHERE xbt_peers.completed>='1' AND uid=" . sqlesc($id) . " AND torrents.owner != " . sqlesc($id) . " ORDER BY xbt_peers.tid DESC")) || sqlerr(__FILE__, __LINE__);
 }
     //=== completed
     if ($r->num_rows < 0) {
@@ -46,13 +46,13 @@ if ($TRINITY20['hnr_online'] == 1 || $CURUSER['id'] == $id || $CURUSER['class'] 
                 $days_14 = $TRINITY20['_14day_first'] * 3600; //== 1 days
                 $days_over_14 = $TRINITY20['_14day_over_first'] * 3600; //== 1 day
                 break;
- 
+
             case ($user['class'] < $TRINITY20['secondclass']):
                 $days_3 = $TRINITY20['_3day_second'] * 3600; //== 12 hours
                 $days_14 = $TRINITY20['_14day_second'] * 3600; //== 12 hours
                 $days_over_14 = $TRINITY20['_14day_over_second'] * 3600; //== 12 hours
                 break;
- 
+
             case ($user['class'] >= $TRINITY20['thirdclass']):
                 $days_3 = $TRINITY20['_3day_third'] * 3600; //== 12 hours
                 $days_14 = $TRINITY20['_14day_third'] * 3600; //== 12 hours
@@ -71,11 +71,11 @@ if ($TRINITY20['hnr_online'] == 1 || $CURUSER['id'] == $id || $CURUSER['class'] 
             case (($a['st'] - $a['torrent_added']) < $TRINITY20['torrentage1'] * 86400):
                 $minus_ratio = ($days_3 - $a['seedtime']) - ($foo * 3 * 86400);
                 break;
- 
+
             case (($a['st'] - $a['torrent_added']) < $TRINITY20['torrentage2'] * 86400):
                 $minus_ratio = ($days_14 - $a['seedtime']) - ($foo * 2 * 86400);
                 break;
- 
+
             case (($a['st'] - $a['torrent_added']) >= $TRINITY20['torrentage3'] * 86400):
                 $minus_ratio = ($days_over_14 - $a['seedtime']) - ($foo * 86400);
                 break;
@@ -143,7 +143,7 @@ if ($TRINITY20['hnr_online'] == 1 || $CURUSER['id'] == $id || $CURUSER['class'] 
         else
         $completed.= "<tr><td style='padding: 0px' class='$class'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$a['image']}' alt='{$a['name']}' title='{$a['name']}' /></td>
     <td class='$class'><a class='altlink' href='{$TRINITY20['baseurl']}/details.php?id=" . (int)$a['tid'] . "&amp;hit=1'><b>" . htmlsafechars($a['name']) . "</b></a>
-    <br /><font color='.$color.'>  " . (($CURUSER['class'] >= UC_STAFF || $user['id'] == $CURUSER['id']) ? "{$lang['userdetails_c_seedfor']}</font>: " . mkprettytime($a['seedtime']) . (($minus_ratio != '0:00' && $a['uploaded'] < $a['downloaded']) ? "<br />{$lang['userdetails_c_should']}" . $minus_ratio . "&nbsp;&nbsp;" : '') . ($a['active'] == 1 && $a['left'] = 0 ? "&nbsp;<font color='limegreen'> [<b>{$lang['userdetails_c_seeding']}</b>]</font>" : $hit_n_run) : '') . "</td>
+    <br /><font color='.$color.'>  " . (($CURUSER['class'] >= UC_STAFF || $user['id'] == $CURUSER['id']) ? "{$lang['userdetails_c_seedfor']}</font>: " . mkprettytime($a['seedtime']) . (($minus_ratio != '0:00' && $a['uploaded'] < $a['downloaded']) ? "<br />{$lang['userdetails_c_should']}" . $minus_ratio . "&nbsp;&nbsp;" : '') . ($a['active'] == 1 && $a['left'] = 0 !== 0 ? "&nbsp;<font color='limegreen'> [<b>{$lang['userdetails_c_seeding']}</b>]</font>" : $hit_n_run) : '') . "</td>
     <td align='center' class='$class'>" . (int)$a['seeders'] . "</td>
     <td align='center' class='$class'>" . (int)$a['leechers'] . "</td>
     <td align='center' class='$class'>" . mksize($a['uploaded']) . "</td>

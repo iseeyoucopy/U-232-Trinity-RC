@@ -31,7 +31,7 @@ $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_traceroute'));
 $HTMLOUT = "";
-if (strtoupper(substr(PHP_OS, 0, 3) == 'WIN')) {
+if (strtoupper(substr(PHP_OS, 0, 3) == 'WIN') !== '') {
     $windows = 1;
     $unix = 0;
 } else {

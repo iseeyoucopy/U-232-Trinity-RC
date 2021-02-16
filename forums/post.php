@@ -51,10 +51,10 @@ if (!defined('IN_TRINITY20_FORUM')) {
             stderr("Error", "Topic length is limited to {$Multi_forum['configs']['maxsubjectlength']} characters.");
         }
     } else {
-        $forumid = get_topic_forum($topicid) or die("Bad topic ID");
+        ($forumid = get_topic_forum($topicid)) || die("Bad topic ID");
     }
     // ------ Make sure sure user has write access in forum
-    $arr = get_forum_access_levels($forumid) or die("Bad forum ID");
+    ($arr = get_forum_access_levels($forumid)) || die("Bad forum ID");
 
     if ($CURUSER['class'] < $arr["write"] || ($newtopic && $CURUSER['class'] < $arr["create"]) && !isMod($forumid, "topic")) {
         stderr("Error", "Permission denied.");
@@ -79,13 +79,13 @@ if (!defined('IN_TRINITY20_FORUM')) {
     if ($newtopic) {
         $subject = sqlesc($subject);
         $anonymous = (isset($_POST['anonymous']) && $_POST["anonymous"] != "" ? "yes" : "no");
-        sql_query("INSERT INTO topics (user_id, forum_id, topic_name, anonymous) VALUES(" . sqlesc($userid) . ", " . sqlesc($forumid) . ", $subject, " . sqlesc($anonymous) . ")") or sqlerr(__FILE__, __LINE__);
-        $topicid = $mysqli->insert_id or stderr("Error", "No topic ID returned!");
+        sql_query("INSERT INTO topics (user_id, forum_id, topic_name, anonymous) VALUES(" . sqlesc($userid) . ", " . sqlesc($forumid) . ", $subject, " . sqlesc($anonymous) . ")") || sqlerr(__FILE__, __LINE__);
+        ($topicid = $mysqli->insert_id) || stderr("Error", "No topic ID returned!");
         $added = sqlesc(TIME_NOW);
         $body = sqlesc($body);
         $anonymous = (isset($_POST['anonymous']) && $_POST["anonymous"] != "" ? "yes" : "no");
-        sql_query("INSERT INTO posts (topic_id, user_id, added, body, anonymous, icon) VALUES(" . sqlesc($topicid) . ", " . sqlesc($userid) . ", $added, $body, " . sqlesc($anonymous) . "," . sqlesc($posticon) . ")") or sqlerr(__FILE__, __LINE__);
-        $postid = $mysqli->insert_id or stderr("Error", "No post ID returned!");
+        sql_query("INSERT INTO posts (topic_id, user_id, added, body, anonymous, icon) VALUES(" . sqlesc($topicid) . ", " . sqlesc($userid) . ", $added, $body, " . sqlesc($anonymous) . "," . sqlesc($posticon) . ")") || sqlerr(__FILE__, __LINE__);
+        ($postid = $mysqli->insert_id) || stderr("Error", "No post ID returned!");
         update_topic_last_post($topicid);
         $cache->delete('last_posts_b_' . $CURUSER['class']);
         if ($TRINITY20['autoshout_on'] == 1) {
@@ -100,7 +100,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
             }
         }
         if ($TRINITY20['seedbonus_on'] == 1) {
-            sql_query("UPDATE users SET seedbonus = seedbonus+" . sqlesc($TRINITY20['bonus_per_topic']) . " WHERE id =  " . sqlesc($CURUSER['id'] . "")) or sqlerr(__FILE__, __LINE__);
+            sql_query("UPDATE users SET seedbonus = seedbonus+" . sqlesc($TRINITY20['bonus_per_topic']) . " WHERE id =  " . sqlesc($CURUSER['id'] . "")) || sqlerr(__FILE__, __LINE__);
             $update['seedbonus'] = ($CURUSER['seedbonus'] + $TRINITY20['bonus_per_topic']);
             $cache->update_row('userstats_' . $CURUSER["id"], [
                 'seedbonus' => $update['seedbonus']
@@ -111,7 +111,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
         }
     } else {
         //---- Make sure topic exists and is unlocked
-        $res = sql_query("SELECT locked, topic_name FROM topics WHERE id=" . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query("SELECT locked, topic_name FROM topics WHERE id=" . sqlesc($topicid))) || sqlerr(__FILE__, __LINE__);
         if ($res->num_rows == 0) {
             stderr('Error', 'Inexistent Topic!');
         }
@@ -122,28 +122,28 @@ if (!defined('IN_TRINITY20_FORUM')) {
             stderr("Error", "This topic is locked; No new posts are allowed.");
         }
         // === PM subscribed members
-        $res_sub = sql_query("SELECT user_id FROM subscriptions WHERE topic_id=" . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
+        ($res_sub = sql_query("SELECT user_id FROM subscriptions WHERE topic_id=" . sqlesc($topicid))) || sqlerr(__FILE__, __LINE__);
         while ($row = $res_sub->fetch_assoc()) {
-            $res_yes = sql_query("SELECT subscription_pm, username FROM users WHERE id=" . sqlesc($row["user_id"])) or sqlerr(__FILE__, __LINE__);
+            ($res_yes = sql_query("SELECT subscription_pm, username FROM users WHERE id=" . sqlesc($row["user_id"]))) || sqlerr(__FILE__, __LINE__);
             $arr_yes = $res_yes->fetch_assoc();
             $msg = "Hey there!!! \n a thread you subscribed to: " . htmlsafechars($arr["topic_name"]) . " has had a new post!\n click [url=" . $TRINITY20['baseurl'] . "/forums.php?action=viewtopic&topicid=" . $topicid . "&page=last][b]HERE[/b][/url] to read it!\n\nTo view your subscriptions, or un-subscribe, click [url=" . $TRINITY20['baseurl'] . "/subscriptions.php][b]HERE[/b][/url].\n\ncheers.";
             if ($arr_yes["subscription_pm"] == 'yes' && $row["user_id"] != $CURUSER["id"]) {
-                sql_query("INSERT INTO messages (sender, subject, receiver, added, msg) VALUES(" . sqlesc($TRINITY20['bot_id']) . ", " . sqlesc("New post in subscribed thread!") . ", " . sqlesc($row['user_id']) . ", '" . TIME_NOW . "', " . sqlesc($msg) . ")") or sqlerr(__FILE__, __LINE__);
+                sql_query("INSERT INTO messages (sender, subject, receiver, added, msg) VALUES(" . sqlesc($TRINITY20['bot_id']) . ", " . sqlesc("New post in subscribed thread!") . ", " . sqlesc($row['user_id']) . ", '" . TIME_NOW . "', " . sqlesc($msg) . ")") || sqlerr(__FILE__, __LINE__);
             }
         }
         // ===end
         //------ Check double post
-        $doublepost = sql_query("SELECT p.id, p.added, p.user_id, p.body, t.last_post, t.id " .
+        ($doublepost = sql_query("SELECT p.id, p.added, p.user_id, p.body, t.last_post, t.id " .
                                   "FROM posts AS p " .
                                   "INNER JOIN topics AS t ON p.id = t.last_post " .
                                   "WHERE t.id =" . sqlesc($topicid) . " AND p.user_id=" . sqlesc($userid) . " AND p.added > " . (TIME_NOW - 1*86400) . " " .
-                                  "ORDER BY p.added asc LIMIT 1") or sqlerr(__FILE__, __LINE__);
+                                  "ORDER BY p.added asc LIMIT 1")) || sqlerr(__FILE__, __LINE__);
         if ($doublepost->num_rows == 0 || $CURUSER['class'] >= UC_STAFF) {
             $added = sqlesc(TIME_NOW);
             $body = sqlesc($body);
             $anonymous = (isset($_POST['anonymous']) && $_POST["anonymous"] != "" ? "yes" : "no");
-            sql_query("INSERT INTO posts (topic_id, user_id, added, body, anonymous, icon) VALUES(" . sqlesc($topicid) . ", " . sqlesc($userid) . ", $added, $body, " . sqlesc($anonymous) . ", " . sqlesc($posticon) . ")") or sqlerr(__FILE__, __LINE__);
-            $postid = $mysqli->insert_id or die("Post id n/a");
+            sql_query("INSERT INTO posts (topic_id, user_id, added, body, anonymous, icon) VALUES(" . sqlesc($topicid) . ", " . sqlesc($userid) . ", $added, $body, " . sqlesc($anonymous) . ", " . sqlesc($posticon) . ")") || sqlerr(__FILE__, __LINE__);
+            ($postid = $mysqli->insert_id) || die("Post id n/a");
 
             if ($TRINITY20['autoshout_on'] == 1) {
                 if ($anonymous == 'yes') {
@@ -158,7 +158,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
                 }
             }
             if ($TRINITY20['seedbonus_on'] == 1) {
-                sql_query("UPDATE users SET seedbonus = seedbonus+" . sqlesc($TRINITY20['bonus_per_post']) . " WHERE id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+                sql_query("UPDATE users SET seedbonus = seedbonus+" . sqlesc($TRINITY20['bonus_per_post']) . " WHERE id = " . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
                 $update['seedbonus'] = ($CURUSER['seedbonus'] + $TRINITY20['bonus_per_post']);
                 $cache->update_row('userstats_' . $CURUSER["id"], [
                     'seedbonus' => $update['seedbonus']
@@ -172,14 +172,14 @@ if (!defined('IN_TRINITY20_FORUM')) {
         } else {
             $results = $doublepost->fetch_assoc();
             $postid = (int) $results['last_post'];
-            sql_query("UPDATE posts SET body =" . sqlesc(trim($results['body']) . "\n\n" . $body) . ", edit_date=" . TIME_NOW . ", edited_by=" . sqlesc($userid) . ", icon=" . sqlesc($posticon) . " WHERE id=" . sqlesc($postid)) or sqlerr(__FILE__, __LINE__);
+            sql_query("UPDATE posts SET body =" . sqlesc(trim($results['body']) . "\n\n" . $body) . ", edit_date=" . TIME_NOW . ", edited_by=" . sqlesc($userid) . ", icon=" . sqlesc($posticon) . " WHERE id=" . sqlesc($postid)) || sqlerr(__FILE__, __LINE__);
         }
     }
 
     if ($Multi_forum['configs']['use_attachment_mod'] && ((isset($_POST['uploadattachment']) ? $_POST['uploadattachment'] : '') == 'yes')) {
         $file = htmlsafechars($_FILES['file']);
         $fname = htmlsafechars($file['name']);
-        $size = intval($file['size']);
+        $size = (int) $file['size'];
         $tmpname = htmlsafechars($file['tmp_name']);
         $tgtfile = $Multi_forum['configs']['attachment_dir'] . "/" . $fname;
         $pp = pathinfo($fname = $file['name']);
@@ -197,8 +197,8 @@ if (!defined('IN_TRINITY20_FORUM')) {
         }
 
         foreach ($Multi_forum['configs']['allowed_file_extensions'] as $allowed_file_extension);
-        if (!preg_match('/^(.+)\.[' . join(']|[', $Multi_forum['configs']['allowed_file_extensions']) . ']$/si', $fname, $matches)) {
-            $uploaderror = 'Only files with the following extensions are allowed: ' . join(', ', $Multi_forum['configs']['allowed_file_extensions']) . '.';
+        if (!preg_match('/^(.+)\.[' . implode(']|[', $Multi_forum['configs']['allowed_file_extensions']) . ']$/si', $fname, $matches)) {
+            $uploaderror = 'Only files with the following extensions are allowed: ' . implode(', ', $Multi_forum['configs']['allowed_file_extensions']) . '.';
         }
 
         if ($size > $Multi_forum['configs']['maxfilesize']) {
@@ -226,7 +226,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
         }
 
         if (empty($uploaderror)) {
-            sql_query("INSERT INTO attachments (topic_id, post_id, file_name, size, user_id, added, extension) VALUES (" . sqlesc($topicid) . "," . sqlesc($postid) . ", " . sqlesc($fname) . ", " . sqlesc($size) . ", " . sqlesc($userid) . ", " . TIME_NOW . ", " . sqlesc($type) . ")") or sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO attachments (topic_id, post_id, file_name, size, user_id, added, extension) VALUES (" . sqlesc($topicid) . "," . sqlesc($postid) . ", " . sqlesc($fname) . ", " . sqlesc($size) . ", " . sqlesc($userid) . ", " . TIME_NOW . ", " . sqlesc($type) . ")") || sqlerr(__FILE__, __LINE__);
             move_uploaded_file($tmpname, $tgtfile);
         }
     }

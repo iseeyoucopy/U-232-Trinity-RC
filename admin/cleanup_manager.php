@@ -79,11 +79,11 @@ function manualclean()
     $params['cid'] = filter_var($params['cid'], FILTER_VALIDATE_INT, $opts);
     if (!is_numeric($params['cid'])) stderr($lang['cleanup_stderr'], $lang['cleanup_stderr2']);
     $params['cid'] = sqlesc($params['cid']);
-    $sql = sql_query("SELECT * FROM cleanup WHERE clean_id = " . sqlesc($params['cid'])) or sqlerr(__file__, __line__);
+    ($sql = sql_query("SELECT * FROM cleanup WHERE clean_id = " . sqlesc($params['cid']))) || sqlerr(__file__, __line__);
     $row = $sql->fetch_assoc();
     if ($row['clean_id']) {
-        $next_clean = intval(TIME_NOW + ($row['clean_increment'] ? $row['clean_increment'] : 15 * 60));
-        sql_query("UPDATE cleanup SET clean_time = " . sqlesc($next_clean) . " WHERE clean_id = " . sqlesc($row['clean_id'])) or sqlerr(__file__, __line__);
+        $next_clean = (int) (TIME_NOW + ($row['clean_increment'] ? $row['clean_increment'] : 15 * 60));
+        sql_query("UPDATE cleanup SET clean_time = " . sqlesc($next_clean) . " WHERE clean_id = " . sqlesc($row['clean_id'])) || sqlerr(__file__, __line__);
         if (is_file(CLEAN_DIR . '' . $row['clean_file'])) {
             require_once (CLEAN_DIR . 'clean_log.php');
             require_once (CLEAN_DIR . '' . $row['clean_file']);
@@ -113,7 +113,7 @@ function cleanup_show_main()
       <td class='colhead' width='40px'>{$lang['cleanup_on']}</td>
       <td class='colhead' style='width: 40px;'>{$lang['cleanup_run_now']}</td>
     </tr>";
-    $sql = sql_query("SELECT * FROM cleanup ORDER BY clean_time ASC " . $pager['limit']) or sqlerr(__FILE__, __LINE__);
+    ($sql = sql_query("SELECT * FROM cleanup ORDER BY clean_time ASC " . $pager['limit'])) || sqlerr(__FILE__, __LINE__);
     if (!$sql->num_rows) stderr($lang['cleanup_stderr'], $lang['cleanup_panic']);
     while ($row = $sql->fetch_assoc()) {
         $row['_clean_time'] = get_date($row['clean_time'], 'LONG');
@@ -144,11 +144,11 @@ function cleanup_show_main()
 function cleanup_show_edit()
 {
     global $params, $lang;
-    if (!isset($params['cid']) OR empty($params['cid']) OR !is_valid_id($params['cid'])) {
+    if (!isset($params['cid']) || empty($params['cid']) || !is_valid_id($params['cid'])) {
         cleanup_show_main();
         exit;
     }
-    $cid = intval($params['cid']);
+    $cid = (int) $params['cid'];
     $sql = sql_query("SELECT * FROM cleanup WHERE clean_id = $cid");
     if (!$sql->num_rows) stderr($lang['cleanup_stderr'], $lang['cleanup_stderr3']);
     $row = $sql->fetch_assoc();
@@ -157,9 +157,9 @@ function cleanup_show_edit()
     $row['clean_file'] = htmlsafechars($row['clean_file'], ENT_QUOTES);
     $row['clean_title'] = htmlsafechars($row['clean_title'], ENT_QUOTES);
     $logyes = $row['clean_log'] ? 'checked="checked"' : '';
-    $logno = !$row['clean_log'] ? 'checked="checked"' : '';
+    $logno = $row['clean_log'] ? '' : 'checked="checked"';
     $cleanon = $row['clean_on'] ? 'checked="checked"' : '';
-    $cleanoff = !$row['clean_on'] ? 'checked="checked"' : '';
+    $cleanoff = $row['clean_on'] ? '' : 'checked="checked"';
     $htmlout = '';
     $htmlout = "<h2>{$lang['cleanup_show_head']} {$row['clean_title']}</h2>
     <div style='width: 800px; text-align: left; padding: 10px; margin: 0 auto;border-style: solid; border-color: #333333; border-width: 5px 2px;'>
@@ -211,7 +211,7 @@ function cleanup_take_edit()
         'clean_on'
     ) as $x) {
         unset($opts);
-        if ($x == 'cid' OR $x == 'clean_increment') {
+        if ($x == 'cid' || $x == 'clean_increment') {
             $opts = array(
                 'options' => array(
                     'min_range' => 1
@@ -247,7 +247,7 @@ function cleanup_take_edit()
         stderr($lang['cleanup_take_error'], "{$lang['cleanup_take_error3']}");
     }
     // new clean time =
-    $params['clean_time'] = intval(TIME_NOW + $params['clean_increment']);
+    $params['clean_time'] = (int) (TIME_NOW + $params['clean_increment']);
     //one more time around! LoL
     foreach ($params as $k => $v) {
         $params[$k] = sqlesc($v);
@@ -346,7 +346,7 @@ function cleanup_take_new()
         stderr($lang['cleanup_take_error'], "{$lang['cleanup_take_error3']}");
     }
     // new clean time =
-    $params['clean_time'] = intval(time() + $params['clean_increment']);
+    $params['clean_time'] = (int) (time() + $params['clean_increment']);
     $params['clean_cron_key'] = md5(uniqid()); // just for now.
     //one more time around! LoL
     foreach ($params as $k => $v) {

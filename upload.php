@@ -38,7 +38,7 @@ if (function_exists('parked')) parked();
 $newpage = new page_verify();
 $newpage->create('taud');
 $HTMLOUT = $offers = $subs_list = $request = $descr = '';
-if ($CURUSER['class'] < UC_UPLOADER OR $CURUSER["uploadpos"] == 0 || $CURUSER["uploadpos"] > 1 || $CURUSER['suspended'] == 'yes') stderr($lang['upload_sorry'], $lang['upload_no_auth']);
+if ($CURUSER['class'] < UC_UPLOADER || ($CURUSER["uploadpos"] == 0 || $CURUSER["uploadpos"] > 1 || $CURUSER['suspended'] == 'yes')) stderr($lang['upload_sorry'], $lang['upload_no_auth']);
 //==== request dropdown
 $res_request = sql_query('SELECT id, request_name FROM requests WHERE filled_by_user_id = 0 ORDER BY request_name ASC');
 $request ="<div class='input-group'>
@@ -154,7 +154,7 @@ $HTMLOUT.= "$s";
 $HTMLOUT.=$rg;
 $HTMLOUT.=$request;
 $HTMLOUT.= $offers;
-if ($CURUSER['class'] >= UC_UPLOADER AND XBT_TRACKER == false) {
+if ($CURUSER['class'] >= UC_UPLOADER && XBT_TRACKER == false) {
     $HTMLOUT.= "<div class='input-group'>
     <span class='input-group-label'>{$lang['upload_add_free']}</span>
     <select class='input-group-field' name='free_length'>
@@ -211,8 +211,8 @@ $movie = array(
     $lang['movie_mv6'],
     $lang['movie_mv7'],
 );
-for ($x = 0; $x < count($movie); $x++) {
-    $HTMLOUT.= "<label><input type='checkbox' value='$movie[$x]'  name='movie[]' class='DEPENDS ON genre BEING movie'>$movie[$x]</label>";
+foreach ($movie as $x => $movie) {
+    $HTMLOUT.= "<label><input type='checkbox' value='{$movie}'  name='movie[]' class='DEPENDS ON genre BEING movie'>{$movie}</label>";
 }
 $music = array(
     $lang['music_m1'],
@@ -222,8 +222,8 @@ $music = array(
     $lang['music_m5'],
     $lang['music_m6'],
 );
-for ($x = 0; $x < count($music); $x++) {
-    $HTMLOUT.= "<label><input type='checkbox' value='$music[$x]' name='music[]' class='DEPENDS ON genre BEING music'>$music[$x]</label>";
+foreach ($music as $x => $music) {
+    $HTMLOUT.= "<label><input type='checkbox' value='{$music}' name='music[]' class='DEPENDS ON genre BEING music'>{$music}</label>";
 }
 $game = array(
     $lang['game_g1'],
@@ -232,8 +232,8 @@ $game = array(
     $lang['game_g4'],
     $lang['game_g5'],
 );
-for ($x = 0; $x < count($game); $x++) {
-    $HTMLOUT.= "<label><input type='checkbox' value='$game[$x]' name='game[]' class='DEPENDS ON genre BEING game'>$game[$x]</label>";
+foreach ($game as $x => $game) {
+    $HTMLOUT.= "<label><input type='checkbox' value='{$game}' name='game[]' class='DEPENDS ON genre BEING game'>{$game}</label>";
 }
 $apps = array(
     $lang['app_mv1'],
@@ -244,8 +244,8 @@ $apps = array(
     $lang['app_mv6'],
     $lang['app_mv7'],
 );
-for ($x = 0; $x < count($apps); $x++) {
-    $HTMLOUT.= "<label><input type='checkbox' value='$apps[$x]' name='apps[]' class='DEPENDS ON genre BEING apps'>$apps[$x]</label>";
+foreach ($apps as $x => $app) {
+    $HTMLOUT.= "<label><input type='checkbox' value='{$app}' name='apps[]' class='DEPENDS ON genre BEING apps'>{$app}</label>";
 }
 $HTMLOUT.= "</fieldset>";
 //== End

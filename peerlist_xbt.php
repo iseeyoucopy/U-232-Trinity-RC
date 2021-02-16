@@ -35,15 +35,14 @@ function XBT_IP_CONVERT($a)
         $a-= $c * $k;
         $b[$i] = $k;
         $c/= 256.0;
-    };
-    $d = join('.', $b);
-    return ($d);
+    }
+    return (implode('.', $b));
 }
 function dltable($name, $arr, $torrent)
 {
     global $CURUSER, $lang, $TRINITY20;
     $htmlout = '';
-    if (!count($arr)) return $htmlout = "<div align='left'><b>{$lang['peerslist_no']} $name {$lang['peerslist_data_available']}</b></div>\n";
+    if (count($arr) === 0) return $htmlout = "<div align='left'><b>{$lang['peerslist_no']} $name {$lang['peerslist_data_available']}</b></div>\n";
     $htmlout = "\n";
     $htmlout.= "<table class='table table-bordered'>\n";
     $htmlout.= "<tr><td colspan='11' class='colhead'>" . count($arr) . " $name</td></tr>" . "<tr><td class='colhead'>{$lang['peerslist_user_ip']}</td>" . "<td class='colhead' align='right'>{$lang['peerslist_uploaded']}</td>" . "<td class='colhead' align='right'>{$lang['peerslist_rate']}</td>" . "" . ($TRINITY20['ratio_free'] ? "" : "<td class='colhead' align='right'>{$lang['peerslist_downloaded']}</td>") . "" . "" . ($TRINITY20['ratio_free'] ? "" : "<td class='colhead' align='right'>{$lang['peerslist_rate']}</td>") . "" . "<td class='colhead' align='right'>{$lang['peerslist_ratio']}</td>" . "<td class='colhead' align='right'>{$lang['peerslist_complete']}</td>" . "<td class='colhead' align='right'>{$lang['peerslist_idle']}</td>" . "<td class='colhead' align='left'>{$lang['peerslist_client']}</td></tr>\n";
@@ -67,19 +66,18 @@ function dltable($name, $arr, $torrent)
         $htmlout.= "<td align='left'>" . htmlsafechars(getagent($e["peer_id"], $e['peer_id'])) . "</td>\n";
         $htmlout.= "</tr>\n";
     }
-    $htmlout.= "</table>\n";
-    return $htmlout;
+    return $htmlout . "</table>\n";
 }
-$res = sql_query("SELECT * FROM torrents WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT * FROM torrents WHERE id = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 if ($res->num_rows == 0) stderr("{$lang['peerslist_error']}", "{$lang['peerslist_nothing']}");
 $row = $res->fetch_assoc();
 $downloaders = array();
 $seeders = array();
-$subres = sql_query("SELECT u.username, u.anonymous, t.owner, t.anonymous as tanonymous, t.seeders, t.leechers, x.tid, x.uploaded, x.downloaded, x.left, x.active, x.mtime AS la, x.uid, x.leechtime, x.seedtime, x.peer_id, x.upspeed, x.downspeed, x.ipa
+($subres = sql_query("SELECT u.username, u.anonymous, t.owner, t.anonymous as tanonymous, t.seeders, t.leechers, x.tid, x.uploaded, x.downloaded, x.left, x.active, x.mtime AS la, x.uid, x.leechtime, x.seedtime, x.peer_id, x.upspeed, x.downspeed, x.ipa
     FROM xbt_peers x
     LEFT JOIN users u ON x.uid = u.id
 	LEFT JOIN torrents as t on t.id = x.tid
-    WHERE active='1' AND x.tid = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    WHERE active='1' AND x.tid = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 if ($subres->num_rows == 0) stderr("{$lang['peerslist_warning']}", "{$lang['peerslist_no_data']}");
 while ($subrow = $subres->fetch_assoc()) {
     if ($subrow["left"] == 0) $seeders[] = $subrow;

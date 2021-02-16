@@ -12,7 +12,7 @@
  */
 if ($TRINITY20['staffmsg_alert'] && $CURUSER['class'] >= UC_STAFF) {
     if (($answeredby = $cache->get('staff_mess_')) === false) {
-        $res1 = sql_query("SELECT count(id) FROM staffmessages WHERE answeredby = 0") or sqlerr(__FILE__, __LINE__);
+        ($res1 = sql_query("SELECT count(id) FROM staffmessages WHERE answeredby = 0")) || sqlerr(__FILE__, __LINE__);
         list($answeredby) = $res1->fetch_row();
         $cache->set('staff_mess_', $answeredby, $TRINITY20['expires']['alerts']);
     }

@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($subforum) || empty($descr) || empty($place))
         stderr($lang['forum_mngr_err1'], $lang['forum_mngr_warn1']);
     else {
-        sql_query("INSERT INTO forums(`name`,`description` ,`min_class_read` ,`min_class_write` ,`min_class_create`,`place`,`forum_id`) VALUES(" . join(",", array_map("sqlesc", array($subforum, $descr, sqlesc((int)$_POST['readclass']), sqlesc((int)$_POST['writeclass']), sqlesc((int)$_POST['createclass']), $place, $place))) . ")") or sqlerr(__FILE__, __LINE__);
+        sql_query("INSERT INTO forums(`name`,`description` ,`min_class_read` ,`min_class_write` ,`min_class_create`,`place`,`forum_id`) VALUES(" . implode(",", array_map("sqlesc", array($subforum, $descr, sqlesc((int)$_POST['readclass']), sqlesc((int)$_POST['writeclass']), sqlesc((int)$_POST['createclass']), $place, $place))) . ")") || sqlerr(__FILE__, __LINE__);
         if ($mysqli->insert_id) {
             header("Refresh: 2; url=" . $this_url);
             stderr($lang['forum_mngr_succ'], $lang['forum_sub_add']);
@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	$HTMLOUT .= "<div class='row'><div class='col-md-12'>";
     // first build the list with all the subforums
-    $r_list = sql_query("SELECT f.id as parrentid , f.name as parrentname , f2.id as subid , f2.name as subname, f2.min_class_read, f2.min_class_write, f2.min_class_create, f2.description FROM forums as f LEFT JOIN forums as f2 ON f2.place=f.id WHERE f2.place !=-1 ORDER BY f.id ASC") or sqlerr(__FILE__, __LINE__);
+    ($r_list = sql_query("SELECT f.id as parrentid , f.name as parrentname , f2.id as subid , f2.name as subname, f2.min_class_read, f2.min_class_write, f2.min_class_create, f2.description FROM forums as f LEFT JOIN forums as f2 ON f2.place=f.id WHERE f2.place !=-1 ORDER BY f.id ASC")) || sqlerr(__FILE__, __LINE__);
 
 	$HTMLOUT .="<table class='table table-bordered'>
               <tr>
@@ -98,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		<td align='right' class='colhead'>{$lang['forum_sub_in']}</td>
 		<td nowrap='nowrap' colspan='3' align='left' >";
     $select .="<select name=\"place\"><option value=\"\">Select</option>\n";
-    $r = sql_query("SELECT id,name FROM forums WHERE place=-1 ORDER BY name ASC") or sqlerr(__FILE__, __LINE__);
+    ($r = sql_query("SELECT id,name FROM forums WHERE place=-1 ORDER BY name ASC")) || sqlerr(__FILE__, __LINE__);
     while ($ar = $r->fetch_assoc())
     $select .= "<option value=\"" . (int)$ar["id"] . "\">" . htmlsafechars($ar["name"]) . "</option>\n";
     $select .= "</select>\n";

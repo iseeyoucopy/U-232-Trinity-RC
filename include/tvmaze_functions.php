@@ -36,7 +36,7 @@ function tvmaze_format($tvmaze_data, $tvmaze_type) {
         }
 
     }
-    return join('<br/><br/>', $tvmaze_display[$tvmaze_type]);
+    return implode('<br/><br/>', $tvmaze_display[$tvmaze_type]);
 }
 function tvmaze(&$torrents) {
     global $cache, $TRINITY20;
@@ -104,8 +104,8 @@ function tvmaze(&$torrents) {
         $cache->update_row('torrent_details_' . $torrents['id'], [
             'poster' => $img,
         ], 0);
-        if (count($row_update)) {
-            sql_query('UPDATE torrents set ' . join(', ', $row_update) . ' WHERE id = ' . $torrents['id']) or sqlerr(__FILE__, __LINE__);
+        if (count($row_update) > 0) {
+            sql_query('UPDATE torrents set ' . implode(', ', $row_update) . ' WHERE id = ' . $torrents['id']) || sqlerr(__FILE__, __LINE__);
         }
 
         $tvmaze_showinfo = tvmaze_format($tvmaze_array, 'show') . '<br/>';

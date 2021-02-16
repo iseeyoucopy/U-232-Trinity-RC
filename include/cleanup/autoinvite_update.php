@@ -18,7 +18,7 @@ function docleanup($data)
     //== 09 Auto invite by Bigjoos/pdq
     $ratiocheck = 1.0;
     $joined = (TIME_NOW - 86400 * 90);
-    $res = sql_query("SELECT id, uploaded, invites, downloaded, modcomment FROM users WHERE invites='1' AND class = " . UC_USER . " AND uploaded / downloaded <= $ratiocheck AND enabled='yes' AND added < $joined") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id, uploaded, invites, downloaded, modcomment FROM users WHERE invites='1' AND class = " . UC_USER . " AND uploaded / downloaded <= $ratiocheck AND enabled='yes' AND added < $joined")) || sqlerr(__FILE__, __LINE__);
     $msgs_buffer = $users_buffer = array();
     if ($res->num_rows > 0) {
         $subject = "Auto Invites";
@@ -45,8 +45,8 @@ function docleanup($data)
         }
         $count = count($users_buffer);
         if ($count > 0) {
-            sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) or sqlerr(__FILE__, __LINE__);
-            sql_query("INSERT INTO users (id, invites, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE invites = invites+values(invites), modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) || sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO users (id, invites, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE invites = invites+values(invites), modcomment=values(modcomment)") || sqlerr(__FILE__, __LINE__);
             write_log("Cleanup: Awarded 2 bonus invites to " . $count . " member(s) ");
         }
         unset($users_buffer, $msgs_buffer, $update, $count);

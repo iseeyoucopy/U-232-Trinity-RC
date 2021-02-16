@@ -51,24 +51,24 @@ if (isset($_GET["remove"])) {
     $username2 = htmlsafechars($_GET['username2']);
     $deleteip = htmlsafechars($_GET['deleteip']);
     //write_logs("<font color='#FA5858'><b>{$lang['stderr_wipe']}</b></font> (<a href='userdetails.php?id=$CURUSER[id]'><b>$CURUSER[username]</b></a>){$lang['stderr_justwipe']}(<b>$deleteip</b>) {$lang['stderr_from']}(<a href='/userdetails.php?id=$id'><b>$username2</b></a>)'s Ip History.", 'log');
-    sql_query("DELETE FROM ips WHERE id=" . sqlesc($remove)) or sqlerr(__FILE__, __LINE__);
+    sql_query("DELETE FROM ips WHERE id=" . sqlesc($remove)) || sqlerr(__FILE__, __LINE__);
 }
 if (isset($_GET["setseedbox"])) {
     $setseedbox = htmlsafechars($_GET['setseedbox']);
     if (is_valid_id($setseedbox)) {
-        sql_query("UPDATE ips SET seedbox=1 WHERE id =" . sqlesc($setseedbox)) or sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE ips SET seedbox=1 WHERE id =" . sqlesc($setseedbox)) || sqlerr(__FILE__, __LINE__);
     }
 }
 if (isset($_GET["setseedbox2"])) {
     $setseedbox2 = htmlsafechars($_GET['setseedbox2']);
     if (is_valid_id($setseedbox2)) {
-        sql_query("UPDATE ips SET seedbox=0 WHERE id =" . sqlesc($setseedbox2)) or sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE ips SET seedbox=0 WHERE id =" . sqlesc($setseedbox2)) || sqlerr(__FILE__, __LINE__);
     }
 }
-$res = sql_query("SELECT username FROM users WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-$user = $res->fetch_array(MYSQLI_BOTH) or stderr("{$lang['stderr_error']}", "{$lang['stderr_noid']}");
+($res = sql_query("SELECT username FROM users WHERE id=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
+($user = $res->fetch_array(MYSQLI_BOTH)) || stderr("{$lang['stderr_error']}", "{$lang['stderr_noid']}");
 $username = htmlsafechars($user["username"]);
-$resip = sql_query("SELECT * FROM ips WHERE userid = " . sqlesc($id) . " GROUP BY ip ORDER BY id DESC") or sqlerr(__FILE__, __LINE__);
+($resip = sql_query("SELECT * FROM ips WHERE userid = " . sqlesc($id) . " GROUP BY ip ORDER BY id DESC")) || sqlerr(__FILE__, __LINE__);
 $ipcount = $resip->num_rows;
 $HTMLOUT = '';
 $HTMLOUT.= "<table class='table table-bordered'>
@@ -107,18 +107,18 @@ while ($iphistory = $resip->fetch_array(MYSQLI_NUM)) {
     if (strpos($host, 'xirvik.com')) $seedboxdetected = "yes";
     if (strpos($host, 'feralhosting.com')) $seedboxdetected = "yes";
     if ($seedboxdetected == 'yes') {
-        sql_query("UPDATE ips SET seedbox=1 WHERE id =" . sqlesc($ipid)) or sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE ips SET seedbox=1 WHERE id =" . sqlesc($ipid)) || sqlerr(__FILE__, __LINE__);
     }
     $lastbrowse = (int)$iphistory['lastbrowse']; // Last Browse DATE
     $lastlogin = (int)$iphistory['lastlogin']; // Last Login DATE
     $lastannounce = (int)$iphistory['lastannounce']; // Last Announce DATE
     $iptype = htmlsafechars($iphistory['type']); // IP was first used on
     $queryc = "SELECT COUNT(id) FROM (SELECT u.id FROM users AS u WHERE u.ip = " . sqlesc($iphistory['ip']) . " UNION SELECT u.id FROM users AS u RIGHT JOIN ips ON u.id= ips.userid WHERE ips.ip =" . sqlesc($iphistory['ip']) . " GROUP BY u.id) AS ipsearch";
-    $resip2 = sql_query($queryc) or sqlerr(__FILE__, __LINE__);
+    ($resip2 = sql_query($queryc)) || sqlerr(__FILE__, __LINE__);
     $arrip2 = $resip2->fetch_row();
     $ipcount = $arrip2[0];
     $nip = ip2long($iphistory['ip']);
-    $banres = sql_query("SELECT COUNT(*) FROM bans WHERE '$nip' >= first AND '$nip' <= last") or sqlerr(__FILE__, __LINE__);
+    ($banres = sql_query("SELECT COUNT(*) FROM bans WHERE '$nip' >= first AND '$nip' <= last")) || sqlerr(__FILE__, __LINE__);
     $banarr = $banres->fetch_row();
     if ($banarr[0] == 0) if ($ipcount > 1) {
         $ipshow = "<b><a class='altlink' href='staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=" . htmlsafechars($iphistory['ip']) . "'><font color='black'>" . htmlsafechars($iphistory['ip']) . "</font></a></b>";

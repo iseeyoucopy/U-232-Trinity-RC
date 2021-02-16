@@ -35,7 +35,7 @@ if (!in_array($CURUSER['id'], $allowed_ids))
 $lang = array_merge($lang, load_language('ad_sitesettings'));
 //$update = '';
 //get the config from db
-$pconf = sql_query('SELECT * FROM site_config') or sqlerr(__FILE__, __LINE__);
+($pconf = sql_query('SELECT * FROM site_config')) || sqlerr(__FILE__, __LINE__);
 while ($ac = $pconf->fetch_assoc()) $site_settings[$ac['name']] = $ac['value'];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $update = array();
@@ -46,15 +46,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
      stderr($lang['sitesettings_stderr'], $lang['sitesettings_stderr2']);
     }
     */
-    foreach ($site_settings as $c_name => $c_value) if (isset($_POST[$c_name]) && $_POST[$c_name] != $c_value) $update[] = '(' . sqlesc($c_name) . ',' . sqlesc(is_array($_POST[$c_name]) ? join('|', $_POST[$c_name]) : $_POST[$c_name]) . ')';
-    if (sql_query('INSERT INTO site_config(name,value) VALUES ' . join(',', $update) . ' ON DUPLICATE KEY update value=values(value)')) {
+    foreach ($site_settings as $c_name => $c_value) if (isset($_POST[$c_name]) && $_POST[$c_name] != $c_value) $update[] = '(' . sqlesc($c_name) . ',' . sqlesc(is_array($_POST[$c_name]) ? implode('|', $_POST[$c_name]) : $_POST[$c_name]) . ')';
+    if (sql_query('INSERT INTO site_config(name,value) VALUES ' . implode(',', $update) . ' ON DUPLICATE KEY update value=values(value)')) {
         $t = '$TRINITY20';
         $configfile = "<" . "?php\n/**\n{$lang['sitesettings_file']}" . date('M d Y H:i:s') . ".\n{$lang['sitesettings_cfg']}\n**/\n";
         $res = sql_query("SELECT * from site_config ");
         while ($arr = $res->fetch_assoc()) {
             $configfile.= "" . $t . "['$arr[name]'] = $arr[value];\n";
         }
-        $configfile.= "?" . ">";
+        $configfile.= '?>';
         $filenum = fopen('./cache/site_settings.php', 'w');
         ftruncate($filenum, 0);
         fwrite($filenum, $configfile);
@@ -68,10 +68,10 @@ $HTMLOUT.= "<h3>{$lang['sitesettings_sitehead']}</h3>
 <form action='staffpanel.php?tool=site_settings' method='post'>
 <table class='table table-bordered'>";
 if ($CURUSER['id'] === 1) 
-$HTMLOUT.= "<tr><td width='50%'>{$lang['sitesettings_online']}</td><td>{$lang['sitesettings_yes']}<input type='radio' name='site_online' value='1' " . ($site_settings['site_online'] ? 'checked=\'checked\'' : '') . " />{$lang['sitesettings_no']}<input type='radio' name='site_online' value='0' " . (!$site_settings['site_online'] ? 'checked=\'checked\'' : '') . " /></td></tr>";
+$HTMLOUT.= "<tr><td width='50%'>{$lang['sitesettings_online']}</td><td>{$lang['sitesettings_yes']}<input type='radio' name='site_online' value='1' " . ($site_settings['site_online'] ? 'checked=\'checked\'' : '') . " />{$lang['sitesettings_no']}<input type='radio' name='site_online' value='0' " . ($site_settings['site_online'] ? '' : 'checked=\'checked\'') . " /></td></tr>";
 $HTMLOUT.= "
-<tr><td width='50%'>{$lang['sitesettings_autoshout']}</td><td>{$lang['sitesettings_yes']}<input type='radio' name='autoshout_on' value='1' " . ($site_settings['autoshout_on'] ? 'checked=\'checked\'' : '') . " />{$lang['sitesettings_no']}<input type='radio' name='autoshout_on' value='0' " . (!$site_settings['autoshout_on'] ? 'checked=\'checked\'' : '') . " /></td></tr>
-<tr><td width='50%'>{$lang['sitesettings_seedbonus']}</td><td>{$lang['sitesettings_yes']}<input type='radio' name='seedbonus_on' value='1' " . ($site_settings['seedbonus_on'] ? 'checked=\'checked\'' : '') . " />{$lang['sitesettings_no']}<input type='radio' name='seedbonus_on' value='0' " . (!$site_settings['seedbonus_on'] ? 'checked=\'checked\'' : '') . " /></td></tr>
+<tr><td width='50%'>{$lang['sitesettings_autoshout']}</td><td>{$lang['sitesettings_yes']}<input type='radio' name='autoshout_on' value='1' " . ($site_settings['autoshout_on'] ? 'checked=\'checked\'' : '') . " />{$lang['sitesettings_no']}<input type='radio' name='autoshout_on' value='0' " . ($site_settings['autoshout_on'] ? '' : 'checked=\'checked\'') . " /></td></tr>
+<tr><td width='50%'>{$lang['sitesettings_seedbonus']}</td><td>{$lang['sitesettings_yes']}<input type='radio' name='seedbonus_on' value='1' " . ($site_settings['seedbonus_on'] ? 'checked=\'checked\'' : '') . " />{$lang['sitesettings_no']}<input type='radio' name='seedbonus_on' value='0' " . ($site_settings['seedbonus_on'] ? '' : 'checked=\'checked\'') . " /></td></tr>
 <tr><td width='50%'>{$lang['sitesettings_bpdur']}</td><td><input type='text' class='form-control' name='bonus_per_duration' size='3' value='" . htmlsafechars($site_settings['bonus_per_duration']) . "' /></td></tr>
 <tr><td width='50%'>{$lang['sitesettings_bpdload']}</td><td><input type='text' class='form-control' name='bonus_per_download' size='3' value='" . htmlsafechars($site_settings['bonus_per_download']) . "' /></td></tr>
 <tr><td width='50%'>{$lang['sitesettings_bpcomm']}</td><td><input type='text' class='form-control' name='bonus_per_comment' size='3' value='" . htmlsafechars($site_settings['bonus_per_comment']) . "' /></td></tr>
@@ -82,7 +82,7 @@ $HTMLOUT.= "
 <tr><td width='50%'>{$lang['sitesettings_bpdel']}</td><td><input type='text' class='form-control' name='bonus_per_delete' size='3' value='" . htmlsafechars($site_settings['bonus_per_delete']) . "' /></td></tr>
 <tr><td width='50%'>{$lang['sitesettings_bptnk']}</td><td><input type='text' class='form-control' name='bonus_per_thanks' size='3' value='" . htmlsafechars($site_settings['bonus_per_thanks']) . "' /></td></tr>
 <tr><td width='50%'>{$lang['sitesettings_bprsd']}</td><td><input type='text' class='form-control' name='bonus_per_reseed' size='3' value='" . htmlsafechars($site_settings['bonus_per_reseed']) . "' /></td></tr>
-<tr><td width='50%'>{$lang['sitesettings_forums']}</td><td>{$lang['sitesettings_yes']}<input type='radio' name='forums_online' value='1' " . ($site_settings['forums_online'] ? 'checked=\'checked\'' : '') . " />{$lang['sitesettings_no']}<input type='radio' name='forums_online' value='0' " . (!$site_settings['forums_online'] ? 'checked=\'checked\'' : '') . " /></td></tr>
+<tr><td width='50%'>{$lang['sitesettings_forums']}</td><td>{$lang['sitesettings_yes']}<input type='radio' name='forums_online' value='1' " . ($site_settings['forums_online'] ? 'checked=\'checked\'' : '') . " />{$lang['sitesettings_no']}<input type='radio' name='forums_online' value='0' " . ($site_settings['forums_online'] ? '' : 'checked=\'checked\'') . " /></td></tr>
 <tr><td width='50%'>{$lang['sitesettings_openreg']}</td><td><input type='text' class='form-control' name='openreg' size='2' value='" . htmlsafechars($site_settings['openreg']) . "' /></td></tr>
 <tr><td width='50%'>{$lang['sitesettings_openinvite']}</td><td><input type='text' class='form-control' name='openreg_invites' size='2' value='" . htmlsafechars($site_settings['openreg_invites']) . "' /></td></tr>
 <tr><td width='50%'>{$lang['sitesettings_maxusers']}</td><td><input type='text' class='form-control' name='maxusers' size='2' value='" . htmlsafechars($site_settings['maxusers']) . "' /></td></tr>

@@ -37,7 +37,7 @@ if ($action == 'read_announce') {
         die();
     }
     foreach ($ann_list AS $x) if ($x[0] == $id) list(, $subject, $body) = $x;
-    if (empty($subject) OR empty($body)) {
+    if (empty($subject) || empty($body)) {
         $HTMLOUT.= stdmsg($lang['annhistory_error'], $lang['annhistory_not']);
         echo stdhead($lang['annhistory_ann']) . $HTMLOUT . stdfoot();
         die();

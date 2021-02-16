@@ -34,7 +34,7 @@ $HTMLOUT = '';
 $remove = (isset($_GET['remove']) ? 0 + $_GET['remove'] : 0);
 if ($remove) {
     if (empty($remove)) die($lang['freeusers_wtf']);
-    $res = sql_query("SELECT id, username, class FROM users WHERE free_switch != 0 AND id = " . sqlesc($remove)) or sqlerr(__file__, __line__);
+    ($res = sql_query("SELECT id, username, class FROM users WHERE free_switch != 0 AND id = " . sqlesc($remove))) || sqlerr(__file__, __line__);
     $msgs_buffer = $users_buffer = array();
     if ($res->num_rows > 0) {
         $msg = sqlesc($lang['freeusers_msg'] . $CURUSER['username'] . $lang['freeusers_period']);
@@ -44,11 +44,11 @@ if ($remove) {
             $users_buffer[] = '(' . $arr['id'] . ',0,' . $modcomment . ')';
             $username = $arr['username'];
         }
-        if (sizeof($msgs_buffer) > 0) {
-            sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) or sqlerr(__file__, __line__);
+        if (count($msgs_buffer) > 0) {
+            sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) || sqlerr(__file__, __line__);
             sql_query("INSERT INTO users (id, free_switch, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key 
 			UPDATE free_switch=values(free_switch), 
-			modcomment=concat(values(modcomment),modcomment)") or sqlerr(__file__, __line__);
+			modcomment=concat(values(modcomment),modcomment)") || sqlerr(__file__, __line__);
             write_log("{$lang['freeusers_log1']} $remove ($username) 
 			{$lang['freeusers_log2']} $CURUSER[username]");
             $cache->delete($keys['my_userid'] . $arr['id']);
@@ -58,7 +58,7 @@ if ($remove) {
         }
     } else die($lang['freeusers_fail']);
 }
-$res2 = sql_query("SELECT id, username, class, free_switch FROM users WHERE free_switch != 0 ORDER BY username ASC") or sqlerr(__file__, __line__);
+($res2 = sql_query("SELECT id, username, class, free_switch FROM users WHERE free_switch != 0 ORDER BY username ASC")) || sqlerr(__file__, __line__);
 $count = $res2->num_rows;
 $HTMLOUT.= "<h1>{$lang['freeusers_head']} ($count)</h1>";
 if ($count == 0) $HTMLOUT.= '<p align="center"><b>'.$lang['freeusers_nothing'].'</b></p>';

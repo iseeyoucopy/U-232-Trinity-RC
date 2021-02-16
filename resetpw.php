@@ -37,15 +37,13 @@ $step = (isset($_GET["step"]) ? (int)$_GET["step"] : (isset($_POST["step"]) ? (i
 if ($step == '1') {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!mkglobal('email' . ($TRINITY20['captcha_on'] ? ":captchaSelection" : "") . '')) stderr("Oops", "Missing form data - You must fill all fields");
-        if ($TRINITY20['captcha_on']) {
-            if (empty($captchaSelection) || $_SESSION['simpleCaptchaAnswer'] != $captchaSelection) {
-                stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error2']}");
-                exit();
-            }
+        if ($TRINITY20['captcha_on'] && (empty($captchaSelection) || $_SESSION['simpleCaptchaAnswer'] != $captchaSelection)) {
+            stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error2']}");
+            exit();
         }
         if (!validemail($email)) stderr($lang['stderr_errorhead'], $lang['stderr_invalidemail1']);
-        $check = sql_query('SELECT id, status, passhint, hintanswer FROM users WHERE email = ' . sqlesc($email)) or sqlerr(__FILE__, __LINE__);
-        $assoc = $check->fetch_assoc() or stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_notfound']}");
+        ($check = sql_query('SELECT id, status, passhint, hintanswer FROM users WHERE email = ' . sqlesc($email))) || sqlerr(__FILE__, __LINE__);
+        ($assoc = $check->fetch_assoc()) || stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_notfound']}");
         if (empty($assoc['passhint']) || empty($assoc['hintanswer'])) {
             stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error3']}");
         }
@@ -84,7 +82,7 @@ if ($step == '1') {
     }
 } elseif ($step == '2') {
     if (!mkglobal('id:answer')) die();
-    $select = sql_query('SELECT id, username, birthday, added, pin_code, hintanswer, email FROM users WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    ($select = sql_query('SELECT id, username, birthday, added, pin_code, hintanswer, email FROM users WHERE id = ' . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $fetch = $select->fetch_assoc();
     if (!$fetch) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error5']}");
     if (empty($answer)) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error6']}");
@@ -93,7 +91,7 @@ if ($step == '1') {
         $useragent = $_SERVER['HTTP_USER_AGENT'];
         $msg = "" . htmlsafechars($fetch['username']) . ", on " . get_date(TIME_NOW, '', 1, 0) . ", {$lang['main_message']}" . "\n\n{$lang['main_message1']} " . $ip . " (" . @gethostbyaddr($ip) . ")" . "\n {$lang['main_message2']} " . $useragent . "\n\n {$lang['main_message3']}\n {$lang['main_message4']}\n";
         $subject = "Failed password reset";
-        sql_query('INSERT INTO messages (receiver, msg, subject, added) VALUES (' . sqlesc((int)$fetch['id']) . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ', ' . TIME_NOW . ')') or sqlerr(__FILE__, __LINE__);
+        sql_query('INSERT INTO messages (receiver, msg, subject, added) VALUES (' . sqlesc((int)$fetch['id']) . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ', ' . TIME_NOW . ')') || sqlerr(__FILE__, __LINE__);
         stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error7']}");
     }     else {
                     $sec = mksecret();
@@ -131,8 +129,8 @@ if ($step == '1') {
     if (!mkglobal('id:newpass:newpassagain:hash')) die();
     if (strlen($hash) != 128)
     die('access denied');
-    $select = sql_query('SELECT id, added, email, username, birthday, pin_code FROM users WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    $fetch = $select->fetch_assoc() or stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error8']}");
+    ($select = sql_query('SELECT id, added, email, username, birthday, pin_code FROM users WHERE id = ' . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
+    ($fetch = $select->fetch_assoc()) || stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error8']}");
     if (empty($newpass)) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error9']}");
     if ($newpass != $newpassagain) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error10']}");
     if (strlen($newpass) < 6) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error11']}");

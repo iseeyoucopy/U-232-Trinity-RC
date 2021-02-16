@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once ("getstats.php");
+require_once (__DIR__ . "/getstats.php");
 $_settings = $_SERVER["DOCUMENT_ROOT"] . "/avatar/settings/";
 $flag_xy = array(
     1 => array(

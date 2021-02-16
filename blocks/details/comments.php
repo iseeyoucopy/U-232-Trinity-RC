@@ -11,7 +11,7 @@ $commentbar = "
 <div class='col-md-2'></div>
 <div class='col-md-8'>\n";
 $count = (int)$torrents['comments'];
-if (!$count) {
+if ($count === 0) {
     $HTMLOUT.= "
 <div class='container'>
 <div class='row'>
@@ -22,7 +22,7 @@ if (!$count) {
     $pager = pager($perpage, $count, "details.php?id=$id&amp;", array(
         'lastpagedefault' => 1
     )); 
-    $subres = sql_query("SELECT comments.id, comments.text, comments.user_likes, comments.user, comments.torrent, comments.added, comments.anonymous, comments.editedby, comments.editedat, comments.edit_name, users.warned, users.enabled, users.chatpost, users.leechwarn, users.pirate, users.king, users.perms, users.avatar, users.av_w, users.av_h, users.offavatar, users.warned, users.reputation, users.opt1, users.opt2, users.mood, users.username, users.title, users.class, users.donor FROM comments LEFT JOIN users ON comments.user = users.id WHERE torrent = " . sqlesc($id) . " ORDER BY comments.id " . $pager['limit']) or sqlerr(__FILE__, __LINE__);
+    ($subres = sql_query("SELECT comments.id, comments.text, comments.user_likes, comments.user, comments.torrent, comments.added, comments.anonymous, comments.editedby, comments.editedat, comments.edit_name, users.warned, users.enabled, users.chatpost, users.leechwarn, users.pirate, users.king, users.perms, users.avatar, users.av_w, users.av_h, users.offavatar, users.warned, users.reputation, users.opt1, users.opt2, users.mood, users.username, users.title, users.class, users.donor FROM comments LEFT JOIN users ON comments.user = users.id WHERE torrent = " . sqlesc($id) . " ORDER BY comments.id " . $pager['limit'])) || sqlerr(__FILE__, __LINE__);
     $allrows = array();
     while ($subrow = $subres->fetch_assoc()) $allrows[] = $subrow;
     $HTMLOUT.="

@@ -83,11 +83,7 @@ $HTMLOUT .="<div class='panel inverse' style='width:82%; margin-left:9%;'>
 </div><br>
 <div class='row'><div class='col-sm-12'>{$lang["edit_nfo"]}<br /><input type='radio' name='nfoaction' value='keep' checked='checked' />{$lang['edit_keep_current']}<br /><input type='radio' name='nfoaction' value='update' />{$lang['edit_update']}<br /><input type='file' name='nfo' size='80' /> </div>
 </div><br>";
-if ((strpos($row["ori_descr"], "<") === false) || (strpos($row["ori_descr"], "&lt;") !== false)) {
-    $c = "";
-} else {
-    $c = " checked";
-}
+$c = (strpos($row["ori_descr"], "<") === false) || (strpos($row["ori_descr"], "&lt;") !== false) ? "" : " checked";
 $HTMLOUT.="
 <div class='row'><div class='col-sm-12'>{$lang['edit_description']} ". textbbcode("edit","descr","".htmlspecialchars($row['ori_descr'])."")."<br />{$lang['edit_tags']}</div></div><br>";
 $s = "<br><select class='form-control' name='type'>";
@@ -168,8 +164,7 @@ $HTMLOUT.= "</div>";
 
 // ===09 Allow Comments
 if ($CURUSER['class'] >= UC_STAFF && $CURUSER['class'] == UC_MAX) {
-    if ($row["allow_comments"] == "yes") $messc = "&nbsp;<br>{$lang['edit_com_allow']}";
-    else $messc = "&nbsp;<br>{$lang['edit_com_only']}";
+    $messc = $row["allow_comments"] == "yes" ? "&nbsp;<br>{$lang['edit_com_allow']}" : "&nbsp;<br>{$lang['edit_com_only']}";
     $HTMLOUT.= "<div class='col-sm-4'><font color='red'>&nbsp;*&nbsp;</font><b>&nbsp;{$lang['edit_comment']}</b>
     <select name='allow_comments'>
     <option value='" . htmlsafechars($row["allow_comments"]) . "'>" . htmlsafechars($row["allow_comments"]) . "</option>
@@ -225,8 +220,8 @@ $movie = array(
     $lang['movie_mv6'],
     $lang['movie_mv7']
 );
-for ($x = 0; $x < count($movie); $x++) {
-    $HTMLOUT.= "<label><input type=\"checkbox\" value=\"$movie[$x]\"  name=\"movie[]\" class=\"DEPENDS ON genre BEING movie\" />$movie[$x]</label>";
+foreach ($movie as $x => $movie) {
+    $HTMLOUT.= "<label><input type=\"checkbox\" value=\"{$movie}\"  name=\"movie[]\" class=\"DEPENDS ON genre BEING movie\" />{$movie}</label>";
 }
 $music = array(
     $lang['music_m1'],
@@ -236,8 +231,8 @@ $music = array(
     $lang['music_m5'],
     $lang['music_m6']
 );
-for ($x = 0; $x < count($music); $x++) {
-    $HTMLOUT.= "<label><input type=\"checkbox\" value=\"$music[$x]\" name=\"music[]\" class=\"DEPENDS ON genre BEING music\" />$music[$x]</label>";
+foreach ($music as $x => $music) {
+    $HTMLOUT.= "<label><input type=\"checkbox\" value=\"{$music}\" name=\"music[]\" class=\"DEPENDS ON genre BEING music\" />{$music}</label>";
 }
 $game = array(
     $lang['game_g1'],
@@ -246,8 +241,8 @@ $game = array(
     $lang['game_g4'],
     $lang['game_g5']
 );
-for ($x = 0; $x < count($game); $x++) {
-    $HTMLOUT.= "<label><input type=\"checkbox\" value=\"$game[$x]\" name=\"game[]\" class=\"DEPENDS ON genre BEING game\" />$game[$x]</label>";
+foreach ($game as $x => $game) {
+    $HTMLOUT.= "<label><input type=\"checkbox\" value=\"{$game}\" name=\"game[]\" class=\"DEPENDS ON genre BEING game\" />{$game}</label>";
 }
 $apps = array(
     $lang['app_mv1'],
@@ -258,8 +253,8 @@ $apps = array(
     $lang['app_mv6'],
     $lang['app_mv7']
 );
-for ($x = 0; $x < count($apps); $x++) {
-    $HTMLOUT.= "<label><input type=\"checkbox\" value=\"$apps[$x]\" name=\"apps[]\" class=\"DEPENDS ON genre BEING apps\" />$apps[$x]</label>";
+foreach ($apps as $x => $app) {
+    $HTMLOUT.= "<label><input type=\"checkbox\" value=\"{$app}\" name=\"apps[]\" class=\"DEPENDS ON genre BEING apps\" />{$app}</label>";
 }
 $HTMLOUT.= "</table></div></div>";
 $HTMLOUT.= "<div class='row'><div class='col-sm-4 col-sm-offset-4'><input type='submit' value='{$lang['edit_submit']}' class='button' /> <input type='reset' value='{$lang['edit_revert']}' class='button' /></div></div>";

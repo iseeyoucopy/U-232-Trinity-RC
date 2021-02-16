@@ -37,7 +37,7 @@ if ($game) {
     }
     $cardcount = 52;
     $points = $showcards = $aces = '';
-    $sql = sql_query('SELECT uploaded, downloaded, bjwins, bjlosses ' . 'FROM users ' . 'WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+    ($sql = sql_query('SELECT uploaded, downloaded, bjwins, bjlosses ' . 'FROM users ' . 'WHERE id = ' . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
     $User = $sql->fetch_assoc();
     $User['uploaded'] = $User['uploaded'];
     $User['downloaded'] = $User['downloaded'];
@@ -49,14 +49,12 @@ if ($game) {
         if ($game == 'hit') {
             $points = $aces = 0;
         }
-        $gameover = ($playerarr['gameover'] == 'yes' ? true : false);
+        $gameover = ($playerarr['gameover'] == 'yes');
         cheater_check($gameover && ($game == 'hit' ^ $game == 'stop'));
         $cards = $playerarr["cards"];
         $usedcards = explode(" ", $cards);
         $arr = [];
-        foreach ($usedcards as $array_list) {
-            $arr[] = $array_list;
-        }
+        $arr = $usedcards;
         foreach ($arr as $card_id) {
             $used_card = sql_query("SELECT * FROM cards WHERE id=" . sqlesc($card_id));
             $used_cards = $used_card->fetch_assoc();
@@ -113,7 +111,7 @@ if ($game) {
             for ($i = 0; $i < $aces; $i++) {
                 $points += ($points < 11 && $aces - $i == 1 ? 11 : 1);
             }
-            sql_query("INSERT INTO blackjack (userid, points, cards, date) VALUES(" . sqlesc($CURUSER['id']) . ", '$points', '" . join(" ", $cardids2) . "', $now)");
+            sql_query("INSERT INTO blackjack (userid, points, cards, date) VALUES(" . sqlesc($CURUSER['id']) . ", '$points', '" . implode(" ", $cardids2) . "', $now)");
             if ($points < 21) {
                 $HTMLOUT .= "<h1>{$lang['bj_welcome']}, {$CURUSER['username']}!</h1>
                 <div class='row'><div class='col-sm-6 col-sm-offset-3'><table class='table'>
@@ -370,7 +368,7 @@ if ($game) {
         echo stdhead($lang['bj_title']) . $HTMLOUT . stdfoot();
     }
 } else {
-    $sql = sql_query('SELECT bjwins, bjlosses ' . 'FROM users ' . 'WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+    ($sql = sql_query('SELECT bjwins, bjlosses ' . 'FROM users ' . 'WHERE id = ' . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
     $User = $sql->fetch_assoc();
     $User['bjwins'] = (int) $User['bjwins'];
     $User['bjlosses'] = (int) $User['bjlosses'];

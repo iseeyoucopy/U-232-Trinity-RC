@@ -35,15 +35,16 @@ function write_staffs2()
     //==ids
     $t = '$TRINITY20';
     $iconfigfile = "<" . "?php\n/**\n{$lang['staffcfg_file_created']}" . date('M d Y H:i:s') . ".\n{$lang['staffcfg_mod_by']}\n**/\n";
-    $ri = sql_query("SELECT id, username, class FROM users WHERE class BETWEEN " . UC_STAFF . " AND " . UC_MAX . " ORDER BY id ASC") or sqlerr(__file__, __line__);
+    ($ri = sql_query("SELECT id, username, class FROM users WHERE class BETWEEN " . UC_STAFF . " AND " . UC_MAX . " ORDER BY id ASC")) || sqlerr(__file__, __line__);
     $iconfigfile.= "" . $t . "['allowed_staff']['id'] = array(";
     while ($ai = $ri->fetch_assoc()) {
         $ids[] = $ai['id'];
         $usernames[] = "'" . $ai["username"] . "' => 1";
     }
-    $iconfigfile.= "" . join(",", $ids);
+    $iconfigfile.= "" . implode(",", $ids);
     $iconfigfile.= ");";
-    $iconfigfile.= "\n?" . ">";
+    $iconfigfile.= '
+?>';
     $filenum = fopen('./cache/staff_settings.php', 'w');
     ftruncate($filenum, 0);
     fwrite($filenum, $iconfigfile);
@@ -52,9 +53,10 @@ function write_staffs2()
     $t = '$TRINITY20';
     $nconfigfile = "<" . "?php\n/**\n{$lang['staffcfg_file_created']}" . date('M d Y H:i:s') . ".\n{$lang['staffcfg_mod_by']}\n**/\n";
     $nconfigfile.= "" . $t . "['staff']['allowed'] = array(";
-    $nconfigfile.= "" . join(",", $usernames);
+    $nconfigfile.= "" . implode(",", $usernames);
     $nconfigfile.= ");";
-    $nconfigfile.= "\n?" . ">";
+    $nconfigfile.= '
+?>';
     $filenum1 = fopen('./cache/staff_settings2.php', 'w');
     ftruncate($filenum1, 0);
     fwrite($filenum1, $nconfigfile);

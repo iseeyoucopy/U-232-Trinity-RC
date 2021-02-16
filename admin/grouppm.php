@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($msg)) $err[] = $lang['grouppm_nomsg'];
     //$msg .= "\n This is a group message !";
     if (empty($groups)) $err[] = $lang['grouppm_nogrp'];
-    if (sizeof($err) == 0) {
+    if (count($err) == 0) {
         $where = $classes = $ids = array();
         foreach ($groups as $group) {
             if (is_string($group)) {
@@ -85,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 case "all_friends":
                     {
-                        $fq = sql_query("SELECT friendid FROM friends WHERE userid=" . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
+                        ($fq = sql_query("SELECT friendid FROM friends WHERE userid=" . sqlesc($CURUSER["id"]))) || sqlerr(__FILE__, __LINE__);
                         if ($fq->num_rows) 
                             while ($fa = $fq->fetch_row()) 
                                 $ids[] = $fa[0];
@@ -98,19 +98,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $sent2classes[] = get_user_class_name((int)$group);
             }
         }
-        if (sizeof($classes) > 0) $where[] = "u.class IN (" . join(",", $classes) . ")";
-        if (sizeof($where) > 0) {
-            $q1 = sql_query("SELECT u.id FROM users AS u WHERE " . join(" OR ", $where)) or sqlerr(__FILE__, __LINE__);
+        if (count($classes) > 0) $where[] = "u.class IN (" . implode(",", $classes) . ")";
+        if (count($where) > 0) {
+            ($q1 = sql_query("SELECT u.id FROM users AS u WHERE " . implode(" OR ", $where))) || sqlerr(__FILE__, __LINE__);
             if ($q1->num_rows > 0) 
                 while ($a = $q1->fetch_row()) 
                     $ids[] = $a[0];
         }
         $ids = array_unique($ids);
-        if (sizeof($ids) > 0) {
+        if (count($ids) > 0) {
             $pms = array();
-            $msg.= $lang['grouppm_this'] . join(', ', $sent2classes);
+            $msg.= $lang['grouppm_this'] . implode(', ', $sent2classes);
             foreach ($ids as $rid) $pms[] = "(" . $sender . "," . $rid . "," . TIME_NOW . "," . sqlesc($msg) . "," . sqlesc($subject) . ")";
-            if (sizeof($pms) > 0) $r = sql_query("INSERT INTO messages(sender,receiver,added,msg,subject) VALUES " . join(",", $pms)) or sqlerr(__FILE__, __LINE__);
+            if (count($pms) > 0) ($r = sql_query("INSERT INTO messages(sender,receiver,added,msg,subject) VALUES " . implode(",", $pms))) || sqlerr(__FILE__, __LINE__);
             $cache->delete('inbox_new::' . $rid);
             $cache->delete('inbox_new_sb::' . $rid);
             $err[] = ($r ? $lang['grouppm_sent'] : $lang['grouppm_again']);
@@ -143,13 +143,12 @@ function dropdown()
         foreach ($ops as $k => $v) $r.= "<option value=\"" . $k . "\">" . $v . "</option>";
         $r.= "</optgroup>";
     }
-    $r.= "</select>";
-    return $r;
+    return $r . "</select>";
 }
 $HTMLOUT.= "<div class='row'><div class='col-md-12'>";
-if (sizeof($err) > 0) {
+if (count($err) > 0) {
     $class = (stristr($err[0], "sent!") == true ? "sent" : "notsent");
-    $errs = "<ul><li>" . join("</li><li>", $err) . "</li></ul>";
+    $errs = "<ul><li>" . implode("</li><li>", $err) . "</li></ul>";
     $HTMLOUT.= "<div class=\"" . $class . "\">$errs</div>";
 }
 $HTMLOUT.= "<fieldset style='border:1px solid #333333; padding:5px;'>

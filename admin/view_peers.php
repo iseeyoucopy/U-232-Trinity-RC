@@ -76,13 +76,12 @@ function XBT_IP_CONVERT($a)
         $a-= $c * $k;
         $b[$i] = $k;
         $c/= 256.0;
-    };
-    $d = join('.', $b);
-    return ($d);
+    }
+    return (implode('.', $b));
 }
 $Which_ID = (XBT_TRACKER == true ? 'tid' : 'id');
 $Which_Table = (XBT_TRACKER == true ? 'xbt_peers' : 'peers');
-$res = sql_query("SELECT COUNT($Which_ID) FROM $Which_Table") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT COUNT($Which_ID) FROM $Which_Table")) || sqlerr(__FILE__, __LINE__);
 $row = $res->fetch_row();
 $count = $row[0];
 $peersperpage = 15;
@@ -97,7 +96,7 @@ if (XBT_TRACKER == true) {
 } else {
     $sql = "SELECT p.id, p.userid, p.torrent, p.torrent_pass, p.peer_id, p.ip, p.port, p.uploaded, p.downloaded, p.to_go, p.seeder, p.started, p.last_action, p.connectable, p.agent, p.finishedat, p.downloadoffset, p.uploadoffset, u.username, t.name " . "FROM peers AS p " . "LEFT JOIN users AS u ON u.id=p.userid " . "LEFT JOIN torrents AS t ON t.id=p.torrent WHERE started != '0'" . "ORDER BY p.started DESC {$pager['limit']}";
 }
-$result = sql_query($sql) or sqlerr(__FILE__, __LINE__);
+($result = sql_query($sql)) || sqlerr(__FILE__, __LINE__);
 if ($result->num_rows != 0) {
     if (XBT_TRACKER == true) {
         $HTMLOUT.= "<table class='table table-bordered'>

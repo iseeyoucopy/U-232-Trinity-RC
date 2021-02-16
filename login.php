@@ -42,7 +42,7 @@ function left()
     global $TRINITY20;
     $total = 0;
     $ip = getip();
-    $fail = sql_query("SELECT SUM(attempts) FROM failedlogins WHERE ip=" . sqlesc($ip)) or sqlerr(__FILE__, __LINE__);
+    ($fail = sql_query("SELECT SUM(attempts) FROM failedlogins WHERE ip=" . sqlesc($ip))) || sqlerr(__FILE__, __LINE__);
     list($total) = $fail->fetch_row();
     $left = $TRINITY20['failedlogins'] - $total;
     if ($left <= 2) $left = "<span class='button rounded alert'>{$left}</span>";

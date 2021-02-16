@@ -47,7 +47,7 @@ return (strlen($txt)>$len ? substr($txt,0,$len-4) .'[...]':$txt);
     $link = ($_POST['link']);
     $status = ($_POST['status']);
     $credit = ($_POST['credit']);
-    sql_query("INSERT INTO modscredits (name, description,  category,  u232lnk,  status, credit) VALUES(" . sqlesc($name) . ", " . sqlesc($description) . ", " . sqlesc($category) . ", " . sqlesc($link) . ", " . sqlesc($status) . ", " . sqlesc($credit) . ")") or sqlerr(__FILE__, __LINE__);
+    sql_query("INSERT INTO modscredits (name, description,  category,  u232lnk,  status, credit) VALUES(" . sqlesc($name) . ", " . sqlesc($description) . ", " . sqlesc($category) . ", " . sqlesc($link) . ", " . sqlesc($status) . ", " . sqlesc($credit) . ")") || sqlerr(__FILE__, __LINE__);
 	  header("Location: {$TRINITY20['baseurl']}/credits.php");
 	  die();
 	  }
@@ -55,101 +55,92 @@ return (strlen($txt)>$len ? substr($txt,0,$len-4) .'[...]':$txt);
 	if ($action == 'delete' && $CURUSER['class'] >= UC_SYSOP)
 	{
 	if (!$id) { stderr("{$lang['credits_error']}", "{$lang['credits_error2']}");}
-	sql_query("DELETE FROM modscredits where id = '$id'") or sqlerr(__FILE__, __LINE__);
+	sql_query("DELETE FROM modscredits where id = '$id'") || sqlerr(__FILE__, __LINE__);
 	header("Location: {$TRINITY20['baseurl']}/credits.php");
 	die();
   }
 
-  if ($action == 'edit' && $CURUSER['class'] >= UC_SYSOP){
-	$id = 0 + $_GET["id"];
-	$res = sql_query("SELECT name, description, category, u232lnk, status, credit FROM modscredits WHERE id =".$id."") or sqlerr(__FILE__, __LINE__);
-	if ($res->num_rows == 0)
-	stderr("{$lang['credits_error']}", "{$lang['credits_nocr']}");
-	while($mod = $res->fetch_assoc()){
-
-	$HTMLOUT .= "<form method='post' action='".$_SERVER['PHP_SELF']."?action=update&amp;id=".$id."'>
+  if ($action == 'edit' && $CURUSER['class'] >= UC_SYSOP) {
+			$id = 0 + $_GET["id"];
+			($res = sql_query("SELECT name, description, category, u232lnk, status, credit FROM modscredits WHERE id =".$id."")) || sqlerr(__FILE__, __LINE__);
+			if ($res->num_rows == 0)
+  	stderr("{$lang['credits_error']}", "{$lang['credits_nocr']}");
+			while($mod = $res->fetch_assoc()){
+  
+  	$HTMLOUT .= "<form method='post' action='".$_SERVER['PHP_SELF']."?action=update&amp;id=".$id."'>
   <table width='50%' cellpadding='10' cellspacing='1' border='1'>
 	<tr><td class='rowhead'>{$lang['credits_mod']}</td>" .
-	"<td align='left' style='padding: 0px'><input type='text' size='60' maxlength='120' name='name' " . "value='".htmlsafechars($mod['name'])."' /></td></tr>\n".
-	"<tr>
+  	"<td align='left' style='padding: 0px'><input type='text' size='60' maxlength='120' name='name' " . "value='".htmlsafechars($mod['name'])."' /></td></tr>\n".
+  	"<tr>
 	<td class='rowhead'>{$lang['credits_description']}</td>" .
-	"<td align='left' style='padding: 0px'>
+  	"<td align='left' style='padding: 0px'>
 	<input type='text' size='60' maxlength='120' name='description' value='".htmlsafechars($mod['description'])."' /></td></tr>\n".
-	"<tr>
+  	"<tr>
 	<td class='rowhead'>{$lang['credits_category']}</td>
   <td align='left' style='padding: 0px'>
   <select name='category'>";
-
-  $result = sql_query('SHOW COLUMNS FROM modscredits WHERE field=\'category\'')  or sqlerr(__FILE__, __LINE__);
-  while ($row = $result->fetch_row())
-  {
-  foreach(explode("','",substr($row[1],6,-2)) as $v)
-  {
-  $HTMLOUT .="<option value='$v". ($mod["category"] == $v ? " selected" : "") . "'>$v</option>";
-  }
-  }
-
-  $HTMLOUT .="</select></td></tr>";
-
-  $HTMLOUT .="<tr><td class='rowhead'>{$lang['credits_link']}</td>" .
-	"<td align='left' style='padding: 0px'><input type='text' size='60' maxlength='120' name='link' " . "value='".htmlsafechars($mod['u232lnk'])."' /></td></tr>\n".
-  "<tr>
+  
+    ($result = sql_query('SHOW COLUMNS FROM modscredits WHERE field=\'category\'')) || sqlerr(__FILE__, __LINE__);
+    while ($row = $result->fetch_row())
+    {
+    foreach(explode("','",substr($row[1],6,-2)) as $v)
+    {
+    $HTMLOUT .="<option value='$v". ($mod["category"] == $v ? " selected" : "") . "'>$v</option>";
+    }
+    }
+  
+    $HTMLOUT .="</select></td></tr>";
+  
+    $HTMLOUT .="<tr><td class='rowhead'>{$lang['credits_link']}</td>" .
+  	"<td align='left' style='padding: 0px'><input type='text' size='60' maxlength='120' name='link' " . "value='".htmlsafechars($mod['u232lnk'])."' /></td></tr>\n".
+    "<tr>
   <td class='rowhead'>{$lang['credits_status']}</td>
   <td align='left' style='padding: 0px'>
   <select name='modstatus'>";
-
-  $result=sql_query('SHOW COLUMNS FROM modscredits WHERE field=\'status\'');
-  while ($row=$result->fetch_row())
-  {
-  foreach(explode("','",substr($row[1],6,-2)) as $y)
-  {
-  $HTMLOUT .="<option value='$y". ($mod["status"] == $y ? " selected" : "") . "'>$y</option>";
-  }
-  }
-
-  $HTMLOUT .="</select></td></tr>";
-
-  $HTMLOUT .="<tr><td class='rowhead'>{$lang['credits_credits']}</td><td align='left' style='padding: 0px'>
+  
+    $result=sql_query('SHOW COLUMNS FROM modscredits WHERE field=\'status\'');
+    while ($row=$result->fetch_row())
+    {
+    foreach(explode("','",substr($row[1],6,-2)) as $y)
+    {
+    $HTMLOUT .="<option value='$y". ($mod["status"] == $y ? " selected" : "") . "'>$y</option>";
+    }
+    }
+  
+    $HTMLOUT .="</select></td></tr>";
+  
+    $HTMLOUT .="<tr><td class='rowhead'>{$lang['credits_credits']}</td><td align='left' style='padding: 0px'>
   <input type='text' size='60' maxlength='120' name='credits' value='".htmlsafechars($mod['credit'])."' /></td></tr>\n";
-	$HTMLOUT .="<tr><td colspan='2' align='center'><input type='submit' value='Submit' /></td></tr>\n";
-	$HTMLOUT .="</table></form>";
-	}
-	print stdhead($lang['credits_editmod']) . $HTMLOUT . stdfoot();
-	exit();
-  }
-  else
-
-  if ($action == 'update' && $CURUSER['class'] >= UC_SYSOP){
-	$id = 0 + $_GET["id"];
-	if (!is_valid_id($id))
-	stderr('Error', 'Invalid ID!');
-	$res = sql_query('SELECT id FROM modscredits WHERE id = '.sqlesc($id));
-	if ($res->num_rows == 0)
-	stderr("{$lang['credits_error']}", "{$lang['credits_nocr']}");
-	
-	$name = $_POST['name'];
-	$description = $_POST['description'];
-	$category = $_POST['category'];
-	$link = $_POST['link'];
-	$modstatus = $_POST['modstatus'];
-	$credit = $_POST['credits'];
-	
-  if (empty($name))
-		stderr("{$lang['credits_error']}", "{$lang['credits_error3']}");
-	
-	if (empty($description))
-		stderr("{$lang['credits_error']}", "{$lang['credits_error4']}");
-		
-	if (empty($link))
-		stderr("{$lang['credits_error']}", "{$lang['credits_error5']}");
-		
-	if (empty($credit))
-		stderr("{$lang['credits_error']}", "{$lang['credits_error6']}");
-	
-	sql_query("UPDATE modscredits SET name = ".sqlesc($name).", category = ".sqlesc($category).", status = ".sqlesc($modstatus).",  u232lnk = ".sqlesc($link).", credit = ".sqlesc($credit).", description = ".sqlesc($description)." WHERE id = ".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-  header("Location: {$_SERVER['PHP_SELF']}");
-	exit();
-  }
+  	$HTMLOUT .="<tr><td colspan='2' align='center'><input type='submit' value='Submit' /></td></tr>\n";
+  	$HTMLOUT .="</table></form>";
+  	}
+			print stdhead($lang['credits_editmod']) . $HTMLOUT . stdfoot();
+			exit();
+		} elseif ($action == 'update' && $CURUSER['class'] >= UC_SYSOP) {
+			$id = 0 + $_GET["id"];
+			if (!is_valid_id($id))
+  	stderr('Error', 'Invalid ID!');
+			$res = sql_query('SELECT id FROM modscredits WHERE id = '.sqlesc($id));
+			if ($res->num_rows == 0)
+  	stderr("{$lang['credits_error']}", "{$lang['credits_nocr']}");
+			$name = $_POST['name'];
+			$description = $_POST['description'];
+			$category = $_POST['category'];
+			$link = $_POST['link'];
+			$modstatus = $_POST['modstatus'];
+			$credit = $_POST['credits'];
+			if (empty($name))
+ 		stderr("{$lang['credits_error']}", "{$lang['credits_error3']}");
+			if (empty($description))
+  		stderr("{$lang['credits_error']}", "{$lang['credits_error4']}");
+			if (empty($link))
+  		stderr("{$lang['credits_error']}", "{$lang['credits_error5']}");
+			if (empty($credit))
+  		stderr("{$lang['credits_error']}", "{$lang['credits_error6']}");
+			sql_query("UPDATE modscredits SET name = ".sqlesc($name).", category = ".sqlesc($category).", status = ".sqlesc($modstatus).",  u232lnk = ".sqlesc($link).", credit = ".sqlesc($credit).", description = ".sqlesc($description)." WHERE id = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
+			header("Location: {$_SERVER['PHP_SELF']}");
+			exit();
+		}
 
   $HTMLOUT .="<script type='text/javascript'>
   <!--
@@ -166,7 +157,7 @@ return (strlen($txt)>$len ? substr($txt,0,$len-4) .'[...]':$txt);
 Begin displaying the mods
 */
 /*Query the db*/
-  $res = sql_query("SELECT * FROM modscredits") or sqlerr(__FILE__, __LINE__);
+  ($res = sql_query("SELECT * FROM modscredits")) || sqlerr(__FILE__, __LINE__);
 //Begin displaying the table
     
     $HTMLOUT .="<table width='80%' cellpadding='10' cellspacing='1' border='1'>

@@ -14,6 +14,6 @@ $GVARS = array(
     'rep_repeat' => 20,
     'g_rep_negative' => TRUE,
     'g_rep_seeown' => TRUE,
-    'g_rep_use' => $CURUSER['class'] > UC_USER ? TRUE : FALSE
+    'g_rep_use' => $CURUSER['class'] > UC_USER
 );
 ?>

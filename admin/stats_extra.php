@@ -134,13 +134,13 @@ function show_views()
         'to_time' => $to_time,
         'sortby' => $inbound['sortby']
     );
-    $q = sql_query("SELECT SUM(t.views) as result_count, t.forumid, f.name as result_name
+    ($q = sql_query("SELECT SUM(t.views) as result_count, t.forumid, f.name as result_name
 					FROM topics t
 					LEFT JOIN forums f ON (f.id=t.forumid)
 					WHERE t.start_date > '{$sql['from_time']}'
 					AND t.start_date < '{$sql['to_time']}'
 					GROUP BY t.forumid
-					ORDER BY result_count {$sql['sortby']}") or sqlerr(__FILE__, __LINE__);
+					ORDER BY result_count {$sql['sortby']}")) || sqlerr(__FILE__, __LINE__);
     $running_total = 0;
     $max_result = 0;
     $results = array();
@@ -169,7 +169,7 @@ function show_views()
             );
         }
         foreach ($results as $data) {
-            $img_width = intval(($data['result_count'] / $max_result) * 100 - 8);
+            $img_width = (int) (($data['result_count'] / $max_result) * 100 - 8);
             if ($img_width < 1) {
                 $img_width = 1;
             }
@@ -211,32 +211,32 @@ function result_screen($mode = 'reg')
         $sql_table = 'users';
         $sql_field = 'added';
         $page_detail = $lang['stats_ex_rdetails'];
-    } else if ($mode == 'topic') {
+    } elseif ($mode == 'topic') {
         $table = $lang['stats_ex_newtopicst'];
         $sql_table = 'topics';
         $sql_field = 'added';
         $page_detail = $lang['stats_ex_topdetails'];
-    } else if ($mode == 'post') {
+    } elseif ($mode == 'post') {
         $table = $lang['stats_ex_poststs'];
         $sql_table = 'posts';
         $sql_field = 'added';
         $page_detail = $lang['stats_ex_postdetails'];
-    } else if ($mode == 'msg') {
+    } elseif ($mode == 'msg') {
         $table = $lang['stats_ex_pmsts'];
         $sql_table = 'messages';
         $sql_field = 'added';
         $page_detail = $lang['stats_ex_pmdetails'];
-    } else if ($mode == 'comms') {
+    } elseif ($mode == 'comms') {
         $table = $lang['stats_ex_comsts'];
         $sql_table = 'comments';
         $sql_field = 'added';
         $page_detail = $lang['stats_ex_cdetails'];
-    } else if ($mode == 'torrents') {
+    } elseif ($mode == 'torrents') {
         $table = $lang['stats_ex_torrsts'];
         $sql_table = 'torrents';
         $sql_field = 'added';
         $page_detail = $lang['stats_ex_tordetails'];
-    } else if ($mode == 'reps') {
+    } elseif ($mode == 'reps') {
         $table = $lang['stats_ex_repsts'];
         $sql_table = 'reputation';
         $sql_field = 'dateadd';
@@ -305,7 +305,7 @@ function result_screen($mode = 'reg')
             );
         }
         foreach ($results as $data) {
-            $img_width = intval(($data['result_count'] / $max_result) * 100 - 8);
+            $img_width = (int) (($data['result_count'] / $max_result) * 100 - 8);
             if ($img_width < 1) {
                 $img_width = 1;
             }
@@ -340,25 +340,25 @@ function main_screen($mode = 'reg')
     if ($mode == 'reg') {
         $form_code = 'show_reg';
         $table = "<div class='row'><div class='col-md-12'>{$lang['stats_ex_registr']}</div></div>";
-    } else if ($mode == 'topic') {
+    } elseif ($mode == 'topic') {
         $form_code = 'show_topic';
         $table = $lang['stats_ex_newtopicst'];
-    } else if ($mode == 'post') {
+    } elseif ($mode == 'post') {
         $form_code = 'show_post';
         $table = "<div class='row'><div class='col-md-12'>{$lang['stats_ex_poststs']}</div></div>";
-    } else if ($mode == 'msg') {
+    } elseif ($mode == 'msg') {
         $form_code = 'show_msg';
         $table = "<div class='row'><div class='col-md-12'>{$lang['stats_ex_pmsts']}</div></div>";
-    } else if ($mode == 'views') {
+    } elseif ($mode == 'views') {
         $form_code = 'show_views';
         $table = "<div class='row'><div class='col-md-12'>{$lang['stats_ex_topicviewsts']}</div></div>";
-    } else if ($mode == 'comms') {
+    } elseif ($mode == 'comms') {
         $form_code = 'show_comms';
         $table = "<div class='row'><div class='col-md-12'>{$lang['stats_ex_comsts']}</div></div>";
-    } else if ($mode == 'torrents') {
+    } elseif ($mode == 'torrents') {
         $form_code = 'show_torrents';
         $table = "<div class='row'><div class='col-md-12'>{$lang['stats_ex_torrsts']}</div></div>";
-    } else if ($mode == 'reps') {
+    } elseif ($mode == 'reps') {
         $form_code = 'show_reps';
         $table = "<div class='row'><div class='col-md-12'>{$lang['stats_ex_repsts']}</div></div>";
     }
@@ -418,7 +418,7 @@ function make_year()
     $time_now = getdate();
     $return = array();
     $start_year = 2005;
-    $latest_year = intval($time_now['year']);
+    $latest_year = (int) $time_now['year'];
     if ($latest_year == $start_year) {
         $start_year-= 1;
     }
@@ -458,18 +458,17 @@ function make_select($name, $in = array() , $default = "")
     $html = "<select name='$name' class='dropdown'>\n";
     foreach ($in as $v) {
         $selected = "";
-        if (($default != "") and ($v[0] == $default)) {
+        if ($default != "" && $v[0] == $default) {
             $selected = " selected='selected'";
         }
         $html.= "<option value='{$v[0]}'{$selected}>{$v[1]}</option>\n";
     }
-    $html.= "</select>\n\n";
-    return $html;
+    return $html . "</select>\n\n";
 }
 function make_side_menu()
 {
     global $TRINITY20, $lang;
-    $htmlout = "<div class='row'><div class='col-md-12'>
+    return "<div class='row'><div class='col-md-12'>
 		<div class='nav offset1'>
 		<ul class='nav nav-pills'>    
     <li>&nbsp;&nbsp;<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra&amp;mode=reg' style='text-decoration: none;'>{$lang['stats_ex_menureg']}</a></li>
@@ -482,6 +481,5 @@ function make_side_menu()
     <li>&nbsp;&nbsp;<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=stats_extra&amp;action=stats_extra&amp;mode=reps' style='text-decoration: none;'>{$lang['stats_ex_menurep']}</a></li>
 </ul></div>
 </div></div>";
-    return $htmlout;
 }
 ?>

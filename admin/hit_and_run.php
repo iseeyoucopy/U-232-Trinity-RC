@@ -45,7 +45,7 @@ $HTMLOUT = '';
 //=== get stuff for the pager
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 0;
 $perpage = isset($_GET['perpage']) ? (int)$_GET['perpage'] : 15;
-$res_count = sql_query($query) or sqlerr(__FILE__, __LINE__);
+($res_count = sql_query($query)) || sqlerr(__FILE__, __LINE__);
 $arr_count = $res_count->fetch_row();
 $count = ($arr_count[0] > 0 ? $arr_count[0] : 0);
 list($menu, $LIMIT) = pager_new($count, $perpage, $page, 'staffpanel.php?tool=hit_and_run');
@@ -54,8 +54,8 @@ $query_2 = (isset($_GET['really_bad']) ? 'SELECT s.torrentid, s.userid, s.hit_an
 } else {
 $query_2 = (isset($_GET['really_bad']) ? 'SELECT x.fid, x.uid, x.hit_and_run, x.downloaded AS dload, x.uploaded AS uload, x.seedtime, x.started, x.completedtime, x.active, u.id, u.avatar, u.username, u.uploaded AS up, u.downloaded AS down, u.class, u.hit_and_run_total, u.donor, u.warned, u.enabled, u.leechwarn, u.chatpost, u.pirate, u.king, u.suspended, t.owner, t.name, t.added AS torrent_added, t.seeders AS numseeding, t.leechers AS numleeching FROM xbt_files_users AS x LEFT JOIN users AS u ON u.id = x.uid LEFT JOIN torrents AS t ON t.id=x.fid WHERE completed >= \'1\' AND hit_and_run > 0 AND u.hit_and_run_total > 2 ORDER BY uid ' . $LIMIT : 'SELECT x.fid, x.uid, x.hit_and_run, x.downloaded AS dload, x.uploaded AS uload, x.seedtime, x.started, x.completedtime, x.active, u.id, u.avatar, u.username, u.uploaded AS up, u.downloaded AS down, u.class, u.hit_and_run_total, u.donor, u.warned, u.enabled, u.leechwarn, u.chatpost, u.pirate, u.king, u.suspended, t.owner, t.name, t.added AS torrent_added, t.seeders AS numseeding, t.leechers AS numleeching FROM xbt_files_users AS x LEFT JOIN users AS u ON u.id = x.uid LEFT JOIN torrents AS t ON t.id=x.fid WHERE `completed` >= \'1\' AND `hit_and_run` > 0 ORDER BY `uid` ' . $LIMIT);
 }
-$hit_and_run_rez = sql_query($query_2) or sqlerr(__FILE__, __LINE__);
-$HTMLOUT.= '<div class="row"><div class="col-md-12"><h2>' . (!isset($_GET['really_bad']) ? $lang['hitnrun_chance'] : $lang['hitnrun_nochance']) . '</h2><br /> 
+($hit_and_run_rez = sql_query($query_2)) || sqlerr(__FILE__, __LINE__);
+$HTMLOUT.= '<div class="row"><div class="col-md-12"><h2>' . (isset($_GET['really_bad']) ? $lang['hitnrun_nochance'] : $lang['hitnrun_chance']) . '</h2><br /> 
 		<a class="altlink" href="staffpanel.php?tool=hit_and_run">' . $lang['hitnrun_show_current'] . '</a> || <a class="altlink" href="staffpanel.php?tool=hit_and_run&amp;really_bad=show_them">' . $lang['hitnrun_show_disabled'] . '</a><br /><br />
 		' . ($arr_count[0] > $perpage ? '<p>' . $menu . '</p>' : '') . '
 		<table class="table table-bordered">' . ($hit_and_run_rez->num_rows > 0 ? '<tr><td  class="colhead">' . $lang['hitnrun_avatar'] . '</td>
@@ -139,7 +139,7 @@ while ($hit_and_run_arr = $hit_and_run_rez->fetch_assoc()) {
 			<td align="center"><a href="pm_system.php?action=send_message&amp;receiver=' . (int)$Uid_ID . '"><img src="pic/pm.gif" border="0" alt="PM" title="' . $lang['hitnrun_send'] . '" /></a><br />
 			<a class="altlink" href="staffpanel.php?tool=shit_list&amp;action2=new&amp;shit_list_id=' . (int)$Uid_ID . '&amp;return_to=staffpanel.php?tool=hit_and_run" ><img src="pic/smilies/shit.gif" border="0" alt="Shit" title="' . $lang['hitnrun_shit'] . '" /></a></td></tr>';
         } //=== end if not owner
-        
+
     } //=== if not seeding list them
     
 } //=== end of while loop

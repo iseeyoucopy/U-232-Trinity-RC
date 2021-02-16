@@ -33,13 +33,13 @@ if ($action == "viewposts") {
     $where_is = "p.user_id = " . sqlesc($userid) . " AND f.min_class_read <= " . sqlesc($CURUSER['class']);
     $order_is = "p.id DESC";
     $query = "SELECT $select_is FROM $from_is WHERE $where_is";
-    $res = sql_query($query) or sqlerr(__FILE__, __LINE__);
-    $arr = $res->fetch_row() or stderr($lang['stderr_errorhead'], $lang['top_noposts']);
+    ($res = sql_query($query)) || sqlerr(__FILE__, __LINE__);
+    ($arr = $res->fetch_row()) || stderr($lang['stderr_errorhead'], $lang['top_noposts']);
     $postcount = $arr[0];
     //------ Make page menu
     $pager = pager($perpage, $postcount, "userhistory.php?action=viewposts&amp;id=$userid&amp;");
     //------ Get user data
-    $res = sql_query("SELECT id, username, class, donor, warned, leechwarn, pirate, king, chatpost, enabled FROM users WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id, username, class, donor, warned, leechwarn, pirate, king, chatpost, enabled FROM users WHERE id=" . sqlesc($userid))) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows == 1) {
         $arr = $res->fetch_assoc();
         $subject = "" . format_username($arr, true);
@@ -50,7 +50,7 @@ if ($action == "viewposts") {
     $query = "SELECT $select_is FROM $from_is WHERE $where_is ORDER BY $order_is {$pager['limit']}";
 //    die("Query: ".$query);
 
-    $res = sql_query($query) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query($query)) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows == 0) stderr($lang['stderr_errorhead'], $lang['top_noposts']);
     $HTMLOUT.= "<h1>{$lang['top_posthfor']} $subject</h1>\n";
     if ($postcount > $perpage) $HTMLOUT.= $pager['pagertop'];
@@ -103,13 +103,13 @@ if ($action == "viewcomments") {
     $where_is = "c.user =" . sqlesc($userid) . "";
     $order_is = "c.id DESC";
     $query = "SELECT $select_is FROM $from_is WHERE $where_is ORDER BY $order_is";
-    $res = sql_query($query) or sqlerr(__FILE__, __LINE__);
-    $arr = $res->fetch_row() or stderr($lang['stderr_errorhead'], $lang['top_nocomms']);
+    ($res = sql_query($query)) || sqlerr(__FILE__, __LINE__);
+    ($arr = $res->fetch_row()) || stderr($lang['stderr_errorhead'], $lang['top_nocomms']);
     $commentcount = $arr[0];
     //------ Make page menu
     $pager = pager($perpage, $commentcount, "userhistory.php?action=viewcomments&amp;id=$userid&amp;");
     //------ Get user data
-    $res = sql_query("SELECT id, class, username, donor, warned, leechwarn, chatpost, pirate, king, enabled FROM users WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id, class, username, donor, warned, leechwarn, chatpost, pirate, king, enabled FROM users WHERE id=" . sqlesc($userid))) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows == 1) {
         $arr = $res->fetch_assoc();
         $subject = "" . format_username($arr, true);
@@ -117,7 +117,7 @@ if ($action == "viewcomments") {
     //------ Get comments
     $select_is = "t.name, c.torrent AS t_id, c.id, c.added, c.text";
     $query = "SELECT $select_is FROM $from_is WHERE $where_is ORDER BY $order_is {$pager['limit']}";
-    $res = sql_query($query) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query($query)) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows == 0) stderr($lang['stderr_errorhead'], $lang['top_nocomms']);
     $HTMLOUT.= "<h1>{$lang['top_commhfor']} $subject</h1>\n";
     if ($commentcount > $perpage) $HTMLOUT.= $pager['pagertop'];
@@ -131,11 +131,11 @@ if ($action == "viewcomments") {
         if (strlen($torrent) > 55) $torrent = substr($torrent, 0, 52) . "...";
         $torrentid = (int)$arr["t_id"];
         //find the page; this code should probably be in details.php instead
-        $subres = sql_query("SELECT COUNT(*) FROM comments WHERE torrent = " . sqlesc($torrentid) . " AND id < " . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
+        ($subres = sql_query("SELECT COUNT(*) FROM comments WHERE torrent = " . sqlesc($torrentid) . " AND id < " . sqlesc($commentid))) || sqlerr(__FILE__, __LINE__);
         $subrow = $subres->fetch_row();
         $count = $subrow[0];
         $comm_page = floor($count / 20);
-        $page_url = $comm_page ? "&amp;page=$comm_page" : "";
+        $page_url = $comm_page !== 0.0 ? "&amp;page=$comm_page" : "";
         $added = get_date($arr['added'], '') . " (" . get_date($arr['added'], '', 0, 1) . ")";
         $HTMLOUT.= "<div class='sub'><table><tr><td>" . "$added&nbsp;---&nbsp;<b>{$lang['posts_torrent']}:&nbsp;</b>" . ($torrent ? ("<a href='details.php?id=$torrentid&amp;tocomm=1'>$torrent</a>") : " [{$lang['posts_del']}] ") . "&nbsp;---&nbsp;<b>{$lang['posts_comment']}:&nbsp;</b>#<a href='details.php?id=$torrentid&amp;tocomm=1$page_url'>$commentid</a>
         </td></tr></table></div>\n";

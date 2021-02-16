@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once ("getstats.php");
+require_once (__DIR__ . "/getstats.php");
 $_settings = $_SERVER["DOCUMENT_ROOT"] . "/avatar/settings/";
 $do = isset($_POST['action']) && htmlsafechars($_POST['action']) == 'load' ? 'load' : 'save';
 $user = isset($_POST['user']) ? strtolower(htmlsafechars($_POST['user'])) : '';
@@ -28,7 +28,7 @@ for ($i = 1; $i <= 3; $i++) {
 if (!empty($user) && $do == 'save') {
     print (file_put_contents($_settings . $user . ".set", serialize($set)) ? 1 : 0);
     getStats($user);
-} else {
-    if (file_exists($_settings . $user . ".set")) print (json_encode(unserialize(file_get_contents($_settings . $user . ".set"))));
+} elseif (file_exists($_settings . $user . ".set")) {
+    print (json_encode(unserialize(file_get_contents($_settings . $user . ".set"))));
 }
 ?>

@@ -16,7 +16,7 @@ $HTMLOUT.= "<input type='hidden' name='action' value='torrents'>
 <div class='card-section'>";
     //==cats
     $categories = '';
-    $r = sql_query("SELECT id, image, name FROM categories ORDER BY name") or sqlerr(__FILE__, __LINE__);
+    ($r = sql_query("SELECT id, image, name FROM categories ORDER BY name")) || sqlerr(__FILE__, __LINE__);
     if ($r->num_rows > 0) {
         $categories.= "<table><tr>";
         $i = 0;
@@ -46,7 +46,7 @@ $HTMLOUT.= "<input type='hidden' name='action' value='torrents'>
             <div class="card-divider"><strong>'.$lang['usercp_tt_split'].'</strong></div>
             <div class="card-section float-center">
                 <div class="switch large">
-                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="browse_split" name="browse_split" value="yes"' . ((curuser::$blocks['browse_page'] & block_browse::SPLIT) ? ' checked="checked"' : '') . '>
+                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="browse_split" name="browse_split" value="yes"' . (((curuser::$blocks['browse_page'] & block_browse::SPLIT) !== 0) ? ' checked="checked"' : '') . '>
                     <label class="switch-paddle" for="browse_split">
                         <span class="switch-active" aria-hidden="true">Yes</span>
                         <span class="switch-inactive" aria-hidden="true">No</span>
@@ -60,7 +60,7 @@ $HTMLOUT.= "<input type='hidden' name='action' value='torrents'>
             <div class="card-divider"><strong>' . $lang['usercp_icons'] . '</strong></div>
             <div class="card-section float-center">
                 <div class="switch large">
-                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="browse_icons" name="browse_icons" value="yes"' . ((curuser::$blocks['browse_page'] & block_browse::ICONS) ? ' checked="checked"' : '') . '>
+                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="browse_icons" name="browse_icons" value="yes"' . (((curuser::$blocks['browse_page'] & block_browse::ICONS) !== 0) ? ' checked="checked"' : '') . '>
                     <label class="switch-paddle" for="browse_icons">
                         <span class="switch-active" aria-hidden="true">Yes</span>
                         <span class="switch-inactive" aria-hidden="true">No</span>
@@ -74,7 +74,7 @@ $HTMLOUT.= "<input type='hidden' name='action' value='torrents'>
             <div class="card-divider"><strong>' . $lang['usercp_scloud'] . '</strong></div>
             <div class="card-section float-center">
                 <div class="switch large">
-                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="browse_viewscloud" name="browse_viewscloud" value="yes"' . ((curuser::$blocks['browse_page'] & block_browse::VIEWSCLOUD) ? ' checked="checked"' : '') . '>
+                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="browse_viewscloud" name="browse_viewscloud" value="yes"' . (((curuser::$blocks['browse_page'] & block_browse::VIEWSCLOUD) !== 0) ? ' checked="checked"' : '') . '>
                     <label class="switch-paddle" for="browse_viewscloud">
                         <span class="switch-active" aria-hidden="true">Yes</span>
                         <span class="switch-inactive" aria-hidden="true">No</span>
@@ -88,7 +88,7 @@ $HTMLOUT.= "<input type='hidden' name='action' value='torrents'>
             <div class="card-divider"><strong>Slider</strong></div>
             <div class="card-section float-center">
                 <div class="switch large">
-                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="browse_slider" name="browse_slider" value="yes"' . ((curuser::$blocks['browse_page'] & block_browse::SLIDER) ? ' checked="checked"' : '') . '>
+                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="browse_slider" name="browse_slider" value="yes"' . (((curuser::$blocks['browse_page'] & block_browse::SLIDER) !== 0) ? ' checked="checked"' : '') . '>
                     <label class="switch-paddle" for="browse_slider">
                         <span class="switch-active" aria-hidden="true">Yes</span>
                         <span class="switch-inactive" aria-hidden="true">No</span>
@@ -102,7 +102,7 @@ $HTMLOUT.= "<input type='hidden' name='action' value='torrents'>
             <div class="card-divider"><strong>' . $lang['usercp_clearnewtagmanually'] . '</strong></div>
             <div class="card-section float-center">
                 <div class="switch large">
-                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="browse_clear_tags" name="browse_clear_tags" value="yes"' . ((curuser::$blocks['browse_page'] & block_browse::CLEAR_NEW_TAG_MANUALLY) ? ' checked="checked"' : '') . '>
+                    <input onchange="this.form.submit()" class="switch-input" type="checkbox" id="browse_clear_tags" name="browse_clear_tags" value="yes"' . (((curuser::$blocks['browse_page'] & block_browse::CLEAR_NEW_TAG_MANUALLY) !== 0) ? ' checked="checked"' : '') . '>
                     <label class="switch-paddle" for="browse_clear_tags">
                         <span class="switch-active" aria-hidden="true">Yes</span>
                         <span class="switch-inactive" aria-hidden="true">No</span>

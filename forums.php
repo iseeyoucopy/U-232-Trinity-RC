@@ -240,15 +240,15 @@ switch ($action) {
        case 'view_default':
               require_once FORUM_DIR . "/functions.php";
               $forums = [];
-              sql_query("UPDATE users SET forum_access = '" . sqlesc(TIME_NOW) . "' WHERE id=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-              $sub_forums = sql_query("SELECT f.id, f2.name, f2.id AS subid, f2.post_count, f2.topic_count, p.added, p.anonymous, p.user_id, p.id AS pid, u.username, t.topic_name, t.id as tid, r.last_post_read, t.last_post FROM forums AS f LEFT JOIN forums AS f2 ON f2.place = f.id AND f2.min_class_read<=" . sqlesc($CURUSER["class"]) . " LEFT JOIN posts AS p ON p.id = (SELECT MAX(last_post) FROM topics WHERE forum_id = f2.id ) LEFT JOIN users AS u ON u.id = p.user_id LEFT JOIN topics AS t ON t.id = p.topic_id LEFT JOIN read_posts AS r ON r.user_id =" . sqlesc($CURUSER["id"]) . " AND r.topic_id = p.topic_id ORDER BY t.last_post ASC, f2.name, f.id ASC") or sqlerr(__FILE__, __LINE__);
+              sql_query("UPDATE users SET forum_access = '" . sqlesc(TIME_NOW) . "' WHERE id=" . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
+              ($sub_forums = sql_query("SELECT f.id, f2.name, f2.id AS subid, f2.post_count, f2.topic_count, p.added, p.anonymous, p.user_id, p.id AS pid, u.username, t.topic_name, t.id as tid, r.last_post_read, t.last_post FROM forums AS f LEFT JOIN forums AS f2 ON f2.place = f.id AND f2.min_class_read<=" . sqlesc($CURUSER["class"]) . " LEFT JOIN posts AS p ON p.id = (SELECT MAX(last_post) FROM topics WHERE forum_id = f2.id ) LEFT JOIN users AS u ON u.id = p.user_id LEFT JOIN topics AS t ON t.id = p.topic_id LEFT JOIN read_posts AS r ON r.user_id =" . sqlesc($CURUSER["id"]) . " AND r.topic_id = p.topic_id ORDER BY t.last_post ASC, f2.name, f.id ASC")) || sqlerr(__FILE__, __LINE__);
               while ($a = $sub_forums->fetch_assoc()) {
                      if ($a["subid"] == 0) {
                             $forums[$a["id"]] = false;
                      } else {
                             $forums[$a["id"]]["last_post"] = ["anonymous" => $a["anonymous"], "postid" => $a["pid"], "userid" => $a["user_id"], "user" => $a["username"], "topic" => $a["topic_name"], "topic" => $a["tid"], "tname" => $a["topic_name"], "added" => $a["added"]];
                             $forums[$a["id"]]["count"][] = ["posts" => $a["post_count"], "topics" => $a["topic_count"]];
-                            $forums[$a["id"]]["topics"][] = ["id" => $a["subid"], "name" => $a["name"], "new" => ($a["last_post"]) != $a["last_post_read"] ? 1 : 0];
+                            $forums[$a["id"]]["topics"][] = ["id" => $a["subid"], "name" => $a["name"], "new" => $a["last_post"] != $a["last_post_read"] ? 1 : 0];
                      }
               }
               if ($TRINITY20['forums_online'] == 0) {
@@ -256,7 +256,7 @@ switch ($action) {
               }
               $HTMLOUT .= "<div class='navigation'><a href='index.php'>" . $TRINITY20["site_name"] . "</a>
           <br><span class='active'></span></div> <br />";
-              $ovf_res = sql_query("SELECT id, name, min_class_view FROM over_forums ORDER BY sort ASC") or sqlerr(__FILE__, __LINE__);
+              ($ovf_res = sql_query("SELECT id, name, min_class_view FROM over_forums ORDER BY sort ASC")) || sqlerr(__FILE__, __LINE__);
               while ($ovf_arr = $ovf_res->fetch_assoc()) {
                      if ($CURUSER['class'] < $ovf_arr["min_class_view"]) {
                             continue;

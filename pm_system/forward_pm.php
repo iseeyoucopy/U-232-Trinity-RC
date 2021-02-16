@@ -36,7 +36,7 @@ if (!defined('BUNNY_PM_SYSTEM')) {
     exit();
 }
 //=== make sure they "should" be forwarding this PM
-$res = sql_query('SELECT * FROM messages WHERE id=' . sqlesc($pm_id)) or sqlerr(__FILE__, __LINE__);
+($res = sql_query('SELECT * FROM messages WHERE id=' . sqlesc($pm_id))) || sqlerr(__FILE__, __LINE__);
 $message = $res->fetch_assoc();
 if ($res->num_rows === 0) stderr($lang['pm_error'], $lang['pm_forwardpm_notfound']);
 if ($message['receiver'] == $CURUSER['id'] && $message['sender'] == $CURUSER['id']) stderr($lang['pm_error'], $lang['pm_forwardpm_gentleman']);
@@ -45,11 +45,11 @@ $res_username = sql_query('SELECT id, class, acceptpms, notifs FROM users WHERE 
 $to_username = $res_username->fetch_assoc();
 if ($res_username->num_rows === 0) stderr($lang['pm_error'], $lang['pm_forwardpm_nomember']);
 //=== make sure the reciever has space in their box
-$res_count = sql_query('SELECT COUNT(id) FROM messages WHERE receiver = ' . sqlesc($to_username['id']) . ' AND location = 1') or sqlerr(__FILE__, __LINE__);
+($res_count = sql_query('SELECT COUNT(id) FROM messages WHERE receiver = ' . sqlesc($to_username['id']) . ' AND location = 1')) || sqlerr(__FILE__, __LINE__);
 if ($res_count->num_rows > ($maxbox * 6) && $CURUSER['class'] < UC_STAFF) stderr($lang['pm_forwardpm_srry'], $lang['pm_forwardpm_full']);
 //=== allow suspended users to PM / forward to staff only
 if ($CURUSER['suspended'] === 'yes') {
-    $res = sql_query('SELECT class FROM users WHERE id = ' . sqlesc($to_username['id'])) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query('SELECT class FROM users WHERE id = ' . sqlesc($to_username['id']))) || sqlerr(__FILE__, __LINE__);
     $row = $res->fetch_assoc();
     if ($row['class'] < UC_STAFF) stderr($lang['pm_error'], $lang['pm_forwardpm_account']);
 }
@@ -58,11 +58,11 @@ if ($CURUSER['class'] < UC_STAFF) {
     //=== first if they have PMs turned off
     if ($to_username['acceptpms'] === 'no') stderr($lang['pm_error'], $lang['pm_forwardpm_dont_accept']);
     //=== if this member has blocked the sender
-    $res2 = sql_query('SELECT id FROM blocks WHERE userid=' . sqlesc($to_username['id']) . ' AND blockid=' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+    ($res2 = sql_query('SELECT id FROM blocks WHERE userid=' . sqlesc($to_username['id']) . ' AND blockid=' . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
     if ($res2->num_rows === 1) stderr($lang['pm_forwardpm_refused'], $lang['pm_forwardpm_blocked']);
     //=== finally if they only allow PMs from friends
     if ($to_username['acceptpms'] === 'friends') {
-        $res2 = sql_query('SELECT * FROM friends WHERE userid=' . sqlesc($to_username['id']) . ' AND friendid=' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+        ($res2 = sql_query('SELECT * FROM friends WHERE userid=' . sqlesc($to_username['id']) . ' AND friendid=' . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
         if ($res2->num_rows != 1) stderr($lang['pm_forwardpm_refused'], $lang['pm_forwardpm_accept']);
     }
 }
@@ -71,7 +71,7 @@ $subject = htmlsafechars($_POST['subject']);
 $first_from = (validusername($_POST['first_from']) ? htmlsafechars($_POST['first_from']) : '');
 $body = "\n\n" . $_POST['body'] . "\n\n{$lang['pm_forwardpm_0']}[b]" . $first_from . "{$lang['pm_forwardpm_1']}[/b] \"" . htmlsafechars($message['subject']) . "\"{$lang['pm_forwardpm_2']}" . $message['msg'] . "\n";
 sql_query('INSERT INTO `messages` (`sender`, `receiver`, `added`, `subject`, `msg`, `unread`, `location`, `saved`, `poster`, `urgent`) 
-                        VALUES (' . sqlesc($CURUSER['id']) . ', ' . sqlesc($to_username['id']) . ', ' . TIME_NOW . ', ' . sqlesc($subject) . ', ' . sqlesc($body) . ', \'yes\', 1, ' . sqlesc($save) . ', 0, ' . sqlesc($urgent) . ')') or sqlerr(__FILE__, __LINE__);
+                        VALUES (' . sqlesc($CURUSER['id']) . ', ' . sqlesc($to_username['id']) . ', ' . TIME_NOW . ', ' . sqlesc($subject) . ', ' . sqlesc($body) . ', \'yes\', 1, ' . sqlesc($save) . ', 0, ' . sqlesc($urgent) . ')') || sqlerr(__FILE__, __LINE__);
 $cache->delete('inbox_new::' . $to_username['id']);
 $cache->delete('inbox_new_sb::' . $to_username['id']);
 //=== Check if message was forwarded

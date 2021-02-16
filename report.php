@@ -52,11 +52,11 @@ if ((isset($_GET["do_it"])) || (isset($_POST["do_it"]))) {
     $reason = htmlsafechars($_POST["reason"]);
     if (!$reason) stderr("{$lang['report_error']}", "{$lang['report_error4']}");
     // === check if it's been reported already
-    $res = sql_query("SELECT id FROM reports WHERE reported_by =" . sqlesc($CURUSER['id']) . " AND reporting_what =" . sqlesc($id) . " AND reporting_type = " . sqlesc($type)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id FROM reports WHERE reported_by =" . sqlesc($CURUSER['id']) . " AND reporting_what =" . sqlesc($id) . " AND reporting_type = " . sqlesc($type))) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows != 0) stderr("{$lang['report_error5']}", "{$lang['report_error6']} <b>" . str_replace("_", " ", $type) . "</b> {$lang['report_id']} <b>$id</b>!");
     // === ok it's not been reported yet let's go on
     $dt = TIME_NOW;
-    sql_query("INSERT into reports (reported_by, reporting_what, reporting_type, reason, added, 2nd_value) VALUES (" . sqlesc($CURUSER['id']) . ", " . sqlesc($id) . ", " . sqlesc($type) . ", " . sqlesc($reason) . ", $dt, " . sqlesc((int)$_POST["id_2"]) . ")") or sqlerr(__FILE__, __LINE__);
+    sql_query("INSERT into reports (reported_by, reporting_what, reporting_type, reason, added, 2nd_value) VALUES (" . sqlesc($CURUSER['id']) . ", " . sqlesc($id) . ", " . sqlesc($type) . ", " . sqlesc($reason) . ", $dt, " . sqlesc((int)$_POST["id_2"]) . ")") || sqlerr(__FILE__, __LINE__);
     $cache->delete('new_report_');
     $HTMLOUT.= "<table width='650'><tr><td class='colhead'><h1>{$lang['report_success']}</h1></td></tr>" . "<tr><td class='two' align='center'>{$lang['report_success1']} <b>" . str_replace("_", " ", $type) . "</b> {$lang['report_id']} <b>{$id}</b>!<br /><b>{$lang['report_reason']}</b> {$reason}</td></tr></table>";
     echo stdhead("Reports", true, $stdhead) . $HTMLOUT . stdfoot();

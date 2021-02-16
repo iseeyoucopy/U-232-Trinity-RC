@@ -61,7 +61,7 @@ function pager($rpp, $count, $href, $opts = array()) // thx yuna or whoever wrot
 				$pagerarr[] = '<li class="current"><span class="show-for-sr"></span>'.$text.'</li>';
         }
 		
-        $pagerstr = join("", $pagerarr);
+        $pagerstr = implode("", $pagerarr);
         $pagertop = "<nav aria-label='Pagination'><ul class='pagination text-center'>$pager $pagerstr $pager2</ul></nav>";
         $pagerbottom = "<div class='callout secondary text-center'>Overall $count items in " . ($i) . " page" . ($i > 1 ? '\'s' : '') . ", showing $rpp per page.</div>
 		<nav aria-label='Pagination'><ul class='pagination text-center'>$pager $pagerstr $pager2</ul></nav>";
@@ -114,7 +114,7 @@ function pager_rep($data)
             $RealNo = $i * $data['perpage'];
             $PageNo = $i + 1;
             if ($RealNo == $data['start_value']) {
-                $pager['page_span'].= $mini ? "&nbsp;<a href='{$data['url']}&amp;$parameter={$RealNo}' title='$PageNo'><span  class='{$mini}pagelink'>$PageNo</span></a>" : "&nbsp;<span class='pagecurrent'>{$PageNo}</span>";
+                $pager['page_span'].= $mini !== '' ? "&nbsp;<a href='{$data['url']}&amp;$parameter={$RealNo}' title='$PageNo'><span  class='{$mini}pagelink'>$PageNo</span></a>" : "&nbsp;<span class='pagecurrent'>{$PageNo}</span>";
             } else {
                 if ($PageNo < ($pager['current_page'] - $section)) {
                     $pager['start'] = "<a href='{$data['url']}' title='Goto First'><span class='{$mini}pagelinklast'>&laquo;</span></a>&nbsp;";
@@ -127,7 +127,7 @@ function pager_rep($data)
                 $pager['page_span'].= "&nbsp;<a href='{$data['url']}&amp;$parameter={$RealNo}' title='$PageNo'><span  class='{$mini}pagelink'>$PageNo</span></a>";
             }
         }
-        $float = $mini ? '' : ' fleft';
+        $float = $mini !== '' ? '' : ' fleft';
         $pager['return'] = "<div class='pager{$float}'>{$pager['first_page']}{$pager['start']}{$previous_link}{$pager['page_span']}{$next_link}{$pager['end']}
 			</div>";
     } else {

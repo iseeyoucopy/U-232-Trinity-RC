@@ -48,7 +48,7 @@ if ($action == 'add') {
     {
         global $CURUSER, $cache, $lang, $keys;
         if ((get_row_count("bookmarks", "WHERE userid=" . sqlesc($CURUSER['id']) . " AND torrentid = " . sqlesc($torrentid))) > 0) stderr($lang['bookmark_err'], $lang['bookmark_already']);
-        sql_query("INSERT INTO bookmarks (userid, torrentid) VALUES (" . sqlesc($CURUSER['id']) . ", " . sqlesc($torrentid) . ")") or sqlerr(__FILE__, __LINE__);
+        sql_query("INSERT INTO bookmarks (userid, torrentid) VALUES (" . sqlesc($CURUSER['id']) . ", " . sqlesc($torrentid) . ")") || sqlerr(__FILE__, __LINE__);
         $cache->delete($keys['bookmark_key'] . $CURUSER['id']);
         make_bookmarks($CURUSER['id'], $keys['bookmark_key']);
     }
@@ -104,7 +104,7 @@ $userid = isset($_GET['id']) ? (int)$_GET['id'] : $CURUSER['id'];
 if (!is_valid_id($userid)) stderr($lang['bookmarks_err'], $lang['bookmark_invalidid']);
 if ($userid != $CURUSER["id"]) stderr($lang['bookmarks_err'], "{$lang['bookmarks_denied']}<a href=\"bookmarks.php?action=viewsharemarks&amp;id=" . $userid . "\">{$lang['bookmarks_here']}</a>");
 $pagetitle = $lang['bookmarks_stdhead'];
-$res = sql_query("SELECT COUNT(id) FROM bookmarks WHERE userid = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT COUNT(id) FROM bookmarks WHERE userid = " . sqlesc($userid))) || sqlerr(__FILE__, __LINE__);
 $row = $res->fetch_array(MYSQLI_BOTH);
 $count = $row[0];
 if ($count == 0){
@@ -203,7 +203,7 @@ function bookmarktable($res)
         //NUMFILES
         $HTMLOUT .= ($row["type"] == "single") ? "<td class='text-center'>" . (int)$row['numfiles'] . "</td>" : "<td align='right'><b><a href='filelist.php?id=$id'>" . (int)$row['numfiles'] . "</a></b></td>";
         //COMMENTS
-        $HTMLOUT.= (!$row["comments"]) ? "<td class='text-center'>" . (int)$row['comments'] . "</td>" : "<td align='right'><b><a href='details.php?id=$id&amp;hit=1&amp;tocomm=1'>" . (int)$row['comments'] . "</a></b></td>";
+        $HTMLOUT.= ($row["comments"]) ? "<td align='right'><b><a href='details.php?id=$id&amp;hit=1&amp;tocomm=1'>" . (int)$row['comments'] . "</a></b></td>" : "<td class='text-center'>" . (int)$row['comments'] . "</td>";
         //ADDED
         $HTMLOUT.= "<td class='text-center'><span style='white-space: nowrap;'>" . str_replace(",", "<br />", get_date($row['added'], '')) . "</span></td>";
         //SIZE
@@ -215,8 +215,7 @@ function bookmarktable($res)
         //SEEDERS
         $What_Script_P = (XBT_TRACKER == true ? 'peerlist_xbt.php?id=' : 'peerlist.php?id=' );
         if ($row["seeders"]) {
-                if ($row["leechers"]) $ratio = $row["seeders"] / $row["leechers"];
-                else $ratio = 1;
+                $ratio = $row["leechers"] ? $row["seeders"] / $row["leechers"] : 1;
                 $HTMLOUT.= "<td class='text-center'><b><a href='$What_Script_P"."$id#seeders'><font color='" . get_slr_color($ratio) . "'>" . (int)$row["seeders"] . "</font></a></b></td>";
         } else $HTMLOUT.= "<td class='text-center'><font color='" . linkcolor($row["seeders"]) . "'>" . (int)$row["seeders"] . "</font></td>";
         //LEECHERS
@@ -226,8 +225,7 @@ function bookmarktable($res)
         //UPLOADER
         $HTMLOUT.= "<td class='text-center'>" . (isset($row["username"]) ? (($row['opt1'] & user_options::ANONYMOUS && $CURUSER['class'] < UC_STAFF && $row['owner'] != $CURUSER['id']) ? "<i>" . $lang['torrenttable_anon'] . "</i>" : "<a href='userdetails.php?id=" . (int)$row["owner"] . "'><b>" . htmlsafechars($row["username"]) . "</b></a>") : "<i>(" . $lang["torrenttable_unknown_uploader"] . ")</i>") . "</td></tr>";
     }
-    $HTMLOUT.= "</tbody></table></div>";
-    return $HTMLOUT;
+    return $HTMLOUT . "</tbody></table></div>";
 }
 
 $torrentsperpage = $CURUSER["torrentsperpage"];
@@ -235,8 +233,8 @@ if (!$torrentsperpage) $torrentsperpage = 25;
     $HTMLOUT.= "<h1>{$lang['bookmarks_my']}</h1>";
     $HTMLOUT.= "<b><a href='bookmarks.php?action=viewsharemarks&amp;id=" . (int)$CURUSER['id'] . "'>{$lang['bookmarks_my_share']}</a></b>";
     $pager = pager($torrentsperpage, $count, "bookmarks.php?action=viewbookmarks&amp;");
-    $query1 = "SELECT bookmarks.id as bookmarkid, torrents.username, torrents.owner, torrents.id, torrents.name, torrents.type, torrents.anonymous, torrents.comments, torrents.leechers, torrents.seeders, torrents.save_as, torrents.numfiles, torrents.added, torrents.filename, torrents.size, torrents.views, torrents.visible, torrents.hits, torrents.times_completed, torrents.category FROM bookmarks LEFT JOIN torrents ON bookmarks.torrentid = torrents.id WHERE bookmarks.userid =" . sqlesc($userid) . " ORDER BY torrents.id DESC {$pager['limit']}" or sqlerr(__FILE__, __LINE__);
-    $res = sql_query($query1) or sqlerr(__FILE__, __LINE__);
+    ($query1 = "SELECT bookmarks.id as bookmarkid, torrents.username, torrents.owner, torrents.id, torrents.name, torrents.type, torrents.anonymous, torrents.comments, torrents.leechers, torrents.seeders, torrents.save_as, torrents.numfiles, torrents.added, torrents.filename, torrents.size, torrents.views, torrents.visible, torrents.hits, torrents.times_completed, torrents.category FROM bookmarks LEFT JOIN torrents ON bookmarks.torrentid = torrents.id WHERE bookmarks.userid =" . sqlesc($userid) . " ORDER BY torrents.id DESC {$pager['limit']}") || sqlerr(__FILE__, __LINE__);
+    ($res = sql_query($query1)) || sqlerr(__FILE__, __LINE__);
     $HTMLOUT.= $pager['pagertop'];
     $HTMLOUT.= bookmarktable($res, TRUE);
     $HTMLOUT.= $pager['pagerbottom'];
@@ -245,12 +243,12 @@ if (!$torrentsperpage) $torrentsperpage = 25;
 //==Sharemarks
 $userid = isset($_GET['id']) ? (int)$_GET['id'] : $CURUSER['id'];
 if (!is_valid_id($userid)) stderr($lang['bookmarks_err'], $lang['bookmark_invalidid']);
-$res = sql_query("SELECT id, username FROM users WHERE id = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT id, username FROM users WHERE id = " . sqlesc($userid))) || sqlerr(__FILE__, __LINE__);
 $arr = $res->fetch_array(MYSQLI_BOTH);
 if ($arr == 0) {
      stderr($lang['bookmarks_err'], $lang['bookmark_invalidid']);
 } else {
-$res = sql_query("SELECT COUNT(id) FROM bookmarks WHERE private='no' AND userid = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT COUNT(id) FROM bookmarks WHERE private='no' AND userid = " . sqlesc($userid))) || sqlerr(__FILE__, __LINE__);
 $row = $res->fetch_array(MYSQLI_BOTH);
 $count = $row[0];
 if ($count == 0){
@@ -332,21 +330,17 @@ function sharetable($res, $variant = "index")
         }
         if ($row["type"] == "single") {
             $HTMLOUT.= "<td align='right'>" . (int)$row["numfiles"] . "</td>\n";
+        } elseif ($variant == "index") {
+            $HTMLOUT.= "<td align='right'><b><a href='filelist.php?id=$id'>" . (int)$row["numfiles"] . "</a></b></td>\n";
         } else {
-            if ($variant == "index") {
-                $HTMLOUT.= "<td align='right'><b><a href='filelist.php?id=$id'>" . (int)$row["numfiles"] . "</a></b></td>\n";
-            } else {
-                $HTMLOUT.= "<td align='right'><b><a href='filelist.php?id=$id'>" . (int)$row["numfiles"] . "</a></b></td>\n";
-            }
+            $HTMLOUT.= "<td align='right'><b><a href='filelist.php?id=$id'>" . (int)$row["numfiles"] . "</a></b></td>\n";
         }
         if (!$row["comments"]) {
             $HTMLOUT.= "<td align='right'>" . (int)$row["comments"] . "</td>\n";
+        } elseif ($variant == "index") {
+            $HTMLOUT.= "<td align='right'><b><a href='details.php?id=$id&amp;hit=1&amp;tocomm=1'>" . (int)$row["comments"] . "</a></b></td>\n";
         } else {
-            if ($variant == "index") {
-                $HTMLOUT.= "<td align='right'><b><a href='details.php?id=$id&amp;hit=1&amp;tocomm=1'>" . (int)$row["comments"] . "</a></b></td>\n";
-            } else {
-                $HTMLOUT.= "<td align='right'><b><a href='details.php?id=$id&amp;page=0#startcomments'>" . (int)$row["comments"] . "</a></b></td>\n";
-            }
+            $HTMLOUT.= "<td align='right'><b><a href='details.php?id=$id&amp;page=0#startcomments'>" . (int)$row["comments"] . "</a></b></td>\n";
         }
         $HTMLOUT.= "<td align='center'><span style='white-space: nowrap;'>" . str_replace(",", "<br />", get_date($row['added'], '')) . "</span></td>\n";
         $HTMLOUT.= "
@@ -356,8 +350,7 @@ function sharetable($res, $variant = "index")
         $HTMLOUT.= "<td align='center'><a href='snatches.php?id=$id'>" . number_format($row["times_completed"]) . "<br />$_s</a></td>\n";
         if ($row["seeders"]) {
             if ($variant == "index") {
-                if ($row["leechers"]) $ratio = $row["seeders"] / $row["leechers"];
-                else $ratio = 1;
+                $ratio = $row["leechers"] ? $row["seeders"] / $row["leechers"] : 1;
                 $HTMLOUT.= "<td align='right'><b><a href='peerlist.php?id=$id#seeders'>
                <font color='" . get_slr_color($ratio) . "'>" . (int)$row["seeders"] . "</font></a></b></td>\n";
             } else {
@@ -373,8 +366,7 @@ function sharetable($res, $variant = "index")
         if ($variant == "index") $HTMLOUT.= "<td align='center'>" . (isset($row["username"]) ? ("<a href='userdetails.php?id=" . (int)$row["owner"] . "'><b>" . htmlsafechars($row["username"]) . "</b></a>") : "<i>(" . $lang["torrenttable_unknown_uploader"] . ")</i>") . "</td>\n";
         $HTMLOUT.= "</tr>\n";
     }
-    $HTMLOUT.= "</table>\n";
-    return $HTMLOUT;
+    return $HTMLOUT . "</table>\n";
 }
 
 $HTMLOUT.= "<h1>". $lang['bookmarks_sharefor']." <a href=\"userdetails.php?id=" . $userid . "\">" . htmlsafechars($arr['username']) . "</a></h1>";
@@ -383,7 +375,7 @@ $torrentsperpage = $CURUSER["torrentsperpage"];
     if (!$torrentsperpage) $torrentsperpage = 25;
     $pager = pager($torrentsperpage, $count, "bookmarks.php?action=viewsharemarks&amp;id=".$userid."&amp;");
     $query1 = "SELECT bookmarks.id as bookmarkid, torrents.username, torrents.owner, torrents.id, torrents.name, torrents.type, torrents.comments, torrents.leechers, torrents.seeders, torrents.save_as, torrents.numfiles, torrents.added, torrents.filename, torrents.size, torrents.views, torrents.visible, torrents.hits, torrents.times_completed, torrents.category FROM bookmarks LEFT JOIN torrents ON bookmarks.torrentid = torrents.id WHERE bookmarks.userid = " . sqlesc($userid) . " AND bookmarks.private = 'no' ORDER BY id DESC {$pager['limit']}";
-    $res = sql_query($query1) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query($query1)) || sqlerr(__FILE__, __LINE__);
     $HTMLOUT.= $pager['pagertop'];
     $HTMLOUT.= sharetable($res, "index", TRUE);
     $HTMLOUT.= $pager['pagerbottom'];

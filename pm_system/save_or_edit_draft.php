@@ -35,12 +35,12 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'save as draft') {
     $subject = sqlesc(strip_tags($_POST['subject']));
     if ($save_or_edit === 'save') {
         sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, location, draft, unread, saved) VALUES  
-                                                                        (' . sqlesc($CURUSER['id']) . ', ' . sqlesc($CURUSER['id']) . ',' . TIME_NOW . ', ' . $body . ', ' . $subject . ', \'-2\', \'yes\',\'no\',\'yes\')') or sqlerr(__FILE__, __LINE__);
+                                                                        (' . sqlesc($CURUSER['id']) . ', ' . sqlesc($CURUSER['id']) . ',' . TIME_NOW . ', ' . $body . ', ' . $subject . ', \'-2\', \'yes\',\'no\',\'yes\')') || sqlerr(__FILE__, __LINE__);
         $cache->delete('inbox_new::' . $CURUSER['id']);
         $cache->delete('inbox_new_sb::' . $CURUSER['id']);
     }
     if ($save_or_edit === 'edit') {
-        sql_query('UPDATE messages SET msg = ' . $body . ', subject = ' . $subject . ' WHERE id = ' . sqlesc($pm_id)) or sqlerr(__FILE__, __LINE__);
+        sql_query('UPDATE messages SET msg = ' . $body . ', subject = ' . $subject . ' WHERE id = ' . sqlesc($pm_id)) || sqlerr(__FILE__, __LINE__);
     }
     //=== Check if messages was saved as draft
     if ($mysqli->affected_rows === 0) stderr($lang[pm_error], $lang['pm_draft_wasnt']);
@@ -63,7 +63,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'preview') {
     </table><br />';
 } else {
     //=== Get the info
-    $res = sql_query('SELECT * FROM messages WHERE id=' . sqlesc($pm_id)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query('SELECT * FROM messages WHERE id=' . sqlesc($pm_id))) || sqlerr(__FILE__, __LINE__);
     $message = $res->fetch_assoc();
     $subject = htmlsafechars($message['subject']);
     $draft = $message['msg'];

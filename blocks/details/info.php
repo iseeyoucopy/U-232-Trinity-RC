@@ -28,11 +28,7 @@ else $HTMLOUT.= tr("{$lang['details_type']}", "{$lang['details_add_none']}");
 $HTMLOUT.= tr("{$lang['details_add_rate']}", getRate($id, "torrent") , 1);
 // --------------- likes start------
         $att_str = '';
-        if (!empty($torrents['user_likes'])) {
-            $likes = explode(',', $torrents['user_likes']);
-        } else {
-            $likes = '';
-        }
+        $likes = empty($torrents['user_likes']) ? '' : explode(',', $torrents['user_likes']);
         if (!empty($likes) && count(array_unique($likes)) > 0) {
             if (in_array($CURUSER['id'], $likes)) {
                 if (count($likes) == 1) {
@@ -94,7 +90,7 @@ $HTMLOUT.= tr("{$lang['details_add_byup']}", $uprow, 1);
 if ($CURUSER['class'] >= UC_STAFF) {
     if (!empty($torrents['checked_by'])) {
         if (($checked_by = $cache->get('checked_by_' . $id)) === false) {
-            $chckby_query = sql_query("SELECT id FROM users WHERE username=" . sqlesc($torrents['checked_by'])) or sqlerr(__FILE__, __LINE__);
+            ($chckby_query = sql_query("SELECT id FROM users WHERE username=" . sqlesc($torrents['checked_by']))) || sqlerr(__FILE__, __LINE__);
             $checked_by = $chckby_query->fetch_assoc();
             $cache->set('checked_by_' . $id, $checked_by, 30 * 86400);
         }

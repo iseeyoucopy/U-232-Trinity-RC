@@ -13,14 +13,14 @@
 require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
 require_once (INCL_DIR . 'user_functions.php');
 $lang = array_merge(load_language('global') , load_language('confirmemail'));
-if (!isset($_GET['uid']) OR !isset($_GET['key']) OR !isset($_GET['email'])) stderr("{$lang['confirmmail_user_error']}", "{$lang['confirmmail_idiot']}");
+if (!isset($_GET['uid']) || !isset($_GET['key']) || !isset($_GET['email'])) stderr("{$lang['confirmmail_user_error']}", "{$lang['confirmmail_idiot']}");
 //if (!preg_match("/^(?:[\d\w]){32}$/", $_GET['key'])) {
 //    stderr("{$lang['confirmmail_user_error']}", "{$lang['confirmmail_no_key']}");
 //}
 if (!preg_match("/^(?:\d){1,}$/", $_GET['uid'])) {
     stderr("{$lang['confirmmail_user-error']}", "{$lang['confirmmail_no_id']}");
 }
-$id = intval($_GET['uid']);
+$id = (int) $_GET['uid'];
 $confirm = $_GET['key'];
 $email = urldecode($_GET['email']);
 if (!validemail($email)) stderr("{$lang['confirmmail_user_error']}", "{$lang['confirmmail_false_email']}");

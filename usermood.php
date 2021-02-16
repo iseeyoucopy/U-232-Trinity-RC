@@ -22,13 +22,13 @@ exit();
 }
 
 if (!isset($CURUSER['id'])) die($lang['user_mood_log']);
-$more = (($CURUSER['perms'] & bt_options::UNLOCK_MORE_MOODS) ? 2 : 1);
+$more = ((($CURUSER['perms'] & bt_options::UNLOCK_MORE_MOODS) !== 0) ? 2 : 1);
 if (isset($_GET['id'])) {
     $moodid = (isset($_GET['id']) ? (int)$_GET['id'] : 1);
-    $res_moods = sql_query('SELECT * FROM moods WHERE bonus < ' . sqlesc($more) . ' AND id = ' . sqlesc($moodid)) or sqlerr(__file__, __line__);
+    ($res_moods = sql_query('SELECT * FROM moods WHERE bonus < ' . sqlesc($more) . ' AND id = ' . sqlesc($moodid))) || sqlerr(__file__, __line__);
     if ($res_moods->num_rows) {
         $rmood = $res_moods->fetch_assoc();
-        sql_query('UPDATE users SET mood = ' . sqlesc($moodid) . ' WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+        sql_query('UPDATE users SET mood = ' . sqlesc($moodid) . ' WHERE id = ' . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
         $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
             'mood' => $moodid
         ], $TRINITY20['expires']['curuser']);
@@ -64,7 +64,7 @@ $HTMLOUT.= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 <body>
 <h3 align="center">' . $CURUSER['username'] . '\'' . $lang['user_mood_s'] . '</h3>
 <table width="500px">';
-$res = sql_query('SELECT * FROM moods WHERE bonus < ' . sqlesc($more) . ' ORDER BY id ASC') or sqlerr(__FILE__, __LINE__);
+($res = sql_query('SELECT * FROM moods WHERE bonus < ' . sqlesc($more) . ' ORDER BY id ASC')) || sqlerr(__FILE__, __LINE__);
 $count = 0;
 while ($arr = $res->fetch_assoc()) {
     if ($count % 3 == 0) $HTMLOUT.= '<tr>';

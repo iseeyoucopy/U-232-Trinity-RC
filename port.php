@@ -42,22 +42,6 @@ echo '<form action="' .$_SERVER["PHP_SELF"]. '" method="get">
 
 if ($_GET["addr"]) {
   if ($_GET["port"]) {
-    $fp = @fsockopen($addr, $port, $errno, $errstr, 2);
-    $success = "#FF0000";
-    $success_msg = "is closed and cannot be used at this time";
-    if ($fp) {
-      $success = "#99FF66";
-      $success_msg = "is open and ready to be used";
-    }
-    @fclose($fp);
-    echo '<div style="width:300px;background:' .$success. ';padding:10px;font-family:arial;font-size:12px;">
-    The address <b>"' .$addr. ':' .$port. '"</b> ' .$success_msg. '
-  </div>';
-  }
-  else if ($_GET["port"]) {
-    $p1 = $_GET["port"];
-    $p2 = $_GET["port2"];
-    if ($p1 == $p2) {
       $fp = @fsockopen($addr, $port, $errno, $errstr, 2);
       $success = "#FF0000";
       $success_msg = "is closed and cannot be used at this time";
@@ -67,9 +51,24 @@ if ($_GET["addr"]) {
       }
       @fclose($fp);
       echo '<div style="width:300px;background:' .$success. ';padding:10px;font-family:arial;font-size:12px;">
+    The address <b>"' .$addr. ':' .$port. '"</b> ' .$success_msg. '
+  </div>';
+  } elseif ($_GET["port"]) {
+      $p1 = $_GET["port"];
+      $p2 = $_GET["port2"];
+      if ($p1 == $p2) {
+        $fp = @fsockopen($addr, $port, $errno, $errstr, 2);
+        $success = "#FF0000";
+        $success_msg = "is closed and cannot be used at this time";
+        if ($fp) {
+          $success = "#99FF66";
+          $success_msg = "is open and ready to be used";
+        }
+        @fclose($fp);
+        echo '<div style="width:300px;background:' .$success. ';padding:10px;font-family:arial;font-size:12px;">
       The address <b>"' .$addr. ':' .$port. '"</b> ' .$success_msg. '
       </div>';
-    }
+      }
   }
 }
 ?>

@@ -34,7 +34,10 @@ $HTMLOUT = '';
 if (isset($_GET['remove'])) {
     $configfile = "<" . $lang['freelech_thisfile'] . date('M d Y H:i:s') . $lang['freelech_modby'];
     $configfile.= $lang['freelech_config_file'];
-    $configfile.= "\n);\n\n?" . ">";
+    $configfile.= '
+);
+
+?>';
     $filenum = fopen('cache/free_cache.php', 'w');
     ftruncate($filenum, 0);
     fwrite($filenum, $configfile);
@@ -56,7 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die;
     }
     $configfile.= "array('modifier'=> {$fl['modifier']}, 'expires'=> {$fl['expires']}, 'setby'=> '{$fl['setby']}', 'title'=> '{$fl['title']}', 'message'=> '{$fl['message']}')";
-    $configfile.= "\n);\n\n?" . ">";
+    $configfile.= '
+);
+
+?>';
     $filenum = fopen('cache/free_cache.php', 'w');
     ftruncate($filenum, 0);
     fwrite($filenum, $configfile);

@@ -11,9 +11,8 @@
  * ------------  @version V6  ------------------*
  */
 //=== share ratio
-if ($CURUSER['id'] == $id || $CURUSER['class'] >= UC_STAFF) {
-    if ($user_stats['downloaded'] > 0) {
-        $HTMLOUT.= '<tr>
+if (($CURUSER['id'] == $id || $CURUSER['class'] >= UC_STAFF) && $user_stats['downloaded'] > 0) {
+    $HTMLOUT.= '<tr>
 			<td class="rowhead" style="vertical-align: middle">' . $lang['userdetails_share_ratio'] . '</td>
 			<td align="left" valign="middle" style="padding-top: 1px; padding-bottom: 0px">
 	<table border="0"cellspacing="0" cellpadding="0">
@@ -24,7 +23,6 @@ if ($CURUSER['id'] == $id || $CURUSER['class'] >= UC_STAFF) {
 	</table>
 			</td>
 		</tr>';
-    }
 }
 //==end
 // End Class

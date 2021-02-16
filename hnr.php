@@ -20,7 +20,7 @@ $lang = array_merge(load_language('global'), load_language('hitandruns'));
 
 $HTMLOUT = "";
 
-$id = intval($_GET["id"]);
+$id = (int) $_GET["id"];
 
 if (($CURUSER["class"] < UC_STAFF) && ($id != $CURUSER["id"])) {
     stderr("Error", "It appears that you do not have access to this page.");
@@ -29,13 +29,13 @@ if (($CURUSER["class"] < UC_STAFF) && ($id != $CURUSER["id"])) {
 if (!is_valid_id($id))
     stderr("Error", "It appears that you have entered an invalid id.");
 
-$res = sql_query("SELECT * FROM users WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT * FROM users WHERE id = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 $arr = $res->fetch_assoc();
 
 if (!$arr)
     stderr("Error", "It appears that there is no user with that id.");
 
-$res = sql_query("SELECT COUNT(*) FROM snatched WHERE userid =" . sqlesc($id) . " AND hit_and_run != '0'") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT COUNT(*) FROM snatched WHERE userid =" . sqlesc($id) . " AND hit_and_run != '0'")) || sqlerr(__FILE__, __LINE__);
 $row     = $res->fetch_row();
 $count   = $row[0];
 $perpage = 25;
@@ -43,9 +43,9 @@ $perpage = 25;
 $pager = pager($perpage, $count, "?id=$id&amp");
 
 if (!$count)
-    stderr("No Hit And Runs", "<font class='statusbartext'>It appears that <a class='altlink_default' href='userdetails.php?id=" . intval($arr['id']) . "'>" . htmlsafechars($arr['username']) . "</a> currently has no hit and runs.</font>");
+    stderr("No Hit And Runs", "<font class='statusbartext'>It appears that <a class='altlink_default' href='userdetails.php?id=" . (int) $arr['id'] . "'>" . htmlsafechars($arr['username']) . "</a> currently has no hit and runs.</font>");
 
-$r = sql_query("SELECT torrents.name,torrents.added AS torrent_added, snatched.start_date AS s, snatched.complete_date AS c, snatched.downspeed, snatched.seedtime, snatched.seeder, snatched.torrentid as tid, snatched.id, categories.id as category, categories.image, categories.name as catname, users.class, users.id, snatched.uploaded, snatched.downloaded, snatched.hit_and_run, snatched.mark_of_cain, snatched.complete_date, snatched.last_action, torrents.seeders, torrents.leechers, torrents.owner, snatched.start_date AS st, snatched.start_date FROM snatched JOIN users ON users.id = snatched.userid JOIN torrents ON torrents.id = snatched.torrentid JOIN categories ON categories.id = torrents.category WHERE snatched.finished='yes' AND userid=" . sqlesc($id) . " AND snatched.hit_and_run != '0' AND torrents.owner != " . sqlesc($id) . " ORDER BY snatched.id DESC {$pager['limit']}") or sqlerr(__FILE__, __LINE__);
+($r = sql_query("SELECT torrents.name,torrents.added AS torrent_added, snatched.start_date AS s, snatched.complete_date AS c, snatched.downspeed, snatched.seedtime, snatched.seeder, snatched.torrentid as tid, snatched.id, categories.id as category, categories.image, categories.name as catname, users.class, users.id, snatched.uploaded, snatched.downloaded, snatched.hit_and_run, snatched.mark_of_cain, snatched.complete_date, snatched.last_action, torrents.seeders, torrents.leechers, torrents.owner, snatched.start_date AS st, snatched.start_date FROM snatched JOIN users ON users.id = snatched.userid JOIN torrents ON torrents.id = snatched.torrentid JOIN categories ON categories.id = torrents.category WHERE snatched.finished='yes' AND userid=" . sqlesc($id) . " AND snatched.hit_and_run != '0' AND torrents.owner != " . sqlesc($id) . " ORDER BY snatched.id DESC {$pager['limit']}")) || sqlerr(__FILE__, __LINE__);
 if ($r->num_rows > 0) {
     
     $HTMLOUT .= "<div class='disclaimer'>
@@ -53,7 +53,7 @@ if ($r->num_rows > 0) {
         <table class='clear' width='100%' border='0'>
         <tr>
         <td width='100%' class='clear2'>
-       <font class='statusbartext' size='2'>Hit and Runs for user: <a class='altlink' href='{$TRINITY20['baseurl']}/userdetails.php?id=" . intval($arr['id']) . "'>" . htmlsafechars($arr['username']) . "</a></font></td>
+       <font class='statusbartext' size='2'>Hit and Runs for user: <a class='altlink' href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int) $arr['id'] . "'>" . htmlsafechars($arr['username']) . "</a></font></td>
       </tr>
     </table>
     </div>
@@ -116,7 +116,7 @@ if ($r->num_rows > 0) {
         $minus_ratio         = (preg_match("/-/i", $minus_ratio) ? 0 : $minus_ratio);
         $color               = ($minus_ratio > 0 ? get_ratio_color($minus_ratio) : 'limegreen');
         //=== mark of cain / hit and run
-        $checkbox_for_delete = ($CURUSER['class'] >= UC_STAFF ? " [<a class='altlink' href='" . $TRINITY20['baseurl'] . "/hnr.php?id=" . $id . "&amp;delete_hit_and_run=" . intval($a['id']) . "'>Remove</a>]" : '');
+        $checkbox_for_delete = ($CURUSER['class'] >= UC_STAFF ? " [<a class='altlink' href='" . $TRINITY20['baseurl'] . "/hnr.php?id=" . $id . "&amp;delete_hit_and_run=" . (int) $a['id'] . "'>Remove</a>]" : '');
         $mark_of_cain        = ($a['mark_of_cain'] == 'yes' ? "<img src='{$TRINITY20['pic_base_url']}moc.gif' width='40px' alt='Mark Of Cain' title='the mark of Cain!' />" : '');
         $hit_n_run           = ($a['hit_and_run'] > 0 ? "<img src='{$TRINITY20['pic_base_url']}hnr.gif' width='40px' alt='hit and run' title='hit and run!' />" : '');
         

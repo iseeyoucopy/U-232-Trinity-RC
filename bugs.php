@@ -31,7 +31,7 @@ if ($action == 'viewbug') {
         $status = isset($_POST["status"]) ? htmlsafechars($_POST["status"]) : '';
         if ($status == 'na') stderr("{$lang['stderr_error']}", "{$lang['stderr_no_na']}");
         if (!$id || !is_valid_id($id)) stderr("{$lang['stderr_error']}", "{$lang['stderr_invalid_id']}");
-        $query1 = sql_query("SELECT b.*, u.username, u.uploaded FROM bugs AS b LEFT JOIN users AS u ON b.sender = u.id WHERE b.id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+        ($query1 = sql_query("SELECT b.*, u.username, u.uploaded FROM bugs AS b LEFT JOIN users AS u ON b.sender = u.id WHERE b.id = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
         while ($q1 = $query1->fetch_assoc()) {
             switch ($status) {
             case 'fixed':
@@ -64,7 +64,7 @@ if ($action == 'viewbug') {
     $id = isset($_GET["id"]) ? (int)$_GET["id"] : '';
     if (!$id || !is_valid_id($id)) stderr("{$lang['stderr_error']}", "{$lang['stderr_invalid_id']}");
     if ($CURUSER['class'] < UC_STAFF) stderr("{$lang['stderr_error']}", 'Only staff can view bugs.');
-    $as = sql_query("SELECT b.*, u.username, u.class, staff.username AS st, staff.class AS stclass FROM bugs AS b LEFT JOIN users AS u ON b.sender = u.id LEFT JOIN users AS staff ON b.staff = staff.id WHERE b.id =" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    ($as = sql_query("SELECT b.*, u.username, u.class, staff.username AS st, staff.class AS stclass FROM bugs AS b LEFT JOIN users AS u ON b.sender = u.id LEFT JOIN users AS staff ON b.staff = staff.id WHERE b.id =" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     while ($a = $as->fetch_assoc()) {
         $title = htmlsafechars($a['title']);
         $added = get_date($a['added'], '', 0, 1);
@@ -128,7 +128,7 @@ if ($action == 'viewbug') {
     $count = $row[0];
     $perpage = 10;
     $pager = pager($perpage, $count, 'bugs.php?action=bugs&amp;');
-    $res = sql_query("SELECT b.*, u.username, staff.username AS staffusername FROM bugs AS b LEFT JOIN users AS u ON b.sender = u.id LEFT JOIN users AS staff ON b.staff = staff.id ORDER BY b.id DESC {$pager['limit']}") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT b.*, u.username, staff.username AS staffusername FROM bugs AS b LEFT JOIN users AS u ON b.sender = u.id LEFT JOIN users AS staff ON b.staff = staff.id ORDER BY b.id DESC {$pager['limit']}")) || sqlerr(__FILE__, __LINE__);
     $r = sql_query("SELECT * FROM bugs WHERE status = 'na'");
     if ($res->num_rows > 0) {
         $count = $r->num_rows;
@@ -189,7 +189,7 @@ if ($action == 'viewbug') {
         if (empty($title) || empty($priority) || empty($problem)) stderr("{$lang['stderr_error']}", "{$lang['stderr_missing']}");
         if (strlen($problem) < 20) stderr("{$lang['stderr_error']}", "{$lang['stderr_problem_20']}");
         if (strlen($title) < 10) stderr("{$lang['stderr_error']}", "{$lang['stderr_title_10']}");
-        $q1 = sql_query("INSERT INTO bugs (title, priority, problem, sender, added) VALUES (" . sqlesc($title) . ", " . sqlesc($priority) . ", " . sqlesc($problem) . ", " . sqlesc($CURUSER['id']) . ", " . TIME_NOW . ")") or sqlerr(__FILE__, __LINE__);
+        ($q1 = sql_query("INSERT INTO bugs (title, priority, problem, sender, added) VALUES (" . sqlesc($title) . ", " . sqlesc($priority) . ", " . sqlesc($problem) . ", " . sqlesc($CURUSER['id']) . ", " . TIME_NOW . ")")) || sqlerr(__FILE__, __LINE__);
         $cache->delete('bug_mess_');
         if ($q1) stderr("{$lang['stderr_sucess']}", sprintf($lang['stderr_sucess_2'], $priority));
         else stderr("{$lang['stderr_error']}", "{$lang['stderr_something_is_wrong']}");

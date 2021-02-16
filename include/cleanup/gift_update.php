@@ -16,7 +16,7 @@ function docleanup($data)
     set_time_limit(0);
     ignore_user_abort(1);
     //===Reset Xmas gifts Bigjoos/pdq:)
-    $res = sql_query("SELECT id, modcomment FROM users WHERE gotgift='yes'") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id, modcomment FROM users WHERE gotgift='yes'")) || sqlerr(__FILE__, __LINE__);
     $users_buffer = array();
     if ($res->num_rows > 0) {
         while ($arr = $res->fetch_assoc()) {
@@ -30,7 +30,7 @@ function docleanup($data)
         }
         $count = count($users_buffer);
         if ($count > 0) {
-            sql_query("INSERT INTO users (id, gotgift) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE gotgift=values(gotgift)") or sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO users (id, gotgift) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE gotgift=values(gotgift)") || sqlerr(__FILE__, __LINE__);
             write_log("Cleanup - Reset " . $count . " members Xmas gift");
         }
         unset($users_buffer, $count);

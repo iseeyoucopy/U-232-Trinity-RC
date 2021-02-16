@@ -37,8 +37,7 @@ else {
     $HTMLOUT.= "<div class='input-group'>
     <span class='input-group-label'>Class</span>
         <select class='input-group-field' name='class'>";
-        if ($CURUSER['class'] == UC_STAFF) $maxclass = UC_VIP;
-        else $maxclass = $CURUSER['class'] - 1;
+        $maxclass = $CURUSER['class'] == UC_STAFF ? UC_VIP : $CURUSER['class'] - 1;
         for ($i = 0; $i <= $maxclass; ++$i) 
         $HTMLOUT.= "<option value='$i'" . ($user["class"] == $i ? " selected='selected'" : "") . ">" . get_user_class_name($i) . "</option>";
     $HTMLOUT.= "</select></div>";
@@ -87,7 +86,7 @@ $HTMLOUT.= "<div class='cell large-6'>
     <fieldset class='cell medium-6'>
         <legend>{$lang['userdetails_enabled']}</legend>
         <input name='enabled' value='yes' type='radio'" . ($enabled ? " checked='checked'" : "") . ">{$lang['userdetails_yes']} 
-        <input name='enabled' value='no' type='radio'" . (!$enabled ? " checked='checked'" : "") . ">{$lang['userdetails_no']}
+        <input name='enabled' value='no' type='radio'" . ($enabled ? "" : " checked='checked'") . ">{$lang['userdetails_no']}
     </fieldset>
     <fieldset class='cell medium-6'>
     <legend>{$lang['userdetails_suspended']}</legend>

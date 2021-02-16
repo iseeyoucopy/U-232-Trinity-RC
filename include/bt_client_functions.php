@@ -25,15 +25,14 @@ function StdDecodePeerId($id_data, $id_name)
         } elseif ($id_name == "BitComet" || $id_name == "BitBuddy" || $id_name == "Lphant" || $id_name == "BitPump" || $id_name == "BitTorrent Plus! v2") {
             if ($c != '-' && ctype_alnum($c)) {
                 $version_str.= "$c";
-                if ($i == 0) $version_str = intval($version_str) . ".";
+                if ($i == 0) $version_str = (int) $version_str . ".";
             } else {
                 $version_str.= ".";
                 break;
             }
-        } else {
-            if ($c != '-' && ctype_alnum($c)) $version_str.= "$c.";
-            else break;
-        }
+        } elseif ($c != '-' && ctype_alnum($c)) {
+            $version_str.= "$c.";
+        } else break;
     }
     $version_str = substr($version_str, 0, strlen($version_str) - 1);
     return "$id_name $version_str";
@@ -51,9 +50,9 @@ function MainlineDecodePeerId($id_data, $id_name)
 function DecodeVersionString($ver_data, $id_name)
 {
     $version_str = "";
-    $version_str.= intval(ord($ver_data[0]) + 0) . ".";
-    $version_str.= intval(ord($ver_data[1]) / 10 + 0);
-    $version_str.= intval(ord($ver_data[1]) % 10 + 0);
+    $version_str.= (int) (ord($ver_data[0]) + 0) . ".";
+    $version_str.= (int) (ord($ver_data[1]) / 10 + 0);
+    $version_str.= (int) (ord($ver_data[1]) % 10 + 0);
     return "$id_name $version_str";
 }
 function getagent($httpagent, $peer_id = "")
@@ -78,7 +77,7 @@ function getagent($httpagent, $peer_id = "")
     if (substr($peer_id, 0, 3) == '-SN') return StdDecodePeerId(substr($peer_id, 3, 7) , "ShareNet"); // ShareNet
     if (substr($peer_id, 0, 3) == '-SS') return StdDecodePeerId(substr($peer_id, 3, 7) , "SwarmScope"); // SwarmScope
     if (substr($peer_id, 0, 3) == '-SZ') return StdDecodePeerId(substr($peer_id, 3, 7) , "Shareaza"); // Shareaza
-    if (preg_match("/^RAZA ([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)/", $httpagent, $matches)) return "Shareaza $matches[1]";
+    if (preg_match("/^RAZA (\\d+\\.\\d+\\.\\d+\\.\\d+)/", $httpagent, $matches)) return "Shareaza $matches[1]";
     if (substr($peer_id, 0, 3) == '-TN') return StdDecodePeerId(substr($peer_id, 3, 7) , "Torrent.NET"); // Torrent.NET
     if (substr($peer_id, 0, 3) == '-TR') return StdDecodePeerId(substr($peer_id, 3, 7) , "Transmission"); // Transmission
     if (substr($peer_id, 0, 3) == '-TS') return StdDecodePeerId(substr($peer_id, 3, 7) , "TorrentStorm"); // Torrentstorm
@@ -141,7 +140,7 @@ function getagent($httpagent, $peer_id = "")
    // if ($peer_id[0] == 'U') return StdDecodePeerId(substr($peer_id, 1, 9) , "UPnP"); // UPnP NAT Bit Torrent
     // Azureus / Localhost
     if (substr($peer_id, 0, 3) == '-AZ') {
-        if (preg_match("/^Localhost ([0-9]+\.[0-9]+\.[0-9]+)/", $httpagent, $matches)) return "Localhost $matches[1]";
+        if (preg_match("/^Localhost (\\d+\\.\\d+\\.\\d+)/", $httpagent, $matches)) return "Localhost $matches[1]";
         if (preg_match("/^BitTorrent\/3.4.2/", $httpagent, $matches)) return "Spoofing BT Client"; // Spoofing BT Client
         if (preg_match("/^Python/", $httpagent, $matches)) return "Spoofing BT Client"; // Spoofing BT Client
         return StdDecodePeerId(substr($peer_id, 3, 7) , "Azureus");
@@ -227,22 +226,22 @@ function getclient($httpagent, $peer_id)
         } . ' (' . $build . ')';
     }
 	*/
-    if (preg_match('/^Azureus ([0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)/', $httpagent, $matches)) return 'Azureus/' . $matches[1];
-    if (preg_match('/BitTorrent\\/S-([0-9]+\\.[0-9]+(\\.[0-9]+)*)/', $httpagent, $matches)) return 'Shadows/' . $matches[1];
-    if (preg_match('/BitTorrent\\/ABC-([0-9]+\\.[0-9]+(\\.[0-9]+)*)/', $httpagent, $matches)) return 'ABC/' . $matches[1];
-    if (preg_match('/ABC-([0-9]+\\.[0-9]+(\\.[0-9]+)*)/', $httpagent, $matches)) return 'ABC/' . $matches[1];
-    if (preg_match('/Rufus\/([0-9]+\\.[0-9]+(\\.[0-9]+)*)/', $httpagent, $matches)) return 'Rufus/' . $matches[1];
-    if (preg_match('/BitTorrent\\/U-([0-9]+\\.[0-9]+\\.[0-9]+)/', $httpagent, $matches)) return 'UPnP/' . $matches[1];
+    if (preg_match('/^Azureus (\d+\.\d+\.\d+\.\d+)/', $httpagent, $matches)) return 'Azureus/' . $matches[1];
+    if (preg_match('/BitTorrent\/S-(\d+\.\d+(\.\d+)*)/', $httpagent, $matches)) return 'Shadows/' . $matches[1];
+    if (preg_match('/BitTorrent\/ABC-(\d+\.\d+(\.\d+)*)/', $httpagent, $matches)) return 'ABC/' . $matches[1];
+    if (preg_match('/ABC-(\d+\.\d+(\.\d+)*)/', $httpagent, $matches)) return 'ABC/' . $matches[1];
+    if (preg_match('/Rufus\/(\d+\.\d+(\.\d+)*)/', $httpagent, $matches)) return 'Rufus/' . $matches[1];
+    if (preg_match('/BitTorrent\/U-(\d+\.\d+\.\d+)/', $httpagent, $matches)) return 'UPnP/' . $matches[1];
     if (preg_match('/^BitTorrent\\/T-(.+)$/', $httpagent, $matches)) return 'BitTornado/' . $matches[1];
     if (preg_match('/^BitTornado\\/T-(.+)$/', $httpagent, $matches)) return 'BitTornado/' . $matches[1];
     if (preg_match('/^BitTorrent\\/brst(.+)/', $httpagent, $matches)) return 'Burst/' . $matches[1];
     if (preg_match('/^RAZA (.+)$/', $httpagent, $matches)) return 'Shareaza/' . $matches[1];
     // Shareaza 2.2.1.0
-    if (preg_match('/^Shareaza ([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)/', $httpagent, $matches)) return 'Shareaza/' . $matches[1];
+    if (preg_match('/^Shareaza (\d+\.\d+\.\d+\.\d+)/', $httpagent, $matches)) return 'Shareaza/' . $matches[1];
     if (substr($httpagent, 0, 8) == 'MLdonkey') return 'MLDonkey/' . substr($httpagent, 9);
-    if (preg_match('/^rtorrent\/([0-9]+\.[0-9]+\.[0-9]+)/', $httpagent, $matches)) return 'rTorrent/' . $matches[1];
-    if (preg_match('/^Transmission\/([0-9]+\.[0-9]+)/', $httpagent, $matches)) return 'Transmission/' . $matches[1];
-    if (preg_match('/^Deluge ((?:[0-9](?:\.[0-9]){1,3}))(?:-.+)?$/', $httpagent, $matches)) return 'Deluge/' . $matches[1];
+    if (preg_match('/^rtorrent\/(\d+\.\d+\.\d+)/', $httpagent, $matches)) return 'rTorrent/' . $matches[1];
+    if (preg_match('/^Transmission\/(\d+\.\d+)/', $httpagent, $matches)) return 'Transmission/' . $matches[1];
+    if (preg_match('/^Deluge ((?:\d(?:\.\d){1,3}))(?:-.+)?$/', $httpagent, $matches)) return 'Deluge/' . $matches[1];
     //Try to figure it out by peer id
     $short_id = substr($peer_id, 1, 2);
     if ($peer_id[0] == 'T') return 'BitTornado/' . substr($peer_id, 1, 1) . '.' . substr($peer_id, 2, 1) . '.' . substr($peer_id, 3, 1);
@@ -252,7 +251,7 @@ function getclient($httpagent, $peer_id)
     if (substr($peer_id, 1, 3) == 'UTB') return 'BitComet/' . ord(substr($peer_id, 4, 1)) . '.' . ord(substr($peer_id, 5, 1));
     if (substr($peer_id, 0, 5) == 'Mbrst') return 'Burst/' . substr($peer_id, 5, 1) . '.' . substr($peer_id, 7, 1) . '.' . substr($peer_id, 9, 1);
     if (substr($peer_id, 2, 2) == 'BS') return 'BitSpirit/' . ord(substr($peer_id, 1, 1)) . '.' . ord(substr($peer_id, 0, 1));
-    if (preg_match('/^M([0-9])\-([0-9])\-([0-9])/', $peer_id, $matches)) return 'Mainline/' . $matches[1] . '.' . $matches[2] . '.' . $matches[3];
+    if (preg_match('/^M(\d)\-(\d)\-(\d)/', $peer_id, $matches)) return 'Mainline/' . $matches[1] . '.' . $matches[2] . '.' . $matches[3];
     if ($short_id == 'G3') return 'G3 Torrent';
     if ($short_id == 'AR') return 'Arctic Torrent';
     if ($short_id == 'KT') return 'KTorrent';
@@ -261,9 +260,9 @@ function getclient($httpagent, $peer_id)
     //Regular Old Bittorrent
     if (preg_match('/libtorrent/i', $httpagent, $matches)) return 'LibTorrent';
     if (substr($httpagent, 0, 13) == 'Python-urllib') return 'BitTorrent/' . substr($httpagent, 14);
-    if (preg_match('/^BitTorrent\\/([0-9]+(\\.[0-9]+)*)/', $httpagent, $matches)) return 'BitTorrent/' . $matches[1];
-    if (preg_match('/^BitTorrent\\/([0-9]+\\.[0-9]+(\\.[0-9]+)*)/', $httpagent, $matches)) return 'BitTorrent/' . $matches[1];
-    if (preg_match('/^Python-urllib\\/.+?, BitTorrent\\/([0-9]+\\.[0-9]+(\\.[0-9]+)*)/', $httpagent, $matches)) return 'BitTorrent/' . $matches[1];
+    if (preg_match('/^BitTorrent\/(\d+(\.\d+)*)/', $httpagent, $matches)) return 'BitTorrent/' . $matches[1];
+    if (preg_match('/^BitTorrent\/(\d+\.\d+(\.\d+)*)/', $httpagent, $matches)) return 'BitTorrent/' . $matches[1];
+    if (preg_match('/^Python-urllib\/.+?, BitTorrent\/(\d+\.\d+(\.\d+)*)/', $httpagent, $matches)) return 'BitTorrent/' . $matches[1];
     return preg_replace('/[^a-zA-z0-9._-]/', '-', $peer_id);
 }
 ?>

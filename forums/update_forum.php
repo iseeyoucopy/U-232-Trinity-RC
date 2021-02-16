@@ -44,7 +44,7 @@ if ($CURUSER['class'] >= MAX_CLASS || isMod($forumid, "forum")) {
     if (empty($description)) {
         stderr("Error", "You must provide a description for the forum.");
     }
-    sql_query("UPDATE forums SET name=" . sqlesc($name) . ", description=" . sqlesc($description) . ", min_class_read=" . sqlesc((int) $_POST['readclass']) . ", min_class_write=" . sqlesc((int) $_POST['writeclass']) . ", min_class_create=" . sqlesc((int) $_POST['createclass']) . " WHERE id = " . sqlesc($forumid)) or sqlerr(__FILE__, __LINE__);
+    sql_query("UPDATE forums SET name=" . sqlesc($name) . ", description=" . sqlesc($description) . ", min_class_read=" . sqlesc((int) $_POST['readclass']) . ", min_class_write=" . sqlesc((int) $_POST['writeclass']) . ", min_class_create=" . sqlesc((int) $_POST['createclass']) . " WHERE id = " . sqlesc($forumid)) || sqlerr(__FILE__, __LINE__);
     header("Location: forums.php");
     exit();
 }

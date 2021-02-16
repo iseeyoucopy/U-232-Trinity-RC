@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         stderr("Err", $lang['warn_stderr_msg1']);
     }
     if ($act == "delete") {
-        if (sql_query("DELETE FROM users WHERE id IN (" . join(",", $_uids) . ")")) {
+        if (sql_query("DELETE FROM users WHERE id IN (" . implode(",", $_uids) . ")")) {
             $c = $mysqli->affected_rows;
             header("Refresh: 2; url=" . $r);
             stderr($lang['warn_stdmsg_success'], $c . $lang['warn_stdmsg_user'] . ($c > 1 ? "s" : "") . $lang['warn_stdmsg_deleted']);
@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     if ($act == "disable") {
-        if (sql_query("UPDATE users set enabled='no', modcomment=CONCAT(" . sqlesc(get_date(TIME_NOW, 'DATE', 1) . $lang['warn_disabled_by'] . $CURUSER['username'] . "\n") . ",modcomment) WHERE id IN (" . join(",", $_uids) . ")")) {
+        if (sql_query("UPDATE users set enabled='no', modcomment=CONCAT(" . sqlesc(get_date(TIME_NOW, 'DATE', 1) . $lang['warn_disabled_by'] . $CURUSER['username'] . "\n") . ",modcomment) WHERE id IN (" . implode(",", $_uids) . ")")) {
             foreach ($_uids as $uid) {
                 $cache->update_row($keys['my_userid'] . $_uid, [
                     'enabled' => 'no'
@@ -99,9 +99,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         foreach ($_uids as $id) {
             $pms[] = "(0," . $id . "," . sqlesc($sub) . "," . sqlesc($body) . "," . sqlesc(TIME_NOW) . ")";
         }
-        if (count($pms)) {
-            $g = sql_query("INSERT INTO messages(sender,receiver,subject,msg,added) VALUE " . join(",", $pms)) or ($q_err = $mysqli->error);
-            $q1 = sql_query("UPDATE users set warned='0', modcomment=CONCAT(" . sqlesc(get_date(TIME_NOW, 'DATE', 1) . $lang['warn_removed_msg'] . $CURUSER['username'] . "\n") . ",modcomment) WHERE id IN (" . join(",", $_uids) . ")") or ($q2_err = $mysqli->error);
+        if (count($pms) > 0) {
+            ($g = sql_query("INSERT INTO messages(sender,receiver,subject,msg,added) VALUE " . implode(",", $pms))) || ($q_err = $mysqli->error);
+            ($q1 = sql_query("UPDATE users set warned='0', modcomment=CONCAT(" . sqlesc(get_date(TIME_NOW, 'DATE', 1) . $lang['warn_removed_msg'] . $CURUSER['username'] . "\n") . ",modcomment) WHERE id IN (" . implode(",", $_uids) . ")")) || ($q2_err = $mysqli->error);
             if ($g && $q1) {
                 header("Refresh: 2; url=" . $r);
                 stderr($lang['warn_stdmsg_success'], count($pms) . $lang['warn_stdmsg_user'] . (count($pms) > 1 ? "s" : "") . $lang['warn_stdmsg_unwarned']);
@@ -125,7 +125,7 @@ case "warned":
     $link = "<a href=\"staffpanel.php?tool=warn&amp;action=warn&amp;do=disabled\">{$lang['warn_disabled_users']}</a>";
     break;
 }
-$g = sql_query($query) or print($mysqli->error);
+($g = sql_query($query)) || (print($mysqli->error));
 $count = $g->num_rows;
 $HTMLOUT .="<div class='row'><div class='col-md-12'><h2>$title&nbsp;<font class=\"small\">[{$lang['warn_total']}" . $count . $lang['warn_total_user'] . ($count > 1 ? $lang['warn_total_user_plural'] : "") . "]</font>&nbsp;&nbsp;$link</h2> ";
 if ($count == 0) {

@@ -17,7 +17,7 @@ loggedinorreturn();
 //print_r($_POST);
 //print_r($_GET); exit;
 $lang = array_merge(load_language('global'));
-$poll_id = isset($_GET['pollid']) ? intval($_GET['pollid']) : false;
+$poll_id = isset($_GET['pollid']) ? (int) $_GET['pollid'] : false;
 if (!is_valid_id($poll_id)) stderr('ERROR', 'No poll with that ID');
 $vote_cast = array();
 $_POST['choice'] = isset($_POST['choice']) ? $_POST['choice'] : array();
@@ -43,19 +43,17 @@ if ($poll_data['user_id']) {
 }
 $_POST['nullvote'] = isset($_POST['nullvote']) ? $_POST['nullvote'] : 0;
 if (!$_POST['nullvote']) {
-    if (is_array($_POST['choice']) and count($_POST['choice'])) {
+    if (is_array($_POST['choice']) && count($_POST['choice'])) {
         foreach ($_POST['choice'] as $question_id => $choice_id) {
-            if (!$question_id or !isset($choice_id)) {
+            if (!$question_id || !isset($choice_id)) {
                 continue;
             }
             $vote_cast[$question_id][] = $choice_id;
         }
     }
-    foreach ($_POST as $k => $v) {
-        if (preg_match("#^choice_(\d+)_(\d+)$#", $k, $matches)) {
-            if ($_POST[$k] == 1) {
-                $vote_cast[$matches[1]][] = $matches[2];
-            }
+    foreach (array_keys($_POST) as $k) {
+        if (preg_match("#^choice_(\d+)_(\d+)$#", $k, $matches) && $_POST[$k] == 1) {
+            $vote_cast[$matches[1]][] = $matches[2];
         }
     }
     $poll_answers = unserialize(stripslashes($poll_data['choices']));

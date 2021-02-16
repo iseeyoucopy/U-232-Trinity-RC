@@ -52,17 +52,16 @@ function insert_quick_jump_menu($currentforum = 0)
 	<input type='hidden' name='action' value='viewforum' />
 	<div align='right'>Quick jump:
 	<font color='black'><select  name='forumid' onchange=\"if(this.options[this.selectedIndex].value != -1){ forms['jump'].submit() }\">";
-    $res = sql_query("SELECT id, name, min_class_read FROM forums ORDER BY name") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id, name, min_class_read FROM forums ORDER BY name")) || sqlerr(__FILE__, __LINE__);
     while ($arr = $res->fetch_assoc()) {
         if ($CURUSER['class'] >= $arr["min_class_read"]) {
             $htmlout .="<option value='" . (int) $arr["id"] . ($currentforum == $arr["id"] ? " selected='selected'" : "") . "'>" . htmlsafechars($arr["name"]) . "</option>";
         }
     }
-    $htmlout .="</select></font>
+    return $htmlout . "</select></font>
 	<input type='submit' value='Go!' class='btn btn-default btn-sm dropdown-toggle' />
 	</div>
 	</form>";
-    return $htmlout;
 }
 // -------- Inserts a compose frame
     function insert_compose_frame($id, $newtopic = true, $quote = false, $attachment = false)
@@ -70,8 +69,8 @@ function insert_quick_jump_menu($currentforum = 0)
         global  $CURUSER, $TRINITY20, $Multi_forum, $stdhead, $stdfoot;
         $htmlout='';
         if ($newtopic) {
-            $res = sql_query("SELECT name FROM forums WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-            $arr = $res->fetch_assoc() or die("Bad forum ID!");
+            ($res = sql_query("SELECT name FROM forums WHERE id=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
+            ($arr = $res->fetch_assoc()) || die("Bad forum ID!");
             // $htmlout .="<h3>New topic in <a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".$id."'>".htmlsafechars($arr["name"])."</a> forum</h3>";
             $htmlout .="<!--<div class='navigation'>
 				<a href='index.php'>" . $TRINITY20["site_name"] . "</a> 
@@ -83,8 +82,8 @@ function insert_quick_jump_menu($currentforum = 0)
 				<span class='active'>New Topic</span>
 				</div><br />-->";
         } else {
-            $res = sql_query("SELECT t.forum_id, t.topic_name, t.locked, f.min_class_read, f.name AS forum_name FROM topics AS t LEFT JOIN forums AS f ON f.id = t.forum_id WHERE t.id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-            $arr = $res->fetch_assoc() or die("Forum error, Topic not found.");
+            ($res = sql_query("SELECT t.forum_id, t.topic_name, t.locked, f.min_class_read, f.name AS forum_name FROM topics AS t LEFT JOIN forums AS f ON f.id = t.forum_id WHERE t.id=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
+            ($arr = $res->fetch_assoc()) || die("Forum error, Topic not found.");
             $forum = htmlsafechars($arr["forum_name"]);
             $forumid = (int) $arr['forum_id'];
             if ($arr['locked'] == 'yes') {
@@ -155,7 +154,7 @@ function insert_quick_jump_menu($currentforum = 0)
                 echo stdhead("Compose", true, $stdhead) . $htmlout . stdfoot($stdfoot);
                 exit();
             }
-            $res = sql_query("SELECT posts.*, users.username FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id =" . sqlesc($postid)) or sqlerr(__FILE__, __LINE__);
+            ($res = sql_query("SELECT posts.*, users.username FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id =" . sqlesc($postid))) || sqlerr(__FILE__, __LINE__);
             if ($res->num_rows == 0) {
                 stderr("Error", "No post with this ID");
                 $htmlout .= end_table();
@@ -209,7 +208,7 @@ function insert_quick_jump_menu($currentforum = 0)
         // $htmlout .= end_frame();
         // ------ Get 10 last posts if this is a reply
         if (!$newtopic && $TRINITY20['show_last_10']) {
-            $postres = sql_query("SELECT p.id, p.added, p.body, p.anonymous, u.id AS uid, u.enabled, u.class, u.donor, u.warned, u.chatpost, u.leechwarn, u.pirate, u.king, u.username, u.avatar, u.offensive_avatar " . "FROM posts AS p " . "LEFT JOIN users AS u ON u.id = p.user_id " . "WHERE p.topic_id=" . sqlesc($id) . " " . "ORDER BY p.id DESC LIMIT 10") or sqlerr(__FILE__, __LINE__);
+            ($postres = sql_query("SELECT p.id, p.added, p.body, p.anonymous, u.id AS uid, u.enabled, u.class, u.donor, u.warned, u.chatpost, u.leechwarn, u.pirate, u.king, u.username, u.avatar, u.offensive_avatar " . "FROM posts AS p " . "LEFT JOIN users AS u ON u.id = p.user_id " . "WHERE p.topic_id=" . sqlesc($id) . " " . "ORDER BY p.id DESC LIMIT 10")) || sqlerr(__FILE__, __LINE__);
             if ($postres->num_rows > 0) {
                 $htmlout .="<br />";
                 $htmlout .= begin_frame("10 last posts, in reverse order");
@@ -233,7 +232,7 @@ function insert_quick_jump_menu($currentforum = 0)
                             $htmlout .= "<p class='sub'>#" . (int) $post["id"] . " by <i>Anonymous</i> [<b>" . format_username($user_stuff, true) . "</b>] at " . get_date($post["added"], 'LONG', 1, 0) . "</p>";
                         }
                     } else {
-                        $htmlout .="<p class='sub'>#" . (int) $post["id"] . " by " . (!empty($post["username"]) ? format_username($user_stuff, true) : "unknown[" . (int) $post['uid'] . "]") . " at " . get_date($post["added"], 'LONG', 1, 0) . "</p>";
+                        $htmlout .="<p class='sub'>#" . (int) $post["id"] . " by " . (empty($post["username"]) ? "unknown[" . (int) $post['uid'] . "]" : format_username($user_stuff, true)) . " at " . get_date($post["added"], 'LONG', 1, 0) . "</p>";
                     }
                     $htmlout .= begin_table(true);
                     $htmlout .="<tr>

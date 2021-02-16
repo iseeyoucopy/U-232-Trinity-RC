@@ -38,7 +38,7 @@ if(($scheduled_events = $cache->get('freecontribution_datas_alerts_')) === false
                 if (TIME_NOW < $endTime && TIME_NOW > $startTime){
                     if (array_key_exists('freeleechEnabled', $scheduled_event)) {
                         $freeleechEnabled = $scheduled_event['freeleechEnabled'];
-                        if ($scheduled_event['freeleechEnabled']){
+                        if ($scheduled_event['freeleechEnabled'] !== []){
                             $freeleech_start_time = $scheduled_event['startTime'];
                             $freeleech_end_time = $scheduled_event['endTime'];
                             $freeleech_enabled = true;
@@ -46,7 +46,7 @@ if(($scheduled_events = $cache->get('freecontribution_datas_alerts_')) === false
                     }
                     if (array_key_exists('duploadEnabled', $scheduled_event)){
                         $duploadEnabled = $scheduled_event['duploadEnabled'];
-                        if ($scheduled_event['duploadEnabled']){
+                        if ($scheduled_event['duploadEnabled'] !== []){
                             $double_upload_start_time = $scheduled_event['startTime'];
                             $double_upload_end_time = $scheduled_event['endTime'];
                             $double_upload_enabled = true;
@@ -54,7 +54,7 @@ if(($scheduled_events = $cache->get('freecontribution_datas_alerts_')) === false
                     }
                     if (array_key_exists('hdownEnabled', $scheduled_event)) {
                         $hdownEnabled = $scheduled_event['hdownEnabled'];    
-                        if ($scheduled_event['hdownEnabled']){
+                        if ($scheduled_event['hdownEnabled'] !== []){
                             $half_down_start_time = $scheduled_event['startTime'];
                             $half_down_end_time = $scheduled_event['endTime'];
                             $half_down_enabled = true;
@@ -139,7 +139,7 @@ if(($doubleupload_counter = $cache->get('doubleupload_counter_alerts_')) === fal
 //=== get total points
 //$target_hd = 30000;
 if(($halfdownload_counter = $cache->get('halfdownload_counter_alerts_')) === false) {
-	$total_hd = sql_query('SELECT SUM(pointspool) AS pointspool, points FROM bonus WHERE id =13') or sqlerr(__FILE__, __LINE__);
+	($total_hd = sql_query('SELECT SUM(pointspool) AS pointspool, points FROM bonus WHERE id =13')) || sqlerr(__FILE__, __LINE__);
     $hd_total_row = $total_hd->fetch_assoc();
     $percent_hd = number_format($hd_total_row['pointspool'] / $hd_total_row['points'] * 100, 2);
     $cache->set('halfdownload_counter_alerts_', $percent_hd, 0);
@@ -173,21 +173,9 @@ if(($halfdownload_counter = $cache->get('halfdownload_counter_alerts_')) === fal
             break;
 			}
 
-    if($freeleech_enabled){
-        $fstatus = "<strong>&nbsp;ON&nbsp;</strong>";
-    } else {
-        $fstatus = $font_color_fl ."";
-    }
-    if($double_upload_enabled){
-        $dstatus = "<strong>&nbsp;ON&nbsp;</strong>";
-    } else {
-        $dstatus = $font_color_du ."";
-    }
-    if($half_down_enabled){
-        $hstatus = "<strong>&nbsp;ON&nbsp;</strong>";
-    } else {
-        $hstatus = $font_color_hd ."";
-    }     
+    $fstatus = $freeleech_enabled ? "<strong>&nbsp;ON&nbsp;</strong>" : $font_color_fl ."";
+    $dstatus = $double_upload_enabled ? "<strong>&nbsp;ON&nbsp;</strong>" : $font_color_du ."";
+    $hstatus = $half_down_enabled ? "<strong>&nbsp;ON&nbsp;</strong>" : $font_color_hd ."";     
    $htmlout .="<a class='button small success' data-toggle='karma-dropdown-1'>Karma Contribution's</a>
 	<div class='dropdown-pane' id='karma-dropdown-1' data-dropdown data-hover='true' data-hover-pane='true'>
 		<div class='card card-body'><div class='alert alert-success'>Freeleech&nbsp;[&nbsp;";
@@ -197,7 +185,7 @@ if(($halfdownload_counter = $cache->get('halfdownload_counter_alerts_')) === fal
             $htmlout .= $fstatus;
             }
             $htmlout .="&nbsp;]<br />";
-    
+
             $htmlout .="DoubleUpload&nbsp;[&nbsp;";
             if($double_upload_enabled){
             $htmlout .="<strong>&nbsp;ON</strong>&nbsp;".get_date($double_upload_start_time, 'DATE') . "&nbsp;-&nbsp;" .get_date($double_upload_end_time, 'DATE');
@@ -205,7 +193,7 @@ if(($halfdownload_counter = $cache->get('halfdownload_counter_alerts_')) === fal
             $htmlout .= $dstatus;
             }
             $htmlout .="&nbsp;]<br />";
-            
+
             $htmlout .="Half Download&nbsp;[&nbsp;";
             if($half_down_enabled){
             $htmlout .="<strong>&nbsp;ON</strong>&nbsp;".get_date($half_down_start_time, 'DATE') . "&nbsp;-&nbsp;" .get_date($half_down_end_time, 'DATE');

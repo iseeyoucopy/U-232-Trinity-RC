@@ -47,14 +47,12 @@ $stdhead = array(
 //=== bubble tool tip
 function bubble($link, $text)
 {
-    $bubble = '<a href="#" class="tt_f"><span class="tooltip_forum_bubble"><span class="top"></span><span class="middle">' . $text . '</span><span class="bottom"></span></span>' . $link . '</a>';
-    return $bubble;
+    return '<a href="#" class="tt_f"><span class="tooltip_forum_bubble"><span class="top"></span><span class="middle">' . $text . '</span><span class="bottom"></span></span>' . $link . '</a>';
 }
 //=== tool tip
 function tool_tip($link, $text, $title = false)
 {
-    $bubble = '<a href="#" class="tt_f2"><span class="tooltip_forum_tip"><span class="top">' . $title . '</span><span class="middle">' . $text . '</span></span>' . $link . '</a>';
-    return $bubble;
+    return '<a href="#" class="tt_f2"><span class="tooltip_forum_tip"><span class="top">' . $title . '</span><span class="middle">' . $text . '</span></span>' . $link . '</a>';
 }
 //=== make pretty IP
 function make_nice_address($ip)

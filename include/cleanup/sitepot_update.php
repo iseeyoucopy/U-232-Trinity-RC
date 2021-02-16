@@ -16,7 +16,7 @@ function docleanup($data)
     set_time_limit(1200);
     ignore_user_abort(1);
     //== sitepot
-    sql_query("UPDATE avps SET value_i = 0, value_s = '0' WHERE arg = 'sitepot' AND value_u < " . TIME_NOW . " AND value_s = '1'") or sqlerr(__file__, __line__);
+    sql_query("UPDATE avps SET value_i = 0, value_s = '0' WHERE arg = 'sitepot' AND value_u < " . TIME_NOW . " AND value_s = '1'") || sqlerr(__file__, __line__);
     $cache->delete('Sitepot_');
     $cache->delete('shoutbox_');
     if ($queries > 0) write_log("Sitepot -------------------- Sitepot CLean Complete using $queries queries--------------------");

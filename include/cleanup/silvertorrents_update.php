@@ -16,7 +16,7 @@ function docleanup($data)
     set_time_limit(0);
     ignore_user_abort(1);
     //=== Clean silver
-    $res = sql_query("SELECT id, silver FROM torrents WHERE silver > 1 AND silver < " . TIME_NOW) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id, silver FROM torrents WHERE silver > 1 AND silver < " . TIME_NOW)) || sqlerr(__FILE__, __LINE__);
     $Silver_buffer = array();
     if ($res->num_rows > 0) {
         while ($arr = $res->fetch_assoc()) {
@@ -27,7 +27,7 @@ function docleanup($data)
         }
         $count = count($Silver_buffer);
         if ($count > 0) {
-            sql_query("INSERT INTO torrents (id, silver) VALUES " . implode(', ', $Silver_buffer) . " ON DUPLICATE key UPDATE silver=values(silver)") or sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO torrents (id, silver) VALUES " . implode(', ', $Silver_buffer) . " ON DUPLICATE key UPDATE silver=values(silver)") || sqlerr(__FILE__, __LINE__);
             write_log("Cleanup - Removed Silver from " . $count . " torrents");
         }
         unset($Silver_buffer, $count);

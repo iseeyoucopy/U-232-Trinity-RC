@@ -20,7 +20,7 @@ $HTMLOUT .= "<input type='hidden' name='action' value='security'>
                     <div class='card-divider' aria-describedby='parked_m'><strong>{$lang['usercp_acc_parked']}</strong></div>
                     <div class='card-section float-center'>
                         <div class='switch large'>
-                            <input onchange='this.form.submit()' class='input-group-field switch-input' type='checkbox' id='parked' name='parked'" . (($CURUSER['opt1'] & user_options::PARKED) ? " checked='checked'" : "") . " value='yes'>
+                            <input onchange='this.form.submit()' class='input-group-field switch-input' type='checkbox' id='parked' name='parked'" . ((($CURUSER['opt1'] & user_options::PARKED) !== 0) ? " checked='checked'" : "") . " value='yes'>
                             <label class='switch-paddle' for='parked'>
                                 <span class='switch-active' aria-hidden='true'>Yes</span>
                                 <span class='switch-inactive' aria-hidden='true'>No</span>
@@ -37,7 +37,7 @@ $HTMLOUT .= "<input type='hidden' name='action' value='security'>
                     <div class='card-divider' aria-describedby='anonymous_m'><strong>{$lang['usercp_default_anonymous']}</strong></div>
                     <div class='card-section float-center'>
                         <div class='switch large'>
-                            <input onchange='this.form.submit()' class='input-group-field switch-input' type='checkbox' id='anonymous' name='anonymous'" . (($CURUSER['opt1'] & user_options::ANONYMOUS) ? " checked='checked'" : "") . " value='yes'>
+                            <input onchange='this.form.submit()' class='input-group-field switch-input' type='checkbox' id='anonymous' name='anonymous'" . ((($CURUSER['opt1'] & user_options::ANONYMOUS) !== 0) ? " checked='checked'" : "") . " value='yes'>
                             <label class='switch-paddle' for='anonymous'>
                                 <span class='switch-active' aria-hidden='true'>Yes</span>
                                 <span class='switch-inactive' aria-hidden='true'>No</span>
@@ -52,7 +52,7 @@ $HTMLOUT .= "<input type='hidden' name='action' value='security'>
                     <div class='card-divider' aria-describedby='show_email_m'><strong>{$lang['usercp_email_shw']}</strong></div>
                     <div class='card-section float-center'>
                         <div class='switch large'>
-                            <input onchange='this.form.submit()' class='input-group-field switch-input' type='checkbox' id='show_email' name='show_email'" . (($CURUSER['opt1'] & user_options::SHOW_EMAIL) ? " checked='checked'" : "") . " value='yes'>
+                            <input onchange='this.form.submit()' class='input-group-field switch-input' type='checkbox' id='show_email' name='show_email'" . ((($CURUSER['opt1'] & user_options::SHOW_EMAIL) !== 0) ? " checked='checked'" : "") . " value='yes'>
                             <label class='switch-paddle' for='show_email'>
                                 <span class='switch-active' aria-hidden='true'>Yes</span>
                                 <span class='switch-inactive' aria-hidden='true'>No</span>
@@ -67,7 +67,7 @@ $HTMLOUT .= "<input type='hidden' name='action' value='security'>
                     <div class='card-divider'><strong>{$lang['usercp_secu_curr']}</strong></div>
                     <div class='card-section float-center'>
                         <div class='switch large'>
-                            <input onchange='this.form.submit()' class='input-group-field switch-input' type='checkbox' id='hide_cur' name='hidecur'" . (($CURUSER['opt1'] & user_options::HIDECUR) ? " checked='checked'" : "") . " value='yes'>
+                            <input onchange='this.form.submit()' class='input-group-field switch-input' type='checkbox' id='hide_cur' name='hidecur'" . ((($CURUSER['opt1'] & user_options::HIDECUR) !== 0) ? " checked='checked'" : "") . " value='yes'>
                             <label class='switch-paddle' for='hide_cur'>
                                 <span class='switch-active' aria-hidden='true'>Yes</span>
                                 <span class='switch-inactive' aria-hidden='true'>No</span>

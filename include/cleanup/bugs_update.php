@@ -18,7 +18,7 @@ function docleanup($data)
     //== delete bugs
     $days = 14;
     $time = (TIME_NOW - ($days * 86400));
-    sql_query("DELETE FROM bugs WHERE status != 'na' AND added < {$time}") or sqlerr(__FILE__, __LINE__);
+    sql_query("DELETE FROM bugs WHERE status != 'na' AND added < {$time}") || sqlerr(__FILE__, __LINE__);
     //==
     if ($queries > 0) write_log("Bugs Updates -------------------- Bugs Clean Complete using $queries queries--------------------");
     if (false !== $mysqli->affected_rows) {

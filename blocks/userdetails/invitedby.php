@@ -13,7 +13,7 @@
 //=== invite stuff - who invited this member by snuggles
 if ($user['invitedby'] > 0) {
     //=== Fetch inviter info
-    $res_get_invitor = sql_query('SELECT id, class, username, warned, suspended, enabled, donor, chatpost, leechwarn, pirate, king FROM users WHERE id=' . sqlesc($user['invitedby'])) or sqlerr(__FILE__, __LINE__);
+    ($res_get_invitor = sql_query('SELECT id, class, username, warned, suspended, enabled, donor, chatpost, leechwarn, pirate, king FROM users WHERE id=' . sqlesc($user['invitedby']))) || sqlerr(__FILE__, __LINE__);
     $user_get_invitor = $res_get_invitor->fetch_assoc();
     $HTMLOUT.= '<tr><td class="rowhead">' . $lang['userdetails_invited_by'] . '</td><td align="left">' . format_username($user_get_invitor) . '</td></tr>';
 } else {

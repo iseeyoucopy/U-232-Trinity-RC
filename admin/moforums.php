@@ -38,7 +38,7 @@ $do = isset($_GET['do']) && in_array($_GET['do'],$v_do) ? htmlsafechars($_GET['d
 $this_url = 'staffpanel.php?tool=moforums&action=moforums';
 switch($do) {
 case 'delete' : 
-	if(!$id)
+	if($id === 0)
 	stderr($lang['forum_mngr_err1'], $lang['forum_mngr_warn3']);
 	if(sql_query('DELETE FROM over_forums where id = '.sqlesc($id))) {
 		header('Refresh:2; url='.$this_url);
@@ -75,7 +75,7 @@ break;
 case 'edit' : 
 default :
 $htmlout = "<div class='row'><div class='col-md-12'><h2>{$lang['forum_mngr_title']}</h2>";
-$r1 = sql_query('select name, id, description, min_class_view, forum_id, sort FROM over_forums ORDER BY sort') or  sqlerr(__FILE__,__LINE__);
+($r1 = sql_query('select name, id, description, min_class_view, forum_id, sort FROM over_forums ORDER BY sort')) || sqlerr(__FILE__,__LINE__);
 $f_count = $r1->num_rows;
 if(!$f_count)
 $htmlout .= "<h2>{$lang['forum_mngr_err4']}</h2>";
@@ -111,7 +111,7 @@ else {
 	if($do == 'edit' && !$id)
 		$htmlout .= "<h2>{$lang['forum_mngr_warn3']}</h2>";
 	if($do =='edit' && $id) {
-		$r3 = sql_query('select name, id, description , min_class_view ,forum_id, sort FROM over_forums WHERE id ='.sqlesc($id)) or sqlerr(__FILE__,__LINE__);
+		($r3 = sql_query('select name, id, description , min_class_view ,forum_id, sort FROM over_forums WHERE id ='.sqlesc($id))) || sqlerr(__FILE__,__LINE__);
 		if(!$r3->num_rows)
 			$htmlout .= "<h2>{$lang['forum_mngr_warn4']}</h2>";
 

@@ -31,25 +31,23 @@ $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('bonusmanager'));
 $HTMLOUT = $count = '';
-$res = sql_query("SELECT * FROM bonus") or sqlerr(__FILE__, __LINE__);
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["id"]) || isset($_POST["points"]) || isset($_POST["pointspool"]) || isset($_POST["minpoints"]) || isset($_POST["description"]) || isset($_POST["enabled"])) {
-        $id = 0 + $_POST["id"];
-        $points = 0 + $_POST["bonuspoints"];
-        $pointspool = 0 + $_POST["pointspool"];
-        $minpoints = 0 + $_POST["minpoints"];
-        $descr = htmlsafechars($_POST["description"]);
-        $enabled = "yes";
-        if (isset($_POST["enabled"]) == '') {
-            $enabled = "no";
-        }
-        $sql = sql_query("UPDATE bonus SET points = ".sqlesc($points).", pointspool=".sqlesc($pointspool).", minpoints=".sqlesc($minpoints).", enabled = ".sqlesc($enabled).", description = ".sqlesc($descr)." WHERE id = ".sqlesc($id));
-        if ($sql) {
-            header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=bonusmanage");
-        } else {
-            stderr($lang['bonusmanager_oops'], "{$lang['bonusmanager_sql']}");
-        }
-    }
+($res = sql_query("SELECT * FROM bonus")) || sqlerr(__FILE__, __LINE__);
+if ($_SERVER["REQUEST_METHOD"] == "POST" && (isset($_POST["id"]) || isset($_POST["points"]) || isset($_POST["pointspool"]) || isset($_POST["minpoints"]) || isset($_POST["description"]) || isset($_POST["enabled"]))) {
+	$id = 0 + $_POST["id"];
+	$points = 0 + $_POST["bonuspoints"];
+	$pointspool = 0 + $_POST["pointspool"];
+	$minpoints = 0 + $_POST["minpoints"];
+	$descr = htmlsafechars($_POST["description"]);
+	$enabled = "yes";
+	if (isset($_POST["enabled"]) == '') {
+     $enabled = "no";
+ }
+	$sql = sql_query("UPDATE bonus SET points = ".sqlesc($points).", pointspool=".sqlesc($pointspool).", minpoints=".sqlesc($minpoints).", enabled = ".sqlesc($enabled).", description = ".sqlesc($descr)." WHERE id = ".sqlesc($id));
+	if ($sql) {
+     header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=bonusmanage");
+ } else {
+     stderr($lang['bonusmanager_oops'], "{$lang['bonusmanager_sql']}");
+ }
 }
 while ($arr = $res->fetch_assoc()) {
     $count = (++$count) % 2;

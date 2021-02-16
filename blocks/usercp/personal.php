@@ -1,7 +1,7 @@
 <?php
 $templates = sql_query("SELECT id, name FROM stylesheets ORDER BY id");
 while ($templ = $templates->fetch_assoc()) {
-    if (file_exists("templates/".intval($templ['id'])."/template.php")) $stylesheets.= "<option value='" . (int)$templ['id'] . "'" . ($templ['id'] == $CURUSER['stylesheet'] ? " selected='selected'" : "") . ">" . htmlsafechars($templ['name']) . "</option>";
+    if (file_exists("templates/".(int) $templ['id']."/template.php")) $stylesheets.= "<option value='" . (int)$templ['id'] . "'" . ($templ['id'] == $CURUSER['stylesheet'] ? " selected='selected'" : "") . ">" . htmlsafechars($templ['name']) . "</option>";
 }
 $HTMLOUT.= "
 	<table class='table bordered'>
@@ -60,7 +60,7 @@ $HTMLOUT.= "
     $birthday = $CURUSER["birthday"];
     $birthday = date("Y-m-d", strtotime($birthday));
     list($year1, $month1, $day1) = explode('-', $birthday);
-    if ($CURUSER['birthday'] == '0000-00-00' OR $CURUSER['birthday'] == '1801-01-01') {
+    if ($CURUSER['birthday'] == '0000-00-00' || $CURUSER['birthday'] == '1801-01-01') {
         $year.= "<select name=\"year\"><option value=\"0000\">--</option>\n";
         $i = "1920";
         while ($i <= (date('Y', TIME_NOW) - 13)) {

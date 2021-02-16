@@ -17,7 +17,7 @@ Yes
 No</div>";
   
 
-$q = sql_query("SELECT o.id as oid, o.name as oname, f.id as fid, f.name as fname FROM `over_forums` as o LEFT JOIN forums as f ON f.forum_id = o.id ") or sqlerr(__FILE__, __LINE__);
+($q = sql_query("SELECT o.id as oid, o.name as oname, f.id as fid, f.name as fname FROM `over_forums` as o LEFT JOIN forums as f ON f.forum_id = o.id ")) || sqlerr(__FILE__, __LINE__);
 	if($q){
 	while($a = $q->fetch_assoc()){
 		$boo[$a['oname']][] = array($a['fid'],$a['fname']);

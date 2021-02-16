@@ -42,7 +42,7 @@ if ((isset($_POST[$action]) ? htmlsafechars($_POST[$action]) : '') == 'clear') {
     exit();
 } else {
     $added = (TIME_NOW - $TRINITY20['readpost_expiry']);
-    $res = sql_query('SELECT t.last_post, r.last_post_read, f.min_class_read ' . 'FROM topics AS t ' . 'LEFT JOIN posts AS p ON t.last_post=p.id ' . 'LEFT JOIN read_posts AS r ON r.user_id=' . sqlesc((int) $CURUSER['id']) . ' AND r.topic_id=t.id ' . 'LEFT JOIN forums AS f ON f.id=t.forum_id ' . 'WHERE p.added > ' . $added) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query('SELECT t.last_post, r.last_post_read, f.min_class_read ' . 'FROM topics AS t ' . 'LEFT JOIN posts AS p ON t.last_post=p.id ' . 'LEFT JOIN read_posts AS r ON r.user_id=' . sqlesc((int) $CURUSER['id']) . ' AND r.topic_id=t.id ' . 'LEFT JOIN forums AS f ON f.id=t.forum_id ' . 'WHERE p.added > ' . $added)) || sqlerr(__FILE__, __LINE__);
     $count = 0;
     while ($arr = $res->fetch_assoc()) {
         if ($arr['last_post_read'] >= $arr['last_post'] || $CURUSER['class'] < $arr['min_class_read']) {
@@ -108,7 +108,7 @@ if ((isset($_POST[$action]) ? htmlsafechars($_POST[$action]) : '') == 'clear') {
 				<td class='tcat' colspan='2'>Topic</td>
 				<td class='tcat' width='1%'>Clear</td>
 			</tr>";
-        $res = sql_query('SELECT t.id, t.forum_id, t.topic_name, t.last_post, r.last_post_read, f.name, f.min_class_read ' . 'FROM topics AS t ' . 'LEFT JOIN posts AS p ON t.last_post=p.id ' . 'LEFT JOIN read_posts AS r ON r.user_id=' . sqlesc((int) $CURUSER['id']) . ' AND r.topic_id=t.id ' . 'LEFT JOIN forums AS f ON f.id=t.forum_id ' . 'WHERE p.added > ' . $added . ' ' . ' ORDER BY t.forum_id ' . $pager['limit']) or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query('SELECT t.id, t.forum_id, t.topic_name, t.last_post, r.last_post_read, f.name, f.min_class_read ' . 'FROM topics AS t ' . 'LEFT JOIN posts AS p ON t.last_post=p.id ' . 'LEFT JOIN read_posts AS r ON r.user_id=' . sqlesc((int) $CURUSER['id']) . ' AND r.topic_id=t.id ' . 'LEFT JOIN forums AS f ON f.id=t.forum_id ' . 'WHERE p.added > ' . $added . ' ' . ' ORDER BY t.forum_id ' . $pager['limit'])) || sqlerr(__FILE__, __LINE__);
         while ($arr = $res->fetch_assoc()) {
             if ($arr['last_post_read'] >= $arr['last_post'] || $CURUSER['class'] < $arr['min_class_read']) {
                 continue;

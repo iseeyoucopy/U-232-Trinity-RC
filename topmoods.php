@@ -44,7 +44,7 @@ $abba = '<div class="container well"><div class="row"><div class="col-md-6 col-m
 $key = 'topmoods';
 $topmoods = $cache->get($key);
 if ($topmoods === false) {
-    $res = sql_query('SELECT moods.*, users.mood, COUNT(users.mood) as moodcount ' . 'FROM users LEFT JOIN moods ON (users.mood = moods.id) GROUP BY users.mood ' . 'ORDER BY moodcount DESC, moods.id ASC') or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query('SELECT moods.*, users.mood, COUNT(users.mood) as moodcount ' . 'FROM users LEFT JOIN moods ON (users.mood = moods.id) GROUP BY users.mood ' . 'ORDER BY moodcount DESC, moods.id ASC')) || sqlerr(__FILE__, __LINE__);
     while ($arr = $res->fetch_assoc()) {
         $topmoods.= '<tr><td class="text-center">' . (int)$arr['moodcount'] . '</td>
                  <td class="text-center">' . htmlsafechars($arr['name']) . ' ' . ($arr['bonus'] == 1 ? '<a href="/mybonus.php" style="color:lime">(bonus)</a>' : '') . '</td>

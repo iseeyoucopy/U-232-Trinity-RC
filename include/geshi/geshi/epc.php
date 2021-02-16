@@ -67,7 +67,7 @@ $language_data = array (
             'log', 'max', 'min', 'mod', 'pow', 'sqrt', 'sin', 'tan', 'change', 'convert',
             'eval', 'systemstart', 'random', 'comobject', 'sleep', 'scene', 'storescene', 'callscene',
             'find', 'stringcast', 'stringset', 'stringformat', 'split', 'size',
-            'readrs232'. 'sendrs232', 'address', 'readknx',
+            'readrs232sendrs232', 'address', 'readknx',
             'readudp', 'sendudp', 'connecttcp', 'closetcp', 'readtcp', 'sendtcp',
             'resolve', 'sendmail',
             'button', 'webbutton', 'chart', 'webchart', 'webdisplay', 'getslider', 'pshifter', 'mpshifter',

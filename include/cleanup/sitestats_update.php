@@ -16,9 +16,9 @@ function docleanup($data)
     set_time_limit(0);
     ignore_user_abort(1);
     //== 09 Stats
-    $XBT_Seeder_query = sql_query("SELECT sum(seeders) AS seeders FROM torrents") or sqlerr(__FILE__, __LINE__);
+    ($XBT_Seeder_query = sql_query("SELECT sum(seeders) AS seeders FROM torrents")) || sqlerr(__FILE__, __LINE__);
     $XBT_Seeder = $XBT_Seeder_query->fetch_assoc();
-    $XBT_Leecher_query = sql_query("SELECT sum(leechers) AS leechers FROM torrents") or sqlerr(__FILE__, __LINE__);
+    ($XBT_Leecher_query = sql_query("SELECT sum(leechers) AS leechers FROM torrents")) || sqlerr(__FILE__, __LINE__);
     $XBT_Leecher = $XBT_Leecher_query->fetch_assoc();
     $registered = get_row_count('users');
     $unverified = get_row_count('users', "WHERE status='pending'");

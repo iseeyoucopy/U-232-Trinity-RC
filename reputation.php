@@ -19,7 +19,7 @@ loggedinorreturn();
 $lang = load_language('reputation');
 define('TIMENOW', time());
 // mod or not?
-$is_mod = ($CURUSER['class'] >= UC_STAFF) ? true : false;
+$is_mod = $CURUSER['class'] >= UC_STAFF;
 //$CURUSER['class'] = 2;
 //$rep_maxperday = 10;
 //$rep_repeat = 20;
@@ -49,7 +49,7 @@ if (isset($input['done'])) {
 //	Nope, so do something different, like check stuff
 ///////////////////////////////////////////////
 /// weeeeeeeeee =]
-$check = isset($input['pid']) ? is_valid_id(intval($input['pid'])) : false;
+$check = isset($input['pid']) ? is_valid_id((int) $input['pid']) : false;
 $locales = [
     'posts',
     'comments',
@@ -64,38 +64,38 @@ if ($rep_locale == 'posts') {
     ///////////////////////////////////////////////
     // check the post actually exists!
     ///////////////////////////////////////////////
-    $forum = sql_query("SELECT posts.topic_id AS locale, posts.user_id AS userid, forums.min_class_read,
+    ($forum = sql_query("SELECT posts.topic_id AS locale, posts.user_id AS userid, forums.min_class_read,
 users.username, users.reputation
 FROM posts
 LEFT JOIN topics ON topic_id = topics.id
 LEFT JOIN forums ON topics.forum_id = forums.id
 LEFT JOIN users ON posts.user_id = users.id
-WHERE posts.id =" . sqlesc($input['pid'])) or sqlerr(__FILE__, __LINE__);
+WHERE posts.id =" . sqlesc($input['pid']))) || sqlerr(__FILE__, __LINE__);
 } elseif ($rep_locale == 'comments') {
     ///////////////////////////////////////////////
     // check the comment actually exists!
     ///////////////////////////////////////////////
     //uncomment the following  if use comments.anonymous field
-    $forum = sql_query("SELECT comments.id, comments.user AS userid, comments.anonymous AS anon,
+    ($forum = sql_query("SELECT comments.id, comments.user AS userid, comments.anonymous AS anon,
      comments.torrent AS locale,
      users.username, users.reputation
      FROM comments
      LEFT JOIN users ON comments.user = users.id
-     WHERE comments.id = " . sqlesc($input['pid'])) or sqlerr(__FILE__, __LINE__);
+     WHERE comments.id = " . sqlesc($input['pid']))) || sqlerr(__FILE__, __LINE__);
 } elseif ($rep_locale == 'torrents') {
     ///////////////////////////////////////////////
     // check the uploader actually exists!
     ///////////////////////////////////////////////
-    $forum = sql_query("SELECT torrents.id as locale, torrents.owner AS userid, torrents.anonymous AS anon,
+    ($forum = sql_query("SELECT torrents.id as locale, torrents.owner AS userid, torrents.anonymous AS anon,
     users.username, users.reputation
     FROM torrents
     LEFT JOIN users ON torrents.owner = users.id
-    WHERE torrents.id =" . sqlesc($input['pid'])) or sqlerr(__FILE__, __LINE__);
+    WHERE torrents.id =" . sqlesc($input['pid']))) || sqlerr(__FILE__, __LINE__);
 } elseif ($rep_locale == 'users') {
     ///////////////////////////////////////////////
     // check the user actually exists!
     ///////////////////////////////////////////////
-    $forum = sql_query("SELECT id AS userid, username, reputation, opt1, opt2 FROM users WHERE id =" . sqlesc($input['pid'])) or sqlerr(__FILE__, __LINE__);
+    ($forum = sql_query("SELECT id AS userid, username, reputation, opt1, opt2 FROM users WHERE id =" . sqlesc($input['pid']))) || sqlerr(__FILE__, __LINE__);
 } // end
 switch ($rep_locale) {
 case 'comments':
@@ -121,16 +121,14 @@ if (!$forum->num_rows) {
 // ok, lets proceed
 ///////////////////////////////////////////////
 $res = $forum->fetch_assoc();
-if (isset($res['minclassread'])) { // 'posts'
-    if ($CURUSER['class'] < $res['minclassread']) {
-        // check permissions! Dun want sneaky pests lookin!
-        rep_output('Wrong Permissions');
-    }
+// 'posts'
+if (isset($res['minclassread']) && $CURUSER['class'] < $res['minclassread']) { // check permissions! Dun want sneaky pests lookin!
+    rep_output('Wrong Permissions');
 }
 ///////////////////////////////////////////////
 //	Does the user have memory loss? Have they already rep'd?
 ///////////////////////////////////////////////
-$repeat = sql_query("SELECT postid FROM reputation WHERE postid =" . sqlesc($input['pid']) . " AND whoadded=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+($repeat = sql_query("SELECT postid FROM reputation WHERE postid =" . sqlesc($input['pid']) . " AND whoadded=" . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
 //$repres = mysql_fetch_assoc( $forum ) or sqlerr(__LINE__,__FILE__);
 if ($repeat->num_rows > 0 && $rep_locale != 'users') { // blOOdy eedjit check!
     rep_output('You have already added Rep to this ' . $this_rep . '!'); // Is insane!
@@ -140,14 +138,14 @@ if ($repeat->num_rows > 0 && $rep_locale != 'users') { // blOOdy eedjit check!
 ///////////////////////////////////////////////
 if (!$is_mod) {
     if ($GVARS['rep_maxperday'] >= $GVARS['rep_repeat']) {
-        $klimit = intval($GVARS['rep_maxperday'] + 1);
+        $klimit = (int) ($GVARS['rep_maxperday'] + 1);
     } else {
-        $klimit = intval($GVARS['rep_repeat'] + 1);
+        $klimit = (int) ($GVARS['rep_repeat'] + 1);
     }
     ///////////////////////////////////////////////
     //	Some trivial flood checking
     ///////////////////////////////////////////////
-    $flood = sql_query("SELECT dateadd, userid FROM reputation WHERE whoadded = " . sqlesc($CURUSER['id']) . " ORDER BY dateadd DESC LIMIT 0 , " . sqlesc($klimit)) or sqlerr(__FILE__, __LINE__);
+    ($flood = sql_query("SELECT dateadd, userid FROM reputation WHERE whoadded = " . sqlesc($CURUSER['id']) . " ORDER BY dateadd DESC LIMIT 0 , " . sqlesc($klimit))) || sqlerr(__FILE__, __LINE__);
     if ($flood->num_rows) {
         $i = 0;
         while ($check = $flood->fetch_assoc()) {
@@ -166,9 +164,9 @@ if (!$is_mod) {
 ///////////////////////////////////////////////
 // Note: if you use another forum type, you may already have this GLOBAL available
 // So you can save a query here, else...
-$r = sql_query("SELECT COUNT(*) FROM posts WHERE user_id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+($r = sql_query("SELECT COUNT(*) FROM posts WHERE user_id = " . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
 $a = $r->fetch_row();
-$CURUSER['posts'] = intval($a[0]);
+$CURUSER['posts'] = (int) $a[0];
 ///////////////////////////////////////////////
 // What's the reason for bothering me?
 ///////////////////////////////////////////////
@@ -179,7 +177,7 @@ if (isset($input['reason']) && !empty($input['reason'])) {
     if ((strlen(trim($temp)) < 2) || ($reason == "")) {
         rep_output($lang["info_reason_too_short"]);
     }
-    if (strlen(preg_replace("/&#([0-9]+);/", "-", stripslashes($input['reason']))) > 250) {
+    if (strlen(preg_replace("/&#(\\d+);/", "-", stripslashes($input['reason']))) > 250) {
         rep_output($lang["info_reason_too_long"]);
     }
 }
@@ -195,7 +193,7 @@ if (isset($input['do']) && $input['do'] == 'addrep') {
     }
     $score = fetch_reppower($CURUSER, $input['reputation']);
     $res['reputation']+= $score;
-    sql_query("UPDATE users set reputation=" . sqlesc(intval($res['reputation'])) . " WHERE id=" . sqlesc($res['userid'])) or sqlerr(__FILE__, __LINE__);
+    sql_query("UPDATE users set reputation=" . sqlesc((int) $res['reputation']) . " WHERE id=" . sqlesc($res['userid'])) || sqlerr(__FILE__, __LINE__);
     $cache->update_row($keys['my_userid'] . $res['userid'], [
         'reputation' => $res['reputation']
     ], $TRINITY20['expires']['curuser']);
@@ -209,23 +207,23 @@ if (isset($input['do']) && $input['do'] == 'addrep') {
         'reason' => sqlesc($reason) ,
         'dateadd' => TIMENOW,
         'locale' => sqlesc($rep_locale) ,
-        'postid' => sqlesc(intval($input['pid'])),
-        'userid' => sqlesc(intval($res['userid']))
+        'postid' => sqlesc((int) $input['pid']),
+        'userid' => sqlesc((int) $res['userid'])
     ];
     //print( join( ',', $save) );
     //print( join(',', array_keys($save)));
-    sql_query("INSERT INTO reputation (" . join(',', array_keys($save)) . ") VALUES (" . join(',', $save) . ")") or sqlerr(__FILE__, __LINE__);
-    header("Location: {$TRINITY20['baseurl']}/reputation.php?pid=" . intval($input['pid']) . "&done=1");
+    sql_query("INSERT INTO reputation (" . implode(',', array_keys($save)) . ") VALUES (" . implode(',', $save) . ")") || sqlerr(__FILE__, __LINE__);
+    header("Location: {$TRINITY20['baseurl']}/reputation.php?pid=" . (int) $input['pid'] . "&done=1");
 } // Move along, nothing to see here!
 else {
     if ($res['userid'] == $CURUSER['id']) { // same as him!
         // check for fish!
-        $query1 = sql_query("SELECT r.*, leftby.id AS leftby_id, leftby.username AS leftby_name
+        ($query1 = sql_query("SELECT r.*, leftby.id AS leftby_id, leftby.username AS leftby_name
                                         FROM reputation r
                                         LEFT JOIN users leftby ON leftby.id=r.whoadded
                                         WHERE postid=" . sqlesc($input['pid']) . "
                                         AND r.locale = " . sqlesc($input['locale']) . "
-                                        ORDER BY dateadd DESC") or sqlerr(__FILE__, __LINE__);
+                                        ORDER BY dateadd DESC")) || sqlerr(__FILE__, __LINE__);
         $reasonbits = '';
         if ($query1->num_rows !== false) {
             $total = 0;
@@ -239,7 +237,7 @@ else {
                     $posneg = 'balance';
                 }
                 if ($GVARS['g_rep_seeown']) {
-                    $postrep['reason'] = htmlsafechars($postrep['reason']) . " <span class='desc'>{$lang["rep_left_by"]} <a href=\"{$TRINITY20['baseurl']}/userdetails.php?id=" . intval($postrep['leftby_id']) . "\" target='_blank'>" . htmlspecialchars($postrep['leftby_name']) . "</a></span>";
+                    $postrep['reason'] = htmlsafechars($postrep['reason']) . " <span class='desc'>{$lang["rep_left_by"]} <a href=\"{$TRINITY20['baseurl']}/userdetails.php?id=" . (int) $postrep['leftby_id'] . "\" target='_blank'>" . htmlspecialchars($postrep['leftby_name']) . "</a></span>";
                 }
                 $reasonbits.= "<tr>
 	<td class='row2' width='1%'><img src='./pic/rep/reputation_$posneg.gif' border='0' alt='' /></td>
@@ -297,7 +295,7 @@ else {
 						<tr>
 							<td class='row2'>
 							<div class='tablepad'>";
-        if ($reasonbits) {
+        if ($reasonbits !== '') {
             $html.= "<fieldset class='fieldset'>
 								<legend>{$lang["rep_comments"]}</legend>
 								<table class='ipbtable' cellpadding='0'>
@@ -316,7 +314,7 @@ else {
         ///////////////////////////////////////////////
         $res['anon'] = (isset($res['anon']) ? $res['anon'] : 'no');
         $rep_text = sprintf("What do you think of %s's " . $this_rep . "?", ($res['anon'] == 'yes' ? 'Anonymous' : htmlsafechars($res['username'])));
-        $negativerep = ($is_mod || $GVARS['g_rep_negative']) ? true : false;
+        $negativerep = $is_mod || $GVARS['g_rep_negative'];
         $closewindow = false;
         $html = "<tr><td class='darkrow1'>{$lang["info_add_rep"]} <b>" . htmlsafechars($res['username']) . "</b></td></tr>
 						<tr>
@@ -347,7 +345,7 @@ else {
 					<div align='center' style='margin-top:3px;'>
 						<input type='hidden' name='act' value='reputation' />
 						<input type='hidden' name='do' value='addrep' />
-						<input type='hidden' name='pid' value='" . intval($input['pid']) . "' />
+						<input type='hidden' name='pid' value='" . (int) $input['pid'] . "' />
 						<input type='hidden' name='locale' value='" . htmlsafechars($input['locale']) . "' />
 						<input type='submit' value='" . $lang["info_add_rep"] . "' class='button' accesskey='s' />
 						<input type='button' value='Close Window' class='button' accesskey='c' onclick='self.close()' />
@@ -382,7 +380,7 @@ function rep_output($msg = "", $html = "")
     echo $TRINITY20['baseurl']; ?>/templates/<?php
     echo $CURUSER['stylesheet']; ?>/<?php
     echo $CURUSER['stylesheet']; ?>.css' type='text/css' />
-  
+
     </head>
     <body>
     <?php
@@ -417,23 +415,23 @@ function fetch_reppower($user = [], $rep = 'pos')
         $rep = 0;
     } elseif ($is_mod && $GVARS['rep_adminpower']) { // is a mod and has loadsa power?
         //work out positive or negative admin power
-        $reppower = ($rep != 'pos') ? intval($GVARS['rep_adminpower'] * -1) : intval($GVARS['rep_adminpower']);
+        $reppower = ($rep != 'pos') ? (int) ($GVARS['rep_adminpower'] * -1) : (int) $GVARS['rep_adminpower'];
     } elseif (($user['posts'] < $GVARS['rep_minpost']) || ($user['reputation'] < $GVARS['rep_minrep'])) { // not an admin, then work out postal based power
         $reppower = 0;
     } else { // ok failed all tests, so ratio is 1:1 but not negative, unless allowed
         $reppower = 1;
         if ($GVARS['rep_pcpower']) { // percentage power
-            $reppower+= intval($user['posts'] / $GVARS['rep_pcpower']);
+            $reppower+= (int) ($user['posts'] / $GVARS['rep_pcpower']);
         }
         if ($GVARS['rep_kppower']) { // rep as based upon a constant of kppower global
-            $reppower+= intval($user['reputation'] / $GVARS['rep_kppower']);
+            $reppower+= (int) ($user['reputation'] / $GVARS['rep_kppower']);
         }
         if ($GVARS['rep_rdpower']) { // time based power
-            $reppower+= intval((TIMENOW - $user['added']) / 86400 / $GVARS['rep_rdpower']);
+            $reppower+= (int) ((TIMENOW - $user['added']) / 86400 / $GVARS['rep_rdpower']);
         }
         if ($rep != 'pos') {
             // Negative rep is worth half that of positive, but must be atleast 1, else it gets messy
-            $reppower = intval($reppower / 2);
+            $reppower = (int) ($reppower / 2);
             $reppower = ($reppower < 1) ? 1 : $reppower;
             $reppower*= - 1;
         }

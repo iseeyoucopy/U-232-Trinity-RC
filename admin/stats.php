@@ -33,10 +33,10 @@ $lang = array_merge($lang, load_language('ad_stats'));
 $HTMLOUT = '';
 //$HTMLOUT.= begin_main_frame();
 $HTMLOUT.= "<div class='row'><div class='col-md-12'>";
-$res = sql_query("SELECT COUNT(id) FROM torrents") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT COUNT(id) FROM torrents")) || sqlerr(__FILE__, __LINE__);
 $n = $res->fetch_row();
 $n_tor = $n[0];
-$res = sql_query("SELECT COUNT(id) FROM peers") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT COUNT(id) FROM peers")) || sqlerr(__FILE__, __LINE__);
 $n = $res->fetch_row();
 $n_peers = $n[0];
 $uporder = isset($_GET['uporder']) ? $_GET['uporder'] : '';
@@ -50,7 +50,7 @@ $query = "SELECT u.id, u.username AS name, MAX(t.added) AS last, COUNT(DISTINCT 
       GROUP BY u.id UNION SELECT u.id, u.username AS name, MAX(t.added) AS last, COUNT(DISTINCT t.id) AS n_t, COUNT(p.id) as n_p
       FROM users as u LEFT JOIN torrents as t ON u.id = t.owner LEFT JOIN peers as p ON t.id = p.torrent WHERE u.class > " . UC_UPLOADER . "
       GROUP BY u.id ORDER BY $orderby";
-$res = sql_query($query) or sqlerr(__FILE__, __LINE__);
+($res = sql_query($query)) || sqlerr(__FILE__, __LINE__);
 if ($res->num_rows == 0) stdmsg($lang['stats_error'], $lang['stats_error1']);
 else {
     //$HTMLOUT.= begin_frame($lang['stats_title1'], True);
@@ -83,9 +83,9 @@ else {
     elseif ($catorder == "torrents") $orderby = "n_t DESC, c.name";
     elseif ($catorder == "peers") $orderby = "n_p DESC, name";
     else $orderby = "c.name";
-    $res = sql_query("SELECT c.name, MAX(t.added) AS last, COUNT(DISTINCT t.id) AS n_t, COUNT(p.id) AS n_p
+    ($res = sql_query("SELECT c.name, MAX(t.added) AS last, COUNT(DISTINCT t.id) AS n_t, COUNT(p.id) AS n_p
       FROM categories as c LEFT JOIN torrents as t ON t.category = c.id LEFT JOIN peers as p
-      ON t.id = p.torrent GROUP BY c.id ORDER BY $orderby") or sqlerr(__FILE__, __LINE__);
+      ON t.id = p.torrent GROUP BY c.id ORDER BY $orderby")) || sqlerr(__FILE__, __LINE__);
     //$HTMLOUT.= begin_frame($lang['stats_title2'], True);
     //$HTMLOUT.= begin_table();
     $HTMLOUT.= "<h2>{$lang['stats_title2']}</h2>";

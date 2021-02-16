@@ -25,7 +25,7 @@ function dltable($name, $arr, $torrent)
 {
     global $CURUSER, $lang, $TRINITY20;
     $htmlout = '';
-    if (!count($arr)) return $htmlout = "
+    if (count($arr) === 0) return $htmlout = "
         <p>{$lang['peerslist_no']} $name {$lang['peerslist_data_available']}</p>";
     $htmlout.= "
     <table class='striped'>
@@ -59,19 +59,18 @@ function dltable($name, $arr, $torrent)
         $htmlout.= "<td class='text-center'>".htmlsafechars(getagent($e["agent"], $e['peer_id']))."</td>";
         $htmlout.= "</tr>";
     }
-    $htmlout.= "</table>";
-    return $htmlout;
+    return $htmlout . "</table>";
 }
-$res = sql_query("SELECT * FROM torrents WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT * FROM torrents WHERE id = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 if ($res->num_rows == 0) stderr("{$lang['peerslist_error']}", "{$lang['peerslist_nothing']}");
 $row = $res->fetch_assoc();
 $downloaders = array();
 $seeders = array();
-$subres = sql_query("SELECT u.username, u.anonymous, t.owner, t.anonymous as tanonymous, p.seeder, p.finishedat, p.downloadoffset, p.uploadoffset, p.ip, p.port, p.uploaded, p.downloaded, p.to_go, p.started AS st, p.connectable, p.agent, p.last_action AS la, p.userid, p.peer_id
+($subres = sql_query("SELECT u.username, u.anonymous, t.owner, t.anonymous as tanonymous, p.seeder, p.finishedat, p.downloadoffset, p.uploadoffset, p.ip, p.port, p.uploaded, p.downloaded, p.to_go, p.started AS st, p.connectable, p.agent, p.last_action AS la, p.userid, p.peer_id
     FROM peers p
     LEFT JOIN users u ON p.userid = u.id
 	LEFT JOIN torrents as t on t.id = p.torrent
-    WHERE p.torrent = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    WHERE p.torrent = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 if ($subres->num_rows == 0) stderr("{$lang['peerslist_warning']}", "{$lang['peerslist_no_data']}");
 while ($subrow = $subres->fetch_assoc()) {
     if ($subrow["seeder"] == "yes") $seeders[] = $subrow;

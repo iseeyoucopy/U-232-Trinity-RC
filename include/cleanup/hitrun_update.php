@@ -20,12 +20,12 @@ function docleanup($data)
     //===09 hnr by sir_snugglebunny
     $secs = $TRINITY20['caindays'] * 86400;
     $hnr = TIME_NOW - $secs;
-    $res = sql_query('SELECT id FROM snatched WHERE hit_and_run <> \'0\' AND hit_and_run < '.sqlesc($hnr)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query('SELECT id FROM snatched WHERE hit_and_run <> \'0\' AND hit_and_run < '.sqlesc($hnr))) || sqlerr(__FILE__, __LINE__);
     while ($arr = $res->fetch_assoc()) {
-        sql_query('UPDATE snatched SET mark_of_cain = \'yes\' WHERE id='.sqlesc($arr['id'])) or sqlerr(__FILE__, __LINE__);
+        sql_query('UPDATE snatched SET mark_of_cain = \'yes\' WHERE id='.sqlesc($arr['id'])) || sqlerr(__FILE__, __LINE__);
     }
     //=== hit and run... disable Downloading rights if they have 3 marks of cain
-    $res_fuckers = sql_query('SELECT COUNT(*) AS poop, snatched.userid, users.username, users.modcomment, users.hit_and_run_total, users.downloadpos FROM snatched LEFT JOIN users ON snatched.userid = users.id WHERE snatched.mark_of_cain = \'yes\' AND users.hnrwarn = \'no\' AND users.immunity = \'0\' GROUP BY snatched.userid') or sqlerr(__FILE__, __LINE__);
+    ($res_fuckers = sql_query('SELECT COUNT(*) AS poop, snatched.userid, users.username, users.modcomment, users.hit_and_run_total, users.downloadpos FROM snatched LEFT JOIN users ON snatched.userid = users.id WHERE snatched.mark_of_cain = \'yes\' AND users.hnrwarn = \'no\' AND users.immunity = \'0\' GROUP BY snatched.userid')) || sqlerr(__FILE__, __LINE__);
     while ($arr_fuckers = $res_fuckers->fetch_assoc()) {
         if ($arr_fuckers['poop'] > $TRINITY20['cainallowed'] && $arr_fuckers['downloadpos'] == 1) {
             //=== set them to no DLs
@@ -37,9 +37,9 @@ function docleanup($data)
             $_pms[] = '(0,'.sqlesc($arr_fuckers['userid']).','.sqlesc(TIME_NOW).','.$msg.','.$subject.',0)';
             $_users[] = '('.sqlesc($arr_fuckers['userid']).','.sqlesc($arr_fuckers['poop']).',0, \'yes\','.$modcom.')';
             if(count($_pms) > 0)
-	         sql_query("INSERT INTO messages (sender, receiver, added, msg, subject, poster) VALUES ".implode(',',$_pms)) or sqlerr(__FILE__, __LINE__);	
+	         sql_query("INSERT INTO messages (sender, receiver, added, msg, subject, poster) VALUES ".implode(',',$_pms)) || sqlerr(__FILE__, __LINE__);	
 	         if(count($_users) > 0)
-	         sql_query("INSERT INTO users(id,hit_and_run_total,downloadpos,hnrwarn,modcomment) VALUES ".implode(',',$_users)." ON DUPLICATE key UPDATE hit_and_run_total=hit_and_run_total+values(hit_and_run_total),downloadpos=values(downloadpos),hnrwarn=values(hnrwarn),modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
+	         sql_query("INSERT INTO users(id,hit_and_run_total,downloadpos,hnrwarn,modcomment) VALUES ".implode(',',$_users)." ON DUPLICATE key UPDATE hit_and_run_total=hit_and_run_total+values(hit_and_run_total),downloadpos=values(downloadpos),hnrwarn=values(hnrwarn),modcomment=values(modcomment)") || sqlerr(__FILE__, __LINE__);
 	         unset($_pms,$_users);
             $update['hit_and_run_total'] = ($arr_fuckers['hit_and_run_total'] + $arr_fuckers['poop']);
             $cache->update_row('user' . $arr_fuckers['userid'], [
@@ -63,9 +63,9 @@ function docleanup($data)
         }
     }
     //=== hit and run... turn their DLs back on if they start seeding again
-    $res_good_boy = sql_query('SELECT id, username, modcomment FROM users WHERE hnrwarn = \'yes\' AND downloadpos = \'0\'') or sqlerr(__FILE__, __LINE__);
+    ($res_good_boy = sql_query('SELECT id, username, modcomment FROM users WHERE hnrwarn = \'yes\' AND downloadpos = \'0\'')) || sqlerr(__FILE__, __LINE__);
     while ($arr_good_boy = $res_good_boy->fetch_assoc()) {
-        $res_count = sql_query('SELECT COUNT(*) FROM snatched WHERE userid = '.sqlesc($arr_good_boy['id']).' AND mark_of_cain = \'yes\'') or sqlerr(__FILE__, __LINE__);
+        ($res_count = sql_query('SELECT COUNT(*) FROM snatched WHERE userid = '.sqlesc($arr_good_boy['id']).' AND mark_of_cain = \'yes\'')) || sqlerr(__FILE__, __LINE__);
         $arr_count = $res_count->fetch_row();
         if ($arr_count[0] < $TRINITY20['cainallowed']) {
             //=== set them to yes DLs
@@ -77,9 +77,9 @@ function docleanup($data)
             $_pms[] = '(0,'.sqlesc($arr_good_boy['id']).','.sqlesc(TIME_NOW).','.$msg.','.$subject.',0)';
 		      $_users[] = '('.sqlesc($arr_good_boy['id']).',1,\'no\','.$modcom.')';
             if(count($_pms) > 0)
-	         sql_query("INSERT INTO messages (sender, receiver, added, msg, subject, poster) VALUES ".implode(',',$_pms)) or sqlerr(__FILE__, __LINE__);	
+	         sql_query("INSERT INTO messages (sender, receiver, added, msg, subject, poster) VALUES ".implode(',',$_pms)) || sqlerr(__FILE__, __LINE__);	
 	         if(count($_users) > 0)
-	         sql_query("INSERT INTO users(id,downloadpos,hnrwarn,modcomment) VALUES ".implode(',',$_users)." ON DUPLICATE key UPDATE downloadpos=values(downloadpos),hnrwarn=values(hnrwarn),modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
+	         sql_query("INSERT INTO users(id,downloadpos,hnrwarn,modcomment) VALUES ".implode(',',$_users)." ON DUPLICATE key UPDATE downloadpos=values(downloadpos),hnrwarn=values(hnrwarn),modcomment=values(modcomment)") || sqlerr(__FILE__, __LINE__);
 	         unset($_pms,$_users);
              $cache->update_row('user' . $arr_good_boy['id'], [
                 'downloadpos' => 1,

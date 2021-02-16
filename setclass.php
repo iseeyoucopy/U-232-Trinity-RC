@@ -16,7 +16,7 @@ dbconn(false);
 loggedinorreturn();
 $lang = array_merge(load_language('global'), load_language('setclass'));
 $HTMLOUT = "";
-if ($CURUSER['class'] < UC_STAFF or $CURUSER['override_class'] != 255) {
+if ($CURUSER['class'] < UC_STAFF || $CURUSER['override_class'] != 255) {
     stderr("Error", "wots the story ?");
 }
 if (isset($_GET["action"]) && htmlsafechars($_GET["action"]) == "editclass") { //Process the querystring - No security checks are done as a temporary class higher

@@ -40,7 +40,7 @@ $lang = array_merge($lang, load_language('ad_modpanel'));
 	 <td>
 	 <select name='sticky'>
 	 <option value='yes'" . ($sticky ? " selected='selected'" : '') . ">{$lang['mod_mp_yes']}</option>
-	 <option value='no' " . (!$sticky ? " selected='selected'" : '') . ">{$lang['mod_mp_no']}</option>
+	 <option value='no' " . ($sticky ? '' : " selected='selected'") . ">{$lang['mod_mp_no']}</option>
 	 </select>
 	 </td>
 	 </tr>
@@ -49,7 +49,7 @@ $lang = array_merge($lang, load_language('ad_modpanel'));
 	 <td>
 	 <select name='locked'>
 	 <option value='yes'" . ($locked ? " selected='selected'" : '') . ">{$lang['mod_mp_yes']}</option>
-	 <option value='no'" . (!$locked ? " selected='selected'" : '') . ">{$lang['mod_mp_no']}</option>
+	 <option value='no'" . ($locked ? '' : " selected='selected'") . ">{$lang['mod_mp_no']}</option>
 	 </select>
 	 </td>
 	 </tr>
@@ -63,7 +63,7 @@ $lang = array_merge($lang, load_language('ad_modpanel'));
 	 <td class='rowhead'>{$lang['mod_mp_move']}</td>
 	 <td>
 	 <select name='new_forumid'>";
-       $res = sql_query("SELECT id, name, min_class_write FROM forums ORDER BY name") or sqlerr(__FILE__, __LINE__);
+       ($res = sql_query("SELECT id, name, min_class_write FROM forums ORDER BY name")) || sqlerr(__FILE__, __LINE__);
        while ($arr = $res->fetch_assoc()) {
            if ($CURUSER['class'] >= $arr["min_class_write"]) {
                $HTMLOUT .= '<option value="' . (int) $arr["id"] . '"' . ($arr["id"] == $forumid ? ' selected="selected"' : '') . '>' . htmlsafechars($arr["name"]) . '</option>';

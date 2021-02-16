@@ -16,7 +16,7 @@ function docleanup($data)
     set_time_limit(0);
     ignore_user_abort(1);
     //=== Anonymous profile by Bigjoos/pdq:)
-    $res = sql_query("SELECT id, modcomment FROM users WHERE anonymous_until < " . TIME_NOW . " AND anonymous_until <> '0'") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id, modcomment FROM users WHERE anonymous_until < " . TIME_NOW . " AND anonymous_until <> '0'")) || sqlerr(__FILE__, __LINE__);
     $msgs_buffer = $users_buffer = array();
     if ($res->num_rows > 0) {
         $subject = "Anonymous profile expired.";
@@ -43,8 +43,8 @@ function docleanup($data)
         }
         $count = count($users_buffer);
         if ($count > 0) {
-            sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) or sqlerr(__FILE__, __LINE__);
-            sql_query("INSERT INTO users (id, anonymous_until, anonymous, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE anonymous_until=values(anonymous_until),anonymous=values(anonymous), modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) || sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO users (id, anonymous_until, anonymous, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE anonymous_until=values(anonymous_until),anonymous=values(anonymous), modcomment=values(modcomment)") || sqlerr(__FILE__, __LINE__);
             write_log("Cleanup - Removed Anonymous profile from " . $count . " members");
         }
         unset($users_buffer, $msgs_buffer, $count);

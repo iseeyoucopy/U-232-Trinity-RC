@@ -65,7 +65,7 @@ class_check($class);
 //error_reporting(E_ALL);
 $lang = array_merge($lang, load_language('ad_allagents'));
 $HTMLOUT = '';
-$res = sql_query("SELECT agent, peer_id FROM peers GROUP BY agent") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT agent, peer_id FROM peers GROUP BY agent")) || sqlerr(__FILE__, __LINE__);
 $HTMLOUT.= "<div class='row'><div class='col-md-12'><table class='table table-bordered'>
 	<tr><td class='colhead'>{$lang['allagents_client']}</td><td class='colhead'>{$lang['allagents_peerid']}</td></tr>";
 while ($arr = $res->fetch_assoc()) {

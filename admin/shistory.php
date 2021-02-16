@@ -35,9 +35,9 @@ $HTMLOUT = '';
 // //////////////////////
 $count1 = get_row_count('shoutbox', "WHERE staff_shout='no'");
 $perpage = (int)$CURUSER['postsperpage'];;
-if (!$perpage) $perpage = 15;
+if ($perpage === 0) $perpage = 15;
 $pager = pager($perpage, $count1, 'staffpanel.php?tool=shistory&amp;');
-$res = sql_query("SELECT s.id, s.userid, s.date , s.text, s.to_user, u.username, u.pirate, u.king, u.enabled, u.class, u.donor, u.warned, u.leechwarn, u.chatpost FROM shoutbox as s LEFT JOIN users as u ON s.userid=u.id WHERE staff_shout='no' AND (to_user ={$CURUSER['id']} OR userid ={$CURUSER['id']} OR to_user =0) ORDER BY s.date DESC " . $pager['limit']) or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT s.id, s.userid, s.date , s.text, s.to_user, u.username, u.pirate, u.king, u.enabled, u.class, u.donor, u.warned, u.leechwarn, u.chatpost FROM shoutbox as s LEFT JOIN users as u ON s.userid=u.id WHERE staff_shout='no' AND (to_user ={$CURUSER['id']} OR userid ={$CURUSER['id']} OR to_user =0) ORDER BY s.date DESC " . $pager['limit'])) || sqlerr(__FILE__, __LINE__);
 if ($count1 > $perpage) $HTMLOUT.= $pager['pagertop']."<br>";
 $HTMLOUT.= "<div class='row'><div class='col-md-12'>";
 if ($res->num_rows == 0) $HTMLOUT.= $lang['shistory_none'];

@@ -25,7 +25,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     echo $HTMLOUT;
     exit();
 }
-$res = sql_query('SELECT
+($res = sql_query('SELECT
 					 COUNT(p.id) AS post_count
 				FROM posts AS p
 				LEFT JOIN topics AS t ON t.id = p.topic_id 
@@ -33,7 +33,7 @@ $res = sql_query('SELECT
 				WHERE 
 					p.added > '.TIME_NOW.' - 86400 
 				AND 
-					f.min_class_read <= '.sqlesc($CURUSER['class'])) or sqlerr(__FILE__, __LINE__);
+					f.min_class_read <= '.sqlesc($CURUSER['class']))) || sqlerr(__FILE__, __LINE__);
 $arr = $res->fetch_assoc();
 $res->free();
 $mysqli->next_result();
@@ -70,14 +70,14 @@ $HTMLOUT .= "<div class='container'>
 						<div class='divTableCell'>Author</div>
 						<div class='divTableCell'>Posted At</div>
 				</div>";
-                $res = sql_query('SELECT p.id AS pid, p.topic_id, p.user_id AS userpost, p.added, t.id AS tid, t.topic_name, t.forum_id, t.last_post, t.views, f.name, f.min_class_read, f.topic_count, u.username ' .
+                ($res = sql_query('SELECT p.id AS pid, p.topic_id, p.user_id AS userpost, p.added, t.id AS tid, t.topic_name, t.forum_id, t.last_post, t.views, f.name, f.min_class_read, f.topic_count, u.username ' .
                        'FROM posts AS p ' .
                        'LEFT JOIN topics AS t ON t.id = p.topic_id ' .
                        'LEFT JOIN forums AS f ON f.id = t.forum_id ' .
                        'LEFT JOIN users AS u ON u.id = p.user_id ' .
                        'LEFT JOIN users AS topicposter ON topicposter.id = t.user_id ' .
                        'WHERE p.added > ' . TIME_NOW . ' - 86400 AND f.min_class_read <= ' . sqlesc($CURUSER['class']) . ' ' .
-                       'ORDER BY p.added DESC ' . $pager["limit"]) or sqlerr(__FILE__, __LINE__);
+                       'ORDER BY p.added DESC ' . $pager["limit"])) || sqlerr(__FILE__, __LINE__);
                        while ($getdaily = $res->fetch_assoc()) {
                         $postid = (int)$getdaily['pid'];
                         $posterid = (int)$getdaily['userpost'];
@@ -89,7 +89,7 @@ $HTMLOUT .= "<div class='container'>
                             </div>
                             <div class='divTableCell'>". number_format($getdaily['views'])."</div>
                             <div class='divTableCell'>
-                                " . (!empty($getdaily['username']) ? "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".$posterid."'>".htmlsafechars($getdaily['username'])."</a>" : "<b>unknown[".$posterid."]</b>") . "
+                                " . (empty($getdaily['username']) ? "<b>unknown[".$posterid."]</b>" : "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".$posterid."'>".htmlsafechars($getdaily['username'])."</a>") . "
                             </div>
                             <div class='divTableCell'>" . get_date($getdaily['added'], 'LONG',1,0) . "</div>
                         </div>

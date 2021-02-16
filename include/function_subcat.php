@@ -102,8 +102,7 @@ function subcategories_table($cats, $wherecatina = array(), $linkpage = '', $nca
         else
             $html .= "<td class=\"one\">&nbsp;</td>";
     }
-    $html .= "</tr></tbody></table></div>";
-    return $html;
+    return $html . "</tr></tbody></table></div>";
 }
 
 function validsubcat($subcatid, $cats)

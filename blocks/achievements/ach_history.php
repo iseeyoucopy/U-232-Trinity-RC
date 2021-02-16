@@ -10,7 +10,7 @@ $HTMLOUT.= "<div class='card'>
 						</tr>
 					</thead>
 					";
-$res = sql_query("SELECT * FROM achievements WHERE userid=" . sqlesc($id) . " ORDER BY date DESC {$pager['limit']}") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT * FROM achievements WHERE userid=" . sqlesc($id) . " ORDER BY date DESC {$pager['limit']}")) || sqlerr(__FILE__, __LINE__);
 while ($arr = $res->fetch_assoc()) {
     $HTMLOUT.= "
 						<tr>

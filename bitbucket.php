@@ -59,7 +59,7 @@ if (!isset($_FILES['file'])) {
         $getfile = htmlsafechars($_GET['delete']);
         $delfile = urldecode(encrypt_decrypt('decrypt', $getfile));
         $delhash = t_Hash($delfile, $USERSALT, $SaLt);
-		
+
         if ($delhash != $_GET['delhash']) stderr($lang['bitbucket_umm'], "{$lang['bitbucket_wayd']}");
         //$myfile = ROOT_DIR . '/' . $delfile; //== for pdq define directories
         //$myfile = '/home/yourdir/public_html/'.$delfile; // Full relative path to web root
@@ -68,17 +68,17 @@ if (!isset($_FILES['file'])) {
         //if (is_file($myfile))
         unlink($myfile);
         else stderr($lang['bitbucket_hey'], "{$lang['bitbucket_imagenf']}");
-        $folder_m = (!isset($_GET['month']) ? '&month='.date('m') : '&month='.(int)$_GET['month']);
-        $yea = (!isset($_GET['year']) ? '&year='.date('Y') : '&year='.(int)$_GET['year']);
+        $folder_m = (isset($_GET['month']) ? '&month='.(int)$_GET['month'] : '&month='.date('m'));
+        $yea = (isset($_GET['year']) ? '&year='.(int)$_GET['year'] : '&year='.date('Y'));
         if (isset($_GET["type"]) && $_GET["type"] == 2) header("Refresh: 2; url={$TRINITY20['baseurl']}/bitbucket.php?images=2");
         else header("Refresh: 2; url={$TRINITY20['baseurl']}/bitbucket.php?images=1".$yea.$folder_m);
         die($lang['bitbucket_deleting'] . $delfile . $lang['bitbucket_redir']);
     }
-    if (isset($_GET["avatar"]) && $_GET["avatar"] != '' && (($_GET["avatar"]) != $CURUSER["avatar"])) {
+    if (isset($_GET["avatar"]) && $_GET["avatar"] != '' && ($_GET["avatar"] != $CURUSER["avatar"])) {
         $type = ((isset($_GET["type"]) && $_GET["type"] == 1) ? 1 : 2);
-        if (preg_match("/^http:\/\/$/i", $_GET["avatar"]) OR preg_match("/[?&;]/", $_GET["avatar"]) OR preg_match("#javascript:#is", $_GET["avatar"]) OR !preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\-!]+)$#iU", $_GET["avatar"])) stderr($lang['bitbucket_error'], "{$lang['bitbucket_mustbe']}");
+        if (preg_match("/^http:\/\/$/i", $_GET["avatar"]) || preg_match("/[?&;]/", $_GET["avatar"]) || preg_match("#javascript:#is", $_GET["avatar"]) || !preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\-!]+)$#iU", $_GET["avatar"])) stderr($lang['bitbucket_error'], "{$lang['bitbucket_mustbe']}");
         $avatar = sqlesc($_GET['avatar']);
-        sql_query("UPDATE users SET avatar = $avatar WHERE id = {$CURUSER['id']}") or sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE users SET avatar = $avatar WHERE id = {$CURUSER['id']}") || sqlerr(__FILE__, __LINE__);
         $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
             'avatar' => $_GET['avatar']
         ], $TRINITY20['expires']['curuser']);
@@ -93,7 +93,7 @@ if (!isset($_FILES['file'])) {
     $HTMLOUT.= "<form action=\"".$_SERVER['PHP_SELF']."\" method=\"post\" enctype=\"multipart/form-data\">
 <table width=\"300\" align=\"center\">
 <tr>
-<td class=\"clearalt6\" align=\"center\"><p><b>{$lang['bitbucket_invalid_extension']}".join(', ', $formats)."</b></p>
+<td class=\"clearalt6\" align=\"center\"><p><b>{$lang['bitbucket_invalid_extension']}".implode(', ', $formats)."</b></p>
 <p><b>{$lang['bitbucket_max']}".mksize($maxsize)."</b></p>
 <p>{$lang['bitbucket_disclaimer']}</p></td>
 </tr>
@@ -116,8 +116,8 @@ document.getElementById(id).select();
 /*]]>*/
 </script>";
     if (isset($_GET['images']) && $_GET['images'] == 1) {
-        $folder_month = (!isset($_GET['month']) ? date('m') : ($_GET['month'] < 10 ? '0' : '').(int)$_GET['month']);
-        $year = (!isset($_GET['year']) ? '&amp;year='.date('Y') : '&amp;year='.(int)$_GET['year']);
+        $folder_month = (isset($_GET['month']) ? ($_GET['month'] < 10 ? '0' : '').(int)$_GET['month'] : date('m'));
+        $year = (isset($_GET['year']) ? '&amp;year='.(int)$_GET['year'] : '&amp;year='.date('Y'));
         $HTMLOUT.= '<p align="center"><a href="bitbucket.php?images=2">' . $lang['bitbucket_viewmya'] . '</a></p>
 <p align="center"><a href="bitbucket.php">' . $lang['bitbucket_hideimgs'] . '</a></p>
 <p align="center"><b>' . $lang['bitbucket_previosimg'] . '</b><br />
@@ -143,8 +143,8 @@ document.getElementById(id).select();
 <p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?images=2\">{$lang['bitbucket_viewmya']}</a></p>";
     }
     if (isset($_GET['images'])) {
-        $folder_month = (!isset($_GET['month']) ? date('m') : ($_GET['month'] < 10 ? '0' : '').(int)$_GET['month']);
-        $folder_name = (!isset($_GET['year']) ? date('Y').'/' : (int)$_GET['year'].'/').$folder_month;
+        $folder_month = (isset($_GET['month']) ? ($_GET['month'] < 10 ? '0' : '').(int)$_GET['month'] : date('m'));
+        $folder_name = (isset($_GET['year']) ? (int)$_GET['year'].'/' : date('Y').'/').$folder_month;
         $bucketlink2 = ((isset($_POST["avy"]) || (isset($_GET['images']) && $_GET['images'] == 2)) ? 'avatars/' : $folder_name.'/');
         foreach ((array)glob(($_GET['images'] == 2 ? AVATAR_DIR.'/'.$USERSALT : BITBUCKET_DIR.'/'.$folder_name.'/'.$USERSALT).'_*') as $filename) {
             if (!empty($filename)) {
@@ -156,7 +156,7 @@ document.getElementById(id).select();
                 $HTMLOUT.= "<p>{$lang['bitbucket_directlink']}<br /><input style=\"font-size: 9pt;text-align: center;\" id=\"d".$eid."d\" onclick=\"SelectAll('d".$eid."d');\" type=\"text\" size=\"70\" value=\"{$address}img.php/{$filename}\" readonly=\"readonly\" /></p>";
                 $HTMLOUT.= "<p align=\"center\">{$lang['bitbucket_tags']}<br /><input style=\"font-size: 9pt;text-align: center;\" id=\"t".$eid."t\" onclick=\"SelectAll('t".$eid."t');\" type=\"text\" size=\"70\" value=\"[img]{$address}img.php/{$filename}[/img]\" readonly=\"readonly\" /></p>";
                 $HTMLOUT.= "<p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?type=".((isset($_GET['images']) && $_GET['images'] == 2) ? '2' : '1')."&amp;avatar={$address}img.php/{$filename}\">{$lang['bitbucket_maketma']}</a></p>";
-                $HTMLOUT.= "<p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?type=".((isset($_GET['images']) && $_GET['images'] == 2) ? '2' : '1')."&amp;delete=".$encryptedfilename."&amp;delhash=".t_Hash($filename, $USERSALT, $SaLt)."&amp;month=".(!isset($_GET['month']) ? date('m') : ($_GET['month'] < 10 ? '0' : '').(int)$_GET['month'])."&amp;year=".(!isset($_GET['year']) ? date('Y') : (int)$_GET['year'])."\">{$lang['bitbucket_delete']}</a></p><br />";
+                $HTMLOUT.= "<p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?type=".((isset($_GET['images']) && $_GET['images'] == 2) ? '2' : '1')."&amp;delete=".$encryptedfilename."&amp;delhash=".t_Hash($filename, $USERSALT, $SaLt)."&amp;month=".(isset($_GET['month']) ? ($_GET['month'] < 10 ? '0' : '').(int)$_GET['month'] : date('m'))."&amp;year=".(isset($_GET['year']) ? (int)$_GET['year'] : date('Y'))."\">{$lang['bitbucket_delete']}</a></p><br />";
             } else $HTMLOUT.= "{$lang['bitbucket_noimages']}";
         }
     }
@@ -167,7 +167,7 @@ if ($_FILES['file']['size'] == 0) stderr($lang['bitbucket_error'], $lang['bitbuc
 if ($_FILES['file']['size'] > $maxsize) stderr($lang['bitbucket_error'], $lang['bitbucket_to_large']);
 $file = preg_replace('`[^a-z0-9\-\_\.]`i', '', $_FILES['file']['name']);
 
-if (false === in_array('.'.pathinfo($file, PATHINFO_EXTENSION), $formats)) stderr($lang['bitbucket_err'], $lang['bitbucket_invalid']);
+if (!in_array('.'.pathinfo($file, PATHINFO_EXTENSION), $formats)) stderr($lang['bitbucket_err'], $lang['bitbucket_invalid']);
 if (!function_exists('exif_imagetype')) {
     function exif_imagetype($filename)
     {
@@ -242,10 +242,10 @@ function encrypt_decrypt($action, $string)
         $key = h_store($secret_key);    
         // iv - encrypt method AES-256-CBC expects 16 bytes 
         $iv = substr(h_store($secret_iv), 0, 16);
-        if ( $action == 'encrypt' ) {
+        if ($action == 'encrypt') {
             $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
             $output = base64_encode($output);
-        } else if( $action == 'decrypt' ) {
+        } elseif ($action == 'decrypt') {
             $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
         }
         return $output;

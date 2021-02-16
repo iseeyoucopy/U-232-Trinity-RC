@@ -35,15 +35,15 @@ $HTMLOUT = "";
 if (isset($_POST["nowarned"]) && $_POST["nowarned"] == "nowarned") {
     if (empty($_POST["desact"]) && empty($_POST["remove"])) stderr($lang['cheaters_err'], $lang['cheaters_seluser']);
     if (!empty($_POST["remove"])) {
-        sql_query("DELETE FROM cheaters WHERE id IN (" . implode(", ", array_map("sqlesc", $_POST["remove"])) . ")") or sqlerr(__FILE__, __LINE__);
+        sql_query("DELETE FROM cheaters WHERE id IN (" . implode(", ", array_map("sqlesc", $_POST["remove"])) . ")") || sqlerr(__FILE__, __LINE__);
     }
     if (!empty($_POST["desact"])) {
-        sql_query("UPDATE users SET enabled = 'no' WHERE id IN (" . implode(", ", array_map("sqlesc", $_POST["desact"])) . ")") or sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE users SET enabled = 'no' WHERE id IN (" . implode(", ", array_map("sqlesc", $_POST["desact"])) . ")") || sqlerr(__FILE__, __LINE__);
     }
 }
 $HTMLOUT.= "<div class='row'><div class='col-md-12'>";
 $HTMLOUT.= "<h2>{$lang['cheaters_users']}</h2>";
-$res = sql_query("SELECT COUNT(*) FROM cheaters") or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT COUNT(*) FROM cheaters")) || sqlerr(__FILE__, __LINE__);
 $row = $res->fetch_array(MYSQLI_BOTH);
 $count = $row[0];
 $perpage = 15;
@@ -93,7 +93,7 @@ $HTMLOUT.= "<table class='table table-bordered'>
 <td>{$lang['cheaters_uname']}</td>
 <td>{$lang['cheaters_d']}</td>
 <td>{$lang['cheaters_r']}</td></tr>\n";
-$res = sql_query("SELECT c.id as cid, c.added, c.userid, c.torrentid, c.client, c.rate, c.beforeup, c.upthis, c.timediff, c.userip, u.id, u.username, u.class, u.downloaded, u.uploaded, u.chatpost, u.leechwarn, u.warned, u.pirate, u.king, u.donor, u.enabled, t.id AS tid, t.name AS tname FROM cheaters AS c LEFT JOIN users AS u ON u.id=c.userid LEFT JOIN torrents AS t ON t.id=c.torrentid ORDER BY added DESC " . $pager['limit']) or sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT c.id as cid, c.added, c.userid, c.torrentid, c.client, c.rate, c.beforeup, c.upthis, c.timediff, c.userip, u.id, u.username, u.class, u.downloaded, u.uploaded, u.chatpost, u.leechwarn, u.warned, u.pirate, u.king, u.donor, u.enabled, t.id AS tid, t.name AS tname FROM cheaters AS c LEFT JOIN users AS u ON u.id=c.userid LEFT JOIN torrents AS t ON t.id=c.torrentid ORDER BY added DESC " . $pager['limit'])) || sqlerr(__FILE__, __LINE__);
 while ($arr = $res->fetch_assoc()) {
     $torrname = htmlsafechars(CutName($arr["tname"], 80));
     $users = $arr;

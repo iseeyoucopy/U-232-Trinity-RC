@@ -54,7 +54,7 @@ if ($action == "app" || $action == "show") {
         $where = "WHERE status = 'pending'";
         $where1 = "WHERE uploadapp.status = 'pending'";
     }
-    $res = sql_query("SELECT COUNT(id) FROM uploadapp $where") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT COUNT(id) FROM uploadapp $where")) || sqlerr(__FILE__, __LINE__);
     $row = $res->fetch_row();
     $count = $row[0];
     $perpage = 15;
@@ -85,7 +85,7 @@ if ($action == "app" || $action == "show") {
         <td class='colhead' align='left'>{$lang['uploadapps_status']}</td>
         <td class='colhead' align='left'>{$lang['uploadapps_delete']}</td>
         </tr>\n";
-        $res = sql_query("SELECT uploadapp.*, users.id AS uid, users.username, users.class, users.added, users.uploaded, users.downloaded FROM uploadapp INNER JOIN users on uploadapp.userid = users.id $where1 " . $pager['limit']) or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query("SELECT uploadapp.*, users.id AS uid, users.username, users.class, users.added, users.uploaded, users.downloaded FROM uploadapp INNER JOIN users on uploadapp.userid = users.id $where1 " . $pager['limit'])) || sqlerr(__FILE__, __LINE__);
         while ($arr = $res->fetch_assoc()) {
             if ($arr["status"] == "accepted") {
                 $status = "<font color='green'>{$lang['uploadapps_accepted']}</font>";
@@ -119,7 +119,7 @@ if ($action == "app" || $action == "show") {
 //== View application
 if ($action == "viewapp") {
     $id = (int) $_GET["id"];
-    $res = sql_query("SELECT uploadapp.*, users.id AS uid, users.username, users.class, users.added, users.uploaded, users.downloaded FROM uploadapp INNER JOIN users on uploadapp.userid = users.id WHERE uploadapp.id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT uploadapp.*, users.id AS uid, users.username, users.class, users.added, users.uploaded, users.downloaded FROM uploadapp INNER JOIN users on uploadapp.userid = users.id WHERE uploadapp.id=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
     $membertime = get_date($arr['added'], '', 0, 1);
     $elapsed = get_date($arr['applied'], '', 0, 1);
@@ -179,7 +179,7 @@ if ($action == "acceptapp") {
     if (!is_valid_id($id)) {
         stderr($lang['uploadapps_error'], $lang['uploadapps_noid']);
     }
-    $res = sql_query("SELECT uploadapp.id, users.username, users.modcomment, users.id AS uid FROM uploadapp INNER JOIN users on uploadapp.userid = users.id WHERE uploadapp.id = $id") or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT uploadapp.id, users.username, users.modcomment, users.id AS uid FROM uploadapp INNER JOIN users on uploadapp.userid = users.id WHERE uploadapp.id = $id")) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
     $note = htmlsafechars($_POST["note"]);
     $subject = sqlesc($lang['uploadapps_subject']);
@@ -187,8 +187,8 @@ if ($action == "acceptapp") {
     $msg1 = sqlesc("{$lang['uploadapps_msg_user']} [url={$TRINITY20['baseurl']}/userdetails.php?id=" . (int) $arr['uid'] . "][b]{$arr['username']}[/b][/url] {$lang['uploadapps_msg_been']} {$CURUSER['username']}.");
     $modcomment = get_date(TIME_NOW, 'DATE', 1) . $lang['uploadapps_modcomment'] . $CURUSER["username"] . "." . ($arr["modcomment"] != "" ? "\n" : "") . "{$arr['modcomment']}";
     $dt = TIME_NOW;
-    sql_query("UPDATE uploadapp SET status = 'accepted', comment = " . sqlesc($note) . ", moderator = " . sqlesc($CURUSER["username"]) . " WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    sql_query("UPDATE users SET class = " . UC_UPLOADER . ", modcomment = " . sqlesc($modcomment) . " WHERE id=" . sqlesc($arr['uid']) . " AND class < " . UC_STAFF) or sqlerr(__FILE__, __LINE__);
+    sql_query("UPDATE uploadapp SET status = 'accepted', comment = " . sqlesc($note) . ", moderator = " . sqlesc($CURUSER["username"]) . " WHERE id=" . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
+    sql_query("UPDATE users SET class = " . UC_UPLOADER . ", modcomment = " . sqlesc($modcomment) . " WHERE id=" . sqlesc($arr['uid']) . " AND class < " . UC_STAFF) || sqlerr(__FILE__, __LINE__);
     $cache->update_row($keys['my_userid'] . $arr['uid'], [
         'class' => 3
     ], $TRINITY20['expires']['curuser']);
@@ -198,12 +198,12 @@ if ($action == "acceptapp") {
     $cache->update_row('user' . $arr['uid'], [
         'class' => 3
     ], $TRINITY20['expires']['user_cache']);
-    sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, " . sqlesc($arr['uid']) . ", $dt, $msg, $subject, 0)") or sqlerr(__FILE__, __LINE__);
+    sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, " . sqlesc($arr['uid']) . ", $dt, $msg, $subject, 0)") || sqlerr(__FILE__, __LINE__);
     $cache->delete('inbox_new::' . $arr['uid']);
     $cache->delete('inbox_new_sb::' . $arr['uid']);
-    $subres = sql_query("SELECT id FROM users WHERE class >= " . UC_STAFF) or sqlerr(__FILE__, __LINE__);
+    ($subres = sql_query("SELECT id FROM users WHERE class >= " . UC_STAFF)) || sqlerr(__FILE__, __LINE__);
     while ($subarr = $subres->fetch_assoc()) {
-        sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, " . sqlesc($subarr['id']) . ", $dt, $msg1, $subject, 0)") or sqlerr(__FILE__, __LINE__);
+        sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, " . sqlesc($subarr['id']) . ", $dt, $msg1, $subject, 0)") || sqlerr(__FILE__, __LINE__);
     }
     $cache->delete('inbox_new::' . $subarr['id']);
     $cache->delete('inbox_new_sb::' . $subarr['id']);
@@ -216,14 +216,14 @@ if ($action == "rejectapp") {
     if (!is_valid_id($id)) {
         stderr($lang['uploadapps_error'], $lang['uploadapps_no_up']);
     }
-    $res = sql_query("SELECT uploadapp.id, users.id AS uid FROM uploadapp INNER JOIN users on uploadapp.userid = users.id WHERE uploadapp.id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT uploadapp.id, users.id AS uid FROM uploadapp INNER JOIN users on uploadapp.userid = users.id WHERE uploadapp.id=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
     $reason = htmlsafechars($_POST["reason"]);
     $subject = sqlesc($lang['uploadapps_subject']);
     $msg = sqlesc("{$lang['uploadapps_rej_no']}\n\n{$lang['uploadapps_rej_reason']} $reason");
     $dt = TIME_NOW;
-    sql_query("UPDATE uploadapp SET status = 'rejected', comment = " . sqlesc($reason) . ", moderator = " . sqlesc($CURUSER["username"]) . " WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
-    sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, {$arr['uid']}, $dt, $msg, $subject, 0)") or sqlerr(__FILE__, __LINE__);
+    sql_query("UPDATE uploadapp SET status = 'rejected', comment = " . sqlesc($reason) . ", moderator = " . sqlesc($CURUSER["username"]) . " WHERE id=" . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
+    sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, {$arr['uid']}, $dt, $msg, $subject, 0)") || sqlerr(__FILE__, __LINE__);
     $cache->delete('new_uploadapp_');
     stderr($lang['uploadapps_app_rej'], "{$lang['uploadapps_app_rejbeen']} {$lang['uploadapps_app_click']} <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=uploadapps&amp;action=app'><b>{$lang['uploadapps_app_here']}</b></a>{$lang['uploadapps_app_return']}");
 }
@@ -232,7 +232,7 @@ if ($action == "takeappdelete") {
     if (empty($_POST['deleteapp'])) {
         stderr($lang['uploadapps_silly'], $lang['uploadapps_twix']);
     } else {
-        sql_query("DELETE FROM uploadapp WHERE id IN (" . join(",", $_POST['deleteapp']) . ") ") or sqlerr(__FILE__, __LINE__);
+        sql_query("DELETE FROM uploadapp WHERE id IN (" . implode(",", $_POST['deleteapp']) . ") ") || sqlerr(__FILE__, __LINE__);
         $cache->delete('new_uploadapp_');
         stderr($lang['uploadapps_deleted'], "{$lang['uploadapps_deletedsuc']} {$lang['uploadapps_app_click']} <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=uploadapps&amp;action=app'><b>{$lang['uploadapps_app_here']}</b></a>{$lang['uploadapps_app_return']}");
     }

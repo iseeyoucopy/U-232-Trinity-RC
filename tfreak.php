@@ -29,8 +29,7 @@ function rsstfreakinfo() {
     }
     $html = str_replace(array('“','”'), '"', $html);
     $html = str_replace(array("’","‘", "‘"), "'", $html);
-    $html = str_replace("–", "-", $html);
     //$html.='';
-    return $html;
+    return str_replace("–", "-", $html);
 }
 ?>

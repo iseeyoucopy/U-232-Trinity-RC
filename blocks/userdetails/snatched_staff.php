@@ -45,15 +45,15 @@ function snatchtable_staff($res)
             case ($dl_speed > 600):
                 $dlc = 'red';
                 break;
-            
+
             case ($dl_speed > 300):
                 $dlc = 'orange';
                 break;
-            
+
             case ($dl_speed > 200):
                 $dlc = 'yellow';
                 break;
-            
+
             case ($dl_speed < 100):
                 $dlc = 'Chartreuse';
                 break;
@@ -61,9 +61,9 @@ function snatchtable_staff($res)
         if ($arr["downloaded"] > 0) {
             $ratio = number_format($arr["uploaded"] / $arr["downloaded"], 3);
             $ratio = "<font color='" . get_ratio_color($ratio) . "'><b>{$lang['userdetails_s_ratio']}</b><br />$ratio</font>";
-        } else if ($arr["uploaded"] > 0)
+        } elseif ($arr["uploaded"] > 0) {
             $ratio = $lang['userdetails_inf'];
-        else
+        } else
             $ratio = "N/A";
         if (XBT_TRACKER === false) {
             $htmlout_snatch .= "<tr>
@@ -76,22 +76,16 @@ function snatchtable_staff($res)
     <td align='center' class='$class'>{$lang['userdetails_s_seed']}" . (int) $arr['seeders'] . "<br />{$lang['userdetails_s_leech']}" . (int) $arr['leechers'] . "</td><td align='center' class='$class'><font color='lightgreen'>{$lang['userdetails_s_upld']}<br /><b>" . mksize($arr["uploaded"]) . "</b></font>" . ($TRINITY20['ratio_free'] ? "" : "<br /><font color='orange'>{$lang['userdetails_s_dld']}<br /><b>" . mksize($arr["downloaded"]) . "</b></font>") . "</td><td align='center' class='$class'>" . mksize($arr["size"]) . "" . ($TRINITY20['ratio_free'] ? "" : "<br />{$lang['userdetails_s_diff']}<br /><font color='orange'><b>" . mksize($arr['size'] - $arr["downloaded"]) . "</b></font>") . "</td><td align='center' class='$class'>" . $ratio . "<br />" . ($arr['active'] == 1 ? "<font color='lightgreen'><b>{$lang['userdetails_s_seeding']}</b></font>" : "<font color='red'><b>{$lang['userdetails_s_nseeding']}</b></font>") . "</td><td align='center' class='$class'>" . htmlsafechars($arr["peer_id"]) . "<br />" . ($arr["connectable"] == 1 ? "<b>{$lang['userdetails_s_conn']}</b> <font color='lightgreen'>{$lang['userdetails_yes']}</font>" : "<b>{$lang['userdetails_s_conn']}</b> <font color='red'><b>{$lang['userdetails_no']}</b></font>") . "</td></tr>\n";
         }
     }
-    $htmlout_snatch .= "</table>\n";
-    return $htmlout_snatch;
+    return $htmlout_snatch . "</table>\n";
 }
 if ($CURUSER['class'] >= UC_STAFF) {
     if (XBT_TRACKER === false) {
-        $res = sql_query("SELECT sn.start_date AS s, sn.complete_date AS c, sn.last_action AS l_a, sn.seedtime AS s_t, sn.seedtime, sn.leechtime AS l_t, sn.leechtime, sn.downspeed, sn.upspeed, sn.uploaded, sn.downloaded, sn.torrentid, sn.start_date, sn.complete_date, sn.seeder, sn.last_action, sn.connectable, sn.agent, sn.seedtime, sn.port, cat.name, cat.image, t.size, t.seeders, t.leechers, t.owner, t.name AS torrent_name " . "FROM snatched AS sn " . "LEFT JOIN torrents AS t ON t.id = sn.torrentid " . "LEFT JOIN categories AS cat ON cat.id = t.category " . "WHERE sn.userid=" . sqlesc($id) . " AND sn.torrentid IN (SELECT id FROM torrents) ORDER BY sn.start_date DESC") or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query("SELECT sn.start_date AS s, sn.complete_date AS c, sn.last_action AS l_a, sn.seedtime AS s_t, sn.seedtime, sn.leechtime AS l_t, sn.leechtime, sn.downspeed, sn.upspeed, sn.uploaded, sn.downloaded, sn.torrentid, sn.start_date, sn.complete_date, sn.seeder, sn.last_action, sn.connectable, sn.agent, sn.seedtime, sn.port, cat.name, cat.image, t.size, t.seeders, t.leechers, t.owner, t.name AS torrent_name " . "FROM snatched AS sn " . "LEFT JOIN torrents AS t ON t.id = sn.torrentid " . "LEFT JOIN categories AS cat ON cat.id = t.category " . "WHERE sn.userid=" . sqlesc($id) . " AND sn.torrentid IN (SELECT id FROM torrents) ORDER BY sn.start_date DESC")) || sqlerr(__FILE__, __LINE__);
     } else {
-        $res = sql_query("SELECT x.started AS s, x.completedtime AS c, x.mtime AS l_a, x.seedtime AS s_t, x.seedtime, x.leechtime AS l_t, x.leechtime, x.downspeed, x.upspeed, x.uploaded, x.downloaded, x.tid, x.started, x.completedtime, x.active, x.mtime, x.connectable, x.peer_id, cat.name, cat.image, t.size, t.seeders, t.leechers, t.owner, t.name AS torrent_name " . "FROM xbt_peers AS x " . "LEFT JOIN torrents AS t ON t.id = x.tid " . "LEFT JOIN categories AS cat ON cat.id = t.category " . "WHERE x.uid=" . sqlesc($id) . " AND x.tid IN (SELECT id FROM torrents) ORDER BY x.started DESC") or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query("SELECT x.started AS s, x.completedtime AS c, x.mtime AS l_a, x.seedtime AS s_t, x.seedtime, x.leechtime AS l_t, x.leechtime, x.downspeed, x.upspeed, x.uploaded, x.downloaded, x.tid, x.started, x.completedtime, x.active, x.mtime, x.connectable, x.peer_id, cat.name, cat.image, t.size, t.seeders, t.leechers, t.owner, t.name AS torrent_name " . "FROM xbt_peers AS x " . "LEFT JOIN torrents AS t ON t.id = x.tid " . "LEFT JOIN categories AS cat ON cat.id = t.category " . "WHERE x.uid=" . sqlesc($id) . " AND x.tid IN (SELECT id FROM torrents) ORDER BY x.started DESC")) || sqlerr(__FILE__, __LINE__);
     }
     $count_snatched_staff = $res->num_rows;
-    if ($res->num_rows > 0) {
-        
-        $user_snatches_data_staff = snatchtable_staff($res);
-    } else {
-        $user_snatches_data_staff = $lang['userdetails_s_nothing'];
-    }
+    $user_snatches_data_staff = $res->num_rows > 0 ? snatchtable_staff($res) : $lang['userdetails_s_nothing'];
     if (!isset($user_snatches_data_staff)) 
     $HTMLOUT .= "<tr>
     <td>{$lang['userdetails_snatched']} of {$count_snatched_staff}<br />

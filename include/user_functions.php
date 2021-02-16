@@ -28,14 +28,14 @@ function autoshout($msg)
 {
     global $TRINITY20, $cache, $keys;
     require_once (INCL_DIR . 'bbcode_functions.php');
-	sql_query('INSERT INTO ajax_chat_messages(userID,userName,userRole,channel,dateTime,ip,text) VALUES (' . $TRINITY20['bot_id'] . ',' . sqlesc($TRINITY20['bot_name']) . ',' . $TRINITY20['bot_role'] . ',"3",' . sqlesc(TIME_DATE) . ',' . sqlesc($_SERVER['REMOTE_ADDR']) . ',' . sqlesc($msg) . ')')  or sqlerr(__FILE__, __LINE__);
+	sql_query('INSERT INTO ajax_chat_messages(userID,userName,userRole,channel,dateTime,ip,text) VALUES (' . $TRINITY20['bot_id'] . ',' . sqlesc($TRINITY20['bot_name']) . ',' . $TRINITY20['bot_role'] . ',"3",' . sqlesc(TIME_DATE) . ',' . sqlesc($_SERVER['REMOTE_ADDR']) . ',' . sqlesc($msg) . ')') || sqlerr(__FILE__, __LINE__);
     $cache->delete($keys['auto_shoutbox']);
 }
 function shout2($msg,$tid)
 {
     global $TRINITY20, $cache, $keys;
     require_once (INCL_DIR . 'bbcode_functions.php');
-	sql_query('INSERT INTO ajax_chat_messages(userID,userName,userRole,channel,dateTime,ip,text) VALUES (' . $TRINITY20['bot_id'] . ',' . sqlesc($TRINITY20['bot_name']) . ',' . $TRINITY20['bot_role'] . ',"2",' . sqlesc(TIME_DATE) . ',' . sqlesc($_SERVER['REMOTE_ADDR']) . ',' . sqlesc($msg) . ',' . sqlesc($tid) . ')')  or sqlerr(__FILE__, __LINE__);
+	sql_query('INSERT INTO ajax_chat_messages(userID,userName,userRole,channel,dateTime,ip,text) VALUES (' . $TRINITY20['bot_id'] . ',' . sqlesc($TRINITY20['bot_name']) . ',' . $TRINITY20['bot_role'] . ',"2",' . sqlesc(TIME_DATE) . ',' . sqlesc($_SERVER['REMOTE_ADDR']) . ',' . sqlesc($msg) . ',' . sqlesc($tid) . ')') || sqlerr(__FILE__, __LINE__);
     $cache->delete($keys['auto_shoutbox']);
 }
 //== Parked function ==//
@@ -43,7 +43,7 @@ function parked()
 {
     require_once (CLASS_DIR . 'class_user_options.php');
     global $CURUSER;
-    if (isset($CURUSER['opt1']) & user_options::PARKED) stderr("Error", "<b>Your account is currently parked.</b>");
+    if ((isset($CURUSER['opt1']) & user_options::PARKED) !== 0) stderr("Error", "<b>Your account is currently parked.</b>");
 }
 //== Reputation function==//
 function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
@@ -109,7 +109,7 @@ function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
         default:
             $pips = 5; // statusbar
         }
-        $rep_bar = intval($rep_power / 100);
+        $rep_bar = (int) ($rep_power / 100);
         if ($rep_bar > 10) {
             $rep_bar = 10;
         }
@@ -139,15 +139,16 @@ function write_staffs()
     //==ids
     $t = '$TRINITY20';
     $iconfigfile = "<" . "?php\n/**\nThis file created on " . date('M d Y H:i:s') . ".\nSite Config staff mod.\n**/\n";
-    $ri = sql_query("SELECT id, username, class FROM users WHERE class BETWEEN " . UC_STAFF . " AND " . UC_MAX . " ORDER BY id ASC") or sqlerr(__file__, __line__);
+    ($ri = sql_query("SELECT id, username, class FROM users WHERE class BETWEEN " . UC_STAFF . " AND " . UC_MAX . " ORDER BY id ASC")) || sqlerr(__file__, __line__);
     $iconfigfile.= "" . $t . "['allowed_staff']['id'] = array(";
     while ($ai = $ri->fetch_assoc()) {
         $ids[] = $ai['id'];
         $usernames[] = "'" . $ai["username"] . "' => 1";
     }
-    $iconfigfile.= "" . join(",", $ids);
+    $iconfigfile.= "" . implode(",", $ids);
     $iconfigfile.= ");";
-    $iconfigfile.= "\n?" . ">";
+    $iconfigfile.= '
+?>';
     $filenum = fopen('./cache/staff_settings.php', 'w');
     ftruncate($filenum, 0);
     fwrite($filenum, $iconfigfile);
@@ -156,9 +157,10 @@ function write_staffs()
     $t = '$TRINITY20';
     $nconfigfile = "<" . "?php\n/**\nThis file created on " . date('M d Y H:i:s') . ".\nSite Config staff mod.\n**/\n";
     $nconfigfile.= "" . $t . "['staff']['allowed'] = array(";
-    $nconfigfile.= "" . join(",", $usernames);
+    $nconfigfile.= "" . implode(",", $usernames);
     $nconfigfile.= ");";
-    $nconfigfile.= "\n?" . ">";
+    $nconfigfile.= '
+?>';
     $filenum1 = fopen('./cache/staff_settings2.php', 'w');
     ftruncate($filenum1, 0);
     fwrite($filenum1, $nconfigfile);
@@ -312,8 +314,7 @@ function format_username($user, $icons = true)
         $str.= ($user['pirate'] != 0 ? '<img src="' . $TRINITY20['pic_base_url'] . 'pirate.png" alt="Pirate" title="Pirate" />' : '');
         $str.= ($user['king'] != 0 ? '<img src="' . $TRINITY20['pic_base_url'] . 'king.png" alt="King" title="King" />' : '');
     }
-    $str.= "</span>\n";
-    return $str;
+    return $str . "</span>\n";
 }
 function is_valid_id($id)
 {
@@ -385,8 +386,7 @@ function avatar_stuff($avatar, $width = 80)
 function avatar_stuff($avatar, $width = 80)
 {
     global $CURUSER, $TRINITY20;
-    $avatar_show = ($CURUSER['avatars'] == 'no' ? '' : (!$avatar['avatar'] ? '<img style="max-width:'.$width.'px;" src="'.$TRINITY20['pic_base_url'].'default_avatar.gif" alt="avatar" />' : (($avatar['offensive_avatar'] === 'yes' && $CURUSER['view_offensive_avatar'] === 'no') ? '<img style="max-width:'.$width.'px;" src="'.$TRINITY20['pic_base_url'].'fuzzybunny.gif" alt="avatar" />' : '<img style="max-width:'.$width.'px;" src="'.htmlsafechars($avatar['avatar']).'" alt="avatar" />')));
-    return $avatar_show;
+    return $CURUSER['avatars'] == 'no' ? '' : ($avatar['avatar'] ? ($avatar['offensive_avatar'] === 'yes' && $CURUSER['view_offensive_avatar'] === 'no') ? '<img style="max-width:'.$width.'px;" src="'.$TRINITY20['pic_base_url'].'fuzzybunny.gif" alt="avatar" />' : '<img style="max-width:'.$width.'px;" src="'.htmlsafechars($avatar['avatar']).'" alt="avatar" />' : ('<img style="max-width:'.$width.'px;" src="'.$TRINITY20['pic_base_url'].'default_avatar.gif" alt="avatar" />'));
 }
 //=== added a function to get all user info and print them up with link to userdetails page, class color, user icons... pdq's idea \o/
 function print_user_stuff($arr)
@@ -400,8 +400,7 @@ function blacklist($fo)
 {
     global $TRINITY20;
     $blacklist = file_exists($TRINITY20['nameblacklist']) && is_array(unserialize(file_get_contents($TRINITY20['nameblacklist']))) ? unserialize(file_get_contents($TRINITY20['nameblacklist'])) : array();
-    if (isset($blacklist[$fo]) && $blacklist[$fo] == 1) return false;
-    return true;
+    return !(isset($blacklist[$fo]) && $blacklist[$fo] == 1);
 }
 function get_server_load($windows = 0)
 {
@@ -442,16 +441,14 @@ function get_cache_config_data($the_names,$the_colors,$the_images)
             global $TRINITY20;
             $file = $TRINITY20['cache']."/topicsmods.txt";
             $topics = file_exists($file) ? unserialize(file_get_contents($file)) : array();
-            if(!$read) {
-                    $topics[$id] = $utopics;
-                    return file_put_contents($file,serialize($topics)) ? true : false;
-            } else {
-            if(array_key_exists($id,$topics)) { 
-               return $topics[(int)$id]; 
-               } else { 
-           return 0; 
-          }
-        }
+            if (!$read) {
+                $topics[$id] = $utopics;
+                return (bool) file_put_contents($file,serialize($topics));
+            } elseif (array_key_exists($id,$topics)) {
+                return $topics[(int)$id];
+            } else { 
+        return 0; 
+       }
     } 
   function forummods($forced = false)
 {
@@ -459,7 +456,7 @@ function get_cache_config_data($the_names,$the_colors,$the_images)
                 $file = $TRINITY20['cache']."/forummods.txt";
 		if (!file_exists($file) || $forced == true)
 		{
-			$q = sql_query("SELECT id,username,forums_mod FROM users WHERE forum_mod = 'yes'") or sqlerr(__FILE__, __LINE__);
+			($q = sql_query("SELECT id,username,forums_mod FROM users WHERE forum_mod = 'yes'")) || sqlerr(__FILE__, __LINE__);
 			while($a = $q->fetch_assoc())
 				$users[] = $a;
 			$forums = array();

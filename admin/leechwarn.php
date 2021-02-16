@@ -55,14 +55,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $act = isset($_POST["action"]) && in_array($_POST["action"], $valid) ? $_POST["action"] : false;
     if (!$act) stderr($lang['leechwarn_stderror'], $lang['leechwarn_wrong']);
     if ($act == "delete") {
-        if (sql_query("DELETE FROM users WHERE id IN (" . join(",", $_uids) . ")")) {
+        if (sql_query("DELETE FROM users WHERE id IN (" . implode(",", $_uids) . ")")) {
             $c = $mysqli->affected_rows;
             header("Refresh: 2; url=" . $r);
             stderr($lang['leechwarn_success'], $c . $lang['leechwarn_user'] . ($c > 1 ? $lang['leechwarn_s'] : "") . $lang['leechwarn_deleted']);
         } else stderr($lang['leechwarn_stderror'], $lang['leechwarn_wrong2']);
     }
     if ($act == "disable") {
-        if (sql_query("UPDATE users set enabled='no', modcomment=CONCAT(" . sqlesc(get_date(TIME_NOW, 'DATE', 1) . $lang['leechwarn_disabled_by'] . $CURUSER['username'] . "\n") . ",modcomment) WHERE id IN (" . join(",", $_uids) . ")")) {
+        if (sql_query("UPDATE users set enabled='no', modcomment=CONCAT(" . sqlesc(get_date(TIME_NOW, 'DATE', 1) . $lang['leechwarn_disabled_by'] . $CURUSER['username'] . "\n") . ",modcomment) WHERE id IN (" . implode(",", $_uids) . ")")) {
             foreach ($_uids as $uid) {                
                 $cache->update_row($keys['my_userid'] . $uid, [
                 'enabled' => 'no'
@@ -88,9 +88,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $pms = array();
         foreach ($_uids as $id) $pms[] = "(0," . $id . "," . sqlesc($sub) . "," . sqlesc($body) . "," . sqlesc(TIME_NOW) . ")";
-        if (count($pms)) {
-            $g = sql_query("INSERT INTO messages(sender,receiver,subject,msg,added) VALUE " . join(",", $pms)) or ($q_err = $mysqli->error);
-            $q1 = sql_query("UPDATE users set leechwarn='0', modcomment=CONCAT(" . sqlesc(get_date(TIME_NOW, 'DATE', 1) . $lang['leechwarn_mod'] . $CURUSER['username'] . "\n") . ",modcomment) WHERE id IN (" . join(",", $_uids) . ")") or ($q2_err = $mysqli->error);
+        if (count($pms) > 0) {
+            ($g = sql_query("INSERT INTO messages(sender,receiver,subject,msg,added) VALUE " . implode(",", $pms))) || ($q_err = $mysqli->error);
+            ($q1 = sql_query("UPDATE users set leechwarn='0', modcomment=CONCAT(" . sqlesc(get_date(TIME_NOW, 'DATE', 1) . $lang['leechwarn_mod'] . $CURUSER['username'] . "\n") . ",modcomment) WHERE id IN (" . implode(",", $_uids) . ")")) || ($q2_err = $mysqli->error);
             if ($g && $q1) {
                 header("Refresh: 2; url=" . $r);
                 stderr($lang['leechwarn_success'], count($pms) . $lang['leechwarn_user'] . (count($pms) > 1 ? $lang['leechwarn_s'] : "") . $lang['leechwarn_removed_success']);
@@ -112,7 +112,7 @@ case "leechwarn":
     $link = "<a href=\"staffpanel.php?tool=leechwarn&amp;action=leechwarn&amp;do=disabled\">{$lang['leechwarn_disabled_link']}</a>";
     break;
 }
-$g = sql_query($query) or print ($mysqli->error);
+($g = sql_query($query)) || (print ($mysqli->error));
 $count = $g->num_rows;
 $HTMLOUT .="<div class='row'><div class='col-md-12'><h2>$title&nbsp;<font class=\"small\">[{$lang['leechwarn_total']}" . $count . $lang['leechwarn_user'] . ($count > 1 ? $lang['leechwarn_s'] : "") . "]</font>&nbsp;&nbsp;$link</h2> ";
 if ($count == 0) $HTMLOUT.= stdmsg($lang['leechwarn_hey'], $lang['leechwarn_none'] . strtolower($title));

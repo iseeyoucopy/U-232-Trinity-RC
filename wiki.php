@@ -68,25 +68,23 @@ function datetimetransform($input)
     $d = $todayh['mday'];
     $m = $todayh['mon'];
     $y = $todayh['year'];
-    $input = "$d-$m-$y $hours:$min:$sec";
-    return $input;
+    return "$d-$m-$y $hours:$min:$sec";
 }
 function navmenu()
 {
 	global $lang;
 $ret = '<div class="row"><div class="col-md-10 col-md-offset-2 "><a href="wiki.php">' . $lang['wiki_index'] . '</a> - <a href="wiki.php?action=add">' . $lang['wiki_add'] . '</a><form action="wiki.php" method="post">';
    
-$ret.= "\n" . '<a href="wiki.php?action=sort&amp;letter=a">A</a>';
+$ret.= '
+<a href="wiki.php?action=sort&amp;letter=a">A</a>';
     for ($i = 0; $i < 25; $i++) {
         $ret.= "\n- " . '<a href="wiki.php?action=sort&amp;letter=' . chr($i + 98) . '">' . chr($i + 66) . '</a>';
     }
-    $ret.= "\n" . '<input type="text" name="article" /> <input type="submit" value="' . $lang['wiki_search'] . '" name="wiki" /></form></div></div>';
-    return $ret;
+    return $ret . ("\n" . '<input type="text" name="article" /> <input type="submit" value="' . $lang['wiki_search'] . '" name="wiki" /></form></div></div>');
 }
 function articlereplace($input)
 {
-    $input = str_replace(" ", "+", $input);
-    return $input;
+    return str_replace(" ", "+", $input);
 }
 function wikisearch($input)
 {
@@ -115,7 +113,7 @@ function wikimenu()
     $res2 = sql_query("SELECT name FROM wiki ORDER BY id DESC LIMIT 1");
     $latest = $res2->fetch_assoc();
     $latestarticle = articlereplace(htmlsafechars($latest["name"]));
-    $ret = "<div id=\"wiki-content-right\">
+    return "<div id=\"wiki-content-right\">
 					<div id=\"details\">
 						<ul>
 							<li><b>{$lang['wiki_permissions']}</b></li></ul>
@@ -127,14 +125,13 @@ function wikimenu()
 					</div>
 				</div>
 		";
-    return $ret;
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["article-add"])) {
         $name = htmlsafechars($_POST["article-name"]);
         $body = htmlsafechars($_POST["article-body"]);
         sql_query("INSERT INTO `wiki` ( `name` , `body` , `userid`, `time` )
-VALUES (" . sqlesc($name) . ", " . sqlesc($body) . ", " . sqlesc($CURUSER["id"]) . ", '" . TIME_NOW . "')") or sqlerr(__FILE__, __LINE__);
+VALUES (" . sqlesc($name) . ", " . sqlesc($body) . ", " . sqlesc($CURUSER["id"]) . ", '" . TIME_NOW . "')") || sqlerr(__FILE__, __LINE__);
         $HTMLOUT.= "<meta http-equiv=\"refresh\" content=\"0; url=wiki.php?action=article&name=" . htmlsafechars($_POST["article-name"]) . "\">";
     }
     if (isset($_POST["article-edit"])) {
@@ -192,7 +189,7 @@ if ($action == "article") {
 				<div id=\"wiki-content-left\" align=\"right\">
 					<div id=\"name\"><b><a href=\"wiki.php?action=article&amp;name=" . htmlsafechars($wiki['name']) . "\">" . htmlsafechars($wiki['name']) . "</a></b></div>
 					<div id=\"content\">" . ($wiki['userid'] > 0 ? "<i>{$lang['wiki_added_by_art']}<a href=\"userdetails.php?id=" . (int)$wiki['userid'] . "\"><b>" . htmlsafechars($author['username']) . "</b></a></i><br /><br />" : "") . wikireplace(format_comment($wiki["body"])) . "";
-            $HTMLOUT.= "<div align=\"right\">" . ($edit ? "$edit" : "") . ($CURUSER['class'] >= UC_STAFF || $CURUSER["id"] == $wiki["userid"] ? " - <a href=\"wiki.php?action=edit&amp;id=" . (int)$wiki['id'] . "\">{$lang['wiki_edit']}</a>" : "") . "</div>";
+            $HTMLOUT.= "<div align=\"right\">" . ($edit !== '' ? "$edit" : "") . ($CURUSER['class'] >= UC_STAFF || $CURUSER["id"] == $wiki["userid"] ? " - <a href=\"wiki.php?action=edit&amp;id=" . (int)$wiki['id'] . "\">{$lang['wiki_edit']}</a>" : "") . "</div>";
             $HTMLOUT.= "</div></div>";
         }
         $HTMLOUT.= wikimenu();
@@ -229,9 +226,9 @@ if ($action == "add") {
 }
 if ($action == "edit") {
     $res = sql_query("SELECT * FROM wiki WHERE id = " . sqlesc($id));
-    $rescheck = sql_query("SELECT userid FROM wiki WHERE id =" . sqlesc($id))  or sqlerr(__FILE__, __LINE__);
+    ($rescheck = sql_query("SELECT userid FROM wiki WHERE id =" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $wikicheck = $rescheck->fetch_assoc();
-    if (($CURUSER['class'] >= UC_STAFF) OR ($CURUSER["id"] == $wikicheck["userid"])) {
+    if ($CURUSER['class'] >= UC_STAFF || $CURUSER["id"] == $wikicheck["userid"]) {
         $HTMLOUT.= navmenu();
         $HTMLOUT.= "<div id=\"wiki-container\">
   <div id=\"wiki-row\">";
@@ -256,7 +253,7 @@ if ($action == "sort") {
         $HTMLOUT.= navmenu();
         $HTMLOUT.= "{$lang['wiki_art_found_starting']}<b>" . htmlsafechars($letter) . "</b>";
         while ($wiki = $sortres->fetch_array(MYSQLI_ASSOC)) {
-            $wiki_sort_q = sql_query("SELECT username FROM users WHERE id = " . sqlesc($wiki['userid'])) or sqlerr(__FILE__, __LINE__);
+            ($wiki_sort_q = sql_query("SELECT username FROM users WHERE id = " . sqlesc($wiki['userid']))) || sqlerr(__FILE__, __LINE__);
             if ($wiki["userid"] !== 0) $wikiname = $wiki_sort_q->fetch_assoc();
             $HTMLOUT.= "
 				<div class=\"wiki-search\">

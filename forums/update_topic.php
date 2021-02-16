@@ -29,7 +29,7 @@ $topicid = (isset($_GET['topicid']) ? (int) $_GET['topicid'] : (isset($_POST['to
 if (!is_valid_id($topicid)) {
     stderr('Error...', 'Invalid topic ID!');
 }
-$topic_res = sql_query('SELECT t.sticky, t.locked, t.topic_name, t.forum_id, f.min_class_write, ' . '(SELECT COUNT(id) FROM posts WHERE topic_id = t.id) As post_count ' . 'FROM topics AS t ' . 'LEFT JOIN forums AS f ON f.id = t.forum_id ' . 'WHERE t.id=' . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
+($topic_res = sql_query('SELECT t.sticky, t.locked, t.topic_name, t.forum_id, f.min_class_write, ' . '(SELECT COUNT(id) FROM posts WHERE topic_id = t.id) As post_count ' . 'FROM topics AS t ' . 'LEFT JOIN forums AS f ON f.id = t.forum_id ' . 'WHERE t.id=' . sqlesc($topicid))) || sqlerr(__FILE__, __LINE__);
 if ($topic_res->num_rows == 0) {
     stderr('Error...', 'No topic with that ID!');
 }
@@ -46,7 +46,7 @@ if (isMod($topic_arr["forum_id"]) || $CURUSER['class'] >= UC_STAFF) {
         }
         write_log("topicdelete", "Topic <b>" . $subject . "</b> was deleted by <a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int) $CURUSER['id'] . "'>" . htmlsafechars($CURUSER['username']) . "</a>.");
         if ($Multi_forum['configs']['use_attachment_mod']) {
-            $res = sql_query("SELECT attachments.file_name " . "FROM posts " . "LEFT JOIN attachments ON attachments.post_id = posts.id " . "WHERE posts.topic_id=" . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
+            ($res = sql_query("SELECT attachments.file_name " . "FROM posts " . "LEFT JOIN attachments ON attachments.post_id = posts.id " . "WHERE posts.topic_id=" . sqlesc($topicid))) || sqlerr(__FILE__, __LINE__);
             while ($arr = $res->fetch_assoc()) {
                 if (!empty($arr['filename']) && is_file($Multi_forum['configs']['attachment_dir'] . "/" . $arr['filename'])) {
                     unlink($Multi_forum['configs']['attachment_dir'] . "/" . $arr['filename']);
@@ -57,7 +57,7 @@ if (isMod($topic_arr["forum_id"]) || $CURUSER['class'] >= UC_STAFF) {
             ($Multi_forum['configs']['use_attachment_mod'] ? ", attachments, attachmentdownloads " : "") .
             ($Multi_forum['configs']['use_poll_mod'] ? ", postpolls, postpollanswers " : "") . "FROM topics " . "LEFT JOIN posts ON posts.topic_id = topics.id " .
             ($Multi_forum['configs']['use_attachment_mod'] ? "LEFT JOIN attachments ON attachments.post_id = posts.id " . "LEFT JOIN attachmentdownloads ON attachmentdownloads.file_id = attachments.id " : "") .
-            ($Multi_forum['configs']['use_poll_mod'] ? "LEFT JOIN postpolls ON postpolls.id = topics.poll_id " . "LEFT JOIN postpollanswers ON postpollanswers.pollid = postpolls.id " : "") . "WHERE topics.id=" . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
+            ($Multi_forum['configs']['use_poll_mod'] ? "LEFT JOIN postpolls ON postpolls.id = topics.poll_id " . "LEFT JOIN postpollanswers ON postpollanswers.pollid = postpolls.id " : "") . "WHERE topics.id=" . sqlesc($topicid)) || sqlerr(__FILE__, __LINE__);
         header('Location: ' . $TRINITY20['baseurl'] . '/forums.php?action=viewforum&forumid=' . $forumid);
         exit();
     }
@@ -82,9 +82,9 @@ if (isMod($topic_arr["forum_id"]) || $CURUSER['class'] >= UC_STAFF) {
     if (!is_valid_id($new_forumid)) {
         stderr('Error...', 'Invalid forum ID!');
     }
-    if ($new_forumid != $forumid) {
+    if ($new_forumid !== $forumid) {
         $post_count = (int) $topic_arr['post_count'];
-        $res = sql_query("SELECT min_class_write FROM forums WHERE id=" . sqlesc($new_forumid)) or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query("SELECT min_class_write FROM forums WHERE id=" . sqlesc($new_forumid))) || sqlerr(__FILE__, __LINE__);
         if ($res->num_rows != 1) {
             stderr("Error...", "Forum not found!");
         }
@@ -93,12 +93,12 @@ if (isMod($topic_arr["forum_id"]) || $CURUSER['class'] >= UC_STAFF) {
             stderr('Error...', 'You are not allowed to move this topic into the selected forum.');
         }
         $updateset[] = 'forum_id=' . sqlesc($new_forumid);
-        sql_query("UPDATE forums SET topic_count=topic_count-1, post_count=post_count-" . sqlesc($post_count) . " WHERE id=" . sqlesc($forumid)) or sqlerr(__FILE__, __LINE__);
-        sql_query("UPDATE forums SET topic_count=topic_count+1, post_count=post_count+" . sqlesc($post_count) . " WHERE id=" . sqlesc($new_forumid)) or sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE forums SET topic_count=topic_count-1, post_count=post_count-" . sqlesc($post_count) . " WHERE id=" . sqlesc($forumid)) || sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE forums SET topic_count=topic_count+1, post_count=post_count+" . sqlesc($post_count) . " WHERE id=" . sqlesc($new_forumid)) || sqlerr(__FILE__, __LINE__);
         $returnto = $TRINITY20['baseurl'] . '/forums.php?action=viewforum&forumid=' . $new_forumid;
     }
-    if (sizeof($updateset) > 0) {
-        sql_query("UPDATE topics SET " . implode(', ', $updateset) . " WHERE id=" . sqlesc($topicid)) or sqlerr(__FILE__, __LINE__);
+    if (count($updateset) > 0) {
+        sql_query("UPDATE topics SET " . implode(', ', $updateset) . " WHERE id=" . sqlesc($topicid)) || sqlerr(__FILE__, __LINE__);
     }
     header('Location: ' . $returnto);
     exit();

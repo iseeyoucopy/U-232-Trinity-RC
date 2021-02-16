@@ -29,13 +29,13 @@ if (!defined('BUNNY_PM_SYSTEM')) {
 //=== get post / get stuff
 $keywords = (isset($_POST['keywords']) ? htmlsafechars($_POST['keywords']) : '');
 $member = (isset($_POST['member']) ? htmlsafechars($_POST['member']) : '');
-$all_boxes = (isset($_POST['all_boxes']) ? intval($_POST['all_boxes']) : '');
+$all_boxes = (isset($_POST['all_boxes']) ? (int) $_POST['all_boxes'] : '');
 $sender_reciever = ($mailbox >= 1 ? 'sender' : 'receiver');
 //== query stuff
 $what_in_out = ($mailbox >= 1 ? 'AND receiver = ' . sqlesc($CURUSER['id']) . ' AND saved = \'yes\'' : 'AND sender = ' . sqlesc($CURUSER['id']) . ' AND saved = \'yes\'');
 $location = (isset($_POST['all_boxes']) ? 'AND location != 0' : 'AND location = ' . $mailbox);
-$limit = (isset($_POST['limit']) ? intval($_POST['limit']) : 25);
-$as_list_post = (isset($_POST['as_list_post']) ? intval($_POST['as_list_post']) : 2);
+$limit = (isset($_POST['limit']) ? (int) $_POST['limit'] : 25);
+$as_list_post = (isset($_POST['as_list_post']) ? (int) $_POST['as_list_post'] : 2);
 $desc_asc = (isset($_POST['ASC']) == 1 ? 'ASC' : 'DESC');
 //=== search in
 $subject = (isset($_POST['subject']) ? htmlsafechars($_POST['subject']) : '');
@@ -57,19 +57,19 @@ if (!in_array($sort, $possible_sort)) {
 }
 //=== Try finding a user with specified name
 if ($member) {
-    $res_username = sql_query('SELECT id, username, class, warned, suspended, leechwarn, chatpost, pirate, king, enabled, donor FROM users WHERE LOWER(username)=LOWER(' . sqlesc($member) . ') LIMIT 1') or sqlerr(__FILE__, __LINE__);
+    ($res_username = sql_query('SELECT id, username, class, warned, suspended, leechwarn, chatpost, pirate, king, enabled, donor FROM users WHERE LOWER(username)=LOWER(' . sqlesc($member) . ') LIMIT 1')) || sqlerr(__FILE__, __LINE__);
     $arr_username = $res_username->fetch_assoc();
     if ($res_username->num_rows === 0) stderr($lang['pm_error'], $lang['pm_forwardpm_nomember']);
     //=== if searching by member...
     $and_member = ($mailbox >= 1 ? ' AND sender = ' . sqlesc($arr_username['id']) . ' AND saved = \'yes\' ' : ' AND receiver = ' . sqlesc($arr_username['id']) . ' AND saved = \'yes\' ');
     $the_username = print_user_stuff($arr_username);
 }
-if ($member_sys) {
+if ($member_sys !== '') {
     $and_member = ' AND sender = 0 ';
     $the_username = '<span style="font-weight: bold;">' . $lang['pm_search_sysbot'] . '</span>';
 }
 //=== get all boxes
-$res = sql_query('SELECT boxnumber, name FROM pmboxes WHERE userid = ' . sqlesc($CURUSER['id']) . ' ORDER BY boxnumber') or sqlerr(__FILE__, __LINE__);
+($res = sql_query('SELECT boxnumber, name FROM pmboxes WHERE userid = ' . sqlesc($CURUSER['id']) . ' ORDER BY boxnumber')) || sqlerr(__FILE__, __LINE__);
 $get_all_boxes = '<select name="box">
                                             <option class="body" value="1" ' . ($mailbox == PM_INBOX ? 'selected="selected"' : '') . '>' . $lang['pm_inbox'] . '</option>
                                             <option class="body" value="-1" ' . ($mailbox == PM_SENTBOX ? 'selected="selected"' : '') . '>' . $lang['pm_sentbox'] . '</option>
@@ -164,32 +164,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //=== if only member name is entered and no search string... get all messages by that member
         
     case (!$keywords && $member):
-        $res_search = sql_query("SELECT * FROM messages WHERE sender = " . sqlesc($arr_username['id']) . " AND saved = 'yes' $location AND receiver = " . sqlesc($CURUSER['id']) . " ORDER BY " . sqlesc($sort) . " $desc_asc LIMIT " . $limit) or sqlerr(__FILE__, __LINE__);
+        ($res_search = sql_query("SELECT * FROM messages WHERE sender = " . sqlesc($arr_username['id']) . " AND saved = 'yes' $location AND receiver = " . sqlesc($CURUSER['id']) . " ORDER BY " . sqlesc($sort) . " $desc_asc LIMIT " . $limit)) || sqlerr(__FILE__, __LINE__);
         break;
         //=== if system entered default both ...
         
     case (!$keywords && $member_sys):
-        $res_search = sql_query("SELECT * FROM messages WHERE sender = 0 $location AND receiver = " . sqlesc($CURUSER['id']) . " ORDER BY " . sqlesc($sort) . " $desc_asc LIMIT " . $limit) or sqlerr(__FILE__, __LINE__);
+        ($res_search = sql_query("SELECT * FROM messages WHERE sender = 0 $location AND receiver = " . sqlesc($CURUSER['id']) . " ORDER BY " . sqlesc($sort) . " $desc_asc LIMIT " . $limit)) || sqlerr(__FILE__, __LINE__);
         break;
         //=== if just subject
         
     case ($subject && !$text):
-        $res_search = sql_query("SELECT *, MATCH(subject) AGAINST(" . sqlesc($search) . " IN BOOLEAN MODE) AS relevance FROM messages WHERE ( MATCH(subject) AGAINST (" . sqlesc($search) . " IN BOOLEAN MODE) ) $and_member $location $what_in_out ORDER BY " . sqlesc($sort) . " $desc_asc LIMIT " . $limit) or sqlerr(__FILE__, __LINE__);
+        ($res_search = sql_query("SELECT *, MATCH(subject) AGAINST(" . sqlesc($search) . " IN BOOLEAN MODE) AS relevance FROM messages WHERE ( MATCH(subject) AGAINST (" . sqlesc($search) . " IN BOOLEAN MODE) ) $and_member $location $what_in_out ORDER BY " . sqlesc($sort) . " $desc_asc LIMIT " . $limit)) || sqlerr(__FILE__, __LINE__);
         break;
         //=== if just message
         
     case (!$subject && $text):
-        $res_search = sql_query("SELECT *, MATCH(msg) AGAINST(" . sqlesc($search) . " IN BOOLEAN MODE) AS relevance FROM messages WHERE ( MATCH(msg) AGAINST (" . sqlesc($search) . " IN BOOLEAN MODE) ) $and_member $location $what_in_out ORDER BY " . sqlesc($sort) . " $desc_asc LIMIT " . $limit) or sqlerr(__FILE__, __LINE__);;
+        ($res_search = sql_query("SELECT *, MATCH(msg) AGAINST(" . sqlesc($search) . " IN BOOLEAN MODE) AS relevance FROM messages WHERE ( MATCH(msg) AGAINST (" . sqlesc($search) . " IN BOOLEAN MODE) ) $and_member $location $what_in_out ORDER BY " . sqlesc($sort) . " $desc_asc LIMIT " . $limit)) || sqlerr(__FILE__, __LINE__);;
         break;
         //=== if subject and message
         
     case ($subject && $text || !$subject && !$text):
-        $res_search = sql_query("SELECT *, ( (1.3 * (MATCH(subject) AGAINST (" . sqlesc($search) . " IN BOOLEAN MODE))) + (0.6 * (MATCH(msg) AGAINST (" . sqlesc($search) . " IN BOOLEAN MODE)))) AS relevance FROM messages WHERE ( MATCH(subject,msg) AGAINST (" . sqlesc($search) . " IN BOOLEAN MODE) ) $and_member $location $what_in_out ORDER BY " . sqlesc($sort) . " $desc_asc LIMIT " . $limit) or sqlerr(__FILE__, __LINE__);
+        ($res_search = sql_query("SELECT *, ( (1.3 * (MATCH(subject) AGAINST (" . sqlesc($search) . " IN BOOLEAN MODE))) + (0.6 * (MATCH(msg) AGAINST (" . sqlesc($search) . " IN BOOLEAN MODE)))) AS relevance FROM messages WHERE ( MATCH(subject,msg) AGAINST (" . sqlesc($search) . " IN BOOLEAN MODE) ) $and_member $location $what_in_out ORDER BY " . sqlesc($sort) . " $desc_asc LIMIT " . $limit)) || sqlerr(__FILE__, __LINE__);
         break;
     }
     $num_result = $res_search->num_rows;
     //=== show the search resaults \o/o\o/o\o/
-    $HTMLOUT.= '<h1>' . $lang['pm_search_your_for'] . '' . ($keywords ? '"' . $keywords . '"' : ($member ? $lang['pm_search_member'] . htmlsafechars($arr_username['username']) . $lang['pm_search_pms'] : ($member_sys ? $lang['pm_search_sysmsg'] : ''))) . '</h1>
+    $HTMLOUT.= '<h1>' . $lang['pm_search_your_for'] . '' . ($keywords ? '"' . $keywords . '"' : ($member ? $lang['pm_search_member'] . htmlsafechars($arr_username['username']) . $lang['pm_search_pms'] : ($member_sys !== '' ? $lang['pm_search_sysmsg'] : ''))) . '</h1>
         <div style="text-align: center;">' . ($num_result < $limit ? $lang['pm_search_returned'] : $lang['pm_search_show_first']) . ' <span style="font-weight: bold;">' . $num_result . '</span> 
         ' . $lang['pm_search_match'] . '' . ($num_result === 1 ? '' : $lang['pm_search_matches']) . $lang['pm_search_excl'] . ($num_result === 0 ? $lang['pm_search_better'] : '') . '</div>';
     //=== let's make the table
@@ -215,14 +215,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $class2 = ($count2 == 0 ? 'two' : 'one');
         //=== if not searching one member...
         if (!$member) {
-            $res_username = sql_query('SELECT id, username, warned, suspended, enabled, donor, leechwarn, chatpost, pirate, king, class FROM users WHERE id = ' . sqlesc($row[$sender_reciever]) . ' LIMIT 1') or sqlerr(__FILE__, __LINE__);
+            ($res_username = sql_query('SELECT id, username, warned, suspended, enabled, donor, leechwarn, chatpost, pirate, king, class FROM users WHERE id = ' . sqlesc($row[$sender_reciever]) . ' LIMIT 1')) || sqlerr(__FILE__, __LINE__);
             $arr_username = $res_username->fetch_assoc();
             $the_username = print_user_stuff($arr_username);
         }
         //=== if searching all boxes...
         $arr_box = ($row['location'] == 1 ? $lang['pm_inbox'] : ($row['location'] == - 1 ? $lang['pm_sentbox'] : ($row['location'] == - 2 ? $lang['pm_drafts'] : '')));
         if ($all_boxes && $arr_box === '') {
-            $res_box_name = sql_query('SELECT name FROM pmboxes WHERE userid = ' . sqlesc($CURUSER['id']) . ' AND boxnumber = ' . sqlesc($row['location'])) or sqlerr(__FILE__, __LINE__);
+            ($res_box_name = sql_query('SELECT name FROM pmboxes WHERE userid = ' . sqlesc($CURUSER['id']) . ' AND boxnumber = ' . sqlesc($row['location']))) || sqlerr(__FILE__, __LINE__);
             $arr_box_name = $res_box_name->fetch_assoc();
             $arr_box = htmlsafechars($arr_box_name['name']);
         }

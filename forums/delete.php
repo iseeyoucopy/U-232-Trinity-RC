@@ -32,7 +32,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
         }
         $confirmed = (int) isset($_GET['confirmed']) && (int) $_GET['confirmed'];
         if (!$confirmed) {
-            $rt = sql_query("SELECT topics.id, forums.name " . "FROM topics " . "LEFT JOIN forums ON forums.id=topics.forum_id " . "WHERE topics.forum_id=" . sqlesc($forumid)) or sqlerr(__FILE__, __LINE__);
+            ($rt = sql_query("SELECT topics.id, forums.name " . "FROM topics " . "LEFT JOIN forums ON forums.id=topics.forum_id " . "WHERE topics.forum_id=" . sqlesc($forumid))) || sqlerr(__FILE__, __LINE__);
             $topics = $rt->num_rows;
             $posts = 0;
             if ($topics > 0) {
@@ -40,7 +40,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
                     $ids[] = $topic['id'];
                     $forum = htmlsafechars($topic['name']);
                 }
-                $rp = sql_query("SELECT COUNT(id) FROM posts WHERE topic_id IN (" . join(', ', $ids) . ")");
+                $rp = sql_query("SELECT COUNT(id) FROM posts WHERE topic_id IN (" . implode(', ', $ids) . ")");
                 foreach ($ids as $id) {
                     if ($a = $rp->fetch_row()) {
                         $posts += $a[0];
@@ -48,11 +48,11 @@ if (!defined('IN_TRINITY20_FORUM')) {
                 }
             }
             if ($Multi_forum['configs']['use_attachment_mod'] || $Multi_forum['configs']['use_poll_mod']) {
-                $res = sql_query("SELECT " .
+                ($res = sql_query("SELECT " .
                     ($Multi_forum['configs']['use_attachment_mod'] ? "COUNT(attachments.id) AS attachments " : "") .
                     ($Multi_forum['configs']['use_poll_mod'] ? ($Multi_forum['configs']['use_attachment_mod'] ? ', ' : '') . "COUNT(postpolls.id) AS polls " : "") . "FROM topics " . "LEFT JOIN posts ON topics.id=posts.topic_id " .
                     ($Multi_forum['configs']['use_attachment_mod'] ? "LEFT JOIN attachments ON attachments.post_id = posts.id " : "") .
-                    ($Multi_forum['configs']['use_poll_mod'] ? "LEFT JOIN postpolls ON postpolls.id=topics.poll_id " : "") . "WHERE topics.forum_id=" . sqlesc($forumid)) or sqlerr(__FILE__, __LINE__);
+                    ($Multi_forum['configs']['use_poll_mod'] ? "LEFT JOIN postpolls ON postpolls.id=topics.poll_id " : "") . "WHERE topics.forum_id=" . sqlesc($forumid))) || sqlerr(__FILE__, __LINE__);
                 ($Multi_forum['configs']['use_attachment_mod'] ? $attachments = 0 : null);
                 ($Multi_forum['configs']['use_poll_mod'] ? $polls = 0 : null);
                 if ($arr = $res->fetch_assoc()) {
@@ -60,12 +60,12 @@ if (!defined('IN_TRINITY20_FORUM')) {
                     ($Multi_forum['configs']['use_poll_mod'] ? $polls = $arr['polls'] : null);
                 }
             }
-            stderr("** WARNING! **", "Deleting forum with id=$forumid (" . $forumid . ") will also delete " . $posts . " post" . ($posts != 1 ? 's' : '') . ($Multi_forum['configs']['use_attachment_mod'] ? ", " . $attachments . " attachment" . ($attachments != 1 ? 's' : '') : "") . ($Multi_forum['configs']['use_poll_mod'] ? " and " . ($polls - $attachments) . " poll" . (($polls - $attachments) != 1 ? 's' : '') : "") . " in " . $topics . " topic" . ($topics != 1 ? 's' : '') . ". [<a href='{$TRINITY20['baseurl']}/forums.php?action=deleteforum&amp;forumid=$forumid&amp;confirmed=1'>Accept</a>] [<a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=$forumid>Cancel</a>]");
+            stderr("** WARNING! **", "Deleting forum with id=$forumid (" . $forumid . ") will also delete " . $posts . " post" . ($posts != 1 ? 's' : '') . ($Multi_forum['configs']['use_attachment_mod'] ? ", " . $attachments . " attachment" . ($attachments != 1 ? 's' : '') : "") . ($Multi_forum['configs']['use_poll_mod'] ? " and " . ($polls - $attachments) . " poll" . ($polls - $attachments != 1 ? 's' : '') : "") . " in " . $topics . " topic" . ($topics != 1 ? 's' : '') . ". [<a href='{$TRINITY20['baseurl']}/forums.php?action=deleteforum&amp;forumid=$forumid&amp;confirmed=1'>Accept</a>] [<a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=$forumid>Cancel</a>]");
         }
-        $rt = sql_query("SELECT topics.id " . ($Multi_forum['configs']['use_attachment_mod'] ? ", attachments.file_name " : "") . " FROM topics " . "LEFT JOIN posts ON topics.id = posts.topic_id " . ($Multi_forum['configs']['use_attachment_mod'] ? "LEFT JOIN attachments ON attachments.post_id = posts.id " : "") . " WHERE topics.forum_id=" . sqlesc($forumid)) or sqlerr(__FILE__, __LINE__);
+        ($rt = sql_query("SELECT topics.id " . ($Multi_forum['configs']['use_attachment_mod'] ? ", attachments.file_name " : "") . " FROM topics " . "LEFT JOIN posts ON topics.id = posts.topic_id " . ($Multi_forum['configs']['use_attachment_mod'] ? "LEFT JOIN attachments ON attachments.post_id = posts.id " : "") . " WHERE topics.forum_id=" . sqlesc($forumid))) || sqlerr(__FILE__, __LINE__);
         $topics = $rt->num_rows;
         if ($topics == 0) {
-            sql_query("DELETE FROM forums WHERE id=" . sqlesc($forumid)) or sqlerr(__FILE__, __LINE__);
+            sql_query("DELETE FROM forums WHERE id=" . sqlesc($forumid)) || sqlerr(__FILE__, __LINE__);
             header("Location: forums.php");
             exit();
         }
@@ -78,7 +78,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
                 }
             }
         }
-        sql_query("DELETE posts.*, topics.*, forums.* " . ($Multi_forum['configs']['use_attachment_mod'] ? ", attachments.*, attachmentdownloads.* " : "") . ($Multi_forum['configs']['use_poll_mod'] ? ", postpolls.*, postpollanswers.* " : "") . " FROM posts " . ($Multi_forum['configs']['use_attachment_mod'] ? "LEFT JOIN attachments ON attachments.post_id = posts.id " . "LEFT JOIN attachmentdownloads ON attachmentdownloads.file_id = attachments.id " : "") . "LEFT JOIN topics ON topics.id = posts.topic_id " . "LEFT JOIN forums ON forums.id = topics.forum_id " . ($Multi_forum['configs']['use_poll_mod'] ? "LEFT JOIN postpolls ON postpolls.id = topics.poll_id " . "LEFT JOIN postpollanswers ON postpollanswers.pollid = postpolls.id " : "") . " WHERE posts.topic_id IN (" . join(', ', $tids) . ")") or sqlerr(__FILE__, __LINE__);
+        sql_query("DELETE posts.*, topics.*, forums.* " . ($Multi_forum['configs']['use_attachment_mod'] ? ", attachments.*, attachmentdownloads.* " : "") . ($Multi_forum['configs']['use_poll_mod'] ? ", postpolls.*, postpollanswers.* " : "") . " FROM posts " . ($Multi_forum['configs']['use_attachment_mod'] ? "LEFT JOIN attachments ON attachments.post_id = posts.id " . "LEFT JOIN attachmentdownloads ON attachmentdownloads.file_id = attachments.id " : "") . "LEFT JOIN topics ON topics.id = posts.topic_id " . "LEFT JOIN forums ON forums.id = topics.forum_id " . ($Multi_forum['configs']['use_poll_mod'] ? "LEFT JOIN postpolls ON postpolls.id = topics.poll_id " . "LEFT JOIN postpollanswers ON postpollanswers.pollid = postpolls.id " : "") . " WHERE posts.topic_id IN (" . implode(', ', $tids) . ")") || sqlerr(__FILE__, __LINE__);
         header("Location: forums.php");
         exit();
     }

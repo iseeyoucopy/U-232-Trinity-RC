@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 } else {
    $out= '';
 $out .= "<div class='row'><div class='col-md-8 col-md-offset-2'>";    
-    $out.= stdmsg($lang['name_curr'], count($blacklist) ? join(', ', array_keys($blacklist)) : $lang['name_no']);
+    $out.= stdmsg($lang['name_curr'], count($blacklist) > 0 ? implode(', ', array_keys($blacklist)) : $lang['name_no']);
     $out.= stdmsg($lang['name_add'], '<form action="staffpanel.php?tool=nameblacklist&amp;action=nameblacklist" method="post"><table class="table table-bordered">
 	<tr><td align="center"><textarea rows="3" cols="100" name="badnames"></textarea></td></tr>
     <tr><td align="center">' . $lang['name_note'] . '</td></tr>

@@ -103,19 +103,19 @@ if (!is_array($scheduled_events)) {
     $_POST = (isset($_POST) ? $_POST : '');
     $HTMLOUT.= "{$lang['events_err_load']}";
 } else {
-    foreach ($_POST as $key => $value) {
+    foreach (array_keys($_POST) as $key) {
         if (gettype($pos = strpos($key, "_")) != 'boolean') {
             $id = (int)substr($key, $pos + 1);
             if (gettype(strpos($key, "removeEvent_")) != 'boolean') {
                 $sql = "DELETE FROM `events` WHERE `id` = $id LIMIT 1;";
                 $res = sql_query($sql);
-                if ($mysqli->error != 0) $HTMLOUT.= "<p>{$lang['events_err_del']}" . $mysqli->error . "<br />{$lang['events_click']} <a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
-                else {
-                    if ($mysqli->affected_rows == 0) $HTMLOUT.= "<p>{$lang['events_err_del']}" . $mysqli->error . "<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a> {$lang['events_goback']}<br /></p>\n";
-                    else {
-                        $HTMLOUT.= "<p>{$lang['events_deleted']}</p>\n";
-                        header("Refresh: 2; url=staffpanel.php?tool=events");
-                    }
+                if ($mysqli->error != 0) {
+                    $HTMLOUT.= "<p>{$lang['events_err_del']}" . $mysqli->error . "<br />{$lang['events_click']} <a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
+                } elseif ($mysqli->affected_rows == 0) {
+                    $HTMLOUT.= "<p>{$lang['events_err_del']}" . $mysqli->error . "<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a> {$lang['events_goback']}<br /></p>\n";
+                } else {
+                    $HTMLOUT.= "<p>{$lang['events_deleted']}</p>\n";
+                    header("Refresh: 2; url=staffpanel.php?tool=events");
                 }
             } elseif (gettype(strpos($key, "saveEvent_")) != 'boolean') {
                 $text = "";
@@ -148,13 +148,13 @@ if (!is_array($scheduled_events)) {
                 if ($id == - 1) $sql = "INSERT INTO `events`(`overlayText`, `startTime`, `endTime`, `displayDates`, `freeleechEnabled`, `duploadEnabled`, `hdownEnabled`, `userid`) VALUES ('$text', $start, $end, $showDates, $freeleech, $doubleupload, $halfdownload, $userid);";
                 else $sql = "UPDATE `events` SET `overlayText` = '$text',`startTime` = $start, `endTime` = $end, `displayDates` = $showDates, `freeleechEnabled` = $freeleech, `duploadEnabled` = $doubleupload, `hdownEnabled` = $halfdownload, `userid` = $userid  WHERE `id` = $id;";
                 $res = sql_query($sql);
-                if ($mysqli->error != 0) $HTMLOUT.= "<p>{$lang['events_err_save']}" . $mysqli->error . "<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
-                else {
-                    if ($mysqli->affected_rows == 0) $HTMLOUT.= "<p>{$lang['events_err_nochange']}<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
-                    else {
-                        $HTMLOUT.= "<p>{$lang['events_saved']}</p>\n";
-                        header("Refresh: 2; url=staffpanel.php?tool=events");
-                    }
+                if ($mysqli->error != 0) {
+                    $HTMLOUT.= "<p>{$lang['events_err_save']}" . $mysqli->error . "<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
+                } elseif ($mysqli->affected_rows == 0) {
+                    $HTMLOUT.= "<p>{$lang['events_err_nochange']}<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
+                } else {
+                    $HTMLOUT.= "<p>{$lang['events_saved']}</p>\n";
+                    header("Refresh: 2; url=staffpanel.php?tool=events");
                 }
             }
         }
@@ -201,7 +201,7 @@ if (!is_array($scheduled_events)) {
         $HTMLOUT.= "<tr><td align=\"center\">{$username}</td><td align=\"center\">{$text}</td><td align=\"center\">{$start}</td><td align=\"center\">{$end}</td><td align=\"center\">{$freeleech}</td><td align=\"center\">{$doubleUpload}</td><td align=\"center\">{$halfdownload}</td><td align=\"center\">{$showdates}</td><td align=\"center\"><input type=\"submit\" name=\"editEvent_$id\" value=\"{$lang['events_edit']}\" /> <input type=\"submit\" onclick=\"return checkAllGood('$text')\" name=\"removeEvent_$id\" value=\"{$lang['events_remove']}\" /></td></tr>";
     }
     $HTMLOUT.= "<tr><td colspan='9' align='right'><input type='submit' name='editEvent_-1' value='{$lang['events_add']}'' /></td></tr></table>";
-    foreach ($_POST as $key => $value) {
+    foreach (array_keys($_POST) as $key) {
         if (gettype($pos = strpos($key, "_")) != 'boolean') {
             $id = (int)substr($key, $pos + 1);
             if (gettype(strpos($key, "editEvent_")) != 'boolean') {
@@ -223,29 +223,13 @@ if (!is_array($scheduled_events)) {
                         $start = get_date((int)$scheduled_event['startTime'], 'DATE');
                         $end = get_date((int)$scheduled_event['endTime'], 'DATE');
                         $freeleech = (bool)(int)$scheduled_event['freeleechEnabled'];
-                        if ($freeleech) {
-                            $freeleech = "checked=\"checked\"";
-                        } else {
-                            $freeleech = "";
-                        }
+                        $freeleech = $freeleech ? "checked=\"checked\"" : "";
                         $doubleupload = (bool)(int)$scheduled_event['duploadEnabled'];
-                        if ($doubleupload) {
-                            $doubleupload = "checked=\"checked\"";
-                        } else {
-                            $doubleupload = "";
-                        }
+                        $doubleupload = $doubleupload ? "checked=\"checked\"" : "";
                         $halfdownload = (bool)(int)$scheduled_event['hdownEnabled'];
-                        if ($halfdownload) {
-                            $halfdownload = "checked=\"checked\"";
-                        } else {
-                            $halfdownload = "";
-                        }
+                        $halfdownload = $halfdownload ? "checked=\"checked\"" : "";
                         $showdates = (bool)(int)$scheduled_event['displayDates'];
-                        if ($showdates) {
-                            $showdates = "checked=\"checked\"";
-                        } else {
-                            $showdates = "";
-                        }
+                        $showdates = $showdates ? "checked=\"checked\"" : "";
                         $HTMLOUT.= "<table class='table table-bordered'>
 <tr><th>{$lang['events_userid']}</th><td><input type='text' name='userid' value='{$CURUSER["id"]}' /></td></tr>
 <tr><th>{$lang['events_txt']}</th><td><input type='text' name='editText' value='{$text}' /></td></tr>

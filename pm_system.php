@@ -53,7 +53,7 @@ function validusername($username)
     global $lang;
     if ($username == "") return false;
     $namelength = strlen($username);
-    if (($namelength < 3) OR ($namelength > 32)) {
+    if ($namelength < 3 || $namelength > 32) {
         stderr('Error', 'Username too long or too short');
     }
     // The following characters are allowed in user names
@@ -128,11 +128,11 @@ $possible_actions = array(
 $action = (isset($_GET['action']) ? htmlsafechars($_GET['action']) : (isset($_POST['action']) ? htmlsafechars($_POST['action']) : 'view_mailbox'));
 if (!in_array($action, $possible_actions)) stderr($lang['pm_error'], $lang['pm_error_ruffian']);
 //=== possible stuff to be $_GETting lol
-$change_pm_number = (isset($_GET['change_pm_number']) ? intval($_GET['change_pm_number']) : (isset($_POST['change_pm_number']) ? intval($_POST['change_pm_number']) : 0));
-$page = (isset($_GET['page']) ? intval($_GET['page']) : 0);
-$perpage = (isset($_GET['perpage']) ? intval($_GET['perpage']) : ($CURUSER['pms_per_page'] > 0 ? $CURUSER['pms_per_page'] : 20));
-$mailbox = (isset($_GET['box']) ? intval($_GET['box']) : (isset($_POST['box']) ? intval($_POST['box']) : 1));
-$pm_id = (isset($_GET['id']) ? intval($_GET['id']) : (isset($_POST['id']) ? intval($_POST['id']) : 0));
+$change_pm_number = (isset($_GET['change_pm_number']) ? (int) $_GET['change_pm_number'] : (isset($_POST['change_pm_number']) ? (int) $_POST['change_pm_number'] : 0));
+$page = (isset($_GET['page']) ? (int) $_GET['page'] : 0);
+$perpage = (isset($_GET['perpage']) ? (int) $_GET['perpage'] : ($CURUSER['pms_per_page'] > 0 ? $CURUSER['pms_per_page'] : 20));
+$mailbox = (isset($_GET['box']) ? (int) $_GET['box'] : (isset($_POST['box']) ? (int) $_POST['box'] : 1));
+$pm_id = (isset($_GET['id']) ? (int) $_GET['id'] : (isset($_POST['id']) ? (int) $_POST['id'] : 0));
 $save = ((isset($_POST['save']) && $_POST['save'] === 1) ? '1' : '0');
 $urgent = ((isset($_POST['urgent']) && $_POST['urgent'] === 'yes') ? 'yes' : 'no');
 //=== change ASC to DESC and back for sort by
@@ -157,8 +157,8 @@ $top_links = '<li><a href="pm_system.php?action=search">' . $lang['pm_search'] .
 		<li><a href="pm_system.php?action=view_mailbox&amp;box=-2">' . $lang['pm_drafts'] . '</a></li>';
 //=== change  number of PMs per page on the fly
 if (isset($_GET['change_pm_number'])) {
-    $change_pm_number = (isset($_GET['change_pm_number']) ? intval($_GET['change_pm_number']) : 20);
-    sql_query('UPDATE users SET pms_per_page = ' . sqlesc($change_pm_number) . ' WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+    $change_pm_number = (isset($_GET['change_pm_number']) ? (int) $_GET['change_pm_number'] : 20);
+    sql_query('UPDATE users SET pms_per_page = ' . sqlesc($change_pm_number) . ' WHERE id = ' . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
     $cache->update_row('user' . $CURUSER['id'], [
         'pms_per_page' => $change_pm_number
     ], $TRINITY20['expires']['user_cache']);
@@ -172,7 +172,7 @@ if (isset($_GET['change_pm_number'])) {
 //=== show small avatar drop down thingie / change on the fly
 if (isset($_GET['show_pm_avatar'])) {
     $show_pm_avatar = ($_GET['show_pm_avatar'] === 'yes' ? 'yes' : 'no');
-    sql_query('UPDATE users SET show_pm_avatar = ' . sqlesc($show_pm_avatar) . ' WHERE id = ' . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+    sql_query('UPDATE users SET show_pm_avatar = ' . sqlesc($show_pm_avatar) . ' WHERE id = ' . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
     $cache->update_row('user' . $CURUSER['id'], [
         'show_pm_avatar' => $show_pm_avatar
     ], $TRINITY20['expires']['user_cache']);
@@ -257,7 +257,7 @@ function get_all_boxes()
 {
     global $CURUSER, $cache, $TRINITY20, $lang;
     if (($get_all_boxes = $cache->get('get_all_boxes' . $CURUSER['id'])) === false) {
-        $res = sql_query('SELECT boxnumber, name FROM pmboxes WHERE userid=' . sqlesc($CURUSER['id']) . ' ORDER BY boxnumber') or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query('SELECT boxnumber, name FROM pmboxes WHERE userid=' . sqlesc($CURUSER['id']) . ' ORDER BY boxnumber')) || sqlerr(__FILE__, __LINE__);
         $get_all_boxes = '<select name="box">
 					<option value="">' . $lang['pm_search_move_to'] . '</option>
 
@@ -277,7 +277,7 @@ function insertJumpTo($mailbox)
 {
     global $CURUSER, $cache, $TRINITY20, $lang;
     if (($insertJumpTo = $cache->get('insertJumpTo' . $CURUSER['id'])) === false) {
-        $res = sql_query('SELECT boxnumber,name FROM pmboxes WHERE userid=' . sqlesc($CURUSER['id']) . ' ORDER BY boxnumber') or sqlerr(__FILE__, __LINE__);
+        ($res = sql_query('SELECT boxnumber,name FROM pmboxes WHERE userid=' . sqlesc($CURUSER['id']) . ' ORDER BY boxnumber')) || sqlerr(__FILE__, __LINE__);
         $insertJumpTo = '<form role="form" action="pm_system.php" method="get">
                                     <input type="hidden" name="action" value="view_mailbox">
 									<label>' . $lang['pm_jump_to'] . '
