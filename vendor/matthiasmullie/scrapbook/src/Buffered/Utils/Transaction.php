@@ -337,7 +337,7 @@ class Transaction implements KeyValueStore
      */
     public function cas($token, $key, $value, $expire = 0)
     {
-        $originalValue = isset($this->tokens[$token]) ? $this->tokens[$token] : null;
+        $originalValue = $this->tokens[$token] ?? null;
 
         // value is no longer the same as what we used for token
         if (serialize($this->get($key)) !== $originalValue) {

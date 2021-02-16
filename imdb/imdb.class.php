@@ -1550,11 +1550,7 @@ class IMDBHelper extends IMDB
             return false;
         }
         if ($iIndex !== null && is_int($iIndex)) {
-            if (isset($aMatches[$iIndex][0])) {
-                return $aMatches[$iIndex][0];
-            }
-
-            return false;
+            return $aMatches[$iIndex][0] ?? false;
         }
 
         return $aMatches;

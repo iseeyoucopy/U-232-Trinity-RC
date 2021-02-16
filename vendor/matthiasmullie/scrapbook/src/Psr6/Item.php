@@ -130,11 +130,7 @@ class Item implements CacheItemInterface
      */
     public function isHit()
     {
-        if ($this->isHit !== null) {
-            return $this->isHit;
-        }
-
-        return $this->repository->exists($this->hash);
+        return $this->isHit ?? $this->repository->exists($this->hash);
     }
 
     /**
