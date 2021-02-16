@@ -25,7 +25,7 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
 		 		   
 		if($_POST['load'] == 'torrents')
 		{	
-			$query = sql_query("SELECT id, name from torrents ORDER BY seeders + leechers DESC LIMIT 5") or sqlerr(__FILE__, __LINE__);
+			($query = sql_query("SELECT id, name from torrents ORDER BY seeders + leechers DESC LIMIT 5")) || sqlerr(__FILE__, __LINE__);
 			while($res = $query->fetch_assoc())
 			{
 				$att .="<div class='tr'>
@@ -37,7 +37,7 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
 			}
 		}
 		elseif($_POST['load'] == 'forums'){
-		$query = sql_query("SELECT forum.*,topic.*,topic.id as tid FROM topics as topic INNER JOIN forums as forum ON topic.forum_id = forum.id AND forum.min_class_read >= 0 ORDER BY tid DESC LIMIT 5") or sqlerr(__FILE__, __LINE__);
+		($query = sql_query("SELECT forum.*,topic.*,topic.id as tid FROM topics as topic INNER JOIN forums as forum ON topic.forum_id = forum.id AND forum.min_class_read >= 0 ORDER BY tid DESC LIMIT 5")) || sqlerr(__FILE__, __LINE__);
 			while($res = $query->fetch_assoc())
 			{
 				$att .="<div class='tr'>
