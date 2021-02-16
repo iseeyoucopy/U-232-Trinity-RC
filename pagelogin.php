@@ -22,7 +22,7 @@ function failedloginscheck()
     $total = 0;
     $ip = getip();
     ($res = sql_query("SELECT SUM(attempts) FROM failedlogins WHERE ip=" . sqlesc($ip))) || sqlerr(__FILE__, __LINE__);
-    list($total) = $res->fetch_row();
+    [$total] = $res->fetch_row();
     if ($total >= $TRINITY20['failedlogins']) {
         sql_query("UPDATE failedlogins SET banned = 'yes' WHERE ip=" . sqlesc($ip)) || sqlerr(__FILE__, __LINE__);
         stderr("Login Locked!", "You have <b>Exceeded</b> the allowed maximum login attempts without successful login, therefore your ip address <b>(" . htmlsafechars($ip) . ")</b> has been locked out for 24 hours.");

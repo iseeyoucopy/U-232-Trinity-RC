@@ -85,7 +85,7 @@ case 'default':
     $count = $count_arr[0];
     $page = isset($_GET['page']) ? (int)$_GET['page'] : 0;
     $perpage = isset($_GET['perpage']) ? (int)$_GET['perpage'] : 20;
-    list($menu, $LIMIT) = pager_new($count, $perpage, $page, 'offers.php?' . ($perpage == 20 ? '' : '&amp;perpage=' . $perpage));
+    [$menu, $LIMIT] = pager_new($count, $perpage, $page, 'offers.php?' . ($perpage == 20 ? '' : '&amp;perpage=' . $perpage));
     $main_query_res = sql_query('SELECT o.id AS offer_id, o.offer_name, o.category, o.added, o.offered_by_user_id, o.vote_yes_count, o.vote_no_count, o.comments, o.status,
                                                     u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.leechwarn, u.chatpost, u.pirate, u.king,
                                                     c.id AS cat_id, c.name AS cat_name, c.image AS cat_image
@@ -226,7 +226,7 @@ case 'offer_details':
         //=== get stuff for the pager
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 0;
         $perpage = isset($_GET['perpage']) ? (int)$_GET['perpage'] : 20;
-        list($menu, $LIMIT) = pager_new($count, $perpage, $page, 'offers.php?action=offer_details&amp;id=' . $id, ($perpage == 20 ? '' : '&amp;perpage=' . $perpage) . '#comments');
+        [$menu, $LIMIT] = pager_new($count, $perpage, $page, 'offers.php?action=offer_details&amp;id=' . $id, ($perpage == 20 ? '' : '&amp;perpage=' . $perpage) . '#comments');
         ($subres = sql_query('SELECT c.offer, c.id AS comment_id, c.text, c.added, c.editedby, c.editedat, 
                                     u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.avatar, u.offensive_avatar, u.title, u.leechwarn, u.chatpost, u.pirate, u.king FROM comments AS c LEFT JOIN users AS u ON c.user = u.id WHERE c.offer = ' . sqlesc($id) . ' ORDER BY c.id ' . $LIMIT)) || sqlerr(__FILE__, __LINE__);
         $allrows = array();

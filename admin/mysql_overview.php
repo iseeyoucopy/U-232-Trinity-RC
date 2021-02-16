@@ -119,12 +119,12 @@ $HTMLOUT.= "<h2>{$lang['mysql_over_title']}</h2>
 $count = 0;
 ($res = @sql_query("SHOW TABLE STATUS FROM {$TRINITY20['mysql_db']}")) || stderr(__FILE__, __LINE__);
 while ($row = $res->fetch_array(MYSQLI_BOTH)) {
-    list($formatted_Avg, $formatted_Abytes) = byteformat($row['Avg_row_length']);
-    list($formatted_Dlength, $formatted_Dbytes) = byteformat($row['Data_length']);
-    list($formatted_Ilength, $formatted_Ibytes) = byteformat($row['Index_length']);
-    list($formatted_Dfree, $formatted_Fbytes) = byteformat($row['Data_free']);
+    [$formatted_Avg, $formatted_Abytes] = byteformat($row['Avg_row_length']);
+    [$formatted_Dlength, $formatted_Dbytes] = byteformat($row['Data_length']);
+    [$formatted_Ilength, $formatted_Ibytes] = byteformat($row['Index_length']);
+    [$formatted_Dfree, $formatted_Fbytes] = byteformat($row['Data_free']);
     $tablesize = ($row['Data_length']) + ($row['Index_length']);
-    list($formatted_Tsize, $formatted_Tbytes) = byteformat($tablesize, 3, ($tablesize > 0) ? 1 : 0);
+    [$formatted_Tsize, $formatted_Tbytes] = byteformat($tablesize, 3, ($tablesize > 0) ? 1 : 0);
     $thispage = "&amp;Do=T&amp;table=" . urlencode($row['Name']);
     $overhead = ($formatted_Dfree > 0) ? "<a href='staffpanel.php?tool=mysql_overview&amp;action=mysql_overview$thispage'><font color='red'><b>$formatted_Dfree $formatted_Fbytes</b></font></a>" : "$formatted_Dfree $formatted_Fbytes";
     $HTMLOUT.= "<tr align='right'>

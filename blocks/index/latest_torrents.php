@@ -71,7 +71,7 @@ if (($top5torrents = $cache->get('top5_tor_')) === false) {
     }
     $cache->set('top5_tor_', $top5torrents);
 }
-if ($top5torrents && count($top5torrents) > 0) {
+if ($top5torrents && (is_countable($top5torrents) ? count($top5torrents) : 0) > 0) {
     $HTMLOUT.= "<div class='module'><div class='tbadge tbadge-top'></div>
      	    <table class='table table-bordered'>
             <thead><tr>
@@ -111,7 +111,7 @@ if (($last5torrents = $cache->get('last5_tor_')) === false) {
     }
     $cache->set('last5_tor_', $last5torrents, $TRINITY20['expires']['last5_torrents']);
 }
-if ($last5torrents && count($last5torrents) > 0) {
+if ($last5torrents && (is_countable($last5torrents) ? count($last5torrents) : 0) > 0) {
     $HTMLOUT.= "<div class='module'><div class='tbadge tbadge-new'></div>
     	        <table class='table table-bordered'>
                 <thead><tr>

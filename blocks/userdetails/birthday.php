@@ -14,10 +14,10 @@
 $age = $birthday = '';
 if ($user['birthday'] != '0') {
     $current = date("Y-m-d", TIME_NOW);
-    list($year2, $month2, $day2) = explode('-', $current);
+    [$year2, $month2, $day2] = explode('-', $current);
     $birthday = $user["birthday"];
     $birthday = date("Y-m-d", strtotime($birthday));
-    list($year1, $month1, $day1) = explode('-', $birthday);
+    [$year1, $month1, $day1] = explode('-', $birthday);
     if ($month2 < $month1) {
         $age = $year2 - $year1 - 1;
     }

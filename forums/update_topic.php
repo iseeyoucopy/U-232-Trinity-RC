@@ -97,7 +97,7 @@ if (isMod($topic_arr["forum_id"]) || $CURUSER['class'] >= UC_STAFF) {
         sql_query("UPDATE forums SET topic_count=topic_count+1, post_count=post_count+" . sqlesc($post_count) . " WHERE id=" . sqlesc($new_forumid)) || sqlerr(__FILE__, __LINE__);
         $returnto = $TRINITY20['baseurl'] . '/forums.php?action=viewforum&forumid=' . $new_forumid;
     }
-    if (count($updateset) > 0) {
+    if ((is_countable($updateset) ? count($updateset) : 0) > 0) {
         sql_query("UPDATE topics SET " . implode(', ', $updateset) . " WHERE id=" . sqlesc($topicid)) || sqlerr(__FILE__, __LINE__);
     }
     header('Location: ' . $returnto);

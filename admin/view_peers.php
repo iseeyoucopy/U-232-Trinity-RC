@@ -36,7 +36,7 @@ function my_inet_ntop($ip)
 {
     if (strlen($ip) == 4) {
         // ipv4
-        list(, $ip) = unpack('N', $ip);
+        [, $ip] = unpack('N', $ip);
         $ip = long2ip($ip);
     } elseif (strlen($ip) == 16) {
         // ipv6

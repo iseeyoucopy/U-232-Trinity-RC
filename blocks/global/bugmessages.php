@@ -13,7 +13,7 @@
 if ($TRINITY20['bug_alert'] && $CURUSER['class'] >= UC_STAFF) {
     if (($bugs = $cache->get('bug_mess_')) === false) {
         ($res1 = sql_query("SELECT COUNT(id) FROM bugs WHERE status = 'na'")) || sqlerr(__FILE__, __LINE__);
-        list($bugs) = $res1->fetch_row();
+        [$bugs] = $res1->fetch_row();
         $cache->set('bug_mess_', $bugs, $TRINITY20['expires']['alerts']);
     }
     if ($bugs > 0) {

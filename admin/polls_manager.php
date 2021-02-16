@@ -302,7 +302,7 @@ function makepoll()
     }
     if (isset($_POST['choice']) && is_array($_POST['choice']) && count($_POST['choice'])) {
         foreach ($_POST['choice'] as $mainid => $choice) {
-            list($question_id, $choice_id) = explode("_", $mainid);
+            [$question_id, $choice_id] = explode("_", $mainid);
             $question_id = (int) $question_id;
             $choice_id = (int) $choice_id;
             if (!$question_id || !isset($choice_id)) {
@@ -321,7 +321,7 @@ function makepoll()
         if (!is_array($data['choice']) || !count($data['choice'])) {
             unset($questions[$id]);
         } else {
-            $choices_count+= (int) count($data['choice']);
+            $choices_count+= (int) (is_countable($data['choice']) ? count($data['choice']) : 0);
         }
     }
 

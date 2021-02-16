@@ -193,7 +193,7 @@ if (isset($info['length'])) {
     if (bencdec::get_type($info['files']) != 'list')
         stderr('Error', 'invalid files, not a list');
     $flist =& $info['files'];
-    if (count($flist) === 0)
+    if ((is_countable($flist) ? count($flist) : 0) === 0)
         stderr('Error', 'no files');
     $totallen = 0;
     foreach ($flist as $fn) {

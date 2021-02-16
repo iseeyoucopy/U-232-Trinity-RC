@@ -43,7 +43,7 @@ if (!isset($_FILES["file"])) {
     stderr($lang['takeupload_failed'], $lang['takeupload_no_formdata']);
 }
 
-$total_torrents = count($_FILES['file']['name']);
+$total_torrents = is_countable($_FILES['file']['name']) ? count($_FILES['file']['name']) : 0;
 function file_list($arr, $id)
 {
     foreach ($arr as $v) {
@@ -183,7 +183,7 @@ foreach ($file_list as $key=>$f) {
             continue;
         }
         $flist =& $info['files'];
-        if (count($flist) === 0) {
+        if ((is_countable($flist) ? count($flist) : 0) === 0) {
             continue;
         }
         $totallen = 0;
@@ -204,7 +204,7 @@ foreach ($file_list as $key=>$f) {
                 }
                 $ffa[] = $ffe;
             }
-            if (count($ffa) === 0) {
+            if ((is_countable($ffa) ? count($ffa) : 0) === 0) {
                 continue;
             }
             $ffe        = implode('/', $ffa);
@@ -244,7 +244,7 @@ foreach ($file_list as $key=>$f) {
         $infohash,
         $torrent,
         $totallen,
-        count($filelist),
+        is_countable($filelist) ? count($filelist) : 0,
         $type,
         $offer,
         $request,

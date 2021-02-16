@@ -240,7 +240,7 @@ if ($genreaction != "keep") {
     $torrent_cache['newgenre'] = $genre;
 }
 //==End - now update the sets
-if (count($updateset) > 0) sql_query('UPDATE torrents SET ' . implode(',', $updateset) . ' WHERE id = ' . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
+if ((is_countable($updateset) ? count($updateset) : 0) > 0) sql_query('UPDATE torrents SET ' . implode(',', $updateset) . ' WHERE id = ' . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
 if ($torrent_cache !== []) {
     $cache->update_row('torrent_details_' . $id, $torrent_cache, $TRINITY20['expires']['torrent_details']);
     $cache->delete('top5_tor_');

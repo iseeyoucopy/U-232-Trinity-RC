@@ -49,7 +49,7 @@ function ann_sql_query($a_query)
         'seconds' => number_format($a_query_end_time - $a_query_start_time, 6) ,
         'query' => $a_query
     );
-    if ((count($a_query_stat) > 0) && (ANN_SQL_LOGGING == 1)) {
+    if (((is_countable($a_query_stat) ? count($a_query_stat) : 0) > 0) && (ANN_SQL_LOGGING == 1)) {
     foreach ($a_query_stat as $key => $value) {
         $_ann_sql = "\n=============U-232 V5 Announce query logging=========";
         $_ann_sql.= "\n Query no : " . $key."+1";

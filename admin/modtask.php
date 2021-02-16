@@ -937,7 +937,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         }
 
         $forums = $_POST["forums"] ?? "";
-    if(!empty($forums) && count($forums)>0 && $forum_mod == "yes") {
+    if(!empty($forums) && (is_countable($forums) ? count($forums) : 0)>0 && $forum_mod == "yes") {
 	$foo = "[".implode("][",$forums)."]";
 	($q = sql_query("SELECT id FROM topics WHERE forum_id IN (".implode(",",$forums).") ")) || sqlerr(__FILE__, __LINE__);
 		while($a = $q->fetch_assoc())
@@ -973,7 +973,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     if ((isset($_POST['class'])) && (($class = $_POST['class']) != $user['class'])) {
         write_staffs();
     }
-    if (is_array($setbits) && count($setbits) > 0 || is_array($clrbits) && count($clrbits) > 0) 
+    if (is_array($setbits) && (is_countable($setbits) ? count($setbits) : 0) > 0 || is_array($clrbits) && (is_countable($clrbits) ? count($clrbits) : 0) > 0) 
 		sql_query('UPDATE users SET opt1 = ((opt1 | ' . $setbits . ') & ~' . $clrbits . '), opt2 = ((opt2 | ' . $setbits . ') & ~' . $clrbits . ') WHERE id = ' . sqlesc($userid)) || sqlerr(__file__, __line__);
     // grab current data
     ($res = sql_query('SELECT opt1, opt2 FROM users WHERE id = ' . sqlesc($userid) . ' LIMIT 1')) || sqlerr(__file__, __line__);

@@ -91,7 +91,7 @@ function searchfield($entry)
     //
     // Filter out strange characters like ^, $, &, change "it's" to "its"
     //
-    for ($i = 0; $i < count($drop_char_match); $i++) {
+    for ($i = 0; $i < (is_countable($drop_char_match) ? count($drop_char_match) : 0); $i++) {
         $entry = str_replace($drop_char_match[$i], $drop_char_replace[$i], $entry);
     }
     return $entry;
@@ -110,7 +110,7 @@ function search_text_in_db($searchstr, $base_sql, $where_search, $add_where = ar
         'not',
         'and'
     );
-    $add_where = (count($add_where) !== 0 ? ' AND ' . implode(' AND ', $add_where) : '');
+    $add_where = ((is_countable($add_where) ? count($add_where) : 0) !== 0 ? ' AND ' . implode(' AND ', $add_where) : '');
     $cleansearchstr = searchfield($searchstr);
     $lower_searchstr = utf_strtolower($searchstr);
     if ($strict) {
@@ -136,7 +136,7 @@ function search_text_in_db($searchstr, $base_sql, $where_search, $add_where = ar
     $current_match_type = 'and';
     $word_match = array();
     $result_list = array();
-    for ($i = 0; $i < count($split_search); $i++) {
+    for ($i = 0; $i < (is_countable($split_search) ? count($split_search) : 0); $i++) {
         if (utf_strlen(str_replace(array(
             '*',
             '%'

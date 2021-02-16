@@ -33,7 +33,7 @@ $HTMLOUT.= "
     <div style='float:left;padding-left:5px;'><small style='font-weight:bold;'>{$lang['usercp_pers_nobb']}</small></div>
     <div style='float:right;font-size:12px;font-weight:bold;' id='status_count'>140</div>
     <div style='clear:both;'></div></div>";
-    if ($CURUSER['archive'] && count($CURUSER['archive'])) {
+    if ($CURUSER['archive'] && (is_countable($CURUSER['archive']) ? count($CURUSER['archive']) : 0)) {
         $HTMLOUT.= "<div style='width:390px'>
     <div style='float:left;padding-left:5px;'><small style='font-weight:bold;'>{$lang['usercp_pers_arcstat']}</small></div>
     <div style='float:right;cursor:pointer' id='status_archive_click' onclick='status_slide()'>+</div>
@@ -59,7 +59,7 @@ $HTMLOUT.= "
     $day = $month = $year = '';
     $birthday = $CURUSER["birthday"];
     $birthday = date("Y-m-d", strtotime($birthday));
-    list($year1, $month1, $day1) = explode('-', $birthday);
+    [$year1, $month1, $day1] = explode('-', $birthday);
     if ($CURUSER['birthday'] == '0000-00-00' || $CURUSER['birthday'] == '1801-01-01') {
         $year.= "<select name=\"year\"><option value=\"0000\">--</option>\n";
         $i = "1920";

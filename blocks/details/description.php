@@ -25,7 +25,7 @@ if (($sim_torrents = $cache->get($keys['similar_tor'] . $id)) === false) {
     }
     $cache->set($keys['similar_tor'] . $id, $sim_torrents, 86400);
 }
-if ($sim_torrents && count($sim_torrents) > 0) {
+if ($sim_torrents && (is_countable($sim_torrents) ? count($sim_torrents) : 0) > 0) {
     $sim_torrent = "<div class='table-scroll'>
 	<table class='table'>" . "
         <thead>

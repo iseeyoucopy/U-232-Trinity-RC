@@ -180,7 +180,7 @@ if ($id !== 0) {
     $res_count = sql_query('SELECT COUNT(id) FROM users WHERE ' . $query);
     $arr_count = $res_count->fetch_row();
     $count = ($arr_count[0] > 0 ? $arr_count[0] : 0);
-    list($menu, $LIMIT) = pager_new($count, $perpage, $page, 'staffpanel.php?tool=invite_tree&amp;action=invite_tree');
+    [$menu, $LIMIT] = pager_new($count, $perpage, $page, 'staffpanel.php?tool=invite_tree&amp;action=invite_tree');
     $HTMLOUT.= ($arr_count[0] > $perpage) ? '' . $menu . '<br /><br />' : '<br /><br />';
     if ($arr_count[0] > 0) {
         $res = sql_query('SELECT users.*, countries.name, countries.flagpic FROM users FORCE INDEX ( username ) LEFT JOIN countries ON country = countries.id WHERE ' . $query . ' ORDER BY username ' . $LIMIT);

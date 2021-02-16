@@ -468,7 +468,7 @@ if (($shouts = $cache->get('shoutbox_')) === false) {
     }
     $cache->set('shoutbox_', $shouts, $TRINITY20['expires']['shoutbox']);
 }
-if ($shouts && count($shouts) > 0) {
+if ($shouts && (is_countable($shouts) ? count($shouts) : 0) > 0) {
     $HTMLOUT.= "<table class='small text-left' style='clear:both; border-collapse:collapse; width:100%;'>";
     ($shout_query_a = sql_query(" SELECT count(id) AS pms FROM messages WHERE receiver = " . sqlesc($CURUSER['id']) . " AND unread = 'yes' AND location = '1'")) || sqlerr(__FILE__, __LINE__);
     $shout_pm_alert = $shout_query_a->fetch_assoc();

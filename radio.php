@@ -44,7 +44,7 @@ function radioinfo($radio)
             $history[] = '<b>&nbsp;' . $temph3[2][1] . '</b> <sub>(' . get_date($temph3[2][0], 'DATE') . ')</sub>';
         }
         preg_match_all('/\<HOSTNAME>(.*?)<\/HOSTNAME>/', $xml, $temph);
-        if (count($temph[1]) > 0) $users_ip = implode(', ', array_map('sqlesc', $temph[1]));
+        if ((is_countable($temph[1]) ? count($temph[1]) : 0) > 0) $users_ip = implode(', ', array_map('sqlesc', $temph[1]));
         if ($data['STREAMSTATUS'] == 0) return 'Sorry ' . $CURUSER['username'] . '... : Server ' . $radio_host . ' is online but there is no stream';
         else {
             unset($data['STREAMSTATUS']);
