@@ -75,9 +75,9 @@ case 'vote':
         sql_query('UPDATE requests SET ' . ($yes_or_no == 'Yes' ? 'vote_yes_count = vote_yes_count + 1' : 'vote_no_count = vote_no_count + 1') . ' WHERE id = ' . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
         header('Location: /requests.php?action=request_details&voted=1&id=' . sqlesc($id));
         die();
-    } else {
-        stderr($lang['req_add_err3'], $lang['req_add_err5']);
     }
+
+    stderr($lang['req_add_err3'], $lang['req_add_err5']);
     break;
     //===========================================================================================//
     //=======================    the default page listing all the requests w/ pager         ===============================//

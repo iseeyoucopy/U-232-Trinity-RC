@@ -277,47 +277,47 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
             }
             stderr($lang['casino_you_got_it'], "<h2>{$lang['casino_you_won_the_bet']}, " . htmlsafechars($nogb) . " {$lang['casino_has_been_credited_to_your_account']}, at <a href='userdetails.php?id=" . (int) $tbet['userid'] . "'>" . htmlsafechars($tbet['proposed']) . "'s</a> {$lang['casino_expense']} !</h2>&nbsp;&nbsp;&nbsp;$goback");
             exit();
-        } else {
-            if (empty($newup)) {
-                $newup = $User['uploaded'] - $tbet['amount'];
-            }
-            $newup2 = $tbet['amount'] * 2;
-            sql_query("UPDATE users SET uploaded = " . sqlesc($newup) . " WHERE id =" . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
-            sql_query("UPDATE users SET uploaded = uploaded + " . sqlesc($newup2) . " WHERE id = " . sqlesc($tbet['userid'])) || sqlerr(__FILE__, __LINE__);
-            sql_query("UPDATE casino SET deposit = deposit-" . sqlesc($tbet['amount']) . " WHERE userid = " . sqlesc($tbet['userid']));
-            $update['uploaded'] = ($newup);
-            //==stats
-            $cache->update_row($keys['user_stats'] . $CURUSER['id'], [
-                'uploaded' => $update['uploaded']
-            ], $TRINITY20['expires']['u_stats']);
-            $cache->update_row('user_stats_' . $CURUSER['id'], [
-                'uploaded' => $update['uploaded']
-            ], $TRINITY20['expires']['user_stats']);
-            $update['uploaded_2'] = ($User['uploaded'] + $newup2);
-            //==stats
-            $cache->update_row($keys['user_stats'] . $tbet['userid'], [
-                'uploaded' => $update['uploaded_2']
-            ], $TRINITY20['expires']['u_stats']);
-            $cache->update_row('user_stats_' . $tbet['userid'], [
-                'uploaded' => $update['uploaded_2']
-            ], $TRINITY20['expires']['user_stats']);
-            if ($mysqli->affected_rows == 0) {
-                sql_query("INSERT INTO casino (userid, date, deposit) VALUES (" . sqlesc($tbet['userid']) . ", $time, -" . sqlesc($tbet['amount']) . ")") || sqlerr(__FILE__, __LINE__);
-            }
-            sql_query("UPDATE casino_bets SET challenged = " . sqlesc($CURUSER['username']) . ", winner = " . sqlesc($tbet['proposed']) . " WHERE id = " . sqlesc($betid)) || sqlerr(__FILE__, __LINE__);
-            $subject = sqlesc($lang['casino_casino_results']);
-            $msg = sqlesc("{$lang['casino_you_just_won']} " . htmlsafechars($nogb) . " {$lang['casino_of_upload_credit_from']} " . $CURUSER['username'] . " !");
-            sql_query("INSERT INTO messages (subject, sender, receiver, added, msg, unread, poster) VALUES ($subject, $sendfrom, " . sqlesc($tbet['userid']) . ", $time, $msg, 'yes', $sendfrom)") || sqlerr(__FILE__, __LINE__);
-            $cache->delete('inbox_new::' . $tbet['userid']);
-            $cache->delete('inbox_new_sb::' . $tbet['userid']);
-            if ($writelog === 1) {
-                write_log("" . htmlsafechars($tbet['proposed']) . " won $nogb {$lang['casino_of_upload_credit_off']} " . $CURUSER['username']);
-            }
-            if ($delold === 1) {
-                sql_query("DELETE FROM casino_bets WHERE id =" . sqlesc($tbet['id'])) || sqlerr(__FILE__, __LINE__);
-            }
-            stderr($lang['casino_damn_it'], "<h2>{$lang['casino_you_lost_the_bet']} <a href='userdetails.php?id=" . (int) $tbet['userid'] . "'>" . htmlsafechars($tbet['proposed']) . "</a> {$lang['casino_has_won']} " . htmlsafechars($nogb) . " {$lang['casino_of_your_hard_earnt_upload_credit']} !</h2> &nbsp;&nbsp;&nbsp;$goback");
         }
+
+        if (empty($newup)) {
+            $newup = $User['uploaded'] - $tbet['amount'];
+        }
+        $newup2 = $tbet['amount'] * 2;
+        sql_query("UPDATE users SET uploaded = " . sqlesc($newup) . " WHERE id =" . sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE users SET uploaded = uploaded + " . sqlesc($newup2) . " WHERE id = " . sqlesc($tbet['userid'])) || sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE casino SET deposit = deposit-" . sqlesc($tbet['amount']) . " WHERE userid = " . sqlesc($tbet['userid']));
+        $update['uploaded'] = ($newup);
+        //==stats
+        $cache->update_row($keys['user_stats'] . $CURUSER['id'], [
+            'uploaded' => $update['uploaded']
+        ], $TRINITY20['expires']['u_stats']);
+        $cache->update_row('user_stats_' . $CURUSER['id'], [
+            'uploaded' => $update['uploaded']
+        ], $TRINITY20['expires']['user_stats']);
+        $update['uploaded_2'] = ($User['uploaded'] + $newup2);
+        //==stats
+        $cache->update_row($keys['user_stats'] . $tbet['userid'], [
+            'uploaded' => $update['uploaded_2']
+        ], $TRINITY20['expires']['u_stats']);
+        $cache->update_row('user_stats_' . $tbet['userid'], [
+            'uploaded' => $update['uploaded_2']
+        ], $TRINITY20['expires']['user_stats']);
+        if ($mysqli->affected_rows == 0) {
+            sql_query("INSERT INTO casino (userid, date, deposit) VALUES (" . sqlesc($tbet['userid']) . ", $time, -" . sqlesc($tbet['amount']) . ")") || sqlerr(__FILE__, __LINE__);
+        }
+        sql_query("UPDATE casino_bets SET challenged = " . sqlesc($CURUSER['username']) . ", winner = " . sqlesc($tbet['proposed']) . " WHERE id = " . sqlesc($betid)) || sqlerr(__FILE__, __LINE__);
+        $subject = sqlesc($lang['casino_casino_results']);
+        $msg = sqlesc("{$lang['casino_you_just_won']} " . htmlsafechars($nogb) . " {$lang['casino_of_upload_credit_from']} " . $CURUSER['username'] . " !");
+        sql_query("INSERT INTO messages (subject, sender, receiver, added, msg, unread, poster) VALUES ($subject, $sendfrom, " . sqlesc($tbet['userid']) . ", $time, $msg, 'yes', $sendfrom)") || sqlerr(__FILE__, __LINE__);
+        $cache->delete('inbox_new::' . $tbet['userid']);
+        $cache->delete('inbox_new_sb::' . $tbet['userid']);
+        if ($writelog === 1) {
+            write_log("" . htmlsafechars($tbet['proposed']) . " won $nogb {$lang['casino_of_upload_credit_off']} " . $CURUSER['username']);
+        }
+        if ($delold === 1) {
+            sql_query("DELETE FROM casino_bets WHERE id =" . sqlesc($tbet['id'])) || sqlerr(__FILE__, __LINE__);
+        }
+        stderr($lang['casino_damn_it'], "<h2>{$lang['casino_you_lost_the_bet']} <a href='userdetails.php?id=" . (int) $tbet['userid'] . "'>" . htmlsafechars($tbet['proposed']) . "</a> {$lang['casino_has_won']} " . htmlsafechars($nogb) . " {$lang['casino_of_your_hard_earnt_upload_credit']} !</h2> &nbsp;&nbsp;&nbsp;$goback");
         exit();
     }
     //== Add a new bet

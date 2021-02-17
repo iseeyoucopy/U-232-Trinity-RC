@@ -73,9 +73,9 @@ case 'vote':
         sql_query('UPDATE offers SET ' . ($yes_or_no == 'yes' ? 'vote_yes_count = vote_yes_count + 1' : 'vote_no_count = vote_no_count + 1') . ' WHERE id = ' . sqlesc($id));
         header('Location: /offers.php?action=offer_details&voted=1&id=' . $id);
         die();
-    } else {
-        stderr('USER ERROR', 'You have voted on this offer before.');
     }
+
+    stderr('USER ERROR', 'You have voted on this offer before.');
     break;
 
 case 'default':

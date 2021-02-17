@@ -237,9 +237,9 @@ function template_out($matches)
     global $GVARS, $TRINITY20, $lang;
     if ($matches[1] == 'rep_is_online') {
         return '' . $lang['repset_yes'] . '<input name="rep_is_online" value="1" ' . ($GVARS['rep_is_online'] == 1 ? 'checked="checked"' : "") . ' type="radio">&nbsp;&nbsp;&nbsp;<input name="rep_is_online" value="0" ' . ($GVARS['rep_is_online'] == 1 ? "" : 'checked="checked"') . ' type="radio">' . $lang['repset_no'] . '';
-    } else {
-        return $GVARS[$matches[1]];
     }
+
+    return $GVARS[$matches[1]];
 }
 function redirect($url, $text, $time = 2)
 {

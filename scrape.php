@@ -59,10 +59,11 @@ function check_bans($ip, &$reason = '')
         $mysqli->next_result();
         $cache->set($key, 0, 86400); // 86400 // not banned
         return false;
-    } elseif (!$ban) {
-        return false;
     }
-    else {
+
+    if (!$ban) {
+        return false;
+    } else {
         $reason = $ban;
         return true;
     }
@@ -151,7 +152,9 @@ if (!empty($_GET['info_hash']) && is_array($_GET['info_hash'])) {
 $torrents = [];
 if ($numhash < 1) {
     die('Scrape Error d5:filesdee');
-} elseif ($numhash === 1) {
+}
+
+if ($numhash === 1) {
     $torrent = get_torrent_from_hash($_GET['info_hash']);
     if ($torrent) {
         $torrents[$_GET['info_hash']] = $torrent;

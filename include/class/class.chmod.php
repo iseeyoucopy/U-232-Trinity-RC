@@ -81,9 +81,9 @@ class Chmod
                 $return[] = $this->returnValue($dir);
             }
             return $return;
-        } else {
-            return $this->returnValue($this->_dir);
         }
+
+        return $this->returnValue($this->_dir);
     }
 }
 ?>

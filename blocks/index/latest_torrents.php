@@ -23,7 +23,8 @@ if (!function_exists('health')) {
         if (($leechers == 0 && $seeders == 0) || ($leechers > 0 && $seeders == 0)) {
             return "<img src=' ".$TRINITY20['baseurl']."/images/health/health_0.gif' alt='Torrent Dead' title='Torrent Dead' />";
         }
-        elseif ($seeders > $leechers) {
+
+        if ($seeders > $leechers) {
             return "<img src=' ".$TRINITY20['baseurl']."/images/health/health_10.gif' alt='Torrent health' title='Torrent health' />";
         }
         switch ($ratio) {

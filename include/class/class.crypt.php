@@ -86,9 +86,9 @@ class McryptCipher
 
         if ($raw_output) {
             return substr($output, 0, $key_length);
-        } else {
-            return bin2hex(substr($output, 0, $key_length));
         }
+
+        return bin2hex(substr($output, 0, $key_length));
     }
 
     private function pbkfd2Hash($password, $salt) {

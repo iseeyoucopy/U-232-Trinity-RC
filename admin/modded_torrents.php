@@ -57,7 +57,9 @@ function do_sort($arr, $empty = false)
             $users,
             $ret_html
         );
-    } elseif ($count > 1) {
+    }
+
+    if ($count > 1) {
         while ($res = $arr->fetch_assoc()) {
             $users[$res['checked_by']] = ((isset($users[$res['checked_by']]) && $users[$res['checked_by']] > 0) ? $users[$res['checked_by']] + 1 : 1);
             $ret_html.= "<tr><td align='center'><a href='details.php?id=".(int)$res['id']."'>".htmlsafechars($res['name'])."</a></td><td align='center'><a href='userdetails.php?id=".(int)$res['uid']."'>".htmlsafechars($res['checked_by'])."</a></td><td align='center'>" . date('h:i:s d/m/Y', $res['checked_when']) . "</td></tr>";
@@ -68,6 +70,7 @@ function do_sort($arr, $empty = false)
         );
     }
 }
+
 if (isset($_GET['type']) && in_array($_GET['type'], $modes)) {
     $mode = (isset($_GET['type']) && in_array($_GET['type'], $modes)) ? $_GET['type'] : stderr($lang['mtor_error'], "".$lang['mtor_please_try_that_previous_request_again'].".");
     if ($mode == 'unmodded') {
@@ -90,7 +93,7 @@ if (isset($_GET['type']) && in_array($_GET['type'], $modes)) {
         //echo stdhead("".$lang['mtor_no_torrents_modded']."") . $HTMLOUT . stdfoot();
         //die();
         // ENDS ALL UNMODDED TORRENTS
-        
+
     } else {
         // IF ITS THE OTHER 2 CASES AS CHECKED BEFORE , NO NEED TO DO IT AGAIN
         $beginOfDay = strtotime("midnight", TIME_NOW);
@@ -104,7 +107,7 @@ if (isset($_GET['type']) && in_array($_GET['type'], $modes)) {
             //echo stdhead("".$lang['mtor_no_torrents_modded']."") . $HTMLOUT . stdfoot();
             $title = "".$lang['mtor_no_torrents_modded']." $mode";
             //die();
-            
+
         } else {
             $perpage = 15;
             $pager = pager($perpage, $count, "{$_SERVER['PHP_SELF']}?");
@@ -125,7 +128,9 @@ if (isset($_GET['type']) && in_array($_GET['type'], $modes)) {
     }
     echo stdhead($title) . $HTMLOUT . stdfoot();
     die();
-} elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $where = false;
     $ts = strtotime(date("F", time()) . ' ' . date("Y", time()));
     $last_day = date('t', $ts);

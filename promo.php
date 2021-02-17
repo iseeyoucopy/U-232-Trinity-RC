@@ -251,53 +251,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
     if ($id == 0) {
         die("Can't find id");
     }
-    else {
-        ($q1 = sql_query("SELECT name, users FROM promo WHERE id=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
-        if ($q1->num_rows == 1) {
-            $a1 = $q1->fetch_assoc();
-            if (!empty($a1["users"])) {
-                $users = explode(",", $a1["users"]);
-                if (!empty($users)) {
-                    ($q2 = sql_query("SELECT id, username, added FROM users WHERE id IN (".implode(",", $users).")")) || sqlerr(__FILE__, __LINE__);
-                }
-                $HTMLOUT = "
-          <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN''http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
-          <html xmlns='http://www.w3.org/1999/xhtml'>
-          <head>
-					<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
-					<title>Users list for promo : " . htmlsafechars($a1["name"]) . "</title>
-					<style type=\"text/css\">
-					body { background-color:#999999;
-					color:#333333;
-					font-family:tahoma;
-					font-size:12px;
-					font-weight:bold;}
-					a:link, a:hover , a:visited {
-					color:#FFFFFF;
-					}
-					.rowhead { background-color:#0033FF;
-					color:#CCCCCC;}
-					</style>
-					</head>
-					<body>
-					<div class='row'><div class='col-md-12'>
-					<table class='table table-bordered'>
-						<tr><td class='rowhead' align='left' width='100'> User</td><td class='rowhead' align='left' nowrap='nowrap'>Added</td></tr>";
-                while ($ap = $q2->fetch_assoc()) {
-                    $HTMLOUT.= "<tr><td align='left' width='100'><a href='userdetails.php?id=" . (int)$ap["id"] . "'>" . htmlsafechars($ap["username"]) . "</a></td><td  align='left' nowrap='nowrap' >" . get_date($ap["added"], 'LONG', 0, 1) . "</td></tr>";
-                }
-                $HTMLOUT.= "</table></div></div>
-						<br/>
-					<div align='center'><a href='javascript:close()'><input type='button' value='Close' /></a></div>
-					</body>
-					</html>";
-                echo $HTMLOUT;
-            } else {
-                die("No users");
+
+    ($q1 = sql_query("SELECT name, users FROM promo WHERE id=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
+    if ($q1->num_rows == 1) {
+        $a1 = $q1->fetch_assoc();
+        if (!empty($a1["users"])) {
+            $users = explode(",", $a1["users"]);
+            if (!empty($users)) {
+                ($q2 = sql_query("SELECT id, username, added FROM users WHERE id IN (".implode(",", $users).")")) || sqlerr(__FILE__, __LINE__);
             }
+            $HTMLOUT = "
+      <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN''http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+      <html xmlns='http://www.w3.org/1999/xhtml'>
+      <head>
+                <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+                <title>Users list for promo : " . htmlsafechars($a1["name"]) . "</title>
+                <style type=\"text/css\">
+                body { background-color:#999999;
+                color:#333333;
+                font-family:tahoma;
+                font-size:12px;
+                font-weight:bold;}
+                a:link, a:hover , a:visited {
+                color:#FFFFFF;
+                }
+                .rowhead { background-color:#0033FF;
+                color:#CCCCCC;}
+                </style>
+                </head>
+                <body>
+                <div class='row'><div class='col-md-12'>
+                <table class='table table-bordered'>
+                    <tr><td class='rowhead' align='left' width='100'> User</td><td class='rowhead' align='left' nowrap='nowrap'>Added</td></tr>";
+            while ($ap = $q2->fetch_assoc()) {
+                $HTMLOUT.= "<tr><td align='left' width='100'><a href='userdetails.php?id=" . (int)$ap["id"] . "'>" . htmlsafechars($ap["username"]) . "</a></td><td  align='left' nowrap='nowrap' >" . get_date($ap["added"], 'LONG', 0, 1) . "</td></tr>";
+            }
+            $HTMLOUT.= "</table></div></div>
+                    <br/>
+                <div align='center'><a href='javascript:close()'><input type='button' value='Close' /></a></div>
+                </body>
+                </html>";
+            echo $HTMLOUT;
         } else {
-            die("Something odd happend");
+            die("No users");
         }
+    } else {
+        die("Something odd happend");
     }
 } else {
     loggedinorreturn();

@@ -60,9 +60,9 @@ function make_nice_address($ip)
     $dom = @gethostbyaddr($ip);
     if ($dom == $ip || @gethostbyname($dom) != $ip) {
         return $ip;
-    } else {
-        return $ip . '<br />' . $dom;
     }
+
+    return $ip . '<br />' . $dom;
 }
 $msg_to_analyze = (isset($_POST['msg_to_analyze']) ? htmlsafechars($_POST['msg_to_analyze']) : '');
 $invite_code = (isset($_POST['invite_code']) ? htmlsafechars($_POST['invite_code']) : '');

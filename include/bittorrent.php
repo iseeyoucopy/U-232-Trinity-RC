@@ -159,7 +159,7 @@ function check_bans($ip, $reason = '')
     global $TRINITY20, $cache, $c, $mysqli;
     //$ip_decrypt = $c->decrypt($ip);
     $key = 'bans::' . $ip;
-    if (($ban = $cache->get($key)) === false && $ip != '127.0.0.1') { 
+    if (($ban = $cache->get($key)) === false && $ip != '127.0.0.1') {
         $nip = ip2long($ip);
         $ban_sql = sql_query('SELECT comment FROM bans WHERE (first <= ' . $nip . ' AND last >= ' . $nip . ') LIMIT 1');
         if ($ban_sql->num_rows) {
@@ -172,10 +172,11 @@ function check_bans($ip, $reason = '')
         $mysqli->next_result();
         $cache->set($key, 0, 86400); // 86400 // not banned
         return false;
-    } elseif (!$ban) {
-        return false;
     }
-    else {
+
+    if (!$ban) {
+        return false;
+    } else {
         $reason = $ban;
         return true;
     }
@@ -776,11 +777,12 @@ function delete_id_keys($keys, $keyname = false)
     if (!(is_array($keys) || $keyname)) // if no key given or not an array
     {
         return false;
-    } else { foreach ($keys as $id) // proceed
-    {
-        $cache->delete($keyname.$id);
     }
-    }
+
+    foreach ($keys as $id) // proceed
+        {
+            $cache->delete($keyname.$id);
+        }
     return true;
 }
 function unesc($x)
@@ -791,9 +793,11 @@ function unesc($x)
 function mksize($bytes) {
     $bytes = max(0, (int)$bytes);
     if ($bytes < 1024000) { return number_format($bytes / 1024, 2).' KB';
+    }
+
+    if ($bytes < 1048576000) { return number_format($bytes / 1048576, 2).' MB';
     } #Kilobyte
-    elseif ($bytes < 1048576000) { return number_format($bytes / 1048576, 2).' MB';
-    } #Megabyte
+    #Megabyte
     elseif ($bytes < 1073741824000) { return number_format($bytes / 1073741824, 2).' GB';
     } #Gigebyte
     elseif ($bytes < 1099511627776000) { return number_format($bytes / 1099511627776, 3).' TB';
@@ -913,9 +917,9 @@ function get_mycookie($name)
     global $TRINITY20;
     if (isset($_COOKIE[$TRINITY20['cookie_prefix'] . $name]) AND !empty($_COOKIE[$TRINITY20['cookie_prefix'] . $name])) {
         return urldecode($_COOKIE[$TRINITY20['cookie_prefix'] . $name]);
-    } else {
-        return FALSE;
     }
+
+    return FALSE;
 }
 function logoutcookie()
 {
@@ -969,7 +973,9 @@ function sqlerr($file = '', $line = '')
     $the_error_no = $mysqli->errno;
     if (SQL_DEBUG == 0) {
         exit();
-    } else if ($TRINITY20['sql_error_log'] AND SQL_DEBUG == 1) {
+    }
+
+    if ($TRINITY20['sql_error_log'] AND SQL_DEBUG == 1) {
         $_error_string = "\n===================================================";
         $_error_string.= "\n Date: " . date('r');
         $_error_string.= "\n Error Number: " . $the_error_no;
@@ -1096,9 +1102,9 @@ function get_date($date, $method, $norelative = 0, $full_relative = 0)
         if ($diff < 3600) {
             if ($diff < 120) {
                 return '< 1 minute ago';
-            } else {
-                return sprintf('%s minutes ago', intval($diff / 60));
             }
+
+            return sprintf('%s minutes ago', intval($diff / 60));
         } else if ($diff < 7200) {
             return '&lt 1 hour ago';
         } else if ($diff < 86400) {
@@ -1121,14 +1127,16 @@ function get_date($date, $method, $norelative = 0, $full_relative = 0)
             if ($diff < 3600) {
                 if ($diff < 120) {
                     return '< 1 minute ago';
-                } else {
-                    return sprintf('%s minutes ago', intval($diff / 60));
                 }
+
+                return sprintf('%s minutes ago', intval($diff / 60));
             }
         }
         if ($this_time == $today_time) {
             return str_replace('{--}', 'Today', gmdate($TRINITY20['time_use_relative_format'], ($date + $GLOBALS['offset'])));
-        } else if ($this_time == $yesterday_time) {
+        }
+
+        if ($this_time == $yesterday_time) {
             return str_replace('{--}', 'Yesterday', gmdate($TRINITY20['time_use_relative_format'], ($date + $GLOBALS['offset'])));
         } else {
             return gmdate($time_options[$method], ($date + $GLOBALS['offset']));

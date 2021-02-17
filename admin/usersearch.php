@@ -38,9 +38,8 @@ function is_set_not_empty($param)
     if (isset($_POST[$param]) && !empty($_POST[$param])) {
         return true;
     }
-    else {
-        return false;
-    }
+
+    return false;
 }
 echo stdhead($lang['usersearch_window_title']);
 //$HTMLOUT .= "<h1>{$lang['usersearch_title']}</h1>\n";
@@ -333,9 +332,8 @@ function mkdate($date)
     if (checkdate($a[1], $a[2], $a[0])) {
         return date("Y-m-d", mktime(0, 0, 0, $a[1], $a[2], $a[0]));
     }
-    else {
-        return 0;
-    }
+
+    return 0;
 }
 // ratio as a string
 function ratios($up, $down, $color = True)
@@ -358,9 +356,8 @@ function haswildcard($text)
     if (strpos($text, '*') === False && strpos($text, '?') === False && strpos($text, '%') === False && strpos($text, '_') === False) {
         return false;
     }
-    else {
-        return true;
-    }
+
+    return true;
 }
 ///////////////////////////////////////////////////////////////////////////////
 if (count($_POST) > 0) {
@@ -477,9 +474,9 @@ if (count($_POST) > 0) {
                     stdmsg($lang['usersearch_error'], $lang['usersearch_badmask']);
                     stdfoot();
                     die();
-                } else {
-                    $mask = long2ip((2 ** 32) - (2 ** (32 - $n)));
                 }
+
+                $mask = long2ip((2 ** 32) - (2 ** (32 - $n)));
             } elseif (!preg_match($regex, $mask)) {
                 stdmsg($lang['usersearch_error'], $lang['usersearch_badmask']);
                 stdfoot();

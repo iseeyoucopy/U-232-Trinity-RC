@@ -27,22 +27,26 @@ class AJAXChatString {
 		}		
 		if(function_exists('mb_substr')) {
 			return mb_substr($str, $start, $length, $encoding);
-		} else if(function_exists('iconv_substr')) {
-			return iconv_substr($str, $start, $length, $encoding);
-		} else {
-			return substr($str, $start, $length);
 		}
-	}
+
+        if(function_exists('iconv_substr')) {
+            return iconv_substr($str, $start, $length, $encoding);
+        } else {
+            return substr($str, $start, $length);
+        }
+    }
 	
 	public static function stringLength($str, $encoding='UTF-8') {
 		if(function_exists('mb_strlen')) {
 			return mb_strlen($str, $encoding);
-		} else if(function_exists('iconv_strlen')) {
-			return iconv_strlen($str, $encoding);
-		} else {
-			return strlen($str);
 		}
-	}
+
+        if(function_exists('iconv_strlen')) {
+            return iconv_strlen($str, $encoding);
+        } else {
+            return strlen($str);
+        }
+    }
 
 }
 ?>

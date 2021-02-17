@@ -115,7 +115,9 @@ if ($want_pot && (isset($pot_options[$want_pot]))) {
         autoshout($msg);
         header('Location: sitepot.php');
         die();
-    } elseif ($potsize == ($SitePot['value_i'] + $want_pot)) {
+    }
+
+    if ($potsize == ($SitePot['value_i'] + $want_pot)) {
         //$bonuscomment = gmdate("Y-m-d") . " - User has donated ".$want_pot." to the site pot.\n" . $CURUSER["modcomment"];
         //sql_query("UPDATE users SET seedbonus = seedbonus - ".sqlesc($want_pot).", bonuscomment = concat(".sqlesc($bonuscomment).", bonuscomment) WHERE id = ".sqlesc($CURUSER['id'])."") or sqlerr(__FILE__, __LINE__);
         sql_query("UPDATE users SET seedbonus = seedbonus - " . sqlesc($want_pot) . " 
