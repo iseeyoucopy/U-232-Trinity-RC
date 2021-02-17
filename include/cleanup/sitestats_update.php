@@ -46,7 +46,9 @@ function docleanup($data)
     $seeders = (int)$XBT_Seeder['seeders'];
     $leechers = (int)$XBT_Leecher['leechers'];
     sql_query("UPDATE stats SET regusers = '$registered', unconusers = '$unverified', torrents = '$torrents', seeders = '$seeders', leechers = '$leechers', unconnectables = '$unconnectables', torrentstoday = '$torrentstoday', donors = '$donors', forumposts = '$forumposts', forumtopics = '$forumtopics', numactive = '$numactive', torrentsmonth = '$torrentsmonth', gender_na = '$gender_na', gender_male = '$gender_male', gender_female = '$gender_female', powerusers = '$powerusers', disabled = '$disabled', uploaders = '$uploaders', vips = '$vips', moderators = '$moderators', administrators = '$administrators', sysops = '$sysops' WHERE id = '1' LIMIT 1");
-    if ($queries > 0) write_log("Stats clean-------------------- Stats cleanup Complete using $queries queries --------------------");
+    if ($queries > 0) {
+        write_log("Stats clean-------------------- Stats cleanup Complete using $queries queries --------------------");
+    }
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items updated";
     }

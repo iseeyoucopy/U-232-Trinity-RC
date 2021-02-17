@@ -257,16 +257,36 @@ function duration($ts)
     $hours = (int)(($rem) / 3600) - $days * 24 - $weeks * 7 * 24;
     $mins = (int)(($rem) / 60) - $hours * 60 - $days * 24 * 60 - $weeks * 7 * 24 * 60;
     $str = '';
-    if ($years == 1) $str.= "$years year, ";
-    if ($years > 1) $str.= "$years years, ";
-    if ($weeks == 1) $str.= "$weeks week, ";
-    if ($weeks > 1) $str.= "$weeks weeks, ";
-    if ($days == 1) $str.= "$days day,";
-    if ($days > 1) $str.= "$days days,";
-    if ($hours == 1) $str.= " $hours hour and";
-    if ($hours > 1) $str.= " $hours hours and";
-    if ($mins == 1) $str.= " 1 minute";
-    else $str.= " $mins minutes";
+    if ($years == 1) {
+        $str .= "$years year, ";
+    }
+    if ($years > 1) {
+        $str .= "$years years, ";
+    }
+    if ($weeks == 1) {
+        $str .= "$weeks week, ";
+    }
+    if ($weeks > 1) {
+        $str .= "$weeks weeks, ";
+    }
+    if ($days == 1) {
+        $str .= "$days day,";
+    }
+    if ($days > 1) {
+        $str .= "$days days,";
+    }
+    if ($hours == 1) {
+        $str .= " $hours hour and";
+    }
+    if ($hours > 1) {
+        $str .= " $hours hours and";
+    }
+    if ($mins == 1) {
+        $str .= " 1 minute";
+    }
+    else {
+        $str .= " $mins minutes";
+    }
     return $str;
 }
 // create graphics
@@ -283,7 +303,9 @@ function bsize($s)
         'M',
         'G'
     )) as $i) {
-        if ($s < 1024) break;
+        if ($s < 1024) {
+            break;
+        }
 
         $s/= 1024;
     }
@@ -553,8 +575,12 @@ if (isset($_GET['IMG'])) {
         $x1 = $x + $w - 1;
         $y1 = $y + $h - 1;
         imagerectangle($im, $x, $y1, $x1 + 1, $y + 1, $col_black);
-        if ($y1 > $y) imagefilledrectangle($im, $x, $y, $x1, $y1, $color2);
-        else imagefilledrectangle($im, $x, $y1, $x1, $y, $color2);
+        if ($y1 > $y) {
+            imagefilledrectangle($im, $x, $y, $x1, $y1, $color2);
+        }
+        else {
+            imagefilledrectangle($im, $x, $y1, $x1, $y, $color2);
+        }
         imagerectangle($im, $x, $y1, $x1, $y, $color1);
         if ($text) {
             if ($placeindex > 0) {

@@ -21,7 +21,9 @@ function docleanup($data)
     if (XBT_TRACKER == true) {
         sql_query("UPDATE torrents SET visible='yes' WHERE visible='no' AND seeders > 0");
     }
-    if ($queries > 0) write_log("Torrent Visible clean-------------------- Torrent Visible cleanup Complete using $queries queries --------------------");
+    if ($queries > 0) {
+        write_log("Torrent Visible clean-------------------- Torrent Visible cleanup Complete using $queries queries --------------------");
+    }
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     }

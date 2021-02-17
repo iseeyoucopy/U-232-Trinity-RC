@@ -15,16 +15,26 @@ require_once (INCL_DIR . 'user_functions.php');
 dbconn();
 loggedinorreturn();
 $lang = array_merge(load_language('global') , load_language('takerate'));
-if (!mkglobal("id")) die();
+if (!mkglobal("id")) {
+    die();
+}
 $id = (int) $id;
-if (!is_valid_id($id)) stderr("Error", "Bad Id");
-if (!isset($CURUSER)) stderr("Error", "Your not logged in");
+if (!is_valid_id($id)) {
+    stderr("Error", "Bad Id");
+}
+if (!isset($CURUSER)) {
+    stderr("Error", "Your not logged in");
+}
 ($res = sql_query("SELECT 1, thanks, comments FROM torrents WHERE id = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 $arr = $res->fetch_assoc();
-if (!$arr) stderr("Error", "Torrent not found");
+if (!$arr) {
+    stderr("Error", "Torrent not found");
+}
 ($res1 = sql_query("SELECT 1 FROM thankyou WHERE torid=" . sqlesc($id) . " AND uid =" . sqlesc($CURUSER["id"]))) || sqlerr(__FILE__, __LINE__);
 $row = $res1->fetch_assoc();
-if ($row) stderr("Error", "You already thanked.");
+if ($row) {
+    stderr("Error", "You already thanked.");
+}
 $text = ":thankyou:";
 $newid = $mysqli->insert_id;
 sql_query("INSERT INTO thankyou (uid, torid, thank_date) VALUES (" . sqlesc($CURUSER["id"]) . ", " . sqlesc($id) . ", '" . TIME_NOW . "')") || sqlerr(__FILE__, __LINE__);

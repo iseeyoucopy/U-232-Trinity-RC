@@ -22,25 +22,32 @@ $lang = array_merge( load_language('global') );
 $HTMLOUT = '';
 $limit = 20;
 $userid = (int) $CURUSER["id"];
-if (!is_valid_id($userid)) stderr("Error", "Invalid ID");
+if (!is_valid_id($userid)) {
+    stderr("Error", "Invalid ID");
+}
 
-if ($CURUSER["class"] < UC_USER || ($CURUSER["id"] != $userid && $CURUSER["class"] < UC_STAFF))
+if ($CURUSER["class"] < UC_USER || ($CURUSER["id"] != $userid && $CURUSER["class"] < UC_STAFF)) {
     stderr("Error", "Permission denied");
+}
 // === subscribe to thread
 
 if (isset($_GET["subscribe"])){
     $subscribe = (int)$_GET["subscribe"];
-    if ($subscribe != 1)
+    if ($subscribe != 1) {
         stderr("Error", "I smell a rat!");
+    }
 
     if (isset($_GET["topicid"])) {
         $topicid = (int)$_GET["topicid"];
-        if (!is_valid_id($topicid))
+        if (!is_valid_id($topicid)) {
             stderr("Error", "Bad Topic Id!");
+        }
     }
 
-    if ((get_row_count("subscriptions", "WHERE user_id=".sqlesc($CURUSER['id'])." AND topic_id = ".sqlesc($topicid))) > 0)
-        stderr("Error", "Already subscribed to thread number <b>".(int)($topicid)."</b> Click <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid'> <b>Here</b></a> to go back to the thread. Or click <a href='{$TRINITY20['baseurl']}/subscriptions.php'> <b>Here</b></a> to view your subscriptions.");
+    if ((get_row_count("subscriptions", "WHERE user_id=".sqlesc($CURUSER['id'])." AND topic_id = ".sqlesc($topicid))) > 0) {
+        stderr("Error",
+            "Already subscribed to thread number <b>".(int)($topicid)."</b> Click <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid'> <b>Here</b></a> to go back to the thread. Or click <a href='{$TRINITY20['baseurl']}/subscriptions.php'> <b>Here</b></a> to view your subscriptions.");
+    }
     sql_query("INSERT INTO subscriptions (user_id, topic_id) VALUES (".sqlesc($CURUSER['id']).", ".sqlesc($topicid).")") || sqlerr(__FILE__, __LINE__);
     ($res = sql_query("SELECT topic_name FROM `topics` WHERE id=".sqlesc($topicid))) || sqlerr(__FILE__, __LINE__);
     ($arr = $res->fetch_assoc()) || stderr("Error", "Bad forum id!");
@@ -50,8 +57,9 @@ if (isset($_GET["subscribe"])){
 // === end subscribe to thread
 // === Action: Delete subscription
 if (isset($_GET["delete"])){
-    if (!isset($_GET["deletesubscription"]))
+    if (!isset($_GET["deletesubscription"])) {
         stderr("Error", "Nothing selected");
+    }
 
     $checked = htmlsafechars($_GET['deletesubscription']);
     foreach ($checked as $delete) {
@@ -67,8 +75,9 @@ if ($res->num_rows == 1) {
     $arr = $res->fetch_assoc();
 
     $subject = "<a class='altlink' href='{$TRINITY20['baseurl']}/userdetails.php?id=$userid'><b> ".htmlsafechars($arr['username'])."</b></a>";
-} else
+} else {
     $subject = "unknown[$userid]";
+}
 
 $where_is = "p.user_id = ".sqlesc($userid)." AND f.min_class_read <= " . sqlesc($CURUSER['class']);
 $order_is = "t.id DESC";
@@ -92,7 +101,9 @@ if (isset($_GET["deleted"])) {
 $HTMLOUT.="<div class='row'><div class='col-md-12'>";
 if ($res->num_rows == 0)
    //$HTMLOUT.="<p align='center'><font size=\"+2\"><b>No Subscriptions Found</b></font></p><p>You are not yet subscribed to any forums...</p><p>To subscribe to a forum at <b>".$TRINITY20['site_name']."</b>, click the <b><i>Subscribe to this Forum</i></b> link at the top of the thread page.</p>";
-$HTMLOUT.="<p class=text-center'><b>No Subscriptions Found</b></p><p>You are not yet subscribed to any forums...</p><p>To subscribe to a forum at <b>".$TRINITY20['site_name']."</b>, click the <b><i>Subscribe to this Forum</i></b> link at the top of the thread page.</p>";
+{
+    $HTMLOUT .= "<p class=text-center'><b>No Subscriptions Found</b></p><p>You are not yet subscribed to any forums...</p><p>To subscribe to a forum at <b>".$TRINITY20['site_name']."</b>, click the <b><i>Subscribe to this Forum</i></b> link at the top of the thread page.</p>";
+}
 
 while ($arr = $res->fetch_assoc()) {
     $topicid = (int)$arr["t_id"];
@@ -133,10 +144,12 @@ while ($arr = $res->fetch_assoc()) {
 <b>Last Post By:</b><a class='altlink' href='{$TRINITY20['baseurl']}/userdetails.php?id=$posterid'><b>".htmlsafechars($res3['username'])."</b></a> added:{$added}</td>
 <td class='colhead' align='right' width='20%'>";
     // === delete subscription
-    if (isset($_GET["check"]) == "yes")
-    $HTMLOUT.="<input type='checkbox' checked='checked' name='deletesubscription[]' value='{$topicid}' />";
-    else
-    $HTMLOUT.="<input type='checkbox' name='deletesubscription[]' value='{$topicid}' />";
+    if (isset($_GET["check"]) == "yes") {
+        $HTMLOUT .= "<input type='checkbox' checked='checked' name='deletesubscription[]' value='{$topicid}' />";
+    }
+    else {
+        $HTMLOUT .= "<input type='checkbox' name='deletesubscription[]' value='{$topicid}' />";
+    }
     // === end
     $HTMLOUT.="<b>un-subscribe</b></td></tr></table>\n";
  $body = format_comment($arr2["body"]);

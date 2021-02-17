@@ -59,7 +59,9 @@ function check_bans($ip, &$reason = '')
         $mysqli->next_result();
         $cache->set($key, 0, 86400); // 86400 // not banned
         return false;
-    } elseif (!$ban) return false;
+    } elseif (!$ban) {
+        return false;
+    }
     else {
         $reason = $ban;
         return true;
@@ -101,8 +103,9 @@ if (isset($_GET['torrent_pass']) && strlen($_GET['torrent_pass']) != 32)
      {
       $lenget = strlen($matches[0]);
       $valget = substr($_GET['torrent_pass'], $lenget);
-      if (!isset($_GET[$matches[2]]))
-        $_GET[$matches[2]] = $valget;
+      if (!isset($_GET[$matches[2]])) {
+          $_GET[$matches[2]] = $valget;
+      }
       elseif (!is_array($_GET[$matches[2]]))
         {
          $temp = $_GET[$matches[2]];
@@ -110,18 +113,21 @@ if (isset($_GET['torrent_pass']) && strlen($_GET['torrent_pass']) != 32)
          $_GET[$matches[2]][] = $temp;
          $_GET[$matches[2]][] = $valget;
         }
-      else
-        $_GET[$matches[2]][] = $valget;
+      else {
+          $_GET[$matches[2]][] = $valget;
+      }
 
       $_GET['torrent_pass'] = $matches[1];
      }
-   else
-     error('torrent pass not valid, please redownload your torrent file');
+   else {
+       error('torrent pass not valid, please redownload your torrent file');
+   }
   }
 
 $torrent_pass = isset($_GET['torrent_pass']) && ($_GET['torrent_pass'])  ? $_GET['torrent_pass'] : '';
-if (!$torrent_pass)
-	die('scrape error');
+if (!$torrent_pass) {
+    die('scrape error');
+}
 /*
 $numhash = is_array($_GET['info_hash']) && count($_GET['info_hash']);
 $torrents = array();
@@ -159,10 +165,13 @@ if ($numhash < 1) {
     }
 }
 $user = get_user_from_torrent_pass($torrent_pass);
-if (!$user || !count($torrents))
-	die('scrape user error');
+if (!$user || !count($torrents)) {
+    die('scrape user error');
+}
 $r = 'd5:filesd';
-foreach ($torrents as $info_hash => $torrent) $r.= '20:' . $info_hash . 'd8:completei' . $torrent['seeders'] . 'e10:downloadedi' . $torrent['times_completed'] . 'e10:incompletei' . $torrent['leechers'] . 'ee';
+foreach ($torrents as $info_hash => $torrent) {
+    $r .= '20:'.$info_hash.'d8:completei'.$torrent['seeders'].'e10:downloadedi'.$torrent['times_completed'].'e10:incompletei'.$torrent['leechers'].'ee';
+}
 $r.= 'ee';
 header('Content-Type: text/plain; charset=UTF-8');
 header('Pragma: no-cache');

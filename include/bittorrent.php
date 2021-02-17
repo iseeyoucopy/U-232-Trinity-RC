@@ -55,16 +55,21 @@ if (!$cores || is_null($cores)) {
     $cache->set('cores_', $cores, 0);
 }
 $load = sys_getloadavg();
-if ($load[0] > 20)
-  die('Load is too high, Dont continuously refresh, or you will just make the problem last longer');
-if (preg_match('/(?:\< *(?:java|script)|script\:|\+document\.)/i', serialize($_SERVER)))
-  die('Forbidden');
-if (preg_match('/(?:\< *(?:java|script)|script\:|\+document\.)/i', serialize($_GET)))
-  die('Forbidden');
-if (preg_match('/(?:\< *(?:java|script)|script\:|\+document\.)/i', serialize($_POST)))
-  die('Forbidden');
-if (preg_match('/(?:\< *(?:java|script)|script\:|\+document\.)/i', serialize($_COOKIE)))
-  die('Forbidden');
+if ($load[0] > 20) {
+    die('Load is too high, Dont continuously refresh, or you will just make the problem last longer');
+}
+if (preg_match('/(?:\< *(?:java|script)|script\:|\+document\.)/i', serialize($_SERVER))) {
+    die('Forbidden');
+}
+if (preg_match('/(?:\< *(?:java|script)|script\:|\+document\.)/i', serialize($_GET))) {
+    die('Forbidden');
+}
+if (preg_match('/(?:\< *(?:java|script)|script\:|\+document\.)/i', serialize($_POST))) {
+    die('Forbidden');
+}
+if (preg_match('/(?:\< *(?:java|script)|script\:|\+document\.)/i', serialize($_COOKIE))) {
+    die('Forbidden');
+}
 
 //== Updated 02/215
 function htmlsafechars($txt = '')
@@ -86,13 +91,17 @@ function htmlsafechars($txt = '')
 function PostKey($ids = array())
 {
     global $TRINITY20;
-    if (!is_array($ids)) return false;
+    if (!is_array($ids)) {
+        return false;
+    }
     return hash("sha3-512", "" . $TRINITY20['tracker_post_key'] . join('', $ids) . $TRINITY20['tracker_post_key'] . "");
 }
 function CheckPostKey($ids, $key)
 {
     global $TRINITY20;
-    if (!is_array($ids) OR !$key) return false;
+    if (!is_array($ids) OR !$key) {
+        return false;
+    }
     return $key == hash("sha3-512", "" . $TRINITY20['tracker_post_key'] . join('', $ids) . $TRINITY20['tracker_post_key'] . "");
 }
 /**** validip/getip courtesy of manolete <manolete@myway.com> ****/
@@ -137,7 +146,9 @@ function dbconn($autoclean = false)
       }
     userlogin();
     referer();
-    if ($autoclean) register_shutdown_function("autoclean");
+    if ($autoclean) {
+        register_shutdown_function("autoclean");
+    }
 }
 function status_change($id)
 {
@@ -163,7 +174,9 @@ function check_bans($ip, $reason = '')
         $mysqli->next_result();
         $cache->set($key, 0, 86400); // 86400 // not banned
         return false;
-    } elseif (!$ban) return false;
+    } elseif (!$ban) {
+        return false;
+    }
     else {
         $reason = $ban;
         return true;
@@ -178,10 +191,16 @@ function userlogin()
     //$ipe = $c -> decrypt($ip);
     //$nip = ip2long($ip);
     $ipf = $_SERVER['REMOTE_ADDR'];
-    if (isset($CURUSER)) return;
-    if (!$TRINITY20['site_online'] || !get_mycookie('uid') || !get_mycookie('pass') || !get_mycookie('hashv') || !get_mycookie('log_uid')) return;
+    if (isset($CURUSER)) {
+        return;
+    }
+    if (!$TRINITY20['site_online'] || !get_mycookie('uid') || !get_mycookie('pass') || !get_mycookie('hashv') || !get_mycookie('log_uid')) {
+        return;
+    }
     $id = intval(get_mycookie('uid'));
-    if (!$id OR (strlen(get_mycookie('pass')) != 128) OR (get_mycookie('hashv') != HashIt($id, get_mycookie('pass'))) OR (get_mycookie('log_uid') != make_hash_log($id, get_mycookie('pass')))) return;
+    if (!$id OR (strlen(get_mycookie('pass')) != 128) OR (get_mycookie('hashv') != HashIt($id, get_mycookie('pass'))) OR (get_mycookie('log_uid') != make_hash_log($id, get_mycookie('pass')))) {
+        return;
+    }
     // let's cache $CURUSER - pdq - *Updated*
     if (($row = $cache->get($keys['my_userid'] . $id)) === false) { // $row not found
         $user_fields_ar_int = array(
@@ -343,9 +362,15 @@ function userlogin()
             return;
         }
         $row = $result->fetch_assoc();
-        foreach ($user_fields_ar_int as $i) $row[$i] = (int)$row[$i];
-        foreach ($user_fields_ar_float as $i) $row[$i] = (float)$row[$i];
-        foreach ($user_fields_ar_str as $i) $row[$i] = $row[$i];
+        foreach ($user_fields_ar_int as $i) {
+            $row[$i] = (int)$row[$i];
+        }
+        foreach ($user_fields_ar_float as $i) {
+            $row[$i] = (float)$row[$i];
+        }
+        foreach ($user_fields_ar_str as $i) {
+            $row[$i] = $row[$i];
+        }
         $cache->set($keys['my_userid'] . $id, $row, $TRINITY20['expires']['curuser']);
         unset($result);
     }
@@ -451,10 +476,14 @@ function userlogin()
     // bans by djGrrr <3 pdq
     if (!isset($row['perms']) || (!($row['perms'] & bt_options::PERMS_BYPASS_BAN))) {
         $banned = false;
-        if (check_bans($ip, $reason)) $banned = true;
+        if (check_bans($ip, $reason)) {
+            $banned = true;
+        }
         else {
             if ($ip != $ipf) {
-                if (check_bans($ipf, $reason)) $banned = true;
+                if (check_bans($ipf, $reason)) {
+                    $banned = true;
+                }
             }
         }
         if ($banned) {
@@ -508,9 +537,15 @@ function userlogin()
         $stats_fields = implode(', ', array_merge($stats_fields_ar_int, $stats_fields_ar_float, $stats_fields_ar_str));
         $s = sql_query("SELECT " . $stats_fields . " FROM users WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         $stats = $s->fetch_assoc();
-        foreach ($stats_fields_ar_int as $i) $stats[$i] = (int)$stats[$i];
-        foreach ($stats_fields_ar_float as $i) $stats[$i] = (float)$stats[$i];
-        foreach ($stats_fields_ar_str as $i) $stats[$i] = $stats[$i];
+        foreach ($stats_fields_ar_int as $i) {
+            $stats[$i] = (int)$stats[$i];
+        }
+        foreach ($stats_fields_ar_float as $i) {
+            $stats[$i] = (float)$stats[$i];
+        }
+        foreach ($stats_fields_ar_str as $i) {
+            $stats[$i] = $stats[$i];
+        }
         $cache->set($What_Cache.$id, $stats, $What_Expire);
     }
     $row['seedbonus'] = $stats['seedbonus'];
@@ -519,12 +554,16 @@ function userlogin()
     //==
     if (($ustatus = $cache->get($keys['user_status'] . $id)) === false) {
         $sql2 = sql_query('SELECT * FROM ustatus WHERE userid = ' . sqlesc($id));
-        if ($sql2->num_rows) $ustatus = $sql2->fetch_assoc();
-        else $ustatus = array(
-            'last_status' => '',
-            'last_update' => 0,
-            'archive' => ''
-        );
+        if ($sql2->num_rows) {
+            $ustatus = $sql2->fetch_assoc();
+        }
+        else {
+            $ustatus = [
+                'last_status' => '',
+                'last_update' => 0,
+                'archive' => ''
+            ];
+        }
         $cache->set($keys['user_status'] . $id, $ustatus, $TRINITY20['expires']['u_status']); // 30 days
     }
     $row['last_status'] = $ustatus['last_status'];
@@ -578,7 +617,8 @@ function userlogin()
         ], $TRINITY20['expires']['user_cache']);
     }
     //==
-    if ($row['override_class'] < $row['class']) $row['class'] = $row['override_class']; // Override class and save in GLOBAL array below.
+    if ($row['override_class'] < $row['class']) { $row['class'] = $row['override_class'];
+    } // Override class and save in GLOBAL array below.
     $GLOBALS["CURUSER"] = $row;
     get_template();
     $mood = create_moods();
@@ -686,7 +726,8 @@ function make_freeslots($userid, $key)
         $res_slots = sql_query('SELECT * FROM freeslots WHERE userid = ' . sqlesc($userid)) or sqlerr(__file__, __line__);
         $slot = array();
         if ($res_slots->num_rows) {
-            while ($rowslot = $res_slots->fetch_assoc()) $slot[] = $rowslot;
+            while ($rowslot = $res_slots->fetch_assoc()) { $slot[] = $rowslot;
+            }
         }
         $cache->set($key . $userid, $slot, 86400 * 7);
     }
@@ -700,7 +741,8 @@ function make_bookmarks($userid, $key)
         $res_books = sql_query('SELECT * FROM bookmarks WHERE userid = ' . sqlesc($userid)) or sqlerr(__file__, __line__);
         $book = array();
         if ($res_books->num_rows) {
-            while ($rowbook = $res_books->fetch_assoc()) $book[] = $rowbook;
+            while ($rowbook = $res_books->fetch_assoc()) { $book[] = $rowbook;
+            }
         }
         $cache->set($key . $userid, $book, 86400 * 7); // 7 days
     }
@@ -713,7 +755,8 @@ function genrelist()
     if (($ret = $cache->get('genrelist')) == false) {
         $ret = array();
         $res = sql_query("SELECT id, image, name, min_class FROM categories ORDER BY name");
-        while ($row = $res->fetch_assoc()) $ret[] = $row;
+        while ($row = $res->fetch_assoc()) { $ret[] = $row;
+        }
         $cache->set('genrelist', $ret, $TRINITY20['expires']['genrelist']);
     }
     return $ret;
@@ -741,9 +784,13 @@ function delete_id_keys($keys, $keyname = false)
 {
     global $cache;
     if (!(is_array($keys) || $keyname)) // if no key given or not an array
-    return false;
-    else foreach ($keys as $id) // proceed
-    $cache->delete($keyname . $id);
+    {
+        return false;
+    } else { foreach ($keys as $id) // proceed
+    {
+        $cache->delete($keyname.$id);
+    }
+    }
     return true;
 }
 function unesc($x)
@@ -753,18 +800,27 @@ function unesc($x)
 }
 function mksize($bytes) {
     $bytes = max(0, (int)$bytes);
-    if ($bytes < 1024000) return number_format($bytes / 1024, 2).' KB'; #Kilobyte
-    elseif ($bytes < 1048576000) return number_format($bytes / 1048576, 2).' MB'; #Megabyte
-    elseif ($bytes < 1073741824000) return number_format($bytes / 1073741824, 2).' GB'; #Gigebyte
-    elseif ($bytes < 1099511627776000) return number_format($bytes / 1099511627776, 3).' TB'; #Terabyte
-    elseif ($bytes < 1125899906842624000) return number_format($bytes / 1125899906842624, 3).' PB'; #Petabyte
-    elseif ($bytes < 1152921504606846976000) return number_format($bytes / 1152921504606846976, 3).' EB'; #Exabyte
-    elseif ($bytes < 1180591620717411303424000) return number_format($bytes / 1180591620717411303424, 3).' ZB'; #Zettabyte
-    else return number_format($bytes / 1208925819614629174706176, 3).' YB'; #Yottabyte
+    if ($bytes < 1024000) { return number_format($bytes / 1024, 2).' KB';
+    } #Kilobyte
+    elseif ($bytes < 1048576000) { return number_format($bytes / 1048576, 2).' MB';
+    } #Megabyte
+    elseif ($bytes < 1073741824000) { return number_format($bytes / 1073741824, 2).' GB';
+    } #Gigebyte
+    elseif ($bytes < 1099511627776000) { return number_format($bytes / 1099511627776, 3).' TB';
+    } #Terabyte
+    elseif ($bytes < 1125899906842624000) { return number_format($bytes / 1125899906842624, 3).' PB';
+    } #Petabyte
+    elseif ($bytes < 1152921504606846976000) { return number_format($bytes / 1152921504606846976, 3).' EB';
+    } #Exabyte
+    elseif ($bytes < 1180591620717411303424000) { return number_format($bytes / 1180591620717411303424, 3).' ZB';
+    } #Zettabyte
+    else { return number_format($bytes / 1208925819614629174706176, 3).' YB';
+    } #Yottabyte
 }
 function mkprettytime($s)
 {
-    if ($s < 0) $s = 0;
+    if ($s < 0) { $s = 0;
+    }
     $t = array();
     foreach (array(
         "60:sec",
@@ -776,23 +832,28 @@ function mkprettytime($s)
         if ($y[0] > 1) {
             $v = $s % $y[0];
             $s = floor($s / $y[0]);
-        } else $v = $s;
+        } else { $v = $s;
+        }
         $t[$y[1]] = $v;
     }
-    if ($t["day"]) return $t["day"] . "d " . sprintf("%02d:%02d:%02d", $t["hour"], $t["min"], $t["sec"]);
-    if ($t["hour"]) return sprintf("%d:%02d:%02d", $t["hour"], $t["min"], $t["sec"]);
+    if ($t["day"]) { return $t["day"]."d ".sprintf("%02d:%02d:%02d", $t["hour"], $t["min"], $t["sec"]);
+    }
+    if ($t["hour"]) { return sprintf("%d:%02d:%02d", $t["hour"], $t["min"], $t["sec"]);
+    }
     return sprintf("%d:%02d", $t["min"], $t["sec"]);
 }
 function mkglobal($vars) {
-    if (!is_array($vars))
+    if (!is_array($vars)) {
         $vars = explode(":", $vars);
+    }
     foreach ($vars as $v) {
-        if (isset($_GET[$v]))
+        if (isset($_GET[$v])) {
             $GLOBALS[$v] = stripslashes($_GET[$v]);
-        elseif (isset($_POST[$v]))
+        } elseif (isset($_POST[$v])) {
             $GLOBALS[$v] = stripslashes($_POST[$v]);
-        else
+        } else {
             return 0;
+        }
     }
     return 1;
 }
@@ -808,7 +869,8 @@ function validemail($email)
 function sqlesc($x)
 {
     global $mysqli;
-    if (is_integer($x)) return (int)$x;
+    if (is_integer($x)) { return (int)$x;
+    }
     return sprintf('\'%s\'', $mysqli->real_escape_string($x));
 }
 function sqlwildcardesc($x)
@@ -829,8 +891,10 @@ function logincookie($id, $passhash, $updatedb = 1, $expires = 0x7fffffff)
     set_mycookie("pass", $passhash, $expires);
     set_mycookie("hashv", HashIt($id, $passhash) , $expires);
 	set_mycookie("log_uid", make_hash_log($id, $passhash) , $expires);
-    if ($updatedb) sql_query("UPDATE users SET last_login = " . TIME_NOW . " WHERE id = " . sqlesc($id)) or sqlerr(__file__, __line__);
+    if ($updatedb) { sql_query("UPDATE users SET last_login = ".TIME_NOW." WHERE id = ".sqlesc($id)) or sqlerr(__file__, __line__);
+    }
 }
+
 function set_mycookie($name, $value = "", $expires_in = 0, $sticky = 1){
     global $TRINITY20;
     if ($sticky == 1) {
@@ -895,7 +959,8 @@ function searchfield($s)
 }
 function get_row_count($table, $suffix = "")
 {
-    if ($suffix) $suffix = " $suffix";
+    if ($suffix) { $suffix = " $suffix";
+    }
     ($r = sql_query("SELECT COUNT(*) FROM $table$suffix")) or sqlerr(__FILE__, __LINE__);
     ($a = $r->fetch_row()) or sqlerr(__FILE__, __LINE__);
     return $a[0];
@@ -1088,7 +1153,8 @@ function ratingpic($num)
 {
     global $TRINITY20;
     $r = round($num * 2) / 2;
-    if ($r < 1 || $r > 5) return;
+    if ($r < 1 || $r > 5) { return;
+    }
     return "<img src=\"pic/ratings/{$r}.gif\" border=\"0\" alt=\"Rating: $num / 5\" title=\"Rating: $num / 5\" />";
 }
 function hash_pad($hash)
@@ -1124,8 +1190,10 @@ function load_language($file = '')
 function flood_limit($table)
 {
     global $CURUSER, $TRINITY20, $lang;
-    if (!file_exists($TRINITY20['flood_file']) || !is_array($max = unserialize(file_get_contents($TRINITY20['flood_file'])))) return;
-    if (!isset($max[$CURUSER['class']])) return;
+    if (!file_exists($TRINITY20['flood_file']) || !is_array($max = unserialize(file_get_contents($TRINITY20['flood_file'])))) { return;
+    }
+    if (!isset($max[$CURUSER['class']])) { return;
+    }
     $tb = array(
         'posts' => 'posts.user_id',
         'comments' => 'comments.user',
@@ -1133,8 +1201,11 @@ function flood_limit($table)
     );
     $q = sql_query('SELECT min(' . $table . '.added) as first_post, count(' . $table . '.id) as how_many FROM ' . $table . ' WHERE ' . $tb[$table] . ' = ' . $CURUSER['id'] . ' AND ' . TIME_NOW . ' - ' . $table . '.added < ' . $TRINITY20['flood_time']);
     $a = $q->fetch_assoc();
-    if ($a['how_many'] > $max[$CURUSER['class']]) stderr($lang['gl_sorry'], $lang['gl_flood_msg'] . '' . mkprettytime($TRINITY20['flood_time'] - (TIME_NOW - $a['first_post'])));
+    if ($a['how_many'] > $max[$CURUSER['class']]) { stderr($lang['gl_sorry'],
+        $lang['gl_flood_msg'].''.mkprettytime($TRINITY20['flood_time'] - (TIME_NOW - $a['first_post'])));
+    }
 }
+
 //== Sql query count by pdq
 function sql_query($query)
 {
@@ -1152,8 +1223,10 @@ function sql_query($query)
 function strip_tags_array($ar)
 {
     if (is_array($ar)) {
-        foreach ($ar as $k => $v) $ar[strip_tags($k) ] = strip_tags($v);
-    } else $ar = strip_tags($ar);
+        foreach ($ar as $k => $v) { $ar[strip_tags($k)] = strip_tags($v);
+        }
+    } else { $ar = strip_tags($ar);
+    }
     return $ar;
 }
 function referer()
@@ -1164,7 +1237,8 @@ function referer()
         $ip = $_SERVER['REMOTE_ADDR'];
         $http_agent = $_SERVER["HTTP_USER_AGENT"];
         $http_page = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
-        if (!empty($_SERVER["QUERY_STRING"])) $http_page.= "?" . $_SERVER['QUERY_STRING'];
+        if (!empty($_SERVER["QUERY_STRING"])) { $http_page .= "?".$_SERVER['QUERY_STRING'];
+        }
         sql_query("INSERT INTO referrers (browser, ip, referer, page, date) VALUES (" . sqlesc($http_agent) . ", " . sqlesc($ip) . ", " . sqlesc($http_referer) . ", " . sqlesc($http_page) . ", " . sqlesc(TIME_NOW) . ")");
     }
 }
@@ -1187,11 +1261,16 @@ function mysql_fetch_all($query, $default_value = Array())
     global $mysqli;
     $r = @sql_query($query);
     $result = Array();
-    if ($err = ($mysqli->errno)) return $err;
-    if (@$r->num_rows)
-        while ($row = $r->fetch_array(MYSQLI_BOTH)) $result[] = $row;
-    if (count($result) == 0)
+    if ($err = ($mysqli->errno)) { return $err;
+    }
+    if (@$r->num_rows) {
+        while ($row = $r->fetch_array(MYSQLI_BOTH)) {
+            $result[] = $row;
+        }
+    }
+    if (count($result) == 0) {
         return $default_value;
+    }
     return $result;
 }
 function write_bonus_log($userid, $amount, $type){

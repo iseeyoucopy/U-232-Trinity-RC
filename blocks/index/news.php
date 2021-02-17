@@ -61,7 +61,9 @@ $HTMLOUT.= "<div id=\"ka" . (int)$array['nid'] . "\" style=\"display:" . ($array
     }
 }
 $HTMLOUT.= "</div>";
-if (empty($news)) $HTMLOUT.= "<div class='card-section'>{$lang['index_news_not']}</div>";
+if (empty($news)) {
+    $HTMLOUT .= "<div class='card-section'>{$lang['index_news_not']}</div>";
+}
 //==End
 // End Class
 // End File

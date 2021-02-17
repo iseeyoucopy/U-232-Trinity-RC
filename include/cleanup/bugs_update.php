@@ -20,7 +20,9 @@ function docleanup($data)
     $time = (TIME_NOW - ($days * 86400));
     sql_query("DELETE FROM bugs WHERE status != 'na' AND added < {$time}") || sqlerr(__FILE__, __LINE__);
     //==
-    if ($queries > 0) write_log("Bugs Updates -------------------- Bugs Clean Complete using $queries queries--------------------");
+    if ($queries > 0) {
+        write_log("Bugs Updates -------------------- Bugs Clean Complete using $queries queries--------------------");
+    }
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     }

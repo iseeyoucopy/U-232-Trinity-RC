@@ -41,22 +41,28 @@ $stdfoot = array(
     )
 );
 $HTMLOUT = $torrent_cache = '';
-if (!isset($_GET['id']) || !is_array($_GET['id'])) stderr("{$lang['details_user_error']}", "{$lang['details_bad_id']}");
+if (!isset($_GET['id']) || !is_array($_GET['id'])) {
+    stderr("{$lang['details_user_error']}", "{$lang['details_bad_id']}");
+}
 
 
 //==pdq memcache slots
 $slot = make_freeslots($CURUSER['id'], 'fllslot_');
 $torrent['addedfree'] = $torrent['addedup'] = $free_slot = $double_slot = '';
-if (!empty($slot)) foreach ($slot as $sl) {
-    if ($sl['torrentid'] == $id && $sl['free'] == 'yes') {
-        $free_slot = 1;
-        $torrent['addedfree'] = $sl['addedfree'];
+if (!empty($slot)) {
+    foreach ($slot as $sl) {
+        if ($sl['torrentid'] == $id && $sl['free'] == 'yes') {
+            $free_slot = 1;
+            $torrent['addedfree'] = $sl['addedfree'];
+        }
+        if ($sl['torrentid'] == $id && $sl['doubleup'] == 'yes') {
+            $double_slot = 1;
+            $torrent['addedup'] = $sl['addedup'];
+        }
+        if ($free_slot && $double_slot) {
+            break;
+        }
     }
-    if ($sl['torrentid'] == $id && $sl['doubleup'] == 'yes') {
-        $double_slot = 1;
-        $torrent['addedup'] = $sl['addedup'];
-    }
-    if ($free_slot && $double_slot) break;
 }
 
 
@@ -82,8 +88,12 @@ foreach($_GET['id'] as $id ) {
         $tor_fields = implode(', ', array_merge($tor_fields_ar_int, $tor_fields_ar_str));
         ($result = sql_query("SELECT " . $tor_fields . ", LENGTH(nfo) AS nfosz, IF(num_ratings < {$TRINITY20['minvotes']}, NULL, ROUND(rating_sum / num_ratings, 1)) AS rating FROM torrents WHERE id = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
         $torrents = $result->fetch_assoc();
-        foreach ($tor_fields_ar_int as $i) $torrents[$i] = (int)$torrents[$i];
-        foreach ($tor_fields_ar_str as $i) $torrents[$i] = $torrents[$i];
+        foreach ($tor_fields_ar_int as $i) {
+            $torrents[$i] = (int)$torrents[$i];
+        }
+        foreach ($tor_fields_ar_str as $i) {
+            $torrents[$i] = $torrents[$i];
+        }
 
         $s = htmlsafechars($torrents["name"], ENT_QUOTES);
 

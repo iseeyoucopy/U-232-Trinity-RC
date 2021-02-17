@@ -25,7 +25,9 @@ $HTMLOUT.= "<table class='table table-bordered'>
 $query1 = sprintf('SELECT m.main_id, m.subject, m.body FROM announcement_main AS m ' . 'LEFT JOIN announcement_process AS p ' . 'ON m.main_id = p.main_id AND p.user_id = %s ' . 'WHERE p.status = 2', sqlesc($CURUSER['id']));
 $result = sql_query($query1);
 $ann_list = array();
-while ($x = $result->fetch_array(MYSQLI_BOTH)) $ann_list[] = $x;
+while ($x = $result->fetch_array(MYSQLI_BOTH)) {
+    $ann_list[] = $x;
+}
 unset($x);
 unset($result);
 reset($ann_list);
@@ -36,7 +38,11 @@ if ($action == 'read_announce') {
         echo stdhead($lang['annhistory_ann']) . $HTMLOUT . stdfoot();
         die();
     }
-    foreach ($ann_list AS $x) if ($x[0] == $id) [, $subject, $body] = $x;
+    foreach ($ann_list AS $x) {
+        if ($x[0] == $id) {
+            [, $subject, $body] = $x;
+        }
+    }
     if (empty($subject) || empty($body)) {
         $HTMLOUT.= stdmsg($lang['annhistory_error'], $lang['annhistory_not']);
         echo stdhead($lang['annhistory_ann']) . $HTMLOUT . stdfoot();
@@ -60,7 +66,9 @@ $HTMLOUT.= "<table class='table table-bordered'>
 <tr>
 <td class='text-center' bgcolor='orange'><b>{$lang['annhistory_subject1']}</b></td>
 </tr>";
-foreach ($ann_list AS $x) $HTMLOUT.= "<tr><td align='center'><a href='?action=read_announce&amp;id=" . (int)$x[0] . "'>" . htmlsafechars($x[1]) . "</a></td></tr>\n";
+foreach ($ann_list AS $x) {
+    $HTMLOUT .= "<tr><td align='center'><a href='?action=read_announce&amp;id=".(int)$x[0]."'>".htmlsafechars($x[1])."</a></td></tr>\n";
+}
 $HTMLOUT.= "</table>";
 $HTMLOUT.= "</td></tr></table>";
 echo stdhead($lang['annhistory_ann']) . $HTMLOUT . stdfoot();

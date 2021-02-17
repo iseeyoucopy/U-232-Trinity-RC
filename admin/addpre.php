@@ -31,15 +31,21 @@ $lang = array_merge($lang, load_language('ad_addpre'));
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tid = trim(htmlsafechars($_POST["id"]));
     $time = trim(htmlsafechars($_POST["time"]));
-    if (!$tid || !$time) stderr("{$lang['text_error']}", "{$lang['text_please']}");
+    if (!$tid || !$time) {
+        stderr("{$lang['text_error']}", "{$lang['text_please']}");
+    }
     ($res = sql_query("SELECT * FROM torrents WHERE id=".sqlesc($tid))) || sqlerr(__FILE__, __LINE__);
-    if ($res->num_rows != 1) stderr("{$lang['text_error']}", "{$lang['text_bad']}");
+    if ($res->num_rows != 1) {
+        stderr("{$lang['text_error']}", "{$lang['text_bad']}");
+    }
     $arr = $res->fetch_assoc();
     $name = $arr['name'];
     ($res = sql_query("INSERT INTO releases (releasename, time, releasetime, section) VALUES (".sqlesc($name).", ".sqlesc($time).", ".sqlesc($time).", 'Site add')")) || sqlerr(__FILE__, __LINE__);
     
     $cache->delete('torrent_pretime_'.$tid);
-    if ($mysqli->affected_rows != 1) stderr("{$lang['text_error']}", "{$lang['text_unable']}");
+    if ($mysqli->affected_rows != 1) {
+        stderr("{$lang['text_error']}", "{$lang['text_unable']}");
+    }
     stderr("{$lang['stderr_success']}", "{$lang['text_success']}");
 }
 $HTMLOUT = "

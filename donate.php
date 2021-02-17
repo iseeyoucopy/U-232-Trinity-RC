@@ -107,7 +107,9 @@ foreach ($donate as $amount => $ops) {
     $out.= '<td ><table class="table table-bordered">
 			  <tr><td>Donate ' . $amount . ' ' . $TRINITY20['paypal_config']['currency'] . '</td></tr>
 			  <tr><td><ul style=\'margin-left: 0px;padding-left:15px\'>';
-    foreach ($ops as $op) $out.= '<li>' . $op . '</li>';
+    foreach ($ops as $op) {
+        $out .= '<li>'.$op.'</li>';
+    }
     $out.= '</ul></td></tr><tr><td>' . str_replace(array(
         '#amount',
         '#item_name',

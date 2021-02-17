@@ -17,7 +17,9 @@ function getRate($id, $what)
     if ($id == 0 || !in_array($what, array(
         'topic',
         'torrent'
-    ))) return;
+    ))) {
+        return;
+    }
     //== lets memcache $what fucker
     $keys['rating'] = 'rating_' . $what . '_' . $id . '_' . $CURUSER['id'];
     if (($rating_cache = $cache->get($keys['rating'])) === false) {
@@ -36,8 +38,12 @@ function getRate($id, $what)
 	$rating_count = $rating_cache["count"] ?? 0;
 	$p = ($rating_count > 0 ? round((($rating_cache["sum"] / $rating_count) * 20) , 2) : 0);
 	$rating_r = $rating_cache["rated"] ?? '';
-    if ($rating_r) $rate = "<ul class=\"star-rating\" title=\"You rated this " . $what . " " . htmlsafechars($rating_cache["rating"]) . " star" . (htmlsafechars($rating_cache["rating"]) > 1 ? "s" : "") . "\"><li style=\"width: " . $p . "%;\" class=\"current-rating\">.</li></ul>";
-    elseif ($what == 'torrent') $rate = "<ul class=\"star-rating\" title=\"You must download this " . $what . " in order to rate it.\"><li style=\"width: %;\" class=\"current-rating\">" . $p .".</li></ul>";
+    if ($rating_r) {
+        $rate = "<ul class=\"star-rating\" title=\"You rated this ".$what." ".htmlsafechars($rating_cache["rating"])." star".(htmlsafechars($rating_cache["rating"]) > 1 ? "s" : "")."\"><li style=\"width: ".$p."%;\" class=\"current-rating\">.</li></ul>";
+    }
+    elseif ($what == 'torrent') {
+        $rate = "<ul class=\"star-rating\" title=\"You must download this ".$what." in order to rate it.\"><li style=\"width: %;\" class=\"current-rating\">".$p.".</li></ul>";
+    }
     else {
         $i = 1;
         $rate = "<ul class=\"star-rating\"><li style=\"width: " . $p . "%;\" class=\"current-rating\">.</li>";

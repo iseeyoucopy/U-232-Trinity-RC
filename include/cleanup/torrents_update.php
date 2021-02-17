@@ -37,13 +37,20 @@ function docleanup($data)
     $updatetorrents = array();
     $tq = sql_query($tsql);
     while ($t = $tq->fetch_assoc()) {
-        if ($t['seeders'] != $t['seeders_num'] || $t['leechers'] != $t['leechers_num'] || $t['comments'] != $t['comments_num']) $updatetorrents[] = '(' . $t['id'] . ', ' . $t['seeders_num'] . ', ' . $t['leechers_num'] . ', ' . $t['comments_num'] . ')';
+        if ($t['seeders'] != $t['seeders_num'] || $t['leechers'] != $t['leechers_num'] || $t['comments'] != $t['comments_num']) {
+            $updatetorrents[] = '('.$t['id'].', '.$t['seeders_num'].', '.$t['leechers_num'].', '.$t['comments_num'].')';
+        }
     }
     $tq->free();
     $mysqli->next_result();
-    if (count($updatetorrents) > 0) sql_query('INSERT INTO torrents (id, seeders, leechers, comments) VALUES ' . implode(', ', $updatetorrents) . ' ON DUPLICATE KEY UPDATE seeders = VALUES(seeders), leechers = VALUES(leechers), comments = VALUES(comments)');
+    if (count($updatetorrents) > 0) {
+        sql_query('INSERT INTO torrents (id, seeders, leechers, comments) VALUES '.implode(', ',
+                $updatetorrents).' ON DUPLICATE KEY UPDATE seeders = VALUES(seeders), leechers = VALUES(leechers), comments = VALUES(comments)');
+    }
     unset($updatetorrents);
-    if ($queries > 0) write_log("Torrent clean-------------------- Torrent cleanup Complete using $queries queries --------------------");
+    if ($queries > 0) {
+        write_log("Torrent clean-------------------- Torrent cleanup Complete using $queries queries --------------------");
+    }
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items updated";
     }

@@ -20,7 +20,9 @@ $lang = array_merge(load_language('global'), load_language('subtitles'));
 $action = (isset($_POST["action"]) ? htmlsafechars($_POST["action"]) : "");
 if ($action == "download") {
     $id = isset($_POST["sid"]) ? (int) $_POST["sid"] : 0;
-    if ($id == 0) stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
+    if ($id == 0) {
+        stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
+    }
     else {
         ($res = sql_query("SELECT id, name, filename FROM subtitles WHERE id=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
         $arr = $res->fetch_assoc();
@@ -49,5 +51,7 @@ if ($action == "download") {
         @unlink("{$TRINITY20['sub_up_dir']}/$fileName");
         sql_query("UPDATE subtitles SET hits=hits+1 where id=".sqlesc($id));
     }
-} else stderr($lang['gl_error'], $lang['gl_no_way']);
+} else {
+    stderr($lang['gl_error'], $lang['gl_no_way']);
+}
 ?>

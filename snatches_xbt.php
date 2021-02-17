@@ -32,19 +32,28 @@ if (empty($_GET['id'])) {
     exit();
 }
 $id = 0 + $_GET["id"];
-if (!is_valid_id($id)) stderr("Error", "It appears that you have entered an invalid id.");
+if (!is_valid_id($id)) {
+    stderr("Error", "It appears that you have entered an invalid id.");
+}
 ($res = sql_query("SELECT id, name FROM torrents WHERE id = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 $arr = $res->fetch_assoc();
-if (!$arr) stderr("Error", "It appears that there is no torrent with that id.");
+if (!$arr) {
+    stderr("Error", "It appears that there is no torrent with that id.");
+}
 ($res = sql_query("SELECT COUNT(tid) FROM xbt_peers WHERE completedtime !=0 AND tid =" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 $row = $res->fetch_row();
 $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "snatches.php?id=$id&amp;");
-if (!$count) stderr("No snatches", "It appears that there are currently no snatches for the torrent <a href='details.php?id=" . (int)$arr['id'] . "'>" . htmlsafechars($arr['name']) . "</a>.");
+if (!$count) {
+    stderr("No snatches",
+        "It appears that there are currently no snatches for the torrent <a href='details.php?id=".(int)$arr['id']."'>".htmlsafechars($arr['name'])."</a>.");
+}
 $HTMLOUT.= "<h1>Snatches for torrent <a href='{$TRINITY20['baseurl']}/details.php?id=" . (int)$arr['id'] . "'>" . htmlsafechars($arr['name']) . "</a></h1>\n";
 $HTMLOUT.= "<h2>Currently {$row['0']} snatch" . ($row[0] == 1 ? "" : "es") . "</h2>\n";
-if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
+if ($count > $perpage) {
+    $HTMLOUT .= $pager['pagertop'];
+}
 $HTMLOUT.= "<table class='table table-bordered'>
 <tr>
 <td class='colhead' align='left'>{$lang['snatches_username']}</td>
@@ -79,7 +88,9 @@ while ($arr = $res->fetch_assoc()) {
   </tr>\n";
 }
 $HTMLOUT.= "</table>\n";
-if ($count > $perpage) $HTMLOUT.= $pager['pagerbottom'];
+if ($count > $perpage) {
+    $HTMLOUT .= $pager['pagerbottom'];
+}
 echo stdhead('Snatches') . $HTMLOUT . stdfoot();
 die;
 ?>

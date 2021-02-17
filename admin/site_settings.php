@@ -36,7 +36,9 @@ $lang = array_merge($lang, load_language('ad_sitesettings'));
 //$update = '';
 //get the config from db
 ($pconf = sql_query('SELECT * FROM site_config')) || sqlerr(__FILE__, __LINE__);
-while ($ac = $pconf->fetch_assoc()) $site_settings[$ac['name']] = $ac['value'];
+while ($ac = $pconf->fetch_assoc()) {
+    $site_settings[$ac['name']] = $ac['value'];
+}
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $update = array();
     //can't be 0
@@ -46,7 +48,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
      stderr($lang['sitesettings_stderr'], $lang['sitesettings_stderr2']);
     }
     */
-    foreach ($site_settings as $c_name => $c_value) if (isset($_POST[$c_name]) && $_POST[$c_name] != $c_value) $update[] = '(' . sqlesc($c_name) . ',' . sqlesc(is_array($_POST[$c_name]) ? implode('|', $_POST[$c_name]) : $_POST[$c_name]) . ')';
+    foreach ($site_settings as $c_name => $c_value) {
+        if (isset($_POST[$c_name]) && $_POST[$c_name] != $c_value) {
+            $update[] = '('.sqlesc($c_name).','.sqlesc(is_array($_POST[$c_name]) ? implode('|', $_POST[$c_name]) : $_POST[$c_name]).')';
+        }
+    }
     if (sql_query('INSERT INTO site_config(name,value) VALUES ' . implode(',', $update) . ' ON DUPLICATE KEY update value=values(value)')) {
         $t = '$TRINITY20';
         $configfile = "<" . "?php\n/**\n{$lang['sitesettings_file']}" . date('M d Y H:i:s') . ".\n{$lang['sitesettings_cfg']}\n**/\n";
@@ -60,15 +66,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         fwrite($filenum, $configfile);
         fclose($filenum);
         stderr($lang['sitesettings_success'], $lang['sitesettings_success1']);
-    } else stderr($lang['sitesettings_stderr'], $lang['sitesettings_stderr3']);
+    } else {
+        stderr($lang['sitesettings_stderr'], $lang['sitesettings_stderr3']);
+    }
     exit;
 }
 $HTMLOUT.= "<div class='row'><div class='col-md-12'>";
 $HTMLOUT.= "<h3>{$lang['sitesettings_sitehead']}</h3>
 <form action='staffpanel.php?tool=site_settings' method='post'>
 <table class='table table-bordered'>";
-if ($CURUSER['id'] === 1) 
-$HTMLOUT.= "<tr><td width='50%'>{$lang['sitesettings_online']}</td><td>{$lang['sitesettings_yes']}<input type='radio' name='site_online' value='1' " . ($site_settings['site_online'] ? 'checked=\'checked\'' : '') . " />{$lang['sitesettings_no']}<input type='radio' name='site_online' value='0' " . ($site_settings['site_online'] ? '' : 'checked=\'checked\'') . " /></td></tr>";
+if ($CURUSER['id'] === 1) {
+    $HTMLOUT .= "<tr><td width='50%'>{$lang['sitesettings_online']}</td><td>{$lang['sitesettings_yes']}<input type='radio' name='site_online' value='1' ".($site_settings['site_online'] ? 'checked=\'checked\'' : '')." />{$lang['sitesettings_no']}<input type='radio' name='site_online' value='0' ".($site_settings['site_online'] ? '' : 'checked=\'checked\'')." /></td></tr>";
+}
 $HTMLOUT.= "
 <tr><td width='50%'>{$lang['sitesettings_autoshout']}</td><td>{$lang['sitesettings_yes']}<input type='radio' name='autoshout_on' value='1' " . ($site_settings['autoshout_on'] ? 'checked=\'checked\'' : '') . " />{$lang['sitesettings_no']}<input type='radio' name='autoshout_on' value='0' " . ($site_settings['autoshout_on'] ? '' : 'checked=\'checked\'') . " /></td></tr>
 <tr><td width='50%'>{$lang['sitesettings_seedbonus']}</td><td>{$lang['sitesettings_yes']}<input type='radio' name='seedbonus_on' value='1' " . ($site_settings['seedbonus_on'] ? 'checked=\'checked\'' : '') . " />{$lang['sitesettings_no']}<input type='radio' name='seedbonus_on' value='0' " . ($site_settings['seedbonus_on'] ? '' : 'checked=\'checked\'') . " /></td></tr>

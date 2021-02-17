@@ -38,10 +38,12 @@ $arr = $res->fetch_assoc();
 $res->free();
 $mysqli->next_result();
 $count = (int)$arr['post_count'];
-if (empty($count))
+if (empty($count)) {
     stderr('Sorry', 'No posts in the last 24 hours.');
-if ($TRINITY20['forums_online'] == 0)
+}
+if ($TRINITY20['forums_online'] == 0) {
     $HTMLOUT .= stdmsg('Warning', 'Forums are currently in maintainance mode');
+}
 $HTMLOUT .= "<div class='row'><div class='col-md-12'>";
 $perpage = 20;
 $pager = pager($perpage, $count, $TRINITY20['baseurl'].'/forums.php?action='.$action.'&amp;');

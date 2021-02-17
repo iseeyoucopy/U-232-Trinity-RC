@@ -106,7 +106,9 @@ $row = $res->fetch_row();
 $count = $row[0];
 $snatchedperpage = 15;
 $pager = pager($snatchedperpage, $count, "staffpanel.php?tool=snatched_torrents&amp;action=snatched_torrents&amp;");
-if ($count > $snatchedperpage) $HTMLOUT.= $pager['pagertop'];
+if ($count > $snatchedperpage) {
+    $HTMLOUT .= $pager['pagertop'];
+}
 if (XBT_TRACKER == true) {
     $sql = "SELECT x.uid, x.fid, x.announced, x.completedtime, x.leechtime, x.seedtime, x.uploaded, x.downloaded, x.started, u.username, t.seeders, t.name " . "FROM xbt_files_users AS x " . "LEFT JOIN users AS u ON u.id=x.uid " . "LEFT JOIN torrents AS t ON t.id=x.fid WHERE completedtime != '0'" . " ORDER BY x.completedtime DESC " . $pager['limit'];
 } else {
@@ -158,8 +160,12 @@ if ($result->num_rows != 0) {
 " . ($TRINITY20['ratio_free'] ? "" : "<td align='center'><b>" . mksize($row['downloaded']) . "</b></td>") . "
 <td align='center'><b>" . get_snatched_color($row["seedtime"]) . "</b></td>
 <td align='center'><b>" . mkprettytime($row["leechtime"]) . "</b></td><td align='center'><b>" . get_date($row['started'], 'LONG', 0, 1) . "</b></td>";
-            if ($row['completedtime'] > 0) $HTMLOUT.= "<td align='center'><b>" . get_date($row['completedtime'], 'LONG', 0, 1) . "</b></td>";
-            else $HTMLOUT.= "<td align='center'><b><font color='red'>{$lang['ad_snatched_torrents_ncomplete']}</font></b></td>";
+            if ($row['completedtime'] > 0) {
+                $HTMLOUT .= "<td align='center'><b>".get_date($row['completedtime'], 'LONG', 0, 1)."</b></td>";
+            }
+            else {
+                $HTMLOUT .= "<td align='center'><b><font color='red'>{$lang['ad_snatched_torrents_ncomplete']}</font></b></td>";
+            }
             $HTMLOUT.= "<td align='center'>" . ($row['seeders'] >= 1 ? "<img src='" . $TRINITY20['pic_base_url'] . "aff_tick.gif' alt='{$lang['ad_snatched_torrents_yes']}' title='{$lang['ad_snatched_torrents_yes']}' />" : "<img src='" . $TRINITY20['pic_base_url'] . "aff_cross.gif' alt='{$lang['ad_snatched_torrents_no']}' title='{$lang['ad_snatched_torrents_no']}' />") . "</td></tr>";
         } else {
             $HTMLOUT.= "<tr><td><a href='/userdetails.php?id=" . (int)$row['userid'] . "'><b>" . htmlsafechars($row['username']) . "</b></a></td>
@@ -172,14 +178,22 @@ if ($result->num_rows != 0) {
 <td align='center'><b>" . get_snatched_color($row["seedtime"]) . "</b></td>
 <td align='center'><b>" . mkprettytime($row["leechtime"]) . "</b></td>
 <td align='center'><b>" . get_date($row['start_date'], 'LONG', 0, 1) . "</b></td>";
-            if ($row['complete_date'] > 0) $HTMLOUT.= "<td align='center'><b>" . get_date($row['complete_date'], 'LONG', 0, 1) . "</b></td>";
-            else $HTMLOUT.= "<td align='center'><b><font color='red'>{$lang['ad_snatched_torrents_ncomplete']}</font></b></td></tr>";
+            if ($row['complete_date'] > 0) {
+                $HTMLOUT .= "<td align='center'><b>".get_date($row['complete_date'], 'LONG', 0, 1)."</b></td>";
+            }
+            else {
+                $HTMLOUT .= "<td align='center'><b><font color='red'>{$lang['ad_snatched_torrents_ncomplete']}</font></b></td></tr>";
+            }
             $HTMLOUT.= "<td align='center'><b>" . ($row['seeder'] == 'yes' ? "<img src='" . $TRINITY20['pic_base_url'] . "aff_tick.gif' alt='{$lang['ad_snatched_torrents_yes']}' title='{$lang['ad_snatched_torrents_yes']}' />" : "<img src='" . $TRINITY20['pic_base_url'] . "aff_cross.gif' alt='{$lang['ad_snatched_torrents_no']}' title='{$lang['ad_snatched_torrents_no']}' />") . "</b></td></tr>";
         }
     }
     $HTMLOUT.= "</table>";
-} else $HTMLOUT.= "{$lang['ad_snatched_torrents_nothing']}";
-if ($count > $snatchedperpage) $HTMLOUT.= $pager['pagerbottom']."<br>";
+} else {
+    $HTMLOUT .= "{$lang['ad_snatched_torrents_nothing']}";
+}
+if ($count > $snatchedperpage) {
+    $HTMLOUT .= $pager['pagerbottom']."<br>";
+}
 $HTMLOUT.= "</div></div><br>";
 echo stdhead($lang['ad_snatched_torrents_stdhead']) . $HTMLOUT . stdfoot();
 die;

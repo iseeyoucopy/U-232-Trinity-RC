@@ -21,7 +21,9 @@ $lang = array_merge(load_language('global') , load_language('takesignup'));
 function validusername($username)
 {
     global $lang;
-    if ($username == "") return false;
+    if ($username == "") {
+        return false;
+    }
     $namelength = strlen($username);
     if ($namelength < 3 || $namelength > 32) {
         $HTMLOUT = "";
@@ -32,7 +34,9 @@ function validusername($username)
     // The following characters are allowed in user names
     $allowedchars = $lang['takesignup_allowed_chars'];
     for ($i = 0; $i < $namelength; ++$i) {
-        if (strpos($allowedchars, (string) $username[$i]) === false) return false;
+        if (strpos($allowedchars, (string) $username[$i]) === false) {
+            return false;
+        }
     }
     return true;
 }

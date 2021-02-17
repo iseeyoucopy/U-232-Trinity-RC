@@ -15,9 +15,15 @@
 function stdhead($title = "", $msgalert = true, $stdhead = false)
 {
     global $CURUSER, $TRINITY20, $lang, $free, $_NO_COMPRESS, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
-    if (!$TRINITY20['site_online']) die("Site is down for maintenance, please check back again later... thanks<br />");
-    if ($title == "") $title = $TRINITY20['site_name'] . (isset($_GET['tbv']) ? " (" . TBVERSION . ")" : '');
-    else $title = $TRINITY20['site_name'] . (isset($_GET['tbv']) ? " (" . TBVERSION . ")" : '') . " :: " . htmlsafechars($title);
+    if (!$TRINITY20['site_online']) {
+        die("Site is down for maintenance, please check back again later... thanks<br />");
+    }
+    if ($title == "") {
+        $title = $TRINITY20['site_name'].(isset($_GET['tbv']) ? " (".TBVERSION.")" : '');
+    }
+    else {
+        $title = $TRINITY20['site_name'].(isset($_GET['tbv']) ? " (".TBVERSION.")" : '')." :: ".htmlsafechars($title);
+    }
     if ($CURUSER) {
         $TRINITY20['stylesheet'] = isset($CURUSER['stylesheet']) ? "{$CURUSER['stylesheet']}.css" : $TRINITY20['stylesheet'];
         $TRINITY20['categorie_icon'] = isset($CURUSER['categorie_icon']) ? "{$CURUSER['categorie_icon']}" : $TRINITY20['categorie_icon'];
@@ -32,14 +38,18 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
     $js_incl = '';
     $js_incl .= '<!-- javascript goes here or in footer -->';
     if (!empty($stdhead['js'])) {
-        foreach ($stdhead['js'] as $JS) $js_incl .= "<script type='text/javascript' src='{$TRINITY20['baseurl']}/scripts/" . $JS . ".js'></script>";
+        foreach ($stdhead['js'] as $JS) {
+            $js_incl .= "<script type='text/javascript' src='{$TRINITY20['baseurl']}/scripts/".$JS.".js'></script>";
+        }
     }
     //== Include css files needed only for the page being used by pdq
     $stylez = ($CURUSER ? "{$CURUSER['stylesheet']}" : "{$TRINITY20['stylesheet']}");
     $css_incl = '';
     $css_incl .= '<!-- css goes in header -->';
     if (!empty($stdhead['css'])) {
-        foreach ($stdhead['css'] as $CSS) $css_incl .= "<link type='text/css' rel='stylesheet' href='{$TRINITY20['baseurl']}/templates/{$stylez}/css/" . $CSS . ".css' />";
+        foreach ($stdhead['css'] as $CSS) {
+            $css_incl .= "<link type='text/css' rel='stylesheet' href='{$TRINITY20['baseurl']}/templates/{$stylez}/css/".$CSS.".css' />";
+        }
     }
     $htmlout .= '<!doctype html>
     <html class="no-js" lang="en">
@@ -267,8 +277,10 @@ function stdfoot($stdfoot = false)
     //== query stats
     if (!empty($stdfoot['js'])) {
         $htmlfoot .= '<!-- javascript goes here in footer -->';
-        foreach ($stdfoot['js'] as $JS) $htmlfoot .= '
-		<script src="' . $TRINITY20['baseurl'] . '/scripts/' . $JS . '.js"></script>';
+        foreach ($stdfoot['js'] as $JS) {
+            $htmlfoot .= '
+		<script src="'.$TRINITY20['baseurl'].'/scripts/'.$JS.'.js"></script>';
+        }
     }
     $querytime = 0;
     $max_class = $CURUSER['class'] ?? '';
@@ -331,8 +343,9 @@ function stdfoot($stdfoot = false)
 function stdmsg($heading, $text)
 {
     $htmlout = "<div class='callout alert-callout-border alert'>";
-    if ($heading)
+    if ($heading) {
         $htmlout .= "<strong><p>{$heading}</p></strong>";
+    }
     $htmlout .= "<p>{$text}</p>";
     $htmlout .= "</div>";
     return $htmlout;
@@ -341,7 +354,9 @@ function stdmsg($heading, $text)
 function StatusBar()
 {
     global $CURUSER, $TRINITY20, $lang, $rep_is_on, $cache, $mysqli, $msgalert, $keys;
-    if (!$CURUSER) return "";
+    if (!$CURUSER) {
+        return "";
+    }
     $upped = mksize($CURUSER['uploaded']);
     $downed = mksize($CURUSER['downloaded']);
     $connectable = "";
@@ -376,8 +391,9 @@ function StatusBar()
                     $max = 99;
             }
         }
-    } else
+    } else {
         $max = 999;
+    }
     if (XBT_TRACKER == true) {
         if ($MyPeersXbtCache = $cache->get($keys['my_xbt_peers'] . $CURUSER['id']) === false) {
             $seed['yes'] = $seed['no'] = 0;
@@ -421,7 +437,9 @@ function StatusBar()
             default:
                 $connectable = "<span data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='Connectable - Unknown'><i class='fas fa-question'></i></span>";
         }
-    } else $connectable = 'N/A';
+    } else {
+        $connectable = 'N/A';
+    }
     if (($Achievement_Points = $cache->get('user_achievement_points_' . $CURUSER['id'])) === false) {
         $Sql = "SELECT users.id, users.username, usersachiev.achpoints, usersachiev.spentpoints FROM users LEFT JOIN usersachiev ON users.id = usersachiev.id WHERE users.id = " . sqlesc($CURUSER['id']) or sqlerr(__FILE__, __LINE__);
         $result = $mysqli->query($Sql);
@@ -434,9 +452,12 @@ function StatusBar()
     $hitnruns = ($CURUSER['hit_and_run_total'] > 0) ? $CURUSER['hit_and_run_total'] : '0';
     $member_reputation = get_reputation($CURUSER);
     $usrclass = $htmlout = "";
-    if ($CURUSER['override_class'] != 255) 
-    $usrclass = "&nbsp;<b>[" . get_user_class_name($CURUSER['class']) . "]</b>&nbsp;";
-    else if ($CURUSER['class'] >= UC_STAFF) $usrclass = "&nbsp;<a href='" . $TRINITY20['baseurl'] . "/setclass.php'><b>[" . get_user_class_name($CURUSER['class']) . "]</b></a>&nbsp;";
+    if ($CURUSER['override_class'] != 255) {
+        $usrclass = "&nbsp;<b>[".get_user_class_name($CURUSER['class'])."]</b>&nbsp;";
+    }
+    else if ($CURUSER['class'] >= UC_STAFF) {
+        $usrclass = "&nbsp;<a href='".$TRINITY20['baseurl']."/setclass.php'><b>[".get_user_class_name($CURUSER['class'])."]</b></a>&nbsp;";
+    }
     $htmlout .= "Welcome " . format_username($CURUSER) . "" . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "[" . get_user_class_name($CURUSER['class']) . "]" : $usrclass) . " | 
     {$lang['gl_act_torrents']} : | 
     " . ($TRINITY20['achieve_sys_on'] ? "<span style='color: #82c115;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_achpoints']}'><i class='fas fa-award'></i></span> <a href='./achievementhistory.php?id={$CURUSER['id']}'>" . (int) $Achievement_Points['achpoints'] . "</a>&nbsp;" : "") . " | 

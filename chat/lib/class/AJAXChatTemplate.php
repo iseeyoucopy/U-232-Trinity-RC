@@ -114,10 +114,12 @@ class AJAXChatTemplate {
 				return $this->ajaxChat->getConfig('chatBotID');
 
 			case 'ALLOW_USER_MESSAGE_DELETE':
-				if($this->ajaxChat->getConfig('allowUserMessageDelete'))
-					return 1;
-				else
-					return 0;
+				if($this->ajaxChat->getConfig('allowUserMessageDelete')) {
+                    return 1;
+                }
+				else {
+                    return 0;
+                }
 
 			case 'INACTIVE_TIMEOUT':
 				return $this->ajaxChat->getConfig('inactiveTimeout');
@@ -128,16 +130,20 @@ class AJAXChatTemplate {
 				return $this->ajaxChat->getConfig('privateMessageDiff');
 
 			case 'SHOW_CHANNEL_MESSAGES':
-				if($this->ajaxChat->getConfig('showChannelMessages'))
-					return 1;
-				else
-					return 0;
+				if($this->ajaxChat->getConfig('showChannelMessages')) {
+                    return 1;
+                }
+				else {
+                    return 0;
+                }
 
 			case 'SOCKET_SERVER_ENABLED':
-				if($this->ajaxChat->getConfig('socketServerEnabled'))
-					return 1;
-				else
-					return 0;
+				if($this->ajaxChat->getConfig('socketServerEnabled')) {
+                    return 1;
+                }
+				else {
+                    return 0;
+                }
 
 			case 'SOCKET_SERVER_HOST':
 				if($this->ajaxChat->getConfig('socketServerHost')) {

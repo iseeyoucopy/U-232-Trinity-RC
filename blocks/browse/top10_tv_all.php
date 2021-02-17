@@ -10,11 +10,13 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-foreach ($categorie as $key => $value) $change[$value['id']] = array(
-    'id' => $value['id'],
-    'name' => $value['name'],
-    'image' => $value['image']
-);
+foreach ($categorie as $key => $value) {
+    $change[$value['id']] = [
+        'id' => $value['id'],
+        'name' => $value['name'],
+        'image' => $value['image']
+    ];
+}
 if (($top10tvs_all = $cache->get('top10_tv_all_')) === false) {
     ($res_tvall = sql_query("SELECT id, times_completed, seeders, leechers, name from torrents WHERE category IN (".implode(", ",$TRINITY20['tv_cats']).") ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}")) || sqlerr(__FILE__, __LINE__);
     while ($top10tv_all = $res_tvall->fetch_assoc()) {
@@ -35,8 +37,9 @@ if (($top10tvs_all = $cache->get('top10_tv_all_')) === false) {
      $counter = 1;
      foreach ($top10tvs_all as $top10tvsall) {
          $torrname = htmlsafechars($top10tvsall['name']);
-         if (strlen($torrname) > 50) 
-				$torrname = substr($torrname, 0, 50) . "...";
+         if (strlen($torrname) > 50) {
+             $torrname = substr($torrname, 0, 50)."...";
+         }
          $HTMLOUT.= "
             <tr>
             <td>". $counter++ ."</td>

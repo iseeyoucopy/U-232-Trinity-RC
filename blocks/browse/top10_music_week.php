@@ -11,11 +11,13 @@
  * ------------  @version V6  ------------------*
  */
 $categorie = genrelist();
-foreach ($categorie as $key => $value) $change[$value['id']] = array(
-    'id' => $value['id'],
-    'name' => $value['name'],
-    'image' => $value['image']
-);
+foreach ($categorie as $key => $value) {
+    $change[$value['id']] = [
+        'id' => $value['id'],
+        'name' => $value['name'],
+        'image' => $value['image']
+    ];
+}
 if (($top10music_week = $cache->get('top10_music_week_')) === false) {
     $tortimeweekmusic = $_SERVER['REQUEST_TIME'] - 604800;
     ($res_musicw = sql_query("SELECT id, times_completed, seeders, poster, leechers, name, category from torrents WHERE last_action >= {$tortimeweekmusic}  AND category IN (".implode(", ",$TRINITY20['music_cats']).") ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}")) || sqlerr(__FILE__, __LINE__);
@@ -38,8 +40,9 @@ if (($top10music_week = $cache->get('top10_music_week_')) === false) {
          $top10music_w_arr['cat_name'] = htmlsafechars($change[$top10music_w_arr['category']]['name']);
 	    $top10music_w_arr['cat_pic'] = htmlsafechars($change[$top10music_w_arr['category']]['image']);
          $torrname = htmlsafechars($top10music_w_arr['name']);
-         if (strlen($torrname) > 50) 
-				$torrname = substr($torrname, 0, 50) . "...";
+         if (strlen($torrname) > 50) {
+             $torrname = substr($torrname, 0, 50)."...";
+         }
          $HTMLOUT.= "
             <tr>
             <td>". $counter++ ."</td>

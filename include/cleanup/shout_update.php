@@ -21,7 +21,9 @@ function docleanup($data)
     sql_query("DELETE FROM shoutbox WHERE " . TIME_NOW . " - date > $secs") || sqlerr(__FILE__, __LINE__);
     
     
-    if ($queries > 0) write_log("Shout Clean -------------------- Shout Clean Complete using $queries queries--------------------");
+    if ($queries > 0) {
+        write_log("Shout Clean -------------------- Shout Clean Complete using $queries queries--------------------");
+    }
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     }

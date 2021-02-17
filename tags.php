@@ -28,7 +28,9 @@ function insert_tag($name, $description, $syntax, $example, $remarks)
     $htmlout.= "<tr valign='top'><td>{$lang['tags_systax']}</td><td><tt>$syntax</tt></td></tr>\n";
     $htmlout.= "<tr valign='top'><td>{$lang['tags_example']}</td><td><tt>$example</tt></td></tr>\n";
     $htmlout.= "<tr valign='top'><td>{$lang['tags_result']}</td><td>$result</td></tr>\n";
-    if ($remarks != "") $htmlout.= "<tr><td>{$lang['tags_remarks']}</td><td>$remarks</td></tr>\n";
+    if ($remarks != "") {
+        $htmlout .= "<tr><td>{$lang['tags_remarks']}</td><td>$remarks</td></tr>\n";
+    }
     return $htmlout . "</table>\n";
 }
 $HTMLOUT = '';
@@ -41,7 +43,9 @@ $HTMLOUT.= "{$lang['tags_title']}
     <textarea name='test' cols='60' rows='3'>" . ($test ? htmlspecialchars($test) : "") . "</textarea>
     <input type='submit' value='{$lang['tags_test']}' style='height: 23px; margin-left: 5px' />
     </form>";
-if ($test != "") $HTMLOUT.= "<p><hr>" . format_comment($test) . "<hr></p>\n";
+if ($test != "") {
+    $HTMLOUT .= "<p><hr>".format_comment($test)."<hr></p>\n";
+}
 $HTMLOUT.= insert_tag($lang['tags_bold1'], $lang['tags_bold2'], $lang['tags_bold3'], $lang['tags_bold4'], "");
 $HTMLOUT.= insert_tag($lang['tags_italic1'], $lang['tags_italic2'], $lang['tags_italic3'], $lang['tags_italic4'], "");
 $HTMLOUT.= insert_tag($lang['tags_underline1'], $lang['tags_underline2'], $lang['tags_underline3'], $lang['tags_underline4'], "");

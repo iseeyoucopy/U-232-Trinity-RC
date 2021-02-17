@@ -36,7 +36,9 @@ function docleanup($data)
         unset($users_buffer, $count);
     }
     //==End
-    if ($queries > 0) write_log("Xmas gift reset Clean -------------------- Xmas gift reset cleanup Complete using $queries queries --------------------");
+    if ($queries > 0) {
+        write_log("Xmas gift reset Clean -------------------- Xmas gift reset cleanup Complete using $queries queries --------------------");
+    }
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     }

@@ -34,11 +34,15 @@ $mode = (isset($_GET['mode']) && htmlsafechars($_GET['mode']));
 if (isset($mode) && $mode == 'change') {
     $uid = (int)$_POST["uid"];
     $uname = htmlsafechars($_POST["uname"]);
-    if ($_POST["uname"] == "" || $_POST["uid"] == "") stderr($lang['namechanger_err'], $lang['namechanger_missing']);
+    if ($_POST["uname"] == "" || $_POST["uid"] == "") {
+        stderr($lang['namechanger_err'], $lang['namechanger_missing']);
+    }
     ($nc_sql = sql_query("SELECT class FROM users WHERE id = " . sqlesc($uid))) || sqlerr(__FILE__, __LINE__);
     if ($nc_sql->num_rows) {
         $classuser = $nc_sql->fetch_assoc();
-        if ($classuser['class'] >= UC_STAFF) stderr($lang['namechanger_err'], $lang['namechanger_cannot']);
+        if ($classuser['class'] >= UC_STAFF) {
+            stderr($lang['namechanger_err'], $lang['namechanger_cannot']);
+        }
         ($change = sql_query("UPDATE users SET username=" . sqlesc($uname) . " WHERE id=" . sqlesc($uid))) || sqlerr(__FILE__, __LINE__);
         $cache->update_row($keys['my_userid'] . $uid, [
             'username' => $uname

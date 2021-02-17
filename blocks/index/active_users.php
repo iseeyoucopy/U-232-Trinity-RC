@@ -18,7 +18,9 @@ if (($active_users_cache = $cache->get($keys['act_users'] )) === false) {
     $actcount = $res->num_rows;
     $v = ($actcount != 1 ? 's' : '');
     while ($arr = $res->fetch_assoc()) {
-        if ($activeusers !== '') $activeusers.= ",";
+        if ($activeusers !== '') {
+            $activeusers .= ",";
+        }
         $activeusers.= format_username($arr);
     }
     $active_users_cache['activeusers'] = $activeusers;
@@ -28,7 +30,9 @@ if (($active_users_cache = $cache->get($keys['act_users'] )) === false) {
     $last24_cache['v'] = $v;
     $cache->set($keys['act_users'], $active_users_cache, $TRINITY20['expires']['activeusers']);
 }
-if (!$active_users_cache['activeusers']) $active_users_cache['activeusers'] = $lang['index_active_users_no'];
+if (!$active_users_cache['activeusers']) {
+    $active_users_cache['activeusers'] = $lang['index_active_users_no'];
+}
 
 $active_users = '
 <div class="card">

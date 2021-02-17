@@ -85,8 +85,9 @@ function docleanup($data)
             
         }
         //==End
-        if ($queries > 0)
+        if ($queries > 0) {
             write_log("$prev_class_name Updates -------------------- Power User Demote Updates Clean Complete using $queries queries--------------------");
+        }
         if (false !== $mysqli->affected_rows) {
             $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
         }

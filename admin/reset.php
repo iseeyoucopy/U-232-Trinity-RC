@@ -41,8 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$hash1 = t_Hash($row['email'], $row['username'], $row['added']);
     $hash2 = t_Hash($row['birthday'], $secret, $row['pin_code']);
     $hash3 = t_Hash($row['birthday'], $row['username'], $row['email']);		
-	if ((isset($_POST['email']) && $_POST['email'] == $row['email']) || (isset($_POST['birthday']) && $_POST['birthday'] == $row['birthday'])|| (isset($_POST['username']) && $_POST['username'] == $row['username'])) 
-	$passhash = make_passhash($hash1, hash("ripemd160", $password), $hash2);
+	if ((isset($_POST['email']) && $_POST['email'] == $row['email']) || (isset($_POST['birthday']) && $_POST['birthday'] == $row['birthday'])|| (isset($_POST['username']) && $_POST['username'] == $row['username'])) {
+        $passhash = make_passhash($hash1, hash("ripemd160", $password), $hash2);
+    }
 	$hint = $_POST["hintanswer"];
 	$wanthintanswer = h_store($hint.$row['email']);
     $postkey = PostKey(array(
@@ -61,11 +62,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'hash3' => $hash3
     ], $TRINITY20['expires']['user_cache']);
 
-    if ($mysqli->affected_rows != 1) stderr($lang['reset_stderr'], $lang['reset_stderr1']);
+    if ($mysqli->affected_rows != 1) {
+        stderr($lang['reset_stderr'], $lang['reset_stderr1']);
+    }
     if (CheckPostKey(array(
         $uid,
         $CURUSER['id']
-    ) , $postkey) == false) stderr($lang['reset_stderr2'], $lang['reset_stderr3']);
+    ) , $postkey) == false) {
+        stderr($lang['reset_stderr2'], $lang['reset_stderr3']);
+    }
     write_log($lang['reset_pwreset'], $lang['reset_pw_log1'] . htmlsafechars($username) . $lang['reset_pw_log2'] . htmlsafechars($CURUSER['username']));
     stderr($lang['reset_pw_success'], '' . $lang['reset_pw_success1'] . ' <b>' . htmlsafechars($username) . '</b>The hint for' . htmlsafechars($username) . ' is ' . htmlsafechars($hint) . '<b>' . $lang['reset_pw_success2'] . '<b>' . htmlsafechars($newpassword) . '</b>.');
 }

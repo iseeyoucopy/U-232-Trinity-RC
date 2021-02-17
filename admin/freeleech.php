@@ -48,8 +48,12 @@ if (isset($_GET['remove'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $configfile = "<" . $lang['freelech_thisfile'] . date('M d Y H:i:s') . $lang['freelech_modby'];
     $fl['modifier'] = (isset($_POST['modifier']) ? (int)$_POST['modifier'] : false);
-    if (isset($_POST['expires']) && $_POST['expires'] == 255) $fl['expires'] = 1;
-    else $fl['expires'] = (isset($_POST['expires']) ? ($_POST['expires'] * 86400 + TIME_NOW) : false);
+    if (isset($_POST['expires']) && $_POST['expires'] == 255) {
+        $fl['expires'] = 1;
+    }
+    else {
+        $fl['expires'] = (isset($_POST['expires']) ? ($_POST['expires'] * 86400 + TIME_NOW) : false);
+    }
     $fl['setby'] = (isset($_POST['setby']) ? htmlsafechars($_POST['setby']) : false);
     $fl['title'] = (isset($_POST['title']) ? htmlsafechars($_POST['title']) : false);
     $fl['message'] = (isset($_POST['message']) ? htmlsafechars($_POST['message']) : false);

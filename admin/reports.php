@@ -42,16 +42,26 @@ function round_time($ts)
     $hours-= $days * 24;
     $weeks = floor($days / 7);
     $days-= $weeks * 7;
-    if ($weeks > 0) return "$weeks week" . ($weeks > 1 ? "s" : "");
-    if ($days > 0) return "$days day" . ($days > 1 ? "s" : "");
-    if ($hours > 0) return "$hours hour" . ($hours > 1 ? "s" : "");
-    if ($mins > 0) return "$mins min" . ($mins > 1 ? "s" : "");
+    if ($weeks > 0) {
+        return "$weeks week".($weeks > 1 ? "s" : "");
+    }
+    if ($days > 0) {
+        return "$days day".($days > 1 ? "s" : "");
+    }
+    if ($hours > 0) {
+        return "$hours hour".($hours > 1 ? "s" : "");
+    }
+    if ($mins > 0) {
+        return "$mins min".($mins > 1 ? "s" : "");
+    }
     return "< 1 min";
 }
 // === now all reports just use a single var $id and a type thanks dokty... again :P
 if (isset($_GET["id"])) {
     $id = ($_GET["id"] ? (int)$_GET["id"] : (int)$_POST["id"]);
-    if (!is_valid_id($id)) stderr("{$lang['reports_error']}", "{$lang['reports_error1']}");
+    if (!is_valid_id($id)) {
+        stderr("{$lang['reports_error']}", "{$lang['reports_error1']}");
+    }
 }
 if (isset($_GET["type"])) {
     $type = ($_GET["type"] ? htmlsafechars($_GET["type"]) : htmlsafechars($_POST["type"]));
@@ -66,11 +76,15 @@ if (isset($_GET["type"])) {
         "Hit_And_Run",
         "Post"
     );
-    if (!in_array($type, $typesallowed)) stderr("{$lang['reports_error']}", "{$lang['reports_error2']}");
+    if (!in_array($type, $typesallowed)) {
+        stderr("{$lang['reports_error']}", "{$lang['reports_error2']}");
+    }
 }
 // === Let's deal with this damn report :P
 if ((isset($_GET["deal_with_report"])) || (isset($_POST["deal_with_report"]))) {
-    if (!is_valid_id($_POST['id'])) stderr("{$lang['reports_error']}", "{$lang['reports_error3']}");
+    if (!is_valid_id($_POST['id'])) {
+        stderr("{$lang['reports_error']}", "{$lang['reports_error3']}");
+    }
     $how_delt_with = "how_delt_with = " . sqlesc($_POST["how_delt_with"]);
     $when_delt_with = "when_delt_with = " . sqlesc(TIME_NOW);
     sql_query("UPDATE reports SET delt_with = 1, $how_delt_with, $when_delt_with , who_delt_with_it =" . sqlesc($CURUSER['id']) . " WHERE delt_with!=1 AND id =" . sqlesc($_POST['id'])) || sqlerr(__FILE__, __LINE__);
@@ -91,7 +105,9 @@ $row = $res->fetch_array(MYSQLI_BOTH);
 $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "staffpanel.php?tool=reports&amp;");
-if ($count == '0') $HTMLOUT.= "<p align='center'><b>{$lang['reports_nice']}</b></p></td></tr>";
+if ($count == '0') {
+    $HTMLOUT .= "<p align='center'><b>{$lang['reports_nice']}</b></p></td></tr>";
+}
 else {
     $HTMLOUT.= $pager['pagertop'];
     $HTMLOUT.= "<div class='row'><div class='col-md-12'>";
@@ -204,9 +220,12 @@ else {
         <td align='center' valign='top' class='$class'>{$dealtwith} {$delt_link}</td>
         <td align='center' valign='middle' class='$class'>{$checkbox}</td>" . ($CURUSER["class"] == UC_MAX ? "<td align='center' valign='middle' class='$class'><a class='altlink' href='staffpanel.php?tool=reports&amp;action=reports&amp;id=" . (int)$arr_info['id'] . "&amp;delete=1'><font color='red'>{$lang['reports_delete']}</font></a></td>" : "") . "</tr>\n";
         // ===how was it delt with?
-        if ($arr_info['how_delt_with']) $HTMLOUT.= "<tr>
-        <td colspan='" . ($CURUSER["class"] == UC_MAX ? "8" : "7") . "' class='$class' align='left'><b>{$lang['reports_with']} " .(isset($arr_who['username']) ?  htmlsafechars($arr_who['username'])  : 'Deleted User'). ":</b> " . get_date($arr_info['when_delt_with'], 'LONG', 0, 1) . "</td></tr>
-        <tr><td colspan='" . ($CURUSER["class"] == UC_MAX ? "8" : "7") . "' class='$class' align='left'>" . htmlsafechars($arr_info['how_delt_with']) . "<br /><br /></td></tr>";
+        if ($arr_info['how_delt_with']) {
+            $HTMLOUT .= "<tr>
+        <td colspan='".($CURUSER["class"] == UC_MAX ? "8" : "7")."' class='$class' align='left'><b>{$lang['reports_with']} ".(isset($arr_who['username']) ? htmlsafechars($arr_who['username']) : 'Deleted User').":</b> ".get_date($arr_info['when_delt_with'],
+                    'LONG', 0, 1)."</td></tr>
+        <tr><td colspan='".($CURUSER["class"] == UC_MAX ? "8" : "7")."' class='$class' align='left'>".htmlsafechars($arr_info['how_delt_with'])."<br /><br /></td></tr>";
+        }
     }
 }
 $HTMLOUT.= "</table></div></div>";

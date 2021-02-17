@@ -41,7 +41,9 @@ if (is_valid_id($remove)) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = htmlsafechars(trim($_POST["email"]));
     $comment = htmlsafechars(trim($_POST["comment"]));
-    if (!$email || !$comment) stderr("{$lang['ad_banemail_error']}", "{$lang['ad_banemail_missing']}");
+    if (!$email || !$comment) {
+        stderr("{$lang['ad_banemail_error']}", "{$lang['ad_banemail_missing']}");
+    }
     sql_query("INSERT INTO bannedemails (added, addedby, comment, email) VALUES(" . TIME_NOW . ", " . sqlesc($CURUSER['id']) . ", " . sqlesc($comment) . ", " . sqlesc($email) . ")") || sqlerr(__FILE__, __LINE__);
     header("Location: staffpanel.php?tool=bannedemails");
     die;
@@ -73,8 +75,12 @@ $pager = pager($perpage, $count1, 'staffpanel.php?tool=bannedemails&amp;');
 $HTMLOUT.= begin_frame("{$lang['ad_banemail_current']}", true);
 //$HTMLOUT.= "<div class='col-md-3>{$lang["ad_banemail_current"]}";
 
-if ($count1 > $perpage) $HTMLOUT.= $pager['pagertop'];
-if ($res->num_rows == 0) $HTMLOUT.= "<p align='center'><b>{$lang['ad_banemail_nothing']}</b></p>\n";
+if ($count1 > $perpage) {
+    $HTMLOUT .= $pager['pagertop'];
+}
+if ($res->num_rows == 0) {
+    $HTMLOUT .= "<p align='center'><b>{$lang['ad_banemail_nothing']}</b></p>\n";
+}
 else {
     $HTMLOUT.= "<table class='table table-bordered'>\n";
     $HTMLOUT.= "<tr><td class='colhead'>{$lang['ad_banemail_add1']}</td><td class='colhead' align='left'>{$lang['ad_banemail_email']}</td>" . "<td class='colhead' align='left'>{$lang['ad_banemail_by']}</td><td class='colhead' align='left'>{$lang['ad_banemail_comment']}</td><td class='colhead'>{$lang['ad_banemail_remove']}</td></tr>\n";
@@ -87,7 +93,9 @@ else {
     }
     $HTMLOUT.= "</table>\n";
 }
-if ($count1 > $perpage) $HTMLOUT.= $pager['pagerbottom'];
+if ($count1 > $perpage) {
+    $HTMLOUT .= $pager['pagerbottom'];
+}
 $HTMLOUT.= end_frame();
 
 $HTMLOUT.="</div></div><br>";

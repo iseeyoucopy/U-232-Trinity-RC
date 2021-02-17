@@ -31,15 +31,17 @@ $HTMLOUT.= "
     </div>
     {$lang['userdetails_disable_signature']}
 </div>";
-if ($CURUSER['class'] == UC_STAFF && $user["class"] > UC_VIP)
-    $HTMLOUT.= "<input type='hidden' name='class' value='{$user['class']}'>";
+if ($CURUSER['class'] == UC_STAFF && $user["class"] > UC_VIP) {
+    $HTMLOUT .= "<input type='hidden' name='class' value='{$user['class']}'>";
+}
 else {
     $HTMLOUT.= "<div class='input-group'>
     <span class='input-group-label'>Class</span>
         <select class='input-group-field' name='class'>";
         $maxclass = $CURUSER['class'] == UC_STAFF ? UC_VIP : $CURUSER['class'] - 1;
-        for ($i = 0; $i <= $maxclass; ++$i) 
-        $HTMLOUT.= "<option value='$i'" . ($user["class"] == $i ? " selected='selected'" : "") . ">" . get_user_class_name($i) . "</option>";
+        for ($i = 0; $i <= $maxclass; ++$i) {
+            $HTMLOUT .= "<option value='$i'".($user["class"] == $i ? " selected='selected'" : "").">".get_user_class_name($i)."</option>";
+        }
     $HTMLOUT.= "</select></div>";
 }
 $HTMLOUT.= "<div class='cell large-6'>

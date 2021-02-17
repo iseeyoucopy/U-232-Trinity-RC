@@ -20,7 +20,9 @@ function docleanup($data)
     $points = random_int(1, 3);
     //Reset the daily shoutbox limits
     sql_query("UPDATE `usersachiev` SET `dailyshouts` = '0'") || sqlerr(__FILE__, __LINE__);
-    if ($queries > 0) write_log("Achievements Cleanup:  Achievements dailyshouts reset Completed using $queries queries");
+    if ($queries > 0) {
+        write_log("Achievements Cleanup:  Achievements dailyshouts reset Completed using $queries queries");
+    }
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items updated";
     }

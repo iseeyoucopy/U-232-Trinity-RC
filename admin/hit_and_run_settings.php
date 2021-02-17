@@ -37,9 +37,15 @@ if (!in_array($CURUSER['id'], $allowed_ids))
 //$update = '';
 //get the config from db
 ($pconf = sql_query('SELECT * FROM hit_and_run_settings')) || sqlerr(__FILE__, __LINE__);
-while ($ac = $pconf->fetch_assoc()) $hit_and_run_settings[$ac['name']] = $ac['value'];
+while ($ac = $pconf->fetch_assoc()) {
+    $hit_and_run_settings[$ac['name']] = $ac['value'];
+}
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    foreach ($hit_and_run_settings as $c_name => $c_value) if (isset($_POST[$c_name]) && $_POST[$c_name] != $c_value) $update[] = '(' . sqlesc($c_name) . ',' . sqlesc(is_array($_POST[$c_name]) ? implode('|', $_POST[$c_name]) : $_POST[$c_name]) . ')';
+    foreach ($hit_and_run_settings as $c_name => $c_value) {
+        if (isset($_POST[$c_name]) && $_POST[$c_name] != $c_value) {
+            $update[] = '('.sqlesc($c_name).','.sqlesc(is_array($_POST[$c_name]) ? implode('|', $_POST[$c_name]) : $_POST[$c_name]).')';
+        }
+    }
     if (sql_query('INSERT INTO hit_and_run_settings(name,value) VALUES ' . implode(',', $update) . ' ON DUPLICATE KEY update value=values(value)')) {
         $t = '$TRINITY20[\'';
         $configfile = "<" . $lang['hnr_settings_this'] . date('M d Y H:i:s') . $lang['hnr_settings_stoner'];
@@ -53,7 +59,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         fwrite($filenum, $configfile);
         fclose($filenum);
         stderr($lang['hnr_settings_success'], $lang['hnr_settings_here']);
-    } else stderr($lang['hnr_settings_err'], $lang['hnr_settings_err_query']);
+    } else {
+        stderr($lang['hnr_settings_err'], $lang['hnr_settings_err_query']);
+    }
     exit;
 }
 $HTMLOUT.= "<div class='row'><div class='col-md-12'>";

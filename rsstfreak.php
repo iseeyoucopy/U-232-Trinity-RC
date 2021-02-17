@@ -28,7 +28,9 @@ $doc = new DOMDocument();
 $items = $doc->getElementsByTagName('item');
 foreach ($items as $item) {
     $html.= "<div class='col-md-12' style='padding:5px;'><h2 class='text-center'>" . $item->getElementsByTagName('title')->item(0)->nodeValue . "</h2><hr/>" . preg_replace("/<p>Source\:(.*?)width=\"1\"\/>/is", "", $item->getElementsByTagName('encoded')->item(0)->nodeValue) . "<hr/></div>";
-    if ($use_limit && $icount == $limit) break;
+    if ($use_limit && $icount == $limit) {
+        break;
+    }
 
     
     $icount++;

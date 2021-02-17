@@ -12,8 +12,12 @@ require_once(TEMPLATE_DIR.''.$CURUSER['stylesheet'].'' . DIRECTORY_SEPARATOR . '
 $html = array_merge(load_design());
 $lang = load_language('global');
 global $CURUSER, $TRINITY20;
-if (!isset($_GET['id'])) stderr("Something gone wrong", "Maybe someone is playing football :lol:");
-if(isset($_GET['id']) && $_GET['id'] !== '');
+if (!isset($_GET['id'])) {
+    stderr("Something gone wrong", "Maybe someone is playing football :lol:");
+}
+if(isset($_GET['id']) && $_GET['id'] !== '') {
+    ;
+}
 $movie_id = $_GET['id'];
 
 $HTMLOUT = '';

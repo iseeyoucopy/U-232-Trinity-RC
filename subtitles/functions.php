@@ -19,22 +19,29 @@ require_once(__DIR__ . "/xml2array.php");
 	function requestXML($name,$searchby,$lang,$cds,$format,$fps,$offset)
 		{
 				$optional ="";
-			if(isset($lang))
-				$optional .="/sublanguageid-".$lang;
-			if(isset($cds))
-				$optional .="/subsumcd-".$cds;
-			if(isset($format))
-				$optional .="/subformat-".$format;
-			if(isset($offset) && $offset > 0 )
-				$optional .="/offset-".$offset;
-			if(isset($searchby) && $searchby == "name")
-				$search = "/moviename-".urlencode($name);
+			if(isset($lang)) {
+                $optional .= "/sublanguageid-".$lang;
+            }
+			if(isset($cds)) {
+                $optional .= "/subsumcd-".$cds;
+            }
+			if(isset($format)) {
+                $optional .= "/subformat-".$format;
+            }
+			if(isset($offset) && $offset > 0 ) {
+                $optional .= "/offset-".$offset;
+            }
+			if(isset($searchby) && $searchby == "name") {
+                $search = "/moviename-".urlencode($name);
+            }
 			if(isset($searchby) && $searchby == "imdb")
 			{
-				if(!ereg("[0-9]{7}", $name, $imdbid))
-					die("Can't find imdb id");
-						else
-				$search = "/imdbid-".$imdbid[0];
+				if(!ereg("[0-9]{7}", $name, $imdbid)) {
+                    die("Can't find imdb id");
+                }
+						else {
+                            $search = "/imdbid-".$imdbid[0];
+                        }
 			}
 			$link = "http://www.opensubtitles.org/en/search".$search.$optional."/simplexml";
 			
@@ -51,11 +58,14 @@ require_once(__DIR__ . "/xml2array.php");
 	function get_details($array)
 		{
 			//check the array 
-			if(!is_array($array)) die("no array passed");
+			if(!is_array($array)) {
+                die("no array passed");
+            }
 			foreach($array as $key=>$value)
 				{
-					foreach($value as $key2 =>$value2)
-						$details[$key] = $value2;
+					foreach($value as $key2 =>$value2) {
+                        $details[$key] = $value2;
+                    }
 				}
 			return $details;
 		}
@@ -70,17 +80,21 @@ require_once(__DIR__ . "/xml2array.php");
 	function pager($itemsfound,$href)
 		{
 			$pager="";
-			if($itemsfound > 40)
-				$links = ($itemsfound/40);
-				if ((int) $links != $links) 
-					$links = (int) $links+1;
+			if($itemsfound > 40) {
+                $links = ($itemsfound / 40);
+            }
+				if ((int) $links != $links) {
+                    $links = (int)$links + 1;
+                }
 			if($links > 1){
 				$pager="";
 				for($i=0;$i<$links;$i++)
-				{	if($i % 15 == 0)
-					$pager .="<br/><br/>";
-					if(($i*40) == 1000)
-						break;
+				{	if($i % 15 == 0) {
+                    $pager .= "<br/><br/>";
+                }
+					if(($i*40) == 1000) {
+                        break;
+                    }
 					$pager .= "<a ".($_GET["offset"] == ($i*40) ? "class=\"sublink-active\"" : "class=\"sublink\"")." href=\"".$href."offset=".($i*40)."\">".($i+1)."</a>&nbsp;";
 					
 				}
@@ -94,8 +108,9 @@ require_once(__DIR__ . "/xml2array.php");
 			$base = get_base($array['search']['base']);
 			$time = get_results($array['search']['results']);
 			//print the content 
-			if(count($result) == 0) 
-			print("<div align=\"center\"><h2>No result found</h2></div>");
+			if(count($result) == 0) {
+                print("<div align=\"center\"><h2>No result found</h2></div>");
+            }
 			else
 			{
 			?>

@@ -33,14 +33,18 @@ function snatchtable_staff($res)
         $count2 = (++$count2) % 2;
         $class = ($count2 == 0 ? 'one' : 'two');
         //=== speed color red fast green slow ;)
-        if ($arr["upspeed"] > 0)
+        if ($arr["upspeed"] > 0) {
             $ul_speed = ($arr["upspeed"] > 0 ? mksize($arr["upspeed"]) : ($arr["seedtime"] > 0 ? mksize($arr["uploaded"] / ($arr["seedtime"] + $arr["leechtime"])) : mksize(0)));
-        else
+        }
+        else {
             $ul_speed = mksize(($arr["uploaded"] / ($arr['l_a'] - $arr['s'] + 1)));
-        if ($arr["downspeed"] > 0)
+        }
+        if ($arr["downspeed"] > 0) {
             $dl_speed = ($arr["downspeed"] > 0 ? mksize($arr["downspeed"]) : ($arr["leechtime"] > 0 ? mksize($arr["downloaded"] / $arr["leechtime"]) : mksize(0)));
-        else
+        }
+        else {
             $dl_speed = mksize(($arr["downloaded"] / ($arr['c'] - $arr['s'] + 1)));
+        }
         switch (true) {
             case ($dl_speed > 600):
                 $dlc = 'red';
@@ -63,8 +67,9 @@ function snatchtable_staff($res)
             $ratio = "<font color='" . get_ratio_color($ratio) . "'><b>{$lang['userdetails_s_ratio']}</b><br />$ratio</font>";
         } elseif ($arr["uploaded"] > 0) {
             $ratio = $lang['userdetails_inf'];
-        } else
+        } else {
             $ratio = "N/A";
+        }
         if (XBT_TRACKER === false) {
             $htmlout_snatch .= "<tr>
             <td align='center'>" . ($arr['owner'] == $id ? "<b><font color='orange'>{$lang['userdetails_s_towner']}</font></b><br />" : "" . ($arr['complete_date'] != '0' ? "<b><font color='lightgreen'>{$lang['userdetails_s_fin']}</font></b><br />" : "<b><font color='red'>{$lang['userdetails_s_notfin']}</font></b><br />") . "") . "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($arr['image']) . "' alt='" . htmlsafechars($arr['name']) . "' title='" . htmlsafechars($arr['name']) . "' /></td>" . "
@@ -86,12 +91,13 @@ if ($CURUSER['class'] >= UC_STAFF) {
     }
     $count_snatched_staff = $res->num_rows;
     $user_snatches_data_staff = $res->num_rows > 0 ? snatchtable_staff($res) : $lang['userdetails_s_nothing'];
-    if (!isset($user_snatches_data_staff)) 
-    $HTMLOUT .= "<tr>
+    if (!isset($user_snatches_data_staff)) {
+        $HTMLOUT .= "<tr>
     <td>{$lang['userdetails_snatched']} of {$count_snatched_staff}<br />
         <font color='red'><b>{$lang['userdetails_s_staff']}</b></font> 
     </td>
     <td><a href=\"javascript: klappe_news('a4')\"><img border=\"0\" src=\"pic/plus.png\" id=\"pica4\" alt=\"Show/Hide\" /></a><div id=\"ka4\" style=\"display: none;\">$user_snatches_data_staff</div></td></tr>\n";
+    }
 }
 
 //=== end snatched

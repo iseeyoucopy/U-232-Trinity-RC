@@ -22,7 +22,9 @@ if ($user['invitedby'] > 0) {
 //=== members invites by snuggles
 $rez_invited = sql_query('SELECT id, class, username, email, uploaded, downloaded, status, warned, suspended, enabled, donor, email, ip, chatpost, leechwarn, pirate, king FROM users WHERE invitedby = ' . sqlesc($user['id']) . ' ORDER BY added');
 $inviteted_by_this_member = '';
-if ($rez_invited->num_rows < 1) $inviteted_by_this_member.= 'No invitees yet.';
+if ($rez_invited->num_rows < 1) {
+    $inviteted_by_this_member .= 'No invitees yet.';
+}
 else {
     $inviteted_by_this_member.= '<table width="100%" border="1" cellspacing="0" cellpadding="5">
 		<tr><td class="colhead"><b>' . $lang['userdetails_u_ip'] . '</b></td>

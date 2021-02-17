@@ -8,8 +8,12 @@ loggedinorreturn();
 require_once(TEMPLATE_DIR.''.$CURUSER['stylesheet'].'' . DIRECTORY_SEPARATOR . 'html_functions' . DIRECTORY_SEPARATOR . 'global_html_functions.php'); 
 require_once(TEMPLATE_DIR.''.$CURUSER['stylesheet'].'' . DIRECTORY_SEPARATOR . 'html_functions' . DIRECTORY_SEPARATOR . 'navigation_html_functions.php');
 $lang = array_merge(load_language('global'));
-if (!isset($_GET['id'])) stderr("Something gone weong", "Maybe someone is playing football :lol:");
-if(isset($_GET['id']) && $_GET['id'] !== '');
+if (!isset($_GET['id'])) {
+    stderr("Something gone weong", "Maybe someone is playing football :lol:");
+}
+if(isset($_GET['id']) && $_GET['id'] !== '') {
+    ;
+}
 	$show_id = $_GET['id'];
 	if (($tvepisode = $cache->get('tv_show_ep_'.$show_id)) === false) {
 	$date = date(('Y-m-d'));

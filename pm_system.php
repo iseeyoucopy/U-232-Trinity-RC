@@ -48,7 +48,9 @@ $HTMLOUT = $count2 = $other_box_info = $maxbox = '';
 function validusername($username)
 {
     global $lang;
-    if ($username == "") return false;
+    if ($username == "") {
+        return false;
+    }
     $namelength = strlen($username);
     if ($namelength < 3 || $namelength > 32) {
         stderr('Error', 'Username too long or too short');
@@ -56,7 +58,9 @@ function validusername($username)
     // The following characters are allowed in user names
     $allowedchars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 Only.";
     for ($i = 0; $i < $namelength; ++$i) {
-        if (strpos($allowedchars, (string) $username[$i]) === false) return false;
+        if (strpos($allowedchars, (string) $username[$i]) === false) {
+            return false;
+        }
     }
     return true;
 }
@@ -123,7 +127,9 @@ $possible_actions = array(
     'send_message'
 );
 $action = (isset($_GET['action']) ? htmlsafechars($_GET['action']) : (isset($_POST['action']) ? htmlsafechars($_POST['action']) : 'view_mailbox'));
-if (!in_array($action, $possible_actions)) stderr($lang['pm_error'], $lang['pm_error_ruffian']);
+if (!in_array($action, $possible_actions)) {
+    stderr($lang['pm_error'], $lang['pm_error_ruffian']);
+}
 //=== possible stuff to be $_GETting lol
 $change_pm_number = (isset($_GET['change_pm_number']) ? (int) $_GET['change_pm_number'] : (isset($_POST['change_pm_number']) ? (int) $_POST['change_pm_number'] : 0));
 $page = (isset($_GET['page']) ? (int) $_GET['page'] : 0);
@@ -144,7 +150,9 @@ $good_order_by = array(
     'id'
 );
 $order_by = (isset($_GET['order_by']) ? htmlsafechars($_GET['order_by']) : 'added');
-if (!in_array($order_by, $good_order_by)) stderr($lang['pm_error'], $lang['pm_error_temp']);
+if (!in_array($order_by, $good_order_by)) {
+    stderr($lang['pm_error'], $lang['pm_error_temp']);
+}
 //=== top of page:
 $top_links = '<li><a href="pm_system.php?action=search">' . $lang['pm_search'] . '</a></li>
         <li><a href="pm_system.php?action=edit_mailboxes">' . $lang['pm_manager'] . '</a></li>
@@ -162,8 +170,12 @@ if (isset($_GET['change_pm_number'])) {
     $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
         'pms_per_page' => $change_pm_number
     ], $TRINITY20['expires']['curuser']);
-    if (isset($_GET['edit_mail_boxes'])) header('Location: pm_system.php?action=edit_mailboxes&pm=1');
-    else header('Location: pm_system.php?action=view_mailbox&pm=1&box=' . $mailbox);
+    if (isset($_GET['edit_mail_boxes'])) {
+        header('Location: pm_system.php?action=edit_mailboxes&pm=1');
+    }
+    else {
+        header('Location: pm_system.php?action=view_mailbox&pm=1&box='.$mailbox);
+    }
     die();
 }
 //=== show small avatar drop down thingie / change on the fly
@@ -176,8 +188,12 @@ if (isset($_GET['show_pm_avatar'])) {
     $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
         'show_pm_avatar' => $show_pm_avatar
     ], $TRINITY20['expires']['curuser']);
-    if (isset($_GET['edit_mail_boxes'])) header('Location: pm_system.php?action=edit_mailboxes&avatar=1');
-    else header('Location: pm_system.php?action=view_mailbox&avatar=1&box=' . $mailbox);
+    if (isset($_GET['edit_mail_boxes'])) {
+        header('Location: pm_system.php?action=edit_mailboxes&avatar=1');
+    }
+    else {
+        header('Location: pm_system.php?action=view_mailbox&avatar=1&box='.$mailbox);
+    }
     die();
 }
 //=== some get stuff to display messages

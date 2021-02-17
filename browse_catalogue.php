@@ -154,7 +154,9 @@ if (isset($_GET["incldead"]) && $_GET["incldead"] == 1) {
 }
 //=== added an only free torrents option \\o\o/o//
 if (isset($_GET['only_free']) && $_GET['only_free'] == 1) {
-    if ((XBT_TRACKER == true ? $wherea[] = "freetorrent >= '1'" : $wherea[] = "free >= '1'") !== '');
+    if ((XBT_TRACKER == true ? $wherea[] = "freetorrent >= '1'" : $wherea[] = "free >= '1'") !== '') {
+        ;
+    }
     //$wherea[] = "free >= '1'";
     $addparam.= "only_free=1&amp;";
 }

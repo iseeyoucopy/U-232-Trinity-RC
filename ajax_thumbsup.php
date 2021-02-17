@@ -25,6 +25,8 @@ if ($thumbsup == 0) {
     sql_query("INSERT INTO thumbsup (userid, torrentid) VALUES (" . sqlesc($CURUSER['id']) . ", " . sqlesc($id) . ")") || sqlerr(__FILE__, __LINE__);
     $cache->delete('thumbs_up:' . $id);
     $HTML.= "<a class='button'><i class='far fa-thumbs-up'></i>(" . ($wtf + 1) . ")</a>";
-} else $HTML.= "<a class='button'><i class='far fa-thumbs-up'></i></a>({$wtf})";
+} else {
+    $HTML .= "<a class='button'><i class='far fa-thumbs-up'></i></a>({$wtf})";
+}
 echo $HTML;
 ?>

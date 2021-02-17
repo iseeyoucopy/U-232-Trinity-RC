@@ -27,13 +27,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $msg = isset($_POST['msg']) ? htmlsafechars($_POST['msg']) : '';
     $subject = isset($_POST['subject']) ? htmlsafechars($_POST['subject']) : '';
     $returnto = isset($_POST['returnto']) ? htmlsafechars($_POST['returnto']) : $_SERVER['PHP_SELF'];
-    if (empty($msg)) stderr($lang['contactstaff_error'], $lang['contactstaff_no_msg']);
-    if (empty($subject)) stderr($lang['contactstaff_error'], $lang['contactstaff_no_sub']);
+    if (empty($msg)) {
+        stderr($lang['contactstaff_error'], $lang['contactstaff_no_msg']);
+    }
+    if (empty($subject)) {
+        stderr($lang['contactstaff_error'], $lang['contactstaff_no_sub']);
+    }
     if (sql_query('INSERT INTO staffmessages (sender, added, msg, subject) VALUES(' . sqlesc($CURUSER['id']) . ', ' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')')) {
         $cache->delete('staff_mess_');
         header('Refresh: 3; url=' . urldecode($returnto)); //redirect but wait 3 seconds
         stderr($lang['contactstaff_success'], $lang['contactstaff_success_msg']);
-    } else stderr($lang['contactstaff_error'], sprintf($lang['contactstaff_mysql_err'], $mysqli->error));
+    } else {
+        stderr($lang['contactstaff_error'], sprintf($lang['contactstaff_mysql_err'], $mysqli->error));
+    }
 } else {
     $HTMLOUT = "
    <div class='container'><h1 class='text-center'><img src='images/global.design/support.png' alt='' title='Support'/>Contact Staff</h1>
@@ -48,7 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					<input class='form-control' type='text' name='subject' placeholder='{$lang['contactstaff_subject']}'/>
 				  </td></tr>
 		<tr><td align='center' colspan='2'>";
-    if (isset($_GET['returnto'])) $HTMLOUT.= "<input type='hidden' name='returnto' value='" . urlencode($_GET['returnto']) . "' />";
+    if (isset($_GET['returnto'])) {
+        $HTMLOUT .= "<input type='hidden' name='returnto' value='".urlencode($_GET['returnto'])."' />";
+    }
     $HTMLOUT.= "<textarea class='form-control' name='msg' rows='10'></textarea>
                        </td>
                      </tr>

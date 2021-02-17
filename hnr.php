@@ -26,14 +26,16 @@ if (($CURUSER["class"] < UC_STAFF) && ($id != $CURUSER["id"])) {
     stderr("Error", "It appears that you do not have access to this page.");
 }
 
-if (!is_valid_id($id))
+if (!is_valid_id($id)) {
     stderr("Error", "It appears that you have entered an invalid id.");
+}
 
 ($res = sql_query("SELECT * FROM users WHERE id = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 $arr = $res->fetch_assoc();
 
-if (!$arr)
+if (!$arr) {
     stderr("Error", "It appears that there is no user with that id.");
+}
 
 ($res = sql_query("SELECT COUNT(*) FROM snatched WHERE userid =" . sqlesc($id) . " AND hit_and_run != '0'")) || sqlerr(__FILE__, __LINE__);
 $row     = $res->fetch_row();
@@ -42,8 +44,10 @@ $perpage = 25;
 
 $pager = pager($perpage, $count, "?id=$id&amp");
 
-if (!$count)
-    stderr("No Hit And Runs", "<font class='statusbartext'>It appears that <a class='altlink_default' href='userdetails.php?id=" . (int) $arr['id'] . "'>" . htmlsafechars($arr['username']) . "</a> currently has no hit and runs.</font>");
+if (!$count) {
+    stderr("No Hit And Runs",
+        "<font class='statusbartext'>It appears that <a class='altlink_default' href='userdetails.php?id=".(int)$arr['id']."'>".htmlsafechars($arr['username'])."</a> currently has no hit and runs.</font>");
+}
 
 ($r = sql_query("SELECT torrents.name,torrents.added AS torrent_added, snatched.start_date AS s, snatched.complete_date AS c, snatched.downspeed, snatched.seedtime, snatched.seeder, snatched.torrentid as tid, snatched.id, categories.id as category, categories.image, categories.name as catname, users.class, users.id, snatched.uploaded, snatched.downloaded, snatched.hit_and_run, snatched.mark_of_cain, snatched.complete_date, snatched.last_action, torrents.seeders, torrents.leechers, torrents.owner, snatched.start_date AS st, snatched.start_date FROM snatched JOIN users ON users.id = snatched.userid JOIN torrents ON torrents.id = snatched.torrentid JOIN categories ON categories.id = torrents.category WHERE snatched.finished='yes' AND userid=" . sqlesc($id) . " AND snatched.hit_and_run != '0' AND torrents.owner != " . sqlesc($id) . " ORDER BY snatched.id DESC {$pager['limit']}")) || sqlerr(__FILE__, __LINE__);
 if ($r->num_rows > 0) {
@@ -58,8 +62,9 @@ if ($r->num_rows > 0) {
     </table>
     </div>
     <div style='text-align:left;width:99%;border:1px solid #B4B4B4;background:#4F4F4F;'>\n";
-    if ($count > $perpage)
+    if ($count > $perpage) {
         $HTMLOUT .= $pager['pagertop'];
+    }
     $HTMLOUT .= "<table width='100%' border='0'>
       <tr>
         <td class='colhead'>{$lang['hnr_type']}</td>
@@ -130,8 +135,9 @@ if ($r->num_rows > 0) {
         <td align='center'>" . get_date($a['complete_date'], 'DATE') . "<br /><b>Last Action:</b><br />" . get_date($a['last_action'], 'DATE') . "</td></tr>\n";
     }
     $HTMLOUT .= "</table>\n";
-    if ($count > $perpage)
+    if ($count > $perpage) {
         $HTMLOUT .= $pager['pagerbottom'];
+    }
     $HTMLOUT .= "</div></div>\n";
 }
 

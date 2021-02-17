@@ -44,7 +44,9 @@ $lang = array_merge($lang, load_language('ad_iphistory'));
 //Clear the fields for use.
 $id = $color = '';
 $id = 0 + $_GET["id"];
-if (!is_valid_id($id)) stderr("{$lang['stderr_error']}", "{$lang['stderr_badid']}");
+if (!is_valid_id($id)) {
+    stderr("{$lang['stderr_error']}", "{$lang['stderr_badid']}");
+}
 /// Custom function....
 if (isset($_GET["remove"])) {
     $remove = htmlsafechars($_GET['remove']);
@@ -99,13 +101,27 @@ while ($iphistory = $resip->fetch_array(MYSQLI_NUM)) {
         $host = "<font color='red'><b>{$lang['iphistory_notfound']}</b></font>";
     }
     $seedboxdetected = ''; //Clear the field
-    if (strpos($host, 'kimsufi.com')) $seedboxdetected = "yes";
-    if (strpos($host, 'leaseweb.com')) $seedboxdetected = "yes";
-    if (strpos($host, 'ovh.net')) $seedboxdetected = "yes";
-    if (strpos($host, 'powserv.com')) $seedboxdetected = "yes";
-    if (strpos($host, 'server.lu')) $seedboxdetected = "yes";
-    if (strpos($host, 'xirvik.com')) $seedboxdetected = "yes";
-    if (strpos($host, 'feralhosting.com')) $seedboxdetected = "yes";
+    if (strpos($host, 'kimsufi.com')) {
+        $seedboxdetected = "yes";
+    }
+    if (strpos($host, 'leaseweb.com')) {
+        $seedboxdetected = "yes";
+    }
+    if (strpos($host, 'ovh.net')) {
+        $seedboxdetected = "yes";
+    }
+    if (strpos($host, 'powserv.com')) {
+        $seedboxdetected = "yes";
+    }
+    if (strpos($host, 'server.lu')) {
+        $seedboxdetected = "yes";
+    }
+    if (strpos($host, 'xirvik.com')) {
+        $seedboxdetected = "yes";
+    }
+    if (strpos($host, 'feralhosting.com')) {
+        $seedboxdetected = "yes";
+    }
     if ($seedboxdetected == 'yes') {
         sql_query("UPDATE ips SET seedbox=1 WHERE id =" . sqlesc($ipid)) || sqlerr(__FILE__, __LINE__);
     }
@@ -120,11 +136,15 @@ while ($iphistory = $resip->fetch_array(MYSQLI_NUM)) {
     $nip = ip2long($iphistory['ip']);
     ($banres = sql_query("SELECT COUNT(*) FROM bans WHERE '$nip' >= first AND '$nip' <= last")) || sqlerr(__FILE__, __LINE__);
     $banarr = $banres->fetch_row();
-    if ($banarr[0] == 0) if ($ipcount > 1) {
-        $ipshow = "<b><a class='altlink' href='staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=" . htmlsafechars($iphistory['ip']) . "'><font color='black'>" . htmlsafechars($iphistory['ip']) . "</font></a></b>";
+    if ($banarr[0] == 0) {
+        if ($ipcount > 1) {
+            $ipshow = "<b><a class='altlink' href='staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=".htmlsafechars($iphistory['ip'])."'><font color='black'>".htmlsafechars($iphistory['ip'])."</font></a></b>";
+        } else {
+            $ipshow = "<a class='altlink' href='staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=".htmlsafechars($iphistory['ip'])."'><b><font color='blue'>".htmlsafechars($iphistory['ip'])."</font></b></a>";
+        }
     } else {
-        $ipshow = "<a class='altlink' href='staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=" . htmlsafechars($iphistory['ip']) . "'><b><font color='blue'>" . htmlsafechars($iphistory['ip']) . "</font></b></a>";
-    } else $ipshow = "<a class='altlink' href='staffpanel.php?tool=testip&amp;action=testip&amp;ip=" . htmlsafechars($iphistory['ip']) . "'><font color='red'><b>" . htmlsafechars($iphistory['ip']) . "</b></font></a>";
+        $ipshow = "<a class='altlink' href='staffpanel.php?tool=testip&amp;action=testip&amp;ip=".htmlsafechars($iphistory['ip'])."'><font color='red'><b>".htmlsafechars($iphistory['ip'])."</b></font></a>";
+    }
     // User IP listed for GeoIP tracing
     $gi = geoip_open("GeoIP/GeoIP.dat", GEOIP_STANDARD);
     $countrybyip = geoip_country_name_by_addr($gi, $userip);

@@ -14,10 +14,12 @@ error_reporting(E_ALL);
 ////////////////// GLOBAL VARIABLES /////////////////////////////////////
 //== Php poop
 $finished = $plist = $corupptthis = '';
-if (!empty($_SERVER["HTTP_USER_AGENT"]))
+if (!empty($_SERVER["HTTP_USER_AGENT"])) {
     $agent = $_SERVER["HTTP_USER_AGENT"];
-if (!empty($_SERVER["HTTP_USER_AGENT"]))
+}
+if (!empty($_SERVER["HTTP_USER_AGENT"])) {
     $detectedclient = $_SERVER["HTTP_USER_AGENT"];
+}
 define('INCL_DIR', __DIR__ . DIRECTORY_SEPARATOR);
 define('ROOT_DIR', realpath(INCL_DIR . '..' . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
 define('CACHE_DIR', ROOT_DIR . 'cache' . DIRECTORY_SEPARATOR);

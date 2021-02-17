@@ -37,8 +37,12 @@ $id = isset($_GET['id']) ? (int)$_GET['id'] : '';
 function validate($id)
 {
     global $lang;
-    if (!is_valid_id($id)) stderr($lang['failed_sorry'], "{$lang['failed_bad_id']}");
-    else return true;
+    if (!is_valid_id($id)) {
+        stderr($lang['failed_sorry'], "{$lang['failed_bad_id']}");
+    }
+    else {
+        return true;
+    }
 }
 //==Actions
 if ($mode == 'ban') {
@@ -66,15 +70,23 @@ if ($mode == 'delete') {
 //==Main output
 $where = '';
 $search = isset($_POST['search']) ? strip_tags($_POST['search']) : '';
-if(isset($_GET['search'])) $search = strip_tags($_GET['search']);
-if ($search === '') $where = "WHERE attempts LIKE " . sqlesc("%$search%") . "";
-else $where = "WHERE attempts LIKE" . sqlesc("%$search%") . "";
+if(isset($_GET['search'])) {
+    $search = strip_tags($_GET['search']);
+}
+if ($search === '') {
+    $where = "WHERE attempts LIKE ".sqlesc("%$search%")."";
+}
+else {
+    $where = "WHERE attempts LIKE".sqlesc("%$search%")."";
+}
 ($res = sql_query("SELECT COUNT(id) FROM failedlogins $where")) || sqlerr(__FILE__, __LINE__);
 $row = $res->fetch_row();
 $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "staffpanel.php?tool=failedlogins&amp;action=failedlogins&amp;" . (empty($search) ? '' : "search=$search&amp;") . "");
-if ($where === '') stderr($lang['failed_main_nofail'], $lang['failed_main_nofail_msg']);
+if ($where === '') {
+    stderr($lang['failed_main_nofail'], $lang['failed_main_nofail_msg']);
+}
 $HTMLOUT = "<div class='container'>";
 $HTMLOUT.= "<div class='row'><div class'col-md-8'><table class='table table-bordered'>\n
              <tr>
@@ -86,10 +98,14 @@ $HTMLOUT.= "<div class='row'><div class'col-md-8'><table class='table table-bord
 			 <input type='text' name='search' size='40' value='' />\n
 			 <input type='submit' value='{$lang['failed_main_search_btn']}' style='height: 20px' />\n
 			 </form></td></tr></table></div></div>";
-if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
+if ($count > $perpage) {
+    $HTMLOUT .= $pager['pagertop'];
+}
 $HTMLOUT.= "<div class='row'><div class'col-md-8'><table class='table table-bordered'>\n";
 ($res = sql_query("SELECT f.*,u.id as uid, u.username FROM failedlogins as f LEFT JOIN users as u ON u.ip = f.ip $where ORDER BY f.added DESC " . $pager['limit'] . "")) || sqlerr(__FILE__, __LINE__);
-if ($res->num_rows == 0) $HTMLOUT.= "<tr><td colspan='2'><b>{$lang['failed_message_nothing']}</b></td></tr>\n";
+if ($res->num_rows == 0) {
+    $HTMLOUT .= "<tr><td colspan='2'><b>{$lang['failed_message_nothing']}</b></td></tr>\n";
+}
 else {
     $HTMLOUT.= "<tr><td class='colhead'>{$lang['failed_main_id']}</td><td class='colhead' align='left'>{$lang['failed_main_ip']}</td><td class='colhead' align='left'>{$lang['failed_main_added']}</td>" . "<td class='colhead' align='left'>{$lang['failed_main_attempts']}</td><td class='colhead' align='left'>{$lang['failed_main_status']}</td></tr>\n";
     while ($arr = $res->fetch_assoc()) {
@@ -108,6 +124,8 @@ else {
 }
 $HTMLOUT.= "</table></div></div>\n";
 $HTMLOUT.= "</div>";
-if ($count > $perpage) $HTMLOUT.= $pager['pagerbottom'];
+if ($count > $perpage) {
+    $HTMLOUT .= $pager['pagerbottom'];
+}
 echo stdhead($lang['failed_main_logins']) . $HTMLOUT . stdfoot();
 ?>

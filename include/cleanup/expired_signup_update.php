@@ -17,7 +17,9 @@ function docleanup($data)
     ignore_user_abort(1);
     $deadtime = TIME_NOW - $TRINITY20['signup_timeout'];
     sql_query("DELETE FROM users WHERE status = 'pending' AND added < $deadtime AND last_login < $deadtime AND last_access < $deadtime");
-    if ($queries > 0) write_log("Expired Signup clean-------------------- Expired Signup cleanup Complete using $queries queries --------------------");
+    if ($queries > 0) {
+        write_log("Expired Signup clean-------------------- Expired Signup cleanup Complete using $queries queries --------------------");
+    }
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     }

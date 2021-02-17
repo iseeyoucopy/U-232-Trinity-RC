@@ -27,7 +27,9 @@ function docleanup($data)
         $forum['posts'] = $forum['topics'] > 0 ? $forum['posts'] : 0;
         sql_query('UPDATE forums SET post_count = ' . sqlesc($forum['posts']) . ', topic_count = ' . sqlesc($forum['topics']) . ' WHERE id=' . sqlesc($forum['id']));
     }
-    if ($queries > 0) write_log("Forum clean-------------------- Forum cleanup Complete using $queries queries --------------------");
+    if ($queries > 0) {
+        write_log("Forum clean-------------------- Forum cleanup Complete using $queries queries --------------------");
+    }
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items updated";
     }

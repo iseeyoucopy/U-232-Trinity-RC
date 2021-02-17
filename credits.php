@@ -26,9 +26,9 @@ $act_validation = array('', 'add', 'edit', 'delete', 'update');
 
 $id = (isset($_GET['id']) ? (int) $_GET["id"] : "");
 
-if(!in_array($action, $act_validation))
-
-stderr("Error", "Unknown action.");
+if(!in_array($action, $act_validation)) {
+    stderr("Error", "Unknown action.");
+}
 
 /*Check if CutName function exists, if not declare it */
 
@@ -63,8 +63,9 @@ return (strlen($txt)>$len ? substr($txt,0,$len-4) .'[...]':$txt);
   if ($action == 'edit' && $CURUSER['class'] >= UC_SYSOP) {
 			$id = 0 + $_GET["id"];
 			($res = sql_query("SELECT name, description, category, u232lnk, status, credit FROM modscredits WHERE id =".$id."")) || sqlerr(__FILE__, __LINE__);
-			if ($res->num_rows == 0)
-  	stderr("{$lang['credits_error']}", "{$lang['credits_nocr']}");
+			if ($res->num_rows == 0) {
+                stderr("{$lang['credits_error']}", "{$lang['credits_nocr']}");
+            }
 			while($mod = $res->fetch_assoc()){
   
   	$HTMLOUT .= "<form method='post' action='".$_SERVER['PHP_SELF']."?action=update&amp;id=".$id."'>
@@ -118,25 +119,31 @@ return (strlen($txt)>$len ? substr($txt,0,$len-4) .'[...]':$txt);
 			exit();
 		} elseif ($action == 'update' && $CURUSER['class'] >= UC_SYSOP) {
 			$id = 0 + $_GET["id"];
-			if (!is_valid_id($id))
-  	stderr('Error', 'Invalid ID!');
+			if (!is_valid_id($id)) {
+                stderr('Error', 'Invalid ID!');
+            }
 			$res = sql_query('SELECT id FROM modscredits WHERE id = '.sqlesc($id));
-			if ($res->num_rows == 0)
-  	stderr("{$lang['credits_error']}", "{$lang['credits_nocr']}");
+			if ($res->num_rows == 0) {
+                stderr("{$lang['credits_error']}", "{$lang['credits_nocr']}");
+            }
 			$name = $_POST['name'];
 			$description = $_POST['description'];
 			$category = $_POST['category'];
 			$link = $_POST['link'];
 			$modstatus = $_POST['modstatus'];
 			$credit = $_POST['credits'];
-			if (empty($name))
- 		stderr("{$lang['credits_error']}", "{$lang['credits_error3']}");
-			if (empty($description))
-  		stderr("{$lang['credits_error']}", "{$lang['credits_error4']}");
-			if (empty($link))
-  		stderr("{$lang['credits_error']}", "{$lang['credits_error5']}");
-			if (empty($credit))
-  		stderr("{$lang['credits_error']}", "{$lang['credits_error6']}");
+			if (empty($name)) {
+                stderr("{$lang['credits_error']}", "{$lang['credits_error3']}");
+            }
+			if (empty($description)) {
+                stderr("{$lang['credits_error']}", "{$lang['credits_error4']}");
+            }
+			if (empty($link)) {
+                stderr("{$lang['credits_error']}", "{$lang['credits_error5']}");
+            }
+			if (empty($credit)) {
+                stderr("{$lang['credits_error']}", "{$lang['credits_error6']}");
+            }
 			sql_query("UPDATE modscredits SET name = ".sqlesc($name).", category = ".sqlesc($category).", status = ".sqlesc($modstatus).",  u232lnk = ".sqlesc($link).", credit = ".sqlesc($credit).", description = ".sqlesc($description)." WHERE id = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
 			header("Location: {$_SERVER['PHP_SELF']}");
 			exit();

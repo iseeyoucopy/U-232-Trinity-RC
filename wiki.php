@@ -42,7 +42,9 @@ function newerr($heading = '', $text = '', $die = true, $div = 'error', $htmlstr
     $htmlout = '';
     $htmlout.= newmsg($heading, $text, $div, $htmlstrip);
     echo stdhead() . $htmlout . stdfoot();
-    if ($die) die;
+    if ($die) {
+        die;
+    }
 }
 function datetimetransform($input)
 {
@@ -161,9 +163,13 @@ if (isset($_GET["action"])) {
     if (isset($_GET["id"])) {
         $mode = "id";
         $id = (int)$_GET["id"];
-        if (!is_valid_id($id)) die();
+        if (!is_valid_id($id)) {
+            die();
+        }
     }
-    if (isset($_GET["letter"])) $letter = htmlsafechars($_GET["letter"]);
+    if (isset($_GET["letter"])) {
+        $letter = htmlsafechars($_GET["letter"]);
+    }
 } else {
     $action = "article";
     $mode = "name";
@@ -201,7 +207,9 @@ if ($action == "article") {
             $HTMLOUT.= "Search results for: <b>" . htmlsafechars($name) . "</b>";
             while ($wiki = $search->fetch_array(MYSQLI_BOTH)) {
                 $search_w_query = sql_query("SELECT username FROM users WHERE id =" . sqlesc($wiki['userid']));
-                if ($wiki["userid"] !== 0) $wikiname = $search_w_query->fetch_assoc();
+                if ($wiki["userid"] !== 0) {
+                    $wikiname = $search_w_query->fetch_assoc();
+                }
  $HTMLOUT.= "<div class=\"wiki-search\">
 	<b><a href=\"wiki.php?action=article&amp;name=" . articlereplace(htmlsafechars($wiki["name"])) . "\">" . htmlsafechars($wiki['name']) . "</a></b>{$lang['wiki_added_by']}<a href=\"userdetails.php?id=" . (int)$wiki['userid'] . "\">" . htmlsafechars($wikiname['username']) . "</a></div>";
             }
@@ -245,7 +253,9 @@ if ($action == "edit") {
         $HTMLOUT.= wikimenu();
         $HTMLOUT.= "</div>";
         $HTMLOUT.= "</div><br>";
-    } else $HTMLOUT.= newerr($lang['wiki_error'], $lang['wiki_access_denied']);
+    } else {
+        $HTMLOUT .= newerr($lang['wiki_error'], $lang['wiki_access_denied']);
+    }
 }
 if ($action == "sort") {
     $sortres = sql_query("SELECT * FROM wiki WHERE name LIKE '$letter%' ORDER BY name");
@@ -254,7 +264,9 @@ if ($action == "sort") {
         $HTMLOUT.= "{$lang['wiki_art_found_starting']}<b>" . htmlsafechars($letter) . "</b>";
         while ($wiki = $sortres->fetch_array(MYSQLI_ASSOC)) {
             ($wiki_sort_q = sql_query("SELECT username FROM users WHERE id = " . sqlesc($wiki['userid']))) || sqlerr(__FILE__, __LINE__);
-            if ($wiki["userid"] !== 0) $wikiname = $wiki_sort_q->fetch_assoc();
+            if ($wiki["userid"] !== 0) {
+                $wikiname = $wiki_sort_q->fetch_assoc();
+            }
             $HTMLOUT.= "
 				<div class=\"wiki-search\">
 					<b><a href=\"wiki.php?action=article&amp;name=" . articlereplace(htmlsafechars($wiki["name"])) . "\">" . htmlsafechars($wiki['name']) . "</a></b>{$lang['wiki_added_by1']}<a href=\"userdetails.php?id=" . (int)$wiki['userid'] . "\">" . htmlsafechars($wikiname['username']) . "</a></div>";

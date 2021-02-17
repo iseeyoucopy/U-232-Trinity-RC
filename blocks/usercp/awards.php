@@ -8,7 +8,9 @@ if ($TRINITY20['achieve_sys_on'] == false) {
     {
 ($res = sql_query("SELECT users.id, users.username, usersachiev.achpoints, usersachiev.spentpoints FROM users LEFT JOIN usersachiev ON users.id = usersachiev.id WHERE users.id = " . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
 $arr = $res->fetch_assoc();
-if (!$arr) stderr($lang['achievement_history_err'], $lang['achievement_history_err1']);
+if (!$arr) {
+    stderr($lang['achievement_history_err'], $lang['achievement_history_err1']);
+}
 $achpoints = (int)$arr['achpoints'];
 $spentpoints = (int)$arr['spentpoints'];
 ($res = sql_query("SELECT COUNT(*) FROM achievements WHERE userid =" . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);

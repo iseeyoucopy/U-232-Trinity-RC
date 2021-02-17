@@ -43,7 +43,9 @@ function parked()
 {
     require_once (CLASS_DIR . 'class_user_options.php');
     global $CURUSER;
-    if ((isset($CURUSER['opt1']) & user_options::PARKED) !== 0) stderr("Error", "<b>Your account is currently parked.</b>");
+    if ((isset($CURUSER['opt1']) & user_options::PARKED) !== 0) {
+        stderr("Error", "<b>Your account is currently parked.</b>");
+    }
 }
 //== Reputation function==//
 function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
@@ -63,12 +65,14 @@ function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
         $max_rep = max(array_keys($reputations));
         if ($user['reputation'] >= $max_rep) {
             $user_reputation = $reputations[$max_rep];
-        } else foreach ($reputations as $y => $x) {
-            if ($y > $user['reputation']) {
-                $user_reputation = $old;
-                break;
+        } else {
+            foreach ($reputations as $y => $x) {
+                if ($y > $user['reputation']) {
+                    $user_reputation = $old;
+                    break;
+                }
+                $old = $x;
             }
-            $old = $x;
         }
         //$rep_is_on = TRUE;
         //$CURUSER['g_rep_hide'] = FALSE;
@@ -126,8 +130,12 @@ function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
             }
         }
         // now decide the locale
-        if ($mode != '') return "Rep: " . $posneg . "<br /><br /><a href='javascript:;' onclick=\"PopUp('{$TRINITY20['baseurl']}/reputation.php?pid=" . ($post_id != 0 ? (int)$post_id : (int)$user['id']) . "&amp;locale=" . $mode . "','Reputation',400,241,1,1);\"><button type='button' class='tiny button' style='margin-top:-9px;' alt='Add reputation:: " . htmlsafechars($user['username']) . "' title='Add reputation:: " . htmlsafechars($user['username']) . "'><i class='fa fa-check'></i> Add Rep</button></a>";
-        else return " " . $posneg;
+        if ($mode != '') {
+            return "Rep: ".$posneg."<br /><br /><a href='javascript:;' onclick=\"PopUp('{$TRINITY20['baseurl']}/reputation.php?pid=".($post_id != 0 ? (int)$post_id : (int)$user['id'])."&amp;locale=".$mode."','Reputation',400,241,1,1);\"><button type='button' class='tiny button' style='margin-top:-9px;' alt='Add reputation:: ".htmlsafechars($user['username'])."' title='Add reputation:: ".htmlsafechars($user['username'])."'><i class='fa fa-check'></i> Add Rep</button></a>";
+        }
+        else {
+            return " ".$posneg;
+        }
     } // END IF ONLINE
     // default
     return '<span title="Set offline by admin setting">Rep System Offline</span>';
@@ -169,55 +177,145 @@ function write_staffs()
 //== Function Ratio Color ==//
 function get_ratio_color($ratio)
 {
-    if ($ratio < 0.1) return "#ff0000";
-    if ($ratio < 0.2) return "#ee0000";
-    if ($ratio < 0.3) return "#dd0000";
-    if ($ratio < 0.4) return "#cc0000";
-    if ($ratio < 0.5) return "#bb0000";
-    if ($ratio < 0.6) return "#aa0000";
-    if ($ratio < 0.7) return "#990000";
-    if ($ratio < 0.8) return "#880000";
-    if ($ratio < 0.9) return "#770000";
-    if ($ratio < 1) return "#660000";
-    if (($ratio >= 1.0) && ($ratio < 2.0)) return "#006600";
-    if (($ratio >= 2.0) && ($ratio < 3.0)) return "#007700";
-    if (($ratio >= 3.0) && ($ratio < 4.0)) return "#008800";
-    if (($ratio >= 4.0) && ($ratio < 5.0)) return "#009900";
-    if (($ratio >= 5.0) && ($ratio < 6.0)) return "#00aa00";
-    if (($ratio >= 6.0) && ($ratio < 7.0)) return "#00bb00";
-    if (($ratio >= 7.0) && ($ratio < 8.0)) return "#00cc00";
-    if (($ratio >= 8.0) && ($ratio < 9.0)) return "#00dd00";
-    if (($ratio >= 9.0) && ($ratio < 10.0)) return "#00ee00";
-    if ($ratio >= 10) return "#00ff00";
+    if ($ratio < 0.1) {
+        return "#ff0000";
+    }
+    if ($ratio < 0.2) {
+        return "#ee0000";
+    }
+    if ($ratio < 0.3) {
+        return "#dd0000";
+    }
+    if ($ratio < 0.4) {
+        return "#cc0000";
+    }
+    if ($ratio < 0.5) {
+        return "#bb0000";
+    }
+    if ($ratio < 0.6) {
+        return "#aa0000";
+    }
+    if ($ratio < 0.7) {
+        return "#990000";
+    }
+    if ($ratio < 0.8) {
+        return "#880000";
+    }
+    if ($ratio < 0.9) {
+        return "#770000";
+    }
+    if ($ratio < 1) {
+        return "#660000";
+    }
+    if (($ratio >= 1.0) && ($ratio < 2.0)) {
+        return "#006600";
+    }
+    if (($ratio >= 2.0) && ($ratio < 3.0)) {
+        return "#007700";
+    }
+    if (($ratio >= 3.0) && ($ratio < 4.0)) {
+        return "#008800";
+    }
+    if (($ratio >= 4.0) && ($ratio < 5.0)) {
+        return "#009900";
+    }
+    if (($ratio >= 5.0) && ($ratio < 6.0)) {
+        return "#00aa00";
+    }
+    if (($ratio >= 6.0) && ($ratio < 7.0)) {
+        return "#00bb00";
+    }
+    if (($ratio >= 7.0) && ($ratio < 8.0)) {
+        return "#00cc00";
+    }
+    if (($ratio >= 8.0) && ($ratio < 9.0)) {
+        return "#00dd00";
+    }
+    if (($ratio >= 9.0) && ($ratio < 10.0)) {
+        return "#00ee00";
+    }
+    if ($ratio >= 10) {
+        return "#00ff00";
+    }
     return "#777777";
 }
 function get_slr_color($ratio)
 {
-    if ($ratio < 0.025) return "#ff0000";
-    if ($ratio < 0.05) return "#ee0000";
-    if ($ratio < 0.075) return "#dd0000";
-    if ($ratio < 0.1) return "#cc0000";
-    if ($ratio < 0.125) return "#bb0000";
-    if ($ratio < 0.15) return "#aa0000";
-    if ($ratio < 0.175) return "#990000";
-    if ($ratio < 0.2) return "#880000";
-    if ($ratio < 0.225) return "#770000";
-    if ($ratio < 0.25) return "#660000";
-    if ($ratio < 0.275) return "#550000";
-    if ($ratio < 0.3) return "#440000";
-    if ($ratio < 0.325) return "#330000";
-    if ($ratio < 0.35) return "#220000";
-    if ($ratio < 0.375) return "#110000";
-    if (($ratio >= 1.0) && ($ratio < 2.0)) return "#006600";
-    if (($ratio >= 2.0) && ($ratio < 3.0)) return "#007700";
-    if (($ratio >= 3.0) && ($ratio < 4.0)) return "#008800";
-    if (($ratio >= 4.0) && ($ratio < 5.0)) return "#009900";
-    if (($ratio >= 5.0) && ($ratio < 6.0)) return "#00aa00";
-    if (($ratio >= 6.0) && ($ratio < 7.0)) return "#00bb00";
-    if (($ratio >= 7.0) && ($ratio < 8.0)) return "#00cc00";
-    if (($ratio >= 8.0) && ($ratio < 9.0)) return "#00dd00";
-    if (($ratio >= 9.0) && ($ratio < 10.0)) return "#00ee00";
-    if ($ratio >= 10) return "#00ff00";
+    if ($ratio < 0.025) {
+        return "#ff0000";
+    }
+    if ($ratio < 0.05) {
+        return "#ee0000";
+    }
+    if ($ratio < 0.075) {
+        return "#dd0000";
+    }
+    if ($ratio < 0.1) {
+        return "#cc0000";
+    }
+    if ($ratio < 0.125) {
+        return "#bb0000";
+    }
+    if ($ratio < 0.15) {
+        return "#aa0000";
+    }
+    if ($ratio < 0.175) {
+        return "#990000";
+    }
+    if ($ratio < 0.2) {
+        return "#880000";
+    }
+    if ($ratio < 0.225) {
+        return "#770000";
+    }
+    if ($ratio < 0.25) {
+        return "#660000";
+    }
+    if ($ratio < 0.275) {
+        return "#550000";
+    }
+    if ($ratio < 0.3) {
+        return "#440000";
+    }
+    if ($ratio < 0.325) {
+        return "#330000";
+    }
+    if ($ratio < 0.35) {
+        return "#220000";
+    }
+    if ($ratio < 0.375) {
+        return "#110000";
+    }
+    if (($ratio >= 1.0) && ($ratio < 2.0)) {
+        return "#006600";
+    }
+    if (($ratio >= 2.0) && ($ratio < 3.0)) {
+        return "#007700";
+    }
+    if (($ratio >= 3.0) && ($ratio < 4.0)) {
+        return "#008800";
+    }
+    if (($ratio >= 4.0) && ($ratio < 5.0)) {
+        return "#009900";
+    }
+    if (($ratio >= 5.0) && ($ratio < 6.0)) {
+        return "#00aa00";
+    }
+    if (($ratio >= 6.0) && ($ratio < 7.0)) {
+        return "#00bb00";
+    }
+    if (($ratio >= 7.0) && ($ratio < 8.0)) {
+        return "#00cc00";
+    }
+    if (($ratio >= 8.0) && ($ratio < 9.0)) {
+        return "#00dd00";
+    }
+    if (($ratio >= 9.0) && ($ratio < 10.0)) {
+        return "#00ee00";
+    }
+    if ($ratio >= 10) {
+        return "#00ff00";
+    }
     return "#777777";
 }
 function ratio_image_machine($ratio_to_check)
@@ -258,28 +356,43 @@ function get_user_class_name($class)
 {
     global $class_names;
     $class = (int)$class;
-    if (!valid_class($class)) 
-		return '';
-    if (isset($class_names[$class])) 
-		return $class_names[$class];
-    else 
-		return '';
+    if (!valid_class($class)) {
+        return '';
+    }
+    if (isset($class_names[$class])) {
+        return $class_names[$class];
+    }
+    else {
+        return '';
+    }
 }
 function get_user_class_color($class)
 {
     global $class_colors;
     $class = (int)$class;
-    if (!valid_class($class)) return '';
-    if (isset($class_colors[$class])) return $class_colors[$class];
-    else return '';
+    if (!valid_class($class)) {
+        return '';
+    }
+    if (isset($class_colors[$class])) {
+        return $class_colors[$class];
+    }
+    else {
+        return '';
+    }
 }
 function get_user_class_image($class)
 {
     global $class_images;
     $class = (int)$class;
-    if (!valid_class($class)) return '';
-    if (isset($class_images[$class])) return $class_images[$class];
-    else return '';
+    if (!valid_class($class)) {
+        return '';
+    }
+    if (isset($class_images[$class])) {
+        return $class_images[$class];
+    }
+    else {
+        return '';
+    }
 }
 function valid_class($class)
 {
@@ -291,9 +404,15 @@ function min_class($min = UC_MIN, $max = UC_MAX)
     global $CURUSER;
     $minclass = (int)$min;
     $maxclass = (int)$max;
-    if (!isset($CURUSER)) return false;
-    if (!valid_class($minclass) || !valid_class($maxclass)) return false;
-    if ($maxclass < $minclass) return false;
+    if (!isset($CURUSER)) {
+        return false;
+    }
+    if (!valid_class($minclass) || !valid_class($maxclass)) {
+        return false;
+    }
+    if ($maxclass < $minclass) {
+        return false;
+    }
     return (bool)($CURUSER['class'] >= $minclass && $CURUSER['class'] <= $maxclass);
 }
 function format_username($user, $icons = true)
@@ -301,8 +420,12 @@ function format_username($user, $icons = true)
     global $TRINITY20;
     $userf_id = (isset($user['id']) ? (int)$user['id'] : 0);
     $userf_class = (isset($user['class']) ? (int)$user['class'] : 0) ;
-    if ($userf_id == 0) return 'System';
-    elseif ((isset($user['username']) ? htmlsafechars($user['username']) : '') == '') return 'unknown[' . $userf_id . ']';
+    if ($userf_id == 0) {
+        return 'System';
+    }
+    elseif ((isset($user['username']) ? htmlsafechars($user['username']) : '') == '') {
+        return 'unknown['.$userf_id.']';
+    }
     $username = '<span style="color:#' . get_user_class_color($userf_class) . ';"><strong>' . htmlsafechars($user['username']) . '</strong></span>';
     $str = '<span style="white-space: nowrap;"><a class="user_' . $userf_id . '" href="' . $TRINITY20['baseurl'] . '/userdetails.php?id=' . $userf_id . '" target="_blank">' . $username . '</a>';
     if ($icons != false) {
@@ -457,8 +580,9 @@ function get_cache_config_data($the_names,$the_colors,$the_images)
 		if (!file_exists($file) || $forced == true)
 		{
 			($q = sql_query("SELECT id,username,forums_mod FROM users WHERE forum_mod = 'yes'")) || sqlerr(__FILE__, __LINE__);
-			while($a = $q->fetch_assoc())
-				$users[] = $a;
+			while($a = $q->fetch_assoc()) {
+                $users[] = $a;
+            }
 			$forums = array();
 			foreach($users as $user)
 			{
@@ -466,15 +590,18 @@ function get_cache_config_data($the_names,$the_colors,$the_images)
 				preg_match_all($reg,$user["forums_mod"],$fids);
 				foreach($fids[0] as $fid)
 				{
-					if(!array_key_exists($fid,$forums))
-						$forums[$fid] = array();
-					$forums[$fid][] = array($user["id"],$user["username"]);
+					if(!array_key_exists($fid,$forums)) {
+                        $forums[$fid] = [];
+                    }
+                    $forums[$fid][] = array($user["id"],$user["username"]);
 				}
 			}
 			file_put_contents($file,serialize($forums));
 		}
 		if($forced == false)
-		return  unserialize(file_get_contents($file));
+		{ return unserialize(file_get_contents($file));
+        }
 }
+
 /** end functions **/
 ?>

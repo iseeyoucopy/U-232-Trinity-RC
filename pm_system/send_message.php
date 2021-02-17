@@ -41,21 +41,29 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
     //=== get user info from DB
     ($res_receiver = sql_query('SELECT id, acceptpms, notifs, email, class, username FROM users WHERE id=' . sqlesc($receiver))) || sqlerr(__FILE__, __LINE__);
     $arr_receiver = $res_receiver->fetch_assoc();
-    if (!is_valid_id((int) $_POST['receiver']) || !is_valid_id($arr_receiver['id'])) stderr($lang['pm_error'], $lang['pm_send_not_found']);
-    if (!isset($_POST['body'])) stderr($lang['pm_error'], $lang['pm_send_nobody']);
+    if (!is_valid_id((int) $_POST['receiver']) || !is_valid_id($arr_receiver['id'])) {
+        stderr($lang['pm_error'], $lang['pm_send_not_found']);
+    }
+    if (!isset($_POST['body'])) {
+        stderr($lang['pm_error'], $lang['pm_send_nobody']);
+    }
 							   
 														   
     //=== allow suspended users to PM / forward to staff only
     if ($CURUSER['suspended'] === 'yes') {
         ($res = sql_query('SELECT class FROM users WHERE id = ' . sqlesc($receiver))) || sqlerr(__FILE__, __LINE__);
         $row = $res->fetch_assoc();
-        if ($row['class'] < UC_STAFF) stderr($lang['pm_error'], $lang['pm_send_your_acc']);
+        if ($row['class'] < UC_STAFF) {
+            stderr($lang['pm_error'], $lang['pm_send_your_acc']);
+        }
 																 
     }
     //=== make sure they have space
     ($res_count = sql_query('SELECT COUNT(*) FROM messages WHERE receiver = ' . sqlesc($receiver) . ' AND location = 1')) || sqlerr(__FILE__, __LINE__);
     $arr_count = $res_count->fetch_row();
-    if ($res_count->num_rows > ($maxbox * 6) && $CURUSER['class'] < UC_STAFF) stderr($lang['pm_forwardpm_srry'], $lang['pm_forwardpm_full']);
+    if ($res_count->num_rows > ($maxbox * 6) && $CURUSER['class'] < UC_STAFF) {
+        stderr($lang['pm_forwardpm_srry'], $lang['pm_forwardpm_full']);
+    }
 																	   
     //=== Make sure recipient wants this message
     if ($CURUSER['class'] < UC_STAFF) {
@@ -65,14 +73,18 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
             ($r = sql_query('SELECT id FROM blocks WHERE userid = ' . sqlesc($receiver) . ' AND blockid = ' . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
             $block = $r->fetch_row();
 			$block1 = $block ?? "";
-            if ($block1[0] > 0) stderr($lang['pm_forwardpm_refused'], htmlsafechars($arr_receiver['username']) . $lang['pm_send_blocked']);
+            if ($block1[0] > 0) {
+                stderr($lang['pm_forwardpm_refused'], htmlsafechars($arr_receiver['username']).$lang['pm_send_blocked']);
+            }
 																															   
             break;
 
         case 'friends':
             ($r = sql_query('SELECT id FROM friends WHERE userid = ' . sqlesc($receiver) . ' AND friendid = ' . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
             $friend = $r->fetch_row();
-            if ($friend[0] > 0) stderr($lang['pm_forwardpm_refused'], htmlsafechars($arr_receiver['username']) . $lang['pm_send_onlyf']);
+            if ($friend[0] > 0) {
+                stderr($lang['pm_forwardpm_refused'], htmlsafechars($arr_receiver['username']).$lang['pm_send_onlyf']);
+            }
 																															 
             break;
 
@@ -88,7 +100,9 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
     $cache->delete('inbox_new_sb::' . $receiver);
     
     //=== make sure it worked then...
-    if ($mysqli->affected_rows === 0) stderr($lang['pm_error'], $lang['pm_send_wasnt']);
+    if ($mysqli->affected_rows === 0) {
+        stderr($lang['pm_error'], $lang['pm_send_wasnt']);
+    }
 														  
     //=== if they just have to know about it right away... send them an email (if selected if profile)
     if (strpos($arr_receiver['notifs'], '[pm]') !== false) {
@@ -112,7 +126,9 @@ EOD;
         if ($res->num_rows > 0) {
             $arr = $res->fetch_assoc();
             //if ($arr['receiver'] !== $CURUSER['id'])
-            if ($arr['receiver'] != $CURUSER['id']) stderr($lang['pm_send_quote'], $lang['pm_send_thou']);
+            if ($arr['receiver'] != $CURUSER['id']) {
+                stderr($lang['pm_send_quote'], $lang['pm_send_thou']);
+            }
 																	  
             if ($arr['saved'] == 'no') {
                 sql_query('DELETE FROM messages WHERE id = ' . sqlesc($delete)) || sqlerr(__FILE__, __LINE__);
@@ -122,8 +138,12 @@ EOD;
         }
     }
     //=== if returnto sent
-    if ($returnto) header('Location: ' . $returnto);
-    else header('Location: pm_system.php?action=view_mailbox&sent=1');
+    if ($returnto) {
+        header('Location: '.$returnto);
+    }
+    else {
+        header('Location: pm_system.php?action=view_mailbox&sent=1');
+    }
 		
 																	 
     die();
@@ -132,22 +152,30 @@ EOD;
 $receiver = (isset($_GET['receiver']) ? (int) $_GET['receiver'] : (isset($_POST['receiver']) ? (int) $_POST['receiver'] : 0));
 $replyto = (isset($_GET['replyto']) ? (int) $_GET['replyto'] : (isset($_POST['replyto']) ? (int) $_POST['replyto'] : 0));
 $returnto = htmlsafechars($_POST['returnto'] ?? '');
-if ($receiver === 0) stderr($lang['pm_error'], $lang['pm_send_sysbot']);
-if (!is_valid_id($receiver)) stderr($lang['pm_error'], $lang['pm_send_mid']);
+if ($receiver === 0) {
+    stderr($lang['pm_error'], $lang['pm_send_sysbot']);
+}
+if (!is_valid_id($receiver)) {
+    stderr($lang['pm_error'], $lang['pm_send_mid']);
+}
 							
 													
 ($res_member = sql_query('SELECT username FROM users WHERE id = ' . sqlesc($receiver))) || sqlerr(__FILE__, __LINE__);
 $arr_member = $res_member->fetch_row();
 //=== if reply
 if ($replyto != 0) {
-    if (!validusername($arr_member[0])) stderr($lang['pm_error'], $lang['pm_send_mid']);
+    if (!validusername($arr_member[0])) {
+        stderr($lang['pm_error'], $lang['pm_send_mid']);
+    }
 														
     //=== make sure they should be replying to this PM...
     ($res_old_message = sql_query('SELECT receiver, sender, subject, msg FROM messages WHERE id = ' . sqlesc($replyto))) || sqlerr(__FILE__, __LINE__);
     $arr_old_message = $res_old_message->fetch_assoc();
     //print $arr_old_message['sender'];
     //exit();
-    if ($arr_old_message['sender'] == $CURUSER['id']) stderr($lang['pm_error'], $lang['pm_send_slander']);
+    if ($arr_old_message['sender'] == $CURUSER['id']) {
+        stderr($lang['pm_error'], $lang['pm_send_slander']);
+    }
 															
     if ($arr_old_message['receiver'] == $CURUSER['id']) {
         $body .= "\n\n\n{$lang['pm_send_wrote0']}$arr_member[0]{$lang['pm_send_wrote']}\n$arr_old_message[msg]\n";

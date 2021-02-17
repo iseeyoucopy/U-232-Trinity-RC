@@ -37,7 +37,9 @@ $pager = pager($perpage, $count1, 'staffpanel.php?tool=uploader_info&amp;');
 //=== main query
 $res = sql_query('SELECT COUNT(t.id) as how_many_torrents, t.owner, t.added, u.username, u.uploaded, u.downloaded, u.id, u.donor, u.suspended, u.class, u.warned, u.enabled, u.chatpost, u.leechwarn, u.pirate, u.king
             FROM torrents AS t LEFT JOIN users as u ON u.id = t.owner GROUP BY t.owner ORDER BY how_many_torrents DESC ' . $pager['limit']);
-if ($count1 > $perpage) $HTMLOUT.= $pager['pagertop'];
+if ($count1 > $perpage) {
+    $HTMLOUT .= $pager['pagertop'];
+}
 $HTMLOUT.= '<div class="row"><div class="col-md-12"><table class="table table-bordered">
    <tr><td class="colhead" align="center">' . $lang['upinfo_rank'] . '</td><td class="colhead" align="center">' . $lang['upinfo_torrent'] . '</td><td class="colhead" align="left">' . $lang['upinfo_member'] . '</td><td class="colhead" align="left">' . $lang['upinfo_class'] . '</td><td class="colhead" align="left">' . $lang['upinfo_ratio'] . '</td><td class="colhead" align="left">' . $lang['upinfo_ltupload'] . '</td><td class="colhead" align="center">' . $lang['upinfo_sendpm'] . '</td></tr>';
 $i = 0;
@@ -58,6 +60,8 @@ while ($arr = $res->fetch_assoc()) {
 </tr>';
 }
 $HTMLOUT.= '</table></div></div><br>';
-if ($count1 > $perpage) $HTMLOUT.= $pager['pagerbottom']."<br>";
+if ($count1 > $perpage) {
+    $HTMLOUT .= $pager['pagerbottom']."<br>";
+}
 echo stdhead($lang['upinfo_stdhead']) . $HTMLOUT . stdfoot();
 ?>

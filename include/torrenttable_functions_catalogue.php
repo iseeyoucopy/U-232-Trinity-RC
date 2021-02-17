@@ -12,7 +12,9 @@
  */
 function linkcolor($num)
 {
-    if (!$num) return "red";
+    if (!$num) {
+        return "red";
+    }
     return "pink";
 }
 function readMore($text, $char, $link)
@@ -54,11 +56,16 @@ function torrenttable($res, $variant = "index")
         if (in_array($key, array(
             'sort',
             'type'
-        ))) continue;
+        ))) {
+            continue;
+        }
         if (is_array($var)) {
-            foreach ($var as $s_var) $oldlink[] = sprintf('%s=%s', urlencode($key) . '%5B%5D', urlencode($s_var));
-        } else
+            foreach ($var as $s_var) {
+                $oldlink[] = sprintf('%s=%s', urlencode($key).'%5B%5D', urlencode($s_var));
+            }
+        } else {
             $oldlink[] = sprintf('%s=%s', urlencode($key), urlencode($var));
+        }
     }
     $oldlink = empty($oldlink) ? '' : implode('&amp;', array_map('htmlsafechars', $oldlink)) .'&amp;';   
     $links = array(
@@ -74,15 +81,23 @@ function torrenttable($res, $variant = "index")
     );
     $i = 1;
     foreach ($links as $link) {
-        if (isset($_GET['sort']) && $_GET['sort'] == $i) ${$link} = (isset($_GET['type']) && $_GET['type'] == 'desc') ? 'asc' : 'desc';
-        else ${$link} = 'desc';
+        if (isset($_GET['sort']) && $_GET['sort'] == $i) {
+            ${$link} = (isset($_GET['type']) && $_GET['type'] == 'desc') ? 'asc' : 'desc';
+        }
+        else {
+            ${$link} = 'desc';
+        }
         $i++;
     }
     while ($row = $res->fetch_assoc()) {
     //==
         if (($CURUSER['opt2'] & user_options_2::SPLIT) !== 0) {
-            if (get_date($row['added'], 'DATE') == $prevdate) $cleandate = '';
-            else $htmlout.= "<!--<b>{$lang['torrenttable_upped']} ".get_date($row['added'], 'DATE')."</b>-->";
+            if (get_date($row['added'], 'DATE') == $prevdate) {
+                $cleandate = '';
+            }
+            else {
+                $htmlout .= "<!--<b>{$lang['torrenttable_upped']} ".get_date($row['added'], 'DATE')."</b>-->";
+            }
             $prevdate = get_date($row['added'], 'DATE');
         }
         $imdb = "<b>IMDB:&nbsp;".(preg_match('/imdb.com.*tt\d{2,}/i', $row['url']) ? "<a href='{$row['url']}' target='_blank'>Click Here</a>" : "None listed")."</b><br />";
@@ -90,41 +105,57 @@ $htmlout .= "<div class='container'><div class='row'>
 <div class='col-sm-3 col-sm-offset-0 panel panel-default browsep'>";
 $htmlout.="<br /><table class='table table-bordered' >";
 $id = (int)$row["id"];
-        foreach ($slot as $sl) $slots_check = ($sl['torrentid'] == $id && $sl['free'] == 'yes' || $sl['doubleup'] == 'yes');
-        if ($row["sticky"] == "yes") $htmlout.= "<tr class='highlight'>\n";
-        else $htmlout.= '<tr class="' . (($free_color && $all_free_tag != '') || ($row['free'] != 0) || $slots_check ? 'freeleech_color' : 'browse_color') . '">';
+        foreach ($slot as $sl) {
+            $slots_check = ($sl['torrentid'] == $id && $sl['free'] == 'yes' || $sl['doubleup'] == 'yes');
+        }
+        if ($row["sticky"] == "yes") {
+            $htmlout .= "<tr class='highlight'>\n";
+        }
+        else {
+            $htmlout .= '<tr class="'.(($free_color && $all_free_tag != '') || ($row['free'] != 0) || $slots_check ? 'freeleech_color' : 'browse_color').'">';
+        }
         $htmlout.= "";
 $dispname = htmlsafechars($row["name"]);
 $htmlout .="<div style='display:block; height:5px;'></div>
 <a href='details.php?id=$id'><div class='text-center squashp browsed'>$dispname</a></div><div style='display:block; height:5px;'></div>";
 $categories = genrelist();
-    foreach ($categories as $key => $value) $change[$value['id']] = array(
-        'id' => $value['id'],
-        'name' => $value['name'],
-        'image' => $value['image'],
-        'min_class' => $value['min_class']
-    );
- $row['cat_name'] = htmlsafechars($change[$row['category']]['name']);
+    foreach ($categories as $key => $value) {
+        $change[$value['id']] = [
+            'id' => $value['id'],
+            'name' => $value['name'],
+            'image' => $value['image'],
+            'min_class' => $value['min_class']
+        ];
+    }
+        $row['cat_name'] = htmlsafechars($change[$row['category']]['name']);
         $row['cat_pic'] = htmlsafechars($change[$row['category']]['image']);
       $row['min_class'] = htmlsafechars($change[$row['category']]['min_class']);
 $htmlout .="<div style='display:block; height:5px;'></div><a href='details.php?id=$id'><div class='text-center browsepd'>";   
-if (!empty($row["poster"]) && isset($row["cat_pic"]) && $row["cat_pic"] != "") $htmlout.= "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$row['cat_pic']}' alt='{$row['cat_name']}' class='overlay'><img src='" . htmlsafechars($row["poster"]) . "' alt='Poster' title='Poster' class='tt''>";
-if (empty($row["poster"]) && isset($row["cat_pic"]) && $row["cat_pic"] != "") $htmlout.= "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$row['cat_pic']}' alt='{$row['cat_name']}' class='overlaynp'><img src='{$TRINITY20['pic_base_url']}noposter.png' class='tt'><br />";
-$htmlout .="</div></a><div style='display:block; height:5px;'></div>";
+if (!empty($row["poster"]) && isset($row["cat_pic"]) && $row["cat_pic"] != "") { $htmlout .= "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$row['cat_pic']}' alt='{$row['cat_name']}' class='overlay'><img src='".htmlsafechars($row["poster"])."' alt='Poster' title='Poster' class='tt''>";
+}
+        if (empty($row["poster"]) && isset($row["cat_pic"]) && $row["cat_pic"] != "") { $htmlout .= "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$row['cat_pic']}' alt='{$row['cat_name']}' class='overlaynp'><img src='{$TRINITY20['pic_base_url']}noposter.png' class='tt'><br />";
+        }
+        $htmlout .="</div></a><div style='display:block; height:5px;'></div>";
 $htmlout .="<div class='text-center browsepd'>";
-if ($variant == "mytorrents") $htmlout.= "<a class='small button' href='download.php?torrent={$id}'><img src='{$TRINITY20['pic_base_url']}zip.gif' border='0' alt='Download This Torrent!' title='Download This Torrent!' /></a>";
-if ($variant == "mytorrents") $htmlout.= "<button class='small button'><a href='edit.php?id=" . (int)$row['id'] . "amp;returnto=" . urlencode($_SERVER["REQUEST_URI"]) . "'>{$lang["torrenttable_edit"]}</a></button>\n";
-$htmlout.= ($variant == "index" ? "DOWNLOAD&nbsp;<a class='small button' href='download.php?torrent={$id}'><img src='{$TRINITY20['pic_base_url']}zip.gif' border='0' alt='Download This Torrent!' title='Download This Torrent!' /></a></button>" : "");
+if ($variant == "mytorrents") { $htmlout .= "<a class='small button' href='download.php?torrent={$id}'><img src='{$TRINITY20['pic_base_url']}zip.gif' border='0' alt='Download This Torrent!' title='Download This Torrent!' /></a>";
+}
+        if ($variant == "mytorrents") { $htmlout .= "<button class='small button'><a href='edit.php?id=".(int)$row['id']."amp;returnto=".urlencode($_SERVER["REQUEST_URI"])."'>{$lang["torrenttable_edit"]}</a></button>\n";
+        }
+        $htmlout.= ($variant == "index" ? "DOWNLOAD&nbsp;<a class='small button' href='download.php?torrent={$id}'><img src='{$TRINITY20['pic_base_url']}zip.gif' border='0' alt='Download This Torrent!' title='Download This Torrent!' /></a></button>" : "");
 if ($variant == "mytorrents") {
             $htmlout.= "test";
-            if ($row["visible"] == "no") $htmlout.= "<b>{$lang["torrenttable_not_visible"]}</b>";
-            else $htmlout.= "{$lang["torrenttable_visible"]}";
-           $htmlout.= "<!--<br />-->";
+            if ($row["visible"] == "no") { $htmlout .= "<b>{$lang["torrenttable_not_visible"]}</b>";
+            } else { $htmlout .= "{$lang["torrenttable_visible"]}";
+            }
+    $htmlout.= "<!--<br />-->";
         }    
 $htmlout .="</div>";
 $booked = '';
-        if (!empty($book)) foreach ($book as $bk) {
-            if ($bk['torrentid'] == $id) $booked = 1;
+        if (!empty($book)) { foreach ($book as $bk) {
+            if ($bk['torrentid'] == $id) {
+                $booked = 1;
+            }
+        }
         }
         $rm_status = ($booked ? ' style="display:inline;"' : ' style="display:none;"');
         $bm_status = ($booked ? ' style="display:none;"' : ' style="display:inline;"');
@@ -140,19 +171,22 @@ $booked = '';
                     </span>
                     </a>
                     </span><br />';
- if ($variant == "index") $htmlout.= "{$bookmark}";
- $Subs = '';
+ if ($variant == "index") { $htmlout .= "{$bookmark}";
+ }
+        $Subs = '';
         if (in_array($row["category"], $TRINITY20['movie_cats']) && !empty($row["subs"])) {
             $subs_array = explode(",", $row["subs"]);
             require_once (CACHE_DIR . 'subs.php');
             foreach ($subs_array as $k => $sid) {
                 foreach ($subs as $sub) {
-                    if ($sub["id"] == $sid) $Subs = "<img border='0' width='16px' style='padding:3px;' src='".htmlsafechars($sub["pic"])."' alt='".htmlsafechars($sub["name"])."' title='".htmlsafechars($sub["name"])."' />";
+                    if ($sub["id"] == $sid) { $Subs = "<img border='0' width='16px' style='padding:3px;' src='".htmlsafechars($sub["pic"])."' alt='".htmlsafechars($sub["name"])."' title='".htmlsafechars($sub["name"])."' />";
+                    }
                 }
             }
             }
-        else $Subs = "---";
-if ($row["type"] == "single") {
+        else { $Subs = "---";
+        }
+        if ($row["type"] == "single") {
     $htmlout.= "<b>Files:</b>" . (int)$row["numfiles"] . "<br />";
 } elseif ($variant == "index") {
     $htmlout.= "<b>Files:&nbsp;<a href='filelist.php?id=$id'>" . (int)$row["numfiles"] . "</a></b><br />";
@@ -160,8 +194,9 @@ if ($row["type"] == "single") {
     $htmlout.= "<b>Files:&nbsp;<a href='filelist.php?id=$id'>" . (int)$row["numfiles"] . "</a></b><br />";
 }
   $htmlout.= "Size:&nbsp;". str_replace(" ", " ", mksize($row["size"])) . "\n";  
-if ($row["times_completed"] != 1) $_s = "" . $lang["torrenttable_time_plural"] . "";
-        else $_s = "" . $lang["torrenttable_time_singular"] . "";
+if ($row["times_completed"] != 1) { $_s = "".$lang["torrenttable_time_plural"]."";
+} else { $_s = "".$lang["torrenttable_time_singular"]."";
+}
         $What_Script_S = (XBT_TRACKER == true ? 'snatches_xbt.php?id=' : 'snatches.php?id=' );
         $htmlout.= "<br />Snatches:<a href='$What_Script_S"."$id'>$_s&nbsp;<b>downloaded</b>&nbsp;" . number_format($row["times_completed"]) . "</a>\n";
         if ($row["seeders"]) {
@@ -178,10 +213,12 @@ if ($row["times_completed"] != 1) $_s = "" . $lang["torrenttable_time_plural"] .
         }
         if ($row["leechers"]) {
             $What_Script_P = (XBT_TRACKER == true ? 'peerlist_xbt.php?id=' : 'peerlist.php?id=' );
-            if ($variant == "index") $htmlout.= "<b><a href='$What_Script_P"."$id#leechers'>" . number_format($row["leechers"]) . "</a></b>\n";
-            else $htmlout.= "<b><a class='" . linkcolor($row["leechers"]) . "' href='$What_Script_P"."$id#leechers'>" . (int)$row["leechers"] . "</a></b>\n";
-        } else $htmlout.= "<b>Leechers:</b>&nbsp;0\n";
-if ($variant == "index") {
+            if ($variant == "index") { $htmlout .= "<b><a href='$What_Script_P"."$id#leechers'>".number_format($row["leechers"])."</a></b>\n";
+            } else { $htmlout .= "<b><a class='".linkcolor($row["leechers"])."' href='$What_Script_P"."$id#leechers'>".(int)$row["leechers"]."</a></b>\n";
+            }
+        } else { $htmlout .= "<b>Leechers:</b>&nbsp;0\n";
+        }
+        if ($variant == "index") {
             $htmlout.= "<br /><b>Upped By:</b>&nbsp;" . (isset($row["username"]) ? (($row["anonymous"] == "yes" && $CURUSER['class'] < UC_STAFF && $row['owner'] != $CURUSER['id']) ? "<i>" . $lang['torrenttable_anon'] . "</i>" : "<a href='userdetails.php?id=" . (int)$row["owner"] . "'><b>" . htmlsafechars($row["username"]) . "</b></a>") : "<i>(" . $lang["torrenttable_unknown_uploader"] . ")</i>") . "\n";
         } 
         if ($CURUSER['class'] >= UC_STAFF)  {

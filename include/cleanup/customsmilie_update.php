@@ -48,7 +48,9 @@ function docleanup($data)
         unset($users_buffer, $msgs_buffer, $count);
     }
     //==
-    if ($queries > 0) write_log("Custom Smilie Clean -------------------- Custom Smilie cleanup Complete using $queries queries --------------------");
+    if ($queries > 0) {
+        write_log("Custom Smilie Clean -------------------- Custom Smilie cleanup Complete using $queries queries --------------------");
+    }
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     }

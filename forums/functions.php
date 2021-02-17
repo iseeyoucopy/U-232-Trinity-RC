@@ -142,8 +142,9 @@ function forum_stats()
         $forum_active_users_cache['actcount']    = $forum_actcount;
         $cache->set($keys['f_activeusers'], $forum_active_users_cache, $TRINITY20['expires']['forum_activeusers']);
     }
-    if (!$forum_active_users_cache['activeusers'])
+    if (!$forum_active_users_cache['activeusers']) {
         $forum_active_users_cache['activeusers'] = 'There have been no active users in the last 15 minutes.';
+    }
     return $htmlout . ('Active users on Forum:&nbsp;&nbsp;<span class="badge success disabled">'.$forum_active_users_cache["actcount"].'</span>
         <div class="callout">' . $forum_active_users_cache['activeusers'] . '</div>');
 }

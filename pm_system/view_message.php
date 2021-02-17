@@ -31,7 +31,9 @@ if (!defined('BUNNY_PM_SYSTEM')) {
                             FROM messages AS m LEFT JOIN friends AS f ON f.userid = ' . sqlesc($CURUSER['id']) . ' AND f.friendid = m.sender
                             LEFT JOIN blocks AS b ON b.userid = ' . sqlesc($CURUSER['id']) . ' AND b.blockid = m.sender WHERE m.id = ' . sqlesc($pm_id) . ' AND (receiver=' . sqlesc($CURUSER['id']) . ' OR (sender=' . sqlesc($CURUSER['id']) . ' AND (saved = \'yes\' || unread= \'yes\'))) LIMIT 1')) || sqlerr(__FILE__, __LINE__);
 $message = $res->fetch_assoc();
-if (!$res)	stderr($lang['pm_error'], $lang['pm_viewmsg_err']);
+if (!$res) {
+    stderr($lang['pm_error'], $lang['pm_viewmsg_err']);
+}
 //=== get user stuff ===//
 ($res_user_stuff = sql_query('SELECT id, username, uploaded, warned, suspended, enabled, donor, class, avatar, leechwarn, chatpost, pirate, king, opt1, opt2 FROM users WHERE id=' . ($message['sender'] === $CURUSER['id'] ? sqlesc($message['receiver']) : sqlesc($message['sender'])))) || sqlerr(__FILE__, __LINE__);
 $arr_user_stuff = $res_user_stuff->fetch_assoc();
@@ -40,12 +42,16 @@ $id = isset($arr_user_stuff['id']) ? (int)$arr_user_stuff['id'] : '';
 sql_query('UPDATE messages SET unread=\'no\' WHERE id=' . sqlesc($pm_id) . ' AND receiver=' . sqlesc($CURUSER['id']) . ' LIMIT 1') || sqlerr(__FILE__, __LINE__);
 $cache->delete('inbox_new::' . $CURUSER['id']);
 $cache->delete('inbox_new_sb::' . $CURUSER['id']);
-if ($message['friend'] > 0) 
-	$friends = '<a class="tiny button" href="friends.php?action=delete&amp;type=friend&amp;targetid=' . $id . '">' . $lang['pm_mailbox_removef'] . '</a>';
-elseif ($message['blocked'] > 0) 
-	$friends = '<a class="tiny button" href="friends.php?action=delete&amp;type=block&amp;targetid=' . $id . '">' . $lang['pm_mailbox_removeb'] . '</a>';
-elseif ($id > 0) $friends = '<a class="tiny button" href="friends.php?action=add&amp;type=friend&amp;targetid=' . $id . '">' . $lang['pm_mailbox_addf'] . '</a>
-<a class="tiny button" href="friends.php?action=add&amp;type=block&amp;targetid=' . $id . '">' . $lang['pm_mailbox_addb'] . '</a>';
+if ($message['friend'] > 0) {
+    $friends = '<a class="tiny button" href="friends.php?action=delete&amp;type=friend&amp;targetid='.$id.'">'.$lang['pm_mailbox_removef'].'</a>';
+}
+elseif ($message['blocked'] > 0) {
+    $friends = '<a class="tiny button" href="friends.php?action=delete&amp;type=block&amp;targetid='.$id.'">'.$lang['pm_mailbox_removeb'].'</a>';
+}
+elseif ($id > 0) {
+    $friends = '<a class="tiny button" href="friends.php?action=add&amp;type=friend&amp;targetid='.$id.'">'.$lang['pm_mailbox_addf'].'</a>
+<a class="tiny button" href="friends.php?action=add&amp;type=block&amp;targetid='.$id.'">'.$lang['pm_mailbox_addb'].'</a>';
+}
 $avatar = ((!$CURUSER['opt1'] & user_options::AVATARS) !== 0 ? '' : (empty($arr_user_stuff['avatar']) ? '
     <img width="80" src="pic/default_avatar.gif" alt="no avatar" />' : (($arr_user_stuff['opt1'] & user_options::OFFENSIVE_AVATAR && !$CURUSER['opt1'] & user_options::VIEW_OFFENSIVE_AVATAR) ? '<img width="80" src="pic/fuzzybunny.gif" alt="fuzzy!" />' : '<a href="' . htmlsafechars($arr_user_stuff['avatar']) . '"><img width="80" src="' . htmlsafechars($arr_user_stuff['avatar']) . '" alt="avatar" /></a>')));
 //=== get mailbox name ===//
@@ -53,7 +59,9 @@ if ($message['location'] > 1) {
     //=== get name of PM box if not in or out ===//
     ($res_box_name = sql_query('SELECT name FROM pmboxes WHERE userid = ' . sqlesc($CURUSER['id']) . ' AND boxnumber=' . sqlesc($mailbox) . ' LIMIT 1')) || sqlerr(__FILE__, __LINE__);
     $arr_box_name = $res_box_name->fetch_row();
-    if ($res->num_rows === 0) stderr($lang['pm_error'], $lang['pm_mailbox_invalid']);
+    if ($res->num_rows === 0) {
+        stderr($lang['pm_error'], $lang['pm_mailbox_invalid']);
+    }
     $mailbox_name = htmlsafechars($arr_box_name[0]);
     $other_box_info = '<p class="text-center"><span style="color: red;">' . $lang['pm_mailbox_asterisc'] . '</span><span style="font-weight: bold;">' . $lang['pm_mailbox_note'] . '</span>
                                            ' . $lang['pm_mailbox_max'] . '<span style="font-weight: bold;">' . $maxbox . '</span>' . $lang['pm_mailbox_either'] . '

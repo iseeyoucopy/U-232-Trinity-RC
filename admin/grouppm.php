@@ -41,7 +41,9 @@ $sent2classes = array();
 function classes2name($min, $max)
 {
     GLOBAL $sent2classes;
-    for ($i = $min; $i < $max + 1; $i++) $sent2classes[] = get_user_class_name($i);
+    for ($i = $min; $i < $max + 1; $i++) {
+        $sent2classes[] = get_user_class_name($i);
+    }
 }
 function mkint($x)
 {
@@ -54,10 +56,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $msg = isset($_POST["message"]) ? htmlsafechars($_POST["message"]) : "";
     $msg = str_replace("&amp", "&", $_POST["message"]);
     $sender = isset($_POST["system"]) && $_POST["system"] == "yes" ? 0 : $CURUSER["id"];
-    if (empty($subject)) $err[] = $lang['grouppm_nosub'];
-    if (empty($msg)) $err[] = $lang['grouppm_nomsg'];
+    if (empty($subject)) {
+        $err[] = $lang['grouppm_nosub'];
+    }
+    if (empty($msg)) {
+        $err[] = $lang['grouppm_nomsg'];
+    }
     //$msg .= "\n This is a group message !";
-    if (empty($groups)) $err[] = $lang['grouppm_nogrp'];
+    if (empty($groups)) {
+        $err[] = $lang['grouppm_nogrp'];
+    }
     if ((is_countable($err) ? count($err) : 0) == 0) {
         $where = $classes = $ids = array();
         foreach ($groups as $group) {
@@ -86,9 +94,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 case "all_friends":
                     {
                         ($fq = sql_query("SELECT friendid FROM friends WHERE userid=" . sqlesc($CURUSER["id"]))) || sqlerr(__FILE__, __LINE__);
-                        if ($fq->num_rows) 
-                            while ($fa = $fq->fetch_row()) 
+                        if ($fq->num_rows) {
+                            while ($fa = $fq->fetch_row()) {
                                 $ids[] = $fa[0];
+                            }
+                        }
                     }
                     break;
                 }
@@ -98,35 +108,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $sent2classes[] = get_user_class_name((int)$group);
             }
         }
-        if (count($classes) > 0) $where[] = "u.class IN (" . implode(",", $classes) . ")";
+        if (count($classes) > 0) {
+            $where[] = "u.class IN (".implode(",", $classes).")";
+        }
         if (count($where) > 0) {
             ($q1 = sql_query("SELECT u.id FROM users AS u WHERE " . implode(" OR ", $where))) || sqlerr(__FILE__, __LINE__);
-            if ($q1->num_rows > 0) 
-                while ($a = $q1->fetch_row()) 
+            if ($q1->num_rows > 0) {
+                while ($a = $q1->fetch_row()) {
                     $ids[] = $a[0];
+                }
+            }
         }
         $ids = array_unique($ids);
         if (count($ids) > 0) {
             $pms = array();
             $msg.= $lang['grouppm_this'] . implode(', ', $sent2classes);
-            foreach ($ids as $rid) $pms[] = "(" . $sender . "," . $rid . "," . TIME_NOW . "," . sqlesc($msg) . "," . sqlesc($subject) . ")";
-            if (count($pms) > 0) ($r = sql_query("INSERT INTO messages(sender,receiver,added,msg,subject) VALUES " . implode(",", $pms))) || sqlerr(__FILE__, __LINE__);
+            foreach ($ids as $rid) {
+                $pms[] = "(".$sender.",".$rid.",".TIME_NOW.",".sqlesc($msg).",".sqlesc($subject).")";
+            }
+            if (count($pms) > 0) {
+                ($r = sql_query("INSERT INTO messages(sender,receiver,added,msg,subject) VALUES ".implode(",", $pms))) || sqlerr(__FILE__, __LINE__);
+            }
             $cache->delete('inbox_new::' . $rid);
             $cache->delete('inbox_new_sb::' . $rid);
             $err[] = ($r ? $lang['grouppm_sent'] : $lang['grouppm_again']);
-        } else $err[] = $lang['grouppm_nousers'];
+        } else {
+            $err[] = $lang['grouppm_nousers'];
+        }
     }
 }
 $groups = array();
 $groups['staff'] = array("opname" => $lang['grouppm_staff'],
         "minclass" => UC_USER);
-for ($i = $FSCLASS; $i <= $LSCLASS; $i++) $groups['staff']['ops'][$i] = get_user_class_name($i);
+for ($i = $FSCLASS; $i <= $LSCLASS; $i++) {
+    $groups['staff']['ops'][$i] = get_user_class_name($i);
+}
 $groups['staff']['ops']['fls'] = $lang['grouppm_fls'];
 $groups['staff']['ops']['all_staff'] = $lang['grouppm_allstaff'];
 $groups['members'] = array();
 $groups['members'] = array("opname" => $lang['grouppm_mem'],
         "minclass" => UC_STAFF);
-for ($i = $FUCLASS; $i <= $LUCLASS; $i++) $groups['members']['ops'][$i] = get_user_class_name($i);
+for ($i = $FUCLASS; $i <= $LUCLASS; $i++) {
+    $groups['members']['ops'][$i] = get_user_class_name($i);
+}
 $groups['members']['ops']['donor'] = $lang['grouppm_donor'];
 $groups['members']['ops']['all_users'] = $lang['grouppm_allusers'];
 $groups['friends'] = array("opname" => $lang['grouppm_related'],
@@ -137,10 +161,14 @@ function dropdown()
     global $CURUSER, $groups;
     $r = "<select class='form-control' multiple=\"multiple\" name=\"groups[]\"  size=\"11\" style=\"padding:5px; width:180px;\">";
     foreach ($groups as $group) {
-        if ($group["minclass"] >= $CURUSER["class"]) continue;
+        if ($group["minclass"] >= $CURUSER["class"]) {
+            continue;
+        }
         $r.= "<optgroup label=\"" . $group["opname"] . "\">";
         $ops = $group["ops"];
-        foreach ($ops as $k => $v) $r.= "<option value=\"" . $k . "\">" . $v . "</option>";
+        foreach ($ops as $k => $v) {
+            $r .= "<option value=\"".$k."\">".$v."</option>";
+        }
         $r.= "</optgroup>";
     }
     return $r . "</select>";

@@ -29,7 +29,9 @@ $stdfoot = array(
     )
 );
 $HTMLOUT = $count2 = '';
-if ($CURUSER['class'] < UC_POWER_USER) stderr($lang['error_error'], $lang['req_add_err2']);
+if ($CURUSER['class'] < UC_POWER_USER) {
+    stderr($lang['error_error'], $lang['req_add_err2']);
+}
 //=== possible stuff to be $_GETting lol
 $id = (isset($_GET['id']) ? (int) $_GET['id'] : (isset($_POST['id']) ? (int) $_POST['id'] : 0));
 $comment_id = (isset($_GET['comment_id']) ? (int) $_GET['comment_id'] : (isset($_POST['comment_id']) ? (int) $_POST['comment_id'] : 0));
@@ -226,7 +228,9 @@ case 'request_details':
         [$menu, $LIMIT] = pager_new($count, $perpage, $page, 'requests.php?action=request_details&amp;id=' . $id, ($perpage == 5 ? '' : '&amp;perpage=' . $perpage) . '#comments');
         ($subres = sql_query('SELECT c.request, c.id AS comment_id, c.text, c.added, c.editedby, c.editedat, u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.avatar, u.offensive_avatar, u.leechwarn, u.chatpost, u.pirate, u.king, u.title FROM comments AS c LEFT JOIN users AS u ON c.user = u.id WHERE c.request = ' . sqlesc($id) . ' ORDER BY c.id ' . $LIMIT)) || sqlerr(__FILE__, __LINE__);
         $allrows = array();
-        while ($subrow = $subres->fetch_assoc()) $allrows[] = $subrow;
+        while ($subrow = $subres->fetch_assoc()) {
+            $allrows[] = $subrow;
+        }
         $HTMLOUT.= $commentbar . '<a name="comments"></a>';
         $HTMLOUT.= ($count > $perpage) ? '' . $menu . '<br />' : '<br />';
         $HTMLOUT.= comment_table($allrows);
@@ -349,11 +353,17 @@ case 'add_new_request':
     //===========================================================================================//
     
 case 'delete_request':
-    if (!isset($id) || !is_valid_id($id)) stderr($lang['error_error'], $lang['error_bad']);
+    if (!isset($id) || !is_valid_id($id)) {
+        stderr($lang['error_error'], $lang['error_bad']);
+    }
     ($res = sql_query('SELECT request_name, requested_by_user_id FROM requests WHERE id =' . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
-    if (!$arr) stderr($lang['error_error'], $lang['error_invalid']);
-    if ($arr['requested_by_user_id'] !== $CURUSER['id'] && $CURUSER['class'] < UC_STAFF) stderr($lang['error_error'], $lang['req_add_err8']);
+    if (!$arr) {
+        stderr($lang['error_error'], $lang['error_invalid']);
+    }
+    if ($arr['requested_by_user_id'] !== $CURUSER['id'] && $CURUSER['class'] < UC_STAFF) {
+        stderr($lang['error_error'], $lang['req_add_err8']);
+    }
     if (!isset($_GET['do_it'])) {
         stderr($lang['req_add_warn1'], $lang['req_add_warn2'] . htmlsafechars($arr['request_name'], ENT_QUOTES) . ''.$lang['req_add_warn3'].' 
         <a class="altlink" href="requests.php?action=delete_request&amp;id=' . $id . '&amp;do_it=666" >'.$lang['req_add_warn4'].'</a>.');
@@ -372,10 +382,14 @@ case 'delete_request':
     
 case 'edit_request':
     require_once INCL_DIR . 'bbcode_functions.php';
-    if (!isset($id) || !is_valid_id($id)) stderr($lang['error_error'], $lang['error_bad']);
+    if (!isset($id) || !is_valid_id($id)) {
+        stderr($lang['error_error'], $lang['error_bad']);
+    }
     ($edit_res = sql_query('SELECT request_name, image, description, category, requested_by_user_id, filled_by_user_id, filled_torrent_id, link FROM requests WHERE id =' . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $edit_arr = $edit_res->fetch_assoc();
-    if ($CURUSER['class'] < UC_STAFF && $CURUSER['id'] !== $edit_arr['requested_by_user_id']) stderr($lang['error_error'], $lang['error_not_yours']);
+    if ($CURUSER['class'] < UC_STAFF && $CURUSER['id'] !== $edit_arr['requested_by_user_id']) {
+        stderr($lang['error_error'], $lang['error_not_yours']);
+    }
     $filled_by = '';
     if ($edit_arr['filled_by_user_id'] > 0) {
         ($filled_by_res = sql_query('SELECT id, username, warned, suspended, enabled, leechwarn, chatpost, pirate, king, donor, class FROM users WHERE id =' . sqlesc($edit_arr['filled_by_user_id']))) || sqlerr(__FILE__, __LINE__);
@@ -492,13 +506,19 @@ case 'add_comment':
     require_once INCL_DIR . 'bbcode_functions.php';
     require_once INCL_DIR . 'pager_new.php';
     //=== kill if nasty
-    if (!isset($id) || !is_valid_id($id)) stderr($lang['req_add_err3'], $lang['error_bad']);
+    if (!isset($id) || !is_valid_id($id)) {
+        stderr($lang['req_add_err3'], $lang['error_bad']);
+    }
     ($res = sql_query('SELECT request_name FROM requests WHERE id = ' . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
-    if (!$arr) stderr($lang['req_add_err3'], $lang['error_error1']);
+    if (!$arr) {
+        stderr($lang['req_add_err3'], $lang['error_error1']);
+    }
     if (isset($_POST['button']) && $_POST['button'] == $lang['req_det_save']) {
         $body = strip_tags(trim($_POST['descr']));
-        if ($body === '') stderr($lang['req_add_err3'], $lang['error_error2']);
+        if ($body === '') {
+            stderr($lang['req_add_err3'], $lang['error_error2']);
+        }
         sql_query("INSERT INTO comments (user, request, added, text, ori_text) VALUES (" . sqlesc($CURUSER['id']) . ", " . sqlesc($id) . ", " . TIME_NOW . ", " . sqlesc($body) . "," . sqlesc($body) . ")") || sqlerr(__FILE__, __LINE__);
         $newid = $mysqli->insert_id;
         sql_query('UPDATE requests SET comments = comments + 1 WHERE id = ' . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
@@ -518,7 +538,9 @@ case 'add_comment':
     ($res = sql_query('SELECT c.request, c.id AS comment_id, c.text, c.added, c.editedby, c.editedat, 
                                 u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.avatar, u.offensive_avatar, u.title, u.leechwarn, u.chatpost, u.pirate,  u.king FROM comments AS c LEFT JOIN users AS u ON c.user = u.id WHERE request = ' . sqlesc($id) . ' ORDER BY c.id DESC LIMIT 5')) || sqlerr(__FILE__, __LINE__);
     $allrows = array();
-    while ($row = $res->fetch_assoc()) $allrows[] = $row;
+    while ($row = $res->fetch_assoc()) {
+        $allrows[] = $row;
+    }
     if (count($allrows) > 0) {
         $HTMLOUT.= '<h2>'.$lang['req_det_most'].'</h2>';
         $HTMLOUT.= comment_table($allrows);
@@ -531,14 +553,22 @@ case 'add_comment':
     
 case 'edit_comment':
     require_once INCL_DIR . 'bbcode_functions.php';
-    if (!isset($comment_id) || !is_valid_id($comment_id)) stderr($lang['error_error'], $lang['error_bad']);
+    if (!isset($comment_id) || !is_valid_id($comment_id)) {
+        stderr($lang['error_error'], $lang['error_bad']);
+    }
     ($res = sql_query('SELECT c.*, r.request_name FROM comments AS c LEFT JOIN requests AS r ON c.request = r.id WHERE c.id=' . sqlesc($comment_id))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
-    if (!$arr) stderr($lang['error_error'], $lang['error_invalid']);
-    if ($arr['user'] != $CURUSER['id'] && $CURUSER['class'] < UC_STAFF) stderr($lang['error_error'], $lang['req_add_err8']);
+    if (!$arr) {
+        stderr($lang['error_error'], $lang['error_invalid']);
+    }
+    if ($arr['user'] != $CURUSER['id'] && $CURUSER['class'] < UC_STAFF) {
+        stderr($lang['error_error'], $lang['req_add_err8']);
+    }
     $body = htmlsafechars(($_POST['descr'] ?? $arr['text']));
     if (isset($_POST['button']) && $_POST['button'] == $lang['req_det_edit']) {
-        if ($body == '') stderr($lang['error_error'], $lang['error_error2']);
+        if ($body == '') {
+            stderr($lang['error_error'], $lang['error_error2']);
+        }
         sql_query('UPDATE comments SET text=' . sqlesc($body) . ', editedat=' . TIME_NOW . ', editedby=' . sqlesc($CURUSER['id']) . ' WHERE id=' . sqlesc($comment_id)) || sqlerr(__FILE__, __LINE__);
         header('Location: /requests.php?action=request_details&id=' . $id . '&viewcomm=' . $comment_id . '#comm' . $comment_id);
         die();
@@ -581,11 +611,17 @@ case 'edit_comment':
     //===========================================================================================//
     
 case 'delete_comment':
-    if (!isset($comment_id) || !is_valid_id($comment_id)) stderr($lang['error_error'], $lang['error_bad']);
+    if (!isset($comment_id) || !is_valid_id($comment_id)) {
+        stderr($lang['error_error'], $lang['error_bad']);
+    }
     ($res = sql_query('SELECT user, request FROM comments WHERE id=' . $comment_id)) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
-    if (!$arr) stderr($lang['error_error'], $lang['error_invalid']);
-    if ($arr['user'] != $CURUSER['id'] && $CURUSER['class'] < UC_STAFF) stderr($lang['error_error'], $lang['req_add_err8']);
+    if (!$arr) {
+        stderr($lang['error_error'], $lang['error_invalid']);
+    }
+    if ($arr['user'] != $CURUSER['id'] && $CURUSER['class'] < UC_STAFF) {
+        stderr($lang['error_error'], $lang['req_add_err8']);
+    }
     if (!isset($_GET['do_it'])) {
         stderr($lang['req_add_warn1'], ''.$lang['req_com_del1'].' <a class="altlink" href="requests.php?action=delete_comment&amp;id=' . (int)$arr['request'] . '&amp;comment_id=' . $comment_id . '&amp;do_it=666" >'.$lang['req_add_warn4'].'</a>.');
     } else {

@@ -21,8 +21,9 @@ if (($iphistory = $cache->get('ip_history_' . $id)) === false) {
     $ipuse[$row[1]] = isset($row[0]) ? (int)$row[0] : '';
     $ipuse_no = empty($ipuse['no']) ? '' : $ipuse['no'];
     $ipuse_yes = empty($ipuse['yes']) ? '' : $ipuse['yes'];
-    if (($ipuse_yes == 1 && $ipuse_no == 0) || ($ipuse_no == 1 && $ipuse_yes == 0)) 
+    if (($ipuse_yes == 1 && $ipuse_no == 0) || ($ipuse_no == 1 && $ipuse_yes == 0)) {
         $use = "";
+    }
     else {
         $ipcheck = $user["ip"];
         $enbl = isset($ipuse['yes']) ? $ipuse['yes'] . ' enabled ' : '';
@@ -34,18 +35,20 @@ if (($iphistory = $cache->get('ip_history_' . $id)) === false) {
     $iphistory['ips'] = $resip->num_rows;
     $cache->set('ip_history_' . $id, $iphistory, $TRINITY20['expires']['iphistory']);
 }
-if (isset($addr) && ($CURUSER['id'] == $id || $CURUSER['class'] >= UC_STAFF))
-    $HTMLOUT.= "<tr>
+if (isset($addr) && ($CURUSER['id'] == $id || $CURUSER['class'] >= UC_STAFF)) {
+    $HTMLOUT .= "<tr>
             <td>{$lang['userdetails_address']}</td>
             <td>{$addr}</td>";
-        if ($CURUSER["class"] >= UC_STAFF && $iphistory['ips'] > 0) 
-        $HTMLOUT.= "<tr>
+}
+        if ($CURUSER["class"] >= UC_STAFF && $iphistory['ips'] > 0) {
+            $HTMLOUT .= "<tr>
             <td>{$lang['userdetails_ip_history']}</td>
             <td>{$lang['userdetails_ip_earlier']}
-                <b><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=iphistory&amp;action=iphistory&amp;id=" . (int)$user['id'] . "'>{$iphistory['ips']} {$lang['userdetails_ip_different']}</a></b>
-                {$iphistory['use']}&nbsp;(<a class='altlink' href='staffpanel.php?tool=iphistory&amp;action=iphistory&amp;id=" . (int)$user['id'] . "'><b>{$lang['userdetails_ip_hist']}</b></a>)&nbsp;(<a class='altlink' href='staffpanel.php?tool=iphistory&amp;action=iplist&amp;id=" . (int)$user['id'] . "'><b>{$lang['userdetails_ip_list']}</b></a>)
+                <b><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=iphistory&amp;action=iphistory&amp;id=".(int)$user['id']."'>{$iphistory['ips']} {$lang['userdetails_ip_different']}</a></b>
+                {$iphistory['use']}&nbsp;(<a class='altlink' href='staffpanel.php?tool=iphistory&amp;action=iphistory&amp;id=".(int)$user['id']."'><b>{$lang['userdetails_ip_hist']}</b></a>)&nbsp;(<a class='altlink' href='staffpanel.php?tool=iphistory&amp;action=iplist&amp;id=".(int)$user['id']."'><b>{$lang['userdetails_ip_list']}</b></a>)
             </td>       
         </tr>";
+        }
 //==end
 // End Class
 // End File

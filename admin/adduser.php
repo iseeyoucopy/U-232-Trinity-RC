@@ -43,25 +43,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'added' => TIME_NOW,
         'last_access' => TIME_NOW
     );
-    if (isset($_POST['username']) && strlen($_POST['username']) >= 5) 
-	    $insert['username'] = $_POST['username'];
-    else 
-	    stderr($lang['std_err'], $lang['err_username']);
+    if (isset($_POST['username']) && strlen($_POST['username']) >= 5) {
+        $insert['username'] = $_POST['username'];
+    }
+    else {
+        stderr($lang['std_err'], $lang['err_username']);
+    }
     
-    if (isset($_POST['email']) && validemail($_POST['email'])) 
-	    $insert['email'] = htmlsafechars($_POST['email']);
-    else 
-	    stderr($lang['std_err'], $lang['err_email']);
+    if (isset($_POST['email']) && validemail($_POST['email'])) {
+        $insert['email'] = htmlsafechars($_POST['email']);
+    }
+    else {
+        stderr($lang['std_err'], $lang['err_email']);
+    }
 		
-	if (isset($_POST['birthday'])) 
-	    $insert['birthday'] = $_POST['birthday'];
-    else 
-	    stderr($lang['std_err'], $lang['err_birthday']);
+	if (isset($_POST['birthday'])) {
+        $insert['birthday'] = $_POST['birthday'];
+    }
+    else {
+        stderr($lang['std_err'], $lang['err_birthday']);
+    }
 		
-	if (isset($_POST['pincode'])) 
-	    $insert['pin_code'] = $_POST['pincode'];
-    else 
-	    stderr($lang['std_err'], $lang['err_pincode']);
+	if (isset($_POST['pincode'])) {
+        $insert['pin_code'] = $_POST['pincode'];
+    }
+    else {
+        stderr($lang['std_err'], $lang['err_pincode']);
+    }
 		
 	$added = TIME_NOW;
 	$secret = mksecret();
@@ -72,7 +80,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$insert['secret'] = $secret;
     if (isset($_POST['password']) && isset($_POST['password2']) && strlen($_POST['password']) > 6 && $_POST['password'] == $_POST['password2']) {
         $insert['passhash'] = make_passhash($hash1, hash("ripemd160", $_POST['password']), $hash2);
-    } else stderr($lang['std_err'], $lang['err_password']);
+    } else {
+        stderr($lang['std_err'], $lang['err_password']);
+    }
     if (sql_query(sprintf('INSERT INTO users (username, email, passhash, secret, birthday, pin_code, hash3, status, added, last_access) VALUES (%s)', implode(', ', array_map('sqlesc', $insert))))) {
        
         $user_id = $mysqli->insert_id;

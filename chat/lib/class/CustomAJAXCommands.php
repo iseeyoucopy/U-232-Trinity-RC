@@ -52,11 +52,16 @@ switch($textParts[0]) {
 		}
 
 		if (strpos($this->getUserName(),'_(Away)') == FALSE) {
-			if ($announce == TRUE) $this->insertChatBotMessage($this->getChannel(),'[color=purple][b]'.$this->getLoginUserName().'[/b] has set their status to away[/color]');
+			if ($announce == TRUE) {
+                $this->insertChatBotMessage($this->getChannel(),
+                    '[color=purple][b]'.$this->getLoginUserName().'[/b] has set their status to away[/color]');
+            }
 			$this->setUserName($this->getLoginUserName().'_(Away)');
 		} else {
 			//if ($hotpotato['value'] == 'off') {
-				if ($announce == TRUE) $this->insertChatBotMessage($this->getChannel(),'[color=purple][b]'.$this->getLoginUserName().'[/b] is back[/color]');
+				if ($announce == TRUE) {
+                    $this->insertChatBotMessage($this->getChannel(), '[color=purple][b]'.$this->getLoginUserName().'[/b] is back[/color]');
+                }
 				$this->setUserName($this->getLoginUserName());
 			//} else {
 			//	$this->insertChatBotMessage($this->getPrivateMessageID(),"[color=red]Error:[/color] You cannot set yourself as back during Hot Potato");
@@ -143,10 +148,14 @@ switch($textParts[0]) {
 
 		if (rand(1,2)==1) {
 			$result = 'heads';
-			if ($textParts[1])		$winner = '('.$textParts[1].')';
+			if ($textParts[1]) {
+                $winner = '('.$textParts[1].')';
+            }
 		} else {
 			$result = 'tails';
-			if ($textParts[2])		$winner = '('.$textParts[2].')';
+			if ($textParts[2]) {
+                $winner = '('.$textParts[2].')';
+            }
 		}
 
 		$this->insertChatBotMessage($this->getChannel(),"/me flips a coin, landing on ".$result." ".$winner);
@@ -401,7 +410,9 @@ switch($textParts[0]) {
 					if ($query) {
 						// If not in database, add, otherwise replace
 						if ($rows != 1) {
-							if ($_lock == -1) $_lock = 0;
+							if ($_lock == -1) {
+                                $_lock = 0;
+                            }
 						
 							// Insert new command
 							$query = mysql_query("INSERT INTO UC_USERcustom (`id`, `name`, `value`, `locked`, `lastuser`, `user`) VALUES (NULL, '".mysql_real_escape_string($_name)."', '".mysql_real_escape_string($_value)."', '".$_lock."', '".$this->getUserID()."', '".$this->getUserID()."')");

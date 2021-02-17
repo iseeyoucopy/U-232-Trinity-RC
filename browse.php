@@ -46,7 +46,9 @@ $stdhead = array(
 );
 $lang = array_merge(load_language('global') , load_language('browse') , load_language('torrenttable_functions') , load_language('index'));
 
-if (function_exists('parked')) parked();
+if (function_exists('parked')) {
+    parked();
+}
 
 $HTMLOUT = $searchin = $select_searchin = $where = $addparam = $new_button = $searchstr = '';
 $HTMLOUT = "
@@ -62,7 +64,9 @@ $cats = genrelist();
 if (isset($_GET["search"])) {
     $searchstr = unesc($_GET["search"]);
     $cleansearchstr = searchfield($searchstr);
-    if (empty($cleansearchstr)) unset($cleansearchstr);
+    if (empty($cleansearchstr)) {
+        unset($cleansearchstr);
+    }
 }
 $selected = (isset($_GET["incldead"])) ? (int)$_GET["incldead"] : 0;
 $valid_searchin = array(
@@ -134,7 +138,9 @@ if (isset($_GET['sort']) && isset($_GET['type'])) {
 $wherea = $wherecatina = array();
 if (isset($_GET["incldead"]) && $_GET["incldead"] == 1) {
     $addparam.= "incldead=1&amp;";
-    if (!isset($CURUSER) || $CURUSER["class"] < UC_ADMINISTRATOR) $wherea[] = "banned != 'yes'";
+    if (!isset($CURUSER) || $CURUSER["class"] < UC_ADMINISTRATOR) {
+        $wherea[] = "banned != 'yes'";
+    }
 } elseif (isset($_GET["incldead"]) && $_GET["incldead"] == 2) {
     $addparam.= "incldead=2&amp;";
     $wherea[] = "visible = 'no'";
@@ -144,7 +150,9 @@ if (isset($_GET["incldead"]) && $_GET["incldead"] == 1) {
 }
 //=== added an only free torrents option \\o\o/o//
 if (isset($_GET['only_free']) && $_GET['only_free'] == 1) {
-    if ((XBT_TRACKER == true ? $wherea[] = "freetorrent >= '1'" : $wherea[] = "free >= '1'") !== '');
+    if ((XBT_TRACKER == true ? $wherea[] = "freetorrent >= '1'" : $wherea[] = "free >= '1'") !== '') {
+        ;
+    }
     //$wherea[] = "free >= '1'";
     $addparam.= "only_free=1&amp;";
 }
@@ -162,7 +170,9 @@ $all = $_GET["all"] ?? false;
             }
         } elseif ($category) {
         $cnum = array_search((int)$category, array_column($cats, 'id'));
-        if (!is_valid_id($category) || $cats[$cnum]['min_class'] > $CURUSER['class']) stderr("{$lang['browse_error']}", "{$lang['browse_invalid_cat']}");
+        if (!is_valid_id($category) || $cats[$cnum]['min_class'] > $CURUSER['class']) {
+            stderr("{$lang['browse_error']}", "{$lang['browse_invalid_cat']}");
+        }
             $wherecatina[] = $category;
             $addparam.= "cat=$category&amp;";
         } else {
@@ -195,8 +205,12 @@ $all = $_GET["all"] ?? false;
         $addparam = "";
     }
 
-if (count($wherecatina) > 1) $wherea[] = 'category IN (' . implode(', ', $wherecatina) . ') ';
-elseif (count($wherecatina) == 1) $wherea[] = 'category =' . $wherecatina[0];
+if (count($wherecatina) > 1) {
+    $wherea[] = 'category IN ('.implode(', ', $wherecatina).') ';
+}
+elseif (count($wherecatina) == 1) {
+    $wherea[] = 'category ='.$wherecatina[0];
+}
 //== boolean search by djgrr
 if (isset($cleansearchstr) && $searchstr != '') {
     $addparam.= 'search=' . rawurlencode($searchstr) . '&amp;searchin='.$select_searchin.'&amp;incldead='.(int) $selected.'&amp;';
@@ -219,17 +233,27 @@ if (isset($cleansearchstr) && $searchstr != '') {
         '_',
         '_'
     );
-    if (preg_match('/^\"(.+)\"$/i', $searchstring, $matches)) $wherea[] = '`name` LIKE ' . sqlesc('%' . str_replace($s, $r, $matches[1]) . '%');
-    elseif (strpos($searchstr, '*') !== false || strpos($searchstr, '?') !== false) $wherea[] = '`name` LIKE ' . sqlesc(str_replace($s, $r, $searchstr));
-    elseif (preg_match('/^[A-Za-z0-9][a-zA-Z0-9()._-]+\-\w*[A-Za-z0-9]$/iD', $searchstr)) $wherea[] = '`name` = ' . sqlesc($searchstr);
-    else $wherea[] = 'MATCH (`search_text`, `filename`, `newgenre`, `tags`) AGAINST (' . sqlesc($searchstr) . ' IN BOOLEAN MODE)';
+    if (preg_match('/^\"(.+)\"$/i', $searchstring, $matches)) {
+        $wherea[] = '`name` LIKE '.sqlesc('%'.str_replace($s, $r, $matches[1]).'%');
+    }
+    elseif (strpos($searchstr, '*') !== false || strpos($searchstr, '?') !== false) {
+        $wherea[] = '`name` LIKE '.sqlesc(str_replace($s, $r, $searchstr));
+    }
+    elseif (preg_match('/^[A-Za-z0-9][a-zA-Z0-9()._-]+\-\w*[A-Za-z0-9]$/iD', $searchstr)) {
+        $wherea[] = '`name` = '.sqlesc($searchstr);
+    }
+    else {
+        $wherea[] = 'MATCH (`search_text`, `filename`, `newgenre`, `tags`) AGAINST ('.sqlesc($searchstr).' IN BOOLEAN MODE)';
+    }
     //......
     $searcha = explode(' ', $cleansearchstr);
     //==Memcache search cloud by putyn
     searchcloud_insert($cleansearchstr);
     //==
     foreach ($searcha as $foo) {
-        foreach ($searchin as $boo) $searchincrt[] = sprintf('%s LIKE \'%s\'', $boo, '%' . $foo . '%');
+        foreach ($searchin as $boo) {
+            $searchincrt[] = sprintf('%s LIKE \'%s\'', $boo, '%'.$foo.'%');
+        }
     }
     $wherea[] = '( ' . implode(' OR ', $searchincrt) . ' )';
 }
@@ -329,8 +353,9 @@ foreach (array(
     'genre' => 'Genre',
     'tags'  => 'Tags',
     'all' => 'All'
-) as $k => $v) 
-$searchin.= '<option value="' . $k . '" ' . ($select_searchin == $k ? 'selected=\'selected\'' : '') . '>' . $v . '</option>';
+) as $k => $v) {
+    $searchin .= '<option value="'.$k.'" '.($select_searchin == $k ? 'selected=\'selected\'' : '').'>'.$v.'</option>';
+}
 $searchin.= '</select>';
 $HTMLOUT.= '<div class="input-group">
   <span class="input-group-label"><i class="fa fa-search-plus"></i></span>

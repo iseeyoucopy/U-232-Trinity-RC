@@ -19,8 +19,12 @@ dbconn(false);
 loggedinorreturn();
 $lang = array_merge(load_language('global') , load_language('userhistory'));
 $userid = (int)$_GET["id"];
-if (!is_valid_id($userid)) stderr($lang['stderr_errorhead'], $lang['stderr_invalidid']);
-if ($CURUSER['class'] < UC_POWER_USER || ($CURUSER["id"] != $userid && $CURUSER['class'] < UC_STAFF)) stderr($lang['stderr_errorhead'], $lang['stderr_perms']);
+if (!is_valid_id($userid)) {
+    stderr($lang['stderr_errorhead'], $lang['stderr_invalidid']);
+}
+if ($CURUSER['class'] < UC_POWER_USER || ($CURUSER["id"] != $userid && $CURUSER['class'] < UC_STAFF)) {
+    stderr($lang['stderr_errorhead'], $lang['stderr_perms']);
+}
 $page = (isset($_GET['page']) ? $_GET["page"] : ''); // not used?
 $action = (isset($_GET['action']) ? htmlsafechars($_GET["action"]) : '');
 //-------- Global variables
@@ -43,7 +47,9 @@ if ($action == "viewposts") {
     if ($res->num_rows == 1) {
         $arr = $res->fetch_assoc();
         $subject = "" . format_username($arr, true);
-    } else $subject = $lang['posts_unknown'] . '[' . $userid . ']';
+    } else {
+        $subject = $lang['posts_unknown'].'['.$userid.']';
+    }
     //------ Get posts
     $from_is = "posts AS p LEFT JOIN topics as t ON p.topic_id = t.id LEFT JOIN forums AS f ON t.forum_id = f.id LEFT JOIN read_posts as r ON p.topic_id = r.topic_id AND p.user_id = r.user_id";
     $select_is = "f.id AS f_id, f.name, t.id AS t_id, t.topic_name, t.last_post, r.last_post_read, p.*";
@@ -51,9 +57,13 @@ if ($action == "viewposts") {
 //    die("Query: ".$query);
 
     ($res = sql_query($query)) || sqlerr(__FILE__, __LINE__);
-    if ($res->num_rows == 0) stderr($lang['stderr_errorhead'], $lang['top_noposts']);
+    if ($res->num_rows == 0) {
+        stderr($lang['stderr_errorhead'], $lang['top_noposts']);
+    }
     $HTMLOUT.= "<h1>{$lang['top_posthfor']} $subject</h1>\n";
-    if ($postcount > $perpage) $HTMLOUT.= $pager['pagertop'];
+    if ($postcount > $perpage) {
+        $HTMLOUT .= $pager['pagertop'];
+    }
     //------ Print table
     $HTMLOUT.= begin_main_frame();
     $HTMLOUT.= begin_frame();
@@ -66,7 +76,9 @@ if ($action == "viewposts") {
         $forumname = htmlsafechars($arr["name"]);
         $dt = (TIME_NOW - $TRINITY20['readpost_expiry']);
         $newposts = 0;
-        if ($arr['added'] > $dt) $newposts = ($arr["last_post_read"] < $arr["last_post"]) && $CURUSER["id"] == $userid;
+        if ($arr['added'] > $dt) {
+            $newposts = ($arr["last_post_read"] < $arr["last_post"]) && $CURUSER["id"] == $userid;
+        }
         $added = get_date($arr['added'], '');
         $HTMLOUT.= "<div class='sub'><table>
           <tr><td>
@@ -90,7 +102,9 @@ if ($action == "viewposts") {
     }
     $HTMLOUT.= end_frame();
     $HTMLOUT.= end_main_frame();
-    if ($postcount > $perpage) $HTMLOUT.= $pager['pagerbottom'];
+    if ($postcount > $perpage) {
+        $HTMLOUT .= $pager['pagerbottom'];
+    }
     echo stdhead($lang['head_post']) . $HTMLOUT . stdfoot();
     die;
 }
@@ -113,14 +127,20 @@ if ($action == "viewcomments") {
     if ($res->num_rows == 1) {
         $arr = $res->fetch_assoc();
         $subject = "" . format_username($arr, true);
-    } else $subject = $lang['posts_unknown'] . '[' . $userid . ']';
+    } else {
+        $subject = $lang['posts_unknown'].'['.$userid.']';
+    }
     //------ Get comments
     $select_is = "t.name, c.torrent AS t_id, c.id, c.added, c.text";
     $query = "SELECT $select_is FROM $from_is WHERE $where_is ORDER BY $order_is {$pager['limit']}";
     ($res = sql_query($query)) || sqlerr(__FILE__, __LINE__);
-    if ($res->num_rows == 0) stderr($lang['stderr_errorhead'], $lang['top_nocomms']);
+    if ($res->num_rows == 0) {
+        stderr($lang['stderr_errorhead'], $lang['top_nocomms']);
+    }
     $HTMLOUT.= "<h1>{$lang['top_commhfor']} $subject</h1>\n";
-    if ($commentcount > $perpage) $HTMLOUT.= $pager['pagertop'];
+    if ($commentcount > $perpage) {
+        $HTMLOUT .= $pager['pagertop'];
+    }
     //------ Print table
     $HTMLOUT.= begin_main_frame();
     $HTMLOUT.= begin_frame();
@@ -128,7 +148,9 @@ if ($action == "viewcomments") {
         $commentid = (int)$arr["id"];
         $torrent = htmlsafechars($arr["name"]);
         // make sure the line doesn't wrap
-        if (strlen($torrent) > 55) $torrent = substr($torrent, 0, 52) . "...";
+        if (strlen($torrent) > 55) {
+            $torrent = substr($torrent, 0, 52)."...";
+        }
         $torrentid = (int)$arr["t_id"];
         //find the page; this code should probably be in details.php instead
         ($subres = sql_query("SELECT COUNT(*) FROM comments WHERE torrent = " . sqlesc($torrentid) . " AND id < " . sqlesc($commentid))) || sqlerr(__FILE__, __LINE__);
@@ -146,12 +168,16 @@ if ($action == "viewcomments") {
     }
     $HTMLOUT.= end_frame();
     $HTMLOUT.= end_main_frame();
-    if ($commentcount > $perpage) $HTMLOUT.= $pager['pagerbottom'];
+    if ($commentcount > $perpage) {
+        $HTMLOUT .= $pager['pagerbottom'];
+    }
     echo stdhead($lang['head_comm']) . $HTMLOUT . stdfoot();
     die;
 }
 //-------- Handle unknown action
-if ($action != "") stderr($lang['stderr_histerrhead'], $lang['stderr_unknownact']);
+if ($action != "") {
+    stderr($lang['stderr_histerrhead'], $lang['stderr_unknownact']);
+}
 //-------- Any other case
 stderr($lang['stderr_histerrhead'], $lang['stderr_invalidq']);
 ?>

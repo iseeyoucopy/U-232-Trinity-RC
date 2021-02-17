@@ -117,8 +117,12 @@ elseif ($action == "signature") {
     }
     if (!empty($signature)) {
         $img_size = @GetImageSize($signature);
-        if ($img_size == FALSE || !in_array($img_size['mime'], $TRINITY20['allowed_ext'])) stderr($lang['takeeditcp_uerr'], $lang['takeeditcp_img_unsupported']);
-        if ($img_size[0] < 5 || $img_size[1] < 5) stderr($lang['takeeditcp_uerr'], $lang['takeeditcp_img_to_small']);
+        if ($img_size == FALSE || !in_array($img_size['mime'], $TRINITY20['allowed_ext'])) {
+            stderr($lang['takeeditcp_uerr'], $lang['takeeditcp_img_unsupported']);
+        }
+        if ($img_size[0] < 5 || $img_size[1] < 5) {
+            stderr($lang['takeeditcp_uerr'], $lang['takeeditcp_img_to_small']);
+        }
         sql_query("UPDATE usersachiev SET sigset=sigset+1 WHERE id=" . sqlesc($CURUSER["id"]) . " AND sigset = '0'") || sqlerr(__FILE__, __LINE__);
         if ($img_size[0] > $TRINITY20['sig_img_width'] || $img_size[1] > $TRINITY20['sig_img_height']) {
             $image = resize_image(array(
@@ -149,11 +153,17 @@ elseif ($action == "signature") {
     $action = "signature";
 }
 elseif ($action == "security") {
-    if (!mkglobal("email:chpassword:passagain:chmailpass:secretanswer")) stderr($lang['takeeditcp_err'], $lang['takeeditcp_no_data']);
+    if (!mkglobal("email:chpassword:passagain:chmailpass:secretanswer")) {
+        stderr($lang['takeeditcp_err'], $lang['takeeditcp_no_data']);
+    }
     
     if ($chpassword != "") {
-        if (strlen($chpassword) > 64) stderr($lang['takeeditcp_err'], $lang['takeeditcp_pass_long']);
-        if ($chpassword != $passagain) stderr($lang['takeeditcp_err'], $lang['takeeditcp_pass_not_match']);
+        if (strlen($chpassword) > 64) {
+            stderr($lang['takeeditcp_err'], $lang['takeeditcp_pass_long']);
+        }
+        if ($chpassword != $passagain) {
+            stderr($lang['takeeditcp_err'], $lang['takeeditcp_pass_not_match']);
+        }
         $secret = mksecret();
 		$hash1 = t_Hash($CURUSER['email'], $CURUSER['username'], $CURUSER['added']);
         $hash2 = t_Hash($CURUSER['birthday'], $secret, $CURUSER['pin_code']);
@@ -175,31 +185,55 @@ elseif ($action == "security") {
     if ($email != $CURUSER["email"]) {
 		$hash1 = t_Hash($CURUSER['email'], $CURUSER['username'], $CURUSER['added']);
         $hash2 = t_Hash($CURUSER['birthday'], $CURUSER['secret'], $CURUSER['pin_code']);
-        if (!validemail($email)) stderr($lang['takeeditcp_err'], $lang['takeeditcp_not_valid_email']);
+        if (!validemail($email)) {
+            stderr($lang['takeeditcp_err'], $lang['takeeditcp_not_valid_email']);
+        }
         ($r = sql_query("SELECT id FROM users WHERE email=" . sqlesc($email))) || sqlerr(__FILE__, __LINE__);
-        if ($r->num_rows > 0 || !password_verify($hash1.hash("ripemd160", $chmailpass).$hash2, $CURUSER['passhash'])) stderr($lang['takeeditcp_err'], $lang['takeeditcp_address_taken']);
+        if ($r->num_rows > 0 || !password_verify($hash1.hash("ripemd160", $chmailpass).$hash2, $CURUSER['passhash'])) {
+            stderr($lang['takeeditcp_err'], $lang['takeeditcp_address_taken']);
+        }
         $changedemail = 1;
     }
     if ($secretanswer != '') {
-        if (strlen($secretanswer) > 40) stderr($lang['takeeditcp_sorry'], $lang['takeeditcp_secret_long']);
-        if (strlen($secretanswer) < 6) stderr($lang['takeeditcp_sorry'], $lang['takeeditcp_secret_short']);
+        if (strlen($secretanswer) > 40) {
+            stderr($lang['takeeditcp_sorry'], $lang['takeeditcp_secret_long']);
+        }
+        if (strlen($secretanswer) < 6) {
+            stderr($lang['takeeditcp_sorry'], $lang['takeeditcp_secret_short']);
+        }
 		$new_secret_answer = h_store($secretanswer.$CURUSER['email']);
         $updateset[] = "hintanswer = " . sqlesc($new_secret_answer);
         $curuser_cache['hintanswer'] = $new_secret_answer;
         $user_cache['hintanswer'] = $new_secret_answer;
     }
     /*Parked */
-    if (isset($_POST['parked'])) $setbits|= user_options::PARKED;
-    else $clrbits|= user_options::PARKED; 
+    if (isset($_POST['parked'])) {
+        $setbits |= user_options::PARKED;
+    }
+    else {
+        $clrbits |= user_options::PARKED;
+    }
     /**Anonymous */       
-    if (isset($_POST['anonymous'])) $setbits|= user_options::ANONYMOUS;
-    else $clrbits|= user_options::ANONYMOUS;
+    if (isset($_POST['anonymous'])) {
+        $setbits |= user_options::ANONYMOUS;
+    }
+    else {
+        $clrbits |= user_options::ANONYMOUS;
+    }
     /** Hide Current seed and leech */
-    if (isset($_POST['hidecur'])) $setbits|= user_options::HIDECUR;
-    else $clrbits|= user_options::HIDECUR;
+    if (isset($_POST['hidecur'])) {
+        $setbits |= user_options::HIDECUR;
+    }
+    else {
+        $clrbits |= user_options::HIDECUR;
+    }
     /** Show Email */
-    if (isset($_POST['show_email'])) $setbits|= user_options::SHOW_EMAIL;
-    else $clrbits|= user_options::SHOW_EMAIL;
+    if (isset($_POST['show_email'])) {
+        $setbits |= user_options::SHOW_EMAIL;
+    }
+    else {
+        $clrbits |= user_options::SHOW_EMAIL;
+    }
 
     if (isset($_POST["changeq"]) && (($changeq = (int)$_POST["changeq"]) != $CURUSER["passhint"]) && is_valid_id($changeq)) {
         $updateset[] = "passhint = " . sqlesc($changeq);
@@ -235,7 +269,10 @@ elseif ($action == "security") {
         $subject = sqlesc($lang['takeeditcp_email_alert']);
         $msg = sqlesc("{$lang['takeeditcp_email_user']}[url={$TRINITY20['baseurl']}/userdetails.php?id=" . (int)$spm['id'] . "][b]" . htmlsafechars($spm['username']) . "[/b][/url]{$lang['takeeditcp_email_changed']}{$lang['takeeditcp_email_old']}" . htmlsafechars($spm['email']) . "{$lang['takeeditcp_email_new']}$email{$lang['takeeditcp_email_check']}");
         ($pmstaff = sql_query('SELECT id FROM users WHERE class = ' . UC_ADMINISTRATOR)) || sqlerr(__FILE__, __LINE__);
-        while ($arr = $pmstaff->fetch_assoc()) sql_query("INSERT INTO messages(sender, receiver, added, msg, subject) VALUES(0, " . sqlesc($arr['id']) . ", $dt, $msg, $subject)") || sqlerr(__FILE__, __LINE__);
+        while ($arr = $pmstaff->fetch_assoc()) {
+            sql_query("INSERT INTO messages(sender, receiver, added, msg, subject) VALUES(0, ".sqlesc($arr['id']).", $dt, $msg, $subject)") || sqlerr(__FILE__,
+                __LINE__);
+        }
         $cache->delete('inbox_new::' . $arr['id']);
         $cache->delete('inbox_new_sb::' . $arr['id']);
         $urladd.= "&mailsent=1";
@@ -252,24 +289,44 @@ elseif ($action == "torrents") {
     $user_cache['torrentsperpage'] = $torrentspp;
     }
     //** Split Torrents by day */
-    if (isset($_POST['browse_split'])) $setbits |= block_browse::SPLIT;
-    else $clrbits|= block_browse::SPLIT;
+    if (isset($_POST['browse_split'])) {
+        $setbits |= block_browse::SPLIT;
+    }
+    else {
+        $clrbits |= block_browse::SPLIT;
+    }
 
     //** Categories as images */
-    if (isset($_POST['browse_icons'])) $setbits |= block_browse::ICONS;
-    else $clrbits|= block_browse::ICONS;
+    if (isset($_POST['browse_icons'])) {
+        $setbits |= block_browse::ICONS;
+    }
+    else {
+        $clrbits |= block_browse::ICONS;
+    }
 
     //** Search Cloud */
-    if (isset($_POST['browse_viewscloud'])) $setbits |= block_browse::VIEWSCLOUD;
-    else $clrbits|= block_browse::VIEWSCLOUD;
+    if (isset($_POST['browse_viewscloud'])) {
+        $setbits |= block_browse::VIEWSCLOUD;
+    }
+    else {
+        $clrbits |= block_browse::VIEWSCLOUD;
+    }
 
     //** Top 10 torrents Slider */
-    if (isset($_POST['browse_slider'])) $setbits |= block_browse::SLIDER;
-    else $clrbits|= block_browse::SLIDER;
+    if (isset($_POST['browse_slider'])) {
+        $setbits |= block_browse::SLIDER;
+    }
+    else {
+        $clrbits |= block_browse::SLIDER;
+    }
 
     //** Manually Clear New Tag */
-    if (isset($_POST['browse_clear_tags'])) $setbits |= block_browse::CLEAR_NEW_TAG_MANUALLY;
-    else $clrbits|= block_browse::CLEAR_NEW_TAG_MANUALLY;
+    if (isset($_POST['browse_clear_tags'])) {
+        $setbits |= block_browse::CLEAR_NEW_TAG_MANUALLY;
+    }
+    else {
+        $clrbits |= block_browse::CLEAR_NEW_TAG_MANUALLY;
+    }
 
     if (isset($_POST['categorie_icon']) && (($categorie_icon = (int)$_POST['categorie_icon']) != $CURUSER['categorie_icon']) && is_valid_id($categorie_icon)) {
         $updateset[] = 'categorie_icon = ' . sqlesc($categorie_icon);
@@ -291,7 +348,9 @@ elseif ($action == "personal") {
             "vip",
             "motherfucker"
         );
-        if (in_array(strtolower($title) , ($notallow))) stderr($lang['takeeditcp_err'], $lang['takeeditcp_invalid_custom']);
+        if (in_array(strtolower($title) , ($notallow))) {
+            stderr($lang['takeeditcp_err'], $lang['takeeditcp_invalid_custom']);
+        }
         $updateset[] = "title = " . sqlesc($title);
         $curuser_cache['title'] = $title;
         $user_cache['title'] = $title;
@@ -299,10 +358,12 @@ elseif ($action == "personal") {
     //status update
     if (isset($_POST['status']) && ($status = $_POST['status']) && !empty($status)) {
         $status_archive = ((isset($CURUSER['archive']) && is_array(unserialize($CURUSER['archive']))) ? unserialize($CURUSER['archive']) : array());
-        if (!empty($CURUSER['last_status'])) $status_archive[] = array(
-            'status' => $CURUSER['last_status'],
-            'date' => $CURUSER['last_update']
-        );
+        if (!empty($CURUSER['last_status'])) {
+            $status_archive[] = [
+                'status' => $CURUSER['last_status'],
+                'date' => $CURUSER['last_update']
+            ];
+        }
         sql_query('INSERT INTO ustatus(userid,last_status,last_update,archive) VALUES(' . sqlesc($CURUSER['id']) . ',' . sqlesc($status) . ',' . TIME_NOW . ',' . sqlesc(serialize($status_archive)) . ') ON DUPLICATE KEY UPDATE last_status=values(last_status),last_update=values(last_update),archive=values(archive)') || sqlerr(__FILE__, __LINE__);
         $cache->delete($keys['user_status'] . $CURUSER['id']);
         $cache->delete('user_status_' . $CURUSER['id']);
@@ -343,10 +404,15 @@ elseif ($action == "personal") {
         $month = isset($_POST["month"]) ? 0 + $_POST["month"] : 0;
         $day = isset($_POST["day"]) ? 0 + $_POST["day"] : 0;
         $birthday = date("$year.$month.$day");
-        if ($year == '0000') stderr($lang['takeeditcp_err'], $lang['takeeditcp_birth_year']);
-        if ($month == '00') stderr($lang['takeeditcp_err'], $lang['takeeditcp_birth_month']);
-        if ($day == '00') stderr($lang['takeeditcp_err'], $lang['takeeditcp_birth_day']);
-        if (!checkdate($month, $day, $year)) stderr($lang['takeeditcp_err'], "<br /><div id='error' align='center'><font color='red' size='+1'>{$lang['takeeditcp_birth_not']}</font></div><br />");
+        if ($year == '0000') { stderr($lang['takeeditcp_err'], $lang['takeeditcp_birth_year']);
+        }
+        if ($month == '00') { stderr($lang['takeeditcp_err'], $lang['takeeditcp_birth_month']);
+        }
+        if ($day == '00') { stderr($lang['takeeditcp_err'], $lang['takeeditcp_birth_day']);
+        }
+        if (!checkdate($month, $day, $year)) { stderr($lang['takeeditcp_err'],
+            "<br /><div id='error' align='center'><font color='red' size='+1'>{$lang['takeeditcp_birth_not']}</font></div><br />");
+        }
         $updateset[] = "birthday = " . sqlesc($birthday);
         $curuser_cache['birthday'] = $birthday;
         $user_cache['birthday'] = $birthday;
@@ -392,7 +458,8 @@ elseif ($action == "default") {
     $user_cache['notifs'] = $pmnotifs;
     //== Accept PM
     $acceptpms = ($_POST['acceptpms'] ?? 'all');
-    if (isset($acceptpms_choices[$acceptpms])) $updateset[] = "acceptpms = " . sqlesc($acceptpms);
+    if (isset($acceptpms_choices[$acceptpms])) { $updateset[] = "acceptpms = ".sqlesc($acceptpms);
+    }
     $curuser_cache['acceptpms'] = $acceptpms;
     $user_cache['acceptpms'] = $acceptpms;
     //== Delete PM on reply
@@ -443,9 +510,10 @@ if ($curuser_cache) {
 if ($user_cache) {
     $cache->update_row('user' . $CURUSER['id'], $user_cache, $TRINITY20['expires']['user_cache']);
 }
-if ((is_countable($updateset) ? count($updateset) : 0) > 0) 
-    sql_query("UPDATE users SET " . implode(",", $updateset) . " WHERE id = " . sqlesc($CURUSER["id"])) || sqlerr(__FILE__, __LINE__);
-    //** Browse Page */
+if ((is_countable($updateset) ? count($updateset) : 0) > 0) {
+    sql_query("UPDATE users SET ".implode(",", $updateset)." WHERE id = ".sqlesc($CURUSER["id"])) || sqlerr(__FILE__, __LINE__);
+}
+//** Browse Page */
     if ($setbits !== 0) {
         $updateset_block[] = 'browse_page = (browse_page | ' . $setbits . ')';
     }
@@ -456,7 +524,9 @@ if ((is_countable($updateset) ? count($updateset) : 0) > 0)
         sql_query('UPDATE user_blocks SET ' . implode(',', $updateset_block) . ' WHERE userid = ' . sqlesc($CURUSER["id"])) || sqlerr(__FILE__, __LINE__);
     }
     $cache->delete('blocks::' . $CURUSER["id"]);
-if ($setbits || $clrbits) sql_query('UPDATE users SET opt1 = ((opt1 | ' . $setbits . ') & ~' . $clrbits . '), opt2 = ((opt2 | ' . $setbits . ') & ~' . $clrbits . ') WHERE id = ' . sqlesc($CURUSER["id"])) || sqlerr(__file__, __line__);
+if ($setbits || $clrbits) { sql_query('UPDATE users SET opt1 = ((opt1 | '.$setbits.') & ~'.$clrbits.'), opt2 = ((opt2 | '.$setbits.') & ~'.$clrbits.') WHERE id = '.sqlesc($CURUSER["id"])) || sqlerr(__file__,
+    __line__);
+}
 // grab current data
 ($res = sql_query('SELECT opt1, opt2 FROM users WHERE id = ' . sqlesc($CURUSER["id"]) . ' LIMIT 1')) || sqlerr(__file__, __line__);
 $row = $res->fetch_assoc();

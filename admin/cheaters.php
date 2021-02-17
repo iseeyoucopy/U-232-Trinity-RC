@@ -33,7 +33,9 @@ class_check($class);
 $lang = array_merge($lang, load_language('cheaters'));
 $HTMLOUT = "";
 if (isset($_POST["nowarned"]) && $_POST["nowarned"] == "nowarned") {
-    if (empty($_POST["desact"]) && empty($_POST["remove"])) stderr($lang['cheaters_err'], $lang['cheaters_seluser']);
+    if (empty($_POST["desact"]) && empty($_POST["remove"])) {
+        stderr($lang['cheaters_err'], $lang['cheaters_seluser']);
+    }
     if (!empty($_POST["remove"])) {
         sql_query("DELETE FROM cheaters WHERE id IN (" . implode(", ", array_map("sqlesc", $_POST["remove"])) . ")") || sqlerr(__FILE__, __LINE__);
     }
@@ -86,7 +88,9 @@ return 'Check All Remove'; }
 }
 /*]]>*/
 </script>";
-if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
+if ($count > $perpage) {
+    $HTMLOUT .= $pager['pagertop'];
+}
 $HTMLOUT.= "<table class='table table-bordered'>
 <tr>
 <td>#</td>
@@ -113,7 +117,9 @@ $HTMLOUT.= "<tr>
 </td>
 </tr>
 </table></form>";
-if ($count > $perpage) $HTMLOUT.= $pager['pagerbottom'];
+if ($count > $perpage) {
+    $HTMLOUT .= $pager['pagerbottom'];
+}
 $HTMLOUT.= "</div></div>";
 echo stdhead($lang['cheaters_stdhead']) . $HTMLOUT . stdfoot();
 die;

@@ -46,8 +46,9 @@ if (($Detail_Snatch = $cache->get($What_cache . $id)) === false) {
 }
 
 if (($Detail_Snatch && (is_countable($Detail_Snatch) ? count($Detail_Snatch) : 0) > 0 && $CURUSER['class'] >= UC_STAFF)) {
-    if ($Count > $perpage) 
-		$HTMLOUT.= $pager['pagertop'];
+    if ($Count > $perpage) {
+        $HTMLOUT .= $pager['pagertop'];
+    }
  //== \\0//
  if (XBT_TRACKER == true) {
     $snatched_torrent = "

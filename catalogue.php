@@ -74,8 +74,9 @@ while ($ta = $t->fetch_assoc()) {
 }
 if (isset($tids) && count($tids)) {
     ($p = sql_query("SELECT p.id,p.torrent as tid,p.seeder, p.finishedat, p.downloadoffset, p.uploadoffset, p.ip, p.port, p.uploaded, p.downloaded, p.started AS started, p.last_action AS last_action, u.id as p_uid , u.username as p_user FROM peers AS p LEFT JOIN users as u on u.id=p.userid WHERE p.torrent IN (" . implode(",", $tid) . ") AND p.seeder = 'yes' AND to_go=0 LIMIT 5")) || sqlerr(__FILE__, __LINE__);
-    while ($pa = $p->fetch_assoc())
+    while ($pa = $p->fetch_assoc()) {
         $peers[$pa["tid"]][] = $pa;
+    }
 }
 
 $htmlout .= "<div class='row'><div class='col-md-12'>
@@ -88,10 +89,12 @@ $htmlout .= "<div class='row'><div class='col-md-8 col-md-push-4'>";
 for ($i = 97; $i < 123; ++$i) {
     $l = chr($i);
     $L = chr($i - 32);
-    if ($l == $letter)
+    if ($l == $letter) {
         $htmlout .= "<font class=\"sublink-active\">$L</font>\n";
-    else
-        $htmlout .= "<a class=\"sublink\" href=\"" . $_SERVER["PHP_SELF"] . "?letter=" . $l . "\">" . $L . "</a>\n";
+    }
+    else {
+        $htmlout .= "<a class=\"sublink\" href=\"".$_SERVER["PHP_SELF"]."?letter=".$l."\">".$L."</a>\n";
+    }
 $htmlout .= "<!--</div></div>-->";
 }
 $htmlout .= "</fieldset></div></div><br>";
@@ -127,7 +130,8 @@ $htmlout .="<div class='row'>";
  }
 $htmlout .= "</div></div><br>";
 $htmlout .= $pager['pagerbottom'] ."<br>";
-} else
+} else {
     $htmlout .= "<div class='row'><div class='col-sm-04'><h2>{$lang['catol_nothing_found']}!</h2></div></div>";
+}
 echo stdhead($lang['catol_std_head']) . $htmlout . stdfoot();
 ?>

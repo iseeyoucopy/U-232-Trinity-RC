@@ -25,10 +25,12 @@ require_once(TEMPLATE_DIR . '' . $CURUSER['stylesheet'] . '' . DIRECTORY_SEPARAT
 require_once(TEMPLATE_DIR . '' . $CURUSER['stylesheet'] . '' . DIRECTORY_SEPARATOR . 'html_functions' . DIRECTORY_SEPARATOR . 'navigation_html_functions.php');
 define('MAX_CLASS', UC_STAFF);
 $lang = array_merge(load_language('global'), load_language('forums'));
-if ($TRINITY20['forums_online'] == 0 && $CURUSER['class'] < UC_STAFF)
-       stderr($lang['forum_pg_inf1'], $lang['forum_pg_inf2']);
-if (function_exists('parked'))
-       parked();
+if ($TRINITY20['forums_online'] == 0 && $CURUSER['class'] < UC_STAFF) {
+    stderr($lang['forum_pg_inf1'], $lang['forum_pg_inf2']);
+}
+if (function_exists('parked')) {
+    parked();
+}
 $TRINITY20['show_last_10'] = false;
 $TRINITY20['expires']['forum_activeusers'] = 30; // 30 seconds for testing
 $Multi_forum['configs']['maxfilesize'] = 1024 * 1024;

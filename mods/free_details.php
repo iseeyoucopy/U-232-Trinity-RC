@@ -1,5 +1,7 @@
 <?php
-if (!defined('TBVERSION')) exit('No direct script access allowed');
+if (!defined('TBVERSION')) {
+    exit('No direct script access allowed');
+}
 /**
  * -------   U-232 Codename Trinity   ----------*
  * ---------------------------------------------*

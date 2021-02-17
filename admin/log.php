@@ -32,8 +32,12 @@ class_check($class);
 $lang = array_merge($lang, load_language('ad_log'));
 $txt = $where = '';
 $search = isset($_POST['search']) ? strip_tags($_POST['search']) : '';
-if(isset($_GET['search'])) $search = strip_tags($_GET['search']);
-if (!empty($search)) $where = "WHERE txt LIKE " . sqlesc("%$search%") . "";
+if(isset($_GET['search'])) {
+    $search = strip_tags($_GET['search']);
+}
+if (!empty($search)) {
+    $where = "WHERE txt LIKE ".sqlesc("%$search%")."";
+}
 // delete items older than 1 month
 $secs = 30 * 86400;
 sql_query("DELETE FROM sitelog WHERE " . TIME_NOW . " - added > " . sqlesc($secs)) || sqlerr(__FILE__, __LINE__);
@@ -56,7 +60,9 @@ $HTMLOUT.= "<table class='striped'>
 			 <input type='text' name='search' size='40' value=''>
 			 <input type='submit' value='{$lang['log_search_btn']}' style='height: 20px'>
 			 </form></td></tr></table>";
-if ($count > $perpage) $HTMLOUT.= $pager['pagertop']."<br>";
+if ($count > $perpage) {
+    $HTMLOUT .= $pager['pagertop']."<br>";
+}
 if ($res->num_rows == 0) {
     $HTMLOUT.= "<b>{$lang['text_logempty']}</b>";
 } else {
@@ -67,23 +73,57 @@ if ($res->num_rows == 0) {
       </tr>";
     while ($arr = $res->fetch_assoc()) {
         $color = '#333333';
-        if (strpos($arr['txt'], (string) $lang['log_uploaded'])) $color = "#4799ad";
-        if (strpos($arr['txt'], (string) $lang['log_created'])) $color = "#CC9966";
-        if (strpos($arr['txt'], (string) $lang['log_section'])) $color = "#ba79d8";
-        if (strpos($arr['txt'], (string) $lang['log_started'])) $color = "#00E300";
-        if (strpos($arr['txt'], (string) $lang['log_finished'])) $color = "#00E300";
-        if (strpos($arr['txt'], (string) $lang['log_sticky'])) $color = "#BBaF9B";
-        if (strpos($arr['txt'], (string) $lang['log_invited_by'])) $color = "#CC9966";
-        if (strpos($arr['txt'], (string) $lang['log_invited_to'])) $color = "#CC9966";
-        if (strpos($arr['txt'], (string) $lang['log_deleted_by'])) $color = "#CC6666";
-        if (strpos($arr['txt'], (string) $lang['log_deleted_system'])) $color = "#FF6600";
-        if (strpos($arr['txt'], (string) $lang['log_sent'])) $color = "#af0b0b";
-        if (strpos($arr['txt'], (string) $lang['log_reason'])) $color = "#d34e29";
-        if (strpos($arr['txt'], (string) $lang['log_user'])) $color = "#d34e29";
-        if (strpos($arr['txt'], (string) $lang['log_promoted'])) $color = "#3ae2f1";
-        if (strpos($arr['txt'], (string) $lang['log_demoted'])) $color = "#375d60";
-        if (strpos($arr['txt'], (string) $lang['log_updated'])) $color = "#6699FF";
-        if (strpos($arr['txt'], (string) $lang['log_edited'])) $color = "#BBaF9B";
+        if (strpos($arr['txt'], (string) $lang['log_uploaded'])) {
+            $color = "#4799ad";
+        }
+        if (strpos($arr['txt'], (string) $lang['log_created'])) {
+            $color = "#CC9966";
+        }
+        if (strpos($arr['txt'], (string) $lang['log_section'])) {
+            $color = "#ba79d8";
+        }
+        if (strpos($arr['txt'], (string) $lang['log_started'])) {
+            $color = "#00E300";
+        }
+        if (strpos($arr['txt'], (string) $lang['log_finished'])) {
+            $color = "#00E300";
+        }
+        if (strpos($arr['txt'], (string) $lang['log_sticky'])) {
+            $color = "#BBaF9B";
+        }
+        if (strpos($arr['txt'], (string) $lang['log_invited_by'])) {
+            $color = "#CC9966";
+        }
+        if (strpos($arr['txt'], (string) $lang['log_invited_to'])) {
+            $color = "#CC9966";
+        }
+        if (strpos($arr['txt'], (string) $lang['log_deleted_by'])) {
+            $color = "#CC6666";
+        }
+        if (strpos($arr['txt'], (string) $lang['log_deleted_system'])) {
+            $color = "#FF6600";
+        }
+        if (strpos($arr['txt'], (string) $lang['log_sent'])) {
+            $color = "#af0b0b";
+        }
+        if (strpos($arr['txt'], (string) $lang['log_reason'])) {
+            $color = "#d34e29";
+        }
+        if (strpos($arr['txt'], (string) $lang['log_user'])) {
+            $color = "#d34e29";
+        }
+        if (strpos($arr['txt'], (string) $lang['log_promoted'])) {
+            $color = "#3ae2f1";
+        }
+        if (strpos($arr['txt'], (string) $lang['log_demoted'])) {
+            $color = "#375d60";
+        }
+        if (strpos($arr['txt'], (string) $lang['log_updated'])) {
+            $color = "#6699FF";
+        }
+        if (strpos($arr['txt'], (string) $lang['log_edited'])) {
+            $color = "#BBaF9B";
+        }
         $date = explode(',', get_date($arr['added'], 'LONG'));
         $HTMLOUT.= "<tr>
 			<td>
@@ -96,7 +136,9 @@ if ($res->num_rows == 0) {
     $HTMLOUT.= "</table>";
 }
 $HTMLOUT.= "<p>{$lang['text_times']}</p>";
-if ($count > $perpage) $HTMLOUT.= $pager['pagerbottom']."<br>";
+if ($count > $perpage) {
+    $HTMLOUT .= $pager['pagerbottom']."<br>";
+}
 $HTMLOUT.= "</div></div>";
 echo stdhead("{$lang['stdhead_log']}") . $HTMLOUT . stdfoot();
 ?>

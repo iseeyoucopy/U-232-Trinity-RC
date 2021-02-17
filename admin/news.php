@@ -54,16 +54,26 @@ $possible_modes = array(
     'news'
 );
 $mode = (isset($_GET['mode']) ? htmlsafechars($_GET['mode']) : '');
-if (!in_array($mode, $possible_modes)) stderr($lang['news_error'], $lang['news_error_ruffian']);
+if (!in_array($mode, $possible_modes)) {
+    stderr($lang['news_error'], $lang['news_error_ruffian']);
+}
 //==Delete news
 if ($mode == 'delete') {
     $newsid = (int)$_GET['newsid'];
-    if (!is_valid_id($newsid)) stderr($lang['news_error'], $lang['news_del_invalid']);
+    if (!is_valid_id($newsid)) {
+        stderr($lang['news_error'], $lang['news_del_invalid']);
+    }
     $hash = h_store($newsid);
     $sure = '';
     $sure = (isset($_GET['sure']) ? (int) $_GET['sure'] : '');
-    if (!$sure) stderr($lang['news_del_confirm'], $lang['news_del_click'] . "<a href='staffpanel.php?tool=news&amp;mode=delete&amp;sure=1&amp;h=$hash&amp;newsid=$newsid'>{$lang['news_del_here']}</a> {$lang['news_del_if']}", false);
-    if ($_GET['h'] != $hash) stderr($lang['news_error'], $lang['news_del_what']);
+    if (!$sure) {
+        stderr($lang['news_del_confirm'],
+            $lang['news_del_click']."<a href='staffpanel.php?tool=news&amp;mode=delete&amp;sure=1&amp;h=$hash&amp;newsid=$newsid'>{$lang['news_del_here']}</a> {$lang['news_del_if']}",
+            false);
+    }
+    if ($_GET['h'] != $hash) {
+        stderr($lang['news_error'], $lang['news_del_what']);
+    }
     function deletenewsid($newsid)
     {
         global $CURUSER, $cache,$keys;
@@ -81,11 +91,17 @@ if ($mode == 'add') {
     $body = isset($_POST['body']) ? htmlsafechars($_POST['body']) : '';
     $sticky = isset($_POST['sticky']) ? htmlsafechars($_POST['sticky']) : 'yes';
     $anonymous = isset($_POST['anonymous']) ? htmlsafechars($_POST['anonymous']) : 'no';
-    if (!$body) stderr($lang['news_error'], $lang['news_add_item']);
+    if (!$body) {
+        stderr($lang['news_error'], $lang['news_add_item']);
+    }
     $title = htmlsafechars($_POST['title']);
-    if (!$title) stderr($lang['news_error'], $lang['news_add_title']);
+    if (!$title) {
+        stderr($lang['news_error'], $lang['news_add_title']);
+    }
     $added = $_POST["added"] ?? '';
-    if (!$added) $added = TIME_NOW;
+    if (!$added) {
+        $added = TIME_NOW;
+    }
     sql_query("INSERT INTO news (userid, added, body, title, sticky, anonymous) VALUES (" . sqlesc($CURUSER['id']) . "," . sqlesc($added) . ", " . sqlesc($body) . ", " . sqlesc($title) . ", " . sqlesc($sticky) . ", " . sqlesc($anonymous) . ")") || sqlerr(__FILE__, __LINE__);
     $cache->delete($keys['latest_news']);
     header("Refresh: 3; url=staffpanel.php?tool=news&mode=news");
@@ -94,17 +110,25 @@ if ($mode == 'add') {
 //==Edit/change news
 if ($mode == 'edit') {
     $newsid = (int)$_GET["newsid"];
-    if (!is_valid_id($newsid)) stderr($lang['news_error'], $lang['news_edit_invalid']);
+    if (!is_valid_id($newsid)) {
+        stderr($lang['news_error'], $lang['news_edit_invalid']);
+    }
     ($res = sql_query("SELECT id, body, title, userid, added, anonymous, sticky FROM news WHERE id=" . sqlesc($newsid))) || sqlerr(__FILE__, __LINE__);
-    if ($res->num_rows != 1) stderr($lang['news_error'], $lang['news_edit_nonews']);
+    if ($res->num_rows != 1) {
+        stderr($lang['news_error'], $lang['news_edit_nonews']);
+    }
     $arr = $res->fetch_assoc();
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $body = isset($_POST['body']) ? htmlsafechars($_POST['body']) : '';
         $sticky = isset($_POST['sticky']) ? htmlsafechars($_POST['sticky']) : 'yes';
         $anonymous = isset($_POST['anonymous']) ? htmlsafechars($_POST['anonymous']) : 'no';
-        if ($body == "") stderr($lang['news_error'], $lang['news_edit_body']);
+        if ($body == "") {
+            stderr($lang['news_error'], $lang['news_edit_body']);
+        }
         $title = htmlsafechars($_POST['title']);
-        if ($title == "") stderr($lang['news_error'], $lang['news_edit_title']);
+        if ($title == "") {
+            stderr($lang['news_error'], $lang['news_edit_title']);
+        }
         sql_query("UPDATE news SET body=" . sqlesc($body) . ", sticky=" . sqlesc($sticky) . ", anonymous=" . sqlesc($anonymous) . ", title=" . sqlesc($title) . " WHERE id=" . sqlesc($newsid)) || sqlerr(__FILE__, __LINE__);
         $cache->delete($keys['latest_news']);
         header("Refresh: 3; url=staffpanel.php?tool=news&mode=news");

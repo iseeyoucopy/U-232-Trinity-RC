@@ -11,11 +11,13 @@
  * ------------  @version V6  ------------------*
  */
 $categorie = genrelist();
-foreach ($categorie as $key => $value) $change[$value['id']] = array(
-    'id' => $value['id'],
-    'name' => $value['name'],
-    'image' => $value['image']
-);
+foreach ($categorie as $key => $value) {
+    $change[$value['id']] = [
+        'id' => $value['id'],
+        'name' => $value['name'],
+        'image' => $value['image']
+    ];
+}
 //== Top 10 torrents in past 24 hours
 if (($top10movies_all = $cache->get('top10_movies_all_')) === false) {
     ($res_movall = sql_query("SELECT id, times_completed, seeders, leechers, name from torrents WHERE category IN (".implode(", ",$TRINITY20['movie_cats']).") ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}")) || sqlerr(__FILE__, __LINE__);
@@ -37,8 +39,9 @@ if (($top10movies_all = $cache->get('top10_movies_all_')) === false) {
      $counter = 1;
      foreach ($top10movies_all as $top10moviesall) {
          $torrname = htmlsafechars($top10moviesall['name']);
-         if (strlen($torrname) > 50) 
-				$torrname = substr($torrname, 0, 50) . "...";
+         if (strlen($torrname) > 50) {
+             $torrname = substr($torrname, 0, 50)."...";
+         }
          $HTMLOUT.= "
             <tr>
             <td>". $counter++ ."</td>

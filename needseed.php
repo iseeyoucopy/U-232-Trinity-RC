@@ -22,15 +22,19 @@ $possible_actions = array(
     'seeders'
 );
 $needed = (isset($_GET['needed']) ? htmlsafechars($_GET['needed']) : 'seeders');
-if (!in_array($needed, $possible_actions)) stderr('Error', 'A ruffian that will swear, drink, dance, revel the night, rob, murder and commit the oldest of ins the newest kind of ways.');
+if (!in_array($needed, $possible_actions)) {
+    stderr('Error', 'A ruffian that will swear, drink, dance, revel the night, rob, murder and commit the oldest of ins the newest kind of ways.');
+}
 //$needed = isset($_GET["needed"]) ? htmlsafechars($_GET["needed"]) : '';
 $categorie = genrelist();
-foreach ($categorie as $key => $value) $change[$value['id']] = array(
+foreach ($categorie as $key => $value) {
+    $change[$value['id']] = [
         'id' => $value['id'],
         'name' => $value['name'],
         'image' => $value['image'],
         'min_class' => $value['min_class']
-    );
+    ];
+}
 if ($needed == "leechers") {
     $HTMLOUT.="<div class='row'><div class='col-md-12'><h2>{$lang['needseed_sin']}&nbsp;&nbsp;-&nbsp;&nbsp;[<a href='?needed=seeders' class='altlink'>{$lang['needseed_tns']}</a>]</h2></div></div>";
     $HTMLOUT.="<div class='row'><div class='col-md-12'>";
@@ -56,8 +60,9 @@ if ($needed == "leechers") {
                         }
         }
         $HTMLOUT.= "</table>\n";
-    } else $HTMLOUT.= "{$lang['needseed_noleech']}\n";
-$HTMLOUT.= "</div></div>";
+    } else { $HTMLOUT .= "{$lang['needseed_noleech']}\n";
+    }
+    $HTMLOUT.= "</div></div>";
     echo stdhead("{$lang['needseed_lin']}") . $HTMLOUT . stdfoot();
 } else {
 $HTMLOUT.="<div class='row'><div class='col-md-12'><h2>{$lang['needseed_sin']}&nbsp;&nbsp;-&nbsp;&nbsp;[<a href='?needed=leechers' class='altlink'>{$lang['needseed_tns']}</a>]</h2></div></div>";
@@ -74,8 +79,9 @@ $HTMLOUT.="<div class='row'><div class='col-md-12'><h2>{$lang['needseed_sin']}&n
             $HTMLOUT.= "<tr><td>{$cat}</td><td><a href='{$TRINITY20['baseurl']}/details.php?id=" . (int)$arr['id'] . "&amp;hit=1' title='{$torrname}'>{$torrname}</a></td><td align='center'><span style='color: red'>" . (int)$arr['seeders'] . "</span></td><td align='center'>" . (int)$arr['leechers'] . "</td></tr>\n";
         }
         $HTMLOUT.= "</table>\n";
-    } else $HTMLOUT.= "{$lang['needseed_noseed']}\n";
-$HTMLOUT.= "</div></div><br>";
+    } else { $HTMLOUT .= "{$lang['needseed_noseed']}\n";
+    }
+    $HTMLOUT.= "</div></div><br>";
     echo stdhead("{$lang['needseed_sin']}") . $HTMLOUT . stdfoot();
 }
 ?>

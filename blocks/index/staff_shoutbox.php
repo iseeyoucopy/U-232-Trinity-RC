@@ -16,7 +16,9 @@ if (($CURUSER['opt2'] & user_options_2::SHOW_STAFFSHOUT) !== 0) {
     if ($CURUSER['class'] >= UC_STAFF) {
         $staffsmiliebutton.= "<a href=\"javascript:PopStaffSmiles('staff_shbox','staff_shbox_text')\">{$lang['index_shoutbox_ssmilies']}</a>";
     }
-    if (get_smile() != 0) $custombutton.= "<a href=\"javascript:PopCustomSmiles('staff_shbox','staff_shbox_text')\">{$lang['index_shoutbox_csmilies']}</a>";
+    if (get_smile() != 0) {
+        $custombutton .= "<a href=\"javascript:PopCustomSmiles('staff_shbox','staff_shbox_text')\">{$lang['index_shoutbox_csmilies']}</a>";
+    }
     if ($CURUSER['class'] >= UC_STAFF) {
         $commandbutton = "<a href=\"javascript:popUp('shoutbox_commands.php')\">{$lang['index_shoutbox_commands']}</a>\n";
     }

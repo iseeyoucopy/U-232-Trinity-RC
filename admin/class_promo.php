@@ -32,8 +32,9 @@ $lang = array_merge($lang, load_language('ad_class_promo'));
 /*$allowed_ids = array(
 1
 ); //== 1 Is Sysop*/
-if (!in_array($CURUSER['id'], $TRINITY20['allowed_staff']['id'] /*$allowed_ids*/ ))
+if (!in_array($CURUSER['id'], $TRINITY20['allowed_staff']['id'] /*$allowed_ids*/ )) {
     stderr($lang['classpromo_error'], $lang['classpromo_denied']);
+}
 //get the config from db - stoner/pdq
 ($pconf = sql_query('SELECT * FROM class_promo ORDER BY id ASC ')) || sqlerr(__FILE__, __LINE__);
 while ($ac = $pconf->fetch_assoc()) {
@@ -51,8 +52,9 @@ $possible_modes = array(
     ''
 );
 $mode = (isset($_GET['mode']) ? htmlsafechars($_GET['mode']) : '');
-if (!in_array($mode, $possible_modes))
+if (!in_array($mode, $possible_modes)) {
     stderr($lang['classpromo_error'], $lang['classpromo_ruffian']);
+}
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($mode == 'edit') {
         foreach ($class_config as $c_name => $value) {
@@ -79,8 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (sql_query('INSERT INTO class_promo(name,min_ratio,uploaded,time,low_ratio) VALUES ' . implode(',', $update) . ' ON DUPLICATE KEY update name=values(name),min_ratio=values(min_ratio),uploaded=values(uploaded),time=values(time),low_ratio=values(low_ratio)')) { // need to change strut
             
             stderr($lang['classpromo_success'], $lang['classpromo_success_saved']);
-        } else
+        } else {
             stderr($lang['classpromo_error'], $lang['classpromo_err_query1']);
+        }
         exit;
     }
     
@@ -97,8 +100,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         if (sql_query("INSERT INTO class_promo (name, min_ratio,uploaded,time,low_ratio) VALUES(" . sqlesc($name) . "," . sqlesc($min_ratio) . "," . sqlesc($uploaded) . "," . sqlesc($time) . "," . sqlesc($low_ratio) . ")")) {
             stderr($lang['classpromo_success'], $lang['classpromo_success_saved']);
-        } else
+        } else {
             stderr($lang['classpromo_error'], $lang['classpromo_err_query2']);
+        }
         exit;
     }
     
@@ -108,8 +112,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $name = isset($_POST['remove']) ? htmlsafechars($_POST['remove']) : stderr($lang['classpromo_error'], $lang['classpromo_err_required']);
         if (sql_query("DELETE FROM class_promo WHERE name = " . sqlesc($name) . "")) {
             stderr($lang['classpromo_success'], $lang['classpromo_success_reset']);
-        } else
+        } else {
             stderr($lang['classpromo_error'], $lang['classpromo_err_query']);
+        }
         exit;
     }
 }
@@ -173,8 +178,9 @@ $HTMLOUT .= "<h3>{$lang['classpromo_add_new_rule']}</h3>
 <tr>";
 $HTMLOUT .= "<td><select name='name'>";
 $maxclass = UC_STAFF;
-for ($i = 1; $i < $maxclass; ++$i)
-    $HTMLOUT .= "<option value='$i'>" . get_user_class_name($i) . "</option>\n";
+for ($i = 1; $i < $maxclass; ++$i) {
+    $HTMLOUT .= "<option value='$i'>".get_user_class_name($i)."</option>\n";
+}
 $HTMLOUT .= "</select></td>
 
                 <td><input type='text' name='min_ratio' size='20' value=''  /></td>

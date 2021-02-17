@@ -46,20 +46,26 @@ $do = isset($_GET["do"]) && $_GET["do"] == "disabled" ? "disabled" : "hnrwarn";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $r = $_POST["ref"] ?? $this_url;
     $_uids = isset($_POST["users"]) ? array_map('mkint', $_POST["users"]) : 0;
-    if ($_uids == 0 || (is_countable($_uids) ? count($_uids) : 0) == 0) stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_nouser']);
+    if ($_uids == 0 || (is_countable($_uids) ? count($_uids) : 0) == 0) {
+        stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_nouser']);
+    }
     $valid = array(
         "unwarn",
         "disable",
         "delete"
     );
     $act = isset($_POST["action"]) && in_array($_POST["action"], $valid) ? $_POST["action"] : false;
-    if (!$act) stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_wrong']);
+    if (!$act) {
+        stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_wrong']);
+    }
     if ($act == "delete") {
         if (sql_query("DELETE FROM users WHERE id IN (" . implode(",", $_uids) . ")")) {
             $c = $mysqli->affected_rows;
             header("Refresh: 2; url=" . $r);
             stderr($lang['hnrwarn_success'], $c . $lang['hnrwarn_user'] . ($c > 1 ? $lang['hnrwarn_s'] : "") . $lang['hnrwarn_deleted']);
-        } else stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_wrong']);
+        } else {
+            stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_wrong']);
+        }
     }
     if ($act == "disable") {
         if (sql_query("UPDATE users set enabled='no', modcomment=CONCAT(" . sqlesc(get_date(TIME_NOW, 'DATE', 1) . $lang['hnrwarn_disabled'] . $CURUSER['username'] . "\n") . ",modcomment) WHERE id IN (" . implode(",", $_uids) . ")")) {
@@ -74,7 +80,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $d = $mysqli->affected_rows;
             header("Refresh: 2; url=" . $r);
             stderr($lang['hnrwarn_success'], $d . $lang['hnrwarn_user'] . ($d > 1 ? $lang['hnrwarn_s'] : "") . " disabled!");
-        } else stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_wrong3']);
+        } else {
+            stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_wrong3']);
+        }
     } elseif ($act == "unwarn") {
         $sub = $lang['hnrwarn_removed'];
         $body = $lang['hnrwarn_msg1'] . $CURUSER["username"] . $lang['hnrwarn_msg2'];
@@ -94,7 +102,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($g && $q1) {
                 header("Refresh: 2; url=" . $r);
                 stderr($lang['hnrwarn_success'], count($pms) . $lang['hnrwarn_user'] . (count($pms) > 1 ? "s" : "") . $lang['hnrwarn_rem_suc']);
-            } else stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_q1'] . $q_err . "<br />{$lang['hnrwarn_q2']}" . $q1_err);
+            } else {
+                stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_q1'].$q_err."<br />{$lang['hnrwarn_q2']}".$q1_err);
+            }
         }
     }
     exit;
@@ -115,7 +125,9 @@ case "hnrwarn":
 ($g = sql_query($query)) || sqlerr(__FILE__, __LINE__);
 $count = $g->num_rows;
 $HTMLOUT .="<div class='row'><div class='col-md-12'><h2>$title&nbsp;<font class=\"small\">[total - " . $count . " user" . ($count > 1 ? "s" : "") . "]</font>&nbsp;&nbsp;$link</h2> ";
-if ($count == 0) $HTMLOUT.= stdmsg($lang['hnrwarn_hey'], $lang['hnrwarn_none'] . strtolower($title));
+if ($count == 0) {
+    $HTMLOUT .= stdmsg($lang['hnrwarn_hey'], $lang['hnrwarn_none'].strtolower($title));
+}
 else {
     $HTMLOUT.= "<div class='row'><div class='col-md-12'>
 		<form action='staffpanel.php?tool=hnrwarn&amp;action=hnrwarn' method='post'>

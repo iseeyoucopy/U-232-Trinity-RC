@@ -19,7 +19,9 @@ loggedinorreturn();
 $lang = array_merge(load_language('global'));
 $HTMLOUT = '';
 $id = (isset($_GET["id"]) ? 0 + $_GET["id"] : "0");
-if ($id == "0") stderr("Err", "I dont think so!");
+if ($id == "0") {
+    stderr("Err", "I dont think so!");
+}
 $ur = sql_query("SELECT username from users WHERE id=" . sqlesc($id));
 ($user = $ur->fetch_array(MYSQLI_ASSOC)) || stderr("Error", "No user found");
 $count = get_row_count("happylog", "WHERE userid=" . sqlesc($id));

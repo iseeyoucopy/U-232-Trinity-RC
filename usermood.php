@@ -21,7 +21,9 @@ stderr($lang['user_mood_err'], $lang['user_mood_off']);
 exit();
 }
 
-if (!isset($CURUSER['id'])) die($lang['user_mood_log']);
+if (!isset($CURUSER['id'])) {
+    die($lang['user_mood_log']);
+}
 $more = ((($CURUSER['perms'] & bt_options::UNLOCK_MORE_MOODS) !== 0) ? 2 : 1);
 if (isset($_GET['id'])) {
     $moodid = (isset($_GET['id']) ? (int)$_GET['id'] : 1);
@@ -50,7 +52,9 @@ if (isset($_GET['id'])) {
       self.close();
       // -->
       </script>';
-    } else die($lang['user_mood_hmm']);
+    } else {
+        die($lang['user_mood_hmm']);
+    }
 }
 $HTMLOUT.= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">		
@@ -67,14 +71,18 @@ $HTMLOUT.= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 ($res = sql_query('SELECT * FROM moods WHERE bonus < ' . sqlesc($more) . ' ORDER BY id ASC')) || sqlerr(__FILE__, __LINE__);
 $count = 0;
 while ($arr = $res->fetch_assoc()) {
-    if ($count % 3 == 0) $HTMLOUT.= '<tr>';
+    if ($count % 3 == 0) {
+        $HTMLOUT .= '<tr>';
+    }
     $HTMLOUT.= '<td>
          <a href="?id=' . (int)$arr['id'] . '">
          <img src="' . $TRINITY20['pic_base_url'] . 'smilies/' . htmlsafechars($arr['image']) . '" alt="" />' . htmlsafechars($arr['name']) . '
          </a>
          </td>';
     $count++;
-    if ($count % 3 == 0) $HTMLOUT.= '</tr>';
+    if ($count % 3 == 0) {
+        $HTMLOUT .= '</tr>';
+    }
 }
 $HTMLOUT.= '</table>
       <p><br /></p>

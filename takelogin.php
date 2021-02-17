@@ -47,8 +47,12 @@ function failedloginscheck()
         stderr($lang['tlogin_locked'], "{$lang['tlogin_lockerr1']} . <b>(" . htmlsafechars($ip) . ")</b> . {$lang['tlogin_lockerr2']}");
     }
 } // End
-if (!mkglobal('username:password' . ($TRINITY20['captcha_on'] ? ($gotkey ? ":" : ":captchaSelection:") : ":") . 'submitme')) die("{$lang['tlogin_sww']}");
-if (!$submitme) stderr($lang['tlogin_err1'], $lang['tlogin_err2']);
+if (!mkglobal('username:password' . ($TRINITY20['captcha_on'] ? ($gotkey ? ":" : ":captchaSelection:") : ":") . 'submitme')) {
+    die("{$lang['tlogin_sww']}");
+}
+if (!$submitme) {
+    stderr($lang['tlogin_err1'], $lang['tlogin_err2']);
+}
 if ($TRINITY20['captcha_on'] && !$gotkey && (empty($captchaSelection) || $_SESSION['simpleCaptchaAnswer'] != $captchaSelection)) {
     header('Location: login.php');
     exit();
@@ -59,8 +63,12 @@ function bark($text = 'Username or password incorrect')
     $sha = sha1($_SERVER['REMOTE_ADDR']);
     $dict_key = 'dictbreaker:::' . $sha;
     $flood = $cache->get($dict_key);
-    if ($flood === false) $cache->set($dict_key, 'flood_check', 20);
-    else die("{$lang['tlogin_err4']}");
+    if ($flood === false) {
+        $cache->set($dict_key, 'flood_check', 20);
+    }
+    else {
+        die("{$lang['tlogin_err4']}");
+    }
     stderr($lang['tlogin_failed'], $text);
 }
 failedloginscheck();
@@ -72,8 +80,12 @@ $added = TIME_NOW;
 if (!$row) {
     ($fail_query = sql_query("SELECT COUNT(id) from failedlogins where ip=$ip_escaped")) || sqlerr(__FILE__, __LINE__);
     $fail = $fail_query->fetch_row();
-    if ($fail[0] == 0) sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES ($ip_escaped, $added, 1)") || sqlerr(__FILE__, __LINE__);
-    else sql_query("UPDATE failedlogins SET attempts = attempts + 1 where ip=$ip_escaped") || sqlerr(__FILE__, __LINE__);
+    if ($fail[0] == 0) {
+        sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES ($ip_escaped, $added, 1)") || sqlerr(__FILE__, __LINE__);
+    }
+    else {
+        sql_query("UPDATE failedlogins SET attempts = attempts + 1 where ip=$ip_escaped") || sqlerr(__FILE__, __LINE__);
+    }
     bark();
 }
 $hash1 = t_Hash($row['email'], $row['username'], $row['added']);
@@ -107,8 +119,12 @@ if ($TRINITY20['dupeaccount_check_on'] == 1 && !empty(get_mycookie('log_uid'))) 
 	if (!$pass_hash && !$tri_hash) {
      ($fail_query = sql_query("SELECT COUNT(id) from failedlogins where ip=$ip_escaped")) || sqlerr(__FILE__, __LINE__);
      $fail = $fail_query->fetch_row();
-     if ($fail[0] == 0) sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES ($ip_escaped, $added, 1)") || sqlerr(__FILE__, __LINE__);
-     else sql_query("UPDATE failedlogins SET attempts = attempts + 1 where ip=$ip_escaped") || sqlerr(__FILE__, __LINE__);
+     if ($fail[0] == 0) {
+         sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES ($ip_escaped, $added, 1)") || sqlerr(__FILE__, __LINE__);
+     }
+     else {
+         sql_query("UPDATE failedlogins SET attempts = attempts + 1 where ip=$ip_escaped") || sqlerr(__FILE__, __LINE__);
+     }
      $to = ((int)$row["id"]);
      $subject = "{$lang['tlogin_log_err1']}";
      $msg = "[color=red]{$lang['tlogin_log_err2']}[/color]\n{$lang['tlogin_mess1']}" . (int)$row['id'] . "{$lang['tlogin_mess2']}" . htmlsafechars($username) . "{$lang['tlogin_mess3']}" . "{$lang['tlogin_mess4']}" . htmlsafechars($ip) . "{$lang['tlogin_mess5']}";
@@ -134,8 +150,12 @@ $added = TIME_NOW;
 if (!$rows) {
     ($fail_query = sql_query("SELECT COUNT(id) from failedlogins where ip=$ip_escaped")) || sqlerr(__FILE__, __LINE__); 
     $fail = $fail_query->fetch_row;
-    if ($fail[0] == 0) sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES ($ip_escaped, $added, 1)") || sqlerr(__FILE__, __LINE__);
-    else sql_query("UPDATE failedlogins SET attempts = attempts + 1 where ip=$ip_escaped") || sqlerr(__FILE__, __LINE__);
+    if ($fail[0] == 0) {
+        sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES ($ip_escaped, $added, 1)") || sqlerr(__FILE__, __LINE__);
+    }
+    else {
+        sql_query("UPDATE failedlogins SET attempts = attempts + 1 where ip=$ip_escaped") || sqlerr(__FILE__, __LINE__);
+    }
     bark();
 }
 $hash1 = t_Hash($rows['email'], $rows['username'], $rows['added']);
@@ -144,8 +164,12 @@ $tri_hash = password_verify($hash1.hash("ripemd160", $password).$hash2, $rows['p
 if (!$tri_hash) {
     ($fail_query = sql_query("SELECT COUNT(id) from failedlogins where ip=$ip_escaped")) || sqlerr(__FILE__, __LINE__);
     $fail = $fail_query->fetch_row();
-    if ($fail[0] == 0) sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES ($ip_escaped, $added, 1)") || sqlerr(__FILE__, __LINE__);
-    else sql_query("UPDATE failedlogins SET attempts = attempts + 1 where ip=$ip_escaped") || sqlerr(__FILE__, __LINE__);
+    if ($fail[0] == 0) {
+        sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES ($ip_escaped, $added, 1)") || sqlerr(__FILE__, __LINE__);
+    }
+    else {
+        sql_query("UPDATE failedlogins SET attempts = attempts + 1 where ip=$ip_escaped") || sqlerr(__FILE__, __LINE__);
+    }
     $to = ((int)$rows["id"]);
     $subject = "{$lang['tlogin_log_err1']}";
     $msg = "[color=red]{$lang['tlogin_log_err2']}[/color]\n{$lang['tlogin_mess1']}" . (int)$rows['id'] . "{$lang['tlogin_mess2']}" . htmlsafechars($username) . "{$lang['tlogin_mess3']}" . "{$lang['tlogin_mess4']}" . htmlsafechars($ip) . "{$lang['tlogin_mess5']}";
@@ -156,7 +180,9 @@ if (!$tri_hash) {
     bark("<b>{$lang['gl_error']}</b>{$lang['tlogin_forgot']}");
 }
 
-if ($rows['enabled'] == 'no') bark($lang['tlogin_disabled']);
+if ($rows['enabled'] == 'no') {
+    bark($lang['tlogin_disabled']);
+}
 sql_query("DELETE FROM failedlogins WHERE ip = $ip_escaped");
 $userid = (int)$rows["id"];
 $rows['perms'] = (int)$rows['perms'];

@@ -45,8 +45,12 @@ function left()
     ($fail = sql_query("SELECT SUM(attempts) FROM failedlogins WHERE ip=" . sqlesc($ip))) || sqlerr(__FILE__, __LINE__);
     [$total] = $fail->fetch_row();
     $left = $TRINITY20['failedlogins'] - $total;
-    if ($left <= 2) $left = "<span class='button rounded alert'>{$left}</span>";
-    else $left = "<span class='button rouned success'>{$left}</span>";
+    if ($left <= 2) {
+        $left = "<span class='button rounded alert'>{$left}</span>";
+    }
+    else {
+        $left = "<span class='button rouned success'>{$left}</span>";
+    }
     return $left;
 }
 //== End Failed logins
@@ -80,7 +84,9 @@ $HTMLOUT.= "".($TRINITY20['captcha_on'] ? "<script>
 ".($TRINITY20['captcha_on'] ? "<div id='captchalogin'></div>" : "") . "";
 $HTMLOUT.= "<input name='submitme' type='submit' value='Login' class='button'>";
 
-if (isset($returnto)) $HTMLOUT.= "<input type='hidden' name='returnto' value='" . htmlsafechars($returnto) . "'></form>";
+if (isset($returnto)) {
+    $HTMLOUT .= "<input type='hidden' name='returnto' value='".htmlsafechars($returnto)."'></form>";
+}
 $HTMLOUT.= "
 <div class='clearfix'>
 <a href='signup.php'><span class='float-left'>{$lang['login_signup']}</span></a>

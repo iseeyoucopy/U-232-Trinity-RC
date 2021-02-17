@@ -19,14 +19,22 @@ $search = isset($_GET['search']) ? strip_tags(trim($_GET['search'])) : '';
 $class = $_GET['class'] ?? '-';
 $letter = '';
 $q1 = '';
-if ($class == '-' || !ctype_digit($class)) $class = '';
+if ($class == '-' || !ctype_digit($class)) {
+    $class = '';
+}
 if ($search != '' || $class) {
     $query1 = "username LIKE " . sqlesc("%$search%") . " AND status='confirmed'";
-    if ($search !== '') $q1 = "search=" . htmlsafechars($search);
+    if ($search !== '') {
+        $q1 = "search=".htmlsafechars($search);
+    }
 } else {
     $letter = isset($_GET['letter']) ? trim((string)$_GET["letter"]) : '';
-    if (strlen($letter) > 1) die;
-    if ($letter == "" || strpos("abcdefghijklmnopqrstuvwxyz0123456789", $letter) === false) $letter = "";
+    if (strlen($letter) > 1) {
+        die;
+    }
+    if ($letter == "" || strpos("abcdefghijklmnopqrstuvwxyz0123456789", $letter) === false) {
+        $letter = "";
+    }
     $query1 = "username LIKE '$letter%' AND status='confirmed'";
     $q1 = "letter=$letter";
 }
@@ -42,8 +50,12 @@ $HTMLOUT.= "{$lang['form_search']} <input type='text' size='30' name='search' />
 $HTMLOUT.= "<select name='class'>\n";
 $HTMLOUT.= "<option value='-'>(any class)</option>\n";
 for ($i = 0;; ++$i) {
-    if ($c = get_user_class_name($i)) $HTMLOUT.= "<option value='$i'" . (ctype_digit($class) && $class == $i ? " selected='selected'" : "") . ">$c</option>\n";
-    else break;
+    if ($c = get_user_class_name($i)) {
+        $HTMLOUT .= "<option value='$i'".(ctype_digit($class) && $class == $i ? " selected='selected'" : "").">$c</option>\n";
+    }
+    else {
+        break;
+    }
 }
 $HTMLOUT.= "</select>\n";
 $HTMLOUT.= "<input type='submit' value='{$lang['form_btn']}' class='btn' />\n";
@@ -57,8 +69,12 @@ $HTMLOUT.= "<div class='text-center'>";
 $count = 0;
 foreach ($cc as $L) {
     $HTMLOUT.= ($count == 10) ? "<br /><br />" : '';
-    if (strcmp($L, $letter) === 0) $HTMLOUT.= "<span class='btn' style='background:orange;'>" . strtoupper($L) . "</span>\n";
-    else $HTMLOUT.= "<a href='users.php?letter=$L'><span class='btn'>" . strtoupper($L) . "</span></a>\n";
+    if (strcmp($L, $letter) === 0) {
+        $HTMLOUT .= "<span class='btn' style='background:orange;'>".strtoupper($L)."</span>\n";
+    }
+    else {
+        $HTMLOUT .= "<a href='users.php?letter=$L'><span class='btn'>".strtoupper($L)."</span></a>\n";
+    }
     $count++;
 }
 $HTMLOUT.= "</div>";
@@ -72,7 +88,9 @@ $pagemenu = '';
 $arr = $res->fetch_row();
 if ($arr[0] > $perpage) {
     $pages = floor($arr[0] / $perpage);
-    if ($pages * $perpage < $arr[0]) ++$pages;
+    if ($pages * $perpage < $arr[0]) {
+        ++$pages;
+    }
     if ($page < 1) {
         $page = 1;
     } elseif ($page > $pages) {
@@ -80,15 +98,31 @@ if ($arr[0] > $perpage) {
     }
     for ($i = 1; $i <= $pages; ++$i) {
         $PageNo = $i + 1;
-        if ($PageNo < ($page - 2)) continue;
-        if ($i == $page) $pagemenu.= "&nbsp;<span class='btn' style='background:orange;'>$i</span>\n";
-        else $pagemenu.= "&nbsp;<a href='users.php?$q1&amp;page=$i'><span class='btn'>$i</span></a>\n";
-        if ($PageNo > ($page + 3)) break;
+        if ($PageNo < ($page - 2)) {
+            continue;
+        }
+        if ($i == $page) {
+            $pagemenu .= "&nbsp;<span class='btn' style='background:orange;'>$i</span>\n";
+        }
+        else {
+            $pagemenu .= "&nbsp;<a href='users.php?$q1&amp;page=$i'><span class='btn'>$i</span></a>\n";
+        }
+        if ($PageNo > ($page + 3)) {
+            break;
+        }
     }
-    if ($page == 1) $browsemenu.= "<span class='btn' style='background:orange;'>&lsaquo;</span>$pagemenu";
-    else $browsemenu.= "<a href='users.php?$q1&amp;page=1' title='{$lang['pager_first']}(1)'><span class='btn'>&laquo;</span></a>&nbsp;<a href='users.php?$q1&amp;page=" . ($page - 1) . "'><span class='btn'>&lsaquo;</span></a>$pagemenu";
-    if ($page == $pages) $browsemenu.= "<span class='btn' style='background:orange;'>&rsaquo;</span>";
-    else $browsemenu.= "<a href='users.php?$q1&amp;page=" . ($page + 1) . "'><span class='btn'>&rsaquo;</span></a>&nbsp;<a href='users.php?$q1&amp;page=" . $pages . "' title='{$lang['pager_last']}($pages)'><span class='btn'>&raquo;</span></a>";
+    if ($page == 1) {
+        $browsemenu .= "<span class='btn' style='background:orange;'>&lsaquo;</span>$pagemenu";
+    }
+    else {
+        $browsemenu .= "<a href='users.php?$q1&amp;page=1' title='{$lang['pager_first']}(1)'><span class='btn'>&laquo;</span></a>&nbsp;<a href='users.php?$q1&amp;page=".($page - 1)."'><span class='btn'>&lsaquo;</span></a>$pagemenu";
+    }
+    if ($page == $pages) {
+        $browsemenu .= "<span class='btn' style='background:orange;'>&rsaquo;</span>";
+    }
+    else {
+        $browsemenu .= "<a href='users.php?$q1&amp;page=".($page + 1)."'><span class='btn'>&rsaquo;</span></a>&nbsp;<a href='users.php?$q1&amp;page=".$pages."' title='{$lang['pager_last']}($pages)'><span class='btn'>&raquo;</span></a>";
+    }
 }
 $offset = ($page * $perpage) - $perpage;
 if ($arr[0] > 0) {

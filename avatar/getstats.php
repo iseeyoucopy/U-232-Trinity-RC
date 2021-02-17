@@ -89,9 +89,13 @@ function time_return($stamp)
 function getStats($user, $forced = false)
 {
     global $_settings, $countries;
-    if (!file_exists($_settings . $user . ".set") || !is_array($var = unserialize(file_get_contents($_settings . $user . ".set")))) return false;
+    if (!file_exists($_settings . $user . ".set") || !is_array($var = unserialize(file_get_contents($_settings . $user . ".set")))) {
+        return false;
+    }
     ($query = sql_query("SELECT u.id, u.irctotal, u.last_login, u.onlinetime, u.reputation, u.hits, u.uploaded, u.downloaded, u.country, u.browser, count(p.id) as posts ,count(c.id) as comments FROM users as u LEFT JOIN posts as p ON u.id = p.user_id LEFT JOIN comments as c ON c.user = u.id WHERE u.username = " . sqlesc($user) . " GROUP BY u.id")) || sqlerr(__FILE__, __LINE__); //or die('Error Error Error! 1');
-    if ($query->num_rows != 1) die('Error Error Error! 2');
+    if ($query->num_rows != 1) {
+        die('Error Error Error! 2');
+    }
     $a = $query->fetch_assoc();
     $ops = array(
         $var['line1']['value'],
@@ -111,7 +115,7 @@ function getStats($user, $forced = false)
             break;
 
         case 3:
-            list($days, $hours, $mins) = explode(",", calctime($a['irctotal']));
+            [$days, $hours, $mins] = explode(",", calctime($a['irctotal']));
             $var['line' . $i]['value_p'] = "$days - $hours";
             //$var['line'.$i]['value_p'] = "not yet";
             break;
@@ -121,7 +125,10 @@ function getStats($user, $forced = false)
             break;
 
         case 5:
-            foreach ($countries as $c) if ($c['id'] == $a['country']) $var['line' . $i]['value_p'] = $c;
+            foreach ($countries as $c) { if ($c['id'] == $a['country']) {
+                $var['line'.$i]['value_p'] = $c;
+            }
+            }
             break;
 
         case 6:
@@ -147,9 +154,11 @@ function getStats($user, $forced = false)
         }
         $i++;
     }
-    if (is_writable($_settings . $user . ".set")) file_put_contents($_settings . $user . ".set", serialize($var));
-    else exit("Can't write user setting");
-    if (file_exists($_settings . $user . ".png")) unlink($_settings . $user . ".png");
+    if (is_writable($_settings . $user . ".set")) { file_put_contents($_settings.$user.".set", serialize($var));
+    } else { exit("Can't write user setting");
+    }
+    if (file_exists($_settings . $user . ".png")) { unlink($_settings.$user.".png");
+    }
     return $var;
 }
 ?>

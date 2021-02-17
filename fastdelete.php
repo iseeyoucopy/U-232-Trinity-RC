@@ -20,10 +20,13 @@ fastdelete by Froggaard
 */
 $lang = array_merge( load_language('global'), load_language('fastdelete') );
      
- if (!in_array($CURUSER['id'], $TRINITY20['allowed_staff']['id'])) stderr($lang['fastdelete_error'], $lang['fastdelete_no_acc']);
+ if (!in_array($CURUSER['id'], $TRINITY20['allowed_staff']['id'])) {
+     stderr($lang['fastdelete_error'], $lang['fastdelete_no_acc']);
+ }
 
- if (!isset($_GET['id']) || !is_valid_id($_GET['id']))
-        stderr("{$lang['fastdelete_error']}", "{$lang['fastdelete_error_id']}");
+ if (!isset($_GET['id']) || !is_valid_id($_GET['id'])) {
+     stderr("{$lang['fastdelete_error']}", "{$lang['fastdelete_error_id']}");
+ }
          
     $id = (int)$_GET["id"];
 
@@ -65,12 +68,14 @@ function deletetorrent_xbt($id)
     }
     ($q_query = sql_query("SELECT name, owner FROM torrents WHERE id =".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $q = $q_query->fetch_assoc();
-    if (!$q)
-    stderr('Oopps','Something went Pete Tong - Contact admin !!');
+    if (!$q) {
+        stderr('Oopps', 'Something went Pete Tong - Contact admin !!');
+    }
      
     $sure = (isset($_GET['sure']) && (int) $_GET['sure']);
-        if (!$sure)
+        if (!$sure) {
             stderr("{$lang['fastdelete_sure']}", "{$lang['fastdelete_sure_msg']}");
+        }
           
     if (XBT_TRACKER == true) {
     deletetorrent_xbt($id);
@@ -102,10 +107,12 @@ function deletetorrent_xbt($id)
     //===end
 }
 
-    if (isset($_GET["returnto"]))
+    if (isset($_GET["returnto"])) {
         $ret = "<a href='".htmlsafechars($_GET["returnto"])."'>{$lang['fastdelete_returnto']}</a>";
-    else
+    }
+    else {
         $ret = "<a href='{$TRINITY20['baseurl']}/index.php'>{$lang['fastdelete_index']}</a>";
+    }
      
     $HTMLOUT = '';
     $HTMLOUT .= "<h2>{$lang['fastdelete_deleted']}</h2>

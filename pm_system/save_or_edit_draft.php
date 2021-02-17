@@ -29,8 +29,12 @@ if (!defined('BUNNY_PM_SYSTEM')) {
 $save_or_edit = (isset($_POST['edit']) ? 'edit' : (isset($_GET['edit']) ? 'edit' : 'save'));
 if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'save as draft') {
     //=== make sure they wrote something :P
-    if (empty($_POST['subject'])) stderr($lang['pm_error'], $lang['pm_draft_err']);
-    if (empty($_POST['body'])) stderr($lang['pm_error'], $lang['pm_draft_err1']);
+    if (empty($_POST['subject'])) {
+        stderr($lang['pm_error'], $lang['pm_draft_err']);
+    }
+    if (empty($_POST['body'])) {
+        stderr($lang['pm_error'], $lang['pm_draft_err1']);
+    }
     $body = sqlesc($_POST['body']);
     $subject = sqlesc(strip_tags($_POST['subject']));
     if ($save_or_edit === 'save') {
@@ -43,7 +47,9 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'save as draft') {
         sql_query('UPDATE messages SET msg = ' . $body . ', subject = ' . $subject . ' WHERE id = ' . sqlesc($pm_id)) || sqlerr(__FILE__, __LINE__);
     }
     //=== Check if messages was saved as draft
-    if ($mysqli->affected_rows === 0) stderr($lang[\PM_ERROR], $lang['pm_draft_wasnt']);
+    if ($mysqli->affected_rows === 0) {
+        stderr($lang[\PM_ERROR], $lang['pm_draft_wasnt']);
+    }
     header('Location: /pm_system.php?action=view_mailbox&box=-2&new_draft=1');
     die();
 } //=== end save draft

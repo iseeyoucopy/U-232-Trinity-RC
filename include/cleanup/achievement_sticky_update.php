@@ -81,7 +81,9 @@ function docleanup($data)
             sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) || sqlerr(__FILE__, __LINE__);
             sql_query("INSERT INTO achievements (userid, date, achievement, icon, description) VALUES " . implode(', ', $achievements_buffer) . " ON DUPLICATE key UPDATE date=values(date),achievement=values(achievement),icon=values(icon),description=values(description)") || sqlerr(__FILE__, __LINE__);
             sql_query("INSERT INTO usersachiev (id, $var1, achpoints) VALUES " . implode(', ', $usersachiev_buffer) . " ON DUPLICATE key UPDATE $var1=values($var1), achpoints=achpoints+values(achpoints)") || sqlerr(__FILE__, __LINE__);
-            if ($queries > 0) write_log("Achievements Cleanup: Achievements Stickied Completed using $queries queries. Stickied Achievements awarded to - " . $count . " Member(s)");
+            if ($queries > 0) {
+                write_log("Achievements Cleanup: Achievements Stickied Completed using $queries queries. Stickied Achievements awarded to - ".$count." Member(s)");
+            }
         }
         unset($usersachiev_buffer, $achievements_buffer, $msgs_buffer, $count);
     }
