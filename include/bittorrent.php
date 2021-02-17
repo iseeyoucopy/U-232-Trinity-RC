@@ -280,7 +280,6 @@ function userlogin()
             'savepms',
             'show_shout',
             'show_staffshout',
-            'shoutboxbg',
             'vip_added',
             'invite_rights',
             'anonymous',

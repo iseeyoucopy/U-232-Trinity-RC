@@ -43,7 +43,6 @@ $stdhead = array(
 $stdfoot = array(
     /** include js **/
     'js' => array(
-        'shout',
         'check_selected'
     )
 );
