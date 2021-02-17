@@ -123,14 +123,12 @@ function getip() {
      } else {
        $ip = $_SERVER['REMOTE_ADDR'];
      }
+   } elseif (getenv('HTTP_X_FORWARDED_FOR') && validip(getenv('HTTP_X_FORWARDED_FOR'))) {
+     $ip = getenv('HTTP_X_FORWARDED_FOR');
+   } elseif (getenv('HTTP_CLIENT_IP') && validip(getenv('HTTP_CLIENT_IP'))) {
+     $ip = getenv('HTTP_CLIENT_IP');
    } else {
-     if (getenv('HTTP_X_FORWARDED_FOR') && validip(getenv('HTTP_X_FORWARDED_FOR'))) {
-       $ip = getenv('HTTP_X_FORWARDED_FOR');
-     } elseif (getenv('HTTP_CLIENT_IP') && validip(getenv('HTTP_CLIENT_IP'))) {
-       $ip = getenv('HTTP_CLIENT_IP');
-     } else {
-       $ip = getenv('REMOTE_ADDR');
-     }
+     $ip = getenv('REMOTE_ADDR');
    }
 
    return $ip;
@@ -479,11 +477,9 @@ function userlogin()
         if (check_bans($ip, $reason)) {
             $banned = true;
         }
-        else {
-            if ($ip != $ipf) {
-                if (check_bans($ipf, $reason)) {
-                    $banned = true;
-                }
+        elseif ($ip != $ipf) {
+            if (check_bans($ipf, $reason)) {
+                $banned = true;
             }
         }
         if ($banned) {
@@ -665,27 +661,21 @@ function get_template()
     if (isset($CURUSER)) {
         if (file_exists(TEMPLATE_DIR . "{$CURUSER['stylesheet']}/template.php")) {
             require_once (TEMPLATE_DIR . "{$CURUSER['stylesheet']}/template.php");
-        } else {
-            if (isset($TRINITY20)) {
-                if (file_exists(TEMPLATE_DIR . "{$TRINITY20['stylesheet']}/template.php")) {
-                    require_once (TEMPLATE_DIR . "{$TRINITY20['stylesheet']}/template.php");
-                } else {
-                    echo "Sorry, Templates do not seem to be working properly and missing some code. Please report this to the programmers/owners.";
-                }
+        } elseif (isset($TRINITY20)) {
+            if (file_exists(TEMPLATE_DIR . "{$TRINITY20['stylesheet']}/template.php")) {
+                require_once (TEMPLATE_DIR . "{$TRINITY20['stylesheet']}/template.php");
             } else {
-                if (file_exists(TEMPLATE_DIR . "1/template.php")) {
-                    require_once (TEMPLATE_DIR . "1/template.php");
-                } else {
-                    echo "Sorry, Templates do not seem to be working properly and missing some code. Please report this to the programmers/owners.";
-                }
+                echo "Sorry, Templates do not seem to be working properly and missing some code. Please report this to the programmers/owners.";
             }
-        }
+        } elseif (file_exists(TEMPLATE_DIR . "1/template.php")) {
+                require_once (TEMPLATE_DIR . "1/template.php");
+            } else {
+                echo "Sorry, Templates do not seem to be working properly and missing some code. Please report this to the programmers/owners.";
+            }
+    } elseif (file_exists(TEMPLATE_DIR . "{$TRINITY20['stylesheet']}/template.php")) {
+        require_once (TEMPLATE_DIR . "{$TRINITY20['stylesheet']}/template.php");
     } else {
-        if (file_exists(TEMPLATE_DIR . "{$TRINITY20['stylesheet']}/template.php")) {
-            require_once (TEMPLATE_DIR . "{$TRINITY20['stylesheet']}/template.php");
-        } else {
-            echo "Sorry, Templates do not seem to be working properly and missing some code. Please report this to the programmers/owners.";
-        }
+        echo "Sorry, Templates do not seem to be working properly and missing some code. Please report this to the programmers/owners.";
     }
 
     if (!function_exists("stdhead")) {
@@ -912,13 +902,11 @@ function set_mycookie($name, $value = "", $expires_in = 0, $sticky = 1){
         } else {
             @setcookie($TRINITY20['cookie_prefix'] . $name, $value, $expires, $TRINITY20['cookie_path']);
         }
-    } else {
-		if (PHP_VERSION > 7.3) {
-		    @setcookie($name, $value, ['expires' => $expires,'path' => $TRINITY20['cookie_path'],'domain' => $TRINITY20['cookie_domain'],'secure' => false,'httponly' => true,'samesite' => 'Strict',]);
-        } else {		
-        @setcookie($TRINITY20['cookie_prefix'] . $name, $value, $expires, $TRINITY20['cookie_path'], $TRINITY20['cookie_domain'], NULL, TRUE);
-    }
-    }
+    } elseif (PHP_VERSION > 7.3) {
+        @setcookie($name, $value, ['expires' => $expires,'path' => $TRINITY20['cookie_path'],'domain' => $TRINITY20['cookie_domain'],'secure' => false,'httponly' => true,'samesite' => 'Strict',]);
+} else {
+@setcookie($TRINITY20['cookie_prefix'] . $name, $value, $expires, $TRINITY20['cookie_path'], $TRINITY20['cookie_domain'], NULL, TRUE);
+}
 }
 function get_mycookie($name)
 {

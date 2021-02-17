@@ -414,17 +414,8 @@ while ($arr = $res->fetch_assoc()) {
     //=== rate topic \o/
     //' . (getRate($topicid, "topic")) . '
     $HTMLOUT .= "<div class='author_statistics'>";
-    if ($arr["p_anon"] == "yes") {
-        if ($CURUSER['class'] < UC_STAFF && $posterid != $CURUSER["id"]) {
-            $HTMLOUT .= "";
-        } else {
-            $HTMLOUT .= "
-          Posts:&nbsp;{$forumposts}<br />
-          Ratio:&nbsp;{$Ratio}<br />
-          Uploaded:&nbsp;{$uploaded}<br />
-          Downloaded:&nbsp;{$downloaded}<br />
-          " . ($TRINITY20['rep_sys_on'] ? $member_reputation : "") . "";
-        }
+    if (($arr["p_anon"] == "yes") && $CURUSER['class'] < UC_STAFF && $posterid != $CURUSER["id"]) {
+        $HTMLOUT .= "";
     } else {
         $HTMLOUT .= "
           Posts:&nbsp;{$forumposts}<br />
@@ -479,12 +470,8 @@ while ($arr = $res->fetch_assoc()) {
       </div>";
     $HTMLOUT .= "<div class='card-section callout primary padding-0'>
     <div class='postbit_buttons author_buttons float_left'>";
-    if ($arr["p_anon"] == "yes") {
-        if ($CURUSER['class'] < UC_STAFF) {
-            $HTMLOUT .= "";
-        } else {
-            $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/pm_system.php?action=send_message&amp;receiver=" . $posterid . "' title='Send this user a private message' class='postbit_email'><span>PM</span></a>";
-        }
+    if (($arr["p_anon"] == "yes") && $CURUSER['class'] < UC_STAFF) {
+        $HTMLOUT .= "";
     } else {
         $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/pm_system.php?action=send_message&amp;receiver=" . $posterid . "' title='Send this user a private message' class='postbit_email'><span>PM</span></a>";
     }

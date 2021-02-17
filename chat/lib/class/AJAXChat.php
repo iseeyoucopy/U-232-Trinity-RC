@@ -159,11 +159,9 @@ class AJAXChat {
     }
 
 	function initLogsViewSession() {
-		if($this->getConfig('socketServerEnabled')) {
-			if(!$this->getSessionVar('logsViewSocketAuthenticated')) {
-				$this->updateLogsViewSocketAuthentication();
-				$this->setSessionVar('logsViewSocketAuthenticated', true);
-			}
+		if($this->getConfig('socketServerEnabled') && !$this->getSessionVar('logsViewSocketAuthenticated')) {
+			$this->updateLogsViewSocketAuthentication();
+			$this->setSessionVar('logsViewSocketAuthenticated', true);
 		}
 	}
 
@@ -202,12 +200,10 @@ class AJAXChat {
 				$this->updateOnlineStatus();
 				$this->checkAndRemoveInactive();
 			}
-		} else {
-			if($this->getRequestVar('ajax')) {
-				// Set channel, insert login messages and add to online list on first ajax request in chat view:
-				$this->chatViewLogin();
-			}
-		}
+		} elseif($this->getRequestVar('ajax')) {
+            // Set channel, insert login messages and add to online list on first ajax request in chat view:
+            $this->chatViewLogin();
+        }
 	}
 
 	function isChatOpen() {
@@ -230,12 +226,9 @@ class AJAXChat {
                 return false;
             }
 		}
-		else
-		{
-			if(($this->getConfig('openingHour') > date('G', $time)) && ($this->getConfig('closingHour') <= date('G', $time))) {
-                return false;
-            }
-		}
+		elseif(($this->getConfig('openingHour') > date('G', $time)) && ($this->getConfig('closingHour') <= date('G', $time))) {
+return false;
+}
 		// Check the opening weekdays:
 		if(!in_array(date('w', $time), $this->getConfig('openingWeekDays'))) {
             return false;
@@ -444,15 +437,13 @@ class AJAXChat {
 		$channelID = $this->getRequestVar('channelID');
 		$channelName = $this->getRequestVar('channelName');		
 		// Check the given channelID, or get channelID from channelName:
-		if($channelID === null) {
-			if($channelName !== null) {
-				$channelID = $this->getChannelIDFromChannelName($channelName);
-				// channelName might need encoding conversion:
-				if($channelID === null) {
-					$channelID = $this->getChannelIDFromChannelName(
-									$this->trimChannelName($channelName, $this->getConfig('contentEncoding'))
-								);
-				}
+		if(($channelID === null) && $channelName !== null) {
+			$channelID = $this->getChannelIDFromChannelName($channelName);
+			// channelName might need encoding conversion:
+			if($channelID === null) {
+				$channelID = $this->getChannelIDFromChannelName(
+								$this->trimChannelName($channelName, $this->getConfig('contentEncoding'))
+							);
 			}
 		}
 		// Validate the resulting channelID:
@@ -854,25 +845,23 @@ class AJAXChat {
 						'/error NoOpenQuery'
 					);
 				}
-			} else {
-				if($this->getIDFromName($textParts[1]) === null) {
-					$this->insertChatBotMessage(
-						$this->getPrivateMessageID(),
-						'/error UserNameNotFound '.$textParts[1]
-					);
-				} else {
-					if($this->getQueryUserName() !== null) {
-						// Close the current query:
-						$this->insertMessage('/query');
-					}
-					// Open a query to the requested user:
-					$this->setQueryUserName($textParts[1]);
-					$this->insertChatBotMessage(
-						$this->getPrivateMessageID(),
-						'/queryOpen '.$textParts[1]
-					);
-				}
-			}
+			} elseif($this->getIDFromName($textParts[1]) === null) {
+                $this->insertChatBotMessage(
+                    $this->getPrivateMessageID(),
+                    '/error UserNameNotFound '.$textParts[1]
+                );
+            } else {
+                if($this->getQueryUserName() !== null) {
+                    // Close the current query:
+                    $this->insertMessage('/query');
+                }
+                // Open a query to the requested user:
+                $this->setQueryUserName($textParts[1]);
+                $this->insertChatBotMessage(
+                    $this->getPrivateMessageID(),
+                    '/queryOpen '.$textParts[1]
+                );
+            }
 		} else {
 			$this->insertChatBotMessage(
 				$this->getPrivateMessageID(),
@@ -973,21 +962,19 @@ class AJAXChat {
 					$this->getPrivateMessageID(),
 					'/error MissingUserName'
 				);
-			} else {
-				if(!in_array($textParts[1], $this->getBannedUsers())) {
-					$this->insertChatBotMessage(
-						$this->getPrivateMessageID(),
-						'/error UserNameNotFound '.$textParts[1]
-					);
-				} else {
-					// Unban user and insert message:
-					$this->unbanUser($textParts[1]);
-					$this->insertChatBotMessage(
-						$this->getPrivateMessageID(),
-						'/unban '.$textParts[1]
-					);	
-				}
-			}
+			} elseif(!in_array($textParts[1], $this->getBannedUsers())) {
+                $this->insertChatBotMessage(
+                    $this->getPrivateMessageID(),
+                    '/error UserNameNotFound '.$textParts[1]
+                );
+            } else {
+                // Unban user and insert message:
+                $this->unbanUser($textParts[1]);
+                $this->insertChatBotMessage(
+                    $this->getPrivateMessageID(),
+                    '/unban '.$textParts[1]
+                );
+            }
 		} else {
 			$this->insertChatBotMessage(
 				$this->getPrivateMessageID(),
@@ -1002,20 +989,18 @@ class AJAXChat {
 				$this->getPrivateMessageID(),
 				'/error MissingText'
 			);
-		} else {
-			if($this->getQueryUserName() !== null) {
-				// If we are in query mode, sent the action to the query user:
-				$this->insertMessage('/describe '.$this->getQueryUserName().' '.implode(' ', array_slice($textParts, 1)));
-			} else {
-				$this->insertCustomMessage(
-					$this->getUserID(),
-					$this->getUserName(),
-					$this->getUserRole(),
-					$this->getChannel(),
-					implode(' ', $textParts)
-				);
-			}
-		}
+		} elseif($this->getQueryUserName() !== null) {
+            // If we are in query mode, sent the action to the query user:
+            $this->insertMessage('/describe '.$this->getQueryUserName().' '.implode(' ', array_slice($textParts, 1)));
+        } else {
+            $this->insertCustomMessage(
+                $this->getUserID(),
+                $this->getUserName(),
+                $this->getUserRole(),
+                $this->getChannel(),
+                implode(' ', $textParts)
+            );
+        }
 	}
 		
 	function insertParsedMessageWho($textParts) {

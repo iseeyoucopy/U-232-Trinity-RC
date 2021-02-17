@@ -261,11 +261,8 @@ foreach ($file_list as $key=>$f) {
         $tags
     ])) . ", " . TIME_NOW . ", " . TIME_NOW . ", " . TIME_NOW . ", " . TIME_NOW . ", $freetorrent, $nfo, $tmaker)");
 
-    if (!$ret) {
-        if ($mysqli->errno) {
-            continue;
-        }
-        // stderr($lang['takeupload_failed'], "mysql puked: " . $mysqli->error);
+    if (!$ret && $mysqli->errno) {
+        continue;
     }
 
     if (XBT_TRACKER == false) {

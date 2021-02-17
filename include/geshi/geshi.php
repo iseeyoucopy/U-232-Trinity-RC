@@ -1002,12 +1002,10 @@ class GeSHi {
                     $this->language_data['STYLES']['KEYWORDS'][$_key] .= $style;
                 }
             }
+        } elseif (!$preserve_defaults) {
+            $this->language_data['STYLES']['KEYWORDS'][$key] = $style;
         } else {
-            if (!$preserve_defaults) {
-                $this->language_data['STYLES']['KEYWORDS'][$key] = $style;
-            } else {
-                $this->language_data['STYLES']['KEYWORDS'][$key] .= $style;
-            }
+            $this->language_data['STYLES']['KEYWORDS'][$key] .= $style;
         }
 
         //Update the lexic permissions
@@ -1047,12 +1045,10 @@ class GeSHi {
                     $this->language_data['STYLES']['COMMENTS'][$_key] .= $style;
                 }
             }
+        } elseif (!$preserve_defaults) {
+            $this->language_data['STYLES']['COMMENTS'][$key] = $style;
         } else {
-            if (!$preserve_defaults) {
-                $this->language_data['STYLES']['COMMENTS'][$key] = $style;
-            } else {
-                $this->language_data['STYLES']['COMMENTS'][$key] .= $style;
-            }
+            $this->language_data['STYLES']['COMMENTS'][$key] .= $style;
         }
     }
 
@@ -1665,17 +1661,13 @@ class GeSHi {
         $this->language_data['CACHED_KEYWORD_LISTS'][$key] =
             $this->optimize_regexp_list($this->language_data['KEYWORDS'][$key]);
         $space_as_whitespace = false;
-        if(isset($this->language_data['PARSER_CONTROL'])) {
-            if(isset($this->language_data['PARSER_CONTROL']['KEYWORDS'])) {
-                if(isset($this->language_data['PARSER_CONTROL']['KEYWORDS']['SPACE_AS_WHITESPACE'])) {
-                    $space_as_whitespace = $this->language_data['PARSER_CONTROL']['KEYWORDS']['SPACE_AS_WHITESPACE'];
-                }
-                if(isset($this->language_data['PARSER_CONTROL']['KEYWORDS'][$key]['SPACE_AS_WHITESPACE'])) {
-                    if(isset($this->language_data['PARSER_CONTROL']['KEYWORDS'][$key]['SPACE_AS_WHITESPACE'])) {
-                        $space_as_whitespace = $this->language_data['PARSER_CONTROL']['KEYWORDS'][$key]['SPACE_AS_WHITESPACE'];
-                    }
-                }
+        if(isset($this->language_data['PARSER_CONTROL']) && isset($this->language_data['PARSER_CONTROL']['KEYWORDS'])) {
+            if(isset($this->language_data['PARSER_CONTROL']['KEYWORDS']['SPACE_AS_WHITESPACE'])) {
+                $space_as_whitespace = $this->language_data['PARSER_CONTROL']['KEYWORDS']['SPACE_AS_WHITESPACE'];
             }
+            if(isset($this->language_data['PARSER_CONTROL']['KEYWORDS'][$key]['SPACE_AS_WHITESPACE']) && isset($this->language_data['PARSER_CONTROL']['KEYWORDS'][$key]['SPACE_AS_WHITESPACE'])) {
+                    $space_as_whitespace = $this->language_data['PARSER_CONTROL']['KEYWORDS'][$key]['SPACE_AS_WHITESPACE'];
+                }
         }
         if($space_as_whitespace) {
             foreach($this->language_data['CACHED_KEYWORD_LISTS'][$key] as $rxk => $rxv) {
@@ -1994,13 +1986,11 @@ class GeSHi {
                             $this->language_data['SYMBOL_DATA'][$sym] = $key;
                             if (isset($sym[1])) { // multiple chars
                                 $symbol_preg_multi[] = preg_quote($sym, '/');
-                            } else { // single char
-                                if ($sym == '-') {
-                                    // don't trigger range out of order error
-                                    $symbol_preg_single[] = '\-';
-                                } else {
-                                    $symbol_preg_single[] = preg_quote($sym, '/');
-                                }
+                            } elseif ($sym == '-') {
+                                // don't trigger range out of order error
+                                $symbol_preg_single[] = '\-';
+                            } else {
+                                $symbol_preg_single[] = preg_quote($sym, '/');
                             }
                         }
                     }
@@ -2400,14 +2390,12 @@ class GeSHi {
         $sc_disallowed_before = "";
         $sc_disallowed_after = "";
 
-        if (isset($this->language_data['PARSER_CONTROL'])) {
-            if (isset($this->language_data['PARSER_CONTROL']['COMMENTS'])) {
-                if (isset($this->language_data['PARSER_CONTROL']['COMMENTS']['DISALLOWED_BEFORE'])) {
-                    $sc_disallowed_before = $this->language_data['PARSER_CONTROL']['COMMENTS']['DISALLOWED_BEFORE'];
-                }
-                if (isset($this->language_data['PARSER_CONTROL']['COMMENTS']['DISALLOWED_AFTER'])) {
-                    $sc_disallowed_after = $this->language_data['PARSER_CONTROL']['COMMENTS']['DISALLOWED_AFTER'];
-                }
+        if (isset($this->language_data['PARSER_CONTROL']) && isset($this->language_data['PARSER_CONTROL']['COMMENTS'])) {
+            if (isset($this->language_data['PARSER_CONTROL']['COMMENTS']['DISALLOWED_BEFORE'])) {
+                $sc_disallowed_before = $this->language_data['PARSER_CONTROL']['COMMENTS']['DISALLOWED_BEFORE'];
+            }
+            if (isset($this->language_data['PARSER_CONTROL']['COMMENTS']['DISALLOWED_AFTER'])) {
+                $sc_disallowed_after = $this->language_data['PARSER_CONTROL']['COMMENTS']['DISALLOWED_AFTER'];
             }
         }
 
@@ -3241,45 +3229,42 @@ class GeSHi {
         $before = '';
         $after = '';
 
-        if ($this->keyword_links) {
-            // Keyword links have been ebabled
+        // Keyword links have been ebabled
+        if ($this->keyword_links && isset($this->language_data['URLS'][$k]) &&
+            $this->language_data['URLS'][$k] != '') {
+            // There is a base group for this keyword
 
-            if (isset($this->language_data['URLS'][$k]) &&
-                $this->language_data['URLS'][$k] != '') {
-                // There is a base group for this keyword
-
-                // Old system: strtolower
-                //$keyword = ( $this->language_data['CASE_SENSITIVE'][$group] ) ? $keyword : strtolower($keyword);
-                // New system: get keyword from language file to get correct case
-                if (!$this->language_data['CASE_SENSITIVE'][$k] &&
-                    strpos($this->language_data['URLS'][$k], '{FNAME}') !== false) {
-                    foreach ($this->language_data['KEYWORDS'][$k] as $word) {
-                        if (strcasecmp($word, $keyword_match) == 0) {
-                            break;
-                        }
+            // Old system: strtolower
+            //$keyword = ( $this->language_data['CASE_SENSITIVE'][$group] ) ? $keyword : strtolower($keyword);
+            // New system: get keyword from language file to get correct case
+            if (!$this->language_data['CASE_SENSITIVE'][$k] &&
+                strpos($this->language_data['URLS'][$k], '{FNAME}') !== false) {
+                foreach ($this->language_data['KEYWORDS'][$k] as $word) {
+                    if (strcasecmp($word, $keyword_match) == 0) {
+                        break;
                     }
-                } else {
-                    $word = $keyword_match;
                 }
-
-                $before = '<|UR1|"' .
-                    str_replace(
-                        array(
-                            '{FNAME}',
-                            '{FNAMEL}',
-                            '{FNAMEU}',
-                            '{FNAMEUF}',
-                            '.'),
-                        array(
-                            str_replace('+', '%20', urlencode($this->hsc($word))),
-                            str_replace('+', '%20', urlencode($this->hsc(strtolower($word)))),
-                            str_replace('+', '%20', urlencode($this->hsc(strtoupper($word)))),
-                            str_replace('+', '%20', urlencode($this->hsc(ucfirst($word)))),
-                            '<DOT>'),
-                        $this->language_data['URLS'][$k]
-                    ) . '">';
-                $after = '</a>';
+            } else {
+                $word = $keyword_match;
             }
+
+            $before = '<|UR1|"' .
+                str_replace(
+                    array(
+                        '{FNAME}',
+                        '{FNAMEL}',
+                        '{FNAMEU}',
+                        '{FNAMEUF}',
+                        '.'),
+                    array(
+                        str_replace('+', '%20', urlencode($this->hsc($word))),
+                        str_replace('+', '%20', urlencode($this->hsc(strtolower($word)))),
+                        str_replace('+', '%20', urlencode($this->hsc(strtoupper($word)))),
+                        str_replace('+', '%20', urlencode($this->hsc(ucfirst($word)))),
+                        '<DOT>'),
+                    $this->language_data['URLS'][$k]
+                ) . '">';
+            $after = '</a>';
         }
 
         return $before . '<|/'. $k .'/>' . $this->change_case($keyword) . '|>' . $after;
@@ -3356,19 +3341,17 @@ class GeSHi {
         $disallowed_after .= "])";
 
         $parser_control_pergroup = false;
-        if (isset($this->language_data['PARSER_CONTROL'])) {
-            if (isset($this->language_data['PARSER_CONTROL']['KEYWORDS'])) {
-                $x = 0; // check wether per-keyword-group parser_control is enabled
-                if (isset($this->language_data['PARSER_CONTROL']['KEYWORDS']['DISALLOWED_BEFORE'])) {
-                    $disallowed_before = $this->language_data['PARSER_CONTROL']['KEYWORDS']['DISALLOWED_BEFORE'];
-                    ++$x;
-                }
-                if (isset($this->language_data['PARSER_CONTROL']['KEYWORDS']['DISALLOWED_AFTER'])) {
-                    $disallowed_after = $this->language_data['PARSER_CONTROL']['KEYWORDS']['DISALLOWED_AFTER'];
-                    ++$x;
-                }
-                $parser_control_pergroup = (count($this->language_data['PARSER_CONTROL']['KEYWORDS']) - $x) > 0;
+        if (isset($this->language_data['PARSER_CONTROL']) && isset($this->language_data['PARSER_CONTROL']['KEYWORDS'])) {
+            $x = 0; // check wether per-keyword-group parser_control is enabled
+            if (isset($this->language_data['PARSER_CONTROL']['KEYWORDS']['DISALLOWED_BEFORE'])) {
+                $disallowed_before = $this->language_data['PARSER_CONTROL']['KEYWORDS']['DISALLOWED_BEFORE'];
+                ++$x;
             }
+            if (isset($this->language_data['PARSER_CONTROL']['KEYWORDS']['DISALLOWED_AFTER'])) {
+                $disallowed_after = $this->language_data['PARSER_CONTROL']['KEYWORDS']['DISALLOWED_AFTER'];
+                ++$x;
+            }
+            $parser_control_pergroup = (count($this->language_data['PARSER_CONTROL']['KEYWORDS']) - $x) > 0;
         }
 
         foreach (array_keys($this->language_data['KEYWORDS']) as $k) {
@@ -3434,16 +3417,14 @@ class GeSHi {
                             $regexp[GESHI_BEFORE] . '<|!REG3XP'. $key .'!>' . $regexp[GESHI_REPLACE] . '|>' . $regexp[GESHI_AFTER],
                             $stuff_to_parse);
                     }
+                } elseif ($this->line_numbers != GESHI_NO_LINE_NUMBERS) {
+                    // produce valid HTML when we match multiple lines
+                    $this->_hmr_key = $key;
+                    $stuff_to_parse = preg_replace_callback( "/(" . $regexp . ")/",
+                                          array($this, 'handle_multiline_regexps'), $stuff_to_parse);
+                    $this->_hmr_key = '';
                 } else {
-                    if ($this->line_numbers != GESHI_NO_LINE_NUMBERS) {
-                        // produce valid HTML when we match multiple lines
-                        $this->_hmr_key = $key;
-                        $stuff_to_parse = preg_replace_callback( "/(" . $regexp . ")/",
-                                              array($this, 'handle_multiline_regexps'), $stuff_to_parse);
-                        $this->_hmr_key = '';
-                    } else {
-                        $stuff_to_parse = preg_replace( "/(" . $regexp . ")/", "<|!REG3XP$key!>\\1|>", $stuff_to_parse);
-                    }
+                    $stuff_to_parse = preg_replace( "/(" . $regexp . ")/", "<|!REG3XP$key!>\\1|>", $stuff_to_parse);
                 }
             }
         }
@@ -3498,17 +3479,15 @@ class GeSHi {
             $oolang_spaces = "[\s]*";
             $oolang_before = "";
             $oolang_after = "[a-zA-Z][a-zA-Z0-9_]*";
-            if (isset($this->language_data['PARSER_CONTROL'])) {
-                if (isset($this->language_data['PARSER_CONTROL']['OOLANG'])) {
-                    if (isset($this->language_data['PARSER_CONTROL']['OOLANG']['MATCH_BEFORE'])) {
-                        $oolang_before = $this->language_data['PARSER_CONTROL']['OOLANG']['MATCH_BEFORE'];
-                    }
-                    if (isset($this->language_data['PARSER_CONTROL']['OOLANG']['MATCH_AFTER'])) {
-                        $oolang_after = $this->language_data['PARSER_CONTROL']['OOLANG']['MATCH_AFTER'];
-                    }
-                    if (isset($this->language_data['PARSER_CONTROL']['OOLANG']['MATCH_SPACES'])) {
-                        $oolang_spaces = $this->language_data['PARSER_CONTROL']['OOLANG']['MATCH_SPACES'];
-                    }
+            if (isset($this->language_data['PARSER_CONTROL']) && isset($this->language_data['PARSER_CONTROL']['OOLANG'])) {
+                if (isset($this->language_data['PARSER_CONTROL']['OOLANG']['MATCH_BEFORE'])) {
+                    $oolang_before = $this->language_data['PARSER_CONTROL']['OOLANG']['MATCH_BEFORE'];
+                }
+                if (isset($this->language_data['PARSER_CONTROL']['OOLANG']['MATCH_AFTER'])) {
+                    $oolang_after = $this->language_data['PARSER_CONTROL']['OOLANG']['MATCH_AFTER'];
+                }
+                if (isset($this->language_data['PARSER_CONTROL']['OOLANG']['MATCH_SPACES'])) {
+                    $oolang_spaces = $this->language_data['PARSER_CONTROL']['OOLANG']['MATCH_SPACES'];
                 }
             }
 
@@ -3617,14 +3596,12 @@ class GeSHi {
                 } else {
                     if (!$this->use_classes) {
                         $attributes = ' style="' . $this->language_data['STYLES']['REGEXPS'][$key] . '"';
+                    } elseif (is_array($this->language_data['REGEXPS'][$key]) &&
+                        array_key_exists(GESHI_CLASS, $this->language_data['REGEXPS'][$key])) {
+                        $attributes = ' class="' .
+                            $this->language_data['REGEXPS'][$key][GESHI_CLASS] . '"';
                     } else {
-                        if (is_array($this->language_data['REGEXPS'][$key]) &&
-                            array_key_exists(GESHI_CLASS, $this->language_data['REGEXPS'][$key])) {
-                            $attributes = ' class="' .
-                                $this->language_data['REGEXPS'][$key][GESHI_CLASS] . '"';
-                        } else {
-                           $attributes = ' class="re' . $key . '"';
-                        }
+                       $attributes = ' class="re' . $key . '"';
                     }
                     $stuff_to_parse = str_replace("!REG3XP$key!", "$attributes", $stuff_to_parse);
                 }
@@ -3881,16 +3858,14 @@ class GeSHi {
                         // code on that line
                         $def_attr = ' style="' . $this->code_style . '"';
                     }
+                } elseif ($this->use_classes) {
+                    //$attr = ' class="li1"';
+                    $attrs['class'][] = 'li1';
+                    $def_attr = ' class="de1"';
                 } else {
-                    if ($this->use_classes) {
-                        //$attr = ' class="li1"';
-                        $attrs['class'][] = 'li1';
-                        $def_attr = ' class="de1"';
-                    } else {
-                        //$attr = ' style="' . $this->line_style1 . '"';
-                        $attrs['style'][] = $this->line_style1;
-                        $def_attr = ' style="' . $this->code_style . '"';
-                    }
+                    //$attr = ' style="' . $this->line_style1 . '"';
+                    $attrs['style'][] = $this->line_style1;
+                    $def_attr = ' style="' . $this->code_style . '"';
                 }
 
                 //Check which type of tag to insert for this line
@@ -4124,14 +4099,12 @@ class GeSHi {
             } elseif ($this->header_type == GESHI_HEADER_PRE_TABLE) {
                 return "<table$attributes>$header<tbody><tr class=\"li1\">";
             }
+        } elseif ($this->header_type == GESHI_HEADER_PRE) {
+            return "<pre$attributes>$header"  .
+                ($this->force_code_block ? '<div>' : '');
         } else {
-            if ($this->header_type == GESHI_HEADER_PRE) {
-                return "<pre$attributes>$header"  .
-                    ($this->force_code_block ? '<div>' : '');
-            } else {
-                return "<div$attributes>$header" .
-                    ($this->force_code_block ? '<div>' : '');
-            }
+            return "<div$attributes>$header" .
+                ($this->force_code_block ? '<div>' : '');
         }
     }
 
