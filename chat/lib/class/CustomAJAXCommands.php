@@ -1277,22 +1277,20 @@ switch($textParts[0]) {
 								} else {
 									$this->insertChatBotMessage($this->getPrivateMessageID(),"[color=red]Error:[/color] You don't have the potato");
 								}
-							} else {
-								if ($elim == 'on' && $usercount == 1) {
-									$this->insertChatBotMessage($this->getChannel(),"[color=orange]Hot Potato:[/color] We have a winner! [b]".$this->getUsername()."[/b] was the winner after ".$hotcount['value']." passes!");
-									
-									// Turn it off
-									$query_off = mysql_query("UPDATE `ajax_chat_custom` SET value='off' WHERE name='hotpotato'");
+							} elseif ($elim == 'on' && $usercount == 1) {
+                                $this->insertChatBotMessage($this->getChannel(),"[color=orange]Hot Potato:[/color] We have a winner! [b]".$this->getUsername()."[/b] was the winner after ".$hotcount['value']." passes!");
 
-									// Clear user values
-									$query_user = mysql_query("UPDATE `ajax_chat_custom` SET value='',user='0' WHERE name='hotuser'");
+                                // Turn it off
+                                $query_off = mysql_query("UPDATE `ajax_chat_custom` SET value='off' WHERE name='hotpotato'");
 
-									// Clear counter
-									$query = mysql_query("UPDATE `ajax_chat_custom` SET value='0' WHERE name='hotcount'");
-								} else {							
-									$this->insertChatBotMessage($this->getPrivateMessageID(),"[color=red]Error:[/color] Hot Potato requires more than 2 players");
-								}
-							}
+                                // Clear user values
+                                $query_user = mysql_query("UPDATE `ajax_chat_custom` SET value='',user='0' WHERE name='hotuser'");
+
+                                // Clear counter
+                                $query = mysql_query("UPDATE `ajax_chat_custom` SET value='0' WHERE name='hotcount'");
+                            } else {
+                                $this->insertChatBotMessage($this->getPrivateMessageID(),"[color=red]Error:[/color] Hot Potato requires more than 2 players");
+                            }
 						} else {
 							$this->insertChatBotMessage($this->getPrivateMessageID(),"[color=red]Error:[/color] You are not participating");
 						}

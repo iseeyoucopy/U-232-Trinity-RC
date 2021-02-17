@@ -266,11 +266,9 @@ function stdfoot($stdfoot = false)
     $r_seconds = round($seconds, 5);
     $queries = (!empty($query_stat)); // sql query count by pdq
     // load averages - pdq
-    if ($debug) {
-        if (($uptime = $cache->get('uptime')) === false) {
-            $uptime = `uptime`;
-            $cache->set('uptime', $uptime, 25);
-        }
+    if ($debug && ($uptime = $cache->get('uptime')) === false) {
+        $uptime = `uptime`;
+        $cache->set('uptime', $uptime, 25);
     }
     //== end class
     $htmlfoot = '';
