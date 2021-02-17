@@ -16,9 +16,9 @@ function getips()
         if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',') > 0) {
             $addr = explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']);
             return trim($addr[0]);
-        } else {
-            return $_SERVER['HTTP_X_FORWARDED_FOR'];
         }
+
+        return $_SERVER['HTTP_X_FORWARDED_FOR'];
     } else {
         return $_SERVER['REMOTE_ADDR'];
     }

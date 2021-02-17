@@ -620,9 +620,9 @@ class Apc implements KeyValueStore
 
         if (function_exists('apcu_fetch')) {
             return apcu_fetch($key, $success);
-        } else {
-            return apc_fetch($key, $success);
         }
+
+        return apc_fetch($key, $success);
     }
 
     /**
@@ -659,9 +659,9 @@ class Apc implements KeyValueStore
 
         if (function_exists('apcu_store')) {
             return apcu_store($key, $var, $ttl);
-        } else {
-            return apc_store($key, $var, $ttl);
         }
+
+        return apc_store($key, $var, $ttl);
     }
 
     /**
@@ -673,9 +673,9 @@ class Apc implements KeyValueStore
     {
         if (function_exists('apcu_delete')) {
             return apcu_delete($key);
-        } else {
-            return apc_delete($key);
         }
+
+        return apc_delete($key);
     }
 
     /**
@@ -689,9 +689,9 @@ class Apc implements KeyValueStore
     {
         if (function_exists('apcu_add')) {
             return apcu_add($key, $var, $ttl);
-        } else {
-            return apc_add($key, $var, $ttl);
         }
+
+        return apc_add($key, $var, $ttl);
     }
 
     /**
@@ -701,9 +701,9 @@ class Apc implements KeyValueStore
     {
         if (function_exists('apcu_clear_cache')) {
             return apcu_clear_cache();
-        } else {
-            return apc_clear_cache('user');
         }
+
+        return apc_clear_cache('user');
     }
 
     /**
@@ -725,11 +725,11 @@ class Apc implements KeyValueStore
             $reflect = new \ReflectionClass('APCuIterator');
 
             return $reflect->newInstanceArgs($arguments);
-        } else {
-            array_unshift($arguments, 'user');
-            $reflect = new \ReflectionClass('APCIterator');
-
-            return $reflect->newInstanceArgs($arguments);
         }
+
+        array_unshift($arguments, 'user');
+        $reflect = new \ReflectionClass('APCIterator');
+
+        return $reflect->newInstanceArgs($arguments);
     }
 }

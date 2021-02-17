@@ -39,9 +39,9 @@ function is_s($n)
 	global $lang;
     if ($n == 1) {
         return "";
-    } else {
-        return $lang['index_load_s'];
     }
+
+    return $lang['index_load_s'];
 }
 function uptime()
 {

@@ -127,8 +127,8 @@ class Cache extends TransactionalStore
             $client->select((int) $this->config['redis']['database']);
 
             return $client->flushDB();
-        } else {
-            return $this->flush();
         }
+
+        return $this->flush();
     }
 }

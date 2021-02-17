@@ -1016,33 +1016,33 @@ if (isset($_GET['exchange'])) {
 				}
 				header("Refresh: 0; url={$TRINITY20['baseurl']}//mybonus.php?freeleech_success=1&norefund=$norefund");
 				die;
-			} else {
-                // add to the pool
-				sql_query("UPDATE bonus SET pointspool = pointspool + " . sqlesc($donation) . " WHERE id = '11' LIMIT 1") || sqlerr(__FILE__, __LINE__);
-				$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $donation . " Points contributed for freeleech.\n " . $bonuscomment;
-				sql_query(
-					"UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-				) || sqlerr(__FILE__, __LINE__);
-				$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
-				$cache->update_row(
-					'user_stats_' . $userid,
-					['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
-					$TRINITY20['expires']['user_stats']
-				);
-				$cache->delete('freecontribution_');
-				$cache->delete('top_donators_');
-				$cache->delete('freeleech_counter');
-				$cache->delete('freeleech_counter_alerts_');
-				$cache->delete('freecontribution_datas_');
-				$cache->delete('freecontribution_datas_alerts_');
-				write_bonus_log($CURUSER["id"], $donation, $type = "freeleech");
-				$Remaining = ($arr_points['points'] - $arr_points['pointspool'] - $donation);
-				$msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the freeleech contribution pot ! * Only [b]" . htmlsafechars($Remaining) . "[/b] more karma point" . ($Remaining > 1 ? 's' : '') . " to go! * [color=green][b]Freeleech contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]" . $donation . "/" . $points . '[/url]';
-				autoshout($msg);
-				header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?freeleech_success=2");
-				die;
 			}
-			die;
+
+// add to the pool
+            sql_query("UPDATE bonus SET pointspool = pointspool + " . sqlesc($donation) . " WHERE id = '11' LIMIT 1") || sqlerr(__FILE__, __LINE__);
+            $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $donation . " Points contributed for freeleech.\n " . $bonuscomment;
+            sql_query(
+                "UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
+            ) || sqlerr(__FILE__, __LINE__);
+            $cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+            $cache->update_row(
+                'user_stats_' . $userid,
+                ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
+                $TRINITY20['expires']['user_stats']
+            );
+            $cache->delete('freecontribution_');
+            $cache->delete('top_donators_');
+            $cache->delete('freeleech_counter');
+            $cache->delete('freeleech_counter_alerts_');
+            $cache->delete('freecontribution_datas_');
+            $cache->delete('freecontribution_datas_alerts_');
+            write_bonus_log($CURUSER["id"], $donation, $type = "freeleech");
+            $Remaining = ($arr_points['points'] - $arr_points['pointspool'] - $donation);
+            $msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the freeleech contribution pot ! * Only [b]" . htmlsafechars($Remaining) . "[/b] more karma point" . ($Remaining > 1 ? 's' : '') . " to go! * [color=green][b]Freeleech contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]" . $donation . "/" . $points . '[/url]';
+            autoshout($msg);
+            header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?freeleech_success=2");
+            die;
+            die;
 			break;
 
             //--- doubleupload
@@ -1090,34 +1090,34 @@ if (isset($_GET['exchange'])) {
 				}
 				header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?doubleup_success=1&norefund=$norefund");
 				die;
-			} else {
-                // add to the pool
-				sql_query("UPDATE bonus SET pointspool = pointspool + " . sqlesc($donation) . " WHERE id = '12' LIMIT 1") || sqlerr(__FILE__, __LINE__);
-				$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $donation . " Points contributed for doubleupload.\n " . $bonuscomment;
-				sql_query(
-					"UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-				) || sqlerr(__FILE__, __LINE__);
-				$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
-				$cache->update_row(
-					'user_stats_' . $userid,
-					['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
-					$TRINITY20['expires']['user_stats']
-				);
-				$cache->delete('freecontribution_');
-				$cache->delete('top_donators2_');
-				$cache->delete('doubleupload_counter');
-				$cache->delete('doubleupload_counter_alerts_');
-				$cache->delete('freecontribution_datas_');
-				$cache->delete('freecontribution_datas_alerts_');
-				write_bonus_log($CURUSER["id"], $donation, $type = "doubleupload");
-				$Remaining = ($arr_points['points'] - $arr_points['pointspool'] - $donation);
-				$msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the double upload contribution pot ! * Only [b]" . htmlsafechars($Remaining) . "[/b] more karma point" . ($Remaining > 1 ? 's' : '') . " to go! * [color=green][b]Double upload contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]" . $donation . "/" . $points . '[/url]';
-				
-				autoshout($msg);
-				header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?doubleup_success=2");
-				die;
 			}
-			die;
+
+// add to the pool
+            sql_query("UPDATE bonus SET pointspool = pointspool + " . sqlesc($donation) . " WHERE id = '12' LIMIT 1") || sqlerr(__FILE__, __LINE__);
+            $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $donation . " Points contributed for doubleupload.\n " . $bonuscomment;
+            sql_query(
+                "UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
+            ) || sqlerr(__FILE__, __LINE__);
+            $cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+            $cache->update_row(
+                'user_stats_' . $userid,
+                ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
+                $TRINITY20['expires']['user_stats']
+            );
+            $cache->delete('freecontribution_');
+            $cache->delete('top_donators2_');
+            $cache->delete('doubleupload_counter');
+            $cache->delete('doubleupload_counter_alerts_');
+            $cache->delete('freecontribution_datas_');
+            $cache->delete('freecontribution_datas_alerts_');
+            write_bonus_log($CURUSER["id"], $donation, $type = "doubleupload");
+            $Remaining = ($arr_points['points'] - $arr_points['pointspool'] - $donation);
+            $msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the double upload contribution pot ! * Only [b]" . htmlsafechars($Remaining) . "[/b] more karma point" . ($Remaining > 1 ? 's' : '') . " to go! * [color=green][b]Double upload contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]" . $donation . "/" . $points . '[/url]';
+
+            autoshout($msg);
+            header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?doubleup_success=2");
+            die;
+            die;
 			break;
 
             //---Halfdownload
@@ -1164,34 +1164,34 @@ if (isset($_GET['exchange'])) {
 				autoshout($msg);
 				header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?halfdown_success=1&norefund=$norefund");
 				die;
-			} else {
-                // add to the pool
-				sql_query("UPDATE bonus SET pointspool = pointspool + " . sqlesc($donation) . " WHERE id = '13' LIMIT 1") || sqlerr(__FILE__, __LINE__);
-				$bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points contributed for halfdownload.\n " . $bonuscomment;
-				sql_query(
-					"UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
-				) || sqlerr(__FILE__, __LINE__);
-				$cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
-				$cache->update_row(
-					'user_stats_' . $userid,
-					['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
-					$TRINITY20['expires']['user_stats']
-				);
-				$cache->delete('freecontribution_');
-				$cache->delete('top_donators3_');
-				$cache->delete('halfdownload_counter');
-				$cache->delete('halfdownload_counter_alerts_');
-				$cache->delete('freecontribution_datas_');
-				$cache->delete('freecontribution_datas_alerts_');
-				write_bonus_log($CURUSER["id"], $donation, $type = "halfdownload");
-				$Remaining = ($arr_points['points'] - $arr_points['pointspool'] - $donation);
-				$msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the half download contribution pot ! * Only [b]" . htmlsafechars($Remaining) . "[/b] more karma point" . ($Remaining > 1 ? 's' : '') . " to go! * [color=green][b]Half download contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]" . $donation . "/" . $points . '[/url]';
-				
-				autoshout($msg);
-				header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?halfdown_success=2");
-				die;
 			}
-			die;
+
+// add to the pool
+            sql_query("UPDATE bonus SET pointspool = pointspool + " . sqlesc($donation) . " WHERE id = '13' LIMIT 1") || sqlerr(__FILE__, __LINE__);
+            $bonuscomment = get_date(TIME_NOW, 'DATE', 1) . " - " . $points . " Points contributed for halfdownload.\n " . $bonuscomment;
+            sql_query(
+                "UPDATE users SET seedbonus = " . sqlesc($seedbonus) . ", bonuscomment = " . sqlesc($bonuscomment) . " WHERE id = " . sqlesc($userid)
+            ) || sqlerr(__FILE__, __LINE__);
+            $cache->update_row($keys['user_stats'] . $userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
+            $cache->update_row(
+                'user_stats_' . $userid,
+                ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
+                $TRINITY20['expires']['user_stats']
+            );
+            $cache->delete('freecontribution_');
+            $cache->delete('top_donators3_');
+            $cache->delete('halfdownload_counter');
+            $cache->delete('halfdownload_counter_alerts_');
+            $cache->delete('freecontribution_datas_');
+            $cache->delete('freecontribution_datas_alerts_');
+            write_bonus_log($CURUSER["id"], $donation, $type = "halfdownload");
+            $Remaining = ($arr_points['points'] - $arr_points['pointspool'] - $donation);
+            $msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the half download contribution pot ! * Only [b]" . htmlsafechars($Remaining) . "[/b] more karma point" . ($Remaining > 1 ? 's' : '') . " to go! * [color=green][b]Half download contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]" . $donation . "/" . $points . '[/url]';
+
+            autoshout($msg);
+            header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?halfdown_success=2");
+            die;
+            die;
 			break;
 
 		case 'ratio':
@@ -1457,11 +1457,11 @@ the user class is just for show, but what the hell :p Add more or edit to your l
 					"Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?gift_success=1&gift_amount_points=$points&usernamegift=$usernamegift&gift_id=$useridgift"
 				);
 				die;
-			} else {
-				header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?gift_fail_points=1");
-				die;
 			}
-			break;
+
+            header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?gift_fail_points=1");
+            die;
+            break;
 	}
 }
 

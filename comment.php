@@ -169,7 +169,9 @@ if ($action == 'add') {
     }
     echo stdhead("{$lang['comment_add']}'" . $arr[$name] . "'", true, $stdhead) . $HTMLOUT . stdfoot($stdfoot);
     die;
-} elseif ($action == "edit") {
+}
+
+if ($action == "edit") {
     $commentid = (isset($_GET['cid']) ? (int) $_GET['cid'] : 0);
     if (!is_valid_id($commentid)) {
         stderr("{$lang['comment_error']}", "{$lang['comment_invalid_id']}");

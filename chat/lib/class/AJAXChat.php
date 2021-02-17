@@ -118,18 +118,20 @@ class AJAXChat {
 			$this->logout();
 			return;
 			
-		} else if(
-			// Login if auto-login enabled or a login, userName or shoutbox parameter is given:
-			$this->getConfig('forceAutoLogin') ||
-			$this->getRequestVar('login') ||
-			$this->getRequestVar('userName') ||
-			$this->getRequestVar('shoutbox')
-			) {
-			    $this->login();
 		}
-		
 
-		// Initialize the view:
+        if(
+            // Login if auto-login enabled or a login, userName or shoutbox parameter is given:
+            $this->getConfig('forceAutoLogin') ||
+            $this->getRequestVar('login') ||
+            $this->getRequestVar('userName') ||
+            $this->getRequestVar('shoutbox')
+            ) {
+                $this->login();
+        }
+
+
+        // Initialize the view:
 		$this->initView();
 
 		if($this->getView() == 'chat') {
@@ -2113,10 +2115,10 @@ return false;
 				$this->_infoMessages[$type] = array();
 			}
 			return $this->_infoMessages[$type];
-		} else {
-			return $this->_infoMessages;
 		}
-	}
+
+        return $this->_infoMessages;
+    }
 	
 	function addInfoMessage($info, $type='error') {
 		if(!isset($this->_infoMessages)) {
@@ -2294,10 +2296,9 @@ return false;
 		if(isset($_SESSION[$prefix.$key])) {
             return $_SESSION[$prefix.$key];
         }
-		else {
-            return null;
-        }
-	}
+
+        return null;
+    }
 	
 	function setSessionVar($key, $value, $prefix=null) {
 		if($prefix === null) {
@@ -2650,10 +2651,9 @@ return false;
 		if($subkey) {
             return $this->_config[$key][$subkey];
         }
-		else {
-            return $this->_config[$key];
-        }
-	}
+
+        return $this->_config[$key];
+    }
 
 	function setConfig($key, $subkey, $value) {
 		if($subkey) {

@@ -103,7 +103,9 @@ function isMod($id, $what="topic")
     if ($what == "topic") {
         $topics = topicmods($CURUSER["id"], "", true);
         return (stristr($topics, "[" . $id . "]") == true);
-    } elseif ($what == "forum") {
+    }
+
+    if ($what == "forum") {
         return (stristr($CURUSER["forums_mod"], "[" . $id . "]") == true);
     } else {
         return false;

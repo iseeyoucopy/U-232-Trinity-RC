@@ -105,10 +105,8 @@ if ($do == 'view_page') {
     echo stdhead('Invites') . $HTMLOUT . stdfoot();
     die;
 }
-/**
- * @action Create Invites
- */
-elseif ($do == 'create_invite') {
+
+if ($do == 'create_invite') {
     if ($CURUSER['invites'] <= 0) {
         stderr($lang['invites_error'], $lang['invites_noinvite']);
     }
@@ -132,6 +130,9 @@ elseif ($do == 'create_invite') {
     ], $TRINITY20['expires']['user_cache']); // 15 mins
     header("Location: ?do=view_page");
 }
+/**
+ * @action Create Invites
+ */
 /**
  * @action Send e-mail
  */

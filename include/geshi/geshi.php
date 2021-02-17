@@ -1374,9 +1374,9 @@ class GeSHi {
         if (!$this->use_language_tab_width ||
             !isset($this->language_data['TAB_WIDTH'])) {
             return $this->tab_width;
-        } else {
-            return $this->language_data['TAB_WIDTH'];
         }
+
+        return $this->language_data['TAB_WIDTH'];
     }
 
     /**
@@ -2331,10 +2331,10 @@ class GeSHi {
                     $parts[$k][1] = substr($code, $next_match_pos);
                     ++$k;
                     break;
-                } else {
-                    $parts[$k][1] = substr($code, $next_match_pos, $i - $next_match_pos);
-                    ++$k;
                 }
+
+                $parts[$k][1] = substr($code, $next_match_pos, $i - $next_match_pos);
+                ++$k;
             }
             unset($delim_copy, $next_match_pointer, $next_match_pos, $matches);
             $num_parts = $k;
@@ -2727,7 +2727,9 @@ class GeSHi {
                         $string = '';
                         $i = $start - 1;
                         continue;
-                    } elseif ($this->lexic_permissions['STRINGS'] && $hq && $hq[0] == $char &&
+                    }
+
+                    if ($this->lexic_permissions['STRINGS'] && $hq && $hq[0] == $char &&
                         substr($part, $i, $hq_strlen) == $hq && ($i != $next_comment_regexp_pos)) {
                         // The start of a hard quoted string
                         if (!$this->use_classes) {
@@ -4093,7 +4095,9 @@ class GeSHi {
         if ($this->line_numbers != GESHI_NO_LINE_NUMBERS) {
             if ($this->header_type == GESHI_HEADER_PRE) {
                 return "<pre$attributes>$header<ol$ol_attributes>";
-            } elseif ($this->header_type == GESHI_HEADER_DIV ||
+            }
+
+            if ($this->header_type == GESHI_HEADER_DIV ||
                 $this->header_type == GESHI_HEADER_PRE_VALID) {
                 return "<div$attributes>$header<ol$ol_attributes>";
             } elseif ($this->header_type == GESHI_HEADER_PRE_TABLE) {
@@ -4145,14 +4149,14 @@ class GeSHi {
             return ($this->force_code_block ? '</div>' : '') .
                 "$footer</div>";
         }
-        elseif ($this->header_type == GESHI_HEADER_PRE_TABLE) {
+
+        if ($this->header_type == GESHI_HEADER_PRE_TABLE) {
             if ($this->line_numbers != GESHI_NO_LINE_NUMBERS) {
                 return "</tr></tbody>$footer</table>";
             }
             return ($this->force_code_block ? '</div>' : '') .
                 "$footer</div>";
-        }
-        else {
+        } else {
             if ($this->line_numbers != GESHI_NO_LINE_NUMBERS) {
                 return "</ol>$footer</pre>";
             }
@@ -4584,15 +4588,15 @@ class GeSHi {
                                 array_splice($prev_keys, $level, count($prev_keys), $entry);
                                 $cur_len += strlen($entry);
                                 continue;
-                            } else {
-                                // relocate previous tokens
-                                $pointer[$new_key_part1] = array($new_key_part2 => $pointer[$prev_keys[$level]]);
-                                unset($pointer[$prev_keys[$level]]);
-                                $pointer = &$pointer[$new_key_part1];
-                                // recreate key index
-                                array_splice($prev_keys, $level, count($prev_keys), array($new_key_part1, $new_key_part2));
-                                $cur_len += strlen($new_key_part2);
                             }
+
+// relocate previous tokens
+                            $pointer[$new_key_part1] = array($new_key_part2 => $pointer[$prev_keys[$level]]);
+                            unset($pointer[$prev_keys[$level]]);
+                            $pointer = &$pointer[$new_key_part1];
+                            // recreate key index
+                            array_splice($prev_keys, $level, count($prev_keys), array($new_key_part1, $new_key_part2));
+                            $cur_len += strlen($new_key_part2);
                         }
                         ++$level;
                         $entry = substr($entry, $char);

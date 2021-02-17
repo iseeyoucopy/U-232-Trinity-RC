@@ -299,10 +299,10 @@ function getagent($httpagent, $peer_id = "")
         if (substr($peer_id, 0, 4) == 'FUTB') {
             return DecodeVersionString(substr($peer_id, 4, 2), "BitComet Mod1");
         }
-        elseif (substr($peer_id, 0, 4) == 'xUTB') {
+
+        if (substr($peer_id, 0, 4) == 'xUTB') {
             return DecodeVersionString(substr($peer_id, 4, 2), "BitComet Mod2");
-        }
-        elseif (substr($peer_id, 6, 4) == 'LORD') {
+        } elseif (substr($peer_id, 6, 4) == 'LORD') {
             return DecodeVersionString(substr($peer_id, 4, 2), "BitLord");
         }
         elseif (substr($peer_id, 6, 3) == '---' && DecodeVersionString(substr($peer_id, 4, 2) , "BitComet") == 'BitComet 0.54') {

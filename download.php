@@ -22,9 +22,8 @@ if (!empty($T_Pass)) {
     if ($q0->num_rows == 0) {
         die($lang['download_passkey']);
     }
-    else {
-        $CURUSER = $q0->fetch_assoc();
-    }
+
+    $CURUSER = $q0->fetch_assoc();
 } else {
     loggedinorreturn();
 }

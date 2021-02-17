@@ -54,9 +54,9 @@ if ($ip) {
                 $HTMLOUT.= stdmsg($lang['ipsearch_error'], $lang['ipsearch_subnet']);
                 echo stdhead("IP Search") . $HTMLOUT . stdfoot();
                 die();
-            } else {
-                $mask = long2ip((2 ** 32) - (2 ** (32 - $n)));
             }
+
+            $mask = long2ip((2 ** 32) - (2 ** (32 - $n)));
         } elseif (!preg_match($regex, $mask)) {
             $HTMLOUT.= stdmsg($lang['ipsearch_error'], $lang['ipsearch_subnet']);
             echo stdhead("IP Search") . $HTMLOUT . stdfoot();

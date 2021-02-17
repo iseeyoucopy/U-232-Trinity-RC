@@ -95,10 +95,12 @@ function crazyhour_announce()
             $text_parsed = 'Next <span style="font-weight:bold;color:orange;">Crazyhour</span> is at ' . date('F j, g:i a', $cz['crazyhour']['var']);
             ann_sql_query('INSERT LOW_PRIORITY INTO sitelog (added, txt) ' . 'VALUES(' . TIME_NOW . ', ' . ann_sqlesc($text_parsed) . ')') || ann_sqlerr(__FILE__, __LINE__);
             ann_sql_query('INSERT LOW_PRIORITY INTO shoutbox (userid, date, text, text_parsed) ' . 'VALUES (2, ' . TIME_NOW . ', ' . ann_sqlesc($text) . ', ' . ann_sqlesc($text_parsed) . ')') || ann_sqlerr(__FILE__, __LINE__);
-            
+
         }
         return false;
-    } elseif (($cz['crazyhour']['var'] < $crazy_hour) && ($cz['crazyhour']['var'] >= TIME_NOW)) { // if crazyhour
+    }
+
+    if (($cz['crazyhour']['var'] < $crazy_hour) && ($cz['crazyhour']['var'] >= TIME_NOW)) { // if crazyhour
         if ($cz['crazyhour']['amount'] !== 1) {
             $cz['crazyhour']['amount'] = 1;
             if (($cz_lock = $cache->set('crazyhour_lock', 1, 10)) !== false) {
@@ -111,7 +113,7 @@ function crazyhour_announce()
                 ann_sql_query('INSERT LOW_PRIORITY INTO sitelog (added, txt) 
             VALUES(' . TIME_NOW . ', ' . ann_sqlesc($text_parsed) . ')') || ann_sqlerr(__FILE__, __LINE__);
                 ann_sql_query('INSERT LOW_PRIORITY INTO shoutbox (userid, date, text, text_parsed) ' . 'VALUES (2, ' . TIME_NOW . ', ' . ann_sqlesc($text) . ', ' . ann_sqlesc($text_parsed) . ')') || ann_sqlerr(__FILE__, __LINE__);
-                
+
             }
         }
         return true;
@@ -138,41 +140,41 @@ function freeleech_announce() {
       $cache->set('freeleech_countdown', $fl['countdown'], 0);              
    }
 
-   if (($fl['countdown']['var'] !== 0) && (TIME_NOW > ($fl['countdown']['var']))) { // end of freeleech sunday
-      if (($fc_lock = $cache->set('freeleech_countdown_lock', 1, 10)) !==  false) {
-      $fl['countdown']['var'] = 0;
-      //$fl['countdown']['amount'] = strtotime('next Monday');  // timestamp sunday
-      $fl['countdown']['amount'] = 43200;  // timestamp test
-      ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = '.ann_sqlesc($fl['countdown']['var']).', amount = '.ann_sqlesc($fl['countdown']['amount']).' '.
-                  'WHERE type = "countdown"') || ann_sqlerr(__FILE__, __LINE__);
-      $cache->update_row('freeleech_countdown', ['var' => $fl['countdown']['var'], 'amount' => $fl['countdown']['amount']], 0);
-      }
-      return false;
-   }
-   elseif (TIME_NOW > ($fl['countdown']['amount'])) {
-      if ($fl['countdown']['var'] == 0 && ($cz_lock = $cache->set('crazyhour_lock', 1, 10)) !== false) {
-          //$fl['countdown']['var'] = strtotime('next Monday');
-          $fl['countdown']['var'] = 43200;
-          //'.$ahead_by.'
-          //$ahead_by = readable_time(($fl['countdown']['var'] - 86400) - $fl['countdown']['amount']);
-          ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = '.ann_sqlesc($fl['countdown']['var']).' '.
-                      'WHERE type = "countdown"') || ann_sqlerr(__FILE__, __LINE__);
-          $cache->update_row('freeleech_countdown', ['var' => $fl['countdown']['var']], 0);
-          $free_message = 'It will last for xx ending on Monday 12:00 am GMT.';
-          $text         = '[color=#33CCCC][b]Freeleech Activated![/b][/color]'."\n".$free_message;
-          $text_parsed  = '<span style="color:#33CCCC;font-weight:bold;">Freeleech Activated!</span>'."\n".$free_message;
-          // log, shoutbot
-          ann_sql_query('INSERT LOW_PRIORITY INTO sitelog (added, txt) '. 
-                      'VALUES('.ann_sqlesc(TIME_NOW).', '.ann_sqlesc($text_parsed).')') || ann_sqlerr(__FILE__, __LINE__);
-          ann_sql_query('INSERT LOW_PRIORITY INTO shoutbox (userid, date, text, text_parsed) '.
-                      'VALUES (2, '.TIME_NOW.', '.ann_sqlesc($text).', '.ann_sqlesc($text_parsed).')') || ann_sqlerr(__FILE__, __LINE__);
-          
-      }
-      return true;
-   }
-   else {
+    if (($fl['countdown']['var'] !== 0) && (TIME_NOW > ($fl['countdown']['var']))) { // end of freeleech sunday
+       if (($fc_lock = $cache->set('freeleech_countdown_lock', 1, 10)) !==  false) {
+       $fl['countdown']['var'] = 0;
+       //$fl['countdown']['amount'] = strtotime('next Monday');  // timestamp sunday
+       $fl['countdown']['amount'] = 43200;  // timestamp test
+       ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = '.ann_sqlesc($fl['countdown']['var']).', amount = '.ann_sqlesc($fl['countdown']['amount']).' '.
+                   'WHERE type = "countdown"') || ann_sqlerr(__FILE__, __LINE__);
+       $cache->update_row('freeleech_countdown', ['var' => $fl['countdown']['var'], 'amount' => $fl['countdown']['amount']], 0);
+       }
        return false;
-   }
+    }
+
+    if (TIME_NOW > ($fl['countdown']['amount'])) {
+       if ($fl['countdown']['var'] == 0 && ($cz_lock = $cache->set('crazyhour_lock', 1, 10)) !== false) {
+           //$fl['countdown']['var'] = strtotime('next Monday');
+           $fl['countdown']['var'] = 43200;
+           //'.$ahead_by.'
+           //$ahead_by = readable_time(($fl['countdown']['var'] - 86400) - $fl['countdown']['amount']);
+           ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = '.ann_sqlesc($fl['countdown']['var']).' '.
+                       'WHERE type = "countdown"') || ann_sqlerr(__FILE__, __LINE__);
+           $cache->update_row('freeleech_countdown', ['var' => $fl['countdown']['var']], 0);
+           $free_message = 'It will last for xx ending on Monday 12:00 am GMT.';
+           $text         = '[color=#33CCCC][b]Freeleech Activated![/b][/color]'."\n".$free_message;
+           $text_parsed  = '<span style="color:#33CCCC;font-weight:bold;">Freeleech Activated!</span>'."\n".$free_message;
+           // log, shoutbot
+           ann_sql_query('INSERT LOW_PRIORITY INTO sitelog (added, txt) '.
+                       'VALUES('.ann_sqlesc(TIME_NOW).', '.ann_sqlesc($text_parsed).')') || ann_sqlerr(__FILE__, __LINE__);
+           ann_sql_query('INSERT LOW_PRIORITY INTO shoutbox (userid, date, text, text_parsed) '.
+                       'VALUES (2, '.TIME_NOW.', '.ann_sqlesc($text).', '.ann_sqlesc($text_parsed).')') || ann_sqlerr(__FILE__, __LINE__);
+
+       }
+       return true;
+    } else {
+        return false;
+    }
 }
 
 function get_user_from_torrent_pass($torrent_pass)

@@ -24,10 +24,10 @@ class AJAXChatFileSystem {
 	public static function getFileContents($file) {
 		if(function_exists('file_get_contents')) {
 			return file_get_contents($file);
-		} else {
-			return(implode('', file($file)));
 		}
-	}
+
+        return(implode('', file($file)));
+    }
 
 }
 ?>

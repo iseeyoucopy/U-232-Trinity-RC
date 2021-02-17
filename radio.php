@@ -54,36 +54,35 @@ function radioinfo($radio)
         if ($data['STREAMSTATUS'] == 0) {
             return 'Sorry '.$CURUSER['username'].'... : Server '.$radio_host.' is online but there is no stream';
         }
-        else {
-            unset($data['STREAMSTATUS']);
-            $md5_current_song = md5($data['SONGTITLE']);
-            $current_song = $cache->get('current_radio_song');
-            if ($current_song === false || $current_song != $md5_current_song) {
-                autoshout(str_replace(array('<','>'),array('[',']'),$data['SONGTITLE'].' playing on '.strtolower($data['SERVERTITLE']).' - '.strtolower($data['SERVERURL'])));
-                $cache->set('current_radio_song', $md5_current_song, 0);
-            }
-            $html = '<fieldset>
-                <legend>' . $TRINITY20['site_name'] . ' radio</legend><ul>';
-            foreach ($data as $d) {
-                $html .= '<li><b>'.$d.'</b></li>';
-            }
-            $html.= '<li><b>Playlist history: </b> ' . (count($history) > 0 ? implode(', ', $history) : 'No playlist history') . '</li>';
-            if (!empty($users_ip)) {
-                ($q1 = sql_query('SELECT id, username FROM users WHERE ip IN (' . $users_ip . ') ORDER BY username ASC')) || sqlerr(__FILE__, __LINE__);
-                if ($q1->num_rows == 0) {
-                    $html .= '<li><b>Listeners</b>: currently no listener from site </li>';
-                }
-                else {
-                    $users = array();
-                    while ($a1 = $q1->fetch_assoc()) {
-                        $users[] = ($CURUSER['id'] == $a1['id'] || $CURUSER['class'] >= UC_STAFF) ? sprintf('<a href="/userdetails.php?id=%d">%s</a>',
-                            $a1['id'], $a1['username']) : 'Anonymous';
-                    }
-                    $html.= '<li><b>Listeners</b>: ' . implode(', ', $users) . '</li>';
-                }
-            }
-            return $html . '</ul></fieldset>';
+
+        unset($data['STREAMSTATUS']);
+        $md5_current_song = md5($data['SONGTITLE']);
+        $current_song = $cache->get('current_radio_song');
+        if ($current_song === false || $current_song != $md5_current_song) {
+            autoshout(str_replace(array('<','>'),array('[',']'),$data['SONGTITLE'].' playing on '.strtolower($data['SERVERTITLE']).' - '.strtolower($data['SERVERURL'])));
+            $cache->set('current_radio_song', $md5_current_song, 0);
         }
+        $html = '<fieldset>
+            <legend>' . $TRINITY20['site_name'] . ' radio</legend><ul>';
+        foreach ($data as $d) {
+            $html .= '<li><b>'.$d.'</b></li>';
+        }
+        $html.= '<li><b>Playlist history: </b> ' . (count($history) > 0 ? implode(', ', $history) : 'No playlist history') . '</li>';
+        if (!empty($users_ip)) {
+            ($q1 = sql_query('SELECT id, username FROM users WHERE ip IN (' . $users_ip . ') ORDER BY username ASC')) || sqlerr(__FILE__, __LINE__);
+            if ($q1->num_rows == 0) {
+                $html .= '<li><b>Listeners</b>: currently no listener from site </li>';
+            }
+            else {
+                $users = array();
+                while ($a1 = $q1->fetch_assoc()) {
+                    $users[] = ($CURUSER['id'] == $a1['id'] || $CURUSER['class'] >= UC_STAFF) ? sprintf('<a href="/userdetails.php?id=%d">%s</a>',
+                        $a1['id'], $a1['username']) : 'Anonymous';
+                }
+                $html.= '<li><b>Listeners</b>: ' . implode(', ', $users) . '</li>';
+            }
+        }
+        return $html . '</ul></fieldset>';
     } else {
         $html .= '<fieldset><legend>'.$TRINITY20['site_name'].' radio</legend>
     <font size="3" color="red"><img src="'.$TRINITY20['pic_base_url'].'off1.gif" alt="Off" title="Off" border="0" /><br />

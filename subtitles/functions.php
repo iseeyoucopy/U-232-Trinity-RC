@@ -39,10 +39,9 @@ require_once(__DIR__ . "/xml2array.php");
 				if(!ereg("[0-9]{7}", $name, $imdbid)) {
                     die("Can't find imdb id");
                 }
-						else {
-                            $search = "/imdbid-".$imdbid[0];
-                        }
-			}
+
+                $search = "/imdbid-".$imdbid[0];
+            }
 			$link = "http://www.opensubtitles.org/en/search".$search.$optional."/simplexml";
 			
 				($xml = file_get_contents($link)) || die ("can't connect to host to get the xml data");

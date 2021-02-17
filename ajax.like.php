@@ -46,7 +46,9 @@ function comment_like_unlike()
     $data = $res->fetch_row();
     if ($data[1] + $disabled_time > TIME_NOW) {
         die($lang['ajlike_you_been_disabled']);
-    } elseif (in_array($CURUSER['id'], $banned_users)) {
+    }
+
+    if (in_array($CURUSER['id'], $banned_users)) {
         die($lang['ajlike_you_been_banned']);
     }
     $exp = explode(',', $data[0]);

@@ -126,19 +126,21 @@ class AJAXChatEncoding {
 	public static function unicodeChar($c) {
 		if($c <= 0x7F) {
 			return chr($c);
-		} else if($c <= 0x7FF) {
-			return chr(0xC0 | $c >> 6) . chr(0x80 | $c & 0x3F);
-		} else if($c <= 0xFFFF) {
-			return chr(0xE0 | $c >> 12) . chr(0x80 | $c >> 6 & 0x3F)
-										. chr(0x80 | $c & 0x3F);
-		} else if($c <= 0x10FFFF) {
-			return chr(0xF0 | $c >> 18) . chr(0x80 | $c >> 12 & 0x3F)
-										. chr(0x80 | $c >> 6 & 0x3F)
-										. chr(0x80 | $c & 0x3F);
-		} else {
-			return null;
 		}
-	}
+
+        if($c <= 0x7FF) {
+            return chr(0xC0 | $c >> 6) . chr(0x80 | $c & 0x3F);
+        } else if($c <= 0xFFFF) {
+            return chr(0xE0 | $c >> 12) . chr(0x80 | $c >> 6 & 0x3F)
+                                        . chr(0x80 | $c & 0x3F);
+        } else if($c <= 0x10FFFF) {
+            return chr(0xF0 | $c >> 18) . chr(0x80 | $c >> 12 & 0x3F)
+                                        . chr(0x80 | $c >> 6 & 0x3F)
+                                        . chr(0x80 | $c & 0x3F);
+        } else {
+            return null;
+        }
+    }
 
 	public static function removeUnsafeCharacters($str) {
 		// Remove NO-WS-CTL, non-whitespace control characters (RFC 2822), decimal 1–8, 11–12, 14–31, and 127:

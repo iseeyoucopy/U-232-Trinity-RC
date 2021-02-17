@@ -191,9 +191,9 @@ if (in_array($tool, $staff_tools) && file_exists(ADMIN_DIR . $staff_tools[$tool]
         }
         header('Location: ' . $_SERVER['PHP_SELF']);
         exit();
-    } else {
-        stderr($lang['spanel_error'], $lang['spanel_db_error_msg']);
     }
+
+    stderr($lang['spanel_error'], $lang['spanel_db_error_msg']);
 } elseif (($action == 'add' && $CURUSER['class'] == UC_MAX) || ($action == 'edit' && is_valid_id($id) && $CURUSER['class'] == UC_MAX)) {
     $names = array(
         'page_name',

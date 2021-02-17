@@ -133,9 +133,8 @@ function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
         if ($mode != '') {
             return "Rep: ".$posneg."<br /><br /><a href='javascript:;' onclick=\"PopUp('{$TRINITY20['baseurl']}/reputation.php?pid=".($post_id != 0 ? (int)$post_id : (int)$user['id'])."&amp;locale=".$mode."','Reputation',400,241,1,1);\"><button type='button' class='tiny button' style='margin-top:-9px;' alt='Add reputation:: ".htmlsafechars($user['username'])."' title='Add reputation:: ".htmlsafechars($user['username'])."'><i class='fa fa-check'></i> Add Rep</button></a>";
         }
-        else {
-            return " ".$posneg;
-        }
+
+        return " ".$posneg;
     } // END IF ONLINE
     // default
     return '<span title="Set offline by admin setting">Rep System Offline</span>';
@@ -362,9 +361,8 @@ function get_user_class_name($class)
     if (isset($class_names[$class])) {
         return $class_names[$class];
     }
-    else {
-        return '';
-    }
+
+    return '';
 }
 function get_user_class_color($class)
 {
@@ -376,9 +374,8 @@ function get_user_class_color($class)
     if (isset($class_colors[$class])) {
         return $class_colors[$class];
     }
-    else {
-        return '';
-    }
+
+    return '';
 }
 function get_user_class_image($class)
 {
@@ -390,9 +387,8 @@ function get_user_class_image($class)
     if (isset($class_images[$class])) {
         return $class_images[$class];
     }
-    else {
-        return '';
-    }
+
+    return '';
 }
 function valid_class($class)
 {
@@ -423,7 +419,8 @@ function format_username($user, $icons = true)
     if ($userf_id == 0) {
         return 'System';
     }
-    elseif ((isset($user['username']) ? htmlsafechars($user['username']) : '') == '') {
+
+    if ((isset($user['username']) ? htmlsafechars($user['username']) : '') == '') {
         return 'unknown['.$userf_id.']';
     }
     $username = '<span style="color:#' . get_user_class_color($userf_class) . ';"><strong>' . htmlsafechars($user['username']) . '</strong></span>';
@@ -564,14 +561,16 @@ function get_cache_config_data($the_names,$the_colors,$the_images)
             global $TRINITY20;
             $file = $TRINITY20['cache']."/topicsmods.txt";
             $topics = file_exists($file) ? unserialize(file_get_contents($file)) : array();
-            if (!$read) {
-                $topics[$id] = $utopics;
-                return (bool) file_put_contents($file,serialize($topics));
-            } elseif (array_key_exists($id,$topics)) {
-                return $topics[(int)$id];
-            } else { 
-        return 0; 
-       }
+        if (!$read) {
+            $topics[$id] = $utopics;
+            return (bool) file_put_contents($file,serialize($topics));
+        }
+
+        if (array_key_exists($id,$topics)) {
+            return $topics[(int)$id];
+        } else {
+    return 0;
+   }
     } 
   function forummods($forced = false)
 {

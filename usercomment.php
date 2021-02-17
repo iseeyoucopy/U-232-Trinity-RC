@@ -80,7 +80,9 @@ if ($action == "add") {
     }
     echo stdhead("{$lang['usercomment_add_a_comment_for']} \"" . htmlsafechars($arr["username"]) . "\"", true, $stdhead) . $HTMLOUT . stdfoot();
     die;
-} elseif ($action == "edit") {
+}
+
+if ($action == "edit") {
     $commentid = 0 + $_GET["cid"];
     if (!is_valid_id($commentid)) {
         stderr($lang['gl_error'], $lang['gl_invalid_id']);
@@ -127,7 +129,7 @@ if ($action == "add") {
         $referer = $_SERVER["HTTP_REFERER"];
         stderr($lang['usercomment_delete_comment'], "{$lang['usercomment_you_are_about_to_delete_a_comment_click']}\n" . "<a href='usercomment.php?action=delete&amp;cid=$commentid&amp;sure=1" . ($referer ? "&amp;returnto=" . urlencode($referer) : "") . "'>{$lang['gl_stdfoot_here']}</a> {$lang['gl_if_you_are_sure']}.");
         //stderr($lang['usercomment_delete_comment'], "{$lang['usercomment_you_are_about_to_delete_a_comment_click']}\n" . "<a href='usercomment.php?action=delete&amp;cid={$commentid}&amp;sure=1&amp;returnto=".urlencode($_SERVER['PHP_SELF'])."'>{$lang['gl_stdfoot_here']}</a> {$lang['gl_if_you_are_sure']}.");
-        
+
     }
     ($res = sql_query("SELECT id, userid FROM usercomments WHERE id=" . sqlesc($commentid))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();

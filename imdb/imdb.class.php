@@ -354,36 +354,36 @@ class IMDB
                 $aReturn    = unserialize($aRawReturn);
 
                 return IMDBHelper::arrayOutput($this->bArrayOutput, $this->sSeparator, self::$sNotFound, $aReturn);
-            } else {
-                $fullAkas  = sprintf('https://www.imdb.com/title/tt%s/releaseinfo', $this->iId);
-                $aCurlInfo = IMDBHelper::runCurl($fullAkas);
-                $sSource   = $aCurlInfo['contents'];
+            }
 
-                if (false === $sSource) {
-                    if (true === self::IMDB_DEBUG) {
-                        echo '<pre><b>cURL error:</b> ' . var_dump($aCurlInfo) . '</pre>';
-                    }
+            $fullAkas  = sprintf('https://www.imdb.com/title/tt%s/releaseinfo', $this->iId);
+            $aCurlInfo = IMDBHelper::runCurl($fullAkas);
+            $sSource   = $aCurlInfo['contents'];
 
-                    return false;
+            if (false === $sSource) {
+                if (true === self::IMDB_DEBUG) {
+                    echo '<pre><b>cURL error:</b> ' . var_dump($aCurlInfo) . '</pre>';
                 }
 
-                $aReturned = IMDBHelper::matchRegex($sSource, "~<td>(.*?)<\/td>\s+<td>(.*?)<\/td>~");
+                return false;
+            }
 
-                if ($aReturned) {
-                    $aReturn = [];
-                    foreach ($aReturned[1] as $i => $strName) {
-                        if (strpos($strName, '(') === false) {
-                            $aReturn[] = [
-                                'title'   => IMDBHelper::cleanString($aReturned[2][$i]),
-                                'country' => IMDBHelper::cleanString($strName)
-                            ];
-                        }
+            $aReturned = IMDBHelper::matchRegex($sSource, "~<td>(.*?)<\/td>\s+<td>(.*?)<\/td>~");
+
+            if ($aReturned) {
+                $aReturn = [];
+                foreach ($aReturned[1] as $i => $strName) {
+                    if (strpos($strName, '(') === false) {
+                        $aReturn[] = [
+                            'title'   => IMDBHelper::cleanString($aReturned[2][$i]),
+                            'country' => IMDBHelper::cleanString($strName)
+                        ];
                     }
-
-                    file_put_contents($sCacheFile, serialize($aReturn));
-
-                    return IMDBHelper::arrayOutput($this->bArrayOutput, $this->sSeparator, self::$sNotFound, $aReturn);
                 }
+
+                file_put_contents($sCacheFile, serialize($aReturn));
+
+                return IMDBHelper::arrayOutput($this->bArrayOutput, $this->sSeparator, self::$sNotFound, $aReturn);
             }
         }
 
@@ -1031,40 +1031,40 @@ class IMDB
                 $aReturn    = unserialize($aRawReturn);
 
                 return IMDBHelper::arrayOutput($this->bArrayOutput, $this->sSeparator, self::$sNotFound, $aReturn);
-            } else {
-                $fullLocations = sprintf('https://www.imdb.com/title/tt%s/locations', $this->iId);
-                $aCurlInfo     = IMDBHelper::runCurl($fullLocations);
-                $sSource       = $aCurlInfo['contents'];
+            }
 
-                if (false === $sSource) {
-                    if (true === self::IMDB_DEBUG) {
-                        echo '<pre><b>cURL error:</b> ' . var_dump($aCurlInfo) . '</pre>';
-                    }
+            $fullLocations = sprintf('https://www.imdb.com/title/tt%s/locations', $this->iId);
+            $aCurlInfo     = IMDBHelper::runCurl($fullLocations);
+            $sSource       = $aCurlInfo['contents'];
 
-                    return false;
+            if (false === $sSource) {
+                if (true === self::IMDB_DEBUG) {
+                    echo '<pre><b>cURL error:</b> ' . var_dump($aCurlInfo) . '</pre>';
                 }
 
-                $aReturned = IMDBHelper::matchRegex($sSource, self::IMDB_LOCATIONS);
+                return false;
+            }
 
-                if ($aReturned) {
-                    $aReturn = [];
-                    foreach ($aReturned[1] as $i => $strName) {
-                        if (strpos($strName, '(') === false) {
-                            $aReturn[] = [
-                                'location' => IMDBHelper::cleanString($strName)
-                            ];
-                        }
-                        if (strpos($aReturned[2][$i], '(') !== false) {
-                            $aReturn[] = [
-                                'specification' => IMDBHelper::cleanString($aReturned[2][$i])
-                            ];
-                        }
+            $aReturned = IMDBHelper::matchRegex($sSource, self::IMDB_LOCATIONS);
+
+            if ($aReturned) {
+                $aReturn = [];
+                foreach ($aReturned[1] as $i => $strName) {
+                    if (strpos($strName, '(') === false) {
+                        $aReturn[] = [
+                            'location' => IMDBHelper::cleanString($strName)
+                        ];
                     }
-
-                    file_put_contents($sCacheFile, serialize($aReturn));
-
-                    return IMDBHelper::arrayOutput($this->bArrayOutput, $this->sSeparator, self::$sNotFound, $aReturn);
+                    if (strpos($aReturned[2][$i], '(') !== false) {
+                        $aReturn[] = [
+                            'specification' => IMDBHelper::cleanString($aReturned[2][$i])
+                        ];
+                    }
                 }
+
+                file_put_contents($sCacheFile, serialize($aReturn));
+
+                return IMDBHelper::arrayOutput($this->bArrayOutput, $this->sSeparator, self::$sNotFound, $aReturn);
             }
         }
 
@@ -1140,14 +1140,14 @@ class IMDB
                 }
                 if (false === $bDownload) {
                     return IMDBHelper::cleanString($sMatch);
-                } else {
-                    $sLocal = IMDBHelper::saveImage($sMatch, $this->iId);
-                    if (file_exists(dirname(__FILE__) . '/' . $sLocal)) {
-                        return $sLocal;
-                    } else {
-                        return $sMatch;
-                    }
                 }
+
+                $sLocal = IMDBHelper::saveImage($sMatch, $this->iId);
+                if (file_exists(dirname(__FILE__) . '/' . $sLocal)) {
+                    return $sLocal;
+                }
+
+                return $sMatch;
             }
         }
 
@@ -1240,37 +1240,37 @@ class IMDB
                 $aReturn    = unserialize($aRawReturn);
 
                 return IMDBHelper::arrayOutput($this->bArrayOutput, $this->sSeparator, self::$sNotFound, $aReturn);
-            } else {
-                $fullAkas  = sprintf('https://www.imdb.com/title/tt%s/releaseinfo', $this->iId);
-                $aCurlInfo = IMDBHelper::runCurl($fullAkas);
-                $sSource   = $aCurlInfo['contents'];
+            }
 
-                if (false === $sSource) {
-                    if (true === self::IMDB_DEBUG) {
-                        echo '<pre><b>cURL error:</b> ' . var_dump($aCurlInfo) . '</pre>';
-                    }
+            $fullAkas  = sprintf('https://www.imdb.com/title/tt%s/releaseinfo', $this->iId);
+            $aCurlInfo = IMDBHelper::runCurl($fullAkas);
+            $sSource   = $aCurlInfo['contents'];
 
-                    return false;
+            if (false === $sSource) {
+                if (true === self::IMDB_DEBUG) {
+                    echo '<pre><b>cURL error:</b> ' . var_dump($aCurlInfo) . '</pre>';
                 }
 
-                $aReturned =
-                    IMDBHelper::matchRegex($sSource, '~>(.*)<\/a><\/td>\s+<td class="release_date">(.*)<\/td>~');
+                return false;
+            }
 
-                if ($aReturned) {
-                    $aReturn = [];
-                    foreach ($aReturned[1] as $i => $strName) {
-                        if (strpos($strName, '(') === false) {
-                            $aReturn[] = [
-                                'country'     => IMDBHelper::cleanString($strName),
-                                'releasedate' => IMDBHelper::cleanString($aReturned[2][$i])
-                            ];
-                        }
+            $aReturned =
+                IMDBHelper::matchRegex($sSource, '~>(.*)<\/a><\/td>\s+<td class="release_date">(.*)<\/td>~');
+
+            if ($aReturned) {
+                $aReturn = [];
+                foreach ($aReturned[1] as $i => $strName) {
+                    if (strpos($strName, '(') === false) {
+                        $aReturn[] = [
+                            'country'     => IMDBHelper::cleanString($strName),
+                            'releasedate' => IMDBHelper::cleanString($aReturned[2][$i])
+                        ];
                     }
-
-                    file_put_contents($sCacheFile, serialize($aReturn));
-
-                    return IMDBHelper::arrayOutput($this->bArrayOutput, $this->sSeparator, self::$sNotFound, $aReturn);
                 }
+
+                file_put_contents($sCacheFile, serialize($aReturn));
+
+                return IMDBHelper::arrayOutput($this->bArrayOutput, $this->sSeparator, self::$sNotFound, $aReturn);
             }
         }
 
@@ -1579,19 +1579,19 @@ class IMDBHelper extends IMDB
             }
 
             return $aReturn;
-        } else {
-            if ($aReturn == null || ! is_array($aReturn)) {
-                return $sNotFound;
-            }
-
-            foreach ($aReturn as $i => $value) {
-                if (is_array($value)) {
-                    $aReturn[$i] = implode($sSeparator, $value);
-                }
-            }
-
-            return implode($sSeparator, $aReturn) . (($bHaveMore) ? '…' : '');
         }
+
+        if ($aReturn == null || ! is_array($aReturn)) {
+            return $sNotFound;
+        }
+
+        foreach ($aReturn as $i => $value) {
+            if (is_array($value)) {
+                $aReturn[$i] = implode($sSeparator, $value);
+            }
+        }
+
+        return implode($sSeparator, $aReturn) . (($bHaveMore) ? '…' : '');
     }
 
     /**
@@ -1644,7 +1644,7 @@ class IMDBHelper extends IMDB
             return $sText;
         }
 
-        list($sShort) = explode("\n", wordwrap($sText, $iLength - 1));
+        [$sShort] = explode("\n", wordwrap($sText, $iLength - 1));
 
         if (substr($sShort, -1) !== '.') {
             return $sShort . '…';

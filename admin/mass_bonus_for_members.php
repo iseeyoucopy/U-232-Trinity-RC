@@ -114,7 +114,9 @@ case 'upload_credit':
         }
         header('Location: staffpanel.php?tool=mass_bonus_for_members&action=mass_bonus_for_members&GB=1');
         die();
-    } elseif ($free_for_classes === 0) {
+    }
+
+    if ($free_for_classes === 0) {
         foreach ($free_for as $class) {
             if (ctype_digit($class)) {
                 $res_GB = sql_query('SELECT id, uploaded, modcomment FROM users WHERE enabled = \'yes\' AND suspended = \'no\' AND class = ' . $class);
@@ -193,7 +195,9 @@ case 'karma':
         }
         header('Location: staffpanel.php?tool=mass_bonus_for_members&action=mass_bonus_for_members&karma=1');
         die();
-    } elseif ($free_for_classes === 0) {
+    }
+
+    if ($free_for_classes === 0) {
         foreach ($free_for as $class) {
             if (ctype_digit($class)) {
                 $res_karma = sql_query('SELECT id, seedbonus, modcomment FROM users WHERE enabled = \'yes\' AND suspended = \'no\' AND class = ' . $class);
@@ -274,7 +278,9 @@ case 'freeslots':
         }
         header('Location: staffpanel.php?tool=mass_bonus_for_members&action=mass_bonus_for_members&freeslots=1');
         die();
-    } elseif ($free_for_classes === 0) {
+    }
+
+    if ($free_for_classes === 0) {
         foreach ($free_for as $class) {
             if (ctype_digit($class)) {
                 $res_freeslots = sql_query('SELECT id, freeslots, modcomment FROM users WHERE enabled = \'yes\' AND suspended = \'no\' AND class = ' . $class);
@@ -357,7 +363,9 @@ case 'invite':
         }
         header('Location: staffpanel.php?tool=mass_bonus_for_members&action=mass_bonus_for_members&invites=1');
         die();
-    } elseif ($free_for_classes === 0) {
+    }
+
+    if ($free_for_classes === 0) {
         foreach ($free_for as $class) {
             if (ctype_digit($class)) {
                 $res_invites = sql_query('SELECT id, invites, modcomment FROM users WHERE enabled = \'yes\' AND suspended = \'no\' AND invite_on = \'yes\' AND class = ' . $class);
@@ -426,7 +434,9 @@ case 'pm':
         }
         header('Location: staffpanel.php?tool=mass_bonus_for_members&action=mass_bonus_for_members&pm=1');
         die();
-    } elseif ($free_for_classes === 0) {
+    }
+
+    if ($free_for_classes === 0) {
         foreach ($free_for as $class) {
             if (ctype_digit($class)) {
                 $res_pms = sql_query('SELECT id FROM users WHERE enabled = \'yes\' AND suspended = \'no\' AND class = ' . $class);

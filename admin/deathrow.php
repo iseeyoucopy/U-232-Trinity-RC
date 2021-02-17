@@ -109,9 +109,9 @@ function delete_torrent($delete_array, $page)
         sql_query('DELETE FROM thankyou WHERE torid IN (' . implode(', ', $ids) . ')') || sqlerr(__FILE__, __LINE__);
         write_log(' '.$lang['deathrow_torr'].' (' . implode(', ', $names) . '.)  '.$lang['deathrow_were'].' ' . $CURUSER['username'] . ' (' . $page . ')' . "\n");
         return $countids;
-    } else {
-        return false;
     }
+
+    return false;
 } // end
 if (!empty($_POST['remove'])) {
     $deleted = delete_torrent($_POST['remove'], 'deathrow');

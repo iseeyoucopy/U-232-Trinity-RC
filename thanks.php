@@ -41,11 +41,12 @@ function print_list()
             'hadTh' => $hadTh,
             'status' => true
         ], JSON_THROW_ON_ERROR);
-    } else {
-        $form = $hadTh ? "" : "<br/><form action='thanks.php' method='post'><input type='submit' class='btn' name='submit' value='Say thanks' /><input type='hidden' name='torrentid' value='{$tid}' /><input type='hidden' name='action' value='add' /></form>";
-        $out = (count($list) > 0 ? implode(', ', $list) : 'Not yet');
+    }
 
-        return <<<IFRAME
+    $form = $hadTh ? "" : "<br/><form action='thanks.php' method='post'><input type='submit' class='btn' name='submit' value='Say thanks' /><input type='hidden' name='torrentid' value='{$tid}' /><input type='hidden' name='action' value='add' /></form>";
+    $out = (count($list) > 0 ? implode(', ', $list) : 'Not yet');
+
+    return <<<IFRAME
         
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
@@ -83,7 +84,6 @@ padding:1px 3px;
 </html>
 
 IFRAME;
-    }
 }
 switch ($do) {
 case 'list':

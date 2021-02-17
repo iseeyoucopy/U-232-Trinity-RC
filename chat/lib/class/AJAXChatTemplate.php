@@ -117,11 +117,10 @@ class AJAXChatTemplate {
 				if($this->ajaxChat->getConfig('allowUserMessageDelete')) {
                     return 1;
                 }
-				else {
-                    return 0;
-                }
 
-			case 'INACTIVE_TIMEOUT':
+                return 0;
+
+            case 'INACTIVE_TIMEOUT':
 				return $this->ajaxChat->getConfig('inactiveTimeout');
 
 			case 'PRIVATE_CHANNEL_DIFF':
@@ -133,19 +132,17 @@ class AJAXChatTemplate {
 				if($this->ajaxChat->getConfig('showChannelMessages')) {
                     return 1;
                 }
-				else {
-                    return 0;
-                }
 
-			case 'SOCKET_SERVER_ENABLED':
+                return 0;
+
+            case 'SOCKET_SERVER_ENABLED':
 				if($this->ajaxChat->getConfig('socketServerEnabled')) {
                     return 1;
                 }
-				else {
-                    return 0;
-                }
 
-			case 'SOCKET_SERVER_HOST':
+                return 0;
+
+            case 'SOCKET_SERVER_HOST':
 				if($this->ajaxChat->getConfig('socketServerHost')) {
 					$socketServerHost = $this->ajaxChat->getConfig('socketServerHost');
 				} else {
@@ -201,10 +198,10 @@ class AJAXChatTemplate {
 		$i += 1;
 		if($i % 2 == 0) {
 			return $rowEven;
-		} else {
-			return $rowOdd;
 		}
-	}
+
+        return $rowOdd;
+    }
 
 	function getBaseDirectionAttribute() {
 		$langCodeParts = explode('-', $this->ajaxChat->getLangCode());
