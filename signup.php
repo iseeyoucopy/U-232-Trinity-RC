@@ -78,10 +78,7 @@ function countries()
 $country = '';
 $countries = countries();
 $user_country = isset($CURUSER['country']) ? "{$CURUSER['country']}" : '';
-foreach ($countries as $cntry) 
-$cntry_id = $cntry_id ?? '';   
-$cntry_name =  $cntry['name'] ?? '';
-$country.= "<option value='" . (int)$cntry_id . "'" . ($user_country == $cntry_id ? " selected='selected'" : "") . ">" . htmlsafechars($cntry_name) . "</option>\n";
+foreach ($countries as $cntry) $country.= "<option value='" . (int)$cntry['id'] . "'" . ($user_country == $cntry['id'] ? " selected='selected'" : "") . ">" . htmlsafechars($cntry['name']) . "</option>\n";
 $gender.= "<select class='input-group-field' name='gender'>
     <option value='Male'>{$lang['signup_male']}</option>
     <option value='Female'>{$lang['signup_female']}</option>
