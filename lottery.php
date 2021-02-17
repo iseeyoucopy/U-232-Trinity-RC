@@ -55,11 +55,18 @@ default:
 $html .= "<div class='row'><div class='col-md-12'>";
     //get config from database
     ($lconf = sql_query('SELECT * FROM lottery_config')) || sqlerr(__FILE__, __LINE__);
-    while ($ac = $lconf->fetch_assoc()) $lottery_config[$ac['name']] = $ac['value'];    
-if (!$lottery_config['enable']) $html.= "<div class='row'><div class='col-md-12'><h2>Sorry, the lottery is closed at the moment</h2>";    
-if ($lottery_config['end_date'] > TIME_NOW) 
-$html.= "<div class='row'><div class='col-md-12'><h2>Lottery in progress. Lottery started on <b>" . get_date($lottery_config['start_date'], 'LONG') . "</b> and ends on <b>" . get_date($lottery_config['end_date'], 'LONG') . "</b> remaining <span style='color:#ff0000;'>" . mkprettytime($lottery_config['end_date'] - TIME_NOW) . "</span><br />
-       <p style='text-align:center'>" . ($CURUSER['class'] >= $valid['viewtickets']['minclass'] ? "<a href='lottery.php?do=viewtickets'>[View bought tickets]</a>&nbsp;&nbsp;" : "") . "<a href='lottery.php?do=tickets'>[Buy tickets]</a></p></h2>";
+    while ($ac = $lconf->fetch_assoc()) {
+        $lottery_config[$ac['name']] = $ac['value'];
+    }
+if (!$lottery_config['enable']) {
+    $html .= "<div class='row'><div class='col-md-12'><h2>Sorry, the lottery is closed at the moment</h2>";
+}
+if ($lottery_config['end_date'] > TIME_NOW) {
+    $html .= "<div class='row'><div class='col-md-12'><h2>Lottery in progress. Lottery started on <b>".get_date($lottery_config['start_date'],
+            'LONG')."</b> and ends on <b>".get_date($lottery_config['end_date'],
+            'LONG')."</b> remaining <span style='color:#ff0000;'>".mkprettytime($lottery_config['end_date'] - TIME_NOW)."</span><br />
+       <p style='text-align:center'>".($CURUSER['class'] >= $valid['viewtickets']['minclass'] ? "<a href='lottery.php?do=viewtickets'>[View bought tickets]</a>&nbsp;&nbsp;" : "")."<a href='lottery.php?do=tickets'>[Buy tickets]</a></p></h2>";
+}
   
 //get last lottery data
     if (!empty($lottery_config['lottery_winners'])) {
@@ -67,7 +74,9 @@ $html.= "<div class='row'><div class='col-md-12'><h2>Lottery in progress. Lotter
         $uids = (strpos($lottery_config['lottery_winners'], '|') ? explode('|', $lottery_config['lottery_winners']) : $lottery_config['lottery_winners']);
         $last_winners = array();
         ($qus = sql_query('SELECT id,username FROM users WHERE id ' . (is_array($uids) ? 'IN (' . implode(',', $uids) . ')' : '=' . $uids))) || sqlerr(__FILE__, __LINE__);
-        while ($aus = $qus->fetch_assoc()) $last_winners[] = "<a href='userdetails.php?id=" . (int)$aus['id'] . "'>" . htmlsafechars($aus['username']) . "</a>";
+        while ($aus = $qus->fetch_assoc()) {
+            $last_winners[] = "<a href='userdetails.php?id=".(int)$aus['id']."'>".htmlsafechars($aus['username'])."</a>";
+        }
         
         $html.= stdmsg("Lottery Winners Info", "<ul style='text-align:left;'><li>Last winners: " . implode(', ', $last_winners) . "</li><li>Amount won	(each): " . $lottery_config['lottery_winners_amount'] . "</li></ul><br />
         <p style='text-align:center'>" . ($CURUSER['class'] >= $valid['config']['minclass'] ? "<a href='lottery.php?do=config'>[Lottery configuration]</a>&nbsp;&nbsp;" : "Nothing Configured Atm Sorry") . "</p>");

@@ -43,12 +43,16 @@ if ($topics && (is_countable($topics) ? count($topics) : 0) > 0) {
 			$topicid = (int)$topicarr['id'];
 			$topic_userid = (int)$topicarr['user_id'];
 			$perpage = empty($CURUSER['postsperpage']) ? 10 : (int)$CURUSER['postsperpage'];
-			if ($perpage === 0) $perpage = 24;
+			if ($perpage === 0) {
+                $perpage = 24;
+            }
 			$posts = 0 + $topicarr['p_count'];
 			$replies = max(0, $posts - 1);
 			$first = ($page * $perpage) - $perpage + 1;
 			$last = $first + $perpage - 1;
-			if ($last > $num) $last = $num;
+			if ($last > $num) {
+                $last = $num;
+            }
 			$pages = ceil($posts / $perpage);
 			$menu = '';
 			for ($i = 1; $i <= $pages; $i++) {
@@ -67,14 +71,22 @@ if ($topics && (is_countable($topics) ? count($topics) : 0) > 0) {
 			}
 			$added = get_date($topicarr['added'], '', 0, 1);
 			if ($topicarr['pan'] == 'yes') {
-				if ($CURUSER['class'] < UC_STAFF && $topicarr['user_id'] != $CURUSER['id']) $username = (empty($topicarr['username']) ? "<i>{$lang['index_fposts_unknow']}</i>" : "<i>{$lang['index_fposts_anonymous']}</i>");
-				else $username = (empty($topicarr['username']) ? "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>" : "<i>{$lang['index_fposts_anonymous']}</i>&nbsp;&nbsp;<a href='" . $TRINITY20['baseurl'] . "/userdetails.php?id=" . (int)$topicarr['puser_id'] . "'><b>[" . htmlsafechars($topicarr['username']) . "]</b></a>");
+				if ($CURUSER['class'] < UC_STAFF && $topicarr['user_id'] != $CURUSER['id']) {
+                    $username = (empty($topicarr['username']) ? "<i>{$lang['index_fposts_unknow']}</i>" : "<i>{$lang['index_fposts_anonymous']}</i>");
+                }
+				else {
+                    $username = (empty($topicarr['username']) ? "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>" : "<i>{$lang['index_fposts_anonymous']}</i>&nbsp;&nbsp;<a href='".$TRINITY20['baseurl']."/userdetails.php?id=".(int)$topicarr['puser_id']."'><b>[".htmlsafechars($topicarr['username'])."]</b></a>");
+                }
 			} else {
 				$username = (empty($topicarr['username']) ? "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>" : "<a href='" . $TRINITY20['baseurl'] . "/userdetails.php?id=" . (int)$topicarr['puser_id'] . "'><b>" . htmlsafechars($topicarr['username']) . "</b></a>");
 			}
 			if ($topicarr['tan'] == 'yes') {
-				if ($CURUSER['class'] < UC_STAFF && $topicarr['user_id'] != $CURUSER['id']) $author = (empty($topicarr['u2_username']) ? $topic_userid == '0' ? "<i>System</i>" : "<i>{$lang['index_fposts_unknow']}</i>" : ("<i>{$lang['index_fposts_anonymous']}</i>"));
-				else $author = (empty($topicarr['u2_username']) ? $topic_userid == '0' ? "<i>System</i>" : "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>" : ("<i>{$lang['index_fposts_anonymous']}</i>&nbsp;&nbsp;<a href='" . $TRINITY20['baseurl'] . "/userdetails.php?id=" . $topic_userid . "'><b>[" . htmlsafechars($topicarr['u2_username']) . "]</b></a>"));
+				if ($CURUSER['class'] < UC_STAFF && $topicarr['user_id'] != $CURUSER['id']) {
+                    $author = (empty($topicarr['u2_username']) ? $topic_userid == '0' ? "<i>System</i>" : "<i>{$lang['index_fposts_unknow']}</i>" : ("<i>{$lang['index_fposts_anonymous']}</i>"));
+                }
+				else {
+                    $author = (empty($topicarr['u2_username']) ? $topic_userid == '0' ? "<i>System</i>" : "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>" : ("<i>{$lang['index_fposts_anonymous']}</i>&nbsp;&nbsp;<a href='".$TRINITY20['baseurl']."/userdetails.php?id=".$topic_userid."'><b>[".htmlsafechars($topicarr['u2_username'])."]</b></a>"));
+                }
 			} else {
 				$author = (empty($topicarr['u2_username']) ? $topic_userid == '0' ? "<i>System</i>" : "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>" : ("<a href='" . $TRINITY20['baseurl'] . "/userdetails.php?id=" . $topic_userid . "'><b>" . htmlsafechars($topicarr['u2_username']) . "</b></a>"));
 			}

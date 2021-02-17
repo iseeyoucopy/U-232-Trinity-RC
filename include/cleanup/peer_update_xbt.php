@@ -24,17 +24,29 @@ function docleanup($data)
         $userid = (int)$dead_peer['uid'];
         $seed = $dead_peer['left'] === 0;
         sql_query('DELETE FROM xbt_peers WHERE tid = ' . sqlesc($torrentid) . ' AND peer_id = ' . sqlesc($dead_peer['peer_id']).' AND `active` = "0" AND uploaded="0" AND downloaded="0"');
-        if (!isset($torrent_seeds[$torrentid])) $torrent_seeds[$torrentid] = $torrent_leeches[$torrentid] = 0;
-        if ($seed) $torrent_seeds[$torrentid]++;
-        else $torrent_leeches[$torrentid]++;
+        if (!isset($torrent_seeds[$torrentid])) {
+            $torrent_seeds[$torrentid] = $torrent_leeches[$torrentid] = 0;
+        }
+        if ($seed) {
+            $torrent_seeds[$torrentid]++;
+        }
+        else {
+            $torrent_leeches[$torrentid]++;
+        }
     }
     foreach (array_keys($torrent_seeds) as $tid) {
         $update = array();
-        if ($torrent_seeds[$tid] !== 0) $update[] = 'seeders = (seeders - ' . $torrent_seeds[$tid] . ')';
-        if ($torrent_leeches[$tid] !== 0) $update[] = 'leechers = (leechers - ' . $torrent_leeches[$tid] . ')';
+        if ($torrent_seeds[$tid] !== 0) {
+            $update[] = 'seeders = (seeders - '.$torrent_seeds[$tid].')';
+        }
+        if ($torrent_leeches[$tid] !== 0) {
+            $update[] = 'leechers = (leechers - '.$torrent_leeches[$tid].')';
+        }
         sql_query('UPDATE torrents SET ' . implode(', ', $update) . ' WHERE id = ' . sqlesc($tid));
     }
-    if ($queries > 0) write_log("XBT Peers clean-------------------- XBT Peer cleanup Complete using $queries queries --------------------");
+    if ($queries > 0) {
+        write_log("XBT Peers clean-------------------- XBT Peer cleanup Complete using $queries queries --------------------");
+    }
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     }

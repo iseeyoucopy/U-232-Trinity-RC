@@ -90,7 +90,9 @@ class AJAXChat {
 		array_walk(
 			$this->_requestVars,
 			function(&$value, $key){
-				if(is_string($value)) $value = stripslashes($value);
+				if(is_string($value)) {
+                    $value = stripslashes($value);
+                }
 			}
 		);
 		
@@ -209,10 +211,12 @@ class AJAXChat {
 	}
 
 	function isChatOpen() {
-		if($this->getUserRole() >= UC_MODERATOR)
-			return true;
-		if($this->getConfig('chatClosed'))
-			return false;
+		if($this->getUserRole() >= UC_MODERATOR) {
+            return true;
+        }
+		if($this->getConfig('chatClosed')) {
+            return false;
+        }
 		$time = time();
 		if($this->getConfig('timeZoneOffset') !== null) {
 			// Subtract the server timezone offset and add the config timezone offset:
@@ -222,17 +226,20 @@ class AJAXChat {
 		// Check the opening hours:
 		if($this->getConfig('openingHour') < $this->getConfig('closingHour'))
 		{
-			if(($this->getConfig('openingHour') > date('G', $time)) || ($this->getConfig('closingHour') <= date('G', $time)))
-				return false;
+			if(($this->getConfig('openingHour') > date('G', $time)) || ($this->getConfig('closingHour') <= date('G', $time))) {
+                return false;
+            }
 		}
 		else
 		{
-			if(($this->getConfig('openingHour') > date('G', $time)) && ($this->getConfig('closingHour') <= date('G', $time)))
-				return false;
+			if(($this->getConfig('openingHour') > date('G', $time)) && ($this->getConfig('closingHour') <= date('G', $time))) {
+                return false;
+            }
 		}
 		// Check the opening weekdays:
-		if(!in_array(date('w', $time), $this->getConfig('openingWeekDays')))
-			return false;
+		if(!in_array(date('w', $time), $this->getConfig('openingWeekDays'))) {
+            return false;
+        }
 		return true;	
 	}
 
@@ -1171,8 +1178,9 @@ class AJAXChat {
 				
 				$text = '/roll '.$this->getUserName().' '.$number.'d'.$sides.' ';
 				for($i=0; $i<$number; $i++) {
-					if($i != 0)
-						$text .= ',';
+					if($i != 0) {
+                        $text .= ',';
+                    }
 					$text .= $this->rollDice($sides);
 				}
 			} else {
@@ -1245,18 +1253,22 @@ class AJAXChat {
 	}
 	
 	function insertMessage($text) {
-		if(!$this->isAllowedToWriteMessage())
-			return;
+		if(!$this->isAllowedToWriteMessage()) {
+            return;
+        }
 
-		if(!$this->floodControl())
-			return;
+		if(!$this->floodControl()) {
+            return;
+        }
 
 		$text = $this->trimMessageText($text);	
-		if($text == '')
-			return;
+		if($text == '') {
+            return;
+        }
 		
-		if(!$this->onNewMessage($text))
-			return;
+		if(!$this->onNewMessage($text)) {
+            return;
+        }
 		
 		$text = $this->replaceCustomText($text);
 		
@@ -1333,10 +1345,12 @@ class AJAXChat {
 	}
 	
 	function isAllowedToWriteMessage() {
-		if($this->getUserRole() >= UC_USER)
-			return true;
-		if($this->getConfig('allowGuestWrite'))
-			return true;
+		if($this->getUserRole() >= UC_USER) {
+            return true;
+        }
+		if($this->getConfig('allowGuestWrite')) {
+            return true;
+        }
 		return false;
 	}
 
@@ -1650,8 +1664,9 @@ class AJAXChat {
 		if($count > 0) {
 			$condition = '';
 			while($row = $result->fetch_assoc()) {
-				if(!empty($condition))
-					$condition .= ' OR ';
+				if(!empty($condition)) {
+                    $condition .= ' OR ';
+                }
 				// Add userID to condition for removal:
 				$condition .= 'userID='.sqlesc($row['userID']);
 
@@ -1983,12 +1998,15 @@ class AJAXChat {
 
 		// If a time (hour) is given but no date (year, month, day), use the current date:
 		if($hour !== null) {
-			if($day === null)
-				$day = date('j');
-			if($month === null)
-				$month = date('n');
-			if($year === null)
-				$year = date('Y');
+			if($day === null) {
+                $day = date('j');
+            }
+			if($month === null) {
+                $month = date('n');
+            }
+			if($year === null) {
+                $year = date('Y');
+            }
 		}
 		
 		if($year === null) {
@@ -2013,8 +2031,9 @@ class AJAXChat {
 			$periodEnd = mktime($hour, 59, 59, $month, $day, $year);
 		}
 		
-		if(isset($periodStart))
-			$condition .= ' AND dateTime > \''.date('Y-m-d H:i:s', $periodStart).'\' AND dateTime <= \''.date('Y-m-d H:i:s', $periodEnd).'\'';
+		if(isset($periodStart)) {
+            $condition .= ' AND dateTime > \''.date('Y-m-d H:i:s', $periodStart).'\' AND dateTime <= \''.date('Y-m-d H:i:s', $periodEnd).'\'';
+        }
 		
 		// Check the search condition:
 		if($this->getRequestVar('search')) {
@@ -2282,19 +2301,23 @@ class AJAXChat {
 	}
 
 	function getSessionVar($key, $prefix=null) {
-		if($prefix === null)
-			$prefix = $this->getConfig('sessionKeyPrefix');
+		if($prefix === null) {
+            $prefix = $this->getConfig('sessionKeyPrefix');
+        }
 
 		// Return the session value if existing:
-		if(isset($_SESSION[$prefix.$key]))
-			return $_SESSION[$prefix.$key];
-		else
-			return null;
+		if(isset($_SESSION[$prefix.$key])) {
+            return $_SESSION[$prefix.$key];
+        }
+		else {
+            return null;
+        }
 	}
 	
 	function setSessionVar($key, $value, $prefix=null) {
-		if($prefix === null)
-			$prefix = $this->getConfig('sessionKeyPrefix');
+		if($prefix === null) {
+            $prefix = $this->getConfig('sessionKeyPrefix');
+        }
 		
 		// Set the session value:
 		$_SESSION[$prefix.$key] = $value;
@@ -2639,10 +2662,12 @@ class AJAXChat {
 	}
 	
 	function getConfig($key, $subkey=null) {
-		if($subkey)
-			return $this->_config[$key][$subkey];
-		else
-			return $this->_config[$key];
+		if($subkey) {
+            return $this->_config[$key][$subkey];
+        }
+		else {
+            return $this->_config[$key];
+        }
 	}
 
 	function setConfig($key, $subkey, $value) {
@@ -2663,10 +2688,12 @@ class AJAXChat {
 			require(AJAXCHAT_DIR . 'lib' . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . ''.$this->getLangCode().'.php');
 			$this->_lang = &$lang;
 		}
-		if($key === null)
-			return $this->_lang;
-		if(isset($this->_lang[$key]))
-			return $this->_lang[$key];
+		if($key === null) {
+            return $this->_lang;
+        }
+		if(isset($this->_lang[$key])) {
+            return $this->_lang[$key];
+        }
 		return null;
 	}
 
@@ -2728,8 +2755,9 @@ class AJAXChat {
 	}
 	
 	function getChannelIDFromChannelName($channelName) {
-		if(!$channelName)
-			return null;
+		if(!$channelName) {
+            return null;
+        }
 		$channels = $this->getAllChannels();
 		if(array_key_exists($channelName,$channels)) {
 			return $channels[$channelName];
@@ -2928,8 +2956,9 @@ class AJAXChat {
 	}
 
 	function getGuestUser() {
-		if(!$this->getConfig('allowGuestLogins'))
-			return null;
+		if(!$this->getConfig('allowGuestLogins')) {
+            return null;
+        }
 
 		if($this->getConfig('allowGuestUserName')) {
 			$maxLength =	$this->getConfig('userNameMaxLength')
@@ -2958,17 +2987,22 @@ class AJAXChat {
 	}
 
 	function getCustomVar($key) {
-		if(!isset($this->_customVars))
-			$this->_customVars = array();
-		if(!isset($this->_customVars[$key]))
-			return null;
-		return $this->_customVars[$key];
+		if(!isset($this->_customVars)) {
+            $this->_customVars = [];
+        }
+        if(!isset($this->_customVars[$key]))
+			{
+                return null;
+            }
+        return $this->_customVars[$key];
 	}
 	
 	function setCustomVar($key, $value) {
 		if(!isset($this->_customVars))
-			$this->_customVars = array();
-		$this->_customVars[$key] = $value;
+			{
+                $this->_customVars = [];
+            }
+        $this->_customVars[$key] = $value;
 	}
 
 	// Override to replace custom template tags:
@@ -3011,9 +3045,10 @@ class AJAXChat {
 	         $bw = fread($f, filesize($file));
 	         $badwords = explode("\n",$bw);
 
-	         for ($i=0, $iMax = count($badwords); $i< $iMax; ++$i)
-	             $badwords[$i] = trim($badwords[$i]);
-	         $s = str_ireplace($badwords, "*censored*", $s);
+	         for ($i=0, $iMax = count($badwords); $i< $iMax; ++$i) {
+                 $badwords[$i] = trim($badwords[$i]);
+             }
+              $s = str_ireplace($badwords, "*censored*", $s);
 	      }
 	      @fclose($f);
 

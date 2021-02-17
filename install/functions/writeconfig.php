@@ -117,7 +117,9 @@ function foo($x)
 }
 function createblock($fo, $foo)
 {
-    if (file_exists('step1.lock')) header('Location: index.php?step=2');
+    if (file_exists('step1.lock')) {
+        header('Location: index.php?step=2');
+    }
     $out = '
 	<fieldset>
 		<legend>'.$fo.'</legend>
@@ -158,7 +160,9 @@ function saveconfig()
             $out.= '<div class="notreadable">Config file could not be saved</div>';
             $continue = false;
         }
-    } else $out.= '<div class="readable">Config file was already written</div>';
+    } else {
+        $out .= '<div class="readable">Config file was already written</div>';
+    }
     if (!file_exists('announce.lock')) {
         if(isset($_POST['config']['xbt_tracker'])) {
             $file = "extra/ann_config.xbtsample.php";
@@ -179,7 +183,9 @@ function saveconfig()
             $out.= '<div class="notreadable">announce file could not be saved</div>';
             $continue = false;
         }
-    } else $out.= '<div class="readable">Announce file was already written</div>';
+    } else {
+        $out .= '<div class="readable">Announce file was already written</div>';
+    }
     if ($continue) {
         if(isset($_POST['config']['xbt_tracker'])) {
             $xbt = 1;
@@ -189,7 +195,9 @@ function saveconfig()
         }
         $out.= '<div style="text-align:center" class="info"><input type="button" value="Next step" onclick="window.location.href=\'index.php?step=2&xbt='.$xbt.'\'"/></div>';
         file_put_contents('step1.lock', 1);
-    } else $out.= '<div style="text-align:center" class="info"><input type="button" value="Go back" onclick="window.go(-1)"/></div>';
+    } else {
+        $out .= '<div style="text-align:center" class="info"><input type="button" value="Go back" onclick="window.go(-1)"/></div>';
+    }
     $out.= '</fieldset>';
     print ($out);
 }

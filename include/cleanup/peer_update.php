@@ -25,18 +25,30 @@ function docleanup($data)
         $userid = (int)$dead_peer['userid'];
         $seed = $dead_peer['seeder'] === 'yes'; // you use 'yes' i thinks :P
         sql_query('DELETE FROM peers WHERE torrent = ' . $torrentid . ' AND peer_id = ' . sqlesc($dead_peer['peer_id']));
-        if (!isset($torrent_seeds[$torrentid])) $torrent_seeds[$torrentid] = $torrent_leeches[$torrentid] = 0;
-        if ($seed) $torrent_seeds[$torrentid]++;
-        else $torrent_leeches[$torrentid]++;
+        if (!isset($torrent_seeds[$torrentid])) {
+            $torrent_seeds[$torrentid] = $torrent_leeches[$torrentid] = 0;
+        }
+        if ($seed) {
+            $torrent_seeds[$torrentid]++;
+        }
+        else {
+            $torrent_leeches[$torrentid]++;
+        }
     }
     foreach (array_keys($torrent_seeds) as $tid) {
         $update = array();
         adjust_torrent_peers($tid, -$torrent_seeds[$tid], -$torrent_leeches[$tid], 0);
-        if ($torrent_seeds[$tid] !== 0) $update[] = 'seeders = (seeders - ' . $torrent_seeds[$tid] . ')';
-        if ($torrent_leeches[$tid] !== 0) $update[] = 'leechers = (leechers - ' . $torrent_leeches[$tid] . ')';
+        if ($torrent_seeds[$tid] !== 0) {
+            $update[] = 'seeders = (seeders - '.$torrent_seeds[$tid].')';
+        }
+        if ($torrent_leeches[$tid] !== 0) {
+            $update[] = 'leechers = (leechers - '.$torrent_leeches[$tid].')';
+        }
         sql_query('UPDATE torrents SET ' . implode(', ', $update) . ' WHERE id = ' . $tid);
     }
-    if ($queries > 0) write_log("Peers clean-------------------- Peer cleanup Complete using $queries queries --------------------");
+    if ($queries > 0) {
+        write_log("Peers clean-------------------- Peer cleanup Complete using $queries queries --------------------");
+    }
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     }

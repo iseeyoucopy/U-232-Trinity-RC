@@ -20,11 +20,15 @@ function url2short($x)
     preg_match_all('/((http|https)\:\/\/[^()<>\s]+)/i', $x, $t);
     if (isset($t[0])) {
         foreach ($t[0] as $l) {
-            if (strpos($l, 'is.gd')) continue;
+            if (strpos($l, 'is.gd')) {
+                continue;
+            }
             $shorturls[1][] = file_get_contents('http://is.gd/api.php?longurl=' . urlencode($l));
             $shorturls[0][] = $l;
         }
-        if (isset($shorturls)) $x = str_replace($shorturls[0], $shorturls[1], $x);
+        if (isset($shorturls)) {
+            $x = str_replace($shorturls[0], $shorturls[1], $x);
+        }
     }
     return $x;
 }
@@ -49,55 +53,65 @@ $ss = isset($_POST['ss']) && !empty($_POST['ss']) ? $_POST['ss'] : '';
 switch ($do) {
 case 'edit':
     if (!empty($ss)) {
-        if (sql_query('UPDATE ustatus SET last_status = ' . sqlesc(url2short($ss)) . ', last_update = ' . TIME_NOW . ' WHERE userid =' . sqlesc($CURUSER['id']))) $return = jsonmsg(array(
-            $ss,
-            true
-        ));
-        else $return = jsonmsg(array(
-            $lang['ajaxstatus_err'] . $mysqli->error ,
+        if (sql_query('UPDATE ustatus SET last_status = ' . sqlesc(url2short($ss)) . ', last_update = ' . TIME_NOW . ' WHERE userid =' . sqlesc($CURUSER['id']))) {
+            $return = jsonmsg([
+                $ss,
+                true
+            ]);
+        } else { $return = jsonmsg([
+            $lang['ajaxstatus_err'].$mysqli->error,
             false
-        ));
-    } else $return = jsonmsg(array(
+        ]);
+        }
+    } else { $return = jsonmsg([
         $lang['ajaxstatus_err1'],
         false
-    ));
+    ]);
+    }
     break;
 
-case 'delete':
+    case 'delete':
     $status_history = unserialize($CURUSER['archive']);
     if (isset($status_history[$id])) {
         unset($status_history[$id]);
-        if (sql_query('UPDATE ustatus SET archive = ' . sqlesc(serialize($status_history)) . ' WHERE userid = ' . sqlesc($CURUSER['id']))) $return = jsonmsg(array(
+        if (sql_query('UPDATE ustatus SET archive = ' . sqlesc(serialize($status_history)) . ' WHERE userid = ' . sqlesc($CURUSER['id']))) { $return = jsonmsg([
             'ok',
             true
-        ));
-        else $return = jsonmsg(array(
-            $lang['ajaxstatus_err2'],
+        ]);
+        } else {
+            $return = jsonmsg([
+                $lang['ajaxstatus_err2'],
+                false
+            ]);
+        }
+    } else {
+        $return = jsonmsg(array(
+            $lang['ajaxstatus_err3'],
             false
         ));
-    } else $return = jsonmsg(array(
-        $lang['ajaxstatus_err3'],
-        false
-    ));
-    break;
+    }
+        break;
 
-case 'new':
-    $status_archive = ((isset($CURUSER['archive']) && is_array(unserialize($CURUSER['archive']))) ? unserialize($CURUSER['archive']) : array());
-    if (!empty($CURUSER['last_status'])) $status_archive[] = array(
+    case 'new':
+        $status_archive = ((isset($CURUSER['archive']) && is_array(unserialize($CURUSER['archive']))) ? unserialize($CURUSER['archive']) : array());
+    if (!empty($CURUSER['last_status'])) { $status_archive[] = array(
         'status' => $CURUSER['last_status'],
         'date' => $CURUSER['last_update']
     );
-    if (sql_query('INSERT INTO ustatus(userid,last_status,last_update,archive) VALUES(' . sqlesc($CURUSER['id']) . ',' . sqlesc(url2short($ss)) . ',' . TIME_NOW . ',' . sqlesc(serialize($status_archive)) . ') ON DUPLICATE KEY UPDATE last_status=values(last_status),last_update=values(last_update),archive=values(archive)')) $return = jsonmsg(array(
-        '<h2>' . $lang['ajaxstatus_successfully'] . '</h2>',
-        true
-    ));
-    else $return = jsonmsg(array(
-        $lang['ajaxstatus_err'] . $mysqli->error ,
-        false
-    ));
-    break;
+    }
+        if (sql_query('INSERT INTO ustatus(userid,last_status,last_update,archive) VALUES(' . sqlesc($CURUSER['id']) . ',' . sqlesc(url2short($ss)) . ',' . TIME_NOW . ',' . sqlesc(serialize($status_archive)) . ') ON DUPLICATE KEY UPDATE last_status=values(last_status),last_update=values(last_update),archive=values(archive)')) { $return = jsonmsg(array(
+            '<h2>'.$lang['ajaxstatus_successfully'].'</h2>',
+            true
+        ));
+        } else {
+            $return = jsonmsg(array(
+                $lang['ajaxstatus_err'].$mysqli->error,
+                false
+            ));
+        }
+        break;
 
-default:
+    default:
     $return = jsonmsg(array(
         $lang['ajaxstatus_err4'],
         false

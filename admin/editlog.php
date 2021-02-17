@@ -47,7 +47,9 @@ loggedinorreturn();
 /*$allowed_ids = array(
     1
 ); //== 1 Is Sysop*/
-if (!in_array($CURUSER['id'], $TRINITY20['allowed_staff']['id'] /*$allowed_ids*/)) stderr($lang['editlog_error'], $lang['editlog_denied']);
+if (!in_array($CURUSER['id'], $TRINITY20['allowed_staff']['id'] /*$allowed_ids*/)) {
+    stderr($lang['editlog_error'], $lang['editlog_denied']);
+}
 $lang = array_merge($lang, load_language('editlog'));
 $HTMLOUT = '';
 $file_data = './dir_list/data_' . $CURUSER['username'] . '.txt';
@@ -115,11 +117,17 @@ foreach ($current as $x) {
             if ($x['size'] == $y['size'] && $x['modify'] == $y['modify']) {
                 unset($current[$x['key']]);
                 unset($last[$y['key']]);
-            } else $current[$x['key']]['status'] = 'modified';
+            } else {
+                $current[$x['key']]['status'] = 'modified';
+            }
         }
-        if (isset($last[$y['key']])) $last[$y['key']]['status'] = 'deleted';
+        if (isset($last[$y['key']])) {
+            $last[$y['key']]['status'] = 'deleted';
+        }
     }
-    if (isset($current[$x['key']]['name']) && !isset($current[$x['key']]['status'])) $current[$x['key']]['status'] = 'new';
+    if (isset($current[$x['key']]['name']) && !isset($current[$x['key']]['status'])) {
+        $current[$x['key']]['status'] = 'new';
+    }
 }
 $current+= $last; // Add deleted entries to current list
 unset($last);

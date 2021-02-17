@@ -62,10 +62,14 @@ function delete_poll()
 {
     global $TRINITY20, $CURUSER, $cache,$lang;
     $total_votes = 0;
-    if (!isset($_GET['pid']) || !is_valid_id($_GET['pid'])) stderr($lang['poll_dp_usr_err'], $lang['poll_dp_no_poll']);
+    if (!isset($_GET['pid']) || !is_valid_id($_GET['pid'])) {
+        stderr($lang['poll_dp_usr_err'], $lang['poll_dp_no_poll']);
+    }
     $pid = (int) $_GET['pid'];
-    if (!isset($_GET['sure'])) stderr($lang['poll_dp_usr_warn'], "<h2>{$lang['poll_dp_forever']}</h2>
+    if (!isset($_GET['sure'])) {
+        stderr($lang['poll_dp_usr_warn'], "<h2>{$lang['poll_dp_forever']}</h2>
       <a href='javascript:history.back()' title='{$lang['poll_dp_cancel']}' style='color:green;font-weight:bold'><span class='btn' style='padding:3px;'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_delete.gif' alt='{$lang['poll_dp_back']}' />{$lang['poll_dp_back']}</span></a>&nbsp;<a href=staffpanel.php?tool=polls_manager&amp;'action=polls_manager&amp;mode=delete&amp;pid={$pid}&amp;sure=1' title='{$lang['poll_dp_delete']}' style='color:green;font-weight:bold'><span class='btn' style='padding:3px;'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_tick.gif' alt='{$lang['poll_dp_delete']}' />{$lang['poll_dp_delete2']}</span></a>");
+    }
     sql_query("DELETE FROM polls WHERE pid = " . sqlesc($pid));
     sql_query("DELETE FROM poll_voters WHERE poll_id = " . sqlesc($pid));
     $cache->delete('poll_data_' . $CURUSER['id']);
@@ -75,15 +79,21 @@ function update_poll()
 {
     global $TRINITY20, $CURUSER, $cache, $lang, $mysqli;
     $total_votes = 0;
-    if (!isset($_POST['pid']) || !is_valid_id($_POST['pid'])) stderr($lang['poll_up_usr_err'], $lang['poll_up_no_poll']);
+    if (!isset($_POST['pid']) || !is_valid_id($_POST['pid'])) {
+        stderr($lang['poll_up_usr_err'], $lang['poll_up_no_poll']);
+    }
     $pid = (int) $_POST['pid'];
-    if (!isset($_POST['poll_question']) || empty($_POST['poll_question'])) stderr($lang['poll_up_usr_err'], $lang['poll_up_no_title']);
+    if (!isset($_POST['poll_question']) || empty($_POST['poll_question'])) {
+        stderr($lang['poll_up_usr_err'], $lang['poll_up_no_title']);
+    }
     $poll_title = sqlesc(htmlsafechars(strip_tags($_POST['poll_question']) , ENT_QUOTES));
     //get the main crux of the poll data
     $poll_data = makepoll();
     $total_votes = isset($poll_data['total_votes']) ? (int) $poll_data['total_votes'] : 0;
     unset($poll_data['total_votes']);
-    if (!is_array($poll_data) || !count($poll_data)) stderr($lang['poll_up_sys_err'], $lang['poll_up_no_data']);
+    if (!is_array($poll_data) || !count($poll_data)) {
+        stderr($lang['poll_up_sys_err'], $lang['poll_up_no_data']);
+    }
     //all ok, serialize
     $poll_data = sqlesc(serialize($poll_data));
     $username = sqlesc($CURUSER['username']);
@@ -101,11 +111,15 @@ function update_poll()
 function insert_new_poll()
 {
     global $TRINITY20, $CURUSER, $cache, $lang, $mysqli;
-    if (!isset($_POST['poll_question']) || empty($_POST['poll_question'])) stderr($lang['poll_inp_usr_err'], $lang['poll_inp_no_title']);
+    if (!isset($_POST['poll_question']) || empty($_POST['poll_question'])) {
+        stderr($lang['poll_inp_usr_err'], $lang['poll_inp_no_title']);
+    }
     $poll_title = sqlesc(htmlsafechars(strip_tags($_POST['poll_question']) , ENT_QUOTES));
     //get the main crux of the poll data
     $poll_data = makepoll();
-    if (!is_array($poll_data) || !count($poll_data)) stderr($lang['poll_inp_sys_err'], $lang['poll_inp_no_data']);
+    if (!is_array($poll_data) || !count($poll_data)) {
+        stderr($lang['poll_inp_sys_err'], $lang['poll_inp_no_data']);
+    }
     //all ok, serialize
     $poll_data = sqlesc(serialize($poll_data));
     $username = sqlesc($CURUSER['username']);
@@ -135,7 +149,9 @@ function edit_poll_form()
     $poll_choices = '';
     $poll_votes = '';
     $query = sql_query("SELECT * FROM polls WHERE pid = " . (int) $_GET['pid']);
-    if (false == $query->num_rows) return $lang['poll_epf_no_poll'];
+    if (false == $query->num_rows) {
+        return $lang['poll_epf_no_poll'];
+    }
     $poll_data = $query->fetch_assoc();
     $poll_answers = $poll_data['choices'] ? unserialize(stripslashes($poll_data['choices'])) : array();
     foreach ($poll_answers as $question_id => $data) {
@@ -331,7 +347,9 @@ function makepoll()
     if (!empty($choices_count) && count((array) $choices_count) > ($TRINITY20['max_poll_questions'] * $TRINITY20['max_poll_choices_per_question'])) {
         exit('poll_to_many');
     }
-    if (isset($_POST['mode']) && $_POST['mode'] == 'poll_update') $questions['total_votes'] = $poll_total_votes;
+    if (isset($_POST['mode']) && $_POST['mode'] == 'poll_update') {
+        $questions['total_votes'] = $poll_total_votes;
+    }
     return $questions;
 }
 ?>

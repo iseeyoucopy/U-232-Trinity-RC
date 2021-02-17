@@ -17,8 +17,9 @@ if ($TRINITY20['error_reports']['debugmode'] == 1) {
 }else { 
     error_reporting(0); 
 }
-if (PHP_INT_SIZE < 8)
-die('A 64bit or higher OS + Processor is required.');
+if (PHP_INT_SIZE < 8) {
+    die('A 64bit or higher OS + Processor is required.');
+}
 define('EMAIL_CONFIRM', false);
 define('SQL_DEBUG', 1);
 define('XBT_TRACKER', true);
@@ -221,7 +222,9 @@ $TRINITY20['announce_urls'] = '#announce_urls:2710/announce';
 } else {
 $TRINITY20['announce_urls'] = '#announce_https';
 }
-if (isset($_SERVER["HTTP_HOST"]) &&  $_SERVER["HTTP_HOST"] == "") $_SERVER["HTTP_HOST"] = $_SERVER["SERVER_NAME"];
+if (isset($_SERVER["HTTP_HOST"]) &&  $_SERVER["HTTP_HOST"] == "") {
+    $_SERVER["HTTP_HOST"] = $_SERVER["SERVER_NAME"];
+}
 $TRINITY20['baseurl'] = 'http' . (isset($_SERVER['HTTPS']) && (bool)$_SERVER['HTTPS'] == true ? 's' : '') . '://' . $_SERVER['HTTP_HOST'];
 //== Email for sender/return path.
 $TRINITY20['sub_max_size'] = 500 * 1024;

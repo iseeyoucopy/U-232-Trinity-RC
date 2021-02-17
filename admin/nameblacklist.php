@@ -34,14 +34,22 @@ $lang = array_merge($lang, load_language('ad_nameblacklist'));
 $blacklist = file_exists($TRINITY20['nameblacklist']) && is_array(unserialize(file_get_contents($TRINITY20['nameblacklist']))) ? unserialize(file_get_contents($TRINITY20['nameblacklist'])) : array();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $badnames = isset($_POST['badnames']) && !empty($_POST['badnames']) ? trim($_POST['badnames']) : '';
-    if (empty($badnames)) stderr($lang['name_hmm'], $lang['name_think']);
+    if (empty($badnames)) {
+        stderr($lang['name_hmm'], $lang['name_think']);
+    }
     if (strpos($badnames, ',')) {
-        foreach (explode(',', $badnames) as $badname) $blacklist[$badname] = (int)1;
-    } else $blacklist[$badnames] = (int)1;
+        foreach (explode(',', $badnames) as $badname) {
+            $blacklist[$badname] = (int)1;
+        }
+    } else {
+        $blacklist[$badnames] = (int)1;
+    }
     if (file_put_contents($TRINITY20['nameblacklist'], serialize($blacklist))) {
         header('Refresh:2; url=staffpanel.php?tool=nameblacklist');
         stderr($lang['name_success'], $lang['name_file']);
-    } else stderr($lang['name_err'], ' ' .$lang['name_hmm'] .'<b>' . $TRINITY20['nameblacklist'] . '</b>' . $lang['name_is'] . '');
+    } else {
+        stderr($lang['name_err'], ' '.$lang['name_hmm'].'<b>'.$TRINITY20['nameblacklist'].'</b>'.$lang['name_is'].'');
+    }
 } else {
    $out= '';
 $out .= "<div class='row'><div class='col-md-8 col-md-offset-2'>";    

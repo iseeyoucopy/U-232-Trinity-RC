@@ -50,7 +50,9 @@ function docleanup($data)
         unset($users_buffer, $msgs_buffer, $count);
     }
     //==End
-    if ($queries > 0) write_log("Freelech clean-------------------- Freeleech cleanup Complete using $queries queries --------------------");
+    if ($queries > 0) {
+        write_log("Freelech clean-------------------- Freeleech cleanup Complete using $queries queries --------------------");
+    }
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items updated";
     }

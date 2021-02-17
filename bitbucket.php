@@ -60,23 +60,35 @@ if (!isset($_FILES['file'])) {
         $delfile = urldecode(encrypt_decrypt('decrypt', $getfile));
         $delhash = t_Hash($delfile, $USERSALT, $SaLt);
 
-        if ($delhash != $_GET['delhash']) stderr($lang['bitbucket_umm'], "{$lang['bitbucket_wayd']}");
+        if ($delhash != $_GET['delhash']) {
+            stderr($lang['bitbucket_umm'], "{$lang['bitbucket_wayd']}");
+        }
         //$myfile = ROOT_DIR . '/' . $delfile; //== for pdq define directories
         //$myfile = '/home/yourdir/public_html/'.$delfile; // Full relative path to web root
         $myfile = BITBUCKET_DIR.'/'.$delfile;
         if ((($pi = pathinfo($myfile)) && preg_match('#^(jpg|jpeg|gif|png)$#i', $pi['extension'])) && is_file($myfile))
         //if (is_file($myfile))
-        unlink($myfile);
-        else stderr($lang['bitbucket_hey'], "{$lang['bitbucket_imagenf']}");
+        {
+            unlink($myfile);
+        }
+        else {
+            stderr($lang['bitbucket_hey'], "{$lang['bitbucket_imagenf']}");
+        }
         $folder_m = (isset($_GET['month']) ? '&month='.(int)$_GET['month'] : '&month='.date('m'));
         $yea = (isset($_GET['year']) ? '&year='.(int)$_GET['year'] : '&year='.date('Y'));
-        if (isset($_GET["type"]) && $_GET["type"] == 2) header("Refresh: 2; url={$TRINITY20['baseurl']}/bitbucket.php?images=2");
-        else header("Refresh: 2; url={$TRINITY20['baseurl']}/bitbucket.php?images=1".$yea.$folder_m);
+        if (isset($_GET["type"]) && $_GET["type"] == 2) {
+            header("Refresh: 2; url={$TRINITY20['baseurl']}/bitbucket.php?images=2");
+        }
+        else {
+            header("Refresh: 2; url={$TRINITY20['baseurl']}/bitbucket.php?images=1".$yea.$folder_m);
+        }
         die($lang['bitbucket_deleting'] . $delfile . $lang['bitbucket_redir']);
     }
     if (isset($_GET["avatar"]) && $_GET["avatar"] != '' && ($_GET["avatar"] != $CURUSER["avatar"])) {
         $type = ((isset($_GET["type"]) && $_GET["type"] == 1) ? 1 : 2);
-        if (preg_match("/^http:\/\/$/i", $_GET["avatar"]) || preg_match("/[?&;]/", $_GET["avatar"]) || preg_match("#javascript:#is", $_GET["avatar"]) || !preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\-!]+)$#iU", $_GET["avatar"])) stderr($lang['bitbucket_error'], "{$lang['bitbucket_mustbe']}");
+        if (preg_match("/^http:\/\/$/i", $_GET["avatar"]) || preg_match("/[?&;]/", $_GET["avatar"]) || preg_match("#javascript:#is", $_GET["avatar"]) || !preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\-!]+)$#iU", $_GET["avatar"])) {
+            stderr($lang['bitbucket_error'], "{$lang['bitbucket_mustbe']}");
+        }
         $avatar = sqlesc($_GET['avatar']);
         sql_query("UPDATE users SET avatar = $avatar WHERE id = {$CURUSER['id']}") || sqlerr(__FILE__, __LINE__);
         $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
@@ -157,17 +169,25 @@ document.getElementById(id).select();
                 $HTMLOUT.= "<p align=\"center\">{$lang['bitbucket_tags']}<br /><input style=\"font-size: 9pt;text-align: center;\" id=\"t".$eid."t\" onclick=\"SelectAll('t".$eid."t');\" type=\"text\" size=\"70\" value=\"[img]{$address}img.php/{$filename}[/img]\" readonly=\"readonly\" /></p>";
                 $HTMLOUT.= "<p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?type=".((isset($_GET['images']) && $_GET['images'] == 2) ? '2' : '1')."&amp;avatar={$address}img.php/{$filename}\">{$lang['bitbucket_maketma']}</a></p>";
                 $HTMLOUT.= "<p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?type=".((isset($_GET['images']) && $_GET['images'] == 2) ? '2' : '1')."&amp;delete=".$encryptedfilename."&amp;delhash=".t_Hash($filename, $USERSALT, $SaLt)."&amp;month=".(isset($_GET['month']) ? ($_GET['month'] < 10 ? '0' : '').(int)$_GET['month'] : date('m'))."&amp;year=".(isset($_GET['year']) ? (int)$_GET['year'] : date('Y'))."\">{$lang['bitbucket_delete']}</a></p><br />";
-            } else $HTMLOUT.= "{$lang['bitbucket_noimages']}";
+            } else {
+                $HTMLOUT .= "{$lang['bitbucket_noimages']}";
+            }
         }
     }
     echo stdhead($lang['bitbucket_bitbucket']).$HTMLOUT.stdfoot();
     exit();
 }
-if ($_FILES['file']['size'] == 0) stderr($lang['bitbucket_error'], $lang['bitbucket_upfail']);
-if ($_FILES['file']['size'] > $maxsize) stderr($lang['bitbucket_error'], $lang['bitbucket_to_large']);
+if ($_FILES['file']['size'] == 0) {
+    stderr($lang['bitbucket_error'], $lang['bitbucket_upfail']);
+}
+if ($_FILES['file']['size'] > $maxsize) {
+    stderr($lang['bitbucket_error'], $lang['bitbucket_to_large']);
+}
 $file = preg_replace('`[^a-z0-9\-\_\.]`i', '', $_FILES['file']['name']);
 
-if (!in_array('.'.pathinfo($file, PATHINFO_EXTENSION), $formats)) stderr($lang['bitbucket_err'], $lang['bitbucket_invalid']);
+if (!in_array('.'.pathinfo($file, PATHINFO_EXTENSION), $formats)) {
+    stderr($lang['bitbucket_err'], $lang['bitbucket_invalid']);
+}
 if (!function_exists('exif_imagetype')) {
     function exif_imagetype($filename)
     {
@@ -187,15 +207,21 @@ $path = $bucketdir.$USERSALT.'_'.$file;
 $pathlink = $bucketlink.$USERSALT.'_'.$file;
 $loop = 0;
 while (true) {
-    if ($loop > 10) stderr($lang['bitbucket_error'], $lang['bitbucket_upfail']);
-    if (!file_exists($path)) break;
+    if ($loop > 10) {
+        stderr($lang['bitbucket_error'], $lang['bitbucket_upfail']);
+    }
+    if (!file_exists($path)) {
+        break;
+    }
 
     $randb = bucketrand();
     $path = $bucketdir.$USERSALT.'_'.$randb.$file;
     $pathlink = $bucketlink.$USERSALT.'_'.$randb.$file;
     $loop++;
 }
-if (!move_uploaded_file($_FILES['file']['tmp_name'], $path)) stderr($lang['bitbucket_error'], $lang['bitbucket_upfail']);
+if (!move_uploaded_file($_FILES['file']['tmp_name'], $path)) {
+    stderr($lang['bitbucket_error'], $lang['bitbucket_upfail']);
+}
 if (isset($_POST["from"]) && $_POST["from"] == "upload") {
     echo "<p><b><font color='red'>{$lang['bitbucket_success']}</b></p>
 <p><b><strong>".$address."img.php/".$pathlink."</strong></font></b></p>";
@@ -229,7 +255,9 @@ function bucketrand()
 {
     $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $out = '';
-    for ($i = 0; $i < 6; $i++) $out.= $chars[random_int(0, 61) ];
+    for ($i = 0; $i < 6; $i++) {
+        $out .= $chars[random_int(0, 61)];
+    }
     return $out;
 }
 function encrypt_decrypt($action, $string) 
@@ -262,12 +290,16 @@ function valid_path($root, $input)
 function make_year($path)
 {
     $dir = $path.'/'.date('Y');
-    if (!is_dir($dir)) mkdir($dir);
+    if (!is_dir($dir)) {
+        mkdir($dir);
+    }
 }
 function make_month($path)
 {
     $dir = $path.'/'.date('Y/m');
-    if (!is_dir($dir)) mkdir($dir);
+    if (!is_dir($dir)) {
+        mkdir($dir);
+    }
 }
 // EndFile
 

@@ -12,19 +12,35 @@ if (in_array($torrents["category"], $TRINITY20['movie_cats']) && !empty($torrent
     foreach ($subs_array as $k => $sid) {
         require_once (CACHE_DIR . 'subs.php');
         foreach ($subs as $sub) {
-            if ($sub["id"] == $sid) $HTMLOUT.= "<img border=\"0\" width=\"25px\" style=\"padding:3px;\"src=\"" . htmlsafechars($sub["pic"]) . "\" alt=\"" . htmlsafechars($sub["name"]) . "\" title=\"" . htmlsafechars($sub["name"]) . "\" />";
+            if ($sub["id"] == $sid) {
+                $HTMLOUT .= "<img border=\"0\" width=\"25px\" style=\"padding:3px;\"src=\"".htmlsafechars($sub["pic"])."\" alt=\"".htmlsafechars($sub["name"])."\" title=\"".htmlsafechars($sub["name"])."\" />";
+            }
         }
     }
     $HTMLOUT.= "</td></tr>\n";
 }
-if ($CURUSER["class"] >= UC_POWER_USER && $torrents["nfosz"] > 0) $HTMLOUT.= "<tr><td class='rowhead'>{$lang['details_nfo']}</td><td align='left'><a href='viewnfo.php?id=" . (int)$torrents['id'] . "'><b>{$lang['details_view_nfo']}</b></a> (" . mksize($torrents["nfosz"]) . ")</td></tr>\n";
-if ($torrents["visible"] == "no") $HTMLOUT.= tr("{$lang['details_visible']}", "<b>{$lang['details_no']}</b>{$lang['details_dead']}", 1);
-if ($moderator) $HTMLOUT.= tr("{$lang['details_banned']}", $torrents["banned"]);
-if ($torrents["nuked"] == "yes") $HTMLOUT.= "<tr><td class='rowhead'><b>{$lang['details_add_nuk1']}</b></td><td align='left'><img src='{$TRINITY20['pic_base_url']}nuked.gif' alt='Nuked' title='Nuked' /></td></tr>\n";
-if (!empty($torrents["nukereason"])) $HTMLOUT.= "<tr><td class='rowhead'><b>{$lang['details_add_nuk2']}</b></td><td align='left'>" . htmlsafechars($torrents["nukereason"]) . "</td></tr>\n";
+if ($CURUSER["class"] >= UC_POWER_USER && $torrents["nfosz"] > 0) {
+    $HTMLOUT .= "<tr><td class='rowhead'>{$lang['details_nfo']}</td><td align='left'><a href='viewnfo.php?id=".(int)$torrents['id']."'><b>{$lang['details_view_nfo']}</b></a> (".mksize($torrents["nfosz"]).")</td></tr>\n";
+}
+if ($torrents["visible"] == "no") {
+    $HTMLOUT .= tr("{$lang['details_visible']}", "<b>{$lang['details_no']}</b>{$lang['details_dead']}", 1);
+}
+if ($moderator) {
+    $HTMLOUT .= tr("{$lang['details_banned']}", $torrents["banned"]);
+}
+if ($torrents["nuked"] == "yes") {
+    $HTMLOUT .= "<tr><td class='rowhead'><b>{$lang['details_add_nuk1']}</b></td><td align='left'><img src='{$TRINITY20['pic_base_url']}nuked.gif' alt='Nuked' title='Nuked' /></td></tr>\n";
+}
+if (!empty($torrents["nukereason"])) {
+    $HTMLOUT .= "<tr><td class='rowhead'><b>{$lang['details_add_nuk2']}</b></td><td align='left'>".htmlsafechars($torrents["nukereason"])."</td></tr>\n";
+}
 $torrents['cat_name'] = htmlsafechars($change[$torrents['category']]['name']);
-if (isset($torrents["cat_name"])) $HTMLOUT.= tr("{$lang['details_type']}", htmlsafechars($torrents["cat_name"]));
-else $HTMLOUT.= tr("{$lang['details_type']}", "{$lang['details_add_none']}");
+if (isset($torrents["cat_name"])) {
+    $HTMLOUT .= tr("{$lang['details_type']}", htmlsafechars($torrents["cat_name"]));
+}
+else {
+    $HTMLOUT .= tr("{$lang['details_type']}", "{$lang['details_add_none']}");
+}
 $HTMLOUT.= tr("{$lang['details_add_rate']}", getRate($id, "torrent") , 1);
 // --------------- likes start------
         $att_str = '';
@@ -84,7 +100,9 @@ if ($torrent_rep && $TRINITY20['rep_sys_on']) {
 //==Anonymous
 $rowuser = (isset($torrents['username']) ? ("<a href='userdetails.php?id=" . (int)$torrents['owner'] . "'><b>" . htmlsafechars($torrents['username']) . "</b></a>") : "{$lang['details_unknown']}");
 $uprow = (($torrents['anonymous'] == 'yes') ? ($CURUSER['class'] < UC_STAFF && $torrents['owner'] != $CURUSER['id'] ? '' : $rowuser . ' - ') . "<i>{$lang['details_anon']}</i>" : $rowuser);
-if ($owned) $uprow.= " $spacer<$editlink><b>{$lang['details_edit']}</b>";
+if ($owned) {
+    $uprow .= " $spacer<$editlink><b>{$lang['details_edit']}</b>";
+}
 $HTMLOUT.= tr("{$lang['details_add_byup']}", $uprow, 1);
 //==pdq's Torrent Moderation
 if ($CURUSER['class'] >= UC_STAFF) {
@@ -113,8 +131,9 @@ if ($CURUSER['class'] >= UC_STAFF) {
 }
 // end
 if ($torrents["type"] == "multi") {
-    if (!isset($_GET["filelist"])) 
-		$HTMLOUT.= tr("{$lang['details_num_files']}", "<a class='' href='./filelist.php?id=$id'>".(int)$torrents["numfiles"] . " files</a>", 1);
+    if (!isset($_GET["filelist"])) {
+        $HTMLOUT .= tr("{$lang['details_num_files']}", "<a class='' href='./filelist.php?id=$id'>".(int)$torrents["numfiles"]." files</a>", 1);
+    }
     else {
         $HTMLOUT.= tr("{$lang['details_num-files']}", (int)$torrents["numfiles"] . "{$lang['details_files']}", 1);
     }
@@ -145,7 +164,9 @@ $HTMLOUT.= tr($lang['details_thanks'], '
 //==End
 //==09 Reseed by putyn
 $next_reseed = 0;
-if ($torrents["last_reseed"] > 0) $next_reseed = ($torrents["last_reseed"] + 172800); //add 2 days
+if ($torrents["last_reseed"] > 0) {
+    $next_reseed = ($torrents["last_reseed"] + 172800);
+} //add 2 days
 $reseed = "<form method=\"post\" action=\"./takereseed.php\">
       <select name=\"pm_what\">
       <option value=\"last10\">{$lang['details_add_reseed1']}</option>

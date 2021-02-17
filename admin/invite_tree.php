@@ -53,8 +53,9 @@ if ($id !== 0) {
 		<tr><td class="embedded" align="center">';
     //=== members invites
     $rez_invited = sql_query('SELECT id, username, email, uploaded, downloaded, status, warned, suspended, enabled, donor, email, ip, class, chatpost, leechwarn, pirate, king FROM users WHERE invitedby = ' . sqlesc($id) . ' ORDER BY added');
-    if ($rez_invited->num_rows < 1) 
-        $HTMLOUT.= $lang['invite_none'];
+    if ($rez_invited->num_rows < 1) {
+        $HTMLOUT .= $lang['invite_none'];
+    }
     else {
         $HTMLOUT.= '<table width="100%" border="1" cellspacing="0" cellpadding="5">
 		<tr><td class="colhead"><span style="font-weight: bold;">'.$lang['invite_username'].'</span></td>
@@ -131,14 +132,22 @@ if ($id !== 0) {
     $class = $_GET['class'] ?? '-';
     $letter = '';
     $q = '';
-    if ($class == '-' || !ctype_digit($class)) $class = '';
+    if ($class == '-' || !ctype_digit($class)) {
+        $class = '';
+    }
     if ($search != '' || $class) {
         $query = 'username LIKE ' . sqlesc("%$search%") . ' AND status=\'confirmed\'';
-        if ($search !== '') $q = 'search=' . htmlsafechars($search);
+        if ($search !== '') {
+            $q = 'search='.htmlsafechars($search);
+        }
     } else {
         $letter = isset($_GET['letter']) ? trim((string)$_GET['letter']) : '';
-        if (strlen($letter) > 1) die;
-        if ($letter == '' || strpos('abcdefghijklmnopqrstuvwxyz0123456789', $letter) === false) $letter = '';
+        if (strlen($letter) > 1) {
+            die;
+        }
+        if ($letter == '' || strpos('abcdefghijklmnopqrstuvwxyz0123456789', $letter) === false) {
+            $letter = '';
+        }
         $query = 'username LIKE ' . sqlesc("$letter%") . ' AND status=\'confirmed\'';
         $q = 'letter=' . $letter;
     }
@@ -154,8 +163,12 @@ if ($id !== 0) {
 			<select name="class">
 			<option value="-">'.$lang['invite_any'].'</option>';
     for ($i = 0;; ++$i) {
-        if ($c = get_user_class_name($i)) $HTMLOUT.= '<option value="' . $i . '"' . (ctype_digit($class) && $class == $i ? ' selected="selected"' : '') . '>' . $c . '</option>';
-        else break;
+        if ($c = get_user_class_name($i)) {
+            $HTMLOUT .= '<option value="'.$i.'"'.(ctype_digit($class) && $class == $i ? ' selected="selected"' : '').'>'.$c.'</option>';
+        }
+        else {
+            break;
+        }
     }
     $HTMLOUT.= '</select>
 			<input type="submit" value="'.$lang['invite_btn'].'" class="btn" />
@@ -169,8 +182,12 @@ if ($id !== 0) {
     $count = 0;
     foreach ($cc as $L) {
         $HTMLOUT.= ($count == 10) ? '<br /><br />' : '';
-        if (strcmp($L, $letter) === 0) $HTMLOUT.= ' <span class="btn" style="background:orange;">' . strtoupper($L) . '</span>';
-        else $HTMLOUT.= ' <a href="staffpanel.php?tool=invite_tree&amp;action=invite_tree&amp;letter=' . $L . '"><span class="btn">' . strtoupper($L) . '</span></a>';
+        if (strcmp($L, $letter) === 0) {
+            $HTMLOUT .= ' <span class="btn" style="background:orange;">'.strtoupper($L).'</span>';
+        }
+        else {
+            $HTMLOUT .= ' <a href="staffpanel.php?tool=invite_tree&amp;action=invite_tree&amp;letter='.$L.'"><span class="btn">'.strtoupper($L).'</span></a>';
+        }
         $count++;
     }
     $HTMLOUT.= '</div><br />';
@@ -202,7 +219,9 @@ if ($id !== 0) {
 		<a href="staffpanel.php?tool=invite_tree&amp;action=invite_tree&amp;id=' . (int)$row['id'] . '" title="'.$lang['invite_search_look'].'"><span class="btn">'.$lang['invite_search_view'].'</span></a></td></tr>';
         }
         $HTMLOUT.= '</table>';
-    } else $HTMLOUT.= $lang['invite_search_none'];
+    } else {
+        $HTMLOUT .= $lang['invite_search_none'];
+    }
     $HTMLOUT.= ($arr_count[0] > $perpage) ? '<br />' . $menu . '' : '<br /><br />';
 }
 echo stdhead($lang['invite_stdhead']) . $HTMLOUT . stdfoot();

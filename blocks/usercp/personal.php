@@ -1,7 +1,9 @@
 <?php
 $templates = sql_query("SELECT id, name FROM stylesheets ORDER BY id");
 while ($templ = $templates->fetch_assoc()) {
-    if (file_exists("templates/".(int) $templ['id']."/template.php")) $stylesheets.= "<option value='" . (int)$templ['id'] . "'" . ($templ['id'] == $CURUSER['stylesheet'] ? " selected='selected'" : "") . ">" . htmlsafechars($templ['name']) . "</option>";
+    if (file_exists("templates/".(int) $templ['id']."/template.php")) {
+        $stylesheets .= "<option value='".(int)$templ['id']."'".($templ['id'] == $CURUSER['stylesheet'] ? " selected='selected'" : "").">".htmlsafechars($templ['name'])."</option>";
+    }
 }
 $HTMLOUT.= "
 	<table class='table bordered'>
@@ -10,7 +12,9 @@ $HTMLOUT.= "
 				<input type='hidden' name='action' value='personal' />{$lang['usercp_pers_opt']}
 			</td>
 		</tr>";
-	if ($CURUSER['class'] >= UC_VIP) $HTMLOUT.= tr($lang['usercp_title'], "<input size='50' value='" . htmlsafechars($CURUSER["title"]) . "' name='title' /><br />", 1);
+	if ($CURUSER['class'] >= UC_VIP) {
+        $HTMLOUT .= tr($lang['usercp_title'], "<input size='50' value='".htmlsafechars($CURUSER["title"])."' name='title' /><br />", 1);
+    }
     //==status mod
 	$CURUSER['archive'] = unserialize($CURUSER['archive']);
 	$HTMLOUT.= "<tr>
@@ -23,10 +27,11 @@ $HTMLOUT.= "
 					<strong>{$lang['usercp_pers_upstat']}</strong>
 				</legend>
 			</fieldset>";
-		if (isset($CURUSER['last_status'])) 
-	$HTMLOUT.= "<div id='current_holder'>
+		if (isset($CURUSER['last_status'])) {
+            $HTMLOUT .= "<div id='current_holder'>
     <small style='font-weight:bold;'>{$lang['usercp_pers_custat']}</small>
-    <h2 id='current_status' title='{$lang['usercp_pers_edit']}' onclick='status_pedit()'>" . format_urls($CURUSER["last_status"]) . "</h2></div>";
+    <h2 id='current_status' title='{$lang['usercp_pers_edit']}' onclick='status_pedit()'>".format_urls($CURUSER["last_status"])."</h2></div>";
+        }
     $HTMLOUT.= "<small style='font-weight:bold;'>{$lang['usercp_pers_updt']}</small>
     <textarea name='status' id='status' onkeyup='status_count()' cols='50' rows='4'></textarea>
     <div style='width:390px;'>
@@ -39,11 +44,15 @@ $HTMLOUT.= "
     <div style='float:right;cursor:pointer' id='status_archive_click' onclick='status_slide()'>+</div>
     <div style='clear:both;'></div>
     <div id='status_archive' style='padding-left:15px;display:none;'>";
-        if (is_array($CURUSER['archive'])) foreach (array_reverse($CURUSER['archive'], true) as $a_id => $sa) $HTMLOUT.= '<div id="status_' . $a_id . '">
-    <div style="float:left">' . htmlsafechars($sa['status']) . '
-    <small>added ' . get_date($sa['date'], '', 0, 1) . '</small></div>
-    <div style="float:right;cursor:pointer;"><span onclick="status_delete(' . $a_id . ')"></span></div>
+        if (is_array($CURUSER['archive'])) {
+            foreach (array_reverse($CURUSER['archive'], true) as $a_id => $sa) {
+                $HTMLOUT .= '<div id="status_'.$a_id.'">
+    <div style="float:left">'.htmlsafechars($sa['status']).'
+    <small>added '.get_date($sa['date'], '', 0, 1).'</small></div>
+    <div style="float:right;cursor:pointer;"><span onclick="status_delete('.$a_id.')"></span></div>
     <div style="clear:both;border:1px solid #222;border-width:1px 0 0 0;margin-bottom:3px;"></div></div>';
+            }
+        }
         $HTMLOUT.= "</div></div>";
     }
     $HTMLOUT.= "</td></tr>";

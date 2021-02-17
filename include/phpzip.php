@@ -31,15 +31,21 @@ class PHPZip
             } else {
                 $filelist = $this->GetFileList($dir);
             }
-            if ((!empty($dir)) && (!is_array($dir)) && (file_exists($dir))) chdir($dir);
-            else chdir($curdir);
+            if ((!empty($dir)) && (!is_array($dir)) && (file_exists($dir))) {
+                chdir($dir);
+            }
+            else {
+                chdir($curdir);
+            }
             if (count($filelist) > 0) {
                 foreach ($filelist as $filename) {
                     if (is_file($filename)) {
                         $fd = fopen($filename, "r");
                         $content = fread($fd, filesize($filename));
                         fclose($fd);
-                        if (is_array($dir)) $filename = basename($filename);
+                        if (is_array($dir)) {
+                            $filename = basename($filename);
+                        }
                         $this->addFile($content, $filename);
                     }
                 }
@@ -50,7 +56,9 @@ class PHPZip
                 fclose($fp);
             }
             return 1;
-        } else return 0;
+        } else {
+            return 0;
+        }
     }
     function GetFileList($dir)
     {
@@ -65,7 +73,9 @@ class PHPZip
                         chdir($dir . $files);
                         $file = array_merge($file, $this->GetFileList("", "$pref$files/"));
                         chdir($curdir);
-                    } else $file[] = $pref . $files;
+                    } else {
+                        $file[] = $pref.$files;
+                    }
                 }
             }
             closedir($dh);

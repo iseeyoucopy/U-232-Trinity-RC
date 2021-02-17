@@ -45,7 +45,9 @@ $postkey = PostKey(array(
 function remove_torrent_pass($torrent_pass)
 {
     global $cache;
-    if (strlen($torrent_pass) != 32 || !bin2hex($torrent_pass)) return false;
+    if (strlen($torrent_pass) != 32 || !bin2hex($torrent_pass)) {
+        return false;
+    }
     $key = 'user::torrent_pass:::' . $torrent_pass;
     $cache->delete($key);
 }
@@ -73,33 +75,53 @@ function resize_image($in)
     }
     return $out;
 }
-if ($CURUSER['class'] < UC_STAFF) stderr("{$lang['modtask_user_error']}", "{$lang['modtask_try_again']}");
+if ($CURUSER['class'] < UC_STAFF) {
+    stderr("{$lang['modtask_user_error']}", "{$lang['modtask_try_again']}");
+}
 //== Correct call to script
 if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     //== Set user id
-    if (isset($_POST['userid'])) $userid = (int)$_POST['userid'];
-    else stderr("{$lang['modtask_user_error']}", "{$lang['modtask_try_again']}");
+    if (isset($_POST['userid'])) {
+        $userid = (int)$_POST['userid'];
+    }
+    else {
+        stderr("{$lang['modtask_user_error']}", "{$lang['modtask_try_again']}");
+    }
     //== And verify...
-    if (!is_valid_id($userid)) stderr("{$lang['modtask_error']}", "{$lang['modtask_bad_id']}");
+    if (!is_valid_id($userid)) {
+        stderr("{$lang['modtask_error']}", "{$lang['modtask_bad_id']}");
+    }
     require_once (CLASS_DIR . 'validator.php');
-    if (!validate($_POST['validator'], "ModTask_$userid")) die($lang['modtask_invalid']);
+    if (!validate($_POST['validator'], "ModTask_$userid")) {
+        die($lang['modtask_invalid']);
+    }
     if (CheckPostKey(array(
         $userid,
         $CURUSER['id']
-    ) , $postkey) == false) stderr($lang['modtask_pmsl'], $lang['modtask_die_bit']);
+    ) , $postkey) == false) {
+        stderr($lang['modtask_pmsl'], $lang['modtask_die_bit']);
+    }
     //== Fetch current user data...
     $res = sql_query("SELECT * FROM users WHERE id=" . sqlesc($userid));
     ($user = $res->fetch_assoc()) || sqlerr(__FILE__, __LINE__);
-    if ($CURUSER['class'] <= $user['class'] && ($CURUSER['id'] != $userid && $CURUSER['class'] < UC_ADMINISTRATOR)) stderr($lang['modtask_error'], $lang['modtask_cannot_edit']);
-    if (($user['immunity'] >= 1) && ($CURUSER['class'] < UC_MAX)) stderr($lang['modtask_error'], $lang['modtask_user_immune']);
+    if ($CURUSER['class'] <= $user['class'] && ($CURUSER['id'] != $userid && $CURUSER['class'] < UC_ADMINISTRATOR)) {
+        stderr($lang['modtask_error'], $lang['modtask_cannot_edit']);
+    }
+    if (($user['immunity'] >= 1) && ($CURUSER['class'] < UC_MAX)) {
+        stderr($lang['modtask_error'], $lang['modtask_user_immune']);
+    }
     $updateset = $curuser_cache = $user_cache = $stats_cache = $user_stats_cache = $useredit['update'] = array();
     $setbits = $clrbits = 0;
     $username = (($CURUSER['perms'] & bt_options::PERMS_STEALTH) !== 0 ? 'System' : htmlsafechars($CURUSER['username']));
     $modcomment = (isset($_POST['modcomment']) && $CURUSER['class'] == UC_MAX) ? $_POST['modcomment'] : $user['modcomment'];
     //== Set class
     if ((isset($_POST['class'])) && (($class = $_POST['class']) != $user['class'])) {
-        if ($class >= UC_MAX || ($class >= $CURUSER['class']) || ($user['class'] >= $CURUSER['class'])) stderr("{$lang['modtask_user_error']}", "{$lang['modtask_try_again']}");
-        if (!valid_class($class) || $CURUSER['class'] <= $_POST['class']) stderr(($lang['modtask_error']) , $lang['modtask_badclass']);
+        if ($class >= UC_MAX || ($class >= $CURUSER['class']) || ($user['class'] >= $CURUSER['class'])) {
+            stderr("{$lang['modtask_user_error']}", "{$lang['modtask_try_again']}");
+        }
+        if (!valid_class($class) || $CURUSER['class'] <= $_POST['class']) {
+            stderr(($lang['modtask_error']), $lang['modtask_badclass']);
+        }
         //== Notify user
         $what = ($class > $user['class'] ? "{$lang['modtask_promoted']}" : "{$lang['modtask_demoted']}");
         $subject = sqlesc($lang['modtask_cls_change']);
@@ -155,7 +177,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         $user_cache['donor'] = 'yes';
         //$res = sql_query("SELECT class FROM users WHERE id = ".sqlesc($userid)) or sqlerr(__file__,__line__);
         //$arr = $res->fetch_assoc();
-        if ($user['class'] < UC_UPLOADER) $updateset[] = "class = " . UC_VIP . "";
+        if ($user['class'] < UC_UPLOADER) {
+            $updateset[] = "class = ".UC_VIP."";
+        }
         $curuser_cache['class'] = UC_VIP;
         $user_cache['class'] = UC_VIP;
     }
@@ -204,8 +228,12 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     // ===end
     //== Enable / Disable
     if ((isset($_POST['enabled'])) && (($enabled = $_POST['enabled']) != $user['enabled'])) {
-        if ($enabled == 'yes') $modcomment = get_date(TIME_NOW, 'DATE', 1) . " {$lang['modtask_enabled']} " . $CURUSER['username'] . ".\n" . $modcomment;
-        else $modcomment = get_date(TIME_NOW, 'DATE', 1) . "{$lang['modtask_disabled']} " . $CURUSER['username'] . ".\n" . $modcomment;
+        if ($enabled == 'yes') {
+            $modcomment = get_date(TIME_NOW, 'DATE', 1)." {$lang['modtask_enabled']} ".$CURUSER['username'].".\n".$modcomment;
+        }
+        else {
+            $modcomment = get_date(TIME_NOW, 'DATE', 1)."{$lang['modtask_disabled']} ".$CURUSER['username'].".\n".$modcomment;
+        }
         $updateset[] = "enabled = " . sqlesc($enabled);
         $useredit['update'][] = $lang['modtask_enabled_disabled'] . $enabled . '';
         $curuser_cache['enabled'] = $enabled;
@@ -214,7 +242,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     //== Set download posssible Time based
     if (isset($_POST['downloadpos']) && ($downloadpos = 0 + $_POST['downloadpos'])) {
         unset($disable_pm);
-        if (isset($_POST['disable_pm'])) $disable_pm = $_POST['disable_pm'];
+        if (isset($_POST['disable_pm'])) {
+            $disable_pm = $_POST['disable_pm'];
+        }
         $subject = sqlesc($lang['modtask_gl_notification']);
         $added = sqlesc(TIME_NOW);
         if ($downloadpos == 255) {
@@ -247,7 +277,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     //== Set upload posssible Time based
     if (isset($_POST['uploadpos']) && ($uploadpos = 0 + $_POST['uploadpos'])) {
         unset($updisable_pm);
-        if (isset($_POST['updisable_pm'])) $updisable_pm = $_POST['updisable_pm'];
+        if (isset($_POST['updisable_pm'])) {
+            $updisable_pm = $_POST['updisable_pm'];
+        }
         $subject = sqlesc($lang['modtask_gl_notification']);
         $added = sqlesc(TIME_NOW);
         if ($uploadpos == 255) {
@@ -280,7 +312,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     //== Set Pm posssible Time based
     if (isset($_POST['sendpmpos']) && ($sendpmpos = 0 + $_POST['sendpmpos'])) {
         unset($pmdisable_pm);
-        if (isset($_POST['pmdisable_pm'])) $pmdisable_pm = $_POST['pmdisable_pm'];
+        if (isset($_POST['pmdisable_pm'])) {
+            $pmdisable_pm = $_POST['pmdisable_pm'];
+        }
         $subject = sqlesc($lang['modtask_gl_notification']);
         $added = sqlesc(TIME_NOW);
         if ($sendpmpos == 255) {
@@ -313,7 +347,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     //== Set shoutbox posssible Time based
     if (isset($_POST['chatpost']) && ($chatpost = 0 + $_POST['chatpost'])) {
         unset($chatdisable_pm);
-        if (isset($_POST['chatdisable_pm'])) $chatdisable_pm = $_POST['chatdisable_pm'];
+        if (isset($_POST['chatdisable_pm'])) {
+            $chatdisable_pm = $_POST['chatdisable_pm'];
+        }
         $subject = sqlesc($lang['modtask_gl_notification']);
         $added = sqlesc(TIME_NOW);
         if ($chatpost == 255) {
@@ -346,7 +382,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     //== Set Immunity Status Time based
     if (isset($_POST['immunity']) && ($immunity = 0 + $_POST['immunity'])) {
         unset($immunity_pm);
-        if (isset($_POST['immunity_pm'])) $immunity_pm = $_POST['immunity_pm'];
+        if (isset($_POST['immunity_pm'])) {
+            $immunity_pm = $_POST['immunity_pm'];
+        }
         $subject = sqlesc($lang['modtask_gl_notification']);
         $added = sqlesc(TIME_NOW);
         if ($immunity == 255) {
@@ -376,7 +414,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     //== Set leechwarn Status Time based
     if (isset($_POST['leechwarn']) && ($leechwarn = 0 + $_POST['leechwarn'])) {
         unset($leechwarn_pm);
-        if (isset($_POST['leechwarn_pm'])) $leechwarn_pm = $_POST['leechwarn_pm'];
+        if (isset($_POST['leechwarn_pm'])) {
+            $leechwarn_pm = $_POST['leechwarn_pm'];
+        }
         $subject = sqlesc($lang['modtask_gl_notification']);
         $added = sqlesc(TIME_NOW);
         if ($leechwarn == 255) {
@@ -406,7 +446,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     //= Set warn Status Time based
     if (isset($_POST['warned']) && ($warned = 0 + $_POST['warned'])) {
         unset($warned_pm);
-        if (isset($_POST['warned_pm'])) $warned_pm = $_POST['warned_pm'];
+        if (isset($_POST['warned_pm'])) {
+            $warned_pm = $_POST['warned_pm'];
+        }
         $subject = sqlesc($lang['modtask_gl_notification']);
         $added = sqlesc(TIME_NOW);
         if ($warned == 255) {
@@ -447,9 +489,14 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
                 $modcomment = get_date(TIME_NOW, 'DATE', 1) . " {$lang['modtask_add_upload']} (" . $uploadtoadd . " " . $formatup . ") {$lang['modtask_by']} " . $CURUSER['username'] . "\n" . $modcomment;
             } else {
                 $newupload = $user["uploaded"] - ($formatup == 'mb' ? ($uploadtoadd * 1_048_576) : ($uploadtoadd * 1_073_741_824));
-                if ($newupload >= 0) $modcomment = get_date(TIME_NOW, 'DATE', 1) . " {$lang['modtask_subtract_upload']} (" . $uploadtoadd . " " . $formatup . ") {$lang['modtask_by']} " . $CURUSER['username'] . "\n" . $modcomment;
+                if ($newupload >= 0) {
+                    $modcomment = get_date(TIME_NOW, 'DATE',
+                            1)." {$lang['modtask_subtract_upload']} (".$uploadtoadd." ".$formatup.") {$lang['modtask_by']} ".$CURUSER['username']."\n".$modcomment;
+                }
             }
-            if ($newupload >= 0) $updateset[] = "uploaded = " . sqlesc($newupload) . "";
+            if ($newupload >= 0) {
+                $updateset[] = "uploaded = ".sqlesc($newupload)."";
+            }
             $useredit['update'][] = $lang['modtask_uploaded_altered'] . mksize($uploadtoadd) . $lang['modtask_to'] . mksize($newupload);
             $stats_cache['uploaded'] = $newupload;
             $user_stats_cache['uploaded'] = $newupload;
@@ -460,9 +507,14 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
                 $modcomment = get_date(TIME_NOW, 'DATE', 1) . " {$lang['modtask_added_download']} (" . $downloadtoadd . " " . $formatdown . ") {$lang['modtask_by']} " . $CURUSER['username'] . "\n" . $modcomment;
             } else {
                 $newdownload = $user["downloaded"] - ($formatdown == 'mb' ? ($downloadtoadd * 1_048_576) : ($downloadtoadd * 1_073_741_824));
-                if ($newdownload >= 0) $modcomment = get_date(TIME_NOW, 'DATE', 1) . " {$lang['modtask_subtract_download']} (" . $downloadtoadd . " " . $formatdown . ") {$lang['modtask_by']} " . $CURUSER['username'] . "\n" . $modcomment;
+                if ($newdownload >= 0) {
+                    $modcomment = get_date(TIME_NOW, 'DATE',
+                            1)." {$lang['modtask_subtract_download']} (".$downloadtoadd." ".$formatdown.") {$lang['modtask_by']} ".$CURUSER['username']."\n".$modcomment;
+                }
             }
-            if ($newdownload >= 0) $updateset[] = "downloaded = " . sqlesc($newdownload) . "";
+            if ($newdownload >= 0) {
+                $updateset[] = "downloaded = ".sqlesc($newdownload)."";
+            }
             $useredit['update'][] = $lang['modtask_download_altered'] . mksize($downloadtoadd) . $lang['modtask_to'] . mksize($newdownload);
             $stats_cache['downloaded'] = $newdownload;
             $user_stats_cache['downloaded'] = $newdownload;
@@ -518,8 +570,12 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         }
         if (!empty($avatar)) {
             $img_size = @GetImageSize($avatar);
-            if ($img_size == FALSE || !in_array($img_size['mime'], $TRINITY20['allowed_ext'])) stderr("{$lang['modtask_user_error']}", "{$lang['modtask_not_image']}");
-            if ($img_size[0] < 5 || $img_size[1] < 5) stderr("{$lang['modtask_user_error']}", "{$lang['modtask_image_small']}");
+            if ($img_size == FALSE || !in_array($img_size['mime'], $TRINITY20['allowed_ext'])) {
+                stderr("{$lang['modtask_user_error']}", "{$lang['modtask_not_image']}");
+            }
+            if ($img_size[0] < 5 || $img_size[1] < 5) {
+                stderr("{$lang['modtask_user_error']}", "{$lang['modtask_image_small']}");
+            }
             if ($img_size[0] > $TRINITY20['av_img_width'] || $img_size[1] > $TRINITY20['av_img_height']) {
                 $image = resize_image(array(
                     'max_width' => $TRINITY20['av_img_width'],
@@ -548,8 +604,12 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         }
         if (!empty($signature)) {
             $img_size = @GetImageSize($signature);
-            if ($img_size == FALSE || !in_array($img_size['mime'], $TRINITY20['allowed_ext'])) stderr("{$lang['modtask_user_error']}", "{$lang['modtask_not_image']}");
-            if ($img_size[0] < 5 || $img_size[1] < 5) stderr("{$lang['modtask_user_error']}", "{$lang['modtask_image_small']}");
+            if ($img_size == FALSE || !in_array($img_size['mime'], $TRINITY20['allowed_ext'])) {
+                stderr("{$lang['modtask_user_error']}", "{$lang['modtask_not_image']}");
+            }
+            if ($img_size[0] < 5 || $img_size[1] < 5) {
+                stderr("{$lang['modtask_user_error']}", "{$lang['modtask_image_small']}");
+            }
             if ($img_size[0] > $TRINITY20['sig_img_width'] || $img_size[1] > $TRINITY20['sig_img_height']) {
                 $image = resize_image(array(
                     'max_width' => $TRINITY20['sig_img_width'],
@@ -593,7 +653,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
             $modcomment = get_date(TIME_NOW, 'DATE', 1) . $lang['modtask_fls_promoted'] . $CURUSER['username'] . ".\n" . $modcomment;
         } elseif ($support == 'no') {
             $modcomment = get_date(TIME_NOW, 'DATE', 1) . $lang['modtask_fls_demoted'] . $CURUSER['username'] . ".\n" . $modcomment;
-        } else stderr("{$lang['modtask_user_error']}", "{$lang['modtask_try_again']}");
+        } else {
+            stderr("{$lang['modtask_user_error']}", "{$lang['modtask_try_again']}");
+        }
         $supportfor = $_POST['supportfor'];
         $updateset[] = "support = " . sqlesc($support);
         $updateset[] = "supportfor = " . sqlesc($supportfor);
@@ -615,7 +677,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     //== Set Freeleech Status Time based
     if (isset($_POST['free_switch']) && ($free_switch = 0 + $_POST['free_switch'])) {
         unset($free_pm);
-        if (isset($_POST['free_pm'])) $free_pm = $_POST['free_pm'];
+        if (isset($_POST['free_pm'])) {
+            $free_pm = $_POST['free_pm'];
+        }
         $subject = sqlesc($lang['modtask_gl_notification']);
         $added = sqlesc(TIME_NOW);
         if ($free_switch == 255) {
@@ -648,7 +712,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     //== Set gaming posssible Time based
     if (isset($_POST['game_access']) && ($game_access = 0 + $_POST['game_access'])) {
         unset($game_disable_pm);
-        if (isset($_POST['game_disable_pm'])) $game_disable_pm = $_POST['game_disable_pm'];
+        if (isset($_POST['game_disable_pm'])) {
+            $game_disable_pm = $_POST['game_disable_pm'];
+        }
         $subject = sqlesc($lang['modtask_gl_notification']);
         $added = sqlesc(TIME_NOW);
         if ($game_access == 255) {
@@ -681,7 +747,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     /// Set avatar posssible Time based
     if (isset($_POST['avatarpos']) && ($avatarpos = 0 + $_POST['avatarpos'])) {
         unset($avatardisable_pm);
-        if (isset($_POST['avatardisable_pm'])) $avatardisable_pm = $_POST['avatardisable_pm'];
+        if (isset($_POST['avatardisable_pm'])) {
+            $avatardisable_pm = $_POST['avatardisable_pm'];
+        }
         $subject = sqlesc($lang['modtask_gl_notification']);
         $added = sqlesc(TIME_NOW);
         if ($avatarpos == 255) {
@@ -725,7 +793,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
             $msg = sqlesc($lang['modtask_highs_disabled'] . $username . $lang['modtask_highs_pm'] . $username . $lang['modtask_highs_reason']);
             $added = sqlesc(TIME_NOW);
             sql_query("INSERT INTO messages (sender, receiver, msg, subject, added) VALUES (0, ".sqlesc($userid).", $msg, $subject, $added)") || sqlerr(__file__, __line__);
-        } else die(); //== Error
+        } else {
+            die();
+        } //== Error
         $updateset[] = "highspeed = " . sqlesc($highspeed);
         $useredit['update'][] = $lang['modtask_highs_enabled'] . $highspeed . '';
         $curuser_cache['highspeed'] = $highspeed;
@@ -745,7 +815,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
             $msg = sqlesc($lang['modtask_canleech_ability'] . $username . $lang['modtask_canleech_pm'] . $username . $lang['modtask_canleech_reason']);
             $added = sqlesc(TIME_NOW);
             sql_query("INSERT INTO messages (sender, receiver, msg, subject, added) VALUES (0, ".sqlesc($userid).", $msg, $subject, $added)") || sqlerr(__file__, __line__);
-        } else die(); //== Error
+        } else {
+            die();
+        } //== Error
         $updateset[] = "can_leech = " . sqlesc($can_leech);
         $useredit['update'][] = $lang['modtask_canleech_edited'] . $can_leech . '';
         $curuser_cache['can_leech'] = $can_leech;
@@ -781,7 +853,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
             $modcomment = get_date(TIME_NOW, 'DATE', 1) . $lang['modtask_parked_by' ] . $CURUSER['username'] . ".\n" . $modcomment;
         } elseif ($parked == 'no') {
             $modcomment = get_date(TIME_NOW, 'DATE', 1) . $lang['modtask_unparked_by' ] . $CURUSER['username'] . ".\n" . $modcomment;
-        } else stderr("{$lang['modtask_user_error']}", "{$lang['modtask_try_again']}");
+        } else {
+            stderr("{$lang['modtask_user_error']}", "{$lang['modtask_try_again']}");
+        }
         $updateset[] = "parked = " . sqlesc($parked);
         $useredit['update'][] = $lang['modtask_parked_acc' ] . $parked . '';
         $curuser_cache['parked'] = $parked;
@@ -791,7 +865,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     //=== suspend account
     if ((isset($_POST['suspended'])) && (($suspended = $_POST['suspended']) != ($suspended = $user['suspended']))) {
         $suspended_reason = $_POST['suspended_reason'];
-        if (!$suspended_reason) stderr($lang['modtask_error'], $lang['modtask_suspend_err']);
+        if (!$suspended_reason) {
+            stderr($lang['modtask_error'], $lang['modtask_suspend_err']);
+        }
         if ($_POST['suspended'] === 'yes') {
             $modcomment = get_date(TIME_NOW, 'DATE', 1) . $lang['modtask_suspend_by'] . $CURUSER['username'] . $lang['modtask_suspend_reason'] . sqlesc($suspended_reason) . ".\n" . $modcomment;
             $updateset[] = "downloadpos = '0'";
@@ -925,8 +1001,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
      //forum moderator mod by putyn
     if(isset($_POST["forum_mod"]) && ($forum_mod = $_POST["forum_mod"]) != $user["forum_mod"]) {
 	$whatm = ($forum_mod == "yes" ? "added " : "removed");
-	if($forum_mod == "no")
-	$updateset[] = "forums_mod = ''";
+	if($forum_mod == "no") {
+        $updateset[] = "forums_mod = ''";
+    }
         $curuser_cache['forums_mod'] = '';
         $user_cache['forums_mod'] = '';	
 	$updateset[] = "forum_mod=".sqlesc($forum_mod);
@@ -940,8 +1017,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     if(!empty($forums) && (is_countable($forums) ? count($forums) : 0)>0 && $forum_mod == "yes") {
 	$foo = "[".implode("][",$forums)."]";
 	($q = sql_query("SELECT id FROM topics WHERE forum_id IN (".implode(",",$forums).") ")) || sqlerr(__FILE__, __LINE__);
-		while($a = $q->fetch_assoc())
-		$temp[] = $a["id"];
+		while($a = $q->fetch_assoc()) {
+            $temp[] = $a["id"];
+        }
 		topicmods($user["id"],"[".implode("][",$temp)."]");
 	$updateset[] = "forums_mod =".sqlesc($foo);
         $curuser_cache['forums_mod'] = $foo;
@@ -949,7 +1027,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         $cache->delete('forummods');
     }
     //== Add ModComment... (if we changed stuff we update otherwise we dont include this..)
-    if (($CURUSER['class'] == UC_MAX && ($user['modcomment'] != $_POST['modcomment'] || $modcomment != $_POST['modcomment'])) || ($CURUSER['class'] < UC_MAX && $modcomment != $user['modcomment'])) $updateset[] = "modcomment = " . sqlesc($modcomment);
+    if (($CURUSER['class'] == UC_MAX && ($user['modcomment'] != $_POST['modcomment'] || $modcomment != $_POST['modcomment'])) || ($CURUSER['class'] < UC_MAX && $modcomment != $user['modcomment'])) {
+        $updateset[] = "modcomment = ".sqlesc($modcomment);
+    }
     $user_stats_cache['modcomment'] = $modcomment;
     $stats_cache['modcomment'] = $modcomment;
     //== Memcache - delete the keys
@@ -967,14 +1047,18 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     if ($user_stats_cache !== []) {
         $cache->update_row('user_stats_' . $userid, $user_stats_cache, $TRINITY20['expires']['user_stats']);
     }
-    if (count($updateset) > 0) sql_query("UPDATE users SET " . implode(", ", $updateset) . " WHERE id=" . sqlesc($userid)) || sqlerr(__FILE__, __LINE__);
+    if (count($updateset) > 0) {
+        sql_query("UPDATE users SET ".implode(", ", $updateset)." WHERE id=".sqlesc($userid)) || sqlerr(__FILE__, __LINE__);
+    }
     status_change($userid);
     forummods(true);
     if ((isset($_POST['class'])) && (($class = $_POST['class']) != $user['class'])) {
         write_staffs();
     }
-    if (is_array($setbits) && (is_countable($setbits) ? count($setbits) : 0) > 0 || is_array($clrbits) && (is_countable($clrbits) ? count($clrbits) : 0) > 0) 
-		sql_query('UPDATE users SET opt1 = ((opt1 | ' . $setbits . ') & ~' . $clrbits . '), opt2 = ((opt2 | ' . $setbits . ') & ~' . $clrbits . ') WHERE id = ' . sqlesc($userid)) || sqlerr(__file__, __line__);
+    if (is_array($setbits) && (is_countable($setbits) ? count($setbits) : 0) > 0 || is_array($clrbits) && (is_countable($clrbits) ? count($clrbits) : 0) > 0) {
+        sql_query('UPDATE users SET opt1 = ((opt1 | '.$setbits.') & ~'.$clrbits.'), opt2 = ((opt2 | '.$setbits.') & ~'.$clrbits.') WHERE id = '.sqlesc($userid)) || sqlerr(__file__,
+            __line__);
+    }
     // grab current data
     ($res = sql_query('SELECT opt1, opt2 FROM users WHERE id = ' . sqlesc($userid) . ' LIMIT 1')) || sqlerr(__file__, __line__);
     $row = $res->fetch_assoc();

@@ -71,7 +71,9 @@ function uptime()
             $uptime-= ($nmbr * $n);
             $n /= $k;
             if ($nmbr !== 0.0) {
-                if ($shown) $res.= ", ";
+                if ($shown) {
+                    $res .= ", ";
+                }
                 $res.= "$nmbr $v" . is_s($nmbr);
                 $shown = true;
             }
@@ -135,9 +137,15 @@ $HTMLOUT.= "
 		    <table class='table table-bordered'>
     			<tr><td style='padding: 0px; background-image: url({$TRINITY20['pic_base_url']}loadbarbg.gif); background-repeat: repeat-x'>";
 $percent = min(100, round(exec('ps ax | grep -c apache') / 256 * 100));
-if ($percent <= 70) $pic = "loadbargreen.gif";
-elseif ($percent <= 90) $pic = "loadbaryellow.gif";
-else $pic = "loadbarred.gif";
+if ($percent <= 70) {
+    $pic = "loadbargreen.gif";
+}
+elseif ($percent <= 90) {
+    $pic = "loadbaryellow.gif";
+}
+else {
+    $pic = "loadbarred.gif";
+}
 $width = $percent * 4;
 $HTMLOUT.= "<img height='15' width='$width' src=\"{$TRINITY20['pic_base_url']}{$pic}\" alt='$percent&#37;' /><br />{$lang['index_load_curr']}{$percent}{$lang['index_load_cpu']}<br />";
 //==End graphic

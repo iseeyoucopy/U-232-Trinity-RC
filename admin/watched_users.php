@@ -39,8 +39,9 @@ $HTMLOUT = $H1_thingie = $count2 = '';
 $div_link_number = $count = 0;
 //=== to delete members from the watched user list... admin and up only!
 if (isset($_GET['remove'])) {
-    if ($CURUSER['class'] < UC_STAFF)
+    if ($CURUSER['class'] < UC_STAFF) {
         stderr($lang['watched_stderr'], $lang['watched_stderr1']);
+    }
     $remove_me_Ive_been_good = ($_POST['wu'] ?? $_GET['wu']);
     $removed_log = '';
     //=== if single delete use
@@ -90,10 +91,12 @@ if (isset($_GET['remove'])) {
         }
     }
     //=== Check if members were removed
-    if ($mysqli->affected_rows == 0)
-        stderr($lang['watched_stderr'], '' . $lang['watched_stderr2'] . '!');
-    else
-        write_log('[b]' . $CURUSER['username'] . '[/b] ' . $lang['watched_removed1'] . '<br />' . $removed_log . ' <br />' . $lang['watched_removedfrom'] . '');
+    if ($mysqli->affected_rows == 0) {
+        stderr($lang['watched_stderr'], ''.$lang['watched_stderr2'].'!');
+    }
+    else {
+        write_log('[b]'.$CURUSER['username'].'[/b] '.$lang['watched_removed1'].'<br />'.$removed_log.' <br />'.$lang['watched_removedfrom'].'');
+    }
     $H1_thingie = '<h1>' . $count . ' ' . $lang['watched_member'] . '' . ($count == 1 ? '' : 's') . ' ' . $lang['watched_removelist'] . '</h1>';
 }
 //=== to add members to the watched user list... all staff!
@@ -103,8 +106,10 @@ if (isset($_GET['add'])) {
         //=== make sure they are not being watched...
         ($res = sql_query('SELECT modcomment, watched_user, watched_user_reason, username FROM users WHERE id=' . sqlesc($member_whos_been_bad))) || sqlerr(__FILE__, __LINE__);
         $user = $res->fetch_assoc();
-        if ($user['watched_user'] > 0)
-            stderr($lang['watched_stderr'], htmlsafechars($user['username']) . ' ' . $lang['watched_already'] . '<a href="userdetails.php?id=' . $member_whos_been_bad . '" >' . $lang['watched_backto'] . ' ' . htmlsafechars($user['username']) . '\'s ' . $lang['watched_profile'] . '</a>');
+        if ($user['watched_user'] > 0) {
+            stderr($lang['watched_stderr'],
+                htmlsafechars($user['username']).' '.$lang['watched_already'].'<a href="userdetails.php?id='.$member_whos_been_bad.'" >'.$lang['watched_backto'].' '.htmlsafechars($user['username']).'\'s '.$lang['watched_profile'].'</a>');
+        }
         //== ok they are not watched yet let's add the info part 1
         if ($_GET['add'] && $_GET['add'] == 1) {
 
@@ -197,9 +202,10 @@ if ($how_many > 0) {
         $div_link_number++;
     }
     $div_link_number = 1;
-} else
+} else {
     $HTMLOUT .= '<tr>
 <td align="center" class="one"><h1>'.$lang['watched_usrempty'].'!</h1></td></tr>';
+}
 $HTMLOUT .= '
 <tr>
 <td align="center" colspan="6" class="colhead"><a class="altlink" href="javascript:SetChecked(1,\'wu[]\')"> '.$lang['watched_selall'].'</a> - <a class="altlink" href="javascript:SetChecked(0,\'wu[]\')">un-'.$lang['watched_selall'].'</a>

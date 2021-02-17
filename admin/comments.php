@@ -103,7 +103,9 @@ case "allComments":
 
         if($rows == 0)
                 //==== Display an error if there are no rows in the MySQLI table
-                $HTMLOUT .= "<tr><td align='center' colspan='9'>{$lang['text_no_rows']}</td></tr>";
+        {
+            $HTMLOUT .= "<tr><td align='center' colspan='9'>{$lang['text_no_rows']}</td></tr>";
+        }
 
         $HTMLOUT .= "</table></div></div>";
 	//==== Display Everything
@@ -265,7 +267,9 @@ while($comment = $query->fetch_assoc()) {
 
 if($rows == 0)
         //==== Show an error if there are no rows in the MySQLI table
-        $HTMLOUT .= "<tr><td align='center' colspan='9'>{$lang['text_no_rows']}</td></tr>";
+{
+    $HTMLOUT .= "<tr><td align='center' colspan='9'>{$lang['text_no_rows']}</td></tr>";
+}
 
 $HTMLOUT .= "</table></div></div>";
 //==== Display Everything

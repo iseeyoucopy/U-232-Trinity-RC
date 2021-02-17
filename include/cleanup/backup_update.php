@@ -23,12 +23,16 @@ function docleanup($data)
         while ($arr = $res->fetch_assoc()) {
             $ids[] = (int)$arr['id'];
             $filename = $TRINITY20['backup_dir'] . '/' . $arr['name'];
-            if (is_file($filename)) unlink($filename);
+            if (is_file($filename)) {
+                unlink($filename);
+            }
         }
         sql_query('DELETE FROM dbbackup WHERE id IN (' . implode(', ', $ids) . ')') || sqlerr(__FILE__, __LINE__);
     }
     //== end
-    if ($queries > 0) write_log("Backup Clean -------------------- Backup Clean Complete using $queries queries--------------------");
+    if ($queries > 0) {
+        write_log("Backup Clean -------------------- Backup Clean Complete using $queries queries--------------------");
+    }
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     }

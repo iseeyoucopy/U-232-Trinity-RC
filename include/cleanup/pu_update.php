@@ -97,8 +97,9 @@ function docleanup($data)
             
         }
         //==
-        if ($queries > 0)
+        if ($queries > 0) {
             write_log("$class_name Updates -------------------- Power User Updates Clean Complete using $queries queries--------------------");
+        }
         if (false !== $mysqli->affected_rows) {
             $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
         }

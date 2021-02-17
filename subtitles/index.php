@@ -19,29 +19,34 @@ require_once(__DIR__ . "/functions.php");
 
   $pager="";
 	$name = ($_GET["sub_name"] ?? "");
-		if($name)
-	$pager = "sub_name=".$name."&amp;";
+		if($name) {
+            $pager = "sub_name=".$name."&amp;";
+        }
 	$searchby = ($_GET["searchby"] ?? "");
-		if($searchby)
-	$pager .="searchby=".$searchby."&amp;";
+		if($searchby) {
+            $pager .= "searchby=".$searchby."&amp;";
+        }
 	$lang = ($_GET["lang"] ?? "all");
-		if($lang)
-	$pager .="lang=".$lang."&amp;";
+		if($lang) {
+            $pager .= "lang=".$lang."&amp;";
+        }
 	$fps = ($_GET["fps"] ?? "");
-		if($fps)
-	$pager .="fps=".$fls."&amp;";
+		if($fps) {
+            $pager .= "fps=".$fls."&amp;";
+        }
 	$format = ($_GET["format"] ?? "");
-		if($format)
-	$pager .="format=".$format."&amp;";
+		if($format) {
+            $pager .= "format=".$format."&amp;";
+        }
 	$cds = (isset($_GET["cds"]) ? 0+$_GET["cds"] : "");
-		if($cds)
-	$pager .="cds=".$cds."&amp;";
+		if($cds) {
+            $pager .= "cds=".$cds."&amp;";
+        }
 	$offset = (isset($_GET["offset"]) ? 0+$_GET["offset"] : "");
 	
-		if($searchby == "name")
-	$name = str_replace(array(".","/","\"","!","-","+","_","@","#","$","%","&","^","(",")","*")," ",$name);
-
-	
+		if($searchby == "name") {
+            $name = str_replace([".", "/", "\"", "!", "-", "+", "_", "@", "#", "$", "%", "&", "^", "(", ")", "*"], " ", $name);
+        }
 
 
 ?>

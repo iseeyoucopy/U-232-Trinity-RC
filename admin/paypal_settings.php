@@ -30,11 +30,16 @@ class_check($class);
 $lang = array_merge($lang, load_language ('ad_paypal_settings'));
 //get the config from db
 ($pconf = sql_query('SELECT * FROM paypal_config')) || sqlerr(__FILE__, __LINE__);
-while ($ac = $pconf->fetch_assoc()) 
-$paypal_config[$ac['name']] = $ac['value'];
+while ($ac = $pconf->fetch_assoc()) {
+    $paypal_config[$ac['name']] = $ac['value'];
+}
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $update = array();
-    foreach ($paypal_config as $c_name => $c_value) if (isset($_POST[$c_name]) && $_POST[$c_name] != $c_value) $update[] = '(' . sqlesc($c_name) . ',' . sqlesc(is_array($_POST[$c_name]) ? implode('|', $_POST[$c_name]) : $_POST[$c_name]) . ')';
+    foreach ($paypal_config as $c_name => $c_value) {
+        if (isset($_POST[$c_name]) && $_POST[$c_name] != $c_value) {
+            $update[] = '('.sqlesc($c_name).','.sqlesc(is_array($_POST[$c_name]) ? implode('|', $_POST[$c_name]) : $_POST[$c_name]).')';
+        }
+    }
     if (sql_query('INSERT INTO paypal_config(name,value) VALUES ' . implode(',', $update) . ' ON DUPLICATE KEY update value=values(value)')) {
      $t = '$TRINITY20';
 $iconfigfile = "<" . "?php\n/**\n{$lang['paypal_file_created']}" . date('M d Y H:i:s') . ".\n{$lang['paypal_site']}.\n**/\n";
@@ -44,8 +49,9 @@ $iconfigfile = "<" . "?php\n/**\n{$lang['paypal_file_created']}" . date('M d Y H
             $iconfigfile.= "" . $t . "['paypal_config']['$arr[name]'] = '$arr[value]';\n";
         } elseif ($arr['name']=="sandbox") {
             $iconfigfile.= "" . $t . "['paypal_config']['$arr[name]'] = '$arr[value]';\n";
-        } else
-        $iconfigfile.= "" . $t . "['paypal_config']['$arr[name]'] = $arr[value];\n";
+        } else {
+            $iconfigfile .= "".$t."['paypal_config']['$arr[name]'] = $arr[value];\n";
+        }
     }
     $iconfigfile.= '
 ?>';
@@ -54,7 +60,9 @@ $iconfigfile = "<" . "?php\n/**\n{$lang['paypal_file_created']}" . date('M d Y H
     fwrite($filenum, $iconfigfile);
     fclose($filenum);
     stderr($lang['paypal_success'], $lang['paypal_saved']);
-    } else stderr($lang['paypal_err'], $lang['paypal_err1']);
+    } else {
+        stderr($lang['paypal_err'], $lang['paypal_err1']);
+    }
     exit;
 }
 

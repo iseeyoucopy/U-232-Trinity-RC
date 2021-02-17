@@ -15,7 +15,9 @@ function pager_new($count, $perpage, $page, $url, $page_link = false)
 {
     global $TRINITY20;
     $pages = floor($count / $perpage);
-    if ($pages * $perpage < $count) ++$pages;
+    if ($pages * $perpage < $count) {
+        ++$pages;
+    }
     //=== lets make php happy
     $page_num = '';
     $page = ($page < 1 ? 1 : $page);

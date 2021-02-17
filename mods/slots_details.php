@@ -2,16 +2,20 @@
 //==Memcached freeslots made by pdq updated 2020 by iseeyoucopy
 $slot = make_freeslots($CURUSER['id'], 'fllslot_');
 $torrent['addedfree'] = $torrent['addedup'] = $free_slot = $double_slot = '';
-if (!empty($slot)) foreach ($slot as $sl) {
-    if ($sl['torrentid'] == $id && $sl['free'] == 'yes') {
-        $free_slot = 1;
-        $torrent['addedfree'] = $sl['addedfree'];
+if (!empty($slot)) {
+    foreach ($slot as $sl) {
+        if ($sl['torrentid'] == $id && $sl['free'] == 'yes') {
+            $free_slot = 1;
+            $torrent['addedfree'] = $sl['addedfree'];
+        }
+        if ($sl['torrentid'] == $id && $sl['doubleup'] == 'yes') {
+            $double_slot = 1;
+            $torrent['addedup'] = $sl['addedup'];
+        }
+        if ($free_slot && $double_slot) {
+            break;
+        }
     }
-    if ($sl['torrentid'] == $id && $sl['doubleup'] == 'yes') {
-        $double_slot = 1;
-        $torrent['addedup'] = $sl['addedup'];
-    }
-    if ($free_slot && $double_slot) break;
 }
 $torrent['addup'] = get_date($torrent['addedup'], 'DATE');
 $torrent['addfree'] = get_date($torrent['addedfree'], 'DATE');

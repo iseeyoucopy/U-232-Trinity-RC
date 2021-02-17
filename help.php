@@ -31,12 +31,15 @@ while ($item = $q->fetch_assoc()) {
     $cats[] = $item;
 }
 foreach ($cats as $row) {
-    if ($count == 9) 
-		$HTMLOUT.= "";
-    if ($count == 0) 
-		$HTMLOUT.= "";
-    else 
-		$HTMLOUT.= "";
+    if ($count == 9) {
+        $HTMLOUT .= "";
+    }
+    if ($count == 0) {
+        $HTMLOUT .= "";
+    }
+    else {
+        $HTMLOUT .= "";
+    }
     $HTMLOUT.= "<li><a data-toggle='div".htmlsafechars($row['shortcut'])."' href='#".htmlsafechars($row['shortcut'])."'>".htmlsafechars($row['name'])."</a></li>";
     $count++;
 }
@@ -45,7 +48,9 @@ $count = 0;
 if (($faqs = $cache->get('faqs__')) === false) {
     $faqs = array();
     ($q2 = sql_query("SELECT * FROM faq")) || sqlerr (__FILE__, __LINE__);
-    while ($row = $q2->fetch_assoc()) $faqs[] = $row;
+    while ($row = $q2->fetch_assoc()) {
+        $faqs[] = $row;
+    }
     $cache->set('faqs__', $faqs, $TRINITY20['expires']['faqs']);
 }
 $rules = array();

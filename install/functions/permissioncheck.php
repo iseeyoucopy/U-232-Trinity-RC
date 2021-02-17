@@ -18,15 +18,21 @@ function checkdir(&$dirs)
             if (@file_put_contents($fn, '1')) {
                 unlink($fn);
                 $dirs[$dir] = 1;
-            } else $dirs[$dir] = 0;
-        } else $dirs[$dir] = 0;
+            } else {
+                $dirs[$dir] = 0;
+            }
+        } else {
+            $dirs[$dir] = 0;
+        }
     }
 }
 
 function permissioncheck()
 {
     global $root;
-    if (file_exists('step0.lock')) header('Location: index.php?step=1');
+    if (file_exists('step0.lock')) {
+        header('Location: index.php?step=1');
+    }
     $dirs = array(
         $root . 'dir_list/' => 0,
         $root . 'imdb/' => 0,

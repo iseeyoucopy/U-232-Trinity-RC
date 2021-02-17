@@ -21,8 +21,12 @@ global $CURUSER;
 $hash_please = (isset($_GET['hash_please']) && htmlsafechars($_GET['hash_please']));
 $salty_username = isset($CURUSER['username']) ? "{$CURUSER['username']}" : '';
 $salty = HashIt($TRINITY20['site']['salt'], $salty_username);
-if (empty($hash_please)) die("No Hash your up to no good MOFO");
-if ($hash_please != $salty) die("Unsecure Logout - Hash mis-match please contact site admin");
+if (empty($hash_please)) {
+    die("No Hash your up to no good MOFO");
+}
+if ($hash_please != $salty) {
+    die("Unsecure Logout - Hash mis-match please contact site admin");
+}
 logoutcookie();
 Header("Location: {$TRINITY20['baseurl']}/");
 ?>

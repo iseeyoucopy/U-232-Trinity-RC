@@ -11,13 +11,17 @@
  * ------------  @version V6  ------------------*
  */
 // edit_moods.php for PTF by pdq 2011
-if (!defined('IN_TRINITY20_ADMIN')) require_once (ROOT_DIR . '404.html');
+if (!defined('IN_TRINITY20_ADMIN')) {
+    require_once(ROOT_DIR.'404.html');
+}
 require_once (CLASS_DIR . 'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_edit_moods'));
 $HTMLOUT = '';
-if (isset($_POST) || isset($_GET)) $edit_params = array_merge($_GET, $_POST);
+if (isset($_POST) || isset($_GET)) {
+    $edit_params = array_merge($_GET, $_POST);
+}
 $edit_mood['action'] = ($edit_params['action'] ?? 0);
 $edit_mood['id'] = (isset($edit_params['id']) ? (int)$edit_params['id'] : 0);
 $edit_mood['name'] = ($edit_params['name'] ?? 0);

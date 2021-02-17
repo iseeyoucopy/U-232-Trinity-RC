@@ -44,8 +44,9 @@ if (($staff_classes = $cache->get('is_staffs_')) === false) {
         $cache->set('is_staffs_', $staff_classes, 900); //==  test values 900 to 0 with delete keys //==
     }
 }
-if (!$CURUSER)
+if (!$CURUSER) {
     stderr($lang['spanel_error'], $lang['spanel_access_denied']);
+}
 /**
  * Staff classes config
  *
@@ -61,8 +62,9 @@ if (!$CURUSER)
  * @ new $staff_tools array add in following format : 'delacct'         => 'delacct',
  *
  */
-if ($TRINITY20['staffpanel_online'] == 0)
+if ($TRINITY20['staffpanel_online'] == 0) {
     stderr($lang['spanel_information'], $lang['spanel_panel_cur_offline']);
+}
 define('IN_TRINITY20_ADMIN', true);
 require_once(CLASS_DIR . 'class_check.php');
 class_check(UC_STAFF);
@@ -174,19 +176,24 @@ if (in_array($tool, $staff_tools) && file_exists(ADMIN_DIR . $staff_tools[$tool]
     $sure = (($_GET['sure'] ?? '') == 'yes');
     ($res = sql_query('SELECT av_class' . (!$sure || $CURUSER['class'] <= UC_MAX ? ', page_name' : '') . ' FROM staffpanel WHERE id = ' . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
-    if ($CURUSER['class'] < $arr['av_class'])
+    if ($CURUSER['class'] < $arr['av_class']) {
         stderr($lang['spanel_error'], $lang['spanel_you_not_allow_del_page']);
-    if (!$sure)
-        stderr($lang['spanel_sanity_check'], $lang['spanel_are_you_sure_del'].': "' . htmlsafechars($arr['page_name']) . '"? '.$lang['spanel_click'].' <a href="' . $_SERVER['PHP_SELF'] . '?action=' . $action . '&amp;id=' . $id . '&amp;sure=yes">'.$lang['spanel_here'].'</a> '.$lang['spanel_to_del_it_or'].' <a href="' . $_SERVER['PHP_SELF'] . '">'.$lang['spanel_here'].'</a> '.$lang['spanel_to_go_back'].'.');
+    }
+    if (!$sure) {
+        stderr($lang['spanel_sanity_check'],
+            $lang['spanel_are_you_sure_del'].': "'.htmlsafechars($arr['page_name']).'"? '.$lang['spanel_click'].' <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&amp;id='.$id.'&amp;sure=yes">'.$lang['spanel_here'].'</a> '.$lang['spanel_to_del_it_or'].' <a href="'.$_SERVER['PHP_SELF'].'">'.$lang['spanel_here'].'</a> '.$lang['spanel_to_go_back'].'.');
+    }
     sql_query('DELETE FROM staffpanel WHERE id = ' . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     $cache->delete('is_staffs_');
     if ($mysqli->affected_rows) {
-        if ($CURUSER['class'] <= UC_MAX)
-            write_log($lang['spanel_page'].' "' . htmlsafechars($arr['page_name']) . '"(' . ($class_color ? '[color=#' . get_user_class_color($arr['av_class']) . ']' : '') . get_user_class_name($arr['av_class']) . ($class_color ? '[/color]' : '') . ') '.$lang['spanel_was_del_sp_by'].' [url=' . $TRINITY20['baseurl'] . '/userdetails.php?id=' . (int) $CURUSER['id'] . ']' . $CURUSER['username'] . '[/url](' . ($class_color ? '[color=#' . get_user_class_color($CURUSER['class']) . ']' : '') . get_user_class_name($CURUSER['class']) . ($class_color ? '[/color]' : '') . ')');
+        if ($CURUSER['class'] <= UC_MAX) {
+            write_log($lang['spanel_page'].' "'.htmlsafechars($arr['page_name']).'"('.($class_color ? '[color=#'.get_user_class_color($arr['av_class']).']' : '').get_user_class_name($arr['av_class']).($class_color ? '[/color]' : '').') '.$lang['spanel_was_del_sp_by'].' [url='.$TRINITY20['baseurl'].'/userdetails.php?id='.(int)$CURUSER['id'].']'.$CURUSER['username'].'[/url]('.($class_color ? '[color=#'.get_user_class_color($CURUSER['class']).']' : '').get_user_class_name($CURUSER['class']).($class_color ? '[/color]' : '').')');
+        }
         header('Location: ' . $_SERVER['PHP_SELF']);
         exit();
-    } else
+    } else {
         stderr($lang['spanel_error'], $lang['spanel_db_error_msg']);
+    }
 } elseif (($action == 'add' && $CURUSER['class'] == UC_MAX) || ($action == 'edit' && is_valid_id($id) && $CURUSER['class'] == UC_MAX)) {
     $names = array(
         'page_name',
@@ -199,31 +206,42 @@ if (in_array($tool, $staff_tools) && file_exists(ADMIN_DIR . $staff_tools[$tool]
         ($res = sql_query('SELECT ' . implode(', ', $names) . ' FROM staffpanel WHERE id = ' . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
         $arr = $res->fetch_assoc();
     }
-    foreach ($names as $name)
+    foreach ($names as $name) {
         ${$name} = ($_POST[$name] ?? ($action == 'edit' ? $arr[$name] : ''));
-    if ($action == 'edit' && $CURUSER['class'] < $av_class)
+    }
+    if ($action == 'edit' && $CURUSER['class'] < $av_class) {
         stderr($lang['spanel_error'], $lang['spanel_cant_edit_this_pg']);
+    }
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors = array();
-        if (empty($page_name))
+        if (empty($page_name)) {
             $errors[] = $lang['spanel_the_pg_name'].' '.$lang['spanel_cannot_be_empty'].'.';
-        if (empty($file_name))
+        }
+        if (empty($file_name)) {
             $errors[] = $lang['spanel_the_filename'].' '.$lang['spanel_cannot_be_empty'].'.';
-        if (empty($description))
+        }
+        if (empty($description)) {
             $errors[] = $lang['spanel_the_descr'].' '.$lang['spanel_cannot_be_empty'].'.';
-        if (!in_array((int)$av_class, $staff_classes))
+        }
+        if (!in_array((int)$av_class, $staff_classes)) {
             $errors[] = $lang['spanel_selected_class_not_valid'];
+        }
 
-        if (!is_file($file_name . '.php') && !empty($file_name) && !preg_match('/.php/', $file_name))
+        if (!is_file($file_name . '.php') && !empty($file_name) && !preg_match('/.php/', $file_name)) {
             $errors[] = $lang['spanel_inexistent_php_file'];
-        if (strlen($page_name) < 4 && !empty($page_name))
+        }
+        if (strlen($page_name) < 4 && !empty($page_name)) {
             $errors[] = $lang['spanel_the_pg_name'].' '.$lang['spanel_is_too_short_min_4'].'.';
-        if (strlen($page_name) > 80)
+        }
+        if (strlen($page_name) > 80) {
             $errors[] = $lang['spanel_the_pg_name'].' '.$lang['spanel_is_too_long'].' ('.$lang['spanel_max_80'].').';
-        if (strlen($file_name) > 80)
+        }
+        if (strlen($file_name) > 80) {
             $errors[] = $lang['spanel_the_filename'].' '.$lang['spanel_is_too_long'].' ('.$lang['spanel_max_80'].').';
-        if (strlen($description) > 100)
+        }
+        if (strlen($description) > 100) {
             $errors[] = $lang['spanel_the_descr'].' '.$lang['spanel_is_too_long'].' ('.$lang['spanel_max_100'].').';
+        }
         if (empty($errors)) {
             if ($action == 'add') {
                 $res = sql_query("INSERT INTO staffpanel (page_name, file_name, description, type, av_class, added_by, added) " . "VALUES (" . implode(", ", array_map("sqlesc", array(
@@ -242,12 +260,14 @@ if (in_array($tool, $staff_tools) && file_exists(ADMIN_DIR . $staff_tools[$tool]
             } else {
                 ($res = sql_query("UPDATE staffpanel SET page_name = " . sqlesc($page_name) . ", file_name = " . sqlesc($file_name) . ", description = " . sqlesc($description) . ", type = " . sqlesc($type) . ", av_class = " . sqlesc((int) $av_class) . " WHERE id = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
                 $cache->delete('is_staffs_');
-                if (!$res)
+                if (!$res) {
                     $errors[] = $lang['spanel_db_error_msg'];
+                }
             }
             if (empty($errors)) {
-                if ($CURUSER['class'] <= UC_MAX)
-                    write_log($lang['spanel_page'].' "' . $page_name . '"(' . ($class_color ? '[color=#' . get_user_class_color($av_class) . ']' : '') . get_user_class_name($av_class) . ($class_color ? '[/color]' : '') . ') '.$lang['spanel_in_the_sp_was'].' ' . ($action == 'add' ? 'added' : 'edited') . ' by [url=' . $TRINITY20['baseurl'] . '/userdetails.php?id=' . $CURUSER['id'] . ']' . $CURUSER['username'] . '[/url](' . ($class_color ? '[color=#' . get_user_class_color($CURUSER['class']) . ']' : '') . get_user_class_name($CURUSER['class']) . ($class_color ? '[/color]' : '') . ')');
+                if ($CURUSER['class'] <= UC_MAX) {
+                    write_log($lang['spanel_page'].' "'.$page_name.'"('.($class_color ? '[color=#'.get_user_class_color($av_class).']' : '').get_user_class_name($av_class).($class_color ? '[/color]' : '').') '.$lang['spanel_in_the_sp_was'].' '.($action == 'add' ? 'added' : 'edited').' by [url='.$TRINITY20['baseurl'].'/userdetails.php?id='.$CURUSER['id'].']'.$CURUSER['username'].'[/url]('.($class_color ? '[color=#'.get_user_class_color($CURUSER['class']).']' : '').get_user_class_name($CURUSER['class']).($class_color ? '[/color]' : '').')');
+                }
                 header('Location: ' . $_SERVER['PHP_SELF']);
                 exit();
             }
@@ -294,8 +314,9 @@ if (in_array($tool, $staff_tools) && file_exists(ADMIN_DIR . $staff_tools[$tool]
     <td align='left'>";
     $HTMLOUT .= "<select name='av_class'>";
     $maxclass = UC_MAX;
-    for ($class = UC_STAFF; $class <= $maxclass; ++$class)
-        $HTMLOUT .= '<option' . ($class_color ? ' style="background-color:#' . get_user_class_color($class) . ';"' : '') . ' value="' . $class . '"' . ($class == $av_class ? ' selected="selected"' : '') . '>' . get_user_class_name($class) . '</option>';
+    for ($class = UC_STAFF; $class <= $maxclass; ++$class) {
+        $HTMLOUT .= '<option'.($class_color ? ' style="background-color:#'.get_user_class_color($class).';"' : '').' value="'.$class.'"'.($class == $av_class ? ' selected="selected"' : '').'>'.get_user_class_name($class).'</option>';
+    }
     $HTMLOUT .= "</select></td>";
     $HTMLOUT .= "</tr></table>  
      <table class='table table-striped table-bordered'>
@@ -318,10 +339,12 @@ $HTMLOUT .= "<div class='row'><span class='label'><h2>{$lang['spanel_options']}<
     ($res = sql_query('SELECT staffpanel.*, users.username ' . 'FROM staffpanel ' . 'LEFT JOIN users ON users.id = staffpanel.added_by ' . 'WHERE av_class <= ' . sqlesc($CURUSER['class']) . ' ' . 'ORDER BY av_class DESC, page_name ASC')) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows > 0) {
         $db_classes = $unique_classes = $mysql_data = array();
-        while ($arr = $res->fetch_assoc())
+        while ($arr = $res->fetch_assoc()) {
             $mysql_data[] = $arr;
-        foreach ($mysql_data as $key => $value)
+        }
+        foreach ($mysql_data as $key => $value) {
             $db_classes[$value['av_class']][] = $value['av_class'];
+        }
         $i = 1;
         foreach ($mysql_data as $key => $arr) {
             $end_table = (count($db_classes[$arr['av_class']]) == $i);
@@ -366,8 +389,9 @@ $HTMLOUT .= "<div class='row'><span class='label'><h2>{$lang['spanel_options']}<
                 $HTMLOUT .= "</table><br>";
             }
         }
-    } else
+    } else {
         $HTMLOUT .= stdmsg($lang['spanel_sorry'], $lang['spanel_nothing_found']);
+    }
   $HTMLOUT.="</div>";
     echo stdhead($lang['spanel_header']) . $HTMLOUT .  stdfoot();
 }

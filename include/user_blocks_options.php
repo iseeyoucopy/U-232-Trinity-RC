@@ -79,8 +79,12 @@
             die();
         }		
 		$user_row = $c1_sql->fetch_assoc();
-        foreach ($user_opt_int as $ii) $user_row[$ii] = (int)$user_row[$ii];
-        foreach ($user_opt_str as $ii) $user_row[$ii] = $user_row[$ii];
+        foreach ($user_opt_int as $ii) {
+            $user_row[$ii] = (int)$user_row[$ii];
+        }
+        foreach ($user_opt_str as $ii) {
+            $user_row[$ii] = $user_row[$ii];
+        }
 		$cache->set($user_blocks_key, $user_row, $TRINITY20['expires']['curuser']);
 		unset($c1_sql);
 	}

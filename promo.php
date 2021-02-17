@@ -29,15 +29,23 @@ $link = (isset($_GET["link"]) ? htmlsafechars($_GET["link"]) : (isset($_POST["li
 $sure = (isset($_GET["sure"]) && htmlsafechars($_GET["sure"]) == "yes" ? "yes" : "no");
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
     $promoname = (isset($_POST["promoname"]) ? htmlsafechars($_POST["promoname"]) : "");
-    if (empty($promoname)) stderr("Error", "No name for the promo");
+    if (empty($promoname)) {
+        stderr("Error", "No name for the promo");
+    }
     $days_valid = (isset($_POST["days_valid"]) ? (int) $_POST["days_valid"] : 0);
-    if ($days_valid == 0) stderr("Error", "Link will be valid for 0 days ? I don't think so!");
+    if ($days_valid == 0) {
+        stderr("Error", "Link will be valid for 0 days ? I don't think so!");
+    }
     $max_users = (isset($_POST["max_users"]) ? (int) $_POST["max_users"] : 0);
-    if ($max_users == 0) stderr("Error", "Max users cant be 0 i think you missed that!");
+    if ($max_users == 0) {
+        stderr("Error", "Max users cant be 0 i think you missed that!");
+    }
     $bonus_upload = (isset($_POST["bonus_upload"]) ? (int)$_POST["bonus_upload"] : 0);
     $bonus_invites = (isset($_POST["bonus_invites"]) ? (int) $_POST["bonus_invites"] : 0);
     $bonus_karma = (isset($_POST["bonus_karma"]) ? (int) $_POST["bonus_karma"] : 0);
-    if ($bonus_upload == 0 && $bonus_invites == 0 && $bonus_karma == 0) stderr("Error", "No gift for the new users ?! :w00t: give them some gifts :D");
+    if ($bonus_upload == 0 && $bonus_invites == 0 && $bonus_karma == 0) {
+        stderr("Error", "No gift for the new users ?! :w00t: give them some gifts :D");
+    }
     $link = hash("haval256,4", "promo_link" . TIME_NOW);
     ($q = sql_query("INSERT INTO promo (name,added,days_valid,max_users,link,creator,bonus_upload,bonus_invites,bonus_karma) VALUES (" . implode(",", array_map("sqlesc", array(
         $promoname,
@@ -50,32 +58,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
         $bonus_invites,
         $bonus_karma
     ))) . ") ")) || sqlerr(__FILE__, __LINE__);
-    if (!$q) stderr("Error", "Something wrong happned, please retry");
-    else stderr("Success", "The promo link <b>" . htmlsafechars($promoname) . "</b> was added! here is the link <br /><input type=\"text\" name=\"promo-link\" value=\"" . $TRINITY20['baseurl'] . $_SERVER["PHP_SELF"] . "?do=signup&amp;link=" . $link . "\" size=\"80\" onclick=\"select();\"  /><br/><a href=\"" . $_SERVER["PHP_SELF"] . "\"><input type=\"button\" value=\"Back to Promos\" /></a>");
+    if (!$q) {
+        stderr("Error", "Something wrong happned, please retry");
+    }
+    else {
+        stderr("Success",
+            "The promo link <b>".htmlsafechars($promoname)."</b> was added! here is the link <br /><input type=\"text\" name=\"promo-link\" value=\"".$TRINITY20['baseurl'].$_SERVER["PHP_SELF"]."?do=signup&amp;link=".$link."\" size=\"80\" onclick=\"select();\"  /><br/><a href=\"".$_SERVER["PHP_SELF"]."\"><input type=\"button\" value=\"Back to Promos\" /></a>");
+    }
 } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "signup") {
     //==err("w00t");
     ($r_check = sql_query("SELECT * FROM promo WHERE link=" . sqlesc($link))) || sqlerr(__FILE__, __LINE__);
-    if ($r_check->num_rows == 0) stderr("Error", "The link your using is not a valid link");
+    if ($r_check->num_rows == 0) {
+        stderr("Error", "The link your using is not a valid link");
+    }
     else {
         $ar_check = $r_check->fetch_assoc();
-        if ($ar_check["max_users"] == $ar_check["accounts_made"]) stderr("Error", "Sorry account limit (" . htmlsafechars($ar_check["max_users"]) . ") on this link has been reached ");
-        if (($ar_check["added"] + (86400 * $ar_check["days_valid"])) < TIME_NOW) stderr("Error", "This link was valid only till " . date("d/M-Y", ($ar_check["added"] + (86400 * $ar_check["days_valid"]))));
+        if ($ar_check["max_users"] == $ar_check["accounts_made"]) {
+            stderr("Error", "Sorry account limit (".htmlsafechars($ar_check["max_users"]).") on this link has been reached ");
+        }
+        if (($ar_check["added"] + (86400 * $ar_check["days_valid"])) < TIME_NOW) {
+            stderr("Error", "This link was valid only till ".date("d/M-Y", ($ar_check["added"] + (86400 * $ar_check["days_valid"]))));
+        }
         //==Some variables for the new user :)
         $username = (isset($_POST["username"]) ? htmlsafechars($_POST["username"]) : "");
-        if (empty($username)) stderr("Error", "You must pick a an username");
-        if (strlen($username) < 6 || strlen($username) > 64) stderr("Error", "Your username is to long or to short (min 6 char , max 64 char)");
+        if (empty($username)) {
+            stderr("Error", "You must pick a an username");
+        }
+        if (strlen($username) < 6 || strlen($username) > 64) {
+            stderr("Error", "Your username is to long or to short (min 6 char , max 64 char)");
+        }
         $password = (isset($_POST["password"]) ? htmlsafechars($_POST["password"]) : "");
         $passwordagain = (isset($_POST["passwordagain"]) ? htmlsafechars($_POST["passwordagain"]) : "");
-        if (empty($password) || empty($passwordagain)) stderr("Error", "You have to type your passwords twice");
-        if ($password != $passwordagain) stderr("Error", "The passwords didn't match! Must've typoed. Try again.");
-        if (strlen($password) < 6) stderr("Error", "Password must be min 6 char");
+        if (empty($password) || empty($passwordagain)) {
+            stderr("Error", "You have to type your passwords twice");
+        }
+        if ($password != $passwordagain) {
+            stderr("Error", "The passwords didn't match! Must've typoed. Try again.");
+        }
+        if (strlen($password) < 6) {
+            stderr("Error", "Password must be min 6 char");
+        }
         $email = (isset($_POST["mail"]) ? htmlsafechars($_POST["mail"]) : "");
-        if (empty($email)) stderr("Error", "No email adress, you forgot about that?");
-        if (!validemail($email)) stderr("Error", "That dosen't look like an email adress");
+        if (empty($email)) {
+            stderr("Error", "No email adress, you forgot about that?");
+        }
+        if (!validemail($email)) {
+            stderr("Error", "That dosen't look like an email adress");
+        }
         check_banned_emails($email);
         //==Check if username or password already exists
         ($var_check = sql_query("SELECT id, editsecret FROM users where username=" . sqlesc($username) . " OR email=" . sqlesc($email))) || sqlerr(__FILE__, __LINE__);
-        if ($var_check->num_rows == 1) stderr("Error", "Username or password already exists");
+        if ($var_check->num_rows == 1) {
+            stderr("Error", "Username or password already exists");
+        }
 		$added = TIME_NOW;
         $secret = mksecret();
         $hash2 = t_Hash($email, $username, $added);
@@ -118,7 +153,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
             $headers = 'From: ' . $TRINITY20['site_email'] . "\r\n" . 'Reply-To:' . $TRINITY20['site_email'] . "\r\n" . 'X-Mailer: PHP/' . phpversion();
             $mail = @mail($email, $subject, $message, $headers);
             stderr("Success!", "Account was created! and an email was sent to <b>" . htmlsafechars($email) . "</b>, you can use your account once you confirm the email!");
-        } else stderr("Error", "Something odd happned please retry");
+        } else {
+            stderr("Error", "Something odd happned please retry");
+        }
     }
 } elseif ($do == "delete" && $id > 0) {
     ($r = sql_query("SELECT name FROM promo WHERE id=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
@@ -129,11 +166,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
         if (sql_query("DELETE FROM promo where id=" . sqlesc($id)) || sqlerr(__FILE__, __LINE__)) {
             header("Refresh: 2; url=" . $_SERVER["PHP_SELF"]);
             stderr("Success", "Promo was deleted!");
-        } else stderr("Error", "Odd things happned!Contact your coder!");
+        } else {
+            stderr("Error", "Odd things happned!Contact your coder!");
+        }
     }
 } elseif ($do == "addpromo") {
     loggedinorreturn();
-    if ($CURUSER['class'] < UC_STAFF) stderr("Error", "There is nothing for you here! Go play somewere else");
+    if ($CURUSER['class'] < UC_STAFF) {
+        stderr("Error", "There is nothing for you here! Go play somewere else");
+    }
   $HTMLOUT.= "<div class='row'><div class='col-md-12'><h2>Add Promo Link</h2>";
     $HTMLOUT.= "<form action='" . ($_SERVER["PHP_SELF"]) . "' method='post' >
 					<table class='table table-bordered'>
@@ -166,14 +207,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
 	$HTMLOUT.= "</div></div><br>";
     echo stdhead('Add Promo Link') . $HTMLOUT . stdfoot();
 } elseif ($do == "signup") {
-    if (empty($link)) stderr("Error", "There is no link found! Please check the link");
+    if (empty($link)) {
+        stderr("Error", "There is no link found! Please check the link");
+    }
     else {
         ($r_promo = sql_query("SELECT * from promo where link=" . sqlesc($link))) || sqlerr(__FILE__, __LINE__);
-        if ($r_promo->num_rows == 0) stderr("Error", "There is no promo with that link ");
+        if ($r_promo->num_rows == 0) {
+            stderr("Error", "There is no promo with that link ");
+        }
         else {
             $ar = $r_promo->fetch_assoc();
-            if ($ar["max_users"] == $ar["accounts_made"]) stderr("Error", "Sorry account limit (" . htmlsafechars($ar["max_users"]) . ") on this link has been reached ");
-            if (($ar["added"] + (86400 * $ar["days_valid"])) < TIME_NOW) stderr("Error", "This link was valid only till " . date("d/M-Y", ($ar["added"] + (86400 * $ar["days_valid"]))));
+            if ($ar["max_users"] == $ar["accounts_made"]) {
+                stderr("Error", "Sorry account limit (".htmlsafechars($ar["max_users"]).") on this link has been reached ");
+            }
+            if (($ar["added"] + (86400 * $ar["days_valid"])) < TIME_NOW) {
+                stderr("Error", "This link was valid only till ".date("d/M-Y", ($ar["added"] + (86400 * $ar["days_valid"]))));
+            }
 		$HTMLOUT.= "<div class='row'><div class='col-md-12'>";
             $HTMLOUT.= "<form action='" . ($_SERVER["PHP_SELF"]) . "' method='post'>
 						  <table class='table table-bordered'>
@@ -199,14 +248,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
         }
     }
 } elseif ($do == "accounts") {
-    if ($id == 0) die("Can't find id");
+    if ($id == 0) {
+        die("Can't find id");
+    }
     else {
         ($q1 = sql_query("SELECT name, users FROM promo WHERE id=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
         if ($q1->num_rows == 1) {
             $a1 = $q1->fetch_assoc();
             if (!empty($a1["users"])) {
                 $users = explode(",", $a1["users"]);
-                if (!empty($users)) ($q2 = sql_query("SELECT id, username, added FROM users WHERE id IN (" . implode(",", $users) . ")")) || sqlerr(__FILE__, __LINE__);
+                if (!empty($users)) {
+                    ($q2 = sql_query("SELECT id, username, added FROM users WHERE id IN (".implode(",", $users).")")) || sqlerr(__FILE__, __LINE__);
+                }
                 $HTMLOUT = "
           <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN''http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
           <html xmlns='http://www.w3.org/1999/xhtml'>
@@ -239,14 +292,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
 					</body>
 					</html>";
                 echo $HTMLOUT;
-            } else die("No users");
-        } else die("Something odd happend");
+            } else {
+                die("No users");
+            }
+        } else {
+            die("Something odd happend");
+        }
     }
 } else {
     loggedinorreturn();
-    if ($CURUSER['class'] < UC_STAFF) stderr("Error", "There is nothing for you here! Go play somewere else");
+    if ($CURUSER['class'] < UC_STAFF) {
+        stderr("Error", "There is nothing for you here! Go play somewere else");
+    }
     ($r = sql_query("SELECT p.*,u.username from promo as p LEFT JOIN users as u on p.creator=u.id ORDER by p.added,p.days_valid DESC")) || sqlerr(__FILE__, __LINE__);
-    if ($r->num_rows == 0) stderr("Error", "There is no promo if you want to make one click <a href=\"" . $_SERVER["PHP_SELF"] . "?do=addpromo\">here</a>");
+    if ($r->num_rows == 0) {
+        stderr("Error", "There is no promo if you want to make one click <a href=\"".$_SERVER["PHP_SELF"]."?do=addpromo\">here</a>");
+    }
     else {      
 	$HTMLOUT.= "<div class='row'><div class='col-md-12'><h2>Current Promos&nbsp;<font class=\"small\"><a href=\"" . $_SERVER["PHP_SELF"] . "?do=addpromo\">- Add promo</a></font></h2>";
 	$HTMLOUT.= "<script type='text/javascript'>

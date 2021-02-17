@@ -41,17 +41,27 @@ $n = $res->fetch_row();
 $n_peers = $n[0];
 $uporder = $_GET['uporder'] ?? '';
 $catorder = $_GET["catorder"] ?? '';
-if ($uporder == "lastul") $orderby = "last DESC, name";
-elseif ($uporder == "torrents") $orderby = "n_t DESC, name";
-elseif ($uporder == "peers") $orderby = "n_p DESC, name";
-else $orderby = "name";
+if ($uporder == "lastul") {
+    $orderby = "last DESC, name";
+}
+elseif ($uporder == "torrents") {
+    $orderby = "n_t DESC, name";
+}
+elseif ($uporder == "peers") {
+    $orderby = "n_p DESC, name";
+}
+else {
+    $orderby = "name";
+}
 $query = "SELECT u.id, u.username AS name, MAX(t.added) AS last, COUNT(DISTINCT t.id) AS n_t, COUNT(p.id) as n_p
       FROM users as u LEFT JOIN torrents as t ON u.id = t.owner LEFT JOIN peers as p ON t.id = p.torrent WHERE u.class = " . UC_UPLOADER . "
       GROUP BY u.id UNION SELECT u.id, u.username AS name, MAX(t.added) AS last, COUNT(DISTINCT t.id) AS n_t, COUNT(p.id) as n_p
       FROM users as u LEFT JOIN torrents as t ON u.id = t.owner LEFT JOIN peers as p ON t.id = p.torrent WHERE u.class > " . UC_UPLOADER . "
       GROUP BY u.id ORDER BY $orderby";
 ($res = sql_query($query)) || sqlerr(__FILE__, __LINE__);
-if ($res->num_rows == 0) stdmsg($lang['stats_error'], $lang['stats_error1']);
+if ($res->num_rows == 0) {
+    stdmsg($lang['stats_error'], $lang['stats_error1']);
+}
 else {
     //$HTMLOUT.= begin_frame($lang['stats_title1'], True);
     //$HTMLOUT.= begin_table();
@@ -77,12 +87,22 @@ else {
     $HTMLOUT.= "</table>";
     //$HTMLOUT.= end_frame();
 }
-if ($n_tor == 0) stdmsg($lang['stats_error'], $lang['stats_error2']);
+if ($n_tor == 0) {
+    stdmsg($lang['stats_error'], $lang['stats_error2']);
+}
 else {
-    if ($catorder == "lastul") $orderby = "last DESC, c.name";
-    elseif ($catorder == "torrents") $orderby = "n_t DESC, c.name";
-    elseif ($catorder == "peers") $orderby = "n_p DESC, name";
-    else $orderby = "c.name";
+    if ($catorder == "lastul") {
+        $orderby = "last DESC, c.name";
+    }
+    elseif ($catorder == "torrents") {
+        $orderby = "n_t DESC, c.name";
+    }
+    elseif ($catorder == "peers") {
+        $orderby = "n_p DESC, name";
+    }
+    else {
+        $orderby = "c.name";
+    }
     ($res = sql_query("SELECT c.name, MAX(t.added) AS last, COUNT(DISTINCT t.id) AS n_t, COUNT(p.id) AS n_p
       FROM categories as c LEFT JOIN torrents as t ON t.category = c.id LEFT JOIN peers as p
       ON t.id = p.torrent GROUP BY c.id ORDER BY $orderby")) || sqlerr(__FILE__, __LINE__);

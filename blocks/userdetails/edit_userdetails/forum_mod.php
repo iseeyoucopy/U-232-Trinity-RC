@@ -25,15 +25,17 @@ No</div>";
 	foreach($boo as $fo=>$foo) {
 		$forum_list .="<li class='accordion-item' data-accordion-item>
 		<a href='#deeplink". $fo ."' class='accordion-title'>".$fo."</a>";
-			foreach($foo as $fooo)
-				$forum_list .= "<div class='accordion-content' data-tab-content id='deeplink".$fooo."'>
+			foreach($foo as $fooo) {
+                $forum_list .= "<div class='accordion-content' data-tab-content id='deeplink".$fooo."'>
 					<label for='forum_".$fooo[0]."'>
 						<span class='file' style='position:relative;width:200px;'>
 							<b>".$fooo[1]."</b>
-							<input type='checkbox' ".(stripos($user["forums_mod"], "[".$fooo[0]."]") !== false ? "checked='checked'" : "" )."style='right:0;top:0;position:absolute;' name='forums[]' id='forum_".$fooo[0]."' value='".$fooo[0]."'>
+							<input type='checkbox' ".(stripos($user["forums_mod"],
+                        "[".$fooo[0]."]") !== false ? "checked='checked'" : "")."style='right:0;top:0;position:absolute;' name='forums[]' id='forum_".$fooo[0]."' value='".$fooo[0]."'>
 						</span>
 					</label>
 				</div>";
+            }
 		$forum_list .= "</li>";	
 	}
 	$forum_list .= "</ul>";

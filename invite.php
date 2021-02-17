@@ -35,7 +35,9 @@ $valid_actions = array(
     'send_email'
 );
 ($do = (($do && in_array($do, $valid_actions, true)) ? $do : '')) || header("Location: ?do=view_page");
-if ($CURUSER['suspended'] == 'yes') stderr($lang['invites_err1'], $lang['invites_err2']);
+if ($CURUSER['suspended'] == 'yes') {
+    stderr($lang['invites_err1'], $lang['invites_err2']);
+}
 /**
  * @action Main Page
  */
@@ -60,15 +62,25 @@ if ($do == 'view_page') {
 </tr>";
         for ($i = 0; $i < $rows; ++$i) {
             $arr = $query->fetch_assoc();
-            if ($arr['status'] == 'pending') $user = "<td align='center'>" . htmlsafechars($arr['username']) . "</td>";
-            else $user = "<td align='center'><a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int)$arr['id'] . "'>" . format_username($arr) . "</a></td>";
+            if ($arr['status'] == 'pending') {
+                $user = "<td align='center'>".htmlsafechars($arr['username'])."</td>";
+            }
+            else {
+                $user = "<td align='center'><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['id']."'>".format_username($arr)."</a></td>";
+            }
             $ratio = member_ratio($arr['uploaded'], $TRINITY20['ratio_free'] ? '0' : $arr['downloaded']);
-            if ($arr["status"] == 'confirmed') $status = "<font color='#1f7309'>{$lang['invites_confirm1']}</font>";
-            else $status = "<font color='#ca0226'>{$lang['invites_pend']}</font>";
+            if ($arr["status"] == 'confirmed') {
+                $status = "<font color='#1f7309'>{$lang['invites_confirm1']}</font>";
+            }
+            else {
+                $status = "<font color='#ca0226'>{$lang['invites_pend']}</font>";
+            }
             $HTMLOUT.= "<tr class='one'>" . $user . "<td align='center'>" . mksize($arr['uploaded']) . "</td>" . ($TRINITY20['ratio_free'] ? "" : "<td align='center'>" . mksize($arr['downloaded']) . "</td>") . "<td align='center'>" . $ratio . "</td><td align='center'>" . $status . "</td>";
             if ($arr['status'] == 'pending') {
                 $HTMLOUT.= "<td align='center'><a href='?do=confirm_account&amp;userid=" . (int)$arr['id'] . "&amp;sender=" . (int)$CURUSER['id'] . "'><img src='{$TRINITY20['pic_base_url']}confirm.png' alt='confirm' title='{$lang['invites_confirm']}' border='0' /></a></td></tr>";
-            } else $HTMLOUT.= "<td align='center'>---</td></tr>";
+            } else {
+                $HTMLOUT .= "<td align='center'>---</td></tr>";
+            }
         }
     }
     $HTMLOUT.= "</table><br>";
@@ -127,19 +139,31 @@ elseif ($do == 'send_email') {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = (isset($_POST['email']) ? htmlsafechars($_POST['email']) : '');
         $invite = (isset($_POST['code']) ? htmlsafechars($_POST['code']) : '');
-        if (!$email) stderr($lang['invites_error'], $lang['invites_noemail']);
+        if (!$email) {
+            stderr($lang['invites_error'], $lang['invites_noemail']);
+        }
         ($check_query = sql_query('SELECT COUNT(id) FROM users WHERE email = ' . sqlesc($email))) || sqlerr(__FILE__, __LINE__);
         $check = $check_query->fetch_row();
-        if ($check[0] != 0) stderr($lang['invites_error'], $lang['invites_mail_err']);
-        if (!validemail($email)) stderr($lang['invites_error'], $lang['invites_invalidemail']);
+        if ($check[0] != 0) {
+            stderr($lang['invites_error'], $lang['invites_mail_err']);
+        }
+        if (!validemail($email)) {
+            stderr($lang['invites_error'], $lang['invites_invalidemail']);
+        }
         $inviter = htmlsafechars($CURUSER['username']);
         $body = "{$lang['invites_send_emailpart1']} ".htmlsafechars($inviter)." {$lang['invites_send_emailpart2']} ".htmlsafechars($email)." {$lang['invites_send_emailpart3']} ".htmlsafechars($invite)." {$lang['invites_send_emailpart4']}";
         $sendit = mail($email, "{$lang['invites_send_email1_ema']}", $body, "{$lang['invites_send_email1_bod']}", "-f{$TRINITY20['site_email']}");
-        if (!$sendit) stderr($lang['invites_error'], $lang['invites_unable']);
-        else stderr('', $lang['invites_confirmation']);
+        if (!$sendit) {
+            stderr($lang['invites_error'], $lang['invites_unable']);
+        }
+        else {
+            stderr('', $lang['invites_confirmation']);
+        }
     }
     $id = (isset($_GET['id']) ? (int)$_GET['id'] : (isset($_POST['id']) ? (int)$_POST['id'] : ''));
-    if (!is_valid_id($id)) stderr($lang['invites_error'], $lang['invites_invalid']);
+    if (!is_valid_id($id)) {
+        stderr($lang['invites_error'], $lang['invites_invalid']);
+    }
     ($query = sql_query('SELECT * FROM invite_codes WHERE id = ' . sqlesc($id) . ' AND sender = ' . sqlesc($CURUSER['id']) . ' AND status = "Pending"')) || sqlerr(__FILE__, __LINE__);
     ($fetch = $query->fetch_assoc()) || stderr($lang['invites_error'], $lang['invites_noexsist']);
     $HTMLOUT.= "<form method='post' action='?do=send_email'><table border='1' cellspacing='0' cellpadding='10'>
@@ -178,14 +202,21 @@ elseif ($do == 'delete_invite') {
  */
 elseif (($do = 'confirm_account') !== '') {
     $userid = (isset($_GET["userid"]) ? (int)$_GET["userid"] : (isset($_POST["userid"]) ? (int)$_POST["userid"] : ''));
-    if (!is_valid_id($userid)) stderr($lang['invites_error'], $lang['invites_invalid']);
+    if (!is_valid_id($userid)) {
+        stderr($lang['invites_error'], $lang['invites_invalid']);
+    }
     ($select = sql_query('SELECT id, username FROM users WHERE id = ' . sqlesc($userid) . ' AND invitedby = ' . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
     $assoc = $select->fetch_assoc();
-    if (!$assoc) stderr($lang['invites_error'], $lang['invites_errorid']);
+    if (!$assoc) {
+        stderr($lang['invites_error'], $lang['invites_errorid']);
+    }
     if (isset($_GET['sure'])) {
         $sure = htmlsafechars($_GET['sure']);
     }
-    if (!$sure) stderr($lang['invites_confirm1'], $lang['invites_sure1'] . ' ' . htmlsafechars($assoc['username']) . ' '.$lang['invites_sure2'].' <a href="?do=confirm_account&amp;userid=' . $userid . '&amp;sender=' . (int)$CURUSER['id'] . '&amp;sure=yes">'.$lang['invites_sure3'].'</a>'.$lang['invites_sure4'].'<a href="?do=view_page">'.$lang['invites_sure3'].'</a>'.$lang['invites_sure5'].'');
+    if (!$sure) {
+        stderr($lang['invites_confirm1'],
+            $lang['invites_sure1'].' '.htmlsafechars($assoc['username']).' '.$lang['invites_sure2'].' <a href="?do=confirm_account&amp;userid='.$userid.'&amp;sender='.(int)$CURUSER['id'].'&amp;sure=yes">'.$lang['invites_sure3'].'</a>'.$lang['invites_sure4'].'<a href="?do=view_page">'.$lang['invites_sure3'].'</a>'.$lang['invites_sure5'].'');
+    }
     sql_query('UPDATE users SET status = "confirmed" WHERE id = ' . sqlesc($userid) . ' AND invitedby = ' . sqlesc($CURUSER['id']) . ' AND status="pending"') || sqlerr(__FILE__, __LINE__);
     $cache->update_row($keys['my_userid'] . $userid, [
         'status' => 'confirmed'

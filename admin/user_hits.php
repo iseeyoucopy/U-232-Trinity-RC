@@ -32,18 +32,24 @@ class_check($class);
 $lang = array_merge($lang, load_language('ad_userhits'));
 $HTMLOUT = '';
 $id = 0 + $_GET["id"];
-if (!is_valid_id($id) || $CURUSER['id'] != $id && $CURUSER['class'] < UC_STAFF) $id = $CURUSER['id'];
+if (!is_valid_id($id) || $CURUSER['id'] != $id && $CURUSER['class'] < UC_STAFF) {
+    $id = $CURUSER['id'];
+}
 ($res = sql_query("SELECT COUNT(id) FROM userhits WHERE hitid = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 $row = $res->fetch_row();
 $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "staffpanel.php?tool=user_hits&amp;id=$id&amp;");
-if (!$count) stderr($lang['userhits_stderr'], $lang['userhits_stderr1']);
+if (!$count) {
+    stderr($lang['userhits_stderr'], $lang['userhits_stderr1']);
+}
 ($res = sql_query("SELECT username FROM users WHERE id = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 $user = $res->fetch_assoc();
 $HTMLOUT.= "<h1>{$lang['userhits_profile']}<a href=\"userdetails.php?id=" . $id . "\">" . htmlsafechars($user['username']) . "</a></h1>
 <h2>{$lang['userhits_total']}" . htmlsafechars($count) . "{$lang['userhits_views']}</h2>";
-if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
+if ($count > $perpage) {
+    $HTMLOUT .= $pager['pagertop'];
+}
 $HTMLOUT.= "
 <table border='0' cellspacing='0' cellpadding='5'>
 <tr>
@@ -60,7 +66,9 @@ while ($arr = $res->fetch_assoc()) {
 </tr>\n";
 }
 $HTMLOUT.= "</table>";
-if ($count > $perpage) $HTMLOUT.= $pager['pagerbottom'];
+if ($count > $perpage) {
+    $HTMLOUT .= $pager['pagerbottom'];
+}
 echo stdhead($lang['userhits_profile'] . htmlsafechars($user['username']) . '') . $HTMLOUT . stdfoot();
 die();
 ?>

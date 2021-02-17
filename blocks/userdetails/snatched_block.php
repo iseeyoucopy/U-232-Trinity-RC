@@ -82,14 +82,18 @@ function snatchtable_staff($res)
     </div>";
     while ($arr = $res->fetch_assoc()) {
         //=== speed color red fast green slow ;)
-        if ($arr["upspeed"] > 0)
+        if ($arr["upspeed"] > 0) {
             $ul_speed = ($arr["upspeed"] > 0 ? mksize($arr["upspeed"]) : ($arr["seedtime"] > 0 ? mksize($arr["uploaded"] / ($arr["seedtime"] + $arr["leechtime"])) : mksize(0)));
-        else
+        }
+        else {
             $ul_speed = mksize(($arr["uploaded"] / ($arr['l_a'] - $arr['s'] + 1)));
-        if ($arr["downspeed"] > 0)
+        }
+        if ($arr["downspeed"] > 0) {
             $dl_speed = ($arr["downspeed"] > 0 ? mksize($arr["downspeed"]) : ($arr["leechtime"] > 0 ? mksize($arr["downloaded"] / $arr["leechtime"]) : mksize(0)));
-        else
+        }
+        else {
             $dl_speed = mksize(($arr["downloaded"] / ($arr['c'] - $arr['s'] + 1)));
+        }
         switch (true) {
             case ($dl_speed > 600):
                 $dlc = 'red';
@@ -112,8 +116,9 @@ function snatchtable_staff($res)
             $ratio = "<font color='" . get_ratio_color($ratio) . "'><b>{$lang['userdetails_s_ratio']}</b><br />$ratio</font>";
         } elseif ($arr["uploaded"] > 0) {
             $ratio = $lang['userdetails_inf'];
-        } else
+        } else {
             $ratio = "N/A";
+        }
         if (XBT_TRACKER === false) {
             $htmlout_snatch .= "<div class='divTableBody'>
             <div class='divTableRow'>
@@ -149,13 +154,14 @@ function snatchtable_staff($res)
     }
     $count_snatched_staff = $res->num_rows;
     $user_snatches_data_staff = $res->num_rows > 0 ? snatchtable_staff($res) : $lang['userdetails_s_nothing'];
-    if (isset($user_snatches_data) && isset($user_snatches_data_staff))
-	$HTMLOUT.='<a class="button small hollow" data-open="exampleModal">'. $lang['userdetails_cur_snatched'].'</a>
+    if (isset($user_snatches_data) && isset($user_snatches_data_staff)) {
+        $HTMLOUT .= '<a class="button small hollow" data-open="exampleModal">'.$lang['userdetails_cur_snatched'].'</a>
     <div class="reveal" id="exampleModal" data-reveal>
-    ' . $user_snatches_data . '
+    '.$user_snatches_data.'
     </div>
     <a class="button small hollow" data-open="exampleModal1">'.$lang['userdetails_snatched_menu'].'</a>
     <div class="reveal" id="exampleModal1" data-reveal>';
+    }
     if ($CURUSER['class'] >= UC_STAFF) {
         $HTMLOUT.= $user_snatches_data_staff;
     }

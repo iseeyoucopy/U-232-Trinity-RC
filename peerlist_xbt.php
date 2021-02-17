@@ -18,7 +18,9 @@ dbconn(false);
 loggedinorreturn();
 $lang = array_merge(load_language('global') , load_language('peerlist'));
 $id = (int)$_GET['id'];
-if (!isset($id) || !is_valid_id($id)) stderr($lang['peerslist_user_error'], $lang['peerslist_invalid_id']);
+if (!isset($id) || !is_valid_id($id)) {
+    stderr($lang['peerslist_user_error'], $lang['peerslist_invalid_id']);
+}
 $HTMLOUT = '';
 function XBT_IP_CONVERT($a)
 {
@@ -42,7 +44,9 @@ function dltable($name, $arr, $torrent)
 {
     global $CURUSER, $lang, $TRINITY20;
     $htmlout = '';
-    if ((is_countable($arr) ? count($arr) : 0) === 0) return $htmlout = "<div align='left'><b>{$lang['peerslist_no']} $name {$lang['peerslist_data_available']}</b></div>\n";
+    if ((is_countable($arr) ? count($arr) : 0) === 0) {
+        return $htmlout = "<div align='left'><b>{$lang['peerslist_no']} $name {$lang['peerslist_data_available']}</b></div>\n";
+    }
     $htmlout = "\n";
     $htmlout.= "<table class='table table-bordered'>\n";
     $htmlout.= "<tr><td colspan='11' class='colhead'>" . (is_countable($arr) ? count($arr) : 0) . " $name</td></tr>" . "<tr><td class='colhead'>{$lang['peerslist_user_ip']}</td>" . "<td class='colhead' align='right'>{$lang['peerslist_uploaded']}</td>" . "<td class='colhead' align='right'>{$lang['peerslist_rate']}</td>" . "" . ($TRINITY20['ratio_free'] ? "" : "<td class='colhead' align='right'>{$lang['peerslist_downloaded']}</td>") . "" . "" . ($TRINITY20['ratio_free'] ? "" : "<td class='colhead' align='right'>{$lang['peerslist_rate']}</td>") . "" . "<td class='colhead' align='right'>{$lang['peerslist_ratio']}</td>" . "<td class='colhead' align='right'>{$lang['peerslist_complete']}</td>" . "<td class='colhead' align='right'>{$lang['peerslist_idle']}</td>" . "<td class='colhead' align='left'>{$lang['peerslist_client']}</td></tr>\n";
@@ -53,9 +57,15 @@ function dltable($name, $arr, $torrent)
         $upspeed = ($e["upspeed"] > 0 ? mksize($e["upspeed"]) : ($e["seedtime"] > 0 ? mksize($e["uploaded"] / ($e["seedtime"] + $e["leechtime"])) : mksize(0)));
         $downspeed = ($e["downspeed"] > 0 ? mksize($e["downspeed"]) : ($e["leechtime"] > 0 ? mksize($e["downloaded"] / $e["leechtime"]) : mksize(0)));
         if ($e['username']) {
-            if (($e['tanonymous'] == 'yes' && $e['owner'] == $e['uid'] || $e['anonymous'] == 'yes' && $CURUSER['id'] != $e['uid']) && $CURUSER['class'] < UC_STAFF) $htmlout.= "<td><b>Kezer Soze</b></td>\n";
-            else $htmlout.= "<td><a href='userdetails.php?id=" . (int)$e['uid'] . "'><b>" . htmlsafechars($e['username']) . "</b></a></td>\n";
-        } else $htmlout.= "<td>" . ($mod ? XBT_IP_CONVERT($e["ipa"]) : preg_replace('/\.\d+$/', ".xxx", XBT_IP_CONVERT($e["ipa"]))) . "</td>\n";
+            if (($e['tanonymous'] == 'yes' && $e['owner'] == $e['uid'] || $e['anonymous'] == 'yes' && $CURUSER['id'] != $e['uid']) && $CURUSER['class'] < UC_STAFF) {
+                $htmlout .= "<td><b>Kezer Soze</b></td>\n";
+            }
+            else {
+                $htmlout .= "<td><a href='userdetails.php?id=".(int)$e['uid']."'><b>".htmlsafechars($e['username'])."</b></a></td>\n";
+            }
+        } else {
+            $htmlout .= "<td>".($mod ? XBT_IP_CONVERT($e["ipa"]) : preg_replace('/\.\d+$/', ".xxx", XBT_IP_CONVERT($e["ipa"])))."</td>\n";
+        }
         $htmlout.= "<td align='right'>" . mksize($e["uploaded"]) . "</td>\n";
         $htmlout.= "<td align='right'><span style=\"white-space: nowrap;\">" . htmlsafechars($upspeed) . "/s</span></td>\n";
         $htmlout.= "" . ($TRINITY20['ratio_free'] ? "" : "<td align='right'>" . mksize($e["downloaded"]) . "</td>") . "\n";
@@ -69,7 +79,9 @@ function dltable($name, $arr, $torrent)
     return $htmlout . "</table>\n";
 }
 ($res = sql_query("SELECT * FROM torrents WHERE id = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
-if ($res->num_rows == 0) stderr("{$lang['peerslist_error']}", "{$lang['peerslist_nothing']}");
+if ($res->num_rows == 0) {
+    stderr("{$lang['peerslist_error']}", "{$lang['peerslist_nothing']}");
+}
 $row = $res->fetch_assoc();
 $downloaders = array();
 $seeders = array();
@@ -78,26 +90,42 @@ $seeders = array();
     LEFT JOIN users u ON x.uid = u.id
 	LEFT JOIN torrents as t on t.id = x.tid
     WHERE active='1' AND x.tid = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
-if ($subres->num_rows == 0) stderr("{$lang['peerslist_warning']}", "{$lang['peerslist_no_data']}");
+if ($subres->num_rows == 0) {
+    stderr("{$lang['peerslist_warning']}", "{$lang['peerslist_no_data']}");
+}
 while ($subrow = $subres->fetch_assoc()) {
-    if ($subrow["left"] == 0) $seeders[] = $subrow;
-    else $downloaders[] = $subrow;
+    if ($subrow["left"] == 0) {
+        $seeders[] = $subrow;
+    }
+    else {
+        $downloaders[] = $subrow;
+    }
 }
 function leech_sort($a, $b)
 {
-    if (isset($_GET["usort"])) return seed_sort($a, $b);
+    if (isset($_GET["usort"])) {
+        return seed_sort($a, $b);
+    }
     $x = $a["left"];
     $y = $b["left"];
-    if ($x == $y) return 0;
-    if ($x < $y) return -1;
+    if ($x == $y) {
+        return 0;
+    }
+    if ($x < $y) {
+        return -1;
+    }
     return 1;
 }
 function seed_sort($a, $b)
 {
     $x = $a["uploaded"];
     $y = $b["uploaded"];
-    if ($x == $y) return 0;
-    if ($x < $y) return 1;
+    if ($x == $y) {
+        return 0;
+    }
+    if ($x < $y) {
+        return 1;
+    }
     return -1;
 }
 usort($seeders, "seed_sort");

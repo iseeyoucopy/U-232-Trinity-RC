@@ -36,7 +36,9 @@ if (isset($_POST['action2'])) {
     );
     $action2 = (isset($_POST['action2']) ? strip_tags($_POST['action2']) : '');
     $worked = $deleted = '';
-    if (!in_array($action2, $good_actions)) stderr($lang['pm_error'], $lang['pm_edmail_error']);
+    if (!in_array($action2, $good_actions)) {
+        stderr($lang['pm_error'], $lang['pm_edmail_error']);
+    }
     //=== add more boxes...
     switch ($action2) {
     case 'change_pm':
@@ -54,7 +56,9 @@ if (isset($_POST['action2'])) {
 
     case 'add':
         //=== make sure they posted something...
-        if ($_POST['new'] === '') stderr($lang['pm_error'], $lang['pm_edmail_err']);
+        if ($_POST['new'] === '') {
+            stderr($lang['pm_error'], $lang['pm_edmail_err']);
+        }
         //=== Get current highest box number
         ($res = sql_query('SELECT boxnumber FROM pmboxes WHERE userid = ' . sqlesc($CURUSER['id']) . ' ORDER BY boxnumber  DESC LIMIT 1')) || sqlerr(__FILE__, __LINE__);
         $box_arr = $res->fetch_row();
@@ -80,7 +84,9 @@ if (isset($_POST['action2'])) {
     case 'edit_boxes':
         //=== get info
         ($res = sql_query('SELECT * FROM pmboxes WHERE userid=' . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
-        if ($res->num_rows === 0) stderr($lang['pm_error'], $lang['pm_edmail_err1']);
+        if ($res->num_rows === 0) {
+            stderr($lang['pm_error'], $lang['pm_edmail_err1']);
+        }
         while ($row = $res->fetch_assoc()) {
             //=== if name different AND safe, update it
             if (validusername($_POST['edit' . $row['id']]) && $_POST['edit' . $row['id']] !== '' && $_POST['edit' . $row['id']] !== $row['name']) {
@@ -143,7 +149,9 @@ if (isset($_POST['action2'])) {
         $rows = $r->num_rows;
         for ($i = 0; $i < $rows; ++$i) {
         $a = $r->fetch_assoc();
-        if (isset($_POST["cat{$a['id']}"]) && $_POST["cat{$a['id']}"] == 'yes') $notifs.= "[cat{$a['id']}]";
+        if (isset($_POST["cat{$a['id']}"]) && $_POST["cat{$a['id']}"] == 'yes') {
+            $notifs .= "[cat{$a['id']}]";
+        }
         }
         $updateset[] = "notifs = " . sqlesc($notifs) . "";
         $curuser_cache['notifs'] = $notifs;

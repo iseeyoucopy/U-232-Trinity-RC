@@ -36,13 +36,18 @@ $lang = array_merge($lang, load_language('ad_delacct'));
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim(htmlsafechars($_POST["username"]));
     $password = trim(htmlsafechars($_POST["password"]));
-    if (!$username || !$password) stderr("{$lang['text_error']}", "{$lang['text_please']}");
+    if (!$username || !$password) {
+        stderr("{$lang['text_error']}", "{$lang['text_please']}");
+    }
     ($res = sql_query("SELECT id, secret, passhash FROM users WHERE username=" . sqlesc($username) . "")) || sqlerr(__FILE__, __LINE__);
-    if ($res->num_rows != 1) stderr("{$lang['text_error']}", "{$lang['text_bad']}");
+    if ($res->num_rows != 1) {
+        stderr("{$lang['text_error']}", "{$lang['text_bad']}");
+    }
     $arr = $res->fetch_assoc();
     $wantpasshash = make_passhash($arr['secret'], md5($password));
-    if($arr['passhash'] != $wantpasshash)
-    stderr("{$lang['text_error']}", "{$lang['text_bad']}");
+    if($arr['passhash'] != $wantpasshash) {
+        stderr("{$lang['text_error']}", "{$lang['text_bad']}");
+    }
     $userid = (int)$arr['id'];
 	($res = sql_query(account_delete($userid))) || sqlerr(__FILE__, __LINE__);
     //$res = sql_query("DELETE FROM users WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);

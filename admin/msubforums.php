@@ -39,15 +39,17 @@ $this_url = 'staffpanel.php?tool=msubforums&action=msubforums';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     mkglobal("subforum:descr:place");
-    if (empty($subforum) || empty($descr) || empty($place))
+    if (empty($subforum) || empty($descr) || empty($place)) {
         stderr($lang['forum_mngr_err1'], $lang['forum_mngr_warn1']);
+    }
     else {
         sql_query("INSERT INTO forums(`name`,`description` ,`min_class_read` ,`min_class_write` ,`min_class_create`,`place`,`forum_id`) VALUES(" . implode(",", array_map("sqlesc", array($subforum, $descr, sqlesc((int)$_POST['readclass']), sqlesc((int)$_POST['writeclass']), sqlesc((int)$_POST['createclass']), $place, $place))) . ")") || sqlerr(__FILE__, __LINE__);
         if ($mysqli->insert_id) {
             header("Refresh: 2; url=" . $this_url);
             stderr($lang['forum_mngr_succ'], $lang['forum_sub_add']);
-        } else
+        } else {
             stderr($lang['forum_mngr_err1'], $lang['forum_mngr_warn2']);
+        }
     }
 } else {
   
@@ -99,8 +101,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		<td nowrap='nowrap' colspan='3' align='left' >";
     $select .="<select name=\"place\"><option value=\"\">Select</option>\n";
     ($r = sql_query("SELECT id,name FROM forums WHERE place=-1 ORDER BY name ASC")) || sqlerr(__FILE__, __LINE__);
-    while ($ar = $r->fetch_assoc())
-    $select .= "<option value=\"" . (int)$ar["id"] . "\">" . htmlsafechars($ar["name"]) . "</option>\n";
+    while ($ar = $r->fetch_assoc()) {
+        $select .= "<option value=\"".(int)$ar["id"]."\">".htmlsafechars($ar["name"])."</option>\n";
+    }
     $select .= "</select>\n";
     $HTMLOUT .=($select);
     
@@ -122,20 +125,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		<select name='createclass'>
 		<option value=''>{$lang['forum_sub_cr']}</option>";
     $maxclass = UC_MAX;
-    for ($i = 0; $i <= $maxclass; ++$i)
-    $HTMLOUT .="<option value=\"$i\">" . get_user_class_name($i) . "</option>\n";
+    for ($i = 0; $i <= $maxclass; ++$i) {
+        $HTMLOUT .= "<option value=\"$i\">".get_user_class_name($i)."</option>\n";
+    }
     $HTMLOUT .=" </select></td>
 		<td align='center'><select name='writeclass'>
 		<option value=''>{$lang['forum_sub_wr']}</option>";
     $maxclass = $CURUSER["class"];
-    for ($i = 0; $i <= $maxclass; ++$i)
-    $HTMLOUT .="<option value=\"$i\">" . get_user_class_name($i) . "</option>\n";
+    for ($i = 0; $i <= $maxclass; ++$i) {
+        $HTMLOUT .= "<option value=\"$i\">".get_user_class_name($i)."</option>\n";
+    }
     $HTMLOUT .="</select></td>
 	  <td align='center'><select name='readclass'>
 		<option value=''>{$lang['forum_sub_rd']}</option>";
     $maxclass = $CURUSER["class"];
-    for ($i = 0; $i <= $maxclass; ++$i)
-    $HTMLOUT .="<option value=\"$i\">" . get_user_class_name($i) . "</option>\n";
+    for ($i = 0; $i <= $maxclass; ++$i) {
+        $HTMLOUT .= "<option value=\"$i\">".get_user_class_name($i)."</option>\n";
+    }
     $HTMLOUT .="</select></td>
 	  </tr>
 	  <tr>

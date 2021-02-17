@@ -39,7 +39,10 @@ $stdfoot = array(
     )
 ); }
 $lang = array_merge(load_language('global') , load_language('signup'));
-if (!$TRINITY20['openreg']) stderr($lang['stderr_errorhead'],  "{$lang['signup_inviteonly']}<a href='" . $TRINITY20['baseurl'] . "/invite_signup.php'><b>&nbsp;{$lang['signup_here']}</b></a>");
+if (!$TRINITY20['openreg']) {
+    stderr($lang['stderr_errorhead'],
+        "{$lang['signup_inviteonly']}<a href='".$TRINITY20['baseurl']."/invite_signup.php'><b>&nbsp;{$lang['signup_here']}</b></a>");
+}
 $HTMLOUT = $year = $month = $day = $gender = '';
 $HTMLOUT.= "
     <script type='text/javascript'>
@@ -51,7 +54,9 @@ $HTMLOUT.= "
     </script>";
 $newpage = new page_verify();
 $newpage->create('tesu');
-if (get_row_count('users') >= $TRINITY20['maxusers']) stderr($lang['stderr_errorhead'], sprintf($lang['stderr_ulimit'], $TRINITY20['maxusers']));
+if (get_row_count('users') >= $TRINITY20['maxusers']) {
+    stderr($lang['stderr_errorhead'], sprintf($lang['stderr_ulimit'], $TRINITY20['maxusers']));
+}
 //==timezone select
 $offset = (string)$TRINITY20['time_offset'];
 $time_select = "<select class='input-group-field' name='user_timezone'>";
@@ -78,7 +83,9 @@ function countries()
 $country = '';
 $countries = countries();
 $user_country = isset($CURUSER['country']) ? "{$CURUSER['country']}" : '';
-foreach ($countries as $cntry) $country.= "<option value='" . (int)$cntry['id'] . "'" . ($user_country == $cntry['id'] ? " selected='selected'" : "") . ">" . htmlsafechars($cntry['name']) . "</option>\n";
+foreach ($countries as $cntry) {
+    $country .= "<option value='".(int)$cntry['id']."'".($user_country == $cntry['id'] ? " selected='selected'" : "").">".htmlsafechars($cntry['name'])."</option>\n";
+}
 $gender.= "<select class='input-group-field' name='gender'>
     <option value='Male'>{$lang['signup_male']}</option>
     <option value='Female'>{$lang['signup_female']}</option>

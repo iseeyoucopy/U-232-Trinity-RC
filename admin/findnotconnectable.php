@@ -42,7 +42,9 @@ if (isset($_GET["action1"]) && htmlsafechars($_GET["action1"]) == "list") {
     $HTMLOUT.= "$count {$lang['non_con_unique']}</p>";
     $result->free();
     $mysqli->next_result();
-    if ($res2->num_rows == 0) $HTMLOUT.= "<p align='center'><b>{$lang['non_con_all']}</b></p>\n";
+    if ($res2->num_rows == 0) {
+        $HTMLOUT .= "<p align='center'><b>{$lang['non_con_all']}</b></p>\n";
+    }
     else {
         $HTMLOUT.= "<div class='row'><div class='col-md-12'><table class='table table-bordered'>\n";
         $HTMLOUT.= "<tr><td class='colhead'>{$lang['non_con_name']}</td><td class='colhead'>{$lang['non_con_tor']}</td><td class='colhead'>{$lang['non_con_client']}</td></tr>\n";
@@ -50,7 +52,9 @@ if (isset($_GET["action1"]) && htmlsafechars($_GET["action1"]) == "list") {
             ($r2 = sql_query("SELECT username FROM users WHERE id=" . sqlesc($arr2['userid']))) || sqlerr(__FILE__, __LINE__);
             $a2 = $r2->fetch_assoc();
             $HTMLOUT.= "<tr><td><a href='userdetails.php?id=" . (int)$arr2['userid'] . "'>" . htmlsafechars($a2['username']) . "</a></td><td align='left'><a href='details.php?id=" . (int)$arr2['torrent'] . "&amp;dllist=1#seeders'>" . (int)$arr2['torrent'] . "</a>";
-            if ($arr2['seeder'] == 'yes') $HTMLOUT.= "<font color='red'>*</font>";
+            if ($arr2['seeder'] == 'yes') {
+                $HTMLOUT .= "<font color='red'>*</font>";
+            }
             $HTMLOUT.= "</td><td align='left'>" . htmlsafechars($arr2['agent']) . "</td></tr>\n";
         }
         $HTMLOUT.= "</table></div></div>\n";
@@ -59,7 +63,9 @@ if (isset($_GET["action1"]) && htmlsafechars($_GET["action1"]) == "list") {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dt = TIME_NOW;
     $msg = htmlsafechars($_POST['msg']);
-    if (!$msg) stderr("Error", "Please Type In Some Text");
+    if (!$msg) {
+        stderr("Error", "Please Type In Some Text");
+    }
     $query = sql_query("SELECT distinct userid FROM peers WHERE connectable='no'");
     while ($dat = $query->fetch_assoc()) {
         $subject = "Connectability";

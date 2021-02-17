@@ -24,10 +24,12 @@ function begin_frame($caption = "", $center = false, $padding = 10)
 {
     $tdextra = "";
     $htmlout = '';
-    if ($caption)
+    if ($caption) {
         $htmlout .= "<h2>$caption</h2>\n";
-    if ($center)
+    }
+    if ($center) {
         $tdextra .= " align='center'";
+    }
     return $htmlout . "<table class='table'><tr><td$tdextra>\n";
 }
 function attach_frame($padding = 10)
@@ -43,8 +45,9 @@ function begin_table($fullwidth = false, $padding = 5)
 {
     $width   = "";
     $htmlout = '';
-    if ($fullwidth)
+    if ($fullwidth) {
         $width .= " width='100%'";
+    }
     return $htmlout . "<table class='table table-bordered'>";
 }
 function end_table()
@@ -53,8 +56,9 @@ function end_table()
 }
 function tr($x, $y, $noesc = 0)
 {
-    if ($noesc)
+    if ($noesc) {
         $a = $y;
+    }
     else {
         $a = htmlsafechars($y);
         $a = str_replace("\n", "<br />\n", $a);

@@ -27,9 +27,13 @@ $flag_xy = array(
     )
 );
 $user = isset($_GET['user']) ? htmlsafechars($_GET['user']) : '';
-if (!file_exists($_settings . strtolower($user) . ".set") || !is_array($var = unserialize(file_get_contents($_settings . strtolower($user) . ".set")))) exit("Can't create avatar, settings file not found!");
+if (!file_exists($_settings . strtolower($user) . ".set") || !is_array($var = unserialize(file_get_contents($_settings . strtolower($user) . ".set")))) {
+    exit("Can't create avatar, settings file not found!");
+}
 $_fromCache = true;
-if ((time() - filemtime($_settings . strtolower($user) . ".set")) > 84600 || !file_exists($_settings . strtolower($user) . ".png")) $_fromCache = false;
+if ((time() - filemtime($_settings . strtolower($user) . ".set")) > 84600 || !file_exists($_settings . strtolower($user) . ".png")) {
+    $_fromCache = false;
+}
 function hex2rgb($color)
 {
     return array(
@@ -59,13 +63,13 @@ if (!$_fromCache) {
     $font = imageloadfont("fonts/" . $fonts[$var['font']]);
     //define colors
     //border color
-    list($br, $bg, $bb) = hex2rgb($var['bColor']);
+    [$br, $bg, $bb] = hex2rgb($var['bColor']);
     $bColor = imagecolorallocate($im, $br, $bg, $bb);
     //background color
-    list($bgr, $bgg, $bgb) = hex2rgb($var['bgColor']);
+    [$bgr, $bgg, $bgb] = hex2rgb($var['bgColor']);
     $bgColor = imagecolorallocate($im, $bgr, $bgg, $bgb);
     //font color
-    list($fr, $fg, $fb) = hex2rgb($var['fontColor']);
+    [$fr, $fg, $fb] = hex2rgb($var['fontColor']);
     $fontColor = imagecolorallocate($im, $fr, $fg, $fb);
     //fill avatar body with the background color
     imagefilledrectangle($im, 0, 0, 150, 190, $bgColor);
@@ -99,7 +103,8 @@ if (!$_fromCache) {
         imagecopy($im, $country, $_flag_xy[0], $_flag_xy[1], 0, 0, 16, 11);
     }
     //add username if the option is true
-    if ($var['showuser']) imagestring($im, $font, 5, 2, $user, $fontColor);
+    if ($var['showuser']) { imagestring($im, $font, 5, 2, $user, $fontColor);
+    }
     if (isset($var['line1']['value_p']) && !empty($var['line1']['value_p'])) {
         imagestring($im, $font, 10, 98, $var['line1']['title'], $fontColor);
         imagerectangle($im, 10, 108, 140, 125, $bColor); //text line
@@ -115,11 +120,13 @@ if (!$_fromCache) {
         imagerectangle($im, 10, 166, 140, 183, $bColor); //text line
         imagestring($im, $font, 14, 170, $var['line3']['value_p'], $fontColor);
     }
-} else $im = imagecreatefrompng($_settings . strtolower($user) . ".png");
+} else { $im = imagecreatefrompng($_settings.strtolower($user).".png");
+}
 header('Content-type: image/png');
 if (!$_fromCache) {
     imagepng($im, $_settings . strtolower($user) . ".png", 9);
     imagepng($im);
-} else imagepng($im);
+} else { imagepng($im);
+}
 imagedestroy($im);
 ?>

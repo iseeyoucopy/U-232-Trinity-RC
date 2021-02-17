@@ -48,9 +48,15 @@ class Chmod
     private function setMode($read, $write, $execute)
     {
         $mode = 0;
-        if ($read) $mode+= 4;
-        if ($write) $mode+= 2;
-        if ($execute) $mode+= 1;
+        if ($read) {
+            $mode += 4;
+        }
+        if ($write) {
+            $mode += 2;
+        }
+        if ($execute) {
+            $mode += 1;
+        }
         return $mode;
     }
     private function returnValue($dir)
@@ -71,9 +77,13 @@ class Chmod
     {
         if (is_array($this->_dir)) {
             $return = array();
-            foreach ($this->_dir as $dir) $return[] = $this->returnValue($dir);
+            foreach ($this->_dir as $dir) {
+                $return[] = $this->returnValue($dir);
+            }
             return $return;
-        } else return $this->returnValue($this->_dir);
+        } else {
+            return $this->returnValue($this->_dir);
+        }
     }
 }
 ?>

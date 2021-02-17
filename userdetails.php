@@ -22,7 +22,9 @@ require_once (CLASS_DIR . 'class_user_options_2.php');
 dbconn(false);
 loggedinorreturn();
 $lang = array_merge(load_language('global') , load_language('userdetails'));
-if (function_exists('parked')) parked();
+if (function_exists('parked')) {
+    parked();
+}
 $newpage = new page_verify();
 $newpage->create('mdk1@@9');
 $stdhead = array(
@@ -39,7 +41,9 @@ $stdfoot = array(
     )
 );
 $id = isset($_GET["id"]) ? (int)$_GET["id"] : 0;
-if (!is_valid_id($id)) stderr($lang['userdetails_error'], "{$lang['userdetails_bad_id']}");
+if (!is_valid_id($id)) {
+    stderr($lang['userdetails_error'], "{$lang['userdetails_bad_id']}");
+}
 if (($user = $cache->get('user' . $id)) === false) {
     $user_fields_ar_int = array(
         'id',
@@ -190,13 +194,20 @@ if (($user = $cache->get('user' . $id)) === false) {
     $user_fields = implode(', ', array_merge($user_fields_ar_int, $user_fields_ar_float, $user_fields_ar_str));
     ($r1 = sql_query("SELECT " . $user_fields . " FROM users WHERE id=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     ($user = $r1->fetch_assoc()) || stderr($lang['userdetails_error'], "{$lang['userdetails_no_user']}");
-    foreach ($user_fields_ar_int as $i) $user[$i] = (int)$user[$i];
-    foreach ($user_fields_ar_float as $i) $user[$i] = (float)$user[$i];
-    foreach ($user_fields_ar_str as $i) $user[$i] = $user[$i];
+    foreach ($user_fields_ar_int as $i) {
+        $user[$i] = (int)$user[$i];
+    }
+    foreach ($user_fields_ar_float as $i) {
+        $user[$i] = (float)$user[$i];
+    }
+    foreach ($user_fields_ar_str as $i) {
+        $user[$i] = $user[$i];
+    }
     $cache->set('user' . $id, $user, $TRINITY20['expires']['user_cache']);
 }
-if ($user["status"] == "pending") 
-	stderr($lang['userdetails_error'], $lang['userdetails_still_pending']);
+if ($user["status"] == "pending") {
+    stderr($lang['userdetails_error'], $lang['userdetails_still_pending']);
+}
 // user stats
 $What_Cache = (XBT_TRACKER == true ? 'user_stats_xbt_' : 'user_stats_');
 if (($user_stats = $cache->get($What_Cache.$id)) === false) {
@@ -215,26 +226,37 @@ if (($user_stats = $cache->get($What_Cache.$id)) === false) {
         $stats_fields = implode(', ', array_merge($stats_fields_ar_int, $stats_fields_ar_float, $stats_fields_ar_str));
     ($sql_1 = sql_query('SELECT ' . $stats_fields . ' FROM users WHERE id= ' . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $user_stats = $sql_1->fetch_assoc();
-    foreach ($stats_fields_ar_int as $i) $user_stats[$i] = (int)$user_stats[$i];
-    foreach ($stats_fields_ar_float as $i) $user_stats[$i] = (float)$user_stats[$i];
-    foreach ($stats_fields_ar_str as $i) $user_stats[$i] = $user_stats[$i];
+    foreach ($stats_fields_ar_int as $i) {
+        $user_stats[$i] = (int)$user_stats[$i];
+    }
+    foreach ($stats_fields_ar_float as $i) {
+        $user_stats[$i] = (float)$user_stats[$i];
+    }
+    foreach ($stats_fields_ar_str as $i) {
+        $user_stats[$i] = $user_stats[$i];
+    }
     $cache->set($What_Cache.$id, $user_stats, $What_Expire); // 5 mins
 }
 if (($user_status = $cache->get('user_status_' . $id)) === false) {
     $sql_2 = sql_query('SELECT * FROM ustatus WHERE userid = ' . sqlesc($id));
-    if ($sql_2->num_rows) $user_status = $sql_2->fetch_assoc();
-    else $user_status = array(
-        'last_status' => '',
-        'last_update' => 0,
-        'archive' => ''
-    );
+    if ($sql_2->num_rows) {
+        $user_status = $sql_2->fetch_assoc();
+    }
+    else {
+        $user_status = [
+            'last_status' => '',
+            'last_update' => 0,
+            'archive' => ''
+        ];
+    }
     $cache->set('user_status_' . $id, $user_status, $TRINITY20['expires']['user_status']); // 30 days
     
 }
 //=== delete H&R
 if (isset($_GET['delete_hit_and_run']) && $CURUSER['class'] >= UC_STAFF) {
     $delete_me = isset($_GET['delete_hit_and_run']) ? (int) $_GET['delete_hit_and_run'] : 0;
-    if (!is_valid_id($delete_me)) stderr($lang['userdetails_error'], $lang['userdetails_bad_id']);
+    if (!is_valid_id($delete_me)) { stderr($lang['userdetails_error'], $lang['userdetails_bad_id']);
+    }
     if(XBT_TRACKER === false) {
     sql_query('UPDATE snatched SET hit_and_run = \'0\', mark_of_cain = \'no\' WHERE id = ' . sqlesc($delete_me)) || sqlerr(__FILE__, __LINE__);
     } else {
@@ -250,17 +272,21 @@ if (isset($_GET['delete_hit_and_run']) && $CURUSER['class'] >= UC_STAFF) {
 if ((($user['class'] == UC_MAX || $user['id'] == $CURUSER['id']) || ($user['class'] < UC_MAX) && $CURUSER['class'] == UC_MAX) && isset($_GET['invincible'])) {
     require_once (INCL_DIR . 'invincible.php');
     if ($_GET['invincible'] == 'yes') 
-		$HTMLOUT.= "". invincible($id). "";
-    elseif ($_GET['invincible'] == 'remove_bypass') 
-		$HTMLOUT.= invincible($id, true, false);
-    else $HTMLOUT.= invincible($id, false);
+		{
+            $HTMLOUT .= "".invincible($id)."";
+        } elseif ($_GET['invincible'] == 'remove_bypass')
+		{
+            $HTMLOUT .= invincible($id, true, false);
+        } else { $HTMLOUT .= invincible($id, false);
+    }
 } // End
 
 /* #$^$&%$&@ stealth!..pdq **/
 if ((($user['class'] >= UC_STAFF || $user['id'] == $CURUSER['id']) || ($user['class'] < UC_STAFF) && $CURUSER['class'] >= UC_STAFF) && isset($_GET['stealth'])) {
     require_once (INCL_DIR . 'stealth.php');
-    if ($_GET['stealth'] == 'yes') $HTMLOUT.= stealth($id);
-    elseif ($_GET['stealth'] == 'no') $HTMLOUT.= stealth($id, false);
+    if ($_GET['stealth'] == 'yes') { $HTMLOUT .= stealth($id);
+    } elseif ($_GET['stealth'] == 'no') { $HTMLOUT .= stealth($id, false);
+    }
 } // End
 //==country by pdq
 function countries()
@@ -278,9 +304,10 @@ function countries()
 }
 $country = '';
 $countries = countries();
-foreach ($countries as $cntry) if ($cntry['id'] == $user['country']) {
-    $country = "<img src=\"{$TRINITY20['pic_base_url']}flag/{$cntry['flagpic']}\" alt=\"" . htmlsafechars($cntry['name']) . "\" style='margin-left: 8pt'>";
+foreach ($countries as $cntry) { if ($cntry['id'] == $user['country']) {
+    $country = "<img src=\"{$TRINITY20['pic_base_url']}flag/{$cntry['flagpic']}\" alt=\"".htmlsafechars($cntry['name'])."\" style='margin-left: 8pt'>";
     break;
+}
 }
 //==userhits update by pdq
 if (!(isset($_GET["hit"])) && $CURUSER["id"] != $user["id"]) {
@@ -305,9 +332,9 @@ if (!(isset($_GET["hit"])) && $CURUSER["id"] != $user["id"]) {
 if ($CURUSER["id"] != $user["id"]) 
 	{
 	if ($CURUSER['class'] >= UC_STAFF) 
-	$showpmbutton = 1;
-	}
-elseif ($user["acceptpms"] == "yes") {
+	{ $showpmbutton = 1;
+    }
+    } elseif ($user["acceptpms"] == "yes") {
     ($r = sql_query("SELECT id FROM blocks WHERE userid=" . sqlesc($user['id']) . " AND blockid=" . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
     $showpmbutton = ($r->num_rows == 1 ? 0 : 1);
 } elseif ($user["acceptpms"] == "friends") {
@@ -343,7 +370,8 @@ if (($user['anonymous'] == 'yes') && ($CURUSER['class'] < UC_STAFF && $user["id"
 }
 //== Start Suspended ==//
 if ($CURUSER["id"] != $user["id"] && $CURUSER['class'] >= UC_STAFF) 
-	$suspended.= ($user['suspended'] == 'yes' ? '<i class="fas fa-exclamation-triangle"></i>'.$lang['userdetails_usersuspended'].'</b><i class="fas fa-exclamation-triangle"></i>' : '');
+	{ $suspended .= ($user['suspended'] == 'yes' ? '<i class="fas fa-exclamation-triangle"></i>'.$lang['userdetails_usersuspended'].'</b><i class="fas fa-exclamation-triangle"></i>' : '');
+    }
 //== End Suspended ==//
 $where_is_now = $user['where_is'] ?? '';
 //== Avatar ==//
@@ -352,9 +380,11 @@ $perms.= ($CURUSER['class'] >= UC_STAFF ? ((($user['perms'] & bt_options::PERMS_
 $stealth.= ($CURUSER['class'] >= UC_STAFF ? ((($user['perms'] & bt_options::PERMS_STEALTH) !== 0) ? '&nbsp;&nbsp;<img src="' . $TRINITY20['pic_base_url'] . 'smilies/ninja.gif" alt="'.$lang['userdetails_stelth'].'"  title="'.$lang['userdetails_stelth'].'">' : '') : '');
 $enabled = $user["enabled"] == 'yes';
 if (($user['opt1'] & user_options::PARKED) !== 0) 
-	$HTMLOUT.= "<p>{$lang['userdetails_parked']}</p>";
+	{ $HTMLOUT .= "<p>{$lang['userdetails_parked']}</p>";
+    }
 if (!$enabled) 
-	$HTMLOUT.= "<p>{$lang['userdetails_disabled']}</p>";
+	{ $HTMLOUT .= "<p>{$lang['userdetails_disabled']}</p>";
+    }
 $HTMLOUT .= ((isset($_GET['sn']) || isset($_GET['wu'])) ? '<div class="callout alert-callout-border success"><strong>'.$lang['userdetails_updated'].'</strong></div>' : '');
 $HTMLOUT .= "<div class='callout'>
 	" . format_username($user, true) . "" . ($user['last_access'] > TIME_NOW - 180 ? "<span class='label success float-right'>Online</span>" : "<span class='label alert float-right'>Offline</span>") . "<a data-toggle='userdetails-info'><i class='fas fa-info-circle'></i></a>
@@ -383,13 +413,16 @@ $HTMLOUT.= "".($CURUSER['id'] == $user['id'] ? "<a href='{$TRINITY20['baseurl']}
 $HTMLOUT.= ($CURUSER['id'] != $user['id']) ? "<a href='{$TRINITY20['baseurl']}/bookmarks.php?action=viewsharemarks&amp;id=$id'><dd><i class='fas fa-bookmark'></i>{$lang['userdetails_sharemarks']}</dd></a>" : "";
 //== links to make invincible method 1 (PERMS_NO_IP/ no log ip) - updated 2020 by iseeyoucopy
 if ($CURUSER['class'] == UC_MAX)	
-$HTMLOUT.= (($user['perms'] & bt_options::PERMS_NO_IP) !== 0)  ? ' <a href="userdetails.php?id=' . $id . '&amp;invincible=no"><dd><i class="fas fa-user-secret"></i>'.$lang['userdetails_invincible_remove'].'</dd></a>' : '<a href="userdetails.php?id=' . $id . '&amp;invincible=yes"><dd><i class="fas fa-user-secret"></i>'.$lang['userdetails_make_invincible'].'</dd></a>';
+{ $HTMLOUT .= (($user['perms'] & bt_options::PERMS_NO_IP) !== 0) ? ' <a href="userdetails.php?id='.$id.'&amp;invincible=no"><dd><i class="fas fa-user-secret"></i>'.$lang['userdetails_invincible_remove'].'</dd></a>' : '<a href="userdetails.php?id='.$id.'&amp;invincible=yes"><dd><i class="fas fa-user-secret"></i>'.$lang['userdetails_make_invincible'].'</dd></a>';
+}
 //== links to make invincible method 2 (PERMS_BYPASS_BAN/cannot be banned) - updated 2020 by iseeyoucopy
 if ($CURUSER['class'] == UC_MAX)
-$HTMLOUT.= (($user['perms'] & bt_options::PERMS_BYPASS_BAN) !== 0) ? '<a href="userdetails.php?id=' . $id . '&amp;invincible=remove_bypass"><dd><i class="fas fa-user-secret"></i>'.$lang['userdetails_remove_bypass'].'</dd></a>' : '<a href="userdetails.php?id=' . $id . '&amp;invincible=yes"><dd><i class="fas fa-user-secret"></i>'.$lang['userdetails_add_bypass'].'</dd></a>';
+{ $HTMLOUT .= (($user['perms'] & bt_options::PERMS_BYPASS_BAN) !== 0) ? '<a href="userdetails.php?id='.$id.'&amp;invincible=remove_bypass"><dd><i class="fas fa-user-secret"></i>'.$lang['userdetails_remove_bypass'].'</dd></a>' : '<a href="userdetails.php?id='.$id.'&amp;invincible=yes"><dd><i class="fas fa-user-secret"></i>'.$lang['userdetails_add_bypass'].'</dd></a>';
+}
 //== Links for Stealth mode - updated 2020 by iseeyoucopy
 if ($CURUSER['class'] >= UC_STAFF)
-$HTMLOUT.= (($user['perms'] & bt_options::PERMS_STEALTH) !== 0) ? '<a href="userdetails.php?id=' . $id . '&amp;stealth=no"><dd><i class="fas fa-user-secret"></i>'.$lang['userdetails_stelth_disable'].'</dd></a>' : '<a href="userdetails.php?id=' . $id . '&amp;stealth=yes"><dd><i class="fas fa-user-secret"></i>'.$lang['userdetails_stelth_enable'].'</dd></a>';
+{ $HTMLOUT .= (($user['perms'] & bt_options::PERMS_STEALTH) !== 0) ? '<a href="userdetails.php?id='.$id.'&amp;stealth=no"><dd><i class="fas fa-user-secret"></i>'.$lang['userdetails_stelth_disable'].'</dd></a>' : '<a href="userdetails.php?id='.$id.'&amp;stealth=yes"><dd><i class="fas fa-user-secret"></i>'.$lang['userdetails_stelth_enable'].'</dd></a>';
+}
 $HTMLOUT.= ($CURUSER['class'] >= UC_STAFF && $CURUSER["id"] != $user["id"]) ? "<a href='staffpanel.php?tool=shit_list&amp;action=shit_list&amp;action2=new&amp;shit_list_id=" . $id . "&amp;return_to=userdetails.php?id=" . $id . "'><i class='fas fa-poop'></i>{$lang['userdetails_shit3']}</a>" : '';
 $HTMLOUT .= ($CURUSER['id'] !== $user['id'] && $CURUSER['class'] >= UC_STAFF) ? '<a data-open="watched-user"><dd>' . $lang['userdetails_watched'] . '</dd></a>' : '';
 $HTMLOUT .= ($CURUSER['id'] !== $user['id'] && $CURUSER['class'] >= UC_STAFF) ? '<a data-open="staff-notes"><dd>' . $lang['userdetails_staffnotes'] . '</dd></a>' : '';
@@ -399,8 +432,9 @@ $HTMLOUT .= ($CURUSER['id'] !== $user['id'] && $CURUSER['class'] >= UC_STAFF) ? 
 if ($user["donor"] && $CURUSER["id"] == $user["id"] || $CURUSER["class"] == UC_SYSOP) {
     $donoruntil = htmlsafechars($user['donoruntil']);
     if ($donoruntil == '0') 
-		$HTMLOUT.= "";
-    else {
+		{
+            $HTMLOUT .= "";
+        } else {
         $HTMLOUT.= "<b>{$lang['userdetails_donatedtill']} - " . get_date($user['donoruntil'], 'DATE') . "";
         $HTMLOUT.= " [ " . mkprettytime($donoruntil - TIME_NOW) . " ] {$lang['userdetails_togo']}...</b>{$lang['userdetails_renew']}<a class='altlink' href='{$TRINITY20['baseurl']}/donate.php'>{$lang['userdetails_here']}</a>";
     }
@@ -408,7 +442,8 @@ if ($user["donor"] && $CURUSER["id"] == $user["id"] || $CURUSER["class"] == UC_S
 $HTMLOUT.= (($CURUSER['class'] >= UC_STAFF & $shit_list > 0) !== 0) ? "<dd><b>{$lang['userdetails_shit1']} <a href='staffpanel.php?tool=shit_list&amp;action=shit_list'>{$lang['userdetails_here']}</a> {$lang['userdetails_shit2']}&nbsp;</b></dd>" : "";
 //== watched user stuff ==//
 if ($CURUSER['id'] !== $user['id'] && $CURUSER['class'] >= UC_STAFF)
-$HTMLOUT.= ($user['watched_user'] == 0) ? '' : '<p>'.$lang['userdetails_watchlist1'].' <a href="staffpanel.php?tool=watched_users" >'.$lang['userdetails_watchlist2'].'</a></p>';
+{ $HTMLOUT .= ($user['watched_user'] == 0) ? '' : '<p>'.$lang['userdetails_watchlist1'].' <a href="staffpanel.php?tool=watched_users" >'.$lang['userdetails_watchlist2'].'</a></p>';
+}
 //== make sure people can't see their own naughty history by snuggles ==//
 if (($CURUSER['id'] !== $user['id']) && ($CURUSER['class'] >= UC_STAFF)) {
     //== watched user stuff ==//

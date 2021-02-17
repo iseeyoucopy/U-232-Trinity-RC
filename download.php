@@ -19,22 +19,36 @@ $lang = array_merge(load_language('global') , load_language('download'));
 $T_Pass = isset($_GET['torrent_pass']) && strlen($_GET['torrent_pass']) == 32 ? $_GET['torrent_pass'] : '';
 if (!empty($T_Pass)) {
     ($q0 = sql_query("SELECT * FROM users where torrent_pass = " . sqlesc($T_Pass))) || sqlerr(__FILE__, __LINE__);
-    if ($q0->num_rows == 0) die($lang['download_passkey']);
-    else $CURUSER = $q0->fetch_assoc();
-} else loggedinorreturn();
-if (function_exists('parked')) parked();
+    if ($q0->num_rows == 0) {
+        die($lang['download_passkey']);
+    }
+    else {
+        $CURUSER = $q0->fetch_assoc();
+    }
+} else {
+    loggedinorreturn();
+}
+if (function_exists('parked')) {
+    parked();
+}
 $id = isset($_GET['torrent']) ? (int)$_GET['torrent'] : 0;
 $zipuse = isset($_GET['zip']) && $_GET['zip'] == 1;
 $text = isset($_GET['text']) && $_GET['text'] == 1;
-if (!is_valid_id($id)) stderr($lang['download_user_error'], $lang['download_no_id']);
+if (!is_valid_id($id)) {
+    stderr($lang['download_user_error'], $lang['download_no_id']);
+}
 ($res = sql_query('SELECT name, owner, vip, category, filename, info_hash FROM torrents WHERE id = ' . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 $row = $res->fetch_assoc();
 
 ($cres = sql_query('SELECT min_class FROM categories WHERE id = ' . sqlesc($row['category']))) || sqlerr(__FILE__, __LINE__);
 $crow = $cres->fetch_assoc();
-if ($crow['min_class'] > $CURUSER['class']) stderr($lang['download_user_error'], $lang['download_no_id']);
+if ($crow['min_class'] > $CURUSER['class']) {
+    stderr($lang['download_user_error'], $lang['download_no_id']);
+}
 $fn = $TRINITY20['torrent_dir'] . '/' . $id . '.torrent';
-if (!$row || !is_file($fn) || !is_readable($fn)) stderr('Err', 'There was an error with the file or with the query, please contact staff');
+if (!$row || !is_file($fn) || !is_readable($fn)) {
+    stderr('Err', 'There was an error with the file or with the query, please contact staff');
+}
 if (happyHour('check') && happyCheck('checkid', $row['category']) && XBT_TRACKER == false && $TRINITY20['happy_hour'] == true) {
     $multiplier = happyHour('multiplier');
     happyLog($CURUSER['id'], $id, $multiplier);
@@ -42,8 +56,9 @@ if (happyHour('check') && happyCheck('checkid', $row['category']) && XBT_TRACKER
     $cache->delete($CURUSER['id'] . '_happy');
 }
 
-if (($CURUSER['seedbonus'] === 0 || $CURUSER['seedbonus'] < $TRINITY20['bonus_per_download']))
-stderr("Error", "Your dont have enough credit to download, trying seeding back some torrents =]");
+if (($CURUSER['seedbonus'] === 0 || $CURUSER['seedbonus'] < $TRINITY20['bonus_per_download'])) {
+    stderr("Error", "Your dont have enough credit to download, trying seeding back some torrents =]");
+}
 
 if ($TRINITY20['seedbonus_on'] == 1 && $row['owner'] != $CURUSER['id']) {
     //===remove karma
@@ -59,9 +74,14 @@ if ($TRINITY20['seedbonus_on'] == 1 && $row['owner'] != $CURUSER['id']) {
     //===end
     
 }
-if (($CURUSER['downloadpos'] == 0 || $CURUSER['can_leech'] == 0 || $CURUSER['downloadpos'] > 1 || $CURUSER['suspended'] == 'yes') && $CURUSER['id'] != $row['owner']) stderr("Error", "Your download rights have been disabled.");
+if (($CURUSER['downloadpos'] == 0 || $CURUSER['can_leech'] == 0 || $CURUSER['downloadpos'] > 1 || $CURUSER['suspended'] == 'yes') && $CURUSER['id'] != $row['owner']) {
+    stderr("Error", "Your download rights have been disabled.");
+}
 
-if ($row['vip'] == 1 && $CURUSER['class'] < UC_VIP) stderr('VIP Access Required', 'You must be a VIP In order to view details or download this torrent! You may become a Vip By Donating to our site. Donating ensures we stay online to provide you more Vip-Only Torrents!');
+if ($row['vip'] == 1 && $CURUSER['class'] < UC_VIP) {
+    stderr('VIP Access Required',
+        'You must be a VIP In order to view details or download this torrent! You may become a Vip By Donating to our site. Donating ensures we stay online to provide you more Vip-Only Torrents!');
+}
 sql_query("UPDATE torrents SET hits = hits + 1 WHERE id = " . sqlesc($id));
 /* free mod by pdq **/
 /* freeslots/doubleseed by pdq **/
@@ -72,24 +92,52 @@ if (isset($_GET['slot'])) {
     $used_slot = $slot['torrentid'] ?? 0 == $id && $slot['userid'] ?? '' == $CURUSER['id'];
     /* freeslot **/
     if ($_GET['slot'] == 'free') {
-        if ($used_slot && $slot['free'] == 'yes') stderr('Doh!', 'Freeleech slot already in use.');
-        if ($CURUSER['freeslots'] < 1) stderr('Doh!', 'No Slots.');
+        if ($used_slot && $slot['free'] == 'yes') {
+            stderr('Doh!', 'Freeleech slot already in use.');
+        }
+        if ($CURUSER['freeslots'] < 1) {
+            stderr('Doh!', 'No Slots.');
+        }
         $CURUSER['freeslots'] -= 1;
         sql_query('UPDATE users SET freeslots = freeslots - 1 WHERE id = ' . sqlesc($CURUSER['id']) . ' LIMIT 1') || sqlerr(__FILE__, __LINE__);
-        if ($used_slot && $slot['doubleup'] == 'yes') sql_query('UPDATE freeslots SET free = "yes", addedfree = ' . $added . ' WHERE torrentid = ' . $id . ' AND userid = ' . $CURUSER['id'] . ' AND doubleup = "yes"') || sqlerr(__FILE__, __LINE__);
-        elseif ($used_slot && $slot['doubleup'] == 'no') sql_query('INSERT INTO freeslots (torrentid, userid, free, addedfree) VALUES (' . sqlesc($id) . ', ' . sqlesc($CURUSER['id']) . ', "yes", ' . $added . ')') || sqlerr(__FILE__, __LINE__);
-        else sql_query('INSERT INTO freeslots (torrentid, userid, free, addedfree) VALUES (' . sqlesc($id) . ', ' . sqlesc($CURUSER['id']) . ', "yes", ' . $added . ')') || sqlerr(__FILE__, __LINE__);
+        if ($used_slot && $slot['doubleup'] == 'yes') {
+            sql_query('UPDATE freeslots SET free = "yes", addedfree = '.$added.' WHERE torrentid = '.$id.' AND userid = '.$CURUSER['id'].' AND doubleup = "yes"') || sqlerr(__FILE__,
+                __LINE__);
+        }
+        elseif ($used_slot && $slot['doubleup'] == 'no') {
+            sql_query('INSERT INTO freeslots (torrentid, userid, free, addedfree) VALUES ('.sqlesc($id).', '.sqlesc($CURUSER['id']).', "yes", '.$added.')') || sqlerr(__FILE__,
+                __LINE__);
+        }
+        else {
+            sql_query('INSERT INTO freeslots (torrentid, userid, free, addedfree) VALUES ('.sqlesc($id).', '.sqlesc($CURUSER['id']).', "yes", '.$added.')') || sqlerr(__FILE__,
+                __LINE__);
+        }
     }
     /* doubleslot **/
     elseif ($_GET['slot'] == 'double') {
-        if ($used_slot && $slot['doubleup'] == 'yes') stderr('Doh!', 'Doubleseed slot already in use.');
-        if ($CURUSER['freeslots'] < 1) stderr('Doh!', 'No Slots.');
+        if ($used_slot && $slot['doubleup'] == 'yes') {
+            stderr('Doh!', 'Doubleseed slot already in use.');
+        }
+        if ($CURUSER['freeslots'] < 1) {
+            stderr('Doh!', 'No Slots.');
+        }
         $CURUSER['freeslots'] -= 1;
         sql_query('UPDATE users SET freeslots = freeslots - 1 WHERE id = ' . sqlesc($CURUSER['id']) . ' LIMIT 1') || sqlerr(__FILE__, __LINE__);
-        if ($used_slot && $slot['free'] == 'yes') sql_query('UPDATE freeslots SET doubleup = "yes", addedup = ' . $added . ' WHERE torrentid = ' . sqlesc($id) . ' AND userid = ' . sqlesc($CURUSER['id']) . ' AND free = "yes"') || sqlerr(__FILE__, __LINE__);
-        elseif ($used_slot && $slot['free'] == 'no') sql_query('INSERT INTO freeslots (torrentid, userid, doubleup, addedup) VALUES (' . sqlesc($id) . ', ' . sqlesc($CURUSER['id']) . ', "yes", ' . $added . ')') || sqlerr(__FILE__, __LINE__);
-        else sql_query('INSERT INTO freeslots (torrentid, userid, doubleup, addedup) VALUES (' . sqlesc($id) . ', ' . sqlesc($CURUSER['id']) . ', "yes", ' . $added . ')') || sqlerr(__FILE__, __LINE__);
-    } else stderr('ERROR', 'What\'s up doc?');
+        if ($used_slot && $slot['free'] == 'yes') {
+            sql_query('UPDATE freeslots SET doubleup = "yes", addedup = '.$added.' WHERE torrentid = '.sqlesc($id).' AND userid = '.sqlesc($CURUSER['id']).' AND free = "yes"') || sqlerr(__FILE__,
+                __LINE__);
+        }
+        elseif ($used_slot && $slot['free'] == 'no') {
+            sql_query('INSERT INTO freeslots (torrentid, userid, doubleup, addedup) VALUES ('.sqlesc($id).', '.sqlesc($CURUSER['id']).', "yes", '.$added.')') || sqlerr(__FILE__,
+                __LINE__);
+        }
+        else {
+            sql_query('INSERT INTO freeslots (torrentid, userid, doubleup, addedup) VALUES ('.sqlesc($id).', '.sqlesc($CURUSER['id']).', "yes", '.$added.')') || sqlerr(__FILE__,
+                __LINE__);
+        }
+    } else {
+        stderr('ERROR', 'What\'s up doc?');
+    }
     $cache->delete('fllslot_' . $CURUSER['id']);
     make_freeslots($CURUSER['id'], 'fllslot_');
     $user['freeslots'] = ($CURUSER['freeslots'] - 1);
@@ -148,7 +196,9 @@ if ($zipuse) {
         $zip->forceDownload($file_name);
         unlink($TRINITY20['torrent_dir'] . '/' . $row['name'] . '.torrent');
         unlink($TRINITY20['torrent_dir'] . '/' . $row['name'] . '.zip');
-    } else stderr('Error', 'Can\'t create the new file, please contatct staff');
+    } else {
+        stderr('Error', 'Can\'t create the new file, please contatct staff');
+    }
 } elseif ($text) {
     header('Content-Disposition: attachment; filename="[' . $TRINITY20['site_name'] . ']' . $row['name'] . '.txt"');
     header("Content-Type: text/plain");

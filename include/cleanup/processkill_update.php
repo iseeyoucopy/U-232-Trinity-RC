@@ -23,7 +23,9 @@ function docleanup($data)
             $cnt++;
         }
     }
-    if ($queries > 0) write_log("Proccess Kill clean-------------------- Proccess Kill Complete using $queries queries --------------------");
+    if ($queries > 0) {
+        write_log("Proccess Kill clean-------------------- Proccess Kill Complete using $queries queries --------------------");
+    }
     if ($cnt != 0) {
         $data['clean_desc'] = "MySQLCleanup killed {$cnt} processes";
     }

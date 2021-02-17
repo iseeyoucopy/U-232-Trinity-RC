@@ -33,19 +33,28 @@ class_check($class);
 $lang = array_merge($lang, load_language('ad_floodlimit'));
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $limits = isset($_POST['limit']) && is_array($_POST['limit']) ? $_POST['limit'] : 0;
-    foreach ($limits as $class => $limit) if ($limit == 0) unset($limits[$class]);
+    foreach ($limits as $class => $limit) {
+        if ($limit == 0) {
+            unset($limits[$class]);
+        }
+    }
     if (file_put_contents($TRINITY20['flood_file'], serialize($limits))) {
         header('Refresh: 2; url=/staffpanel.php?tool=floodlimit');
         stderr($lang['floodlimit_success'], $lang['floodlimit_saved']);
-    } else stderr($lang['floodlimit_stderr'],$lang['floodlimit_wentwrong'] . $_file . $lang['floodlimit_exist']);
+    } else {
+        stderr($lang['floodlimit_stderr'], $lang['floodlimit_wentwrong'].$_file.$lang['floodlimit_exist']);
+    }
 } else {
-    if (!file_exists($TRINITY20['flood_file']) || !is_array($limit = unserialize(file_get_contents($TRINITY20['flood_file'])))) $limit = array();
-    
-	//$out = begin_main_frame() . begin_frame($lang['floodlimit_editflood']);
+    if (!file_exists($TRINITY20['flood_file']) || !is_array($limit = unserialize(file_get_contents($TRINITY20['flood_file'])))) {
+        $limit = [];
+    }
+
+    //$out = begin_main_frame() . begin_frame($lang['floodlimit_editflood']);
     $out = '';
     $out.= '<div class="row"><div class="col-md-12"><h2>'. $lang["floodlimit_editflood"] .'</h2>';
     $out.= '<form method=\'post\' action=\'\' ><table class="table table-bordered"><tr><td>'.$lang['floodlimit_userclass'].'</td><td>'.$lang['floodlimit_limit'].'</td></tr>';
-    for ($i = UC_MIN; $i <= UC_MAX; $i++) $out.= '<tr><td>' . get_user_class_name($i) . '</td><td><input name=\'limit[' . $i . ']\' type=\'text\' size=\'10\' value=\'' . ($limit[$i] ?? 0) . '\'/></td></tr>';
+    for ($i = UC_MIN; $i <= UC_MAX; $i++) { $out .= '<tr><td>'.get_user_class_name($i).'</td><td><input name=\'limit['.$i.']\' type=\'text\' size=\'10\' value=\''.($limit[$i] ?? 0).'\'/></td></tr>';
+    }
     $out.= '<tr><td>'.$lang['floodlimit_note'].'</td></tr><tr><td><input type=\'submit\' value=\''.$lang['floodlimit_save'].'\' /></td></tr>';
     $out.= '</table></form>';
     $out .= '</div></div>';

@@ -16,9 +16,13 @@ require_once (INCL_DIR . 'function_memcache.php');
 dbconn();
 loggedinorreturn();
 $lang = array_merge(load_language('global') , load_language('delete'));
-if (!mkglobal("id")) stderr("{$lang['delete_failed']}", "{$lang['delete_missing_data']}");
+if (!mkglobal("id")) {
+    stderr("{$lang['delete_failed']}", "{$lang['delete_missing_data']}");
+}
 $id = 0 + $id;
-if (!is_valid_id($id)) stderr("{$lang['delete_failed']}", "{$lang['delete_missing_data']}");
+if (!is_valid_id($id)) {
+    stderr("{$lang['delete_failed']}", "{$lang['delete_missing_data']}");
+}
 //==delete torrents by putyn
 function deletetorrent($id)
 {
@@ -58,19 +62,35 @@ function deletetorrent_xbt($id)
     }
 $res = sql_query("SELECT name, owner, seeders FROM torrents WHERE id =" . sqlesc($id));
 $row = $res->fetch_assoc();
-if (!$row) stderr("{$lang['delete_failed']}", "{$lang['delete_not_exist']}");
-if ($CURUSER["id"] != $row["owner"] && $CURUSER["class"] < UC_STAFF) stderr("{$lang['delete_failed']}", "{$lang['delete_not_owner']}\n");
+if (!$row) {
+    stderr("{$lang['delete_failed']}", "{$lang['delete_not_exist']}");
+}
+if ($CURUSER["id"] != $row["owner"] && $CURUSER["class"] < UC_STAFF) {
+    stderr("{$lang['delete_failed']}", "{$lang['delete_not_owner']}\n");
+}
 $rt = 0 + $_POST["reasontype"];
-if (!is_int($rt) || $rt < 1 || $rt > 5) stderr("{$lang['delete_failed']}", "{$lang['delete_invalid']}");
+if (!is_int($rt) || $rt < 1 || $rt > 5) {
+    stderr("{$lang['delete_failed']}", "{$lang['delete_invalid']}");
+}
 $reason = $_POST["reason"];
-if ($rt == 1) $reasonstr = "{$lang['delete_dead']}";
-elseif ($rt == 2) $reasonstr = "{$lang['delete_dupe']}" . ($reason[0] ? (": " . trim($reason[0])) : "!");
-elseif ($rt == 3) $reasonstr = "{$lang['delete_nuked']}" . ($reason[1] ? (": " . trim($reason[1])) : "!");
+if ($rt == 1) {
+    $reasonstr = "{$lang['delete_dead']}";
+}
+elseif ($rt == 2) {
+    $reasonstr = "{$lang['delete_dupe']}".($reason[0] ? (": ".trim($reason[0])) : "!");
+}
+elseif ($rt == 3) {
+    $reasonstr = "{$lang['delete_nuked']}".($reason[1] ? (": ".trim($reason[1])) : "!");
+}
 elseif ($rt == 4) {
-    if (!$reason[2]) stderr("{$lang['delete_failed']}", "{$lang['delete_violated']}");
+    if (!$reason[2]) {
+        stderr("{$lang['delete_failed']}", "{$lang['delete_violated']}");
+    }
     $reasonstr = $TRINITY20['site_name'] . "{$lang['delete_rules']}" . trim($reason[2]);
 } else {
-    if (!$reason[3]) stderr("{$lang['delete_failed']}", "{$lang['delete_reason']}");
+    if (!$reason[3]) {
+        stderr("{$lang['delete_failed']}", "{$lang['delete_reason']}");
+    }
     $reasonstr = trim($reason[3]);
 }
 if (XBT_TRACKER == true) {
@@ -108,8 +128,12 @@ if ($CURUSER["id"] != $row["owner"] && $CURUSER['pm_on_delete'] == 'yes') {
     $cache->delete('inbox_new::' . $pm_on);
     $cache->delete('inbox_new_sb::' . $pm_on);
 }
-if (isset($_POST["returnto"])) $ret = "<a href='" . htmlsafechars($_POST["returnto"]) . "'>{$lang['delete_go_back']}</a>";
-else $ret = "<a href='{$TRINITY20['baseurl']}/browse.php'>{$lang['delete_back_browse']}</a>";
+if (isset($_POST["returnto"])) {
+    $ret = "<a href='".htmlsafechars($_POST["returnto"])."'>{$lang['delete_go_back']}</a>";
+}
+else {
+    $ret = "<a href='{$TRINITY20['baseurl']}/browse.php'>{$lang['delete_back_browse']}</a>";
+}
 $HTMLOUT = '';
 $HTMLOUT.= "<h2>{$lang['delete_deleted']}</h2>
     <p>$ret</p>";

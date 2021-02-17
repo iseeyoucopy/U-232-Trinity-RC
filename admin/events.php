@@ -47,10 +47,18 @@ if (is_array($scheduled_events)) {
             $startTime = $scheduled_event['startTime'];
             $endTime = $scheduled_event['endTime'];
             if (TIME_NOW < $endTime && TIME_NOW > $startTime) {
-                if (array_key_exists('overlayText', $scheduled_event)) $overlayText = htmlsafechars($scheduled_event['overlayText']);
-                if (!is_string($overlayText)) $overlayText = "";
-                if (array_key_exists('displayDates', $scheduled_event)) $displayDates = (bool)(int)$scheduled_event['displayDates'];
-                if (!is_bool($displayDates)) $displayDates = false;
+                if (array_key_exists('overlayText', $scheduled_event)) {
+                    $overlayText = htmlsafechars($scheduled_event['overlayText']);
+                }
+                if (!is_string($overlayText)) {
+                    $overlayText = "";
+                }
+                if (array_key_exists('displayDates', $scheduled_event)) {
+                    $displayDates = (bool)(int)$scheduled_event['displayDates'];
+                }
+                if (!is_bool($displayDates)) {
+                    $displayDates = false;
+                }
                 if (array_key_exists('freeleechEnabled', $scheduled_event)) {
                     $freeleechEnabled = htmlsafechars($scheduled_event['freeleechEnabled']);
                 }
@@ -122,10 +130,18 @@ if (!is_array($scheduled_events)) {
                 $start = 0;
                 $end = 0;
                 $showDates = 0;
-                if (array_key_exists('userid', $_POST)) $userid = (int)$_POST['userid'];
-                if (array_key_exists('editText', $_POST)) $text = htmlsafechars($_POST['editText']);
-                if (array_key_exists('editStartTime', $_POST)) $start = strtotime(trim($_POST['editStartTime']));
-                if (array_key_exists('editEndTime', $_POST)) $end = strtotime(trim($_POST['editEndTime']));
+                if (array_key_exists('userid', $_POST)) {
+                    $userid = (int)$_POST['userid'];
+                }
+                if (array_key_exists('editText', $_POST)) {
+                    $text = htmlsafechars($_POST['editText']);
+                }
+                if (array_key_exists('editStartTime', $_POST)) {
+                    $start = strtotime(trim($_POST['editStartTime']));
+                }
+                if (array_key_exists('editEndTime', $_POST)) {
+                    $end = strtotime(trim($_POST['editEndTime']));
+                }
                 if (isset($_POST["editFreeleech"])) {
                     $freeleech = 1;
                 }
@@ -144,9 +160,15 @@ if (!is_array($scheduled_events)) {
                 if (isset($_POST['editHalfdownload']) == '') {
                     $halfdownload = 0;
                 }
-                if (array_key_exists('editShowDates', $_POST)) $showDates = 1;
-                if ($id == - 1) $sql = "INSERT INTO `events`(`overlayText`, `startTime`, `endTime`, `displayDates`, `freeleechEnabled`, `duploadEnabled`, `hdownEnabled`, `userid`) VALUES ('$text', $start, $end, $showDates, $freeleech, $doubleupload, $halfdownload, $userid);";
-                else $sql = "UPDATE `events` SET `overlayText` = '$text',`startTime` = $start, `endTime` = $end, `displayDates` = $showDates, `freeleechEnabled` = $freeleech, `duploadEnabled` = $doubleupload, `hdownEnabled` = $halfdownload, `userid` = $userid  WHERE `id` = $id;";
+                if (array_key_exists('editShowDates', $_POST)) {
+                    $showDates = 1;
+                }
+                if ($id == - 1) {
+                    $sql = "INSERT INTO `events`(`overlayText`, `startTime`, `endTime`, `displayDates`, `freeleechEnabled`, `duploadEnabled`, `hdownEnabled`, `userid`) VALUES ('$text', $start, $end, $showDates, $freeleech, $doubleupload, $halfdownload, $userid);";
+                }
+                else {
+                    $sql = "UPDATE `events` SET `overlayText` = '$text',`startTime` = $start, `endTime` = $end, `displayDates` = $showDates, `freeleechEnabled` = $freeleech, `duploadEnabled` = $doubleupload, `hdownEnabled` = $halfdownload, `userid` = $userid  WHERE `id` = $id;";
+                }
                 $res = sql_query($sql);
                 if ($mysqli->error != 0) {
                     $HTMLOUT.= "<p>{$lang['events_err_save']}" . $mysqli->error . "<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
@@ -159,7 +181,9 @@ if (!is_array($scheduled_events)) {
             }
         }
     }
-    if ($count1 > $perpage) $HTMLOUT.= $pager['pagertop'];
+    if ($count1 > $perpage) {
+        $HTMLOUT .= $pager['pagertop'];
+    }
 
     $HTMLOUT.= "<div class='row'><div class='col-md12'>
 <p><strong>{$lang['events_schedular']}</strong>{$lang['events_zero']}<strong> <font color='red'>{$lang['events_beta']}</font> </strong> </p>
@@ -217,20 +241,21 @@ if (!is_array($scheduled_events)) {
 <tr><th>{$lang['events_showd']}</th><td><input type='checkbox' name='editShowDates' /></td></tr>
 <tr><td colspan='2' align='center'><input type='submit' name='saveEvent_-1' value='{$lang['events_save']}' /></td></tr>
 </table>";
-                } else foreach ($scheduled_events as $scheduled_event) {
-                    if ($id == $scheduled_event['id']) {
-                        $text = htmlsafechars($scheduled_event['overlayText']);
-                        $start = get_date((int)$scheduled_event['startTime'], 'DATE');
-                        $end = get_date((int)$scheduled_event['endTime'], 'DATE');
-                        $freeleech = (bool)(int)$scheduled_event['freeleechEnabled'];
-                        $freeleech = $freeleech ? "checked=\"checked\"" : "";
-                        $doubleupload = (bool)(int)$scheduled_event['duploadEnabled'];
-                        $doubleupload = $doubleupload ? "checked=\"checked\"" : "";
-                        $halfdownload = (bool)(int)$scheduled_event['hdownEnabled'];
-                        $halfdownload = $halfdownload ? "checked=\"checked\"" : "";
-                        $showdates = (bool)(int)$scheduled_event['displayDates'];
-                        $showdates = $showdates ? "checked=\"checked\"" : "";
-                        $HTMLOUT.= "<table class='table table-bordered'>
+                } else {
+                    foreach ($scheduled_events as $scheduled_event) {
+                        if ($id == $scheduled_event['id']) {
+                            $text = htmlsafechars($scheduled_event['overlayText']);
+                            $start = get_date((int)$scheduled_event['startTime'], 'DATE');
+                            $end = get_date((int)$scheduled_event['endTime'], 'DATE');
+                            $freeleech = (bool)(int)$scheduled_event['freeleechEnabled'];
+                            $freeleech = $freeleech ? "checked=\"checked\"" : "";
+                            $doubleupload = (bool)(int)$scheduled_event['duploadEnabled'];
+                            $doubleupload = $doubleupload ? "checked=\"checked\"" : "";
+                            $halfdownload = (bool)(int)$scheduled_event['hdownEnabled'];
+                            $halfdownload = $halfdownload ? "checked=\"checked\"" : "";
+                            $showdates = (bool)(int)$scheduled_event['displayDates'];
+                            $showdates = $showdates ? "checked=\"checked\"" : "";
+                            $HTMLOUT .= "<table class='table table-bordered'>
 <tr><th>{$lang['events_userid']}</th><td><input type='text' name='userid' value='{$CURUSER["id"]}' /></td></tr>
 <tr><th>{$lang['events_txt']}</th><td><input type='text' name='editText' value='{$text}' /></td></tr>
 <tr><th>{$lang['events_starttime']}</th><td><input type='text' name='editStartTime' value='{$start}' /></td></tr>
@@ -241,7 +266,8 @@ if (!is_array($scheduled_events)) {
 <tr><th>{$lang['events_showd']}</th><td><input type='checkbox' name='editShowDates' value='{$showdates}' /></td></tr>
 <tr><td colspan='2' align='center'><input type='submit' name='saveEvent_{$id}' value='{$lang['events_save']}' /></td></tr>
 </table>";
-                        break;
+                            break;
+                        }
                     }
                 }
             }
@@ -249,7 +275,9 @@ if (!is_array($scheduled_events)) {
     }
     $HTMLOUT.= "</form></div></div>";
 }
-if ($count1 > $perpage) $HTMLOUT.= $pager['pagerbottom'];
+if ($count1 > $perpage) {
+    $HTMLOUT .= $pager['pagerbottom'];
+}
 echo stdhead($lang['events_stdhead']) . $HTMLOUT . stdfoot();
 die;
 ?>

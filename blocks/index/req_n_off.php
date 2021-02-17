@@ -12,11 +12,13 @@
  */
 //== category
 $categorie = genrelist();
-foreach ($categorie as $key => $value) $change[$value['id']] = array(
-    'id' => $value['id'],
-    'name' => $value['name'],
-    'image' => $value['image']
-);
+foreach ($categorie as $key => $value) {
+    $change[$value['id']] = [
+        'id' => $value['id'],
+        'name' => $value['name'],
+        'image' => $value['image']
+    ];
+}
 $HTMLOUT.="<div class='card'>
 	<div class='card-divider'>
 		<label for='checkbox_4' class='text-left'>{$lang['req_off_label']}</label>
@@ -58,7 +60,8 @@ if (!empty($requests)) {
 	    $requestarr['cat_pic'] = htmlsafechars($change[$requestarr['category']]['image']);
    	    $request_f =($requestarr['filled_by_user_id'] > 0 ? '<a href="details.php?id=' . (int)$requestarr['filled_torrent_id'] . '" title='.$lang['req_off_goto'].'><span style="color: limegreen;font-weight: bold;">'.$lang['req_off_yes1'].'</span></a>' : '<span style="color: red;font-weight: bold;">'.$lang['req_off_no1'].'</span>'); 
 
-if (strlen($torrname) > 50) $torrname = substr($torrname, 0, 50) . "...";
+if (strlen($torrname) > 50) { $torrname = substr($torrname, 0, 50)."...";
+}
             $HTMLOUT.= " <tbody><tr>
                <td class='text-center'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($requestarr["cat_pic"]) . "' alt='" . htmlsafechars($requestarr["cat_name"]) . "' title='" . htmlsafechars($requestarr["cat_name"]) . "' /></td>
                 <td class='text-left'><a href=\"{$TRINITY20['baseurl']}/requests.php?action=request_details&amp;id=" . (int)$requestarr['request_id'] . "&amp;hit=1\" >{$torrname}</a></td>
@@ -111,7 +114,8 @@ if ((is_countable($offers) ? count($offers) : 0) > 0) {
             $offerarr['cat_name'] = htmlsafechars($change[$offerarr['category']]['name']);
 	    $offerarr['cat_pic'] = htmlsafechars($change[$offerarr['category']]['image']);
  	    $status = ($offerarr['status'] == 'approved' ? '<span style="color: limegreen;font-weight: bold;">'.$lang['req_off_app'].'</span>' : ($offerarr['status'] == 'pending' ? '<span style="color: skyblue;font-weight: bold;">'.$lang['req_off_pend'].'</span>' : '<span style="color: red;font-weight: bold;">'.$lang['req_off_den'].'</span>'));
-             if (strlen($torrname) > 50) $torrname = substr($torrname, 0, 50) . "...";
+             if (strlen($torrname) > 50) { $torrname = substr($torrname, 0, 50)."...";
+             }
             $HTMLOUT.= " <tbody><tr>
                <td class='text-center'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($offerarr["cat_pic"]) . "' alt='" . htmlsafechars($offerarr["cat_name"]) . "' title='" . htmlsafechars($offerarr["cat_name"]) . "' /></td>
                 <td class='text-left'><a href=\"{$TRINITY20['baseurl']}/offers.php?action=offer_details&amp;id=" . (int)$offerarr['offer_id'] . "&amp;hit=1\" >{$torrname}</a></td>

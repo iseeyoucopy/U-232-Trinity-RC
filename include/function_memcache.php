@@ -14,18 +14,26 @@
 function remove_torrent($infohash)
 {
     global $cache;
-    if (strlen($infohash) != 20 || !bin2hex($infohash)) return false;
+    if (strlen($infohash) != 20 || !bin2hex($infohash)) {
+        return false;
+    }
     $key = 'torrent::hash:::' . md5($infohash);
     $torrent = $cache->get($key);
-    if ($torrent === false) return false;
+    if ($torrent === false) {
+        return false;
+    }
     $cache->delete($key);
-    if (is_array($torrent)) remove_torrent_peers($torrent['id']);
+    if (is_array($torrent)) {
+        remove_torrent_peers($torrent['id']);
+    }
     return true;
 }
 function remove_torrent_peers($id)
 {
     global $cache;
-    if (!is_int($id) || $id < 1) return false;
+    if (!is_int($id) || $id < 1) {
+        return false;
+    }
     $delete = 0;
     $seed_key = 'torrents::seeds:::' . $id;
     $leech_key = 'torrents::leechs:::' . $id;

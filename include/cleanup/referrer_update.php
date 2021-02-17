@@ -20,7 +20,9 @@ function docleanup($data)
 	 $dt = (TIME_NOW - $days);
 	 sql_query("DELETE FROM referrers WHERE date < ".sqlesc($dt)) || sqlerr(__FILE__, __LINE__);
 	 // End Delete Last Referrers
-    if ($queries > 0) write_log("Referrer Clean -------------------- Referrer cleanup Complete using $queries queries --------------------");
+    if ($queries > 0) {
+        write_log("Referrer Clean -------------------- Referrer cleanup Complete using $queries queries --------------------");
+    }
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     }

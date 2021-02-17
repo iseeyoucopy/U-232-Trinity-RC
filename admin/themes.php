@@ -38,11 +38,17 @@ if (!function_exists("html")) {
 }
 if (isset($_GET['act'])) {
     $ACT = (int)$_GET['act'];
-    if (!is_valid_id($ACT)) stderr("{$lang['themes_error']}", "{$lang['themes_inv_act']}");
+    if (!is_valid_id($ACT)) {
+        stderr("{$lang['themes_error']}", "{$lang['themes_inv_act']}");
+    }
     if ($ACT == 1) { //--EDIT
-        if (!isset($_GET['id'])) stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
+        if (!isset($_GET['id'])) {
+            stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
+        }
         $ID = (int)$_GET['id'];
-        if (!is_valid_id($ID)) stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
+        if (!is_valid_id($ID)) {
+            stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
+        }
         $TEMPLATE = sql_query("SELECT * FROM stylesheets WHERE id=" . sqlesc($ID) . " LIMIT 1");
         $TEM = $TEMPLATE->fetch_array();
         $HTML.= "<div class='row'><div class='col-md-12'>
@@ -63,17 +69,25 @@ if (isset($_GET['act'])) {
 			";
     }
     if ($ACT == 2) { //--DELETE
-        if (!isset($_GET['id'])) stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
+        if (!isset($_GET['id'])) {
+            stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
+        }
         $ID = (int)$_GET['id'];
-        if (!is_valid_id($ID)) stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
+        if (!is_valid_id($ID)) {
+            stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
+        }
         stderr("{$lang['themes_delete_q']}", "{$lang['themes_delete_sure_q']}<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=themes&amp;action=themes&amp;act=5&amp;id=$ID&amp;sure=1'>
 			{$lang['themes_delete_sure_q2']}</a> {$lang['themes_delete_sure_q3']}");
     }
     if ($ACT == 3) { //--ADD NEW
         $IDS = sql_query("SELECT id FROM stylesheets");
         while ($ID = $IDS->fetch_array()) {
-            if (file_exists("templates/" . (int)$ID['id'] . "/template.php")) $TAKEN[] = "<font color='green'>$ID[id]</font>";
-            else $TAKEN[] = "<font color='red'>$ID[id]</font>";
+            if (file_exists("templates/" . (int)$ID['id'] . "/template.php")) {
+                $TAKEN[] = "<font color='green'>$ID[id]</font>";
+            }
+            else {
+                $TAKEN[] = "<font color='red'>$ID[id]</font>";
+            }
         }
         $HTML.= "<div class='row'><div class='col-md-12'>
 			<form action='staffpanel.php?tool=themes&amp;action=themes&amp;act=6' method='post'>
@@ -90,27 +104,51 @@ if (isset($_GET['act'])) {
 			";
     }
     if ($ACT == 4) { //--SAVE EDIT
-        if (!isset($_POST['id'])) stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
-        if (!isset($_POST['uri'])) stderr("{$lang['themes_error']}", "{$lang['themes_inv_uri']}");
-        if (!isset($_POST['title'])) stderr("{$lang['themes_error']}", "{$lang['themes_inv_name']}");
+        if (!isset($_POST['id'])) {
+            stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
+        }
+        if (!isset($_POST['uri'])) {
+            stderr("{$lang['themes_error']}", "{$lang['themes_inv_uri']}");
+        }
+        if (!isset($_POST['title'])) {
+            stderr("{$lang['themes_error']}", "{$lang['themes_inv_name']}");
+        }
         $ID = (int)$_POST['id'];
         $URI = (int)$_POST['uri'];
         $NAME = htmlsafechars($_POST['title']);
-        if (!is_valid_id($ID)) stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
+        if (!is_valid_id($ID)) {
+            stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
+        }
         $CURRENT = sql_query("SELECT * FROM stylesheets WHERE id=" . sqlesc($URI));
         $CUR = $CURRENT->fetch_array();
-        if ($ID != $CUR['id']) $EDIT[] = "id=" . sqlesc($ID);
-        if ($URI != $CUR['uri']) $EDIT[] = "uri=" . sqlesc($URI);
-        if ($NAME != $CUR['name']) $EDIT[] = "name=" . sqlesc($NAME);
-        if (!@sql_query("UPDATE stylesheets SET " . implode(", ", $EDIT) . " WHERE id=" . sqlesc($URI))) stderr("{$lang['themes_error']}", "{$lang['themes_some_wrong']}");
+        if ($ID != $CUR['id']) {
+            $EDIT[] = "id=".sqlesc($ID);
+        }
+        if ($URI != $CUR['uri']) {
+            $EDIT[] = "uri=".sqlesc($URI);
+        }
+        if ($NAME != $CUR['name']) {
+            $EDIT[] = "name=".sqlesc($NAME);
+        }
+        if (!@sql_query("UPDATE stylesheets SET " . implode(", ", $EDIT) . " WHERE id=" . sqlesc($URI))) {
+            stderr("{$lang['themes_error']}", "{$lang['themes_some_wrong']}");
+        }
         header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=themes&action=themes&msg=1");
     }
     if ($ACT == 5) { //--DELETE FINAL
-        if (!isset($_GET['id'])) stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
+        if (!isset($_GET['id'])) {
+            stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
+        }
         $ID = (int)$_GET['id'];
-        if (!is_valid_id($ID)) stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
-        if (!isset($_POST['sure'])) header("Location: staffpanel.php?tool=themes");
-        if (isset($_POST['sure']) && $_POST['sure'] != 1) header("Location: staffpanel.php?tool=themes");
+        if (!is_valid_id($ID)) {
+            stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
+        }
+        if (!isset($_POST['sure'])) {
+            header("Location: staffpanel.php?tool=themes");
+        }
+        if (isset($_POST['sure']) && $_POST['sure'] != 1) {
+            header("Location: staffpanel.php?tool=themes");
+        }
         sql_query("DELETE FROM stylesheets WHERE id=" . sqlesc($ID));
         $query_RAND = sql_query("SELECT id FROM stylesheets ORDER BY RAND() LIMIT 1");
         $RANDSTYLE = $query_RAND->fetch_array(MYSQLI_NUM);
@@ -118,18 +156,33 @@ if (isset($_GET['act'])) {
         header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=themes&action=themes&msg=2");
     }
     if ($ACT == 6) { //--ADD NEW SAVE
-        if (!isset($_POST['id'])) stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
-        if (!isset($_POST['uri'])) stderr("{$lang['themes_error']}", "{$lang['themes_inv_uri']}");
-        if (!isset($_POST['name'])) stderr("{$lang['themes_error']}", "{$lang['themes_inv_name']}");
-        if (!file_exists("templates/" . $_POST['id'] . "/template.php")) stderr("{$lang['themes_nofile']}", "{$lang['themes_inv_file']}<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=themes&amp;action=themes&amp;act=7&amp;id=" . (int)$_POST['id'] . "&amp;uri=" . (int)$_POST['uri'] . "&amp;name=" . htmlsafechars($_POST['name']) . "'>{$lang['themes_file_exists']}</a>/
+        if (!isset($_POST['id'])) {
+            stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
+        }
+        if (!isset($_POST['uri'])) {
+            stderr("{$lang['themes_error']}", "{$lang['themes_inv_uri']}");
+        }
+        if (!isset($_POST['name'])) {
+            stderr("{$lang['themes_error']}", "{$lang['themes_inv_name']}");
+        }
+        if (!file_exists("templates/" . $_POST['id'] . "/template.php")) {
+            stderr("{$lang['themes_nofile']}",
+                "{$lang['themes_inv_file']}<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=themes&amp;action=themes&amp;act=7&amp;id=".(int)$_POST['id']."&amp;uri=".(int)$_POST['uri']."&amp;name=".htmlsafechars($_POST['name'])."'>{$lang['themes_file_exists']}</a>/
 			<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=themes'>{$lang['themes_not_exists']}</a>");
+        }
         sql_query("INSERT INTO stylesheets(id, uri, name)VALUES(" . sqlesc($_POST['id']) . ", " . sqlesc($_POST['uri']) . ", " . sqlesc($_POST['name']) . ")");
         header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=themes&action=themes&msg=3");
     }
     if ($ACT == 7) { //--ADD NEW IF FOLDER NO EXISTS
-        if (!isset($_GET['id'])) stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
-        if (!isset($_GET['uri'])) stderr("{$lang['themes_error']}", "{$lang['themes_inv_uri']}");
-        if (!isset($_GET['name'])) stderr("{$lang['themes_error']}", "{$lang['themes_inv_name']}");
+        if (!isset($_GET['id'])) {
+            stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
+        }
+        if (!isset($_GET['uri'])) {
+            stderr("{$lang['themes_error']}", "{$lang['themes_inv_uri']}");
+        }
+        if (!isset($_GET['name'])) {
+            stderr("{$lang['themes_error']}", "{$lang['themes_inv_name']}");
+        }
         $ID = (int)$_GET['id'];
         $URI = (int)$_GET['uri'];
         $NAME = htmlsafechars($_GET['name']);
@@ -139,7 +192,9 @@ if (isset($_GET['act'])) {
 }
 if (isset($_GET['msg'])) {
     $MSG = $_GET['msg'];
-    if ($MSG > 0) $HTML.= "<h1>{$lang['themes_msg']}</h1>";
+    if ($MSG > 0) {
+        $HTML .= "<h1>{$lang['themes_msg']}</h1>";
+    }
 }
 if (!isset($_GET['act'])) {
     $HTML.= "<div class='row'><div class='col-md-12'>

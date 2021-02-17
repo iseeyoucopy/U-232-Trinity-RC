@@ -8,8 +8,12 @@ loggedinorreturn();
 require_once(TEMPLATE_DIR.''.$CURUSER['stylesheet'].'' . DIRECTORY_SEPARATOR . 'html_functions' . DIRECTORY_SEPARATOR . 'global_html_functions.php'); 
 require_once(TEMPLATE_DIR.''.$CURUSER['stylesheet'].'' . DIRECTORY_SEPARATOR . 'html_functions' . DIRECTORY_SEPARATOR . 'navigation_html_functions.php');
 $lang = array_merge(load_language('global'));
-if (!isset($_GET['id'])) stderr("Something gone weong", "Maybe someone is playing football :lol:");
-if(isset($_GET['id']) && $_GET['id'] !== '');
+if (!isset($_GET['id'])) {
+    stderr("Something gone weong", "Maybe someone is playing football :lol:");
+}
+if(isset($_GET['id']) && $_GET['id'] !== '') {
+    ;
+}
 	$show_id = $_GET['id'];
 	if (($tvshow = $cache->get('tv_show_'.$show_id)) === false) {
 		$date = date(('Y-m-d'));
@@ -70,10 +74,12 @@ if(isset($_GET['id']) && $_GET['id'] !== '');
 		foreach ($tvshow_s as $season){
 			$season_ep_order = $season['episodeOrder'];
 			$season_number = $season['number'];
-			if ($count == 0) 
-				$HTMLOUT.= "<li class='tabs-title is-active' aria-selected='true'><a href='#panel{$season_number}'>{$season_number}</a></li>";
-			else 
-				$HTMLOUT .= "<li class='tabs-title'><a href='#panel{$season_number}'>{$season_number}</a></li>";
+			if ($count == 0) {
+                $HTMLOUT .= "<li class='tabs-title is-active' aria-selected='true'><a href='#panel{$season_number}'>{$season_number}</a></li>";
+            }
+			else {
+                $HTMLOUT .= "<li class='tabs-title'><a href='#panel{$season_number}'>{$season_number}</a></li>";
+            }
 			$count++;
 			}
 		   $HTMLOUT .= "</ul>
@@ -82,9 +88,12 @@ if(isset($_GET['id']) && $_GET['id'] !== '');
 		foreach ($tvshow_s as $season) {
 			$season_ep_order = $season['episodeOrder'];
 			$season_number = $season['number'];	
-			if ($count == 0) $HTMLOUT.= "<div class='tabs-panel is-active' id='panel{$season_number}'>";
-		else
-		$HTMLOUT.= "<div class='tabs-panel' id='panel{$season_number}'>";
+			if ($count == 0) {
+                $HTMLOUT .= "<div class='tabs-panel is-active' id='panel{$season_number}'>";
+            }
+		else {
+            $HTMLOUT .= "<div class='tabs-panel' id='panel{$season_number}'>";
+        }
 		$HTMLOUT.= "<b>Season {$season_number}</b>
 			<table class='striped'>
 				<thead>

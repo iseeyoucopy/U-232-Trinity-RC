@@ -31,7 +31,9 @@ $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_stats_extra'));
 $inbound = array_merge($_GET, $_POST);
-if (!isset($inbound['mode'])) $inbound['mode'] = '';
+if (!isset($inbound['mode'])) {
+    $inbound['mode'] = '';
+}
 $form_code = '';
 $month_names = array(
     1 => $lang['stats_ex_jan'],

@@ -45,12 +45,16 @@ function my_inet_ntop($ip)
         $ip = explode(':', $ip);
         $res = '';
         foreach ($ip as $seg) {
-            while ($seg[0] == '0') $seg = substr($seg, 1);
+            while ($seg[0] == '0') {
+                $seg = substr($seg, 1);
+            }
             if ($seg != '') {
                 $res.= ($res == '' ? '' : ':') . $seg;
             } else {
                 if (strpos($res, '::') === false) {
-                    if (substr($res, -1) == ':') continue;
+                    if (substr($res, -1) == ':') {
+                        continue;
+                    }
                     $res.= ':';
                     continue;
                 }
@@ -90,7 +94,9 @@ $HTMLOUT.= "<h2 align='center'>{$lang['wpeers_h2']}</h2>
 //$HTMLOUT.= begin_main_frame();
 $HTMLOUT .= "<div class='row'><div class='col-md-12'>";
 $pager = pager($peersperpage, $count, "staffpanel.php?tool=view_peers&amp;action=view_peers&amp;");
-if ($count > $peersperpage) $HTMLOUT.= $pager['pagertop'];
+if ($count > $peersperpage) {
+    $HTMLOUT .= $pager['pagertop'];
+}
 if (XBT_TRACKER == true) {
     $sql = "SELECT x.tid, x.uid, x.left, x.active, x.peer_id, x.ipa, x.uploaded, x.downloaded, x.leechtime, x.seedtime, x.upspeed, x.downspeed, x.mtime, x.completedtime, u.torrent_pass, u.username, t.seeders, t.leechers, t.name FROM `xbt_peers` AS x LEFT JOIN users AS u ON u.id=x.uid LEFT JOIN torrents AS t ON t.id=x.tid WHERE `left` >= 0 AND t.leechers >= 0 ORDER BY tid DESC {$pager['limit']}";
 } else {
@@ -175,8 +181,12 @@ if ($result->num_rows != 0) {
         }
     }
     $HTMLOUT.= "</table>";
-} else $HTMLOUT.= $lang['wpeers_notfound'];
-if ($count > $peersperpage) $HTMLOUT.= $pager['pagerbottom'] ."<br>";
+} else {
+    $HTMLOUT .= $lang['wpeers_notfound'];
+}
+if ($count > $peersperpage) {
+    $HTMLOUT .= $pager['pagerbottom']."<br>";
+}
 $HTMLOUT.= "</div></div><br>";
 echo stdhead($lang['wpeers_peerover']) . $HTMLOUT . stdfoot();
 die;

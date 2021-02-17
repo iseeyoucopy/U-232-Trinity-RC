@@ -34,7 +34,9 @@ function docleanup($data)
         }
     }
 
-    if ($queries > 0) write_log("Snatch list clean-------------------- Removed snatches not seeded for 99 days. Cleanup Complete using $queries queries --------------------");
+    if ($queries > 0) {
+        write_log("Snatch list clean-------------------- Removed snatches not seeded for 99 days. Cleanup Complete using $queries queries --------------------");
+    }
     
     if ($data['clean_log']) {
         cleanup_log($data);

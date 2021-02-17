@@ -12,11 +12,13 @@
  */
 //== Best film of the week
 $categorie = genrelist();
-foreach ($categorie as $key => $value) $change[$value['id']] = array(
-    'id' => $value['id'],
-    'name' => $value['name'],
-    'image' => $value['image']
-);
+foreach ($categorie as $key => $value) {
+    $change[$value['id']] = [
+        'id' => $value['id'],
+        'name' => $value['name'],
+        'image' => $value['image']
+    ];
+}
 if (($motw_cached = $cache->get('top_movie_2')) === false) {
     ($motw = sql_query("SELECT torrents.id, torrents.leechers, torrents.seeders, torrents.category, torrents.name, torrents.times_completed FROM torrents INNER JOIN avps ON torrents.id=avps.value_u WHERE avps.arg='bestfilmofweek' LIMIT 1")) || sqlerr(__FILE__, __LINE__);
     while ($motw_cache = $motw->fetch_assoc()) {

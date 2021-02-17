@@ -16,13 +16,19 @@ require_once INCL_DIR . 'html_functions.php';
 require_once INCL_DIR . 'bbcode_functions.php';
 require_once CLASS_DIR . 'page_verify.php';
 global $CURUSER;
-if (!mkglobal("id")) die();
+if (!mkglobal("id")) {
+    die();
+}
 $id = 0 + $id;
-if (!$id) die();
+if (!$id) {
+    die();
+}
 /* who is modding by pdq **/
 if ((isset($_GET['unedit']) && $_GET['unedit'] == 1) && $CURUSER['class'] >= UC_STAFF) {
     $returl = "details.php?id=$id";
-    if (isset($_POST["returnto"])) $returl.= "&returnto=" . urlencode($_POST["returnto"]);
+    if (isset($_POST["returnto"])) {
+        $returl .= "&returnto=".urlencode($_POST["returnto"]);
+    }
     header("Refresh: 1; url=$returl");
     $cache->delete('editedby_' . $id);
     exit();
@@ -47,7 +53,9 @@ $newpage = new page_verify();
 $newpage->create('teit');
 $res = sql_query("SELECT * FROM torrents WHERE id = " . sqlesc($id));
 $row = $res->fetch_assoc();
-if (!$row) stderr($lang['edit_user_error'], $lang['edit_no_torrent']);
+if (!$row) {
+    stderr($lang['edit_user_error'], $lang['edit_no_torrent']);
+}
 if (!isset($CURUSER) || ($CURUSER["id"] != $row["owner"] && $CURUSER["class"] < UC_STAFF)) {
     stderr($lang['edit_user_error'], sprintf($lang['edit_no_permission'], urlencode($_SERVER['REQUEST_URI'])));
 }
@@ -66,8 +74,9 @@ if ($CURUSER['class'] >= UC_STAFF) {
 }
 $ismodd = '<div class="row"><div class="col-sm-12"><b>'.$lang['edit_stdhead'].'</b> ' . (($CURUSER['class'] > UC_UPLOADER) ? '<small><a href="edit.php?id=' . $id . '&amp;unedit=1">'.$lang['edit_clkhere'].'</a>'.$lang['edit_clktemp'].'</small>' : '') . '</div></div>';
 $HTMLOUT.= "<form method='post' name='edit' action='takeedit.php' enctype='multipart/form-data'><input type='hidden' name='id' value='$id' />";
-if (isset($_GET["returnto"])) 
-$HTMLOUT.= "<input type='hidden' name='returnto' value='" . htmlsafechars($_GET["returnto"]) . "' />";
+if (isset($_GET["returnto"])) {
+    $HTMLOUT .= "<input type='hidden' name='returnto' value='".htmlsafechars($_GET["returnto"])."' />";
+}
 $HTMLOUT .="<div class='panel inverse' style='width:82%; margin-left:9%;'>
 <div class='row'><div class='col-sm-12'>$ismodd</div></div>
 <div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_imdb_url']}' type='text' name='url' value='" . htmlsafechars($row["url"]) . "'></div></div><br>
@@ -88,7 +97,9 @@ $s = "<br><select class='form-control' name='type'>";
 $cats = genrelist();
 foreach ($cats as $subrow) {
     $s.= "<option value='" . (int)$subrow["id"] . "'";
-    if ($subrow["id"] == $row["category"]) $s.= " selected='selected'";
+    if ($subrow["id"] == $row["category"]) {
+        $s .= " selected='selected'";
+    }
     $s.= ">" . htmlsafechars($subrow["name"]) . "</option>\n";
 }
 $s.= "</select>\n";
@@ -112,8 +123,9 @@ $HTMLOUT.= "<br><div class='row'>
 <div class='col-sm-6'>";
 $HTMLOUT.= tr($lang['edit_visible'], "<input type='checkbox' name='visible'" . (($row["visible"] == "yes") ? " checked='checked'" : "") . " value='1' /> {$lang['edit_visible_mainpage']}<br /><table border='0' cellspacing='0' cellpadding='0' width='420'><tr><td class='embedded'><font class='small'>{$lang['edit_visible_info']}</font></td></tr></table>", 1);
 $HTMLOUT.="</div>";
-if ($CURUSER['class'] >= UC_STAFF) 
-$HTMLOUT.= "<div class='col-sm-3'>{$lang['edit_banned2']}<input type='checkbox' name='banned'" . (($row["banned"] == "yes") ? " checked='checked'" : "") . " value='1' />{$lang['edit_banned']}</div>";
+if ($CURUSER['class'] >= UC_STAFF) {
+    $HTMLOUT .= "<div class='col-sm-3'>{$lang['edit_banned2']}<input type='checkbox' name='banned'".(($row["banned"] == "yes") ? " checked='checked'" : "")." value='1' />{$lang['edit_banned']}</div>";
+}
 $HTMLOUT.= "<div class='col-sm-3'>{$lang['edit_recommend_torrent']}<input type='radio' name='recommended' " . (($row["recommended"] == "yes") ? "checked='checked'" : "") . " value='yes' />{$lang['edit_yes']}<input type='radio' name='recommended' " . ($row["recommended"] == "no" ? "checked='checked'" : "") . " value='no' />{$lang['edit_no']}<br/><font class='small'>{$lang['edit_recommend']}</font></div>";
 $HTMLOUT.= "</div>";
 $HTMLOUT.= "<br><div class='row'><div class='col-sm-12'></div></div>";

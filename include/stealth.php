@@ -23,8 +23,10 @@ function stealth($id, $stealth = true)
         $clrbits|= bt_options::PERMS_STEALTH; // stealth off
     }
     // update perms
-    if ($setbits || $clrbits) sql_query('UPDATE users SET perms = ((perms | ' . $setbits . ') & ~' . $clrbits . ') 
-                 WHERE id = ' . sqlesc($id)) || sqlerr(__file__, __line__);
+    if ($setbits || $clrbits) {
+        sql_query('UPDATE users SET perms = ((perms | '.$setbits.') & ~'.$clrbits.') 
+                 WHERE id = '.sqlesc($id)) || sqlerr(__file__, __line__);
+    }
     // grab current data
     ($res = sql_query('SELECT username, perms, modcomment FROM users 
                      WHERE id = ' . sqlesc($id) . ' LIMIT 1')) || sqlerr(__file__, __line__);

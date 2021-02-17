@@ -22,14 +22,23 @@ if (!$CURUSER) {
     get_template();
 }
 $lang = array_merge(load_language('global') , load_language('takesignup'));
-if (!$TRINITY20['openreg']) stderr($lang['stderr_errorhead'], "{$lang['takesignup_invite_only']}<a href='" . $TRINITY20['baseurl'] . "/invite_signup.php'><b>&nbsp;{$lang['takesignup_here']}</b></a>");
+if (!$TRINITY20['openreg']) {
+    stderr($lang['stderr_errorhead'],
+        "{$lang['takesignup_invite_only']}<a href='".$TRINITY20['baseurl']."/invite_signup.php'><b>&nbsp;{$lang['takesignup_here']}</b></a>");
+}
 ($res = sql_query("SELECT COUNT(id) FROM users")) || sqlerr(__FILE__, __LINE__);
 $arr = $res->fetch_row();
-if ($arr[0] >= $TRINITY20['maxusers']) stderr($lang['takesignup_error'], $lang['takesignup_limit']);
+if ($arr[0] >= $TRINITY20['maxusers']) {
+    stderr($lang['takesignup_error'], $lang['takesignup_limit']);
+}
 $newpage = new page_verify();
 $newpage->check('tesu');
-if (!mkglobal('wantusername:wantpassword:passagain:email' . ($TRINITY20['captcha_on'] ? ":captchaSelection:" : ":") . 'submitme:passhint:hintanswer:country')) stderr($lang['takesignup_user_error'], $lang['takesignup_form_data']);
-if ($submitme != 'Register') stderr($lang['takesignup_x_head'], $lang['takesignup_x_body']);
+if (!mkglobal('wantusername:wantpassword:passagain:email' . ($TRINITY20['captcha_on'] ? ":captchaSelection:" : ":") . 'submitme:passhint:hintanswer:country')) {
+    stderr($lang['takesignup_user_error'], $lang['takesignup_form_data']);
+}
+if ($submitme != 'Register') {
+    stderr($lang['takesignup_x_head'], $lang['takesignup_x_body']);
+}
 if ($TRINITY20['captcha_on'] && (empty($captchaSelection) || $_SESSION['simpleCaptchaAnswer'] != $captchaSelection)) {
     header("Location: {$TRINITY20['baseurl']}/signup.php");
     exit;
@@ -37,7 +46,9 @@ if ($TRINITY20['captcha_on'] && (empty($captchaSelection) || $_SESSION['simpleCa
 function validusername($username)
 {
     global $lang;
-    if ($username == "") return false;
+    if ($username == "") {
+        return false;
+    }
     $namelength = strlen($username);
     if ($namelength < 3 || $namelength > 32) {
         stderr($lang['takesignup_user_error'], $lang['takesignup_username_length']);
@@ -45,50 +56,76 @@ function validusername($username)
     // The following characters are allowed in user names
     $allowedchars = $lang['takesignup_allowed_chars'];
     for ($i = 0; $i < $namelength; ++$i) {
-        if (strpos($allowedchars, (string) $username[$i]) === false) return false;
+        if (strpos($allowedchars, (string) $username[$i]) === false) {
+            return false;
+        }
     }
     return true;
 }
-if (empty($wantusername) || empty($wantpassword) || empty($email) || empty($passhint) || empty($hintanswer) || empty($country)) stderr($lang['takesignup_user_error'], $lang['takesignup_blank']);
-if (!blacklist($wantusername)) 
-	stderr($lang['takesignup_user_error'], sprintf($lang['takesignup_badusername'], htmlsafechars($wantusername)));
-if ($wantpassword != $passagain) 
-	stderr($lang['takesignup_user_error'], $lang['takesignup_nomatch']);
-if (strlen($wantpassword) < 6) 
-	stderr($lang['takesignup_user_error'], $lang['takesignup_pass_short']);
-if (strlen($wantpassword) > 40) 
-	stderr($lang['takesignup_user_error'], $lang['takesignup_pass_long']);
-if ($wantpassword == $wantusername) 
-	stderr($lang['takesignup_user_error'], $lang['takesignup_same']);
+if (empty($wantusername) || empty($wantpassword) || empty($email) || empty($passhint) || empty($hintanswer) || empty($country)) {
+    stderr($lang['takesignup_user_error'], $lang['takesignup_blank']);
+}
+if (!blacklist($wantusername)) {
+    stderr($lang['takesignup_user_error'], sprintf($lang['takesignup_badusername'], htmlsafechars($wantusername)));
+}
+if ($wantpassword != $passagain) {
+    stderr($lang['takesignup_user_error'], $lang['takesignup_nomatch']);
+}
+if (strlen($wantpassword) < 6) {
+    stderr($lang['takesignup_user_error'], $lang['takesignup_pass_short']);
+}
+if (strlen($wantpassword) > 40) {
+    stderr($lang['takesignup_user_error'], $lang['takesignup_pass_long']);
+}
+if ($wantpassword == $wantusername) {
+    stderr($lang['takesignup_user_error'], $lang['takesignup_same']);
+}
 $pincode = (int)$_POST['pin_code'];
-if ($pincode != $_POST['pin_code2']) 
-	stderr($lang['takesignup_user_error'], "Pin Codes don't match");
-if (strlen((string)$pincode) != 4) 
-	stderr($lang['takesignup_user_error'], "Pin Code must be 4 digits");
-if (!validemail($email)) 
-	stderr($lang['takesignup_user_error'], $lang['takesignup_validemail']);
-if (!validusername($wantusername)) 
-	stderr($lang['takesignup_user_error'], $lang['takesignup_invalidname']);
-if (!(isset($_POST['day']) || isset($_POST['month']) || isset($_POST['year']))) stderr($lang['takesignup_error'], $lang['takesignup_birthday']);
-if (checkdate($_POST['month'], $_POST['day'], $_POST['year'])) $birthday = $_POST['year'] . '-' . $_POST['month'] . '-' . $_POST['day'];
-else 
-	stderr($lang['takesignup_error'], $lang['takesignup_correct_birthday']);
-if ((date('Y') - $_POST['year']) < 17) 
-	stderr($lang['takesignup_error'], $lang['takesignup_yearsold']);
-if (!(isset($_POST['country']))) 
-	stderr($lang['takesignup_error'], $lang['takesignup_country']);
+if ($pincode != $_POST['pin_code2']) {
+    stderr($lang['takesignup_user_error'], "Pin Codes don't match");
+}
+if (strlen((string)$pincode) != 4) {
+    stderr($lang['takesignup_user_error'], "Pin Code must be 4 digits");
+}
+if (!validemail($email)) {
+    stderr($lang['takesignup_user_error'], $lang['takesignup_validemail']);
+}
+if (!validusername($wantusername)) {
+    stderr($lang['takesignup_user_error'], $lang['takesignup_invalidname']);
+}
+if (!(isset($_POST['day']) || isset($_POST['month']) || isset($_POST['year']))) {
+    stderr($lang['takesignup_error'], $lang['takesignup_birthday']);
+}
+if (checkdate($_POST['month'], $_POST['day'], $_POST['year'])) {
+    $birthday = $_POST['year'].'-'.$_POST['month'].'-'.$_POST['day'];
+}
+else {
+    stderr($lang['takesignup_error'], $lang['takesignup_correct_birthday']);
+}
+if ((date('Y') - $_POST['year']) < 17) {
+    stderr($lang['takesignup_error'], $lang['takesignup_yearsold']);
+}
+if (!(isset($_POST['country']))) {
+    stderr($lang['takesignup_error'], $lang['takesignup_country']);
+}
 $country = (((isset($_POST['country']) && is_valid_id($_POST['country'])) ? (int) $_POST['country'] : 0));
 $gender = isset($_POST['gender']) && isset($_POST['gender']) ? htmlsafechars($_POST['gender']) : '';
 // make sure user agrees to everything...
-if ($_POST["rulesverify"] != "yes" || $_POST["faqverify"] != "yes" || $_POST["ageverify"] != "yes") stderr($lang['takesignup_failed'], $lang['takesignup_qualify']);
+if ($_POST["rulesverify"] != "yes" || $_POST["faqverify"] != "yes" || $_POST["ageverify"] != "yes") {
+    stderr($lang['takesignup_failed'], $lang['takesignup_qualify']);
+}
 // check if username is already in use
 ($check_uname_query = sql_query("SELECT COUNT(id) username FROM users WHERE username = ".sqlesc($wantusername))) || sqlerr(__FILE__, __LINE__);
 $check_uname = $check_uname_query->fetch_row();
-if ($check_uname[0] != 0) stderr($lang['takesignup_user_error'], 'username already in use');
+if ($check_uname[0] != 0) {
+    stderr($lang['takesignup_user_error'], 'username already in use');
+}
 // check if email addy is already in use
 ($a_query = sql_query("SELECT COUNT(id) FROM users WHERE email=" . sqlesc($email))) || sqlerr(__FILE__, __LINE__);
 $a = $a_query->fetch_row();
-if ($a[0] != 0) stderr($lang['takesignup_user_error'], $lang['takesignup_email_used']);
+if ($a[0] != 0) {
+    stderr($lang['takesignup_user_error'], $lang['takesignup_email_used']);
+}
 //=== check if ip addy is already in use
 /*
 if ($TRINITY20['dupeip_check_on'] == 1) {
@@ -118,7 +155,9 @@ if ($TRINITY20['dupeaccount_check_on'] == 1) {
 	
 	if(!empty($email)){
 	    ($x = sql_query("SELECT id, comment FROM bannedemails WHERE email = " . sqlesc($email))) || sqlerr(__FILE__, __LINE__);
-        if ($yx = $x->fetch_assoc()) stderr("{$lang['takesignup_user_error']}", "{$lang['takesignup_bannedmail']}" . htmlsafechars($yx['comment']));
+        if ($yx = $x->fetch_assoc()) {
+            stderr("{$lang['takesignup_user_error']}", "{$lang['takesignup_bannedmail']}".htmlsafechars($yx['comment']));
+        }
     }
 }
 /*=== end check for dupe account ===*/
@@ -230,10 +269,12 @@ if(empty($logs['loginhash']) || $logs['loginhash'] != $hashlog){
     }
 /*=== ===*/
 
-if ($arr[0] || EMAIL_CONFIRM) 
+if ($arr[0] || EMAIL_CONFIRM) {
     mail($email, "{$TRINITY20['site_name']} {$lang['takesignup_confirm']}", $body, "{$lang['takesignup_from']} {$TRINITY20['site_email']}");
-else
-logincookie($id, $passh);
+}
+else {
+    logincookie($id, $passh);
+}
 
 header("Refresh: 0; url=ok.php?type=". ($arr[0]? EMAIL_CONFIRM ? "signup&email=" . urlencode($email) : "confirm" : ("sysop")));
 ?>

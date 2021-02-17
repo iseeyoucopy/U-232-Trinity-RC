@@ -12,12 +12,18 @@
  */
 $step = isset($_GET['step']) ? (int)$_GET['step'] : 0;
 $root = $_SERVER['DOCUMENT_ROOT'];
-if ($root[strlen($root) - 1] != DIRECTORY_SEPARATOR) $root = $root.DIRECTORY_SEPARATOR;
-if (file_exists($root.'include/install.lock')) die('This was already installed, huh ? how this happened');
+if ($root[strlen($root) - 1] != DIRECTORY_SEPARATOR) {
+    $root = $root.DIRECTORY_SEPARATOR;
+}
+if (file_exists($root.'include/install.lock')) {
+    die('This was already installed, huh ? how this happened');
+}
 function checkpreviousstep()
 {
     $step = isset($_GET['step']) ? (int)$_GET['step'] - 1 : 0;
-    if (!file_exists('step'.$step.'.lock')) header('Location: index.php?step='.$step);
+    if (!file_exists('step'.$step.'.lock')) {
+        header('Location: index.php?step='.$step);
+    }
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -63,7 +69,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         checkpreviousstep();
         require_once ('functions/writeconfig.php');
         $out = '<form action="index.php" method="post">';
-        foreach ($foo as $fo => $fooo) $out.= createblock($fo, $fooo);
+        foreach ($foo as $fo => $fooo) {
+            $out .= createblock($fo, $fooo);
+        }
         $out.= '<fieldset><div style="text-align:center"><input type="submit" value="Submit data" /><input type="hidden" value="write" name="do" /></div></fieldset></form>';
         print ($out);
         break;

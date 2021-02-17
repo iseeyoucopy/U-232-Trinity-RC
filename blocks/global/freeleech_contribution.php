@@ -71,8 +71,9 @@ if(($freeleech_counter = $cache->get('freeleech_counter_alerts_')) === false) {
     $fl_total_row = $total_fl->fetch_assoc();
     $percent_fl = number_format($fl_total_row['pointspool'] / $fl_total_row['points'] * 100, 2);
     $cache->set('freeleech_counter_alerts_', $percent_fl, 0);
-    } else
+    } else {
     $percent_fl = $freeleech_counter;
+}
 			switch ($percent_fl)
 			{
 	   			case $percent_fl >= 90:
@@ -107,8 +108,9 @@ if(($doubleupload_counter = $cache->get('doubleupload_counter_alerts_')) === fal
     $du_total_row = $total_du->fetch_assoc();
     $percent_du = number_format($du_total_row['pointspool'] / $du_total_row['points'] * 100, 2);
     $cache->set('doubleupload_counter_alerts_', $percent_du, 0);
-    } else
+    } else {
     $percent_du = $doubleupload_counter;
+}
         switch ($percent_du)
 			{
 	   			case $percent_du >= 90:
@@ -143,8 +145,9 @@ if(($halfdownload_counter = $cache->get('halfdownload_counter_alerts_')) === fal
     $hd_total_row = $total_hd->fetch_assoc();
     $percent_hd = number_format($hd_total_row['pointspool'] / $hd_total_row['points'] * 100, 2);
     $cache->set('halfdownload_counter_alerts_', $percent_hd, 0);
-    } else
+    } else {
     $percent_hd = $halfdownload_counter;
+}
         switch ($percent_hd)
 			{
 	   			case $percent_hd >= 90:

@@ -10,7 +10,8 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-if (!empty($user_stats['modcomment']))
-$HTMLOUT.= '<div class="reveal" id="system-comments" data-reveal>
- ' . format_comment($user_stats['modcomment']) . '
+if (!empty($user_stats['modcomment'])) {
+    $HTMLOUT .= '<div class="reveal" id="system-comments" data-reveal>
+ '.format_comment($user_stats['modcomment']).'
  </div>';
+}

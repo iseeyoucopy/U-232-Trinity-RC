@@ -151,7 +151,9 @@ function add_cat()
         'new_cat_image',
         'new_cat_minclass'
     ) as $x) {
-        if (!isset($params[$x]) || $x != 'new_cat_minclass' && empty($params[$x])) stderr($lang['categories_error'], $lang['categories_add_error1']);
+        if (!isset($params[$x]) || $x != 'new_cat_minclass' && empty($params[$x])) {
+            stderr($lang['categories_error'], $lang['categories_add_error1']);
+        }
     }
     if (!preg_match("/^cat_\\w+\\.(?:gif|jpg|jpeg|png)\$/i", $params['new_cat_image'])) {
         stderr($lang['categories_error'], $lang['categories_add_error2']);
@@ -276,7 +278,9 @@ function edit_cat()
         'cat_image',
         'edit_cat_minclass'
     ) as $x) {
-        if (!isset($params[$x]) || $x != 'edit_cat_minclass' && empty($params[$x])) stderr($lang['categories_error'], $lang['categories_add_error1']);
+        if (!isset($params[$x]) || $x != 'edit_cat_minclass' && empty($params[$x])) {
+            stderr($lang['categories_error'], $lang['categories_add_error1']);
+        }
     }
     if (!preg_match("/^cat_\\w+\\.(?:gif|jpg|jpeg|png)\$/i", $params['cat_image'])) {
         stderr($lang['categories_error'], $lang['categories_edit_error2']);
@@ -332,7 +336,9 @@ function edit_cat_form()
       </tr>";
     }
      $minclass = "<select name='edit_cat_minclass'>\n";
-     for ($i = 0; $i <= UC_MAX; ++$i) $minclass.= "<option value='$i'" . ($i == $r['min_class'] ? " selected='selected'" : "") . ">" . get_user_class_name($i) . "</option>\n";
+     for ($i = 0; $i <= UC_MAX; ++$i) {
+         $minclass .= "<option value='$i'".($i == $r['min_class'] ? " selected='selected'" : "").">".get_user_class_name($i)."</option>\n";
+     }
     $minclass.= "</select>\n";
     $htmlout.= "<div class='row'><div class='col-md-12'><form action='staffpanel.php?tool=categories&amp;action=categories' method='post'>
       <input type='hidden' name='mode' value='takeedit_cat' />
@@ -391,7 +397,9 @@ function show_categories()
       </tr>";
     }
     $minclass = "<select name='new_cat_minclass'>\n";
-    for ($i = 0; $i <= UC_MAX; ++$i) $minclass.= "<option value='$i'" . ($i == 0 ? " selected='selected'" : "") . ">" . get_user_class_name($i) . "</option>\n";
+    for ($i = 0; $i <= UC_MAX; ++$i) {
+        $minclass .= "<option value='$i'".($i == 0 ? " selected='selected'" : "").">".get_user_class_name($i)."</option>\n";
+    }
     $minclass.= "</select>\n";
     $htmlout.= "<div class='row'><div class='col-md-12'>
 <form action='staffpanel.php?tool=categories&amp;action=categories' method='post'>

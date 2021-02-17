@@ -30,19 +30,26 @@ $stdhead = array(
     )
 );
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!mkglobal('email' . ($TRINITY20['captcha_on'] ? ":captchaSelection" : "") . '')) stderr("Oops", "Missing form data - You must fill all fields");
+    if (!mkglobal('email' . ($TRINITY20['captcha_on'] ? ":captchaSelection" : "") . '')) {
+        stderr("Oops", "Missing form data - You must fill all fields");
+    }
     if ($TRINITY20['captcha_on'] && (empty($captchaSelection) || $_SESSION['simpleCaptchaAnswer'] != $captchaSelection)) {
         header('Location: recover.php');
         exit();
     }
     $email = trim($_POST["email"]);
-    if (!validemail($email)) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_invalidemail']}");
+    if (!validemail($email)) {
+        stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_invalidemail']}");
+    }
     ($res = sql_query("SELECT id, hintanswer FROM users WHERE email=" . sqlesc($email) . " LIMIT 1")) || sqlerr(__FILE__, __LINE__);
     ($arr = $res->fetch_assoc()) || stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_notfound']}");
 	$hintanswer = $arr['hintanswer'];
-	if (strlen($hintanswer) != 32 || !ctype_xdigit($hintanswer))
-    die('access denied');
-    if (!$mysqli->affected_rows) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_dberror']}");
+	if (strlen($hintanswer) != 32 || !ctype_xdigit($hintanswer)) {
+        die('access denied');
+    }
+    if (!$mysqli->affected_rows) {
+        stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_dberror']}");
+    }
     //$hash = md5($sec . $email . $arr["passhash"] . $sec);
 	//$to = $arr["email"];
 	$subject = "{$TRINITY20['site_name']} {$lang['email_subjreset']}";

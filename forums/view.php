@@ -26,7 +26,9 @@ if (!defined('IN_TRINITY20_FORUM')) {
 }
 // -------- Action: View forum
 $forumid = isset($_GET['forumid']) ? (int)$_GET['forumid'] : 0;
-if (!is_valid_id($forumid)) stderr('Error', 'Invalid ID!');
+if (!is_valid_id($forumid)) {
+    stderr('Error', 'Invalid ID!');
+}
 $page = (isset($_GET["page"]) ? (int)$_GET["page"] : 0);
 $userid = (int)$CURUSER["id"];
 // ------ Get forum details
@@ -39,15 +41,23 @@ $userid = (int)$CURUSER["id"];
 			WHERE 
 			f.id = " . sqlesc($forumid))) || sqlerr(__FILE__, __LINE__);
 ($arr = $res->fetch_assoc()) || stderr('Error', 'No forum with that ID!');
-if ($CURUSER['class'] < $arr["min_class_read"]) stderr('Error', 'Access Denied!');
+if ($CURUSER['class'] < $arr["min_class_read"]) {
+    stderr('Error', 'Access Denied!');
+}
 $perpage = (empty($CURUSER['topicsperpage']) ? 20 : (int)$CURUSER['topicsperpage']);
 $num = (int)$arr['t_count'];
-if ($page == 0) $page = 1;
+if ($page == 0) {
+    $page = 1;
+}
 $first = ($page * $perpage) - $perpage + 1;
 $last = $first + $perpage - 1;
-if ($last > $num) $last = $num;
+if ($last > $num) {
+    $last = $num;
+}
 $pages = floor($num / $perpage);
-if ($perpage * $pages < $num) ++$pages;
+if ($perpage * $pages < $num) {
+    ++$pages;
+}
 // ------ Build menu
 $menu1 = "<ul class='pagination'>
 	<span class='button small'>
@@ -59,16 +69,18 @@ for ($i = 1; $i <= $pages; ++$i) {
     if ($i === $page) {
 					$menu2 .= "<span class='sr-only'>$i</span>&nbsp;";
 				} elseif ($i > 3 && ($i < $pages - 2) && ($page - $i > 3 || $i - $page > 3)) {
-					if ($lastspace)
-         continue;
+					if ($lastspace) {
+                        continue;
+                    }
 					$menu2 .= "... \n";
 					$lastspace = true;
 				} else {
         $menu2 .= "<a class='page-link' href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=$forumid&amp;page=$i'>$i</a>";
         $lastspace = false;
     }
-    if ($i < $pages)
+    if ($i < $pages) {
         $menu2 .= "|";
+    }
 }
 	$menu1 .= ($page == 1 ? "" : "<a class='page-link' href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=$forumid&amp;page=".($page - 1)."'>&lt;&lt;&nbsp;Prev</a>");
 	$mlb = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -149,7 +161,9 @@ for ($i = 1; $i <= $pages; ++$i) {
 				</nav>
 			</div>
 		</div>";
-    	if ($TRINITY20['forums_online'] == 0) $HTMLOUT .= stdmsg('Warning', 'Forums are currently in maintainance mode');
+    	if ($TRINITY20['forums_online'] == 0) {
+            $HTMLOUT .= stdmsg('Warning', 'Forums are currently in maintainance mode');
+        }
     	if ($subforums > 0) {
 			$HTMLOUT .= "<div class='card'>
 				<div class='card-divider'>
@@ -159,9 +173,10 @@ for ($i = 1; $i <= $pages; ++$i) {
 				<div class='card-section'>". show_forums($forumid, true) ."</div>
 			</div>";
 		}
-		if ($Multi_forum['configs']['use_forum_stats_mod'])
-		$HTMLOUT .="<div class='clearfix'>
-		<div class='float-left'>" . $menu1.$mlb.$menu2.$mlb.$menu3 ."</div>";
+		if ($Multi_forum['configs']['use_forum_stats_mod']) {
+            $HTMLOUT .= "<div class='clearfix'>
+		<div class='float-left'>".$menu1.$mlb.$menu2.$mlb.$menu3."</div>";
+        }
 		$newtopicarr = get_forum_access_levels($forumid);
 		$maypost = ($CURUSER['class'] >= $newtopicarr["write"] && $CURUSER['class'] >= $newtopicarr["create"]);
 		if (!$maypost)	{
@@ -197,8 +212,9 @@ for ($i = 1; $i <= $pages; ++$i) {
 			$pollim = $topic_arr['poll_id'] > "0";
 			($Multi_forum['configs']['use_poll_mod'] ? $topicpoll = is_valid_id($topic_arr["poll_id"]) : NULL);
 			$tpages = floor($topic_arr['p_count'] / $Multi_forum['configs']['postsperpage']);
-			if ($tpages * $Multi_forum['configs']['postsperpage'] != $topic_arr['p_count'])
-				++$tpages;
+			if ($tpages * $Multi_forum['configs']['postsperpage'] != $topic_arr['p_count']) {
+                ++$tpages;
+            }
 			if ($tpages > 1)
 			{
 				$topicpages = "&nbsp;(<img src='".$TRINITY20['pic_base_url']."multipage.gif' alt='Multiple pages' title='Multiple pages' />";
@@ -219,24 +235,35 @@ for ($i = 1; $i <= $pages; ++$i) {
 				}
 				$topicpages .= ")";
 			}
-			else
-				$topicpages = '';
+			else {
+                $topicpages = '';
+            }
 			if ($topic_arr["p_anon"] == "yes") {
-      			if($CURUSER['class'] < UC_STAFF && $topic_arr["p_userid"] != $CURUSER["id"])
-      				$lpusername = "<i>Anonymous</i>";
-      			else
-      				$lpusername = "<i>Anonymous</i>(<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$topic_arr['p_userid']."'>".format_username($user_stuff1, true)."</a>)";
+      			if($CURUSER['class'] < UC_STAFF && $topic_arr["p_userid"] != $CURUSER["id"]) {
+                    $lpusername = "<i>Anonymous</i>";
+                }
+      			else {
+                    $lpusername = "<i>Anonymous</i>(<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$topic_arr['p_userid']."'>".format_username($user_stuff1,
+                            true)."</a>)";
+                }
       		}
-      		else
-      			$lpusername = (is_valid_id($topic_arr['p_userid']) && !empty($topic_arr['u2_username']) ? "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$topic_arr['p_userid']."'>".format_username($user_stuff1, true)."</a>" : "unknown[$topic_userid]");
+      		else {
+                $lpusername = (is_valid_id($topic_arr['p_userid']) && !empty($topic_arr['u2_username']) ? "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$topic_arr['p_userid']."'>".format_username($user_stuff1,
+                        true)."</a>" : "unknown[$topic_userid]");
+            }
       		if ($topic_arr["anonymous"] == "yes") {
-      			if($CURUSER['class'] < UC_STAFF && $topic_arr["user_id"] != $CURUSER["id"])
-      				$lpauthor = "<i>Anonymous</i>";
-      			else
-      				$lpauthor = "<i>Anonymous</i>[<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$topic_userid'>".format_username($user_stuff, true)."</a>]";
+      			if($CURUSER['class'] < UC_STAFF && $topic_arr["user_id"] != $CURUSER["id"]) {
+                    $lpauthor = "<i>Anonymous</i>";
+                }
+      			else {
+                    $lpauthor = "<i>Anonymous</i>[<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$topic_userid'>".format_username($user_stuff,
+                            true)."</a>]";
+                }
       		}
-      		else
-     			$lpauthor = (is_valid_id($topic_arr['user_id']) && !empty($topic_arr['username']) ? "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$topic_userid'>".format_username($user_stuff, true)."</a>" : "unknown[$topic_userid]");
+      		else {
+                $lpauthor = (is_valid_id($topic_arr['user_id']) && !empty($topic_arr['username']) ? "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$topic_userid'>".format_username($user_stuff,
+                        true)."</a>" : "unknown[$topic_userid]");
+            }
 				$new = ($topic_arr["p_added"] > (TIME_NOW - $TRINITY20['readpost_expiry'])) ? ((int)$topic_arr['p_id'] > $topic_arr['last_post_read']) : 0;
 				$topicpic = ($topic_arr['locked'] == "yes" ? ($new ? "<i class='row-icon-font far fa-file-excel'></i>" : "<i class='far fa-file-excel'>") : ($new ? "<i class='row-icon-font fas fa-file-alt'></i>" : "<i class='row-icon-font far fa-file'></i>"));
 				$post_icon = ($sticky ? "<i class='row-icon-font fas fa-thumbtack fa-rotate-90'></i>" : ($topic_arr["icon"] > 0 ? "<img src=\"".$TRINITY20['pic_base_url']."post_icons/icon".htmlsafechars($topic_arr["icon"]).".gif\" alt=\"post icon\" title=\"post icon\" />" : "&nbsp;"));

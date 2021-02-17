@@ -71,10 +71,12 @@ if (XBT_TRACKER == true) {
                         ON t.category = c.id 
                         WHERE x.uid=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     while ($arr = $res_tb->fetch_assoc()) {
-        if ($arr['left'] == '0') 
-			$seeding[] = $arr;
-        else 
-			$leeching[] = $arr;
+        if ($arr['left'] == '0') {
+            $seeding[] = $arr;
+        }
+        else {
+            $leeching[] = $arr;
+        }
     }
 } else {
     ($res_tb = sql_query(
@@ -96,8 +98,12 @@ if (XBT_TRACKER == true) {
                 ON t.category = c.id 
                 WHERE p.userid=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     while ($arr = $res_tb->fetch_assoc()) {
-        if ($arr['seeder'] == 'yes') $seeding[] = $arr;
-        else $leeching[] = $arr;
+        if ($arr['seeder'] == 'yes') {
+            $seeding[] = $arr;
+        }
+        else {
+            $leeching[] = $arr;
+        }
     }
 }
 function maketable($res_tb)
@@ -111,7 +117,9 @@ function maketable($res_tb)
             $ratio = "<font color='" . get_ratio_color($ratio) . "'>$ratio</font>";
         } elseif ($arr["uploaded"] > 0) {
             $ratio = "{$lang['userdetails_inf']}";
-        } else $ratio = "---";
+        } else {
+            $ratio = "---";
+        }
         $catimage = "{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$arr['image']}";
         $catname = "&nbsp;&nbsp;".htmlsafechars($arr["catname"]);
         $catimage = "<img src=\"" . htmlsafechars($catimage) . "\" title=\"$catname\" alt=\"$catname\" width='42' height='42' />";
@@ -150,28 +158,32 @@ function maketable($res_tb)
     return $htmlout;
 }
 if ($user['opt1'] & user_options::HIDECUR || $CURUSER['id'] == $id || $CURUSER['class'] >= UC_STAFF) {
-    if (isset($torrents)) $HTMLOUT.= '<div class="reveal" id="uploadedt" data-reveal>'.$torrents.'
+    if (isset($torrents)) {
+        $HTMLOUT .= '<div class="reveal" id="uploadedt" data-reveal>'.$torrents.'
     <button class="close-button" data-close aria-label="Close modal" type="button">
             <span aria-hidden="true">&times;</span>
     </button>
     </div>
     <a class="small button" data-open="uploadedt">'.$lang['userdetails_uploaded_t'].'</a>';
-    if (isset($seeding))
-        $HTMLOUT.= '<div class="reveal" id="currentSeed" data-reveal>
-            '. maketable($seeding).'
+    }
+    if (isset($seeding)) {
+        $HTMLOUT .= '<div class="reveal" id="currentSeed" data-reveal>
+            '.maketable($seeding).'
             <button class="close-button" data-close aria-label="Close modal" type="button">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
 <a class="small button" data-open="currentSeed">'.$lang['userdetails_cur_seed'].'</a>';
-    if (isset($leeching)) 
-        $HTMLOUT.= '<div class="reveal" id="currentLeech" data-reveal>
-  '. maketable($leeching).'
+    }
+    if (isset($leeching)) {
+        $HTMLOUT .= '<div class="reveal" id="currentLeech" data-reveal>
+  '.maketable($leeching).'
   <button class="close-button" data-close aria-label="Close modal" type="button">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <a class="small button" data-open="currentLeech">'.$lang['userdetails_cur_leech'].'</a>';
+    }
 }
 //==End
 // End Class

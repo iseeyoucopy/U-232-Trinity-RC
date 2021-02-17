@@ -33,7 +33,9 @@ $lang = array_merge($lang, load_language('ad_freeusers'));
 $HTMLOUT = '';
 $remove = (isset($_GET['remove']) ? 0 + $_GET['remove'] : 0);
 if ($remove) {
-    if (empty($remove)) die($lang['freeusers_wtf']);
+    if (empty($remove)) {
+        die($lang['freeusers_wtf']);
+    }
     ($res = sql_query("SELECT id, username, class FROM users WHERE free_switch != 0 AND id = " . sqlesc($remove))) || sqlerr(__file__, __line__);
     $msgs_buffer = $users_buffer = array();
     if ($res->num_rows > 0) {
@@ -56,24 +58,32 @@ if ($remove) {
             $cache->delete('inbox_new_sb::' . $arr['id']);
             $cache->delete('user' . $arr['id']);
         }
-    } else die($lang['freeusers_fail']);
+    } else {
+        die($lang['freeusers_fail']);
+    }
 }
 ($res2 = sql_query("SELECT id, username, class, free_switch FROM users WHERE free_switch != 0 ORDER BY username ASC")) || sqlerr(__file__, __line__);
 $count = $res2->num_rows;
 $HTMLOUT.= "<h1>{$lang['freeusers_head']} ($count)</h1>";
-if ($count == 0) $HTMLOUT.= '<p align="center"><b>'.$lang['freeusers_nothing'].'</b></p>';
+if ($count == 0) {
+    $HTMLOUT .= '<p align="center"><b>'.$lang['freeusers_nothing'].'</b></p>';
+}
 else {
     $HTMLOUT.= "<div class='row''><div class='col-md-12'><table class='table table-bordered'>
           <tr><td class='colhead'>{$lang['freeusers_username']}</td><td class='colhead'>{$lang['freeusers_class']}</td>
           <td class='colhead'>{$lang['freeusers_expires']}</td><td class='colhead'>{$lang['freeusers_remove']}</td></tr>";
     while ($arr2 = $res2->fetch_assoc()) {
         $HTMLOUT.= "<tr><td><a href='userdetails.php?id=" . (int)$arr2['id'] . "'>" . htmlsafechars($arr2['username']) . "</a></td><td align='left'>" . get_user_class_name($arr2['class']);
-        if ($arr2['class'] > UC_ADMINISTRATOR && $arr2['id'] != $CURUSER['id']) $HTMLOUT.= "</td><td align='left'>{$lang['freeusers_until']}" . get_date($arr2['free_switch'], 'DATE') . " 
-(" . mkprettytime($arr2['free_switch'] - TIME_NOW) . "{$lang['freeusers_togo']})" . "</td><td align='left'><font color='red'>{$lang['freeusers_notallowed']}</font></td>
+        if ($arr2['class'] > UC_ADMINISTRATOR && $arr2['id'] != $CURUSER['id']) {
+            $HTMLOUT .= "</td><td align='left'>{$lang['freeusers_until']}".get_date($arr2['free_switch'], 'DATE')." 
+(".mkprettytime($arr2['free_switch'] - TIME_NOW)."{$lang['freeusers_togo']})"."</td><td align='left'><font color='red'>{$lang['freeusers_notallowed']}</font></td>
 </tr>";
-        else $HTMLOUT.= "</td><td align='left'>{$lang['freeusers_until']}" . get_date($arr2['free_switch'], 'DATE') . " 
-(" . mkprettytime($arr2['free_switch'] - TIME_NOW) . "{$lang['freeusers_togo']})" . "</td>
-<td align='left'><a href='staffpanel.php?tool=freeusers&amp;action=freeusers&amp;remove=" . (int)$arr2['id'] . "' onclick=\"return confirm('{$lang['freeusers_confirm']}')\">{$lang['freeusers_rem']}</a></td></tr>";
+        }
+        else {
+            $HTMLOUT .= "</td><td align='left'>{$lang['freeusers_until']}".get_date($arr2['free_switch'], 'DATE')." 
+(".mkprettytime($arr2['free_switch'] - TIME_NOW)."{$lang['freeusers_togo']})"."</td>
+<td align='left'><a href='staffpanel.php?tool=freeusers&amp;action=freeusers&amp;remove=".(int)$arr2['id']."' onclick=\"return confirm('{$lang['freeusers_confirm']}')\">{$lang['freeusers_rem']}</a></td></tr>";
+        }
     }
     $HTMLOUT.= '</table></div></div>';
 }

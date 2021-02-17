@@ -38,10 +38,15 @@ function docleanup($data)
             $_pms[] = '(0,'.sqlesc($arr_fuckers['userid']).','.sqlesc(TIME_NOW).','.$msg.','.$subject.',0)';
             $_users = (array) $_users;
             $_users[] = '('.sqlesc($arr_fuckers['userid']).','.sqlesc($arr_fuckers['poop']).',0, \'yes\','.$modcom.')';
-            if(count($_pms) > 0)
-	         sql_query("INSERT INTO messages (sender, receiver, added, msg, subject, poster) VALUES ".implode(',',$_pms)) || sqlerr(__FILE__, __LINE__);	
-	         if(count($_users) > 0)
-	         sql_query("INSERT INTO users(id,hit_and_run_total,downloadpos,hnrwarn,modcomment) VALUES ".implode(',',$_users)." ON DUPLICATE key UPDATE hit_and_run_total=hit_and_run_total+values(hit_and_run_total),downloadpos=values(downloadpos),hnrwarn=values(hnrwarn),modcomment=values(modcomment)") || sqlerr(__FILE__, __LINE__);
+            if(count($_pms) > 0) {
+                sql_query("INSERT INTO messages (sender, receiver, added, msg, subject, poster) VALUES ".implode(',', $_pms)) || sqlerr(__FILE__,
+                    __LINE__);
+            }
+	         if(count($_users) > 0) {
+                 sql_query("INSERT INTO users(id,hit_and_run_total,downloadpos,hnrwarn,modcomment) VALUES ".implode(',',
+                         $_users)." ON DUPLICATE key UPDATE hit_and_run_total=hit_and_run_total+values(hit_and_run_total),downloadpos=values(downloadpos),hnrwarn=values(hnrwarn),modcomment=values(modcomment)") || sqlerr(__FILE__,
+                     __LINE__);
+             }
 	         unset($_pms,$_users);
             $update['hit_and_run_total'] = ($arr_fuckers['hit_and_run_total'] + $arr_fuckers['poop']);
             $cache->update_row('user' . $arr_fuckers['userid'], [
@@ -80,10 +85,15 @@ function docleanup($data)
             $_pms[] = '(0,'.sqlesc($arr_good_boy['id']).','.sqlesc(TIME_NOW).','.$msg.','.$subject.',0)';
 		      $_users = (array) $_users;
         $_users[] = '('.sqlesc($arr_good_boy['id']).',1,\'no\','.$modcom.')';
-            if(count($_pms) > 0)
-	         sql_query("INSERT INTO messages (sender, receiver, added, msg, subject, poster) VALUES ".implode(',',$_pms)) || sqlerr(__FILE__, __LINE__);	
-	         if(count($_users) > 0)
-	         sql_query("INSERT INTO users(id,downloadpos,hnrwarn,modcomment) VALUES ".implode(',',$_users)." ON DUPLICATE key UPDATE downloadpos=values(downloadpos),hnrwarn=values(hnrwarn),modcomment=values(modcomment)") || sqlerr(__FILE__, __LINE__);
+            if(count($_pms) > 0) {
+                sql_query("INSERT INTO messages (sender, receiver, added, msg, subject, poster) VALUES ".implode(',', $_pms)) || sqlerr(__FILE__,
+                    __LINE__);
+            }
+	         if(count($_users) > 0) {
+                 sql_query("INSERT INTO users(id,downloadpos,hnrwarn,modcomment) VALUES ".implode(',',
+                         $_users)." ON DUPLICATE key UPDATE downloadpos=values(downloadpos),hnrwarn=values(hnrwarn),modcomment=values(modcomment)") || sqlerr(__FILE__,
+                     __LINE__);
+             }
 	         unset($_pms,$_users);
              $cache->update_row('user' . $arr_good_boy['id'], [
                 'downloadpos' => 1,
@@ -104,7 +114,9 @@ function docleanup($data)
         }
     }
     //==End
-    if ($queries > 0) write_log("Hit And Run Clean -------------------- Hit And Run Complete using $queries queries--------------------");
+    if ($queries > 0) {
+        write_log("Hit And Run Clean -------------------- Hit And Run Complete using $queries queries--------------------");
+    }
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     }

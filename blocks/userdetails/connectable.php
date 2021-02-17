@@ -37,8 +37,10 @@ if ($CURUSER['id'] == $id || $CURUSER['class'] >= UC_STAFF) {
         $connectable = "<font color='orange'><b>{$lang['userdetails_unknown']}</b></font>";
     }
     $HTMLOUT.= "<tr><td class='rowhead'>{$lang['userdetails_connectable']}</td><td align='left'>" . $connectable . "</td></tr>";
-    if (!empty($port)) $HTMLOUT.= "<tr><td class='rowhead'>{$lang['userdetails_port']}</td><td class='tablea' align='left'>" . htmlsafechars($port) . "</td></tr>
-    <tr><td class='rowhead'>{$lang['userdetails_client']}</td><td class='tablea' align='left'>" . htmlsafechars($Ident_Client) . "</td></tr>";
+    if (!empty($port)) {
+        $HTMLOUT .= "<tr><td class='rowhead'>{$lang['userdetails_port']}</td><td class='tablea' align='left'>".htmlsafechars($port)."</td></tr>
+    <tr><td class='rowhead'>{$lang['userdetails_client']}</td><td class='tablea' align='left'>".htmlsafechars($Ident_Client)."</td></tr>";
+    }
 }
 //==End
 // End Class

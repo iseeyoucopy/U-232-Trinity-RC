@@ -49,7 +49,9 @@ function docleanup($data)
     }
     }
     //== End
-    if ($queries > 0) write_log("Karma clean-------------------- Karma cleanup Complete using $queries queries --------------------");
+    if ($queries > 0) {
+        write_log("Karma clean-------------------- Karma cleanup Complete using $queries queries --------------------");
+    }
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items updated";
     }

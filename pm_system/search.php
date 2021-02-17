@@ -59,7 +59,9 @@ if (!in_array($sort, $possible_sort)) {
 if ($member) {
     ($res_username = sql_query('SELECT id, username, class, warned, suspended, leechwarn, chatpost, pirate, king, enabled, donor FROM users WHERE LOWER(username)=LOWER(' . sqlesc($member) . ') LIMIT 1')) || sqlerr(__FILE__, __LINE__);
     $arr_username = $res_username->fetch_assoc();
-    if ($res_username->num_rows === 0) stderr($lang['pm_error'], $lang['pm_forwardpm_nomember']);
+    if ($res_username->num_rows === 0) {
+        stderr($lang['pm_error'], $lang['pm_forwardpm_nomember']);
+    }
     //=== if searching by member...
     $and_member = ($mailbox >= 1 ? ' AND sender = ' . sqlesc($arr_username['id']) . ' AND saved = \'yes\' ' : ' AND receiver = ' . sqlesc($arr_username['id']) . ' AND saved = \'yes\' ');
     $the_username = print_user_stuff($arr_username);

@@ -24,24 +24,29 @@ session_start();
 get_template();
 $lang = array_merge(load_language('global') , load_language('passhint'));
 $stdfoot = '';
-if ($TRINITY20['captcha_on'] === true)
-$stdfoot = array(
-    /** include js **/
-    'js' => array(
-           'captcha', 'jquery.simpleCaptcha-0.2'
-    )
-);
+if ($TRINITY20['captcha_on'] === true) {
+    $stdfoot = [
+        /** include js **/
+        'js' => [
+            'captcha',
+            'jquery.simpleCaptcha-0.2'
+        ]
+    ];
+}
 
 $HTMLOUT = '';
 $step = (isset($_GET["step"]) ? (int)$_GET["step"] : (isset($_POST["step"]) ? (int)$_POST["step"] : ''));
 if ($step == '1') {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (!mkglobal('email' . ($TRINITY20['captcha_on'] ? ":captchaSelection" : "") . '')) stderr("Oops", "Missing form data - You must fill all fields");
+        if (!mkglobal('email' . ($TRINITY20['captcha_on'] ? ":captchaSelection" : "") . '')) { stderr("Oops",
+            "Missing form data - You must fill all fields");
+        }
         if ($TRINITY20['captcha_on'] && (empty($captchaSelection) || $_SESSION['simpleCaptchaAnswer'] != $captchaSelection)) {
             stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error2']}");
             exit();
         }
-        if (!validemail($email)) stderr($lang['stderr_errorhead'], $lang['stderr_invalidemail1']);
+        if (!validemail($email)) { stderr($lang['stderr_errorhead'], $lang['stderr_invalidemail1']);
+        }
         ($check = sql_query('SELECT id, status, passhint, hintanswer FROM users WHERE email = ' . sqlesc($email))) || sqlerr(__FILE__, __LINE__);
         ($assoc = $check->fetch_assoc()) || stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_notfound']}");
         if (empty($assoc['passhint']) || empty($assoc['hintanswer'])) {
@@ -81,11 +86,13 @@ if ($step == '1') {
         }
     }
 } elseif ($step == '2') {
-    if (!mkglobal('id:answer')) die();
+    if (!mkglobal('id:answer')) { die(); }
     ($select = sql_query('SELECT id, username, birthday, added, pin_code, hintanswer, email FROM users WHERE id = ' . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $fetch = $select->fetch_assoc();
-    if (!$fetch) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error5']}");
-    if (empty($answer)) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error6']}");
+    if (!$fetch) { stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error5']}");
+    }
+    if (empty($answer)) { stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error6']}");
+    }
     if (($fetch['hintanswer'] != h_store($answer.$fetch['email'])) && ($fetch['hintanswer'] != hash("tiger128,4", "" . $answer . "") && ($fetch['hintanswer'] != md5($answer)))) {
         $ip = getip();
         $useragent = $_SERVER['HTTP_USER_AGENT'];
@@ -126,17 +133,24 @@ if ($step == '1') {
 						echo stdhead($lang['main_header']).$HTMLOUT.stdfoot();
         }
 } elseif ($step == '3') {
-    if (!mkglobal('id:newpass:newpassagain:hash')) die();
+    if (!mkglobal('id:newpass:newpassagain:hash')) { die(); }
     if (strlen($hash) != 128)
-    die('access denied');
+    { die('access denied');
+    }
     ($select = sql_query('SELECT id, added, email, username, birthday, pin_code FROM users WHERE id = ' . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     ($fetch = $select->fetch_assoc()) || stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error8']}");
-    if (empty($newpass)) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error9']}");
-    if ($newpass != $newpassagain) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error10']}");
-    if (strlen($newpass) < 6) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error11']}");
-    if (strlen($newpass) > 64) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error12']}");
+    if (empty($newpass)) { stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error9']}");
+    }
+    if ($newpass != $newpassagain) { stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error10']}");
+    }
+    if (strlen($newpass) < 6) { stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error11']}");
+    }
+    if (strlen($newpass) > 64) { stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error12']}");
+    }
     if ($hash != h_cook($fetch['username'], $fetch['id'], $fetch['birthday']))
-        die('invalid hash');
+        {
+            die('invalid hash');
+        }
     $secret = mksecret();
     $hash1 = t_Hash($fetch['email'], $fetch['username'], $fetch['added']);
     $hash2 = t_Hash($fetch['birthday'], $secret, $fetch['pin_code']);
@@ -155,8 +169,8 @@ if ($step == '1') {
         'passhash' => $newpassword,
 		'hash3' => $hash3
     ], $TRINITY20['expires']['user_cache']);
-    if (!$mysqli->affected_rows) stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error13']}");
-    else { 
+    if (!$mysqli->affected_rows) { stderr("{$lang['stderr_errorhead']}", "{$lang['stderr_error13']}");
+    } else {
 	header("Refresh:3; url={$TRINITY20['baseurl']}/login.php");
 	stderr("{$lang['stderr_successhead']}", "{$lang['stderr_error14']} <a href='{$TRINITY20['baseurl']}/login.php' class='altlink'><b>{$lang['stderr_error15']}</b></a> {$lang['stderr_error16']}", FALSE);
 	} 

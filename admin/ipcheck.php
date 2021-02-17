@@ -46,7 +46,9 @@ $HTMLOUT.= "<table class='table table-bordered'>
 $ip = '';
 $uc = 0;
 while ($ras = $res->fetch_assoc()) {
-    if ($ras["dupl"] <= 1) break;
+    if ($ras["dupl"] <= 1) {
+        break;
+    }
 
     if ($ip != $ras['ip']) {
         ($ros = sql_query("SELECT id, username, class, email, chatpost, pirate, king, leechwarn, added, last_access, downloaded, uploaded, ip, warned, donor, enabled FROM users WHERE ip=" . sqlesc($ras['ip']) . " ORDER BY id")) || sqlerr(__FILE__, __LINE__);
@@ -54,8 +56,12 @@ while ($ras = $res->fetch_assoc()) {
         if ($num2 > 1) {
             $uc++;
             while ($arr = $ros->fetch_assoc()) {
-                if ($arr['added'] == '0') $arr['added'] = '-';
-                if ($arr['last_access'] == '0') $arr['last_access'] = '-';
+                if ($arr['added'] == '0') {
+                    $arr['added'] = '-';
+                }
+                if ($arr['last_access'] == '0') {
+                    $arr['last_access'] = '-';
+                }
                 $uploaded = mksize($arr["uploaded"]);
                 $downloaded = mksize($arr["downloaded"]);
                 $added = get_date($arr['added'], 'DATE', 1, 0);

@@ -77,7 +77,9 @@ function manualclean()
         )
     );
     $params['cid'] = filter_var($params['cid'], FILTER_VALIDATE_INT, $opts);
-    if (!is_numeric($params['cid'])) stderr($lang['cleanup_stderr'], $lang['cleanup_stderr2']);
+    if (!is_numeric($params['cid'])) {
+        stderr($lang['cleanup_stderr'], $lang['cleanup_stderr2']);
+    }
     $params['cid'] = sqlesc($params['cid']);
     ($sql = sql_query("SELECT * FROM cleanup WHERE clean_id = " . sqlesc($params['cid']))) || sqlerr(__file__, __line__);
     $row = $sql->fetch_assoc();
@@ -114,7 +116,9 @@ function cleanup_show_main()
       <td class='colhead' style='width: 40px;'>{$lang['cleanup_run_now']}</td>
     </tr>";
     ($sql = sql_query("SELECT * FROM cleanup ORDER BY clean_time ASC " . $pager['limit'])) || sqlerr(__FILE__, __LINE__);
-    if (!$sql->num_rows) stderr($lang['cleanup_stderr'], $lang['cleanup_panic']);
+    if (!$sql->num_rows) {
+        stderr($lang['cleanup_stderr'], $lang['cleanup_panic']);
+    }
     while ($row = $sql->fetch_assoc()) {
         $row['_clean_time'] = get_date($row['clean_time'], 'LONG');
         $row['clean_increment'] = $row['clean_increment'];
@@ -136,7 +140,9 @@ function cleanup_show_main()
  </tr>";
     }
     $htmlout.= "</table></div></div>";
-    if ($count1 > $perpage) $htmlout.= $pager['pagerbottom'];
+    if ($count1 > $perpage) {
+        $htmlout .= $pager['pagerbottom'];
+    }
     $htmlout.= "<br />
                 <span class='button'><a href='./staffpanel.php?tool=cleanup_manager&amp;action=cleanup_manager&amp;mode=new'>{$lang['cleanup_add_new']}</a></span>";
     echo stdhead($lang['cleanup_stdhead']) . $htmlout . stdfoot();
@@ -150,7 +156,9 @@ function cleanup_show_edit()
     }
     $cid = (int) $params['cid'];
     $sql = sql_query("SELECT * FROM cleanup WHERE clean_id = $cid");
-    if (!$sql->num_rows) stderr($lang['cleanup_stderr'], $lang['cleanup_stderr3']);
+    if (!$sql->num_rows) {
+        stderr($lang['cleanup_stderr'], $lang['cleanup_stderr3']);
+    }
     $row = $sql->fetch_assoc();
     $row['clean_title'] = htmlsafechars($row['clean_title'], ENT_QUOTES);
     $row['clean_desc'] = htmlsafechars($row['clean_desc'], ENT_QUOTES);
@@ -226,7 +234,9 @@ function cleanup_take_edit()
             );
         }
         $params[$x] = filter_var($params[$x], FILTER_VALIDATE_INT, $opts);
-        if (!is_numeric($params[$x])) stderr($lang['cleanup_take_error'], "{$lang['cleanup_take_error1']} $x");
+        if (!is_numeric($params[$x])) {
+            stderr($lang['cleanup_take_error'], "{$lang['cleanup_take_error1']} $x");
+        }
     }
     unset($opts);
     // strings
@@ -240,7 +250,9 @@ function cleanup_take_edit()
             FILTER_FLAG_STRIP_HIGH
         );
         $params[$x] = filter_var($params[$x], FILTER_SANITIZE_STRING, $opts);
-        if (empty($params[$x])) stderr($lang['cleanup_take_error'], "{$lang['cleanup_take_error2']}");
+        if (empty($params[$x])) {
+            stderr($lang['cleanup_take_error'], "{$lang['cleanup_take_error2']}");
+        }
     }
     $params['clean_file'] = preg_replace('#\.{1,}#s', '.', $params['clean_file']);
     if (!file_exists(CLEAN_DIR . "{$params['clean_file']}")) {
@@ -325,7 +337,9 @@ function cleanup_take_new()
             );
         }
         $params[$x] = filter_var($params[$x], FILTER_VALIDATE_INT, $opts);
-        if (!is_numeric($params[$x])) stderr($lang['cleanup_take_error'], "{$lang['cleanup_take_error1']} $x");
+        if (!is_numeric($params[$x])) {
+            stderr($lang['cleanup_take_error'], "{$lang['cleanup_take_error1']} $x");
+        }
     }
     unset($opts);
     // strings
@@ -339,7 +353,9 @@ function cleanup_take_new()
             FILTER_FLAG_STRIP_HIGH
         );
         $params[$x] = filter_var($params[$x], FILTER_SANITIZE_STRING, $opts);
-        if (empty($params[$x])) stderr($lang['cleanup_take_error'], "{$lang['cleanup_take_error2']}");
+        if (empty($params[$x])) {
+            stderr($lang['cleanup_take_error'], "{$lang['cleanup_take_error2']}");
+        }
     }
     $params['clean_file'] = preg_replace('#\.{1,}#s', '.', $params['clean_file']);
     if (!file_exists(CLEAN_DIR . "{$params['clean_file']}")) {
@@ -369,7 +385,9 @@ function cleanup_take_delete()
         )
     );
     $params['cid'] = filter_var($params['cid'], FILTER_VALIDATE_INT, $opts);
-    if (!is_numeric($params['cid'])) stderr($lang['cleanup_del_error'], "{$lang['cleanup_del_error1']}");
+    if (!is_numeric($params['cid'])) {
+        stderr($lang['cleanup_del_error'], "{$lang['cleanup_del_error1']}");
+    }
     $params['cid'] = sqlesc($params['cid']);
     sql_query("DELETE FROM cleanup WHERE clean_id = {$params['cid']}");
     if (1 === $mysqli->affected_rows) {
@@ -402,7 +420,9 @@ function cleanup_take_unlock()
             );
         }
         $params[$x] = filter_var($params[$x], FILTER_VALIDATE_INT, $opts);
-        if (!is_numeric($params[$x])) stderr($lang['cleanup_unlock_error'], "{$lang['cleanup_unlock_error1']} $x");
+        if (!is_numeric($params[$x])) {
+            stderr($lang['cleanup_unlock_error'], "{$lang['cleanup_unlock_error1']} $x");
+        }
     }
     unset($opts);
     $params['cid'] = sqlesc($params['cid']);

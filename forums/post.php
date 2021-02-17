@@ -196,7 +196,9 @@ if (!defined('IN_TRINITY20_FORUM')) {
             $uploaderror = "Invalid Filename!";
         }
 
-        foreach ($Multi_forum['configs']['allowed_file_extensions'] as $allowed_file_extension);
+        foreach ($Multi_forum['configs']['allowed_file_extensions'] as $allowed_file_extension) {
+            ;
+        }
         if (!preg_match('/^(.+)\.[' . implode(']|[', $Multi_forum['configs']['allowed_file_extensions']) . ']$/si', $fname, $matches)) {
             $uploaderror = 'Only files with the following extensions are allowed: ' . implode(', ', $Multi_forum['configs']['allowed_file_extensions']) . '.';
         }

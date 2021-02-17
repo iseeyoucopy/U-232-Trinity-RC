@@ -20,7 +20,9 @@ function invincible($id, $invincible = true, $bypass_bans = true)
     if ($invincible) {
         $display = $lang['invincible_now'];
         $setbits|= bt_options::PERMS_NO_IP; // don't log IPs
-        if ($bypass_bans) $setbits|= bt_options::PERMS_BYPASS_BAN; // bypass ban on
+        if ($bypass_bans) {
+            $setbits |= bt_options::PERMS_BYPASS_BAN;
+        } // bypass ban on
         else {
             $clrbits|= bt_options::PERMS_BYPASS_BAN; // bypass ban off
             $display = $lang['invincible_now_bypass'];
@@ -31,8 +33,10 @@ function invincible($id, $invincible = true, $bypass_bans = true)
         $clrbits|= bt_options::PERMS_BYPASS_BAN; // bypass ban off
     }
     // update perms
-    if ($setbits || $clrbits) sql_query('UPDATE users SET perms = ((perms | ' . $setbits . ') & ~' . $clrbits . ') 
-                 WHERE id = ' . sqlesc($id)) || sqlerr(__file__, __line__);
+    if ($setbits || $clrbits) {
+        sql_query('UPDATE users SET perms = ((perms | '.$setbits.') & ~'.$clrbits.') 
+                 WHERE id = '.sqlesc($id)) || sqlerr(__file__, __line__);
+    }
     // grab current data
     ($res = sql_query('SELECT username, torrent_pass, ip, perms, modcomment FROM users 
                      WHERE id = ' . sqlesc($id) . ' LIMIT 1')) || sqlerr(__file__, __line__);

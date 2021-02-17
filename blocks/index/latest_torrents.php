@@ -14,10 +14,18 @@ if (!function_exists('health')) {
     function health($leechers, $seeders)
     {
         global $TRINITY20;
-        if ($leechers > 0 && $seeders > 0) $ratio = $seeders / $leechers * 100;
-        if ($leechers == 1 && $seeders == 1) $ratio = $seeders / $leechers * 1;
-        if (($leechers == 0 && $seeders == 0) || ($leechers > 0 && $seeders == 0)) return "<img src=' " . $TRINITY20['baseurl'] . "/images/health/health_0.gif' alt='Torrent Dead' title='Torrent Dead' />";
-        elseif ($seeders > $leechers) return "<img src=' " . $TRINITY20['baseurl'] . "/images/health/health_10.gif' alt='Torrent health' title='Torrent health' />";
+        if ($leechers > 0 && $seeders > 0) {
+            $ratio = $seeders / $leechers * 100;
+        }
+        if ($leechers == 1 && $seeders == 1) {
+            $ratio = $seeders / $leechers * 1;
+        }
+        if (($leechers == 0 && $seeders == 0) || ($leechers > 0 && $seeders == 0)) {
+            return "<img src=' ".$TRINITY20['baseurl']."/images/health/health_0.gif' alt='Torrent Dead' title='Torrent Dead' />";
+        }
+        elseif ($seeders > $leechers) {
+            return "<img src=' ".$TRINITY20['baseurl']."/images/health/health_10.gif' alt='Torrent health' title='Torrent health' />";
+        }
         switch ($ratio) {
         case $ratio > 0 && $ratio < 15:
             return "<img src=' " . $TRINITY20['baseurl'] . "/images/health/health_1.gif' alt='Torrent health' title='Torrent health' />";
@@ -50,11 +58,13 @@ if (!function_exists('health')) {
     }
 }
 $categorie = genrelist();
-foreach ($categorie as $key => $value) $change[$value['id']] = array(
-    'id' => $value['id'],
-    'name' => $value['name'],
-    'image' => $value['image']
-);
+foreach ($categorie as $key => $value) {
+    $change[$value['id']] = [
+        'id' => $value['id'],
+        'name' => $value['name'],
+        'image' => $value['image']
+    ];
+}
 //== O9 Top 5 and last5 torrents with tooltip
 $HTMLOUT.="<div class='card'>
 	<div class='card-divider'>
@@ -83,7 +93,8 @@ if ($top5torrents) {
         $top5torrentarr['cat_name'] = htmlsafechars($change[$top5torrentarr['category']]['name']);
 	    $top5torrentarr['cat_pic'] = htmlsafechars($change[$top5torrentarr['category']]['image']);
         $torrname = htmlsafechars($top5torrentarr['name']);
-        if (strlen($torrname) > 50) $torrname = substr($torrname, 0, 50) . "...";
+        if (strlen($torrname) > 50) { $torrname = substr($torrname, 0, 50)."...";
+        }
         $thealth = health($top5torrentarr['leechers'], $top5torrentarr['seeders']);
         $poster = empty($top5torrentarr["poster"]) ? "<img src=\'{$TRINITY20['pic_base_url']}noposter.jpg\' width=\'150\' height=\'220\' />" : "<img src=\'" . htmlsafechars($top5torrentarr['poster']) . "\' width=\'150\' height=\'220\' />";
         $HTMLOUT.= "
@@ -125,7 +136,8 @@ if ($last5torrents && (is_countable($last5torrents) ? count($last5torrents) : 0)
 	    $last5torrentarr['cat_pic'] = htmlsafechars($change[$last5torrentarr['category']]['image']);
             $thealth = health($last5torrentarr['leechers'], $last5torrentarr['seeders']);
             $torrname = htmlsafechars($last5torrentarr['name']);
-            if (strlen($torrname) > 50) $torrname = substr($torrname, 0, 50) . "...";
+            if (strlen($torrname) > 50) { $torrname = substr($torrname, 0, 50)."...";
+            }
             $poster = empty($last5torrentarr["poster"]) ? "<img src=\'{$TRINITY20['pic_base_url']}noposter.jpg\' width=\'150\' height=\'220\' />" : "<img src=\'" . htmlsafechars($last5torrentarr['poster']) . "\' width=\'150\' height=\'220\' />";
             $HTMLOUT.= "
             <tbody><tr>

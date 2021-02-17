@@ -11,11 +11,13 @@
  * ------------  @version V6  ------------------*
  */
 $categorie = genrelist();
-foreach ($categorie as $key => $value) $change[$value['id']] = array(
-    'id' => $value['id'],
-    'name' => $value['name'],
-    'image' => $value['image']
-);
+foreach ($categorie as $key => $value) {
+    $change[$value['id']] = [
+        'id' => $value['id'],
+        'name' => $value['name'],
+        'image' => $value['image']
+    ];
+}
 if (($top10torrents24 = $cache->get('top10_tor_24_')) === false) {
     $tortime24 = $_SERVER['REQUEST_TIME'] - 86400;
     ($res_top10_24 = sql_query("SELECT id, times_completed, seeders, poster, leechers, name, category from torrents WHERE last_action >= {$tortime24} ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}")) || sqlerr(__FILE__, __LINE__);
@@ -39,8 +41,9 @@ if (!empty($top10torrents24)) {
          $top10torrent24arr['cat_name'] = htmlsafechars($change[$top10torrent24arr['category']]['name']);
 	    $top10torrent24arr['cat_pic'] = htmlsafechars($change[$top10torrent24arr['category']]['image']);
          $torrname = htmlsafechars($top10torrent24arr['name']);
-         if (strlen($torrname) > 50) 
-				$torrname = substr($torrname, 0, 50) . "...";
+         if (strlen($torrname) > 50) {
+             $torrname = substr($torrname, 0, 50)."...";
+         }
          $HTMLOUT.= "
             <tr>
             <td>". $counter++ ."</td>

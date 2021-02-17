@@ -29,7 +29,9 @@ $stdfoot = array(
     )
 );
 
-if ($CURUSER['class'] < UC_STAFF) stderr($lang['staffbox_err'], $lang['staffbox_class']);
+if ($CURUSER['class'] < UC_STAFF) {
+    stderr($lang['staffbox_err'], $lang['staffbox_class']);
+}
 $valid_do = array(
     'view',
     'delete',
@@ -49,8 +51,12 @@ case 'delete':
             $cache->delete('staff_mess_');
             header('Refresh: 2; url=' . $_SERVER['PHP_SELF']);
             stderr($lang['staffbox_success'], $lang['staffbox_delete_ids']);
-        } else stderr($lang['staffbox_err'], sprintf($lang['staffbox_sql_err'], $mysqli->error));
-    } else stderr($lang['staffbox_err'], $lang['staffbox_odd_err']);
+        } else {
+            stderr($lang['staffbox_err'], sprintf($lang['staffbox_sql_err'], $mysqli->error));
+        }
+    } else {
+        stderr($lang['staffbox_err'], $lang['staffbox_odd_err']);
+    }
     break;
 case 'setanswered':
     if ($id > 0) {
@@ -69,8 +75,12 @@ case 'setanswered':
             $cache->delete('staff_mess_');
             header('Refresh: 2; url=' . $_SERVER['PHP_SELF']);
             stderr($lang['staffbox_success'], $lang['staffbox_setanswered_ids']);
-        } else stderr($lang['staffbox_err'], sprintf($lang['staffbox_sql_err'], $mysqli->error));
-    } else stderr($lang['staffbox_err'], $lang['staffbox_odd_err']);
+        } else {
+            stderr($lang['staffbox_err'], sprintf($lang['staffbox_sql_err'], $mysqli->error));
+        }
+    } else {
+        stderr($lang['staffbox_err'], $lang['staffbox_odd_err']);
+    }
     break;
 case 'view':
     if ($id > 0) {
@@ -100,8 +110,12 @@ $HTMLOUT.= "<div class='row'><div class='col-md-12'>";
 								</form>";
 $HTMLOUT.= "</div></div>";
              echo (stdhead('StaffBox', true, $stdhead) . $HTMLOUT . stdfoot());
-        } else stderr($lang['staffbox_err'], $lang['staffbox_msg_noid']);
-    } else stderr($lang['staffbox_err'], $lang['staffbox_odd_err']);
+        } else {
+            stderr($lang['staffbox_err'], $lang['staffbox_msg_noid']);
+        }
+    } else {
+        stderr($lang['staffbox_err'], $lang['staffbox_odd_err']);
+    }
     break;
 case 'restart':
     if ($id > 0) {
@@ -109,14 +123,20 @@ case 'restart':
             $cache->delete('staff_mess_');
             header('Refresh: 2; url=' . $_SERVER['PHP_SELF']);
             stderr($lang['staffbox_success'], $lang['staffbox_restart_ids']);
-        } else stderr($lang['staffbox_err'], sprintf($lang['staffbox_sql_err'], $mysqli->error));
-    } else stderr($lang['staffbox_err'], $lang['staffbox_odd_err']);
+        } else {
+            stderr($lang['staffbox_err'], sprintf($lang['staffbox_sql_err'], $mysqli->error));
+        }
+    } else {
+        stderr($lang['staffbox_err'], $lang['staffbox_odd_err']);
+    }
     break;
 default:
     $count_msgs = get_row_count('staffmessages');
     $perpage = 4;
     $pager = pager($perpage, $count_msgs, 'staffbox.php?');
-    if (!$count_msgs) stderr($lang['staffbox_err'], $lang['staffbox_no_msgs']);
+    if (!$count_msgs) {
+        stderr($lang['staffbox_err'], $lang['staffbox_no_msgs']);
+    }
     else {
 $HTMLOUT.= "<div class='row'><div class='col-md-12'><h2>{$lang['staffbox_info']}</h2></div></div>";
 $HTMLOUT.= "<div class='row'><div class='col-md-12'>";
@@ -131,13 +151,15 @@ $HTMLOUT.= "<div class='row'><div class='col-md-12'>";
                  <td><h4><input type='checkbox' name='t' onclick=\"checkbox('staffbox')\" /></h4></td>
                 </tr>";
         ($r = sql_query('SELECT s.id, s.added, s.subject, s.answered, s.answeredby, s.sender, s.answer, u.username, u2.username as username2 FROM staffmessages as s LEFT JOIN users as u ON s.sender = u.id LEFT JOIN users as u2 ON s.answeredby = u2.id ORDER BY id desc ' . $pager['limit'])) || sqlerr(__FILE__, __LINE__);
-        while ($a = $r->fetch_assoc()) $HTMLOUT.= "<tr>
-                   <td><a href='" . $_SERVER['PHP_SELF'] . "?do=view&amp;id=" . (int)$a['id'] . "'>" . htmlsafechars($a['subject']) . "</a></td>
-                   <td ><b>" . ($a['username'] ? "<a href='userdetails.php?id=" . (int)$a['sender'] . "'>" . htmlsafechars($a['username']) . "</a>" : "Unknown[" . (int)$a['sender'] . "]") . "</b></td>
-                   <td nowrap='nowrap'>" . get_date($a['added'], 'DATE', 1) . "<br/><span class='small'>" . get_date($a['added'], 0, 1) . "</span></td>
-				   <td ><b>" . ($a['answeredby'] > 0 ? "by <a href='userdetails.php?id=" . (int)$a['answeredby'] . "'>" . htmlsafechars($a['username2']) . "</a>" : "<span style='color:#ff0000'>No</span>") . "</b></td>
-                   <td><input type='checkbox' name='id[]' value='" . (int)$a['id'] . "' /></td>
+        while ($a = $r->fetch_assoc()) {
+            $HTMLOUT .= "<tr>
+                   <td><a href='".$_SERVER['PHP_SELF']."?do=view&amp;id=".(int)$a['id']."'>".htmlsafechars($a['subject'])."</a></td>
+                   <td ><b>".($a['username'] ? "<a href='userdetails.php?id=".(int)$a['sender']."'>".htmlsafechars($a['username'])."</a>" : "Unknown[".(int)$a['sender']."]")."</b></td>
+                   <td nowrap='nowrap'>".get_date($a['added'], 'DATE', 1)."<br/><span class='small'>".get_date($a['added'], 0, 1)."</span></td>
+				   <td ><b>".($a['answeredby'] > 0 ? "by <a href='userdetails.php?id=".(int)$a['answeredby']."'>".htmlsafechars($a['username2'])."</a>" : "<span style='color:#ff0000'>No</span>")."</b></td>
+                   <td><input type='checkbox' name='id[]' value='".(int)$a['id']."' /></td>
                   </tr>\n";
+        }
         $HTMLOUT.= "<tr><td>
 					<select name='do'>
 						<option value='delete'>{$lang['staffbox_do_delete']}</option>

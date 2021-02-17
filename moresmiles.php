@@ -36,10 +36,14 @@ $htmlout = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
     <table class='list' width='100%' cellpadding='1' cellspacing='1'>";
 $count = is_countable($smilies) ? count($smilies) : 0;
 foreach($smilies as $code => $url) {
-    if ($count % 3 == 0) $htmlout.= " \n<tr>";
+    if ($count % 3 == 0) {
+        $htmlout .= " \n<tr>";
+    }
     $htmlout.= "\n\t<td class=\"list\" align=\"center\"><a href=\"javascript: SmileIT('" . str_replace("'", "\'", $code) . "','" . htmlsafechars($_GET["form"]) . "','" . htmlsafechars($_GET["text"]) . "')\"><img border='0' src='./pic/smilies/" . $url . "' alt='' /></a></td>";
     $count++;
-    if ($count % 3 == 0) $htmlout.= "\n</tr>";
+    if ($count % 3 == 0) {
+        $htmlout .= "\n</tr>";
+    }
 }
 $htmlout.= "</table><div align='center'><a href='javascript: window.close()'>[ Close Window ]</a></div></body></html>";
 echo $htmlout;

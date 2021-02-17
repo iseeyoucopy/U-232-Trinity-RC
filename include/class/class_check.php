@@ -77,7 +77,9 @@ function class_check($class = 0, $staff = true, $pin = false)
                 // generate a passhash from the sent password
                 $hash = md5($TRINITY20['site']['salt2'] . $_SERVER['PHP_AUTH_PW'] . $CURUSER['secret']);
                 // if the password is correct, exit this function
-                if (md5($TRINITY20['site']['salt2'] . $TRINITY20['staff']['staff_pin'] . $CURUSER['secret']) === $hash) $passed = true;
+                if (md5($TRINITY20['site']['salt2'] . $TRINITY20['staff']['staff_pin'] . $CURUSER['secret']) === $hash) {
+                    $passed = true;
+                }
             }
             if (!$passed) {
                 // they're not allowed, the username doesn't match their own, the password is

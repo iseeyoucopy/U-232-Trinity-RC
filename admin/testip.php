@@ -37,7 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 if ($ip) {
     $nip = ip2long($ip);
-    if ($nip == - 1) stderr($lang['testip_error'], $lang['testip_error1']);
+    if ($nip == - 1) {
+        stderr($lang['testip_error'], $lang['testip_error1']);
+    }
     ($res = sql_query("SELECT * FROM bans WHERE $nip >= first AND $nip <= last")) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows == 0) {
         stderr($lang['testip_result'], sprintf($lang['testip_notice'], htmlentities($ip, ENT_QUOTES)));

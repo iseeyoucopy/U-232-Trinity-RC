@@ -13,15 +13,23 @@
 function pager($rpp, $count, $href, $opts = array()) // thx yuna or whoever wrote it
 {
     $pages = ceil($count / $rpp);
-    if (!isset($opts["lastpagedefault"])) $pagedefault = 0;
+    if (!isset($opts["lastpagedefault"])) {
+        $pagedefault = 0;
+    }
     else {
         $pagedefault = floor(($count - 1) / $rpp);
-        if ($pagedefault < 0) $pagedefault = 0;
+        if ($pagedefault < 0) {
+            $pagedefault = 0;
+        }
     }
     if (isset($_GET["page"])) {
         $page = 0 + $_GET["page"];
-        if ($page < 0) $page = $pagedefault;
-    } else $page = $pagedefault;
+        if ($page < 0) {
+            $page = $pagedefault;
+        }
+    } else {
+        $page = $pagedefault;
+    }
 	$HTMLOUT = '';
 	$HTMLOUT .= '';
     $pager = "";
@@ -35,7 +43,9 @@ function pager($rpp, $count, $href, $opts = array()) // thx yuna or whoever wrot
     if ($page < $mp && $mp >= 0) {
         $pager2.= '<li><a href="'.$href.'page=' . ($page + 1) . '"aria-label="'.$href.'pagh">'.$as.'</a></li>';
         $pager2.= "$bregs";
-    } else $pager2.= $bregs;
+    } else {
+        $pager2 .= $bregs;
+    }
     if ($count) {
         $pagerarr = array();
         $dotted = 0;
@@ -45,20 +55,26 @@ function pager($rpp, $count, $href, $opts = array()) // thx yuna or whoever wrot
         $curdotstart = $page + $dotspace;
         for ($i = 0; $i < $pages; $i++) {
             if (($i >= $dotspace && $i <= $curdotend) || ($i >= $curdotstart && $i < $dotend)) {
-                if (!$dotted) $pagerarr[] = '<li class="ellipsis" aria-hidden="true"></li>';
+                if (!$dotted) {
+                    $pagerarr[] = '<li class="ellipsis" aria-hidden="true"></li>';
+                }
                 $dotted = 1;
                 continue;
             }
             $dotted = 0;
             $start = $i * $rpp + 1;
             $end = $start + $rpp - 1;
-            if ($end > $count) $end = $count;
+            if ($end > $count) {
+                $end = $count;
+            }
             $text = $i + 1;
-            if ($i != $page) 
-				$pagerarr[] = "<li><a title=\"$start&nbsp;-&nbsp;$end\" href=\"{$href}page=$i\"><b>$text</b></a></li>
+            if ($i != $page) {
+                $pagerarr[] = "<li><a title=\"$start&nbsp;-&nbsp;$end\" href=\"{$href}page=$i\"><b>$text</b></a></li>
 			<td>&nbsp;</td>";
-            else 
-				$pagerarr[] = '<li class="current"><span class="show-for-sr"></span>'.$text.'</li>';
+            }
+            else {
+                $pagerarr[] = '<li class="current"><span class="show-for-sr"></span>'.$text.'</li>';
+            }
         }
 		
         $pagerstr = implode("", $pagerarr);

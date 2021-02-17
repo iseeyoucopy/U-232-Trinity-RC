@@ -19,7 +19,9 @@ function crazyhour()
     if (($crazyhour['crazyhour'] = $cache->get('crazyhour')) === false) {
         ($crazyhour['crazyhour_sql'] = sql_query('SELECT var, amount FROM freeleech WHERE type = "crazyhour"')) || sqlerr(__FILE__, __LINE__);
         $crazyhour['crazyhour'] = array();
-        if ($crazyhour['crazyhour_sql']->num_rows !== 0) $crazyhour['crazyhour'] = $crazyhour['crazyhour_sql']->fetch_assoc();
+        if ($crazyhour['crazyhour_sql']->num_rows !== 0) {
+            $crazyhour['crazyhour'] = $crazyhour['crazyhour_sql']->fetch_assoc();
+        }
         else {
             $crazyhour['crazyhour']['var'] = random_int(TIME_NOW, (TIME_NOW + 86400));
             $crazyhour['crazyhour']['amount'] = 0;

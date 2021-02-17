@@ -22,12 +22,17 @@ if (isset($_POST["form"]) != 1) {
     ($res = sql_query("SELECT status FROM uploadapp WHERE userid = " . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
 	$status_arr = isset($arr['status']) ? (int)$arr['status'] : "";
-    if ($CURUSER['class'] >= UC_UPLOADER) 
-		stderr($lang['uploadapp_user_error'], $lang['uploadapp_alreadyup']);
+    if ($CURUSER['class'] >= UC_UPLOADER) {
+        stderr($lang['uploadapp_user_error'], $lang['uploadapp_alreadyup']);
+    }
     elseif 
-		($status_arr == 'pending') stderr($lang['uploadapp_user_error'], $lang['uploadapp_pending']);
+		($status_arr == 'pending') {
+        stderr($lang['uploadapp_user_error'], $lang['uploadapp_pending']);
+    }
     elseif 
-		($status_arr == 'rejected') stderr($lang['uploadapp_user_error'], $lang['uploadapp_rejected']);
+		($status_arr == 'rejected') {
+        stderr($lang['uploadapp_user_error'], $lang['uploadapp_rejected']);
+    }
     else {
         $HTMLOUT.= "<h1 align='center'>{$lang['uploadapp_application']}</h1>
         <table class='table table-bordered'><tr><td>
@@ -43,7 +48,9 @@ if (isset($_POST["form"]) != 1) {
         $Conn_Y = (XBT_TRACKER === true ? 1 : 'yes');
             $connect = $row[0];
             $connectable = $connect == $Conn_Y ? 'Yes' : 'No';
-        } else $connectable = 'Pending';
+        } else {
+            $connectable = 'Pending';
+        }
         $HTMLOUT.= "<tr>
         <td class='rowhead'>{$lang['uploadapp_username']}</td>
         <td><input name='userid' type='hidden' value='" . (int)$CURUSER['id'] . "' />" . $CURUSER['username'] . "</td>
@@ -109,11 +116,21 @@ if (isset($_POST["form"]) != 1) {
     $app['scene'] = htmlsafechars($_POST['scene']);
     $app['creating'] = htmlsafechars($_POST['creating']);
     $app['seeding'] = htmlsafechars($_POST['seeding']);
-    if (!is_valid_id($app['userid'])) stderr($lang['uploadapp_error'], $lang['uploadapp_tryagain']);
-    if (!$app['speed']) stderr($lang['uploadapp_error'], $lang['uploadapp_speedblank']);
-    if (!$app['offer']) stderr($lang['uploadapp_error'], $lang['uploadapp_offerblank']);
-    if (!$app['reason']) stderr($lang['uploadapp_error'], $lang['uploadapp_reasonblank']);
-    if ($app['sites'] == 'yes' && !$app['sitenames']) stderr($lang['uploadapp_error'], $lang['uploadapp_sitesblank']);
+    if (!is_valid_id($app['userid'])) {
+        stderr($lang['uploadapp_error'], $lang['uploadapp_tryagain']);
+    }
+    if (!$app['speed']) {
+        stderr($lang['uploadapp_error'], $lang['uploadapp_speedblank']);
+    }
+    if (!$app['offer']) {
+        stderr($lang['uploadapp_error'], $lang['uploadapp_offerblank']);
+    }
+    if (!$app['reason']) {
+        stderr($lang['uploadapp_error'], $lang['uploadapp_reasonblank']);
+    }
+    if ($app['sites'] == 'yes' && !$app['sitenames']) {
+        stderr($lang['uploadapp_error'], $lang['uploadapp_sitesblank']);
+    }
     $res = sql_query("INSERT INTO uploadapp(userid,applied,connectable,speed,offer,reason,sites,sitenames,scene,creating,seeding) VALUES(" . implode(",", array_map("sqlesc", array(
         $app['userid'],
         TIME_NOW,
@@ -129,15 +146,21 @@ if (isset($_POST["form"]) != 1) {
     ))) . ")");
     $cache->delete('new_uploadapp_');
     if (!$res) {
-        if ($mysqli->errno) stderr($lang['uploadapp_error'], $lang['uploadapp_twice']);
-        else stderr($lang['uploadapp_error'], $lang['uploadapp_tryagain']);
+        if ($mysqli->errno) {
+            stderr($lang['uploadapp_error'], $lang['uploadapp_twice']);
+        }
+        else {
+            stderr($lang['uploadapp_error'], $lang['uploadapp_tryagain']);
+        }
     } else {
         $subject = sqlesc("Uploader application");
         $msg = sqlesc("An uploader application has just been filled in by [url={$TRINITY20['baseurl']}/userdetails.php?id=" . (int)$CURUSER['id'] . "][b]{$CURUSER['username']}[/b][/url]. Click [url={$TRINITY20['baseurl']}/staffpanel.php?tool=uploadapps&action=show][b]Here[/b][/url] to go to the uploader applications page.");
         $dt = TIME_NOW;
         ($subres = sql_query('SELECT id FROM users WHERE class = ' . UC_STAFF)) || sqlerr(__FILE__, __LINE__);
-        while ($arr = $subres->fetch_assoc()) 
-            sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, " . sqlesc($arr['id']) . ", $dt, $msg, $subject, 0)") || sqlerr(__FILE__, __LINE__);
+        while ($arr = $subres->fetch_assoc()) {
+            sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, ".sqlesc($arr['id']).", $dt, $msg, $subject, 0)") || sqlerr(__FILE__,
+                __LINE__);
+        }
         $cache->delete('inbox_new::' . $arr['id']);
         $cache->delete('inbox_new_sb::' . $arr['id']);
         stderr($lang['uploadapp_appsent'], $lang['uploadapp_success']);

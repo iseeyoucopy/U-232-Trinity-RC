@@ -32,16 +32,23 @@ if (empty($_GET['id'])) {
     exit();
 }
 $id = 0 + $_GET["id"];
-if (!is_valid_id($id)) stderr("Error", "It appears that you have entered an invalid id.");
+if (!is_valid_id($id)) {
+    stderr("Error", "It appears that you have entered an invalid id.");
+}
 ($res = sql_query("SELECT id, name FROM torrents WHERE id = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 $arr = $res->fetch_assoc();
-if (!$arr) stderr("Error", "It appears that there is no torrent with that id.");
+if (!$arr) {
+    stderr("Error", "It appears that there is no torrent with that id.");
+}
 ($res = sql_query("SELECT COUNT(id) FROM snatched WHERE complete_date !=0 AND torrentid =" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 $row = $res->fetch_row();
 $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "snatches.php?id=$id&amp;");
-if (!$count) stderr("No snatches", "It appears that there are currently no snatches for the torrent <a href='details.php?id=" . (int)$arr['id'] . "'>" . htmlsafechars($arr['name']) . "</a>.");
+if (!$count) {
+    stderr("No snatches",
+        "It appears that there are currently no snatches for the torrent <a href='details.php?id=".(int)$arr['id']."'>".htmlsafechars($arr['name'])."</a>.");
+}
 $HTMLOUT.= "
 <div class='grid-x grid-paddinx-x'>
   <div class='card'>
@@ -50,7 +57,9 @@ $HTMLOUT.= "
     </div>
     <div class='card-section'>
     <span class='label'>Currently <span class='badge success'>{$row['0']}</span> snatch" . ($row[0] == 1 ? "" : "es") . "</span>";
-if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
+if ($count > $perpage) {
+    $HTMLOUT .= $pager['pagertop'];
+}
 $HTMLOUT.= "
 <div class='table-scroll'>
 <table class='striped'>
@@ -101,7 +110,9 @@ while ($arr = $res->fetch_assoc()) {
 //}
 $HTMLOUT.= "</table></div>
 </div></div></div>";
-if ($count > $perpage) $HTMLOUT.= $pager['pagerbottom'];
+if ($count > $perpage) {
+    $HTMLOUT .= $pager['pagerbottom'];
+}
 echo stdhead('Snatches') . $HTMLOUT . stdfoot();
 die;
 ?>

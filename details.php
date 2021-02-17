@@ -44,16 +44,20 @@ $stdfoot = array(
     )
 );
 $HTMLOUT = $torrent_cache = '';
-if (!isset($_GET['id']) || !is_valid_id($_GET['id'])) stderr("{$lang['details_user_error']}", "{$lang['details_bad_id']}");
+if (!isset($_GET['id']) || !is_valid_id($_GET['id'])) {
+    stderr("{$lang['details_user_error']}", "{$lang['details_bad_id']}");
+}
 $id = (int)$_GET["id"];
 
 $categorie = genrelist();
-foreach ($categorie as $key => $value) $change[$value['id']] = array(
-    'id' => $value['id'],
-    'name' => $value['name'],
-    'image' => $value['image'],
-    'min_class' => $value['min_class']
-);
+foreach ($categorie as $key => $value) {
+    $change[$value['id']] = [
+        'id' => $value['id'],
+        'name' => $value['name'],
+        'image' => $value['image'],
+        'min_class' => $value['min_class']
+    ];
+}
 if (($torrents = $cache->get('torrent_details_' . $id)) === false) {
     $tor_fields_ar_int = array(
         'id',
@@ -109,12 +113,15 @@ if (($torrents = $cache->get('torrent_details_' . $id)) === false) {
     $tor_fields = implode(', ', array_merge($tor_fields_ar_int, $tor_fields_ar_str));
     ($result = sql_query("SELECT " . $tor_fields . ", (SELECT MAX(id) FROM torrents ) as max_id, (SELECT MIN(id) FROM torrents) as min_id, LENGTH(nfo) AS nfosz, IF(num_ratings < {$TRINITY20['minvotes']}, NULL, ROUND(rating_sum / num_ratings, 1)) AS rating FROM torrents WHERE id = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $torrents = $result->fetch_assoc();
-    foreach ($tor_fields_ar_int as $i) $torrents[$i] = (int)$torrents[$i];
-    foreach ($tor_fields_ar_str as $i) $torrents[$i] = $torrents[$i];
+    foreach ($tor_fields_ar_int as $i) { $torrents[$i] = (int)$torrents[$i];
+    }
+    foreach ($tor_fields_ar_str as $i) { $torrents[$i] = $torrents[$i];
+    }
     $cache->set('torrent_details_' . $id, $torrents, $TRINITY20['expires']['torrent_details']);
 }
 	$tor_cat = $torrents['category'] ?? '';
-   if ($change[$tor_cat]['min_class'] > $CURUSER['class']) stderr("{$lang['details_user_error']}", "{$lang['details_bad_id']}");
+   if ($change[$tor_cat]['min_class'] > $CURUSER['class']) { stderr("{$lang['details_user_error']}", "{$lang['details_bad_id']}");
+   }
 //==
 if (($torrents_xbt = $cache->get('torrent_xbt_data_' . $id)) === false && XBT_TRACKER == true) {
     ($t_xbt_d = sql_query("SELECT seeders, leechers, times_completed FROM torrents WHERE id =" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
@@ -140,8 +147,9 @@ $newgenre = '';
 if (!empty($torrents['newgenre'])) {
 	$newgenre = array();
 	$torrents['newgenre'] = explode(',', $torrents['newgenre']);
-	foreach ($torrents['newgenre'] as $foo) $newgenre[] = '<a href="browse.php?search=' . trim(strtolower($foo)) . '&amp;searchin=genre">' . $foo . '</a>';
-	$newgenre = '<i>' . implode(' | ', $newgenre) . '</i>';
+	foreach ($torrents['newgenre'] as $foo) { $newgenre[] = '<a href="browse.php?search='.trim(strtolower($foo)).'&amp;searchin=genre">'.$foo.'</a>';
+    }
+    $newgenre = '<i>' . implode(' | ', $newgenre) . '</i>';
 }
 //==
 if (isset($_GET["hit"])) {
@@ -213,10 +221,13 @@ function do_rate(rate,id,what) {
 /*]]>*/
 </script>";
 $owned = $moderator = 0;
-if ($CURUSER["class"] >= UC_STAFF) $owned = $moderator = 1;
-elseif ($CURUSER["id"] == $torrents["owner"]) $owned = 1;
-if ($torrents["vip"] == "1" && $CURUSER["class"] < UC_VIP) stderr("{$lang['details_add_err1']}", "{$lang['details_add_err2']}");
-if (!$torrents || ($torrents["banned"] == "yes" && !$moderator)) stderr("{$lang['details_error']}", "{$lang['details_torrent_id']}");
+if ($CURUSER["class"] >= UC_STAFF) { $owned = $moderator = 1;
+} elseif ($CURUSER["id"] == $torrents["owner"]) { $owned = 1;
+}
+if ($torrents["vip"] == "1" && $CURUSER["class"] < UC_VIP) { stderr("{$lang['details_add_err1']}", "{$lang['details_add_err2']}");
+}
+if (!$torrents || ($torrents["banned"] == "yes" && !$moderator)) { stderr("{$lang['details_error']}", "{$lang['details_torrent_id']}");
+}
 $owned = $CURUSER["id"] == $torrents["owner"] || $CURUSER["class"] >= UC_STAFF ? 1 : 0;
 $spacer = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 if (empty($torrents["tags"])) {
@@ -236,7 +247,8 @@ if (isset($_GET["uploaded"])) {
     $HTMLOUT.= '<meta http-equiv="refresh" content="1;url=download.php?torrent=' . $id . '">';
 } elseif (isset($_GET["edited"])) {
     $HTMLOUT.= "<div class='alert alert-success span11' align='center'><h2>{$lang['details_success_edit']}</h2></div>\n";
-    if (isset($_GET["returnto"])) $HTMLOUT.= "<p><b>{$lang['details_go_back']}<a href='" . htmlsafechars($_GET["returnto"]) . "'>{$lang['details_whence']}</a>.</b></p>\n";
+    if (isset($_GET["returnto"])) { $HTMLOUT .= "<p><b>{$lang['details_go_back']}<a href='".htmlsafechars($_GET["returnto"])."'>{$lang['details_whence']}</a>.</b></p>\n";
+    }
 } elseif (isset($_GET["reseed"])) {
     $HTMLOUT.= "<div class='alert alert-success col-md-11' align='center'><h2>{$lang['details_add_succ1']}</h2></div>\n";
 }
@@ -271,11 +283,17 @@ if ($CURUSER['class'] >= UC_STAFF) {
         header("Location: {$TRINITY20["baseurl"]}/details.php?id=$id&clearchecked=done#Success");
     }
     if (isset($_GET["checked"]) && $_GET["checked"] == 'done') 
-		$HTMLOUT.= "<div class='alert alert-success span11' align='center'><h2><a name='Success'>{$lang['details_add_chksc']}{$CURUSER['username']}!</a></h2></div>";
+		{
+            $HTMLOUT .= "<div class='alert alert-success span11' align='center'><h2><a name='Success'>{$lang['details_add_chksc']}{$CURUSER['username']}!</a></h2></div>";
+        }
     if (isset($_GET["rechecked"]) && $_GET["rechecked"] == 'done') 
-		$HTMLOUT.= "<div class='alert alert-success span11' align='center'><h2><a name='Success'>{$lang['details_add_rchksc']}{$CURUSER['username']}!</a></h2></div>";
+		{
+            $HTMLOUT .= "<div class='alert alert-success span11' align='center'><h2><a name='Success'>{$lang['details_add_rchksc']}{$CURUSER['username']}!</a></h2></div>";
+        }
     if (isset($_GET["clearchecked"]) && $_GET["clearchecked"] == 'done') 
-		$HTMLOUT.= "<div class='alert alert-success span11' align='center'><h2><a name='Success'>{$lang['details_add_uchksc']}{$CURUSER['username']}!</a></h2></div>";
+		{
+            $HTMLOUT .= "<div class='alert alert-success span11' align='center'><h2><a name='Success'>{$lang['details_add_uchksc']}{$CURUSER['username']}!</a></h2></div>";
+        }
 }
 // end
 $prev_id = ($id - 1);
@@ -299,8 +317,10 @@ $possible_actions = array(
     'imdb'
 );
 $action = isset($_GET["action"]) ? htmlsafechars(trim($_GET["action"])) : 'torrents';
-if (!in_array($action, $possible_actions)) stderr('Error','<br><div class="alert alert-error span11">Error! Change a few things up and try submitting again.</div>');
-get_script_access(basename($_SERVER['REQUEST_URI']));
+if (!in_array($action, $possible_actions)) { stderr('Error',
+    '<br><div class="alert alert-error span11">Error! Change a few things up and try submitting again.</div>');
+}
+    get_script_access(basename($_SERVER['REQUEST_URI']));
 /*Tab selector begins*/
 $HTMLOUT .="
 <div class='callout'>
@@ -329,9 +349,11 @@ else {
 $HTMLOUT.='</div>';
 $HTMLOUT.= "<ul class='menu expanded align-center'>";
 if($torrents["id"] != $torrents["min_id"])
-	$HTMLOUT .= "<li class='pagination-previous'><a href='details.php?id={$prev_id}'><b>{$lang['details_add_next']}</b></a></li>";
-if($torrents["id"] != $torrents["max_id"])
-	$HTMLOUT .= "<li class='pagination-next'><a href='details.php?id={$next_id}'><b>{$lang['details_add_prev']}</b></a></li>";;
+	{ $HTMLOUT .= "<li class='pagination-previous'><a href='details.php?id={$prev_id}'><b>{$lang['details_add_next']}</b></a></li>";
+    }
+if ($torrents["id"] != $torrents["max_id"])
+	{ $HTMLOUT .= "<li class='pagination-next'><a href='details.php?id={$next_id}'><b>{$lang['details_add_prev']}</b></a></li>";
+    };
 $HTMLOUT.= "</div>";
 ///Add Comment
 

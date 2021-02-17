@@ -36,7 +36,9 @@ $lang = array_merge($lang, load_language('ad_backup'));
 $allowed_ids = array(
     1
 );
-if (!in_array($CURUSER['id'], $allowed_ids)) stderr($lang['backup_stderr'], $lang['backup_stderr1']);
+if (!in_array($CURUSER['id'], $allowed_ids)) {
+    stderr($lang['backup_stderr'], $lang['backup_stderr1']);
+}
 $HTMLOUT = '';
 /**
  * Configs Start
@@ -87,7 +89,9 @@ $write2log = true;
  * Configs End
  */
 if (is_array($required_class)) {
-    if (!in_array($CURUSER['class'], $required_class)) stderr($lang['backup_stderr'], $lang['backup_stderr']);
+    if (!in_array($CURUSER['class'], $required_class)) {
+        stderr($lang['backup_stderr'], $lang['backup_stderr']);
+    }
 } elseif ($CURUSER['class'] != $required_class) {
     stderr($lang['backup_stderr'], $lang['backup_stderr1']);
 }
@@ -161,7 +165,9 @@ if (empty($mode)) {
     }
     $HTMLOUT.= "<br />";
     $HTMLOUT.= stdmsg($lang['backup_options'], "<div align='center'><a href='staffpanel.php?tool=backup&amp;mode=backup'>{$lang['backup_dbbackup']}</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href='staffpanel.php?tool=backup&amp;mode=check'>{$lang['backup_settingschk']}</a></div>");
-    if (!empty($_GET)) $HTMLOUT.= "<br />";
+    if (!empty($_GET)) {
+        $HTMLOUT .= "<br />";
+    }
     if (isset($_GET['backedup'])) {
         $HTMLOUT.= stdmsg($lang['backup_success'], $lang['backup_backedup']);
     } elseif (isset($_GET['deleted'])) {
@@ -180,24 +186,32 @@ if (empty($mode)) {
     $ext = $mysql_db . '-' . date('d') . '-' . date('m') . '-' . date('Y') . '_' . date('H') . '-' . date('i') . '-' . date('s') . '_' . date('D') . ".sql";
     $filepath = $backupdir . '/' . $ext;
     exec("$mysqldump_path --default-character-set=latin1 -h $mysql_host -u $mysql_user -p$mysql_pass $mysql_db > $filepath");
-    if ($use_gzip) exec($gzip_path . ' ' . $filepath);
+    if ($use_gzip) {
+        exec($gzip_path.' '.$filepath);
+    }
     sql_query("INSERT INTO dbbackup (name, added, userid) VALUES (" . sqlesc($ext . ($use_gzip ? '.gz' : '')) . ", " . TIME_NOW . ", " . sqlesc($CURUSER['id']) . ")") || sqlerr(__FILE__, __LINE__);
     $location = 'mode=backup';
     if ($autodl) {
         $id = $mysqli->insert_id;
         $location = 'mode=download&id=' . $id;
     }
-    if ($write2log) write_log($CURUSER['username'] . '(' . get_user_class_name($CURUSER['class']) . ') '. $lang['backup_successfully'] .'');
+    if ($write2log) {
+        write_log($CURUSER['username'].'('.get_user_class_name($CURUSER['class']).') '.$lang['backup_successfully'].'');
+    }
     header("Location: staffpanel.php?tool=backup");
 } elseif ($mode == "download") {
     $id = (isset($_GET['id']) ? (int)$_GET['id'] : 0);
-    if (!is_valid_id($id)) stderr($lang['backup_stderr'], $lang['backup_id']);
+    if (!is_valid_id($id)) {
+        stderr($lang['backup_stderr'], $lang['backup_id']);
+    }
     ($res = sql_query("SELECT name FROM dbbackup WHERE id = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
     $filename = $backupdir . '/' . $arr['name'];
     //print $filename;
     //exit();
-    if (!is_file($filename)) stderr($lang['backup_stderr'], $lang['backup_inexistent']);
+    if (!is_file($filename)) {
+        stderr($lang['backup_stderr'], $lang['backup_inexistent']);
+    }
     $file_extension = strtolower(substr(strrchr($filename, ".") , 1));
     switch ($file_extension) {
     case "sql":
@@ -212,7 +226,9 @@ if (empty($mode)) {
     default:
         $ctype = "application/force-download";
     }
-    if ($write2log) write_log($CURUSER['username'] . '(' . get_user_class_name($CURUSER['class']) . ') downloaded a database(' . htmlsafechars($arr['name']) . ').');
+    if ($write2log) {
+        write_log($CURUSER['username'].'('.get_user_class_name($CURUSER['class']).') downloaded a database('.htmlsafechars($arr['name']).').');
+    }
     header('Refresh: 0; url=staffpanel.php' . ($autodl && !$autodel ? '' : '?tool=backup&mode=delete&id=' . $id));
     header("Pragma: public");
     header("Expires: 0");
@@ -228,19 +244,31 @@ if (empty($mode)) {
         $_GET['id']
     ) : array()));
     if (!empty($ids)) {
-        foreach ($ids as $id) if (!is_valid_id($id)) stderr($lang['backup_stderr'], $lang['backup_id']);
+        foreach ($ids as $id) {
+            if (!is_valid_id($id)) {
+                stderr($lang['backup_stderr'], $lang['backup_id']);
+            }
+        }
         ($res = sql_query("SELECT name FROM dbbackup WHERE id IN (" . implode(', ', array_map('sqlesc', $ids)) . ")")) || sqlerr(__FILE__, __LINE__);
         $count = $res->num_rows;
         if ($count > 0) {
             while ($arr = $res->fetch_assoc()) {
                 $filename = $backupdir . '/' . $arr['name'];
-                if (is_file($filename)) unlink($filename);
+                if (is_file($filename)) {
+                    unlink($filename);
+                }
             }
             sql_query('DELETE FROM dbbackup WHERE id IN (' . implode(', ', array_map('sqlesc', $ids)) . ')') || sqlerr(__FILE__, __LINE__);
-            if ($write2log) write_log($CURUSER['username'] . '(' . get_user_class_name($CURUSER['class']) . ') '. $lang['backup_deleted1'] .' ' . $count . ($count > 1 ? $lang['backup_database_plural'] : $lang['backup_database_singular']) . '.');
+            if ($write2log) {
+                write_log($CURUSER['username'].'('.get_user_class_name($CURUSER['class']).') '.$lang['backup_deleted1'].' '.$count.($count > 1 ? $lang['backup_database_plural'] : $lang['backup_database_singular']).'.');
+            }
             $location = 'backup';
-        } else $location = 'noselection';
-    } else $location = 'noselection';
+        } else {
+            $location = 'noselection';
+        }
+    } else {
+        $location = 'noselection';
+    }
     header('Location:staffpanel.php?tool=backup&mode=' . $location);
 } elseif ($mode == "check") {
     $HTMLOUT.= begin_main_frame();
@@ -286,5 +314,7 @@ if (empty($mode)) {
          </tr></table>";
     $HTMLOUT.= end_main_frame();
     echo stdhead($lang['backup_stdhead']) . $HTMLOUT . stdfoot();
-} else stderr($lang['backup_srry'], $lang['backup_unknow']);
+} else {
+    stderr($lang['backup_srry'], $lang['backup_unknow']);
+}
 ?>

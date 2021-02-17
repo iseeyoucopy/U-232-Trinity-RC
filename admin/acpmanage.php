@@ -40,9 +40,16 @@ $stdfoot = array(
 $HTMLOUT = "";
 if (isset($_POST['ids'])) {
     $ids = $_POST["ids"];
-    foreach ($ids as $id) if (!is_valid_id($id)) stderr($lang['std_error'], $lang['text_invalid']);
+    foreach ($ids as $id) {
+        if (!is_valid_id($id)) {
+            stderr($lang['std_error'], $lang['text_invalid']);
+        }
+    }
     $do = isset($_POST["do"]) ? htmlsafechars(trim($_POST["do"])) : '';
-    if ($do == 'enabled') sql_query("UPDATE users SET enabled = 'yes' WHERE ID IN(" . implode(', ', array_map('sqlesc',$ids)) . ") AND enabled = 'no'") || sqlerr(__FILE__, __LINE__);
+    if ($do == 'enabled') {
+        sql_query("UPDATE users SET enabled = 'yes' WHERE ID IN(".implode(', ', array_map('sqlesc', $ids)).") AND enabled = 'no'") || sqlerr(__FILE__,
+            __LINE__);
+    }
     $cache->update_row($keys['my_userid'] . $id, [
         'enabled' => 'yes'
     ], $TRINITY20['expires']['curuser']);
@@ -50,7 +57,10 @@ if (isset($_POST['ids'])) {
         'enabled' => 'yes'
     ], $TRINITY20['expires']['user_cache']);
     //else
-    if ($do == 'confirm') sql_query("UPDATE users SET status = 'confirmed' WHERE ID IN(" . implode(', ', array_map('sqlesc', $ids)) . ") AND status = 'pending'") || sqlerr(__FILE__, __LINE__);
+    if ($do == 'confirm') {
+        sql_query("UPDATE users SET status = 'confirmed' WHERE ID IN(".implode(', ',
+                array_map('sqlesc', $ids)).") AND status = 'pending'") || sqlerr(__FILE__, __LINE__);
+    }
     $cache->update_row($keys['my_userid'] . $id, [
         'status' => 'confirmed'
     ], $TRINITY20['expires']['curuser']);
@@ -58,7 +68,9 @@ if (isset($_POST['ids'])) {
         'status' => 'confirmed'
     ], $TRINITY20['expires']['user_cache']);
     //else
-    if ($do == 'delete') sql_query("DELETE FROM users WHERE ID IN(" . implode(', ', array_map('sqlesc',$ids)) . ") AND class < 3") || sqlerr(__FILE__, __LINE__);
+    if ($do == 'delete') {
+        sql_query("DELETE FROM users WHERE ID IN(".implode(', ', array_map('sqlesc', $ids)).") AND class < 3") || sqlerr(__FILE__, __LINE__);
+    }
     else {
         header('Location: staffpanel.php?tool=acpmanage&amp;action=acpmanage');
         exit;
@@ -72,7 +84,9 @@ $pager = pager($perpage, $count, "staffpanel.php?tool=acpmanage&amp;action=acpma
 $res = sql_query("SELECT id, username, added, downloaded, uploaded, last_access, class, donor, warned, enabled, status FROM users WHERE enabled='no' OR status='pending' ORDER BY username DESC {$pager['limit']}");
  $HTMLOUT.= "<div class='row'><div class='col-md-12'><table class='table table-bordered'><tr><td>{$lang['text_du']}  $disabled</td><td> {$lang['text_pu']}  $pending</td></tr></table></div><br>";
 if ($res->num_rows != 0) {
-    if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
+    if ($count > $perpage) {
+        $HTMLOUT .= $pager['pagertop'];
+    }
     $HTMLOUT.= "<div class='col-md-12'>";
     $HTMLOUT.= "<form action='staffpanel.php?tool=acpmanage&amp;action=acpmanage' method='post'>";
     $HTMLOUT.= "<table class='table table-bordered'>";
@@ -94,7 +108,9 @@ if ($res->num_rows != 0) {
         $ratio = $arr['downloaded'] > 0 ? $arr['uploaded'] / $arr['downloaded'] : 0;
         $ratio = number_format($ratio, 2);
         $color = get_ratio_color($ratio);
-        if ($color) $ratio = "<font color='$color'>$ratio</font>";
+        if ($color) {
+            $ratio = "<font color='$color'>$ratio</font>";
+        }
         $added = get_date($arr['added'], 'LONG', 0, 1);
         $last_access = get_date($arr['last_access'], 'LONG', 0, 1);
         $class = get_user_class_name($arr["class"]);
@@ -115,8 +131,12 @@ if ($res->num_rows != 0) {
     $HTMLOUT.= "</table>";
     $HTMLOUT.= "</form>";
  $HTMLOUT.= "</div>";
-       if ($count > $perpage) $HTMLOUT.= $pager['pagerbottom'];
-} else $HTMLOUT.= stdmsg($lang['std_sorry'], $lang['std_nf']);
+       if ($count > $perpage) {
+           $HTMLOUT .= $pager['pagerbottom'];
+       }
+} else {
+    $HTMLOUT .= stdmsg($lang['std_sorry'], $lang['std_nf']);
+}
  $HTMLOUT.= "</div>";
 echo stdhead($lang['text_stdhead']) . $HTMLOUT . stdfoot($stdfoot);
 ?>

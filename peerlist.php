@@ -19,14 +19,18 @@ dbconn(false);
 loggedinorreturn();
 $lang = array_merge(load_language('global') , load_language('peerlist'));
 $id = (int)$_GET['id'];
-if (!isset($id) || !is_valid_id($id)) stderr($lang['peerslist_user_error'], $lang['peerslist_invalid_id']);
+if (!isset($id) || !is_valid_id($id)) {
+    stderr($lang['peerslist_user_error'], $lang['peerslist_invalid_id']);
+}
 $HTMLOUT = '';
 function dltable($name, $arr, $torrent)
 {
     global $CURUSER, $lang, $TRINITY20;
     $htmlout = '';
-    if ((is_countable($arr) ? count($arr) : 0) === 0) return $htmlout = "
+    if ((is_countable($arr) ? count($arr) : 0) === 0) {
+        return $htmlout = "
         <p>{$lang['peerslist_no']} $name {$lang['peerslist_data_available']}</p>";
+    }
     $htmlout.= "
     <table class='striped'>
     <tr><td colspan='11' class='text-left'>" . (is_countable($arr) ? count($arr) : 0) . " $name</td></tr>
@@ -62,7 +66,9 @@ function dltable($name, $arr, $torrent)
     return $htmlout . "</table>";
 }
 ($res = sql_query("SELECT * FROM torrents WHERE id = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
-if ($res->num_rows == 0) stderr("{$lang['peerslist_error']}", "{$lang['peerslist_nothing']}");
+if ($res->num_rows == 0) {
+    stderr("{$lang['peerslist_error']}", "{$lang['peerslist_nothing']}");
+}
 $row = $res->fetch_assoc();
 $downloaders = array();
 $seeders = array();
@@ -71,26 +77,42 @@ $seeders = array();
     LEFT JOIN users u ON p.userid = u.id
 	LEFT JOIN torrents as t on t.id = p.torrent
     WHERE p.torrent = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
-if ($subres->num_rows == 0) stderr("{$lang['peerslist_warning']}", "{$lang['peerslist_no_data']}");
+if ($subres->num_rows == 0) {
+    stderr("{$lang['peerslist_warning']}", "{$lang['peerslist_no_data']}");
+}
 while ($subrow = $subres->fetch_assoc()) {
-    if ($subrow["seeder"] == "yes") $seeders[] = $subrow;
-    else $downloaders[] = $subrow;
+    if ($subrow["seeder"] == "yes") {
+        $seeders[] = $subrow;
+    }
+    else {
+        $downloaders[] = $subrow;
+    }
 }
 function leech_sort($a, $b)
 {
-    if (isset($_GET["usort"])) return seed_sort($a, $b);
+    if (isset($_GET["usort"])) {
+        return seed_sort($a, $b);
+    }
     $x = $a["to_go"];
     $y = $b["to_go"];
-    if ($x == $y) return 0;
-    if ($x < $y) return -1;
+    if ($x == $y) {
+        return 0;
+    }
+    if ($x < $y) {
+        return -1;
+    }
     return 1;
 }
 function seed_sort($a, $b)
 {
     $x = $a["uploaded"];
     $y = $b["uploaded"];
-    if ($x == $y) return 0;
-    if ($x < $y) return 1;
+    if ($x == $y) {
+        return 0;
+    }
+    if ($x < $y) {
+        return 1;
+    }
     return -1;
 }
 usort($seeders, "seed_sort");

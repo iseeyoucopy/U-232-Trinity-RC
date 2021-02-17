@@ -25,7 +25,9 @@ $stdhead = array(
 $HTMLOUT = $id_2 = $id_2b = '';
 // === now all reports just use a single var $id and a type thanks dokty... again :P
 $id = ($_GET["id"] ? (int)$_GET["id"] : (int)$_POST["id"]);
-if (!is_valid_id($id)) stderr("{$lang['report_error']}", "{$lang['report_error1']}");
+if (!is_valid_id($id)) {
+    stderr("{$lang['report_error']}", "{$lang['report_error1']}");
+}
 $type = (isset($_GET["type"]) ? htmlsafechars($_GET["type"]) : htmlsafechars($_POST["type"]));
 $typesallowed = array(
     "User",
@@ -38,22 +40,32 @@ $typesallowed = array(
     "Hit_And_Run",
     "Post"
 );
-if (!in_array($type, $typesallowed)) stderr("{$lang['report_error']}", "{$lang['report_error2']}");
+if (!in_array($type, $typesallowed)) {
+    stderr("{$lang['report_error']}", "{$lang['report_error2']}");
+}
 // === still need a second value passed for stuff like hit and run where you need two id's :P
 if ((isset($_GET["id_2"])) || (isset($_POST["id_2"]))) {
     $id_2 = ($_GET["id_2"] ? (int)$_GET["id_2"] : (int)$_POST["id_2"]);
-    if (!is_valid_id($id_2)) stderr("{$lang['report_error']}", "{$lang['report_error3']}");
+    if (!is_valid_id($id_2)) {
+        stderr("{$lang['report_error']}", "{$lang['report_error3']}");
+    }
     $id_2b = "&amp;id_2=$id_2";
 }
 if ((isset($_GET["do_it"])) || (isset($_POST["do_it"]))) {
     $do_it = ($_GET["do_it"] ? (int)$_GET["do_it"] : (int)$_POST["do_it"]);
-    if (!is_valid_id($do_it)) stderr("{$lang['report_error']}", "{$lang['report_error3']}");
+    if (!is_valid_id($do_it)) {
+        stderr("{$lang['report_error']}", "{$lang['report_error3']}");
+    }
     // == make sure the reason is filled out and is set
     $reason = htmlsafechars($_POST["reason"]);
-    if (!$reason) stderr("{$lang['report_error']}", "{$lang['report_error4']}");
+    if (!$reason) {
+        stderr("{$lang['report_error']}", "{$lang['report_error4']}");
+    }
     // === check if it's been reported already
     ($res = sql_query("SELECT id FROM reports WHERE reported_by =" . sqlesc($CURUSER['id']) . " AND reporting_what =" . sqlesc($id) . " AND reporting_type = " . sqlesc($type))) || sqlerr(__FILE__, __LINE__);
-    if ($res->num_rows != 0) stderr("{$lang['report_error5']}", "{$lang['report_error6']} <b>" . str_replace("_", " ", $type) . "</b> {$lang['report_id']} <b>$id</b>!");
+    if ($res->num_rows != 0) {
+        stderr("{$lang['report_error5']}", "{$lang['report_error6']} <b>".str_replace("_", " ", $type)."</b> {$lang['report_id']} <b>$id</b>!");
+    }
     // === ok it's not been reported yet let's go on
     $dt = TIME_NOW;
     sql_query("INSERT into reports (reported_by, reporting_what, reporting_type, reason, added, 2nd_value) VALUES (" . sqlesc($CURUSER['id']) . ", " . sqlesc($id) . ", " . sqlesc($type) . ", " . sqlesc($reason) . ", $dt, " . sqlesc((int)$_POST["id_2"]) . ")") || sqlerr(__FILE__, __LINE__);

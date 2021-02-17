@@ -42,8 +42,9 @@ if (($tvsched = $cache->get('schedule_new'.$lcountry)) === false) {
 	$date = date(('Y-m-d'));
     $tvmaze = file_get_contents('https://api.tvmaze.com/schedule?country='.$lcountry.'&date='.$date);
     $tvsched = json_decode($tvmaze, true, 512, JSON_THROW_ON_ERROR);
-if ((is_countable($tvsched) ? count($tvsched) : 0) > 0)
+if ((is_countable($tvsched) ? count($tvsched) : 0) > 0) {
     $cache->set('schedule_new'.$lcountry, $tvsched, 60 * 60);
+}
 }
 	$dcountry = "";
     switch ($lcountry) {
@@ -128,7 +129,9 @@ foreach ($tvsched as $key => $item){
 			$x=1;
 				for($x=1;$x<=$itemAverageRating;$x++) {
 					$HTMLOUT .= '<span class="fas fa-star checked"></span>';
-					   if ($x++ == 5) break;
+					   if ($x++ == 5) {
+                           break;
+                       }
 				}
 				if (strpos($itemAverageRating,'.')) {
 					$HTMLOUT .= '<span class="fas fa-star-half"></span>';

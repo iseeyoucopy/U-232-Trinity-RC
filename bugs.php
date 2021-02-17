@@ -23,14 +23,22 @@ $possible_actions = array(
     'add'
 );
 $action = (isset($_GET['action']) ? htmlsafechars($_GET['action']) : (isset($_POST['action']) ? htmlsafechars($_POST['action']) : ''));
-if (!in_array($action, $possible_actions)) stderr('Error', 'A ruffian that will swear, drink, dance, revel the night, rob, murder and commit the oldest of ins the newest kind of ways.');
+if (!in_array($action, $possible_actions)) {
+    stderr('Error', 'A ruffian that will swear, drink, dance, revel the night, rob, murder and commit the oldest of ins the newest kind of ways.');
+}
 if ($action == 'viewbug') {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if ($CURUSER['class'] < UC_MAX) stderr("{$lang['stderr_error']}", "{$lang['stderr_only_coder']}");
+        if ($CURUSER['class'] < UC_MAX) {
+            stderr("{$lang['stderr_error']}", "{$lang['stderr_only_coder']}");
+        }
         $id = isset($_POST["id"]) ? (int)$_POST["id"] : '';
         $status = isset($_POST["status"]) ? htmlsafechars($_POST["status"]) : '';
-        if ($status == 'na') stderr("{$lang['stderr_error']}", "{$lang['stderr_no_na']}");
-        if (!$id || !is_valid_id($id)) stderr("{$lang['stderr_error']}", "{$lang['stderr_invalid_id']}");
+        if ($status == 'na') {
+            stderr("{$lang['stderr_error']}", "{$lang['stderr_no_na']}");
+        }
+        if (!$id || !is_valid_id($id)) {
+            stderr("{$lang['stderr_error']}", "{$lang['stderr_invalid_id']}");
+        }
         ($query1 = sql_query("SELECT b.*, u.username, u.uploaded FROM bugs AS b LEFT JOIN users AS u ON b.sender = u.id WHERE b.id = " . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
         while ($q1 = $query1->fetch_assoc()) {
             switch ($status) {
@@ -62,8 +70,12 @@ if ($action == 'viewbug') {
         header("location: bugs.php?action=viewbug&id={$id}");
     }
     $id = isset($_GET["id"]) ? (int)$_GET["id"] : '';
-    if (!$id || !is_valid_id($id)) stderr("{$lang['stderr_error']}", "{$lang['stderr_invalid_id']}");
-    if ($CURUSER['class'] < UC_STAFF) stderr("{$lang['stderr_error']}", 'Only staff can view bugs.');
+    if (!$id || !is_valid_id($id)) {
+        stderr("{$lang['stderr_error']}", "{$lang['stderr_invalid_id']}");
+    }
+    if ($CURUSER['class'] < UC_STAFF) {
+        stderr("{$lang['stderr_error']}", 'Only staff can view bugs.');
+    }
     ($as = sql_query("SELECT b.*, u.username, u.class, staff.username AS st, staff.class AS stclass FROM bugs AS b LEFT JOIN users AS u ON b.sender = u.id LEFT JOIN users AS staff ON b.staff = staff.id WHERE b.id =" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     while ($a = $as->fetch_assoc()) {
         $title = htmlsafechars($a['title']);
@@ -122,7 +134,9 @@ if ($action == 'viewbug') {
     }
     $HTMLOUT.= "</table></form><a href='bugs.php?action=bugs'>{$lang['go_back']}</a>\n";
 } elseif ($action == 'bugs') {
-    if ($CURUSER['class'] < UC_STAFF) stderr("{$lang['stderr_error']}", "{$lang['stderr_only_staff_can_view']}");
+    if ($CURUSER['class'] < UC_STAFF) {
+        stderr("{$lang['stderr_error']}", "{$lang['stderr_only_staff_can_view']}");
+    }
     $search_count = sql_query("SELECT COUNT(id) FROM bugs");
     $row = $search_count->fetch_array(MYSQLI_BOTH);
     $count = $row[0];
@@ -180,19 +194,32 @@ if ($action == 'viewbug') {
         }
         $HTMLOUT.= "</table>";
         $HTMLOUT.= $pager['pagerbottom']."<br>";
-    } else $HTMLOUT.= "<div class='row'><div class='col-md-8 col-md-offset-2 text-center panel panel-default'>".stdmsg("w00t", "{$lang['no_bugs']}")."</div></div><br>";
+    } else {
+        $HTMLOUT .= "<div class='row'><div class='col-md-8 col-md-offset-2 text-center panel panel-default'>".stdmsg("w00t",
+                "{$lang['no_bugs']}")."</div></div><br>";
+    }
 } elseif ($action == 'add') {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $title = htmlsafechars($_POST['title']);
         $priority = htmlsafechars($_POST['priority']);
         $problem = htmlsafechars($_POST['problem']);
-        if (empty($title) || empty($priority) || empty($problem)) stderr("{$lang['stderr_error']}", "{$lang['stderr_missing']}");
-        if (strlen($problem) < 20) stderr("{$lang['stderr_error']}", "{$lang['stderr_problem_20']}");
-        if (strlen($title) < 10) stderr("{$lang['stderr_error']}", "{$lang['stderr_title_10']}");
+        if (empty($title) || empty($priority) || empty($problem)) {
+            stderr("{$lang['stderr_error']}", "{$lang['stderr_missing']}");
+        }
+        if (strlen($problem) < 20) {
+            stderr("{$lang['stderr_error']}", "{$lang['stderr_problem_20']}");
+        }
+        if (strlen($title) < 10) {
+            stderr("{$lang['stderr_error']}", "{$lang['stderr_title_10']}");
+        }
         ($q1 = sql_query("INSERT INTO bugs (title, priority, problem, sender, added) VALUES (" . sqlesc($title) . ", " . sqlesc($priority) . ", " . sqlesc($problem) . ", " . sqlesc($CURUSER['id']) . ", " . TIME_NOW . ")")) || sqlerr(__FILE__, __LINE__);
         $cache->delete('bug_mess_');
-        if ($q1) stderr("{$lang['stderr_sucess']}", sprintf($lang['stderr_sucess_2'], $priority));
-        else stderr("{$lang['stderr_error']}", "{$lang['stderr_something_is_wrong']}");
+        if ($q1) {
+            stderr("{$lang['stderr_sucess']}", sprintf($lang['stderr_sucess_2'], $priority));
+        }
+        else {
+            stderr("{$lang['stderr_error']}", "{$lang['stderr_something_is_wrong']}");
+        }
     }
     $HTMLOUT.= "<form method='post' action='bugs.php?action=add'>
                   <table  class='table table-bordered'>

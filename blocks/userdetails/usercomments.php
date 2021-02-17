@@ -26,7 +26,9 @@ if (!$count) {
     ));
     ($subres = sql_query("SELECT usercomments.id, usercomments.text, usercomments.user, usercomments.added, usercomments.editedby, usercomments.editedat, usercomments.edit_name, usercomments.user_likes, users.avatar, users.warned, users.username, users.title, users.class, users.leechwarn, users.chatpost, users.pirate, users.king, users.donor FROM usercomments LEFT JOIN users ON usercomments.user = users.id WHERE userid = ".sqlesc($id)." ORDER BY usercomments.id {$pager['limit']}")) || sqlerr(__FILE__, __LINE__);
     $allrows = array();
-    while ($subrow = $subres->fetch_assoc()) $allrows[] = $subrow;
+    while ($subrow = $subres->fetch_assoc()) {
+        $allrows[] = $subrow;
+    }
     $HTMLOUT.= ($commentbar);
     $HTMLOUT.= ($pager['pagertop']);
     $HTMLOUT.= usercommenttable($allrows);

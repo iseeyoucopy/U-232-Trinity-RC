@@ -50,7 +50,9 @@ $my_points = 0;
         ($sql_points = sql_query('SELECT userid, points FROM coins WHERE torrentid=' . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
         $torrent['torrent_points_'] = array();
         if ($sql_points->num_rows !== 0) {
-            while ($points_cache = $sql_points->fetch_assoc()) $torrent['torrent_points_'][$points_cache['userid']] = $points_cache['points'];
+            while ($points_cache = $sql_points->fetch_assoc()) {
+                $torrent['torrent_points_'][$points_cache['userid']] = $points_cache['points'];
+            }
         }
         $cache->set('coin_points_' . $id, $torrent['torrent_points_'], 0);
     }

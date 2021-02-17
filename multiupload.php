@@ -33,11 +33,15 @@ $stdfoot = array(
         'multiupload'
     )
 );
-if (function_exists('parked')) parked();
+if (function_exists('parked')) {
+    parked();
+}
 $newpage = new page_verify();
 $newpage->create('tamud');
 $HTMLOUT = $offers = $subs_list = $request = $descr = '';
-if ($CURUSER['class'] < UC_UPLOADER || ($CURUSER["uploadpos"] == 0 || $CURUSER["uploadpos"] > 1 || $CURUSER['suspended'] == 'yes')) stderr($lang['upload_sorry'], $lang['upload_no_auth']);
+if ($CURUSER['class'] < UC_UPLOADER || ($CURUSER["uploadpos"] == 0 || $CURUSER["uploadpos"] > 1 || $CURUSER['suspended'] == 'yes')) {
+    stderr($lang['upload_sorry'], $lang['upload_no_auth']);
+}
 //==== request dropdown
 $res_request = sql_query('SELECT id, request_name FROM requests WHERE filled_by_user_id = 0 ORDER BY request_name ASC');
 $request ="<div class='input-group'>

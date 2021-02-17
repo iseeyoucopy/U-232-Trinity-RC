@@ -17,7 +17,9 @@ function searchcloud($limit = 50)
         ($search_q = sql_query('SELECT searchedfor,howmuch FROM searchcloud ORDER BY id DESC ' . ($limit > 0 ? 'LIMIT ' . $limit : ''))) || sqlerr(__FILE__, __LINE__);
         if ($search_q->num_rows) {
             $return = array();
-            while ($search_a = $search_q->fetch_assoc()) $return[$search_a['searchedfor']] = $search_a['howmuch'];
+            while ($search_a = $search_q->fetch_assoc()) {
+                $return[$search_a['searchedfor']] = $search_a['howmuch'];
+            }
             ksort($return);
             $cache->set('searchcloud', $return, 0);
             return $return;
@@ -52,8 +54,12 @@ function cloud()
     $tags = searchcloud();
     //amounts
     if (isset($tags)) {
-        if(!empty($tags)) $minimum_count = min(array_values($tags));
-        if(!empty($tags)) $maximum_count = max(array_values($tags));
+        if(!empty($tags)) {
+            $minimum_count = min(array_values($tags));
+        }
+        if(!empty($tags)) {
+            $maximum_count = max(array_values($tags));
+        }
         $spread = $maximum_count - $minimum_count;
         if ($spread == 0) {
             $spread = 1;

@@ -25,9 +25,13 @@ function docleanup($data)
     if ($happy["status"] == 0 && $TRINITY20['happy_hour'] == true) {
         write_log("Happy hour was @ " . get_date($happyHour, 'LONG', 1, 0) . " and Catid " . $happy["catid"] . " ");
         happyFile("set");
-    } elseif (($curDate > $happyEnd) && $happy["status"] == 1) happyFile("reset");
+    } elseif (($curDate > $happyEnd) && $happy["status"] == 1) {
+        happyFile("reset");
+    }
     //== End
-    if ($queries > 0) write_log("Happyhour Clean -------------------- Happyhour cleanup Complete using $queries queries --------------------");
+    if ($queries > 0) {
+        write_log("Happyhour Clean -------------------- Happyhour cleanup Complete using $queries queries --------------------");
+    }
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     }

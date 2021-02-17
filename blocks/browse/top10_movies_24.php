@@ -11,11 +11,13 @@
  * ------------  @version V6  ------------------*
  */
 $categorie = genrelist();
-foreach ($categorie as $key => $value) $change[$value['id']] = array(
-    'id' => $value['id'],
-    'name' => $value['name'],
-    'image' => $value['image']
-);
+foreach ($categorie as $key => $value) {
+    $change[$value['id']] = [
+        'id' => $value['id'],
+        'name' => $value['name'],
+        'image' => $value['image']
+    ];
+}
 
 if (($top10movies24 = $cache->get('top10_mov_24_')) === false) {
     $tortime24movie = $_SERVER['REQUEST_TIME'] - 86400;
@@ -39,8 +41,9 @@ if (($top10movies24 = $cache->get('top10_mov_24_')) === false) {
          $top10movie24arr['cat_name'] = htmlsafechars($change[$top10movie24arr['category']]['name']);
 	    $top10movie24arr['cat_pic'] = htmlsafechars($change[$top10movie24arr['category']]['image']);
          $torrname = htmlsafechars($top10movie24arr['name']);
-         if (strlen($torrname) > 50) 
-				$torrname = substr($torrname, 0, 50) . "...";
+         if (strlen($torrname) > 50) {
+             $torrname = substr($torrname, 0, 50)."...";
+         }
          $HTMLOUT.= "
             <tr>
             <td>". $counter++ ."</td>

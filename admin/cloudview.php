@@ -62,7 +62,9 @@ $row = $search_count->fetch_array(MYSQLI_NUM);
 $count = $row[0];
 $perpage = 15;
 $pager = pager($perpage, $count, "staffpanel.php?tool=cloudview&amp;action=cloudview&amp;");
-if ($count > $perpage) $HTMLOUT.= $pager['pagertop'];
+if ($count > $perpage) {
+    $HTMLOUT .= $pager['pagertop'];
+}
 ($search_q = sql_query('SELECT id, searchedfor, ip, howmuch FROM searchcloud ORDER BY howmuch DESC ' . $pager['limit'])) || sqlerr(__FILE__, __LINE__);
 $HTMLOUT.="<div class='row'><div class='col-md-12'><h2>{$lang['cloudview_overview']}</h2>";
 $HTMLOUT.= "
@@ -88,6 +90,8 @@ $HTMLOUT.= "<tr>
 <tr><td colspan='4' class='colhead' align='center'><input type='submit' value='{$lang['cloudview_del_terms']}' /></td></tr>";
 $HTMLOUT.= "</table></form>";
 $HTMLOUT.= "</div></div>";
-if ($count > $perpage) $HTMLOUT.= $pager['pagerbottom'];
+if ($count > $perpage) {
+    $HTMLOUT .= $pager['pagerbottom'];
+}
 echo stdhead($lang['cloudview_stdhead']) . $HTMLOUT . stdfoot();
 ?>

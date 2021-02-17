@@ -20,7 +20,9 @@ if (($totalfunds_cache = $cache->get($keys['ttl_funds'])) === false) {
 $funds_so_far = (int)$totalfunds_cache["total_funds"];
 $funds_difference = $TRINITY20['totalneeded'] - $funds_so_far;
 $Progress_so_far = number_format($funds_so_far / $TRINITY20['totalneeded'] * 100, 1);
-if ($Progress_so_far >= 100) $Progress_so_far = 100;
+if ($Progress_so_far >= 100) {
+    $Progress_so_far = 100;
+}
 $HTMLOUT.= "<div class='card'>
   <div class='card-divider'>{$lang['index_donations']}</div>
     <div class='card-section'>

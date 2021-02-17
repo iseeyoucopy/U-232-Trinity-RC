@@ -1,8 +1,9 @@
 <?php
 function tr($x, $y, $noesc = 0)
 {
-    if ($noesc)
+    if ($noesc) {
         $a = $y;
+    }
     else {
         $a = htmlsafechars($y);
         $a = str_replace("\n", "<br />\n", $a);

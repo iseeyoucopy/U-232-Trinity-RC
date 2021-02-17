@@ -20,7 +20,9 @@
 function build_menu($name,$arr,$val="")
 	{
 		$menu='';
-		if(!is_array($arr)) die("cant build menu");
+		if(!is_array($arr)) {
+            die("cant build menu");
+        }
 		
 		$menu .= "<select name=\"".$name."\"><option value=\"\">Select</option>\n";
 			foreach($arr as $value=>$opname)

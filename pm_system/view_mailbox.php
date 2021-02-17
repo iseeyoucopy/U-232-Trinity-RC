@@ -40,7 +40,9 @@ if ($mailbox > 1) {
     //== get name of PM box if not in or out
     ($res_box_name = sql_query('SELECT name FROM pmboxes WHERE userid = ' . sqlesc($CURUSER['id']) . ' AND boxnumber=' . sqlesc($mailbox) . ' LIMIT 1')) || sqlerr(__FILE__, __LINE__);
     $arr_box_name = $res_box_name->fetch_row();
-    if ($res_box_name->num_rows === 0) stderr($lang['pm_error'], $lang['pm_mailbox_invalid']);
+    if ($res_box_name->num_rows === 0) {
+        stderr($lang['pm_error'], $lang['pm_mailbox_invalid']);
+    }
     $mailbox_name = htmlsafechars($arr_box_name[0]);
     $other_box_info = '<p align="center"><span style="color: red;">' . $lang['pm_mailbox_asterisc'] . '</span><span style="font-weight: bold;">' . $lang['pm_mailbox_note'] . '</span>
                                             ' . $lang['pm_mailbox_max'] . '<span style="font-weight: bold;">' . $maxbox . '</span>' . $lang['pm_mailbox_either'] . '

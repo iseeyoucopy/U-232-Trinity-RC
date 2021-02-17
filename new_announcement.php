@@ -17,7 +17,9 @@ require_once INCL_DIR . 'bbcode_functions.php';
 dbconn(false);
 loggedinorreturn();
 $lang = array_merge(load_language('global'));
-if ($CURUSER['class'] < UC_ADMINISTRATOR) stderr('Error', 'Your not authorised');
+if ($CURUSER['class'] < UC_ADMINISTRATOR) {
+    stderr('Error', 'Your not authorised');
+}
 $stdhead = array(
     /** include css **/
     'css' => array(
@@ -59,26 +61,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $n_pms = (isset($_POST['n_pms']) ? (int)$_POST['n_pms'] : 0);
     $ann_query = (isset($_POST['ann_query']) ? rawurldecode(trim($_POST['ann_query'])) : '');
     $ann_hash = (isset($_POST['ann_hash']) ? trim($_POST['ann_hash']) : '');
-    if (HashIt($ann_query, $n_pms) != $ann_hash) die(); // Validate POST...
-    if (!preg_match('/\\ASELECT.+?FROM.+?WHERE.+?\\z/', $ann_query)) stderr('Error', 'Misformed Query');
-    if ($n_pms === 0) stderr('Error', 'No recipients');
+    if (HashIt($ann_query, $n_pms) != $ann_hash) {
+        die();
+    } // Validate POST...
+    if (!preg_match('/\\ASELECT.+?FROM.+?WHERE.+?\\z/', $ann_query)) {
+        stderr('Error', 'Misformed Query');
+    }
+    if ($n_pms === 0) {
+        stderr('Error', 'No recipients');
+    }
     //== Preview POST data ...
     $body = trim(($_POST['body'] ?? ''));
     $subject = trim(($_POST['subject'] ?? ''));
     $expiry = 0 + ($_POST['expiry'] ?? 0);
     if ((isset($_POST['buttonval']) && $_POST['buttonval'] == 'Submit')) {
         //== Check values before inserting into row...
-        if (empty($body)) stderr('Error', 'No body to announcement');
-        if (empty($subject)) stderr('Error', 'No subject to announcement');
+        if (empty($body)) {
+            stderr('Error', 'No body to announcement');
+        }
+        if (empty($subject)) {
+            stderr('Error', 'No subject to announcement');
+        }
         unset($flag);
         reset($days);
-        foreach ($days as $x) if ($expiry == $x[0]) $flag = 1;
-        if (!isset($flag)) stderr('Error', 'Invalid expiry selection');
+        foreach ($days as $x) {
+            if ($expiry == $x[0]) {
+                $flag = 1;
+            }
+        }
+        if (!isset($flag)) {
+            stderr('Error', 'Invalid expiry selection');
+        }
         $expires = TIME_NOW + (86400 * $expiry); // 86400 seconds in one day.
         $created = TIME_NOW;
         $query = sprintf('INSERT INTO announcement_main ' . '(owner_id, created, expires, sql_query, subject, body) ' . 'VALUES (%s, %s, %s, %s, %s, %s)', sqlesc($CURUSER['id']) , sqlesc($created) , sqlesc($expires) , sqlesc($ann_query) , sqlesc($subject) , sqlesc($body));
         sql_query($query);
-        if ($mysqli->affected_rows) stderr('Success', 'Announcement was successfully created');
+        if ($mysqli->affected_rows) {
+            stderr('Success', 'Announcement was successfully created');
+        }
         stderr('Error', 'Contact an administrator');
     }
     echo stdhead("Create Announcement", false, $stdhead);
@@ -99,7 +119,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $HTMLOUT.= "<tr><td colspan='2' align='center'>";
     $HTMLOUT.= "<select name='expiry'>";
     reset($days);
-    foreach ($days as $x) $HTMLOUT.= '<option value="' . $x[0] . '"' . (($expiry == $x[0] ? '' : '')) . '>' . $x[1] . '</option>';
+    foreach ($days as $x) {
+        $HTMLOUT .= '<option value="'.$x[0].'"'.(($expiry == $x[0] ? '' : '')).'>'.$x[1].'</option>';
+    }
     $HTMLOUT.= "</select>
 
  	<input type='submit' name='buttonval' value='Preview' class='btn' />

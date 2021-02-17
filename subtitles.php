@@ -39,19 +39,29 @@ $mode = (isset($_GET["mode"]) ? htmlsafechars($_GET["mode"]) : "");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($action == "upload" || $action == "edit") {
         $langs = isset($_POST["language"]) ? htmlsafechars($_POST["language"]) : "";
-        if (empty($langs)) stderr($lang['subtitles_upload_failed'], $lang['subtitles_no_language_selected']);
+        if (empty($langs)) {
+            stderr($lang['subtitles_upload_failed'], $lang['subtitles_no_language_selected']);
+        }
         $releasename = isset($_POST["releasename"]) ? htmlsafechars($_POST["releasename"]) : "";
-        if (empty($releasename)) stderr($lang['subtitles_upload_failed'], $lang['subtitles_use_a_descriptive_name']);
+        if (empty($releasename)) {
+            stderr($lang['subtitles_upload_failed'], $lang['subtitles_use_a_descriptive_name']);
+        }
         $imdb = isset($_POST["imdb"]) ? htmlsafechars($_POST["imdb"]) : "";
-        if (empty($imdb)) stderr($lang['subtitles_upload_failed'], $lang['subtitles_you_forgot_to_add_the_imdb_link']);
+        if (empty($imdb)) {
+            stderr($lang['subtitles_upload_failed'], $lang['subtitles_you_forgot_to_add_the_imdb_link']);
+        }
         $comment = isset($_POST["comment"]) ? htmlsafechars($_POST["comment"]) : "";
         $poster = isset($_POST["poster"]) ? htmlsafechars($_POST["poster"]) : "";
         $fps = isset($_POST["fps"]) ? htmlsafechars($_POST["fps"]) : "";
         $cd = isset($_POST["cd"]) ? htmlsafechars($_POST["cd"]) : "";
         if ($action == "upload") {
             $file = $_FILES["sub"];
-            if (!isset($file)) stderr($lang['subtitles_upload_failed'], $lang['subtitles_the_file_cant_be_empty']);
-            if ($file["size"] > $TRINITY20['sub_max_size']) stderr($lang['subtitles_upload_failed'], $lang['subtitles_what_the_hell_did_you_upload']);
+            if (!isset($file)) {
+                stderr($lang['subtitles_upload_failed'], $lang['subtitles_the_file_cant_be_empty']);
+            }
+            if ($file["size"] > $TRINITY20['sub_max_size']) {
+                stderr($lang['subtitles_upload_failed'], $lang['subtitles_what_the_hell_did_you_upload']);
+            }
             $fname = $file["name"];
             $temp_name = $file["tmp_name"];
             $ext = (substr($fname, -3));
@@ -60,7 +70,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "sub",
                 "txt"
             );
-            if (!in_array($ext, $allowed)) stderr($lang['subtitles_upload_failed'], $lang['subtitles_file_not_allowed_only']);
+            if (!in_array($ext, $allowed)) {
+                stderr($lang['subtitles_upload_failed'], $lang['subtitles_file_not_allowed_only']);
+            }
             $new_name = h_store(TIME_NOW);
             $filename = "$new_name.$ext";
             $date = TIME_NOW;
@@ -83,21 +95,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } //end upload
         if ($action == "edit") {
             $id = isset($_POST["id"]) ? (int) $_POST["id"] : 0;
-            if ($id == 0) stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
+            if ($id == 0) {
+                stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
+            }
             else {
                 ($res = sql_query("SELECT * FROM subtitles WHERE id=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
                 $arr = $res->fetch_assoc();
-                if ($res->num_rows == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
-                if ($CURUSER["id"] != $arr["owner"] && $CURUSER['class'] < UC_MODERATOR) bark("{$lang['subtitles_youre_not_the_owner']}\n");
+                if ($res->num_rows == 0) {
+                    stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
+                }
+                if ($CURUSER["id"] != $arr["owner"] && $CURUSER['class'] < UC_MODERATOR) {
+                    bark("{$lang['subtitles_youre_not_the_owner']}\n");
+                }
                 $updateset = array();
-                if ($arr["name"] != $releasename) $updateset[] = "name = " . sqlesc($releasename);
-                if ($arr["imdb"] != $imdb) $updateset[] = "imdb = " . sqlesc($imdb);
-                if ($arr["lang"] != $langs) $updateset[] = "lang = " . sqlesc($langs);
-                if ($arr["poster"] != $poster) $updateset[] = "poster = " . sqlesc($poster);
-                if ($arr["fps"] != $fps) $updateset[] = "fps = " . sqlesc($fps);
-                if ($arr["cds"] != $cd) $updateset[] = "cds = " . sqlesc($cd);
-                if ($arr["comment"] != $comment) $updateset[] = "comment = " . sqlesc($comment);
-                if ((is_countable($updateset) ? count($updateset) : 0) > 0) sql_query("UPDATE subtitles SET " . implode(",", $updateset) . " WHERE id =".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
+                if ($arr["name"] != $releasename) {
+                    $updateset[] = "name = ".sqlesc($releasename);
+                }
+                if ($arr["imdb"] != $imdb) {
+                    $updateset[] = "imdb = ".sqlesc($imdb);
+                }
+                if ($arr["lang"] != $langs) {
+                    $updateset[] = "lang = ".sqlesc($langs);
+                }
+                if ($arr["poster"] != $poster) {
+                    $updateset[] = "poster = ".sqlesc($poster);
+                }
+                if ($arr["fps"] != $fps) {
+                    $updateset[] = "fps = ".sqlesc($fps);
+                }
+                if ($arr["cds"] != $cd) {
+                    $updateset[] = "cds = ".sqlesc($cd);
+                }
+                if ($arr["comment"] != $comment) {
+                    $updateset[] = "comment = ".sqlesc($comment);
+                }
+                if ((is_countable($updateset) ? count($updateset) : 0) > 0) {
+                    sql_query("UPDATE subtitles SET ".implode(",", $updateset)." WHERE id =".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
+                }
                 header("Refresh: 0; url=subtitles.php?mode=details&id=$id");
             }
         } //end edit
@@ -108,11 +142,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if ($mode == "upload" || $mode == "edit") {
     if ($mode == "edit") {
         $id = isset($_GET["id"]) ? (int) $_GET["id"] : 0;
-        if ($id == 0) stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
+        if ($id == 0) {
+            stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
+        }
         else {
             ($res = sql_query("SELECT id, name, imdb, poster, fps, comment, cds, lang FROM subtitles WHERE id=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
             $arr = $res->fetch_assoc();
-            if ($res->num_rows == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
+            if ($res->num_rows == 0) {
+                stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
+            }
         }
     }
     $HTMLOUT.= begin_main_frame();
@@ -194,13 +232,21 @@ function checkext(upload_field)
 //==Delete subtitle
 elseif ($mode == "delete") {
     $id = isset($_GET["id"]) ? (int)$_GET["id"] : 0;
-    if ($id == 0) stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
+    if ($id == 0) {
+        stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
+    }
     else {
         ($res = sql_query("SELECT id, name, filename FROM subtitles WHERE id=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
         $arr = $res->fetch_assoc();
-        if ($res->num_rows == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
+        if ($res->num_rows == 0) {
+            stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
+        }
         $sure = (isset($_GET["sure"]) && $_GET["sure"] == "yes") ? "yes" : "no";
-        if ($sure == "no") stderr("{$lang['subtitles_sanity_check']}...", "{$lang['subtitles_your_are_about_to_delete_subtitle']} <b>" . htmlsafechars($arr["name"]) . "</b> . Click <a href='subtitles.php?mode=delete&amp;id=$id&amp;sure=yes'>{$lang['gl_stdfoot_here']}</a> {$lang['gl_if_you_are_sure']}.", false);
+        if ($sure == "no") {
+            stderr("{$lang['subtitles_sanity_check']}...",
+                "{$lang['subtitles_your_are_about_to_delete_subtitle']} <b>".htmlsafechars($arr["name"])."</b> . Click <a href='subtitles.php?mode=delete&amp;id=$id&amp;sure=yes'>{$lang['gl_stdfoot_here']}</a> {$lang['gl_if_you_are_sure']}.",
+                false);
+        }
         else {
             sql_query("DELETE FROM subtitles WHERE id=".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
             $file = $TRINITY20['sub_up_dir'] . '/' . $arr["filename"];
@@ -212,19 +258,39 @@ elseif ($mode == "delete") {
 //==End delete subtitle
 elseif ($mode == "details") {
     $id = isset($_GET["id"]) ? (int) $_GET["id"] : 0;
-    if ($id == 0) stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
+    if ($id == 0) {
+        stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
+    }
     else {
         ($res = sql_query("SELECT s.id, s.name,s.lang, s.imdb,s.fps,s.poster,s.cds,s.hits,s.added,s.owner,s.comment, u.username FROM subtitles AS s LEFT JOIN users AS u ON s.owner=u.id  WHERE s.id=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
         $arr = $res->fetch_assoc();
-        if ($res->num_rows == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
-        if ($arr["lang"] == "eng") $langs = "<img src=\"pic/flag/england.gif\" border=\"0\" alt=\"{$lang['gl_english']}\" title=\"{$lang['gl_english']}\" />";
-        elseif ($arr["lang"] == "swe") $langs = "<img src=\"pic/flag/sweden.gif\" border=\"0\" alt=\"{$lang['gl_swedish']}\" title=\"{$lang['gl_swedish']}\" />";
-        elseif ($arr["lang"] == "dan") $langs = "<img src=\"pic/flag/denmark.gif\" border=\"0\" alt=\"{$lang['gl_danish']}\" title=\"{$lang['gl_danish']}\" />";
-        elseif ($arr["lang"] == "nor") $langs = "<img src=\"pic/flag/norway.gih\" border=\"0\" alt=\"{$lang['gl_norwegian']}\" title=\"{$lang['gl_norwegian']}\" />";
-        elseif ($arr["lang"] == "fin") $langs = "<img src=\"pic/flag/finland.gif\" border=\"0\" alt=\"{$lang['gl_finnish']}\" title=\"{$lang['gl_finnish']}\" />";
-        elseif ($arr["lang"] == "spa") $langs = "<img src=\"pic/flag/spain.gif\" border=\"0\" alt=\"{$lang['gl_spanish']}\" title=\"{$lang['gl_spanish']}\" />";
-        elseif ($arr["lang"] == "fre") $langs = "<img src=\"pic/flag/france.gif\" border=\"0\" alt=\"{$lang['gl_french']}\" title=\"{$lang['gl_french']}\" />";
-        else $langs = "<b>{$lang['subtitles_unknown']}</b>";
+        if ($res->num_rows == 0) {
+            stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
+        }
+        if ($arr["lang"] == "eng") {
+            $langs = "<img src=\"pic/flag/england.gif\" border=\"0\" alt=\"{$lang['gl_english']}\" title=\"{$lang['gl_english']}\" />";
+        }
+        elseif ($arr["lang"] == "swe") {
+            $langs = "<img src=\"pic/flag/sweden.gif\" border=\"0\" alt=\"{$lang['gl_swedish']}\" title=\"{$lang['gl_swedish']}\" />";
+        }
+        elseif ($arr["lang"] == "dan") {
+            $langs = "<img src=\"pic/flag/denmark.gif\" border=\"0\" alt=\"{$lang['gl_danish']}\" title=\"{$lang['gl_danish']}\" />";
+        }
+        elseif ($arr["lang"] == "nor") {
+            $langs = "<img src=\"pic/flag/norway.gih\" border=\"0\" alt=\"{$lang['gl_norwegian']}\" title=\"{$lang['gl_norwegian']}\" />";
+        }
+        elseif ($arr["lang"] == "fin") {
+            $langs = "<img src=\"pic/flag/finland.gif\" border=\"0\" alt=\"{$lang['gl_finnish']}\" title=\"{$lang['gl_finnish']}\" />";
+        }
+        elseif ($arr["lang"] == "spa") {
+            $langs = "<img src=\"pic/flag/spain.gif\" border=\"0\" alt=\"{$lang['gl_spanish']}\" title=\"{$lang['gl_spanish']}\" />";
+        }
+        elseif ($arr["lang"] == "fre") {
+            $langs = "<img src=\"pic/flag/france.gif\" border=\"0\" alt=\"{$lang['gl_french']}\" title=\"{$lang['gl_french']}\" />";
+        }
+        else {
+            $langs = "<b>{$lang['subtitles_unknown']}</b>";
+        }
         $HTMLOUT.= begin_main_frame();
         $HTMLOUT.= "<table width='600' cellpadding='5' cellspacing='0' border='1' align='center' style='border-collapse:collapse;'>
 <tr><td width='150' rowspan='10' valign='top' align='center'>
@@ -259,11 +325,15 @@ elseif ($mode == "details") {
     }
 } elseif ($mode == "preview") {
     $id = isset($_GET["id"]) ? (int) $_GET["id"] : 0;
-    if ($id == 0) stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
+    if ($id == 0) {
+        stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
+    }
     else {
         ($res = sql_query("SELECT id, name,filename FROM subtitles  WHERE id=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
         $arr = $res->fetch_assoc();
-        if ($res->num_rows == 0) stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
+        if ($res->num_rows == 0) {
+            stderr($lang['gl_sorry'], $lang['subtitles_there_is_no_subtitle_with_that_id']);
+        }
         $file = $TRINITY20['sub_up_dir'] . "/" . $arr["filename"];
         $fileContent = file_get_contents($file);
         $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
@@ -281,13 +351,25 @@ elseif ($mode == "details") {
     $HTMLOUT.= begin_frame();
     $s = (isset($_GET["s"]) ? htmlsafechars($_GET["s"]) : "");
     $w = (isset($_GET["w"]) ? htmlsafechars($_GET["w"]) : "");
-    if ($s && $w == "name") $where = "WHERE s.name LIKE " . sqlesc("%" . $s . "%");
-    elseif ($s && $w == "imdb") $where = "WHERE s.imdb LIKE " . sqlesc("%" . $s . "%");
-    elseif ($s && $w == "comment") $where = "WHERE s.comment LIKE " . sqlesc("%" . $s . "%");
-    else $where = "";
+    if ($s && $w == "name") {
+        $where = "WHERE s.name LIKE ".sqlesc("%".$s."%");
+    }
+    elseif ($s && $w == "imdb") {
+        $where = "WHERE s.imdb LIKE ".sqlesc("%".$s."%");
+    }
+    elseif ($s && $w == "comment") {
+        $where = "WHERE s.comment LIKE ".sqlesc("%".$s."%");
+    }
+    else {
+        $where = "";
+    }
     $link = ($s && $w ? "s=$s&amp;w=$w&amp;" : "");
     $count = get_row_count("subtitles AS s", "$where");
-    if ($count == 0 && !$s && !$w) stdmsg("", "{$lang['subtitles_there_is_no_subtitle']} <a href=\"subtitles.php?mode=upload\">{$lang['gl_stdfoot_here']}</a> {$lang['subtitles_and_start_uploading']}.", false);
+    if ($count == 0 && !$s && !$w) {
+        stdmsg("",
+            "{$lang['subtitles_there_is_no_subtitle']} <a href=\"subtitles.php?mode=upload\">{$lang['gl_stdfoot_here']}</a> {$lang['subtitles_and_start_uploading']}.",
+            false);
+    }
     $perpage = 15;
     $pager = pager($perpage, $count, "subtitles.php?" . $link);
     ($res = sql_query("SELECT s.id, s.name,s.lang, s.imdb,s.fps,s.poster,s.cds,s.hits,s.added,s.owner,s.comment, u.username FROM subtitles AS s LEFT JOIN users AS u ON s.owner=u.id $where ORDER BY s.added DESC {$pager['limit']}")) || sqlerr(__FILE__, __LINE__);
@@ -311,7 +393,9 @@ elseif ($mode == "details") {
 </table>
 <br />";
     if ($res->num_rows > 0) {
-        if ($count > $perpage) $HTMLOUT.= "<div align=\"left\" style=\"padding:5px\">{$pager['pagertop']}</div>";
+        if ($count > $perpage) {
+            $HTMLOUT .= "<div align=\"left\" style=\"padding:5px\">{$pager['pagertop']}</div>";
+        }
         $HTMLOUT.= "<table width='700' cellpadding='5' cellspacing='0' border='1' align='center' style='font-weight:bold'>
 <tr>
 <td class='colhead' align='center'>{$lang['gl_language_select']}</td>
@@ -328,14 +412,30 @@ if ($arr["owner"] == $CURUSER["id"] || $CURUSER['class'] > UC_MODERATOR)
             $HTMLOUT.= "<td class='colhead' align='center'>{$lang['subtitles_upper']}</td></tr>";
 while ($arr = $res->fetch_assoc())
         {
-            if ($arr["lang"] == "eng") $langs = "<img src=\"pic/flag/england.gif\" border=\"0\" alt=\"{$lang['gl_english']}\" title=\"{$lang['gl_english']}\" />";
-            elseif ($arr["lang"] == "swe") $langs = "<img src=\"pic/flag/sweden.gif\" border=\"0\" alt=\"{$lang['gl_swedish']}\" title=\"{$lang['gl_swedish']}\" />";
-            elseif ($arr["lang"] == "dan") $langs = "<img src=\"pic/flag/denmark.gif\" border=\"0\" alt=\"{$lang['gl_danish']}\" title=\"{$lang['gl_danish']}\" />";
-            elseif ($arr["lang"] == "nor") $langs = "<img src=\"pic/flag/norway.gih\" border=\"0\" alt=\"{$lang['gl_norwegian']}\" title=\"{$lang['gl_norwegian']}\" />";
-            elseif ($arr["lang"] == "fin") $langs = "<img src=\"pic/flag/finland.gif\" border=\"0\" alt=\"{$lang['gl_finnish']}\" title=\"{$lang['gl_finnish']}\" />";
-            elseif ($arr["lang"] == "spa") $langs = "<img src=\"pic/flag/spain.gif\" border=\"0\" alt=\"{$lang['gl_spanish']}\" title=\"{$lang['gl_spanish']}\" />";
-            elseif ($arr["lang"] == "fre") $langs = "<img src=\"pic/flag/france.gif\" border=\"0\" alt=\"{$lang['gl_french']}\" title=\"{$lang['gl_french']}\" />";
-            else $langs = "<b>{$lang['subtitles_unknown']}</b>";
+            if ($arr["lang"] == "eng") {
+                $langs = "<img src=\"pic/flag/england.gif\" border=\"0\" alt=\"{$lang['gl_english']}\" title=\"{$lang['gl_english']}\" />";
+            }
+            elseif ($arr["lang"] == "swe") {
+                $langs = "<img src=\"pic/flag/sweden.gif\" border=\"0\" alt=\"{$lang['gl_swedish']}\" title=\"{$lang['gl_swedish']}\" />";
+            }
+            elseif ($arr["lang"] == "dan") {
+                $langs = "<img src=\"pic/flag/denmark.gif\" border=\"0\" alt=\"{$lang['gl_danish']}\" title=\"{$lang['gl_danish']}\" />";
+            }
+            elseif ($arr["lang"] == "nor") {
+                $langs = "<img src=\"pic/flag/norway.gih\" border=\"0\" alt=\"{$lang['gl_norwegian']}\" title=\"{$lang['gl_norwegian']}\" />";
+            }
+            elseif ($arr["lang"] == "fin") {
+                $langs = "<img src=\"pic/flag/finland.gif\" border=\"0\" alt=\"{$lang['gl_finnish']}\" title=\"{$lang['gl_finnish']}\" />";
+            }
+            elseif ($arr["lang"] == "spa") {
+                $langs = "<img src=\"pic/flag/spain.gif\" border=\"0\" alt=\"{$lang['gl_spanish']}\" title=\"{$lang['gl_spanish']}\" />";
+            }
+            elseif ($arr["lang"] == "fre") {
+                $langs = "<img src=\"pic/flag/france.gif\" border=\"0\" alt=\"{$lang['gl_french']}\" title=\"{$lang['gl_french']}\" />";
+            }
+            else {
+                $langs = "<b>{$lang['subtitles_unknown']}</b>";
+            }
             $HTMLOUT.= "<tr valign='middle'>
 <td align='center'>{$langs}</td>
 <td><a href='subtitles.php?mode=details&amp;id=" . (int)$arr["id"] . "' onmouseover=\"tip('<img src=\'" . htmlsafechars($arr["poster"]) . "\' width=\'100\'>')\" onmouseout=\"untip()\">" . htmlsafechars($arr["name"]) . "</a></td>

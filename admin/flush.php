@@ -31,7 +31,9 @@ $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language("ad_flush"));
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-if (!is_valid_id($id)) stderr($lang['flush_stderror'], $lang['flush_invalid']);
+if (!is_valid_id($id)) {
+    stderr($lang['flush_stderror'], $lang['flush_invalid']);
+}
 if ($CURUSER['class'] >= UC_STAFF) {
     $dt = TIME_NOW;
     ($res = sql_query("SELECT username FROM users WHERE id=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
@@ -44,5 +46,7 @@ if ($CURUSER['class'] >= UC_STAFF) {
     //write_log("User " . $username . " just flushed torrents at " . get_date($dt, 'LONG',0,1) . ". $effected torrents where sucessfully cleaned.");
     header("Refresh: 3; url=index.php");
     stderr($lang['flush_success'], "$effected {$lang['flush_success2']}" . ($effected ? 's' : '') . $lang['flush_success3']);
-} else stderr($lang['flush_fail'], $lang['flush_fail2']);
+} else {
+    stderr($lang['flush_fail'], $lang['flush_fail2']);
+}
 ?>
