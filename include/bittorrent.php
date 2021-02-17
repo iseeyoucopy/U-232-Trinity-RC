@@ -169,7 +169,7 @@ function check_bans($ip, $reason = '')
     $key = 'bans::'.$ip;
     if (($ban = $cache->get($key)) === false && $ip != '127.0.0.1') {
         $nip = ip2long($ip);
-        $ban_sql = sql_query('SELECT comment FROM bans WHERE (first <= '.$nip.' AND last >= '.$nip.') LIMIT 1');
+        $ban_sql = sql_query('SELECT comment FROM bans WHERE (first <= '.sqlesc($nip).' AND last >= '.sqlesc($nip).') LIMIT 1') || sqlerr(__FILE__, __LINE__);
         if ($ban_sql->num_rows) {
             $comment = $ban_sql->fetch_row();
             $reason = 'Manual Ban ('.$comment[0].')';
