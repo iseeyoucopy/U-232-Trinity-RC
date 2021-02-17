@@ -32,7 +32,6 @@ $stdfoot = array(
     /** include js **/
     'js' => array(
 	/*'gallery',*/
-    'shout'
     )
 );
 $keys['forum_stats'] = 'forum_statistics';

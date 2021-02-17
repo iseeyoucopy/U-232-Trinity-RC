@@ -38,7 +38,6 @@ function mkint($x)
 $stdfoot = array(
     /** include js **/
     'js' => array(
-        'wz_tooltip'
     )
 );
 $this_url = $_SERVER["SCRIPT_NAME"];

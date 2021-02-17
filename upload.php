@@ -31,7 +31,6 @@ $stdfoot = array(
     'js' => array(
         'FormManager',
         'getname',
-        'shout'
     )
 );
 if (function_exists('parked')) parked();

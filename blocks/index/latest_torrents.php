@@ -56,7 +56,6 @@ foreach ($categorie as $key => $value) $change[$value['id']] = array(
     'image' => $value['image']
 );
 //== O9 Top 5 and last5 torrents with tooltip
-$HTMLOUT.= "<script src='{$TRINITY20['baseurl']}/scripts/wz_tooltip.js'></script>";
 $HTMLOUT.="<div class='card'>
 	<div class='card-divider'>
 		<label for='checkbox_4' class='text-left'>{$lang['index_latest']}</label>
