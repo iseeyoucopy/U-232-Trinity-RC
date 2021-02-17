@@ -141,8 +141,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($value > UC_MAX) {
             sql_query("UPDATE users SET class = class +1 where class = $old_max") || sqlerr(__FILE__, __LINE__);
             ($result = sql_query("SELECT id, class FROM users")) || sqlerr(__FILE__, __LINE__);
-            $cache->delete('shoutbox_');
-            $cache->delete('staff_shoutbox_');
+            
+            
             ($result = sql_query("SELECT id, class FROM users")) || sqlerr(__FILE__, __LINE__);
             while ($row = $result->fetch_assoc()) {
                 $row1 = [];
@@ -163,8 +163,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $i--;
             }
 
-            $cache->delete('shoutbox_');
-            $cache->delete('staff_shoutbox_');
+            
+            
             ($result = sql_query("SELECT id, class FROM users")) || sqlerr(__FILE__, __LINE__);
             while ($row = $result->fetch_assoc()) {
                 $row1 = [];
@@ -243,8 +243,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $cache->delete('is_staffs_');
             $i++;
         }
-        $cache->delete('shoutbox_');
-        $cache->delete('staff_shoutbox_');
+        
+        
         ($result = sql_query("SELECT id, class FROM users")) || sqlerr(__FILE__, __LINE__);
         while ($row = $result->fetch_assoc()) {
             $row1 = [];

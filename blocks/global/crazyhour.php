@@ -41,7 +41,7 @@ function crazyhour()
             $text = 'Next [color=orange][b]Crazyhour[/b][/color] is at ' . get_date($crazyhour['crazyhour']['var'] + ($CURUSER['time_offset'] - 3600) , 'LONG');
             $text_parsed = '<b class="button small success">Next <span style="font-weight:bold;color:orange;">Crazyhour</span> is at ' . get_date($crazyhour['crazyhour']['var'] + ($CURUSER['time_offset'] - 3600) , 'LONG');
             sql_query('INSERT INTO shoutbox (userid, date, text, text_parsed) ' . ' VALUES (2, ' . TIME_NOW . ', ' . sqlesc($text) . ', ' . sqlesc($text_parsed) . ')') || sqlerr(__FILE__, __LINE__);
-            $cache->delete('shoutbox_');
+            
         }
     } elseif (($crazyhour['crazyhour']['var'] < $crazy_hour) && ($crazyhour['crazyhour']['var'] >= TIME_NOW)) { // if crazyhour
         if ($crazyhour['crazyhour']['amount'] !== 1) {
@@ -56,7 +56,7 @@ function crazyhour()
                 //sql_query('INSERT INTO shoutbox (userid, date, text, text_parsed) ' . 'VALUES (2, ' . TIME_NOW . ', ' . sqlesc($text) . ', ' . sqlesc($text_parsed) . ')') or sqlerr(__FILE__, __LINE__);
                 if ($TRINITY20['autoshout_on'] == 1) {
                     autoshout($message);
-                    $cache->delete('shoutbox_');
+                    
                 }
             }
         }

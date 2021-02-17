@@ -387,7 +387,7 @@ else
 }
 if ($TRINITY20['autoshout_on'] == 1) {
     shout2($message, $id);
-    $cache->delete('shoutbox_');
+    
 }
 header("Location: {$TRINITY20['baseurl']}/details.php?id=$id&uploaded=1");
 ?> 

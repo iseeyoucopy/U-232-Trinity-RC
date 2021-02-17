@@ -33,7 +33,6 @@ $lang = array_merge(load_language('global') , load_language('edit'), load_langua
 $stdfoot = array(
     /* include js **/
     'js' => array(
-        'shout',
         'FormManager'
     )
 );
@@ -42,7 +41,6 @@ $stdhead = array(
     'css' => array(
         'style2',
         'bbcode',
-        'shout'
     )
 );
 $newpage = new page_verify();

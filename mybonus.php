@@ -1013,7 +1013,6 @@ if (isset($_GET['exchange'])) {
 
 				if ($TRINITY20['autoshout_on'] == 1) {
 					autoshout($message);
-					$cache->delete('shoutbox_');
 				}
 				header("Refresh: 0; url={$TRINITY20['baseurl']}//mybonus.php?freeleech_success=1&norefund=$norefund");
 				die;
@@ -1039,7 +1038,6 @@ if (isset($_GET['exchange'])) {
 				write_bonus_log($CURUSER["id"], $donation, $type = "freeleech");
 				$Remaining = ($arr_points['points'] - $arr_points['pointspool'] - $donation);
 				$msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the freeleech contribution pot ! * Only [b]" . htmlsafechars($Remaining) . "[/b] more karma point" . ($Remaining > 1 ? 's' : '') . " to go! * [color=green][b]Freeleech contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]" . $donation . "/" . $points . '[/url]';
-				$cache->delete('shoutbox_');
 				autoshout($msg);
 				header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?freeleech_success=2");
 				die;
@@ -1089,7 +1087,6 @@ if (isset($_GET['exchange'])) {
 				$msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the double upload contribution pot and has activated Double Upload for 3 days " . $donation . "/" . $points . '';
 				if ($TRINITY20['autoshout_on'] == 1) {
 					autoshout($msg);
-					$cache->delete('shoutbox_');
 				}
 				header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?doubleup_success=1&norefund=$norefund");
 				die;
@@ -1115,7 +1112,7 @@ if (isset($_GET['exchange'])) {
 				write_bonus_log($CURUSER["id"], $donation, $type = "doubleupload");
 				$Remaining = ($arr_points['points'] - $arr_points['pointspool'] - $donation);
 				$msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the double upload contribution pot ! * Only [b]" . htmlsafechars($Remaining) . "[/b] more karma point" . ($Remaining > 1 ? 's' : '') . " to go! * [color=green][b]Double upload contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]" . $donation . "/" . $points . '[/url]';
-				$cache->delete('shoutbox_');
+				
 				autoshout($msg);
 				header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?doubleup_success=2");
 				die;
@@ -1163,7 +1160,7 @@ if (isset($_GET['exchange'])) {
 				$cache->delete('freecontribution_datas_alerts_');
 				write_bonus_log($CURUSER["id"], $donation, $type = "halfdownload");
 				$msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the half download contribution pot and has activated half download for 3 days " . $donation . "/" . $points . '';
-				$cache->delete('shoutbox_');
+				
 				autoshout($msg);
 				header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?halfdown_success=1&norefund=$norefund");
 				die;
@@ -1189,7 +1186,7 @@ if (isset($_GET['exchange'])) {
 				write_bonus_log($CURUSER["id"], $donation, $type = "halfdownload");
 				$Remaining = ($arr_points['points'] - $arr_points['pointspool'] - $donation);
 				$msg = $CURUSER['username'] . " Donated " . $donation . " karma point" . ($donation > 1 ? 's' : '') . " into the half download contribution pot ! * Only [b]" . htmlsafechars($Remaining) . "[/b] more karma point" . ($Remaining > 1 ? 's' : '') . " to go! * [color=green][b]Half download contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]" . $donation . "/" . $points . '[/url]';
-				$cache->delete('shoutbox_');
+				
 				autoshout($msg);
 				header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?halfdown_success=2");
 				die;

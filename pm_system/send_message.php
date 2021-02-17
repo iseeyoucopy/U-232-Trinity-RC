@@ -86,7 +86,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
                             (' . sqlesc($CURUSER['id']) . ', ' . sqlesc($CURUSER['id']) . ', ' . sqlesc($receiver) . ', ' . TIME_NOW . ', ' . $body . ', ' . $subject . ', ' . sqlesc($save) . ', 1,' . $urgent . ')') || sqlerr(__FILE__, __LINE__);
     $cache->delete('inbox_new::' . $receiver);
     $cache->delete('inbox_new_sb::' . $receiver);
-    $cache->delete('shoutbox_');
+    
     //=== make sure it worked then...
     if ($mysqli->affected_rows === 0) stderr($lang['pm_error'], $lang['pm_send_wasnt']);
 														  

@@ -26,7 +26,6 @@ $stdfoot = array(
     'js' => array(
         'jquery.validate.min',
         'check_selected',
-        'shout'
     )
 );
 $HTMLOUT = $count2 = '';

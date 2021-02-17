@@ -361,7 +361,6 @@ if (isset($color_options[$post_color], $number_options[$post_number])   || isset
         ], $TRINITY20['expires']['user_stats']);
         if ($TRINITY20['autoshout_on'] == 1) {
             autoshout($message);
-            $cache->delete('shoutbox_');
         }
         if ($mysqli->affected_rows == 0) {
             sql_query("INSERT INTO casino (userid, date, deposit) VALUES (" . sqlesc($CURUSER['id']) . ", $time, " . sqlesc($nobits) . ")") || sqlerr(__FILE__, __LINE__);

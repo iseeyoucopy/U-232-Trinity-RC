@@ -201,7 +201,7 @@ write_log("User account " . (int)$id . " (" . htmlsafechars($wantusername) . ") 
 
 if ($TRINITY20['autoshout_on'] == 1) {
     autoshout($message);
-    $cache->delete('shoutbox_');
+    
 }
     
 $body = str_replace(array(
