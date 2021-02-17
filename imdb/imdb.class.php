@@ -1193,11 +1193,7 @@ class IMDB
     public function isReleased()
     {
         $strReturn = $this->getReleaseDate();
-        if ($strReturn == self::$sNotFound || $strReturn == 'Not yet released') {
-            return false;
-        }
-
-        return true;
+        return !($strReturn == self::$sNotFound || $strReturn == 'Not yet released');
     }
 
     /**
