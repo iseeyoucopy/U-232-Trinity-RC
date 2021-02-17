@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //bonusmanager
     'bonusmanager_wtf' => "WTF?",
     'bonusmanager_ysbh' => "You shouldn't be here!",
@@ -28,6 +28,6 @@ $lang = array(
     'bonusmanager_submit' => "Submit",
     'bonusmanager_oops' => "Oops",
     'bonusmanager_sql' => "Something went wrong with the sql query",
-	'bonusmanager_stdhead' => "Bonus Manager"	
-);
+    'bonusmanager_stdhead' => "Bonus Manager",
+];
 ?>

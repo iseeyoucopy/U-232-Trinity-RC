@@ -26,7 +26,7 @@
 // changes, then they know that another scripter has modified a script.
 if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
-    $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
+    $HTMLOUT .= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
@@ -38,8 +38,8 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     echo $HTMLOUT;
     exit();
 }
-require_once (INCL_DIR . 'user_functions.php');
-require_once (CLASS_DIR . 'class_check.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(CLASS_DIR.'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 loggedinorreturn();
@@ -52,18 +52,18 @@ if (!in_array($CURUSER['id'], $TRINITY20['allowed_staff']['id'] /*$allowed_ids*/
 }
 $lang = array_merge($lang, load_language('editlog'));
 $HTMLOUT = '';
-$file_data = './dir_list/data_' . $CURUSER['username'] . '.txt';
+$file_data = './dir_list/data_'.$CURUSER['username'].'.txt';
 if (file_exists($file_data)) {
     // Fetch existing data
     $data = unserialize(file_get_contents($file_data));
-    $exist = TRUE;
+    $exist = true;
 } else {
     // Initialise File
-    $exist = FALSE;
+    $exist = false;
 }
-$fetch_set = array();
+$fetch_set = [];
 $i = 0;
-$directories = array();
+$directories = [];
 //== Enter directories to log... if you dont have them - comment them out or edit
 //$directories[] = '/var/bucket/';
 //$directories[] = '/var/bucket/avatars/';
@@ -82,13 +82,13 @@ $directories[] = './cache/';
 $directories[] = './logs/';
 //$directories[] = './torrents/';  //== watch this fella if you have 1000's of torrents it will timeout
 $directories[] = './admin/';
-foreach ($directories AS $x) {
+foreach ($directories as $x) {
     if ($handle = opendir($x)) {
         while (false !== ($file = readdir($handle))) {
-            if ($file != "." && $file != ".." && !is_dir($x . '/' . $file)) {
-                $fetch_set[$i]['modify'] = filemtime($x . $file);
-                $fetch_set[$i]['size'] = filesize($x . $file);
-                $fetch_set[$i]['name'] = $x . $file;
+            if ($file != "." && $file != ".." && !is_dir($x.'/'.$file)) {
+                $fetch_set[$i]['modify'] = filemtime($x.$file);
+                $fetch_set[$i]['size'] = filesize($x.$file);
+                $fetch_set[$i]['name'] = $x.$file;
                 $fetch_set[$i]['key'] = $i;
                 $i++;
             }
@@ -112,7 +112,7 @@ $current = $fetch_set;
 $last = $data;
 foreach ($current as $x) {
     // Search the data sets for differences
-    foreach ($last AS $y) {
+    foreach ($last as $y) {
         if ($x['name'] == $y['name']) {
             if ($x['size'] == $y['size'] && $x['modify'] == $y['modify']) {
                 unset($current[$x['key']]);
@@ -129,7 +129,7 @@ foreach ($current as $x) {
         $current[$x['key']]['status'] = 'new';
     }
 }
-$current+= $last; // Add deleted entries to current list
+$current += $last; // Add deleted entries to current list
 unset($last);
 // $fetch_data contains a current list of directory
 // $data contains the last snapshot of the directory
@@ -138,35 +138,35 @@ unset($last);
 // Remove lists from current code...
 unset($data);
 unset($fetch_set);
-$HTMLOUT.= "<div class='row'><div class='col-md-12'>";
-$HTMLOUT.= "<table class='table table-bordered'>
+$HTMLOUT .= "<div class='row'><div class='col-md-12'>";
+$HTMLOUT .= "<table class='table table-bordered'>
 <tr>
 <td align='center' width='70%' bgcolor='orange'><strong>{$lang['editlog_new']}</strong></td>
 <td align='center' bgcolor='orange'><strong>{$lang['editlog_added']}</strong></td>
 </tr>";
 reset($current);
 $count = 0;
-foreach ($current AS $x) {
+foreach ($current as $x) {
     if ($x['status'] == 'new') {
-        $HTMLOUT.= "
+        $HTMLOUT .= "
 <tr>
 <td align='center'>";
-        $HTMLOUT.= htmlsafechars(substr($x['name'], 2));
-        $HTMLOUT.= "</td>
+        $HTMLOUT .= htmlsafechars(substr($x['name'], 2));
+        $HTMLOUT .= "</td>
 <td align='center'>";
-        $HTMLOUT.= get_date($x['modify'], 'DATE', 0, 1);
-        $HTMLOUT.= "</td>
+        $HTMLOUT .= get_date($x['modify'], 'DATE', 0, 1);
+        $HTMLOUT .= "</td>
 </tr>";
         $count++;
     }
 }
 if ($count === 0) {
-    $HTMLOUT.= "
+    $HTMLOUT .= "
 <tr>
 <td align='center' colspan='2'><b>{$lang['editlog_no_new']}</b></td>
 </tr>";
 }
-$HTMLOUT.= "
+$HTMLOUT .= "
 </table>
 <br /><br /><br />
 <table class='table table-bordered'>
@@ -176,27 +176,27 @@ $HTMLOUT.= "
 </tr>";
 reset($current);
 $count = 0;
-foreach ($current AS $x) {
+foreach ($current as $x) {
     if ($x['status'] == 'modified') {
-        $HTMLOUT.= "
+        $HTMLOUT .= "
 <tr>
 <td align='center'>";
-        $HTMLOUT.= htmlsafechars(substr($x['name'], 2));
-        $HTMLOUT.= "</td>
+        $HTMLOUT .= htmlsafechars(substr($x['name'], 2));
+        $HTMLOUT .= "</td>
 <td align='center'>";
-        $HTMLOUT.= get_date($x['modify'], 'DATE', 0, 1);
-        $HTMLOUT.= "</td>
+        $HTMLOUT .= get_date($x['modify'], 'DATE', 0, 1);
+        $HTMLOUT .= "</td>
 </tr>";
         $count++;
     }
 }
 if ($count === 0) {
-    $HTMLOUT.= "
+    $HTMLOUT .= "
 <tr>
 <td align='center' colspan='2'><b>{$lang['editlog_no_modified']}</b></td>
 </tr>";
 }
-$HTMLOUT.= "
+$HTMLOUT .= "
 </table>
 <br /><br /><br />
 <table class='table table-bordered'>
@@ -206,27 +206,27 @@ $HTMLOUT.= "
 </tr>";
 reset($current);
 $count = 0;
-foreach ($current AS $x) {
+foreach ($current as $x) {
     if ($x['status'] == 'deleted') {
-        $HTMLOUT.= "
+        $HTMLOUT .= "
 <tr>
 <td align='center'>";
-        $HTMLOUT.= htmlsafechars(substr($x['name'], 2));
-        $HTMLOUT.= "</td>
+        $HTMLOUT .= htmlsafechars(substr($x['name'], 2));
+        $HTMLOUT .= "</td>
 <td align='center'>";
-        $HTMLOUT.= get_date($x['modify'], 'DATE', 0, 1);
-        $HTMLOUT.= "</td>
+        $HTMLOUT .= get_date($x['modify'], 'DATE', 0, 1);
+        $HTMLOUT .= "</td>
 </tr>";
         $count++;
     }
 }
 if ($count === 0) {
-    $HTMLOUT.= "
+    $HTMLOUT .= "
 <tr>
 <td align='center' colspan='2'><b>{$lang['editlog_no_deleted']}</b></td>
 </tr>";
 }
-$HTMLOUT.= "
+$HTMLOUT .= "
 </table>
 <br /><br /><br />
 <form method='post' action='staffpanel.php?tool=editlog&amp;action=editlog'>
@@ -238,6 +238,6 @@ $HTMLOUT.= "
 </tr>
 </table>
 </form>";
-$HTMLOUT .="</div></div>";
-echo stdhead($lang['editlog_stdhead']) . $HTMLOUT . stdfoot();
+$HTMLOUT .= "</div></div>";
+echo stdhead($lang['editlog_stdhead']).$HTMLOUT.stdfoot();
 ?>

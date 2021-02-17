@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //TAGS
     'tags_description' => "Description:",
     'tags_systax' => "Syntax:",
@@ -55,22 +55,22 @@ $lang = array(
     'tags_hyper1' => "Hyperlink (alt. 1)",
     'tags_hyper2' => "Inserts a hyperlink.",
     'tags_hyper3' => "[url]<i>URL</i>[/url]",
-    'tags_hyper4' => "[url]" . $TRINITY20['baseurl'] . "/[/url]",
+    'tags_hyper4' => "[url]".$TRINITY20['baseurl']."/[/url]",
     'tags_hyper5' => "This tag is superfluous; all URLs are automatically hyperlinked.",
     'tags_hyper6' => "Hyperlink (alt. 2)",
     'tags_hyper7' => "Inserts a hyperlink.",
     'tags_hyper8' => "[url=<i>URL</i>]<i>Link text</i>[/url]",
-    'tags_hyper9' => "[url=" . $TRINITY20['baseurl'] . "/]" . $TRINITY20['site_name'] . "[/url]",
+    'tags_hyper9' => "[url=".$TRINITY20['baseurl']."/]".$TRINITY20['site_name']."[/url]",
     'tags_hyper10' => "You do not have to use this tag unless you want to set the link text; all URLs are automatically hyperlinked.",
     'tags_image1' => "Image (alt. 1)",
     'tags_image2' => "Inserts a picture.",
     'tags_image3' => "[img=<i>URL</i>]",
-    'tags_image4' => "[img=" . $TRINITY20['baseurl'] . "/pic/logo.gif]",
+    'tags_image4' => "[img=".$TRINITY20['baseurl']."/pic/logo.gif]",
     'tags_image5' => "The URL must end with <b>.gif</b>, <b>.jpg</b> or <b>.png</b>.",
     'tags_image6' => "Image (alt. 2)",
     'tags_image7' => "Inserts a picture.",
     'tags_image8' => "[img]<i>URL</i>[/img]",
-    'tags_image9' => "[img]" . $TRINITY20['baseurl'] . "/pic/logo.gif[/img]",
+    'tags_image9' => "[img]".$TRINITY20['baseurl']."/pic/logo.gif[/img]",
     'tags_image10' => "The URL must end with <b>.gif</b>, <b>.jpg</b> or <b>.png</b>.",
     'tags_quote1' => "Quote (alt. 1)",
     'tags_quote2' => "Inserts a quote.",
@@ -88,5 +88,5 @@ $lang = array(
     'tags_preformat2' => "Preformatted (monospace) text. Does not wrap automatically.",
     'tags_preformat3' => "[pre]<i>Text</i>[/pre]",
     'tags_preformat4' => "[pre]This is preformatted text.[/pre]",
-);
+];
 ?>

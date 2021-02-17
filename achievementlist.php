@@ -11,9 +11,9 @@
  * ------------  @version V6  ------------------*
  */
 // Achievements mod by MelvinMeow
-require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
-require_once (INCL_DIR . 'user_functions.php');
-require_once (CLASS_DIR . 'page_verify.php');
+require_once(__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorrent.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(CLASS_DIR.'page_verify.php');
 dbconn();
 $newpage = new page_verify();
 $newpage->check('takecounts');
@@ -25,22 +25,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $CURUSER['class'] >= UC_MAX) {
     $notes = htmlsafechars($_POST["notes"]);
     $clienticon = htmlsafechars($clienticon);
     $achievname = htmlsafechars($achievname);
-    sql_query("INSERT INTO achievementist (achievname, notes, clienticon) VALUES(" . sqlesc($achievname) . ", " . sqlesc($notes) . ", " . sqlesc($clienticon) . ")") || sqlerr(__FILE__, __LINE__);
+    sql_query("INSERT INTO achievementist (achievname, notes, clienticon) VALUES(".sqlesc($achievname).", ".sqlesc($notes).", ".sqlesc($clienticon).")") || sqlerr(__FILE__,
+        __LINE__);
     $message = "{$lang['achlst_new_ach_been_added']}. {$lang['achlst_achievement']}: [{$achievname}]";
     //autoshout($message);
     //$doUpdate = true;
-    
+
 }
 // == Query update by Putyn
-($res = sql_query("SELECT a1.*, (SELECT COUNT(a2.id) FROM achievements AS a2 WHERE a2.achievement = a1.achievname) as count FROM achievementist AS a1 ORDER BY a1.id ")) || sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT a1.*, (SELECT COUNT(a2.id) FROM achievements AS a2 WHERE a2.achievement = a1.achievname) as count FROM achievementist AS a1 ORDER BY a1.id ")) || sqlerr(__FILE__,
+    __LINE__);
 $HTMLOUT = '';
 if ($res->num_rows == 0) {
-    require_once (BLOCK_DIR . 'achievements/ach_list_noachiev.php');
+    require_once(BLOCK_DIR.'achievements/ach_list_noachiev.php');
 } else {
-    require_once (BLOCK_DIR . 'achievements/ach_list.php');
+    require_once(BLOCK_DIR.'achievements/ach_list.php');
 }
 if ($CURUSER['class'] == UC_MAX) {
-    require_once (BLOCK_DIR . 'achievements/ach_list_add.php');
+    require_once(BLOCK_DIR.'achievements/ach_list_add.php');
 }
-echo stdhead($lang['achlst_std_head']) . $HTMLOUT . stdfoot();
+echo stdhead($lang['achlst_std_head']).$HTMLOUT.stdfoot();
 ?>

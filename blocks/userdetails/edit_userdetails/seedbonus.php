@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$HTMLOUT.= "<div class='input-group'>
+$HTMLOUT .= "<div class='input-group'>
     <span class='input-group-label'>{$lang['userdetails_bonus_points']}</span>
-    <input class='input-group-field' type='text' name='seedbonus' value='" . (int)$user_stats['seedbonus'] . "'>
+    <input class='input-group-field' type='text' name='seedbonus' value='".(int)$user_stats['seedbonus']."'>
 </div>";

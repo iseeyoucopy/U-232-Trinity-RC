@@ -10,9 +10,9 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
-require_once (CLASS_DIR . 'page_verify.php');
-require_once (CACHE_DIR . 'timezones.php');
+require_once(__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorrent.php');
+require_once(CLASS_DIR.'page_verify.php');
+require_once(CACHE_DIR.'timezones.php');
 dbconn();
 global $CURUSER;
 if (!$CURUSER) {
@@ -22,29 +22,31 @@ if (!$CURUSER) {
     exit();
 }
 ini_set('session.use_trans_sid', '0');
-if ($TRINITY20['captcha_on'] === true){
-$stdfoot = array(
-    /** include js **/
-    'js' => array(
-        'check',
-        'jquery.pstrength-min.1.2',
-        'jquery.simpleCaptcha-0.2'
-    )
-); } else {
-$stdfoot = array(
-    /** include js **/
-    'js' => array(
-        'check',
-        'jquery.pstrength-min.1.2'
-    )
-); }
-$lang = array_merge(load_language('global') , load_language('signup'));
+if ($TRINITY20['captcha_on'] === true) {
+    $stdfoot = [
+        /** include js **/
+        'js' => [
+            'check',
+            'jquery.pstrength-min.1.2',
+            'jquery.simpleCaptcha-0.2',
+        ],
+    ];
+} else {
+    $stdfoot = [
+        /** include js **/
+        'js' => [
+            'check',
+            'jquery.pstrength-min.1.2',
+        ],
+    ];
+}
+$lang = array_merge(load_language('global'), load_language('signup'));
 if (!$TRINITY20['openreg']) {
     stderr($lang['stderr_errorhead'],
         "{$lang['signup_inviteonly']}<a href='".$TRINITY20['baseurl']."/invite_signup.php'><b>&nbsp;{$lang['signup_here']}</b></a>");
 }
 $HTMLOUT = $year = $month = $day = $gender = '';
-$HTMLOUT.= "
+$HTMLOUT .= "
     <script type='text/javascript'>
     /*<![CDATA[*/
     $(function() {
@@ -62,10 +64,10 @@ $offset = (string)$TRINITY20['time_offset'];
 $time_select = "<select class='input-group-field' name='user_timezone'>";
 foreach ($TZ as $off => $words) {
     if (preg_match("/^time_(-?[\d\.]+)$/", $off, $match)) {
-        $time_select.= $match[1] == $offset ? "<option value='{$match[1]}' selected='selected'>$words</option>\n" : "<option value='{$match[1]}'>$words</option>\n";
+        $time_select .= $match[1] == $offset ? "<option value='{$match[1]}' selected='selected'>$words</option>\n" : "<option value='{$match[1]}'>$words</option>\n";
     }
 }
-$time_select.= "</select>";
+$time_select .= "</select>";
 //==country by pdq
 function countries()
 {
@@ -73,20 +75,21 @@ function countries()
     if (($ret = $cache->get('countries::arr')) === false) {
         ($res = sql_query("SELECT id, name, flagpic FROM countries ORDER BY name ASC")) || sqlerr(__FILE__, __LINE__);
         while ($row = $res->fetch_assoc()) {
-            $ret = (array) $ret;
+            $ret = (array)$ret;
             $ret[] = $row;
         }
         $cache->set('countries::arr', $ret, $TRINITY20['expires']['user_flag']);
     }
     return $ret;
 }
+
 $country = '';
 $countries = countries();
 $user_country = isset($CURUSER['country']) ? "{$CURUSER['country']}" : '';
 foreach ($countries as $cntry) {
     $country .= "<option value='".(int)$cntry['id']."'".($user_country == $cntry['id'] ? " selected='selected'" : "").">".htmlsafechars($cntry['name'])."</option>\n";
 }
-$gender.= "<select class='input-group-field' name='gender'>
+$gender .= "<select class='input-group-field' name='gender'>
     <option value='Male'>{$lang['signup_male']}</option>
     <option value='Female'>{$lang['signup_female']}</option>
     <option value='NA'>{$lang['signup_na']}</option>
@@ -94,15 +97,15 @@ $gender.= "<select class='input-group-field' name='gender'>
 // Normal Entry Point...
 
 //==09 Birthday mod
-$year.= "<select class='input-group-field' id='sel1' name='year'>";
-$year.= "<option value='0000'>{$lang['signup_year']}</option>";
+$year .= "<select class='input-group-field' id='sel1' name='year'>";
+$year .= "<option value='0000'>{$lang['signup_year']}</option>";
 $i = "2020";
 while ($i >= 1920) {
-    $year.= "<option value='" . $i . "'>" . $i . "</option>";
+    $year .= "<option value='".$i."'>".$i."</option>";
     $i--;
 }
-$year.= "</select>";
-$month.= "<select class='input-group-field' id='sel2' name='month'>
+$year .= "</select>";
+$month .= "<select class='input-group-field' id='sel2' name='month'>
     <option value='00'>{$lang['signup_month']}</option>
     <option value='01'>{$lang['signup_jan']}</option>
     <option value='02'>{$lang['signup_feb']}</option>
@@ -117,52 +120,52 @@ $month.= "<select class='input-group-field' id='sel2' name='month'>
     <option value='11'>{$lang['signup_nov']}</option>
     <option value='12'>{$lang['signup_dec']}</option>
     </select>";
-$day.= "<select class='input-group-field' id='sel3' name='day'>";
-$day.= "<option value='00'>{$lang['signup_day']}</option>";
+$day .= "<select class='input-group-field' id='sel3' name='day'>";
+$day .= "<option value='00'>{$lang['signup_day']}</option>";
 $i = 1;
 while ($i <= 31) {
     if ($i < 10) {
-        $day.= "<option value='0" . $i . "'>0" . $i . "</option>";
+        $day .= "<option value='0".$i."'>0".$i."</option>";
     } else {
-        $day.= "<option value='" . $i . "'>" . $i . "</option>";
+        $day .= "<option value='".$i."'>".$i."</option>";
     }
     $i++;
 }
-$day.= "</select>";
+$day .= "</select>";
 //==End Birthday
 //==Passhint
 $passhint = "";
-$questions = array(
-    array(
+$questions = [
+    [
         "id" => "1",
-        "question" => "{$lang['signup_q1']}"
-    ) ,
-    array(
+        "question" => "{$lang['signup_q1']}",
+    ],
+    [
         "id" => "2",
-        "question" => "{$lang['signup_q2']}"
-    ) ,
-    array(
+        "question" => "{$lang['signup_q2']}",
+    ],
+    [
         "id" => "3",
-        "question" => "{$lang['signup_q3']}"
-    ) ,
-    array(
+        "question" => "{$lang['signup_q3']}",
+    ],
+    [
         "id" => "4",
-        "question" => "{$lang['signup_q4']}"
-    ) ,
-    array(
+        "question" => "{$lang['signup_q4']}",
+    ],
+    [
         "id" => "5",
-        "question" => "{$lang['signup_q5']}"
-    ) ,
-    array(
+        "question" => "{$lang['signup_q5']}",
+    ],
+    [
         "id" => "6",
-        "question" => "{$lang['signup_q6']}"
-    )
-);
+        "question" => "{$lang['signup_q6']}",
+    ],
+];
 foreach ($questions as $sph) {
-    $passhint.= "<option value='" . $sph['id'] . "'>" . $sph['question'] . "</option>\n";
+    $passhint .= "<option value='".$sph['id']."'>".$sph['question']."</option>\n";
 }
 //==End Passhint
-$HTMLOUT.= "".($TRINITY20['captcha_on'] ? "<script type='text/javascript'>
+$HTMLOUT .= "".($TRINITY20['captcha_on'] ? "<script type='text/javascript'>
 	  /*<![CDATA[*/
 	  $(document).ready(function () {
 	  $('#captchasignup').simpleCaptcha();
@@ -218,7 +221,7 @@ $HTMLOUT.= "".($TRINITY20['captcha_on'] ? "<script type='text/javascript'>
 					<span class='input-group-label'>
 						<i class='fas fa-birthday-cake'></i>
 					</span>
-			" . $year . $month . $day . "
+			".$year.$month.$day."
 		</div>
 		<label for='answer-question'>{$lang['signup_select']}{$lang['signup_this_answer']}{$lang['signup_this_answer1']}</label>
 		<div class='input-group'>
@@ -247,9 +250,9 @@ $HTMLOUT.= "".($TRINITY20['captcha_on'] ? "<script type='text/javascript'>
 			<input type='checkbox' name='ageverify' value='yes' id='agecheck'>
 			<label for='agecheck' >{$lang['signup_age']}</label>
 		</div>
-	" . ($TRINITY20['captcha_on'] ? "<div class='form-group text-center'><div id='captchasignup'></div></div>" : "") . "
+	".($TRINITY20['captcha_on'] ? "<div class='form-group text-center'><div id='captchasignup'></div></div>" : "")."
 	<div class='form-group'>
 		<span><input name='submitme' type='submit' value='Register' class='button expanded'></span></div>";
-$HTMLOUT.= "</form></div></div></div>";
-echo stdhead($lang['head_signup']) . $HTMLOUT . stdfoot($stdfoot);
+$HTMLOUT .= "</form></div></div></div>";
+echo stdhead($lang['head_signup']).$HTMLOUT.stdfoot($stdfoot);
 ?>

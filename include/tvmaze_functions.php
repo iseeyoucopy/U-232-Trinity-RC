@@ -11,13 +11,14 @@
  * ------------  @version V6  ------------------*
  */
 //tvmaze functions converted from former tvrage functions
-define('TBUCKET_DIR', BITBUCKET_DIR . DIRECTORY_SEPARATOR . 'tvmaze');
+define('TBUCKET_DIR', BITBUCKET_DIR.DIRECTORY_SEPARATOR.'tvmaze');
 if (!is_dir(TBUCKET_DIR)) {
     mkdir(TBUCKET_DIR);
 }
 
-function tvmaze_format($tvmaze_data, $tvmaze_type) {
-    $tvmaze_display['show'] = array(
+function tvmaze_format($tvmaze_data, $tvmaze_type)
+{
+    $tvmaze_display['show'] = [
         'name' => '<b>%s</b>',
         'url' => '%s',
         'premiered' => 'Started: %s',
@@ -27,7 +28,7 @@ function tvmaze_format($tvmaze_data, $tvmaze_type) {
         'summary' => 'Summary:<br/> %s',
         'runtime' => 'Runtime %s min',
         'genres2' => 'Genres: %s',
-    );
+    ];
     foreach ($tvmaze_display[$tvmaze_type] as $key => $value) {
         if (isset($tvmaze_data[$key])) {
             $tvmaze_display[$tvmaze_type][$key] = sprintf($value, $tvmaze_data[$key]);
@@ -38,21 +39,23 @@ function tvmaze_format($tvmaze_data, $tvmaze_type) {
     }
     return implode('<br/><br/>', $tvmaze_display[$tvmaze_type]);
 }
-function tvmaze(&$torrents) {
+
+function tvmaze(&$torrents)
+{
     global $cache, $TRINITY20;
     $tvmaze_data = '';
-    $row_update = array();
+    $row_update = [];
     if (preg_match("/^(.*)(?:\.| |_)(?:(?:S\d{1,2}(?:E\d{1,2})?)|20\d\d\.\d\d\.\d\d|Part.\d|CHapters)/i", $torrents['name'], $tmp)) {
-        $tvmaze = array(
-            'name' => preg_replace('/ $/', '', str_replace(array('.', '_'), ' ', $tmp[1])),
-        );
+        $tvmaze = [
+            'name' => preg_replace('/ $/', '', str_replace(['.', '_'], ' ', $tmp[1])),
+        ];
     } else {
-        $tvmaze = array(
-            'name' => preg_replace('/ $/', '', str_replace(array('.', '_'), ' ', $torrents['name'])),
-        );
+        $tvmaze = [
+            'name' => preg_replace('/ $/', '', str_replace(['.', '_'], ' ', $torrents['name'])),
+        ];
     }
 
-    $memkey = 'tvmaze::' . strtolower(str_replace(' ', '', $tvmaze['name']));
+    $memkey = 'tvmaze::'.strtolower(str_replace(' ', '', $tvmaze['name']));
     if (($tvmaze_id = $cache->get($memkey)) === false) {
         //get tvmaze id
         $tvmaze_link = sprintf('http://api.tvmaze.com/singlesearch/shows?q=%s', urlencode($tvmaze['name']));
@@ -70,7 +73,7 @@ function tvmaze(&$torrents) {
         $force_update = true;
     }
 
-    $memkey = 'tvmaze::' . $tvmaze_id;
+    $memkey = 'tvmaze::'.$tvmaze_id;
     if ($force_update || ($tvmaze_showinfo = $cache->get($memkey)) === false) {
         //get tvmaze show info
         $tvmaze['name'] = preg_replace('/\d{4}.$/', '', $tvmaze['name']);
@@ -82,33 +85,33 @@ function tvmaze(&$torrents) {
         }
 
         if (empty($torrents['newgenre'])) {
-            $row_update[] = 'newgenre = ' . sqlesc(ucwords($tvmaze_array['genres2']));
+            $row_update[] = 'newgenre = '.sqlesc(ucwords($tvmaze_array['genres2']));
         }
 
         if ($tvmaze_array["image"]["original"] != "") {
-            if (!file_exists(TBUCKET_DIR . "/$tvmaze_id.jpg")) {
-                file_put_contents(TBUCKET_DIR . "/$tvmaze_id.jpg", file_get_contents($tvmaze_array["image"]["original"]));
+            if (!file_exists(TBUCKET_DIR."/$tvmaze_id.jpg")) {
+                file_put_contents(TBUCKET_DIR."/$tvmaze_id.jpg", file_get_contents($tvmaze_array["image"]["original"]));
             }
 
             $img = "img.php/tvmaze/$tvmaze_id.jpg";
         }
         //==The torrent cache
-        $cache->update_row('torrent_details_' . $torrents['id'], [
+        $cache->update_row('torrent_details_'.$torrents['id'], [
             'newgenre' => ucwords($tvmaze_array['genres2']),
         ], 0);
         if (empty($torrents['poster'])) {
-            $row_update[] = 'poster = ' . sqlesc($img);
+            $row_update[] = 'poster = '.sqlesc($img);
         }
 
         //==The torrent cache
-        $cache->update_row('torrent_details_' . $torrents['id'], [
+        $cache->update_row('torrent_details_'.$torrents['id'], [
             'poster' => $img,
         ], 0);
         if ((is_countable($row_update) ? count($row_update) : 0) > 0) {
-            sql_query('UPDATE torrents set ' . implode(', ', $row_update) . ' WHERE id = ' . $torrents['id']) || sqlerr(__FILE__, __LINE__);
+            sql_query('UPDATE torrents set '.implode(', ', $row_update).' WHERE id = '.$torrents['id']) || sqlerr(__FILE__, __LINE__);
         }
 
-        $tvmaze_showinfo = tvmaze_format($tvmaze_array, 'show') . '<br/>';
+        $tvmaze_showinfo = tvmaze_format($tvmaze_array, 'show').'<br/>';
         $cache->set($memkey, $tvmaze_showinfo, 0);
         $tvmaze_data .= $tvmaze_showinfo;
     } else {
@@ -117,4 +120,5 @@ function tvmaze(&$torrents) {
     }
     return $tvmaze_data;
 }
+
 ?>

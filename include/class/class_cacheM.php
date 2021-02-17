@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace U232;
 
@@ -82,7 +82,7 @@ class Cache extends TransactionalStore
                 break;
 
             default:
-                die('Invalid Adaptor: ' . $this->config['sitecache']['driver'] . '<br>Valid choices: memory, file, apcu, memcached, redis, couchbase');
+                die('Invalid Adaptor: '.$this->config['sitecache']['driver'].'<br>Valid choices: memory, file, apcu, memcached, redis, couchbase');
         }
         $this->cache = new PrefixKeys($this->cache, $this->config['sitecache']['prefix']);
         $this->cache = new BufferedStore($this->cache);
@@ -92,8 +92,8 @@ class Cache extends TransactionalStore
     }
 
     /**
-     * @param $key
-     * @param $set
+     * @param     $key
+     * @param     $set
      * @param int $ttl
      *
      * @throws UnbegunTransaction
@@ -114,8 +114,8 @@ class Cache extends TransactionalStore
      */
     public function flushDB()
     {
-        if (file_exists($this->config['files']['path'] . 'CompiledContainer.php')) {
-            unlink($this->config['files']['path'] . 'CompiledContainer.php');
+        if (file_exists($this->config['files']['path'].'CompiledContainer.php')) {
+            unlink($this->config['files']['path'].'CompiledContainer.php');
         }
         if ($this->config['sitecache']['driver'] === 'redis') {
             $client = new \Redis();
@@ -124,7 +124,7 @@ class Cache extends TransactionalStore
             } else {
                 $client->connect($this->config['redis']['socket']);
             }
-            $client->select((int) $this->config['redis']['database']);
+            $client->select((int)$this->config['redis']['database']);
 
             return $client->flushDB();
         }

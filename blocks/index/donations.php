@@ -23,7 +23,7 @@ $Progress_so_far = number_format($funds_so_far / $TRINITY20['totalneeded'] * 100
 if ($Progress_so_far >= 100) {
     $Progress_so_far = 100;
 }
-$HTMLOUT.= "<div class='card'>
+$HTMLOUT .= "<div class='card'>
   <div class='card-divider'>{$lang['index_donations']}</div>
     <div class='card-section'>
       <div class='progress' role='progressbar' tabindex='0' aria-valuenow='$Progress_so_far%' aria-valuemin='0' aria-valuemax='100'>

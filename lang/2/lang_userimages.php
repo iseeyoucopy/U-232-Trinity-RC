@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Userimages
     'userimages_error' => "Erreur",
     'userimages_hmm' => "Hmm",
@@ -32,5 +32,5 @@ $lang = array(
     'userimages_directlink' => "Lien direct vers l'image",
     'userimages_tag' => "Tag pour les forums ou les commentaires",
     'userimages_noimage' => "Images non trouvées",
-);
+];
 ?>

@@ -10,6 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
+
 /*
 Author: djGrrr <djgrrr AT p2p-network DOT net>
 Version: 1.2.5
@@ -220,6 +221,7 @@ returns 0 length string ''
 returning false
 
 */
+
 class bencdec
 {
     const MAX_DEPTH = 16; // To prevent deep recursion which could potentially cause a very high ammount of memory
@@ -238,9 +240,10 @@ class bencdec
     private static $bdata_position = 0;
     private static $bdata_depth = 0;
     private static $ext_valid = false;
+
     private static function decode_error($msg = '')
     {
-        trigger_error('Badly B-Encoded data at position ' . self::$bdata_position . ($msg != '' ? ': ' . $msg : '') , E_USER_WARNING);
+        trigger_error('Badly B-Encoded data at position '.self::$bdata_position.($msg != '' ? ': '.$msg : ''), E_USER_WARNING);
         self::$bdata_position = 0;
         self::$bdata_length = 0;
         self::$bdata = '';
@@ -259,9 +262,10 @@ class bencdec
         if (!file_exists($fn) || !is_file($fn) || !is_readable($fn)) {
             return false;
         }
-        $data = file_get_contents($fn, false, NULL, 0, $maxsize);
+        $data = file_get_contents($fn, false, null, 0, $maxsize);
         return self::decode($data, $options);
     }
+
     public static function decode($str, $options = 0)
     {
         if (!is_string($str)) {
@@ -290,6 +294,7 @@ class bencdec
         self::$ext_valid = false;
         return $data;
     }
+
     private static function char()
     {
         if (self::$bdata_position >= self::$bdata_length) {
@@ -297,6 +302,7 @@ class bencdec
         }
         return self::$bdata[self::$bdata_position];
     }
+
     // Internal decoding function
     private static function bdecode()
     {
@@ -307,40 +313,41 @@ class bencdec
         $ord = ord($char); // 1 function call and a comparison with integers is
         // faster than potentially 13 string comparisons
         switch ($ord) {
-        case 105:
-            return self::dec_int(); // i
-            
-        case 100:
-            return self::dec_dict(); // d
-            
-        case 108:
-            return self::dec_list(); // l
-            
-        case 48: // 0
-            
-        case 49: // 1
-            
-        case 50: // 2
-            
-        case 51: // 3
-            
-        case 52: // 4
-            
-        case 53: // 5
-            
-        case 54: // 6
-            
-        case 55: // 7
-            
-        case 56: // 8
-            
-        case 57: // 9
-            return self::dec_str();
-        default:
-            return self::decode_error('Invalid data type (' . $ord . ')'); // invalid
-            
+            case 105:
+                return self::dec_int(); // i
+
+            case 100:
+                return self::dec_dict(); // d
+
+            case 108:
+                return self::dec_list(); // l
+
+            case 48: // 0
+
+            case 49: // 1
+
+            case 50: // 2
+
+            case 51: // 3
+
+            case 52: // 4
+
+            case 53: // 5
+
+            case 54: // 6
+
+            case 55: // 7
+
+            case 56: // 8
+
+            case 57: // 9
+                return self::dec_str();
+            default:
+                return self::decode_error('Invalid data type ('.$ord.')'); // invalid
+
         }
     }
+
     private static function dec_int()
     {
         $epos = @strpos(self::$bdata, 'e', ++self::$bdata_position);
@@ -363,9 +370,10 @@ class bencdec
             }
         }
         $int = 0 + $idata;
-        self::$bdata_position+= $lenuptoep;
+        self::$bdata_position += $lenuptoep;
         return $int;
     }
+
     private static function dec_str($atleastone = false)
     {
         $colpos = @strpos(self::$bdata, ':', self::$bdata_position);
@@ -394,15 +402,16 @@ class bencdec
         if (strlen($string) != $len) {
             return self::decode_error('String was not expected length, data too short?');
         }
-        self::$bdata_position+= $llen + $len;
+        self::$bdata_position += $llen + $len;
         return $string === false ? '' : $string;
     }
+
     private static function dec_list()
     {
         if (self::$bdata_depth >= self::MAX_DEPTH) {
             return self::decode_error('B-Encoded data has exceeded the maximum recursion depth of '.self::MAX_DEPTH);
         }
-        $list = array();
+        $list = [];
         self::$bdata_depth++;
         self::$bdata_position++;
         while (true) {
@@ -425,9 +434,10 @@ class bencdec
         self::$bdata_depth--;
         return $list;
     }
+
     private static function dec_dict()
     {
-        $dict = array();
+        $dict = [];
         if (self::$bdata_depth >= self::MAX_DEPTH) {
             return self::decode_error('B-Encoded data has exceeded the maximum recursion depth of '.self::MAX_DEPTH);
         }
@@ -465,7 +475,7 @@ class bencdec
         }
         self::$bdata_position++;
         self::$bdata_depth--;
-        return empty($dict) ? NULL : $dict;
+        return empty($dict) ? null : $dict;
     }
     //////////////////////////////////////////////////////////
     // Encoding Functions //
@@ -483,22 +493,24 @@ class bencdec
         $d = file_put_contents($fn, $data);
         return ($d == strlen($data));
     }
+
     public static function encode($val)
     {
         $type = self::benc_type($val);
         switch ($type) {
-        case self::TYPE_INT:
-            return self::enc_int($val);
-        case self::TYPE_STR:
-            return self::enc_str($val);
-        case self::TYPE_LIST:
-            return self::enc_list($val);
-        case self::TYPE_DICT:
-            return self::enc_dict($val);
-        default:
-            return false;
+            case self::TYPE_INT:
+                return self::enc_int($val);
+            case self::TYPE_STR:
+                return self::enc_str($val);
+            case self::TYPE_LIST:
+                return self::enc_list($val);
+            case self::TYPE_DICT:
+                return self::enc_dict($val);
+            default:
+                return false;
         }
     }
+
     private static function enc_list($val)
     {
         ksort($val, SORT_NUMERIC);
@@ -508,12 +520,13 @@ class bencdec
             if ($data === false) {
                 return false;
             }
-            $list.= $data;
+            $list .= $data;
             unset($data);
         }
-        $list.= 'e';
+        $list .= 'e';
         return $list;
     }
+
     private static function enc_dict($val)
     {
         ksort($val, SORT_STRING);
@@ -523,20 +536,23 @@ class bencdec
             if ($data === false) {
                 return false;
             }
-            $dict.= self::enc_str((string)$name) . $data;
+            $dict .= self::enc_str((string)$name).$data;
             unset($data);
         }
-        $dict.= 'e';
+        $dict .= 'e';
         return $dict;
     }
+
     private static function enc_int($val)
     {
-        return 'i' . $val . 'e';
+        return 'i'.$val.'e';
     }
+
     private static function enc_str($val)
     {
-        return strlen($val) . ':' . $val;
+        return strlen($val).':'.$val;
     }
+
     // internal function to determine type of encoding to use
     private static function benc_type(&$val)
     {
@@ -565,29 +581,31 @@ class bencdec
             return self::TYPE_STR;
         }
         if (is_null($val)) {
-            $val = array();
+            $val = [];
             return self::TYPE_DICT;
         }
-        trigger_error('Bad input type for B-Encoding: ' . gettype($val) , E_USER_WARNING);
+        trigger_error('Bad input type for B-Encoding: '.gettype($val), E_USER_WARNING);
         return false;
     }
+
     public static function get_type($val)
     {
         $type = self::benc_type($val);
         switch ($type) {
-        case self::TYPE_INT:
-            return 'integer';
-        case self::TYPE_STR:
-            return 'string';
-        case self::TYPE_LIST:
-            return 'list';
-        case self::TYPE_DICT:
-            return 'dictionary';
-        default:
-            return false;
+            case self::TYPE_INT:
+                return 'integer';
+            case self::TYPE_STR:
+                return 'string';
+            case self::TYPE_LIST:
+                return 'list';
+            case self::TYPE_DICT:
+                return 'dictionary';
+            default:
+                return false;
         }
     }
 }
+
 // vim: syntax=php ts=4
 
 ?>

@@ -34,7 +34,7 @@ function docleanup($data)
     ) AS comments_num
     FROM torrents AS t
     ORDER BY t.id ASC';
-    $updatetorrents = array();
+    $updatetorrents = [];
     $tq = sql_query($tsql);
     while ($t = $tq->fetch_assoc()) {
         if ($t['seeders'] != $t['seeders_num'] || $t['leechers'] != $t['leechers_num'] || $t['comments'] != $t['comments_num']) {
@@ -52,10 +52,11 @@ function docleanup($data)
         write_log("Torrent clean-------------------- Torrent cleanup Complete using $queries queries --------------------");
     }
     if (false !== $mysqli->affected_rows) {
-        $data['clean_desc'] = $mysqli->affected_rows . " items updated";
+        $data['clean_desc'] = $mysqli->affected_rows." items updated";
     }
     if ($data['clean_log']) {
         cleanup_log($data);
     }
 }
+
 ?>

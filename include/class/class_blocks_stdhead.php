@@ -1,4 +1,5 @@
 <?php
+
 /**
  * -------   U-232 Codename Trinity   ----------*
  * ---------------------------------------------*
@@ -23,6 +24,7 @@ class block_stdhead
     const STDHEAD_BUG_MESSAGE = 0x100; // 256
     const STDHEAD_FREELEECH_CONTRIBUTION = 0x200; // 512
     const STDHEAD_STAFFTOOLS = 0X400; // 1024
-    
+
 }
+
 ?>

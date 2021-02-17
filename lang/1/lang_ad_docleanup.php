@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Misc
     'stderr_error' => "Error",
     'stderr_cleanup' => "Cleanup",
@@ -19,6 +19,6 @@ $lang = array(
     'err_mysql_err' => 'There was a mysql error : %s, report to staff',
     'text_cannot' => "You cannot access this file directly.",
     'text_denied' => "Permission denied !",
-    'text_done' => " Successfully done."
-);
+    'text_done' => " Successfully done.",
+];
 ?>

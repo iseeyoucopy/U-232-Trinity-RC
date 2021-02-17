@@ -12,7 +12,7 @@
  */
 if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
-    $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
+    $HTMLOUT .= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
@@ -24,20 +24,19 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     echo $HTMLOUT;
     exit();
 }
-require_once (INCL_DIR . 'user_functions.php');
-require_once (INCL_DIR . 'pager_functions.php');
-require_once (CLASS_DIR . 'class_check.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(INCL_DIR.'pager_functions.php');
+require_once(CLASS_DIR.'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('referrers'));
 $HTMLOUT = '';
 if ((isset($_GET['page']) ? (int)$_GET['page'] : ($_GET['page'] = 0)) !== 0) {
-    ;
 }
 ($res = sql_query("SELECT * FROM referrers")) || sqlerr(__FILE__, __LINE__);
 $count = $res->num_rows;
 if ($count > 0) {
-    $HTMLOUT.= "<h1>{$lang['ref_last']}</h1>
+    $HTMLOUT .= "<h1>{$lang['ref_last']}</h1>
 	<table class='table table-bordered'>
 		<tr>
 			<td class='colhead'>{$lang['ref_nr']}</td>
@@ -51,7 +50,8 @@ if ($count > 0) {
     $perpage = 10;
     $i = (int)$_GET['page'] * $perpage;
     $pager = pager($perpage, $count, "staffpanel.php?tool=referrers&amp;");
-    ($res = sql_query("SELECT r.*, u.id as uid, u.username FROM referrers AS r LEFT JOIN users AS u ON u.ip = r.ip ORDER BY date DESC {$pager['limit']}")) || sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT r.*, u.id as uid, u.username FROM referrers AS r LEFT JOIN users AS u ON u.ip = r.ip ORDER BY date DESC {$pager['limit']}")) || sqlerr(__FILE__,
+        __LINE__);
     if ($res->num_rows > 0) {
         while ($data = $res->fetch_assoc()) {
             $i++;
@@ -84,11 +84,11 @@ if ($count > 0) {
             $browser = '';
         }
     }
-    $HTMLOUT.= "</table>";
-    $HTMLOUT.= $pager['pagerbottom'] ."<br>";
+    $HTMLOUT .= "</table>";
+    $HTMLOUT .= $pager['pagerbottom']."<br>";
 } else {
     $HTMLOUT .= $lang['ref_nothing'];
 }
 ////////////////////////// HTML OUTPUT //////////////////////////
-echo stdhead($lang['ref_stdhead']) . $HTMLOUT . stdfoot();
+echo stdhead($lang['ref_stdhead']).$HTMLOUT.stdfoot();
 ?>

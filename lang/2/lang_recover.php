@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //stderr
     'stderr_errorhead' => "Error",
     'stderr_successhead' => "Success",
@@ -63,6 +63,6 @@ You may login at %s/login.php
     'recover_unamepass' => "Recover lost user name or password",
     'recover_form' => "Use the form below to have your password reset and your account details mailed back to you.<br />(You will have to reply to a confirmation email.)",
     'recover_regdemail' => "Registered email",
-    'recover_btn' => "Do it!"
-);
+    'recover_btn' => "Do it!",
+];
 ?>

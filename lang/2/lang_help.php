@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //FAQ
     'faq_welcome' => "<b>Welcome to {$TRINITY20['site_name']} FAQ's!</b><br />
     <br />
@@ -31,6 +31,6 @@ $lang = array(
     'rules_general_header_sub' => " Breaking these rules can and will get you banned!",
     'rules_general_body' => "Do not defy the moderators expressed wishes!",
     'rules_general_body1' => "Do not upload our torrents to other trackers! (See the <a href='faq.php#up3' class='altlink'><b>FAQ</b></a> for details.)",
-    'rules_general_body2' => "Disruptive behaviour in the forums or on the site will result in a warning (<img src='{$TRINITY20['pic_base_url']}warned.gif' alt='' /> ).<br />You will only get <b>one</b> warning! After that it's bye bye Kansas!"
-    );
+    'rules_general_body2' => "Disruptive behaviour in the forums or on the site will result in a warning (<img src='{$TRINITY20['pic_base_url']}warned.gif' alt='' /> ).<br />You will only get <b>one</b> warning! After that it's bye bye Kansas!",
+];
 ?>

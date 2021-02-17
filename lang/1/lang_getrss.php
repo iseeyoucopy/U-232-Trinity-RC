@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'getrss_title' => 'Generate rss link',
     'getrss_cat' => 'Categories',
     'getrss_feed' => 'Feed type',
@@ -22,5 +22,5 @@ $lang = array(
     'getrss_result' => 'This is your link set up according to your selected categories',
     'getrss_head' => 'Rss Feed',
     'getrss_head2' => 'Generated Feed',
-);
+];
 ?>

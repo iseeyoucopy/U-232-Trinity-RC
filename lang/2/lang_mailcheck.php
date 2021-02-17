@@ -10,11 +10,11 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //
-    'mailcheck_notval' => "Ce n'est pas un email valide, SVP essayez à nouveau.",
-    'mailcheck_sorry' => "Désolé... mais cette addresse email",
+    'mailcheck_notval' => "Ce n'est pas un email valide, SVP essayez ï¿½ nouveau.",
+    'mailcheck_sorry' => "Dï¿½solï¿½... mais cette addresse email",
     'mailcheck_banned' => "est bannie -",
-    'mailcheck_valid' => "L'adresse email est valide"
-);
+    'mailcheck_valid' => "L'adresse email est valide",
+];
 ?>

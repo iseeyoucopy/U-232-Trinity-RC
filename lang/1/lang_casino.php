@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'casino_stdhead' => "Casino",
     'casino_your_gaming_rights_have_been_disabled' => "Your gaming rights have been disabled.",
     'casino_the_moderators_do_not_allow_your_class' => "The Moderators do not allow your class",
@@ -85,6 +85,6 @@ $lang = array(
     'casino_ratio' => "Ratio",
     'casino_deposit' => "Deposit",
     'casino_uploaded' => "Uploaded",
-    'casino_downloaded' => "Downloaded"
-);
+    'casino_downloaded' => "Downloaded",
+];
 ?>

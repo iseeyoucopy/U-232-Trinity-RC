@@ -11,7 +11,7 @@
  * ------------  @version V6  ------------------*
  */
 //Language file to bugs.php by Froggaard :]
-$lang = array(
+$lang = [
     'header' => 'Bugs',
     //stderr's messages
     'stderr_error' => 'Error',
@@ -49,5 +49,5 @@ $lang = array(
     'h1_count_bugs' => "There is <font color='#FF0000'>%s</font> new bug%s. Please check them",
     'delete_when' => 'All solved bugs will be deleted after 2 weeks (from added date).',
     'no_bugs' => 'There is no bugs =]. Good coder we have xD',
-)
+]
 ?>

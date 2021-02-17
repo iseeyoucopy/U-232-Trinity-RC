@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Error
     'error_error' => "Error",
     'error_bad' => "Bad ID!",
@@ -201,7 +201,7 @@ $lang = array(
     'req_det_most' => "Most recent comments, in reverse order",
     'req_fil_chk' => " check this box to re-set this request. [ removes filled by ]  ",
     'req_mouse_go' => "go to torrent page!!!",
-    'req_slct_req' => "Select Request Category",   
-    'req_com_del1' => 'are you sure you would like to delete this comment? If so click '
-);
+    'req_slct_req' => "Select Request Category",
+    'req_com_del1' => 'are you sure you would like to delete this comment? If so click ',
+];
 ?>

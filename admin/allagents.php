@@ -12,7 +12,7 @@
  */
 if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
-    $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
+    $HTMLOUT .= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
@@ -58,19 +58,19 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 
   deny_access('IN_TRINITY20_ADMIN');
 */
-require_once (INCL_DIR . 'user_functions.php');
-require_once (CLASS_DIR . 'class_check.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(CLASS_DIR.'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 //error_reporting(E_ALL);
 $lang = array_merge($lang, load_language('ad_allagents'));
 $HTMLOUT = '';
 ($res = sql_query("SELECT agent, peer_id FROM peers GROUP BY agent")) || sqlerr(__FILE__, __LINE__);
-$HTMLOUT.= "<div class='row'><div class='col-md-12'><table class='table table-bordered'>
+$HTMLOUT .= "<div class='row'><div class='col-md-12'><table class='table table-bordered'>
 	<tr><td class='colhead'>{$lang['allagents_client']}</td><td class='colhead'>{$lang['allagents_peerid']}</td></tr>";
 while ($arr = $res->fetch_assoc()) {
-    $HTMLOUT.= "<tr><td align='left'>" . htmlsafechars($arr["agent"]) . "</td><td align='left'>" . htmlsafechars($arr["peer_id"]) . "</td></tr>\n";
+    $HTMLOUT .= "<tr><td align='left'>".htmlsafechars($arr["agent"])."</td><td align='left'>".htmlsafechars($arr["peer_id"])."</td></tr>\n";
 }
-$HTMLOUT.= "</table></div></div>\n";
-echo stdhead($lang['allagents_allclients']) . $HTMLOUT . stdfoot();
+$HTMLOUT .= "</table></div></div>\n";
+echo stdhead($lang['allagents_allclients']).$HTMLOUT.stdfoot();
 ?>

@@ -12,7 +12,7 @@
  */
 if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
-    $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
+    $HTMLOUT .= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
@@ -24,15 +24,15 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     echo $HTMLOUT;
     exit();
 }
-require_once (INCL_DIR . 'user_functions.php');
-require_once (INCL_DIR . 'bbcode_functions.php');
-require_once (INCL_DIR . 'pager_functions.php');
-require_once (CLASS_DIR . 'class_check.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(INCL_DIR.'bbcode_functions.php');
+require_once(INCL_DIR.'pager_functions.php');
+require_once(CLASS_DIR.'class_check.php');
 class_check(UC_MAX);
 $lang = array_merge($lang, load_language('ad_sysoplog'));
 $HTMLOUT = $where = '';
 $search = isset($_POST['search']) ? strip_tags($_POST['search']) : '';
-if(isset($_GET['search'])) {
+if (isset($_GET['search'])) {
     $search = strip_tags($_GET['search']);
 }
 if (!empty($search)) {
@@ -40,17 +40,17 @@ if (!empty($search)) {
 }
 //== Delete items older than 1 month
 $secs = 30 * 86400;
-sql_query("DELETE FROM infolog WHERE " . TIME_NOW . " - added > $secs") || sqlerr(__FILE__, __LINE__);
+sql_query("DELETE FROM infolog WHERE ".TIME_NOW." - added > $secs") || sqlerr(__FILE__, __LINE__);
 $res = sql_query("SELECT COUNT(id) FROM infolog $where");
 $row = $res->fetch_array(MYSQLI_BOTH);
 $count = $row[0];
 $perpage = 15;
-$pager = pager($perpage, $count, "staffpanel.php?tool=sysoplog&amp;action=sysoplog&amp;" . (empty($search) ? '' : "search=$search&amp;") . "");
+$pager = pager($perpage, $count, "staffpanel.php?tool=sysoplog&amp;action=sysoplog&amp;".(empty($search) ? '' : "search=$search&amp;")."");
 $HTMLOUT = '';
 ($res = sql_query("SELECT added, txt FROM infolog $where ORDER BY added DESC {$pager['limit']}")) || sqlerr(__FILE__, __LINE__);
-$HTMLOUT.= "<div class='row'><div class='col-md-12'>";
-$HTMLOUT.= "<h1>{$lang['sysoplog_staff']}</h1>";
-$HTMLOUT.= "<table class='table table-bordered'>\n
+$HTMLOUT .= "<div class='row'><div class='col-md-12'>";
+$HTMLOUT .= "<h1>{$lang['sysoplog_staff']}</h1>";
+$HTMLOUT .= "<table class='table table-bordered'>\n
              <tr>
 			 <td class='tabletitle' align='left'>{$lang['sysoplog_search']}</td>\n
 			 </tr>
@@ -64,9 +64,9 @@ if ($count > $perpage) {
     $HTMLOUT .= $pager['pagertop'];
 }
 if ($res->num_rows == 0) {
-    $HTMLOUT.= "<b>{$lang['sysoplog_norecord']}</b>";
+    $HTMLOUT .= "<b>{$lang['sysoplog_norecord']}</b>";
 } else {
-    $HTMLOUT.= "<table class='table table-bordered'>
+    $HTMLOUT .= "<table class='table table-bordered'>
       <tr>
         <td class='colhead' align='left'>{$lang['sysoplog_date']}</td>
         <td class='colhead' align='left'>{$lang['sysoplog_time']}</td>
@@ -74,60 +74,60 @@ if ($res->num_rows == 0) {
       </tr>";
     while ($arr = $res->fetch_assoc()) {
         $color = '#FF4763';
-        if (strpos($arr['txt'], (string) $lang['sysoplog_warned'])) {
+        if (strpos($arr['txt'], (string)$lang['sysoplog_warned'])) {
             $color = "#FF0000";
         }
-        if (strpos($arr['txt'], (string) $lang['sysoplog_leechw'])) {
+        if (strpos($arr['txt'], (string)$lang['sysoplog_leechw'])) {
             $color = "#9ED9D0";
         }
-        if (strpos($arr['txt'], (string) $lang['sysoplog_down'])) {
+        if (strpos($arr['txt'], (string)$lang['sysoplog_down'])) {
             $color = "#62D962";
         }
-        if (strpos($arr['txt'], (string) $lang['sysoplog_imun'])) {
+        if (strpos($arr['txt'], (string)$lang['sysoplog_imun'])) {
             $color = "#FFFF00";
         }
-        if (strpos($arr['txt'], (string) $lang['sysoplog_enable'])) {
+        if (strpos($arr['txt'], (string)$lang['sysoplog_enable'])) {
             $color = "#47FFE3";
         }
-        if (strpos($arr['txt'], (string) $lang['sysoplog_donor'])) {
+        if (strpos($arr['txt'], (string)$lang['sysoplog_donor'])) {
             $color = "#FF8112";
         }
-        if (strpos($arr['txt'], (string) $lang['sysoplog_uptotal'])) {
+        if (strpos($arr['txt'], (string)$lang['sysoplog_uptotal'])) {
             $color = "#14ED00";
         }
-        if (strpos($arr['txt'], (string) $lang['sysoplog_downtotal'])) {
+        if (strpos($arr['txt'], (string)$lang['sysoplog_downtotal'])) {
             $color = "#5A63C7";
         }
-        if (strpos($arr['txt'], (string) $lang['sysoplog_invitet'])) {
+        if (strpos($arr['txt'], (string)$lang['sysoplog_invitet'])) {
             $color = "#54ACBA";
         }
-        if (strpos($arr['txt'], (string) $lang['sysoplog_seed'])) {
+        if (strpos($arr['txt'], (string)$lang['sysoplog_seed'])) {
             $color = "#BA6154";
         }
-        if (strpos($arr['txt'], (string) $lang['sysoplog_rep'])) {
+        if (strpos($arr['txt'], (string)$lang['sysoplog_rep'])) {
             $color = "#57AD00";
         }
-        if (strpos($arr['txt'], (string) $lang['sysoplog_prom'])) {
+        if (strpos($arr['txt'], (string)$lang['sysoplog_prom'])) {
             $color = "#E01E00";
         }
-        if (strpos($arr['txt'], (string) $lang['sysoplog_dem'])) {
+        if (strpos($arr['txt'], (string)$lang['sysoplog_dem'])) {
             $color = "#BA5480";
         }
-        if (strpos($arr['txt'], (string) $lang['sysoplog_web'])) {
+        if (strpos($arr['txt'], (string)$lang['sysoplog_web'])) {
             $color = "#00CFA2";
         }
         $date = get_date($arr['added'], 'DATE');
         $time = get_date($arr['added'], 'LONG', 0, 1);
-        $HTMLOUT.= "<tr class='tableb'><td style='background-color:$color'><font color='black'>{$date}</font></td>
+        $HTMLOUT .= "<tr class='tableb'><td style='background-color:$color'><font color='black'>{$date}</font></td>
 <td style='background-color:$color'><font color='black'>{$time}</font></td>
 <td style='background-color:$color' align='left'><font color='black'>{$arr['txt']}</font></td></tr>\n";
     }
-    $HTMLOUT.= "</table>";
+    $HTMLOUT .= "</table>";
 }
 if ($count > $perpage) {
     $HTMLOUT .= $pager['pagerbottom']."<br>";
 }
-$HTMLOUT.= "<p>{$lang['sysoplog_times']}</p>\n";
-$HTMLOUT.= "</div></div>";
-echo stdhead($lang['sysoplog_sys']) . $HTMLOUT . stdfoot();
+$HTMLOUT .= "<p>{$lang['sysoplog_times']}</p>\n";
+$HTMLOUT .= "</div></div>";
+echo stdhead($lang['sysoplog_sys']).$HTMLOUT.stdfoot();
 ?>

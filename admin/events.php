@@ -12,7 +12,7 @@
  */
 if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
-    $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
+    $HTMLOUT .= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
@@ -24,11 +24,11 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     echo $HTMLOUT;
     exit();
 }
-require_once (INCL_DIR . 'user_functions.php');
-require_once (INCL_DIR . 'bbcode_functions.php');
-require_once (INCL_DIR . 'html_functions.php');
-require_once (INCL_DIR . 'pager_functions.php');
-require_once (CLASS_DIR . 'class_check.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(INCL_DIR.'bbcode_functions.php');
+require_once(INCL_DIR.'html_functions.php');
+require_once(INCL_DIR.'pager_functions.php');
+require_once(CLASS_DIR.'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_events'));
@@ -36,7 +36,8 @@ $HTMLOUT = "";
 $count1 = get_row_count('events');
 $perpage = 15;
 $pager = pager($perpage, $count1, 'staffpanel.php?tool=events&amp;action=events&amp;');
-$scheduled_events = mysql_fetch_all("SELECT e.id, e.userid, e.startTime, e.endTime, e.overlayText, e.displayDates, e.freeleechEnabled, e.duploadEnabled, e.hdownEnabled, u.id, u.username, u.class, u.chatpost, u.leechwarn, u.warned, u.pirate, u.king, u.donor, u.enabled FROM events AS e LEFT JOIN users AS u ON u.id=e.userid ORDER BY startTime DESC " . $pager['limit'] . ";", array());
+$scheduled_events = mysql_fetch_all("SELECT e.id, e.userid, e.startTime, e.endTime, e.overlayText, e.displayDates, e.freeleechEnabled, e.duploadEnabled, e.hdownEnabled, u.id, u.username, u.class, u.chatpost, u.leechwarn, u.warned, u.pirate, u.king, u.donor, u.enabled FROM events AS e LEFT JOIN users AS u ON u.id=e.userid ORDER BY startTime DESC ".$pager['limit'].";",
+    []);
 if (is_array($scheduled_events)) {
     foreach ($scheduled_events as $scheduled_event) {
         if (is_array($scheduled_event) && array_key_exists('startTime', $scheduled_event) && array_key_exists('endTime', $scheduled_event)) {
@@ -87,7 +88,8 @@ if (is_array($scheduled_events)) {
                     $hdownEnabled = true;
                 }
                 if ($displayDates) {
-                    $overlay_text = "<span style=\"font-size: 90%\">$overlayText</span><br/><span style=\"font-size: 60%\">" . get_date($startTime, 'DATE') . " - " . get_date($endTime, 'DATE') . "</span>\n";
+                    $overlay_text = "<span style=\"font-size: 90%\">$overlayText</span><br/><span style=\"font-size: 60%\">".get_date($startTime,
+                            'DATE')." - ".get_date($endTime, 'DATE')."</span>\n";
                 } else {
                     $overlay_text = "<span style=\"font-size: 90%\">$overlayText</span>\n";
                 }
@@ -95,7 +97,7 @@ if (is_array($scheduled_events)) {
         }
     }
 }
-$HTMLOUT.= "
+$HTMLOUT .= "
 <script type='text/javascript'>
 /*<![CDATA[*/
 function checkAllGood(event){
@@ -109,7 +111,7 @@ return false;
 </script>";
 if (!is_array($scheduled_events)) {
     $_POST ??= '';
-    $HTMLOUT.= "{$lang['events_err_load']}";
+    $HTMLOUT .= "{$lang['events_err_load']}";
 } else {
     foreach (array_keys($_POST) as $key) {
         if (gettype($pos = strpos($key, "_")) != 'boolean') {
@@ -118,11 +120,11 @@ if (!is_array($scheduled_events)) {
                 $sql = "DELETE FROM `events` WHERE `id` = $id LIMIT 1;";
                 $res = sql_query($sql);
                 if ($mysqli->error != 0) {
-                    $HTMLOUT.= "<p>{$lang['events_err_del']}" . $mysqli->error . "<br />{$lang['events_click']} <a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
+                    $HTMLOUT .= "<p>{$lang['events_err_del']}".$mysqli->error."<br />{$lang['events_click']} <a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
                 } elseif ($mysqli->affected_rows == 0) {
-                    $HTMLOUT.= "<p>{$lang['events_err_del']}" . $mysqli->error . "<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a> {$lang['events_goback']}<br /></p>\n";
+                    $HTMLOUT .= "<p>{$lang['events_err_del']}".$mysqli->error."<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a> {$lang['events_goback']}<br /></p>\n";
                 } else {
-                    $HTMLOUT.= "<p>{$lang['events_deleted']}</p>\n";
+                    $HTMLOUT .= "<p>{$lang['events_deleted']}</p>\n";
                     header("Refresh: 2; url=staffpanel.php?tool=events");
                 }
             } elseif (gettype(strpos($key, "saveEvent_")) != 'boolean') {
@@ -163,19 +165,18 @@ if (!is_array($scheduled_events)) {
                 if (array_key_exists('editShowDates', $_POST)) {
                     $showDates = 1;
                 }
-                if ($id == - 1) {
+                if ($id == -1) {
                     $sql = "INSERT INTO `events`(`overlayText`, `startTime`, `endTime`, `displayDates`, `freeleechEnabled`, `duploadEnabled`, `hdownEnabled`, `userid`) VALUES ('$text', $start, $end, $showDates, $freeleech, $doubleupload, $halfdownload, $userid);";
-                }
-                else {
+                } else {
                     $sql = "UPDATE `events` SET `overlayText` = '$text',`startTime` = $start, `endTime` = $end, `displayDates` = $showDates, `freeleechEnabled` = $freeleech, `duploadEnabled` = $doubleupload, `hdownEnabled` = $halfdownload, `userid` = $userid  WHERE `id` = $id;";
                 }
                 $res = sql_query($sql);
                 if ($mysqli->error != 0) {
-                    $HTMLOUT.= "<p>{$lang['events_err_save']}" . $mysqli->error . "<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
+                    $HTMLOUT .= "<p>{$lang['events_err_save']}".$mysqli->error."<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
                 } elseif ($mysqli->affected_rows == 0) {
-                    $HTMLOUT.= "<p>{$lang['events_err_nochange']}<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
+                    $HTMLOUT .= "<p>{$lang['events_err_nochange']}<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
                 } else {
-                    $HTMLOUT.= "<p>{$lang['events_saved']}</p>\n";
+                    $HTMLOUT .= "<p>{$lang['events_saved']}</p>\n";
                     header("Refresh: 2; url=staffpanel.php?tool=events");
                 }
             }
@@ -185,7 +186,7 @@ if (!is_array($scheduled_events)) {
         $HTMLOUT .= $pager['pagertop'];
     }
 
-    $HTMLOUT.= "<div class='row'><div class='col-md12'>
+    $HTMLOUT .= "<div class='row'><div class='col-md12'>
 <p><strong>{$lang['events_schedular']}</strong>{$lang['events_zero']}<strong> <font color='red'>{$lang['events_beta']}</font> </strong> </p>
 <form action='' method='post'>
 <table class='table table-bordered'>
@@ -222,15 +223,15 @@ if (!is_array($scheduled_events)) {
         } else {
             $showdates = "<img src=\"{$TRINITY20['pic_base_url']}off.gif\" alt=\"{$lang['events_dadisable']}\" title=\"{$lang['events_disable']}\" />";
         }
-        $HTMLOUT.= "<tr><td align=\"center\">{$username}</td><td align=\"center\">{$text}</td><td align=\"center\">{$start}</td><td align=\"center\">{$end}</td><td align=\"center\">{$freeleech}</td><td align=\"center\">{$doubleUpload}</td><td align=\"center\">{$halfdownload}</td><td align=\"center\">{$showdates}</td><td align=\"center\"><input type=\"submit\" name=\"editEvent_$id\" value=\"{$lang['events_edit']}\" /> <input type=\"submit\" onclick=\"return checkAllGood('$text')\" name=\"removeEvent_$id\" value=\"{$lang['events_remove']}\" /></td></tr>";
+        $HTMLOUT .= "<tr><td align=\"center\">{$username}</td><td align=\"center\">{$text}</td><td align=\"center\">{$start}</td><td align=\"center\">{$end}</td><td align=\"center\">{$freeleech}</td><td align=\"center\">{$doubleUpload}</td><td align=\"center\">{$halfdownload}</td><td align=\"center\">{$showdates}</td><td align=\"center\"><input type=\"submit\" name=\"editEvent_$id\" value=\"{$lang['events_edit']}\" /> <input type=\"submit\" onclick=\"return checkAllGood('$text')\" name=\"removeEvent_$id\" value=\"{$lang['events_remove']}\" /></td></tr>";
     }
-    $HTMLOUT.= "<tr><td colspan='9' align='right'><input type='submit' name='editEvent_-1' value='{$lang['events_add']}'' /></td></tr></table>";
+    $HTMLOUT .= "<tr><td colspan='9' align='right'><input type='submit' name='editEvent_-1' value='{$lang['events_add']}'' /></td></tr></table>";
     foreach (array_keys($_POST) as $key) {
         if (gettype($pos = strpos($key, "_")) != 'boolean') {
             $id = (int)substr($key, $pos + 1);
             if (gettype(strpos($key, "editEvent_")) != 'boolean') {
-                if ($id == - 1) {
-                    $HTMLOUT.= "<table class='table table-bordered'>
+                if ($id == -1) {
+                    $HTMLOUT .= "<table class='table table-bordered'>
 <tr><th>{$lang['events_userid']}</th><td><input type='text' name='userid' value='{$CURUSER["id"]}' /></td></tr>
 <tr><th>{$lang['events_txt']}</th><td><input type='text' name='editText' /></td></tr>
 <tr><th>{$lang['events_starttime']}</th><td><input type='text' name='editStartTime' /></td></tr>
@@ -273,11 +274,11 @@ if (!is_array($scheduled_events)) {
             }
         }
     }
-    $HTMLOUT.= "</form></div></div>";
+    $HTMLOUT .= "</form></div></div>";
 }
 if ($count1 > $perpage) {
     $HTMLOUT .= $pager['pagerbottom'];
 }
-echo stdhead($lang['events_stdhead']) . $HTMLOUT . stdfoot();
+echo stdhead($lang['events_stdhead']).$HTMLOUT.stdfoot();
 die;
 ?>

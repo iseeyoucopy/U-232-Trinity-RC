@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //failedlogin messages
     'failed_sorry' => "Sorry",
     'failed_acc_deny' => "Access denied",
@@ -32,10 +32,10 @@ $lang = array(
     'failed_main_delmessage' => "Are you wish to delete this attempt?",
     'failed_main_delete' => "Delete",
     'failed_main_logins' => "Failed Logins",
-	'failed_main_nofail' => "No failedlogins",
-	'failed_main_nofail_msg' => "It appears that there are currently no failed logins matching your search criteria.",
-	'failed_main_search' => "Search failedlogins",
-	'failed_main_search_btn' => "Search",
-	'failed_main_id' => "ID"
-);
+    'failed_main_nofail' => "No failedlogins",
+    'failed_main_nofail_msg' => "It appears that there are currently no failed logins matching your search criteria.",
+    'failed_main_search' => "Search failedlogins",
+    'failed_main_search_btn' => "Search",
+    'failed_main_id' => "ID",
+];
 ?>

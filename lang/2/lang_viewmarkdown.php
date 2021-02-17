@@ -10,13 +10,13 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
 #Texts
-	'text_puke' => "Puke",
-	'text_nfofor' => "README.md pour ",
-	'text_forbest' => "For best visual result, install the ",
-	'text_linedraw' => "MS Linedraw",
-	'text_font' => " font",
-	'text_stdhead' => "Voir le README.md"
-);
+    'text_puke' => "Puke",
+    'text_nfofor' => "README.md pour ",
+    'text_forbest' => "For best visual result, install the ",
+    'text_linedraw' => "MS Linedraw",
+    'text_font' => " font",
+    'text_stdhead' => "Voir le README.md",
+];
 ?>

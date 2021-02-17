@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //index
     'index_announce' => "Announcements",
     'index_latest' => "Latest Torrents",
@@ -33,8 +33,8 @@ $lang = array(
     'news_edit' => "Edit",
     'news_delete' => "Delete",
     //latest torrents
-    'latesttorrents' => $TRINITY20['latest_torrents_limit'] . " latest torrents",
-    'latesttorrents_title' => $TRINITY20['latest_torrents_limit'] . " latest torrents",
+    'latesttorrents' => $TRINITY20['latest_torrents_limit']." latest torrents",
+    'latesttorrents_title' => $TRINITY20['latest_torrents_limit']." latest torrents",
     'latesttorrents_type' => "Type",
     'latesttorrents_name' => "Name",
     'latesttorrents_seeders' => "Seeders",
@@ -64,7 +64,7 @@ $lang = array(
     'clog_edit' => "Edit",
     'clog_delete' => "Delete",
     //latest forum posts
-    'latestposts_title' => $TRINITY20['latest_posts_limit'] . " Latest Forum Posts",
+    'latestposts_title' => $TRINITY20['latest_posts_limit']." Latest Forum Posts",
     'latestposts_topic_title' => "Topic&nbsp;Title",
     'latestposts_replies' => "Replies",
     'latestposts_views' => "Views",
@@ -205,5 +205,5 @@ It is your own responsibility to adhere to these terms.",
     'req_off_pend' => "Pending...",
     'req_off_den' => "Denied",
     'req_off_nooff' => "No Offers Found",
-);
+];
 ?>

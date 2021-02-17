@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'bj_title' => "Blackjack",
     'bj_back' => "Back",
     'bj_bj_note_cost' => "By playing blackjack, you are betting ",
@@ -62,6 +62,6 @@ $lang = array(
     'bj_you_will_have_to_wait_til_complete' => "You'll have to wait until your last game completes before you play a new one.",
     'bj_you_won' => "you won",
     'bj_your_opp_was' => "Your opponent was",
-    'bj_your_ratio_is_lower_req' => "Your ratio is lower than the requirement of"
-);
+    'bj_your_ratio_is_lower_req' => "Your ratio is lower than the requirement of",
+];
 ?>

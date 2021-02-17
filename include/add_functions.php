@@ -23,8 +23,10 @@ function getips()
         return $_SERVER['REMOTE_ADDR'];
     }
 }
+
 function jq($data)
 {
     return "<span class='chg'>$data</span>";
 }
+
 ?>

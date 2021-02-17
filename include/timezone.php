@@ -117,8 +117,8 @@ function get_time_zone($country, $region)
                 case "24":
                     $timezone = "America/Argentina/Tucuman";
                     break;
-        }
-        break;
+            }
+            break;
         case "AS":
             $timezone = "Pacific/Pago_Pago";
             break;
@@ -151,8 +151,8 @@ function get_time_zone($country, $region)
                 case "08":
                     $timezone = "Australia/Perth";
                     break;
-        }
-        break;
+            }
+            break;
         case "AW":
             $timezone = "America/Aruba";
             break;
@@ -287,8 +287,8 @@ function get_time_zone($country, $region)
                 case "31":
                     $timezone = "America/Araguaina";
                     break;
-        }
-        break;
+            }
+            break;
         case "BS":
             $timezone = "America/Nassau";
             break;
@@ -348,8 +348,8 @@ function get_time_zone($country, $region)
                 case "YT":
                     $timezone = "America/Whitehorse";
                     break;
-        }
-        break;
+            }
+            break;
         case "CC":
             $timezone = "Indian/Cocos";
             break;
@@ -391,8 +391,8 @@ function get_time_zone($country, $region)
                 case "12":
                     $timezone = "Africa/Lubumbashi";
                     break;
-        }
-        break;
+            }
+            break;
         case "CF":
             $timezone = "Africa/Bangui";
             break;
@@ -509,8 +509,8 @@ function get_time_zone($country, $region)
                 case "33":
                     $timezone = "Asia/Chongqing";
                     break;
-        }
-        break;
+            }
+            break;
         case "CO":
             $timezone = "America/Bogota";
             break;
@@ -618,8 +618,8 @@ function get_time_zone($country, $region)
                 case "24":
                     $timezone = "America/Guayaquil";
                     break;
-        }
-        break;
+            }
+            break;
         case "EE":
             $timezone = "Europe/Tallinn";
             break;
@@ -685,8 +685,8 @@ function get_time_zone($country, $region)
                 case "60":
                     $timezone = "Europe/Madrid";
                     break;
-        }
-        break;
+            }
+            break;
         case "ET":
             $timezone = "Africa/Addis_Ababa";
             break;
@@ -746,8 +746,8 @@ function get_time_zone($country, $region)
                 case "03":
                     $timezone = "America/Godthab";
                     break;
-        }
-        break;
+            }
+            break;
         case "GM":
             $timezone = "Africa/Banjul";
             break;
@@ -915,8 +915,8 @@ function get_time_zone($country, $region)
                 case "41":
                     $timezone = "Asia/Makassar";
                     break;
-        }
-        break;
+            }
+            break;
         case "IE":
             $timezone = "Europe/Dublin";
             break;
@@ -1039,8 +1039,8 @@ function get_time_zone($country, $region)
                 case "17":
                     $timezone = "Asia/Almaty";
                     break;
-        }
-        break;
+            }
+            break;
         case "LA":
             $timezone = "Asia/Vientiane";
             break;
@@ -1127,8 +1127,8 @@ function get_time_zone($country, $region)
                 case "25":
                     $timezone = "Asia/Ulaanbaatar";
                     break;
-        }
-        break;
+            }
+            break;
         case "MO":
             $timezone = "Asia/Macau";
             break;
@@ -1254,8 +1254,8 @@ function get_time_zone($country, $region)
                 case "32":
                     $timezone = "America/Monterrey";
                     break;
-        }
-        break;
+            }
+            break;
         case "MY":
             switch ($region) {
                 case "01":
@@ -1303,8 +1303,8 @@ function get_time_zone($country, $region)
                 case "16":
                     $timezone = "Asia/Kuching";
                     break;
-        }
-        break;
+            }
+            break;
         case "MZ":
             $timezone = "Africa/Maputo";
             break;
@@ -1391,8 +1391,8 @@ function get_time_zone($country, $region)
                 case "G3":
                     $timezone = "Pacific/Auckland";
                     break;
-        }
-        break;
+            }
+            break;
         case "OM":
             $timezone = "Asia/Muscat";
             break;
@@ -1491,8 +1491,8 @@ function get_time_zone($country, $region)
                 case "23":
                     $timezone = "Atlantic/Azores";
                     break;
-        }
-        break;
+            }
+            break;
         case "PW":
             $timezone = "Pacific/Palau";
             break;
@@ -1789,8 +1789,8 @@ function get_time_zone($country, $region)
                 case "93":
                     $timezone = "Asia/Irkutsk";
                     break;
-        }
-        break;
+            }
+            break;
         case "RW":
             $timezone = "Africa/Kigali";
             break;
@@ -1988,8 +1988,8 @@ function get_time_zone($country, $region)
                 case "27":
                     $timezone = "Europe/Kiev";
                     break;
-        }
-        break;
+            }
+            break;
         case "UG":
             $timezone = "Africa/Kampala";
             break;
@@ -2151,8 +2151,8 @@ function get_time_zone($country, $region)
                 case "WY":
                     $timezone = "America/Denver";
                     break;
-        }
-        break;
+            }
+            break;
         case "UY":
             $timezone = "America/Montevideo";
             break;
@@ -2194,8 +2194,8 @@ function get_time_zone($country, $region)
                 case "14":
                     $timezone = "Asia/Tashkent";
                     break;
-        }
-        break;
+            }
+            break;
         case "VA":
             $timezone = "Europe/Vatican";
             break;

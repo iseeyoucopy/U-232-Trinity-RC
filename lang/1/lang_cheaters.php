@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //cheaters
     'cheaters_uname' => "Username",
     'cheaters_error' => "Error",
@@ -30,10 +30,10 @@ $lang = array(
     'cheaters_car' => "Check All Remove",
     'cheaters_ac' => "Apply Changes",
     'cheaters_torrent' => "On torrent",
-	'cheaters_seluser' => "You must select a user.",
-	'cheaters_err' => "Error...",
-	'cheaters_added' => "- Added: ",
-	'cheaters_users' => "Cheating Users:",
-	'cheaters_stdhead' => "Ratio Cheats'"
-);
+    'cheaters_seluser' => "You must select a user.",
+    'cheaters_err' => "Error...",
+    'cheaters_added' => "- Added: ",
+    'cheaters_users' => "Cheating Users:",
+    'cheaters_stdhead' => "Ratio Cheats'",
+];
 ?>

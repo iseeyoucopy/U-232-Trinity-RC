@@ -1,4 +1,5 @@
 <?php
+
 /**
  * -------   U-232 Codename Trinity   ----------*
  * ---------------------------------------------*
@@ -21,4 +22,5 @@ class user_options_2
     const LOGOUT = 0x40; // 64
     const BROWSE_ICONS = 0x80; // 128  
 }
+
 ?>

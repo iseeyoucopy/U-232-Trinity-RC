@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //edit errors
     'edit_user_error' => "USER ERROR",
     'edit_no_torrent' => "No torrent found",
@@ -101,6 +101,6 @@ $lang = array(
     'edit_makefree' => " Check this to make this torrent freeleech",
     'edit_opt_genre' => "(Optional)",
     'edit_touch1' => "Don't touch it",
-    'edit_touch2' => "Current: "
-);
+    'edit_touch2' => "Current: ",
+];
 ?>

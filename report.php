@@ -10,18 +10,18 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
-require_once (INCL_DIR . 'user_functions.php');
+require_once(__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorrent.php');
+require_once(INCL_DIR.'user_functions.php');
 dbconn();
 loggedinorreturn();
 parked();
-$lang = array_merge(load_language('global') , load_language('report'));
-$stdhead = array(
+$lang = array_merge(load_language('global'), load_language('report'));
+$stdhead = [
     /** include css **/
-    'css' => array(
-        'forums'
-    )
-);
+    'css' => [
+        'forums',
+    ],
+];
 $HTMLOUT = $id_2 = $id_2b = '';
 // === now all reports just use a single var $id and a type thanks dokty... again :P
 $id = ($_GET["id"] ? (int)$_GET["id"] : (int)$_POST["id"]);
@@ -29,7 +29,7 @@ if (!is_valid_id($id)) {
     stderr("{$lang['report_error']}", "{$lang['report_error1']}");
 }
 $type = (isset($_GET["type"]) ? htmlsafechars($_GET["type"]) : htmlsafechars($_POST["type"]));
-$typesallowed = array(
+$typesallowed = [
     "User",
     "Comment",
     "Request_Comment",
@@ -38,8 +38,8 @@ $typesallowed = array(
     "Offer",
     "Torrent",
     "Hit_And_Run",
-    "Post"
-);
+    "Post",
+];
 if (!in_array($type, $typesallowed)) {
     stderr("{$lang['report_error']}", "{$lang['report_error2']}");
 }
@@ -62,28 +62,32 @@ if ((isset($_GET["do_it"])) || (isset($_POST["do_it"]))) {
         stderr("{$lang['report_error']}", "{$lang['report_error4']}");
     }
     // === check if it's been reported already
-    ($res = sql_query("SELECT id FROM reports WHERE reported_by =" . sqlesc($CURUSER['id']) . " AND reporting_what =" . sqlesc($id) . " AND reporting_type = " . sqlesc($type))) || sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT id FROM reports WHERE reported_by =".sqlesc($CURUSER['id'])." AND reporting_what =".sqlesc($id)." AND reporting_type = ".sqlesc($type))) || sqlerr(__FILE__,
+        __LINE__);
     if ($res->num_rows != 0) {
         stderr("{$lang['report_error5']}", "{$lang['report_error6']} <b>".str_replace("_", " ", $type)."</b> {$lang['report_id']} <b>$id</b>!");
     }
     // === ok it's not been reported yet let's go on
     $dt = TIME_NOW;
-    sql_query("INSERT into reports (reported_by, reporting_what, reporting_type, reason, added, 2nd_value) VALUES (" . sqlesc($CURUSER['id']) . ", " . sqlesc($id) . ", " . sqlesc($type) . ", " . sqlesc($reason) . ", $dt, " . sqlesc((int)$_POST["id_2"]) . ")") || sqlerr(__FILE__, __LINE__);
+    sql_query("INSERT into reports (reported_by, reporting_what, reporting_type, reason, added, 2nd_value) VALUES (".sqlesc($CURUSER['id']).", ".sqlesc($id).", ".sqlesc($type).", ".sqlesc($reason).", $dt, ".sqlesc((int)$_POST["id_2"]).")") || sqlerr(__FILE__,
+        __LINE__);
     $cache->delete('new_report_');
-    $HTMLOUT.= "<table width='650'><tr><td class='colhead'><h1>{$lang['report_success']}</h1></td></tr>" . "<tr><td class='two' align='center'>{$lang['report_success1']} <b>" . str_replace("_", " ", $type) . "</b> {$lang['report_id']} <b>{$id}</b>!<br /><b>{$lang['report_reason']}</b> {$reason}</td></tr></table>";
-    echo stdhead("Reports", true, $stdhead) . $HTMLOUT . stdfoot();
+    $HTMLOUT .= "<table width='650'><tr><td class='colhead'><h1>{$lang['report_success']}</h1></td></tr>"."<tr><td class='two' align='center'>{$lang['report_success1']} <b>".str_replace("_",
+            " ", $type)."</b> {$lang['report_id']} <b>{$id}</b>!<br /><b>{$lang['report_reason']}</b> {$reason}</td></tr></table>";
+    echo stdhead("Reports", true, $stdhead).$HTMLOUT.stdfoot();
     die();
 } //=== end do_it
 // === starting main page for reporting all...
-$HTMLOUT.= "<form method='post' action='report.php?type=$type$id_2b&amp;id=$id&amp;do_it=1'>
+$HTMLOUT .= "<form method='post' action='report.php?type=$type$id_2b&amp;id=$id&amp;do_it=1'>
     <table class='table table-bordered'>
     <tr><td class='colhead' colspan='2'>
-    <h1 class='text-center'>Report: " . str_replace("_", " ", $type) . "</h1></td></tr>" . "
+    <h1 class='text-center'>Report: ".str_replace("_", " ", $type)."</h1></td></tr>"."
     <tr><td class='one text-center' colspan='2' >
-    <img src='{$TRINITY20['pic_base_url']}warned.png' alt='warned' title='Warned' border='0' /> {$lang['report_report']} <b>" . str_replace("_", " ", $type) . "</b> {$lang['report_id']} <b>$id</b>" . "
-    <img src='{$TRINITY20['pic_base_url']}warned.png' alt='warned' title='Warned' border='0' /><br />{$lang['report_report1']} <a class='altlink' href='rules.php' target='_blank'>{$lang['report_rules']}</a>?</td></tr>" . "
-    <tr><td class='two text-right'><b>{$lang['report_reason']}</b></td><td class='two'><textarea name='reason' cols='70' rows='5'></textarea><br /> [ {$lang['report_req']} ]<br /></td></tr>" . "
+    <img src='{$TRINITY20['pic_base_url']}warned.png' alt='warned' title='Warned' border='0' /> {$lang['report_report']} <b>".str_replace("_", " ",
+        $type)."</b> {$lang['report_id']} <b>$id</b>"."
+    <img src='{$TRINITY20['pic_base_url']}warned.png' alt='warned' title='Warned' border='0' /><br />{$lang['report_report1']} <a class='altlink' href='rules.php' target='_blank'>{$lang['report_rules']}</a>?</td></tr>"."
+    <tr><td class='two text-right'><b>{$lang['report_reason']}</b></td><td class='two'><textarea name='reason' cols='70' rows='5'></textarea><br /> [ {$lang['report_req']} ]<br /></td></tr>"."
     <tr><td class='one text-center' colspan='2'><input type='submit' class='button' value='{$lang['report_confirm']}' /></td></tr></table></form>";
-echo stdhead("Report", true, $stdhead) . $HTMLOUT . stdfoot();
+echo stdhead("Report", true, $stdhead).$HTMLOUT.stdfoot();
 die;
 ?>

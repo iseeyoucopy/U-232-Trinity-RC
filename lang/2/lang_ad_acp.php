@@ -10,11 +10,11 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //stderr//stdmsg
     'std_error' => "Erreur",
     'std_nf' => "Rien trouvé!",
-    'std_invalid' => "ID Invalide!", 
+    'std_invalid' => "ID Invalide!",
     'std_sorry' => "Désolé",
     //Texts
     'text_markall' => "Tout Marquer",
@@ -34,8 +34,8 @@ $lang = array(
     'text_cs' => "Confirmer la sélection",
     'text_ds' => "Supprimer la sélection",
     'text_submit' => "Soumettre",
-	'text_donor' => "Donateur",
-	'text_warned' => "Averti",
-	'text_stdhead' => "Gestion du compte"
-);
+    'text_donor' => "Donateur",
+    'text_warned' => "Averti",
+    'text_stdhead' => "Gestion du compte",
+];
 ?>

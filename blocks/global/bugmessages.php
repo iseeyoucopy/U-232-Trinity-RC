@@ -17,8 +17,8 @@ if ($TRINITY20['bug_alert'] && $CURUSER['class'] >= UC_STAFF) {
         $cache->set('bug_mess_', $bugs, $TRINITY20['expires']['alerts']);
     }
     if ($bugs > 0) {
-        $htmlout.= "
-        <a class='hollow small button notification' href='bugs.php?action=bugs'>{$lang['gl_bug_alert']}<span class='badge_corner'>" . $bugs[0] . "</span></a>";
+        $htmlout .= "
+        <a class='hollow small button notification' href='bugs.php?action=bugs'>{$lang['gl_bug_alert']}<span class='badge_corner'>".$bugs[0]."</span></a>";
     }
 }
 //==End

@@ -1,5 +1,5 @@
 <?php
-$HTMLOUT.= "<div class='card'>
+$HTMLOUT .= "<div class='card'>
 			<div class='table-responsive-md'>
 				<table class='table table-bordered '>
 					<thead>
@@ -10,17 +10,17 @@ $HTMLOUT.= "<div class='card'>
 						</tr>
 					</thead>
 					";
-($res = sql_query("SELECT * FROM achievements WHERE userid=" . sqlesc($id) . " ORDER BY date DESC {$pager['limit']}")) || sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT * FROM achievements WHERE userid=".sqlesc($id)." ORDER BY date DESC {$pager['limit']}")) || sqlerr(__FILE__, __LINE__);
 while ($arr = $res->fetch_assoc()) {
-    $HTMLOUT.= "
+    $HTMLOUT .= "
 						<tr>
-							<td><img src='pic/achievements/" . htmlsafechars($arr['icon']) . "' alt='" . htmlsafechars($arr['achievement']) . "' title='" . htmlsafechars($arr['achievement']) . "' /></td>
-							<td>" . htmlsafechars($arr['description']) . "</td>
-							<td>" . get_date($arr['date'], '') . "</td>
+							<td><img src='pic/achievements/".htmlsafechars($arr['icon'])."' alt='".htmlsafechars($arr['achievement'])."' title='".htmlsafechars($arr['achievement'])."' /></td>
+							<td>".htmlsafechars($arr['description'])."</td>
+							<td>".get_date($arr['date'], '')."</td>
 						</tr>
 				";
 }
-$HTMLOUT.= "
+$HTMLOUT .= "
 				</table>
 				</div>
 			</div>";

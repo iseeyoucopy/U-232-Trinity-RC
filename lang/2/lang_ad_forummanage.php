@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Misc
     'btn_addnew' => "Ajouter un nouveau",
     'btn_cancel' => "Annuler",
@@ -59,6 +59,6 @@ $lang = array(
     'table_mincreatetperm' => "Permission minimale pour créer des sujets",
     'table_minpostrank' => "Rang minimum pour participer aux Discussions",
     'table_mincreatetrank' => "Rang minimum pour créer un Sujet",
-    'table_forumrank' => "Rang du Forum"
-);
+    'table_forumrank' => "Rang du Forum",
+];
 ?>

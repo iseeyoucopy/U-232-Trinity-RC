@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'text_error' => "ERROR!",
     'text_no' => "No news with that id.",
     'text_noright' => "You don't have the right to delete this news",
@@ -34,5 +34,5 @@ $lang = array(
     'text_body1' => "There is no Body",
     'text_body1' => "There is no Body",
     'text_some' => "Something went wrong!",
-);
+];
 ?>

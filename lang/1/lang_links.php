@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Links
     'links_dead' => "<p><a href='pm_system.php?action=send_message&amp;receiver=1'>Please report dead links!</a></p>",
     'links_other_pages_header' => "<h2>Other pages on this site</h2>",
@@ -89,6 +89,6 @@ $lang = array(
     <br />
     <a href='{$TRINITY20['baseurl']}'>
     <img src='./pic/u232.gif' border='0' alt='U-232 - The best!' /></a>
-    <br />"
-);
+    <br />",
+];
 ?>

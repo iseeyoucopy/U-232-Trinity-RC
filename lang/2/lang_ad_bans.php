@@ -10,11 +10,11 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Misc
     'stdhead_adduser' => "Bannissements",
     'stderr_error' => "Erreur",
-	'stderr_error1' => "Cette ID de banissemnt n'a pu être trouvée",
+    'stderr_error1' => "Cette ID de banissemnt n'a pu être trouvée",
     'btn_add' => "Ajouter",
     'btn_cache' => "Cache",
     //Texts
@@ -36,6 +36,6 @@ $lang = array(
     'header_remove' => "Supprimer",
     'table_firstip' => "Première IP",
     'table_lastip' => "Dernière IP",
-    'table_comment' => "Commenter"
-);
+    'table_comment' => "Commenter",
+];
 ?>

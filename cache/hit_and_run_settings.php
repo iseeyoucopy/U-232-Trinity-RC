@@ -1,8 +1,8 @@
 <?php
 /**
-This file created on Aug 16 2016 17:50:13.
-hit_and_run_settings Config mod by stoner for U-232.
-**/
+ * This file created on Aug 16 2016 17:50:13.
+ * hit_and_run_settings Config mod by stoner for U-232.
+ **/
 $TRINITY20['firstclass'] = UC_POWER_USER;
 $TRINITY20['secondclass'] = UC_VIP;
 $TRINITY20['thirdclass'] = UC_MODERATOR;

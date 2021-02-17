@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Misc
     'stdhead_usragrmnt' => "User Agreement",
     'frame_usragrmnt' => "user agreement",
@@ -104,6 +104,6 @@ ORDERS ONLY! - Use the above link to &quot;e-mail for permission&quot; only afte
     {$TRINITY20['site_name']}, {$TRINITY20['site_name']}., {$TRINITY20['site_name']}.com, and {$TRINITY20['site_name']}.net are trademarks and service marks of {$TRINITY20['site_name']}.
     The &quot;{$TRINITY20['site_name']}&quot; is the title of this publication only. 
     <p></p>
-    Copyright &copy; 2008, 2009 by {$TRINITY20['site_name']}.  All rights reserved."
-);
+    Copyright &copy; 2008, 2009 by {$TRINITY20['site_name']}.  All rights reserved.",
+];
 ?>

@@ -43,56 +43,56 @@
  ************************************************************************************/
 
 
-$language_data = array (
+$language_data = [
     'LANG_NAME' => 'Diff',
-    'COMMENT_SINGLE' => array(),
-    'COMMENT_MULTI' => array(),
+    'COMMENT_SINGLE' => [],
+    'COMMENT_MULTI' => [],
     'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-    'QUOTEMARKS' => array(),
+    'QUOTEMARKS' => [],
     'ESCAPE_CHAR' => ' ',
-    'KEYWORDS' => array(
-            1 => array(
-                '\ No newline at end of file'
-            ),
+    'KEYWORDS' => [
+        1 => [
+            '\ No newline at end of file',
+        ],
 //            2 => array(
 //                '***************' /* This only seems to works in some cases? */
 //            ),
-        ),
-    'SYMBOLS' => array(
-        ),
-    'CASE_SENSITIVE' => array(
+    ],
+    'SYMBOLS' => [
+    ],
+    'CASE_SENSITIVE' => [
         1 => false,
 //        2 => false
-        ),
-    'STYLES' => array(
-        'KEYWORDS' => array(
+    ],
+    'STYLES' => [
+        'KEYWORDS' => [
             1 => 'color: #aaaaaa; font-style: italic;',
 //            2 => 'color: #dd6611;',
-            ),
-        'COMMENTS' => array(
-            ),
-        'ESCAPE_CHAR' => array(
-            0 => ''
-            ),
-        'BRACKETS' => array(
-            0 => ''
-            ),
-        'STRINGS' => array(
-            0 => ''
-            ),
-        'NUMBERS' => array(
-            0 => ''
-            ),
-        'METHODS' => array(
-            0 => ''
-            ),
-        'SYMBOLS' => array(
-            0 => ''
-            ),
-        'SCRIPT' => array(
-            0 => ''
-            ),
-        'REGEXPS' => array(
+        ],
+        'COMMENTS' => [
+        ],
+        'ESCAPE_CHAR' => [
+            0 => '',
+        ],
+        'BRACKETS' => [
+            0 => '',
+        ],
+        'STRINGS' => [
+            0 => '',
+        ],
+        'NUMBERS' => [
+            0 => '',
+        ],
+        'METHODS' => [
+            0 => '',
+        ],
+        'SYMBOLS' => [
+            0 => '',
+        ],
+        'SCRIPT' => [
+            0 => '',
+        ],
+        'REGEXPS' => [
             0 => 'color: #440088;',
             1 => 'color: #991111;',
             2 => 'color: #00b000;',
@@ -103,92 +103,92 @@ $language_data = array (
             7 => 'color: #991111;',
             8 => 'color: #00b000;',
             9 => 'color: #888822;',
-            ),
-        ),
-    'URLS' => array(
+        ],
+    ],
+    'URLS' => [
         1 => '',
 //        2 => ''
-        ),
+    ],
     'OOLANG' => false,
-    'OBJECT_SPLITTERS' => array(),
-    'REGEXPS' => array(
+    'OBJECT_SPLITTERS' => [],
+    'REGEXPS' => [
         0 => "[0-9,]+[acd][0-9,]+",
         //Removed lines
-        1 => array(
+        1 => [
             GESHI_SEARCH => '(^|(?<=\A\s))\\&lt;.*$',
             GESHI_REPLACE => '\\0',
             GESHI_MODIFIERS => 'm',
             GESHI_BEFORE => '',
-            GESHI_AFTER => ''
-            ),
+            GESHI_AFTER => '',
+        ],
         //Inserted lines
-        2 => array(
+        2 => [
             GESHI_SEARCH => '(^|(?<=\A\s))\\&gt;.*$',
             GESHI_REPLACE => '\\0',
             GESHI_MODIFIERS => 'm',
             GESHI_BEFORE => '',
-            GESHI_AFTER => ''
-            ),
+            GESHI_AFTER => '',
+        ],
         //Location line
-        3 => array(
+        3 => [
             GESHI_SEARCH => '(^|(?<=\A\s))-{3}\\s.*$',
             GESHI_REPLACE => '\\0',
             GESHI_MODIFIERS => 'm',
             GESHI_BEFORE => '',
-            GESHI_AFTER => ''
-            ),
+            GESHI_AFTER => '',
+        ],
         //Inserted line
-        4 => array(
+        4 => [
             GESHI_SEARCH => '(^|(?<=\A\s))(\\+){3}\\s.*$',
             GESHI_REPLACE => '\\0',
             GESHI_MODIFIERS => 'm',
             GESHI_BEFORE => '',
-            GESHI_AFTER => ''
-            ),
+            GESHI_AFTER => '',
+        ],
         //Modified line
-        5 => array(
+        5 => [
             GESHI_SEARCH => '(^|(?<=\A\s))\\!.*$',
             GESHI_REPLACE => '\\0',
             GESHI_MODIFIERS => 'm',
             GESHI_BEFORE => '',
-            GESHI_AFTER => ''
-            ),
+            GESHI_AFTER => '',
+        ],
         //File specification
-        6 => array(
+        6 => [
             GESHI_SEARCH => '(^|(?<=\A\s))[\\@]{2}.*$',
             GESHI_REPLACE => '\\0',
             GESHI_MODIFIERS => 'm',
             GESHI_BEFORE => '',
-            GESHI_AFTER => ''
-            ),
+            GESHI_AFTER => '',
+        ],
         //Removed line
-        7 => array(
+        7 => [
             GESHI_SEARCH => '(^|(?<=\A\s))\\-.*$',
             GESHI_REPLACE => '\\0',
             GESHI_MODIFIERS => 'm',
             GESHI_BEFORE => '',
-            GESHI_AFTER => ''
-            ),
+            GESHI_AFTER => '',
+        ],
         //Inserted line
-        8 => array(
+        8 => [
             GESHI_SEARCH => '(^|(?<=\A\s))\\+.*$',
             GESHI_REPLACE => '\\0',
             GESHI_MODIFIERS => 'm',
             GESHI_BEFORE => '',
-            GESHI_AFTER => ''
-            ),
+            GESHI_AFTER => '',
+        ],
         //File specification
-        9 => array(
+        9 => [
             GESHI_SEARCH => '(^|(?<=\A\s))(\\*){3}\\s.*$',
             GESHI_REPLACE => '\\0',
             GESHI_MODIFIERS => 'm',
             GESHI_BEFORE => '',
-            GESHI_AFTER => ''
-            ),
-        ),
+            GESHI_AFTER => '',
+        ],
+    ],
     'STRICT_MODE_APPLIES' => GESHI_NEVER,
-    'SCRIPT_DELIMITERS' => array(
-        ),
-    'HIGHLIGHT_STRICT_BLOCK' => array(
-        )
-);
+    'SCRIPT_DELIMITERS' => [
+    ],
+    'HIGHLIGHT_STRICT_BLOCK' => [
+    ],
+];

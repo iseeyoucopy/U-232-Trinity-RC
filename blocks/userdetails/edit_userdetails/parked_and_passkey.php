@@ -11,7 +11,7 @@
  * ------------  @version V6  ------------------*
  */
 //users parked an reset passkey
-$HTMLOUT.= "
+$HTMLOUT .= "
 <div class='cell medium-6'>
     <fieldset class='fieldset'>
         <legend>{$lang['userdetails_park']}</legend>

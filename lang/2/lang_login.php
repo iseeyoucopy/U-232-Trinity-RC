@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Login
     'login_cookies' => "Note: Vous devez activer les cookies pour vous inscrire ou vous connecter.",
     'login_cookies1' => "Note: si vous rencontrez des problèmes de connection, supprimez les anciens cookies.",
@@ -43,6 +43,6 @@ $lang = array(
     'login_forgot' => "Mot de passe oublié!",
     'login_forgot_1' => "Retrouver son email?",
     'login_closed' => "Les inscriptions sont fermées",
-    'login_closed1' => "Les inscriptions sont fermées, il vous faut une invitation"
-);
+    'login_closed1' => "Les inscriptions sont fermées, il vous faut une invitation",
+];
 ?>

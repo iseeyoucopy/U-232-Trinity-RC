@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //needseed shit
     'needseed_sin' => "Seeders in need",
     'needseed_tns' => "Torrents Needing Seeds",
@@ -22,6 +22,6 @@ $lang = array(
     'needseed_lin' => "Leechers in need",
     'needseed_seed' => "Seeders",
     'needseed_leech' => "Leechers",
-    'needseed_noseed' => "There is no torrents needing seeds right now."
-);
+    'needseed_noseed' => "There is no torrents needing seeds right now.",
+];
 ?>

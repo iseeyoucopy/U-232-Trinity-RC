@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //valid id
     'peerslist_user_error' => "USER Error",
     'peerslist_invalid_id' => "You fool, ID don't exist",
@@ -40,6 +40,6 @@ $lang = array(
     'peerslist_leechers' => "Leecher(s)",
     'peerslist_for' => "Peerlist for",
     //stdhead
-    'peerslist_stdhead' => "Details"
-);
+    'peerslist_stdhead' => "Details",
+];
 ?>

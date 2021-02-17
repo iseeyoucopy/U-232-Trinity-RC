@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //head
     'head_signup' => "Signup",
     //captcha
@@ -22,8 +22,8 @@ $lang = array(
     'stderr_errorhead' => "Sorry",
     'stderr_ulimit' => "The current user account limit (%u) has been reached. Inactive accounts are pruned all the time, please check back again later...",
     //signup
-	'signup_inviteonly' => "Invite only - Signups are closed presently if you have an invite code click",
-	'signup_here' => "Here",
+    'signup_inviteonly' => "Invite only - Signups are closed presently if you have an invite code click",
+    'signup_here' => "Here",
     'signup_cookies' => "Note: You need cookies enabled to sign up or log in.",
     'signup_noscript' => "Javascript must be enabled to login and use this site.",
     'signup_year' => "Year",
@@ -79,6 +79,6 @@ $lang = array(
     'signup_na' => 'N/A',
     'signup_gender' => 'Gender',
     //add terms by yoooov
-    'signup_hint_here' => "Enter&nbsp;Your&nbsp;Hint&nbsp;Answer&nbsp;Here."
-);
+    'signup_hint_here' => "Enter&nbsp;Your&nbsp;Hint&nbsp;Answer&nbsp;Here.",
+];
 ?>

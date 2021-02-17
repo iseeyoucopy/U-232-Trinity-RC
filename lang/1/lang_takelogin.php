@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //takelogin errors
     'tlogin_failed' => "Login failed!",
     'tlogin_disabled' => "This account has been disabled.",
@@ -33,6 +33,6 @@ $lang = array(
     'tlogin_mess4' => "\nTheir [b]Ip Address [/b] was : ",
     'tlogin_mess5' => "\n If this wasn't you please report this event to a {$TRINITY20['site_name']} staff member\n - Thank you.\n",
     'tlogin_forgot' => ": Username or password entry incorrect <br />Have you forgotten your password? <a href='{$TRINITY20['baseurl']}/resetpw.php'><b>Recover</b></a> your password !",
-    'tlogin_header' => "Location: {$TRINITY20['baseurl']}/index.php"
-);
+    'tlogin_header' => "Location: {$TRINITY20['baseurl']}/index.php",
+];
 ?>

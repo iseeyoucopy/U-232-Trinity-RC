@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //head
     'head_users' => "Utilisateurs",
     //form
@@ -24,7 +24,7 @@ $lang = array(
     'users_la' => "Dernier accès",
     'users_class' => "Classe",
     'users_country' => "Pays",
-	'users_username' => "Pseudo",
-	'users_donor' => "Donateur"
-);
+    'users_username' => "Pseudo",
+    'users_donor' => "Donateur",
+];
 ?>

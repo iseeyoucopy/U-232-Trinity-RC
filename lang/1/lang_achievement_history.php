@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //stderr
     'achievement_history_err' => 'Error',
     'achievement_history_off' => 'It appears that the achievement system is offline.',
@@ -32,6 +32,6 @@ $lang = array(
     'achievement_history_descr' => 'Description',
     'achievement_history_date' => 'Date Earned',
     //stdhead
-    'achievement_history_stdhead' => 'Achievement History'
-);
+    'achievement_history_stdhead' => 'Achievement History',
+];
 ?>

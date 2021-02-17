@@ -1,8 +1,8 @@
 <?php
 /**
-This file created on May 01 2020 13:30:15.
-Site Config mod by stoner with a little help from pdq for U-232.
-**/
+ * This file created on May 01 2020 13:30:15.
+ * Site Config mod by stoner with a little help from pdq for U-232.
+ **/
 $TRINITY20['site_online'] = 1;
 $TRINITY20['autoshout_on'] = 1;
 $TRINITY20['seedbonus_on'] = 1;

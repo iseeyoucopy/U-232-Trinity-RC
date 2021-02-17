@@ -16,7 +16,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     $HTMLOUT .= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
         <head>
-        <meta charset="' . charset() . '" />
+        <meta charset="'.charset().'" />
         <title>ERROR</title>
         </head><body>
         <h1 style="text-align:center;">Error</h1>
@@ -27,7 +27,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     exit();
 }
 // -------- Action: Quote
-$topicid = (int) $_GET["topicid"];
+$topicid = (int)$_GET["topicid"];
 if (!is_valid_id($topicid)) {
     stderr('Error', 'Invalid ID!');
 }
@@ -35,5 +35,5 @@ if ($TRINITY20['forums_online'] == 0) {
     $HTMLOUT .= stdmsg('Warning', 'Forums are currently in maintainance mode');
 }
 $HTMLOUT .= insert_compose_frame($topicid, false, true);
-echo stdhead("Post quote", true, $stdhead) . $HTMLOUT . stdfoot($stdfoot);
+echo stdhead("Post quote", true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
 exit();

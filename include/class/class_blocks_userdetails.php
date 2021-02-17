@@ -1,4 +1,5 @@
 <?php
+
 /**
  * -------   U-232 Codename Trinity   ----------*
  * ---------------------------------------------*
@@ -42,7 +43,8 @@ class block_userdetails
     const REPORT_USER = 0x10000000; // 268435456
     const USERSTATUS = 0x20000000; // 536870912
     const USERCOMMENTS = 0x40000000; // 1073741824
-    const SHOWFRIENDS		         = 0x80000000; // 2147483648
-    
+    const SHOWFRIENDS = 0x80000000; // 2147483648
+
 }
+
 ?>

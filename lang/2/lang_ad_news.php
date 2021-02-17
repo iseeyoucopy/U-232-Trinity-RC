@@ -10,8 +10,8 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
-	/*
+$lang = [
+    /*
     //errs
     'news_gen_error' => 'Invalid news item ID - Code %d .',
     'news_delete_notice' => 'Delete news item',
@@ -32,38 +32,38 @@ $lang = array(
     'news_nonews' => 'No news',
     'news_sorry' => 'Sorry',
     'news_window_title' => 'Site news',
-	*/
+    */
     'news_error' => 'Erreur',
-	'news_error_ruffian' => "Quand on passe sa vie à s'occuper de voyous, on a tendance à attraper quelques-uns de leurs vices, c'est inévitable...",
-	'news_success' => 'Succès',
-	'news_del_invalid' => 'ID invalide.',
-	'news_del_confirm' => 'Confirmez la suppression',
-	'news_del_click' => 'Voulez-vous vraiment supprimer cette Nouvelle? Cliquez\n',
-	'news_del_here' => 'ICI',
-	'news_del_if' => ' si vous êtes sûr.',
-	'news_del_what' => 'que faîtes vous?',
-	'news_del_redir' => 'Nouvelle supprimée - Patientez vous allez être redirigé!',
-	'news_del_stdhead' => 'Nouvelles',
-	'news_add_item' => "L'item de la Nouvelle ne peut être vide!",
-	'news_add_title' => 'Le titre de la Nouvelle ne peut être vide!',
-	'news_add_success' => 'La Nouvelle a été ajouté avec succès.',
-	'news_add_oopss' => 'oupss',
-	'news_add_something' => "Quelquechose s'est mal passé!!",
-	'news_edit_invalid' => "L'ID de la Nouvelle est invalide.",
-	'news_edit_nonews' => 'Aucune Nouvelle avec cette ID .',
-	'news_edit_body' => 'Le corps ne peut être vide!',
-	'news_edit_title' => 'Le titre ne peut être vide!',
-	'news_edit_success' => "La Nouvelle a bien été édité - Patientez vous allez être redirigé!",
-	'news_edit_item' => "Editer l'item de la Nouvelle",
-	'news_submit_new' => "Soumettre une Nouvelle",
-	'news_sticky' => 'Epinglé',
-	'news_yes' => 'Oui',
-	'news_no' => 'Non',
-	'news_anonymous' => 'Anonyme',
-	'news_okay' => 'OK',
-	'news_created_by' => '.&nbsp;Cette&nbsp;Nouvelle&nbsp;a été créée&nbsp;par&nbsp',
-	'news_edit' => 'Editer',
-	'news_delete' => 'Supprimer',
-	'news_stdhead' => 'Page des Nouvelles'
-);
+    'news_error_ruffian' => "Quand on passe sa vie à s'occuper de voyous, on a tendance à attraper quelques-uns de leurs vices, c'est inévitable...",
+    'news_success' => 'Succès',
+    'news_del_invalid' => 'ID invalide.',
+    'news_del_confirm' => 'Confirmez la suppression',
+    'news_del_click' => 'Voulez-vous vraiment supprimer cette Nouvelle? Cliquez\n',
+    'news_del_here' => 'ICI',
+    'news_del_if' => ' si vous êtes sûr.',
+    'news_del_what' => 'que faîtes vous?',
+    'news_del_redir' => 'Nouvelle supprimée - Patientez vous allez être redirigé!',
+    'news_del_stdhead' => 'Nouvelles',
+    'news_add_item' => "L'item de la Nouvelle ne peut être vide!",
+    'news_add_title' => 'Le titre de la Nouvelle ne peut être vide!',
+    'news_add_success' => 'La Nouvelle a été ajouté avec succès.',
+    'news_add_oopss' => 'oupss',
+    'news_add_something' => "Quelquechose s'est mal passé!!",
+    'news_edit_invalid' => "L'ID de la Nouvelle est invalide.",
+    'news_edit_nonews' => 'Aucune Nouvelle avec cette ID .',
+    'news_edit_body' => 'Le corps ne peut être vide!',
+    'news_edit_title' => 'Le titre ne peut être vide!',
+    'news_edit_success' => "La Nouvelle a bien été édité - Patientez vous allez être redirigé!",
+    'news_edit_item' => "Editer l'item de la Nouvelle",
+    'news_submit_new' => "Soumettre une Nouvelle",
+    'news_sticky' => 'Epinglé',
+    'news_yes' => 'Oui',
+    'news_no' => 'Non',
+    'news_anonymous' => 'Anonyme',
+    'news_okay' => 'OK',
+    'news_created_by' => '.&nbsp;Cette&nbsp;Nouvelle&nbsp;a été créée&nbsp;par&nbsp',
+    'news_edit' => 'Editer',
+    'news_delete' => 'Supprimer',
+    'news_stdhead' => 'Page des Nouvelles',
+];
 ?>

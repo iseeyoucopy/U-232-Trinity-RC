@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //DeleteMessage
     'deletemessage_bad_id' => "Bad message ID",
     'deletemessage_dont_do' => "I wouldn't do that if i were you...",
@@ -21,5 +21,5 @@ $lang = array(
     'deletemessage_code4' => "delete failed (error code 4).. this should never happen, contact an admin.",
     'deletemessage_sentbox' => "The message is not in your Sentbox.",
     'deletemessage_unknown' => "Unknown PM type.",
-);
+];
 ?>

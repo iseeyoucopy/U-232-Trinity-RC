@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Login
     'login_cookies' => "Note: You need cookies enabled to sign up or log in.",
     'login_cookies1' => "Note: if your experiencing login issues delete your old cookies.",
@@ -44,5 +44,5 @@ $lang = array(
     'login_forgot_1' => "Mail recover?",
     'login_closed' => "Signup is closed",
     'login_closed1' => "Signup is closed, you need an invite",
-);
+];
 ?>

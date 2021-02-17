@@ -13,13 +13,15 @@
 //-------- Begins a main frame
 function begin_main_frame()
 {
-    return "<table class='table' width='750' border='0' cellspacing='0' cellpadding='0'>" . "<tr><td class='embedded'>\n";
+    return "<table class='table' width='750' border='0' cellspacing='0' cellpadding='0'>"."<tr><td class='embedded'>\n";
 }
+
 //-------- Ends a main frame
 function end_main_frame()
 {
     return "</td></tr></table>\n";
 }
+
 function begin_frame($caption = "", $center = false, $padding = 10)
 {
     $tdextra = "";
@@ -30,36 +32,40 @@ function begin_frame($caption = "", $center = false, $padding = 10)
     if ($center) {
         $tdextra .= " align='center'";
     }
-    return $htmlout . "<table class='table'><tr><td$tdextra>\n";
+    return $htmlout."<table class='table'><tr><td$tdextra>\n";
 }
+
 function attach_frame($padding = 10)
 {
     $htmlout = '';
-    return $htmlout . "</td></tr><tr><td style='border-top: 0px'>\n";
+    return $htmlout."</td></tr><tr><td style='border-top: 0px'>\n";
 }
+
 function end_frame()
 {
     return "</td></tr></table>\n";
 }
+
 function begin_table($fullwidth = false, $padding = 5)
 {
-    $width   = "";
+    $width = "";
     $htmlout = '';
     if ($fullwidth) {
         $width .= " width='100%'";
     }
-    return $htmlout . "<table class='table table-bordered'>";
+    return $htmlout."<table class='table table-bordered'>";
 }
+
 function end_table()
 {
     return "</table>";
 }
+
 function tr($x, $y, $noesc = 0)
 {
     if ($noesc) {
         $a = $y;
-    }
-    else {
+    } else {
         $a = htmlsafechars($y);
         $a = str_replace("\n", "<br />\n", $a);
     }
@@ -68,6 +74,7 @@ function tr($x, $y, $noesc = 0)
 				<td>$a</td>
 			</tr>";
 }
+
 //-------- Inserts a smilies frame
 function insert_smilies_frame()
 {
@@ -83,4 +90,5 @@ function insert_smilies_frame()
     $htmlout .= end_frame();
     return $htmlout;
 }
+
 ?>

@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Misc
     'std_adduser' => 'Add user',
     'std_err' => 'Error',
@@ -28,7 +28,7 @@ $lang = array(
     'text_password' => 'Password',
     'text_password2' => 'Re-type password',
     'text_email' => 'Email',
-	'text_birthday' => 'Birthday',
-	'text_pin_code' => 'Pincode'
-);
+    'text_birthday' => 'Birthday',
+    'text_pin_code' => 'Pincode',
+];
 ?>

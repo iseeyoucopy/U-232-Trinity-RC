@@ -12,7 +12,7 @@
  */
 if (!defined('IN_TRINITY20_FORUM')) {
     $HTMLOUT = '';
-    $HTMLOUT.= '<!DOCTYPE html>
+    $HTMLOUT .= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
         <head>
         <meta charset="'.charset().'" />
@@ -54,41 +54,41 @@ if ($CURUSER['class'] >= MAX_CLASS || isMod($forumid, "forum")) {
             <form method='post' action='{$TRINITY20['baseurl']}/forums.php?action=updateforum&amp;forumid=$forumid'>
                 <div class='input-group'>
                     <span class='input-group-label'>Forum name</span>
-                    <input class='input-group-field' type='text' size='60' maxlength='{$Multi_forum['configs']['maxsubjectlength']}' name='name' value='" . htmlsafechars($forum['name']) . "'>
+                    <input class='input-group-field' type='text' size='60' maxlength='{$Multi_forum['configs']['maxsubjectlength']}' name='name' value='".htmlsafechars($forum['name'])."'>
                 </div>
                 <div class='input-group'>
                     <span class='input-group-label'>Description</span>
-                    <textarea class='input-group-field' name='description' cols='60' rows='3'>" . htmlsafechars($forum['description']) . "</textarea>
+                    <textarea class='input-group-field' name='description' cols='60' rows='3'>".htmlsafechars($forum['description'])."</textarea>
                 </div>
                 <div class='input-group'>
                     <span class='input-group-label'>Minimum Class required to View</span>
                     <select class='input-group-field' name='readclass'>";
-                        for ($i = 0; $i <= MAX_CLASS; ++$i) {
-                            $HTMLOUT .="<option value='$i' " . ($i == $forum['min_class_read'] ? " selected='selected'" : "") .">".get_user_class_name($i)."</option>";
-                        }
-                    $HTMLOUT .= "</select>
+    for ($i = 0; $i <= MAX_CLASS; ++$i) {
+        $HTMLOUT .= "<option value='$i' ".($i == $forum['min_class_read'] ? " selected='selected'" : "").">".get_user_class_name($i)."</option>";
+    }
+    $HTMLOUT .= "</select>
                 </div>
                 <div class='input-group'>
                     <span class='input-group-label'>Minimum Class required to Post</span>
                     <select class='input-group-field' name='writeclass'>";
-                        for ($i = 0; $i <= MAX_CLASS; ++$i) {
-                            $HTMLOUT .="<option value='$i' " . ($i == $forum['min_class_write'] ? " selected='selected'" : "") .">".get_user_class_name($i)."</option>";
-                        }
-                    $HTMLOUT .="</select>
+    for ($i = 0; $i <= MAX_CLASS; ++$i) {
+        $HTMLOUT .= "<option value='$i' ".($i == $forum['min_class_write'] ? " selected='selected'" : "").">".get_user_class_name($i)."</option>";
+    }
+    $HTMLOUT .= "</select>
                 </div>
                 <div class='input-group'>
                     <span class='input-group-label'>Minimum Class required to Create Topics</span>
                     <select class='input-group-field' name='createclass'>";
-                        for ($i = 0; $i <= MAX_CLASS; ++$i) {
-                            $HTMLOUT .="<option value='$i' " . ($i == $forum['min_class_create'] ? " selected='selected'" : "") .">".get_user_class_name($i)."</option>";
-                        }
-                    $HTMLOUT .="</select>
+    for ($i = 0; $i <= MAX_CLASS; ++$i) {
+        $HTMLOUT .= "<option value='$i' ".($i == $forum['min_class_create'] ? " selected='selected'" : "").">".get_user_class_name($i)."</option>";
+    }
+    $HTMLOUT .= "</select>
                 </div>
                 <input class='button float-center' type='submit' value='Submit'>
             </form>
         </div>
     </div>";
-    echo stdhead($lang['forums_title_edit'], true, $stdhead) . $HTMLOUT . stdfoot($stdfoot);
+    echo stdhead($lang['forums_title_edit'], true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
     exit();
 }
 ?>

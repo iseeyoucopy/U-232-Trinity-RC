@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //OK
     'ok_success' => "Signup successful!",
     'ok_invsuccess' => "Invite Signup successful!",
@@ -32,5 +32,5 @@ $lang = array(
     'ok_account_cookies' => "<p>Your account has been activated! However, it appears that you could not be logged in automatically. A possible reason is that you disabled cookies in your browser. You have to enable cookies to use your account. Please do that and then <a href='login.php'>log in</a> and try again.</p>\n",
     'ok_user_error' => "User Error",
     'ok_no_action' => "no action to take",
-);
+];
 ?>

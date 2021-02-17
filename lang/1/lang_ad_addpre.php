@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Misc
     'stdhead_addpre' => "Add Pre",
     'stderr_error' => "Error",
@@ -27,6 +27,6 @@ $lang = array(
     'text_addpre' => "Add Pretime",
     //The table
     'table_torrentid' => "Torrent ID Number",
-    'table_pretime' => "Pretime in YYYY-MM-DD HH:MM:SS format"
-);
+    'table_pretime' => "Pretime in YYYY-MM-DD HH:MM:SS format",
+];
 ?>

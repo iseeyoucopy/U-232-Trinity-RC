@@ -13,9 +13,9 @@
 //==Error reporting... Turn off = 0 when live
 $TRINITY20['error_reports']['debugmode'] = 1;
 if ($TRINITY20['error_reports']['debugmode'] == 1) {
-    error_reporting(E_ALL); 
-}else { 
-    error_reporting(0); 
+    error_reporting(E_ALL);
+} else {
+    error_reporting(0);
 }
 if (PHP_INT_SIZE < 8) {
     die('A 64bit or higher OS + Processor is required.');
@@ -29,15 +29,16 @@ if (ini_get('default_charset') != $TRINITY20['char_set']) {
     ini_set('default_charset', $TRINITY20['char_set']);
 }
 //== Windows fix
-if( !function_exists( 'sys_getloadavg' ) ){
-  function sys_getloadavg(){
-  return array( 0, 0, 0 );
-  }
+if (!function_exists('sys_getloadavg')) {
+    function sys_getloadavg()
+    {
+        return [0, 0, 0];
+    }
 }
 /* Compare php version for date/time stuff etc! */
 date_default_timezone_set('Europe/London');
 define('TIME_NOW', time());
-define('TIME_DATE', (new DateTime())->format('Y-m-d H:i:s'));                                                             
+define('TIME_DATE', (new DateTime())->format('Y-m-d H:i:s'));
 $TRINITY20['time_adjust'] = 0;
 $TRINITY20['time_offset'] = 0;
 $TRINITY20['time_use_relative'] = 1;
@@ -158,7 +159,7 @@ $TRINITY20['max_dead_torrent_time'] = 6 * 3600;
 $TRINITY20['language'] = 1;
 $TRINITY20['bot_id'] = 2;
 $TRINITY20['bot_name'] = 'System';
-$TRINITY20['bot_role'] = 100;          
+$TRINITY20['bot_role'] = 100;
 $TRINITY20['staffpanel_online'] = 1;
 $TRINITY20['wait_times'] = 0;
 $TRINITY20['max_slots'] = 0;
@@ -186,46 +187,46 @@ $TRINITY20['flood_time'] = 900; //comment/forum/pm flood limit
 $TRINITY20['readpost_expiry'] = 14 * 86400; // 14 days
 $TRINITY20['shouts_to_show'] = 30;
 /** define dirs **/
-define('INCL_DIR', __DIR__ . DIRECTORY_SEPARATOR);
-define('ROOT_DIR', realpath(INCL_DIR . '..' . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
-define('ADMIN_DIR', ROOT_DIR . 'admin' . DIRECTORY_SEPARATOR);
-define('FORUM_DIR', ROOT_DIR . 'forums' . DIRECTORY_SEPARATOR);
-define('PM_DIR', ROOT_DIR . 'pm_system' . DIRECTORY_SEPARATOR);
-define('PIMP_DIR', ROOT_DIR . 'PimpMyLog' . DIRECTORY_SEPARATOR);
-define('CACHE_DIR', ROOT_DIR . 'cache' . DIRECTORY_SEPARATOR);
-define('MODS_DIR', ROOT_DIR . 'mods' . DIRECTORY_SEPARATOR);
-define('LANG_DIR', ROOT_DIR . 'lang' . DIRECTORY_SEPARATOR);
-define('TEMPLATE_DIR', ROOT_DIR . 'templates' . DIRECTORY_SEPARATOR);
-define('BLOCK_DIR', ROOT_DIR . 'blocks' . DIRECTORY_SEPARATOR);
-define('IMDB_DIR', ROOT_DIR . 'imdb' . DIRECTORY_SEPARATOR);
-define('CLASS_DIR', INCL_DIR . 'class' . DIRECTORY_SEPARATOR);
-define('CLEAN_DIR', INCL_DIR . 'cleanup' . DIRECTORY_SEPARATOR);
+define('INCL_DIR', __DIR__.DIRECTORY_SEPARATOR);
+define('ROOT_DIR', realpath(INCL_DIR.'..'.DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR);
+define('ADMIN_DIR', ROOT_DIR.'admin'.DIRECTORY_SEPARATOR);
+define('FORUM_DIR', ROOT_DIR.'forums'.DIRECTORY_SEPARATOR);
+define('PM_DIR', ROOT_DIR.'pm_system'.DIRECTORY_SEPARATOR);
+define('PIMP_DIR', ROOT_DIR.'PimpMyLog'.DIRECTORY_SEPARATOR);
+define('CACHE_DIR', ROOT_DIR.'cache'.DIRECTORY_SEPARATOR);
+define('MODS_DIR', ROOT_DIR.'mods'.DIRECTORY_SEPARATOR);
+define('LANG_DIR', ROOT_DIR.'lang'.DIRECTORY_SEPARATOR);
+define('TEMPLATE_DIR', ROOT_DIR.'templates'.DIRECTORY_SEPARATOR);
+define('BLOCK_DIR', ROOT_DIR.'blocks'.DIRECTORY_SEPARATOR);
+define('IMDB_DIR', ROOT_DIR.'imdb'.DIRECTORY_SEPARATOR);
+define('CLASS_DIR', INCL_DIR.'class'.DIRECTORY_SEPARATOR);
+define('CLEAN_DIR', INCL_DIR.'cleanup'.DIRECTORY_SEPARATOR);
 define('BITBUCKET_DIR', DIRECTORY_SEPARATOR.'var'.DIRECTORY_SEPARATOR.'bucket');
-define('AJAXCHAT_DIR', ROOT_DIR . 'chat' . DIRECTORY_SEPARATOR);
-define('VENDOR_DIR', ROOT_DIR . 'vendor' . DIRECTORY_SEPARATOR);
-$TRINITY20['cache'] = ROOT_DIR . 'cache';
-$TRINITY20['backup_dir'] = INCL_DIR . 'backup';
-$TRINITY20['sub_up_dir'] = ROOT_DIR . 'uploadsub';
-$TRINITY20['dictbreaker'] = ROOT_DIR . 'dictbreaker';
-$TRINITY20['torrent_dir'] = ROOT_DIR . 'torrents'; // must be writable for httpd user
-$TRINITY20['flood_file'] = INCL_DIR . 'settings' . DIRECTORY_SEPARATOR . 'limitfile.txt';
-$TRINITY20['nameblacklist'] = ROOT_DIR . 'cache' . DIRECTORY_SEPARATOR . 'nameblacklist.txt';
-$TRINITY20['happyhour'] = CACHE_DIR . 'happyhour' . DIRECTORY_SEPARATOR . 'happyhour.txt';
-$TRINITY20['sql_error_log'] = ROOT_DIR . 'sqlerr_logs' . DIRECTORY_SEPARATOR . 'sql_err_' . date('M_D_Y') . '.log';
-$TRINITY20['php_error_log'] = ROOT_DIR . 'phperr_logs' . DIRECTORY_SEPARATOR . 'php_err_' . date('M_D_Y') . '.log';
-ini_set("error_log", "". $TRINITY20['php_error_log'] .""); 
+define('AJAXCHAT_DIR', ROOT_DIR.'chat'.DIRECTORY_SEPARATOR);
+define('VENDOR_DIR', ROOT_DIR.'vendor'.DIRECTORY_SEPARATOR);
+$TRINITY20['cache'] = ROOT_DIR.'cache';
+$TRINITY20['backup_dir'] = INCL_DIR.'backup';
+$TRINITY20['sub_up_dir'] = ROOT_DIR.'uploadsub';
+$TRINITY20['dictbreaker'] = ROOT_DIR.'dictbreaker';
+$TRINITY20['torrent_dir'] = ROOT_DIR.'torrents'; // must be writable for httpd user
+$TRINITY20['flood_file'] = INCL_DIR.'settings'.DIRECTORY_SEPARATOR.'limitfile.txt';
+$TRINITY20['nameblacklist'] = ROOT_DIR.'cache'.DIRECTORY_SEPARATOR.'nameblacklist.txt';
+$TRINITY20['happyhour'] = CACHE_DIR.'happyhour'.DIRECTORY_SEPARATOR.'happyhour.txt';
+$TRINITY20['sql_error_log'] = ROOT_DIR.'sqlerr_logs'.DIRECTORY_SEPARATOR.'sql_err_'.date('M_D_Y').'.log';
+$TRINITY20['php_error_log'] = ROOT_DIR.'phperr_logs'.DIRECTORY_SEPARATOR.'php_err_'.date('M_D_Y').'.log';
+ini_set("error_log", "".$TRINITY20['php_error_log']."");
 //== XBT or PHP announce
 if (XBT_TRACKER == true) {
-$TRINITY20['xbt_prefix'] = '#announce_urls:2710/';  
-$TRINITY20['xbt_suffix'] = '/announce';
-$TRINITY20['announce_urls'] = '#announce_urls:2710/announce';
+    $TRINITY20['xbt_prefix'] = '#announce_urls:2710/';
+    $TRINITY20['xbt_suffix'] = '/announce';
+    $TRINITY20['announce_urls'] = '#announce_urls:2710/announce';
 } else {
-$TRINITY20['announce_urls'] = '#announce_https';
+    $TRINITY20['announce_urls'] = '#announce_https';
 }
-if (isset($_SERVER["HTTP_HOST"]) &&  $_SERVER["HTTP_HOST"] == "") {
+if (isset($_SERVER["HTTP_HOST"]) && $_SERVER["HTTP_HOST"] == "") {
     $_SERVER["HTTP_HOST"] = $_SERVER["SERVER_NAME"];
 }
-$TRINITY20['baseurl'] = 'http' . (isset($_SERVER['HTTPS']) && (bool)$_SERVER['HTTPS'] == true ? 's' : '') . '://' . $_SERVER['HTTP_HOST'];
+$TRINITY20['baseurl'] = 'http'.(isset($_SERVER['HTTPS']) && (bool)$_SERVER['HTTPS'] == true ? 's' : '').'://'.$_SERVER['HTTP_HOST'];
 //== Email for sender/return path.
 $TRINITY20['sub_max_size'] = 500 * 1024;
 $TRINITY20['site_email'] = '#site_email';
@@ -244,29 +245,29 @@ $TRINITY20['comment_check'] = 1; //set it to 0 if you wanna allow commenting wit
 $TRINITY20['requests']['req_limit'] = 10;
 $TRINITY20['offers']['off_limit'] = 10;
 //for subs & youtube mode
-$TRINITY20['movie_cats'] = array(
+$TRINITY20['movie_cats'] = [
     3,
     5,
     6,
-    10
-);
-$TRINITY20['tv_cats'] = array(
+    10,
+];
+$TRINITY20['tv_cats'] = [
     5,
-    11
-);
-$TRINITY20['music_cats'] = array(
+    11,
+];
+$TRINITY20['music_cats'] = [
     4,
-    14
-);
-$TRINITY20['other_cats'] = array(
+    14,
+];
+$TRINITY20['other_cats'] = [
     2,
     7,
     8,
     9,
     12,
     13,
-    1
-);
+    1,
+];
 $youtube_pattern = "/^http(s)?\:\/\/www\.youtube\.com\/watch\?v\=[\w-]{11}/i";
 //== set this to size of user avatars
 $TRINITY20['av_img_height'] = 100;
@@ -275,17 +276,17 @@ $TRINITY20['av_img_width'] = 100;
 $TRINITY20['sig_img_height'] = 100;
 $TRINITY20['sig_img_width'] = 500;
 $TRINITY20['bucket_allowed'] = 0;
-$TRINITY20['allowed_ext'] = array(
+$TRINITY20['allowed_ext'] = [
     'image/gif',
     'image/png',
     'image/jpg',
-    'image/jpeg'
-);
+    'image/jpeg',
+];
 $TRINITY20['bucket_maxsize'] = 500 * 1024; //max size set to 500kb
 //==Class check by pdq
 $TRINITY20['site']['owner'] = 1;
 //== Salt - change this
-$TRINITY20['site']['salt'] = hash_hmac("haval256,5", $TRINITY20['domain'], $TRINITY20['cipher_key']['key']); 
+$TRINITY20['site']['salt'] = hash_hmac("haval256,5", $TRINITY20['domain'], $TRINITY20['cipher_key']['key']);
 $TRINITY20['site']['salt2'] = 'jgutyxcjsaka';
 //= Change staff pin daily or weekly
 $TRINITY20['staff']['staff_pin'] = 'uFie0y3Ihjkij8'; // should be mix of u/l case and min 12 chars length
@@ -293,10 +294,10 @@ $TRINITY20['staff']['staff_pin'] = 'uFie0y3Ihjkij8'; // should be mix of u/l cas
 $TRINITY20['staff']['owner_pin'] = 'jjko4kuogqhjj0'; // should be mix of u/l case and min 12 chars length
 //== Staff forum ID for autopost
 $TRINITY20['staff']['forumid'] = 2; // this forum ID should exist and be a staff forum
-$TRINITY20['staff_forums'] = array(
+$TRINITY20['staff_forums'] = [
     1,
-    2
-); // these forum ID's' should exist and be a staff forum's to stop autoshouts
+    2,
+]; // these forum ID's' should exist and be a staff forum's to stop autoshouts
 $TRINITY20['variant'] = 'U-232 Codename Trinity';
 define('TBVERSION', $TRINITY20['variant']);
 ?>

@@ -12,7 +12,7 @@
  */
 if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
-    $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
+    $HTMLOUT .= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
@@ -24,49 +24,49 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     echo $HTMLOUT;
     exit();
 }
-require_once (INCL_DIR . 'user_functions.php');
-require_once (CLASS_DIR . 'class_check.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(CLASS_DIR.'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_categories'));
 $params = array_merge($_GET, $_POST);
 $params['mode'] ??= '';
 switch ($params['mode']) {
-case 'takemove_cat':
-    move_cat();
-    break;
+    case 'takemove_cat':
+        move_cat();
+        break;
 
-case 'move_cat':
-    move_cat_form();
-    break;
+    case 'move_cat':
+        move_cat_form();
+        break;
 
-case 'takeadd_cat':
-    add_cat();
-    break;
+    case 'takeadd_cat':
+        add_cat();
+        break;
 
-case 'takedel_cat':
-    delete_cat();
-    break;
+    case 'takedel_cat':
+        delete_cat();
+        break;
 
-case 'del_cat':
-    delete_cat_form();
-    break;
+    case 'del_cat':
+        delete_cat_form();
+        break;
 
-case 'takeedit_cat':
-    edit_cat();
-    break;
+    case 'takeedit_cat':
+        edit_cat();
+        break;
 
-case 'edit_cat':
-    edit_cat_form();
-    break;
+    case 'edit_cat':
+        edit_cat_form();
+        break;
 
-case 'cat_form':
-    //show_cat_form();
-    break;
+    case 'cat_form':
+        //show_cat_form();
+        break;
 
-default:
-    show_categories();
-    break;
+    default:
+        show_categories();
+        break;
 }
 function move_cat()
 {
@@ -77,15 +77,15 @@ function move_cat()
     if (!is_valid_id($params['new_cat_id']) || $params['id'] == $params['new_cat_id']) {
         stderr($lang['categories_error'], $lang['categories_move_error2']);
     }
-    $old_cat_id = (int) $params['id'];
-    $new_cat_id = (int) $params['new_cat_id'];
+    $old_cat_id = (int)$params['id'];
+    $new_cat_id = (int)$params['new_cat_id'];
     // make sure both categories exist
     $q = sql_query("SELECT id FROM categories WHERE id IN($old_cat_id, $new_cat_id)");
     if (2 != $q->num_rows) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
     //all go
-    sql_query("UPDATE torrents SET category = " . sqlesc($new_cat_id) . " WHERE category = " . sqlesc($old_cat_id));
+    sql_query("UPDATE torrents SET category = ".sqlesc($new_cat_id)." WHERE category = ".sqlesc($old_cat_id));
     $cache->delete('genrelist');
     if (-1 != $mysqli->affected_rows) {
         header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=categories&action=categories");
@@ -93,13 +93,14 @@ function move_cat()
         stderr($lang['categories_error'], $lang['categories_move_error4']);
     }
 }
+
 function move_cat_form()
 {
     global $params, $lang;
     if (!isset($params['id']) || !is_valid_id($params['id'])) {
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
-    $q = sql_query("SELECT * FROM categories WHERE id = " . (int) $params['id']);
+    $q = sql_query("SELECT * FROM categories WHERE id = ".(int)$params['id']);
     if (false == $q->num_rows) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
@@ -108,29 +109,29 @@ function move_cat_form()
     $select = "<select name='new_cat_id'>\n<option value='0'>{$lang['categories_select']}</option>\n";
     $cats = genrelist();
     foreach ($cats as $c) {
-        $select.= ($c['id'] != $r['id']) ? "<option value='{$c["id"]}'>" . htmlsafechars($c['name'], ENT_QUOTES) . "</option>\n" : "";
+        $select .= ($c['id'] != $r['id']) ? "<option value='{$c["id"]}'>".htmlsafechars($c['name'], ENT_QUOTES)."</option>\n" : "";
     }
-    $select.= "</select>\n";
-    $check.= "<tr>
+    $select .= "</select>\n";
+    $check .= "<tr>
       <td align='right' width='50%'><span style='color:limegreen;font-weight:bold;'>{$lang['categories_select_new']}</span></td>
       <td>$select</td>
     </tr>";
     $htmlout = '';
-$htmlout .="<div class='row'><div class='col-md-12'>";
-    $htmlout.= "<form action='staffpanel.php?tool=categories&amp;action=categories' method='post'>
+    $htmlout .= "<div class='row'><div class='col-md-12'>";
+    $htmlout .= "<form action='staffpanel.php?tool=categories&amp;action=categories' method='post'>
       <input type='hidden' name='mode' value='takemove_cat' />
-      <input type='hidden' name='id' value='".(int) $r['id']."' />
+      <input type='hidden' name='id' value='".(int)$r['id']."' />
     
       <table class='table table-bordered'>
       <tr>
-        <td colspan='2' class='colhead'>". $lang['categories_move_about'] . htmlsafechars($r['name'], ENT_QUOTES) . "</td>
+        <td colspan='2' class='colhead'>".$lang['categories_move_about'].htmlsafechars($r['name'], ENT_QUOTES)."</td>
       </tr>
       <tr>
         <td colspan='2'>{$lang['categories_move_note']}</td>
       </tr>
       <tr>
         <td align='right' width='50%'><span style='color:red;font-weight:bold;'>{$lang['categories_move_old']}</span></td>
-        <td>" . htmlsafechars($r['name'], ENT_QUOTES) . "</td>
+        <td>".htmlsafechars($r['name'], ENT_QUOTES)."</td>
       </tr>
       {$check}
       <tr>
@@ -139,18 +140,19 @@ $htmlout .="<div class='row'><div class='col-md-12'>";
       </tr>
       </table>
       </form>";
-$htmlout .="</div></div>";
-    echo stdhead($lang['categories_move_stdhead']. $r['name']) . $htmlout . stdfoot();
+    $htmlout .= "</div></div>";
+    echo stdhead($lang['categories_move_stdhead'].$r['name']).$htmlout.stdfoot();
 }
+
 function add_cat()
 {
     global $TRINITY20, $params, $cache, $lang, $mysqli;
-    foreach (array(
-        'new_cat_name',
-        'new_cat_desc',
-        'new_cat_image',
-        'new_cat_minclass'
-    ) as $x) {
+    foreach ([
+                 'new_cat_name',
+                 'new_cat_desc',
+                 'new_cat_image',
+                 'new_cat_minclass',
+             ] as $x) {
         if (!isset($params[$x]) || $x != 'new_cat_minclass' && empty($params[$x])) {
             stderr($lang['categories_error'], $lang['categories_add_error1']);
         }
@@ -170,33 +172,34 @@ function add_cat()
         header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=categories&action=categories");
     }
 }
+
 function delete_cat()
 {
     global $TRINITY20, $params, $cache, $lang, $mysqli;
     if (!isset($params['id']) || !is_valid_id($params['id'])) {
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
-    $q = sql_query("SELECT * FROM categories WHERE id = " . (int) $params['id']);
+    $q = sql_query("SELECT * FROM categories WHERE id = ".(int)$params['id']);
     if (false == $q->num_rows) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
     $r = $q->fetch_assoc();
-    $old_cat_id = (int) $r['id'];
+    $old_cat_id = (int)$r['id'];
     if (isset($params['new_cat_id'])) {
         if (!is_valid_id($params['new_cat_id']) || $r['id'] == $params['new_cat_id']) {
             stderr($lang['categories_error'], $lang['categories_exist_error']);
         }
-        $new_cat_id = (int) $params['new_cat_id'];
+        $new_cat_id = (int)$params['new_cat_id'];
         //make sure category isn't out of range before moving torrents! else orphans!
-        $q = sql_query("SELECT COUNT(*) FROM categories WHERE id = " . sqlesc($new_cat_id));
+        $q = sql_query("SELECT COUNT(*) FROM categories WHERE id = ".sqlesc($new_cat_id));
         $count = $q->fetch_array(MYSQLI_NUM);
         if (!$count[0]) {
             stderr($lang['categories_error'], $lang['categories_exist_error']);
         }
         //all go
-        sql_query("UPDATE torrents SET category = " . sqlesc($new_cat_id) . " WHERE category = " . sqlesc($old_cat_id));
+        sql_query("UPDATE torrents SET category = ".sqlesc($new_cat_id)." WHERE category = ".sqlesc($old_cat_id));
     }
-    sql_query("DELETE FROM categories WHERE id = " . sqlesc($old_cat_id));
+    sql_query("DELETE FROM categories WHERE id = ".sqlesc($old_cat_id));
     $cache->delete('genrelist');
     if ($mysqli->affected_rows) {
         header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=categories&action=categories");
@@ -204,57 +207,58 @@ function delete_cat()
         stderr($lang['categories_error'], $lang['categories_del_error1']);
     }
 }
+
 function delete_cat_form()
 {
     global $params, $lang;
     if (!isset($params['id']) || !is_valid_id($params['id'])) {
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
-    $q = sql_query("SELECT * FROM categories WHERE id = " . (int) $params['id']);
+    $q = sql_query("SELECT * FROM categories WHERE id = ".(int)$params['id']);
     if (false == $q->num_rows) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
     $r = $q->fetch_assoc();
-    $q = sql_query("SELECT COUNT(*) FROM torrents WHERE category = " . (int) $r['id']);
+    $q = sql_query("SELECT COUNT(*) FROM torrents WHERE category = ".(int)$r['id']);
     $count = $q->fetch_array(MYSQLI_NUM);
     $check = '';
     if ($count[0]) {
         $select = "<select name='new_cat_id'>\n<option value='0'>{$lang['categories_select']}</option>\n";
         $cats = genrelist();
         foreach ($cats as $c) {
-            $select.= ($c['id'] != $r['id']) ? "<option value='{$c["id"]}'>" . htmlsafechars($c['name'], ENT_QUOTES) . "</option>\n" : "";
+            $select .= ($c['id'] != $r['id']) ? "<option value='{$c["id"]}'>".htmlsafechars($c['name'], ENT_QUOTES)."</option>\n" : "";
         }
-        $select.= "</select>\n";
-        $check.= "<tr>
+        $select .= "</select>\n";
+        $check .= "<tr>
         <td align='right' width='50%'>{$lang['categories_select_new']}<br /><span style='color:red;font-weight:bold;'>{$lang['categories_del_warning']}</span></td>
         <td>$select</td>
       </tr>";
     }
     $htmlout = '';
-$htmlout .="<div class='row'><div class='col-md-12'>";
-    $htmlout.= "<form action='staffpanel.php?tool=categories&amp;action=categories' method='post'>
+    $htmlout .= "<div class='row'><div class='col-md-12'>";
+    $htmlout .= "<form action='staffpanel.php?tool=categories&amp;action=categories' method='post'>
       <input type='hidden' name='mode' value='takedel_cat' />
-      <input type='hidden' name='id' value='" . (int)$r['id'] . "' />
+      <input type='hidden' name='id' value='".(int)$r['id']."' />
     
       <table class='torrenttable' align='center' width='80%' bgcolor='#555555' cellspacing='2' cellpadding='2'>
       <tr>
-        <td colspan='2' class='colhead'>{$lang['categories_del_about']}" . htmlsafechars($r['name'], ENT_QUOTES) . "</td>
+        <td colspan='2' class='colhead'>{$lang['categories_del_about']}".htmlsafechars($r['name'], ENT_QUOTES)."</td>
       </tr>
       <tr>
         <td align='right' width='50%'>{$lang['categories_del_name']}</td>
-        <td>" . htmlsafechars($r['name'], ENT_QUOTES) . "</td>
+        <td>".htmlsafechars($r['name'], ENT_QUOTES)."</td>
       </tr>
       <tr>
         <td align='right'>{$lang['categories_del_description']}</td>
-        <td>" . htmlsafechars($r['cat_desc'], ENT_QUOTES) . "</td>
+        <td>".htmlsafechars($r['cat_desc'], ENT_QUOTES)."</td>
       </tr>
        <tr>
         <td align='right'>{$lang['categories_show_minclass']}</td>
-        <td>" . htmlsafechars(get_user_class_name($r['min_class']), ENT_QUOTES) . "</td>
+        <td>".htmlsafechars(get_user_class_name($r['min_class']), ENT_QUOTES)."</td>
           </tr>
       <tr>
         <td align='right'>{$lang['categories_del_image']}</td>
-        <td>" . htmlsafechars($r['image'], ENT_QUOTES) . "</td>
+        <td>".htmlsafechars($r['image'], ENT_QUOTES)."</td>
       </tr>
       {$check}
       <tr>
@@ -263,21 +267,22 @@ $htmlout .="<div class='row'><div class='col-md-12'>";
       </tr>
       </table>
       </form>";
-$htmlout .="</div></div>";
-    echo stdhead($lang['categories_del_stdhead']. $r['name']) . $htmlout . stdfoot();
+    $htmlout .= "</div></div>";
+    echo stdhead($lang['categories_del_stdhead'].$r['name']).$htmlout.stdfoot();
 }
+
 function edit_cat()
 {
     global $TRINITY20, $params, $cache, $lang, $mysqli;
     if (!isset($params['id']) || !is_valid_id($params['id'])) {
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
-    foreach (array(
-        'cat_name',
-        'cat_desc',
-        'cat_image',
-        'edit_cat_minclass'
-    ) as $x) {
+    foreach ([
+                 'cat_name',
+                 'cat_desc',
+                 'cat_image',
+                 'edit_cat_minclass',
+             ] as $x) {
         if (!isset($params[$x]) || $x != 'edit_cat_minclass' && empty($params[$x])) {
             stderr($lang['categories_error'], $lang['categories_add_error1']);
         }
@@ -289,7 +294,7 @@ function edit_cat()
     $cat_desc = sqlesc($params['cat_desc']);
     $cat_image = sqlesc($params['cat_image']);
     $min_class = sqlesc($params['edit_cat_minclass']);
-    $cat_id = (int) $params['id'];
+    $cat_id = (int)$params['id'];
     sql_query("UPDATE categories SET name = $cat_name, cat_desc = $cat_desc, image = $cat_image, min_class = $min_class WHERE id = $cat_id");
     $cache->delete('genrelist');
     if (-1 == $mysqli->affected_rows) {
@@ -298,6 +303,7 @@ function edit_cat()
         header("Location: {$TRINITY20['baseurl']}/staffpanel.php?tool=categories&action=categories");
     }
 }
+
 function edit_cat_form()
 {
     global $TRINITY20, $params, $lang;
@@ -305,13 +311,13 @@ function edit_cat_form()
         stderr($lang['categories_error'], $lang['categories_no_id']);
     }
     $htmlout = '';
-    $q = sql_query("SELECT * FROM categories WHERE id = " . (int) $params['id']);
+    $q = sql_query("SELECT * FROM categories WHERE id = ".(int)$params['id']);
     if (false == $q->num_rows) {
         stderr($lang['categories_error'], $lang['categories_exist_error']);
     }
     $r = $q->fetch_assoc();
-    $dh = opendir($TRINITY20['pic_base_url'] . 'caticons/1');
-    $files = array();
+    $dh = opendir($TRINITY20['pic_base_url'].'caticons/1');
+    $files = [];
     while (false !== ($file = readdir($dh))) {
         if (($file != ".") && ($file != "..") && preg_match("/^cat_\\w+\\.(?:gif|jpg|jpeg|png)\$/i", $file)) {
             $files[] = $file;
@@ -322,9 +328,9 @@ function edit_cat_form()
         $select = "<select name='cat_image'>\n<option value='0'>{$lang['categories_edit_select']}</option>\n";
         foreach ($files as $f) {
             $selected = ($f == $r['image']) ? " selected='selected'" : "";
-            $select.= "<option value='" . htmlsafechars($f, ENT_QUOTES) . "'$selected>" . htmlsafechars($f, ENT_QUOTES) . "</option>\n";
+            $select .= "<option value='".htmlsafechars($f, ENT_QUOTES)."'$selected>".htmlsafechars($f, ENT_QUOTES)."</option>\n";
         }
-        $select.= "</select>\n";
+        $select .= "</select>\n";
         $check = "<tr>
         <td align='right' width='50%'>{$lang['categories_edit_select_new']}<br /><span style='color:limegreen;font-weight:bold;'>{$lang['categories_edit_info']}</span></td>
         <td>$select</td>
@@ -335,23 +341,23 @@ function edit_cat_form()
         <td><span style='color:red;font-weight:bold;'>{$lang['categories_edit_warning']}</span></td>
       </tr>";
     }
-     $minclass = "<select name='edit_cat_minclass'>\n";
-     for ($i = 0; $i <= UC_MAX; ++$i) {
-         $minclass .= "<option value='$i'".($i == $r['min_class'] ? " selected='selected'" : "").">".get_user_class_name($i)."</option>\n";
-     }
-    $minclass.= "</select>\n";
-    $htmlout.= "<div class='row'><div class='col-md-12'><form action='staffpanel.php?tool=categories&amp;action=categories' method='post'>
+    $minclass = "<select name='edit_cat_minclass'>\n";
+    for ($i = 0; $i <= UC_MAX; ++$i) {
+        $minclass .= "<option value='$i'".($i == $r['min_class'] ? " selected='selected'" : "").">".get_user_class_name($i)."</option>\n";
+    }
+    $minclass .= "</select>\n";
+    $htmlout .= "<div class='row'><div class='col-md-12'><form action='staffpanel.php?tool=categories&amp;action=categories' method='post'>
       <input type='hidden' name='mode' value='takeedit_cat' />
-      <input type='hidden' name='id' value='" . (int)$r['id'] . "' />
+      <input type='hidden' name='id' value='".(int)$r['id']."' />
     
       <table class='torrenttable' align='center' width='80%' bgcolor='#555555' cellspacing='2' cellpadding='2'>
       <tr>
         <td align='right'>{$lang['categories_edit_name']}</td>
-        <td><input type='text' name='cat_name' class='option' size='50' value='" . htmlsafechars($r['name'], ENT_QUOTES) . "' /></td>
+        <td><input type='text' name='cat_name' class='option' size='50' value='".htmlsafechars($r['name'], ENT_QUOTES)."' /></td>
       </tr>
       <tr>
         <td align='right'>{$lang['categories_del_description']}</td>
-        <td><textarea cols='50' rows='5' name='cat_desc'>" . htmlsafechars($r['cat_desc'], ENT_QUOTES) . "</textarea></td>
+        <td><textarea cols='50' rows='5' name='cat_desc'>".htmlsafechars($r['cat_desc'], ENT_QUOTES)."</textarea></td>
       </tr>
           <tr>
             <td align='right'>{$lang['categories_show_minclass']}</td>
@@ -364,14 +370,15 @@ function edit_cat_form()
       </tr>
       </table>
       </form></div></div>";
-    echo stdhead($lang['categories_edit_stdhead'] . $r['name']) . $htmlout . stdfoot();
+    echo stdhead($lang['categories_edit_stdhead'].$r['name']).$htmlout.stdfoot();
 }
+
 function show_categories()
 {
     global $TRINITY20, $lang, $minclass;
     $htmlout = '';
-    $dh = opendir($TRINITY20['pic_base_url'] . 'caticons/1');
-    $files = array();
+    $dh = opendir($TRINITY20['pic_base_url'].'caticons/1');
+    $files = [];
     while (false !== ($file = readdir($dh))) {
         if (($file != ".") && ($file != "..") && preg_match("/^cat_\\w+\\.(?:gif|jpg|jpeg|png)\$/i", $file)) {
             $files[] = $file;
@@ -382,10 +389,10 @@ function show_categories()
         $select = "<select name='new_cat_image'>\n<option value='0'>{$lang['categories_edit_select']}</option>\n";
         foreach ($files as $f) {
             $i = 0;
-            $select.= "<option value='" . htmlsafechars($f, ENT_QUOTES) . "'>" . htmlsafechars($f, ENT_QUOTES) . "</option>\n";
+            $select .= "<option value='".htmlsafechars($f, ENT_QUOTES)."'>".htmlsafechars($f, ENT_QUOTES)."</option>\n";
             $i++;
         }
-        $select.= "</select>\n";
+        $select .= "</select>\n";
         $check = "<tr>
         <td align='right' width='50%'>{$lang['categories_edit_select_new']}<br /><span style='color:limegreen;font-weight:bold;'>{$lang['categories_edit_warning1']}</span></td>
         <td>$select</td>
@@ -400,8 +407,8 @@ function show_categories()
     for ($i = 0; $i <= UC_MAX; ++$i) {
         $minclass .= "<option value='$i'".($i == 0 ? " selected='selected'" : "").">".get_user_class_name($i)."</option>\n";
     }
-    $minclass.= "</select>\n";
-    $htmlout.= "<div class='row'><div class='col-md-12'>
+    $minclass .= "</select>\n";
+    $htmlout .= "<div class='row'><div class='col-md-12'>
 <form action='staffpanel.php?tool=categories&amp;action=categories' method='post'>
     <input type='hidden' name='mode' value='takeadd_cat' />
     
@@ -455,27 +462,28 @@ function show_categories()
         $htmlout = '<h1>'.$lang['categories_show_oops'].'</h1>';
     } else {
         while ($row = $query->fetch_assoc()) {
-            $cat_image = file_exists($TRINITY20['pic_base_url'] . 'caticons/1/' . $row['image']) ? "<img border='0' src='{$TRINITY20['pic_base_url']}caticons/1/" . htmlsafechars($row['image']) . "' alt='" . (int)$row['id'] . "' />" : "{$lang['categories_show_no_image']}";
-            $htmlout.= "<tr>
-          <td><b>{$lang['categories_show_id2']} (" . (int)$row['id'] . ")</b></td>	
-          <td>" . htmlsafechars($row['name']) . "</td>
-          <td>" . htmlsafechars($row['cat_desc']) . "</td>
-          <td>" . htmlsafechars(get_user_class_name($row['min_class'])) . "</td>
+            $cat_image = file_exists($TRINITY20['pic_base_url'].'caticons/1/'.$row['image']) ? "<img border='0' src='{$TRINITY20['pic_base_url']}caticons/1/".htmlsafechars($row['image'])."' alt='".(int)$row['id']."' />" : "{$lang['categories_show_no_image']}";
+            $htmlout .= "<tr>
+          <td><b>{$lang['categories_show_id2']} (".(int)$row['id'].")</b></td>	
+          <td>".htmlsafechars($row['name'])."</td>
+          <td>".htmlsafechars($row['cat_desc'])."</td>
+          <td>".htmlsafechars(get_user_class_name($row['min_class']))."</td>
           <td>$cat_image</td>
-          <td ><a href='staffpanel.php?tool=categories&amp;action=categories&amp;mode=edit_cat&amp;id=" . (int)$row['id'] . "'>
+          <td ><a href='staffpanel.php?tool=categories&amp;action=categories&amp;mode=edit_cat&amp;id=".(int)$row['id']."'>
             <img src='{$TRINITY20['pic_base_url']}aff_tick.gif' alt='{$lang['categories_show_edit2']}' title='{$lang['categories_show_edit']}' width='12' height='12' border='0' /></a></td>
-          <td><a href='staffpanel.php?tool=categories&amp;action=categories&amp;mode=del_cat&amp;id=" . (int)$row['id'] . "'>
+          <td><a href='staffpanel.php?tool=categories&amp;action=categories&amp;mode=del_cat&amp;id=".(int)$row['id']."'>
             <img src='{$TRINITY20['pic_base_url']}aff_cross.gif' alt='{$lang['categories_show_delete2']}' title='{$lang['categories_show_delete']}' width='12' height='12' border='0' /></a></td>
-          <td><a href='staffpanel.php?tool=categories&amp;action=categories&amp;mode=move_cat&amp;id=" . (int)$row['id'] . "'>
+          <td><a href='staffpanel.php?tool=categories&amp;action=categories&amp;mode=move_cat&amp;id=".(int)$row['id']."'>
             <img src='{$TRINITY20['pic_base_url']}plus.gif' alt='{$lang['categories_show_move2']}' title='{$lang['categories_show_move']}' width='12' height='12' border='0' /></a></td>
         </tr>";
         }
     } //endif
-    $htmlout.= '</table>';
+    $htmlout .= '</table>';
 
-$htmlout .="</div></div>";
+    $htmlout .= "</div></div>";
 
 
-    echo stdhead($lang['categories_show_stdhead']) . $htmlout . stdfoot();
+    echo stdhead($lang['categories_show_stdhead']).$htmlout.stdfoot();
 }
+
 ?>

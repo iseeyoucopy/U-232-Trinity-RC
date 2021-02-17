@@ -1,4 +1,5 @@
 <?php
+
 /**
  * -------   U-232 Codename Trinity   ----------*
  * ---------------------------------------------*
@@ -18,4 +19,5 @@ class block_browse
     const ICONS = 0x8; //8
     const SPLIT = 0x10; //16
 }
+
 ?>

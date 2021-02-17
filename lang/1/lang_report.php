@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //report
     'report_error' => "Error",
     'report_error1' => "Bad ID!",
@@ -28,5 +28,5 @@ $lang = array(
     'report_rules' => "rules",
     'report_req' => "required",
     'report_confirm' => "Confirm Report",
-);
+];
 ?>

@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Misc
     'faq_faq' => "Gestion des FAQs",
     'stderr_error' => "Erreur",
@@ -20,5 +20,5 @@ $lang = array(
     'faq_delete' => "Supprimer",
     'faq_btn_newcat' => "Ajouter une nouvelle catégorie",
     'faq_btn_newrule' => "Ajouter une nouvelle FAQ",
-);
+];
 ?>

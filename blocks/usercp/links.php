@@ -1,5 +1,5 @@
 <?php
-   $HTMLOUT.= "<div class='tabs-panel' id='panel10'>'<div class='col-md-6'>
+$HTMLOUT .= "<div class='tabs-panel' id='panel10'>'<div class='col-md-6'>
 	<div class='panel panel-default bordered-heading'>
 	<div class='card-divider'><h5 class='panel-title'><i class='fa fa-list'></i>{$lang['usercp_lnk_opt']}</h5></div>
 	<div class='card'>
@@ -18,10 +18,10 @@
 	<li class='list-group-item btn btn-default'><b>{$lang['usercp_lnk_enter']}</b></li>
 	<li class='list-group-item'><a href='topmoods.php'>{$lang['usercp_lnk_top']}</a></li>
 	<li class='list-group-item'><a href='lottery.php'>{$lang['usercp_lnk_lott']}</a></li>";
-    if ($CURUSER['class'] >= UC_POWER_USER) {
-        $HTMLOUT.= "<li class='list-group-item'><a href='blackjack.php'>{$TRINITY20['site_name']} {$lang['usercp_lnk_black']}</a></li>";
-        $HTMLOUT.= "<li class='list-group-item'><a href='casino.php'>{$TRINITY20['site_name']} {$lang['usercp_lnk_casi']}</a></li>
+if ($CURUSER['class'] >= UC_POWER_USER) {
+    $HTMLOUT .= "<li class='list-group-item'><a href='blackjack.php'>{$TRINITY20['site_name']} {$lang['usercp_lnk_black']}</a></li>";
+    $HTMLOUT .= "<li class='list-group-item'><a href='casino.php'>{$TRINITY20['site_name']} {$lang['usercp_lnk_casi']}</a></li>
         </ul>
 						</div></div></div></div></div></div></div>";
-    }
-    $HTMLOUT.= "";
+}
+$HTMLOUT .= "";

@@ -11,7 +11,7 @@
  * ------------  @version V6  ------------------*
  */
 // Forum Standard Errors and Other Stuff found in most forum files.
-$lang = array(
+$lang = [
     'ep_bb_code' => "BB code",
     'ep_edit_post_by' => "Edition du message par",
     'ep_edited_a_post_by' => "Message édité par",
@@ -436,6 +436,6 @@ $lang = array(
     'vup_remove_topic_from_unread_list' => "ce sujet de votre liste des non lus. Pour les supprimer tous, utilisez le lien ci-dessus: Marquez tout comme lu",
     'vup_unread_post_since_visit' => "Discussions non lues depuis votre dernière visite",
     'fm_member_post_history' => "Historique des Discussions du Membre",
-    'fm_attach' => "Attacher"
-);
+    'fm_attach' => "Attacher",
+];
 ?>

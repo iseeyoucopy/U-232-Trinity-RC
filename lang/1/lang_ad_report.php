@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //reports
     'text_incorrect' => "Incorrect access",
     'text_cannot' => "You cannot access this file directly.",
@@ -40,8 +40,8 @@ $lang = array(
     'reports_how' => "How",
     'reports_dealt1' => "Dealt with this report:",
     'reports_req' => "required",
-	'reports_please' => "Please explain below how this Report has been dealt with.",
-	'reports_confirm' => "Confirm",
-	'reports_stdhead' => "Active reports"
-);
+    'reports_please' => "Please explain below how this Report has been dealt with.",
+    'reports_confirm' => "Confirm",
+    'reports_stdhead' => "Active reports",
+];
 ?>

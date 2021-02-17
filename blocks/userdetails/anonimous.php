@@ -12,8 +12,8 @@ if ($CURUSER["id"] != $user["id"]) {
         $showpmbtn = ($r->num_rows == 1 ? 1 : 0);
     }
 }
-$HTMLOUT.= "<div class='card text-white bg-warning mb-3' style='max-width: 18rem;'>";
-$HTMLOUT.= "<tr><td>{$lang['userdetails_anonymous']}</td></tr>";
+$HTMLOUT .= "<div class='card text-white bg-warning mb-3' style='max-width: 18rem;'>";
+$HTMLOUT .= "<tr><td>{$lang['userdetails_anonymous']}</td></tr>";
 if ($user["avatar"]) {
     $HTMLOUT .= "<tr><td><img src='".htmlsafechars($user["avatar"])."'></td></tr>\n";
 }
@@ -31,11 +31,11 @@ if (isset($showpmbtn)) {
       </form>
       </td></tr>";
 }
-    $HTMLOUT.= "<form method='get' action='{$TRINITY20['baseurl']}/pm_system.php?action=send_message'>
-		<input type='hidden' name='receiver' value='" . (int)$user["id"] . "'>
+$HTMLOUT .= "<form method='get' action='{$TRINITY20['baseurl']}/pm_system.php?action=send_message'>
+		<input type='hidden' name='receiver' value='".(int)$user["id"]."'>
 		<input type='submit'class='btn btn-sm' value='{$lang['userdetails_sendmess']}' style='height: 23px'></form>";
-    if ($CURUSER['class'] < UC_STAFF && $user["id"] != $CURUSER["id"]) {
-        echo stdhead($lang['userdetails_anonymoususer']) . $HTMLOUT . stdfoot();
-        die;
-    }
-    $HTMLOUT.= "</td></tr></div>";
+if ($CURUSER['class'] < UC_STAFF && $user["id"] != $CURUSER["id"]) {
+    echo stdhead($lang['userdetails_anonymoususer']).$HTMLOUT.stdfoot();
+    die;
+}
+$HTMLOUT .= "</td></tr></div>";

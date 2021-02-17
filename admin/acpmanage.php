@@ -12,7 +12,7 @@
  */
 if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
-    $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
+    $HTMLOUT .= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
@@ -24,19 +24,19 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     echo $HTMLOUT;
     exit();
 }
-require_once (INCL_DIR . 'user_functions.php');
-require_once (INCL_DIR . 'html_functions.php');
-require_once (INCL_DIR . 'pager_functions.php');
-require_once (CLASS_DIR . 'class_check.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(INCL_DIR.'html_functions.php');
+require_once(INCL_DIR.'pager_functions.php');
+require_once(CLASS_DIR.'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_acp'));
-$stdfoot = array(
+$stdfoot = [
     /** include js **/
-    'js' => array(
-        'acp'
-    )
-);
+    'js' => [
+        'acp',
+    ],
+];
 $HTMLOUT = "";
 if (isset($_POST['ids'])) {
     $ids = $_POST["ids"];
@@ -50,28 +50,27 @@ if (isset($_POST['ids'])) {
         sql_query("UPDATE users SET enabled = 'yes' WHERE ID IN(".implode(', ', array_map('sqlesc', $ids)).") AND enabled = 'no'") || sqlerr(__FILE__,
             __LINE__);
     }
-    $cache->update_row($keys['my_userid'] . $id, [
-        'enabled' => 'yes'
+    $cache->update_row($keys['my_userid'].$id, [
+        'enabled' => 'yes',
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user' . $id, [
-        'enabled' => 'yes'
+    $cache->update_row('user'.$id, [
+        'enabled' => 'yes',
     ], $TRINITY20['expires']['user_cache']);
     //else
     if ($do == 'confirm') {
         sql_query("UPDATE users SET status = 'confirmed' WHERE ID IN(".implode(', ',
                 array_map('sqlesc', $ids)).") AND status = 'pending'") || sqlerr(__FILE__, __LINE__);
     }
-    $cache->update_row($keys['my_userid'] . $id, [
-        'status' => 'confirmed'
+    $cache->update_row($keys['my_userid'].$id, [
+        'status' => 'confirmed',
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user' . $id, [
-        'status' => 'confirmed'
+    $cache->update_row('user'.$id, [
+        'status' => 'confirmed',
     ], $TRINITY20['expires']['user_cache']);
     //else
     if ($do == 'delete') {
         sql_query("DELETE FROM users WHERE ID IN(".implode(', ', array_map('sqlesc', $ids)).") AND class < 3") || sqlerr(__FILE__, __LINE__);
-    }
-    else {
+    } else {
         header('Location: staffpanel.php?tool=acpmanage&amp;action=acpmanage');
         exit;
     }
@@ -82,16 +81,16 @@ $count = number_format(get_row_count("users", "WHERE enabled='no' OR status='pen
 $perpage = 25;
 $pager = pager($perpage, $count, "staffpanel.php?tool=acpmanage&amp;action=acpmanage&amp;");
 $res = sql_query("SELECT id, username, added, downloaded, uploaded, last_access, class, donor, warned, enabled, status FROM users WHERE enabled='no' OR status='pending' ORDER BY username DESC {$pager['limit']}");
- $HTMLOUT.= "<div class='row'><div class='col-md-12'><table class='table table-bordered'><tr><td>{$lang['text_du']}  $disabled</td><td> {$lang['text_pu']}  $pending</td></tr></table></div><br>";
+$HTMLOUT .= "<div class='row'><div class='col-md-12'><table class='table table-bordered'><tr><td>{$lang['text_du']}  $disabled</td><td> {$lang['text_pu']}  $pending</td></tr></table></div><br>";
 if ($res->num_rows != 0) {
     if ($count > $perpage) {
         $HTMLOUT .= $pager['pagertop'];
     }
-    $HTMLOUT.= "<div class='col-md-12'>";
-    $HTMLOUT.= "<form action='staffpanel.php?tool=acpmanage&amp;action=acpmanage' method='post'>";
-    $HTMLOUT.= "<table class='table table-bordered'>";
-    $HTMLOUT.= "<tr align='center'><td class='colhead'>
-	  <input style='margin:0' type='checkbox' title='" . $lang['text_markall'] . "' value='" . $lang['text_markall'] . "' onclick=\"this.value=check(form);\" /></td>
+    $HTMLOUT .= "<div class='col-md-12'>";
+    $HTMLOUT .= "<form action='staffpanel.php?tool=acpmanage&amp;action=acpmanage' method='post'>";
+    $HTMLOUT .= "<table class='table table-bordered'>";
+    $HTMLOUT .= "<tr align='center'><td class='colhead'>
+	  <input style='margin:0' type='checkbox' title='".$lang['text_markall']."' value='".$lang['text_markall']."' onclick=\"this.value=check(form);\" /></td>
 	  <td class='colhead'>{$lang['text_username']}</td>
 	  <td class='colhead' style='white-space: nowrap;'>{$lang['text_reg']}</td>
 	  <td class='colhead' style='white-space: nowrap;'>{$lang['text_la']}</td>
@@ -116,7 +115,7 @@ if ($res->num_rows != 0) {
         $class = get_user_class_name($arr["class"]);
         $status = htmlsafechars($arr['status']);
         $enabled = htmlsafechars($arr['enabled']);
-        $HTMLOUT.= "<tr align='center'><td><input type=\"checkbox\" name=\"ids[]\" value=\"" . (int)$arr['id'] . "\" /></td><td><a href='/userdetails.php?id=" . (int)$arr['id'] . "'><b>" . htmlsafechars($arr['username']) . "</b></a>" . ($arr["donor"] == "yes" ? "<img src='pic/star.gif' border='0' alt='" . $lang['text_donor'] . "' />" : "") . ($arr["warned"] >= 1 ? "<img src='pic/warned.gif' border='0' alt='" . $lang['text_warned'] . "' />" : "") . "</td>
+        $HTMLOUT .= "<tr align='center'><td><input type=\"checkbox\" name=\"ids[]\" value=\"".(int)$arr['id']."\" /></td><td><a href='/userdetails.php?id=".(int)$arr['id']."'><b>".htmlsafechars($arr['username'])."</b></a>".($arr["donor"] == "yes" ? "<img src='pic/star.gif' border='0' alt='".$lang['text_donor']."' />" : "").($arr["warned"] >= 1 ? "<img src='pic/warned.gif' border='0' alt='".$lang['text_warned']."' />" : "")."</td>
 		<td style='white-space: nowrap;'>{$added}</td>
 		<td style='white-space: nowrap;'>{$last_access}</td>
 		<td>{$class}</td>
@@ -127,16 +126,16 @@ if ($res->num_rows != 0) {
 		<td>{$enabled}</td>
 		</tr>\n";
     }
-    $HTMLOUT.= "<tr><td colspan='10' align='center'><select name='do'><option value='enabled' disabled='disabled' selected='selected'>{$lang['text_wtd']}</option><option value='enabled'>{$lang['text_es']}</option><option value='confirm'>{$lang['text_cs']}</option><option value='delete'>{$lang['text_ds']}</option></select><input type='submit' value='" . $lang['text_submit'] . "' /></td></tr>";
-    $HTMLOUT.= "</table>";
-    $HTMLOUT.= "</form>";
- $HTMLOUT.= "</div>";
-       if ($count > $perpage) {
-           $HTMLOUT .= $pager['pagerbottom'];
-       }
+    $HTMLOUT .= "<tr><td colspan='10' align='center'><select name='do'><option value='enabled' disabled='disabled' selected='selected'>{$lang['text_wtd']}</option><option value='enabled'>{$lang['text_es']}</option><option value='confirm'>{$lang['text_cs']}</option><option value='delete'>{$lang['text_ds']}</option></select><input type='submit' value='".$lang['text_submit']."' /></td></tr>";
+    $HTMLOUT .= "</table>";
+    $HTMLOUT .= "</form>";
+    $HTMLOUT .= "</div>";
+    if ($count > $perpage) {
+        $HTMLOUT .= $pager['pagerbottom'];
+    }
 } else {
     $HTMLOUT .= stdmsg($lang['std_sorry'], $lang['std_nf']);
 }
- $HTMLOUT.= "</div>";
-echo stdhead($lang['text_stdhead']) . $HTMLOUT . stdfoot($stdfoot);
+$HTMLOUT .= "</div>";
+echo stdhead($lang['text_stdhead']).$HTMLOUT.stdfoot($stdfoot);
 ?>

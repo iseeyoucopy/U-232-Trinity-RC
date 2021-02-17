@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //head
     'head_title' => "Top 10",
     //nav
@@ -77,6 +77,6 @@ $lang = array(
     'user_mostup_fst' => "Top 10 des plus Rapides Uploadeurs",
     'user_mostdl_fst' => "Top 10 des plus Rapides Downloadeurs",
     'user_insuff_up' => "Données Uploadeurs insuffisantes ",
-    'user_insuff_dl' => "Données Downloadeurs insuffisantes "
-);
+    'user_insuff_dl' => "Données Downloadeurs insuffisantes ",
+];
 ?>

@@ -41,12 +41,12 @@
  *
  ************************************************************************************/
 
-$language_data = array (
+$language_data = [
     'LANG_NAME' => 'PCRE',
-    'COMMENT_SINGLE' => array(),
-    'COMMENT_MULTI' => array(
-        ),
-    'COMMENT_REGEXP' => array(
+    'COMMENT_SINGLE' => [],
+    'COMMENT_MULTI' => [
+    ],
+    'COMMENT_REGEXP' => [
         // Non-matching groups
         1 => "/(?<=\()\?(?::|(?=\())/",
 
@@ -97,26 +97,26 @@ $language_data = array (
 
         // Comment Subpattern
         17 => "/(?<=\()\?#[^\)]*/",
-        ),
+    ],
     'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-    'QUOTEMARKS' => array(),
+    'QUOTEMARKS' => [],
     'ESCAPE_CHAR' => '\\',
-    'KEYWORDS' => array(
-        ),
-    'SYMBOLS' => array(
-        0 => array('.'),
-        1 => array('(', ')'),
-        2 => array('[', ']', '|'),
-        3 => array('^', '$'),
-        4 => array('?', '+', '*'),
-        ),
-    'CASE_SENSITIVE' => array(
+    'KEYWORDS' => [
+    ],
+    'SYMBOLS' => [
+        0 => ['.'],
+        1 => ['(', ')'],
+        2 => ['[', ']', '|'],
+        3 => ['^', '$'],
+        4 => ['?', '+', '*'],
+    ],
+    'CASE_SENSITIVE' => [
         GESHI_COMMENTS => false,
-        ),
-    'STYLES' => array(
-        'KEYWORDS' => array(
-            ),
-        'COMMENTS' => array(
+    ],
+    'STYLES' => [
+        'KEYWORDS' => [
+        ],
+        'COMMENTS' => [
             1 => 'color: #993333; font-weight: bold;',
             2 => 'color: #cc3300; font-weight: bold;',
             3 => 'color: #cc0066; font-weight: bold;',
@@ -134,53 +134,53 @@ $language_data = array (
             15 => 'color: #993399; font-style: italic;',
             16 => 'color: #333399; font-style: italic;',
             17 => 'color: #666666; font-style: italic;',
-            'MULTI' => 'color: #666666; font-style: italic;'
-            ),
-        'ESCAPE_CHAR' => array(
+            'MULTI' => 'color: #666666; font-style: italic;',
+        ],
+        'ESCAPE_CHAR' => [
             0 => 'color: #000099; font-weight: bold;',
-            'HARD' => 'color: #000099; font-weight: bold;'
-            ),
-        'BRACKETS' => array(
-            0 => 'color: #009900;'
-            ),
-        'STRINGS' => array(
+            'HARD' => 'color: #000099; font-weight: bold;',
+        ],
+        'BRACKETS' => [
+            0 => 'color: #009900;',
+        ],
+        'STRINGS' => [
             0 => 'color: #ff0000;',
-            ),
-        'NUMBERS' => array(
-            0 => 'color: #cc66cc;'
-            ),
-        'METHODS' => array(
+        ],
+        'NUMBERS' => [
+            0 => 'color: #cc66cc;',
+        ],
+        'METHODS' => [
             1 => 'color: #006600;',
-            2 => 'color: #006600;'
-            ),
-        'SYMBOLS' => array(
+            2 => 'color: #006600;',
+        ],
+        'SYMBOLS' => [
             0 => 'color: #333399; font-weight: bold;',
             1 => 'color: #993333; font-weight: bold;',
             2 => 'color: #339933; font-weight: bold;',
             3 => 'color: #333399; font-weight: bold;',
-            4 => 'color: #333399; font-style: italic;'
-            ),
-        'REGEXPS' => array(
-            ),
-        'SCRIPT' => array(
-            )
-        ),
-    'URLS' => array(
-        ),
+            4 => 'color: #333399; font-style: italic;',
+        ],
+        'REGEXPS' => [
+        ],
+        'SCRIPT' => [
+        ],
+    ],
+    'URLS' => [
+    ],
     'OOLANG' => false,
-    'OBJECT_SPLITTERS' => array(
-        ),
-    'REGEXPS' => array(
-        ),
+    'OBJECT_SPLITTERS' => [
+    ],
+    'REGEXPS' => [
+    ],
     'STRICT_MODE_APPLIES' => GESHI_NEVER,
-    'SCRIPT_DELIMITERS' => array(
-        ),
-    'HIGHLIGHT_STRICT_BLOCK' => array(
-        ),
-    'PARSER_CONTROL' => array(
-        'ENABLE_FLAGS' => array(
+    'SCRIPT_DELIMITERS' => [
+    ],
+    'HIGHLIGHT_STRICT_BLOCK' => [
+    ],
+    'PARSER_CONTROL' => [
+        'ENABLE_FLAGS' => [
             'BRACKETS' => GESHI_NEVER,
-            'NUMBERS' => GESHI_NEVER
-        )
-    )
-);
+            'NUMBERS' => GESHI_NEVER,
+        ],
+    ],
+];

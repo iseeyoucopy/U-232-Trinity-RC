@@ -10,29 +10,29 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
-require_once (INCL_DIR . 'user_functions.php');
-require_once INCL_DIR . 'html_functions.php';
-require_once INCL_DIR . 'bbcode_functions.php';
-require_once CLASS_DIR . 'page_verify.php';
-require_once (CACHE_DIR . 'subs.php');
+require_once(__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorrent.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once INCL_DIR.'html_functions.php';
+require_once INCL_DIR.'bbcode_functions.php';
+require_once CLASS_DIR.'page_verify.php';
+require_once(CACHE_DIR.'subs.php');
 dbconn(true);
 loggedinorreturn();
-$lang = array_merge(load_language('global') , load_language('upload'));
-$stdhead = array(
+$lang = array_merge(load_language('global'), load_language('upload'));
+$stdhead = [
     /** include css **/
-    'css' => array(
-        'bbcode'
-    )
-);
-$stdfoot = array(
+    'css' => [
+        'bbcode',
+    ],
+];
+$stdfoot = [
     /** include js **/
-    'js' => array(
+    'js' => [
         'FormManager',
         'getname',
-        'multiupload'
-    )
-);
+        'multiupload',
+    ],
+];
 if (function_exists('parked')) {
     parked();
 }
@@ -44,20 +44,20 @@ if ($CURUSER['class'] < UC_UPLOADER || ($CURUSER["uploadpos"] == 0 || $CURUSER["
 }
 //==== request dropdown
 $res_request = sql_query('SELECT id, request_name FROM requests WHERE filled_by_user_id = 0 ORDER BY request_name ASC');
-$request ="<div class='input-group'>
+$request = "<div class='input-group'>
 <span class='input-group-label'>{$lang['gl_requests']}</span>
     <select class='input-group-field' name='request' aria-describedby='requestHelpText'>
         <option value='0'></option>";
 if ($res_request) {
     while ($arr_request = $res_request->fetch_assoc()) {
-        $request.= '<option value="' . (int)$arr_request['id'] . '">' . htmlsafechars($arr_request['request_name']) . '</option>';
+        $request .= '<option value="'.(int)$arr_request['id'].'">'.htmlsafechars($arr_request['request_name']).'</option>';
     }
 } else {
-    $request.= "<option value='0'>{$lang['upload_add_noreq']}</option>";
+    $request .= "<option value='0'>{$lang['upload_add_noreq']}</option>";
 }
-$request.= "</select></div><p class='help-text' id='requestHelpText'>{$lang['upload_add_fill']}</p>";
+$request .= "</select></div><p class='help-text' id='requestHelpText'>{$lang['upload_add_fill']}</p>";
 //=== offers list if member has made any offers
-$res_offer = sql_query('SELECT id, offer_name FROM offers WHERE offered_by_user_id = ' . sqlesc($CURUSER['id']) . ' AND status = \'approved\' ORDER BY offer_name ASC');
+$res_offer = sql_query('SELECT id, offer_name FROM offers WHERE offered_by_user_id = '.sqlesc($CURUSER['id']).' AND status = \'approved\' ORDER BY offer_name ASC');
 if ($res_offer->num_rows > 0) {
     $offers = "  
     <div class='input-group'>
@@ -66,11 +66,11 @@ if ($res_offer->num_rows > 0) {
         <option value='0'></option>";
     $message = "<option value='0'>{$lang['upload_add_offer']}</option>";
     while ($arr_offer = $res_offer->fetch_assoc()) {
-        $offers.= '<option value="' . (int)$arr_offer['id'] . '">' . htmlsafechars($arr_offer['offer_name']) . '</option>';
+        $offers .= '<option value="'.(int)$arr_offer['id'].'">'.htmlsafechars($arr_offer['offer_name']).'</option>';
     }
-    $offers.= "</select></div><p class='help-text' id='offerHelpText'>{$lang['upload_add_offer2']}</p>";
+    $offers .= "</select></div><p class='help-text' id='offerHelpText'>{$lang['upload_add_offer2']}</p>";
 }
-$HTMLOUT.= "
+$HTMLOUT .= "
     <script type='text/javascript'>
     window.onload = function() {
     setupDependencies('upload'); //name of form(s). Seperate each with a comma (ie: 'weboptions', 'myotherform' )
@@ -82,10 +82,10 @@ $HTMLOUT.= "
                 <input type='hidden' name='MAX_FILE_SIZE' value='{$TRINITY20['max_torrent_size']}'>
                 <div class='input-group'>
                     <span class='input-group-label'>{$lang['upload_announce_url']}</span>
-                    <input class='input-group-field' type='text' value='" . $TRINITY20['announce_urls'] . "'>
+                    <input class='input-group-field' type='text' value='".$TRINITY20['announce_urls']."'>
                 </div>";
 $descr = strip_tags(isset($_POST['descr']) ? trim($_POST['descr']) : '');
-$HTMLOUT.= "<div class='torrent-seperator clone-me'>
+$HTMLOUT .= "<div class='torrent-seperator clone-me'>
     <div class='input-group'>
         <span class='input-group-label'>{$lang['upload_torrent']}</span>
         <div class='input-group-button'>
@@ -104,12 +104,12 @@ $HTMLOUT .= "<div class='input-group'>
         <option value='0'>({$lang['upload_choose_one']})</option>";
 $cats = genrelist();
 foreach ($cats as $row) {
-    $HTMLOUT.= "<option value='" . (int)$row["id"] . "'>" . htmlsafechars($row["name"]) . "</option>\n";
+    $HTMLOUT .= "<option value='".(int)$row["id"]."'>".htmlsafechars($row["name"])."</option>\n";
 }
-$HTMLOUT.= "</select></div></div>";
+$HTMLOUT .= "</select></div></div>";
 $HTMLOUT .= "<div class='torrent-seperator'>
 <a href='#' class='button clone-torrent-form'>Add another torrent</a>
 </div>";
-$HTMLOUT.= "<input type='submit' class='button float-right' value='{$lang['upload_submit']}'></div></div></form>";
-echo stdhead($lang['upload_stdhead'], true, $stdhead) . $HTMLOUT . stdfoot($stdfoot);
+$HTMLOUT .= "<input type='submit' class='button float-right' value='{$lang['upload_submit']}'></div></div></form>";
+echo stdhead($lang['upload_stdhead'], true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
 ?>

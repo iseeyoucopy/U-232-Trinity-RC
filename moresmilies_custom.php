@@ -10,9 +10,9 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once(__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
-require_once INCL_DIR . 'bbcode_functions.php';
-require_once INCL_DIR . 'user_functions.php';
+require_once(__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorrent.php');
+require_once INCL_DIR.'bbcode_functions.php';
+require_once INCL_DIR.'user_functions.php';
 dbconn(false);
 loggedinorreturn();
 $lang = array_merge(load_language('global'));
@@ -40,16 +40,17 @@ $htmlout = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
     <table class='table'>";
 $count = is_countable($customsmilies) ? count($customsmilies) : 0;
 global $customsmilies;
-foreach($customsmilies as $code => $url) {
+foreach ($customsmilies as $code => $url) {
     if ($count % 3 == 0) {
         $htmlout .= "<tr>";
     }
-    $htmlout.= "<td><a href=\"javascript: SmileIT('" . str_replace("'", "\'", $code) . "','" . htmlsafechars($_GET['form']) . "','" . htmlsafechars($_GET['text']) . "')\"><img border='0' src='./pic/smilies/" . $url . "' alt='' /></a></td>";
+    $htmlout .= "<td><a href=\"javascript: SmileIT('".str_replace("'", "\'",
+            $code)."','".htmlsafechars($_GET['form'])."','".htmlsafechars($_GET['text'])."')\"><img border='0' src='./pic/smilies/".$url."' alt='' /></a></td>";
     $count++;
     if ($count % 3 == 0) {
         $htmlout .= "</tr>";
     }
 }
-$htmlout.= "</table><br /><div align='center'><a class='altlink' href='javascript: window.close()'><b>[ Close window ]</b></a></div></body></html>";
+$htmlout .= "</table><br /><div align='center'><a class='altlink' href='javascript: window.close()'><b>[ Close window ]</b></a></div></body></html>";
 echo $htmlout;
 ?>

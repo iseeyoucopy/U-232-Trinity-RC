@@ -24,10 +24,11 @@ function docleanup($data)
         write_log("Bugs Updates -------------------- Bugs Clean Complete using $queries queries--------------------");
     }
     if (false !== $mysqli->affected_rows) {
-        $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
+        $data['clean_desc'] = $mysqli->affected_rows." items deleted/updated";
     }
     if ($data['clean_log']) {
         cleanup_log($data);
     }
 }
+
 ?>

@@ -13,7 +13,7 @@
 $browser = $_SERVER['HTTP_USER_AGENT'];
 if (false !== stripos($browser, "MSIE")) //browser is IE
 {
-    $HTMLOUT.= "<div class='card'>
+    $HTMLOUT .= "<div class='card'>
 	<div class='card-divider'>
 		<label for='checkbox_4' class='text-left'>{$lang['index_ie_warn']}</label>
 	</div>

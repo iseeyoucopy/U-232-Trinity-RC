@@ -11,7 +11,7 @@
  * ------------  @version V6  ------------------*
  */
 // Forum Standard Errors and Other Stuff found in most forum files.
-$lang = array(
+$lang = [
     'ep_bb_code' => "BB code",
     'ep_edit_post_by' => "Edit post by",
     'ep_edited_a_post_by' => "edited a post by",
@@ -435,6 +435,6 @@ $lang = array(
     'vup_remove_topic_from_unread_list' => "this topic from your unread list. To remove all, use the: Mark All As Read link above",
     'vup_unread_post_since_visit' => "Unread posts since your last visit",
     'fm_member_post_history' => "Member Post History",
-    'fm_attach' => "Attach"
-);
+    'fm_attach' => "Attach",
+];
 ?>

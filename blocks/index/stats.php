@@ -34,7 +34,7 @@ if (($stats_cache = $cache->get($keys['site_stats'])) === false) {
     $stats_cache['gender_female'] = (int)$stats_cache['gender_female'];
     $stats_cache['powerusers'] = (int)$stats_cache['powerusers'];
     $stats_cache['disabled'] = (int)$stats_cache['disabled'];
-	$stats_cache['vips'] = (int)$stats_cache['vips'];
+    $stats_cache['vips'] = (int)$stats_cache['vips'];
     $stats_cache['uploaders'] = (int)$stats_cache['uploaders'];
     $stats_cache['moderators'] = (int)$stats_cache['moderators'];
     $stats_cache['administrators'] = (int)$stats_cache['administrators'];
@@ -43,7 +43,7 @@ if (($stats_cache = $cache->get($keys['site_stats'])) === false) {
 }
 //==End
 //==Installer 09 stats
-$HTMLOUT.= "
+$HTMLOUT .= "
 <div class='card'>
     <div class='card-divider primary'>
         <label for='checkbox_4' class='text-left'>{$lang['index_stats_title']}</label>
@@ -87,9 +87,9 @@ $HTMLOUT.= "
                     <li>{$lang['index_stats_peers']}<span class='badge float-right'>{$stats_cache['peers']}</span></li>
                     <li>{$lang['index_stats_unconpeer']}<span class='badge float-right'>{$stats_cache['unconnectables']}</span></li>
                     <li>{$lang['index_stats_seeders']}<span class='badge float-right'>{$stats_cache['seeders']}</span></li>
-                    <li>{$lang['index_stats_unconratio']}<span class='badge float-right'>" . round($stats_cache['ratiounconn'] * 100) . "</span></li>
+                    <li>{$lang['index_stats_unconratio']}<span class='badge float-right'>".round($stats_cache['ratiounconn'] * 100)."</span></li>
                     <li>{$lang['index_stats_leechers']}<span class='badge float-right'>{$stats_cache['leechers']}</span></li>
-                    <li>{$lang['index_stats_slratio']}<span class='badge float-right'>" . round($stats_cache['ratio'] * 100) . "</span></li>
+                    <li>{$lang['index_stats_slratio']}<span class='badge float-right'>".round($stats_cache['ratio'] * 100)."</span></li>
                 </ul>
             </div>
         </div>

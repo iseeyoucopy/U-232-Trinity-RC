@@ -10,15 +10,16 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once (__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorrent.php');
+require_once(__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorrent.php');
 function valid_path($root, $input)
 {
-    $fullpath = $root . $input;
+    $fullpath = $root.$input;
     $fullpath = realpath($fullpath);
     $root = realpath($root);
     $rl = strlen($root);
-    return ($root != substr($fullpath, 0, $rl)) ? NULL : $fullpath;
+    return ($root != substr($fullpath, 0, $rl)) ? null : $fullpath;
 }
+
 /* Process request */
 if (isset($_SERVER['REQUEST_URI'])) {
     $image = valid_path(BITBUCKET_DIR, substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME'])));
@@ -34,17 +35,17 @@ if (isset($_SERVER['REQUEST_URI'])) {
         $img['since'] = explode(';', $_SERVER['HTTP_IF_MODIFIED_SINCE'], 2);
         $img['since'] = strtotime($img['since'][0]);
         if ($img['since'] == $img['last_mod']) {
-            header($_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified');
+            header($_SERVER['SERVER_PROTOCOL'].' 304 Not Modified');
             $img['stop'] = true;
         }
     }
-    header('Expires: ' . $img['ex_date']);
+    header('Expires: '.$img['ex_date']);
     header('Cache-Control: private, max-age=604800');
     if ($img['stop']) {
         die();
     }
-    header('Last-Modified: ' . $img['lm_date']);
-    header('Content-type: image/' . $pi['extension']);
+    header('Last-Modified: '.$img['lm_date']);
+    header('Content-type: image/'.$pi['extension']);
     readfile($image);
     exit();
 }

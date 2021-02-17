@@ -1,4 +1,5 @@
 <?php
+
 /**
  * -------   U-232 Codename Trinity   ----------*
  * ---------------------------------------------*
@@ -23,6 +24,7 @@ class block_usercp
     const SOCIAL = 9; // 256
     const TORRENTS = 10; // 512
     //const NAVS = 0x400; // 1024
-    
+
 }
+
 ?>

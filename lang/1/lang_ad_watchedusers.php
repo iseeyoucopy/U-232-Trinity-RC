@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'watched_stderr' => "Error",
     'watched_stderr1' => "Thou infectious onion-eyed haggard! Only Admin and up can remove members from the list!",
     'watched_removed' => "Removed from watched users by",
@@ -41,6 +41,6 @@ $lang = array(
     'watched_username' => "Username",
     'watched_viewreason' => "View reason",
     'watched_users' => "Watched Users",
-    'watched_users_list' => "watched users list"
-);
+    'watched_users_list' => "watched users list",
+];
 ?>

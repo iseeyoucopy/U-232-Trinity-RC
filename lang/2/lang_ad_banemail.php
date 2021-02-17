@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'ad_banemail_head' => "Emails bannis",
     'ad_banemail_log1' => "Email banni ",
     'ad_banemail_log2' => "a été enlevé par",
@@ -27,5 +27,5 @@ $lang = array(
     'ad_banemail_by' => "Par",
     'ad_banemail_remove' => "Supprimer ?",
     'ad_banemail_remove1' => "Retirer l'email",
-);
+];
 ?>

@@ -48,23 +48,23 @@
  *
  ************************************************************************************/
 
-$language_data = array(
+$language_data = [
     'LANG_NAME' => 'TCLEGG',
-    'COMMENT_SINGLE' => array(1 => '#'),
-    'COMMENT_MULTI' => array(),
-    'COMMENT_REGEXP' => array(
+    'COMMENT_SINGLE' => [1 => '#'],
+    'COMMENT_MULTI' => [],
+    'COMMENT_REGEXP' => [
         1 => '/(?<!\\\\)#(?:\\\\\\\\|\\\\\\n|.)*$/m',
         //2 => '/{[^}\n]+}/'
-    ),
+    ],
     'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-    'QUOTEMARKS' => array('"', "'"),
+    'QUOTEMARKS' => ['"', "'"],
     'ESCAPE_CHAR' => '\\',
-    'KEYWORDS' => array(
+    'KEYWORDS' => [
         /*
          * Set 1: reserved words
          * http://python.org/doc/current/ref/keywords.html
          */
-        1 => array(
+        1 => [
             'break',
             'case',
             'catch',
@@ -101,45 +101,107 @@ $language_data = array(
             'upvar',
             'variable',
             'while',
-        ),
+        ],
 
         /*
          * Set 2: builtins
          * http://asps.activatestate.com/ASPN/docs/ActiveTcl/8.4/tcl/tcl_2_contents.htm
          */
-        2 => array(
+        2 => [
             // string handling
-            'append', 'binary', 'format', 're_syntax', 'regexp', 'regsub',
-            'scan', 'string', 'subst',
+            'append',
+            'binary',
+            'format',
+            're_syntax',
+            'regexp',
+            'regsub',
+            'scan',
+            'string',
+            'subst',
             // list handling
-            'concat', 'join', 'lappend', 'lindex', 'list', 'llength', 'lrange',
-            'lreplace', 'lsearch', 'lset', 'lsort', 'split',
+            'concat',
+            'join',
+            'lappend',
+            'lindex',
+            'list',
+            'llength',
+            'lrange',
+            'lreplace',
+            'lsearch',
+            'lset',
+            'lsort',
+            'split',
             // procedures and output
-            'incr', 'close', 'eof', 'fblocked', 'fconfigure', 'fcopy', 'file',
-            'fileevent', 'flush', 'gets', 'open', 'puts', 'read', 'seek',
-            'socket', 'tell',
+            'incr',
+            'close',
+            'eof',
+            'fblocked',
+            'fconfigure',
+            'fcopy',
+            'file',
+            'fileevent',
+            'flush',
+            'gets',
+            'open',
+            'puts',
+            'read',
+            'seek',
+            'socket',
+            'tell',
             // packages and source files
-            'load', 'loadTk', 'package', 'pgk::create', 'pgk_mkIndex', 'source',
+            'load',
+            'loadTk',
+            'package',
+            'pgk::create',
+            'pgk_mkIndex',
+            'source',
             // interpreter routines
-            'bgerror', 'history', 'info', 'interp', 'memory', 'unknown',
+            'bgerror',
+            'history',
+            'info',
+            'interp',
+            'memory',
+            'unknown',
             // library routines
-            'enconding', 'http', 'msgcat',
+            'enconding',
+            'http',
+            'msgcat',
             // system related
-            'cd', 'clock', 'exec', 'glob', 'pid', 'pwd', 'time',
+            'cd',
+            'clock',
+            'exec',
+            'glob',
+            'pid',
+            'pwd',
+            'time',
             // platform specified
-            'dde', 'registry', 'resource',
+            'dde',
+            'registry',
+            'resource',
             // special variables
-            '$argc', '$argv', '$errorCode', '$errorInfo', '$argv0',
-            '$auto_index', '$auto_oldpath', '$auto_path', '$env',
-            '$tcl_interactive', '$tcl_libpath', '$tcl_library',
-            '$tcl_pkgPath', '$tcl_platform', '$tcl_precision', '$tcl_traceExec',
-        ),
+            '$argc',
+            '$argv',
+            '$errorCode',
+            '$errorInfo',
+            '$argv0',
+            '$auto_index',
+            '$auto_oldpath',
+            '$auto_path',
+            '$env',
+            '$tcl_interactive',
+            '$tcl_libpath',
+            '$tcl_library',
+            '$tcl_pkgPath',
+            '$tcl_platform',
+            '$tcl_precision',
+            '$tcl_traceExec',
+        ],
 
         /*
          * Set 3: standard library
          * Replaced by binds
          */
-        3 => array(
+        3 => [
             //'comment', 'filename', 'library', 'packagens', 'tcltest', 'tclvars',
             'act',
             'away',
@@ -185,12 +247,12 @@ $language_data = array(
             'tout',
             'unld',
             'wall',
-        ),
+        ],
 
         /*
          * Set 4: tcl-commands (eggdrop dedicated)
          */
-        4 => array(
+        4 => [
             'addbot',
             'addchanrec',
             'adduser',
@@ -429,73 +491,87 @@ $language_data = array(
             'washalfop',
             'wasop',
             'whom',
-        )
-    ),
-    'SYMBOLS' => array(
-        '(', ')', '[', ']', '{', '}', '$', '*', '&', '%', '!', ';', '<', '>', '?'
-    ),
-    'CASE_SENSITIVE' => array(
+        ],
+    ],
+    'SYMBOLS' => [
+        '(',
+        ')',
+        '[',
+        ']',
+        '{',
+        '}',
+        '$',
+        '*',
+        '&',
+        '%',
+        '!',
+        ';',
+        '<',
+        '>',
+        '?',
+    ],
+    'CASE_SENSITIVE' => [
         GESHI_COMMENTS => false,
         1 => true,
         2 => true,
         3 => true,
-        4 => true
-    ),
-    'STYLES' => array(
-        'KEYWORDS' => array(
+        4 => true,
+    ],
+    'STYLES' => [
+        'KEYWORDS' => [
             1 => 'color: #ff7700;font-weight:bold;',    // Reserved
             2 => 'color: #008000;',                        // Built-ins + self
             3 => 'color: #dc143c;',                        // Standard lib
             4 => 'color: #0000cd;'                        // Special methods
-        ),
-        'COMMENTS' => array(
+        ],
+        'COMMENTS' => [
             1 => 'color: #808080; font-style: italic;',
 //            2 => 'color: #483d8b;',
-            'MULTI' => 'color: #808080; font-style: italic;'
-        ),
-        'ESCAPE_CHAR' => array(
-            0 => 'color: #000099; font-weight: bold;'
-        ),
-        'BRACKETS' => array(
-            0 => 'color: black;'
-        ),
-        'STRINGS' => array(
-            0 => 'color: #483d8b;'
-        ),
-        'NUMBERS' => array(
-            0 => 'color: #ff4500;'
-        ),
-        'METHODS' => array(
-            1 => 'color: black;'
-        ),
-        'SYMBOLS' => array(
-            0 => 'color: #66cc66;'
-        ),
-        'REGEXPS' => array(
-            0 => 'color: #ff3333;'
-        ),
-        'SCRIPT' => array()
-    ),
-    'URLS' => array(
+            'MULTI' => 'color: #808080; font-style: italic;',
+        ],
+        'ESCAPE_CHAR' => [
+            0 => 'color: #000099; font-weight: bold;',
+        ],
+        'BRACKETS' => [
+            0 => 'color: black;',
+        ],
+        'STRINGS' => [
+            0 => 'color: #483d8b;',
+        ],
+        'NUMBERS' => [
+            0 => 'color: #ff4500;',
+        ],
+        'METHODS' => [
+            1 => 'color: black;',
+        ],
+        'SYMBOLS' => [
+            0 => 'color: #66cc66;',
+        ],
+        'REGEXPS' => [
+            0 => 'color: #ff3333;',
+        ],
+        'SCRIPT' => [],
+    ],
+    'URLS' => [
         1 => 'http://wiki.tcl.tk/{FNAMEL}',
         2 => 'http://wiki.tcl.tk/{FNAMEUF}',
         3 => 'http://wiki.eggdrop.fr/Binds#{FNAMEU}',
-        4 => 'http://wiki.eggdrop.fr/{FNAMEUF}'
-    ),
+        4 => 'http://wiki.eggdrop.fr/{FNAMEUF}',
+    ],
     'OOLANG' => true,
-    'OBJECT_SPLITTERS' => array(
-        1 => '::'
-    ),
-    'REGEXPS' => array(
+    'OBJECT_SPLITTERS' => [
+        1 => '::',
+    ],
+    'REGEXPS' => [
         //Special variables
         0 => '[\\$]+[a-zA-Z_][a-zA-Z0-9_]*',
-    ),
+    ],
     'STRICT_MODE_APPLIES' => GESHI_NEVER,
-    'SCRIPT_DELIMITERS' => array(),
-    'HIGHLIGHT_STRICT_BLOCK' => array(),
-    'PARSER_CONTROL' => array(
-        'COMMENTS' => array(
-            'DISALLOWED_BEFORE' => '\\'
-        )
-    )
-);
+    'SCRIPT_DELIMITERS' => [],
+    'HIGHLIGHT_STRICT_BLOCK' => [],
+    'PARSER_CONTROL' => [
+        'COMMENTS' => [
+            'DISALLOWED_BEFORE' => '\\',
+        ],
+    ],
+];

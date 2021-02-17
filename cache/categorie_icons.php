@@ -3,21 +3,21 @@
 /////////////////////// DO NOT EDIT! ///////////////////////
 ////////////// File Automatically Generated //////////////
 /////////////////////////////////////////////////////////
-$categorie_icons = array(
-    array(
+$categorie_icons = [
+    [
         'id' => '1',
         'uri' => 'default',
-        'name' => 'Default'
-    ) ,
-    array(
+        'name' => 'Default',
+    ],
+    [
         'id' => '2',
         'uri' => 'future',
-        'name' => 'Future'
-    ) ,
-    array(
+        'name' => 'Future',
+    ],
+    [
         'id' => '3',
         'uri' => 'kids',
-        'name' => 'Kids'
-    )
-);
+        'name' => 'Kids',
+    ],
+];
 ?>

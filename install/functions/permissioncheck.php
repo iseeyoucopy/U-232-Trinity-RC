@@ -14,7 +14,7 @@ function checkdir(&$dirs)
 {
     foreach ($dirs as $dir => $x) {
         if (is_dir($dir)) {
-            $fn = $dir . uniqid(time(), true) . '.tmp';
+            $fn = $dir.uniqid(time(), true).'.tmp';
             if (@file_put_contents($fn, '1')) {
                 unlink($fn);
                 $dirs[$dir] = 1;
@@ -33,18 +33,18 @@ function permissioncheck()
     if (file_exists('step0.lock')) {
         header('Location: index.php?step=1');
     }
-    $dirs = array(
-        $root . 'dir_list/' => 0,
-        $root . 'imdb/' => 0,
-        $root . 'cache/' => 0,
-        $root . 'torrents/' => 0,
-        $root . 'uploads/' => 0,
-        $root . 'include/backup/' => 0,
-        $root . 'sqlerr_logs/' => 0,
-        $root . 'install/' => 0,
-        $root . 'install/extra/' => 0,
-        $root . 'include/' => 0
-    );
+    $dirs = [
+        $root.'dir_list/' => 0,
+        $root.'imdb/' => 0,
+        $root.'cache/' => 0,
+        $root.'torrents/' => 0,
+        $root.'uploads/' => 0,
+        $root.'include/backup/' => 0,
+        $root.'sqlerr_logs/' => 0,
+        $root.'install/' => 0,
+        $root.'install/extra/' => 0,
+        $root.'include/' => 0,
+    ];
     checkdir($dirs);
     $continue = true;
     $out = '<fieldset><legend>Directory check</legend>';
@@ -52,15 +52,15 @@ function permissioncheck()
     foreach ($dirs as $dir => $state) {
         if (!$state) {
             $continue = false;
-            $cmd .= ' ' . $dir;
+            $cmd .= ' '.$dir;
         }
-        $out .= '<div class="' . ($state ? 'readable' : 'notreadable') . '">' . $dir . '</div>';
+        $out .= '<div class="'.($state ? 'readable' : 'notreadable').'">'.$dir.'</div>';
     }
 
     if (!$continue) {
-        $out .= '<div class="info">It looks like you need to chmod some directories!<br/>all directories marked in red should be chmoded 0777<br/>' .
+        $out .= '<div class="info">It looks like you need to chmod some directories!<br/>all directories marked in red should be chmoded 0777<br/>'.
             '<label for="show-chmod" class="btn">Show me the CHMOD command</label><input type="checkbox" id="show-chmod">'.
-            '<pre class="chmod-cmd">' . $cmd . '</pre>'.
+            '<pre class="chmod-cmd">'.$cmd.'</pre>'.
             '<input type="button" value="Reload" onclick="window.location.reload()"/>'.
             '</div>';
     }
@@ -76,8 +76,8 @@ function permissioncheck()
         $out .= '<div class="readable">memcached</div>';
     }
 
-    if( !$memcached_loaded ) {
-        $out .= '<div class="info">The memcached module for PHP is not installed and is required for u232<br/>' .
+    if (!$memcached_loaded) {
+        $out .= '<div class="info">The memcached module for PHP is not installed and is required for u232<br/>'.
             '<input type="button" value="Reload" onclick="window.location.reload()"/>'.
             '</div>';
     }
@@ -89,8 +89,8 @@ function permissioncheck()
         $out .= '<div class="readable">redis</div>';
     }
 
-    if( !$redis_loaded ) {
-        $out .= '<div class="info">The redis module for PHP is not installed and is required for u232<br/>' .
+    if (!$redis_loaded) {
+        $out .= '<div class="info">The redis module for PHP is not installed and is required for u232<br/>'.
             '<input type="button" value="Reload" onclick="window.location.reload()"/>'.
             '</div>';
     }

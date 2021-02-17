@@ -41,16 +41,16 @@
  *
  ************************************************************************************/
 
-$language_data = array (
+$language_data = [
     'LANG_NAME' => 'StandardML',
-    'COMMENT_SINGLE' => array(),
-    'COMMENT_MULTI' => array('(*' => '*)'),
-    'COMMENT_REGEXP' => array(1 => '/\(\*(?:(?R)|.)+?\*\)/s'),
+    'COMMENT_SINGLE' => [],
+    'COMMENT_MULTI' => ['(*' => '*)'],
+    'COMMENT_REGEXP' => [1 => '/\(\*(?:(?R)|.)+?\*\)/s'],
     'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-    'QUOTEMARKS' => array('"'),
+    'QUOTEMARKS' => ['"'],
     'ESCAPE_CHAR' => '\\',
     'NUMBERS' =>
-        array(
+        [
             /* integer dec */
             0 => GESHI_NUMBER_INT_BASIC,
             /* integer hex */
@@ -60,59 +60,211 @@ $language_data = array (
             /* word dec */
             3 => '(?<![0-9a-z_\.])(?<![\d\.]e[+\-])0w[0-9]+?(?![0-9a-z]|\.(?:[eE][+\-]?)?\d)',
             /* word hex */
-            4 => '(?<![0-9a-z_\.])(?<![\d\.]e[+\-])0wx[0-9a-fA-F]+?(?![0-9a-z]|\.(?:[eE][+\-]?)?\d)'
-        ),
-    'KEYWORDS' => array(
+            4 => '(?<![0-9a-z_\.])(?<![\d\.]e[+\-])0wx[0-9a-fA-F]+?(?![0-9a-z]|\.(?:[eE][+\-]?)?\d)',
+        ],
+    'KEYWORDS' => [
         /* main SML keywords */
-        1 => array(
+        1 => [
             /* deprecated: SML90 */
             'abstype',
 
-            'and', 'andalso', 'as', 'case', 'datatype', 'else',
-            'end', 'exception', 'fn', 'fun', 'functor',
-            'if', 'in', 'infix', 'infixr', 'let', 'local', 'nonfix',
-            'of', 'op', 'open', 'orelse',
-            'rec', 'raise', 'sharing', 'sig', 'signature', 'struct', 'structure', 'then',
-            'type', 'val', 'while', 'with', 'withtype'
-            ),
+            'and',
+            'andalso',
+            'as',
+            'case',
+            'datatype',
+            'else',
+            'end',
+            'exception',
+            'fn',
+            'fun',
+            'functor',
+            'if',
+            'in',
+            'infix',
+            'infixr',
+            'let',
+            'local',
+            'nonfix',
+            'of',
+            'op',
+            'open',
+            'orelse',
+            'rec',
+            'raise',
+            'sharing',
+            'sig',
+            'signature',
+            'struct',
+            'structure',
+            'then',
+            'type',
+            'val',
+            'while',
+            'with',
+            'withtype',
+        ],
         /* Top-level type and constructors */
-        2 => array(
-            'unit', 'int', 'word', 'real', 'char', 'string', 'substring', 'exn',
-            'array', 'vector', 'bool', 'option',
-            'list'
-            ),
+        2 => [
+            'unit',
+            'int',
+            'word',
+            'real',
+            'char',
+            'string',
+            'substring',
+            'exn',
+            'array',
+            'vector',
+            'bool',
+            'option',
+            'list',
+        ],
         /* standard structures/signatures/functors provided by Basis library */
-        3 => array(
-            'ARRAY', 'Array', 'Array2', 'ARRAY2', 'ArraySlice', 'ARRAY_SLICE',
-            'BinIO', 'BIT_FLAGS', 'Bool', 'BOOL', 'Byte', 'CHAR', 'Char',
-            'CommandLine', 'Date', 'General', 'GenericSock', 'IEEEReal', 'IMPERATIVE_IO',
-            'ImperativeIO', 'INetSock', 'INTEGER', 'Int', 'IntInf', 'IO', 'List', 'ListPair',
-            'MATH', 'MONO_ARRAY', 'MONO_ARRAY2', 'MONO_ARRAY_SLICE', 'MONO_VECTOR',
-            'MONO_VECTOR_SLICE', 'NetHostDB', 'NetProtDB', 'NetServDB', 'Option',
-            'OS', 'OS.FileSys', 'OS.IO', 'OS.Path', 'OS.Process', 'PACK_REAL', 'PACK_WORD',
-            'Posix', 'Posix.Error', 'Posix.FileSys', 'Posix.IO', 'Posix.ProcEnv', 'Posix.Process',
-            'Posix.Signal', 'Posix.SysDB', 'Posix.TTY', 'PRIM_IO', 'PrimIO', 'REAL', 'Real', 'Socket',
-            'STREAM_IO', 'StreamIO', 'STRING', 'String', 'StringCvt', 'SUBSTRING', 'Substring', 'TEXT', 'TEXT_IO',
-            'TEXT_STREAM_IO', 'Time', 'Timer', 'Unix', 'UnixSock', 'VECTOR', 'Vector', 'VECTOR_SLICE',
-            'Windows', 'WORD', 'Word'
-            ),
+        3 => [
+            'ARRAY',
+            'Array',
+            'Array2',
+            'ARRAY2',
+            'ArraySlice',
+            'ARRAY_SLICE',
+            'BinIO',
+            'BIT_FLAGS',
+            'Bool',
+            'BOOL',
+            'Byte',
+            'CHAR',
+            'Char',
+            'CommandLine',
+            'Date',
+            'General',
+            'GenericSock',
+            'IEEEReal',
+            'IMPERATIVE_IO',
+            'ImperativeIO',
+            'INetSock',
+            'INTEGER',
+            'Int',
+            'IntInf',
+            'IO',
+            'List',
+            'ListPair',
+            'MATH',
+            'MONO_ARRAY',
+            'MONO_ARRAY2',
+            'MONO_ARRAY_SLICE',
+            'MONO_VECTOR',
+            'MONO_VECTOR_SLICE',
+            'NetHostDB',
+            'NetProtDB',
+            'NetServDB',
+            'Option',
+            'OS',
+            'OS.FileSys',
+            'OS.IO',
+            'OS.Path',
+            'OS.Process',
+            'PACK_REAL',
+            'PACK_WORD',
+            'Posix',
+            'Posix.Error',
+            'Posix.FileSys',
+            'Posix.IO',
+            'Posix.ProcEnv',
+            'Posix.Process',
+            'Posix.Signal',
+            'Posix.SysDB',
+            'Posix.TTY',
+            'PRIM_IO',
+            'PrimIO',
+            'REAL',
+            'Real',
+            'Socket',
+            'STREAM_IO',
+            'StreamIO',
+            'STRING',
+            'String',
+            'StringCvt',
+            'SUBSTRING',
+            'Substring',
+            'TEXT',
+            'TEXT_IO',
+            'TEXT_STREAM_IO',
+            'Time',
+            'Timer',
+            'Unix',
+            'UnixSock',
+            'VECTOR',
+            'Vector',
+            'VECTOR_SLICE',
+            'Windows',
+            'WORD',
+            'Word',
+        ],
         /* Top-level value identifiers / constructors */
-        4 => array(
-            'app', 'before', 'ceil', 'chr', 'concat', 'exnMessage', 'exnName', 'explode',
-            'floor', 'foldl', 'foldr', 'getOpt', 'hd', 'ignore', 'implode', 'isSome', 'length', 'map', 'not',
-            'null', 'o', 'ord', 'print', 'rev', 'round', 'size', 'str', 'tl', 'trunc',
-            'use', 'valOf',
+        4 => [
+            'app',
+            'before',
+            'ceil',
+            'chr',
+            'concat',
+            'exnMessage',
+            'exnName',
+            'explode',
+            'floor',
+            'foldl',
+            'foldr',
+            'getOpt',
+            'hd',
+            'ignore',
+            'implode',
+            'isSome',
+            'length',
+            'map',
+            'not',
+            'null',
+            'o',
+            'ord',
+            'print',
+            'rev',
+            'round',
+            'size',
+            'str',
+            'tl',
+            'trunc',
+            'use',
+            'valOf',
             /* constructors */
-            'ref', 'true', 'false', 'NONE', 'SOME', 'LESS', 'EQUAL', 'GREATER', 'nil',
+            'ref',
+            'true',
+            'false',
+            'NONE',
+            'SOME',
+            'LESS',
+            'EQUAL',
+            'GREATER',
+            'nil',
             /* overloaded identifiers */
-            'div', 'mod', 'abs'
-            ),
+            'div',
+            'mod',
+            'abs',
+        ],
         /* standard exceptions */
-        5 => array (
-            'Bind', 'Chr', 'Div', 'Domain', 'Empty', 'Fail', 'Match', 'Overflow', 'Size', 'Span', 'Subscript'
-            ),
+        5 => [
+            'Bind',
+            'Chr',
+            'Div',
+            'Domain',
+            'Empty',
+            'Fail',
+            'Match',
+            'Overflow',
+            'Size',
+            'Span',
+            'Subscript',
+        ],
         /* implementation dependent keyword (not be sorted) */
-        6 => array (
+        6 => [
             /** SML/NJ */
             /* functor signature > http://www.smlnj.org/doc/features.html */
             'funsig',
@@ -126,20 +278,31 @@ $language_data = array (
             /* export aggregated interface files */
             'include',
             /* integrated sql */
-            '_sqlserver', '_sql', 'from', 'where', '_sqleval', '_sqlexec',
-            'select', 'insert', 'update', 'begin', 'commit', 'rollback',
-            'values', 'delete'
-            )
-        ),
+            '_sqlserver',
+            '_sql',
+            'from',
+            'where',
+            '_sqleval',
+            '_sqlexec',
+            'select',
+            'insert',
+            'update',
+            'begin',
+            'commit',
+            'rollback',
+            'values',
+            'delete',
+        ],
+    ],
     /* highlighting symbols */
-    'SYMBOLS' => array(
-        0 => array('=', ':', ':>', '=>', '(', ')', '|', '_', '==', ';', '.'),
-        1 => array('!', ':=', '@', '^'),
-        2 => array('[', ']', '::', '{', '}'),
+    'SYMBOLS' => [
+        0 => ['=', ':', ':>', '=>', '(', ')', '|', '_', '==', ';', '.'],
+        1 => ['!', ':=', '@', '^'],
+        2 => ['[', ']', '::', '{', '}'],
         /* overloaded identifiers */
-        3 => array('+', '-', '*', '/', '~', '<', '>', '<=', '>=')
-        ),
-    'CASE_SENSITIVE' => array(
+        3 => ['+', '-', '*', '/', '~', '<', '>', '<=', '>='],
+    ],
+    'CASE_SENSITIVE' => [
         GESHI_COMMENTS => false,
         1 => true, /* keywords */
         2 => true, /* top level types */
@@ -147,70 +310,70 @@ $language_data = array (
         4 => true, /* top level identifiers */
         5 => true, /* top level exceptions */
         6 => true  /* implementation dependent keyword */
-        ),
-    'STYLES' => array(
-        'KEYWORDS' => array(
+    ],
+    'STYLES' => [
+        'KEYWORDS' => [
             1 => 'color: #557cde; font-weight: bold;',
             2 => 'color: #8dda4a; font-weight: bold;',
             3 => 'color: #0066cc; font-weight: bold;',
             4 => 'color: #5c8cbb;',
             5 => 'color: #f33e64; font-weight: bold;',
-            6 => 'color: #f33e64;'
-            ),
-        'COMMENTS' => array(
+            6 => 'color: #f33e64;',
+        ],
+        'COMMENTS' => [
             'MULTI' => 'color: #5d478b; font-style: italic;', /* light purple */
             1 => 'color: #5d478b; font-style: italic;' /* light purple */
-            ),
-        'ESCAPE_CHAR' => array(
-            ),
-        'BRACKETS' => array(
-            0 => 'color: #79c200;'
-            ),
-        'STRINGS' => array(
-            0 => 'color: #488614;'
-            ),
-        'NUMBERS' => array(
+        ],
+        'ESCAPE_CHAR' => [
+        ],
+        'BRACKETS' => [
+            0 => 'color: #79c200;',
+        ],
+        'STRINGS' => [
+            0 => 'color: #488614;',
+        ],
+        'NUMBERS' => [
             0 => 'color: #fb7600;',
             1 => 'color: #fb7600;',
             2 => 'color: #fb7600;',
             3 => 'color: #fb7600;',
-            4 => 'color: #fb7600;'
-            ),
-        'METHODS' => array(
-            1 => 'color: #0066cc;'
-            ),
-        'REGEXPS' => array(
+            4 => 'color: #fb7600;',
+        ],
+        'METHODS' => [
+            1 => 'color: #0066cc;',
+        ],
+        'REGEXPS' => [
             1 => 'font-style:italic; color:#9f7eff;',
-            2 => 'font-weight:bold; color:#8dda4a;'
-            ),
-        'SYMBOLS' => array(
+            2 => 'font-weight:bold; color:#8dda4a;',
+        ],
+        'SYMBOLS' => [
             0 => 'color: #ff4bcf;',
             1 => 'color: #ff4bcf; font-weight: bold;', // pink
             2 => 'color: #90f963;', // orange
-            3 => 'color: #fa5bf8;'
-            ),
-        'SCRIPT' => array(
-            )
-        ),
-    'URLS' => array(
+            3 => 'color: #fa5bf8;',
+        ],
+        'SCRIPT' => [
+        ],
+    ],
+    'URLS' => [
         1 => '',
         2 => 'http://www.standardml.org/Basis/top-level-chapter.html',
         3 => '',
         4 => '',
         5 => 'http://www.standardml.org/Basis/top-level-chapter.html#section:2',
-        6 => ''
-        ),
+        6 => '',
+    ],
     'OOLANG' => true,
-    'OBJECT_SPLITTERS' => array(
-        1 => '.'
-        ),
-    'REGEXPS' => array(
+    'OBJECT_SPLITTERS' => [
+        1 => '.',
+    ],
+    'REGEXPS' => [
         1 => '(?<!\w)#\w+',  /* record field access */
         2 => '(?:(?<![0-9a-zA-Z]))\'[a-z]+' /* type variable */
-        ),
+    ],
     'STRICT_MODE_APPLIES' => GESHI_NEVER,
-    'SCRIPT_DELIMITERS' => array(
-        ),
-    'HIGHLIGHT_STRICT_BLOCK' => array(
-        )
-);
+    'SCRIPT_DELIMITERS' => [
+    ],
+    'HIGHLIGHT_STRICT_BLOCK' => [
+    ],
+];

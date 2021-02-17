@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //torrenttable
     'torrenttable_type' => 'Type',
     'torrenttable_name' => 'Nom',
@@ -89,6 +89,6 @@ $lang = array(
     'search_inf_01' => 'Pour plus d\'information sur la recherche cliquez ici',
     'search_inf_02' => ' Uniquement les Torrents Free',
     'old_school_b' => 'Parcourir en Catalogue',
-    'search_fct_01' => 'Chercher'
-);
+    'search_fct_01' => 'Chercher',
+];
 ?>

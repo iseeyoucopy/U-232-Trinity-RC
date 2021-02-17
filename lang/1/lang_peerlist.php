@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //valid id
     'peerslist_user_error' => "USER Error",
     'peerslist_invalid_id' => "You fool, ID don't exist",
@@ -24,7 +24,7 @@ $lang = array(
     'peerslist_uploaded' => "Uploaded",
     'peerslist_rate' => "Rate",
     'peerslist_urate' => "Upload Rate",
-    'peerslist_drate' => "Download Rate",    
+    'peerslist_drate' => "Download Rate",
     'peerslist_downloaded' => "Downloaded",
     'peerslist_ratio' => "Ratio",
     'peerslist_complete' => "Complete",
@@ -42,6 +42,6 @@ $lang = array(
     'peerslist_leechers' => "Leecher(s)",
     'peerslist_for' => "Peerlist for",
     //stdhead
-    'peerslist_stdhead' => "Peerlist"
-);
+    'peerslist_stdhead' => "Peerlist",
+];
 ?>

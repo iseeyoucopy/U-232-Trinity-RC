@@ -38,17 +38,17 @@
  *
  ************************************************************************************/
 
-$language_data = array(
+$language_data = [
     'LANG_NAME' => 'LLVM Intermediate Representation',
-    'COMMENT_SINGLE' => array(1 => ';'),
-    'COMMENT_MULTI' => array(),
-    'HARDQUOTE' => array("\"", "\""),
-    'HARDESCAPE' => array("\"", "\\"),
+    'COMMENT_SINGLE' => [1 => ';'],
+    'COMMENT_MULTI' => [],
+    'HARDQUOTE' => ["\"", "\""],
+    'HARDESCAPE' => ["\"", "\\"],
     'HARDCHAR' => "\\",
     'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-    'QUOTEMARKS' => array('"'),
+    'QUOTEMARKS' => ['"'],
     'ESCAPE_CHAR' => '',
-    'ESCAPE_REGEXP' => array(
+    'ESCAPE_REGEXP' => [
         //Simple Single Char Escapes
         // 1 => "#\\\\[nfrtv\$\"\n\\\\]#i",
         //Hexadecimal Char Specs
@@ -61,140 +61,293 @@ $language_data = array(
         // 5 => "#\$[a-z0-9_]+(?:\[[a-z0-9_]+\]|->[a-z0-9_]+)?|(?:\{\$|\$\{)[a-z0-9_]+(?:\[('?)[a-z0-9_]*\\1\]|->[a-z0-9_]+)*\}|\{\$(?R)\}#i",
         //Format String support in ""-Strings
         // 6 => "#%(?:%|(?:\d+\\\\\\\$)?\\+?(?:\x20|0|'.)?-?(?:\d+|\\*)?(?:\.\d+)?[bcdefFosuxX])#"
-        ),
+    ],
     'NUMBERS' =>
-    GESHI_NUMBER_INT_BASIC | GESHI_NUMBER_HEX_PREFIX | GESHI_NUMBER_FLT_SCI_ZERO,
-    'KEYWORDS' => array(
-        0 => array(
-            'to', 'nuw', 'nsw', 'inbounds', 'entry', 'return'
-            ),
+        GESHI_NUMBER_INT_BASIC | GESHI_NUMBER_HEX_PREFIX | GESHI_NUMBER_FLT_SCI_ZERO,
+    'KEYWORDS' => [
+        0 => [
+            'to',
+            'nuw',
+            'nsw',
+            'inbounds',
+            'entry',
+            'return',
+        ],
         //Terminator Instructions
-        1 => array(
-            'ret', 'br', 'switch', 'indirectbr', 'invoke', 'resume', 'catchswitch', 'catchret', 'cleanupret', 'unreachable'
-            ),
+        1 => [
+            'ret',
+            'br',
+            'switch',
+            'indirectbr',
+            'invoke',
+            'resume',
+            'catchswitch',
+            'catchret',
+            'cleanupret',
+            'unreachable',
+        ],
         //Binary Operations
-        2 => array(
-            'add', 'fadd', 'sub', 'fsub', 'mul', 'fmul', 'udiv', 'sdiv', 'fdiv', 'urem', 'srem', 'frem'
-            ),
+        2 => [
+            'add',
+            'fadd',
+            'sub',
+            'fsub',
+            'mul',
+            'fmul',
+            'udiv',
+            'sdiv',
+            'fdiv',
+            'urem',
+            'srem',
+            'frem',
+        ],
         //Bitwise Binary Operations
-        3 => array(
-            'shl', 'lshr', 'ashr', 'and', 'or', 'xor'
-            ),
+        3 => [
+            'shl',
+            'lshr',
+            'ashr',
+            'and',
+            'or',
+            'xor',
+        ],
         //Vector Operations
-        4 => array(
-            'extractelement', 'insertelement', 'shufflevector'
-            ),
+        4 => [
+            'extractelement',
+            'insertelement',
+            'shufflevector',
+        ],
         //Aggregate Operations
-        5 => array(
-            'extractvalue', 'insertvalue'
-            ),
+        5 => [
+            'extractvalue',
+            'insertvalue',
+        ],
         //Memory Access and Addressing Operations
-        6 => array(
-            'alloca', 'load', 'store', 'fence', 'cmpxchg', 'atomicrmw', 'getelementptr'
-            ),
+        6 => [
+            'alloca',
+            'load',
+            'store',
+            'fence',
+            'cmpxchg',
+            'atomicrmw',
+            'getelementptr',
+        ],
         //Conversion Operations
-        7 => array(
-            'trunc', 'zext', 'sext', 'fptrunc', 'fpext', 'fptoui', 'fptosi', 'uitofp', 'sitofp',
-            'ptrtoint', 'inttoptr', 'bitcast', 'addrspacecast'
-            ),
+        7 => [
+            'trunc',
+            'zext',
+            'sext',
+            'fptrunc',
+            'fpext',
+            'fptoui',
+            'fptosi',
+            'uitofp',
+            'sitofp',
+            'ptrtoint',
+            'inttoptr',
+            'bitcast',
+            'addrspacecast',
+        ],
         //Other Operations
-        8 => array(
-            'icmp', 'fcmp', 'phi', 'select', 'call', 'va_arg', 'landingpad', 'catchpad', 'cleanuppad'
-            ),
+        8 => [
+            'icmp',
+            'fcmp',
+            'phi',
+            'select',
+            'call',
+            'va_arg',
+            'landingpad',
+            'catchpad',
+            'cleanuppad',
+        ],
         //Linkage Types
-        9 => array(
-            'private', 'internal', 'available_externally', 'linkonce', 'weak', 'common', 'appending',
-            'extern_weak', 'linkonce_odr', 'weak_odr', 'external'
-            ),
+        9 => [
+            'private',
+            'internal',
+            'available_externally',
+            'linkonce',
+            'weak',
+            'common',
+            'appending',
+            'extern_weak',
+            'linkonce_odr',
+            'weak_odr',
+            'external',
+        ],
         //Calling Conventions
-        10 => array(
-            'ccc', 'fastcc', 'coldcc', 'cc 10', 'cc 11', 'webkit_jscc', 'anyregcc', 'preserve_mostcc',
-            'preserve_allcc', 'cxx_fast_tlscc', 'swiftcc', 'cc'
-            ),
+        10 => [
+            'ccc',
+            'fastcc',
+            'coldcc',
+            'cc 10',
+            'cc 11',
+            'webkit_jscc',
+            'anyregcc',
+            'preserve_mostcc',
+            'preserve_allcc',
+            'cxx_fast_tlscc',
+            'swiftcc',
+            'cc',
+        ],
         //Structure Types
-        11 => array(
-            'type'
-            ),
+        11 => [
+            'type',
+        ],
         //Parameter Attributes
-        12 => array(
-            'zeroext', 'signext', 'inreg', 'byval', 'inalloca', 'sret', 'align', 'noalias', 'nocapture', 'nest',
-            'returned', 'nonnull', 'dereferenceable', 'dereferenceable_or_null', 'swiftself', 'swifterror'
-            ),
+        12 => [
+            'zeroext',
+            'signext',
+            'inreg',
+            'byval',
+            'inalloca',
+            'sret',
+            'align',
+            'noalias',
+            'nocapture',
+            'nest',
+            'returned',
+            'nonnull',
+            'dereferenceable',
+            'dereferenceable_or_null',
+            'swiftself',
+            'swifterror',
+        ],
         //Function Attributes
-        13 => array(
-            'alignstack', 'allocsize', 'alwaysinline', 'builtin', 'cold', 'convergent', 'inaccessiblememonly',
-            'inaccessiblemem_or_argmemonly', 'inlinehint', 'jumptable', 'minsize', 'naked', 'nobuiltin', 'noduplicate',
-            'noimplicitfloat', 'noinline', 'nonlazybind', 'noredzone', 'noreturn', 'norecurse', 'nounwind',
-            'optnone', 'optsize', 'patchable-function', 'readnone', 'readonly', 'writeonly', 'argmemonly',
-            'returns_twice', 'safestack', 'sanitize_address', 'sanitize_memory', 'sanitize_thread', 'ssp',
-            'sspreq', 'sspstrong', 'thunk', 'uwtable'
-            ),
+        13 => [
+            'alignstack',
+            'allocsize',
+            'alwaysinline',
+            'builtin',
+            'cold',
+            'convergent',
+            'inaccessiblememonly',
+            'inaccessiblemem_or_argmemonly',
+            'inlinehint',
+            'jumptable',
+            'minsize',
+            'naked',
+            'nobuiltin',
+            'noduplicate',
+            'noimplicitfloat',
+            'noinline',
+            'nonlazybind',
+            'noredzone',
+            'noreturn',
+            'norecurse',
+            'nounwind',
+            'optnone',
+            'optsize',
+            'patchable-function',
+            'readnone',
+            'readonly',
+            'writeonly',
+            'argmemonly',
+            'returns_twice',
+            'safestack',
+            'sanitize_address',
+            'sanitize_memory',
+            'sanitize_thread',
+            'ssp',
+            'sspreq',
+            'sspstrong',
+            'thunk',
+            'uwtable',
+        ],
         //Module-Level Inline Assembly
-        14 => array(
-            'module asm'
-            ),
+        14 => [
+            'module asm',
+        ],
         //Data Layout
-        15 => array(
-            'target datalayout'
-            ),
+        15 => [
+            'target datalayout',
+        ],
         //Type System
-        16 => array(
+        16 => [
             'x86_mmx',
             'void',
             'label',
             'metadata',
-            'opaque'
-            ),
+            'opaque',
+        ],
         //Floating Point Types
-        17 => array(
-            'half', 'float', 'double', 'fp128', 'x86_fp80', 'ppc_fp128',
-            ),
+        17 => [
+            'half',
+            'float',
+            'double',
+            'fp128',
+            'x86_fp80',
+            'ppc_fp128',
+        ],
         //Simple Constants
-        18 => array(
-            'false', 'true', 'null'
-            ),
+        18 => [
+            'false',
+            'true',
+            'null',
+        ],
         //Global Variable
-        19 => array(
-            'global', 'addrspace', 'constant', 'section'
-            ),
+        19 => [
+            'global',
+            'addrspace',
+            'constant',
+            'section',
+        ],
         //Functions
-        20 => array(
-            'declare', 'define'
-            ),
+        20 => [
+            'declare',
+            'define',
+        ],
         //Complex Constants
-        21 => array(
-            'zeroinitializer'
-            ),
+        21 => [
+            'zeroinitializer',
+        ],
         //Undefined Values
-        22 => array(
-            'undef'
-            ),
+        22 => [
+            'undef',
+        ],
         //Addresses of Basic Blocks
-        23 => array(
-            'blockaddress'
-            ),
+        23 => [
+            'blockaddress',
+        ],
         //Visibility Styles
-        24 => array(
-            'default', 'hidden', 'protected'
-            ),
+        24 => [
+            'default',
+            'hidden',
+            'protected',
+        ],
         //Volatile Memory Accesses
-        25 => array(
-            'volatile'
-            ),
-        26 => array(
-            'tail'
-            ),
-        ),
-    'SYMBOLS' => array(
-        0 => array(
-            '(', ')', '[', ']', '{', '}',
-            '!', '@', '%', '&', '|', '/',
-            '<', '>',
-            '=', '-', '+', '*',
-            '.', ':', ',', ';'
-            )
-        ),
-    'CASE_SENSITIVE' => array(
+        25 => [
+            'volatile',
+        ],
+        26 => [
+            'tail',
+        ],
+    ],
+    'SYMBOLS' => [
+        0 => [
+            '(',
+            ')',
+            '[',
+            ']',
+            '{',
+            '}',
+            '!',
+            '@',
+            '%',
+            '&',
+            '|',
+            '/',
+            '<',
+            '>',
+            '=',
+            '-',
+            '+',
+            '*',
+            '.',
+            ':',
+            ',',
+            ';',
+        ],
+    ],
+    'CASE_SENSITIVE' => [
         GESHI_COMMENTS => false,
         1 => true,
         2 => true,
@@ -222,9 +375,9 @@ $language_data = array(
         24 => true,
         25 => true,
         26 => true,
-        ),
-    'STYLES' => array(
-        'KEYWORDS' => array(
+    ],
+    'STYLES' => [
+        'KEYWORDS' => [
             0 => 'color: #209090;',
             1 => 'color: #0000F0;',
             2 => 'color: #00F000; font-weight: bold;',
@@ -252,12 +405,12 @@ $language_data = array(
             24 => 'color: #F040F0; font-weight: bold;',
             25 => 'color: #40F0F0; font-weight: bold;',
             26 => 'color: #904040; font-weight: bold;',
-            ),
-        'COMMENTS' => array(
+        ],
+        'COMMENTS' => [
             1 => 'color: #666666; font-style: italic;',
-            'MULTI' => 'color: #666666; font-style: italic;'
-            ),
-        'ESCAPE_CHAR' => array(
+            'MULTI' => 'color: #666666; font-style: italic;',
+        ],
+        'ESCAPE_CHAR' => [
             0 => 'color: #000099; font-weight: bold;',
             1 => 'color: #000099; font-weight: bold;',
             2 => 'color: #660099; font-weight: bold;',
@@ -265,29 +418,29 @@ $language_data = array(
             4 => 'color: #006699; font-weight: bold;',
             5 => 'color: #006699; font-weight: bold; font-style: italic;',
             6 => 'color: #009933; font-weight: bold;',
-            'HARD' => 'color: #000099; font-weight: bold;'
-            ),
-        'BRACKETS' => array(
-            0 => 'color: #009900;'
-            ),
-        'STRINGS' => array(
+            'HARD' => 'color: #000099; font-weight: bold;',
+        ],
+        'BRACKETS' => [
+            0 => 'color: #009900;',
+        ],
+        'STRINGS' => [
             0 => 'color: #0000ff;',
-            'HARD' => 'color: #0000ff;'
-            ),
-        'NUMBERS' => array(
+            'HARD' => 'color: #0000ff;',
+        ],
+        'NUMBERS' => [
             0 => 'color: #cc66cc;',
             GESHI_NUMBER_OCT_PREFIX => 'color: #208080;',
             GESHI_NUMBER_HEX_PREFIX => 'color: #208080;',
             GESHI_NUMBER_FLT_SCI_ZERO => 'color:#800080;',
-            ),
-        'METHODS' => array(
+        ],
+        'METHODS' => [
             1 => 'color: #004000;',
-            2 => 'color: #004000;'
-            ),
-        'SYMBOLS' => array(
+            2 => 'color: #004000;',
+        ],
+        'SYMBOLS' => [
             0 => 'color: #339933;',
-            ),
-        'REGEXPS' => array(
+        ],
+        'REGEXPS' => [
             0 => 'color: #007088;',
             1 => 'color: #007088;',
             // 2 => 'color: #000088;',
@@ -298,17 +451,17 @@ $language_data = array(
             // 7 => 'color: #616988;',
             // 8 => 'color: #616908;',
             9 => 'color: #6109F8;',
-            ),
-        'SCRIPT' => array(
+        ],
+        'SCRIPT' => [
             0 => '',
             1 => '',
             2 => '',
             3 => '',
             4 => '',
-            5 => ''
-            )
-        ),
-    'URLS' => array(
+            5 => '',
+        ],
+    ],
+    'URLS' => [
         0 => '',
         1 => 'http://llvm.org/docs/LangRef.html#{FNAME}-instruction',
         2 => 'http://llvm.org/docs/LangRef.html#{FNAME}-instruction',
@@ -336,11 +489,11 @@ $language_data = array(
         24 => 'http://llvm.org/docs/LangRef.html#visibility-styles',
         25 => 'http://llvm.org/docs/LangRef.html#volatile-memory-accesses',
         26 => 'http://llvm.org/docs/LangRef.html#call-instruction',
-        ),
+    ],
     'OOLANG' => false,
-    'OBJECT_SPLITTERS' => array(
-        ),
-    'REGEXPS' => array(
+    'OBJECT_SPLITTERS' => [
+    ],
+    'REGEXPS' => [
         //Variables
         0 => '%[-a-zA-Z$\._][-a-zA-Z$\._0-9]*',
         //Labels
@@ -351,13 +504,13 @@ $language_data = array(
         //Unnamed variable slots
         3 => '%[-]?[0-9]+',
         //Integer Types
-        4 => array(
+        4 => [
             GESHI_SEARCH => '(?<!\w)i\d+(?!\w)',
             GESHI_REPLACE => '\\0',
             GESHI_MODIFIERS => '',
             GESHI_BEFORE => '<a href="http://llvm.org/docs/LangRef.html#t_integer">',
-            GESHI_AFTER => '</a>'
-            ),
+            GESHI_AFTER => '</a>',
+        ],
         //Comments
         // 5 => ';.*',
         //Integer literals
@@ -367,23 +520,23 @@ $language_data = array(
         //Hex constants
         // 8 => '\\b0x[0-9A-Fa-f]+\\b',
         //Global variables
-        9 => array(
+        9 => [
             GESHI_SEARCH => '@[-a-zA-Z$\._][-a-zA-Z$\._0-9]*',
             GESHI_REPLACE => '\\0',
             GESHI_MODIFIERS => '',
             GESHI_BEFORE => '<a href="http://llvm.org/docs/LangRef.html#globalvars">',
-            GESHI_AFTER => '</a>'
-            ),
-        ),
+            GESHI_AFTER => '</a>',
+        ],
+    ],
     'STRICT_MODE_APPLIES' => GESHI_MAYBE,
-    'HIGHLIGHT_STRICT_BLOCK' => array(
+    'HIGHLIGHT_STRICT_BLOCK' => [
         0 => true,
         1 => true,
         2 => true,
         3 => true,
         4 => true,
-        5 => true
-        ),
-    'SCRIPT_DELIMITERS' => array(),
-    'TAB_WIDTH' => 4
-);
+        5 => true,
+    ],
+    'SCRIPT_DELIMITERS' => [],
+    'TAB_WIDTH' => 4,
+];

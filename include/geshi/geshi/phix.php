@@ -40,46 +40,64 @@
  *
  ************************************************************************************/
 
-$language_data = array(
+$language_data = [
     'LANG_NAME' => 'Phix',
-    'COMMENT_SINGLE' => array(1 => '--'),
-    'COMMENT_MULTI' => array('/*' => '*/'),
-    'COMMENT_REGEXP' => array(2 => '/\/\*(?:(?R)|.)+?\*\//s'),
+    'COMMENT_SINGLE' => [1 => '--'],
+    'COMMENT_MULTI' => ['/*' => '*/'],
+    'COMMENT_REGEXP' => [2 => '/\/\*(?:(?R)|.)+?\*\//s'],
     'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-    'QUOTEMARKS' => array("'", '"', '"""', '`'),
+    'QUOTEMARKS' => ["'", '"', '"""', '`'],
     'ESCAPE_CHAR' => '\\',
-    'KEYWORDS' => array(
-        1 => array( // keywords
-            'and', 'as',
-            'break', 'by',
-            'case', 'constant',
-            'default', 'do',
-            'else', 'elsif', 'end', 'enum', 'exit',
-            'for', 'forward', 'function',
+    'KEYWORDS' => [
+        1 => [ // keywords
+            'and',
+            'as',
+            'break',
+            'by',
+            'case',
+            'constant',
+            'default',
+            'do',
+            'else',
+            'elsif',
+            'end',
+            'enum',
+            'exit',
+            'for',
+            'forward',
+            'function',
             'global',
-            'if', 'include',
+            'if',
+            'include',
             'not',
             'or',
             'procedure',
             'return',
             'switch',
-            'then', 'to', 'type',
-            'while', 'with', 'without',
-            'xor'
-        ),
-        2 => array( // directives
+            'then',
+            'to',
+            'type',
+            'while',
+            'with',
+            'without',
+            'xor',
+        ],
+        2 => [ // directives
             'console',
             'debug',
             'fallthru',
-            'fallthrough', 'format',
+            'fallthrough',
+            'format',
             'gui',
             'ilASM',
             'jump_table',
-            'profile', 'profile_time',
-            'trace', 'type_check',
-            'warning'
-        ),
-        3 => array( // built-ins
+            'profile',
+            'profile_time',
+            'trace',
+            'type_check',
+            'warning',
+        ],
+        3 => [ // built-ins
             'abort',
             'abs',
             'adjust_timedate',
@@ -374,66 +392,80 @@ $language_data = array(
             'wildcard_match',
             'wrap',
 
-            'xor_bits'
-        ),
-    ),
-    'SYMBOLS' => array(
-        0 => array(
-            '(', ')', '{', '}', '[', ']'
-        ),
-        1 => array(
-            '+', '-', '*', '/', '=', '&', '^', '?', ',', ':'
-        )
-    ),
-    'CASE_SENSITIVE' => array(
+            'xor_bits',
+        ],
+    ],
+    'SYMBOLS' => [
+        0 => [
+            '(',
+            ')',
+            '{',
+            '}',
+            '[',
+            ']',
+        ],
+        1 => [
+            '+',
+            '-',
+            '*',
+            '/',
+            '=',
+            '&',
+            '^',
+            '?',
+            ',',
+            ':',
+        ],
+    ],
+    'CASE_SENSITIVE' => [
         GESHI_COMMENTS => false,
         1 => true,
         2 => true,
-        3 => true
-    ),
-    'STYLES' => array(
-        'KEYWORDS' => array(
+        3 => true,
+    ],
+    'STYLES' => [
+        'KEYWORDS' => [
             1 => 'color: #008080;', // keywords
             2 => 'color: #008080;', // directives
             3 => 'color: #004080;'  // builtins
-        ),
-        'COMMENTS' => array(
+        ],
+        'COMMENTS' => [
             1 => 'color: #000080; font-style: italic;',
             2 => 'color: #000080; font-style: italic;',
-            'MULTI' => 'color: #000080; font-style: italic;'
-        ),
-        'ESCAPE_CHAR' => array(
-            0 => 'color: #009900; font-weight: bold;'
-        ),
-        'BRACKETS' => array(
-            0 => 'color: #0000FF;'
-        ),
-        'STRINGS' => array(
-            0 => 'color: #008000;'
-        ),
-        'NUMBERS' => array(
-            0 => 'color: #000000;'
-        ),
-        'METHODS' => array( // Do not exist in Phix)
-            0 => ''
-        ),
-        'SYMBOLS' => array(
+            'MULTI' => 'color: #000080; font-style: italic;',
+        ],
+        'ESCAPE_CHAR' => [
+            0 => 'color: #009900; font-weight: bold;',
+        ],
+        'BRACKETS' => [
+            0 => 'color: #0000FF;',
+        ],
+        'STRINGS' => [
+            0 => 'color: #008000;',
+        ],
+        'NUMBERS' => [
+            0 => 'color: #000000;',
+        ],
+        'METHODS' => [ // Do not exist in Phix)
+            0 => '',
+        ],
+        'SYMBOLS' => [
             0 => 'color: #0000FF;', // brackets
             1 => 'color: #0000FF;'  // operators
-        ),
-        'REGEXPS' => array(),
-        'SCRIPT' => array( // Never included in scripts.
-        )
-    ),
-    'REGEXPS' => array(),
-    'URLS' => array(
+        ],
+        'REGEXPS' => [],
+        'SCRIPT' => [ // Never included in scripts.
+        ],
+    ],
+    'REGEXPS' => [],
+    'URLS' => [
         1 => '',
         2 => '',
-        3 => ''
-    ),
+        3 => '',
+    ],
     'OOLANG' => false,
-    'OBJECT_SPLITTERS' => array(),
+    'OBJECT_SPLITTERS' => [],
     'STRICT_MODE_APPLIES' => GESHI_NEVER,
-    'SCRIPT_DELIMITERS' => array(),
-    'HIGHLIGHT_STRICT_BLOCK' => array()
-);
+    'SCRIPT_DELIMITERS' => [],
+    'HIGHLIGHT_STRICT_BLOCK' => [],
+];

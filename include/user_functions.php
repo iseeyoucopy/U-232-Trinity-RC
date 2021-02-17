@@ -16,45 +16,52 @@ function get_anonymous()
     global $CURUSER;
     return $CURUSER['anonymous_until'];
 }
+
 //== Get Parked function ==//
 function get_parked()
 {
     global $CURUSER;
     return $CURUSER['parked_until'];
 }
+
 //== Auto Shout Function ==//
 
 function autoshout($msg)
 {
     global $TRINITY20, $cache, $keys;
-    require_once (INCL_DIR . 'bbcode_functions.php');
-	sql_query('INSERT INTO ajax_chat_messages(userID,userName,userRole,channel,dateTime,ip,text) VALUES (' . $TRINITY20['bot_id'] . ',' . sqlesc($TRINITY20['bot_name']) . ',' . $TRINITY20['bot_role'] . ',"3",' . sqlesc(TIME_DATE) . ',' . sqlesc($_SERVER['REMOTE_ADDR']) . ',' . sqlesc($msg) . ')') || sqlerr(__FILE__, __LINE__);
+    require_once(INCL_DIR.'bbcode_functions.php');
+    sql_query('INSERT INTO ajax_chat_messages(userID,userName,userRole,channel,dateTime,ip,text) VALUES ('.$TRINITY20['bot_id'].','.sqlesc($TRINITY20['bot_name']).','.$TRINITY20['bot_role'].',"3",'.sqlesc(TIME_DATE).','.sqlesc($_SERVER['REMOTE_ADDR']).','.sqlesc($msg).')') || sqlerr(__FILE__,
+        __LINE__);
     $cache->delete($keys['auto_shoutbox']);
 }
-function shout2($msg,$tid)
+
+function shout2($msg, $tid)
 {
     global $TRINITY20, $cache, $keys;
-    require_once (INCL_DIR . 'bbcode_functions.php');
-	sql_query('INSERT INTO ajax_chat_messages(userID,userName,userRole,channel,dateTime,ip,text) VALUES (' . $TRINITY20['bot_id'] . ',' . sqlesc($TRINITY20['bot_name']) . ',' . $TRINITY20['bot_role'] . ',"2",' . sqlesc(TIME_DATE) . ',' . sqlesc($_SERVER['REMOTE_ADDR']) . ',' . sqlesc($msg) . ',' . sqlesc($tid) . ')') || sqlerr(__FILE__, __LINE__);
+    require_once(INCL_DIR.'bbcode_functions.php');
+    sql_query('INSERT INTO ajax_chat_messages(userID,userName,userRole,channel,dateTime,ip,text) VALUES ('.$TRINITY20['bot_id'].','.sqlesc($TRINITY20['bot_name']).','.$TRINITY20['bot_role'].',"2",'.sqlesc(TIME_DATE).','.sqlesc($_SERVER['REMOTE_ADDR']).','.sqlesc($msg).','.sqlesc($tid).')') || sqlerr(__FILE__,
+        __LINE__);
     $cache->delete($keys['auto_shoutbox']);
 }
+
 //== Parked function ==//
 function parked()
 {
-    require_once (CLASS_DIR . 'class_user_options.php');
+    require_once(CLASS_DIR.'class_user_options.php');
     global $CURUSER;
     if ((isset($CURUSER['opt1']) & user_options::PARKED) !== 0) {
         stderr("Error", "<b>Your account is currently parked.</b>");
     }
 }
+
 //== Reputation function==//
-function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
+function get_reputation($user, $mode = '', $rep_is_on = true, $post_id = 0)
 {
     global $TRINITY20, $CURUSER;
     $member_reputation = "";
     if ($rep_is_on) {
-        include CACHE_DIR . '/rep_cache.php';
-        require_once (CLASS_DIR . 'class_user_options.php');
+        include CACHE_DIR.'/rep_cache.php';
+        require_once(CLASS_DIR.'class_user_options.php');
         // ok long winded file checking, but it's much better than file_exists
         if (!isset($reputations) || !is_array($reputations) || count($reputations) < 1) {
             return '<span title="Cache doesn\'t exist or zero length">Reputation: Offline</span>';
@@ -89,31 +96,30 @@ function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
             $rep_img = '<i class="fas fa-star" style="color:#009933"></i>';
             $rep_img_2 = '<i class="fas fa-star" style="color:#66ff33"></i>';
         }
-         if( $rep_power > 500 )
-         {
-         // work out the bright green shiny bars, cos they cost 100 points, not the normal 100
-         $rep_power = ( $rep_power - ($rep_power - 500) ) + ( ($rep_power - 500) / 2 );
-         }
+        if ($rep_power > 500) {
+            // work out the bright green shiny bars, cos they cost 100 points, not the normal 100
+            $rep_power = ($rep_power - ($rep_power - 500)) + (($rep_power - 500) / 2);
+        }
         // shiny, shiny, shiny boots...
         // ok, now we can work out the number of bars/pippy things
         $pips = 5;
         switch ($mode) {
-        case 'comments':
-            $pips = 12;
-            break;
-        case 'torrents':
-            $pips = 1003;
-            break;
-        case 'users':
-            $pips = 970;
-            break;
-        case 'posts':
-            $pips = 12;
-            break;
-        default:
-            $pips = 5; // statusbar
+            case 'comments':
+                $pips = 12;
+                break;
+            case 'torrents':
+                $pips = 1003;
+                break;
+            case 'users':
+                $pips = 970;
+                break;
+            case 'posts':
+                $pips = 12;
+                break;
+            default:
+                $pips = 5; // statusbar
         }
-        $rep_bar = (int) ($rep_power / 100);
+        $rep_bar = (int)($rep_power / 100);
         if ($rep_bar > 10) {
             $rep_bar = 10;
         }
@@ -123,9 +129,9 @@ function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
         } else { // it ain't off then, so get on with it! I wanna see shiny stuff!!
             for ($i = 0; $i <= $rep_bar; $i++) {
                 if ($i >= 5) {
-                    $posneg.= $rep_img_2;
+                    $posneg .= $rep_img_2;
                 } else {
-                    $posneg.= $rep_img;
+                    $posneg .= $rep_img;
                 }
             }
         }
@@ -139,22 +145,24 @@ function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
     // default
     return '<span title="Set offline by admin setting">Rep System Offline</span>';
 }
+
 //== Write staff function... This function will write usernames and their id's into staff_settings.php and staff_settings.php ==//
 function write_staffs()
 {
     global $TRINITY20;
     //==ids
     $t = '$TRINITY20';
-    $iconfigfile = "<" . "?php\n/**\nThis file created on " . date('M d Y H:i:s') . ".\nSite Config staff mod.\n**/\n";
-    ($ri = sql_query("SELECT id, username, class FROM users WHERE class BETWEEN " . UC_STAFF . " AND " . UC_MAX . " ORDER BY id ASC")) || sqlerr(__file__, __line__);
-    $iconfigfile.= "" . $t . "['allowed_staff']['id'] = array(";
+    $iconfigfile = "<"."?php\n/**\nThis file created on ".date('M d Y H:i:s').".\nSite Config staff mod.\n**/\n";
+    ($ri = sql_query("SELECT id, username, class FROM users WHERE class BETWEEN ".UC_STAFF." AND ".UC_MAX." ORDER BY id ASC")) || sqlerr(__file__,
+        __line__);
+    $iconfigfile .= "".$t."['allowed_staff']['id'] = array(";
     while ($ai = $ri->fetch_assoc()) {
         $ids[] = $ai['id'];
-        $usernames[] = "'" . $ai["username"] . "' => 1";
+        $usernames[] = "'".$ai["username"]."' => 1";
     }
-    $iconfigfile.= "" . implode(",", $ids);
-    $iconfigfile.= ");";
-    $iconfigfile.= '
+    $iconfigfile .= "".implode(",", $ids);
+    $iconfigfile .= ");";
+    $iconfigfile .= '
 ?>';
     $filenum = fopen('./cache/staff_settings.php', 'w');
     ftruncate($filenum, 0);
@@ -162,17 +170,18 @@ function write_staffs()
     fclose($filenum);
     //==names
     $t = '$TRINITY20';
-    $nconfigfile = "<" . "?php\n/**\nThis file created on " . date('M d Y H:i:s') . ".\nSite Config staff mod.\n**/\n";
-    $nconfigfile.= "" . $t . "['staff']['allowed'] = array(";
-    $nconfigfile.= "" . implode(",", $usernames);
-    $nconfigfile.= ");";
-    $nconfigfile.= '
+    $nconfigfile = "<"."?php\n/**\nThis file created on ".date('M d Y H:i:s').".\nSite Config staff mod.\n**/\n";
+    $nconfigfile .= "".$t."['staff']['allowed'] = array(";
+    $nconfigfile .= "".implode(",", $usernames);
+    $nconfigfile .= ");";
+    $nconfigfile .= '
 ?>';
     $filenum1 = fopen('./cache/staff_settings2.php', 'w');
     ftruncate($filenum1, 0);
     fwrite($filenum1, $nconfigfile);
     fclose($filenum1);
 }
+
 //== Function Ratio Color ==//
 function get_ratio_color($ratio)
 {
@@ -238,6 +247,7 @@ function get_ratio_color($ratio)
     }
     return "#777777";
 }
+
 function get_slr_color($ratio)
 {
     if ($ratio < 0.025) {
@@ -317,39 +327,41 @@ function get_slr_color($ratio)
     }
     return "#777777";
 }
+
 function ratio_image_machine($ratio_to_check)
 {
     global $TRINITY20;
     switch ($ratio_to_check) {
-    case $ratio_to_check >= 5:
-        return '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/yay.gif" alt="Yay" title="Yay" />';
-        break;
-    case $ratio_to_check >= 4:
-        return '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/pimp.gif" alt="Pimp" title="Pimp" />';
-        break;
-    case $ratio_to_check >= 3:
-        return '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/w00t.gif" alt="W00t" title="W00t" />';
-        break;
-    case $ratio_to_check >= 2:
-        return '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/grin.gif" alt="Grin" title="Grin" />';
-        break;
-    case $ratio_to_check >= 1.5:
-        return '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/evo.gif" alt="Evo" title="Evo" />';
-        break;
-    case $ratio_to_check >= 1:
-        return '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/smile1.gif" alt="Smile" title="Smile" />';
-        break;
-    case $ratio_to_check >= 0.5:
-        return '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/noexpression.gif" alt="Blank" title="Blank" />';
-        break;
-    case $ratio_to_check >= 0.25:
-        return '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/cry.gif" alt="Cry" title="Cry" />';
-        break;
-    case $ratio_to_check < 0.25:
-        return '<img src="' . $TRINITY20['pic_base_url'] . 'smilies/shit.gif" alt="Shit" title="Shit" />';
-        break;
+        case $ratio_to_check >= 5:
+            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/yay.gif" alt="Yay" title="Yay" />';
+            break;
+        case $ratio_to_check >= 4:
+            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/pimp.gif" alt="Pimp" title="Pimp" />';
+            break;
+        case $ratio_to_check >= 3:
+            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/w00t.gif" alt="W00t" title="W00t" />';
+            break;
+        case $ratio_to_check >= 2:
+            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/grin.gif" alt="Grin" title="Grin" />';
+            break;
+        case $ratio_to_check >= 1.5:
+            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/evo.gif" alt="Evo" title="Evo" />';
+            break;
+        case $ratio_to_check >= 1:
+            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/smile1.gif" alt="Smile" title="Smile" />';
+            break;
+        case $ratio_to_check >= 0.5:
+            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/noexpression.gif" alt="Blank" title="Blank" />';
+            break;
+        case $ratio_to_check >= 0.25:
+            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/cry.gif" alt="Cry" title="Cry" />';
+            break;
+        case $ratio_to_check < 0.25:
+            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/shit.gif" alt="Shit" title="Shit" />';
+            break;
     }
 }
+
 //== User class functions - pdq 2010 ==//
 function get_user_class_name($class)
 {
@@ -364,6 +376,7 @@ function get_user_class_name($class)
 
     return '';
 }
+
 function get_user_class_color($class)
 {
     global $class_colors;
@@ -377,6 +390,7 @@ function get_user_class_color($class)
 
     return '';
 }
+
 function get_user_class_image($class)
 {
     global $class_images;
@@ -390,11 +404,13 @@ function get_user_class_image($class)
 
     return '';
 }
+
 function valid_class($class)
 {
     $class = (int)$class;
     return (bool)($class >= UC_MIN && $class <= UC_MAX);
 }
+
 function min_class($min = UC_MIN, $max = UC_MAX)
 {
     global $CURUSER;
@@ -411,11 +427,12 @@ function min_class($min = UC_MIN, $max = UC_MAX)
     }
     return (bool)($CURUSER['class'] >= $minclass && $CURUSER['class'] <= $maxclass);
 }
+
 function format_username($user, $icons = true)
 {
     global $TRINITY20;
     $userf_id = (isset($user['id']) ? (int)$user['id'] : 0);
-    $userf_class = (isset($user['class']) ? (int)$user['class'] : 0) ;
+    $userf_class = (isset($user['class']) ? (int)$user['class'] : 0);
     if ($userf_id == 0) {
         return 'System';
     }
@@ -423,75 +440,79 @@ function format_username($user, $icons = true)
     if ((isset($user['username']) ? htmlsafechars($user['username']) : '') == '') {
         return 'unknown['.$userf_id.']';
     }
-    $username = '<span style="color:#' . get_user_class_color($userf_class) . ';"><strong>' . htmlsafechars($user['username']) . '</strong></span>';
-    $str = '<span style="white-space: nowrap;"><a class="user_' . $userf_id . '" href="' . $TRINITY20['baseurl'] . '/userdetails.php?id=' . $userf_id . '" target="_blank">' . $username . '</a>';
+    $username = '<span style="color:#'.get_user_class_color($userf_class).';"><strong>'.htmlsafechars($user['username']).'</strong></span>';
+    $str = '<span style="white-space: nowrap;"><a class="user_'.$userf_id.'" href="'.$TRINITY20['baseurl'].'/userdetails.php?id='.$userf_id.'" target="_blank">'.$username.'</a>';
     if ($icons != false) {
-        $str.= ($user['donor'] == 'yes' ? '<img src="' . $TRINITY20['pic_base_url'] . 'star.png" alt="Donor" title="Donor" />' : '');
-        $str.= ($user['warned'] >= 1 ? '<img src="' . $TRINITY20['pic_base_url'] . 'alertred.png" alt="Warned" title="Warned" />' : '');
-        $str.= ($user['leechwarn'] >= 1 ? '<img src="' . $TRINITY20['pic_base_url'] . 'alertblue.png" alt="Leech Warned" title="Leech Warned" />' : '');
-        $str.= ($user['enabled'] != 'yes' ? '<img src="' . $TRINITY20['pic_base_url'] . 'disabled.gif" alt="Disabled" title="Disabled" />' : '');
-        $str.= ($user['chatpost'] == 0 ? '<img src="' . $TRINITY20['pic_base_url'] . 'warned.png" alt="No Chat" title="Shout disabled" />' : '');
-        $str.= ($user['pirate'] != 0 ? '<img src="' . $TRINITY20['pic_base_url'] . 'pirate.png" alt="Pirate" title="Pirate" />' : '');
-        $str.= ($user['king'] != 0 ? '<img src="' . $TRINITY20['pic_base_url'] . 'king.png" alt="King" title="King" />' : '');
+        $str .= ($user['donor'] == 'yes' ? '<img src="'.$TRINITY20['pic_base_url'].'star.png" alt="Donor" title="Donor" />' : '');
+        $str .= ($user['warned'] >= 1 ? '<img src="'.$TRINITY20['pic_base_url'].'alertred.png" alt="Warned" title="Warned" />' : '');
+        $str .= ($user['leechwarn'] >= 1 ? '<img src="'.$TRINITY20['pic_base_url'].'alertblue.png" alt="Leech Warned" title="Leech Warned" />' : '');
+        $str .= ($user['enabled'] != 'yes' ? '<img src="'.$TRINITY20['pic_base_url'].'disabled.gif" alt="Disabled" title="Disabled" />' : '');
+        $str .= ($user['chatpost'] == 0 ? '<img src="'.$TRINITY20['pic_base_url'].'warned.png" alt="No Chat" title="Shout disabled" />' : '');
+        $str .= ($user['pirate'] != 0 ? '<img src="'.$TRINITY20['pic_base_url'].'pirate.png" alt="Pirate" title="Pirate" />' : '');
+        $str .= ($user['king'] != 0 ? '<img src="'.$TRINITY20['pic_base_url'].'king.png" alt="King" title="King" />' : '');
     }
-    return $str . "</span>\n";
+    return $str."</span>\n";
 }
+
 function is_valid_id($id)
 {
     return is_numeric($id) && ($id > 0) && (floor($id) == $id);
 }
+
 function member_ratio($up, $down)
 {
     switch (true) {
-    case ($down > 0 && $up > 0):
-        $ratio = '<span style="color:' . get_ratio_color($up / $down) . ';">' . number_format($up / $down, 3) . '</span>';
-        break;
-    case ($down > 0 && $up == 0):
-        $ratio = '<span style="color:' . get_ratio_color(1 / $down) . ';">' . number_format(1 / $down, 3) . '</span>';
-        break;
-    case ($down == 0 && $up > 0):
-        $ratio = '<span style="color: ' . get_ratio_color($up / 1) . ';">Inf</span>';
-        break;
-    default:
-        $ratio = '---';
+        case ($down > 0 && $up > 0):
+            $ratio = '<span style="color:'.get_ratio_color($up / $down).';">'.number_format($up / $down, 3).'</span>';
+            break;
+        case ($down > 0 && $up == 0):
+            $ratio = '<span style="color:'.get_ratio_color(1 / $down).';">'.number_format(1 / $down, 3).'</span>';
+            break;
+        case ($down == 0 && $up > 0):
+            $ratio = '<span style="color: '.get_ratio_color($up / 1).';">Inf</span>';
+            break;
+        default:
+            $ratio = '---';
     }
     return $ratio;
 }
+
 //=== get smilie based on ratio
 function get_user_ratio_image($ratio)
 {
     global $TRINITY20;
     switch ($ratio) {
-    case ($ratio == 0):
-        return;
-        break;
-    case ($ratio < 0.6):
-        return ' <img src="' . $TRINITY20['pic_base_url'] . 'smilies/shit.gif" alt=" Bad ratio :("  title=" Bad ratio :("/>';
-        break;
-    case ($ratio <= 0.7):
-        return ' <img src="' . $TRINITY20['pic_base_url'] . 'smilies/weep.gif" alt=" Could be better"  title=" Could be better" />';
-        break;
-    case ($ratio <= 0.8):
-        return ' <img src="' . $TRINITY20['pic_base_url'] . 'smilies/cry.gif" alt=" Getting there!" title=" Getting there!" />';
-        break;
-    case ($ratio <= 1.5):
-        return ' <img src="' . $TRINITY20['pic_base_url'] . 'smilies/smile1.gif" alt=" Good Ratio :)" title=" Good Ratio :)" />';
-        break;
-    case ($ratio <= 2.0):
-        return ' <img src="' . $TRINITY20['pic_base_url'] . 'smilies/grin.gif" alt=" Great Ratio :)" title=" Great Ratio :)" />';
-        break;
-    case ($ratio <= 3.0):
-        return ' <img src="' . $TRINITY20['pic_base_url'] . 'smilies/w00t.gif" alt=" Wow! :D" title=" Wow! :D" />';
-        break;
-    case ($ratio <= 4.0):
-        return ' <img src="' . $TRINITY20['pic_base_url'] . 'smilies/pimp.gif" alt=" Fa-boo Ratio!" title=" Fa-boo Ratio!" />';
-        break;
-    case ($ratio > 4.0):
-        return ' <img src="' . $TRINITY20['pic_base_url'] . 'smilies/yahoo.gif" alt=" Great ratio :-D" title=" Great ratio :-D" />';
-        break;
+        case ($ratio == 0):
+            return;
+            break;
+        case ($ratio < 0.6):
+            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/shit.gif" alt=" Bad ratio :("  title=" Bad ratio :("/>';
+            break;
+        case ($ratio <= 0.7):
+            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/weep.gif" alt=" Could be better"  title=" Could be better" />';
+            break;
+        case ($ratio <= 0.8):
+            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/cry.gif" alt=" Getting there!" title=" Getting there!" />';
+            break;
+        case ($ratio <= 1.5):
+            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/smile1.gif" alt=" Good Ratio :)" title=" Good Ratio :)" />';
+            break;
+        case ($ratio <= 2.0):
+            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/grin.gif" alt=" Great Ratio :)" title=" Great Ratio :)" />';
+            break;
+        case ($ratio <= 3.0):
+            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/w00t.gif" alt=" Wow! :D" title=" Wow! :D" />';
+            break;
+        case ($ratio <= 4.0):
+            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/pimp.gif" alt=" Fa-boo Ratio!" title=" Fa-boo Ratio!" />';
+            break;
+        case ($ratio > 4.0):
+            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/yahoo.gif" alt=" Great ratio :-D" title=" Great ratio :-D" />';
+            break;
     }
     return '';
 }
+
 //=== avatar stuff... hell it's called all over the place :-o
 /*
 function avatar_stuff($avatar, $width = 80)
@@ -508,20 +529,23 @@ function avatar_stuff($avatar, $width = 80)
     global $CURUSER, $TRINITY20;
     return $CURUSER['avatars'] == 'no' ? '' : ($avatar['avatar'] ? ($avatar['offensive_avatar'] === 'yes' && $CURUSER['view_offensive_avatar'] === 'no') ? '<img style="max-width:'.$width.'px;" src="'.$TRINITY20['pic_base_url'].'fuzzybunny.gif" alt="avatar" />' : '<img style="max-width:'.$width.'px;" src="'.htmlsafechars($avatar['avatar']).'" alt="avatar" />' : ('<img style="max-width:'.$width.'px;" src="'.$TRINITY20['pic_base_url'].'default_avatar.gif" alt="avatar" />'));
 }
+
 //=== added a function to get all user info and print them up with link to userdetails page, class color, user icons... pdq's idea \o/
 function print_user_stuff($arr)
 {
     global $CURUSER, $TRINITY20;
-    return '<a href="userdetails.php?id=' . (isset($arr['id']) ? (int)$arr['id'] : '') . '" title="' . get_user_class_name(isset($arr['class']) ? (int)$arr['class'] : '') . '">
-  <span style="font-weight: bold;"></span></a>' . format_username($arr) . '';
+    return '<a href="userdetails.php?id='.(isset($arr['id']) ? (int)$arr['id'] : '').'" title="'.get_user_class_name(isset($arr['class']) ? (int)$arr['class'] : '').'">
+  <span style="font-weight: bold;"></span></a>'.format_username($arr).'';
 }
+
 //made by putyn@tbdev
 function blacklist($fo)
 {
     global $TRINITY20;
-    $blacklist = file_exists($TRINITY20['nameblacklist']) && is_array(unserialize(file_get_contents($TRINITY20['nameblacklist']))) ? unserialize(file_get_contents($TRINITY20['nameblacklist'])) : array();
+    $blacklist = file_exists($TRINITY20['nameblacklist']) && is_array(unserialize(file_get_contents($TRINITY20['nameblacklist']))) ? unserialize(file_get_contents($TRINITY20['nameblacklist'])) : [];
     return !(isset($blacklist[$fo]) && $blacklist[$fo] == 1);
 }
+
 function get_server_load($windows = 0)
 {
     if (class_exists("COM")) {
@@ -532,74 +556,75 @@ function get_server_load($windows = 0)
         //while ($cpu = $cpus->Next()) {
         foreach ($cpus as $cpu) {
             $cpu_stats = 0;
-            $cpu_stats+= $cpu->LoadPercentage;
+            $cpu_stats += $cpu->LoadPercentage;
             $i++;
         }
         return round($cpu_stats / 2); // remove /2 for single processor systems
     }
 }
-function get_cache_config_data($the_names,$the_colors,$the_images)
+
+function get_cache_config_data($the_names, $the_colors, $the_images)
 {
-  $configfile = '';
-  $the_names = str_replace(',',",\n",trim($the_names,','));
-  $the_colors  = str_replace(',',",\n",trim($the_colors,','));
-  $the_images  = str_replace(',',",\n",trim($the_images,','));
-  $configfile .="\n\n\n".'$class_names = array(
+    $configfile = '';
+    $the_names = str_replace(',', ",\n", trim($the_names, ','));
+    $the_colors = str_replace(',', ",\n", trim($the_colors, ','));
+    $the_images = str_replace(',', ",\n", trim($the_images, ','));
+    $configfile .= "\n\n\n".'$class_names = array(
   '.$the_names.'								
   );';
-  // adding class colors like in user_functions
-  $configfile .="\n\n\n".'$class_colors = array( 
+    // adding class colors like in user_functions
+    $configfile .= "\n\n\n".'$class_colors = array( 
   '.$the_colors.'								
   );';
-  // adding class pics like in user_functions
-  $configfile .="\n\n\n".'$class_images = array(
+    // adding class pics like in user_functions
+    $configfile .= "\n\n\n".'$class_images = array(
   '.$the_images.'										
-  );'; 
-	return $configfile;
+  );';
+    return $configfile;
 }
-    function topicmods($id,$utopics,$read = false) {
-            global $TRINITY20;
-            $file = $TRINITY20['cache']."/topicsmods.txt";
-            $topics = file_exists($file) ? unserialize(file_get_contents($file)) : array();
-        if (!$read) {
-            $topics[$id] = $utopics;
-            return (bool) file_put_contents($file,serialize($topics));
-        }
 
-        if (array_key_exists($id,$topics)) {
-            return $topics[(int)$id];
-        } else {
-    return 0;
-   }
-    } 
-  function forummods($forced = false)
+function topicmods($id, $utopics, $read = false)
 {
-		global $TRINITY20;
-                $file = $TRINITY20['cache']."/forummods.txt";
-		if (!file_exists($file) || $forced == true)
-		{
-			($q = sql_query("SELECT id,username,forums_mod FROM users WHERE forum_mod = 'yes'")) || sqlerr(__FILE__, __LINE__);
-			while($a = $q->fetch_assoc()) {
-                $users[] = $a;
-            }
-			$forums = array();
-			foreach($users as $user)
-			{
-				$reg = "([0-9]+)";
-				preg_match_all($reg,$user["forums_mod"],$fids);
-				foreach($fids[0] as $fid)
-				{
-					if(!array_key_exists($fid,$forums)) {
-                        $forums[$fid] = [];
-                    }
-                    $forums[$fid][] = array($user["id"],$user["username"]);
-				}
-			}
-			file_put_contents($file,serialize($forums));
-		}
-		if($forced == false)
-		{ return unserialize(file_get_contents($file));
+    global $TRINITY20;
+    $file = $TRINITY20['cache']."/topicsmods.txt";
+    $topics = file_exists($file) ? unserialize(file_get_contents($file)) : [];
+    if (!$read) {
+        $topics[$id] = $utopics;
+        return (bool)file_put_contents($file, serialize($topics));
+    }
+
+    if (array_key_exists($id, $topics)) {
+        return $topics[(int)$id];
+    } else {
+        return 0;
+    }
+}
+
+function forummods($forced = false)
+{
+    global $TRINITY20;
+    $file = $TRINITY20['cache']."/forummods.txt";
+    if (!file_exists($file) || $forced == true) {
+        ($q = sql_query("SELECT id,username,forums_mod FROM users WHERE forum_mod = 'yes'")) || sqlerr(__FILE__, __LINE__);
+        while ($a = $q->fetch_assoc()) {
+            $users[] = $a;
         }
+        $forums = [];
+        foreach ($users as $user) {
+            $reg = "([0-9]+)";
+            preg_match_all($reg, $user["forums_mod"], $fids);
+            foreach ($fids[0] as $fid) {
+                if (!array_key_exists($fid, $forums)) {
+                    $forums[$fid] = [];
+                }
+                $forums[$fid][] = [$user["id"], $user["username"]];
+            }
+        }
+        file_put_contents($file, serialize($forums));
+    }
+    if ($forced == false) {
+        return unserialize(file_get_contents($file));
+    }
 }
 
 /** end functions **/

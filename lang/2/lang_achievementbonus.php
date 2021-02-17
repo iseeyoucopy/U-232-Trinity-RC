@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'achbon_err' => 'Erreur',
     'achbon_off' => 'Il semble que la fonction "Trophées" soit désactivée.',
     'achbon_std_head' => "Bonus Aléatoire",
@@ -24,6 +24,6 @@ $lang = array(
     'achbon_failed_msg3' => "Le maléfique Adam a volé votre point de bonus.",
     'achbon_failed_msg4' => "Somehelp a utilisé votre bonus point afin d'acheter des croquettes pour remplir la gamelle de son chien.",
     'achbon_failed_msg5' => "Houdini a fait disparaître votre point de bonus, tentez votre chance la prochaine fois.",
-    'achbon_random_achievement_bonus' => "Bonus Aléatoire"
-);
+    'achbon_random_achievement_bonus' => "Bonus Aléatoire",
+];
 ?>

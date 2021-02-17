@@ -13,7 +13,7 @@
 /* Deathrow by pdq */
 if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
-    $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
+    $HTMLOUT .= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
@@ -25,10 +25,10 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     echo $HTMLOUT;
     exit();
 }
-require_once (INCL_DIR . 'user_functions.php');
-require_once (INCL_DIR . 'pager_functions.php');
-require_once (INCL_DIR . 'function_memcache.php');
-require_once (CLASS_DIR . 'class_check.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(INCL_DIR.'pager_functions.php');
+require_once(INCL_DIR.'function_memcache.php');
+require_once(CLASS_DIR.'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 
@@ -38,12 +38,12 @@ $HTMLOUT = '';
 
 function calctime($val)
 {
-	global $lang;
-    $days = (int) ($val / 86400);
-    $val-= $days * 86400;
-    $hours = (int) ($val / 3600);
-    $val-= $hours * 3600;
-    $mins = (int) ($val / 60);
+    global $lang;
+    $days = (int)($val / 86400);
+    $val -= $days * 86400;
+    $hours = (int)($val / 3600);
+    $val -= $hours * 3600;
+    $mins = (int)($val / 60);
     $secs = $val - ($mins * 60);
     return "$days {$lang['deathrow_days']}, $hours {$lang['deathrow_hrs']}, $mins {$lang['deathrow_minutes']}";
 }
@@ -54,7 +54,7 @@ function delete_torrent($delete_array, $page)
     if (empty($delete_array)) {
         return false;
     }
-    $delete = array();
+    $delete = [];
     foreach ($delete_array as $remove) {
         $delete[] = 0 + $remove;
     }
@@ -66,7 +66,8 @@ function delete_torrent($delete_array, $page)
     if ($count > 25) {
         die(' '.$lang['deathrow_try'].' ('.$count.').');
     }
-    ($res = sql_query('SELECT id, added, name, owner, seeders, info_hash FROM torrents ' . 'WHERE id IN (' . implode(', ', $delete) . ')')) || sqlerr(__FILE__, __LINE__);
+    ($res = sql_query('SELECT id, added, name, owner, seeders, info_hash FROM torrents '.'WHERE id IN ('.implode(', ',
+            $delete).')')) || sqlerr(__FILE__, __LINE__);
     while ($row = $res->fetch_assoc()) {
         if (!(($CURUSER['id'] == $row['owner'] || $CURUSER['class'] >= UC_STAFF) && $row['seeders'] == 0)) {
             continue;
@@ -84,11 +85,11 @@ function delete_torrent($delete_array, $page)
         $cache->delete('top5_tor_');
         $cache->delete('scroll_tor_');
         // torrent_details
-        $cache->delete('torrent_details_' . $id);
-        $cache->delete('torrent_xbt_data_' . $id);
-        $cache->delete('torrent_details_txt' . $id);
-        $cache->delete('coin_points_' . $id);;
-        $cache->delete($keys['similar_tor'] . $id);
+        $cache->delete('torrent_details_'.$id);
+        $cache->delete('torrent_xbt_data_'.$id);
+        $cache->delete('torrent_details_txt'.$id);
+        $cache->delete('coin_points_'.$id);
+        $cache->delete($keys['similar_tor'].$id);
         $dt = sqlesc(TIME_NOW - (14 * 86400)); // lose karma if deleted within 2 weeks
         if ($row['added'] < $dt) {
             sql_query("UPDATE users SET seedbonus = seedbonus-15.0 WHERE id = ".sqlesc($row['owner'])) || sqlerr(__FILE__, __LINE__);
@@ -97,17 +98,17 @@ function delete_torrent($delete_array, $page)
     $unique_ids = array_unique($ids);
     $countids = count($unique_ids);
     if ($countids > 0) {
-        sql_query('DELETE FROM torrents WHERE id IN (' . implode(', ', $ids) . ')');
+        sql_query('DELETE FROM torrents WHERE id IN ('.implode(', ', $ids).')');
         foreach (explode(".", "bookmarks.snatched.thanks.thankyou.coins") as $y) {
             sql_query('DELETE FROM '.$y.' WHERE torrentid IN ('.implode(', ', $ids).')');
         }
         foreach (explode(".", "peers.files.comments.rating") as $x) {
             sql_query('DELETE FROM '.$x.' WHERE torrent IN ('.implode(', ', $ids).')');
         }
-        sql_query('DELETE FROM deathrow WHERE tid IN (' . implode(', ', $ids) . ')') || sqlerr(__FILE__, __LINE__);
-        sql_query('DELETE FROM thanks WHERE torrentid IN (' . implode(', ', $ids) . ')') || sqlerr(__FILE__, __LINE__);
-        sql_query('DELETE FROM thankyou WHERE torid IN (' . implode(', ', $ids) . ')') || sqlerr(__FILE__, __LINE__);
-        write_log(' '.$lang['deathrow_torr'].' (' . implode(', ', $names) . '.)  '.$lang['deathrow_were'].' ' . $CURUSER['username'] . ' (' . $page . ')' . "\n");
+        sql_query('DELETE FROM deathrow WHERE tid IN ('.implode(', ', $ids).')') || sqlerr(__FILE__, __LINE__);
+        sql_query('DELETE FROM thanks WHERE torrentid IN ('.implode(', ', $ids).')') || sqlerr(__FILE__, __LINE__);
+        sql_query('DELETE FROM thankyou WHERE torid IN ('.implode(', ', $ids).')') || sqlerr(__FILE__, __LINE__);
+        write_log(' '.$lang['deathrow_torr'].' ('.implode(', ', $names).'.)  '.$lang['deathrow_were'].' '.$CURUSER['username'].' ('.$page.')'."\n");
         return $countids;
     }
 
@@ -116,7 +117,7 @@ function delete_torrent($delete_array, $page)
 if (!empty($_POST['remove'])) {
     $deleted = delete_torrent($_POST['remove'], 'deathrow');
     if ($deleted) {
-        stderr($lang['deathrow_success'], $lang['deathrow_deleted'] . $deleted . $lang['deathrow_torrs']);
+        stderr($lang['deathrow_success'], $lang['deathrow_deleted'].$deleted.$lang['deathrow_torrs']);
     } else {
         stderr($lang['deathrow_err'], $lang['deathrow_no_torr']);
     }
@@ -131,16 +132,16 @@ $dx_time = sqlesc(TIME_NOW - $x_time);
 $dy_time = sqlesc(TIME_NOW - $y_time);
 $dz_time = sqlesc(TIME_NOW - $z_time);
 if ($CURUSER["class"] >= UC_STAFF) {
-    $uploaders = array();
+    $uploaders = [];
     // Deathrow Routine 1
-    $query = 'SELECT t.id AS tid, t.name, t.owner, (t.seeders + t.leechers) AS peers, t.last_action, u.username, u.id AS uid FROM torrents AS t INNER JOIN users AS u ON t.owner = u.id LEFT JOIN peers AS p ON t.id = p.torrent WHERE t.last_action < ' . $dx_time . ' HAVING peers = 0';
+    $query = 'SELECT t.id AS tid, t.name, t.owner, (t.seeders + t.leechers) AS peers, t.last_action, u.username, u.id AS uid FROM torrents AS t INNER JOIN users AS u ON t.owner = u.id LEFT JOIN peers AS p ON t.id = p.torrent WHERE t.last_action < '.$dx_time.' HAVING peers = 0';
     ($res = sql_query($query)) || sqlerr(__FILE__, __LINE__);
     while ($arr = $res->fetch_assoc()) {
-        $uploaders[$arr['uid'] . '|' . $arr['username']][] = array(
+        $uploaders[$arr['uid'].'|'.$arr['username']][] = [
             'tid' => $arr['tid'],
             'torrent_name' => $arr['name'],
-            'reason' => 1
-        );
+            'reason' => 1,
+        ];
     }
     /*
     // Deathrow Routine 2
@@ -152,19 +153,19 @@ if ($CURUSER["class"] >= UC_STAFF) {
     }
     */
     // Deathrow Routine 3
-    $query = 'SELECT t.id, t.name, t.owner, t.added, t.last_action, u.id AS uid, u.username FROM torrents AS t INNER JOIN users AS u ON t.owner = u.id LEFT JOIN peers AS p ON t.id = p.torrent WHERE t.last_action < ' . (TIME_NOW - 1 * 86400) . ' AND t.added < ' . $dz_time . ' GROUP BY t.id HAVING(SUM(p.seeder) = 0)';
+    $query = 'SELECT t.id, t.name, t.owner, t.added, t.last_action, u.id AS uid, u.username FROM torrents AS t INNER JOIN users AS u ON t.owner = u.id LEFT JOIN peers AS p ON t.id = p.torrent WHERE t.last_action < '.(TIME_NOW - 1 * 86400).' AND t.added < '.$dz_time.' GROUP BY t.id HAVING(SUM(p.seeder) = 0)';
     ($res = sql_query($query)) || sqlerr(__FILE__, __LINE__);
     while ($arr = $res->fetch_assoc()) {
-        $uploaders[$arr['uid'] . '|' . $arr['username']][] = array(
+        $uploaders[$arr['uid'].'|'.$arr['username']][] = [
             'tid' => $arr['id'],
             'torrent_name' => $arr['name'],
-            'reason' => 3
-        );
+            'reason' => 3,
+        ];
     }
-    foreach ($uploaders AS $user_info => $torrent_array) {
+    foreach ($uploaders as $user_info => $torrent_array) {
         $ex_usr = explode('|', $user_info);
-        foreach ($torrent_array AS $key => $torrent_info) {
-            sql_query('INSERT INTO deathrow (uid, username, tid, torrent_name, reason) VALUES (' . $ex_usr[0] . ', \'' . $ex_usr[1] . '\', ' . $torrent_info['tid'] . ', ' . sqlesc($torrent_info['torrent_name']) . ', ' . $torrent_info['reason'] . ') ON DUPLICATE KEY UPDATE reason = ' . $torrent_info['reason'] . '');
+        foreach ($torrent_array as $key => $torrent_info) {
+            sql_query('INSERT INTO deathrow (uid, username, tid, torrent_name, reason) VALUES ('.$ex_usr[0].', \''.$ex_usr[1].'\', '.$torrent_info['tid'].', '.sqlesc($torrent_info['torrent_name']).', '.$torrent_info['reason'].') ON DUPLICATE KEY UPDATE reason = '.$torrent_info['reason'].'');
         }
     }
     unset($res);
@@ -192,42 +193,40 @@ if ($count) {
 	}
 	//]]>
 	</script>';
-    $pager = pager($perpage, $count, "staffpanel.php?tool=deathrow&amp;", array(
-        'lastpagedefault' => 1
-    ));
+    $pager = pager($perpage, $count, "staffpanel.php?tool=deathrow&amp;", [
+        'lastpagedefault' => 1,
+    ]);
     //
     $query = "SELECT * FROM deathrow {$orderby} {$pager['limit']}";
     ($res = sql_query($query)) || sqlerr(__FILE__, __LINE__);
-    $b = "<div class='row'><div class='col-md-12'><p><b>$count {$lang['deathrow_title']}</b>" . "</p><form action='' method='post'><table class='table table-bordered'>" . "<thead><tr><th class='colhead' align='center'>{$lang['deathrow_uname']}</th><th class='colhead' align='center'>{$lang['deathrow_tname']}</th><th class='colhead'>{$lang['deathrow_del_resn']}</th><th class='colhead'>{$lang['deathrow_del_torr']}</th></tr></thead>\n";
+    $b = "<div class='row'><div class='col-md-12'><p><b>$count {$lang['deathrow_title']}</b>"."</p><form action='' method='post'><table class='table table-bordered'>"."<thead><tr><th class='colhead' align='center'>{$lang['deathrow_uname']}</th><th class='colhead' align='center'>{$lang['deathrow_tname']}</th><th class='colhead'>{$lang['deathrow_del_resn']}</th><th class='colhead'>{$lang['deathrow_del_torr']}</th></tr></thead>\n";
     while ($queued = $res->fetch_assoc()) {
         if ($queued['reason'] == 1) {
             $reason = $lang['deathrow_nopeer'].calctime($x_time);
-        }
-        elseif ($queued['reason'] == 2) {
+        } elseif ($queued['reason'] == 2) {
             $reason = $lang['deathrow_no_peers'].calctime($y_time);
-        }
-        else {
+        } else {
             $reason = $lang['deathrow_no_seed'].calctime($z_time).$lang['deathrow_new_torr'];
         }
         $id = 0 + $queued['tid'];
-        $b.= "<tr>" . ($CURUSER["class"] >= UC_STAFF ? "<td align='center'><a href='userdetails.php?id=" . $queued["uid"] . "&amp;hit=1'><b>" . htmlsafechars($queued["username"]) . "</b></a></td>" : "<td align='center'><strong>{$lang['deathrow_hidden']}</strong></td>") . "<td align='center'><a href='details.php?id=" . $id . "&amp;hit=1'>" . htmlsafechars($queued["torrent_name"]) . "</a></td><td align='center'>" . $reason . "</td><td align='center'>" . ($queued["username"] == $CURUSER["username"] || $CURUSER["class"] >= UC_STAFF ? "<input type=\"checkbox\" name=\"remove[]\" value=\"" . $id . "\" /><b>" . ($queued["username"] == $CURUSER["username"] ? '&nbsp;&nbsp;<font color="#800000">'.$lang['deathrow_delete'].'</font>' : ''.$lang['deathrow_delete1'].'') . "</b>" : "{$lang['deathrow_ownstaff']}") . "</td></tr>";
+        $b .= "<tr>".($CURUSER["class"] >= UC_STAFF ? "<td align='center'><a href='userdetails.php?id=".$queued["uid"]."&amp;hit=1'><b>".htmlsafechars($queued["username"])."</b></a></td>" : "<td align='center'><strong>{$lang['deathrow_hidden']}</strong></td>")."<td align='center'><a href='details.php?id=".$id."&amp;hit=1'>".htmlsafechars($queued["torrent_name"])."</a></td><td align='center'>".$reason."</td><td align='center'>".($queued["username"] == $CURUSER["username"] || $CURUSER["class"] >= UC_STAFF ? "<input type=\"checkbox\" name=\"remove[]\" value=\"".$id."\" /><b>".($queued["username"] == $CURUSER["username"] ? '&nbsp;&nbsp;<font color="#800000">'.$lang['deathrow_delete'].'</font>' : ''.$lang['deathrow_delete1'].'')."</b>" : "{$lang['deathrow_ownstaff']}")."</td></tr>";
     }
-    $b.= '<tr><td class="table" colspan="11" align="right"><input type="button" value="'.$lang['deathrow_checkall'].'" onclick="this.value=check(this.form.elements[\'remove[]\'])"/>
+    $b .= '<tr><td class="table" colspan="11" align="right"><input type="button" value="'.$lang['deathrow_checkall'].'" onclick="this.value=check(this.form.elements[\'remove[]\'])"/>
 <input type="submit" name="submit" value="'.$lang['deathrow_apply'].'" /></td></tr></table></form></div></div>';
     $HTMLOUT .= ($pager['pagertop']);
     $HTMLOUT = $b;
     $HTMLOUT .= ($pager['pagerbottom']);
-    echo stdhead($lang['deathrow_stdhead']) . $HTMLOUT . stdfoot();
+    echo stdhead($lang['deathrow_stdhead']).$HTMLOUT.stdfoot();
 } else {
     $HTMLOUT .= '<br /><strong>'.$lang['deathrow_msg'].'</strong>'.$lang['deathrow_msg1'].'
-    <br /><br /><br /><strong>'.$lang['deathrow_msg2'].'</strong>'.$lang['deathrow_msg3'].' ' . $CURUSER['username'] . ''.$lang['deathrow_msg4'].'.
-    <br /><br /><br /><strong>'.$lang['deathrow_msg'].'</strong>'.$lang['deathrow_msg33'].' ' . $CURUSER['username'] . ''.$lang['deathrow_msg4'].'.
+    <br /><br /><br /><strong>'.$lang['deathrow_msg2'].'</strong>'.$lang['deathrow_msg3'].' '.$CURUSER['username'].''.$lang['deathrow_msg4'].'.
+    <br /><br /><br /><strong>'.$lang['deathrow_msg'].'</strong>'.$lang['deathrow_msg33'].' '.$CURUSER['username'].''.$lang['deathrow_msg4'].'.
     <br /><br /><br /><strong>'.$lang['deathrow_msg2'].'</strong>'.$lang['deathrow_msg5'].'
     <br /><br /><br /><strong>'.$lang['deathrow_msg'].'</strong>'.$lang['deathrow_msg6'].'
-    <br /><br /><br /><strong>'.$lang['deathrow_msg2'].'</strong> ' . $CURUSER['username'] . ''.$lang['deathrow_msg7'].'
+    <br /><br /><br /><strong>'.$lang['deathrow_msg2'].'</strong> '.$CURUSER['username'].''.$lang['deathrow_msg7'].'
     <br /><br /><br /><strong>'.$lang['deathrow_msg'].'</strong>'.$lang['deathrow_msg8'].'
     <br /><br /><br /><strong>'.$lang['deathrow_msg2'].'</strong>'.$lang['deathrow_msg9'].'
     <br /><br /><br /><strong>'.$lang['deathrow_msg'].'</strong>'.$lang['deathrow_msg0'].' ';
-echo stdhead($lang['deathrow_stdhead0']) . $HTMLOUT . stdfoot();
+    echo stdhead($lang['deathrow_stdhead0']).$HTMLOUT.stdfoot();
 }
 ?>

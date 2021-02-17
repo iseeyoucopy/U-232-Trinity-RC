@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //upload errors
     'upload_sorry' => "Désolé...",
     'upload_no_auth' => "Vous n'êtes pas autorisé à uploader des torrents.  (Voir <a href='faq.php#up'>Upload</a> dans les FAQ.)",
@@ -79,15 +79,15 @@ $lang = array(
     'upload_add_vip' => "VIP Torrent ",
     'upload_add_vipchk' => "Si cela est coché, seuls les VIPs peuvent téléchargés ce torrent",
     //add field to upload.php
-	'upload_author' => "Nom Réalisateur : ",
-	'upload_author_not_listed' => "Nom du réalisateur non listé, cliquez ici",
-	'upload_choose_one' => "Choisissez un nom",
-	//add readme.md file to upload
-	'upload_readme' => "Fichier README.md",
+    'upload_author' => "Nom Réalisateur : ",
+    'upload_author_not_listed' => "Nom du réalisateur non listé, cliquez ici",
+    'upload_choose_one' => "Choisissez un nom",
+    //add readme.md file to upload
+    'upload_readme' => "Fichier README.md",
     'upload_readme_info' => "<b>Optionnel.</b> Ne peut être vu que par les Power users.",
     /// allociné
     'upload_allo_code' => "Code Allociné",
     'upload_allo_tfi' => "(Pris du site Allociné - ",
-    'upload_allo_rfmo' => "Indiquez seulement le code Allociné pris à la fin de l'URL pour afficher les informations issues du site.)"
-);
+    'upload_allo_rfmo' => "Indiquez seulement le code Allociné pris à la fin de l'URL pour afficher les informations issues du site.)",
+];
 ?>

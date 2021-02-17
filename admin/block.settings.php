@@ -13,7 +13,7 @@
 /*Block settings by elephant*/
 if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
-    $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
+    $HTMLOUT .= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
@@ -25,23 +25,23 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     echo $HTMLOUT;
     exit();
 }
-$stdfoot = array(
+$stdfoot = [
     /** include js **/
-    'js' => array(
-        'custom-form-elements'
-    )
-);
-$stdhead = array(
+    'js' => [
+        'custom-form-elements',
+    ],
+];
+$stdhead = [
     /** include css **/
-    'css' => array(
-        'global_blocks'
-    )
-);
-require_once (CLASS_DIR . 'class_check.php');
+    'css' => [
+        'global_blocks',
+    ],
+];
+require_once(CLASS_DIR.'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_block_settings'));
-$block_set_cache = CACHE_DIR . 'block_settings_cache.php';
+$block_set_cache = CACHE_DIR.'block_settings_cache.php';
 if ('POST' == $_SERVER['REQUEST_METHOD']) {
     unset($_POST['submit']);
     block_cache();
@@ -58,9 +58,9 @@ function block_cache()
 $BLOCKS = array(
 ';
     foreach ($_POST as $k => $v) {
-        $block_out.= ($k == 'block_undefined') ? "\t'{$k}' => '" . htmlsafechars($v) . "',\n" : "\t'{$k}' => " . (int) $v . ",\n";
+        $block_out .= ($k == 'block_undefined') ? "\t'{$k}' => '".htmlsafechars($v)."',\n" : "\t'{$k}' => ".(int)$v.",\n";
     }
-    $block_out.= '
+    $block_out .= '
 );
 
 ?>';
@@ -72,9 +72,10 @@ $BLOCKS = array(
     }
     redirect('staffpanel.php?tool=block.settings&amp;action=block.settings', $lang['block_updated'], 3);
 }
+
 function get_cache_array()
 {
-    return array(
+    return [
         'ie_user_alert' => 1,
         'active_users_on' => 1,
         'active_24h_users_on' => 1,
@@ -137,9 +138,10 @@ function get_cache_array()
         'userdetails_report_user_on' => 1,
         'userdetails_user_status_on' => 1,
         'userdetails_user_comments_on' => 1,
-        'userdetails_showfriends_on' => 1
-    );
+        'userdetails_showfriends_on' => 1,
+    ];
 }
+
 if (!is_file($block_set_cache)) {
     $BLOCKS = get_cache_array();
 } else {
@@ -148,12 +150,12 @@ if (!is_file($block_set_cache)) {
         $BLOCKS = get_cache_array();
     }
 }
-$HTMLOUT.= "<div class='row'><div class='col-md-12'>
+$HTMLOUT .= "<div class='row'><div class='col-md-12'>
 <table class='table table-bordered'><tr><td width='100%'>
 <h3>{$lang['block_global']}</h3>
 <form action='staffpanel.php?tool=block.settings&amp;action=block.settings' method='post'>
 <table class='table table-bordered'>";
-$HTMLOUT.= "
+$HTMLOUT .= "
     <tr><td width='60%'>{$lang['block_iealert']}<br />{$lang['block_iealert_set']}</td><td width='40%'><div style='width: auto;' align='right'><#ie_user_alert#></div></td></tr>
     <tr><td width='60%'>{$lang['block_news']}<br />{$lang['block_news_set']}</td><td width='40%'><div style='width: auto;' align='right'><#news_on#></div></td></tr>
     <tr><td width='60%'>{$lang['block_shout']}<br />{$lang['block_shout_set']}</td><td width='40%'><div style='width: auto;' align='right'><#shoutbox_on#></div></td></tr>
@@ -177,9 +179,9 @@ $HTMLOUT.= "
         <tr><td width='60%'>{$lang['block_reqnoff']}<br />{$lang['block_reqnoff_set']}</td><td width='40%'><div style='width: auto;' align='right'><#requests_and_offers_on#></div></td></tr>
 </table>";
 
-	$HTMLOUT.= "<h3>{$lang['block_stdhead_settings']}</h3>";
+$HTMLOUT .= "<h3>{$lang['block_stdhead_settings']}</h3>";
 
-	$HTMLOUT.= "<table class='table table-bordered'>
+$HTMLOUT .= "<table class='table table-bordered'>
     	<tr><td width='60%'>{$lang['block_freelech']}<br />{$lang['block_freelech_set']}</td><td width='40%'><div style='width: auto;' align='right'><#global_freeleech_on#></div></td></tr>    
 	<tr><td width='60%'>{$lang['block_demotion']}<br />{$lang['block_demotion_set']}</td><td width='40%'><div style='width: auto;' align='right'><#global_demotion_on#></div></td></tr>
 	<tr><td width='60%'>{$lang['block_message']}<br />{$lang['block_message_set']}</td><td width='40%'><div style='width: auto;' align='right'><#global_message_on#></div></td></tr>
@@ -194,9 +196,9 @@ $HTMLOUT.= "
 
 </table>";
 
-	$HTMLOUT.= "<h3>{$lang['block_userdetails']}</h3>";
-        
-	$HTMLOUT.= "<table class='table table-bordered'>
+$HTMLOUT .= "<h3>{$lang['block_userdetails']}</h3>";
+
+$HTMLOUT .= "<table class='table table-bordered'>
 	<tr><td width='60%'>{$lang['block_login_link']}<br />{$lang['block_login_link_set']}</td><td width='40%'><div style='width: auto;' align='right'><#userdetails_login_link_on#></div></td></tr>    
 	<tr><td width='60%'>{$lang['block_flush']}<br />{$lang['block_flush_set']}</td><td width='40%'><div style='width: auto;' align='right'><#userdetails_flush_on#></div></td></tr>    
 	<tr><td width='60%'>{$lang['block_joined']}<br />{$lang['block_joined_set']}</td><td width='40%'><div style='width: auto;' align='right'><#userdetails_joined_on#></div></td></tr>    
@@ -228,15 +230,16 @@ $HTMLOUT.= "
 	<tr><td width='60%'>{$lang['block_user_status']}<br />{$lang['block_user_status_set']}</td><td width='40%'><div style='width: auto;' align='right'><#userdetails_user_status_on#></div></td></tr>    
 	<tr><td width='60%'>{$lang['block_user_comments']}<br />{$lang['block_user_comments_set']}</td><td width='40%'><div style='width: auto;' align='right'><#userdetails_user_comments_on#></div></td></tr>
 	<tr><td width='60%'>{$lang['block_showfriends']}<br />{$lang['block_showfriends_set']}</td><td width='40%'><div style='width: auto;' align='right'><#userdetails_showfriends_on#></div></td></tr></table>";
-	$HTMLOUT.= "<tr><td colspan='2' class='table' align='center'><input class='btn btn-default' type='submit' value='{$lang['block_submit']}' /></td></tr>
+$HTMLOUT .= "<tr><td colspan='2' class='table' align='center'><input class='btn btn-default' type='submit' value='{$lang['block_submit']}' /></td></tr>
 	</form></td></tr></table></div></div>";
 $HTMLOUT = preg_replace_callback("|<#(.*?)#>|", "template_out", $HTMLOUT);
-echo stdhead($lang['block_stdhead'], true, $stdhead) , $HTMLOUT, stdfoot($stdfoot);
+echo stdhead($lang['block_stdhead'], true, $stdhead), $HTMLOUT, stdfoot($stdfoot);
 function template_out($matches)
 {
     global $BLOCKS, $lang;
-    return $lang['block_yes']. '<input name="' . $matches[1] . '" value="1" ' . ($BLOCKS[$matches[1]] == 1 ? 'checked="checked"' : "") . ' type="radio" />&nbsp;&nbsp;&nbsp;<input name="' . $matches[1] . '" value="0" ' . ($BLOCKS[$matches[1]] == 1 ? "" : 'checked="checked"') . ' type="radio" /> ' .$lang['block_no'];
+    return $lang['block_yes'].'<input name="'.$matches[1].'" value="1" '.($BLOCKS[$matches[1]] == 1 ? 'checked="checked"' : "").' type="radio" />&nbsp;&nbsp;&nbsp;<input name="'.$matches[1].'" value="0" '.($BLOCKS[$matches[1]] == 1 ? "" : 'checked="checked"').' type="radio" /> '.$lang['block_no'];
 }
+
 function redirect($url, $text, $time = 2)
 {
     global $TRINITY20, $lang;
@@ -265,4 +268,5 @@ function redirect($url, $text, $time = 2)
     echo $html;
     exit;
 }
+
 ?>

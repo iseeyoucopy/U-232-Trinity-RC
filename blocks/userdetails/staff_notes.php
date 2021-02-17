@@ -10,11 +10,11 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-    $HTMLOUT.= '<div class="reveal" id="staff-notes" data-reveal>
+$HTMLOUT .= '<div class="reveal" id="staff-notes" data-reveal>
 			<form method="post" action="member_input.php" name="notes_for_staff">
-				<input name="id" type="hidden" value="' . (int)$user['id'] . '">
+				<input name="id" type="hidden" value="'.(int)$user['id'].'">
 				<input type="hidden" value="staff_notes" name="action" id="action">
-				<textarea id="new_staff_note" cols="50" rows="6" name="new_staff_note">' . htmlsafechars($user['staff_notes']) . '</textarea>
+				<textarea id="new_staff_note" cols="50" rows="6" name="new_staff_note">'.htmlsafechars($user['staff_notes']).'</textarea>
 				<input id="staff_notes_button" type="submit" value="'.$lang['userdetails_submit'].'" class="small button" name="staff_notes_button"/>
 			</form>
 			<button class="close-button" data-close aria-label="Close modal" type="button">

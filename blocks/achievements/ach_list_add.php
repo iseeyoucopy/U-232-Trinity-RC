@@ -1,5 +1,5 @@
 <?php
-$HTMLOUT.= "<div class='card table-responsive'>
+$HTMLOUT .= "<div class='card table-responsive'>
 <div class='card-divider'>{$lang['achlst_add_an_ach_lst']}</div>
 <div class='card-section'>
 		<form method='post' action='achievementlist.php'>

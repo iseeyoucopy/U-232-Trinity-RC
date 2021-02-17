@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //uploadapp errors
     'uploadapp_error' => "Erreur",
     'uploadapp_user_error' => "Accès refusé",
@@ -41,6 +41,6 @@ $lang = array(
     'uploadapp_seeding' => "Je comprends que je dois rester en seed sur mes torrents jusqu'à il y ai au moins deux autres seeders",
     'uploadapp_send' => "Envoyer",
     'uploadapp_appsent' => "Candidature envoyée",
-    'uploadapp_success' => "Votre candidature a bien été envoyée au staff."
-);
+    'uploadapp_success' => "Votre candidature a bien été envoyée au staff.",
+];
 ?>

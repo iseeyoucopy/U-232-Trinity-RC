@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Confirm
     'confirm_user_error' => "USER ERROR",
     'confirm_invalid_id' => "Sorry, you have an invalid id",
@@ -27,5 +27,5 @@ $lang = array(
     'confirm_' => "",
     'confirm_' => "",
     'confirm_' => "",
-);
+];
 ?>

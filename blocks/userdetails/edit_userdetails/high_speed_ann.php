@@ -11,7 +11,7 @@
  * ------------  @version V6  ------------------*
  */
 //==High speed php announce
-$HTMLOUT.= "<div class='cell medium-12'>
+$HTMLOUT .= "<div class='cell medium-12'>
 <fieldset class='fieldset'>
 <legend>{$lang['userdetails_highspeed']}</legend>
     <input type='radio' id='high_speed_yes' name='highspeed' value='yes' ".($user["highspeed"] == "yes" ? " checked='checked'" : "").">

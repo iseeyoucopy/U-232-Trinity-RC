@@ -1,28 +1,26 @@
 //Display form
 
-$("#check_status").click(function() {
+$('#check_status').click(function () {
 
-    $("#field_status").fadeIn("slow"); //Effect
+  $('#field_status').fadeIn('slow') //Effect
 
-});
-
+})
 
 //Hide form
 
-$("#close_status").click(function() {
+$('#close_status').click(function () {
 
- $("#field_status").fadeOut('slow'); //Close the editing effect
+  $('#field_status').fadeOut('slow') //Close the editing effect
 
-});
-
+})
 
 //Processing data
 
-$("#take_status").click(function() {
+$('#take_status').click(function () {
 
-  $("#load").html("<img  src=\"pic/loading.gif\" border=\"0\" alt=\"Loading...\" />");    
+  $('#load').html('<img  src="pic/loading.gif" border="0" alt="Loading..." />')
 
-  var status_text = $("#status_text").val(); //Status value
+  var status_text = $('#status_text').val() //Status value
 
   var id_user = <?$CURUSER['id'];?> //User ID
 

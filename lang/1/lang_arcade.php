@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'arcade_std_head' => "Old School Arcade",
     'arcade_error' => "Error!",
     'arcade_error_msg' => "Sorry, you must be this tall to play on this game... Power user and up can play in the arcade!",
@@ -51,6 +51,6 @@ $lang = array(
     'arcade_with_an_tot_score' => "With a total score of",
     'arcade_with' => "With",
     'arcade_games_played' => "games played",
-    'arcade_playing' => "playing"
-);
+    'arcade_playing' => "playing",
+];
 ?>

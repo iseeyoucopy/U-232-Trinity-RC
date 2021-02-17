@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Error
     'error_error' => "Erreur",
     'error_bad' => "Mauvaise ID!",
@@ -202,7 +202,7 @@ $lang = array(
     'req_det_most' => "Les récents commentaires, dans l'ordre inverse.",
     'req_fil_chk' => " Cocher cette case pour reposter cette requête. [ supprime Remplie par ]  ",
     'req_mouse_go' => "Allez à la page du Torrent!!",
-    'req_slct_req' => "Selectionnez la catégorie de la Requête",   
-    'req_com_del1' => 'Etes-vous sûr de vouloir supprimer le commentaire? Si oui cliquez '
-);
+    'req_slct_req' => "Selectionnez la catégorie de la Requête",
+    'req_com_del1' => 'Etes-vous sûr de vouloir supprimer le commentaire? Si oui cliquez ',
+];
 ?>

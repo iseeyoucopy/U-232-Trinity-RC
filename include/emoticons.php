@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$smilies = array(
+$smilies = [
     ":-)" => "smile1.gif",
     ":smile:" => "smile2.gif",
     ":-D" => "grin.gif",
@@ -213,8 +213,8 @@ $smilies = array(
     ":maxlocked:" => "maxlocked.gif",
     ":hslocked:" => "hslocked.gif",
     ":thankyou:" => "thankyou.gif",
-);
-$staff_smilies = array(
+];
+$staff_smilies = [
     ":Boozer:" => "alcoholic.gif",
     ":deadhorse:" => "deadhorse.gif",
     ":bump:" => "halo.gif",
@@ -231,8 +231,8 @@ $staff_smilies = array(
     ":locked:" => "locked.gif",
     ":censoredpic:" => "boucher-censored.jpg",
     ":dabunnies:" => "bunnies3.gif",
-);
-$customsmilies = array(
+];
+$customsmilies = [
     ":congrat:" => "clapping2.gif",
     ":thedevil:" => "diablo.gif",
     ":drinks2:" => "drinks2.gif",
@@ -417,6 +417,6 @@ $customsmilies = array(
     ":tongue_skull:" => "tongue_skull.gif",
     ":undecided_skull:" => "undecided_skull.gif",
     ":wink_skull:" => "wink_skull.gif",
-    ":fart4:" => "fart4.gif"
-);
+    ":fart4:" => "fart4.gif",
+];
 ?>

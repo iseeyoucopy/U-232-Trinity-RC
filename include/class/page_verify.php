@@ -27,15 +27,17 @@ class page_verify
             session_start();
         }
     }
+
     function create($task_name = 'Default')
     {
         global $CURUSER, $TRINITY20, $_SESSION;
-		$session_task = $CURUSER['id'] ?? '';
+        $session_task = $CURUSER['id'] ?? '';
         $_SESSION['Task_Time'] = TIME_NOW;
         $_SESSION['Task'] = md5('user_id:'.$session_task.'::taskname-'.$task_name.'::'.$_SESSION['Task_Time']);
         $_SESSION['HTTP_USER_AGENT'] = $_SERVER['HTTP_USER_AGENT'] ?? '';
         //$_SESSION['HTTP_USER_AGENT'] = $_SERVER['HTTP_USER_AGENT'];
     }
+
     function check($task_name = 'Default')
     {
         global $CURUSER, $TRINITY20, $lang, $_SESSION;
@@ -44,11 +46,12 @@ class page_verify
         if (isset($_SESSION['HTTP_USER_AGENT']) && $_SESSION['HTTP_USER_AGENT'] != $_SERVER['HTTP_USER_AGENT']) {
             stderr("Error", "Please resubmit the form. <a href='".$returl."'>Click HERE</a>", false);
         }
-		$session_task_id = $CURUSER['id'] ?? '';
+        $session_task_id = $CURUSER['id'] ?? '';
         if (isset($session_task) && $session_task != md5('user_id:'.$session_task_id.'::taskname-'.$task_name.'::'.$_SESSION['Task_Time'])) {
             stderr("Error", "Please resubmit the form. <a href='".$returl."'>Click HERE</a>", false);
         }
         $this->create();
     }
 }
+
 ?>

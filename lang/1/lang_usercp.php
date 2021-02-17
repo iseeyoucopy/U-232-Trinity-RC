@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //usercp gets
     'usercp_updated' => 'Profile updated',
     'usercp_mail_sent' => 'Confirmation email has been sent',
@@ -207,6 +207,6 @@ $lang = array(
     'usercp_pm_fopm' => "Forum Subscribe Pm",
     'usercp_pm_topm' => "Torrent deletion Pm",
     'usercp_pm_copm' => "Torrent comment Pm",
-    'usercp_pm_force' => "Force read pm"
-);
+    'usercp_pm_force' => "Force read pm",
+];
 ?>

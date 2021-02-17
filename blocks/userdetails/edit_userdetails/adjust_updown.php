@@ -11,7 +11,7 @@
  * ------------  @version V6  ------------------*
  */
 //Adjust up/down
-$HTMLOUT.= "<div class='input-group'>
+$HTMLOUT .= "<div class='input-group'>
     <span class='input-group-label'>{$lang['userdetails_addupload']}</span>
     <input class='input-group-field' type='text' name='amountup'>
     <select class='input-group-field'  name='formatup'>

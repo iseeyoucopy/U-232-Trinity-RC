@@ -8,7 +8,7 @@
  * @link https://blueimp.net/ajax/
  */
 
-$lang = array();
+$lang = [];
 $lang['title'] = 'AJAX Chat';
 $lang['userName'] = 'Usuario';
 $lang['password'] = 'Password';
@@ -115,7 +115,7 @@ $lang['playSelectedSound'] = 'Executa son';
 $lang['requiresJavaScript'] = 'Necesitas ter activado o Javascript no teu navegador..';
 $lang['errorInvalidUser'] = 'Usuario Incorrecto.';
 $lang['errorUserInUse'] = 'Este Nome de usuario xa está sendo utilizado neste momento.';
-$lang['errorBanned'] = 'Usuario ou IP  baneada..'; 
+$lang['errorBanned'] = 'Usuario ou IP  baneada..';
 $lang['errorMaxUsersLoggedIn'] = 'O chat alcanzou o número máximo de conexións.';
 $lang['errorChatClosed'] = 'Chat pechado neste momento.';
 $lang['logsTitle'] = 'AJAX Chat - Logs';

@@ -11,21 +11,22 @@
  * ------------  @version V6  ------------------*
  */
 if ($user['game_access'] != 1) {
-  $HTMLOUT.= "<div class='cell medium-12'>
+    $HTMLOUT .= "<div class='cell medium-12'>
   <fieldset class='fieldset'>
-  <legend>" . $lang['userdetails_games'] . "</legend>
+  <legend>".$lang['userdetails_games']."</legend>
   <input name='game_access' value='42' type='radio' id='imunity_pos' aria-describedby='imunity_pos'>
   <label for='imunity_pos'>{$lang['userdetails_remove_game_d']}</label>";
-  if ($user['game_access'] == 0) {
-      $HTMLOUT.= '<p class="help-text" id="imunity_pos">('.$lang['userdetails_unlimited_d'].')<p>';
-  } else {
-      $HTMLOUT.= "<p class='help-text' id='imunity_pos'>{$lang['userdetails_until']} " . get_date($user['game_access'], 'DATE') . " (" . mkprettytime($user['game_access'] - TIME_NOW) . " {$lang['userdetails_togo']})</p>";
-  } 
-  $HTMLOUT.= "</fieldset></div>";
+    if ($user['game_access'] == 0) {
+        $HTMLOUT .= '<p class="help-text" id="imunity_pos">('.$lang['userdetails_unlimited_d'].')<p>';
+    } else {
+        $HTMLOUT .= "<p class='help-text' id='imunity_pos'>{$lang['userdetails_until']} ".get_date($user['game_access'],
+                'DATE')." (".mkprettytime($user['game_access'] - TIME_NOW)." {$lang['userdetails_togo']})</p>";
+    }
+    $HTMLOUT .= "</fieldset></div>";
 }
 if ($user['game_access'] == 1) {
-  $HTMLOUT.= '<div class="input-group">
-      <span class="input-group-label">' . $lang['userdetails_games'] . '</span>
+    $HTMLOUT .= '<div class="input-group">
+      <span class="input-group-label">'.$lang['userdetails_games'].'</span>
       <select class="input-group-field" name="game_access">
           <option value="0">'.$lang['userdetails_disable_for'].'</option>
           <option value="1">1 '.$lang['userdetails_week'].'</option>

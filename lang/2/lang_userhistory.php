@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //stderr
     'stderr_errorhead' => "Erreur",
     'stderr_histerrhead' => "Erreur d'Historique",
@@ -37,5 +37,5 @@ $lang = array(
     'posts_torrent' => "Torrent:",
     'posts_del' => "Supprimé",
     'posts_comment' => "Commentaire",
-);
+];
 ?>

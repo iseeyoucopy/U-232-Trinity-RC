@@ -10,8 +10,8 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
-    'hitnrun_chance'   =>  "Current Hit and Runs who still have a chance",
+$lang = [
+    'hitnrun_chance' => "Current Hit and Runs who still have a chance",
     'hitnrun_nochance' => "Hit and Runs with no chance",
     'hitnrun_show_current' => "show all current hit and runs",
     'hitnrun_show_disabled' => "show disabled hit and runs",
@@ -37,6 +37,6 @@ $lang = array(
     'hitnrun_add' => "Add to shit list",
     'hitnrun_shit' => "Shit",
     'hitnrun_pm' => "PM",
-    'hitnrun_stdhead' => "Hit and Runs"
-);
+    'hitnrun_stdhead' => "Hit and Runs",
+];
 ?>

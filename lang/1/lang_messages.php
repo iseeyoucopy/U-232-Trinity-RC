@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Messages
     'messages_error' => "Error",
     'messages_invalid_box' => "Invalid Mailbox",
@@ -76,5 +76,5 @@ $lang = array(
     'messages_no_delete' => "Could not delete message.",
     'messages_jump' => "Jump to",
     'messages_go' => "Go",
-);
+];
 ?>

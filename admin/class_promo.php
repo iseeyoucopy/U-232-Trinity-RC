@@ -24,7 +24,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     echo $HTMLOUT;
     exit();
 }
-require_once(CLASS_DIR . 'class_check.php');
+require_once(CLASS_DIR.'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_class_promo'));
@@ -32,7 +32,7 @@ $lang = array_merge($lang, load_language('ad_class_promo'));
 /*$allowed_ids = array(
 1
 ); //== 1 Is Sysop*/
-if (!in_array($CURUSER['id'], $TRINITY20['allowed_staff']['id'] /*$allowed_ids*/ )) {
+if (!in_array($CURUSER['id'], $TRINITY20['allowed_staff']['id'] /*$allowed_ids*/)) {
     stderr($lang['classpromo_error'], $lang['classpromo_denied']);
 }
 //get the config from db - stoner/pdq
@@ -45,12 +45,12 @@ while ($ac = $pconf->fetch_assoc()) {
     $class_config[$ac['name']]['time'] = $ac['time'];
     $class_config[$ac['name']]['low_ratio'] = $ac['low_ratio'];
 }
-$possible_modes = array(
+$possible_modes = [
     'add',
     'edit',
     'remove',
-    ''
-);
+    '',
+];
 $mode = (isset($_GET['mode']) ? htmlsafechars($_GET['mode']) : '');
 if (!in_array($mode, $possible_modes)) {
     stderr($lang['classpromo_error'], $lang['classpromo_ruffian']);
@@ -73,44 +73,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $uploaded = $post_data[3];
             $time = $post_data[4];
             $low_ratio = $post_data[5];
-            
+
             if (isset($_POST[$c_name][0]) && (($value != $c_value) || ($name != $c_name) || ($min_ratio != $c_min_ratio) || ($uploaded != $c_uploaded) || ($time != $c_time) || ($low_ratio != $c_low_ratio))) {
-                $update[$c_name] = '(' . sqlesc($c_name) . ',' . sqlesc(is_array($min_ratio) ? implode('|', $min_ratio) : $min_ratio) . ',' . sqlesc(is_array($uploaded) ? implode('|', $uploaded) : $uploaded) . ',' . sqlesc(is_array($time) ? implode('|', $time) : $time) . ',' . sqlesc(is_array($low_ratio) ? implode('|', $low_ratio) : $low_ratio) . ')';
+                $update[$c_name] = '('.sqlesc($c_name).','.sqlesc(is_array($min_ratio) ? implode('|',
+                        $min_ratio) : $min_ratio).','.sqlesc(is_array($uploaded) ? implode('|',
+                        $uploaded) : $uploaded).','.sqlesc(is_array($time) ? implode('|',
+                        $time) : $time).','.sqlesc(is_array($low_ratio) ? implode('|', $low_ratio) : $low_ratio).')';
             }
         }
-        if (sql_query('INSERT INTO class_promo(name,min_ratio,uploaded,time,low_ratio) VALUES ' . implode(',', $update) . ' ON DUPLICATE KEY update name=values(name),min_ratio=values(min_ratio),uploaded=values(uploaded),time=values(time),low_ratio=values(low_ratio)')) { // need to change strut
-            
+        if (sql_query('INSERT INTO class_promo(name,min_ratio,uploaded,time,low_ratio) VALUES '.implode(',',
+                $update).' ON DUPLICATE KEY update name=values(name),min_ratio=values(min_ratio),uploaded=values(uploaded),time=values(time),low_ratio=values(low_ratio)')) { // need to change strut
+
             stderr($lang['classpromo_success'], $lang['classpromo_success_saved']);
         } else {
             stderr($lang['classpromo_error'], $lang['classpromo_err_query1']);
         }
         exit;
     }
-    
-    
+
+
     //ADD CLASS
     if ($mode == 'add') {
-        
+
         print_r($_POST, true);
         $name = isset($_POST['name']) ? htmlsafechars($_POST['name']) : stderr($lang['classpromo_error'], $lang['classpromo_err_clsname']);
         $min_ratio = $_POST['min_ratio'] ?? stderr($lang['classpromo_error'], $lang['classpromo_err_minratio']);
-        $uploaded = isset($_POST['uploaded']) ? (int) $_POST['uploaded'] : stderr($lang['classpromo_error'], $lang['classpromo_err_upl']);
-        $time = isset($_POST['time']) ? (int) $_POST['time'] : stderr($lang['classpromo_error'], $lang['classpromo_err_time']);
+        $uploaded = isset($_POST['uploaded']) ? (int)$_POST['uploaded'] : stderr($lang['classpromo_error'], $lang['classpromo_err_upl']);
+        $time = isset($_POST['time']) ? (int)$_POST['time'] : stderr($lang['classpromo_error'], $lang['classpromo_err_time']);
         $low_ratio = $_POST['low_ratio'] ?? stderr($lang['classpromo_error'], $lang['classpromo_err_lowratio']);
-        
-        if (sql_query("INSERT INTO class_promo (name, min_ratio,uploaded,time,low_ratio) VALUES(" . sqlesc($name) . "," . sqlesc($min_ratio) . "," . sqlesc($uploaded) . "," . sqlesc($time) . "," . sqlesc($low_ratio) . ")")) {
+
+        if (sql_query("INSERT INTO class_promo (name, min_ratio,uploaded,time,low_ratio) VALUES(".sqlesc($name).",".sqlesc($min_ratio).",".sqlesc($uploaded).",".sqlesc($time).",".sqlesc($low_ratio).")")) {
             stderr($lang['classpromo_success'], $lang['classpromo_success_saved']);
         } else {
             stderr($lang['classpromo_error'], $lang['classpromo_err_query2']);
         }
         exit;
     }
-    
-    
+
+
     // remove
     if ($mode == 'remove') {
         $name = isset($_POST['remove']) ? htmlsafechars($_POST['remove']) : stderr($lang['classpromo_error'], $lang['classpromo_err_required']);
-        if (sql_query("DELETE FROM class_promo WHERE name = " . sqlesc($name) . "")) {
+        if (sql_query("DELETE FROM class_promo WHERE name = ".sqlesc($name)."")) {
             stderr($lang['classpromo_success'], $lang['classpromo_success_reset']);
         } else {
             stderr($lang['classpromo_error'], $lang['classpromo_err_query']);
@@ -137,15 +141,15 @@ while ($arr = $res->fetch_assoc()) {
     $HTMLOUT .= "
 <tr>
 
-<td class='table' align='center'><input type='text' name='" . htmlsafechars($arr['name']) . "[]' size='25' value='" . get_user_class_name(htmlsafechars($arr['name'])) . " ' readonly='readonly'/> (".htmlsafechars($arr['name']).")</td>
-<td class='table' align='center'>&nbsp;<input type='hidden' name='" . htmlsafechars($arr['name']) . "[]' size='8' value='" . htmlsafechars($arr['id']) . "' /></td>
-<td class='table' align='center'><input type='text' name='" . htmlsafechars($arr['name']) . "[]' size='8' value='" . htmlsafechars($arr['min_ratio']) . "'  /></td>
-<td class='table' align='center'><input type='text' name='" . htmlsafechars($arr['name']) . "[]' size='8' value='" . htmlsafechars($arr['uploaded']) . "' /></td>
-<td class='table' align='center'><input type='text' name='" . htmlsafechars($arr['name']) . "[]' size='8' value='" . htmlsafechars($arr['time']) . "'  /></td>
-<td class='table' align='center'><input type='text' name='" . htmlsafechars($arr['name']) . "[]' size='8' value='" . htmlsafechars($arr['low_ratio']) . "'  /></td>
+<td class='table' align='center'><input type='text' name='".htmlsafechars($arr['name'])."[]' size='25' value='".get_user_class_name(htmlsafechars($arr['name']))." ' readonly='readonly'/> (".htmlsafechars($arr['name']).")</td>
+<td class='table' align='center'>&nbsp;<input type='hidden' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['id'])."' /></td>
+<td class='table' align='center'><input type='text' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['min_ratio'])."'  /></td>
+<td class='table' align='center'><input type='text' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['uploaded'])."' /></td>
+<td class='table' align='center'><input type='text' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['time'])."'  /></td>
+<td class='table' align='center'><input type='text' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['low_ratio'])."'  /></td>
 
 <td class='table' align='center'>
-<form name='remove' action='staffpanel.php?tool=class_promo&amp;mode=remove' method='post'><input type='hidden' name='remove' value='" . htmlsafechars($arr['name']) . "' /><input type='submit' value='{$lang['classpromo_remove']}' /></form></td>
+<form name='remove' action='staffpanel.php?tool=class_promo&amp;mode=remove' method='post'><input type='hidden' name='remove' value='".htmlsafechars($arr['name'])."' /><input type='submit' value='{$lang['classpromo_remove']}' /></form></td>
 </tr>";
 }
 //$HTMLOUT.= "<br /><br /> ";
@@ -163,7 +167,6 @@ $HTMLOUT .= "<div class='usage'>
 {$lang['classpromo_info_lowratio']}<br />
 
 </div>";
-
 
 
 $HTMLOUT .= "<h3>{$lang['classpromo_add_new_rule']}</h3>
@@ -190,5 +193,5 @@ $HTMLOUT .= "</select></td>
                 </tr>
 <tr><td colspan='5' class='table' align='center'><input type='submit' value='{$lang['classpromo_add_new']}' /></td></tr>
 </table></form></div></div>";
-echo stdhead($lang['classpromo_stdhead']) . $HTMLOUT . stdfoot();
+echo stdhead($lang['classpromo_stdhead']).$HTMLOUT.stdfoot();
 ?>

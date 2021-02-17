@@ -42,17 +42,17 @@
  *
  ************************************************************************************/
 
-$language_data = array(
+$language_data = [
     'LANG_NAME' => 'Twig',
-    'COMMENT_SINGLE' => array(),
-    'COMMENT_MULTI' => array('{#' => '#}'),
+    'COMMENT_SINGLE' => [],
+    'COMMENT_MULTI' => ['{#' => '#}'],
     'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-    'QUOTEMARKS' => array("'", '"'),
+    'QUOTEMARKS' => ["'", '"'],
     'ESCAPE_CHAR' => '',
-    'KEYWORDS' => array(
+    'KEYWORDS' => [
         //TWIG
         //Tags
-        1 => array(
+        1 => [
             'autoescape',
             'endautoescape',
             'block',
@@ -87,10 +87,10 @@ $language_data = array(
             'trans',
             'endtrans',
             'transchoice',
-            'endtranschoice'
-        ),
+            'endtranschoice',
+        ],
         //Filters
-        2 => array(
+        2 => [
             'abs',
             'batch',
             'capitalize',
@@ -119,10 +119,10 @@ $language_data = array(
             'title',
             'trim',
             'upper',
-            'url_encode'
-        ),
+            'url_encode',
+        ],
         //Functions
-        3 => array(
+        3 => [
             'attribute',
             'cycle',
             'dump',
@@ -130,10 +130,10 @@ $language_data = array(
             'random',
             'range',
             'source',
-            'template_from_string'
-        ),
+            'template_from_string',
+        ],
         //Tests
-        4 => array(
+        4 => [
             'constant',
             'defined',
             'divisibleby',
@@ -142,10 +142,10 @@ $language_data = array(
             'iterable',
             'null',
             'odd',
-            'sameas'
-        ),
+            'sameas',
+        ],
         //Operators
-        5 => array(
+        5 => [
             'in',
             'is',
             'and',
@@ -157,10 +157,10 @@ $language_data = array(
             'into',
             'starts with',
             'ends with',
-            'matches'
-        )
-    ),
-    'SYMBOLS' => array(
+            'matches',
+        ],
+    ],
+    'SYMBOLS' => [
         '{{',
         '}}',
         '{%',
@@ -189,98 +189,98 @@ $language_data = array(
         '(',
         ')', //Other
         '=' //HTML (attributes)
-    ),
-    'CASE_SENSITIVE' => array(
+    ],
+    'CASE_SENSITIVE' => [
         GESHI_COMMENTS => false,
         //Twig
         1 => true,
         2 => true,
         3 => true,
         4 => true,
-        5 => true
-    ),
-    'STYLES' => array(
-        'KEYWORDS' => array(
+        5 => true,
+    ],
+    'STYLES' => [
+        'KEYWORDS' => [
             1 => 'color: #0600FF;', //Tags
             2 => 'color: #008000;', //Filters
             3 => 'color: #0600FF;', //Functions
             4 => 'color: #804040;', //Tests
-            5 => 'color: #008000;'
-        ),
-        'COMMENTS' => array(
-            'MULTI' => 'color: #008080; font-style: italic;'
-        ),
-        'ESCAPE_CHAR' => array(
-            0 => 'color: #000099; font-weight: bold;'
-        ),
-        'BRACKETS' => array(
-            0 => 'color: #D36900;'
-        ),
-        'STRINGS' => array(
-            0 => 'color: #ff0000;'
-        ),
-        'NUMBERS' => array(
-            0 => 'color: #cc66cc;'
-        ),
-        'METHODS' => array(
-            1 => 'color: #006600;'
-        ),
-        'SYMBOLS' => array(
-            0 => 'color: #D36900;'
-        ),
-        'SCRIPT' => array(
+            5 => 'color: #008000;',
+        ],
+        'COMMENTS' => [
+            'MULTI' => 'color: #008080; font-style: italic;',
+        ],
+        'ESCAPE_CHAR' => [
+            0 => 'color: #000099; font-weight: bold;',
+        ],
+        'BRACKETS' => [
+            0 => 'color: #D36900;',
+        ],
+        'STRINGS' => [
+            0 => 'color: #ff0000;',
+        ],
+        'NUMBERS' => [
+            0 => 'color: #cc66cc;',
+        ],
+        'METHODS' => [
+            1 => 'color: #006600;',
+        ],
+        'SYMBOLS' => [
+            0 => 'color: #D36900;',
+        ],
+        'SCRIPT' => [
             0 => '',
             1 => 'color: #808080; font-style: italic;',
-            2 => 'color: #009000;'
-        ),
-        'REGEXPS' => array(
+            2 => 'color: #009000;',
+        ],
+        'REGEXPS' => [
             0 => 'color: #00aaff;',
-            1 => 'color: #00aaff;'
-        )
-    ),
-    'URLS' => array(
+            1 => 'color: #00aaff;',
+        ],
+    ],
+    'URLS' => [
         1 => 'http://twig.sensiolabs.org/doc/tags/{FNAMEL}.html',
         2 => 'http://twig.sensiolabs.org/doc/filters/{FNAMEL}.html',
         3 => 'http://twig.sensiolabs.org/doc/functions/{FNAMEL}.html',
         4 => 'http://twig.sensiolabs.org/doc/tests/{FNAMEL}.html',
         5 => '',
-    ),
+    ],
     'OOLANG' => false,
-    'OBJECT_SPLITTERS' => array(
+    'OBJECT_SPLITTERS' => [
         1 => '.',
-    ),
-    'REGEXPS' => array(
-        0 => array(
+    ],
+    'REGEXPS' => [
+        0 => [
             GESHI_SEARCH => "([[:space:]])([a-zA-Z_][a-zA-Z0-9_]*)",
             GESHI_REPLACE => '\\2',
             GESHI_MODIFIERS => '',
             GESHI_BEFORE => '\\1',
-            GESHI_AFTER => ''
-        ),
-        1 => array(
+            GESHI_AFTER => '',
+        ],
+        1 => [
             GESHI_SEARCH => "\.([a-zA-Z_][a-zA-Z0-9_]*)",
             GESHI_REPLACE => '.\\1',
             GESHI_MODIFIERS => '',
             GESHI_BEFORE => '',
-            GESHI_AFTER => ''
-        ),
-    ),
+            GESHI_AFTER => '',
+        ],
+    ],
     'STRICT_MODE_APPLIES' => GESHI_ALWAYS,
-    'SCRIPT_DELIMITERS' => array(
-        0 => array(
+    'SCRIPT_DELIMITERS' => [
+        0 => [
             '{{' => '}}',
-            '{%' => '%}'
-        ),
-        1 => array(
+            '{%' => '%}',
+        ],
+        1 => [
             '{#' => '#}',
-        )
-    ),
-    'HIGHLIGHT_STRICT_BLOCK' => array(
+        ],
+    ],
+    'HIGHLIGHT_STRICT_BLOCK' => [
         0 => true,
         1 => true,
-        2 => true
-    ),
-    'PARSER_CONTROL' => array(
-        'KEYWORDS' => array()
-    )
-);
+        2 => true,
+    ],
+    'PARSER_CONTROL' => [
+        'KEYWORDS' => [],
+    ],
+];

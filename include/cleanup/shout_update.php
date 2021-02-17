@@ -18,17 +18,18 @@ function docleanup($data)
     //== Delete shout
     $secs = 2 * 8_640_000;
     $dt = sqlesc(TIME_NOW - $secs);
-    sql_query("DELETE FROM shoutbox WHERE " . TIME_NOW . " - date > $secs") || sqlerr(__FILE__, __LINE__);
-    
-    
+    sql_query("DELETE FROM shoutbox WHERE ".TIME_NOW." - date > $secs") || sqlerr(__FILE__, __LINE__);
+
+
     if ($queries > 0) {
         write_log("Shout Clean -------------------- Shout Clean Complete using $queries queries--------------------");
     }
     if (false !== $mysqli->affected_rows) {
-        $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
+        $data['clean_desc'] = $mysqli->affected_rows." items deleted/updated";
     }
     if ($data['clean_log']) {
         cleanup_log($data);
     }
 }
+
 ?>

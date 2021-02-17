@@ -12,7 +12,7 @@
  */
 require_once(__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorrent.php');
 dbconn(false);
-require_once (CLASS_DIR . 'class_check.php');
+require_once(CLASS_DIR.'class_check.php');
 class_check(UC_STAFF);
 loggedinorreturn();
 $lang = array_merge(load_language('global'));
@@ -24,7 +24,7 @@ $htmlout = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
   <meta name='generator' content='TBDev.net' />
 	<meta name='MSSmartTagsPreventParsing' content='TRUE' />
   <title>Shoutbox Commands</title>
-  <link rel='stylesheet' href='./templates/" . $CURUSER['stylesheet'] . "/" . $CURUSER['stylesheet'] . ".css' type='text/css' />
+  <link rel='stylesheet' href='./templates/".$CURUSER['stylesheet']."/".$CURUSER['stylesheet'].".css' type='text/css' />
   </head>
   <body>
   <script type='text/javascript'>

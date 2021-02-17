@@ -34,20 +34,20 @@
  *
  ************************************************************************************/
 
-$language_data = array(
+$language_data = [
     'LANG_NAME' => 'Sass',
-    'COMMENT_SINGLE' => array(1 => '//'),
-    'COMMENT_MULTI' => array('/*' => '*/'),
-    'COMMENT_REGEXP' => array(),
+    'COMMENT_SINGLE' => [1 => '//'],
+    'COMMENT_MULTI' => ['/*' => '*/'],
+    'COMMENT_REGEXP' => [],
     'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-    'QUOTEMARKS' => array('"', "'"),
+    'QUOTEMARKS' => ['"', "'"],
     'ESCAPE_CHAR' => '',
-    'ESCAPE_REGEXP' => array(),
+    'ESCAPE_REGEXP' => [],
     'NUMBERS' =>
         GESHI_NUMBER_INT_BASIC | GESHI_NUMBER_FLT_SCI_ZERO,
-    'KEYWORDS' => array(
+    'KEYWORDS' => [
         // properties
-        1 => array(
+        1 => [
             'azimuth',
             'background-attachment',
             'background-color',
@@ -181,9 +181,9 @@ $language_data = array(
             'orientation',
             'min-device-width',
             'max-device-width',
-        ),
+        ],
         // reserved words for values
-        2 => array(
+        2 => [
             // colors
             'aqua',
             'black',
@@ -379,10 +379,10 @@ $language_data = array(
             'x-soft',
             'xx-large',
             'xx-small',
-            'yes'
-        ),
+            'yes',
+        ],
         // directives
-        3 => array(
+        3 => [
             '@at-root',
             '@charset',
             '@content',
@@ -405,9 +405,9 @@ $language_data = array(
             '@return',
             '@warn',
             '@while',
-        ),
+        ],
         // built-in Sass functions
-        4 => array(
+        4 => [
             'rgb',
             'rgba',
             'mix',
@@ -474,9 +474,9 @@ $language_data = array(
             'call',
             'if',
             'unique-id',
-        ),
+        ],
         // reserved words
-        5 => array(
+        5 => [
             '!important',
             '!default',
             '!optional',
@@ -493,9 +493,9 @@ $language_data = array(
             'or',
             'only',
             'not',
-        ),
-    ),
-    'SYMBOLS' => array(
+        ],
+    ],
+    'SYMBOLS' => [
         '(',
         ')',
         '{',
@@ -514,61 +514,61 @@ $language_data = array(
         '%',
         '?',
         '...',
-    ),
-    'CASE_SENSITIVE' => array(
+    ],
+    'CASE_SENSITIVE' => [
         GESHI_COMMENTS => false,
         1 => false,
         2 => false,
         3 => false,
         4 => false,
         5 => false,
-    ),
-    'STYLES' => array(
-        'KEYWORDS' => array(
+    ],
+    'STYLES' => [
+        'KEYWORDS' => [
             1 => 'color: #000000; font-weight: bold;',
             2 => 'color: #993333;',
             3 => 'color: #990000;',
             4 => 'color: #000000; font-weight: bold;',
             5 => 'color: #009900;',
-        ),
-        'COMMENTS' => array(
+        ],
+        'COMMENTS' => [
             1 => 'color: #006600; font-style: italic;',
-            'MULTI' => 'color: #006600; font-style: italic;'
-        ),
-        'ESCAPE_CHAR' => array(),
-        'BRACKETS' => array(
-            0 => 'color: #00AA00;'
-        ),
-        'STRINGS' => array(
-            0 => 'color: #ff0000;'
-        ),
-        'NUMBERS' => array(
-            0 => 'color: #cc66cc;'
-        ),
-        'METHODS' => array(),
-        'SYMBOLS' => array(
-            0 => 'color: #00AA00;'
-        ),
-        'SCRIPT' => array(),
-        'REGEXPS' => array(
+            'MULTI' => 'color: #006600; font-style: italic;',
+        ],
+        'ESCAPE_CHAR' => [],
+        'BRACKETS' => [
+            0 => 'color: #00AA00;',
+        ],
+        'STRINGS' => [
+            0 => 'color: #ff0000;',
+        ],
+        'NUMBERS' => [
+            0 => 'color: #cc66cc;',
+        ],
+        'METHODS' => [],
+        'SYMBOLS' => [
+            0 => 'color: #00AA00;',
+        ],
+        'SCRIPT' => [],
+        'REGEXPS' => [
             0 => 'color: #cc00cc;',
             1 => 'color: #6666ff;',
             2 => 'color: #3333ff;',
             3 => 'color: #933;',
             4 => 'color: #ff6633;',
             5 => 'color: #0066ff;',
-        )
-    ),
-    'URLS' => array(
+        ],
+    ],
+    'URLS' => [
         1 => '',
         2 => '',
         3 => '',
         4 => '',
         5 => '',
-    ),
+    ],
     'OOLANG' => false,
-    'OBJECT_SPLITTERS' => array(),
-    'REGEXPS' => array(
+    'OBJECT_SPLITTERS' => [],
+    'REGEXPS' => [
         // Variables
         0 => "[$][a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*",
         // Hexadecimal colors
@@ -582,9 +582,9 @@ $language_data = array(
         4 => "(\#\{.*\})",
         // Browser prefixed properties
         5 => "(\-(moz|ms|o|webkit)\-[a-z\-]*)",
-    ),
+    ],
     'STRICT_MODE_APPLIES' => GESHI_NEVER,
-    'SCRIPT_DELIMITERS' => array(),
-    'HIGHLIGHT_STRICT_BLOCK' => array(),
+    'SCRIPT_DELIMITERS' => [],
+    'HIGHLIGHT_STRICT_BLOCK' => [],
     'TAB_WIDTH' => 2,
-);
+];
