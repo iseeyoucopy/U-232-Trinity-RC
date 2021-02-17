@@ -343,12 +343,9 @@ return false;
 				}
 				return false;
 			case 'logs':
-				if($this->isLoggedIn() && ($this->getUserRole() >= UC_MODERATOR || ($this->getConfig('logsUserAccess') && ($this->getUserRole() >= UC_MODERATOR ))
-					)) {
-					return true;
-				}
-				return false;
-			default:
+				return $this->isLoggedIn() && ($this->getUserRole() >= UC_MODERATOR || ($this->getConfig('logsUserAccess') && ($this->getUserRole() >= UC_MODERATOR))
+                    );
+            default:
 				return false;
 		}
 	}
@@ -2814,11 +2811,8 @@ return false;
 	}
 
 	function isAllowedToSendPrivateMessage() {
-		if($this->getConfig('allowPrivateMessages') || $this->getUserRole() >= UC_MODERATOR) {
-			return true;
-		}
-		return false;
-	}
+        return $this->getConfig('allowPrivateMessages') || $this->getUserRole() >= UC_MODERATOR;
+    }
 	
 	function isAllowedToCreatePrivateChannel() {
 		if($this->getConfig('allowPrivateChannels')) {
@@ -2856,20 +2850,14 @@ return false;
 	function isUserOnline($userID=null) {
 		$userID = $userID ?? $this->getUserID();
 		$userDataArray = $this->getOnlineUsersData(null,'userID',$userID);
-		if($userDataArray && count($userDataArray) > 0) {
-			return true;
-		}
-		return false;
-	}
+        return $userDataArray && count($userDataArray) > 0;
+    }
 
 	function isUserNameInUse($userName=null) {
 		$userName = $userName ?? $this->getUserName();
 		$userDataArray = $this->getOnlineUsersData(null,'userName',$userName);
-		if($userDataArray && count($userDataArray) > 0) {
-			return true;
-		}
-		return false;
-	}
+        return $userDataArray && count($userDataArray) > 0;
+    }
 	
 	function isUserBanned($userName, $userID=null, $ip=null) {
 		if($userID !== null) {
@@ -2885,18 +2873,12 @@ return false;
 			}
 		}
 		$bannedUserDataArray = $this->getBannedUsersData('userName',$userName);
-		if($bannedUserDataArray && isset($bannedUserDataArray[0])) {
-			return true;
-		}	
-		return false;
-	}
+        return $bannedUserDataArray && isset($bannedUserDataArray[0]);
+    }
 	
 	function isMaxUsersLoggedIn() {
-		if(count($this->getOnlineUsersData()) >= $this->getConfig('maxUsersLoggedIn')) {
-			return true;
-		}
-		return false;
-	}
+        return count($this->getOnlineUsersData()) >= $this->getConfig('maxUsersLoggedIn');
+    }
 			
 	function validateChannel($channelID) {
 		if($channelID === null) {

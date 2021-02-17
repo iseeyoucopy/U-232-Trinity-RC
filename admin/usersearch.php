@@ -35,11 +35,7 @@ $DEBUG_MODE = 0;
 $lang = array_merge($lang, load_language('ad_usersearch'));
 function is_set_not_empty($param)
 {
-    if (isset($_POST[$param]) && !empty($_POST[$param])) {
-        return true;
-    }
-
-    return false;
+    return isset($_POST[$param]) && !empty($_POST[$param]);
 }
 echo stdhead($lang['usersearch_window_title']);
 //$HTMLOUT .= "<h1>{$lang['usersearch_title']}</h1>\n";
@@ -353,11 +349,7 @@ function ratios($up, $down, $color = True)
 // checks for the usual wildcards *, ? plus mySQL ones
 function haswildcard($text)
 {
-    if (strpos($text, '*') === False && strpos($text, '?') === False && strpos($text, '%') === False && strpos($text, '_') === False) {
-        return false;
-    }
-
-    return true;
+    return !(strpos($text, '*') === false && strpos($text, '?') === false && strpos($text, '%') === false && strpos($text, '_') === false);
 }
 ///////////////////////////////////////////////////////////////////////////////
 if (count($_POST) > 0) {

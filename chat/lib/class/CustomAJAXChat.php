@@ -26,11 +26,8 @@ class CustomAJAXChat extends AJAXChat {
     }
 	function revalidateUserID() {
 		global $CURUSER;
-		if($this->getUserRole() >= UC_USER && $this->getUserID() === $CURUSER['id']) {
-			return true;
-		}
-		return false;
-	}
+        return $this->getUserRole() >= UC_USER && $this->getUserID() === $CURUSER['id'];
+    }
 	// Initialize custom request variables:
 	function initCustomRequestVars() {
 		global $CURUSER;
