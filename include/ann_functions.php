@@ -93,7 +93,7 @@ function crazyhour_announce()
             $text_parsed = 'Next <span style="font-weight:bold;color:orange;">Crazyhour</span> is at ' . date('F j, g:i a', $cz['crazyhour']['var']);
             ann_sql_query('INSERT LOW_PRIORITY INTO sitelog (added, txt) ' . 'VALUES(' . TIME_NOW . ', ' . ann_sqlesc($text_parsed) . ')') || ann_sqlerr(__FILE__, __LINE__);
             ann_sql_query('INSERT LOW_PRIORITY INTO shoutbox (userid, date, text, text_parsed) ' . 'VALUES (2, ' . TIME_NOW . ', ' . ann_sqlesc($text) . ', ' . ann_sqlesc($text_parsed) . ')') || ann_sqlerr(__FILE__, __LINE__);
-            $cache->delete('shoutbox_');
+            
         }
         return false;
     } elseif (($cz['crazyhour']['var'] < $crazy_hour) && ($cz['crazyhour']['var'] >= TIME_NOW)) { // if crazyhour
@@ -109,7 +109,7 @@ function crazyhour_announce()
                 ann_sql_query('INSERT LOW_PRIORITY INTO sitelog (added, txt) 
             VALUES(' . TIME_NOW . ', ' . ann_sqlesc($text_parsed) . ')') || ann_sqlerr(__FILE__, __LINE__);
                 ann_sql_query('INSERT LOW_PRIORITY INTO shoutbox (userid, date, text, text_parsed) ' . 'VALUES (2, ' . TIME_NOW . ', ' . ann_sqlesc($text) . ', ' . ann_sqlesc($text_parsed) . ')') || ann_sqlerr(__FILE__, __LINE__);
-                $cache->delete('shoutbox_');
+                
             }
         }
         return true;
@@ -161,7 +161,7 @@ function freeleech_announce() {
                       'VALUES('.ann_sqlesc(TIME_NOW).', '.ann_sqlesc($text_parsed).')') || ann_sqlerr(__FILE__, __LINE__);
           ann_sql_query('INSERT LOW_PRIORITY INTO shoutbox (userid, date, text, text_parsed) '.
                       'VALUES (2, '.TIME_NOW.', '.ann_sqlesc($text).', '.ann_sqlesc($text_parsed).')') || ann_sqlerr(__FILE__, __LINE__);
-          $cache->delete('shoutbox_');
+          
       }
       return true;
    }

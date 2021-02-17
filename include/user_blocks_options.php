@@ -27,7 +27,6 @@
 		  'index_torrentfreak_on',
 		  'index_xmas_gift_on',
 		  'index_active_poll_on',
-		  'index_staff_shoutbox_on',
 		  'index_movie_ofthe_week_on',
 		  'index_requests_and_offers_on',
 		  'stdhead_freelech_on',

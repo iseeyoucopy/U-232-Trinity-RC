@@ -29,7 +29,6 @@ $stdhead = array(
 $stdfoot = array(
     /** include js **/
     'js' => array(
-        'shout'
     )
 );
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

@@ -44,13 +44,12 @@ $stdhead = [
     /** include js **/
     /*'js' => array(
         'popup',
-        'shout'
     )*/
 ];
 $stdfoot = [
     /** include js **/
     'js' => [
-        'shout',
+
         'browse',
         'check_selected'
     ]

@@ -40,7 +40,7 @@ if ($pm_what == "last10") {
 }
 if (count($pms) > 0) {
     sql_query("INSERT INTO messages (sender, receiver, added, msg " . ($use_subject ? ", subject" : "") . " ) VALUES " . implode(",", $pms)) || sqlerr(__FILE__, __LINE__);
-    $cache->delete('shoutbox_');
+    
 }
 sql_query("UPDATE torrents set last_reseed=" . TIME_NOW . " WHERE id=" . sqlesc($reseedid)) || sqlerr(__FILE__, __LINE__);
 $cache->update_row('torrent_details_' . $reseedid, [

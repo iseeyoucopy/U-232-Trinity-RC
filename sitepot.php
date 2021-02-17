@@ -112,7 +112,6 @@ if ($want_pot && (isset($pot_options[$want_pot]))) {
         /** shoutbox announce **/
         require_once(INCL_DIR . 'bbcode_functions.php');
         $msg = $CURUSER['username'] . " put " . $want_pot . " karma point" . ($want_pot > 1 ? 's' : '') . " into the site pot! * Only [b]" . $Remaining . "[/b] more karma point" . ($Remaining > 1 ? 's' : '') . " to go! * [color=green][b]Site Pot:[/b][/color] [url={$TRINITY20['baseurl']}/sitepot.php]" . $give . "/" . $potsize . '[/url]';
-        $cache->delete('shoutbox_');
         autoshout($msg);
         header('Location: sitepot.php');
         die();
@@ -142,7 +141,6 @@ if ($want_pot && (isset($pot_options[$want_pot]))) {
         ($res = sql_query("SELECT value_u FROM avps WHERE arg = 'sitepot'")) || sqlerr(__file__, __line__);
         $arr = $res->fetch_array(MYSQLI_ASSOC);
         $msg = " [color=green][b]24 HR FREELEECH[/b][/color] is now active! It will end at " . get_date($arr['value_u'], 'DATE') . ".";
-        $cache->delete('shoutbox_');
         autoshout($msg);
         header('Location: sitepot.php');
         die();

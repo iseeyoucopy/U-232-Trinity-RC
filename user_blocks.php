@@ -126,11 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $clrbits_index_page|= block_index::ACTIVE_POLL;
     }
-    if (isset($_POST['staff_shoutbox'])) {
-        $setbits_index_page|= block_index::STAFF_SHOUT;
-    } else {
-        $clrbits_index_page|= block_index::STAFF_SHOUT;
-    }
     if (isset($_POST['movie_ofthe_week'])) {
         $setbits_index_page|= block_index::MOVIEOFWEEK;
     } else {

@@ -40,9 +40,6 @@ $stdhead = array(
 $stdfoot = array(
     /** include js **/
     'js' => array(
-        //'shout',
-        //'jquery.lightbox-0.5.min',
-        //'lightbox',
         'check_selected'
     )
 );

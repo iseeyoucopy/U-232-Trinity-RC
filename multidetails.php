@@ -36,10 +36,6 @@ $stdfoot = array(
     'js' => array(
         'popup',
         'jquery.thanks',
-        'wz_tooltip',
-        'java_klappe',
-        'balloontip',
-        'shout',
         'thumbs',
         'sack'
     )

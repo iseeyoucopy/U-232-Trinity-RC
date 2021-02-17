@@ -18,7 +18,7 @@ function docleanup($data)
     //== sitepot
     sql_query("UPDATE avps SET value_i = 0, value_s = '0' WHERE arg = 'sitepot' AND value_u < " . TIME_NOW . " AND value_s = '1'") || sqlerr(__file__, __line__);
     $cache->delete('Sitepot_');
-    $cache->delete('shoutbox_');
+    
     if ($queries > 0) write_log("Sitepot -------------------- Sitepot CLean Complete using $queries queries--------------------");
     if (false !== $mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";

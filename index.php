@@ -32,7 +32,6 @@ $stdfoot = array(
     /** include js **/
     'js' => array(
 	/*'gallery',*/
-    'shout'
     )
 );
 

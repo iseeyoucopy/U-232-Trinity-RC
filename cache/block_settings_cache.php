@@ -4,7 +4,6 @@ $BLOCKS = array(
 	'ie_user_alert' => 0,
 	'news_on' => 1,
 	'shoutbox_on' => 1,
-	'staff_shoutbox_on' => 1,
 	'active_users_on' => 1,
 	'active_24h_users_on' => 1,
 	'active_birthday_users_on' => 1,
