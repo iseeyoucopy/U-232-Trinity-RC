@@ -56,24 +56,25 @@ if (!empty($requests)) {
 </tr></thead>\n";
     if ($requests) {
         foreach ($requests as $requestarr) {
-            $torrname = htmlsafechars($requestarr['request_name']);
-            $requestarr['cat_name'] = htmlsafechars($change[$requestarr['category']]['name']);
-            $requestarr['cat_pic'] = htmlsafechars($change[$requestarr['category']]['image']);
-            $request_f = ($requestarr['filled_by_user_id'] > 0 ? '<a href="details.php?id='.(int)$requestarr['filled_torrent_id'].'" title='.$lang['req_off_goto'].'><span style="color: limegreen;font-weight: bold;">'.$lang['req_off_yes1'].'</span></a>' : '<span style="color: red;font-weight: bold;">'.$lang['req_off_no1'].'</span>');
-
-            if (strlen($torrname) > 50) {
-                $torrname = substr($torrname, 0, 50)."...";
+            if (is_array($requestarr)) {  
+                $torrname = htmlsafechars($requestarr['request_name']);
+                $requestarr['cat_name'] = htmlsafechars($change[$requestarr['category']]['name']);
+                $requestarr['cat_pic'] = htmlsafechars($change[$requestarr['category']]['image']);
+                $request_f = ($requestarr['filled_by_user_id'] > 0 ? '<a href="details.php?id='.(int)$requestarr['filled_torrent_id'].'" title='.$lang['req_off_goto'].'><span style="color: limegreen;font-weight: bold;">'.$lang['req_off_yes1'].'</span></a>' : '<span style="color: red;font-weight: bold;">'.$lang['req_off_no1'].'</span>');
+                if (strlen($torrname) > 50) {
+                    $torrname = substr($torrname, 0, 50)."...";
+                }
+                $HTMLOUT .= " <tbody><tr>
+                <td class='text-center'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($requestarr["cat_pic"])."' alt='".htmlsafechars($requestarr["cat_name"])."' title='".htmlsafechars($requestarr["cat_name"])."' /></td>
+                    <td class='text-left'><a href=\"{$TRINITY20['baseurl']}/requests.php?action=request_details&amp;id=".(int)$requestarr['request_id']."&amp;hit=1\" >{$torrname}</a></td>
+            <td class='text-center'>".get_date($requestarr['added'], 'LONG')."</td>
+                <td class='text-center'>".number_format($requestarr['comments'])."</td>  
+                <td class='text-center'>{$lang['req_off_yes2']}".number_format($requestarr['vote_yes_count'])."<br />
+                            {$lang['req_off_no2']}".number_format($requestarr['vote_no_count'])."</td> 
+                <td class='text-center'>".print_user_stuff($requestarr)."</td>
+            <td class='text-center'>".$request_f."</td>
+    </tr></tbody>";
             }
-            $HTMLOUT .= " <tbody><tr>
-               <td class='text-center'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($requestarr["cat_pic"])."' alt='".htmlsafechars($requestarr["cat_name"])."' title='".htmlsafechars($requestarr["cat_name"])."' /></td>
-                <td class='text-left'><a href=\"{$TRINITY20['baseurl']}/requests.php?action=request_details&amp;id=".(int)$requestarr['request_id']."&amp;hit=1\" >{$torrname}</a></td>
-		<td class='text-center'>".get_date($requestarr['added'], 'LONG')."</td>
-        	<td class='text-center'>".number_format($requestarr['comments'])."</td>  
-        	<td class='text-center'>{$lang['req_off_yes2']}".number_format($requestarr['vote_yes_count'])."<br />
-        				 {$lang['req_off_no2']}".number_format($requestarr['vote_no_count'])."</td> 
-        	<td class='text-center'>".print_user_stuff($requestarr)."</td>
-		<td class='text-center'>".$request_f."</td>
-</tr></tbody>";
         }
         $HTMLOUT .= "</table></div>";
     } elseif (empty($requests)) {
