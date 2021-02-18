@@ -114,23 +114,25 @@ if ((is_countable($offers) ? count($offers) : 0) > 0) {
                 </tr></thead>\n";
     if ($offers) {
         foreach ($offers as $offerarr) {
-            $torrname = htmlsafechars($offerarr['offer_name']);
-            $offerarr['cat_name'] = htmlsafechars($change[$offerarr['category']]['name']);
-            $offerarr['cat_pic'] = htmlsafechars($change[$offerarr['category']]['image']);
-            $status = ($offerarr['status'] == 'approved' ? '<span style="color: limegreen;font-weight: bold;">'.$lang['req_off_app'].'</span>' : ($offerarr['status'] == 'pending' ? '<span style="color: skyblue;font-weight: bold;">'.$lang['req_off_pend'].'</span>' : '<span style="color: red;font-weight: bold;">'.$lang['req_off_den'].'</span>'));
-            if (strlen($torrname) > 50) {
-                $torrname = substr($torrname, 0, 50)."...";
+            if (is_array($offerarr)) {
+                $torrname = htmlsafechars($offerarr['offer_name']);
+                $offerarr['cat_name'] = htmlsafechars($change[$offerarr['category']]['name']);
+                $offerarr['cat_pic'] = htmlsafechars($change[$offerarr['category']]['image']);
+                $status = ($offerarr['status'] == 'approved' ? '<span style="color: limegreen;font-weight: bold;">'.$lang['req_off_app'].'</span>' : ($offerarr['status'] == 'pending' ? '<span style="color: skyblue;font-weight: bold;">'.$lang['req_off_pend'].'</span>' : '<span style="color: red;font-weight: bold;">'.$lang['req_off_den'].'</span>'));
+                if (strlen($torrname) > 50) {
+                    $torrname = substr($torrname, 0, 50)."...";
+                }
+                $HTMLOUT .= " <tbody><tr>
+                <td class='text-center'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($offerarr["cat_pic"])."' alt='".htmlsafechars($offerarr["cat_name"])."' title='".htmlsafechars($offerarr["cat_name"])."' /></td>
+                    <td class='text-left'><a href=\"{$TRINITY20['baseurl']}/offers.php?action=offer_details&amp;id=".(int)$offerarr['offer_id']."&amp;hit=1\" >{$torrname}</a></td>
+            <td class='text-center'>".get_date($offerarr['added'], 'LONG')."</td>
+                <td class='text-center'>".number_format($offerarr['comments'])."</td>  
+                <td class='text-center'>{$lang['req_off_yes2']}".number_format($offerarr['vote_yes_count'])."<br />
+                            {$lang['req_off_no2']}".number_format($offerarr['vote_no_count'])."</td> 
+                <td class='text-center'>".print_user_stuff($offerarr)."</td>
+            <td class='text-center'>".$status."</td>
+    </tr></tbody>";
             }
-            $HTMLOUT .= " <tbody><tr>
-               <td class='text-center'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($offerarr["cat_pic"])."' alt='".htmlsafechars($offerarr["cat_name"])."' title='".htmlsafechars($offerarr["cat_name"])."' /></td>
-                <td class='text-left'><a href=\"{$TRINITY20['baseurl']}/offers.php?action=offer_details&amp;id=".(int)$offerarr['offer_id']."&amp;hit=1\" >{$torrname}</a></td>
-		<td class='text-center'>".get_date($offerarr['added'], 'LONG')."</td>
-        	<td class='text-center'>".number_format($offerarr['comments'])."</td>  
-        	<td class='text-center'>{$lang['req_off_yes2']}".number_format($offerarr['vote_yes_count'])."<br />
-        				 {$lang['req_off_no2']}".number_format($offerarr['vote_no_count'])."</td> 
-        	<td class='text-center'>".print_user_stuff($offerarr)."</td>
-		<td class='text-center'>".$status."</td>
-</tr></tbody>";
         }
         $HTMLOUT .= "</table></div>";
     } elseif (empty($offers)) {

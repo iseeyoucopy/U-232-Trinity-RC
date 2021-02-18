@@ -39,20 +39,22 @@ $HTMLOUT .= "<table class='top10'>
 if ($top10music_week) {
     $counter = 1;
     foreach ($top10music_week as $top10music_w_arr) {
-        $top10music_w_arr['cat_name'] = htmlsafechars($change[$top10music_w_arr['category']]['name']);
-        $top10music_w_arr['cat_pic'] = htmlsafechars($change[$top10music_w_arr['category']]['image']);
-        $torrname = htmlsafechars($top10music_w_arr['name']);
-        if (strlen($torrname) > 50) {
-            $torrname = substr($torrname, 0, 50)."...";
+        if (is_array($top10music_w_arr)) {
+            $top10music_w_arr['cat_name'] = htmlsafechars($change[$top10music_w_arr['category']]['name']);
+            $top10music_w_arr['cat_pic'] = htmlsafechars($change[$top10music_w_arr['category']]['image']);
+            $torrname = htmlsafechars($top10music_w_arr['name']);
+            if (strlen($torrname) > 50) {
+                $torrname = substr($torrname, 0, 50)."...";
+            }
+            $HTMLOUT .= "
+                <tr>
+                <td>".$counter++."</td>
+                <td><a class ='float-left' href=\"{$TRINITY20['baseurl']}/details.php?id=".(int)$top10music_w_arr['id']."&amp;hit=1\">{$torrname}</a></td>
+                <td>".(int)$top10music_w_arr['times_completed']."</td>
+            <td>".(int)$top10music_w_arr['seeders']."</td>
+            <td>".(int)$top10music_w_arr['leechers']."</td>     
+        </tr>";
         }
-        $HTMLOUT .= "
-            <tr>
-            <td>".$counter++."</td>
-            <td><a class ='float-left' href=\"{$TRINITY20['baseurl']}/details.php?id=".(int)$top10music_w_arr['id']."&amp;hit=1\">{$torrname}</a></td>
-			<td>".(int)$top10music_w_arr['times_completed']."</td>
-          <td>".(int)$top10music_w_arr['seeders']."</td>
-          <td>".(int)$top10music_w_arr['leechers']."</td>     
-	 </tr>";
     }
 } elseif (empty($top10music_week)) {
     $HTMLOUT .= "<tbody><tr><td>{$lang['top5torrents_no_torrents']}</td></tr></tbody>";
