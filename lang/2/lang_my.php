@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //my gets
     'my_updated' => 'Profile updated',
     'my_mail_sent' => 'Confirmation email has been sent',
@@ -98,6 +98,6 @@ $lang = array(
     'my_scloud' => 'Search Cloud',
     'my_scloud1' => '(Enable/Disable searchcloud on browse !)',
     //my stdhead
-    'my_stdhead' => '\'s private page'
-);
+    'my_stdhead' => '\'s private page',
+];
 ?>

@@ -24,10 +24,11 @@ function docleanup($data)
         write_log("Achievements Cleanup:  Achievements dailyshouts reset Completed using $queries queries");
     }
     if (false !== $mysqli->affected_rows) {
-        $data['clean_desc'] = $mysqli->affected_rows . " items updated";
+        $data['clean_desc'] = $mysqli->affected_rows." items updated";
     }
     if ($data['clean_log']) {
         cleanup_log($data);
     }
 }
+
 ?>

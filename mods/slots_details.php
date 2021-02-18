@@ -20,33 +20,31 @@ if (!empty($slot)) {
 $torrent['addup'] = get_date($torrent['addedup'], 'DATE');
 $torrent['addfree'] = get_date($torrent['addedfree'], 'DATE');
 $torrent['idk'] = (TIME_NOW + 14 * 86400);
-$torrent['freeimg'] = '<img src="' . $TRINITY20['pic_base_url'] . 'freedownload.gif" alt="" />';
-$torrent['doubleimg'] = '<img src="' . $TRINITY20['pic_base_url'] . 'doubleseed.gif" alt="" />';
+$torrent['freeimg'] = '<img src="'.$TRINITY20['pic_base_url'].'freedownload.gif" alt="" />';
+$torrent['doubleimg'] = '<img src="'.$TRINITY20['pic_base_url'].'doubleseed.gif" alt="" />';
 $torrent['free_color'] = 'alert';
 $torrent['silver_color'] = 'secondary';
 //== Display when freeleech and double slot will expire
-$info_freeslot = '' . $torrent['freeimg'] . $lang['details_bal1_free1'] . get_date($torrent['idk'], 'DATE');
-$info_doubleslot = $torrent['doubleimg'] . $lang['details_bal2_free1'] . get_date($torrent['idk'], 'DATE');
+$info_freeslot = ''.$torrent['freeimg'].$lang['details_bal1_free1'].get_date($torrent['idk'], 'DATE');
+$info_doubleslot = $torrent['doubleimg'].$lang['details_bal2_free1'].get_date($torrent['idk'], 'DATE');
 $info_slots = "";
 //== Display freeslots links
 $double_torrent = "<a href='download.php?torrent={$id}&amp;slot=double'>{$info_doubleslot}</a>";
 $d_free_torrent = "<a href='download.php?torrent={$id}&amp;slot=free'>{$info_freeslot}</a>";
 if ($free_slot && !$double_slot) {
-	$HTMLOUT.= '<div class="callout">
-        ' . $torrent['freeimg'] . ' 
-		<b><font color="' . $torrent['free_color'] . '">'.$lang['details_add_slots2'].'</font></b>'.$lang['details_add_slots3'].'' . $torrent['addfree'] . '</div>';
-        $freeslot = ($CURUSER['freeslots'] >= 1 ? "{$double_torrent}" : "");
-    } elseif (!$free_slot && $double_slot) {
-        $HTMLOUT.= '<div class="callout"</div>' . $torrent['doubleimg'] . ' <b><font color="' . $torrent['free_color'] . '">'.$lang['details_add_slots8'].'</font></b>'.$lang['details_add_slots3'].'' . $torrent['addup'] . '</div>';
-        $freeslot = ($CURUSER['freeslots'] >= 1 ? "{$d_free_torrent}" : "");
-    }
-	elseif ($free_slot && $double_slot) {
-        $HTMLOUT.= '<div class="callout">
+    $HTMLOUT .= '<div class="callout">
+        '.$torrent['freeimg'].' 
+		<b><font color="'.$torrent['free_color'].'">'.$lang['details_add_slots2'].'</font></b>'.$lang['details_add_slots3'].''.$torrent['addfree'].'</div>';
+    $freeslot = ($CURUSER['freeslots'] >= 1 ? "{$double_torrent}" : "");
+} elseif (!$free_slot && $double_slot) {
+    $HTMLOUT .= '<div class="callout"</div>'.$torrent['doubleimg'].' <b><font color="'.$torrent['free_color'].'">'.$lang['details_add_slots8'].'</font></b>'.$lang['details_add_slots3'].''.$torrent['addup'].'</div>';
+    $freeslot = ($CURUSER['freeslots'] >= 1 ? "{$d_free_torrent}" : "");
+} elseif ($free_slot && $double_slot) {
+    $HTMLOUT .= '<div class="callout">
 		<p>
-        ' . $torrent['freeimg'] . ' ' . $torrent['doubleimg'] . ' <b><font color="' . $torrent['free_color'] . '">'.$lang['details_add_slots9'].'</font></b>'.$lang['details_add_slots10'].'' . $torrent['addfree'] . ''.$lang['details_add_slots11'].'' . $torrent['addup'] . '</p></div>';
-        $freeslot = '';
-    }
-	else {
+        '.$torrent['freeimg'].' '.$torrent['doubleimg'].' <b><font color="'.$torrent['free_color'].'">'.$lang['details_add_slots9'].'</font></b>'.$lang['details_add_slots10'].''.$torrent['addfree'].''.$lang['details_add_slots11'].''.$torrent['addup'].'</p></div>';
+    $freeslot = '';
+} else {
     $freeslot = "".($CURUSER['freeslots'] >= 1 ? "{$d_free_torrent} <br> {$double_torrent}" : "")."";
-    }
+}
 ?>

@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Contact Staff
     'contactstaff_title' => 'Send message to staff',
     'contactstaff_info' => 'If you wish to contact the staff due to a certain user or just a general problem please use this!',
@@ -24,5 +24,5 @@ $lang = array(
     'contactstaff_success' => 'Success',
     'contactstaff_success_msg' => 'Message was sent! Wait for staff to respond now! Please wait while redirecting...',
     'contactstaff_mysql_err' => 'There was something wrong, Mysql Err: %s',
-);
+];
 ?>

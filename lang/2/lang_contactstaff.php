@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Contact Staff
     'contactstaff_title' => "Envoyer un message au staff",
     'contactstaff_info' => "Si vous souhaitez contacter le staff à propos du comportement d'un user ou d'un problème plus général, svp utilisez ce formulaire!",
@@ -23,6 +23,6 @@ $lang = array(
     'contactstaff_no_msg' => "Votre message n'a pas de corps de texte",
     'contactstaff_success' => "Succès",
     'contactstaff_success_msg' => 'Le message a été envoyé! Le problème sera traité par le staff dans les meilleurs délais! Patientez vous allez être redirigé...',
-    'contactstaff_mysql_err' => 'Il y a eu un problème, Mysql Err: %s'
-);
+    'contactstaff_mysql_err' => 'Il y a eu un problème, Mysql Err: %s',
+];
 ?>

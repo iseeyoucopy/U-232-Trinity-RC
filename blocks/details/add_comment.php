@@ -1,7 +1,7 @@
 <?php
-$HTMLOUT.= "<hr /><br /> 
-<h2 class='text-center'>{$lang['details_comments']}<a href='details.php?id=$id'>" . htmlsafechars($torrents["name"], ENT_QUOTES) . "</a></h2>";
-$HTMLOUT.= "<div class='container'><div class='row'>
+$HTMLOUT .= "<hr /><br /> 
+<h2 class='text-center'>{$lang['details_comments']}<a href='details.php?id=$id'>".htmlsafechars($torrents["name"], ENT_QUOTES)."</a></h2>";
+$HTMLOUT .= "<div class='container'><div class='row'>
 <div class='col-md-2'></div>
 <div class='col-md-8'>
 <p><a name='startcomments'></a></p>
@@ -11,7 +11,7 @@ $HTMLOUT.= "<div class='container'><div class='row'>
     <td align='center'><b>{$lang['details_quick_comment']}</b></td></tr>
     <tr><td align='center'>
     <textarea name='body'></textarea>
-    <input type='hidden' name='tid' value='" . htmlsafechars($id) . "' /><br />
+    <input type='hidden' name='tid' value='".htmlsafechars($id)."' /><br />
     <a href=\"javascript:SmileIT(':-)','comment','body')\"><img border='0' src='{$TRINITY20['pic_base_url']}smilies/smile1.gif' alt='Smile' title='Smile' /></a> 
     <a href=\"javascript:SmileIT(':smile:','comment','body')\"><img border='0' src='{$TRINITY20['pic_base_url']}smilies/smile2.gif' alt='Smiling' title='Smiling' /></a> 
     <a href=\"javascript:SmileIT(':-D','comment','body')\"><img border='0' src='{$TRINITY20['pic_base_url']}smilies/grin.gif' alt='Grin' title='Grin' /></a> 
@@ -36,4 +36,4 @@ $HTMLOUT.= "<div class='container'><div class='row'>
     <a href=\"javascript:SmileIT(':blink:','comment','body')\"><img border='0' src='{$TRINITY20['pic_base_url']}smilies/blink.gif' alt='Blink' title='Blink' /></a> 
     <a href=\"javascript:SmileIT(':baby:','comment','body')\"><img border='0' src='{$TRINITY20['pic_base_url']}smilies/baby.gif' alt='Baby' title='Baby' /></a><br />
     <input class='btn btn-primary' type='submit' value='Submit' /></td></tr></table></form></div><!-- closing col md 8 --></div><!-- closing row --></div><!-- closing container -->";
-	?>
+?>

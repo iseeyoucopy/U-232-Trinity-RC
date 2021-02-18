@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //uploadapp errors
     'uploadapp_error' => "Error",
     'uploadapp_user_error' => "Access Denied",
@@ -41,6 +41,6 @@ $lang = array(
     'uploadapp_seeding' => "I understand that I have to keep seeding my torrents until there are at least two other seeders",
     'uploadapp_send' => "Send",
     'uploadapp_appsent' => "Application sent",
-    'uploadapp_success' => "Your application has succesfully been sent to the staff."
-);
+    'uploadapp_success' => "Your application has succesfully been sent to the staff.",
+];
 ?>

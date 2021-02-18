@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 global $TRINITY20;
 $TRINITY20['sitecache']['driver'] = 'redis'; // Choices are memory, file, redis, memcached, apcu

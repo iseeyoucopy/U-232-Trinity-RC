@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //blocks
     'gl_bug_alert' => "Message Alerte Bug",
     'gl_bug_alert1' => "Nouveau Message Bug",
@@ -26,5 +26,5 @@ $lang = array(
     'gl_happyhour' => "HappyHour",
     'gl_happyhour1' => "HappyHour",
     'gl_happyhour2' => "Hey c'est happy hour !",
-);
+];
 ?>

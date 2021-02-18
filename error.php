@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
+require_once(__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorrent.php');
 $string = $_SERVER['QUERY_STRING'];
 if ($string == '404') {
     $page = 'Page Not Found - 404';
@@ -38,7 +38,7 @@ $htmlout = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
-    <meta http-equiv='refresh' content='5; url=http://" . $domain . "' />
+    <meta http-equiv='refresh' content='5; url=http://".$domain."' />
     <meta name='generator' content='u-232.servebeer.com' />
 	  <meta name='MSSmartTagsPreventParsing' content='TRUE' />
 		<title>{$page}</title>

@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'achlst_std_head' => "Liste des trophées",
     'achlst_achievement' => "Trophées",
     'achlst_new_ach_been_added' => "Vous avez obtenu un nouveau trophée",
@@ -21,6 +21,6 @@ $lang = array(
     'achlst_earned' => "Gagné",
     'achlst_add_an_ach_lst' => "Ajout d'un trophée à la liste.",
     'achlst_achievicon' => "Trophée",
-    'achlst_add_me' => "Ajouter"
-);
+    'achlst_add_me' => "Ajouter",
+];
 ?>

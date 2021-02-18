@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'credits_error' => "Error",
     'credits_error2' => "Fuck something went Pete Tong !",
     'credits_error3' => "You must specify a name for this credit.",
@@ -48,5 +48,5 @@ $lang = array(
     'credits_addc' => "Add Credits",
     'credits_headers' => "Installed mods & credits",
     'credits_editmod' => "Edit mod credits",
-);
+];
 ?>

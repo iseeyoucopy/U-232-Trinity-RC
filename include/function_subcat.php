@@ -22,9 +22,9 @@ function genrelist2()
                         //Subcategories add parenttabletype
                         $cats[$i]['subcategory'][$j]['parenttabletype'] = $cat['tabletype'];
                         //Subcategories add idtabletype
-                        $cats[$i]['subcategory'][$j]['idtabletype'] = $subcat['id'] . $subcat['tabletype'];
+                        $cats[$i]['subcategory'][$j]['idtabletype'] = $subcat['id'].$subcat['tabletype'];
                         //Subcategories description
-                        $cats[$i]['subcategory'][$j]['description'] = $cat['name'] . "->" . $subcat['name'];
+                        $cats[$i]['subcategory'][$j]['description'] = $cat['name']."->".$subcat['name'];
                         //All link array for cats
                         $cats[$i]['categories'] .= "cats$cat[tabletype][]=$subcat[id]&amp;";
                         $j++;
@@ -54,9 +54,9 @@ function categories_table($cats, $wherecatina, $linkpage = '', $display = 'block
     foreach ($cats as $cat) {
         $html .= ($i && $i % $catsperrow == 0) ? "</tr><tr>" : "";
         $html .= "<td>
-    <input id=\"checkAll{$cat['tabletype']}\" type=\"checkbox\" onclick=\"checkAllFields(1,{$cat['tabletype']});\" " . (isset($cat['checked']) && $cat['checked'] ? "checked='checked'" : "") . " />
+    <input id=\"checkAll{$cat['tabletype']}\" type=\"checkbox\" onclick=\"checkAllFields(1,{$cat['tabletype']});\" ".(isset($cat['checked']) && $cat['checked'] ? "checked='checked'" : "")." />
     <a href=\"javascript: ShowHideMainSubCats({$cat['tabletype']},{$ncats})\">
-    <img border=\"0\" src=\"pic/aff_tick.gif\" id=\"pic{$cat['tabletype']}\" alt=\"Show/Hide\" />&nbsp;" . htmlspecialchars($cat['name']) . "</a>&nbsp;" . (($linkpage != '') ? "<a class=\"catlink\" href=\"{$linkpage}?{$cat['categories']}\">(All)</a>" : "") . "</td>\n";
+    <img border=\"0\" src=\"pic/aff_tick.gif\" id=\"pic{$cat['tabletype']}\" alt=\"Show/Hide\" />&nbsp;".htmlspecialchars($cat['name'])."</a>&nbsp;".(($linkpage != '') ? "<a class=\"catlink\" href=\"{$linkpage}?{$cat['categories']}\">(All)</a>" : "")."</td>\n";
         $i++;
     }
     $nrows = ceil($ncats / $catsperrow);
@@ -64,8 +64,7 @@ function categories_table($cats, $wherecatina, $linkpage = '', $display = 'block
     if ($lastrowcols != 0) {
         if ($catsperrow - $lastrowcols != 1) {
             $html .= "<td>&nbsp;</td>";
-        }
-        else {
+        } else {
             $html .= "<td>&nbsp;</td>";
         }
     }
@@ -74,7 +73,7 @@ function categories_table($cats, $wherecatina, $linkpage = '', $display = 'block
         ;
     }
     foreach ($cats as $cat) {
-        $subcats = isset($cat['subcategory']) && is_array($cat['subcategory']) ? $cat['subcategory'] : array();
+        $subcats = isset($cat['subcategory']) && is_array($cat['subcategory']) ? $cat['subcategory'] : [];
         if (count($subcats) > 0) {
             $html .= subcategories_table($cat, $wherecatina, $linkpage, $ncats);
         }
@@ -82,7 +81,7 @@ function categories_table($cats, $wherecatina, $linkpage = '', $display = 'block
     return $html;
 }
 
-function subcategories_table($cats, $wherecatina = array(), $linkpage = '', $ncats)
+function subcategories_table($cats, $wherecatina = [], $linkpage = '', $ncats)
 {
     global $lang, $CURUSER, $TRINITY20;
     $html = "";
@@ -95,8 +94,7 @@ function subcategories_table($cats, $wherecatina = array(), $linkpage = '', $nca
     if ((is_countable($subcats) ? count($subcats) : 0) > 0) {
         foreach ($subcats as $cat) {
             $html .= ($i && $i % $catsperrow == 0) ? "</tr><tr>" : "";
-            $html .= "<td class=\"one\" style=\"padding-bottom: 2px;padding-left: 7px;white-space: nowrap;\">
-    <input onclick=\"checkAllFields(2,{$cats['tabletype']});\" name=\"cats{$cats['tabletype']}[]\" value=\"{$cat['id']}\" type=\"checkbox\" ".(in_array($cat['id'],
+            $html .= " ".(in_array($cat['id'],
                     $wherecatina) ? "checked='checked'" : "")." />
     ".(($linkpage != '') ? "<a href=\"{$linkpage}?cats{$cats['tabletype']}[]={$cat['id']}\"><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlspecialchars($cat['image'])."' alt='".htmlspecialchars($cat['name'])."' title='".htmlspecialchars($cat['name'])."' /></a>" : htmlspecialchars($cat['name']))."</td>\n";
             $i++;
@@ -108,12 +106,11 @@ function subcategories_table($cats, $wherecatina = array(), $linkpage = '', $nca
     if ($lastrowcols != 0) {
         if ($catsperrow - $lastrowcols != 1) {
             $html .= "<td class=\"one\" rowspan=\"".($catsperrow - $lastrowcols)."\">&nbsp;</td>";
-        }
-        else {
+        } else {
             $html .= "<td class=\"one\">&nbsp;</td>";
         }
     }
-    return $html . "</tr></tbody></table></div>";
+    return $html."</tr></tbody></table></div>";
 }
 
 function validsubcat($subcatid, $cats)
@@ -121,7 +118,6 @@ function validsubcat($subcatid, $cats)
     //Find Category with subcat
     $i = 0;
     if ((is_countable($cats) ? count($cats) : 0) > 0) {
-        ;
     }
     foreach ($cats as $cat) {
         $subcats = $cat['subcategory'];
@@ -133,6 +129,7 @@ function validsubcat($subcatid, $cats)
             }
         }
     }
-    return False;
+    return false;
 }
+
 ?>

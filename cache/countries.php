@@ -3,516 +3,516 @@
 /////////////////////// DO NOT EDIT! ///////////////////////
 ////////////// File Automatically Generated //////////////
 /////////////////////////////////////////////////////////
-$countries = array(
-    array(
+$countries = [
+    [
         'id' => '1',
         'name' => 'Sweden',
-        'flagpic' => 'sweden.gif'
-    ) ,
-    array(
+        'flagpic' => 'sweden.gif',
+    ],
+    [
         'id' => '2',
         'name' => 'United States of America',
-        'flagpic' => 'usa.gif'
-    ) ,
-    array(
+        'flagpic' => 'usa.gif',
+    ],
+    [
         'id' => '3',
         'name' => 'Russia',
-        'flagpic' => 'russia.gif'
-    ) ,
-    array(
+        'flagpic' => 'russia.gif',
+    ],
+    [
         'id' => '4',
         'name' => 'Finland',
-        'flagpic' => 'finland.gif'
-    ) ,
-    array(
+        'flagpic' => 'finland.gif',
+    ],
+    [
         'id' => '5',
         'name' => 'Canada',
-        'flagpic' => 'canada.gif'
-    ) ,
-    array(
+        'flagpic' => 'canada.gif',
+    ],
+    [
         'id' => '6',
         'name' => 'France',
-        'flagpic' => 'france.gif'
-    ) ,
-    array(
+        'flagpic' => 'france.gif',
+    ],
+    [
         'id' => '7',
         'name' => 'Germany',
-        'flagpic' => 'germany.gif'
-    ) ,
-    array(
+        'flagpic' => 'germany.gif',
+    ],
+    [
         'id' => '8',
         'name' => 'China',
-        'flagpic' => 'china.gif'
-    ) ,
-    array(
+        'flagpic' => 'china.gif',
+    ],
+    [
         'id' => '9',
         'name' => 'Italy',
-        'flagpic' => 'italy.gif'
-    ) ,
-    array(
+        'flagpic' => 'italy.gif',
+    ],
+    [
         'id' => '10',
         'name' => 'Denmark',
-        'flagpic' => 'denmark.gif'
-    ) ,
-    array(
+        'flagpic' => 'denmark.gif',
+    ],
+    [
         'id' => '11',
         'name' => 'Norway',
-        'flagpic' => 'norway.gif'
-    ) ,
-    array(
+        'flagpic' => 'norway.gif',
+    ],
+    [
         'id' => '12',
         'name' => 'United Kingdom',
-        'flagpic' => 'uk.gif'
-    ) ,
-    array(
+        'flagpic' => 'uk.gif',
+    ],
+    [
         'id' => '13',
         'name' => 'Ireland',
-        'flagpic' => 'ireland.gif'
-    ) ,
-    array(
+        'flagpic' => 'ireland.gif',
+    ],
+    [
         'id' => '14',
         'name' => 'Poland',
-        'flagpic' => 'poland.gif'
-    ) ,
-    array(
+        'flagpic' => 'poland.gif',
+    ],
+    [
         'id' => '15',
         'name' => 'Netherlands',
-        'flagpic' => 'netherlands.gif'
-    ) ,
-    array(
+        'flagpic' => 'netherlands.gif',
+    ],
+    [
         'id' => '16',
         'name' => 'Belgium',
-        'flagpic' => 'belgium.gif'
-    ) ,
-    array(
+        'flagpic' => 'belgium.gif',
+    ],
+    [
         'id' => '17',
         'name' => 'Japan',
-        'flagpic' => 'japan.gif'
-    ) ,
-    array(
+        'flagpic' => 'japan.gif',
+    ],
+    [
         'id' => '18',
         'name' => 'Brazil',
-        'flagpic' => 'brazil.gif'
-    ) ,
-    array(
+        'flagpic' => 'brazil.gif',
+    ],
+    [
         'id' => '19',
         'name' => 'Argentina',
-        'flagpic' => 'argentina.gif'
-    ) ,
-    array(
+        'flagpic' => 'argentina.gif',
+    ],
+    [
         'id' => '20',
         'name' => 'Australia',
-        'flagpic' => 'australia.gif'
-    ) ,
-    array(
+        'flagpic' => 'australia.gif',
+    ],
+    [
         'id' => '21',
         'name' => 'New Zealand',
-        'flagpic' => 'newzealand.gif'
-    ) ,
-    array(
+        'flagpic' => 'newzealand.gif',
+    ],
+    [
         'id' => '22',
         'name' => 'Spain',
-        'flagpic' => 'spain.gif'
-    ) ,
-    array(
+        'flagpic' => 'spain.gif',
+    ],
+    [
         'id' => '23',
         'name' => 'Portugal',
-        'flagpic' => 'portugal.gif'
-    ) ,
-    array(
+        'flagpic' => 'portugal.gif',
+    ],
+    [
         'id' => '24',
         'name' => 'Mexico',
-        'flagpic' => 'mexico.gif'
-    ) ,
-    array(
+        'flagpic' => 'mexico.gif',
+    ],
+    [
         'id' => '25',
         'name' => 'Singapore',
-        'flagpic' => 'singapore.gif'
-    ) ,
-    array(
+        'flagpic' => 'singapore.gif',
+    ],
+    [
         'id' => '26',
         'name' => 'South Africa',
-        'flagpic' => 'southafrica.gif'
-    ) ,
-    array(
+        'flagpic' => 'southafrica.gif',
+    ],
+    [
         'id' => '27',
         'name' => 'South Korea',
-        'flagpic' => 'southkorea.gif'
-    ) ,
-    array(
+        'flagpic' => 'southkorea.gif',
+    ],
+    [
         'id' => '28',
         'name' => 'Jamaica',
-        'flagpic' => 'jamaica.gif'
-    ) ,
-    array(
+        'flagpic' => 'jamaica.gif',
+    ],
+    [
         'id' => '29',
         'name' => 'Luxembourg',
-        'flagpic' => 'luxembourg.gif'
-    ) ,
-    array(
+        'flagpic' => 'luxembourg.gif',
+    ],
+    [
         'id' => '30',
         'name' => 'Hong Kong',
-        'flagpic' => 'hongkong.gif'
-    ) ,
-    array(
+        'flagpic' => 'hongkong.gif',
+    ],
+    [
         'id' => '31',
         'name' => 'Belize',
-        'flagpic' => 'belize.gif'
-    ) ,
-    array(
+        'flagpic' => 'belize.gif',
+    ],
+    [
         'id' => '32',
         'name' => 'Algeria',
-        'flagpic' => 'algeria.gif'
-    ) ,
-    array(
+        'flagpic' => 'algeria.gif',
+    ],
+    [
         'id' => '33',
         'name' => 'Angola',
-        'flagpic' => 'angola.gif'
-    ) ,
-    array(
+        'flagpic' => 'angola.gif',
+    ],
+    [
         'id' => '34',
         'name' => 'Austria',
-        'flagpic' => 'austria.gif'
-    ) ,
-    array(
+        'flagpic' => 'austria.gif',
+    ],
+    [
         'id' => '35',
         'name' => 'Yugoslavia',
-        'flagpic' => 'yugoslavia.gif'
-    ) ,
-    array(
+        'flagpic' => 'yugoslavia.gif',
+    ],
+    [
         'id' => '36',
         'name' => 'Western Samoa',
-        'flagpic' => 'westernsamoa.gif'
-    ) ,
-    array(
+        'flagpic' => 'westernsamoa.gif',
+    ],
+    [
         'id' => '37',
         'name' => 'Malaysia',
-        'flagpic' => 'malaysia.gif'
-    ) ,
-    array(
+        'flagpic' => 'malaysia.gif',
+    ],
+    [
         'id' => '38',
         'name' => 'Dominican Republic',
-        'flagpic' => 'dominicanrep.gif'
-    ) ,
-    array(
+        'flagpic' => 'dominicanrep.gif',
+    ],
+    [
         'id' => '39',
         'name' => 'Greece',
-        'flagpic' => 'greece.gif'
-    ) ,
-    array(
+        'flagpic' => 'greece.gif',
+    ],
+    [
         'id' => '40',
         'name' => 'Guatemala',
-        'flagpic' => 'guatemala.gif'
-    ) ,
-    array(
+        'flagpic' => 'guatemala.gif',
+    ],
+    [
         'id' => '41',
         'name' => 'Israel',
-        'flagpic' => 'israel.gif'
-    ) ,
-    array(
+        'flagpic' => 'israel.gif',
+    ],
+    [
         'id' => '42',
         'name' => 'Pakistan',
-        'flagpic' => 'pakistan.gif'
-    ) ,
-    array(
+        'flagpic' => 'pakistan.gif',
+    ],
+    [
         'id' => '43',
         'name' => 'Czech Republic',
-        'flagpic' => 'czechrep.gif'
-    ) ,
-    array(
+        'flagpic' => 'czechrep.gif',
+    ],
+    [
         'id' => '44',
         'name' => 'Serbia',
-        'flagpic' => 'serbia.gif'
-    ) ,
-    array(
+        'flagpic' => 'serbia.gif',
+    ],
+    [
         'id' => '45',
         'name' => 'Seychelles',
-        'flagpic' => 'seychelles.gif'
-    ) ,
-    array(
+        'flagpic' => 'seychelles.gif',
+    ],
+    [
         'id' => '46',
         'name' => 'Taiwan',
-        'flagpic' => 'taiwan.gif'
-    ) ,
-    array(
+        'flagpic' => 'taiwan.gif',
+    ],
+    [
         'id' => '47',
         'name' => 'Puerto Rico',
-        'flagpic' => 'puertorico.gif'
-    ) ,
-    array(
+        'flagpic' => 'puertorico.gif',
+    ],
+    [
         'id' => '48',
         'name' => 'Chile',
-        'flagpic' => 'chile.gif'
-    ) ,
-    array(
+        'flagpic' => 'chile.gif',
+    ],
+    [
         'id' => '49',
         'name' => 'Cuba',
-        'flagpic' => 'cuba.gif'
-    ) ,
-    array(
+        'flagpic' => 'cuba.gif',
+    ],
+    [
         'id' => '50',
         'name' => 'Congo',
-        'flagpic' => 'congo.gif'
-    ) ,
-    array(
+        'flagpic' => 'congo.gif',
+    ],
+    [
         'id' => '51',
         'name' => 'Afghanistan',
-        'flagpic' => 'afghanistan.gif'
-    ) ,
-    array(
+        'flagpic' => 'afghanistan.gif',
+    ],
+    [
         'id' => '52',
         'name' => 'Turkey',
-        'flagpic' => 'turkey.gif'
-    ) ,
-    array(
+        'flagpic' => 'turkey.gif',
+    ],
+    [
         'id' => '53',
         'name' => 'Uzbekistan',
-        'flagpic' => 'uzbekistan.gif'
-    ) ,
-    array(
+        'flagpic' => 'uzbekistan.gif',
+    ],
+    [
         'id' => '54',
         'name' => 'Switzerland',
-        'flagpic' => 'switzerland.gif'
-    ) ,
-    array(
+        'flagpic' => 'switzerland.gif',
+    ],
+    [
         'id' => '55',
         'name' => 'Kiribati',
-        'flagpic' => 'kiribati.gif'
-    ) ,
-    array(
+        'flagpic' => 'kiribati.gif',
+    ],
+    [
         'id' => '56',
         'name' => 'Philippines',
-        'flagpic' => 'philippines.gif'
-    ) ,
-    array(
+        'flagpic' => 'philippines.gif',
+    ],
+    [
         'id' => '57',
         'name' => 'Burkina Faso',
-        'flagpic' => 'burkinafaso.gif'
-    ) ,
-    array(
+        'flagpic' => 'burkinafaso.gif',
+    ],
+    [
         'id' => '58',
         'name' => 'Nigeria',
-        'flagpic' => 'nigeria.gif'
-    ) ,
-    array(
+        'flagpic' => 'nigeria.gif',
+    ],
+    [
         'id' => '59',
         'name' => 'Iceland',
-        'flagpic' => 'iceland.gif'
-    ) ,
-    array(
+        'flagpic' => 'iceland.gif',
+    ],
+    [
         'id' => '60',
         'name' => 'Nauru',
-        'flagpic' => 'nauru.gif'
-    ) ,
-    array(
+        'flagpic' => 'nauru.gif',
+    ],
+    [
         'id' => '61',
         'name' => 'Slovenia',
-        'flagpic' => 'slovenia.gif'
-    ) ,
-    array(
+        'flagpic' => 'slovenia.gif',
+    ],
+    [
         'id' => '62',
         'name' => 'Albania',
-        'flagpic' => 'albania.gif'
-    ) ,
-    array(
+        'flagpic' => 'albania.gif',
+    ],
+    [
         'id' => '63',
         'name' => 'Turkmenistan',
-        'flagpic' => 'turkmenistan.gif'
-    ) ,
-    array(
+        'flagpic' => 'turkmenistan.gif',
+    ],
+    [
         'id' => '64',
         'name' => 'Bosnia Herzegovina',
-        'flagpic' => 'bosniaherzegovina.gif'
-    ) ,
-    array(
+        'flagpic' => 'bosniaherzegovina.gif',
+    ],
+    [
         'id' => '65',
         'name' => 'Andorra',
-        'flagpic' => 'andorra.gif'
-    ) ,
-    array(
+        'flagpic' => 'andorra.gif',
+    ],
+    [
         'id' => '66',
         'name' => 'Lithuania',
-        'flagpic' => 'lithuania.gif'
-    ) ,
-    array(
+        'flagpic' => 'lithuania.gif',
+    ],
+    [
         'id' => '67',
         'name' => 'India',
-        'flagpic' => 'india.gif'
-    ) ,
-    array(
+        'flagpic' => 'india.gif',
+    ],
+    [
         'id' => '68',
         'name' => 'Netherlands Antilles',
-        'flagpic' => 'nethantilles.gif'
-    ) ,
-    array(
+        'flagpic' => 'nethantilles.gif',
+    ],
+    [
         'id' => '69',
         'name' => 'Ukraine',
-        'flagpic' => 'ukraine.gif'
-    ) ,
-    array(
+        'flagpic' => 'ukraine.gif',
+    ],
+    [
         'id' => '70',
         'name' => 'Venezuela',
-        'flagpic' => 'venezuela.gif'
-    ) ,
-    array(
+        'flagpic' => 'venezuela.gif',
+    ],
+    [
         'id' => '71',
         'name' => 'Hungary',
-        'flagpic' => 'hungary.gif'
-    ) ,
-    array(
+        'flagpic' => 'hungary.gif',
+    ],
+    [
         'id' => '72',
         'name' => 'Romania',
-        'flagpic' => 'romania.gif'
-    ) ,
-    array(
+        'flagpic' => 'romania.gif',
+    ],
+    [
         'id' => '73',
         'name' => 'Vanuatu',
-        'flagpic' => 'vanuatu.gif'
-    ) ,
-    array(
+        'flagpic' => 'vanuatu.gif',
+    ],
+    [
         'id' => '74',
         'name' => 'Vietnam',
-        'flagpic' => 'vietnam.gif'
-    ) ,
-    array(
+        'flagpic' => 'vietnam.gif',
+    ],
+    [
         'id' => '75',
         'name' => 'Trinidad & Tobago',
-        'flagpic' => 'trinidadandtobago.gif'
-    ) ,
-    array(
+        'flagpic' => 'trinidadandtobago.gif',
+    ],
+    [
         'id' => '76',
         'name' => 'Honduras',
-        'flagpic' => 'honduras.gif'
-    ) ,
-    array(
+        'flagpic' => 'honduras.gif',
+    ],
+    [
         'id' => '77',
         'name' => 'Kyrgyzstan',
-        'flagpic' => 'kyrgyzstan.gif'
-    ) ,
-    array(
+        'flagpic' => 'kyrgyzstan.gif',
+    ],
+    [
         'id' => '78',
         'name' => 'Ecuador',
-        'flagpic' => 'ecuador.gif'
-    ) ,
-    array(
+        'flagpic' => 'ecuador.gif',
+    ],
+    [
         'id' => '79',
         'name' => 'Bahamas',
-        'flagpic' => 'bahamas.gif'
-    ) ,
-    array(
+        'flagpic' => 'bahamas.gif',
+    ],
+    [
         'id' => '80',
         'name' => 'Peru',
-        'flagpic' => 'peru.gif'
-    ) ,
-    array(
+        'flagpic' => 'peru.gif',
+    ],
+    [
         'id' => '81',
         'name' => 'Cambodia',
-        'flagpic' => 'cambodia.gif'
-    ) ,
-    array(
+        'flagpic' => 'cambodia.gif',
+    ],
+    [
         'id' => '82',
         'name' => 'Barbados',
-        'flagpic' => 'barbados.gif'
-    ) ,
-    array(
+        'flagpic' => 'barbados.gif',
+    ],
+    [
         'id' => '83',
         'name' => 'Bangladesh',
-        'flagpic' => 'bangladesh.gif'
-    ) ,
-    array(
+        'flagpic' => 'bangladesh.gif',
+    ],
+    [
         'id' => '84',
         'name' => 'Laos',
-        'flagpic' => 'laos.gif'
-    ) ,
-    array(
+        'flagpic' => 'laos.gif',
+    ],
+    [
         'id' => '85',
         'name' => 'Uruguay',
-        'flagpic' => 'uruguay.gif'
-    ) ,
-    array(
+        'flagpic' => 'uruguay.gif',
+    ],
+    [
         'id' => '86',
         'name' => 'Antigua Barbuda',
-        'flagpic' => 'antiguabarbuda.gif'
-    ) ,
-    array(
+        'flagpic' => 'antiguabarbuda.gif',
+    ],
+    [
         'id' => '87',
         'name' => 'Paraguay',
-        'flagpic' => 'paraguay.gif'
-    ) ,
-    array(
+        'flagpic' => 'paraguay.gif',
+    ],
+    [
         'id' => '88',
         'name' => 'Union of Soviet Socialist Republics',
-        'flagpic' => 'ussr.gif'
-    ) ,
-    array(
+        'flagpic' => 'ussr.gif',
+    ],
+    [
         'id' => '89',
         'name' => 'Thailand',
-        'flagpic' => 'thailand.gif'
-    ) ,
-    array(
+        'flagpic' => 'thailand.gif',
+    ],
+    [
         'id' => '90',
         'name' => 'Senegal',
-        'flagpic' => 'senegal.gif'
-    ) ,
-    array(
+        'flagpic' => 'senegal.gif',
+    ],
+    [
         'id' => '91',
         'name' => 'Togo',
-        'flagpic' => 'togo.gif'
-    ) ,
-    array(
+        'flagpic' => 'togo.gif',
+    ],
+    [
         'id' => '92',
         'name' => 'North Korea',
-        'flagpic' => 'northkorea.gif'
-    ) ,
-    array(
+        'flagpic' => 'northkorea.gif',
+    ],
+    [
         'id' => '93',
         'name' => 'Croatia',
-        'flagpic' => 'croatia.gif'
-    ) ,
-    array(
+        'flagpic' => 'croatia.gif',
+    ],
+    [
         'id' => '94',
         'name' => 'Estonia',
-        'flagpic' => 'estonia.gif'
-    ) ,
-    array(
+        'flagpic' => 'estonia.gif',
+    ],
+    [
         'id' => '95',
         'name' => 'Colombia',
-        'flagpic' => 'colombia.gif'
-    ) ,
-    array(
+        'flagpic' => 'colombia.gif',
+    ],
+    [
         'id' => '96',
         'name' => 'Lebanon',
-        'flagpic' => 'lebanon.gif'
-    ) ,
-    array(
+        'flagpic' => 'lebanon.gif',
+    ],
+    [
         'id' => '97',
         'name' => 'Latvia',
-        'flagpic' => 'latvia.gif'
-    ) ,
-    array(
+        'flagpic' => 'latvia.gif',
+    ],
+    [
         'id' => '98',
         'name' => 'Costa Rica',
-        'flagpic' => 'costarica.gif'
-    ) ,
-    array(
+        'flagpic' => 'costarica.gif',
+    ],
+    [
         'id' => '99',
         'name' => 'Egypt',
-        'flagpic' => 'egypt.gif'
-    ) ,
-    array(
+        'flagpic' => 'egypt.gif',
+    ],
+    [
         'id' => '100',
         'name' => 'Bulgaria',
-        'flagpic' => 'bulgaria.gif'
-    ) ,
-    array(
+        'flagpic' => 'bulgaria.gif',
+    ],
+    [
         'id' => '101',
         'name' => 'Scotland',
-        'flagpic' => 'scotland.gif'
-    ) ,
-    array(
+        'flagpic' => 'scotland.gif',
+    ],
+    [
         'id' => '102',
         'name' => 'United Arab Emirates',
-        'flagpic' => 'uae.gif'
-    )
-);
+        'flagpic' => 'uae.gif',
+    ],
+];
 ?>

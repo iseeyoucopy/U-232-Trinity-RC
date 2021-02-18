@@ -10,11 +10,11 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //takesignup
     'stderr_errorhead' => "Désolé",
-	'takesignup_invite_only' => "Seulement sur Invitations - Les Enregistrements sont fermés, si vous avez un code d'invitation cliquez",
-	'takesignup_here' => 'ICI',
+    'takesignup_invite_only' => "Seulement sur Invitations - Les Enregistrements sont fermés, si vous avez un code d'invitation cliquez",
+    'takesignup_here' => 'ICI',
     'takesignup_error' => "Erreur",
     'takesignup_limit' => "Désolé, le nombre max d'utilisateurs est atteint. Merci de réessayer plus tard.",
     'takesignup_user_error' => "ERREUR UTILISATEUR",
@@ -27,18 +27,18 @@ $lang = array(
     'takesignup_pass_long' => "Désolé, le mot de passe est trop long (max de 40 caractères)",
     'takesignup_same' => "Désolé, le mot de passe doit être différent du nom d'utilisateur.",
     'takesignup_validemail' => "L'adresse email ne semble pas valide.",
-	'takesignup_birthday' => "Il faut remplir votre date de naissance.",
-	'takesignup_correct_birthday' => "Vous devez remplir votre date de naissance correctement.",
-	'takesignup_country' => "Vous devez sélectionner votre localité.",
-	'takesignup_ip' => "Cette IP",
-	'takesignup_ip_used' => "est déjà utilisée. Nous n'autorisons qu'un seul compte par adresse IP.",
-	'takesignup_welcome' => "Bienvenue au nouveau",
-	'takesignup_hey' => "Salut",
-	'takesignup_msg_subject' => "Bienvenue",
-	'takesignup_msg_body0' => "! Bienvenue à",
-	'takesignup_msg_body1' => "! :clap2: \n\n Vérifiez votre connectivité avnt tout téléchargement ou tout upload de torrents\n - En cas de problème merci de jeter un oeil au Forum, aux FAQs ou envoyer un message au staff.\n\nBien à vous. Le Staff.\n",
-	'takesignup_member' => "Membre: -",
-	'takesignup_yearsold' => "Vous devez avoir au moins 18 ans pour pouvoir vous enregistrer.",
+    'takesignup_birthday' => "Il faut remplir votre date de naissance.",
+    'takesignup_correct_birthday' => "Vous devez remplir votre date de naissance correctement.",
+    'takesignup_country' => "Vous devez sélectionner votre localité.",
+    'takesignup_ip' => "Cette IP",
+    'takesignup_ip_used' => "est déjà utilisée. Nous n'autorisons qu'un seul compte par adresse IP.",
+    'takesignup_welcome' => "Bienvenue au nouveau",
+    'takesignup_hey' => "Salut",
+    'takesignup_msg_subject' => "Bienvenue",
+    'takesignup_msg_body0' => "! Bienvenue à",
+    'takesignup_msg_body1' => "! :clap2: \n\n Vérifiez votre connectivité avnt tout téléchargement ou tout upload de torrents\n - En cas de problème merci de jeter un oeil au Forum, aux FAQs ou envoyer un message au staff.\n\nBien à vous. Le Staff.\n",
+    'takesignup_member' => "Membre: -",
+    'takesignup_yearsold' => "Vous devez avoir au moins 18 ans pour pouvoir vous enregistrer.",
     'takesignup_invalidname' => "Pseudo Invalide.",
     'takesignup_failed' => "Enregistrement raté",
     'takesignup_qualify' => "Désolé, vous ne pouvez prétendre à une inscription sur ce site.",
@@ -50,9 +50,9 @@ $lang = array(
     'takesignup_badusername' => "Le pseudo que vous essayez d'utiliser <b>(%s)</b> est sur notre liste noire, choisissez en un autre",
     'takesignup_bannedmail' => "Cette adresse email est bannie!<br /><br /><strong>Raison</strong>:",
     'takesignup_from' => "DE:",
-	'takesignup_x_head' => "Hi Hi",
-	'takesignup_x_body' => "Pas de bol, c'est raté!"
-);
+    'takesignup_x_head' => "Hi Hi",
+    'takesignup_x_body' => "Pas de bol, c'est raté!",
+];
 $lang['takesignup_email_body'] = <<<EOD
 
 Vous avez requis un compte nouvel utilisateur sur <#SITENAME#> et vous avez

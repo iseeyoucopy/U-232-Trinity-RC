@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //errors
     'stats_error' => 'Désolé...',
     'stats_error1' => 'Aucun uploadeur.',
@@ -23,6 +23,6 @@ $lang = array(
     'stats_peers' => 'Peers',
     'stats_torrent' => 'Torrents',
     'stats_uploader' => 'Uploadeur',
-    'stats_category' => 'Catégorie'
-);
+    'stats_category' => 'Catégorie',
+];
 ?>

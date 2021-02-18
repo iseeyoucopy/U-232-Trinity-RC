@@ -51,21 +51,21 @@ function getBrowser()
         $ub = "Unknown";
     }
     // finally get the correct version number
-    $known = array(
+    $known = [
         'Version',
         $ub,
-        'other'
-    );
-    $pattern = '#(?<browser>' . implode('|', $known) . ')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
-    if($u_agent != '') {
+        'other',
+    ];
+    $pattern = '#(?<browser>'.implode('|', $known).')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
+    if ($u_agent != '') {
         if (!preg_match_all($pattern, $u_agent, $matches)) {
             // we have no matching number just continue
-           
+
         }
         // see how many we have
         $i = is_countable($matches['browser']) ? count($matches['browser']) : 0;
         if ($i != 1) {
-            $version = strripos($u_agent, "Version") < strripos($u_agent, (string) $ub) ? $matches['version'][0] : $matches['version'][1];
+            $version = strripos($u_agent, "Version") < strripos($u_agent, (string)$ub) ? $matches['version'][0] : $matches['version'][1];
         } else {
             $version = $matches['version'][0];
         }
@@ -74,12 +74,13 @@ function getBrowser()
     if ($version == null || $version == "") {
         $version = "?";
     }
-    return array(
+    return [
         'userAgent' => $u_agent,
         'name' => $bname,
         'version' => $version,
         'platform' => $platform,
-        'pattern' => $pattern
-    );
+        'pattern' => $pattern,
+    ];
 }
+
 ?>

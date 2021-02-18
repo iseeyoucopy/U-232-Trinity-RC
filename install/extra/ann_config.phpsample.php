@@ -20,23 +20,25 @@ if (!empty($_SERVER["HTTP_USER_AGENT"])) {
 if (!empty($_SERVER["HTTP_USER_AGENT"])) {
     $detectedclient = $_SERVER["HTTP_USER_AGENT"];
 }
-define('INCL_DIR', __DIR__ . DIRECTORY_SEPARATOR);
-define('ROOT_DIR', realpath(INCL_DIR . '..' . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
-define('CACHE_DIR', ROOT_DIR . 'cache' . DIRECTORY_SEPARATOR);
-define('CLASS_DIR', INCL_DIR . 'class' . DIRECTORY_SEPARATOR);
-define('VENDOR_DIR', ROOT_DIR . 'vendor' . DIRECTORY_SEPARATOR);
+define('INCL_DIR', __DIR__.DIRECTORY_SEPARATOR);
+define('ROOT_DIR', realpath(INCL_DIR.'..'.DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR);
+define('CACHE_DIR', ROOT_DIR.'cache'.DIRECTORY_SEPARATOR);
+define('CLASS_DIR', INCL_DIR.'class'.DIRECTORY_SEPARATOR);
+define('VENDOR_DIR', ROOT_DIR.'vendor'.DIRECTORY_SEPARATOR);
 define('XBT_TRACKER', false);
-$TRINITY20['cache'] = ROOT_DIR . 'cache';
-require_once (CLASS_DIR . 'class_bt_options.php');
+$TRINITY20['cache'] = ROOT_DIR.'cache';
+require_once(CLASS_DIR.'class_bt_options.php');
 $TRINITY20['pic_base_url'] = "./pic/";
-require_once (CACHE_DIR . 'class_config.php');
-require_once (CACHE_DIR . 'hit_and_run_settings.php');
+require_once(CACHE_DIR.'class_config.php');
+require_once(CACHE_DIR.'hit_and_run_settings.php');
 date_default_timezone_set('Europe/London');
+
 //==Start Cache
 use U232\Cache;
-require_once (VENDOR_DIR . 'autoload.php');
-require_once (INCL_DIR . 'cache_config.php');
-require_once (CLASS_DIR . 'class_cacheM.php');
+
+require_once(VENDOR_DIR.'autoload.php');
+require_once(INCL_DIR.'cache_config.php');
+require_once(CLASS_DIR.'class_cacheM.php');
 global $TRINITY20;
 $cache = new Cache($TRINITY20);
 define('TIME_NOW', time());
@@ -48,8 +50,8 @@ $TRINITY20['min_interval'] = 60 * 15;
 $TRINITY20['connectable_check'] = 1;
 $TRINITY20['wait_times'] = 0;
 $TRINITY20['max_slots'] = 0;
-$TRINITY20['ann_sql_error_log'] = 'sqlerr_logs/ann_sql_err_' . date('M_D_Y') . '.log';
-$TRINITY20['ann_sql_log'] = 'sqlerr_logs/ann_sql_query_' . date('M_D_Y') . '.log';
+$TRINITY20['ann_sql_error_log'] = 'sqlerr_logs/ann_sql_err_'.date('M_D_Y').'.log';
+$TRINITY20['ann_sql_log'] = 'sqlerr_logs/ann_sql_query_'.date('M_D_Y').'.log';
 $TRINITY20['crazy_hour'] = false; //== Off for XBT
 $TRINITY20['happy_hour'] = false; //== Off for XBT
 $TRINITY20['ratio_free'] = false;

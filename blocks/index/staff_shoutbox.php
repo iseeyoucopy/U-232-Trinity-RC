@@ -14,7 +14,7 @@
 if (($CURUSER['opt2'] & user_options_2::SHOW_STAFFSHOUT) !== 0) {
     $commandbutton = $refreshbutton = $smilebutton = $custombutton = $staffsmiliebutton = '';
     if ($CURUSER['class'] >= UC_STAFF) {
-        $staffsmiliebutton.= "<a href=\"javascript:PopStaffSmiles('staff_shbox','staff_shbox_text')\">{$lang['index_shoutbox_ssmilies']}</a>";
+        $staffsmiliebutton .= "<a href=\"javascript:PopStaffSmiles('staff_shbox','staff_shbox_text')\">{$lang['index_shoutbox_ssmilies']}</a>";
     }
     if (get_smile() != 0) {
         $custombutton .= "<a href=\"javascript:PopCustomSmiles('staff_shbox','staff_shbox_text')\">{$lang['index_shoutbox_csmilies']}</a>";
@@ -24,10 +24,9 @@ if (($CURUSER['opt2'] & user_options_2::SHOW_STAFFSHOUT) !== 0) {
     }
     $refreshbutton = "<a href='staff_shoutbox.php' target='staff_shoutbox'>{$lang['index_shoutbox_refresh']}</a>\n";
     $smilebutton = "<a href=\"javascript:PopMoreSmiles('staff_shbox','staff_shbox_text')\">{$lang['index_shoutbox_smilies']}</a>\n";
-    $HTMLOUT.= "<script src='{$TRINITY20['baseurl']}/scripts/shout.js'></script>";
-    if ($CURUSER['class'] >= UC_STAFF)
-    {
-    $HTMLOUT.= "
+    $HTMLOUT .= "<script src='{$TRINITY20['baseurl']}/scripts/shout.js'></script>";
+    if ($CURUSER['class'] >= UC_STAFF) {
+        $HTMLOUT .= "
    <div class='card'>
 	<div class='card-divider'>
 	<!--<span class='shouthis'>-->
@@ -38,7 +37,7 @@ if (($CURUSER['opt2'] & user_options_2::SHOW_STAFFSHOUT) !== 0) {
 	<div class='card-section'>
 <div class='text-center'>";
     }
-    $HTMLOUT.= "<form action='staff_shoutbox.php' method='get' target='staff_shoutbox' name='staff_shbox' onsubmit='staff_mysubmit()'>
+    $HTMLOUT .= "<form action='staff_shoutbox.php' method='get' target='staff_shoutbox' name='staff_shbox' onsubmit='staff_mysubmit()'>
    <iframe src='{$TRINITY20['baseurl']}/staff_shoutbox.php' class='shout-table' name='staff_shoutbox'></iframe>
 	<div class='text-center'>
 		<div class='input-group'>
@@ -86,7 +85,7 @@ if (($CURUSER['opt2'] & user_options_2::SHOW_STAFFSHOUT) !== 0) {
    </form></div></div>";
 }
 if (($CURUSER['opt2'] & user_options_2::SHOW_STAFFSHOUT) === 0) {
-    $HTMLOUT.= "<fieldset class='header'><legend><b>{$lang['index_staff_shoutbox']}</b></legend></fieldset><div class='container'><a class='btn btn-default' href='{$TRINITY20['baseurl']}/staff_shoutbox.php?show_staffshout=1&amp;show_staff=yes'>{$lang['index_shoutbox_open']}</a></div><hr>";
+    $HTMLOUT .= "<fieldset class='header'><legend><b>{$lang['index_staff_shoutbox']}</b></legend></fieldset><div class='container'><a class='btn btn-default' href='{$TRINITY20['baseurl']}/staff_shoutbox.php?show_staffshout=1&amp;show_staff=yes'>{$lang['index_shoutbox_open']}</a></div><hr>";
 }
 //==end 09 Staff shoutbox
 // End Class

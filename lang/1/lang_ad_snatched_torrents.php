@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //ad_snatched_torrents
     'ad_snatched_torrents_none' => "None",
     'ad_snatched_torrents_reported' => "reported",
@@ -31,8 +31,8 @@ $lang = array(
     'ad_snatched_torrents_seeding' => "Seeder",
     'ad_snatched_torrents_ncomplete' => "Not completed",
     'ad_snatched_torrents_nothing' => "Nothing here :(",
-	'ad_snatched_torrents_yes' => "Yes",
-	'ad_snatched_torrents_no' => "No",
-	'ad_snatched_torrents_stdhead' => "Snatched Torrents Overview"
-);
+    'ad_snatched_torrents_yes' => "Yes",
+    'ad_snatched_torrents_no' => "No",
+    'ad_snatched_torrents_stdhead' => "Snatched Torrents Overview",
+];
 ?>

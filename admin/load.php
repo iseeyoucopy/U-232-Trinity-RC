@@ -12,7 +12,7 @@
  */
 if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
-    $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
+    $HTMLOUT .= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
@@ -24,8 +24,8 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     echo $HTMLOUT;
     exit();
 }
-require_once (INCL_DIR . 'user_functions.php');
-require_once (CLASS_DIR . 'class_check.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(CLASS_DIR.'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_index'));
@@ -36,16 +36,17 @@ define("INTERVAL_15_MIN", 2); //  load average for last 15 minute
 define("DEFAULT_AVG", INTERVAL_15_MIN); // selects which load average to return by default if no parameters are passed
 function is_s($n)
 {
-	global $lang;
+    global $lang;
     if ($n == 1) {
         return "";
     }
 
     return $lang['index_load_s'];
 }
+
 function uptime()
 {
-	global $lang;
+    global $lang;
     $res = "";
     $filename = "/proc/uptime";
     $fd = fopen($filename, "r");
@@ -54,39 +55,40 @@ function uptime()
     } else {
         $uptime = fgets($fd, 64);
         fclose($fd);
-        $mults = array(
+        $mults = [
             4 => $lang['index_load_month'],
             7 => $lang['index_load_week'],
             24 => $lang['index_load_day'],
             60 => $lang['index_load_hour'],
-            1 => $lang['index_load_minute']
-        );
+            1 => $lang['index_load_minute'],
+        ];
         $n = 2_419_200;
-        $periods = array();
+        $periods = [];
         $shown = false;
         $uptime = substr($uptime, 0, strpos($uptime, " "));
         $res = "";
         while ([$k, $v] = each($mults)) {
             $nmbr = floor($uptime / $n);
-            $uptime-= ($nmbr * $n);
+            $uptime -= ($nmbr * $n);
             $n /= $k;
             if ($nmbr !== 0.0) {
                 if ($shown) {
                     $res .= ", ";
                 }
-                $res.= "$nmbr $v" . is_s($nmbr);
+                $res .= "$nmbr $v".is_s($nmbr);
                 $shown = true;
             }
         }
         if (!$shown) {
-            $res.= "less than one minute";
+            $res .= "less than one minute";
         }
     }
     return $res;
 }
+
 function loadavg($return_all = false)
 {
-	global $lang;
+    global $lang;
     $res = "";
     $filename = "/proc/loadavg";
     $fd = fopen($filename, "r");
@@ -110,6 +112,7 @@ function loadavg($return_all = false)
     }
     return $res;
 }
+
 /*
     //==Windows Server Load
     $HTMLOUT .="
@@ -129,7 +132,7 @@ function loadavg($return_all = false)
     //==End
 */
 //==Server Load linux
-$HTMLOUT.= "
+$HTMLOUT .= "
      <div class='row'><div class='col-md-12'><h2>{$lang['index_serverload']}</h2>
     <br />
     <table class='table table-bordered'>
@@ -139,27 +142,25 @@ $HTMLOUT.= "
 $percent = min(100, round(exec('ps ax | grep -c apache') / 256 * 100));
 if ($percent <= 70) {
     $pic = "loadbargreen.gif";
-}
-elseif ($percent <= 90) {
+} elseif ($percent <= 90) {
     $pic = "loadbaryellow.gif";
-}
-else {
+} else {
     $pic = "loadbarred.gif";
 }
 $width = $percent * 4;
-$HTMLOUT.= "<img height='15' width='$width' src=\"{$TRINITY20['pic_base_url']}{$pic}\" alt='$percent&#37;' /><br />{$lang['index_load_curr']}{$percent}{$lang['index_load_cpu']}<br />";
+$HTMLOUT .= "<img height='15' width='$width' src=\"{$TRINITY20['pic_base_url']}{$pic}\" alt='$percent&#37;' /><br />{$lang['index_load_curr']}{$percent}{$lang['index_load_cpu']}<br />";
 //==End graphic
-$HTMLOUT.= "{$lang['index_load_uptime1']}" . uptime() . "";
+$HTMLOUT .= "{$lang['index_load_uptime1']}".uptime()."";
 $loadinfo = loadavg(true);
-$HTMLOUT.= "<br />
-    {$lang['index_load_pastmin']}" . $loadinfo["last1"] . "<br />
-    {$lang['index_load_pastmin5']}" . $loadinfo["last5"] . "<br />
-    {$lang['index_load_pastmin15']}" . $loadinfo["last15"] . "<br />
-    {$lang['index_load_numtsk']}" . $loadinfo["tasks"] . "<br />
-    {$lang['index_load_numproc']}" . $loadinfo["processes"] . "<br />
-   {$lang['index_load_pid']}" . $loadinfo["lastpid"] . "<br />
+$HTMLOUT .= "<br />
+    {$lang['index_load_pastmin']}".$loadinfo["last1"]."<br />
+    {$lang['index_load_pastmin5']}".$loadinfo["last5"]."<br />
+    {$lang['index_load_pastmin15']}".$loadinfo["last15"]."<br />
+    {$lang['index_load_numtsk']}".$loadinfo["tasks"]."<br />
+    {$lang['index_load_numproc']}".$loadinfo["processes"]."<br />
+   {$lang['index_load_pid']}".$loadinfo["lastpid"]."<br />
     </td></tr></table></td></tr></table></div></div><br />";
 //==End
 
-echo stdhead($lang['index_serverload']) . $HTMLOUT . stdfoot();
+echo stdhead($lang['index_serverload']).$HTMLOUT.stdfoot();
 ?>

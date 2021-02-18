@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Takerate
     'rate_fail' => "Rating failed!",
     'rate_login' => "Must be logged in to vote.",
@@ -20,5 +20,5 @@ $lang = array(
     'rate_torrent_not_found' => "no such torrent",
     'rate_not_vote_own_torrent' => "You can't vote on your own torrents.",
     'rate_already_voted' => "You have already rated this torrent.",
-);
+];
 ?>

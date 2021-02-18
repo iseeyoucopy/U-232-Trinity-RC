@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'pmview_error' => 'Erreur',
     'pmview_noacc' => "Vous n'avez aucun droit d'être là",
     'pmview_incorrect' => "Vous n'avez aucun droit d'être là, alors bougez de là!",
@@ -20,6 +20,6 @@ $lang = array(
     'pmview_from' => 'De:',
     'pmview_to' => 'A:',
     'pmview_message' => 'Message:',
-    'pmview_info' => 'SVP informez vos utilisateurs que vous les espionnez'
-);
+    'pmview_info' => 'SVP informez vos utilisateurs que vous les espionnez',
+];
 ?>

@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //needseed shit
     'needseed_sin' => "Seeders dans le besoin",
     'needseed_tns' => "Torrents nécessitant des Seeds",
@@ -22,6 +22,6 @@ $lang = array(
     'needseed_lin' => "Leechers dans le besoin",
     'needseed_seed' => "Seeders",
     'needseed_leech' => "Leechers",
-    'needseed_noseed' => "Il n'y a aucun torrent pour l'instant qui nécessite des seeds."
-);
+    'needseed_noseed' => "Il n'y a aucun torrent pour l'instant qui nécessite des seeds.",
+];
 ?>

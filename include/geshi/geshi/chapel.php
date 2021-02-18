@@ -37,80 +37,158 @@
  *
  ************************************************************************************/
 
-$language_data = array (
+$language_data = [
     'LANG_NAME' => 'Chapel',
-    'COMMENT_SINGLE' => array(1 => '//'),
-    'COMMENT_MULTI' => array('/*' => '*/'),
-    'COMMENT_REGEXP' => array(
-        ),
+    'COMMENT_SINGLE' => [1 => '//'],
+    'COMMENT_MULTI' => ['/*' => '*/'],
+    'COMMENT_REGEXP' => [
+    ],
     'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-    'QUOTEMARKS' => array("'", '"'),
+    'QUOTEMARKS' => ["'", '"'],
     'ESCAPE_CHAR' => '',
-    'ESCAPE_REGEXP' => array(
-        ),
+    'ESCAPE_REGEXP' => [
+    ],
     'NUMBERS' =>
         GESHI_NUMBER_INT_BASIC | GESHI_NUMBER_INT_CSTYLE | GESHI_NUMBER_BIN_PREFIX_0B |
         GESHI_NUMBER_HEX_PREFIX | GESHI_NUMBER_FLT_NONSCI | GESHI_NUMBER_FLT_NONSCI_F |
         GESHI_NUMBER_FLT_SCI_SHORT | GESHI_NUMBER_FLT_SCI_ZERO,
-    'KEYWORDS' => array(
+    'KEYWORDS' => [
         // statements
-        1 => array(
-            'atomic', 'begin', 'break', 'class', 'cobegin', 'coforall',
-            'continue', 'do', 'else', 'export', 'extern', 'for', 'forall', 'if',
-            'iter', 'inline', 'label', 'let', 'local', 'module',
-            'otherwise', 'proc', 'record', 'return', 'select', 'serial',
-            'then', 'use', 'var', 'when', 'where', 'while', 'yield'
-            ),
+        1 => [
+            'atomic',
+            'begin',
+            'break',
+            'class',
+            'cobegin',
+            'coforall',
+            'continue',
+            'do',
+            'else',
+            'export',
+            'extern',
+            'for',
+            'forall',
+            'if',
+            'iter',
+            'inline',
+            'label',
+            'let',
+            'local',
+            'module',
+            'otherwise',
+            'proc',
+            'record',
+            'return',
+            'select',
+            'serial',
+            'then',
+            'use',
+            'var',
+            'when',
+            'where',
+            'while',
+            'yield',
+        ],
         // literals
-        2 => array(
-            'nil', 'true', 'false'
-            ),
+        2 => [
+            'nil',
+            'true',
+            'false',
+        ],
         // built-in functions
-        3 => array(
-            'by', 'delete', 'dmapped', 'domain', 'enum', 'index', 'min',
-            'minloc', 'max', 'maxloc', 'new', 'range', 'reduce', 'scan',
-            'sparse', 'subdomain', 'sync', 'union', 'zip'
-            ),
+        3 => [
+            'by',
+            'delete',
+            'dmapped',
+            'domain',
+            'enum',
+            'index',
+            'min',
+            'minloc',
+            'max',
+            'maxloc',
+            'new',
+            'range',
+            'reduce',
+            'scan',
+            'sparse',
+            'subdomain',
+            'sync',
+            'union',
+            'zip',
+        ],
         // built-in types
-        4 => array(
-            'config', 'const', 'in', 'inout', 'opaque', 'on', 'out', 'param',
-            'ref', 'single', 'type'
-            ),
+        4 => [
+            'config',
+            'const',
+            'in',
+            'inout',
+            'opaque',
+            'on',
+            'out',
+            'param',
+            'ref',
+            'single',
+            'type',
+        ],
         // library types
-        5 => array(
-            'void', 'bool', 'int', 'uint', 'real', 'imag', 'complex', 'string',
-            'locale'
-            ),
-        ),
-    'SYMBOLS' => array(
-        '(', ')', '{', '}', '[', ']',
-        '+', '-', '*', '/', '%',
-        '=', '<', '>',
-        '!', '^', '&', '|',
-        '?', ':',
-        ';', ','
-        ),
-    'CASE_SENSITIVE' => array(
+        5 => [
+            'void',
+            'bool',
+            'int',
+            'uint',
+            'real',
+            'imag',
+            'complex',
+            'string',
+            'locale',
+        ],
+    ],
+    'SYMBOLS' => [
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '+',
+        '-',
+        '*',
+        '/',
+        '%',
+        '=',
+        '<',
+        '>',
+        '!',
+        '^',
+        '&',
+        '|',
+        '?',
+        ':',
+        ';',
+        ',',
+    ],
+    'CASE_SENSITIVE' => [
         GESHI_COMMENTS => false,
         1 => true,
         2 => true,
         3 => true,
         4 => true,
-        5 => true
-        ),
-    'STYLES' => array(
-        'KEYWORDS' => array(
+        5 => true,
+    ],
+    'STYLES' => [
+        'KEYWORDS' => [
             1 => 'color: #b1b100;',
             2 => 'color: #000000; font-weight: bold;',
             3 => 'color: #000066;',
-            4 => 'color: #993333;'
-            ),
-        'COMMENTS' => array(
+            4 => 'color: #993333;',
+        ],
+        'COMMENTS' => [
             1 => 'color: #666666; font-style: italic;',
             //2 => 'color: #339933;',
-            'MULTI' => 'color: #808080; font-style: italic;'
-            ),
-        'ESCAPE_CHAR' => array(
+            'MULTI' => 'color: #808080; font-style: italic;',
+        ],
+        'ESCAPE_CHAR' => [
             0 => 'color: #000099; font-weight: bold;',
             1 => 'color: #000099; font-weight: bold;',
             2 => 'color: #660099; font-weight: bold;',
@@ -118,14 +196,14 @@ $language_data = array (
             4 => 'color: #660099; font-weight: bold;',
             5 => 'color: #006699; font-weight: bold;',
             'HARD' => '',
-            ),
-        'BRACKETS' => array(
-            0 => 'color: #009900;'
-            ),
-        'STRINGS' => array(
-            0 => 'color: #ff0000;'
-            ),
-        'NUMBERS' => array(
+        ],
+        'BRACKETS' => [
+            0 => 'color: #009900;',
+        ],
+        'STRINGS' => [
+            0 => 'color: #ff0000;',
+        ],
+        'NUMBERS' => [
             0 => 'color: #0000dd;',
             GESHI_NUMBER_BIN_PREFIX_0B => 'color: #208080;',
             GESHI_NUMBER_OCT_PREFIX => 'color: #208080;',
@@ -133,37 +211,37 @@ $language_data = array (
             GESHI_NUMBER_FLT_SCI_SHORT => 'color:#800080;',
             GESHI_NUMBER_FLT_SCI_ZERO => 'color:#800080;',
             GESHI_NUMBER_FLT_NONSCI_F => 'color:#800080;',
-            GESHI_NUMBER_FLT_NONSCI => 'color:#800080;'
-            ),
-        'METHODS' => array(
+            GESHI_NUMBER_FLT_NONSCI => 'color:#800080;',
+        ],
+        'METHODS' => [
             1 => 'color: #202020;',
-            2 => 'color: #202020;'
-            ),
-        'SYMBOLS' => array(
-            0 => 'color: #339933;'
-            ),
-        'REGEXPS' => array(
-            ),
-        'SCRIPT' => array(
-            )
-        ),
-    'URLS' => array(
+            2 => 'color: #202020;',
+        ],
+        'SYMBOLS' => [
+            0 => 'color: #339933;',
+        ],
+        'REGEXPS' => [
+        ],
+        'SCRIPT' => [
+        ],
+    ],
+    'URLS' => [
         1 => '',
         2 => '',
         3 => '',
         4 => '',
-        5 => ''
-        ),
+        5 => '',
+    ],
     'OOLANG' => true,
-    'OBJECT_SPLITTERS' => array(
+    'OBJECT_SPLITTERS' => [
         1 => '.',
-        ),
-    'REGEXPS' => array(
-        ),
+    ],
+    'REGEXPS' => [
+    ],
     'STRICT_MODE_APPLIES' => GESHI_NEVER,
-    'SCRIPT_DELIMITERS' => array(
-        ),
-    'HIGHLIGHT_STRICT_BLOCK' => array(
-        ),
-    'TAB_WIDTH' => 4
-);
+    'SCRIPT_DELIMITERS' => [
+    ],
+    'HIGHLIGHT_STRICT_BLOCK' => [
+    ],
+    'TAB_WIDTH' => 4,
+];

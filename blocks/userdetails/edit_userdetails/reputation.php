@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$HTMLOUT.= "<div class='input-group'>
+$HTMLOUT .= "<div class='input-group'>
     <span class='input-group-label'>{$lang['userdetails_rep_points']}</span>
-    <input class='input-group-field' type='text' name='reputation' value='" . (int)$user['reputation'] . "'>
+    <input class='input-group-field' type='text' name='reputation' value='".(int)$user['reputation']."'>
 </div>";

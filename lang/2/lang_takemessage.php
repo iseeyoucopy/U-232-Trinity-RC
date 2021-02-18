@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //takemessage
     'takemessage_sorry' => "Sorry...",
     'takemessage_no_auth' => "You are not authorized to send messages presently.  (Contact staff for the reason why.)",
@@ -43,6 +43,6 @@ $lang = array(
     'takemessage_comment' => "profile comment",
     'takemessage_s_were' => "s were",
     'takemessage_was' => "was",
-    'takemessage_updated' => "updated!"
-);
+    'takemessage_updated' => "updated!",
+];
 ?>

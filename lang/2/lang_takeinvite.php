@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //takeinvites
     'takeinvites_error' => "Error",
     'takeinvites_limit' => "Sorry, user limit reached. Please try again later.",
@@ -24,8 +24,8 @@ $lang = array(
     'takeinvites_user_exists' => "Username already exists!",
     'takeinvites_fatal_error' => "Fatal Error!",
     'takeinvites_confirm' => "New membership request",
-    'takeinvites_from' => "From:"
-);
+    'takeinvites_from' => "From:",
+];
 $lang['takeinvites_email_body'] = <<<EOD
 
 You have been invited to <#SITENAME#> by <#INVITENICK#>. They have

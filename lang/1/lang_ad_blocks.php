@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'text_settings' => "Block Settings",
     'text_block' => "Block",
     'text_pos' => "Position",
@@ -23,5 +23,5 @@ $lang = array(
     'text_disabled' => "Disabled",
     'text_enabled' => "Enabled",
     'btn_okay' => "Okay",
-);
+];
 ?>

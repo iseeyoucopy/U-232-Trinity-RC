@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //FORMATS
     'formats_download_title' => "Downloaded Files",
     'formats_guide_heading' => "A Handy Guide to Using the Files You've Downloaded",
@@ -182,5 +182,5 @@ Open them with <a href='http://www.pbclements.co.uk/QuickPar/'>QuickPar</a>.
     'formats_questions' => "If you have any suggestion/changes <a href='staff.php'><b>PM</b></a> one of the Admins/SysOp!<br />
 <br />
 This file was originally written by hussdiesel at filesoup, then edited by Rhomboid and re-edited by us.<br />",
-);
+];
 ?>

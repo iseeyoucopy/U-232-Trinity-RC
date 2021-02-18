@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Mod admin link
     'err_mysql_err' => 'There was a mysql error : %s, report to staff',
     'gl_admin' => "Admincp",
@@ -149,8 +149,8 @@ $lang = array(
     'gl_stdfoot_querys_page' => 'page was generated in ',
     'gl_stdfoot_querys_seconds' => 'seconds.',
     'gl_stdfoot_querys_server' => 'Server was hit ',
-    'gl_stdfoot_querys_time' => 'time',					//singular
-    'gl_stdfoot_querys_times' => '\'s',					//plural
+    'gl_stdfoot_querys_time' => 'time',                    //singular
+    'gl_stdfoot_querys_times' => '\'s',                    //plural
     'gl_stdfoot_querys_hits' => 'hits were handled.',
     'gl_stdfoot_uptime' => 'Uptime:',
     'gl_stdfoot_powered' => 'Powered by ',
@@ -205,13 +205,13 @@ $lang = array(
     'gl_bad_id' => "Bad ID.",
     'gl_not_a_valid_id' => "Not a valid id",
     'gl_no_way' => "No way",
-	//stdfoot
-	'gl_stdfoot_support' => "Support Forum Click ",
-	'gl_stdfoot_here' => "here",
-	'gl_stdfoot_opc' => "OpCache",
-	//conectable statusbar
-	'gl_connectable' => "Connectable",
-	'gl_not_connectable' => "Not Connectable",
+    //stdfoot
+    'gl_stdfoot_support' => "Support Forum Click ",
+    'gl_stdfoot_here' => "here",
+    'gl_stdfoot_opc' => "OpCache",
+    //conectable statusbar
+    'gl_connectable' => "Connectable",
+    'gl_not_connectable' => "Not Connectable",
     'gl_na_connectable' => "N/A",
     'gl_lnk_men' => 'USER MENU',
     'gl_lnk_inv' => 'Invites',
@@ -221,6 +221,6 @@ $lang = array(
     'gl_lnk_lott' => "Lottery",
     'gl_mytorrents' => 'My Torrents',
     'gl_myfriends' => 'My Friends',
-    'gl_search_members' => 'Search Members'
-);
+    'gl_search_members' => 'Search Members',
+];
 ?>

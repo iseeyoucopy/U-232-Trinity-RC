@@ -19,7 +19,7 @@
 |   $Source: TBDEV 2009
 +------------------------------------------------
 */
-$lang = array(
+$lang = [
     'ref_sorry' => "Sorry",
     'ref_no_auth' => "Only moderators can view this page.",
     'ref_stdhead' => "Referers",
@@ -36,6 +36,6 @@ $lang = array(
     'ref_nimic' => "<h1>Nothing found!</h1>Try again with a refined search string.",
     'ref_guest' => "Guest",
     'ref_nr' => "Nr.",
-    'ref_searc' => "Search results for "
-);
+    'ref_searc' => "Search results for ",
+];
 ?>

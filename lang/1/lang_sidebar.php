@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //prsonal block
     'sidebar_personal' => "Personal",
     'sidebar_class' => "User Class",
@@ -95,5 +95,5 @@ $lang = array(
     //latest with poster block
     'sidebar_latest' => "Latest",
     'sidebar_latest1' => "Latest Torrents<br />with Posters",
-);
+];
 ?>

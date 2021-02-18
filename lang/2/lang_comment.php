@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Comment
     'comment_error' => "Error",
     'comment_invalid_id' => "Invalid ID.",
@@ -31,6 +31,6 @@ $lang = array(
     'comment_someone_left_comment' => "Someone has left a comment",
     'comment_you_rec_comment_tor' => "You have received a comment on your torrent",
     'comment_with_that_id' => "with that ID",
-    'comment_tick_this_post_anony' => "Tick this to post anonymously"
-);
+    'comment_tick_this_post_anony' => "Tick this to post anonymously",
+];
 ?>

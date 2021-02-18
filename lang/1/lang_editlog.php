@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //editlog
     'editlog_new' => "New files added since last check.",
     'editlog_added' => "Added.",
@@ -22,8 +22,8 @@ $lang = array(
     'editlog_deleted1' => "Deleted.",
     'editlog_no_deleted' => "No files deleted since last check.",
     'editlog_update' => "Update",
-	'editlog_error' => "Error",
-	'editlog_denied' => "Access Denied",
-	'editlog_stdhead' => "Php File Edit Log"
-);
+    'editlog_error' => "Error",
+    'editlog_denied' => "Access Denied",
+    'editlog_stdhead' => "Php File Edit Log",
+];
 ?>

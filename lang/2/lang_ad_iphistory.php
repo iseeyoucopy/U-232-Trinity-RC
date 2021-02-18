@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Errors
     'stderr_error' => "Erreur",
     'stderr_denied' => "Accès refusé.",
@@ -34,12 +34,12 @@ $lang = array(
     'iphistory_notfound' => "Rien trouvé",
     'iphistory_no' => "Non",
     'iphistory_yes' => "Oui",
-	'iphistory_stdhead' => "Historique IP de {$username}",
-	'iphistory_browse' => "Rechercher: ",
-	'iphistory_announce' => "Annonce: ",
-	'iphistory_login' => "Identifiant: ",
-	//'iphistory_wipe' => "History Wipe:",
-	//'iphistory_justwipe' => " has just wiped IP: ",
-	//'iphistory_from' => " from (<a href='/userdetails.php?id=$id'><b>$username2</b></a>)'s Ip History"
-);
+    'iphistory_stdhead' => "Historique IP de {$username}",
+    'iphistory_browse' => "Rechercher: ",
+    'iphistory_announce' => "Annonce: ",
+    'iphistory_login' => "Identifiant: ",
+    //'iphistory_wipe' => "History Wipe:",
+    //'iphistory_justwipe' => " has just wiped IP: ",
+    //'iphistory_from' => " from (<a href='/userdetails.php?id=$id'><b>$username2</b></a>)'s Ip History"
+];
 ?>

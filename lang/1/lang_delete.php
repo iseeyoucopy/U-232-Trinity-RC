@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Delete
     'delete_failed' => "Delete failed!",
     'delete_missing_data' => "missing form data",
@@ -40,5 +40,5 @@ $lang = array(
     'delete_deleted' => " was deleted.",
     'delete_username' => "User Name",
     'delete_delete' => "Delete",
-);
+];
 ?>

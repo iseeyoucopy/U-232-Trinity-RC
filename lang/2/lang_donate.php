@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Donate
     'donate_click' => "Click the PayPal button below if you wish to make a donation!",
     'donate_make' => "Make payments with PayPal - it's fast, free and secure!",
@@ -23,5 +23,5 @@ $lang = array(
     'donate_the' => " the",
     'donate_transaction' => "transaction id",
     'donate_credit' => " so we can credit your account!",
-);
+];
 ?>

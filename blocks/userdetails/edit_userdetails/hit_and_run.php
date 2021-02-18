@@ -11,7 +11,7 @@
  * ------------  @version V6  ------------------*
  */
 //==new row
-$HTMLOUT.= '<div class="input-group">
+$HTMLOUT .= '<div class="input-group">
     <span class="input-group-label">'.$lang['userdetails_hnr'].'</span>
-    <input class="input-group-field" type="text" name="hit_and_run_total" value="' . (int)$user['hit_and_run_total'] . '">
+    <input class="input-group-field" type="text" name="hit_and_run_total" value="'.(int)$user['hit_and_run_total'].'">
 </div>';

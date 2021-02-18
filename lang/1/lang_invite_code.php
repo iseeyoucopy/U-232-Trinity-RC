@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //invite errors
     'invites_error' => "Error",
     'invites_deny' => "Denied",
@@ -49,16 +49,16 @@ $lang = array(
     'invites_sure2' => "\'s account? Click ",
     'invites_sure3' => "HERE",
     'invites_sure4' => " to confirm it or ",
-    'invites_sure5' => " to go back.",    
+    'invites_sure5' => " to go back.",
     'invites_err1' => "Sorry",
     'invites_err2' => "Your account is suspended",
     'invites_invits' => "Invites",
     ///
     'invites_mail_email' => "Email",
-    'invites_mail_send' => "Send Email",    
+    'invites_mail_send' => "Send Email",
     'invites_mail_err' => "This email address is already in use!",
     'invites_send_emailpart1' => "You have been invited to {$TRINITY20['site_name']} by",
-    'invites_send_emailpart2' => "\n\nThey have specified this address ", 
+    'invites_send_emailpart2' => "\n\nThey have specified this address ",
     'invites_send_emailpart3' => " as your email.\n
 If you do not know this person, please ignore this email.\n
 Please do not reply.
@@ -78,15 +78,15 @@ To confirm your invitation, you have to follow this link and type the invite cod
 {$TRINITY20['baseurl']}/invite_signup.php
  
 Invite Code: ",
-        'invites_send_emailpart4' => "\n
+    'invites_send_emailpart4' => "\n
 ------------------------------------------------------------
  
 After you do this, your inviter need's to confirm your account. 
 We urge you to read the RULES and FAQ before you start using {$TRINITY20['site_name']}.",
-        ///
-        'invites_send_email1_ema' => "You have been invited to {$TRINITY20['site_name']}",
-        'invites_send_email1_bod' => "From: {$TRINITY20['site_email']}",
-        ///
+    ///
+    'invites_send_email1_ema' => "You have been invited to {$TRINITY20['site_name']}",
+    'invites_send_email1_bod' => "From: {$TRINITY20['site_email']}",
+    ///
     'invites_send_email2' => "Hey there :wave:
 Welcome to {$TRINITY20['site_name']}!\n
 We have made many changes to the site, and we hope you enjoy them!\n 
@@ -99,7 +99,7 @@ Just for kicks, we've started you out with 200.0 Karma Bonus  Points, and a coup
 so, enjoy\n  
 cheers,\n 
 {$TRINITY20['site_name']} Staff.\n",
-        ///
-        'invites_send_email2_sub' => "Welcome to {$TRINITY20['site_name']} !"
-);
+    ///
+    'invites_send_email2_sub' => "Welcome to {$TRINITY20['site_name']} !",
+];
 ?>

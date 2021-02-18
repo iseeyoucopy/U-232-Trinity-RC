@@ -16,7 +16,8 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-PATH="${GZIP_BINDIR-'c:/progra~1/Gzip/bin'}:$PATH"; export PATH
+PATH="${GZIP_BINDIR-'c:/progra~1/Gzip/bin'}:$PATH"
+export PATH
 
 version="zless (gzip) 1.3.12
 Copyright (C) 2007 Free Software Foundation, Inc.
@@ -34,8 +35,8 @@ Options are the same as for 'less'.
 Report bugs to <bug-gzip@gnu.org>."
 
 case $1 in
---help)    exec echo "$usage";;
---version) exec echo "$version";;
+--help) exec echo "$usage" ;;
+--version) exec echo "$version" ;;
 esac
 
 if test "${LESSMETACHARS+set}" != set; then
@@ -49,5 +50,6 @@ if test "${LESSMETACHARS+set}" != set; then
   export LESSMETACHARS
 fi
 
-LESSOPEN="|gzip -cdfq -- %s"; export LESSOPEN
+LESSOPEN="|gzip -cdfq -- %s"
+export LESSOPEN
 exec less "$@"

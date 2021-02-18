@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //errors
     'ipcheck_users' => "Membres à duplicata d'IP:",
     'ipcheck_user' => 'Membre',
@@ -27,6 +27,6 @@ $lang = array(
     'ipcheck_yes' => 'Oui',
     'ipcheck_no' => 'Non',
     'ipcheck_noaccess' => 'Vous ne pouvez pas voir cette page.',
-	'ipcheck_stdhead' => 'IP Check'
-);
+    'ipcheck_stdhead' => 'IP Check',
+];
 ?>

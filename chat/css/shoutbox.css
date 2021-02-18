@@ -11,42 +11,50 @@
  * Positioning
  */
 #ajaxChatContent #ajaxChatChatList {
-	height:300px;
-	overflow:auto;
+    height: 300px;
+    overflow: auto;
 }
-#ajaxChatContent  #ajaxChatChatList div {
-	padding-left:5px;
-	padding-top:2px;
-	padding-right:5px;
-	padding-bottom:2px;
+
+#ajaxChatContent #ajaxChatChatList div {
+    padding-left: 5px;
+    padding-top: 2px;
+    padding-right: 5px;
+    padding-bottom: 2px;
 }
+
 #ajaxChatContent #ajaxChatChatList img {
-	vertical-align:middle;
-	margin-bottom:2px;
+    vertical-align: middle;
+    margin-bottom: 2px;
 }
+
 #ajaxChatContent #ajaxChatChatList cite {
-	margin-right:5px;
+    margin-right: 5px;
 }
+
 #ajaxChatContent #ajaxChatChatList .bbCodeImage {
-	vertical-align:top;
-	overflow:auto;
-	margin:5px;
+    vertical-align: top;
+    overflow: auto;
+    margin: 5px;
 }
+
 #ajaxChatContent #ajaxChatChatList .delete {
-	float:right;
-	width:10px;
-	height:10px;
-	margin-top:5px;
-	margin-left:5px;
+    float: right;
+    width: 10px;
+    height: 10px;
+    margin-top: 5px;
+    margin-left: 5px;
 }
+
 #ajaxChatContent #ajaxChatInputFieldContainer #ajaxChatInputField {
-	width:90%;
+    width: 90%;
 }
+
 #ajaxChatContent #ajaxChatCopyright {
-	margin-top:5px;
+    margin-top: 5px;
 }
+
 #ajaxChatContent #ajaxChatInputFieldContainer.write_forbidden {
-	display:none;
+    display: none;
 }
 
 
@@ -55,11 +63,12 @@
  */
 
 #ajaxChatContent img {
-	border:none;
+    border: none;
 }
+
 #ajaxChatContent #ajaxChatChatList .deleteSelected {
-	border-width:1px;
-	border-style:dotted;
+    border-width: 1px;
+    border-style: dotted;
 }
 
 
@@ -68,62 +77,78 @@
  */
 
 #ajaxChatContent {
-	font-size:0.9em;
+    font-size: 0.9em;
 }
+
 #ajaxChatContent a {
-	text-decoration:none;
+    text-decoration: none;
 }
+
 #ajaxChatContent a:hover {
-	text-decoration:underline;
+    text-decoration: underline;
 }
+
 #ajaxChatContent #ajaxChatCopyright {
-	font-size:0.8em;
+    font-size: 0.8em;
 }
+
 #ajaxChatContent #ajaxChatChatList span.dateTime {
-	font-size:0.7em;
+    font-size: 0.7em;
 }
+
 #ajaxChatContent #ajaxChatChatList span.guest {
-	font-size:0.9em;
-	font-weight:bold;
+    font-size: 0.9em;
+    font-weight: bold;
 }
+
 #ajaxChatContent #ajaxChatChatList span.user {
-	font-size:0.9em;
-	font-weight:bold;
+    font-size: 0.9em;
+    font-weight: bold;
 }
+
 #ajaxChatContent #ajaxChatChatList span.customUser {
-	font-size:0.9em;
-	font-weight:bold;
+    font-size: 0.9em;
+    font-weight: bold;
 }
+
 #ajaxChatContent #ajaxChatChatList span.moderator {
-	font-size:0.9em;
-	font-weight:bold;
+    font-size: 0.9em;
+    font-weight: bold;
 }
+
 #ajaxChatContent #ajaxChatChatList span.admin {
-	font-size:0.9em;
-	font-weight:bold;
+    font-size: 0.9em;
+    font-weight: bold;
 }
+
 #ajaxChatContent #ajaxChatChatList span.chatBot {
-	font-size:0.9em;
-	font-weight:bold;
-	font-style:italic;
+    font-size: 0.9em;
+    font-weight: bold;
+    font-style: italic;
 }
+
 #ajaxChatContent #ajaxChatList .chatBotMessage {
-	font-style:italic;
+    font-style: italic;
 }
+
 #ajaxChatContent #ajaxChatChatList .chatBotErrorMessage {
-	font-style:italic;
+    font-style: italic;
 }
+
 #ajaxChatContent #ajaxChatChatList .privmsg {
-	font-style:italic;
+    font-style: italic;
 }
+
 #ajaxChatContent #ajaxChatChatList .action {
-	font-style:italic;
+    font-style: italic;
 }
+
 #ajaxChatContent #ajaxChatChatList q {
-	font-variant:small-caps;
+    font-variant: small-caps;
 }
+
 #ajaxChatContent #ajaxChatChatList code {
-    font-size:1.2em;
+    font-size: 1.2em;
 }
 
 
@@ -132,55 +157,69 @@
  */
 
 #ajaxChatContent #ajaxChatChatList {
-	color:#000;
+    color: #000;
 }
+
 #ajaxChatContent #ajaxChatChatList {
-	background-color:#FFF;
+    background-color: #FFF;
 }
+
 #ajaxChatContent .rowEven {
-	background-color:#FFF;
+    background-color: #FFF;
 }
+
 #ajaxChatContent .rowOdd {
-	background-color:#F6F6F6;
+    background-color: #F6F6F6;
 }
+
 #ajaxChatContent .guest {
-	color:gray;
+    color: gray;
 }
+
 #ajaxChatContent .user {
-	color:#8e35ef;
+    color: #8e35ef;
 }
+
 #ajaxChatContent .power_user {
-	color:#f9a200;
+    color: #f9a200;
 }
+
 #ajaxChatContent .vip {
-	color:#009f00;
+    color: #009f00;
 }
+
 #ajaxChatContent .uploader {
-	color:#0000ff;
+    color: #0000ff;
 }
 
 #ajaxChatContent .moderator {
-	color:#fe2e2e;
+    color: #fe2e2e;
 }
+
 #ajaxChatContent .administrator {
-	color:#b000b0;
+    color: #b000b0;
 }
+
 #ajaxChatContent .sysop {
-	color:#FF0000;
+    color: #FF0000;
 }
 
 #ajaxChatContent .chatBot {
-	color:#FF6600;
+    color: #FF6600;
 }
+
 #ajaxChatContent #ajaxChatChatList .chatBotErrorMessage {
-	color:red;
+    color: red;
 }
+
 #ajaxChatContent #ajaxChatChatList a {
-	color:#1E90FF;
+    color: #1E90FF;
 }
+
 #ajaxChatContent #ajaxChatChatList .delete {
-	background:url('../img/delete.png') no-repeat right;
+    background: url('../img/delete.png') no-repeat right;
 }
+
 #ajaxChatContent #ajaxChatChatList .deleteSelected {
-	border-color:red;
+    border-color: red;
 }

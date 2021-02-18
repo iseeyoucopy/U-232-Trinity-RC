@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Misc
     'rules_rules' => "Rules Admin",
     'stderr_error' => "Error",
@@ -20,5 +20,5 @@ $lang = array(
     'rules_delete' => "Delete",
     'rules_btn_newcat' => "Add New Category",
     'rules_btn_newrule' => "Add New Rule",
-);
+];
 ?>

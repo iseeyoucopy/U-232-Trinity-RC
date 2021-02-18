@@ -1,4 +1,5 @@
 <?php
+
 /**
  * -------   U-232 Codename Trinity   ----------*
  * ---------------------------------------------*
@@ -43,6 +44,7 @@ class user_options
     const SUSPENDED = 0x10000000; // 268435456 exclude
     const ONIRC = 0x20000000; // 536870912  exclude
     const GOTBLOCKS = 0x40000000; // 1073741824  exclude
-    
+
 }
+
 ?>

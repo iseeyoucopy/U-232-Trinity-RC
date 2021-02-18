@@ -10,19 +10,19 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
-require_once (INCL_DIR . 'user_functions.php');
+require_once(__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorrent.php');
+require_once(INCL_DIR.'user_functions.php');
 dbconn(true);
 loggedinorreturn();
 //print_r($_POST);
 //print_r($_GET); exit;
 $lang = array_merge(load_language('global'));
-$poll_id = isset($_GET['pollid']) ? (int) $_GET['pollid'] : false;
+$poll_id = isset($_GET['pollid']) ? (int)$_GET['pollid'] : false;
 if (!is_valid_id($poll_id)) {
     stderr('ERROR', 'No poll with that ID');
 }
-$vote_cast = array();
-$_POST['choice'] ??= array();
+$vote_cast = [];
+$_POST['choice'] ??= [];
 //-----------------------------------------
 // Permissions check
 //-----------------------------------------
@@ -35,7 +35,7 @@ $_POST['choice'] ??= array();
 $query = sql_query("SELECT * FROM polls
                             LEFT JOIN poll_voters ON polls.pid = poll_voters.poll_id
                             AND poll_voters.user_id = {$CURUSER['id']} 
-                            WHERE pid = " . sqlesc($poll_id));
+                            WHERE pid = ".sqlesc($poll_id));
 if (!$query->num_rows == 1) {
     stderr('ERROR', 'No poll with that ID');
 }
@@ -64,8 +64,8 @@ if (!$_POST['nullvote']) {
         stderr('ERROR', 'No vote');
     }
     @sql_query("INSERT INTO poll_voters (user_id, ip_address, poll_id, vote_date)
-                        VALUES ({$CURUSER['id']}, " . sqlesc($CURUSER['ip']) . ",{$poll_data['pid']}, " . TIME_NOW . ")");
-    $cache->delete('poll_data_' . $CURUSER['id']);
+                        VALUES ({$CURUSER['id']}, ".sqlesc($CURUSER['ip']).",{$poll_data['pid']}, ".TIME_NOW.")");
+    $cache->delete('poll_data_'.$CURUSER['id']);
     /*
                 $update['votes'] = ($poll_data['votes'] + 1);
                 $cache->update_row('poll_data_'.$CURUSER['id'],  array('votes' => $update['votes']), $TRINITY20['expires']['poll_data']);
@@ -89,8 +89,8 @@ if (!$_POST['nullvote']) {
     }
 } else {
     @sql_query("INSERT INTO poll_voters (user_id, ip_address, poll_id, vote_date)
-                VALUES({$CURUSER['id']}, " . sqlesc($CURUSER['ip']) . ", {$poll_data['pid']}, " . TIME_NOW . ")");
-    $cache->delete('poll_data_' . $CURUSER['id']);
+                VALUES({$CURUSER['id']}, ".sqlesc($CURUSER['ip']).", {$poll_data['pid']}, ".TIME_NOW.")");
+    $cache->delete('poll_data_'.$CURUSER['id']);
     /*
                 $update['votes'] = ($poll_data['votes'] + 1);
                 $cache->update_row('poll_data_'.$CURUSER['id'],  array('votes' => $update['votes']), $TRINITY20['expires']['poll_data']);

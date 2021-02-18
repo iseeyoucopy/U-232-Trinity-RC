@@ -17,8 +17,8 @@ if ($TRINITY20['report_alert'] && $CURUSER['class'] >= UC_STAFF) {
         $cache->set('new_report_', $delt_with, $TRINITY20['expires']['alerts']);
     }
     if ($delt_with > 0) {
-        $htmlout.= "
-        <a class='hollow small button notification' href='staffpanel.php?tool=reports&amp;action=reports'>{$lang['gl_reports_news']}<span class='badge_corner'>" . $delt_with[0] . "</span></a>";
+        $htmlout .= "
+        <a class='hollow small button notification' href='staffpanel.php?tool=reports&amp;action=reports'>{$lang['gl_reports_news']}<span class='badge_corner'>".$delt_with[0]."</span></a>";
     }
 }
 //==End

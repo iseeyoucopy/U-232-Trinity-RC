@@ -39,115 +39,271 @@
  *
  ************************************************************************************/
 
-$language_data = array (
+$language_data = [
     'LANG_NAME' => 'VBScript',
-    'COMMENT_SINGLE' => array(),
-    'COMMENT_MULTI' => array(),
-    'COMMENT_REGEXP' => array(
+    'COMMENT_SINGLE' => [],
+    'COMMENT_MULTI' => [],
+    'COMMENT_REGEXP' => [
         // Comments (either single or multiline with _
         1 => '/\'.*(?<! _)\n/sU',
-        ),
+    ],
     'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-    'QUOTEMARKS' => array('"'),
+    'QUOTEMARKS' => ['"'],
     'ESCAPE_CHAR' => '',
-    'KEYWORDS' => array(
-        1 => array(
-            'Empty', 'Nothing', 'Null', 'vbArray', 'vbBoolean', 'vbByte',
-            'vbCr', 'vbCrLf', 'vbCurrency', 'vbDate', 'vbDouble', 'vbEmpty',
-            'vbError', 'vbFirstFourDays', 'vbFirstFullWeek', 'vbFirstJan1',
-            'vbFormFeed', 'vbFriday', 'vbInteger', 'vbLf', 'vbLong', 'vbMonday',
-            'vbNewLine', 'vbNull', 'vbNullChar', 'vbNullString', 'vbObject',
-            'vbSaturday', 'vbSingle', 'vbString', 'vbSunday', 'vbTab',
-            'vbThursday', 'vbTuesday', 'vbUseSystem', 'vbUseSystemDayOfWeek',
-            'vbVariant', 'vbWednesday', 'FALSE', 'TRUE'
-            ),
-        2 => array(
-            'bs', 'Array', 'Asc', 'Atn', 'CBool', 'CByte', 'CDate', 'CDbl', 'Chr',
-            'CInt', 'CLng', 'Cos', 'CreateObject', 'CSng', 'CStr', 'Date', 'DateAdd',
-            'DateDiff', 'DatePart', 'DateSerial', 'DateValue', 'Day', 'Eval', 'Exp',
-            'Filter', 'Fix', 'FormatDateTime', 'FormatNumber', 'FormatPercent',
-            'GetObject', 'Hex', 'Hour', 'InputBox', 'InStr', 'InstrRev', 'Int',
-            'IsArray', 'IsDate', 'IsEmpty', 'IsNull', 'IsNumeric', 'IsObject', 'Join',
-            'LBound', 'LCase', 'Left', 'Len', 'Log', 'LTrim', 'Mid', 'Minute', 'Month',
-            'MonthName', 'MsgBox', 'Now', 'Oct', 'Replace', 'RGB', 'Right', 'Rnd',
-            'Round', 'RTrim', 'ScriptEngine', 'ScriptEngineBuildVersion',
-            'ScriptEngineMajorVersion', 'ScriptEngineMinorVersion', 'Second',
-            'Sgn', 'Sin', 'Space', 'Split', 'Sqr', 'StrComp', 'String', 'StrReverse',
-            'Tan', 'Time', 'TimeSerial', 'TimeValue', 'Trim', 'TypeName', 'UBound',
-            'UCase', 'VarType', 'Weekday', 'WeekdayName', 'Year'
-            ),
-        3 => array(
-            'Call', 'Case', 'Const', 'Dim', 'Do', 'Each', 'Else', 'End', 'Erase',
-            'Execute', 'Exit', 'For', 'Function', 'Gosub', 'Goto', 'If', 'Loop',
-            'Next', 'On Error', 'Option Explicit', 'Private', 'Public',
-            'Randomize', 'ReDim', 'Rem', 'Resume', 'Select', 'Set', 'Sub', 'Then',
-            'Wend', 'While', 'With', 'In', 'To', 'Step'
-            ),
-        4 => array(
-            'And', 'Eqv', 'Imp', 'Is', 'Mod', 'Not', 'Or', 'Xor'
-            ),
-        ),
-    'SYMBOLS' => array(
-        '-', '&', '*', '/', '\\', '^', '+', '<', '<=', '<>', '=', '>', '>='
-        ),
-    'CASE_SENSITIVE' => array(
+    'KEYWORDS' => [
+        1 => [
+            'Empty',
+            'Nothing',
+            'Null',
+            'vbArray',
+            'vbBoolean',
+            'vbByte',
+            'vbCr',
+            'vbCrLf',
+            'vbCurrency',
+            'vbDate',
+            'vbDouble',
+            'vbEmpty',
+            'vbError',
+            'vbFirstFourDays',
+            'vbFirstFullWeek',
+            'vbFirstJan1',
+            'vbFormFeed',
+            'vbFriday',
+            'vbInteger',
+            'vbLf',
+            'vbLong',
+            'vbMonday',
+            'vbNewLine',
+            'vbNull',
+            'vbNullChar',
+            'vbNullString',
+            'vbObject',
+            'vbSaturday',
+            'vbSingle',
+            'vbString',
+            'vbSunday',
+            'vbTab',
+            'vbThursday',
+            'vbTuesday',
+            'vbUseSystem',
+            'vbUseSystemDayOfWeek',
+            'vbVariant',
+            'vbWednesday',
+            'FALSE',
+            'TRUE',
+        ],
+        2 => [
+            'bs',
+            'Array',
+            'Asc',
+            'Atn',
+            'CBool',
+            'CByte',
+            'CDate',
+            'CDbl',
+            'Chr',
+            'CInt',
+            'CLng',
+            'Cos',
+            'CreateObject',
+            'CSng',
+            'CStr',
+            'Date',
+            'DateAdd',
+            'DateDiff',
+            'DatePart',
+            'DateSerial',
+            'DateValue',
+            'Day',
+            'Eval',
+            'Exp',
+            'Filter',
+            'Fix',
+            'FormatDateTime',
+            'FormatNumber',
+            'FormatPercent',
+            'GetObject',
+            'Hex',
+            'Hour',
+            'InputBox',
+            'InStr',
+            'InstrRev',
+            'Int',
+            'IsArray',
+            'IsDate',
+            'IsEmpty',
+            'IsNull',
+            'IsNumeric',
+            'IsObject',
+            'Join',
+            'LBound',
+            'LCase',
+            'Left',
+            'Len',
+            'Log',
+            'LTrim',
+            'Mid',
+            'Minute',
+            'Month',
+            'MonthName',
+            'MsgBox',
+            'Now',
+            'Oct',
+            'Replace',
+            'RGB',
+            'Right',
+            'Rnd',
+            'Round',
+            'RTrim',
+            'ScriptEngine',
+            'ScriptEngineBuildVersion',
+            'ScriptEngineMajorVersion',
+            'ScriptEngineMinorVersion',
+            'Second',
+            'Sgn',
+            'Sin',
+            'Space',
+            'Split',
+            'Sqr',
+            'StrComp',
+            'String',
+            'StrReverse',
+            'Tan',
+            'Time',
+            'TimeSerial',
+            'TimeValue',
+            'Trim',
+            'TypeName',
+            'UBound',
+            'UCase',
+            'VarType',
+            'Weekday',
+            'WeekdayName',
+            'Year',
+        ],
+        3 => [
+            'Call',
+            'Case',
+            'Const',
+            'Dim',
+            'Do',
+            'Each',
+            'Else',
+            'End',
+            'Erase',
+            'Execute',
+            'Exit',
+            'For',
+            'Function',
+            'Gosub',
+            'Goto',
+            'If',
+            'Loop',
+            'Next',
+            'On Error',
+            'Option Explicit',
+            'Private',
+            'Public',
+            'Randomize',
+            'ReDim',
+            'Rem',
+            'Resume',
+            'Select',
+            'Set',
+            'Sub',
+            'Then',
+            'Wend',
+            'While',
+            'With',
+            'In',
+            'To',
+            'Step',
+        ],
+        4 => [
+            'And',
+            'Eqv',
+            'Imp',
+            'Is',
+            'Mod',
+            'Not',
+            'Or',
+            'Xor',
+        ],
+    ],
+    'SYMBOLS' => [
+        '-',
+        '&',
+        '*',
+        '/',
+        '\\',
+        '^',
+        '+',
+        '<',
+        '<=',
+        '<>',
+        '=',
+        '>',
+        '>=',
+    ],
+    'CASE_SENSITIVE' => [
         GESHI_COMMENTS => false,
         1 => false,
         2 => false,
         3 => false,
-        4 => false
-        ),
-    'STYLES' => array(
-        'KEYWORDS' => array(
+        4 => false,
+    ],
+    'STYLES' => [
+        'KEYWORDS' => [
             1 => 'color: #F660AB; font-weight: bold;',
             2 => 'color: #E56717; font-weight: bold;',
             3 => 'color: #8D38C9; font-weight: bold;',
-            4 => 'color: #151B8D; font-weight: bold;'
-            ),
-        'COMMENTS' => array(
-            1 => 'color: #008000;'
-            ),
-        'BRACKETS' => array(
-            ),
-        'STRINGS' => array(
-            0 => 'color: #800000;'
-            ),
-        'NUMBERS' => array(
-            ),
-        'METHODS' => array(
-            ),
-        'SYMBOLS' => array(
-            ),
-        'ESCAPE_CHAR' => array(
-            0 => 'color: #800000; font-weight: bold;'
-            ),
-        'SCRIPT' => array(
-            ),
-        'REGEXPS' => array(
-            )
-        ),
-    'URLS' => array(
+            4 => 'color: #151B8D; font-weight: bold;',
+        ],
+        'COMMENTS' => [
+            1 => 'color: #008000;',
+        ],
+        'BRACKETS' => [
+        ],
+        'STRINGS' => [
+            0 => 'color: #800000;',
+        ],
+        'NUMBERS' => [
+        ],
+        'METHODS' => [
+        ],
+        'SYMBOLS' => [
+        ],
+        'ESCAPE_CHAR' => [
+            0 => 'color: #800000; font-weight: bold;',
+        ],
+        'SCRIPT' => [
+        ],
+        'REGEXPS' => [
+        ],
+    ],
+    'URLS' => [
         1 => '',
         2 => '',
         3 => '',
-        4 => ''
-        ),
+        4 => '',
+    ],
     'OOLANG' => false,
-    'OBJECT_SPLITTERS' => array(
-        ),
-    'REGEXPS' => array(
-        ),
+    'OBJECT_SPLITTERS' => [
+    ],
+    'REGEXPS' => [
+    ],
     'STRICT_MODE_APPLIES' => GESHI_NEVER,
-    'SCRIPT_DELIMITERS' => array(
-        ),
-    'HIGHLIGHT_STRICT_BLOCK' => array(
-        ),
-    'PARSER_CONTROL' => array(
-        'KEYWORDS' => array(
-            'SPACE_AS_WHITESPACE' => true
-            ),
-        'ENABLE_FLAGS' => array(
-            'BRACKETS' => GESHI_NEVER
-            )
-        )
-);
+    'SCRIPT_DELIMITERS' => [
+    ],
+    'HIGHLIGHT_STRICT_BLOCK' => [
+    ],
+    'PARSER_CONTROL' => [
+        'KEYWORDS' => [
+            'SPACE_AS_WHITESPACE' => true,
+        ],
+        'ENABLE_FLAGS' => [
+            'BRACKETS' => GESHI_NEVER,
+        ],
+    ],
+];

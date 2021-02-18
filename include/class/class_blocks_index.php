@@ -1,4 +1,5 @@
 <?php
+
 /**
  * -------   U-232 Codename Trinity   ----------*
  * ---------------------------------------------*
@@ -34,6 +35,7 @@ class block_index
     const STAFF_SHOUT = 0x100000; // 1048576  //== exclude
     const MOVIEOFWEEK = 0x200000; // 2097152 //== exclude
     const REQNOFF = 0x400000; // 4194304 //== exclude
-    
+
 }
+
 ?>

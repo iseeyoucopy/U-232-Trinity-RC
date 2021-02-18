@@ -12,7 +12,8 @@
  */
 /** latestuser index **/
 if (($latestuser_cache = $cache->get($keys['latestuser'])) === false) {
-    ($latestuser_cache_query = sql_query('SELECT id, username, class, donor, warned, enabled, chatpost, leechwarn, pirate, king FROM users WHERE status="confirmed" ORDER BY id DESC LIMIT 1')) || sqlerr(__FILE__, __LINE__);
+    ($latestuser_cache_query = sql_query('SELECT id, username, class, donor, warned, enabled, chatpost, leechwarn, pirate, king FROM users WHERE status="confirmed" ORDER BY id DESC LIMIT 1')) || sqlerr(__FILE__,
+        __LINE__);
     $latestuser_cache = $latestuser_cache_query->fetch_assoc();
     $latestuser_cache['id'] = (int)$latestuser_cache['id'];
     $latestuser_cache['class'] = (int)$latestuser_cache['class'];
@@ -23,9 +24,9 @@ if (($latestuser_cache = $cache->get($keys['latestuser'])) === false) {
     $latestuser_cache['king'] = (int)$latestuser_cache['king'];
     $cache->set($keys['latestuser'], $latestuser_cache, $TRINITY20['expires']['latestuser']);
 }
-$HTMLOUT.= '<div class="card">
-    <div class="card-divider">' . $lang['index_lmember'] . '</div>
-        <div class="card-section">' . $lang['index_wmember'] . format_username($latestuser_cache) . '!</div>
+$HTMLOUT .= '<div class="card">
+    <div class="card-divider">'.$lang['index_lmember'].'</div>
+        <div class="card-section">'.$lang['index_wmember'].format_username($latestuser_cache).'!</div>
     </div>';
 //==End	
 // End Class

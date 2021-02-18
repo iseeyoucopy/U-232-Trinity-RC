@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'mtor_edit' => "Editer",
     'mtor_torrents' => "Torrents",
     'mtor_add_done' => "Ajoût effectué",
@@ -42,6 +42,6 @@ $lang = array(
     'mtor_day' => "Jour",
     'mtor_month' => "Mois",
     'mtor_year' => "Année",
-    'mtor_search' => "Chercher"
-);
+    'mtor_search' => "Chercher",
+];
 ?>

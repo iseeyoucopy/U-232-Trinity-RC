@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //takeconfirminvite
     'takeconfirminvite_error' => "Error",
     'takeconfirminvite_limit' => "Sorry, user limit reached. Please try again later.",
@@ -33,5 +33,5 @@ $lang = array(
     'takeconfirminvite_invalidname' => "Invalid username.",
     'takeconfirminvite_failed' => "Signup failed",
     'takeconfirminvite_qualify' => "Sorry, you're not qualified to become a member of this site.",
-);
+];
 ?>

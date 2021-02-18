@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'spanel_header' => "Staff Panel",
     'spanel_error' => "Error",
     'spanel_access_denied' => "Access Denied!",
@@ -59,6 +59,6 @@ $lang = array(
     'spanel_links' => "Links",
     'spanel_sorry' => "Sorry",
     'spanel_nothing_found' => "Nothing found.",
-    'spanel_was_del_sp_by' => "was deleted from the staff panel by"
-);
+    'spanel_was_del_sp_by' => "was deleted from the staff panel by",
+];
 ?>

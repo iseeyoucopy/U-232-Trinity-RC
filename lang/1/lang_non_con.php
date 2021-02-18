@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Chat
     'non_con_sendall' => "Send All not connectable Users A PM",
     'non_con_view' => "View the Log (Check this before PMing users)",
@@ -34,8 +34,8 @@ $lang = array(
     'non_con_elapsed' => "Elapsed",
     'non_con_date' => "Date",
     'non_con_subject' => "Connectability",
-	'non_con_send' => "Send",
-	'non_con_note' => "NOTE: No HTML Code Allowed. (NO HTML)",
-	'non_con_stdhead' => "Find Not Connectable" 
-);
+    'non_con_send' => "Send",
+    'non_con_note' => "NOTE: No HTML Code Allowed. (NO HTML)",
+    'non_con_stdhead' => "Find Not Connectable",
+];
 ?>

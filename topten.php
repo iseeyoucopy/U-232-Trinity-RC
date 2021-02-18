@@ -10,11 +10,11 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
-require_once (INCL_DIR . 'user_functions.php');
-require_once INCL_DIR . 'html_functions.php';
+require_once(__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorrent.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once INCL_DIR.'html_functions.php';
 dbconn(true);
-$lang = array_merge(load_language('global') , load_language('topten'));
+$lang = array_merge(load_language('global'), load_language('topten'));
 $HTMLOUT = '';
 function mysql_fetch_rowsarr($result)
 {
@@ -29,11 +29,12 @@ function mysql_fetch_rowsarr($result)
     }
     return $got;
 }
-$HTMLOUT.= "<div class='article_header' style='text-align:center'><a href='topten.php'>".$lang['gl_members']."</a> | <a href='topten.php?view=t'>".$lang['gl_torrents']."</a> | <a href='topten.php?view=c'>".$lang['nav_countries']."</a></div>";
+
+$HTMLOUT .= "<div class='article_header' style='text-align:center'><a href='topten.php'>".$lang['gl_members']."</a> | <a href='topten.php?view=t'>".$lang['gl_torrents']."</a> | <a href='topten.php?view=c'>".$lang['nav_countries']."</a></div>";
 if (isset($_GET['view']) && $_GET['view'] == "t") {
     $view = strip_tags(isset($_GET["t"]));
     // Top Torrents
-    $HTMLOUT.= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['torrent_mostact_10']."</h2><hr></div>";
+    $HTMLOUT .= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['torrent_mostact_10']."</h2><hr></div>";
     $result = sql_query("SELECT t.*, (t.size * t.times_completed + SUM(p.downloaded)) AS data FROM torrents AS t LEFT JOIN peers AS p ON t.id = p.torrent WHERE p.seeder = 'no' GROUP BY t.id ORDER BY seeders + leechers DESC, seeders DESC, added ASC LIMIT 10");
     $counted = $result->num_rows;
     if ($counted == "10") {
@@ -58,44 +59,44 @@ if (isset($_GET['view']) && $_GET['view'] == "t") {
         $tot9 = $arr[8]["leechers"] + $arr[8]["seeders"];
         $tor10 = $arr[9]["name"];
         $tot10 = $arr[9]["leechers"] + $arr[9]["seeders"];
-        $HTMLOUT.= '';
-        $HTMLOUT.= "<ul class='stats-list'>
+        $HTMLOUT .= '';
+        $HTMLOUT .= "<ul class='stats-list'>
         <li class='stats-list-positive'><ul class='stats-list'>
          <li class='stats-list-positive'>
-            $tor1<span class='stats-list-label'>" . mksize($tot1) . "</span>
+            $tor1<span class='stats-list-label'>".mksize($tot1)."</span>
          </li>
           <li class='stats-list-positive'>
-            $tor2<span class='stats-list-label'>" . mksize($tot2) . "</span>
+            $tor2<span class='stats-list-label'>".mksize($tot2)."</span>
          </li>
           <li class='stats-list-positive'>
-            $tor3<span class='stats-list-label'>" . mksize($tot3) . "</span>
+            $tor3<span class='stats-list-label'>".mksize($tot3)."</span>
          </li>
          <li class='stats-list-positive'>
-            $tor4<span class='stats-list-label'>" . mksize($tot4) . "</span>
+            $tor4<span class='stats-list-label'>".mksize($tot4)."</span>
          </li>
          <li class='stats-list-positive'>
-            $tor5<span class='stats-list-label'>" . mksize($tot5) . "</span>
+            $tor5<span class='stats-list-label'>".mksize($tot5)."</span>
          </li>
          <li class='stats-list-positive'>
-            $tor6<span class='stats-list-label'>" . mksize($tot6) . "</span>
+            $tor6<span class='stats-list-label'>".mksize($tot6)."</span>
          </li>
          <li class='stats-list-positive'>
-            $tor7<span class='stats-list-label'>" . mksize($tot7) . "</span>
+            $tor7<span class='stats-list-label'>".mksize($tot7)."</span>
          </li>
          <li class='stats-list-positive'>
-            $tor8<span class='stats-list-label'>" . mksize($tot8) . "</span>
+            $tor8<span class='stats-list-label'>".mksize($tot8)."</span>
          </li>
          <li class='stats-list-positive'>
-            $tor9<span class='stats-list-label'>" . mksize($tot9) . "</span>
+            $tor9<span class='stats-list-label'>".mksize($tot9)."</span>
          </li>
          <li class='stats-list-positive'>
-            $tor10<span class='stats-list-label'>" . mksize($tot10) . "</span>
+            $tor10<span class='stats-list-label'>".mksize($tot10)."</span>
          </li>
          </ul></div>";
     } else {
-        $HTMLOUT.= "<h4 class='text-center'><hr>".$lang['torrent_insuff_tt']."(" . $counted . ")</h4></div>";
+        $HTMLOUT .= "<h4 class='text-center'><hr>".$lang['torrent_insuff_tt']."(".$counted.")</h4></div>";
     }
-    $HTMLOUT.= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['torrent_mostsna_10']."</h2><hr></div>";
+    $HTMLOUT .= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['torrent_mostsna_10']."</h2><hr></div>";
     $result = sql_query("SELECT t.*, (t.size * t.times_completed + SUM(p.downloaded)) AS data FROM torrents AS t LEFT JOIN peers AS p ON t.id = p.torrent WHERE p.seeder = 'no' GROUP BY t.id ORDER BY times_completed DESC LIMIT 10");
     $counted = $result->num_rows;
     if ($counted == "10") {
@@ -120,48 +121,48 @@ if (isset($_GET['view']) && $_GET['view'] == "t") {
         $tot9 = $arr[8]["times_completed"];
         $tor10 = $arr[9]["name"];
         $tot10 = $arr[9]["times_completed"];
-        $HTMLOUT.= "<ul class='stats-list'>
+        $HTMLOUT .= "<ul class='stats-list'>
          <li class='stats-list-positive'>
-            $tor1<span class='stats-list-label'>" . mksize($tot1) . "</span>
+            $tor1<span class='stats-list-label'>".mksize($tot1)."</span>
          </li>
           <li class='stats-list-positive'>
-            $tor2<span class='stats-list-label'>" . mksize($tot2) . "</span>
+            $tor2<span class='stats-list-label'>".mksize($tot2)."</span>
          </li>
           <li class='stats-list-positive'>
-            $tor3<span class='stats-list-label'>" . mksize($tot3) . "</span>
+            $tor3<span class='stats-list-label'>".mksize($tot3)."</span>
          </li>
          <li class='stats-list-positive'>
-            $tor4<span class='stats-list-label'>" . mksize($tot4) . "</span>
+            $tor4<span class='stats-list-label'>".mksize($tot4)."</span>
          </li>
          <li class='stats-list-positive'>
-            $tor5<span class='stats-list-label'>" . mksize($tot5) . "</span>
+            $tor5<span class='stats-list-label'>".mksize($tot5)."</span>
          </li>
          <li class='stats-list-positive'>
-            $tor6<span class='stats-list-label'>" . mksize($tot6) . "</span>
+            $tor6<span class='stats-list-label'>".mksize($tot6)."</span>
          </li>
          <li class='stats-list-positive'>
-            $tor7<span class='stats-list-label'>" . mksize($tot7) . "</span>
+            $tor7<span class='stats-list-label'>".mksize($tot7)."</span>
          </li>
          <li class='stats-list-positive'>
-            $tor8<span class='stats-list-label'>" . mksize($tot8) . "</span>
+            $tor8<span class='stats-list-label'>".mksize($tot8)."</span>
          </li>
          <li class='stats-list-positive'>
-            $tor9<span class='stats-list-label'>" . mksize($tot9) . "</span>
+            $tor9<span class='stats-list-label'>".mksize($tot9)."</span>
          </li>
          <li class='stats-list-positive'>
-            $tor10<span class='stats-list-label'>" . mksize($tot10) . "</span>
+            $tor10<span class='stats-list-label'>".mksize($tot10)."</span>
          </li>
          </ul></div>";
     } else {
-        $HTMLOUT.= "<h4 class='text-center'><hr>".$lang['torrent_insuff_tt']."(" . $counted . ")</h4></div>";
+        $HTMLOUT .= "<h4 class='text-center'><hr>".$lang['torrent_insuff_tt']."(".$counted.")</h4></div>";
     }
-    echo stdhead($lang['head_title']) . $HTMLOUT . stdfoot();
+    echo stdhead($lang['head_title']).$HTMLOUT.stdfoot();
     die();
 }
 if (isset($_GET['view']) && $_GET['view'] == "c") {
     $view = strip_tags(isset($_GET["c"]));
     // Top Countries
-    $HTMLOUT.= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['country_mostact_10']."</h2><hr></div>";
+    $HTMLOUT .= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['country_mostact_10']."</h2><hr></div>";
     $result = sql_query("SELECT name, flagpic, COUNT(users.country) as num FROM countries LEFT JOIN users ON users.country = countries.id GROUP BY name ORDER BY num DESC LIMIT 10");
     $counted = $result->num_rows;
     if ($counted == "10") {
@@ -186,42 +187,42 @@ if (isset($_GET['view']) && $_GET['view'] == "c") {
         $num9 = $arr[8]["num"];
         $name10 = $arr[9]["name"];
         $num10 = $arr[9]["num"];
-        $HTMLOUT.= "<ul class='stats-list'>
+        $HTMLOUT .= "<ul class='stats-list'>
          <li class='stats-list-positive'>
-            $name1<span class='stats-list-label'>" . mksize($num1) . "</span>
+            $name1<span class='stats-list-label'>".mksize($num1)."</span>
          </li>
           <li class='stats-list-positive'>
-            $name2<span class='stats-list-label'>" . mksize($num2) . "</span>
+            $name2<span class='stats-list-label'>".mksize($num2)."</span>
          </li>
           <li class='stats-list-positive'>
-            $name3<span class='stats-list-label'>" . mksize($num3) . "</span>
+            $name3<span class='stats-list-label'>".mksize($num3)."</span>
          </li>
          <li class='stats-list-positive'>
-            $name4<span class='stats-list-label'>" . mksize($num4) . "</span>
+            $name4<span class='stats-list-label'>".mksize($num4)."</span>
          </li>
          <li class='stats-list-positive'>
-            $name5<span class='stats-list-label'>" . mksize($num5) . "</span>
+            $name5<span class='stats-list-label'>".mksize($num5)."</span>
          </li>
          <li class='stats-list-positive'>
-            $name6<span class='stats-list-label'>" . mksize($num6) . "</span>
+            $name6<span class='stats-list-label'>".mksize($num6)."</span>
          </li>
          <li class='stats-list-positive'>
-            $name7<span class='stats-list-label'>" . mksize($num7) . "</span>
+            $name7<span class='stats-list-label'>".mksize($num7)."</span>
          </li>
          <li class='stats-list-positive'>
-            $name8<span class='stats-list-label'>" . mksize($num8) . "</span>
+            $name8<span class='stats-list-label'>".mksize($num8)."</span>
          </li>
          <li class='stats-list-positive'>
-            $name9<span class='stats-list-label'>" . mksize($num9) . "</span>
+            $name9<span class='stats-list-label'>".mksize($num9)."</span>
          </li>
          <li class='stats-list-positive'>
-            $name10<span class='stats-list-label'>" . mksize($num10) . "</span>
+            $name10<span class='stats-list-label'>".mksize($num10)."</span>
          </li>
          </ul></div>";
     } else {
-        $HTMLOUT.= "<h4 class='text-center'><hr>".$lang['country_insuff_ct']."(" . $counted . ")</h4></div>";
+        $HTMLOUT .= "<h4 class='text-center'><hr>".$lang['country_insuff_ct']."(".$counted.")</h4></div>";
     }
-    $HTMLOUT.= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['country_mostsna_10']."</h2><hr></div>";
+    $HTMLOUT .= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['country_mostsna_10']."</h2><hr></div>";
     $result = sql_query("SELECT c.name, c.flagpic, sum(u.uploaded) AS ul FROM users AS u LEFT JOIN countries AS c ON u.country = c.id WHERE u.enabled = 'yes' GROUP BY c.name ORDER BY ul DESC LIMIT 10");
     $counted = $result->num_rows;
     if ($counted == "10") {
@@ -246,47 +247,47 @@ if (isset($_GET['view']) && $_GET['view'] == "c") {
         $num9 = $arr[8]["ul"];
         $name10 = $arr[9]["name"];
         $num10 = $arr[9]["ul"];
-        $HTMLOUT.= "<ul class='stats-list'>
+        $HTMLOUT .= "<ul class='stats-list'>
          <li class='stats-list-positive'>
-            $name1<span class='stats-list-label'>" . mksize($num1) . "</span>
+            $name1<span class='stats-list-label'>".mksize($num1)."</span>
          </li>
           <li class='stats-list-positive'>
-            $name2<span class='stats-list-label'>" . mksize($num2) . "</span>
+            $name2<span class='stats-list-label'>".mksize($num2)."</span>
          </li>
           <li class='stats-list-positive'>
-            $name3<span class='stats-list-label'>" . mksize($num3) . "</span>
+            $name3<span class='stats-list-label'>".mksize($num3)."</span>
          </li>
          <li class='stats-list-positive'>
-            $name4<span class='stats-list-label'>" . mksize($num4) . "</span>
+            $name4<span class='stats-list-label'>".mksize($num4)."</span>
          </li>
          <li class='stats-list-positive'>
-            $name5<span class='stats-list-label'>" . mksize($num5) . "</span>
+            $name5<span class='stats-list-label'>".mksize($num5)."</span>
          </li>
          <li class='stats-list-positive'>
-            $name6<span class='stats-list-label'>" . mksize($num6) . "</span>
+            $name6<span class='stats-list-label'>".mksize($num6)."</span>
          </li>
          <li class='stats-list-positive'>
-            $name7<span class='stats-list-label'>" . mksize($num7) . "</span>
+            $name7<span class='stats-list-label'>".mksize($num7)."</span>
          </li>
          <li class='stats-list-positive'>
-            $name8<span class='stats-list-label'>" . mksize($num8) . "</span>
+            $name8<span class='stats-list-label'>".mksize($num8)."</span>
          </li>
          <li class='stats-list-positive'>
-            $name9<span class='stats-list-label'>" . mksize($num9) . "</span>
+            $name9<span class='stats-list-label'>".mksize($num9)."</span>
          </li>
          <li class='stats-list-positive'>
-            $name10<span class='stats-list-label'>" . mksize($num10) . "</span>
+            $name10<span class='stats-list-label'>".mksize($num10)."</span>
          </li>
          </ul>
          </div>";
     } else {
-        $HTMLOUT.= "<h4 class='text-center'><hr>".$lang['country_insuff_ct']."(" . $counted . ")</h4></div>";
+        $HTMLOUT .= "<h4 class='text-center'><hr>".$lang['country_insuff_ct']."(".$counted.")</h4></div>";
     }
-    echo stdhead($lang['head_title']) . $HTMLOUT . stdfoot();
+    echo stdhead($lang['head_title']).$HTMLOUT.stdfoot();
     die();
 }
 // Default display / Top Users
-$HTMLOUT.= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['user_mostup_10']."</h2><hr></div>";
+$HTMLOUT .= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['user_mostup_10']."</h2><hr></div>";
 $result = sql_query("SELECT id, username, uploaded FROM users WHERE enabled = 'yes' ORDER BY uploaded DESC LIMIT 10");
 $counted = $result->num_rows;
 if ($counted == "10") {
@@ -311,43 +312,43 @@ if ($counted == "10") {
     $upped8 = $arr[7]['uploaded'];
     $upped9 = $arr[8]['uploaded'];
     $upped10 = $arr[9]['uploaded'];
-    $HTMLOUT.= "<ul class='stats-list'>
+    $HTMLOUT .= "<ul class='stats-list'>
          <li class='stats-list-positive'>
-            $user1<span class='stats-list-label'>" . mksize($upped1) . "</span>
+            $user1<span class='stats-list-label'>".mksize($upped1)."</span>
          </li>
          <li class='stats-list-negative'>
-            $user2<span class='stats-list-label'>" . mksize($upped2) . "</span>
+            $user2<span class='stats-list-label'>".mksize($upped2)."</span>
          </li>
          <li class='stats-list-positive'>
-            $user3<span class='stats-list-label'>" . mksize($upped3) . "</span>
+            $user3<span class='stats-list-label'>".mksize($upped3)."</span>
          </li>
          <li class='stats-list-negative'>
-            $user4<span class='stats-list-label'>" . mksize($upped4) . "</span>
+            $user4<span class='stats-list-label'>".mksize($upped4)."</span>
          </li>
          <li class='stats-list-positive'>
-            $user5<span class='stats-list-label'>" . mksize($upped5) . "</span>
+            $user5<span class='stats-list-label'>".mksize($upped5)."</span>
          </li>
          <li class='stats-list-negative'>
-            $user6<span class='stats-list-label'>" . mksize($upped6) . "</span>
+            $user6<span class='stats-list-label'>".mksize($upped6)."</span>
          </li>
          <li class='stats-list-positive'>
-            $user7<span class='stats-list-label'>" . mksize($upped7) . "</span>
+            $user7<span class='stats-list-label'>".mksize($upped7)."</span>
          </li>
          <li class='stats-list-negative'>
-            $user8<span class='stats-list-label'>" . mksize($upped8) . "</span>
+            $user8<span class='stats-list-label'>".mksize($upped8)."</span>
          </li>
          <li class='stats-list-positive'>
-            $user9<span class='stats-list-label'>" . mksize($upped9) . "</span>
+            $user9<span class='stats-list-label'>".mksize($upped9)."</span>
          </li>
          <li class='stats-list-negative'>
-            $user10<span class='stats-list-label'>" . mksize($upped10) . "</span>
+            $user10<span class='stats-list-label'>".mksize($upped10)."</span>
          </li>         
          </ul>
         </div>";
 } else {
-    $HTMLOUT.= "<h4 class='text-center'><hr>".$lang['user_insuff_up']."(" . $counted . ")</h4></div>";
+    $HTMLOUT .= "<h4 class='text-center'><hr>".$lang['user_insuff_up']."(".$counted.")</h4></div>";
 }
-$HTMLOUT.= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['user_mostdl_10']."</h2><hr></div>";
+$HTMLOUT .= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['user_mostdl_10']."</h2><hr></div>";
 $result = sql_query("SELECT username, downloaded FROM users WHERE enabled = 'yes' ORDER BY downloaded DESC LIMIT 10");
 $counted = $result->num_rows;
 if ($counted == "10") {
@@ -372,43 +373,43 @@ if ($counted == "10") {
     $upped8 = $arr[7]['downloaded'];
     $upped9 = $arr[8]['downloaded'];
     $upped10 = $arr[9]['downloaded'];
-    $HTMLOUT.= "<ul class='stats-list'>
+    $HTMLOUT .= "<ul class='stats-list'>
          <li class='stats-list-positive'>
-            $user1<span class='stats-list-label'>" . mksize($upped1) . "</span>
+            $user1<span class='stats-list-label'>".mksize($upped1)."</span>
          </li>
          <li class='stats-list-negative'>
-            $user2<span class='stats-list-label'>" . mksize($upped2) . "</span>
+            $user2<span class='stats-list-label'>".mksize($upped2)."</span>
          </li>
          <li class='stats-list-positive'>
-            $user3<span class='stats-list-label'>" . mksize($upped3) . "</span>
+            $user3<span class='stats-list-label'>".mksize($upped3)."</span>
          </li>
          <li class='stats-list-negative'>
-            $user4<span class='stats-list-label'>" . mksize($upped4) . "</span>
+            $user4<span class='stats-list-label'>".mksize($upped4)."</span>
          </li>
          <li class='stats-list-positive'>
-            $user5<span class='stats-list-label'>" . mksize($upped5) . "</span>
+            $user5<span class='stats-list-label'>".mksize($upped5)."</span>
          </li>
          <li class='stats-list-negative'>
-            $user6<span class='stats-list-label'>" . mksize($upped6) . "</span>
+            $user6<span class='stats-list-label'>".mksize($upped6)."</span>
          </li>
          <li class='stats-list-positive'>
-            $user7<span class='stats-list-label'>" . mksize($upped7) . "</span>
+            $user7<span class='stats-list-label'>".mksize($upped7)."</span>
          </li>
          <li class='stats-list-negative'>
-            $user8<span class='stats-list-label'>" . mksize($upped8) . "</span>
+            $user8<span class='stats-list-label'>".mksize($upped8)."</span>
          </li>
          <li class='stats-list-positive'>
-            $user9<span class='stats-list-label'>" . mksize($upped9) . "</span>
+            $user9<span class='stats-list-label'>".mksize($upped9)."</span>
          </li>
          <li class='stats-list-negative'>
-            $user10<span class='stats-list-label'>" . mksize($upped10) . "</span>
+            $user10<span class='stats-list-label'>".mksize($upped10)."</span>
          </li>         
          </ul></div>";
 } else {
-    $HTMLOUT.= "<h4 class='text-center'><hr>".$lang['user_insuff_dl']."(" . $counted . ")</h4></div>";
+    $HTMLOUT .= "<h4 class='text-center'><hr>".$lang['user_insuff_dl']."(".$counted.")</h4></div>";
 }
-$HTMLOUT.= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['user_mostup_fst']."</h2><hr></div>";
-$result = sql_query("SELECT  username, uploaded / (" . TIME_NOW . " - added) AS upspeed FROM users WHERE enabled = 'yes' ORDER BY upspeed DESC LIMIT 10");
+$HTMLOUT .= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['user_mostup_fst']."</h2><hr></div>";
+$result = sql_query("SELECT  username, uploaded / (".TIME_NOW." - added) AS upspeed FROM users WHERE enabled = 'yes' ORDER BY upspeed DESC LIMIT 10");
 $counted = $result->num_rows;
 if ($counted == "10") {
     $arr = mysql_fetch_rowsarr($result);
@@ -432,43 +433,43 @@ if ($counted == "10") {
     $upped8 = $arr[7]['upspeed'];
     $upped9 = $arr[8]['upspeed'];
     $upped10 = $arr[9]['upspeed'];
-    $HTMLOUT.= "<ul class='stats-list'>
+    $HTMLOUT .= "<ul class='stats-list'>
          <li class='stats-list-positive'>
-            $user1<span class='stats-list-label'>" . mksize($upped1) . "/s</span>
+            $user1<span class='stats-list-label'>".mksize($upped1)."/s</span>
          </li>
          <li class='stats-list-negative'>
-            $user2<span class='stats-list-label'>" . mksize($upped2) . "/s</span>
+            $user2<span class='stats-list-label'>".mksize($upped2)."/s</span>
          </li>
          <li class='stats-list-positive'>
-            $user3<span class='stats-list-label'>" . mksize($upped3) . "/s</span>
+            $user3<span class='stats-list-label'>".mksize($upped3)."/s</span>
          </li>
          <li class='stats-list-negative'>
-            $user4<span class='stats-list-label'>" . mksize($upped4) . "/s</span>
+            $user4<span class='stats-list-label'>".mksize($upped4)."/s</span>
          </li>
          <li class='stats-list-positive'>
-            $user5<span class='stats-list-label'>" . mksize($upped5) . "/s</span>
+            $user5<span class='stats-list-label'>".mksize($upped5)."/s</span>
          </li>
          <li class='stats-list-negative'>
-            $user6<span class='stats-list-label'>" . mksize($upped6) . "/s</span>
+            $user6<span class='stats-list-label'>".mksize($upped6)."/s</span>
          </li>
          <li class='stats-list-positive'>
-            $user7<span class='stats-list-label'>" . mksize($upped7) . "/s</span>
+            $user7<span class='stats-list-label'>".mksize($upped7)."/s</span>
          </li>
          <li class='stats-list-negative'>
-            $user8<span class='stats-list-label'>" . mksize($upped8) . "/s</span>
+            $user8<span class='stats-list-label'>".mksize($upped8)."/s</span>
          </li>
          <li class='stats-list-positive'>
-            $user9<span class='stats-list-label'>" . mksize($upped9) . "/s</span>
+            $user9<span class='stats-list-label'>".mksize($upped9)."/s</span>
          </li>
          <li class='stats-list-negative'>
-            $user10<span class='stats-list-label'>" . mksize($upped10) . "/s</span>
+            $user10<span class='stats-list-label'>".mksize($upped10)."/s</span>
          </li>         
          </ul></div>";
 } else {
-    $HTMLOUT.= "<h4 class='text-center'><hr>".$lang['user_insuff_up']."(" . $counted . ")</h4></div>";
+    $HTMLOUT .= "<h4 class='text-center'><hr>".$lang['user_insuff_up']."(".$counted.")</h4></div>";
 }
-$HTMLOUT.= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['user_mostdl_fst']."</h2><hr></div>";
-$result = sql_query("SELECT username, downloaded / (" . TIME_NOW . " - added) AS downspeed FROM users WHERE enabled = 'yes' ORDER BY downspeed DESC LIMIT 10");
+$HTMLOUT .= "<div class='card'><div class='card-divider'><h2 class='text-center'>".$lang['user_mostdl_fst']."</h2><hr></div>";
+$result = sql_query("SELECT username, downloaded / (".TIME_NOW." - added) AS downspeed FROM users WHERE enabled = 'yes' ORDER BY downspeed DESC LIMIT 10");
 $counted = $result->num_rows;
 if ($counted == "10") {
     $arr = mysql_fetch_rowsarr($result);
@@ -492,40 +493,40 @@ if ($counted == "10") {
     $upped8 = $arr[7]['downspeed'];
     $upped9 = $arr[8]['downspeed'];
     $upped10 = $arr[9]['downspeed'];
-    $HTMLOUT.= "<ul class='stats-list'>
+    $HTMLOUT .= "<ul class='stats-list'>
          <li class='stats-list-positive'>
-            $user1<span class='stats-list-label'>" . mksize($upped1) . "/s</span>
+            $user1<span class='stats-list-label'>".mksize($upped1)."/s</span>
          </li>
          <li class='stats-list-negative'>
-            $user2<span class='stats-list-label'>" . mksize($upped2) . "/s</span>
+            $user2<span class='stats-list-label'>".mksize($upped2)."/s</span>
          </li>
          <li class='stats-list-positive'>
-            $user3<span class='stats-list-label'>" . mksize($upped3) . "/s</span>
+            $user3<span class='stats-list-label'>".mksize($upped3)."/s</span>
          </li>
          <li class='stats-list-negative'>
-            $user4<span class='stats-list-label'>" . mksize($upped4) . "/s</span>
+            $user4<span class='stats-list-label'>".mksize($upped4)."/s</span>
          </li>
          <li class='stats-list-positive'>
-            $user5<span class='stats-list-label'>" . mksize($upped5) . "/s</span>
+            $user5<span class='stats-list-label'>".mksize($upped5)."/s</span>
          </li>
          <li class='stats-list-negative'>
-            $user6<span class='stats-list-label'>" . mksize($upped6) . "/s</span>
+            $user6<span class='stats-list-label'>".mksize($upped6)."/s</span>
          </li>
          <li class='stats-list-positive'>
-            $user7<span class='stats-list-label'>" . mksize($upped7) . "/s</span>
+            $user7<span class='stats-list-label'>".mksize($upped7)."/s</span>
          </li>
          <li class='stats-list-negative'>
-            $user8<span class='stats-list-label'>" . mksize($upped8) . "/s</span>
+            $user8<span class='stats-list-label'>".mksize($upped8)."/s</span>
          </li>
          <li class='stats-list-positive'>
-            $user9<span class='stats-list-label'>" . mksize($upped9) . "/s</span>
+            $user9<span class='stats-list-label'>".mksize($upped9)."/s</span>
          </li>
          <li class='stats-list-negative'>
-            $user10<span class='stats-list-label'>" . mksize($upped10) . "/s</span>
+            $user10<span class='stats-list-label'>".mksize($upped10)."/s</span>
          </li>         
          </ul></div>";
 } else {
-    $HTMLOUT.= "<h4 class='text-center'><hr>".$lang['user_insuff_dl']."(" . $counted . ")</h4></div>";
+    $HTMLOUT .= "<h4 class='text-center'><hr>".$lang['user_insuff_dl']."(".$counted.")</h4></div>";
 }
-echo stdhead($lang['head_title']) . $HTMLOUT . stdfoot();
+echo stdhead($lang['head_title']).$HTMLOUT.stdfoot();
 ?>

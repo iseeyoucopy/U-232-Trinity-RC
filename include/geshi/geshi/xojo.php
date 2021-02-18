@@ -37,20 +37,20 @@
  *
  ************************************************************************************/
 
-$language_data = array(
+$language_data = [
     'LANG_NAME' => 'Xojo',
-    'COMMENT_SINGLE' => array(1 => "'", 2 => '//', 3 => 'rem'),
-    'COMMENT_MULTI' => array(),
+    'COMMENT_SINGLE' => [1 => "'", 2 => '//', 3 => 'rem'],
+    'COMMENT_MULTI' => [],
     'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-    'QUOTEMARKS' => array('"'),
+    'QUOTEMARKS' => ['"'],
     'ESCAPE_CHAR' => '',
-    'NUMBERS' => array(
+    'NUMBERS' => [
         1 => GESHI_NUMBER_INT_BASIC | GESHI_NUMBER_INT_CSTYLE, // integers
         2 => GESHI_NUMBER_FLT_NONSCI // floating point numbers
-    ),
-    'KEYWORDS' => array(
+    ],
+    'KEYWORDS' => [
         //Keywords
-        1 => array(
+        1 => [
             'AddHandler',
             'AddressOf',
             'Aggregates',
@@ -141,10 +141,10 @@ $language_data = array(
             'While',
             'With',
             'WeakAddressOf',
-            'Xor'
-        ),
+            'Xor',
+        ],
         //Data Types
-        2 => array(
+        2 => [
             'Boolean',
             'CFStringRef',
             'CString',
@@ -169,19 +169,19 @@ $language_data = array(
             'UShort',
             'WindowPtr',
             'WString',
-            'XMLNodeType'
-        ),
+            'XMLNodeType',
+        ],
         //Compiler Directives
-        3 => array(
+        3 => [
             '#Bad',
             '#Else',
             '#Endif',
             '#If',
             '#Pragma',
-            '#Tag'
-        ),
-    ),
-    'SYMBOLS' => array(
+            '#Tag',
+        ],
+    ],
+    'SYMBOLS' => [
         '+',
         '-',
         '*',
@@ -192,88 +192,88 @@ $language_data = array(
         '^',
         '(',
         ')',
-        '.'
-    ),
-    'CASE_SENSITIVE' => array(
+        '.',
+    ],
+    'CASE_SENSITIVE' => [
         GESHI_COMMENTS => false,
         1 => false,
         2 => false,
-        3 => false
-    ),
-    'STYLES' => array(
-        'KEYWORDS' => array(
+        3 => false,
+    ],
+    'STYLES' => [
+        'KEYWORDS' => [
             1 => 'color: #0000FF;',  // keywords
             2 => 'color: #0000FF;',  // primitive data types
             3 => 'color: #0000FF;',  // compiler commands
-        ),
-        'COMMENTS' => array(
+        ],
+        'COMMENTS' => [
             1 => 'color: #7F0000;',
             2 => 'color: #7F0000;',
             3 => 'color: #7F0000;',
-            'MULTI' => 'color: #7F0000;'
-        ),
-        'ESCAPE_CHAR' => array(
-            0 => 'color: #008080;'
-        ),
-        'BRACKETS' => array(
-            0 => 'color: #000000;'
-        ),
-        'STRINGS' => array(
-            0 => 'color: #6500FE;'
-        ),
-        'NUMBERS' => array(
+            'MULTI' => 'color: #7F0000;',
+        ],
+        'ESCAPE_CHAR' => [
+            0 => 'color: #008080;',
+        ],
+        'BRACKETS' => [
+            0 => 'color: #000000;',
+        ],
+        'STRINGS' => [
+            0 => 'color: #6500FE;',
+        ],
+        'NUMBERS' => [
             1 => 'color: #326598;', // integers
             2 => 'color: #006532;', // floating point numbers
-        ),
-        'METHODS' => array(
-            1 => 'color: #000000;'
-        ),
-        'SYMBOLS' => array(
-            0 => 'color: #000000;'
-        ),
-        'REGEXPS' => array(
+        ],
+        'METHODS' => [
+            1 => 'color: #000000;',
+        ],
+        'SYMBOLS' => [
+            0 => 'color: #000000;',
+        ],
+        'REGEXPS' => [
             1 => 'color: #326598;', // &h hex numbers
             2 => 'color: #326598;', // &b hex numbers
             3 => 'color: #326598;', // &o hex numbers
-        ),
-        'SCRIPT' => array()
-    ),
-    'URLS' => array(
+        ],
+        'SCRIPT' => [],
+    ],
+    'URLS' => [
         1 => 'http://docs.xojo.com/index.php/{FNAMEU}',
         2 => 'http://docs.xojo.com/index.php/{FNAMEU}',
-        3 => ''
-    ),
+        3 => '',
+    ],
     'OOLANG' => true,
-    'OBJECT_SPLITTERS' => array(
-        1 => '.'
-    ),
-    'REGEXPS' => array(
-        1 => array( // &h numbers
+    'OBJECT_SPLITTERS' => [
+        1 => '.',
+    ],
+    'REGEXPS' => [
+        1 => [ // &h numbers
             // search for &h, then any number of letters a-f or numbers 0-9
             GESHI_SEARCH => '(&amp;h[0-9a-fA-F]*\b)',
             GESHI_REPLACE => '\\1',
             GESHI_MODIFIERS => '',
             GESHI_BEFORE => '',
-            GESHI_AFTER => ''
-        ),
-        2 => array( // &b numbers
+            GESHI_AFTER => '',
+        ],
+        2 => [ // &b numbers
             // search for &b, then any number of 0-1 digits
             GESHI_SEARCH => '(&amp;b[0-1]*\b)',
             GESHI_REPLACE => '\\1',
             GESHI_MODIFIERS => '',
             GESHI_BEFORE => '',
-            GESHI_AFTER => ''
-        ),
-        3 => array( // &o octal numbers
+            GESHI_AFTER => '',
+        ],
+        3 => [ // &o octal numbers
             // search for &o, then any number of 0-7 digits
             GESHI_SEARCH => '(&amp;o[0-7]*\b)',
             GESHI_REPLACE => '\\1',
             GESHI_MODIFIERS => '',
             GESHI_BEFORE => '',
-            GESHI_AFTER => ''
-        )
-    ),
+            GESHI_AFTER => '',
+        ],
+    ],
     'STRICT_MODE_APPLIES' => GESHI_NEVER,
-    'SCRIPT_DELIMITERS' => array(),
-    'HIGHLIGHT_STRICT_BLOCK' => array()
-);
+    'SCRIPT_DELIMITERS' => [],
+    'HIGHLIGHT_STRICT_BLOCK' => [],
+];

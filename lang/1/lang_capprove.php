@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'capp_head' => 'Approve|Disapprove comments',
     'capp_appr' => 'Your not authorized to use this page',
     'capp_tname' => 'Comment on torrent',
@@ -23,5 +23,5 @@ $lang = array(
     'capp_msg_sub' => 'Comment disapproved',
     'capp_msg_a' => 'The comment was approved...wait for redirect!',
     'capp_msg_d' => 'The comment was disapproved...wait for redirect!',
-);
+];
 ?>

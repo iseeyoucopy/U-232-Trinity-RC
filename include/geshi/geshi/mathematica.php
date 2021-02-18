@@ -67,27 +67,27 @@
 //tertiary   = 'color: #028E9B; font-weight: bold;'; //$variables
 //quaternary = 'color: #FFAD00; font-weight: bold;'; //potentially array syntax in the future
 
-$language_data = array(
+$language_data = [
     'LANG_NAME' => 'Mathematica',
-    'COMMENT_SINGLE' => array(),
-    'COMMENT_MULTI' => array(
+    'COMMENT_SINGLE' => [],
+    'COMMENT_MULTI' => [
         '(*' => '*)',
-    ),
-    'COMMENT_REGEXP' => array(),
+    ],
+    'COMMENT_REGEXP' => [],
     'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-    'QUOTEMARKS' => array(
+    'QUOTEMARKS' => [
         1 => '"',
-    ),
+    ],
     'ESCAPE_CHAR' => '',
-    'ESCAPE_REGEXP' => array(),
-    'HARDQUOTE' => array(),
-    'HARDESCAPE' => array(),
+    'ESCAPE_REGEXP' => [],
+    'HARDQUOTE' => [],
+    'HARDESCAPE' => [],
     'HARDCHAR' => '',
     'NUMBERS' =>
         GESHI_NUMBER_INT_BASIC | GESHI_NUMBER_OCT_PREFIX | GESHI_NUMBER_HEX_PREFIX |
         GESHI_NUMBER_FLT_SCI_ZERO,
-    'KEYWORDS' => array(
-        1 => array(
+    'KEYWORDS' => [
+        1 => [
             'AASTriangle',
             'APIFunction',
             'ARCHProcess',
@@ -4784,21 +4784,43 @@ $language_data = array(
             'ZoomCenter',
             'ZetaZero',
             'ZipfDistribution',
-            'ZoomFactor'
-        )
-    ),
-    'CASE_SENSITIVE' => array(
-        1 => true
-    ),
-    'SYMBOLS' => array(
-        1 => array(
-            '@', '//', '/@', '@@', '@@@', '#', '&', //functions
-            '=', ':=', '+=', '-=', '*=', '/=', //assignments
-            '^', '+' ,'-', '/', '*', '>', '<', '%', //math
-            '||', '&&', //logic
-            '/.', '/;', '->', ':>' //rules
-        ),
-        2 => array( // Wolfram
+            'ZoomFactor',
+        ],
+    ],
+    'CASE_SENSITIVE' => [
+        1 => true,
+    ],
+    'SYMBOLS' => [
+        1 => [
+            '@',
+            '//',
+            '/@',
+            '@@',
+            '@@@',
+            '#',
+            '&', //functions
+            '=',
+            ':=',
+            '+=',
+            '-=',
+            '*=',
+            '/=', //assignments
+            '^',
+            '+',
+            '-',
+            '/',
+            '*',
+            '>',
+            '<',
+            '%', //math
+            '||',
+            '&&', //logic
+            '/.',
+            '/;',
+            '->',
+            ':>' //rules
+        ],
+        2 => [ // Wolfram
             '$Aborted',
             '$AllowExternalChannelFunctions',
             '$AssertFunction',
@@ -4985,51 +5007,56 @@ $language_data = array(
 
             '$WolframID',
             '$WolframUUID',
-        ),
-        3 => array( // array stuff
-            '{', '}', '[[', ']]', '<|', '|>'
-        ),
-    ),
-    'STYLES' => array(
-        'KEYWORDS' => array(
+        ],
+        3 => [ // array stuff
+            '{',
+            '}',
+            '[[',
+            ']]',
+            '<|',
+            '|>',
+        ],
+    ],
+    'STYLES' => [
+        'KEYWORDS' => [
             1 => 'color: #FF7700; font-weight: bold;',
-        ),
-        'COMMENTS' => array(
+        ],
+        'COMMENTS' => [
             'MULTI' => 'color: #999999; font-style: italic;',
-        ),
-        'ESCAPE_CHAR' => array(
+        ],
+        'ESCAPE_CHAR' => [
             1 => '',
-        ),
-        'BRACKETS' => array(),
-        'STRINGS' => array(
+        ],
+        'BRACKETS' => [],
+        'STRINGS' => [
             1 => 'color: #666666; font-style: italic;',
-        ),
-        'NUMBERS' => array(
-        ),
-        'METHODS' => array(),
-        'SYMBOLS' => array(
+        ],
+        'NUMBERS' => [
+        ],
+        'METHODS' => [],
+        'SYMBOLS' => [
             1 => 'color: #133CAC; font-weight: bold;',
             2 => 'color: #028E9B; font-weight: bold;',
             3 => 'color: #FFAD00; font-weight: bold;',
-        ),
+        ],
         //'BRACKETS' => array(
         //0 => 'color: #8C0953; font-weight: bold;', // array
         //),
-        'REGEXPS' => array(
+        'REGEXPS' => [
             0 => 'color: #133CAC; font-weight: bold;',
-        ),
-        'SCRIPT' => array()
-    ),
-    'URLS' => array(
-        1 => 'http://reference.wolfram.com/language/ref/{FNAME}.html'
-    ),
+        ],
+        'SCRIPT' => [],
+    ],
+    'URLS' => [
+        1 => 'http://reference.wolfram.com/language/ref/{FNAME}.html',
+    ],
     'OOLANG' => false,
-    'OBJECT_SPLITTERS' => array(),
-    'REGEXPS' => array(
-        0 => '#[1-9][0-9]*'
-    ),
+    'OBJECT_SPLITTERS' => [],
+    'REGEXPS' => [
+        0 => '#[1-9][0-9]*',
+    ],
     'STRICT_MODE_APPLIES' => GESHI_MAYBE,
-    'SCRIPT_DELIMITERS' => array(),
-    'HIGHLIGHT_STRICT_BLOCK' => array(),
-    'TAB_WIDTH' => 4
-);
+    'SCRIPT_DELIMITERS' => [],
+    'HIGHLIGHT_STRICT_BLOCK' => [],
+    'TAB_WIDTH' => 4,
+];

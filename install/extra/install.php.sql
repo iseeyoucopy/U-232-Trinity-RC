@@ -7,9 +7,11 @@
 -- Server version: 10.5.8-MariaDB-1:10.5.8+maria~buster
 -- PHP Version: 7.4.14
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET
+SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET
+time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -27,52 +29,53 @@ SET time_zone = "+00:00";
 -- Table structure for table `achievementist`
 --
 
-CREATE TABLE `achievementist` (
-  `id` int(5) NOT NULL,
-  `achievname` varchar(40) CHARACTER SET utf8 DEFAULT NULL,
-  `notes` varchar(250) CHARACTER SET utf8 DEFAULT NULL,
-  `clienticon` varchar(255) CHARACTER SET utf8 DEFAULT NULL
+CREATE TABLE `achievementist`
+(
+    `id`         int(5) NOT NULL,
+    `achievname` varchar(40) CHARACTER SET utf8  DEFAULT NULL,
+    `notes`      varchar(250) CHARACTER SET utf8 DEFAULT NULL,
+    `clienticon` varchar(255) CHARACTER SET utf8 DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `achievementist`
 --
 
-INSERT INTO `achievementist` (`id`, `achievname`, `notes`, `clienticon`) VALUES
-(1, 'First Birthday', 'Been a member for at least 1 year.', 'birthday1.png'),
-(2, 'Second Birthday', 'Been a member for a period of at least 2 years.', 'birthday2.png'),
-(6, 'Fourth Birthday', 'Been a member for a period of at least 4 years.', 'birthday4.png'),
-(5, 'Third Birthday', 'Been a member for a period of at least 3 years.', 'birthday3.png'),
-(7, 'Fifth Birthday', 'Been a member for a period of at least 5 years.', 'birthday5.png'),
-(8, 'Uploader LVL1', 'Uploaded at least 1 torrent to the site.', 'ul1.png'),
-(9, 'Uploader LVL2', 'Uploaded at least 50 torrents to the site.', 'ul2.png'),
-(10, 'Uploader LVL3', 'Uploaded at least 100 torrents to the site.', 'ul3.png'),
-(11, 'Uploader LVL4', 'Uploaded at least 200 torrents to the site.', 'ul4.png'),
-(12, 'Uploader LVL5', 'Uploaded at least 300 torrents to the site.', 'ul5.png'),
-(13, 'Uploader LVL6', 'Uploaded at least 500 torrents to the site.', 'ul6.png'),
-(14, 'Uploader LVL7', 'Uploaded at least 800 torrents to the site.', 'ul7.png'),
-(15, 'Uploader LVL8', 'Uploaded at least 1000 torrents to the site.', 'ul8.png'),
-(16, 'Uploader LVL9', 'Uploaded at least 1500 torrents to the site.', 'ul9.png'),
-(17, 'Uploader LVL10', 'Uploaded at least 2000 torrents to the site.', 'ul10.png'),
-(18, 'Inviter LVL1', 'Invited at least 1 new user to the site.', 'invite1.png'),
-(19, 'Inviter LVL2', 'Invited at least 2 new users to the site.', 'invite2.png'),
-(20, 'Inviter LVL3', 'Invited at least 3 new users to the site.', 'invite3.png'),
-(21, 'Inviter LVL4', 'Invited at least 5 new users to the site.', 'invite4.png'),
-(22, 'Inviter LVL5', 'Invited at least 10 new users to the site.', 'invite5.png'),
-(23, 'Forum Poster LVL1', 'Made at least 1 post in the forums.', 'fpost1.png'),
-(24, 'Forum Poster LVL2', 'Made at least 25 posts in the forums.', 'fpost2.png'),
-(25, 'Forum Poster LVL3', 'Made at least 50 posts in the forums.', 'fpost3.png'),
-(26, 'Forum Poster LVL4', 'Made at least 100 posts in the forums.', 'fpost4.png'),
-(27, 'Forum Poster LVL5', 'Made at least 250 posts in the forums.', 'fpost5.png'),
-(28, 'Avatar Setter', 'User has successfully set an avatar on profile settings.', 'piratesheep.png'),
-(29, 'Old Virginia', 'At the age of 25 still remains a virgin.  (Custom Achievement.)', 'virgin.png'),
-(30, 'Forum Poster LVL6', 'Made at least 500 posts in the forums.', 'fpost6.png'),
-(31, 'Stick Em Up LVL1', 'Uploading at least 1 sticky torrent to the site.', 'sticky1.png'),
-(32, 'Stick Em Up LVL2', 'Uploading at least 5 sticky torrents to the site.', 'sticky2.png'),
-(33, 'Stick Em Up LVL3', 'Uploading at least 10 sticky torrents.', 'sticky3.png'),
-(34, 'Stick EM Up LVL4', 'Uploading at least 25 sticky torrents.', 'sticky4.png'),
-(35, 'Stick EM Up LVL5', 'Uploading at least 50 sticky torrents.', 'sticky5.png'),
-(36, 'Gag Da B1tch', 'Getting gagged like he\'s Adams Man!', 'gagged.png'),
+INSERT INTO `achievementist` (`id`, `achievname`, `notes`, `clienticon`)
+VALUES (1, 'First Birthday', 'Been a member for at least 1 year.', 'birthday1.png'),
+       (2, 'Second Birthday', 'Been a member for a period of at least 2 years.', 'birthday2.png'),
+       (6, 'Fourth Birthday', 'Been a member for a period of at least 4 years.', 'birthday4.png'),
+       (5, 'Third Birthday', 'Been a member for a period of at least 3 years.', 'birthday3.png'),
+       (7, 'Fifth Birthday', 'Been a member for a period of at least 5 years.', 'birthday5.png'),
+       (8, 'Uploader LVL1', 'Uploaded at least 1 torrent to the site.', 'ul1.png'),
+       (9, 'Uploader LVL2', 'Uploaded at least 50 torrents to the site.', 'ul2.png'),
+       (10, 'Uploader LVL3', 'Uploaded at least 100 torrents to the site.', 'ul3.png'),
+       (11, 'Uploader LVL4', 'Uploaded at least 200 torrents to the site.', 'ul4.png'),
+       (12, 'Uploader LVL5', 'Uploaded at least 300 torrents to the site.', 'ul5.png'),
+       (13, 'Uploader LVL6', 'Uploaded at least 500 torrents to the site.', 'ul6.png'),
+       (14, 'Uploader LVL7', 'Uploaded at least 800 torrents to the site.', 'ul7.png'),
+       (15, 'Uploader LVL8', 'Uploaded at least 1000 torrents to the site.', 'ul8.png'),
+       (16, 'Uploader LVL9', 'Uploaded at least 1500 torrents to the site.', 'ul9.png'),
+       (17, 'Uploader LVL10', 'Uploaded at least 2000 torrents to the site.', 'ul10.png'),
+       (18, 'Inviter LVL1', 'Invited at least 1 new user to the site.', 'invite1.png'),
+       (19, 'Inviter LVL2', 'Invited at least 2 new users to the site.', 'invite2.png'),
+       (20, 'Inviter LVL3', 'Invited at least 3 new users to the site.', 'invite3.png'),
+       (21, 'Inviter LVL4', 'Invited at least 5 new users to the site.', 'invite4.png'),
+       (22, 'Inviter LVL5', 'Invited at least 10 new users to the site.', 'invite5.png'),
+       (23, 'Forum Poster LVL1', 'Made at least 1 post in the forums.', 'fpost1.png'),
+       (24, 'Forum Poster LVL2', 'Made at least 25 posts in the forums.', 'fpost2.png'),
+       (25, 'Forum Poster LVL3', 'Made at least 50 posts in the forums.', 'fpost3.png'),
+       (26, 'Forum Poster LVL4', 'Made at least 100 posts in the forums.', 'fpost4.png'),
+       (27, 'Forum Poster LVL5', 'Made at least 250 posts in the forums.', 'fpost5.png'),
+       (28, 'Avatar Setter', 'User has successfully set an avatar on profile settings.', 'piratesheep.png'),
+       (29, 'Old Virginia', 'At the age of 25 still remains a virgin.  (Custom Achievement.)', 'virgin.png'),
+       (30, 'Forum Poster LVL6', 'Made at least 500 posts in the forums.', 'fpost6.png'),
+       (31, 'Stick Em Up LVL1', 'Uploading at least 1 sticky torrent to the site.', 'sticky1.png'),
+       (32, 'Stick Em Up LVL2', 'Uploading at least 5 sticky torrents to the site.', 'sticky2.png'),
+       (33, 'Stick Em Up LVL3', 'Uploading at least 10 sticky torrents.', 'sticky3.png'),
+       (34, 'Stick EM Up LVL4', 'Uploading at least 25 sticky torrents.', 'sticky4.png'),
+       (35, 'Stick EM Up LVL5', 'Uploading at least 50 sticky torrents.', 'sticky5.png'),
+       (36, 'Gag Da B1tch', 'Getting gagged like he\'s Adams Man!', 'gagged.png'),
 (37, 'Signature Setter', 'User has successfully set a signature on profile settings.', 'signature.png'),
 (38, 'Corruption Counts', 'Transferred at least 1 byte of corrupt data incoming.', 'corrupt.png'),
 (40, '7 Day Seeder', 'Seeded a snatched torrent for a total of at least 7 days.', '7dayseed.png'),
@@ -554,7 +557,8 @@ INSERT INTO `bonus` (`id`, `bonusname`, `points`, `description`, `art`, `menge`,
 (5, 'Custom Title!', '50.0', 'For only 50.0 Karma Bonus Points you can buy yourself a custom title. the only restrictions are no foul or offensive language or userclass can be entered. The points are then removed from your Bonus Bank and your special title is changed to the title of your choice', 'title', 1, '1.0', 'yes', '50.0'),
 (6, 'VIP Status', '5000.0', 'With enough bonus points acquired, you can buy yourself VIP status for one month. The points are then removed from your Bonus Bank and your status is changed.', 'class', 1, '1.0', 'yes', '5000.0'),
 (7, 'Give A Karma Gift', '100.0', 'Well perhaps you dont need the upload credit, but you know somebody that could use the Karma boost! You are now able to give your Karma credits as a gift! The points are then removed from your Bonus Bank and added to the account of a user of your choice!\r\n\r\nAnd they recieve a PM with all the info as well as who it came from...', 'gift_1', 1073741824, '1.0', 'yes', '100.0'),
-(8, 'Custom Smilies', '300.0', 'With enough bonus points acquired, you can buy yourself a set of custom smilies for one month! The points are then removed from your Bonus Bank and with a click of a link, your new smilies are available whenever you post or comment!', 'smile', 1, '1.0', 'yes', '300.0'),
+(8, 'Custom Smilies', '300.0', 'With enough bonus points acquired,
+        you can buy yourself a set of custom smilies for one month! The points are then removed from your Bonus Bank and with a click of a link, your new smilies are available whenever you post or comment!', 'smile', 1, '1.0', 'yes', '300.0'),
 (9, 'Remove Warning', '1000.0', 'With enough bonus points acquired... So you have been naughty... tsk tsk :P Yep now for the Low Low price of only 1000 points you can have that warning taken away lol.!', 'warning', 1, '1.0', 'yes', '1000.0'),
 (10, 'Ratio Fix', '500.0', 'With enough bonus points acquired, you can bring the ratio of one torrent to a 1 to 1 ratio! The points are then removed from your Bonus Bank and your status is changed.', 'ratio', 1, '1.0', 'yes', '500.0'),
 (11, 'FreeLeech', '30000.0', 'The Ultimate exchange if you have over 30000 Points - Make the tracker freeleech for everyone for 3 days: Upload will count but no download.\r\nIf you dont have enough points you can donate certain amount of your points until it accumulates. Everybodys karma counts!', 'freeleech', 1, '3200.0', 'yes', '1.0'),
@@ -568,8 +572,12 @@ INSERT INTO `bonus` (`id`, `bonusname`, `points`, `description`, `art`, `menge`,
 (19, '3 Freeleech Slots', '1000.0', 'With enough bonus points acquired, you are able to exchange them for some Freeleech Slots. The points are then removed from your Bonus Bank and the slots are added to your free slots amount.', 'freeslots', 3, '0.0', 'yes', '1000.0'),
 (20, '200 Bonus Points - Invite trade-in', '1.0', 'If you have 1 invite and dont use them click the button to trade them in for 200 Bonus Points.', 'itrade', 200, '0.0', 'yes', '0.0'),
 (21, 'Freeslots - Invite trade-in', '1.0', 'If you have 1 invite and dont use them click the button to trade them in for 2 Free Slots.', 'itrade2', 2, '0.0', 'yes', '0.0'),
-(22, 'Pirate Rank for 2 weeks', '50000.0', 'With enough bonus points acquired, you are able to exchange them for Pirates status and Freeleech for 2 weeks. The points are then removed from your Bonus Bank and the Pirate icon will be displayed throughout, freeleech will then be enabled on your account.', 'pirate', 1, '1.0', 'yes', '50000.0'),
-(23, 'King Rank for 1 month', '70000.0', 'With enough bonus points acquired, you are able to exchange them for Kings status and Freeleech for 1 month. The points are then removed from your Bonus Bank and the King icon will be displayed throughout,  freeleech will then be enabled on your account.', 'king', 1, '1.0', 'yes', '70000.0'),
+(22, 'Pirate Rank for 2 weeks', '50000.0', 'With enough bonus points acquired,
+        you are able to exchange them for Pirates status and Freeleech for 2 weeks. The points are then removed from your Bonus Bank and the Pirate icon will be displayed throughout,
+        freeleech will then be enabled on your account.', 'pirate', 1, '1.0', 'yes', '50000.0'),
+(23, 'King Rank for 1 month', '70000.0', 'With enough bonus points acquired,
+        you are able to exchange them for Kings status and Freeleech for 1 month. The points are then removed from your Bonus Bank and the King icon will be displayed throughout,
+        freeleech will then be enabled on your account.', 'king', 1, '1.0', 'yes', '70000.0'),
 (24, '10GB Uploaded', '1000.0', 'With enough bonus points acquired, you are able to exchange them for an Upload Credit. The points are then removed from your Bonus Bank and the credit is added to your total uploaded amount.', 'traffic', 10737418240, '0.0', 'yes', '1000.0'),
 (25, '25GB Uploaded', '2000.0', 'With enough bonus points acquired, you are able to exchange them for an Upload Credit. The points are then removed from your Bonus Bank and the credit is added to your total uploaded amount.', 'traffic', 26843545600, '0.0', 'yes', '2000.0'),
 (26, '50GB Uploaded', '4000.0', 'With enough bonus points acquired, you are able to exchange them for an Upload Credit. The points are then removed from your Bonus Bank and the credit is added to your total uploaded amount.', 'traffic', 53687091200, '0.0', 'yes', '4000.0'),
@@ -1212,7 +1220,8 @@ CREATE TABLE `faq` (
 
 INSERT INTO `faq` (`id`, `type`, `title`, `text`) VALUES
 (1, 1, 'What is this bittorrent all about anyway? How do I get the files?', 'Check out BitTorrent From Wikipedia.'),
-(2, 1, 'Where does the donated money go?', 'SITE_NAME is situated on a dedicated server in the Netherlands. For the moment we have monthly running costs of approximately &pound; 60.'),
+(2, 1, 'Where does the donated money go?', 'SITE_NAME is situated on a dedicated server in the Netherlands. For the moment we have monthly running costs of approximately &pound;
+60.'),
 (3, 1, 'Where can I get a copy of the source code?', 'SITE_NAME is an active open source project available for download via Github <a href=\'https://github.com/Bigjoos/U-232-V4\' class=\'altlink\'>Zip download</a> or directly from the support forum <a href=\'http://forum-u-232.servebeer.com/index.php?action=downloads;cat=1\' class=\'altlink\'>Zip downloads</a>. Please note: We do not give any kind of support on the source code so please don\'t bug us about it. If it works, great, if not too bad. Use this software at your own risk!'),
 (4, 2, 'I registered an account but did not receive the confirmation e-mail!', 'You can contact site staff with your request on discord.'),
 (5, 2, 'I\'ve lost my user name or password! Can you send it to me?', 'Please use <a class=\'altlink\' href=\'recover.php\'>this form</a> to have the login details mailed back to you.'),
@@ -1257,7 +1266,8 @@ INSERT INTO `faq` (`id`, `type`, `title`, `text`) VALUES
 (44, 6, 'Just give it some time', 'As explained above peers favour other peers that upload to them. When you start leeching a new torrent you have nothing to offer to other peers and they will tend to ignore you. This makes the starts slow, in particular if,by change, the peers you are connected to include few or no seeders. The download speed should increase as soon as you have some pieces to share.\r\n'),
 (45, 6, 'Why is my browsing so slow while leeching?', 'Your download speed is always finite. If you are a peer in a fast torrent it will almost certainly saturate your download bandwidth, and your browsing will suffer. At the moment there is no client that allows you to limit the download speed, only the upload. You will have to use a third-party solution, such as <a class=\'altlink\' href=\'http://www.netlimiter.com/\'>NetLimiter</a>. Browsing was used just as an example, the same would apply to gaming etc.'),
 (46, 7, 'My ISP uses a transparent proxy. What should I do?', '<i>Caveat: This is a large and complex topic. It is not possible to cover all variations here.</i>< Short reply: change to an ISP that does not force a proxy upon you. If you cannot or do not want to then read on.\r\n'),
-(47, 7, 'What is a proxy?', 'Basically a middleman. When you are browsing a site through a proxy your requests are sent to the proxy and the proxy forwards them to the site instead of you connecting directly to the site. There are several classifications\r\n(the terminology is far from standard):<br /><br /><table class=\'table table-bordered table-striped\'><tr><td class=\'embedded\' valign=\'top\'width=\'100\'>&nbsp;Transparent</td><td class=\'embedded\' valign=\'top\'>A transparent proxy is one that needs no configuration on the clients. It works by automatically redirecting all port 80 traffic to the proxy. (Sometimes used as synonymous for non-anonymous.)</td></tr>\r\n<tr><td class=\'embedded\' valign=\'top\'>&nbsp;Explicit/Voluntary</td><td class=\'embedded\' valign=\'top\'>Clients must configure their browsers to use them.</td></tr>\r\n<tr>\r\n<td class=\'embedded\' valign=\'top\'>&nbsp;Anonymous</td>\r\n<td class=\'embedded\' valign=\'top\'>The proxy sends no client identification to the server. (HTTP_X_FORWARDED_FOR header is not sent; the server does not see your IP.)</td></tr>\r\n<tr>\r\n<td class=\'embedded\' valign=\'top\'>&nbsp;Highly Anonymous</td>\r\n<td class=\'embedded\' valign=\'top\'>The proxy sends no client nor proxy identification to the server. (HTTP_X_FORWARDED_FOR, HTTP_VIA and HTTP_PROXY_CONNECTION headers are not sent; the server doesn\'t see your IP and doesn\'t even know you\'re using a proxy.)</td></tr>\r\n<tr>\r\n<td class=\'embedded\' valign=\'top\'>&nbsp;Public</td><td class=\'embedded\' valign=\'top\'>(Self explanatory)</td>\r\n</tr>\r\n</table><br />\r\nA transparent proxy may or may not be anonymous, and there are several levels of anonymity.'),
+(47, 7, 'What is a proxy?', 'Basically a middleman. When you are browsing a site through a proxy your requests are sent to the proxy and the proxy forwards them to the site instead of you connecting directly to the site. There are several classifications\r\n(the terminology is far from standard):<br /><br /><table class=\'table table-bordered table-striped\'><tr><td class=\'embedded\' valign=\'top\'width=\'100\'>&nbsp;Transparent</td><td class=\'embedded\' valign=\'top\'>A transparent proxy is one that needs no configuration on the clients. It works by automatically redirecting all port 80 traffic to the proxy. (Sometimes used as synonymous for non-anonymous.)</td></tr>\r\n<tr><td class=\'embedded\' valign=\'top\'>&nbsp;Explicit/Voluntary</td><td class=\'embedded\' valign=\'top\'>Clients must configure their browsers to use them.</td></tr>\r\n<tr>\r\n<td class=\'embedded\' valign=\'top\'>&nbsp;Anonymous</td>\r\n<td class=\'embedded\' valign=\'top\'>The proxy sends no client identification to the server. (HTTP_X_FORWARDED_FOR header is not sent; the server does not see your IP.)</td></tr>\r\n<tr>\r\n<td class=\'embedded\' valign=\'top\'>&nbsp;Highly Anonymous</td>\r\n<td class=\'embedded\' valign=\'top\'>The proxy sends no client nor proxy identification to the server. (HTTP_X_FORWARDED_FOR, HTTP_VIA and HTTP_PROXY_CONNECTION headers are not sent; the server doesn\'t see your IP and doesn\'t even know you\'re using a proxy.)</td></tr>\r\n<tr>\r\n<td class=\'embedded\' valign=\'top\'>&nbsp;
+Public</td><td class=\'embedded\' valign=\'top\'>(Self explanatory)</td>\r\n</tr>\r\n</table><br />\r\nA transparent proxy may or may not be anonymous, and there are several levels of anonymity.'),
 (48, 7, 'How do I find out if I\'m behind a (transparent/anonymous) proxy?', 'Try <a href=\'http://proxyjudge.info\' class=\'altlink\'>ProxyJudge</a>. It lists the HTTP headers that the server where it is running received from you. The relevant ones are HTTP_CLIENT_IP, HTTP_X_FORWARDED_FOR and REMOTE_ADDR.\r\n'),
 (49, 7, 'Why am I listed as not connectable even though I\'m not NAT/Firewalled?', 'The SITE_NAME tracker is quite smart at finding your real IP, but it does need the proxy to send the HTTP header HTTP_X_FORWARDED_FOR. If your ISP\'s proxy does not then what happens is that the tracker will interpret the proxy\'s IP address as the client\'s IP address. So when you login and the tracker tries to connect to your client to see if you are NAT/firewalled it will actually try to connect to the proxy on the port your client reports to be using for incoming connections. Naturally the proxy will not be listening on that port, the connection will fail and tracker will think you are NAT/firewalled.\r\n'),
 (50, 7, 'Can I bypass my ISP\'s proxy?', 'If your ISP only allows HTTP traffic through port 80 or blocks the usual proxy ports then you would need to use something like <a href=\'http://socks-permeo.software.filedudes.com/\'>socks</a> and that is outside the scope of this FAQ.<br /><br />\r\nThe site accepts connections on port 81 besides the usual 80, and using them may be enough to fool some proxies. So the first thing to try should be connecting to BASE_URL:81. Note that even if this works your bt client will still try to connect to port 80 unless you edit the announce url in the .torrent file. Otherwise you may try the following:\r\n<br />\r\n<ul>\r\n<li>Choose any public <b>non-anonymous</b> proxy that does <b>not</b> use port 80 (e.g. from <a href=\'http://tools.rosinstrument.com/proxy/?rule1\' class=\'altlink\'>this</a>, <a href=\'http://www.proxy4free.com/index.html\' class=\'altlink\'>this</a> or <a href=\'http://www.samair.ru/proxy/\' class=\'altlink\'>this</a> list).</li>\r\n<li>Configure your computer to use that proxy. For Windows XP, do <i>Start</i>, <i>Control Panel</i>, <i>Internet Options</i>, <i>Connections</i>, <i>LAN Settings</i>, <i>Use a Proxy server</i>, <i>Advanced</i> and type in the IP and port of your chosen proxy. Or from Internet Explorer use <i>Tools</i>, <i>Internet Options</i>, ...<br /></li><li>Visit <a href=\'http://proxyjudge.info\' class=\'altlink\'>ProxyJudge</a>. If you see an HTTP_X_FORWARDED_FOR in the list followed by your IP then everything should be ok, otherwise choose another proxy and try again.<br /></li><li>Visit SITE_NAME. Hopefully the tracker will now pickup your real IP (check your profile to make sure).</li>\r\n</ul>\r\n<br />\r\nNotice that now you will be doing all your browsing through a public proxy, which are typically quite slow. Communications between peers do not use port 80 so their speed will not be affected by this, and should be better than when you were &quot;unconnectable&quot;.\r\n'),

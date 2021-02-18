@@ -1,51 +1,119 @@
-.blackiconcolor {color:black;}
-.rediconcolor {color:red;}
-.greeniconcolor {color:green;}
-.blueiconcolor {color:blue;}
-.yellowiconcolor {color:yellow;}
+.blackiconcolor {
+    color: black;
+}
+
+.rediconcolor {
+    color: red;
+}
+
+.greeniconcolor {
+    color: green;
+}
+
+.blueiconcolor {
+    color: blue;
+}
+
+.yellowiconcolor {
+    color: yellow;
+}
 
 .corner-badge {
-    z-index:1;
-    position:absolute;
-    top:6px;
-    right:35px;
-    margin-right:-25px;
+    z-index: 1;
+    position: absolute;
+    top: 6px;
+    right: 35px;
+    margin-right: -25px;
 }
+
 .login-container {
-	margin-top: 70px;
-	text-align: center;
-	}   
-.starter-template {padding: 40px 15px;text-align: center;}
-.donate-td{background: transparent;display: block;border: 2px;}
-.donate-td1{background: grey;display: block;border: 2px;}
-.donate-table{width: 140px;height: 20px;border: 2px;display: block;}
+    margin-top: 70px;
+    text-align: center;
+}
+
+.starter-template {
+    padding: 40px 15px;
+    text-align: center;
+}
+
+.donate-td {
+    background: transparent;
+    display: block;
+    border: 2px;
+}
+
+.donate-td1 {
+    background: grey;
+    display: block;
+    border: 2px;
+}
+
+.donate-table {
+    width: 140px;
+    height: 20px;
+    border: 2px;
+    display: block;
+}
+
 /*Donations end*/
 /** Cpatcha Links Settings ------------------------------------------------------------ */
-.cimage {border: 1px solid #eee; }
-.captchaImage {margin:0 2px;}
-.captchaImages {margin: 5px auto;width:350px;text-align:center;}
-.simpleCaptchaSelected {border: 2px solid #999; border-radius: 3px; -webkit-border-radius: 3px; }
-
-@media only screen and (min-width:319px) and (max-width:479px) {
-.captchaImage {margin-left:-14%;margin-right:45px; padding-left:0px;}
+.cimage {
+    border: 1px solid #eee;
 }
+
+.captchaImage {
+    margin: 0 2px;
+}
+
+.captchaImages {
+    margin: 5px auto;
+    width: 350px;
+    text-align: center;
+}
+
+.simpleCaptchaSelected {
+    border: 2px solid #999;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+@media only screen and (min-width: 319px) and (max-width: 479px) {
+    .captchaImage {
+        margin-left: -14%;
+        margin-right: 45px;
+        padding-left: 0px;
+    }
+}
+
 /**
 @media only screen and (min-width:480px) and (max-width:599px) {
 //.captchaImage {margin-right:60%;}
 }**/
-@media only screen and (min-width:600px) and (max-width:800px) {
-.captchaImage {margin-right:9%;margin-left:-10%;}
+@media only screen and (min-width: 600px) and (max-width: 800px) {
+    .captchaImage {
+        margin-right: 9%;
+        margin-left: -10%;
+    }
 }
+
 /** End Cpatcha Links Settings ------------------------------------------------------------ */
 /* The switch - the box around the slider */
 
-.banners  {
-	width:auto;
-	height:200px;
-	background-position: center;
-	background-repeat: no-repeat;
+.banners {
+    width: auto;
+    height: 200px;
+    background-position: center;
+    background-repeat: no-repeat;
 }
-.chat-table {width: 100%;max-width: 100%;margin-bottom: 3px;overflow: hidden;border: 1px solid rgba(10, 10, 10, 0.25);height: 600px;}
+
+.chat-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 3px;
+    overflow: hidden;
+    border: 1px solid rgba(10, 10, 10, 0.25);
+    height: 600px;
+}
 
 /*	/-------------------------------------------------------------------------------------------\
 	| Information About This File --------------------------------------------------------------|

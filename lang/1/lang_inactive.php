@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //inactive errors
     'inactive_error' => "Error",
     'inactive_usersnoacc' => "Inactive Users - Nosey Cunt !",
@@ -54,6 +54,6 @@ $lang = array(
     'inactive_noaccounts' => "No account inactive for longer than",
     //add by yoooov
     'inactive_chkall' => "Check all",
-    'inactive_unchk' => "Uncheck All"
-);
+    'inactive_unchk' => "Uncheck All",
+];
 ?>

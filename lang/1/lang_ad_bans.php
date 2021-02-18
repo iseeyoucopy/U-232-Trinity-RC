@@ -10,11 +10,11 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Misc
     'stdhead_adduser' => "Bans",
     'stderr_error' => "Error",
-	'stderr_error1' => "A Ban with that ID could not be found",
+    'stderr_error1' => "A Ban with that ID could not be found",
     'btn_add' => "Add",
     'btn_cache' => "Cache",
     //Texts
@@ -36,6 +36,6 @@ $lang = array(
     'header_remove' => "Remove",
     'table_firstip' => "First IP",
     'table_lastip' => "Last IP",
-    'table_comment' => "Comment"
-);
+    'table_comment' => "Comment",
+];
 ?>

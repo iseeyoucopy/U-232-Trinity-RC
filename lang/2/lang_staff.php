@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Misc
     'stdhead_staff' => "Staff",
     'staff_asup' => 'All software support question\'s and those already answered in the FAQ will be ignored.',
@@ -46,6 +46,6 @@ you. Treat them accordingly. (Languages listed are those besides English.)",
     'first_name' => "Username",
     'first_active' => "Active",
     'first_lang' => "Language",
-    'first_contact' => "Contact"
-);
+    'first_contact' => "Contact",
+];
 ?>

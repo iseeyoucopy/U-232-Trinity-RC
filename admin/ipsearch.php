@@ -12,7 +12,7 @@
  */
 if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
-    $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
+    $HTMLOUT .= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
@@ -24,21 +24,21 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     echo $HTMLOUT;
     exit();
 }
-require_once (INCL_DIR . 'user_functions.php');
-require_once (INCL_DIR . 'html_functions.php');
-require_once (INCL_DIR . 'pager_functions.php');
-require_once (CLASS_DIR . 'class_check.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(INCL_DIR.'html_functions.php');
+require_once(INCL_DIR.'pager_functions.php');
+require_once(CLASS_DIR.'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_ipsearch'));
 $HTMLOUT = $ip = $mask = '';
-$HTMLOUT.= "<div class='row'><div class='col-md-12'>";
+$HTMLOUT .= "<div class='row'><div class='col-md-12'>";
 $ip = isset($_GET["ip"]) ? htmlsafechars(trim($_GET["ip"])) : '';
 if ($ip) {
     $regex = "/^(((1?\d{1,2})|(2[0-4]\d)|(25[0-5]))(\.\b|$)){4}$/";
     if (!preg_match($regex, $ip)) {
-        $HTMLOUT.= stdmsg($lang['ipsearch_error'], $lang['ipsearch_invalid']);
-        echo stdhead("IP Search") . $HTMLOUT . stdfoot();
+        $HTMLOUT .= stdmsg($lang['ipsearch_error'], $lang['ipsearch_invalid']);
+        echo stdhead("IP Search").$HTMLOUT.stdfoot();
         die();
     }
     $mask = isset($_GET["mask"]) ? htmlsafechars(trim($_GET["mask"])) : '';
@@ -51,15 +51,15 @@ if ($ip) {
         if ($mask[0] == "/") {
             $n = substr($mask, 1);
             if (!is_numeric($n) || $n < 0 || $n > 32) {
-                $HTMLOUT.= stdmsg($lang['ipsearch_error'], $lang['ipsearch_subnet']);
-                echo stdhead("IP Search") . $HTMLOUT . stdfoot();
+                $HTMLOUT .= stdmsg($lang['ipsearch_error'], $lang['ipsearch_subnet']);
+                echo stdhead("IP Search").$HTMLOUT.stdfoot();
                 die();
             }
 
             $mask = long2ip((2 ** 32) - (2 ** (32 - $n)));
         } elseif (!preg_match($regex, $mask)) {
-            $HTMLOUT.= stdmsg($lang['ipsearch_error'], $lang['ipsearch_subnet']);
-            echo stdhead("IP Search") . $HTMLOUT . stdfoot();
+            $HTMLOUT .= stdmsg($lang['ipsearch_error'], $lang['ipsearch_subnet']);
+            echo stdhead("IP Search").$HTMLOUT.stdfoot();
             die();
         }
         $where1 = "INET_ATON(u.ip) & INET_ATON('$mask') = INET_ATON('$ip') & INET_ATON('$mask')";
@@ -76,9 +76,9 @@ if ($ip) {
     $row = $res->fetch_array(MYSQLI_BOTH);
     $count = $row[0];
     if ($count == 0) {
-        $HTMLOUT.= "<br /><b>No users found</b>\n";
-        $HTMLOUT.= "</div></div>";
-        echo stdhead("IP SEARCH") . $HTMLOUT . stdfoot();
+        $HTMLOUT .= "<br /><b>No users found</b>\n";
+        $HTMLOUT .= "</div></div>";
+        echo stdhead("IP SEARCH").$HTMLOUT.stdfoot();
         die;
     }
     $order = isset($_GET['order']) && $_GET['order'];
@@ -87,20 +87,15 @@ if ($ip) {
     $pager = pager($perpage, $count, "staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=$order&amp;");
     if ($order == "added") {
         $orderby = "added DESC";
-    }
-    elseif ($order == "username") {
+    } elseif ($order == "username") {
         $orderby = "UPPER(username) ASC";
-    }
-    elseif ($order == "email") {
+    } elseif ($order == "email") {
         $orderby = "email ASC";
-    }
-    elseif ($order == "last_ip") {
+    } elseif ($order == "last_ip") {
         $orderby = "last_ip ASC";
-    }
-    elseif ($order == "last_access") {
+    } elseif ($order == "last_access") {
         $orderby = "last_ip ASC";
-    }
-    else {
+    } else {
         $orderby = "access DESC";
     }
     $query1 = "SELECT * FROM (
@@ -114,15 +109,15 @@ if ($ip) {
 		  GROUP BY u.id ) as ipsearch
 		  GROUP BY id
 		  ORDER BY $orderby
-		  " . $pager['limit'] . "";
+		  ".$pager['limit']."";
     ($res = sql_query($query1)) || sqlerr(__FILE__, __LINE__);
-    $HTMLOUT.="<div class='row><div class='col-md-12'><h4 class='text-center'>" . htmlsafechars($count) . " {$lang['ipsearch_have_used']}" . htmlsafechars($ip) . " (" . htmlsafechars($addr) . ")</h4></div></div>";
+    $HTMLOUT .= "<div class='row><div class='col-md-12'><h4 class='text-center'>".htmlsafechars($count)." {$lang['ipsearch_have_used']}".htmlsafechars($ip)." (".htmlsafechars($addr).")</h4></div></div>";
     if ($count > $perpage) {
         $HTMLOUT .= $pager['pagertop'];
     }
-    $HTMLOUT.= "<table class='table table-bordered'>\n";
-    $HTMLOUT.= "<tr>
-	  <td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=username'>{$lang['ipsearch_username']}</a></td>" . "<td class='colhead'>{$lang['ipsearch_ratio']}</td>" . "<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=email'>{$lang['ipsearch_email']}</a></td>" . "<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=last_ip'>{$lang['ipsearch_ip']}</a></td>" . "<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=last_access'>{$lang['ipsearch_access']}</a></td>" . "<td class='colhead'>{$lang['ipsearch_num']}</td>" . "<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask'>{$lang['ipsearch_access']} on <br />" . htmlsafechars($ip) . "</a></td>" . "<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=added'>{$lang['ipsearch_added']}</a></td>" . "<td class='colhead'>{$lang['ipsearch_invited']}</td></tr>";
+    $HTMLOUT .= "<table class='table table-bordered'>\n";
+    $HTMLOUT .= "<tr>
+	  <td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=username'>{$lang['ipsearch_username']}</a></td>"."<td class='colhead'>{$lang['ipsearch_ratio']}</td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=email'>{$lang['ipsearch_email']}</a></td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=last_ip'>{$lang['ipsearch_ip']}</a></td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=last_access'>{$lang['ipsearch_access']}</a></td>"."<td class='colhead'>{$lang['ipsearch_num']}</td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask'>{$lang['ipsearch_access']} on <br />".htmlsafechars($ip)."</a></td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=added'>{$lang['ipsearch_added']}</a></td>"."<td class='colhead'>{$lang['ipsearch_invited']}</td></tr>";
     while ($user = $res->fetch_assoc()) {
         if ($user['added'] == '0') {
             $user['added'] = '---';
@@ -136,43 +131,42 @@ if ($ip) {
             $array = $res1->fetch_row();
             if ($array[0] == 0) {
                 $ipstr = $user['last_ip'];
-            }
-            else {
+            } else {
                 $ipstr = "<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=testip&amp;action=testip&amp;ip=".htmlsafechars($user['last_ip'])."'><font color='#FF0000'><b>".htmlsafechars($user["last_ip"])."</b></font></a>";
             }
         } else {
             $ipstr = "---";
         }
-        ($resip = sql_query("SELECT ip FROM ips WHERE userid=" . sqlesc($user["id"]) . " GROUP BY ips.ip")) || sqlerr(__FILE__, __LINE__);
+        ($resip = sql_query("SELECT ip FROM ips WHERE userid=".sqlesc($user["id"])." GROUP BY ips.ip")) || sqlerr(__FILE__, __LINE__);
         $iphistory = $resip->num_rows;
         if ($user["invitedby"] > 0) {
-            $res2 = sql_query("SELECT username FROM users WHERE id=" . sqlesc($user["invitedby"]) . "");
+            $res2 = sql_query("SELECT username FROM users WHERE id=".sqlesc($user["invitedby"])."");
             $array = $res2->fetch_assoc();
             $invitedby = $array["username"];
             if ($invitedby == "") {
                 $invitedby = "<i>[{$lang['ipsearch_deleted']}]</i>";
-            }
-            else {
+            } else {
                 $invitedby = "<a href='{$TRINITY20['baseurl']}/userdetails.php?id={$user['invitedby']}'>".htmlsafechars($invitedby)."</a>";
             }
         } else {
             $invitedby = "--";
         }
-        $HTMLOUT.= "<tr>
-	   	<td><b><a href='{$TRINITY20['baseurl']}/userdetails.php?id=" . (int)$user['id'] . "'></a></b>" . format_username($user) . "</td>" . "<td>" . member_ratio($user['uploaded'], $user['downloaded']) . "</td>
-		  <td style='max-width:130px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;'>" . $user['email'] . "</td><td>" . $ipstr . "</td>
-		  <td><div class='text-center'>" . get_date($user['last_access'], 'DATE', 1, 0) . "</div></td>
-		  <td><div class='text-center'><b><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=iphistory&amp;action=iphistory&amp;id=" . (int)$user['id'] . "'>" . htmlsafechars($iphistory) . "</a></b></div></td>
-		  <td><div class='text-center'>" . get_date($user['access'], 'DATE', 1, 0) . "</div></td>
-		  <td><div class='text-center'>" . get_date($user['added'], 'DATE', 1, 0) . "</div></td>
-		  <td><div class='text-center'>" . $invitedby . "</div></td>
+        $HTMLOUT .= "<tr>
+	   	<td><b><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$user['id']."'></a></b>".format_username($user)."</td>"."<td>".member_ratio($user['uploaded'],
+                $user['downloaded'])."</td>
+		  <td style='max-width:130px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;'>".$user['email']."</td><td>".$ipstr."</td>
+		  <td><div class='text-center'>".get_date($user['last_access'], 'DATE', 1, 0)."</div></td>
+		  <td><div class='text-center'><b><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=iphistory&amp;action=iphistory&amp;id=".(int)$user['id']."'>".htmlsafechars($iphistory)."</a></b></div></td>
+		  <td><div class='text-center'>".get_date($user['access'], 'DATE', 1, 0)."</div></td>
+		  <td><div class='text-center'>".get_date($user['added'], 'DATE', 1, 0)."</div></td>
+		  <td><div class='text-center'>".$invitedby."</div></td>
 		  </tr>\n";
     }
-    $HTMLOUT.= "</table>";
+    $HTMLOUT .= "</table>";
     if ($count > $perpage) {
         $pager['pagerbottom'];
     }
 }
-echo stdhead($lang['ipsearch_stdhead']) . $HTMLOUT . stdfoot();
+echo stdhead($lang['ipsearch_stdhead']).$HTMLOUT.stdfoot();
 die;
 ?>

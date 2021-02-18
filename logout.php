@@ -10,8 +10,8 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once(__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
-require_once (INCL_DIR . 'password_functions.php');
+require_once(__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorrent.php');
+require_once(INCL_DIR.'password_functions.php');
 dbconn();
 /*if(!($CURUSER)) {
 die('Error You already logged out you muppet');

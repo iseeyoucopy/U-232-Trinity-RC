@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'achbon_err' => 'Error',
     'achbon_off' => 'It appears that the achievement system is offline.',
     'achbon_std_head' => "Achievement Random Bonus",
@@ -24,6 +24,6 @@ $lang = array(
     'achbon_failed_msg3' => "The evil villian Adam has stolen your bonus point.",
     'achbon_failed_msg4' => "Somehelp has used your achievement bonus point in attempt to buy puppy chow to lure doggies into his dinner plate.",
     'achbon_failed_msg5' => "Hoodini has magically made your achievement bonus point dissapear, better luck next time.",
-    'achbon_random_achievement_bonus' => "Random Achievement Bonus"
-);
+    'achbon_random_achievement_bonus' => "Random Achievement Bonus",
+];
 ?>

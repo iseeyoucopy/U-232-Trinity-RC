@@ -34,15 +34,15 @@
  *
  ************************************************************************************/
 
-$language_data = array (
+$language_data = [
     'LANG_NAME' => 'genero',
-    'COMMENT_SINGLE' => array(1 => '--', 2 => '#'),
-    'COMMENT_MULTI' => array('{' => '}'),
+    'COMMENT_SINGLE' => [1 => '--', 2 => '#'],
+    'COMMENT_MULTI' => ['{' => '}'],
     'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-    'QUOTEMARKS' => array("'", '"'),
+    'QUOTEMARKS' => ["'", '"'],
     'ESCAPE_CHAR' => '\\',
-    'KEYWORDS' => array(
-        1 => array(
+    'KEYWORDS' => [
+        1 => [
             "ABSOLUTE",
             "ACCEPT",
             "ACTION",
@@ -347,12 +347,13 @@ $language_data = array (
             "WITHOUT",
             "WORDWRAP",
             "WORK",
-            "WRAP"
-            ),
-        2 => array(
-            '&amp;IFDEF', '&amp;ENDIF'
-            ),
-        3 => array(
+            "WRAP",
+        ],
+        2 => [
+            '&amp;IFDEF',
+            '&amp;ENDIF',
+        ],
+        3 => [
             "ARRAY",
             "BYTE",
             "CHAR",
@@ -369,9 +370,9 @@ $language_data = array (
             "SMALLINT",
             "STRING",
             "TIME",
-            "TRUE"
-            ),
-        4 => array(
+            "TRUE",
+        ],
+        4 => [
             "BLACK",
             "BLINK",
             "BLUE",
@@ -391,71 +392,86 @@ $language_data = array (
             "YEAR",
             "DAY",
             "MONTH",
-            "WEEKDAY"
-            ),
-        ),
-    'SYMBOLS' => array(
-        '+', '-', '*', '?', '=', '/', '%', '>', '<', '^', '!', '|', ':',
-        '(', ')', '[', ']'
-        ),
-    'CASE_SENSITIVE' => array(
+            "WEEKDAY",
+        ],
+    ],
+    'SYMBOLS' => [
+        '+',
+        '-',
+        '*',
+        '?',
+        '=',
+        '/',
+        '%',
+        '>',
+        '<',
+        '^',
+        '!',
+        '|',
+        ':',
+        '(',
+        ')',
+        '[',
+        ']',
+    ],
+    'CASE_SENSITIVE' => [
         GESHI_COMMENTS => false,
         1 => false,
         2 => false,
         3 => false,
         4 => false,
-        ),
-    'STYLES' => array(
-        'KEYWORDS' => array(
+    ],
+    'STYLES' => [
+        'KEYWORDS' => [
             1 => 'color: #0600FF;',
             2 => 'color: #0000FF; font-weight: bold;',
             3 => 'color: #008000;',
             4 => 'color: #FF0000;',
-            ),
-        'COMMENTS' => array(
+        ],
+        'COMMENTS' => [
             1 => 'color: #008080; font-style: italic;',
             2 => 'color: #008080;',
-            'MULTI' => 'color: #008080; font-style: italic;'
-            ),
-        'ESCAPE_CHAR' => array(
-            0 => 'color: #008080; font-weight: bold;'
-            ),
-        'BRACKETS' => array(
-            0 => 'color: #000000;'
-            ),
-        'STRINGS' => array(
-            0 => 'color: #808080;'
-            ),
-        'NUMBERS' => array(
-            0 => 'color: #FF0000;'
-            ),
-        'METHODS' => array(
+            'MULTI' => 'color: #008080; font-style: italic;',
+        ],
+        'ESCAPE_CHAR' => [
+            0 => 'color: #008080; font-weight: bold;',
+        ],
+        'BRACKETS' => [
+            0 => 'color: #000000;',
+        ],
+        'STRINGS' => [
+            0 => 'color: #808080;',
+        ],
+        'NUMBERS' => [
+            0 => 'color: #FF0000;',
+        ],
+        'METHODS' => [
             1 => 'color: #0000FF;',
-            2 => 'color: #0000FF;'
-            ),
-        'SYMBOLS' => array(
-            0 => 'color: #008000;'
-            ),
-        'REGEXPS' => array(
-            ),
-        'SCRIPT' => array(
-            )
-        ),
-    'URLS' => array(
+            2 => 'color: #0000FF;',
+        ],
+        'SYMBOLS' => [
+            0 => 'color: #008000;',
+        ],
+        'REGEXPS' => [
+        ],
+        'SCRIPT' => [
+        ],
+    ],
+    'URLS' => [
         1 => '',
         2 => '',
         3 => '',
-        4 => ''
-        ),
+        4 => '',
+    ],
     'OOLANG' => true,
-    'OBJECT_SPLITTERS' => array(
-        1 => '.'
-        ),
-    'REGEXPS' => array(
-        ),
+    'OBJECT_SPLITTERS' => [
+        1 => '.',
+    ],
+    'REGEXPS' => [
+    ],
     'STRICT_MODE_APPLIES' => GESHI_NEVER,
-    'SCRIPT_DELIMITERS' => array(
-        ),
-    'HIGHLIGHT_STRICT_BLOCK' => array(
-        )
-);
+    'SCRIPT_DELIMITERS' => [
+    ],
+    'HIGHLIGHT_STRICT_BLOCK' => [
+    ],
+];

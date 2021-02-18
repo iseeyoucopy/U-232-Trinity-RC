@@ -10,21 +10,21 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Browse
     'browse_error' => "Erreur",
-    'browse_invalid_cat' => "ID de Catégorie invalide.",
-    'browse_search' => "Résultats de la recherche pour ",
+    'browse_invalid_cat' => "ID de Catï¿½gorie invalide.",
+    'browse_search' => "Rï¿½sultats de la recherche pour ",
     'browse_show_all' => "Tout montrer",
     'browse_active' => "torrents actifs",
     'browse_inc_dead' => "en incluant les torrents dead",
     'browse_dead' => "seulement les torrents dead",
     'browse_go' => "Go!",
-    'browse_toggle' => "Montrer les Catégories!",
-    'browse_not_found' => "Rien trouvé!",
-    'browse_tryagain' => "Essayez à nouveau avec une autre requête.",
+    'browse_toggle' => "Montrer les Catï¿½gories!",
+    'browse_not_found' => "Rien trouvï¿½!",
+    'browse_tryagain' => "Essayez ï¿½ nouveau avec une autre requï¿½te.",
     'browse_nothing' => "Rien ici!",
-    'browse_sorry' => "Désolé pal :",
+    'browse_sorry' => "Dï¿½solï¿½ pal :",
     'search_search' => "Chercher",
     'search_in' => "dans",
     'search_all_types' => "(tous les types)",
@@ -39,6 +39,6 @@ $lang = array(
     'browse_in' => "dans",
     'browse_all_types' => "Tous les types",
     'browse_search_btn' => "Chercher",
-    'clear_new_btn' => "Effacer nouveau tag!"
-);
+    'clear_new_btn' => "Effacer nouveau tag!",
+];
 ?>

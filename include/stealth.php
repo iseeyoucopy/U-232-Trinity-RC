@@ -17,10 +17,10 @@ function stealth($id, $stealth = true)
     $setbits = $clrbits = 0;
     if ($stealth) {
         $display = 'is';
-        $setbits|= bt_options::PERMS_STEALTH; // stealth on
+        $setbits |= bt_options::PERMS_STEALTH; // stealth on
     } else {
         $display = 'is not';
-        $clrbits|= bt_options::PERMS_STEALTH; // stealth off
+        $clrbits |= bt_options::PERMS_STEALTH; // stealth off
     }
     // update perms
     if ($setbits || $clrbits) {
@@ -29,36 +29,37 @@ function stealth($id, $stealth = true)
     }
     // grab current data
     ($res = sql_query('SELECT username, perms, modcomment FROM users 
-                     WHERE id = ' . sqlesc($id) . ' LIMIT 1')) || sqlerr(__file__, __line__);
+                     WHERE id = '.sqlesc($id).' LIMIT 1')) || sqlerr(__file__, __line__);
     $row = $res->fetch_assoc();
     $row['perms'] = (int)$row['perms'];
-    $modcomment = get_date(TIME_NOW, '', 1) . ' - ' . $display . ' in Stealth Mode thanks to ' . $CURUSER['username'] . "\n" . $row['modcomment'];
-    sql_query('UPDATE users SET modcomment = ' . sqlesc($modcomment) . ' WHERE id = ' . sqlesc($id)) || sqlerr(__file__, __line__);
+    $modcomment = get_date(TIME_NOW, '', 1).' - '.$display.' in Stealth Mode thanks to '.$CURUSER['username']."\n".$row['modcomment'];
+    sql_query('UPDATE users SET modcomment = '.sqlesc($modcomment).' WHERE id = '.sqlesc($id)) || sqlerr(__file__, __line__);
     // update caches
-    $cache->update_row('user' . $id, [
-        'perms' => $row['perms']
+    $cache->update_row('user'.$id, [
+        'perms' => $row['perms'],
     ], $TRINITY20['expires']['user_cache']);
-    $cache->update_row($keys['my_userid'] . $id, [
-        'perms' => $row['perms']
+    $cache->update_row($keys['my_userid'].$id, [
+        'perms' => $row['perms'],
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user_stats_' . $id, [
-        'modcomment' => $modcomment
+    $cache->update_row('user_stats_'.$id, [
+        'modcomment' => $modcomment,
     ], $TRINITY20['expires']['user_stats']);
     if ($id == $CURUSER['id']) {
-        $cache->update_row('user' . $CURUSER['id'], [
-            'perms' => $row['perms']
+        $cache->update_row('user'.$CURUSER['id'], [
+            'perms' => $row['perms'],
         ], $TRINITY20['expires']['user_cache']);
-        $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
-            'perms' => $row['perms']
+        $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+            'perms' => $row['perms'],
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row('user_stats_' . $CURUSER['id'], [
-            'modcomment' => $modcomment
+        $cache->update_row('user_stats_'.$CURUSER['id'], [
+            'modcomment' => $modcomment,
         ], $TRINITY20['expires']['user_stats']);
     }
-    write_log('Member [b][url=userdetails.php?id=' . $id . ']' . (htmlsafechars($row['username'])) . '[/url][/b] ' . $display . ' in Stealth Mode thanks to [b]' . $CURUSER['username'] . '[/b]');
+    write_log('Member [b][url=userdetails.php?id='.$id.']'.(htmlsafechars($row['username'])).'[/url][/b] '.$display.' in Stealth Mode thanks to [b]'.$CURUSER['username'].'[/b]');
     // header ouput
-    $cache->set('display_stealth' . $CURUSER['id'], $display, 5);
-    header('Location: userdetails.php?id=' . $id);
+    $cache->set('display_stealth'.$CURUSER['id'], $display, 5);
+    header('Location: userdetails.php?id='.$id);
     exit();
 }
+
 ?>

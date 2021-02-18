@@ -16,7 +16,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     $HTMLOUT .= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
         <head>
-        <meta charset="' . charset() . '" />
+        <meta charset="'.charset().'" />
         <title>ERROR</title>
         </head><body>
         <h1 style="text-align:center;">Error</h1>
@@ -29,7 +29,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 if ((isset($_POST[$action]) ? htmlsafechars($_POST[$action]) : '') == 'clear') {
     $topic_ids = ($_POST['topic_id'] ?? []);
     if (empty($topic_ids)) {
-        header('Location: ' . $TRINITY20['baseurl'] . '/forums.php?action=' . $action);
+        header('Location: '.$TRINITY20['baseurl'].'/forums.php?action='.$action);
         exit();
     }
     foreach ($topic_ids as $topic_id) {
@@ -38,12 +38,13 @@ if ((isset($_POST[$action]) ? htmlsafechars($_POST[$action]) : '') == 'clear') {
         }
     }
     $HTMLOUT .= catch_up($topic_ids);
-    header('Location: ' . $TRINITY20['baseurl'] . '/forums.php?action=' . $action);
+    header('Location: '.$TRINITY20['baseurl'].'/forums.php?action='.$action);
     exit();
 }
 
 $added = (TIME_NOW - $TRINITY20['readpost_expiry']);
-($res = sql_query('SELECT t.last_post, r.last_post_read, f.min_class_read ' . 'FROM topics AS t ' . 'LEFT JOIN posts AS p ON t.last_post=p.id ' . 'LEFT JOIN read_posts AS r ON r.user_id=' . sqlesc((int) $CURUSER['id']) . ' AND r.topic_id=t.id ' . 'LEFT JOIN forums AS f ON f.id=t.forum_id ' . 'WHERE p.added > ' . $added)) || sqlerr(__FILE__, __LINE__);
+($res = sql_query('SELECT t.last_post, r.last_post_read, f.min_class_read '.'FROM topics AS t '.'LEFT JOIN posts AS p ON t.last_post=p.id '.'LEFT JOIN read_posts AS r ON r.user_id='.sqlesc((int)$CURUSER['id']).' AND r.topic_id=t.id '.'LEFT JOIN forums AS f ON f.id=t.forum_id '.'WHERE p.added > '.$added)) || sqlerr(__FILE__,
+    __LINE__);
 $count = 0;
 while ($arr = $res->fetch_assoc()) {
     if ($arr['last_post_read'] >= $arr['last_post'] || $CURUSER['class'] < $arr['min_class_read']) {
@@ -55,7 +56,7 @@ $res->free();
 $mysqli->next_result();
 if ($count > 0) {
     $perpage = 25;
-    $pager = pager($perpage, $count, $TRINITY20['baseurl'] . '/forums.php?action=' . $action . '&amp;');
+    $pager = pager($perpage, $count, $TRINITY20['baseurl'].'/forums.php?action='.$action.'&amp;');
 
     if ($TRINITY20['forums_online'] == 0) {
         $HTMLOUT .= stdmsg('Warning', 'Forums are currently in maintainance mode');
@@ -63,7 +64,7 @@ if ($count > 0) {
     //   $HTMLOUT .= begin_main_frame();
     //$HTMLOUT .="<h1 align='center'>Topics with unread posts</h1>";
     $HTMLOUT .= "<div class='navigation'>
-            <a href='index.php'>" . $TRINITY20["site_name"] . "</a> 
+            <a href='index.php'>".$TRINITY20["site_name"]."</a> 
             &gt;
             <a href='forums.php'>Forums</a>
             <br><img src='templates/1/pic/carbon/nav_bit.png' alt=''>
@@ -91,7 +92,7 @@ if ($count > 0) {
                     value = 'Check';
                 }
                 return value + ' All';
-            };
+            }
         /*]]>*/
         </script>";
 
@@ -109,7 +110,8 @@ if ($count > 0) {
             <td class='tcat' colspan='2'>Topic</td>
             <td class='tcat' width='1%'>Clear</td>
         </tr>";
-    ($res = sql_query('SELECT t.id, t.forum_id, t.topic_name, t.last_post, r.last_post_read, f.name, f.min_class_read ' . 'FROM topics AS t ' . 'LEFT JOIN posts AS p ON t.last_post=p.id ' . 'LEFT JOIN read_posts AS r ON r.user_id=' . sqlesc((int) $CURUSER['id']) . ' AND r.topic_id=t.id ' . 'LEFT JOIN forums AS f ON f.id=t.forum_id ' . 'WHERE p.added > ' . $added . ' ' . ' ORDER BY t.forum_id ' . $pager['limit'])) || sqlerr(__FILE__, __LINE__);
+    ($res = sql_query('SELECT t.id, t.forum_id, t.topic_name, t.last_post, r.last_post_read, f.name, f.min_class_read '.'FROM topics AS t '.'LEFT JOIN posts AS p ON t.last_post=p.id '.'LEFT JOIN read_posts AS r ON r.user_id='.sqlesc((int)$CURUSER['id']).' AND r.topic_id=t.id '.'LEFT JOIN forums AS f ON f.id=t.forum_id '.'WHERE p.added > '.$added.' '.' ORDER BY t.forum_id '.$pager['limit'])) || sqlerr(__FILE__,
+        __LINE__);
     while ($arr = $res->fetch_assoc()) {
         if ($arr['last_post_read'] >= $arr['last_post'] || $CURUSER['class'] < $arr['min_class_read']) {
             continue;
@@ -120,10 +122,10 @@ if ($count > 0) {
                     <span class='thread_status newfolder' title='New posts.'>&nbsp;</span>
                 </td>
                 <td class=row align='left'>
-                    <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=" . (int) $arr['id'] . "&amp;page=last#last'>" . htmlsafechars($arr['topic_name']) . "</a><br />in&nbsp;<font class='small'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=" . (int) $arr['forum_id'] . "'>" . htmlsafechars($arr['name']) . "</a></font>
+                    <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".(int)$arr['id']."&amp;page=last#last'>".htmlsafechars($arr['topic_name'])."</a><br />in&nbsp;<font class='small'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$arr['forum_id']."'>".htmlsafechars($arr['name'])."</a></font>
                  </td>
                 <td class=row align='center'>
-                    <input type='checkbox' name='topic_id[]' value='" . htmlsafechars($arr['id']) . "' />
+                    <input type='checkbox' name='topic_id[]' value='".htmlsafechars($arr['id'])."' />
                 </td>
             </tr>";
     }
@@ -140,8 +142,9 @@ if ($count > 0) {
     $HTMLOUT .= $pager['pagerbottom'];
     $HTMLOUT .= "<div align='center'><a href='{$TRINITY20['baseurl']}/forums.php?catchup'>Mark all posts as read</a></div>";
 
-    echo stdhead("Catch Up", true, $stdhead) . $HTMLOUT . stdfoot($stdfoot);
+    echo stdhead("Catch Up", true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
     die();
 }
 
-stderr("Sorry...", "There are no unread posts.<br /><br />Click <a href='{$TRINITY20['baseurl']}/forums.php?action=getdaily'>here</a> to get today's posts (last 24h).") . "<br>";
+stderr("Sorry...",
+    "There are no unread posts.<br /><br />Click <a href='{$TRINITY20['baseurl']}/forums.php?action=getdaily'>here</a> to get today's posts (last 24h).")."<br>";

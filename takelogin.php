@@ -10,11 +10,11 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once(__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
-require_once (INCL_DIR . 'user_functions.php');
-require_once (INCL_DIR . 'password_functions.php');
-require_once (CLASS_DIR . 'page_verify.php');
-require_once (CLASS_DIR . 'class_browser.php');
+require_once(__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorrent.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(INCL_DIR.'password_functions.php');
+require_once(CLASS_DIR.'page_verify.php');
+require_once(CLASS_DIR.'class_browser.php');
 dbconn();
 global $CURUSER, $TRINITY20;
 if (!$CURUSER) {
@@ -25,29 +25,29 @@ if (!$CURUSER) {
 }
 session_start();
 //smth putyn
-$auth_key = array(
-    '2d257f64005d740db092a6b91170ab5f'
-);
+$auth_key = [
+    '2d257f64005d740db092a6b91170ab5f',
+];
 $gotkey = isset($_POST['key']) && strlen($_POST['key']) == 128 && in_array($_POST['key'], $auth_key);
 if (!$gotkey) {
     $newpage = new page_verify();
     $newpage->check('takelogin');
 }
-$lang = array_merge(load_language('global') , load_language('takelogin'));
+$lang = array_merge(load_language('global'), load_language('takelogin'));
 // 09 failed logins thanks to pdq - Retro
 function failedloginscheck()
 {
     global $TRINITY20, $lang;
     $total = 0;
     $ip = getip();
-    ($res = sql_query("SELECT SUM(attempts) FROM failedlogins WHERE ip=" . sqlesc($ip))) || sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT SUM(attempts) FROM failedlogins WHERE ip=".sqlesc($ip))) || sqlerr(__FILE__, __LINE__);
     [$total] = $res->fetch_row();
     if ($total >= $TRINITY20['failedlogins']) {
-        sql_query("UPDATE failedlogins SET banned = 'yes' WHERE ip=" . sqlesc($ip)) || sqlerr(__FILE__, __LINE__);
-        stderr($lang['tlogin_locked'], "{$lang['tlogin_lockerr1']} . <b>(" . htmlsafechars($ip) . ")</b> . {$lang['tlogin_lockerr2']}");
+        sql_query("UPDATE failedlogins SET banned = 'yes' WHERE ip=".sqlesc($ip)) || sqlerr(__FILE__, __LINE__);
+        stderr($lang['tlogin_locked'], "{$lang['tlogin_lockerr1']} . <b>(".htmlsafechars($ip).")</b> . {$lang['tlogin_lockerr2']}");
     }
 } // End
-if (!mkglobal('username:password' . ($TRINITY20['captcha_on'] ? ($gotkey ? ":" : ":captchaSelection:") : ":") . 'submitme')) {
+if (!mkglobal('username:password'.($TRINITY20['captcha_on'] ? ($gotkey ? ":" : ":captchaSelection:") : ":").'submitme')) {
     die("{$lang['tlogin_sww']}");
 }
 if (!$submitme) {
@@ -61,18 +61,18 @@ function bark($text = 'Username or password incorrect')
 {
     global $lang, $TRINITY20, $cache;
     $sha = sha1($_SERVER['REMOTE_ADDR']);
-    $dict_key = 'dictbreaker:::' . $sha;
+    $dict_key = 'dictbreaker:::'.$sha;
     $flood = $cache->get($dict_key);
     if ($flood === false) {
         $cache->set($dict_key, 'flood_check', 20);
-    }
-    else {
+    } else {
         die("{$lang['tlogin_err4']}");
     }
     stderr($lang['tlogin_failed'], $text);
 }
+
 failedloginscheck();
-$res = sql_query("SELECT * FROM users WHERE username = " . sqlesc($username) . " AND status = 'confirmed'");
+$res = sql_query("SELECT * FROM users WHERE username = ".sqlesc($username)." AND status = 'confirmed'");
 $row = $res->fetch_assoc();
 $ip_escaped = sqlesc(getip());
 $ip = getip();
@@ -82,8 +82,7 @@ if (!$row) {
     $fail = $fail_query->fetch_row();
     if ($fail[0] == 0) {
         sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES ($ip_escaped, $added, 1)") || sqlerr(__FILE__, __LINE__);
-    }
-    else {
+    } else {
         sql_query("UPDATE failedlogins SET attempts = attempts + 1 where ip=$ip_escaped") || sqlerr(__FILE__, __LINE__);
     }
     bark();
@@ -95,65 +94,65 @@ $pass_hash = password_verify($password, $row['passhash']);
 
 /*=== check for dupe account by GodFather ===*/
 if ($TRINITY20['dupeaccount_check_on'] == 1 && !empty(get_mycookie('log_uid'))) {
-    $check = sql_query("SELECT * FROM users WHERE loginhash=" . sqlesc(get_mycookie('log_uid')));
+    $check = sql_query("SELECT * FROM users WHERE loginhash=".sqlesc(get_mycookie('log_uid')));
     $check_class = $check->fetch_assoc();
-    if (($row['class'] < UC_SYSOP) && ($check_class['class'] < UC_SYSOP)){
-              if ((!empty($row['loginhash'])) && (get_mycookie('log_uid') == $row['loginhash']) && ($pass_hash || $tri_hash)) {
-              } elseif ((!empty($row['loginhash'])) && (get_mycookie('log_uid') != $row['loginhash']) && ($pass_hash || $tri_hash)) {
-                  $a = sql_query("SELECT * FROM users WHERE loginhash=" . sqlesc(get_mycookie('log_uid')));
-                  if($r = $a->fetch_assoc()){
-                               $message = "User " . $r['username'] . " has logged in on another account. Has logged with User: " . $username . " credentials.";
-           				    write_log("User " . $r['username'] . " has logged in on another account. Has logged with User: " . $username . " credentials.");
-           				    sql_query("INSERT INTO ajax_chat_messages (userID, userName, userRole, channel, dateTime, ip, text) VALUES (" . sqlesc($TRINITY20['bot_id']) . "," . sqlesc($TRINITY20['bot_name']) . "," . sqlesc($TRINITY20['bot_role']) . ",'4'," . sqlesc(TIME_DATE) . "," . sqlesc($_SERVER['REMOTE_ADDR']) . "," . sqlesc($message) . ")") || sqlerr(__FILE__, __LINE__);
-           			    }
-              } elseif ((!empty($row['loginhash'])) && (get_mycookie('log_uid') != $row['loginhash']) && (!$pass_hash || !$tri_hash)) {
-                  $b = sql_query("SELECT * FROM users WHERE loginhash=" . sqlesc(get_mycookie('log_uid')));
-                  if($s = $b->fetch_assoc()){
-                               $message = "User " . $s['username'] . " has tried to login on another account. Has tried to login with User: " . $username . " credentials.";
-           				    write_log("User " . $s['username'] . " has tried to login on another account. Has tried to login with User: " . $username . " credentials.");
-           				    sql_query("INSERT INTO ajax_chat_messages (userID, userName, userRole, channel, dateTime, ip, text) VALUES (" . sqlesc($TRINITY20['bot_id']) . "," . sqlesc($TRINITY20['bot_name']) . "," . sqlesc($TRINITY20['bot_role']) . ",'4'," . sqlesc(TIME_DATE) . "," . sqlesc($_SERVER['REMOTE_ADDR']) . "," . sqlesc($message) . ")") || sqlerr(__FILE__, __LINE__);
-           			    }
-              }		
-          }
-}	
-	if (!$pass_hash && !$tri_hash) {
-     ($fail_query = sql_query("SELECT COUNT(id) from failedlogins where ip=$ip_escaped")) || sqlerr(__FILE__, __LINE__);
-     $fail = $fail_query->fetch_row();
-     if ($fail[0] == 0) {
-         sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES ($ip_escaped, $added, 1)") || sqlerr(__FILE__, __LINE__);
-     }
-     else {
-         sql_query("UPDATE failedlogins SET attempts = attempts + 1 where ip=$ip_escaped") || sqlerr(__FILE__, __LINE__);
-     }
-     $to = ((int)$row["id"]);
-     $subject = "{$lang['tlogin_log_err1']}";
-     $msg = "[color=red]{$lang['tlogin_log_err2']}[/color]\n{$lang['tlogin_mess1']}" . (int)$row['id'] . "{$lang['tlogin_mess2']}" . htmlsafechars($username) . "{$lang['tlogin_mess3']}" . "{$lang['tlogin_mess4']}" . htmlsafechars($ip) . "{$lang['tlogin_mess5']}";
-     $sql = "INSERT INTO messages (sender, receiver, msg, subject, added) VALUES('System', " . sqlesc($to) . ", " . sqlesc($msg) . ", " . sqlesc($subject) . ", $added);";
-     ($res = sql_query("SET SESSION sql_mode = ''", $sql)) || sqlerr(__FILE__, __LINE__);
-     $cache->delete('inbox_new::' . $row['id']);
-     $cache->delete('inbox_new_sb::' . $row['id']);
-     bark("<b>{$lang['gl_error']}</b>{$lang['tlogin_forgot']}");
- } elseif ($pass_hash && !$tri_hash) {
-     $secret = mksecret();
-     $hash_1 = t_Hash($row['email'], $row['username'], $row['added']);
-     $hash_2 = t_Hash($row['birthday'], $secret, $row['pin_code']);
-     $hash3 = t_Hash($row['birthday'], $row['username'], $row['email']);
-     $newpassword = make_passhash($hash_1, hash("ripemd160", $password), $hash_2);
-     sql_query("UPDATE users SET passhash=" . sqlesc($newpassword) . ", secret=" . sqlesc($secret) . ", hash3=" . sqlesc($hash3) . " WHERE username = ". sqlesc($username));
- }
+    if (($row['class'] < UC_SYSOP) && ($check_class['class'] < UC_SYSOP)) {
+        if ((!empty($row['loginhash'])) && (get_mycookie('log_uid') == $row['loginhash']) && ($pass_hash || $tri_hash)) {
+        } elseif ((!empty($row['loginhash'])) && (get_mycookie('log_uid') != $row['loginhash']) && ($pass_hash || $tri_hash)) {
+            $a = sql_query("SELECT * FROM users WHERE loginhash=".sqlesc(get_mycookie('log_uid')));
+            if ($r = $a->fetch_assoc()) {
+                $message = "User ".$r['username']." has logged in on another account. Has logged with User: ".$username." credentials.";
+                write_log("User ".$r['username']." has logged in on another account. Has logged with User: ".$username." credentials.");
+                sql_query("INSERT INTO ajax_chat_messages (userID, userName, userRole, channel, dateTime, ip, text) VALUES (".sqlesc($TRINITY20['bot_id']).",".sqlesc($TRINITY20['bot_name']).",".sqlesc($TRINITY20['bot_role']).",'4',".sqlesc(TIME_DATE).",".sqlesc($_SERVER['REMOTE_ADDR']).",".sqlesc($message).")") || sqlerr(__FILE__,
+                    __LINE__);
+            }
+        } elseif ((!empty($row['loginhash'])) && (get_mycookie('log_uid') != $row['loginhash']) && (!$pass_hash || !$tri_hash)) {
+            $b = sql_query("SELECT * FROM users WHERE loginhash=".sqlesc(get_mycookie('log_uid')));
+            if ($s = $b->fetch_assoc()) {
+                $message = "User ".$s['username']." has tried to login on another account. Has tried to login with User: ".$username." credentials.";
+                write_log("User ".$s['username']." has tried to login on another account. Has tried to login with User: ".$username." credentials.");
+                sql_query("INSERT INTO ajax_chat_messages (userID, userName, userRole, channel, dateTime, ip, text) VALUES (".sqlesc($TRINITY20['bot_id']).",".sqlesc($TRINITY20['bot_name']).",".sqlesc($TRINITY20['bot_role']).",'4',".sqlesc(TIME_DATE).",".sqlesc($_SERVER['REMOTE_ADDR']).",".sqlesc($message).")") || sqlerr(__FILE__,
+                    __LINE__);
+            }
+        }
+    }
+}
+if (!$pass_hash && !$tri_hash) {
+    ($fail_query = sql_query("SELECT COUNT(id) from failedlogins where ip=$ip_escaped")) || sqlerr(__FILE__, __LINE__);
+    $fail = $fail_query->fetch_row();
+    if ($fail[0] == 0) {
+        sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES ($ip_escaped, $added, 1)") || sqlerr(__FILE__, __LINE__);
+    } else {
+        sql_query("UPDATE failedlogins SET attempts = attempts + 1 where ip=$ip_escaped") || sqlerr(__FILE__, __LINE__);
+    }
+    $to = ((int)$row["id"]);
+    $subject = "{$lang['tlogin_log_err1']}";
+    $msg = "[color=red]{$lang['tlogin_log_err2']}[/color]\n{$lang['tlogin_mess1']}".(int)$row['id']."{$lang['tlogin_mess2']}".htmlsafechars($username)."{$lang['tlogin_mess3']}"."{$lang['tlogin_mess4']}".htmlsafechars($ip)."{$lang['tlogin_mess5']}";
+    $sql = "INSERT INTO messages (sender, receiver, msg, subject, added) VALUES('System', ".sqlesc($to).", ".sqlesc($msg).", ".sqlesc($subject).", $added);";
+    ($res = sql_query("SET SESSION sql_mode = ''", $sql)) || sqlerr(__FILE__, __LINE__);
+    $cache->delete('inbox_new::'.$row['id']);
+    $cache->delete('inbox_new_sb::'.$row['id']);
+    bark("<b>{$lang['gl_error']}</b>{$lang['tlogin_forgot']}");
+} elseif ($pass_hash && !$tri_hash) {
+    $secret = mksecret();
+    $hash_1 = t_Hash($row['email'], $row['username'], $row['added']);
+    $hash_2 = t_Hash($row['birthday'], $secret, $row['pin_code']);
+    $hash3 = t_Hash($row['birthday'], $row['username'], $row['email']);
+    $newpassword = make_passhash($hash_1, hash("ripemd160", $password), $hash_2);
+    sql_query("UPDATE users SET passhash=".sqlesc($newpassword).", secret=".sqlesc($secret).", hash3=".sqlesc($hash3)." WHERE username = ".sqlesc($username));
+}
 
-$ress = sql_query("SELECT * FROM users WHERE username = " . sqlesc($username) . " AND status = 'confirmed'");
+$ress = sql_query("SELECT * FROM users WHERE username = ".sqlesc($username)." AND status = 'confirmed'");
 $rows = $ress->fetch_assoc();
 $ip_escaped = sqlesc(getip());
 $ip = getip();
 $added = TIME_NOW;
 if (!$rows) {
-    ($fail_query = sql_query("SELECT COUNT(id) from failedlogins where ip=$ip_escaped")) || sqlerr(__FILE__, __LINE__); 
+    ($fail_query = sql_query("SELECT COUNT(id) from failedlogins where ip=$ip_escaped")) || sqlerr(__FILE__, __LINE__);
     $fail = $fail_query->fetch_row;
     if ($fail[0] == 0) {
         sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES ($ip_escaped, $added, 1)") || sqlerr(__FILE__, __LINE__);
-    }
-    else {
+    } else {
         sql_query("UPDATE failedlogins SET attempts = attempts + 1 where ip=$ip_escaped") || sqlerr(__FILE__, __LINE__);
     }
     bark();
@@ -166,17 +165,16 @@ if (!$tri_hash) {
     $fail = $fail_query->fetch_row();
     if ($fail[0] == 0) {
         sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES ($ip_escaped, $added, 1)") || sqlerr(__FILE__, __LINE__);
-    }
-    else {
+    } else {
         sql_query("UPDATE failedlogins SET attempts = attempts + 1 where ip=$ip_escaped") || sqlerr(__FILE__, __LINE__);
     }
     $to = ((int)$rows["id"]);
     $subject = "{$lang['tlogin_log_err1']}";
-    $msg = "[color=red]{$lang['tlogin_log_err2']}[/color]\n{$lang['tlogin_mess1']}" . (int)$rows['id'] . "{$lang['tlogin_mess2']}" . htmlsafechars($username) . "{$lang['tlogin_mess3']}" . "{$lang['tlogin_mess4']}" . htmlsafechars($ip) . "{$lang['tlogin_mess5']}";
-    $sql = "INSERT INTO messages (sender, receiver, msg, subject, added) VALUES('System', " . sqlesc($to) . ", " . sqlesc($msg) . ", " . sqlesc($subject) . ", $added);";
+    $msg = "[color=red]{$lang['tlogin_log_err2']}[/color]\n{$lang['tlogin_mess1']}".(int)$rows['id']."{$lang['tlogin_mess2']}".htmlsafechars($username)."{$lang['tlogin_mess3']}"."{$lang['tlogin_mess4']}".htmlsafechars($ip)."{$lang['tlogin_mess5']}";
+    $sql = "INSERT INTO messages (sender, receiver, msg, subject, added) VALUES('System', ".sqlesc($to).", ".sqlesc($msg).", ".sqlesc($subject).", $added);";
     ($res = sql_query("SET SESSION sql_mode = ''", $sql)) || sqlerr(__FILE__, __LINE__);
-    $cache->delete('inbox_new::' . $rows['id']);
-    $cache->delete('inbox_new_sb::' . $rows['id']);
+    $cache->delete('inbox_new::'.$rows['id']);
+    $cache->delete('inbox_new_sb::'.$rows['id']);
     bark("<b>{$lang['gl_error']}</b>{$lang['tlogin_forgot']}");
 }
 
@@ -193,40 +191,42 @@ if ($no_log_ip !== 0) {
     $ip_escaped = sqlesc($ip);
 }
 if ($no_log_ip === 0) {
-    ($res = sql_query("SELECT * FROM ips WHERE ip=$ip_escaped AND userid =" . sqlesc($userid))) || sqlerr(__FILE__, __LINE__);
+    ($res = sql_query("SELECT * FROM ips WHERE ip=$ip_escaped AND userid =".sqlesc($userid))) || sqlerr(__FILE__, __LINE__);
     if ($res->num_rows == 0) {
-        sql_query("INSERT INTO ips (userid, ip, lastlogin, type) VALUES (" . sqlesc($userid) . ", $ip_escaped , $added, 'Login')") || sqlerr(__FILE__, __LINE__);
-        $cache->delete('ip_history_' . $userid);
+        sql_query("INSERT INTO ips (userid, ip, lastlogin, type) VALUES (".sqlesc($userid).", $ip_escaped , $added, 'Login')") || sqlerr(__FILE__,
+            __LINE__);
+        $cache->delete('ip_history_'.$userid);
     } else {
-        sql_query("UPDATE ips SET lastlogin=$added WHERE ip=$ip_escaped AND userid=" . sqlesc($userid)) || sqlerr(__FILE__, __LINE__);
-        $cache->delete('ip_history_' . $userid);
+        sql_query("UPDATE ips SET lastlogin=$added WHERE ip=$ip_escaped AND userid=".sqlesc($userid)) || sqlerr(__FILE__, __LINE__);
+        $cache->delete('ip_history_'.$userid);
     }
-} 
+}
 $ua = getBrowser();
-$browser = "Browser: " . $ua['name'] . " " . $ua['version'] . ". Os: " . $ua['platform'];
-sql_query('UPDATE users SET browser=' . sqlesc($browser) . ', ip = ' . $ip_escaped . ', last_access=' . TIME_NOW . ', last_login=' . TIME_NOW . ' WHERE id=' . sqlesc($rows['id'])) || sqlerr(__FILE__, __LINE__);
-$cache->update_row($keys['my_userid'] . $rows['id'], [
+$browser = "Browser: ".$ua['name']." ".$ua['version'].". Os: ".$ua['platform'];
+sql_query('UPDATE users SET browser='.sqlesc($browser).', ip = '.$ip_escaped.', last_access='.TIME_NOW.', last_login='.TIME_NOW.' WHERE id='.sqlesc($rows['id'])) || sqlerr(__FILE__,
+    __LINE__);
+$cache->update_row($keys['my_userid'].$rows['id'], [
     'browser' => $browser,
     'ip' => $ip,
     'last_access' => TIME_NOW,
-    'last_login' => TIME_NOW
+    'last_login' => TIME_NOW,
 ], $TRINITY20['expires']['curuser']);
-$cache->update_row('user' . $rows['id'], [
+$cache->update_row('user'.$rows['id'], [
     'browser' => $browser,
     'ip' => $ip,
     'last_access' => TIME_NOW,
-    'last_login' => TIME_NOW
+    'last_login' => TIME_NOW,
 ], $TRINITY20['expires']['user_cache']);
 $passh = h_cook($rows["hash3"], $_SERVER["REMOTE_ADDR"], $rows["id"]);
 /*=== for dupe account ===*/
 $hashlog = make_hash_log($rows['id'], $passh);
-if((empty($rows['loginhash'])) || ($rows['loginhash'] != $hashlog)){
-	sql_query('UPDATE users SET loginhash=' . sqlesc($hashlog) . ' WHERE id=' . sqlesc($rows['id'])) || sqlerr(__FILE__, __LINE__);
-    ($a_query = sql_query("SELECT COUNT(id) FROM doublesignup WHERE userid=" . sqlesc($rows['id']))) || sqlerr(__FILE__, __LINE__);
-	$a = $a_query->fetch_row();
-    if ($a[0] != 0){
-        sql_query('UPDATE doublesignup SET login_hash=' . sqlesc($hashlog) . ' WHERE userid=' . sqlesc($rows['id'])) || sqlerr(__FILE__, __LINE__);
-    }		
+if ((empty($rows['loginhash'])) || ($rows['loginhash'] != $hashlog)) {
+    sql_query('UPDATE users SET loginhash='.sqlesc($hashlog).' WHERE id='.sqlesc($rows['id'])) || sqlerr(__FILE__, __LINE__);
+    ($a_query = sql_query("SELECT COUNT(id) FROM doublesignup WHERE userid=".sqlesc($rows['id']))) || sqlerr(__FILE__, __LINE__);
+    $a = $a_query->fetch_row();
+    if ($a[0] != 0) {
+        sql_query('UPDATE doublesignup SET login_hash='.sqlesc($hashlog).' WHERE userid='.sqlesc($rows['id'])) || sqlerr(__FILE__, __LINE__);
+    }
 }
 /*=== ===*/
 logincookie($rows['id'], $passh);

@@ -46,24 +46,24 @@
  *
  ************************************************************************************/
 
-$language_data = array(
+$language_data = [
     'LANG_NAME' => 'Logtalk',
-    'COMMENT_SINGLE' => array(1 => '%'),
-    'COMMENT_MULTI' => array('/*' => '*/'),
-    'COMMENT_REGEXP' => array(2 => "/0'./sim"),
+    'COMMENT_SINGLE' => [1 => '%'],
+    'COMMENT_MULTI' => ['/*' => '*/'],
+    'COMMENT_REGEXP' => [2 => "/0'./sim"],
     'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-    'QUOTEMARKS' => array("'"),
-    'HARDQUOTE' => array('"', '"'),
-    'HARDESCAPE' => array(),
+    'QUOTEMARKS' => ["'"],
+    'HARDQUOTE' => ['"', '"'],
+    'HARDESCAPE' => [],
     'ESCAPE_CHAR' => '',
-    'ESCAPE_REGEXP' => array(
+    'ESCAPE_REGEXP' => [
         //Simple Single Char Escapes
         1 => "#\\\\[\\\\abfnrtv\'\"?\n]#i",
         //Hexadecimal Char Specs
         2 => "#\\\\x[\da-fA-F]+\\\\#",
         //Octal Char Specs
-        3 => "#\\\\[0-7]+\\\\#"
-        ),
+        3 => "#\\\\[0-7]+\\\\#",
+    ],
     'NUMBERS' =>
         GESHI_NUMBER_INT_BASIC |
         GESHI_NUMBER_BIN_PREFIX_0B |
@@ -71,113 +71,227 @@ $language_data = array(
         GESHI_NUMBER_HEX_PREFIX |
         GESHI_NUMBER_FLT_NONSCI |
         GESHI_NUMBER_FLT_SCI_ZERO,
-    'KEYWORDS' => array(
+    'KEYWORDS' => [
         // Directives (with arguments)
-        1 => array(
+        1 => [
             // file directives
-            'encoding', 'ensure_loaded',
+            'encoding',
+            'ensure_loaded',
             // flag directives
-            'set_logtalk_flag', 'set_prolog_flag',
+            'set_logtalk_flag',
+            'set_prolog_flag',
             // entity opening directives
-            'category', 'object', 'protocol',
+            'category',
+            'object',
+            'protocol',
             // predicate scope directives
-            'private', 'protected', 'public',
+            'private',
+            'protected',
+            'public',
             // conditional compilation directives
-            'elif', 'if',
+            'elif',
+            'if',
             // entity directives
-            'calls', 'initialization', 'op', 'uses',
+            'calls',
+            'initialization',
+            'op',
+            'uses',
             // predicate directives
-            'alias', 'coinductive', 'discontiguous', 'dynamic', 'mode', 'info', 'meta_predicate', 'multifile', 'synchronized',
+            'alias',
+            'coinductive',
+            'discontiguous',
+            'dynamic',
+            'mode',
+            'info',
+            'meta_predicate',
+            'multifile',
+            'synchronized',
             // module directives
-            'export', 'module', 'reexport', 'use_module'
-            ),
+            'export',
+            'module',
+            'reexport',
+            'use_module',
+        ],
         // Directives (no arguments)
-        2 => array(
+        2 => [
             // entity directives
             'dynamic',
             // multi-threading directives
-            'synchronized', 'threaded',
+            'synchronized',
+            'threaded',
             // entity closing directives
-            'end_category', 'end_object', 'end_protocol',
+            'end_category',
+            'end_object',
+            'end_protocol',
             // conditional compilation directives
-            'else', 'endif'
-            ),
+            'else',
+            'endif',
+        ],
         // Entity relations
-        3 => array(
-            'complements', 'extends', 'imports', 'implements','instantiates', 'specializes'
-            ),
+        3 => [
+            'complements',
+            'extends',
+            'imports',
+            'implements',
+            'instantiates',
+            'specializes',
+        ],
         // Built-in predicates (with arguments)
-        4 => array(
+        4 => [
             // event handlers
-            'after', 'before',
+            'after',
+            'before',
             // execution-context methods
-            'parameter', 'self', 'sender', 'this',
+            'parameter',
+            'self',
+            'sender',
+            'this',
             // predicate reflection
-            'current_predicate', 'predicate_property',
+            'current_predicate',
+            'predicate_property',
             // DCGs and term expansion
-            'expand_goal', 'expand_term', 'goal_expansion', 'phrase', 'term_expansion',
+            'expand_goal',
+            'expand_term',
+            'goal_expansion',
+            'phrase',
+            'term_expansion',
             // entity
-            'abolish_category', 'abolish_object', 'abolish_protocol',
-            'create_category', 'create_object', 'create_protocol',
-            'current_category', 'current_object', 'current_protocol',
-            'category_property', 'object_property', 'protocol_property',
+            'abolish_category',
+            'abolish_object',
+            'abolish_protocol',
+            'create_category',
+            'create_object',
+            'create_protocol',
+            'current_category',
+            'current_object',
+            'current_protocol',
+            'category_property',
+            'object_property',
+            'protocol_property',
             // entity relations
-            'complements_object', 'conforms_to_protocol',
-            'extends_category', 'extends_object', 'extends_protocol',
-            'implements_protocol', 'imports_category',
-            'instantiates_class', 'specializes_class',
+            'complements_object',
+            'conforms_to_protocol',
+            'extends_category',
+            'extends_object',
+            'extends_protocol',
+            'implements_protocol',
+            'imports_category',
+            'instantiates_class',
+            'specializes_class',
             // events
-            'abolish_events', 'current_event', 'define_events',
+            'abolish_events',
+            'current_event',
+            'define_events',
             // flags
-            'current_logtalk_flag', 'set_logtalk_flag',
-            'current_prolog_flag', 'set_prolog_flag',
+            'current_logtalk_flag',
+            'set_logtalk_flag',
+            'current_prolog_flag',
+            'set_prolog_flag',
             // compiling, loading, and library path
-            'logtalk_compile', 'logtalk_library_path', 'logtalk_load',
+            'logtalk_compile',
+            'logtalk_library_path',
+            'logtalk_load',
             // database
-            'abolish', 'asserta', 'assertz', 'clause', 'retract', 'retractall',
+            'abolish',
+            'asserta',
+            'assertz',
+            'clause',
+            'retract',
+            'retractall',
             // control
-            'call', 'catch', 'ignore', 'once', 'throw',
+            'call',
+            'catch',
+            'ignore',
+            'once',
+            'throw',
             // all solutions predicates
-            'bagof', 'findall', 'forall', 'setof',
+            'bagof',
+            'findall',
+            'forall',
+            'setof',
             // multi-threading meta-predicates
             'threaded',
-            'threaded_call', 'threaded_once', 'threaded_ignore', 'threaded_exit', 'threaded_peek',
-            'threaded_wait', 'threaded_notify',
+            'threaded_call',
+            'threaded_once',
+            'threaded_ignore',
+            'threaded_exit',
+            'threaded_peek',
+            'threaded_wait',
+            'threaded_notify',
             // term unification
             'unify_with_occurs_check',
             // atomic term processing
-            'atom_chars', 'atom_codes', 'atom_concat', 'atom_length',
-            'number_chars', 'number_codes',
+            'atom_chars',
+            'atom_codes',
+            'atom_concat',
+            'atom_length',
+            'number_chars',
+            'number_codes',
             'char_code',
             // term creation and decomposition
-            'arg', 'copy_term', 'functor', 'numbervars',
+            'arg',
+            'copy_term',
+            'functor',
+            'numbervars',
             // term testing
-            'atom', 'atomic', 'callable', 'compound', 'float', 'ground', 'integer', 'nonvar', 'number', 'sub_atom', 'var',
+            'atom',
+            'atomic',
+            'callable',
+            'compound',
+            'float',
+            'ground',
+            'integer',
+            'nonvar',
+            'number',
+            'sub_atom',
+            'var',
             // term comparison
             'compare',
             // stream selection and control
-            'current_input', 'current_output', 'set_input', 'set_output',
-            'open', 'close', 'flush_output', 'stream_property',
-            'at_end_of_stream', 'set_stream_position',
+            'current_input',
+            'current_output',
+            'set_input',
+            'set_output',
+            'open',
+            'close',
+            'flush_output',
+            'stream_property',
+            'at_end_of_stream',
+            'set_stream_position',
             // character and byte input/output predicates
-            'get_byte', 'get_char', 'get_code',
-            'peek_byte', 'peek_char', 'peek_code',
-            'put_byte', 'put_char', 'put_code',
+            'get_byte',
+            'get_char',
+            'get_code',
+            'peek_byte',
+            'peek_char',
+            'peek_code',
+            'put_byte',
+            'put_char',
+            'put_code',
             'nl',
             // term input/output predicates
-            'current_op', 'op',
-            'write', 'writeq', 'write_canonical', 'write_term',
-            'read', 'read_term',
-            'char_conversion', 'current_char_conversion',
+            'current_op',
+            'op',
+            'write',
+            'writeq',
+            'write_canonical',
+            'write_term',
+            'read',
+            'read_term',
+            'char_conversion',
+            'current_char_conversion',
             // hooks
             'halt',
             // sorting
-            'keysort', 'sort'
-            ),
+            'keysort',
+            'sort',
+        ],
         // Built-in predicates (no arguments)
-        5 => array(
+        5 => [
             // control
-            'fail', 'repeat', 'true',
+            'fail',
+            'repeat',
+            'true',
             // character and byte input/output predicates
             'nl',
             // implementation defined hooks functions
@@ -185,52 +299,95 @@ $language_data = array(
             // arithemtic evaluation
             'is',
             // stream selection and control
-            'at_end_of_stream', 'flush_output'
-            ),
+            'at_end_of_stream',
+            'flush_output',
+        ],
         // Evaluable functors (with arguments)
-        6 => array(
-            'float_integer_part', 'float_fractional_part',
-            'rem', 'mod', 'abs', 'sign', 'floor', 'truncate', 'round', 'ceiling',
-            'cos', 'atan', 'exp', 'log', 'sin', 'sqrt'
-            ),
+        6 => [
+            'float_integer_part',
+            'float_fractional_part',
+            'rem',
+            'mod',
+            'abs',
+            'sign',
+            'floor',
+            'truncate',
+            'round',
+            'ceiling',
+            'cos',
+            'atan',
+            'exp',
+            'log',
+            'sin',
+            'sqrt',
+        ],
         // Evaluable functors (no arguments)
-        7 => array(
-            'e', 'pi', 'mod', 'rem'
-            ),
-        ),
-    'SYMBOLS' => array(
-        0 => array(
+        7 => [
+            'e',
+            'pi',
+            'mod',
+            'rem',
+        ],
+    ],
+    'SYMBOLS' => [
+        0 => [
             // external call
-            '{', '}'
-            ),
-        1 => array(
+            '{',
+            '}',
+        ],
+        1 => [
             // arithemtic comparison
-            '=:=', '=\=', '<', '=<', '>=', '>',
+            '=:=',
+            '=\=',
+            '<',
+            '=<',
+            '>=',
+            '>',
             // term comparison
-            '<<', '>>', '/\\', '\\/', '\\',
+            '<<',
+            '>>',
+            '/\\',
+            '\\/',
+            '\\',
             // bitwise functors
-            '==', '\==', '@<', '@=<', '@>=', '@>',
+            '==',
+            '\==',
+            '@<',
+            '@=<',
+            '@>=',
+            '@>',
             // evaluable functors
-            '+', '-', '*', '/', '**',
+            '+',
+            '-',
+            '*',
+            '/',
+            '**',
             // logic and control
-            '!', '\\+', ';',
+            '!',
+            '\\+',
+            ';',
             // message sending operators
-            '::', '^^', ':',
+            '::',
+            '^^',
+            ':',
             // grammar rule and conditional functors
-            '-->', '->',
+            '-->',
+            '->',
             // mode operators
-            '@', '?',
+            '@',
+            '?',
             // term to list predicate
             '=..',
             // unification
-            '=', '\\='
-            ),
-        2 => array(
+            '=',
+            '\\=',
+        ],
+        2 => [
             // clause and directive functors
-            ':-'
-            )
-        ),
-    'CASE_SENSITIVE' => array(
+            ':-',
+        ],
+    ],
+    'CASE_SENSITIVE' => [
         GESHI_COMMENTS => false,
         1 => true,
         2 => true,
@@ -238,106 +395,106 @@ $language_data = array(
         4 => true,
         5 => true,
         6 => true,
-        7 => true
-        ),
-    'STYLES' => array(
-        'KEYWORDS' => array(
+        7 => true,
+    ],
+    'STYLES' => [
+        'KEYWORDS' => [
             1 => 'color: #2e4dc9;',
             2 => 'color: #2e4dc9;',
             3 => 'color: #2e4dc9;',
             4 => 'color: #9d4f37;',
             5 => 'color: #9d4f37;',
             6 => 'color: #9d4f37;',
-            7 => 'color: #9d4f37;'
-            ),
-        'NUMBERS' => array(
-            0 => 'color: #430000;'
-            ),
-        'COMMENTS' => array(
+            7 => 'color: #9d4f37;',
+        ],
+        'NUMBERS' => [
+            0 => 'color: #430000;',
+        ],
+        'COMMENTS' => [
             1 => 'color: #60a0b0; font-style: italic;',
             2 => 'color: #430000;',
-            'MULTI' => 'color: #60a0b0; font-style: italic;'
-            ),
-        'ESCAPE_CHAR' => array(
+            'MULTI' => 'color: #60a0b0; font-style: italic;',
+        ],
+        'ESCAPE_CHAR' => [
             0 => 'color: #9f0000; font-weight: bold;',
             1 => 'color: #9f0000; font-weight: bold;',
             2 => 'color: #9f0000; font-weight: bold;',
             3 => 'color: #9f0000; font-weight: bold;',
             'HARD' => '',
-            ),
-        'SYMBOLS' => array(
+        ],
+        'SYMBOLS' => [
             0 => 'color: #666666;font-weight: bold;',
             1 => 'color: #666666;font-weight: bold;',
-            2 => 'color: #000000;'
-            ),
-        'BRACKETS' => array(
-            0 => 'color: #000000;'
-            ),
-        'STRINGS' => array(
+            2 => 'color: #000000;',
+        ],
+        'BRACKETS' => [
+            0 => 'color: #000000;',
+        ],
+        'STRINGS' => [
             0 => 'color: #9f0000;',
-            'HARD' => 'color: #9f0000;'
-            ),
-        'METHODS' => array(
-            ),
-        'REGEXPS' => array(
-            0 => 'color: #848484;'
-            ),
-        'SCRIPT' => array()
-        ),
-    'URLS' => array(
+            'HARD' => 'color: #9f0000;',
+        ],
+        'METHODS' => [
+        ],
+        'REGEXPS' => [
+            0 => 'color: #848484;',
+        ],
+        'SCRIPT' => [],
+    ],
+    'URLS' => [
         1 => '',
         2 => '',
         3 => '',
         4 => '',
         5 => '',
         6 => '',
-        7 => ''
-        ),
+        7 => '',
+    ],
     'OOLANG' => false,
-    'OBJECT_SPLITTERS' => array(
-        1 => '::'
-        ),
-    'REGEXPS' => array(
+    'OBJECT_SPLITTERS' => [
+        1 => '::',
+    ],
+    'REGEXPS' => [
         // variables
-        0 => '\b(?!(?:PIPE|SEMI|REG3XP\d*)[^a-zA-Z0-9_])[A-Z_][a-zA-Z0-9_]*(?![a-zA-Z0-9_])'
-        ),
+        0 => '\b(?!(?:PIPE|SEMI|REG3XP\d*)[^a-zA-Z0-9_])[A-Z_][a-zA-Z0-9_]*(?![a-zA-Z0-9_])',
+    ],
     'STRICT_MODE_APPLIES' => GESHI_NEVER,
-    'SCRIPT_DELIMITERS' => array(),
-    'HIGHLIGHT_STRICT_BLOCK' => array(),
+    'SCRIPT_DELIMITERS' => [],
+    'HIGHLIGHT_STRICT_BLOCK' => [],
     'TAB_WIDTH' => 4,
-    'PARSER_CONTROL' => array(
-        'ENABLE_FLAGS' => array(
-            'BRACKETS' => GESHI_NEVER
-            ),
-        'KEYWORDS' => array(
-            1 => array(
+    'PARSER_CONTROL' => [
+        'ENABLE_FLAGS' => [
+            'BRACKETS' => GESHI_NEVER,
+        ],
+        'KEYWORDS' => [
+            1 => [
                 'DISALLOWED_BEFORE' => '(?<=:-\s)',
-                'DISALLOWED_AFTER' => '(?=\()'
-                ),
-            2 => array(
+                'DISALLOWED_AFTER' => '(?=\()',
+            ],
+            2 => [
                 'DISALLOWED_BEFORE' => '(?<=:-\s)',
-                'DISALLOWED_AFTER' => '(?=\.)'
-                ),
-            3 => array(
+                'DISALLOWED_AFTER' => '(?=\.)',
+            ],
+            3 => [
                 'DISALLOWED_BEFORE' => '(?<![a-zA-Z0-9\$_\|\#>|^&\'"])',
-                'DISALLOWED_AFTER' => '(?=\()'
-                ),
-            4 => array(
+                'DISALLOWED_AFTER' => '(?=\()',
+            ],
+            4 => [
                 'DISALLOWED_BEFORE' => '(?<![a-zA-Z0-9\$_\|\#>|^&\'"])',
-                'DISALLOWED_AFTER' => '(?=\()'
-                ),
-            5 => array(
+                'DISALLOWED_AFTER' => '(?=\()',
+            ],
+            5 => [
                 'DISALLOWED_BEFORE' => '(?<![a-zA-Z0-9\$_\|\#>|^&\'"])',
-                'DISALLOWED_AFTER' => '(?![a-zA-Z0-9_\|%\\-&\'"])'
-                ),
-            6 => array(
+                'DISALLOWED_AFTER' => '(?![a-zA-Z0-9_\|%\\-&\'"])',
+            ],
+            6 => [
                 'DISALLOWED_BEFORE' => '(?<![a-zA-Z0-9\$_\|\#;>|^&\'"])',
-                'DISALLOWED_AFTER' => '(?=\()'
-                ),
-            7 => array(
+                'DISALLOWED_AFTER' => '(?=\()',
+            ],
+            7 => [
                 'DISALLOWED_BEFORE' => '(?<![a-zA-Z0-9\$_\|\#;>|^&\'"])',
-                'DISALLOWED_AFTER' => '(?![a-zA-Z0-9_\|%\\-&\'"])'
-                )
-            )
-        )
-);
+                'DISALLOWED_AFTER' => '(?![a-zA-Z0-9_\|%\\-&\'"])',
+            ],
+        ],
+    ],
+];

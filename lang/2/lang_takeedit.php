@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //takedit
     'takedit_failed' => "Edition ratée!",
     'takedit_no_data' => "manque des données",
@@ -23,5 +23,5 @@ $lang = array(
     'takeedit_img_exists' => "Une image existe déjà. Contacter le staff pour une assistance.",
     'takedit_youtube' => "  Le lien Youtube est incorrect ou est absent!",
     'takeedit_img_copyerror' => "Une erreur s'est produite lors de la copie de l'image vers son dépôt. Contacter le staff pour une assistance.",
-);
+];
 ?>

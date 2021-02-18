@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Misc
     'stdhead_delete' => "Delete account",
     'stderr_error' => "Error",
@@ -28,6 +28,6 @@ $lang = array(
     'text_adduser' => "Add user",
     //The table
     'table_username' => "Username",
-    'table_password' => "Password"
-);
+    'table_password' => "Password",
+];
 ?>

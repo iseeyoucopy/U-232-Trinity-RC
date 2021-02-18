@@ -17,8 +17,8 @@ if ($TRINITY20['staffmsg_alert'] && $CURUSER['class'] >= UC_STAFF) {
         $cache->set('staff_mess_', $answeredby, $TRINITY20['expires']['alerts']);
     }
     if ($answeredby > 0) {
-        $htmlout.= "
-        <a class='hollow small button notification' href='staffbox.php'>{$lang['gl_staff_message']}<span class='badge_corner'>" . $answeredby[0] . "</span></a>";
+        $htmlout .= "
+        <a class='hollow small button notification' href='staffbox.php'>{$lang['gl_staff_message']}<span class='badge_corner'>".$answeredby[0]."</span></a>";
     }
 }
 //==End

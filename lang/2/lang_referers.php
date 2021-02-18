@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'ref_sorry' => "Désolé",
     'ref_no_auth' => "Seuls les modérateurs peuvent voir cette page.",
     'ref_stdhead' => "Référents",
@@ -27,6 +27,6 @@ $lang = array(
     'ref_nimic' => "<h1>Rien trouvé!</h1>Essayez à nouveau en précisant la recherche.",
     'ref_guest' => "Guest",
     'ref_nr' => "Nr.",
-    'ref_searc' => "Chercher les résultats pour "
-);
+    'ref_searc' => "Chercher les résultats pour ",
+];
 ?>

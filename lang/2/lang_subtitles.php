@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'subtitles_' => "Sous-titres",
     'subtitles_added' => "Ajouté",
     'subtitles_and_start_uploading' => "et commencé à uploader",
@@ -71,6 +71,6 @@ $lang = array(
     'gl_finnish' => "Allemand",
     'gl_spanish' => "Espagnol",
     'gl_french' => "Français",
-    'subtitles_tools' => "Action"
-	);
+    'subtitles_tools' => "Action",
+];
 ?>

@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$HTMLOUT.= "<tr><td class='rowhead'>{$lang['userdetails_bonus_points']}</td><td align='left'><a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>" . (int)$user_stats['seedbonus'] . "</a></td></tr>";
+$HTMLOUT .= "<tr><td class='rowhead'>{$lang['userdetails_bonus_points']}</td><td align='left'><a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>".(int)$user_stats['seedbonus']."</a></td></tr>";
 //==end
 // End Class
 // End File

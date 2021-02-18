@@ -10,13 +10,13 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
 
 #Freepoll
-'freepoll_fail' => "Vote failed!",
-'freepoll_login' => "Must be logged in to vote.",
-'freepoll_miss_form_data' => "missing form data",
+    'freepoll_fail' => "Vote failed!",
+    'freepoll_login' => "Must be logged in to vote.",
+    'freepoll_miss_form_data' => "missing form data",
 
-);
+];
 
 ?>

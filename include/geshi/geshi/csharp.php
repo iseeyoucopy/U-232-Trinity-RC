@@ -48,46 +48,139 @@
  *
  ************************************************************************************/
 
-$language_data = array (
+$language_data = [
     'LANG_NAME' => 'C#',
-    'COMMENT_SINGLE' => array(1 => '//', 2 => '#'),
-    'COMMENT_MULTI' => array('/*' => '*/'),
-    'COMMENT_REGEXP' => array(
+    'COMMENT_SINGLE' => [1 => '//', 2 => '#'],
+    'COMMENT_MULTI' => ['/*' => '*/'],
+    'COMMENT_REGEXP' => [
         //Using and Namespace directives (basic support)
         //Please note that the alias syntax for using is not supported
-        3 => '/(?:(?<=using[\\n\\s])|(?<=namespace[\\n\\s]))[\\n\\s]*([a-zA-Z0-9_]+\\.)*[a-zA-Z0-9_]+[\n\s]*(?=[;=])/i'),
+        3 => '/(?:(?<=using[\\n\\s])|(?<=namespace[\\n\\s]))[\\n\\s]*([a-zA-Z0-9_]+\\.)*[a-zA-Z0-9_]+[\n\s]*(?=[;=])/i',
+    ],
     'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-    'QUOTEMARKS' => array("'", '"'),
-    'HARDQUOTE' => array('@"', '"'),
-    'HARDESCAPE' => array('"'),
+    'QUOTEMARKS' => ["'", '"'],
+    'HARDQUOTE' => ['@"', '"'],
+    'HARDESCAPE' => ['"'],
     'HARDCHAR' => '"',
     'ESCAPE_CHAR' => '\\',
-    'KEYWORDS' => array(
-        1 => array(
-            'abstract', 'add', 'as', 'async', 'await', 'base',
-            'break', 'by', 'case', 'catch', 'const', 'continue',
-            'default', 'do', 'else', 'event', 'explicit', 'extern', 'false',
-            'finally', 'fixed', 'for', 'foreach', 'from', 'get', 'goto', 'group', 'if',
-            'implicit', 'in', 'into', 'internal', 'join', 'lock', 'namespace', 'null',
-            'operator', 'out', 'override', 'params', 'partial', 'private',
-            'protected', 'public', 'readonly', 'remove', 'ref', 'return', 'sealed',
-            'select', 'set', 'stackalloc', 'static', 'switch', 'this', 'throw', 'true',
-            'try', 'unsafe', 'using', 'var', 'value', 'virtual', 'volatile', 'where',
-            'while', 'yield'
-            ),
-        2 => array(
-            '#elif', '#endif', '#endregion', '#else', '#error', '#define', '#if',
-            '#line', '#pragma', '#region', '#undef', '#warning'
-            ),
-        3 => array(
-            'checked', 'is', 'new', 'nameof', 'sizeof', 'typeof', 'unchecked'
-            ),
-        4 => array(
-            'bool', 'byte', 'char', 'class', 'decimal', 'delegate', 'double',
-            'dynamic', 'enum', 'float', 'int', 'interface', 'long', 'object', 'sbyte',
-            'short', 'string', 'struct', 'uint', 'ulong', 'ushort', 'void'
-            ),
-        5 => array(
+    'KEYWORDS' => [
+        1 => [
+            'abstract',
+            'add',
+            'as',
+            'async',
+            'await',
+            'base',
+            'break',
+            'by',
+            'case',
+            'catch',
+            'const',
+            'continue',
+            'default',
+            'do',
+            'else',
+            'event',
+            'explicit',
+            'extern',
+            'false',
+            'finally',
+            'fixed',
+            'for',
+            'foreach',
+            'from',
+            'get',
+            'goto',
+            'group',
+            'if',
+            'implicit',
+            'in',
+            'into',
+            'internal',
+            'join',
+            'lock',
+            'namespace',
+            'null',
+            'operator',
+            'out',
+            'override',
+            'params',
+            'partial',
+            'private',
+            'protected',
+            'public',
+            'readonly',
+            'remove',
+            'ref',
+            'return',
+            'sealed',
+            'select',
+            'set',
+            'stackalloc',
+            'static',
+            'switch',
+            'this',
+            'throw',
+            'true',
+            'try',
+            'unsafe',
+            'using',
+            'var',
+            'value',
+            'virtual',
+            'volatile',
+            'where',
+            'while',
+            'yield',
+        ],
+        2 => [
+            '#elif',
+            '#endif',
+            '#endregion',
+            '#else',
+            '#error',
+            '#define',
+            '#if',
+            '#line',
+            '#pragma',
+            '#region',
+            '#undef',
+            '#warning',
+        ],
+        3 => [
+            'checked',
+            'is',
+            'new',
+            'nameof',
+            'sizeof',
+            'typeof',
+            'unchecked',
+        ],
+        4 => [
+            'bool',
+            'byte',
+            'char',
+            'class',
+            'decimal',
+            'delegate',
+            'double',
+            'dynamic',
+            'enum',
+            'float',
+            'int',
+            'interface',
+            'long',
+            'object',
+            'sbyte',
+            'short',
+            'string',
+            'struct',
+            'uint',
+            'ulong',
+            'ushort',
+            'void',
+        ],
+        5 => [
             'Microsoft.Win32',
             'System',
             'System.CodeDOM',
@@ -173,85 +266,105 @@ $language_data = array (
             'System.Xml',
             'System.Xml.Serialization',
             'System.Xml.Serialization.Code',
-            'System.Xml.Serialization.Schema'
-            ),
-        ),
-    'SYMBOLS' => array(
-        '+', '-', '*', '?', '=', '/', '%', '&', '>', '<', '^', '!', ':', ';',
-        '(', ')', '{', '}', '[', ']', '|', '.'
-        ),
-    'CASE_SENSITIVE' => array(
+            'System.Xml.Serialization.Schema',
+        ],
+    ],
+    'SYMBOLS' => [
+        '+',
+        '-',
+        '*',
+        '?',
+        '=',
+        '/',
+        '%',
+        '&',
+        '>',
+        '<',
+        '^',
+        '!',
+        ':',
+        ';',
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '|',
+        '.',
+    ],
+    'CASE_SENSITIVE' => [
         GESHI_COMMENTS => false,
         1 => false,
         2 => false,
         3 => false,
         4 => false,
         5 => false,
-        ),
-    'STYLES' => array(
-        'KEYWORDS' => array(
+    ],
+    'STYLES' => [
+        'KEYWORDS' => [
             1 => 'color: #0600FF; font-weight: bold;',
             2 => 'color: #FF8000; font-weight: bold;',
             3 => 'color: #008000;',
             4 => 'color: #6666cc; font-weight: bold;',
-            5 => 'color: #000000;'
-            ),
-        'COMMENTS' => array(
+            5 => 'color: #000000;',
+        ],
+        'COMMENTS' => [
             1 => 'color: #008080; font-style: italic;',
             2 => 'color: #008080;',
             3 => 'color: #008080;',
-            'MULTI' => 'color: #008080; font-style: italic;'
-            ),
-        'ESCAPE_CHAR' => array(
+            'MULTI' => 'color: #008080; font-style: italic;',
+        ],
+        'ESCAPE_CHAR' => [
             0 => 'color: #008080; font-weight: bold;',
-            'HARD' => 'color: #008080; font-weight: bold;'
-            ),
-        'BRACKETS' => array(
-            0 => 'color: #008000;'
-            ),
-        'STRINGS' => array(
+            'HARD' => 'color: #008080; font-weight: bold;',
+        ],
+        'BRACKETS' => [
+            0 => 'color: #008000;',
+        ],
+        'STRINGS' => [
             0 => 'color: #666666;',
-            'HARD' => 'color: #666666;'
-            ),
-        'NUMBERS' => array(
-            0 => 'color: #FF0000;'
-            ),
-        'METHODS' => array(
+            'HARD' => 'color: #666666;',
+        ],
+        'NUMBERS' => [
+            0 => 'color: #FF0000;',
+        ],
+        'METHODS' => [
             1 => 'color: #0000FF;',
-            2 => 'color: #0000FF;'
-            ),
-        'SYMBOLS' => array(
-            0 => 'color: #008000;'
-            ),
-        'REGEXPS' => array(
-            ),
-        'SCRIPT' => array(
-            )
-        ),
-    'URLS' => array(
+            2 => 'color: #0000FF;',
+        ],
+        'SYMBOLS' => [
+            0 => 'color: #008000;',
+        ],
+        'REGEXPS' => [
+        ],
+        'SCRIPT' => [
+        ],
+    ],
+    'URLS' => [
         1 => '',
         2 => '',
         3 => 'http://www.google.com/search?q={FNAMEL}+msdn.microsoft.com',
         4 => '',
-        5 => ''
-        ),
+        5 => '',
+    ],
     'OOLANG' => true,
-    'OBJECT_SPLITTERS' => array(
+    'OBJECT_SPLITTERS' => [
         1 => '.',
-        2 => '::'
-        ),
-    'REGEXPS' => array(
-        ),
+        2 => '::',
+    ],
+    'REGEXPS' => [
+    ],
     'STRICT_MODE_APPLIES' => GESHI_NEVER,
-    'SCRIPT_DELIMITERS' => array(
-        ),
-    'HIGHLIGHT_STRICT_BLOCK' => array(
-        ),
+    'SCRIPT_DELIMITERS' => [
+    ],
+    'HIGHLIGHT_STRICT_BLOCK' => [
+    ],
     'TAB_WIDTH' => 4,
-    'PARSER_CONTROL' => array(
-        'KEYWORDS' => array(
+    'PARSER_CONTROL' => [
+        'KEYWORDS' => [
             'DISALLOWED_BEFORE' => "(?<![a-zA-Z0-9\$_\|\#>|^])",
-            'DISALLOWED_AFTER' => "(?![a-zA-Z0-9_%\\-])"
-        )
-    )
-);
+            'DISALLOWED_AFTER' => "(?![a-zA-Z0-9_%\\-])",
+        ],
+    ],
+];

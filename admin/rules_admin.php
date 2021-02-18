@@ -24,9 +24,9 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     echo $HTMLOUT;
     exit();
 }
-require_once(INCL_DIR . 'user_functions.php');
-require_once(INCL_DIR . 'password_functions.php');
-require_once(CLASS_DIR . 'class_check.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(INCL_DIR.'password_functions.php');
+require_once(CLASS_DIR.'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $cache->delete('rules__');
@@ -104,17 +104,17 @@ function Do_show()
         $htmlout .= "
         <tbody>
             <tr>
-                <td>" . (int) $arr['id'] . "</td>
-                <td><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=rules_edit&amp;catid=" . (int) $arr['id'] . "'>" . htmlsafechars($arr['name']) . "</a></td>
-                <td>" . htmlsafechars($arr['shortcut']) . "</td>
-                <td>" . htmlsafechars($arr['min_view']) . "</td>
+                <td>".(int)$arr['id']."</td>
+                <td><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=rules_edit&amp;catid=".(int)$arr['id']."'>".htmlsafechars($arr['name'])."</a></td>
+                <td>".htmlsafechars($arr['shortcut'])."</td>
+                <td>".htmlsafechars($arr['min_view'])."</td>
                 <td>
-                    <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=cat_edit&amp;catid=" . (int) $arr['id'] . "'>
+                    <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=cat_edit&amp;catid=".(int)$arr['id']."'>
                         <span data-tooltip tabindex='1' title='{$lang['rules_edit']}'>
                             <i class='fas fa-edit'></i>
                         </span>
                     </a>
-                    <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=cat_delete&amp;catid=" . (int) $arr['id'] . "'>
+                    <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=cat_delete&amp;catid=".(int)$arr['id']."'>
                         <span data-tooltip tabindex='1' title='{$lang['rules_delete']}'>
                             <i class='fas fa-trash-alt'></i>
                         </span>
@@ -124,9 +124,10 @@ function Do_show()
         </tbody>";
     }
     $htmlout .= "</table></div></div>";
-    echo stdhead("{$lang['rules_rules']}") . $htmlout . stdfoot();
+    echo stdhead("{$lang['rules_rules']}").$htmlout.stdfoot();
     exit();
 }
+
 // ===added delete
 function Do_Rules_Delete()
 {
@@ -134,25 +135,26 @@ function Do_Rules_Delete()
     if (!isset($_POST['fdata']) || !is_array($_POST['fdata'])) {
         stderr("Error", "Bad data!");
     }
-    $id = array();
+    $id = [];
     foreach ($_POST['fdata'] as $k => $v) {
         if (isset($v['rules_id']) && !empty($v['rules_id'])) {
-            $id[] = sqlesc((int) $v['rules_id']);
+            $id[] = sqlesc((int)$v['rules_id']);
         }
     }
     if (count($id) === 0) {
         stderr("Error", "No rules selected!");
     }
-    sql_query("DELETE FROM rules WHERE id IN( " . implode(',', $id) . " )") || sqlerr(__FILE__, __LINE__);
+    sql_query("DELETE FROM rules WHERE id IN( ".implode(',', $id)." )") || sqlerr(__FILE__, __LINE__);
     $cache->delete('rules__');
     header("Refresh: 3; url=staffpanel.php?tool=rules_admin");
     stderr("Info", "Rules successfully Deleted! Please wait while you are redirected.");
 }
+
 // ====end
 function Cat_Delete($chk = false)
 {
     global $cache;
-    $id = isset($_GET['catid']) ? (int) $_GET['catid'] : 0;
+    $id = isset($_GET['catid']) ? (int)$_GET['catid'] : 0;
     if (!is_valid_id($id)) {
         stderr("Error", "Bad ID!");
     }
@@ -161,22 +163,23 @@ function Cat_Delete($chk = false)
         <a class='button' href='staffpanel.php?tool=rules_admin&amp;catid={$id}&amp;mode=cat_delete_chk'><span style='font-weight: bold; color: green'>Continue?</span></a>
 or <a href='staffpanel.php?tool=rules_admin'><span style='font-weight: bold; color: red'>Cancel?</span></a>");
     }
-    sql_query("DELETE FROM rules WHERE type = " . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-    sql_query("DELETE FROM rules_cat WHERE id = " . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
+    sql_query("DELETE FROM rules WHERE type = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
+    sql_query("DELETE FROM rules_cat WHERE id = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     $cache->delete('rules__');
     header("Refresh: 3; url=staffpanel.php?tool=rules_admin");
     stderr("Info", "Rules category deleted successfully! Please wait while you are redirected.");
 }
+
 function Show_Cat_Edit_Form()
 {
     global $lang, $CURUSER;
     $htmlout = '';
-    $maxclass = (int) $CURUSER['class'];
+    $maxclass = (int)$CURUSER['class'];
     if (!isset($_GET['catid']) || empty($_GET['catid']) || !is_valid_id($_GET['catid'])) {
         $htmlout .= Do_Error("Error", "No Section selected");
     }
-    $cat_id = (int) $_GET['catid'];
-    ($sql = sql_query("SELECT * FROM rules_cat WHERE id = " . sqlesc($cat_id))) || sqlerr(__FILE__, __LINE__);
+    $cat_id = (int)$_GET['catid'];
+    ($sql = sql_query("SELECT * FROM rules_cat WHERE id = ".sqlesc($cat_id))) || sqlerr(__FILE__, __LINE__);
     if (!$sql->num_rows) {
         stderr("SQL Error", "Nothing doing here!");
     }
@@ -188,22 +191,22 @@ function Show_Cat_Edit_Form()
                 <td class='colhead'>Min Class</td></tr>
             </thead>";
     while ($row = $sql->fetch_assoc()) {
-        $htmlout .= "<div class='card-divider'>Title No." . (int) $row['id'] . "</div>
+        $htmlout .= "<div class='card-divider'>Title No.".(int)$row['id']."</div>
         <div class='card-section'>
         <form name='inputform' method='post' action='staffpanel.php?tool=rules_admin'>
         <input type='hidden' name='mode' value='takeedit_cat'>
-        <input type='hidden' name='cat' value='" . (int) $row['id'] . "'>
+        <input type='hidden' name='cat' value='".(int)$row['id']."'>
         <tbody>
-        <tr><td><input type='text' value='" . htmlsafechars($row['name']) . "' name='name'></td>
-        <td><input type='text' value='" . htmlsafechars($row['shortcut']) . "' name='shortcut'></td>
+        <tr><td><input type='text' value='".htmlsafechars($row['name'])."' name='name'></td>
+        <td><input type='text' value='".htmlsafechars($row['shortcut'])."' name='shortcut'></td>
 
         <td>
             <div class='input-group'>
                 <select class='input-group-field'>name='min_view'>";
-                for ($i = 0; $i <= $maxclass; ++$i) {
-                    $htmlout .= '<option value="' . $i . '"'.($row['min_view'] == $i ? " selected='selected'" : "").'">' . get_user_class_name($i) . '</option>';
-                }
-                $htmlout .= "</select>
+        for ($i = 0; $i <= $maxclass; ++$i) {
+            $htmlout .= '<option value="'.$i.'"'.($row['min_view'] == $i ? " selected='selected'" : "").'">'.get_user_class_name($i).'</option>';
+        }
+        $htmlout .= "</select>
                 <div class='input-group-button'>
                     <input class='button' type='submit' name='submit' value='Edit'>
                 </div>
@@ -213,9 +216,10 @@ function Show_Cat_Edit_Form()
         </div>";
     }
     $htmlout .= "</table></div>";
-    echo stdhead("Edit options") . $htmlout . stdfoot();
+    echo stdhead("Edit options").$htmlout.stdfoot();
     exit();
 }
+
 function Show_Rules_Edit()
 {
     global $lang, $CURUSER;
@@ -224,20 +228,20 @@ function Show_Rules_Edit()
     if (!isset($_GET['catid']) || empty($_GET['catid']) || !is_valid_id($_GET['catid'])) {
         stderr("Error", "No Section selected");
     }
-    $cat_id = (int) $_GET['catid'];
-    ($sql = sql_query("SELECT * FROM rules WHERE type = " . sqlesc($cat_id))) || sqlerr(__FILE__, __LINE__);
+    $cat_id = (int)$_GET['catid'];
+    ($sql = sql_query("SELECT * FROM rules WHERE type = ".sqlesc($cat_id))) || sqlerr(__FILE__, __LINE__);
     if (!$sql->num_rows) {
         stderr("SQL Error", "Nothing doing here!");
     }
     $htmlout .= "<div class='card'><form name='compose' method='post' action='staffpanel.php?tool=rules_admin'>";
     while ($row = $sql->fetch_assoc()) {
-        $htmlout .= "<div class='card-divider'><strong>Rules No." . (int) $row['id'] . "</strong></div>";
+        $htmlout .= "<div class='card-divider'><strong>Rules No.".(int)$row['id']."</strong></div>";
         $htmlout .= "<div class='card-section'>
             <div class='input-group'>
-                <input class='input-group-field' type='text' value='" . htmlsafechars($row['title']) . "' name='fdata[{$row['id']}][title]'>
-                <input class='input-group-field' type='checkbox' name='fdata[{$row['id']}][rules_id]' value='" . (int) $row['id'] . "'>
+                <input class='input-group-field' type='text' value='".htmlsafechars($row['title'])."' name='fdata[{$row['id']}][title]'>
+                <input class='input-group-field' type='checkbox' name='fdata[{$row['id']}][rules_id]' value='".(int)$row['id']."'>
             </div>
-            <textarea name='fdata[{$row['id']}][text]' rows='10' cols='20'>" . htmlsafechars($row['text']) . "</textarea>
+            <textarea name='fdata[{$row['id']}][text]' rows='10' cols='20'>".htmlsafechars($row['text'])."</textarea>
         </div>";
     }
     $htmlout .= "<div class='input-group'>
@@ -251,32 +255,33 @@ function Show_Rules_Edit()
         </div>
         </div>
          </form></div>";
-    echo stdhead("Edit options") . $htmlout . stdfoot();
+    echo stdhead("Edit options").$htmlout.stdfoot();
     exit();
 }
+
 function Do_Rules_Update()
 {
     global $cache, $mysqli;
     $time = TIME_NOW;
-    $updateset = array();
+    $updateset = [];
     if (!isset($_POST['fdata']) || !is_array($_POST['fdata'])) {
         stderr("Error", "Don't leave any fields blank");
     }
     foreach ($_POST['fdata'] as $k => $v) {
         $holder = '';
         if (isset($v['rules_id']) && !empty($v['rules_id'])) {
-            foreach (array(
-                'title',
-                'text'
-            ) as $x) {
-                isset($v[$x]) && (empty($v[$x]) ? stderr('Error', "{$x} is empty") : ($holder .= "{$x} = " . sqlesc($v[$x]) . ", "));
+            foreach ([
+                         'title',
+                         'text',
+                     ] as $x) {
+                isset($v[$x]) && (empty($v[$x]) ? stderr('Error', "{$x} is empty") : ($holder .= "{$x} = ".sqlesc($v[$x]).", "));
             }
             $holder = substr($holder, 0, -1);
             $holder = rtrim($holder, ',');
-            $updateset[] = "UPDATE rules SET {$holder} WHERE id = " . sqlesc((int) $v['rules_id']);
+            $updateset[] = "UPDATE rules SET {$holder} WHERE id = ".sqlesc((int)$v['rules_id']);
         }
     }
-    
+
     foreach ($updateset as $x) {
         sql_query($x) || sqlerr(__FILE__, __LINE__);
     }
@@ -287,11 +292,12 @@ function Do_Rules_Update()
     $cache->delete('rules__');
     stderr("Info", "Updated successfully! Please wait while you are redirected.");
 }
+
 function Do_Cat_Update()
 {
     global $cache, $mysqli;
-    $cat_id = (int) $_POST['cat'];
-    $min_view = sqlesc((int) $_POST['min_view']);
+    $cat_id = (int)$_POST['cat'];
+    $min_view = sqlesc((int)$_POST['min_view']);
     if (!is_valid_id($cat_id)) {
         stderr("Error", "No values");
     }
@@ -301,7 +307,7 @@ function Do_Cat_Update()
     if (empty($_POST['shortcut']) || (strlen($_POST['shortcut']) > 100)) {
         stderr("Error", "No value or value too big");
     }
-    $sql = "UPDATE rules_cat SET name = " . sqlesc(strip_tags($_POST['name'])) . ", shortcut = " . sqlesc($_POST['shortcut']) . ", min_view=$min_view WHERE id=" . sqlesc($cat_id);
+    $sql = "UPDATE rules_cat SET name = ".sqlesc(strip_tags($_POST['name'])).", shortcut = ".sqlesc($_POST['shortcut']).", min_view=$min_view WHERE id=".sqlesc($cat_id);
     sql_query($sql) || sqlerr(__FILE__, __LINE__);
     if ($mysqli->affected_rows == -1) {
         stderr("Warning", "Could not carry out that request");
@@ -310,6 +316,7 @@ function Do_Cat_Update()
     $cache->delete('rules__');
     stderr("Info", "Updated successfully! Please wait while you are redirected.");
 }
+
 function Do_Cat_Add()
 {
     global $TRINITY20, $cache, $mysqli;
@@ -330,13 +337,14 @@ function Do_Cat_Add()
     }
     $cache->delete('rules__');
     $htmlout .= New_Cat_Form(1);
-    echo stdhead("Add New Title") . $htmlout . stdfoot();
+    echo stdhead("Add New Title").$htmlout.stdfoot();
     exit();
 }
+
 function Do_Rules_Add()
 {
     global $lang, $cache, $mysqli;
-    $cat_id = sqlesc((int) $_POST['cat']);
+    $cat_id = sqlesc((int)$_POST['cat']);
     if (!is_valid_id($cat_id)) {
         stderr("Error", "No id");
     }
@@ -354,6 +362,7 @@ function Do_Rules_Add()
     New_Rules_Form(1);
     exit();
 }
+
 function New_Cat_Form()
 {
     global $CURUSER, $lang;
@@ -375,10 +384,10 @@ function New_Cat_Form()
                             </td>
                             <td>
                                 <select name='min_view'>";
-                                for ($i = 0; $i <= $maxclass; ++$i) {
-                                    $htmlout .= '<option value="' . $i . '">' . get_user_class_name($i) . '</option>';
-                                }
-                                $htmlout .= "</select>
+    for ($i = 0; $i <= $maxclass; ++$i) {
+        $htmlout .= '<option value="'.$i.'">'.get_user_class_name($i).'</option>';
+    }
+    $htmlout .= "</select>
                             </td>
                             <td colspan='3'>
                                 <input class='form-control' type='submit' name='submit' value='Add' class='btn btn-default'>
@@ -389,9 +398,10 @@ function New_Cat_Form()
             </form>
         </div>
     </div>";
-    echo stdhead("Add New Category") . $htmlout . stdfoot();
+    echo stdhead("Add New Category").$htmlout.stdfoot();
     exit();
 }
+
 function New_Rules_Form()
 {
     global $TRINITY20;
@@ -411,19 +421,20 @@ function New_Rules_Form()
                     <input class='input-group-field' placeholder='TITLE' type='text' value='' name='title'>
                 <select class='input-group-field' name='cat'>
                 <option value=''>--Select--</option>";
-                    while ($v = $sql->fetch_assoc()) {
-                        $htmlout .= "<option value='" . (int) $v['id'] . "'>" . htmlsafechars($v['name']) . "</option>";
-                    }
-                    $htmlout .= "</select>
+    while ($v = $sql->fetch_assoc()) {
+        $htmlout .= "<option value='".(int)$v['id']."'>".htmlsafechars($v['name'])."</option>";
+    }
+    $htmlout .= "</select>
                 </div>
                 <textarea name='text' rows='15' cols='20' class='textbox'></textarea><br />
                 <input type='submit' name='save_cat' value='Add' class='button'>
             </form>
         </div>
     </div>";
-    echo stdhead("Add New Rule") . $htmlout . stdfoot();
+    echo stdhead("Add New Rule").$htmlout.stdfoot();
     exit();
 }
+
 function Do_Info($text)
 {
     global $TRINITY20;
@@ -433,6 +444,7 @@ function Do_Info($text)
     $info .= "<a href='staffpanel.php?tool=rules_admin'>Go Back To Admin</a> Or Add another?";
     return $info;
 }
+
 function Do_Error($heading, $text)
 {
     global $TRINITY20, $HTMLOUT;
@@ -441,7 +453,8 @@ function Do_Error($heading, $text)
     $htmlout .= "$text\n";
     $htmlout .= "</div>";
     return $htmlout;
-    echo stdhead("Error") . $HTMLOUT . stdfoot();
+    echo stdhead("Error").$HTMLOUT.stdfoot();
     exit;
 }
-?> 
+
+?>

@@ -28,8 +28,8 @@
   +----------------------------------------------------------------------+
 */
 error_reporting(0);
-require_once (INCL_DIR . 'user_functions.php');
-require_once (CLASS_DIR . 'class_check.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(CLASS_DIR.'class_check.php');
 class_check(UC_MAX);
 $VERSION = '$Id: memcache.php,v 1.1.2.3 2008/08/28 18:07:54 mikl Exp $';
 define('DATE_FORMAT', 'Y/m/d H:i:s');
@@ -42,7 +42,7 @@ $MEMCACHE_SERVERS[] = '127.0.0.1:11211'; // add more as an array
 function sendMemcacheCommands($command)
 {
     global $MEMCACHE_SERVERS;
-    $result = array();
+    $result = [];
     foreach ($MEMCACHE_SERVERS as $server) {
         $strs = explode(':', $server);
         $host = $strs[0];
@@ -51,16 +51,17 @@ function sendMemcacheCommands($command)
     }
     return $result;
 }
+
 function sendMemcacheCommand($server, $port, $command)
 {
     $s = @fsockopen($server, $port);
     if (!$s) {
-        die("Cant connect to:" . $server . ':' . $port);
+        die("Cant connect to:".$server.':'.$port);
     }
-    fwrite($s, $command . "\r\n");
+    fwrite($s, $command."\r\n");
     $buf = '';
     while ((!feof($s))) {
-        $buf.= fgets($s, 256);
+        $buf .= fgets($s, 256);
         if (strpos($buf, "END\r\n") !== false) { // stat says end
             break;
         }
@@ -74,9 +75,10 @@ function sendMemcacheCommand($server, $port, $command)
     fclose($s);
     return parseMemcacheResults($buf);
 }
+
 function parseMemcacheResults($str)
 {
-    $res = array();
+    $res = [];
     $lines = explode("\r\n", $str);
     $cnt = count($lines);
     for ($i = 0; $i < $cnt; $i++) {
@@ -85,12 +87,12 @@ function parseMemcacheResults($str)
         if (count($l) == 3) {
             $res[$l[0]][$l[1]] = $l[2];
             if ($l[0] == 'VALUE') { // next line is the value
-                $res[$l[0]][$l[1]] = array();
+                $res[$l[0]][$l[1]] = [];
                 [$flag, $size] = explode(' ', $l[2]);
-                $res[$l[0]][$l[1]]['stat'] = array(
+                $res[$l[0]][$l[1]]['stat'] = [
                     'flag' => $flag,
-                    'size' => $size
-                );
+                    'size' => $size,
+                ];
                 $res[$l[0]][$l[1]]['value'] = $lines[++$i];
             }
         } elseif ($line == 'DELETED' || $line == 'NOT_FOUND' || $line == 'OK') {
@@ -99,23 +101,26 @@ function parseMemcacheResults($str)
     }
     return $res;
 }
+
 function dumpCacheSlab($server, $slabId, $limit)
 {
     [$host, $port] = explode(':', $server);
-    return sendMemcacheCommand($host, $port, 'stats cachedump ' . $slabId . ' ' . $limit);
+    return sendMemcacheCommand($host, $port, 'stats cachedump '.$slabId.' '.$limit);
 }
+
 function flushServer($server)
 {
     [$host, $port] = explode(':', $server);
     return sendMemcacheCommand($host, $port, 'flush_all');
 }
+
 function getCacheItems()
 {
     $items = sendMemcacheCommands('stats items');
-    $serverItems = array();
-    $totalItems = array();
+    $serverItems = [];
+    $totalItems = [];
     foreach ($items as $server => $itemlist) {
-        $serverItems[$server] = array();
+        $serverItems[$server] = [];
         $totalItems[$server] = 0;
         if (!isset($itemlist['STAT'])) {
             continue;
@@ -125,114 +130,115 @@ function getCacheItems()
             if (preg_match('/items\:(\d+?)\:(.+?)$/', $keyinfo, $matches)) {
                 $serverItems[$server][$matches[1]][$matches[2]] = $value;
                 if ($matches[2] == 'number') {
-                    $totalItems[$server]+= $value;
+                    $totalItems[$server] += $value;
                 }
             }
         }
     }
-    return array(
+    return [
         'items' => $serverItems,
-        'counts' => $totalItems
-    );
+        'counts' => $totalItems,
+    ];
 }
+
 function getMemcacheStats($total = true)
 {
     $resp = sendMemcacheCommands('stats');
     if ($total) {
-        $res = array();
+        $res = [];
         foreach ($resp as $server => $r) {
             foreach ($r['STAT'] as $key => $row) {
                 if (!isset($res[$key])) {
                     $res[$key] = null;
                 }
                 switch ($key) {
-                case 'pid':
-                    $res['pid'][$server] = $row;
-                    break;
+                    case 'pid':
+                        $res['pid'][$server] = $row;
+                        break;
 
-                case 'uptime':
-                    $res['uptime'][$server] = $row;
-                    break;
+                    case 'uptime':
+                        $res['uptime'][$server] = $row;
+                        break;
 
-                case 'time':
-                    $res['time'][$server] = $row;
-                    break;
+                    case 'time':
+                        $res['time'][$server] = $row;
+                        break;
 
-                case 'version':
-                    $res['version'][$server] = $row;
-                    break;
+                    case 'version':
+                        $res['version'][$server] = $row;
+                        break;
 
-                case 'pointer_size':
-                    $res['pointer_size'][$server] = $row;
-                    break;
+                    case 'pointer_size':
+                        $res['pointer_size'][$server] = $row;
+                        break;
 
-                case 'rusage_user':
-                    $res['rusage_user'][$server] = $row;
-                    break;
+                    case 'rusage_user':
+                        $res['rusage_user'][$server] = $row;
+                        break;
 
-                case 'rusage_system':
-                    $res['rusage_system'][$server] = $row;
-                    break;
+                    case 'rusage_system':
+                        $res['rusage_system'][$server] = $row;
+                        break;
 
-                case 'curr_items':
-                    $res['curr_items']+= $row;
-                    break;
+                    case 'curr_items':
+                        $res['curr_items'] += $row;
+                        break;
 
-                case 'total_items':
-                    $res['total_items']+= $row;
-                    break;
+                    case 'total_items':
+                        $res['total_items'] += $row;
+                        break;
 
-                case 'bytes':
-                    $res['bytes']+= $row;
-                    break;
+                    case 'bytes':
+                        $res['bytes'] += $row;
+                        break;
 
-                case 'curr_connections':
-                    $res['curr_connections']+= $row;
-                    break;
+                    case 'curr_connections':
+                        $res['curr_connections'] += $row;
+                        break;
 
-                case 'total_connections':
-                    $res['total_connections']+= $row;
-                    break;
+                    case 'total_connections':
+                        $res['total_connections'] += $row;
+                        break;
 
-                case 'connection_structures':
-                    $res['connection_structures']+= $row;
-                    break;
+                    case 'connection_structures':
+                        $res['connection_structures'] += $row;
+                        break;
 
-                case 'cmd_get':
-                    $res['cmd_get']+= $row;
-                    break;
+                    case 'cmd_get':
+                        $res['cmd_get'] += $row;
+                        break;
 
-                case 'cmd_set':
-                    $res['cmd_set']+= $row;
-                    break;
+                    case 'cmd_set':
+                        $res['cmd_set'] += $row;
+                        break;
 
-                case 'get_hits':
-                    $res['get_hits']+= $row;
-                    break;
+                    case 'get_hits':
+                        $res['get_hits'] += $row;
+                        break;
 
-                case 'get_misses':
-                    $res['get_misses']+= $row;
-                    break;
+                    case 'get_misses':
+                        $res['get_misses'] += $row;
+                        break;
 
-                case 'evictions':
-                    $res['evictions']+= $row;
-                    break;
+                    case 'evictions':
+                        $res['evictions'] += $row;
+                        break;
 
-                case 'bytes_read':
-                    $res['bytes_read']+= $row;
-                    break;
+                    case 'bytes_read':
+                        $res['bytes_read'] += $row;
+                        break;
 
-                case 'bytes_written':
-                    $res['bytes_written']+= $row;
-                    break;
+                    case 'bytes_written':
+                        $res['bytes_written'] += $row;
+                        break;
 
-                case 'limit_maxbytes':
-                    $res['limit_maxbytes']+= $row;
-                    break;
+                    case 'limit_maxbytes':
+                        $res['limit_maxbytes'] += $row;
+                        break;
 
-                case 'threads':
-                    $res['rusage_system'][$server] = $row;
-                    break;
+                    case 'threads':
+                        $res['rusage_system'][$server] = $row;
+                        break;
                 }
             }
         }
@@ -240,6 +246,7 @@ function getMemcacheStats($total = true)
     }
     return $resp;
 }
+
 //////////////////////////////////////////////////////
 //
 // don't cache this page
@@ -283,34 +290,36 @@ function duration($ts)
     }
     if ($mins == 1) {
         $str .= " 1 minute";
-    }
-    else {
+    } else {
         $str .= " $mins minutes";
     }
     return $str;
 }
+
 // create graphics
 //
 function graphics_avail()
 {
     return extension_loaded('gd');
 }
+
 function bsize($s)
 {
-    foreach (array_keys(array(
+    foreach (array_keys([
         '',
         'K',
         'M',
-        'G'
-    )) as $i) {
+        'G',
+    ]) as $i) {
         if ($s < 1024) {
             break;
         }
 
-        $s/= 1024;
+        $s /= 1024;
     }
     return sprintf("%5.1f %sBytes", $s, $k);
 }
+
 // create menu entry
 function menu_entry($ob, $title)
 {
@@ -320,6 +329,7 @@ function menu_entry($ob, $title)
     }
     return "<li><a class=\"active\" href=\"{$TRINITY20['baseurl']}/staffpanel.php?tool=memcache&amp;op=$ob\">$title</a></li>";
 }
+
 function getHeader()
 {
     global $TRINITY20;
@@ -517,13 +527,15 @@ input {
 <div class=content>
 EOB;
 }
+
 function getFooter()
 {
     global $VERSION;
-    return '</div></div><!-- Based on apc.php ' . $VERSION . '--></body>
+    return '</div></div><!-- Based on apc.php '.$VERSION.'--></body>
 </html>
 ';
 }
+
 function getMenu()
 {
     global $PHP_SELF, $TRINITY20;
@@ -532,20 +544,21 @@ function getMenu()
         echo <<<EOB
     <li><a href="{$TRINITY20['baseurl']}/staffpanel.php?tool=memcache&amp;op={$_GET['op']}">Refresh Data</a></li>
 EOB;
-        
+
     } else {
         echo <<<EOB
     <li><a href="{$TRINITY20['baseurl']}/staffpanel.php?tool=memcache&amp;op=2">Back</a></li>
 EOB;
-        
+
     }
-    echo menu_entry(1, 'View Host Stats') , menu_entry(2, 'Variables');
+    echo menu_entry(1, 'View Host Stats'), menu_entry(2, 'Variables');
     echo <<<EOB
 	</ol>
 	<br/>
 EOB;
-    
+
 }
+
 // TODO, AUTH
 $_GET['op'] ??= '1';
 $PHP_SELF = isset($_SERVER['PHP_SELF']) ? htmlentities(strip_tags($_SERVER['PHP_SELF'], '')) : '';
@@ -558,9 +571,9 @@ foreach ($_GET as $key => $g) {
 // singleout
 // when singleout is set, it only gives details for that server.
 if (isset($_GET['singleout']) && $_GET['singleout'] >= 0 && $_GET['singleout'] < (is_countable($MEMCACHE_SERVERS) ? count($MEMCACHE_SERVERS) : 0)) {
-    $MEMCACHE_SERVERS = array(
-        $MEMCACHE_SERVERS[$_GET['singleout']]
-    );
+    $MEMCACHE_SERVERS = [
+        $MEMCACHE_SERVERS[$_GET['singleout']],
+    ];
 }
 // display images
 if (isset($_GET['IMG'])) {
@@ -577,8 +590,7 @@ if (isset($_GET['IMG'])) {
         imagerectangle($im, $x, $y1, $x1 + 1, $y + 1, $col_black);
         if ($y1 > $y) {
             imagefilledrectangle($im, $x, $y, $x1, $y1, $color2);
-        }
-        else {
+        } else {
             imagefilledrectangle($im, $x, $y1, $x1, $y, $color2);
         }
         imagerectangle($im, $x, $y1, $x1, $y, $color1);
@@ -595,7 +607,7 @@ if (isset($_GET['IMG'])) {
                         $px = $x + 40 * 2;
                         $py = ($placeindex - 15) * 12 + 6;
                     } else {
-                        $px = $x + 40 * 2 + 100 * (int) (($placeindex - 15) / 15);
+                        $px = $x + 40 * 2 + 100 * (int)(($placeindex - 15) / 15);
                         $py = ($placeindex % 15) * 12 + 6;
                     }
                     imagefilledrectangle($im, $px, $py + 3, $px - 4, $py - 3, $color2);
@@ -607,6 +619,7 @@ if (isset($_GET['IMG'])) {
             }
         }
     }
+
     function fill_arc($im, $centerX, $centerY, $diameter, $start, $end, $color1, $color2, $text = '', $placeindex = 0)
     {
         $r = $diameter / 2;
@@ -633,6 +646,7 @@ if (isset($_GET['IMG'])) {
             }
         }
     }
+
     $size = GRAPH_SIZE; // image size
     $image = imagecreate($size + 50, $size + 10);
     $col_white = imagecolorallocate($image, 0xFF, 0xFF, 0xFF);
@@ -641,39 +655,40 @@ if (isset($_GET['IMG'])) {
     $col_black = imagecolorallocate($image, 0, 0, 0);
     imagecolortransparent($image, $col_white);
     switch ($_GET['IMG']) {
-    case 1: // pie chart
-        $tsize = $memcacheStats['limit_maxbytes'];
-        $avail = $tsize - $memcacheStats['bytes'];
-        $x = $y = $size / 2;
-        $angle_from = 0;
-        $fuzz = 0.000001;
-        foreach ($memcacheStatsSingle as $serv => $mcs) {
-            $free = $mcs['STAT']['limit_maxbytes'] - $mcs['STAT']['bytes'];
-            $used = $mcs['STAT']['bytes'];
-            if ($free > 0) {
-                // draw free
-                $angle_to = ($free * 360) / $tsize;
-                $perc = sprintf("%.2f%%", ($free * 100) / $tsize);
-                fill_arc($image, $x, $y, $size, $angle_from, $angle_from + $angle_to, $col_black, $col_green, $perc);
-                $angle_from += $angle_to;
+        case 1: // pie chart
+            $tsize = $memcacheStats['limit_maxbytes'];
+            $avail = $tsize - $memcacheStats['bytes'];
+            $x = $y = $size / 2;
+            $angle_from = 0;
+            $fuzz = 0.000001;
+            foreach ($memcacheStatsSingle as $serv => $mcs) {
+                $free = $mcs['STAT']['limit_maxbytes'] - $mcs['STAT']['bytes'];
+                $used = $mcs['STAT']['bytes'];
+                if ($free > 0) {
+                    // draw free
+                    $angle_to = ($free * 360) / $tsize;
+                    $perc = sprintf("%.2f%%", ($free * 100) / $tsize);
+                    fill_arc($image, $x, $y, $size, $angle_from, $angle_from + $angle_to, $col_black, $col_green, $perc);
+                    $angle_from += $angle_to;
+                }
+                if ($used > 0) {
+                    // draw used
+                    $angle_to = ($used * 360) / $tsize;
+                    $perc = sprintf("%.2f%%", ($used * 100) / $tsize);
+                    fill_arc($image, $x, $y, $size, $angle_from, $angle_from + $angle_to, $col_black, $col_red, '('.$perc.')');
+                    $angle_from += $angle_to;
+                }
             }
-            if ($used > 0) {
-                // draw used
-                $angle_to = ($used * 360) / $tsize;
-                $perc = sprintf("%.2f%%", ($used * 100) / $tsize);
-                fill_arc($image, $x, $y, $size, $angle_from, $angle_from + $angle_to, $col_black, $col_red, '(' . $perc . ')');
-                $angle_from += $angle_to;
-            }
-        }
-        break;
+            break;
 
-    case 2: // hit miss
-        $hits = ($memcacheStats['get_hits'] == 0) ? 1 : $memcacheStats['get_hits'];
-        $misses = ($memcacheStats['get_misses'] == 0) ? 1 : $memcacheStats['get_misses'];
-        $total = $hits + $misses;
-        fill_box($image, 30, $size, 50, -$hits * ($size - 21) / $total, $col_black, $col_green, sprintf("%.1f%%", $hits * 100 / $total));
-        fill_box($image, 130, $size, 50, -max(4, ($total - $hits) * ($size - 21) / $total) , $col_black, $col_red, sprintf("%.1f%%", $misses * 100 / $total));
-        break;
+        case 2: // hit miss
+            $hits = ($memcacheStats['get_hits'] == 0) ? 1 : $memcacheStats['get_hits'];
+            $misses = ($memcacheStats['get_misses'] == 0) ? 1 : $memcacheStats['get_misses'];
+            $total = $hits + $misses;
+            fill_box($image, 30, $size, 50, -$hits * ($size - 21) / $total, $col_black, $col_green, sprintf("%.1f%%", $hits * 100 / $total));
+            fill_box($image, 130, $size, 50, -max(4, ($total - $hits) * ($size - 21) / $total), $col_black, $col_red,
+                sprintf("%.1f%%", $misses * 100 / $total));
+            break;
     }
     header("Content-type: image/png");
     imagepng($image);
@@ -682,73 +697,79 @@ if (isset($_GET['IMG'])) {
 echo getHeader();
 echo getMenu();
 switch ($_GET['op']) {
-case 1: // host stats
-    $phpversion = phpversion();
-    $memcacheStats = getMemcacheStats();
-    $memcacheStatsSingle = getMemcacheStats(false);
-    $mem_size = $memcacheStats['limit_maxbytes'];
-    $mem_used = $memcacheStats['bytes'];
-    $mem_avail = $mem_size - $mem_used;
-    $startTime = time() - array_sum($memcacheStats['uptime']);
-    $curr_items = $memcacheStats['curr_items'];
-    $total_items = $memcacheStats['total_items'];
-    $hits = ($memcacheStats['get_hits'] == 0) ? 1 : $memcacheStats['get_hits'];
-    $misses = ($memcacheStats['get_misses'] == 0) ? 1 : $memcacheStats['get_misses'];
-    $sets = $memcacheStats['cmd_set'];
-    $req_rate = sprintf("%.2f", ($hits + $misses) / ($time - $startTime));
-    $hit_rate = sprintf("%.2f", ($hits) / ($time - $startTime));
-    $miss_rate = sprintf("%.2f", ($misses) / ($time - $startTime));
-    $set_rate = sprintf("%.2f", ($sets) / ($time - $startTime));
-    echo <<< EOB
+    case 1: // host stats
+        $phpversion = phpversion();
+        $memcacheStats = getMemcacheStats();
+        $memcacheStatsSingle = getMemcacheStats(false);
+        $mem_size = $memcacheStats['limit_maxbytes'];
+        $mem_used = $memcacheStats['bytes'];
+        $mem_avail = $mem_size - $mem_used;
+        $startTime = time() - array_sum($memcacheStats['uptime']);
+        $curr_items = $memcacheStats['curr_items'];
+        $total_items = $memcacheStats['total_items'];
+        $hits = ($memcacheStats['get_hits'] == 0) ? 1 : $memcacheStats['get_hits'];
+        $misses = ($memcacheStats['get_misses'] == 0) ? 1 : $memcacheStats['get_misses'];
+        $sets = $memcacheStats['cmd_set'];
+        $req_rate = sprintf("%.2f", ($hits + $misses) / ($time - $startTime));
+        $hit_rate = sprintf("%.2f", ($hits) / ($time - $startTime));
+        $miss_rate = sprintf("%.2f", ($misses) / ($time - $startTime));
+        $set_rate = sprintf("%.2f", ($sets) / ($time - $startTime));
+        echo <<< EOB
 		<div class="info div1"><h2>General Cache Information</h2>
 		<table cellspacing="0"><tbody>
 		<tr class="tr-1"><td class="td-0">PHP Version</td><td>$phpversion</td></tr>
 EOB;
-    echo "<tr class='tr-0'><td class='td-0'>Memcached Host" . (((is_countable($MEMCACHE_SERVERS) ? count($MEMCACHE_SERVERS) : 0) > 1) ? 's' : '') . "</td><td>";
-    $i = 0;
-    if (!isset($_GET['singleout']) && (is_countable($MEMCACHE_SERVERS) ? count($MEMCACHE_SERVERS) : 0) > 1) {
-        foreach ($MEMCACHE_SERVERS as $server) {
-            echo ($i + 1) . '. <a href="' . $TRINITY20['baseurl'] . '/staffpanel.php?tool=memcache&amp;singleout=' . $i++ . '">' . $server . '</a><br/>';
+        echo "<tr class='tr-0'><td class='td-0'>Memcached Host".(((is_countable($MEMCACHE_SERVERS) ? count($MEMCACHE_SERVERS) : 0) > 1) ? 's' : '')."</td><td>";
+        $i = 0;
+        if (!isset($_GET['singleout']) && (is_countable($MEMCACHE_SERVERS) ? count($MEMCACHE_SERVERS) : 0) > 1) {
+            foreach ($MEMCACHE_SERVERS as $server) {
+                echo ($i + 1).'. <a href="'.$TRINITY20['baseurl'].'/staffpanel.php?tool=memcache&amp;singleout='.$i++.'">'.$server.'</a><br/>';
+            }
+        } else {
+            echo '1.'.$MEMCACHE_SERVERS[0];
         }
-    } else {
-        echo '1.' . $MEMCACHE_SERVERS[0];
-    }
-    if (isset($_GET['singleout'])) {
-        echo '<a href="' . $TRINITY20['baseurl'] . '/staffpanel.php?tool=memcache">(all servers)</a><br/>';
-    }
-    echo "</td></tr>\n";
-    echo "<tr class='tr-1'><td class='td-0'>Total Memcache Cache</td><td>" . bsize($memcacheStats['limit_maxbytes']) . "</td></tr>\n";
-    echo <<<EOB
+        if (isset($_GET['singleout'])) {
+            echo '<a href="'.$TRINITY20['baseurl'].'/staffpanel.php?tool=memcache">(all servers)</a><br/>';
+        }
+        echo "</td></tr>\n";
+        echo "<tr class='tr-1'><td class='td-0'>Total Memcache Cache</td><td>".bsize($memcacheStats['limit_maxbytes'])."</td></tr>\n";
+        echo <<<EOB
 		</tbody></table>
 		</div>
 
 		<div class="info div1"><h2>Memcache Server Information</h2>
 EOB;
-    foreach ($MEMCACHE_SERVERS as $server) {
-        echo '<table cellspacing="0"><tbody>';
-        echo '<tr class="tr-1"><td class="td-1">' . $server . '</td><td><a href="' . $TRINITY20['baseurl'] . '/staffpanel.php?tool=memcache&amp;server=' . array_search($server, $MEMCACHE_SERVERS) . '&amp;op=6">[<b>Flush this server</b>]</a></td></tr>';
-        echo '<tr class="tr-0"><td class="td-0">Start Time</td><td>', date(DATE_FORMAT, $memcacheStatsSingle[$server]['STAT']['time'] - $memcacheStatsSingle[$server]['STAT']['uptime']) , '</td></tr>';
-        echo '<tr class="tr-1"><td class="td-0">Uptime</td><td>', duration($memcacheStatsSingle[$server]['STAT']['time'] - $memcacheStatsSingle[$server]['STAT']['uptime']) , '</td></tr>';
-        echo '<tr class="tr-0"><td class="td-0">Memcached Server Version</td><td>' . $memcacheStatsSingle[$server]['STAT']['version'] . '</td></tr>';
-        echo '<tr class="tr-1"><td class="td-0">Used Cache Size</td><td>', bsize($memcacheStatsSingle[$server]['STAT']['bytes']) , '</td></tr>';
-        echo '<tr class="tr-0"><td class="td-0">Total Cache Size</td><td>', bsize($memcacheStatsSingle[$server]['STAT']['limit_maxbytes']) , '</td></tr>';
-        echo '</tbody></table>';
-    }
-    echo <<<EOB
+        foreach ($MEMCACHE_SERVERS as $server) {
+            echo '<table cellspacing="0"><tbody>';
+            echo '<tr class="tr-1"><td class="td-1">'.$server.'</td><td><a href="'.$TRINITY20['baseurl'].'/staffpanel.php?tool=memcache&amp;server='.array_search($server,
+                    $MEMCACHE_SERVERS).'&amp;op=6">[<b>Flush this server</b>]</a></td></tr>';
+            echo '<tr class="tr-0"><td class="td-0">Start Time</td><td>', date(DATE_FORMAT,
+                $memcacheStatsSingle[$server]['STAT']['time'] - $memcacheStatsSingle[$server]['STAT']['uptime']), '</td></tr>';
+            echo '<tr class="tr-1"><td class="td-0">Uptime</td><td>', duration($memcacheStatsSingle[$server]['STAT']['time'] - $memcacheStatsSingle[$server]['STAT']['uptime']), '</td></tr>';
+            echo '<tr class="tr-0"><td class="td-0">Memcached Server Version</td><td>'.$memcacheStatsSingle[$server]['STAT']['version'].'</td></tr>';
+            echo '<tr class="tr-1"><td class="td-0">Used Cache Size</td><td>', bsize($memcacheStatsSingle[$server]['STAT']['bytes']), '</td></tr>';
+            echo '<tr class="tr-0"><td class="td-0">Total Cache Size</td><td>', bsize($memcacheStatsSingle[$server]['STAT']['limit_maxbytes']), '</td></tr>';
+            echo '</tbody></table>';
+        }
+        echo <<<EOB
 
 		</div>
 		<div class="graph div3"><h2>Host Status Diagrams</h2>
 		<table cellspacing="0"><tbody>
 EOB;
-    $size = 'width=' . (GRAPH_SIZE + 50) . ' height=' . (GRAPH_SIZE + 10);
-    echo <<<EOB
+        $size = 'width='.(GRAPH_SIZE + 50).' height='.(GRAPH_SIZE + 10);
+        echo <<<EOB
 		<tr>
 		<td class="td-0">Cache Usage</td>
 		<td class="td-1">Hits &amp; Misses</td>
 		</tr>
 EOB;
-    echo graphics_avail() ? '<tr>' . "<td class='td-0'><img alt=\"\" $size src=\"{$TRINITY20['baseurl']}/staffpanel.php?tool=memcache&amp;IMG=1&amp;" . (isset($_GET['singleout']) ? 'singleout=' . $_GET['singleout'] . '&amp;' : '') . "$time\"></td>" . "<td class='td-1'><img alt=\"\" $size src=\"{$TRINITY20['baseurl']}/staffpanel.php?tool=memcache&amp;IMG=2&amp;" . (isset($_GET['singleout']) ? 'singleout=' . $_GET['singleout'] . '&amp;' : '') . "$time\"></td></tr>\n" : "", '<tr>', '<td class="td-0"><span class="green box">&nbsp;</span>Free: ', bsize($mem_avail) . sprintf(" (%.1f%%)", $mem_avail * 100 / $mem_size) , "</td>\n", '<td class="td-1"><span class="green box">&nbsp;</span>Hits: ', $hits . sprintf(" (%.1f%%)", $hits * 100 / ($hits + $misses)) , "</td>\n", '</tr>', '<tr>', '<td class="td-0"><span class="red box">&nbsp;</span>Used: ', bsize($mem_used) . sprintf(" (%.1f%%)", $mem_used * 100 / $mem_size) , "</td>\n", '<td class="td-1"><span class="red box">&nbsp;</span>Misses: ', $misses . sprintf(" (%.1f%%)", $misses * 100 / ($hits + $misses)) , "</td>\n";
-    echo <<< EOB
+        echo graphics_avail() ? '<tr>'."<td class='td-0'><img alt=\"\" $size src=\"{$TRINITY20['baseurl']}/staffpanel.php?tool=memcache&amp;IMG=1&amp;".(isset($_GET['singleout']) ? 'singleout='.$_GET['singleout'].'&amp;' : '')."$time\"></td>"."<td class='td-1'><img alt=\"\" $size src=\"{$TRINITY20['baseurl']}/staffpanel.php?tool=memcache&amp;IMG=2&amp;".(isset($_GET['singleout']) ? 'singleout='.$_GET['singleout'].'&amp;' : '')."$time\"></td></tr>\n" : "", '<tr>', '<td class="td-0"><span class="green box">&nbsp;</span>Free: ', bsize($mem_avail).sprintf(" (%.1f%%)",
+                $mem_avail * 100 / $mem_size), "</td>\n", '<td class="td-1"><span class="green box">&nbsp;</span>Hits: ', $hits.sprintf(" (%.1f%%)",
+                $hits * 100 / ($hits + $misses)), "</td>\n", '</tr>', '<tr>', '<td class="td-0"><span class="red box">&nbsp;</span>Used: ', bsize($mem_used).sprintf(" (%.1f%%)",
+                $mem_used * 100 / $mem_size), "</td>\n", '<td class="td-1"><span class="red box">&nbsp;</span>Misses: ', $misses.sprintf(" (%.1f%%)",
+                $misses * 100 / ($hits + $misses)), "</td>\n";
+        echo <<< EOB
 	</tr>
 	</tbody></table>
 <br/>
@@ -765,92 +786,96 @@ EOB;
 		</div>
 
 EOB;
-    break;
+        break;
 
-case 2: // variables
-    $m = 0;
-    $cacheItems = getCacheItems();
-    $items = $cacheItems['items'];
-    $totals = $cacheItems['counts'];
-    $maxDump = MAX_ITEM_DUMP;
-    foreach ($items as $server => $entries) {
-        echo <<< EOB
+    case 2: // variables
+        $m = 0;
+        $cacheItems = getCacheItems();
+        $items = $cacheItems['items'];
+        $totals = $cacheItems['counts'];
+        $maxDump = MAX_ITEM_DUMP;
+        foreach ($items as $server => $entries) {
+            echo <<< EOB
 
 			<div class="info"><table cellspacing="0"><tbody>
 			<tr><th colspan="2">$server</th></tr>
 			<tr><th>Slab Id</th><th>Info</th></tr>
 EOB;
-        foreach ($entries as $slabId => $slab) {
-            $dumpUrl = $TRINITY20['baseurl'] . '/staffpanel.php?tool=memcache&amp;op=2&amp;server=' . (array_search($server, $MEMCACHE_SERVERS)) . '&amp;dumpslab=' . $slabId;
-            echo "<tr class='tr-$m'>", "<td class='td-0'><center>", '<a href="', $dumpUrl, '">', $slabId, '</a>', "</center></td>", "<td class='td-last'><b>Item count:</b> ", $slab['number'], '<br/><b>Age:</b>', duration($time - $slab['age']) , '<br/> <b>Evicted:</b>', ((isset($slab['evicted']) && $slab['evicted'] == 1) ? 'Yes' : 'No');
-            if ((isset($_GET['dumpslab']) && $_GET['dumpslab'] == $slabId) && (isset($_GET['server']) && $_GET['server'] == array_search($server, $MEMCACHE_SERVERS))) {
-                echo "<br/><b>Items: item</b><br/>";
-                $items = dumpCacheSlab($server, $slabId, $slab['number']);
-                // maybe someone likes to do a pagination here :)
-                $i = 1;
-                foreach ($items['ITEM'] as $itemKey => $itemInfo) {
-                    $itemInfo = trim($itemInfo, '[ ]');
-                    echo '<a href="', $TRINITY20['baseurl'], '/staffpanel.php?tool=memcache&amp;op=4&amp;server=', (array_search($server, $MEMCACHE_SERVERS)) , '&amp;key=', base64_encode($itemKey) . '">', $itemKey, '</a>';
-                    if ($i++ % 10 == 0) {
-                        echo '<br/>';
-                    } elseif ($i != $slab['number'] + 1) {
-                        echo ',';
+            foreach ($entries as $slabId => $slab) {
+                $dumpUrl = $TRINITY20['baseurl'].'/staffpanel.php?tool=memcache&amp;op=2&amp;server='.(array_search($server,
+                        $MEMCACHE_SERVERS)).'&amp;dumpslab='.$slabId;
+                echo "<tr class='tr-$m'>", "<td class='td-0'><center>", '<a href="', $dumpUrl, '">', $slabId, '</a>', "</center></td>", "<td class='td-last'><b>Item count:</b> ", $slab['number'], '<br/><b>Age:</b>', duration($time - $slab['age']), '<br/> <b>Evicted:</b>', ((isset($slab['evicted']) && $slab['evicted'] == 1) ? 'Yes' : 'No');
+                if ((isset($_GET['dumpslab']) && $_GET['dumpslab'] == $slabId) && (isset($_GET['server']) && $_GET['server'] == array_search($server,
+                            $MEMCACHE_SERVERS))) {
+                    echo "<br/><b>Items: item</b><br/>";
+                    $items = dumpCacheSlab($server, $slabId, $slab['number']);
+                    // maybe someone likes to do a pagination here :)
+                    $i = 1;
+                    foreach ($items['ITEM'] as $itemKey => $itemInfo) {
+                        $itemInfo = trim($itemInfo, '[ ]');
+                        echo '<a href="', $TRINITY20['baseurl'], '/staffpanel.php?tool=memcache&amp;op=4&amp;server=', (array_search($server,
+                            $MEMCACHE_SERVERS)), '&amp;key=', base64_encode($itemKey).'">', $itemKey, '</a>';
+                        if ($i++ % 10 == 0) {
+                            echo '<br/>';
+                        } elseif ($i != $slab['number'] + 1) {
+                            echo ',';
+                        }
                     }
                 }
+                echo "</td></tr>";
+                $m = 1 - $m;
             }
-            echo "</td></tr>";
-            $m = 1 - $m;
+            echo <<<EOB
+			</tbody></table>
+			</div><hr/>
+EOB;
+
         }
+        break;
+
+        break;
+
+    case 4: //item dump
+        if (!isset($_GET['key']) || !isset($_GET['server'])) {
+            echo "No key set!";
+            break;
+        }
+        // I'm not doing anything to check the validity of the key string.
+        // probably an exploit can be written to delete all the files in key=base64_encode("\n\r delete all").
+        // somebody has to do a fix to this.
+        $theKey = htmlentities(base64_decode($_GET['key']));
+        $theserver = $MEMCACHE_SERVERS[(int)$_GET['server']];
+        [$h, $p] = explode(':', $theserver);
+        $r = sendMemcacheCommand($h, $p, 'get '.$theKey);
+        echo <<<EOB
+        <div class="info"><table cellspacing="0"><tbody>
+			<tr><th>Server<th>Key</th><th>Value</th><th>Delete</th></tr>
+EOB;
+        echo "<tr><td class='td-0'>", $theserver, "</td><td class='td-0'>", $theKey, " <br/>flag:", $r['VALUE'][$theKey]['stat']['flag'], " <br/>Size:", bsize($r['VALUE'][$theKey]['stat']['size']), "</td><td>", chunk_split($r['VALUE'][$theKey]['value'],
+            40), "</td>", '<td><a href="', $TRINITY20['baseurl'], '/staffpanel.php?tool=memcache&op=5&server=', (int)$_GET['server'], '&key=', base64_encode($theKey), "\">Delete</a></td>", "</tr>";
         echo <<<EOB
 			</tbody></table>
 			</div><hr/>
 EOB;
-        
-    }
-    break;
-
-    break;
-
-case 4: //item dump
-    if (!isset($_GET['key']) || !isset($_GET['server'])) {
-        echo "No key set!";
         break;
-    }
-    // I'm not doing anything to check the validity of the key string.
-    // probably an exploit can be written to delete all the files in key=base64_encode("\n\r delete all").
-    // somebody has to do a fix to this.
-    $theKey = htmlentities(base64_decode($_GET['key']));
-    $theserver = $MEMCACHE_SERVERS[(int)$_GET['server']];
-    [$h, $p] = explode(':', $theserver);
-    $r = sendMemcacheCommand($h, $p, 'get ' . $theKey);
-    echo <<<EOB
-        <div class="info"><table cellspacing="0"><tbody>
-			<tr><th>Server<th>Key</th><th>Value</th><th>Delete</th></tr>
-EOB;
-    echo "<tr><td class='td-0'>", $theserver, "</td><td class='td-0'>", $theKey, " <br/>flag:", $r['VALUE'][$theKey]['stat']['flag'], " <br/>Size:", bsize($r['VALUE'][$theKey]['stat']['size']) , "</td><td>", chunk_split($r['VALUE'][$theKey]['value'], 40) , "</td>", '<td><a href="', $TRINITY20['baseurl'], '/staffpanel.php?tool=memcache&op=5&server=', (int)$_GET['server'], '&key=', base64_encode($theKey) , "\">Delete</a></td>", "</tr>";
-    echo <<<EOB
-			</tbody></table>
-			</div><hr/>
-EOB;
-    break;
 
-case 5: // item delete
-    if (!isset($_GET['key']) || !isset($_GET['server'])) {
-        echo "No key set!";
+    case 5: // item delete
+        if (!isset($_GET['key']) || !isset($_GET['server'])) {
+            echo "No key set!";
+            break;
+        }
+        $theKey = htmlentities(base64_decode($_GET['key']));
+        $theserver = $MEMCACHE_SERVERS[(int)$_GET['server']];
+        [$h, $p] = explode(':', $theserver);
+        $r = sendMemcacheCommand($h, $p, 'delete '.$theKey);
+        echo 'Deleting '.$theKey.':'.$r;
         break;
-    }
-    $theKey = htmlentities(base64_decode($_GET['key']));
-    $theserver = $MEMCACHE_SERVERS[(int)$_GET['server']];
-    [$h, $p] = explode(':', $theserver);
-    $r = sendMemcacheCommand($h, $p, 'delete ' . $theKey);
-    echo 'Deleting ' . $theKey . ':' . $r;
-    break;
 
-case 6: // flush server
-    $theserver = $MEMCACHE_SERVERS[(int)$_GET['server']];
-    $r = flushServer($theserver);
-    echo 'Flush  ' . $theserver . ":" . $r;
-    break;
+    case 6: // flush server
+        $theserver = $MEMCACHE_SERVERS[(int)$_GET['server']];
+        $r = flushServer($theserver);
+        echo 'Flush  '.$theserver.":".$r;
+        break;
 }
 echo getFooter();
 ?>

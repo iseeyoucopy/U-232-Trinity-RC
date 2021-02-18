@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //snatchtable
     'snatches_username' => "Pseudo",
     'snatches_connectable' => "Connectable",
@@ -28,6 +28,6 @@ $lang = array(
     'snatches_port' => "Port",
     'snatches_announced' => "Annoncé",
     'snatches_anon' => "Keyzer Soze",
-    'snatches_unknown' => "Inconnu"
-);
+    'snatches_unknown' => "Inconnu",
+];
 ?>

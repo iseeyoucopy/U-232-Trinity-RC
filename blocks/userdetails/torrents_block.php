@@ -20,11 +20,11 @@
     FROM torrents t 
     LEFT JOIN categories c 
     ON t.category = c.id 
-    WHERE t.owner = " . sqlesc($id) . " 
+    WHERE t.owner = ".sqlesc($id)." 
     ORDER BY t.name")) || sqlerr(__FILE__, __LINE__);
-    if ($r->num_rows > 0) {
+if ($r->num_rows > 0) {
     $torrents = '';
-    $torrents.= '<div class="divTable">'.'
+    $torrents .= '<div class="divTable">'.'
         <div class="divTableHeading">'.'  
                 <div class="divTableCell">'.$lang['userdetails_type'].'</div>
                 <div class="divTableCell">'.$lang['userdetails_name'].'</div>
@@ -32,22 +32,22 @@
                 <div class="divTableCell">'.$lang['userdetails_leechers'].'</div>
                 <div class="divTableCell">Edit</div>
         </div>';
-        while ($a = $r->fetch_assoc()) {
-        $cat = "<img src={$TRINITY20['pic_base_url']}/caticons/{$CURUSER['categorie_icon']}/" . htmlsafechars($a['image']) . " title=" . htmlsafechars($a['cname']) . " alt=" . htmlsafechars($a['cname']) . ">";
-        $torrents.= '
+    while ($a = $r->fetch_assoc()) {
+        $cat = "<img src={$TRINITY20['pic_base_url']}/caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($a['image'])." title=".htmlsafechars($a['cname'])." alt=".htmlsafechars($a['cname']).">";
+        $torrents .= '
         <div class="divTableBody">
             <div class="divTableRow">
                 <div class="divTableCell">'.$cat.'</div>
-                <div class="divTableCell"><a href="details.php?id=' . (int)$a['id'] . '&amp;hit=1"><strong>' . htmlsafechars($a['name']) . '</strong></a></div>
+                <div class="divTableCell"><a href="details.php?id='.(int)$a['id'].'&amp;hit=1"><strong>'.htmlsafechars($a['name']).'</strong></a></div>
                 <div class="divTableCell">'.(int)$a['seeders'].'</div>
                 <div class="divTableCell">'.(int)$a['leechers'].'</div>';
-                if (($CURUSER["id"] != $id && $CURUSER["class"] < UC_STAFF)) {
-                    $torrents.= '<div class="divTableCell"><a href="edit.php?id=' . (int)$a['id'] . '"><i class="fas fa-edit" title="edit"></i></a></div>.';
-                }
-            $torrents.= '</div>
+        if (($CURUSER["id"] != $id && $CURUSER["class"] < UC_STAFF)) {
+            $torrents .= '<div class="divTableCell"><a href="edit.php?id='.(int)$a['id'].'"><i class="fas fa-edit" title="edit"></i></a></div>.';
+        }
+        $torrents .= '</div>
         </div>';
-        } 
-        $torrents.= '</div>';
+    }
+    $torrents .= '</div>';
 }
 if (XBT_TRACKER == true) {
     ($res_tb = sql_query("SELECT 
@@ -69,12 +69,11 @@ if (XBT_TRACKER == true) {
                         ON x.tid = t.id 
                         LEFT JOIN categories c 
                         ON t.category = c.id 
-                        WHERE x.uid=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
+                        WHERE x.uid=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     while ($arr = $res_tb->fetch_assoc()) {
         if ($arr['left'] == '0') {
             $seeding[] = $arr;
-        }
-        else {
+        } else {
             $leeching[] = $arr;
         }
     }
@@ -96,12 +95,11 @@ if (XBT_TRACKER == true) {
                 ON p.torrent = t.id 
                 LEFT JOIN categories c 
                 ON t.category = c.id 
-                WHERE p.userid=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
+                WHERE p.userid=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     while ($arr = $res_tb->fetch_assoc()) {
         if ($arr['seeder'] == 'yes') {
             $seeding[] = $arr;
-        }
-        else {
+        } else {
             $leeching[] = $arr;
         }
     }
@@ -114,7 +112,7 @@ function maketable($res_tb)
     foreach ($res_tb as $arr) {
         if ($arr["downloaded"] > 0) {
             $ratio = number_format($arr["uploaded"] / $arr["downloaded"], 3);
-            $ratio = "<font color='" . get_ratio_color($ratio) . "'>$ratio</font>";
+            $ratio = "<font color='".get_ratio_color($ratio)."'>$ratio</font>";
         } elseif ($arr["uploaded"] > 0) {
             $ratio = "{$lang['userdetails_inf']}";
         } else {
@@ -122,14 +120,14 @@ function maketable($res_tb)
         }
         $catimage = "{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$arr['image']}";
         $catname = "&nbsp;&nbsp;".htmlsafechars($arr["catname"]);
-        $catimage = "<img src=\"" . htmlsafechars($catimage) . "\" title=\"$catname\" alt=\"$catname\" width='42' height='42' />";
+        $catimage = "<img src=\"".htmlsafechars($catimage)."\" title=\"$catname\" alt=\"$catname\" width='42' height='42' />";
         $size = str_replace(" ", "<br />", mksize($arr["size"]));
         $uploaded = str_replace(" ", "<br />", mksize($arr["uploaded"]));
         $downloaded = str_replace(" ", "<br />", mksize($arr["downloaded"]));
         $seeders = number_format($arr["seeders"]);
         $leechers = number_format($arr["leechers"]);
         $XBT_or_PHP = (XBT_TRACKER == true ? $arr['tid'] : $arr['torrent']);
-        $htmlout.= '
+        $htmlout .= '
         <div class="divTable">'.'
             <div class="divTableHeading">'.'  
                 <div class="divTableCell">'.$lang['userdetails_type'].'</div>
@@ -138,18 +136,18 @@ function maketable($res_tb)
                 <div class="divTableCell">'.$lang['userdetails_se'].'</div>
                 <div class="divTableCell">'.$lang['userdetails_le'].'</div>
                 <div class="divTableCell">'.$lang['userdetails_upl'].'</div>
-                <div class="divTableCell">' . ($TRINITY20['ratio_free'] ? "" : $lang['userdetails_downl']) . ' </div>
+                <div class="divTableCell">'.($TRINITY20['ratio_free'] ? "" : $lang['userdetails_downl']).' </div>
                 <div class="divTableCell">'.$lang['userdetails_ratio'].'</div>
             </div>
             <div class="divTableBody">
                 <div class="divTableRow">
                     <div class="divTableCell">'.$catimage.'</div>
-                    <div class="divTableCell"><a href="details.php?id=' . (int)$XBT_or_PHP . '&amp;hit=1"><b>' . htmlsafechars($arr['torrentname']) . '</b></a>
+                    <div class="divTableCell"><a href="details.php?id='.(int)$XBT_or_PHP.'&amp;hit=1"><b>'.htmlsafechars($arr['torrentname']).'</b></a>
                     <div class="divTableCell">'.$size.'</div>
                     <div class="divTableCell">'.$seeders.'</div>
                     <div class="divTableCell">'.$leechers.'</div>
                     <div class="divTableCell">'.$uploaded.'</div>
-                    <div class="divTableCell">' . ($TRINITY20['ratio_free'] ? "" : $downloaded) . '</div>
+                    <div class="divTableCell">'.($TRINITY20['ratio_free'] ? "" : $downloaded).'</div>
                     <div class="divTableCell">'.$ratio.'</div>
                 </div>
             </div>
@@ -157,6 +155,7 @@ function maketable($res_tb)
     }
     return $htmlout;
 }
+
 if ($user['opt1'] & user_options::HIDECUR || $CURUSER['id'] == $id || $CURUSER['class'] >= UC_STAFF) {
     if (isset($torrents)) {
         $HTMLOUT .= '<div class="reveal" id="uploadedt" data-reveal>'.$torrents.'

@@ -17,7 +17,7 @@ function docleanup($data)
     ignore_user_abort(1);
     do {
         $res = sql_query("SELECT id FROM torrents");
-        $ar = array();
+        $ar = [];
         while ($row = $res->fetch_array(MYSQLI_NUM)) {
             $id = $row[0];
             $ar[$id] = 1;
@@ -31,7 +31,7 @@ function docleanup($data)
             break;
         }
 
-        $ar2 = array();
+        $ar2 = [];
         while (($file = readdir($dp)) !== false) {
             if (!preg_match('/^(\d+)\.torrent$/', $file, $m)) {
                 continue;
@@ -41,7 +41,7 @@ function docleanup($data)
             if (isset($ar[$id]) && $ar[$id]) {
                 continue;
             }
-            $ff = $TRINITY20['torrent_dir'] . "/$file";
+            $ff = $TRINITY20['torrent_dir']."/$file";
             unlink($ff);
         }
         closedir($dp);
@@ -49,7 +49,7 @@ function docleanup($data)
             break;
         }
 
-        $delids = array();
+        $delids = [];
         foreach (array_keys($ar) as $k) {
             if (isset($ar2[$k]) && $ar2[$k]) {
                 continue;
@@ -66,16 +66,16 @@ function docleanup($data)
                   OR x.tid IN ($ids) 
                   OR t.id IN ($ids)");
         }
-    }
-    while (0);
+    } while (0);
     if ($queries > 0) {
         write_log("XBT Normalize clean-------------------- XBT Normalize cleanup Complete using $queries queries --------------------");
     }
     if (false !== $mysqli->affected_rows) {
-        $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
+        $data['clean_desc'] = $mysqli->affected_rows." items deleted/updated";
     }
     if ($data['clean_log']) {
         cleanup_log($data);
     }
 }
+
 ?>

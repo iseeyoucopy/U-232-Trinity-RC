@@ -1,8 +1,8 @@
 <?php
 /**
-This file created on Jul 15 2016 18:16:31.
-Site paypal shits /U-232v4.
-**/
+ * This file created on Jul 15 2016 18:16:31.
+ * Site paypal shits /U-232v4.
+ **/
 $TRINITY20['paypal_config']['email'] = '';
 $TRINITY20['paypal_config']['gb'] = 3;
 $TRINITY20['paypal_config']['weeks'] = 4;

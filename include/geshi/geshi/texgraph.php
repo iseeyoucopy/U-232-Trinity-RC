@@ -31,28 +31,53 @@
  *
  ************************************************************************************/
 
-$language_data = array (
+$language_data = [
     'LANG_NAME' => 'TeXgraph',
-    'COMMENT_SINGLE' => array(1 => '//'),
-    'COMMENT_MULTI' => array(
-        '{'=>'}'
-    ),
-    'COMMENT_REGEXP' => array(
-    ),
+    'COMMENT_SINGLE' => [1 => '//'],
+    'COMMENT_MULTI' => [
+        '{' => '}',
+    ],
+    'COMMENT_REGEXP' => [
+    ],
     'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-    'QUOTEMARKS' => array('"'),
+    'QUOTEMARKS' => ['"'],
     'ESCAPE_CHAR' => '',
-    'KEYWORDS' => array(
-        1 => array( //file construction
-            'TeXgraph', 'Cmd', 'Var', 'Mac', 'Graph', 'Include'
-        ),
-        2 => array( //programmation structure
-            'if', 'else', 'elif',  'fi',
-            'for', 'do', 'od', 'by', 'By',
-            'step', 'until', 'in', 'to', 'repeat', 'from', 'odfi', 'andif',
-            'And', 'Or', 'CutA', 'CutB', 'Inside', 'Inter', 'InterL'
-        ),
-        3 => array( // commandes prédéfinies
+    'KEYWORDS' => [
+        1 => [ //file construction
+            'TeXgraph',
+            'Cmd',
+            'Var',
+            'Mac',
+            'Graph',
+            'Include',
+        ],
+        2 => [ //programmation structure
+            'if',
+            'else',
+            'elif',
+            'fi',
+            'for',
+            'do',
+            'od',
+            'by',
+            'By',
+            'step',
+            'until',
+            'in',
+            'to',
+            'repeat',
+            'from',
+            'odfi',
+            'andif',
+            'And',
+            'Or',
+            'CutA',
+            'CutB',
+            'Inside',
+            'Inter',
+            'InterL',
+        ],
+        3 => [ // commandes prédéfinies
             'Aretes',
             'Arg',
             'Args',
@@ -230,8 +255,8 @@ $language_data = array (
             'sqrt',
             'tan',
             'th',
-        ),
-        4 => array( //commandes relatives à l'interface graphique
+        ],
+        4 => [ //commandes relatives à l'interface graphique
             'AddMenu2D',
             'AddMenu3D',
             'Attributs',
@@ -260,8 +285,8 @@ $language_data = array (
             'TimerMac',
             'UpdateLocalDatabase',
             'VisibleGraph',
-        ),
-        5 => array( //constantes prédéfinies
+        ],
+        5 => [ //constantes prédéfinies
             'Data',
             'Diese',
             'DirSep',
@@ -517,8 +542,8 @@ $language_data = array (
             'whitesmoke',
             'yellow',
             'yellowgreen',
-        ),
-        6 => array( //macros prédéfinies
+        ],
+        6 => [ //macros prédéfinies
             'Abs',
             'Anp',
             'Apercu',
@@ -895,8 +920,8 @@ $language_data = array (
             'visible',
             'wedge',
             'zoom',
-        ),
-        7 => array( //variables prédéfinies
+        ],
+        7 => [ //variables prédéfinies
             'AngleStep',
             'Arrows',
             'AutoReCalc',
@@ -1059,14 +1084,27 @@ $language_data = array (
             'zlegendsep',
             'zlimits',
             'zstep',
-        )
-    ),
-    'SYMBOLS' => array(
-        ':=', '=', '+', '-', '*', '/',
-        '<', '>', '>=', '<=', '<>',
-        '\\', '@', ', ', ';', '#'
-    ),
-    'CASE_SENSITIVE' => array(
+        ],
+    ],
+    'SYMBOLS' => [
+        ':=',
+        '=',
+        '+',
+        '-',
+        '*',
+        '/',
+        '<',
+        '>',
+        '>=',
+        '<=',
+        '<>',
+        '\\',
+        '@',
+        ', ',
+        ';',
+        '#',
+    ],
+    'CASE_SENSITIVE' => [
         GESHI_COMMENTS => false,
         1 => true,
         2 => true,
@@ -1074,64 +1112,64 @@ $language_data = array (
         4 => true,
         5 => true,
         6 => true,
-        7 => true
-    ),
-    'STYLES' => array(
-        'KEYWORDS' => array(
-            1  => 'color: #3ad900;font-weight: bold;',// file construction
-            2  => 'color: #A53;',// programmation structure
-            3  => 'color: #35A;font-weight: bold;',// commandes prédéfinies
-            4  => 'color: #472;',// commandes relatives à l'interface graphique
-            5  => 'color: #008080;',// constantes prédéfinies
-            6  => 'color: #808000;font-weight: bold;',// macros prédéfinies
-            7  => 'color: #000;font-weight: bold;',// variables prédéfinies
-        ),
-        'COMMENTS' => array(
+        7 => true,
+    ],
+    'STYLES' => [
+        'KEYWORDS' => [
+            1 => 'color: #3ad900;font-weight: bold;',// file construction
+            2 => 'color: #A53;',// programmation structure
+            3 => 'color: #35A;font-weight: bold;',// commandes prédéfinies
+            4 => 'color: #472;',// commandes relatives à l'interface graphique
+            5 => 'color: #008080;',// constantes prédéfinies
+            6 => 'color: #808000;font-weight: bold;',// macros prédéfinies
+            7 => 'color: #000;font-weight: bold;',// variables prédéfinies
+        ],
+        'COMMENTS' => [
             1 => 'color: #777;',
-            'MULTI' => 'color: #880;'
-        ),
-        'ESCAPE_CHAR' => array(
-            0 => ''
-        ),
-        'BRACKETS' => array(
-            0 => 'color: #820;'
-        ),
-        'STRINGS' => array(
-            0 => 'color: #880;'
-        ),
-        'NUMBERS' => array(
-            0 => 'color: #000;'
-        ),
-        'METHODS' => array(
+            'MULTI' => 'color: #880;',
+        ],
+        'ESCAPE_CHAR' => [
+            0 => '',
+        ],
+        'BRACKETS' => [
+            0 => 'color: #820;',
+        ],
+        'STRINGS' => [
+            0 => 'color: #880;',
+        ],
+        'NUMBERS' => [
+            0 => 'color: #000;',
+        ],
+        'METHODS' => [
             1 => '',
-            2 => ''
-        ),
-        'SYMBOLS' => array(
-            0 => 'color: #000;'
-        ),
-        'REGEXPS' => array(
-        ),
-        'SCRIPT' => array(
-            0 => ''
-        )
-    ),
-    'URLS' => array(
+            2 => '',
+        ],
+        'SYMBOLS' => [
+            0 => 'color: #000;',
+        ],
+        'REGEXPS' => [
+        ],
+        'SCRIPT' => [
+            0 => '',
+        ],
+    ],
+    'URLS' => [
         1 => '',
         2 => '',
         3 => 'http://melusine.eu.org/syracuse/G/geshi/docs/texgraph/#{FNAME}',
         4 => '',
         5 => '',
         6 => 'http://melusine.eu.org/syracuse/G/geshi/docs/texgraph/#{FNAME}',
-        7 => ''
-    ),
+        7 => '',
+    ],
     'OOLANG' => false,
-    'OBJECT_SPLITTERS' => array(
-    ),
-    'REGEXPS' => array(
-    ),
+    'OBJECT_SPLITTERS' => [
+    ],
+    'REGEXPS' => [
+    ],
     'STRICT_MODE_APPLIES' => GESHI_NEVER,
-    'SCRIPT_DELIMITERS' => array(
-    ),
-    'HIGHLIGHT_STRICT_BLOCK' => array(
-    )
-);
+    'SCRIPT_DELIMITERS' => [
+    ],
+    'HIGHLIGHT_STRICT_BLOCK' => [
+    ],
+];

@@ -18,32 +18,125 @@ $TRINITY20['ajax_chat']['bot_name'] = 'System';
 $TRINITY20['ajax_chat']['bot_role'] = 100;
 $TRINITY20['ajax_chat']['base_channel'] = 1;
 $TRINITY20['ajax_chat']['channel'] = 'U-232';
-$TRINITY20['ajax_chat']['channels'] = array('u', 'U-232', 'Announce', 'News', 'Staff', 'Sysop');
-$TRINITY20['ajax_chat']['sysop_access'] = array(1,2,3,4,5);
-$TRINITY20['ajax_chat']['staff_access'] = array(1,2,3,4);
-$TRINITY20['ajax_chat']['user_access'] = array(1,2,3);
+$TRINITY20['ajax_chat']['channels'] = ['u', 'U-232', 'Announce', 'News', 'Staff', 'Sysop'];
+$TRINITY20['ajax_chat']['sysop_access'] = [1, 2, 3, 4, 5];
+$TRINITY20['ajax_chat']['staff_access'] = [1, 2, 3, 4];
+$TRINITY20['ajax_chat']['user_access'] = [1, 2, 3];
 $TRINITY20['sysop_channel'] = 5;
 
 define('AJAX_CHAT_CHATBOT', $TRINITY20['ajax_chat']['bot_role']);
 
 // Available languages:
-$TRINITY20['langAvailable'] = array(
-	'ar','bg','ca','cy','cz','da','de','el','en','es','et','fa','fi','fr','gl','he','hr','hu','in','it','ja','ka','kr','mk','nl','nl-be','no','pl','pt-br','pt-pt','ro','ru','sk','sl','sr','sv','th','tr','uk','zh','zh-tw'
-);
+$TRINITY20['langAvailable'] = [
+    'ar',
+    'bg',
+    'ca',
+    'cy',
+    'cz',
+    'da',
+    'de',
+    'el',
+    'en',
+    'es',
+    'et',
+    'fa',
+    'fi',
+    'fr',
+    'gl',
+    'he',
+    'hr',
+    'hu',
+    'in',
+    'it',
+    'ja',
+    'ka',
+    'kr',
+    'mk',
+    'nl',
+    'nl-be',
+    'no',
+    'pl',
+    'pt-br',
+    'pt-pt',
+    'ro',
+    'ru',
+    'sk',
+    'sl',
+    'sr',
+    'sv',
+    'th',
+    'tr',
+    'uk',
+    'zh',
+    'zh-tw',
+];
 //$TRINITY20['langAvailable'] = ['en'];
 // Default language:
 $TRINITY20['langDefault'] = 'en';
 // Language names (each languge code in available languages must have a display name assigned here):
-$TRINITY20['langNames'] = array(
-	'ar'=>'عربي', 'bg'=>'Български', 'ca'=>'Català', 'cy'=>'Cymraeg', 'cz'=>'Česky', 'da'=>'Dansk', 'de'=>'Deutsch', 'el'=>'Ελληνικα', 'en'=>'English',
-	'es'=>'Español', 'et'=>'Eesti', 'fa'=>'فارسی', 'fi'=>'Suomi', 'fr'=>'Français', 'gl'=>'Galego', 'he'=>'עברית', 'hr' => 'Hrvatski', 'hu' => 'Magyar', 'in'=>'Bahasa Indonesia', 'it'=>'Italiano',
-	'ja'=>'日本語','ka'=>'ქართული','kr'=>'한 글','mk'=>'Македонски', 'nl'=>'Nederlands', 'nl-be'=>'Nederlands (België)', 'no'=>'Norsk', 'pl'=> 'Polski', 'pt-br'=>'Português (Brasil)', 'pt-pt'=>'Português (Portugal)', 
-	'ro'=>'România', 'ru'=>'Русский', 'sk'=> 'Slovenčina', 'sl'=>'Slovensko', 'sr'=>'Srpski', 'sv'=> 'Svenska', 'th'=>'&#x0e20;&#x0e32;&#x0e29;&#x0e32;&#x0e44;&#x0e17;&#x0e22;', 
-	'tr'=>'Türkçe', 'uk'=>'Українська', 'zh'=>'中文 (简体)', 'zh-tw'=>'中文 (繁體)'
-);
+$TRINITY20['langNames'] = [
+    'ar' => 'عربي',
+    'bg' => 'Български',
+    'ca' => 'Català',
+    'cy' => 'Cymraeg',
+    'cz' => 'Česky',
+    'da' => 'Dansk',
+    'de' => 'Deutsch',
+    'el' => 'Ελληνικα',
+    'en' => 'English',
+    'es' => 'Español',
+    'et' => 'Eesti',
+    'fa' => 'فارسی',
+    'fi' => 'Suomi',
+    'fr' => 'Français',
+    'gl' => 'Galego',
+    'he' => 'עברית',
+    'hr' => 'Hrvatski',
+    'hu' => 'Magyar',
+    'in' => 'Bahasa Indonesia',
+    'it' => 'Italiano',
+    'ja' => '日本語',
+    'ka' => 'ქართული',
+    'kr' => '한 글',
+    'mk' => 'Македонски',
+    'nl' => 'Nederlands',
+    'nl-be' => 'Nederlands (België)',
+    'no' => 'Norsk',
+    'pl' => 'Polski',
+    'pt-br' => 'Português (Brasil)',
+    'pt-pt' => 'Português (Portugal)',
+    'ro' => 'România',
+    'ru' => 'Русский',
+    'sk' => 'Slovenčina',
+    'sl' => 'Slovensko',
+    'sr' => 'Srpski',
+    'sv' => 'Svenska',
+    'th' => '&#x0e20;&#x0e32;&#x0e29;&#x0e32;&#x0e44;&#x0e17;&#x0e22;',
+    'tr' => 'Türkçe',
+    'uk' => 'Українська',
+    'zh' => '中文 (简体)',
+    'zh-tw' => '中文 (繁體)',
+];
 
 // Available styles:
-$TRINITY20['styleAvailable'] = array('beige','black','grey','Oxygen','Lithium','Sulfur','Cobalt','Mercury','Uranium','Pine','Plum','prosilver','Core','MyBB','vBulletin','XenForo');
+$TRINITY20['styleAvailable'] = [
+    'beige',
+    'black',
+    'grey',
+    'Oxygen',
+    'Lithium',
+    'Sulfur',
+    'Cobalt',
+    'Mercury',
+    'Uranium',
+    'Pine',
+    'Plum',
+    'prosilver',
+    'Core',
+    'MyBB',
+    'vBulletin',
+    'XenForo',
+];
 // Default style:
 $TRINITY20['styleDefault'] = 'MyBB';
 
@@ -105,7 +198,7 @@ $TRINITY20['openingHour'] = 0;
 // Defines the hour of the day the chat is closed (openingHour - 24):
 $TRINITY20['closingHour'] = 24;
 // Defines the weekdays the chat is opened (0=Sunday to 6=Saturday):
-$TRINITY20['openingWeekDays'] = array(0,1,2,3,4,5,6);
+$TRINITY20['openingWeekDays'] = [0, 1, 2, 3, 4, 5, 6];
 
 // Enable/Disable guest logins:
 $TRINITY20['allowGuestLogins'] = false;

@@ -10,12 +10,12 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
-require_once (INCL_DIR . 'user_functions.php');
+require_once(__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorrent.php');
+require_once(INCL_DIR.'user_functions.php');
 dbconn(false);
-$lang = array_merge(load_language('global') , load_language('videoformats'));
+$lang = array_merge(load_language('global'), load_language('videoformats'));
 $HTMLOUT = '';
-$HTMLOUT.= "
+$HTMLOUT .= "
 <fieldset class='header'><legend>{$lang['videoformats_body']}</legend>
 	<div class='container-fluid cite text-center'>
 		<table class='table table-bordered  table-striped'>
@@ -157,5 +157,5 @@ $HTMLOUT.= "
 		</table>
 	</div>
 </fieldset>";
-echo stdhead($lang['videoformats_header']) . $HTMLOUT . stdfoot();
+echo stdhead($lang['videoformats_header']).$HTMLOUT.stdfoot();
 ?>

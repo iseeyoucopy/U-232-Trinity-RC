@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Misc
     'stdhead_addpre' => "Ajout d'une temporisation",
     'stderr_error' => "Erreur",
@@ -27,6 +27,6 @@ $lang = array(
     'text_addpre' => "Ajout d'une temporisation",
     //The table
     'table_torrentid' => "Numéro de l'ID du torrent",
-    'table_pretime' => "Format de la temporisation YYYY-MM-DD HH:MM:SS"
-);
+    'table_pretime' => "Format de la temporisation YYYY-MM-DD HH:MM:SS",
+];
 ?>

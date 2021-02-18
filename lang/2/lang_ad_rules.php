@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Misc
     'rules_rules' => "Régie des Règles",
     'stderr_error' => "Erreur",
@@ -20,5 +20,5 @@ $lang = array(
     'rules_delete' => "Spprimer",
     'rules_btn_newcat' => "Ajouter Nouvelle Catégorie",
     'rules_btn_newrule' => "Ajouter Nouvelle Règle",
-);
+];
 ?>

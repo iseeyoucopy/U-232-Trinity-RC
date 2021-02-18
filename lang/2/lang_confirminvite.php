@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //confirminvites
     'confirminvites_error' => "Error",
     'confirminvites_limit' => "Sorry, user limit reached. Please try again later.",
@@ -33,5 +33,5 @@ $lang = array(
     'confirminvites_questions' => " before asking questions.",
     'confirminvites_verifyage' => "I am at least 13 years old.",
     'confirminvites_signup' => "Sign up! (PRESS ONLY ONCE)",
-);
+];
 ?>

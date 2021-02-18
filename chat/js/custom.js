@@ -14,18 +14,18 @@ ajaxChat.replaceCustomCommands = function(text, textParts) {
 	return text;
 }
  */
- 
- //For Speak As U232_Bot//
- /*ajaxChat.replaceCustomCommands = function(text, textParts) {
-	switch(textParts[0]) {
-		case '/takeover':
-		text=text.replace('/takeover', ' ');
-		return '<span class="chatBotMessage">' + text + '</span>';
-		default:
-		return text;
-	}
+
+//For Speak As U232_Bot//
+/*ajaxChat.replaceCustomCommands = function(text, textParts) {
+ switch(textParts[0]) {
+   case '/takeover':
+   text=text.replace('/takeover', ' ');
+   return '<span class="chatBotMessage">' + text + '</span>';
+   default:
+   return text;
+ }
 }*/
- //Welcome Message
+//Welcome Message
 //ajaxChat.customInitialize = function() {
 //	ajaxChat.addChatBotMessageToChatList('Welcome to our chat. Please follow the rules.');
 //}

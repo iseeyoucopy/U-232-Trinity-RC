@@ -13,7 +13,7 @@
 //==Temp demotion
 if ($CURUSER['override_class'] != 255 && $CURUSER) // Second condition needed so that this box isn't displayed for non members/logged out members.
 {
-$htmlout.= "<a href='./restoreclass.php' class='button small warning'>{$lang['gl_temp_demotion']}</a>";
+    $htmlout .= "<a href='./restoreclass.php' class='button small warning'>{$lang['gl_temp_demotion']}</a>";
 
 }
 //==End

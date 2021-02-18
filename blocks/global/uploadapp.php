@@ -17,8 +17,8 @@ if ($TRINITY20['uploadapp_alert'] && $CURUSER['class'] >= UC_STAFF) {
         $cache->set('new_uploadapp_', $newapp, $TRINITY20['expires']['alerts']);
     }
     if ($newapp > 0) {
-        $htmlout.= "
-        <a class='hollow small button notification' href='staffpanel.php?tool=uploadapps&amp;action=app'>{$lang['gl_uploadapp_new']}<span class='badge_corner'>" . $newapp[0] . "</span></a>";
+        $htmlout .= "
+        <a class='hollow small button notification' href='staffpanel.php?tool=uploadapps&amp;action=app'>{$lang['gl_uploadapp_new']}<span class='badge_corner'>".$newapp[0]."</span></a>";
     }
 }
 //==End

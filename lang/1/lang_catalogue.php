@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'catol_std_head' => "Catalogue",
     'catol_read_more' => "Read more",
     'catol_user' => "User",
@@ -33,6 +33,6 @@ $lang = array(
     'catol_seeder_info' => "Seeder Info (Top 5 Seeders)",
     'catol_no_info_show' => "No information to show",
     'catol_nothing_found' => "Nothing found",
-    'catol_orig_created_by' => "Original By EnzoF1 recoded by Putyn"
-);
+    'catol_orig_created_by' => "Original By EnzoF1 recoded by Putyn",
+];
 ?>

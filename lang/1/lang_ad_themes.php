@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Headers
     'stdhead_templates' => 'Templates',
     //Main table
@@ -65,5 +65,5 @@ $lang = array(
     'themes_inv_file' => 'Continue ?',
     //Credits
     'themes_credits' => 'Credits to AronTh for making this template mananger and the template system',
-);
+];
 ?>

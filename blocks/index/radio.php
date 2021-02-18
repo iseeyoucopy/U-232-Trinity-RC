@@ -10,11 +10,11 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once ROOT_DIR . 'radio.php';
-$HTMLOUT.= "<div class='callout'>
+require_once ROOT_DIR.'radio.php';
+$HTMLOUT .= "<div class='callout'>
 	<h4 class='subheader'>{$TRINITY20['site_name']} Radio</h4>";
-	$HTMLOUT.= radioinfo($radio);
-$HTMLOUT.= "</div>";
+$HTMLOUT .= radioinfo($radio);
+$HTMLOUT .= "</div>";
 //==
 // End Class
 // End File

@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //head
     'head_signup' => "Enregistrement",
     //captcha
@@ -22,8 +22,8 @@ $lang = array(
     'stderr_errorhead' => "Désolé",
     'stderr_ulimit' => "La limite du nombre de compte utilisateur (%u) a été atteinte. Les comptes inactifs étant régulièrement supprimés, merci de réessayez dans quelques temps...",
     //signup
-	'signup_inviteonly' => "Seulement sur Invitations - Enregistrements fermés pour l'instant, si vous avez un code d'invitation cliquez",
-	'signup_here' => "ICI",
+    'signup_inviteonly' => "Seulement sur Invitations - Enregistrements fermés pour l'instant, si vous avez un code d'invitation cliquez",
+    'signup_here' => "ICI",
     'signup_cookies' => "Note: Vous devez activer les cookies pour l'enregistrement d'un compte, ou pour la connection à votre compte.",
     'signup_noscript' => "Javascript doit être activé pour l'enregistrement et la navigation sur ce site.",
     'signup_year' => "Année",
@@ -80,6 +80,6 @@ $lang = array(
     'signup_gender' => 'Genre',
     //add terms by yoooov
     'signup_hint_here' => 'Entrer&nbsp;votre&nbsp;réponse&nbsp;secrête&nbsp;ici',
-    'signup_capcha' => 'Si vous êtes bien un humain, vous devez cliquer sur le '
-);
+    'signup_capcha' => 'Si vous êtes bien un humain, vous devez cliquer sur le ',
+];
 ?>

@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //stderr
     'achievement_history_err' => 'Erreur',
     'achievement_history_off' => 'Il semble que la fonction "Trophées" soit désactivée.',
@@ -32,6 +32,6 @@ $lang = array(
     'achievement_history_descr' => 'Description',
     'achievement_history_date' => 'Date du gain',
     //stdhead
-    'achievement_history_stdhead' => 'Historique des Trophées'
-);
+    'achievement_history_stdhead' => 'Historique des Trophées',
+];
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * -------   U-232 Codename Trinity   ----------*
  * ---------------------------------------------*
@@ -17,6 +18,7 @@ class bt_options
     const UNLOCK_MORE_MOODS = 0x4; // 4
     const PERMS_STEALTH = 0x8; // 8
     const NOFKNBEEP = 0x10; // 16
-    
+
 }
+
 ?>

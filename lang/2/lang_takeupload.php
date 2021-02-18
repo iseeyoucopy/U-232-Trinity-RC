@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //takeupload errors
     'takeupload_failed' => "Upload raté!",
     'takeupload_no_formdata' => "il manque des données",
@@ -44,13 +44,13 @@ $lang = array(
     'takeupload_img_exists' => "Une image existe déjà. Contacter le staff pour une assistance.",
     'takeupload_img_copyerror' => "Une erreur est survenue pendant la copie de l'image. Contacter le staff pour une assistance.",
     'takeupload_bucket_format' => "L'image que vous tentez (%s) d'uploader n'est pas conforme!",
-    'takeupload_bucket_size' => "L'image est trop grande (%s)! taille max de " . mksize($TRINITY20['bucket_maxsize']) ,
+    'takeupload_bucket_size' => "L'image est trop grande (%s)! taille max de ".mksize($TRINITY20['bucket_maxsize']),
     'takeupload_no_youtube' => "Le lien youtube est incorrect ou n'est pas présent!",
     'takeupload_bucket_noimg' => "Vous avez tout oublié à propos des images!",
     ////////
     'takeupload_no_md' => "Pas de README.md!",
     'takeupload_0_md' => "0-byte README.md",
     'takeupload_md_big' => "README.md est trop lourd! Max 65,535 bytes.",
-    'takeupload_md_failed' => "README.md n'a pas été uploadé"
-);
+    'takeupload_md_failed' => "README.md n'a pas été uploadé",
+];
 ?>

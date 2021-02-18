@@ -12,7 +12,7 @@
  */
 if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
-    $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
+    $HTMLOUT .= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
@@ -24,46 +24,46 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     echo $HTMLOUT;
     exit();
 }
-require_once (INCL_DIR . 'user_functions.php');
-require_once (INCL_DIR . 'pager_functions.php');
-require_once (CLASS_DIR . 'class_check.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(INCL_DIR.'pager_functions.php');
+require_once(CLASS_DIR.'class_check.php');
 $lang = array_merge($lang, load_language('ad_cleanup_manager'));
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $params = array_merge($_GET, $_POST);
 $params['mode'] ??= '';
 switch ($params['mode']) {
-case 'unlock':
-    cleanup_take_unlock();
-    break;
+    case 'unlock':
+        cleanup_take_unlock();
+        break;
 
-case 'delete':
-    cleanup_take_delete();
-    break;
+    case 'delete':
+        cleanup_take_delete();
+        break;
 
-case 'takenew':
-    cleanup_take_new();
-    break;
+    case 'takenew':
+        cleanup_take_new();
+        break;
 
-case 'new':
-    cleanup_show_new();
-    break;
+    case 'new':
+        cleanup_show_new();
+        break;
 
-case 'takeedit':
-    cleanup_take_edit();
-    break;
+    case 'takeedit':
+        cleanup_take_edit();
+        break;
 
-case 'edit':
-    cleanup_show_edit();
-    break;
+    case 'edit':
+        cleanup_show_edit();
+        break;
 
-case 'run':
-    manualclean();
-    break;
+    case 'run':
+        manualclean();
+        break;
 
-default:
-    cleanup_show_main();
-    break;
+    default:
+        cleanup_show_main();
+        break;
 }
 function manualclean()
 {
@@ -71,24 +71,24 @@ function manualclean()
     if (function_exists('docleanup')) {
         stderr($lang['cleanup_stderr'], $lang['cleanup_stderr1']);
     }
-    $opts = array(
-        'options' => array(
-            'min_range' => 1
-        )
-    );
+    $opts = [
+        'options' => [
+            'min_range' => 1,
+        ],
+    ];
     $params['cid'] = filter_var($params['cid'], FILTER_VALIDATE_INT, $opts);
     if (!is_numeric($params['cid'])) {
         stderr($lang['cleanup_stderr'], $lang['cleanup_stderr2']);
     }
     $params['cid'] = sqlesc($params['cid']);
-    ($sql = sql_query("SELECT * FROM cleanup WHERE clean_id = " . sqlesc($params['cid']))) || sqlerr(__file__, __line__);
+    ($sql = sql_query("SELECT * FROM cleanup WHERE clean_id = ".sqlesc($params['cid']))) || sqlerr(__file__, __line__);
     $row = $sql->fetch_assoc();
     if ($row['clean_id']) {
-        $next_clean = (int) (TIME_NOW + ($row['clean_increment'] ? $row['clean_increment'] : 15 * 60));
-        sql_query("UPDATE cleanup SET clean_time = " . sqlesc($next_clean) . " WHERE clean_id = " . sqlesc($row['clean_id'])) || sqlerr(__file__, __line__);
-        if (is_file(CLEAN_DIR . '' . $row['clean_file'])) {
-            require_once (CLEAN_DIR . 'clean_log.php');
-            require_once (CLEAN_DIR . '' . $row['clean_file']);
+        $next_clean = (int)(TIME_NOW + ($row['clean_increment'] ? $row['clean_increment'] : 15 * 60));
+        sql_query("UPDATE cleanup SET clean_time = ".sqlesc($next_clean)." WHERE clean_id = ".sqlesc($row['clean_id'])) || sqlerr(__file__, __line__);
+        if (is_file(CLEAN_DIR.''.$row['clean_file'])) {
+            require_once(CLEAN_DIR.'clean_log.php');
+            require_once(CLEAN_DIR.''.$row['clean_file']);
         }
         if (function_exists('docleanup')) {
             docleanup($row);
@@ -97,9 +97,10 @@ function manualclean()
     cleanup_show_main(); //instead of header() so can see queries in footer (using sql_query())
     exit();
 }
+
 function cleanup_show_main()
 {
-	global $lang;
+    global $lang;
     $count1 = get_row_count('cleanup');
     $perpage = 15;
     $pager = pager($perpage, $count1, 'staffpanel.php?tool=cleanup_manager&amp;');
@@ -115,7 +116,7 @@ function cleanup_show_main()
       <td class='colhead' width='40px'>{$lang['cleanup_on']}</td>
       <td class='colhead' style='width: 40px;'>{$lang['cleanup_run_now']}</td>
     </tr>";
-    ($sql = sql_query("SELECT * FROM cleanup ORDER BY clean_time ASC " . $pager['limit'])) || sqlerr(__FILE__, __LINE__);
+    ($sql = sql_query("SELECT * FROM cleanup ORDER BY clean_time ASC ".$pager['limit'])) || sqlerr(__FILE__, __LINE__);
     if (!$sql->num_rows) {
         stderr($lang['cleanup_stderr'], $lang['cleanup_panic']);
     }
@@ -125,9 +126,9 @@ function cleanup_show_main()
         $row['_class'] = $row['clean_on'] != 1 ? " style='color:red'" : '';
         $row['_title'] = $row['clean_on'] != 1 ? " {$lang['cleanup_lock']}" : '';
         $row['_clean_time'] = $row['clean_on'] != 1 ? "<span style='color:red'>{$row['_clean_time']}</span>" : $row['_clean_time'];
-        $htmlout.= "<tr>
+        $htmlout .= "<tr>
           <td{$row['_class']}><strong>{$row['clean_title']}{$row['_title']}</strong><br />{$row['clean_desc']}</td>
-          <td>" . mkprettytime($row['clean_increment']) . "</td>
+          <td>".mkprettytime($row['clean_increment'])."</td>
           <td>{$row['_clean_time']}</td>
           <td align='center'><a href='staffpanel.php?tool=cleanup_manager&amp;action=cleanup_manager&amp;mode=edit&amp;cid={$row['clean_id']}'>
             <img src='./pic/aff_tick.gif' alt='{$lang['cleanup_edit2']}' title='{$lang['cleanup_edit']}' border='0' height='12' width='12' /></a></td>
@@ -139,14 +140,15 @@ function cleanup_show_main()
 <td align='center'><a href='staffpanel.php?tool=cleanup_manager&amp;action=cleanup_manager&amp;mode=run&amp;cid={$row['clean_id']}'>{$lang['cleanup_run_now2']}</a></td>
  </tr>";
     }
-    $htmlout.= "</table></div></div>";
+    $htmlout .= "</table></div></div>";
     if ($count1 > $perpage) {
         $htmlout .= $pager['pagerbottom'];
     }
-    $htmlout.= "<br />
+    $htmlout .= "<br />
                 <span class='button'><a href='./staffpanel.php?tool=cleanup_manager&amp;action=cleanup_manager&amp;mode=new'>{$lang['cleanup_add_new']}</a></span>";
-    echo stdhead($lang['cleanup_stdhead']) . $htmlout . stdfoot();
+    echo stdhead($lang['cleanup_stdhead']).$htmlout.stdfoot();
 }
+
 function cleanup_show_edit()
 {
     global $params, $lang;
@@ -154,7 +156,7 @@ function cleanup_show_edit()
         cleanup_show_main();
         exit;
     }
-    $cid = (int) $params['cid'];
+    $cid = (int)$params['cid'];
     $sql = sql_query("SELECT * FROM cleanup WHERE clean_id = $cid");
     if (!$sql->num_rows) {
         stderr($lang['cleanup_stderr'], $lang['cleanup_stderr3']);
@@ -203,35 +205,36 @@ function cleanup_show_edit()
     {$lang['cleanup_show_yes']} <input name='clean_on' value='1' $cleanon type='radio' />&nbsp;&nbsp;&nbsp;<input name='clean_on' value='0' $cleanoff type='radio' /> {$lang['cleanup_show_no']}
     </div>
     
-    <div style='text-align:center;'><input type='submit' name='submit' value='{$lang['cleanup_show_edit']}' class='button' />&nbsp;<input type='button' value='{$lang['cleanup_show_cancel']}' onclick='javascript: history.back()' /></div>
+    <div style='text-align:center;'><input type='submit' name='submit' value='{$lang['cleanup_show_edit']}' class='button' />&nbsp;<input type='button' value='{$lang['cleanup_show_cancel']}' onclick='history.back()' /></div>
     </form>
     </div>";
-    echo stdhead($lang['cleanup_show_stdhead']) . $htmlout . stdfoot();
+    echo stdhead($lang['cleanup_show_stdhead']).$htmlout.stdfoot();
 }
+
 function cleanup_take_edit()
 {
     global $params, $lang;
     //ints
-    foreach (array(
-        'cid',
-        'clean_increment',
-        'clean_log',
-        'clean_on'
-    ) as $x) {
+    foreach ([
+                 'cid',
+                 'clean_increment',
+                 'clean_log',
+                 'clean_on',
+             ] as $x) {
         unset($opts);
         if ($x == 'cid' || $x == 'clean_increment') {
-            $opts = array(
-                'options' => array(
-                    'min_range' => 1
-                )
-            );
+            $opts = [
+                'options' => [
+                    'min_range' => 1,
+                ],
+            ];
         } else {
-            $opts = array(
-                'options' => array(
+            $opts = [
+                'options' => [
                     'min_range' => 0,
-                    'max_range' => 1
-                )
-            );
+                    'max_range' => 1,
+                ],
+            ];
         }
         $params[$x] = filter_var($params[$x], FILTER_VALIDATE_INT, $opts);
         if (!is_numeric($params[$x])) {
@@ -240,26 +243,26 @@ function cleanup_take_edit()
     }
     unset($opts);
     // strings
-    foreach (array(
-        'clean_title',
-        'clean_desc',
-        'clean_file'
-    ) as $x) {
-        $opts = array(
+    foreach ([
+                 'clean_title',
+                 'clean_desc',
+                 'clean_file',
+             ] as $x) {
+        $opts = [
             'flags' => FILTER_FLAG_STRIP_LOW,
-            FILTER_FLAG_STRIP_HIGH
-        );
+            FILTER_FLAG_STRIP_HIGH,
+        ];
         $params[$x] = filter_var($params[$x], FILTER_SANITIZE_STRING, $opts);
         if (empty($params[$x])) {
             stderr($lang['cleanup_take_error'], "{$lang['cleanup_take_error2']}");
         }
     }
     $params['clean_file'] = preg_replace('#\.{1,}#s', '.', $params['clean_file']);
-    if (!file_exists(CLEAN_DIR . "{$params['clean_file']}")) {
+    if (!file_exists(CLEAN_DIR."{$params['clean_file']}")) {
         stderr($lang['cleanup_take_error'], "{$lang['cleanup_take_error3']}");
     }
     // new clean time =
-    $params['clean_time'] = (int) (TIME_NOW + $params['clean_increment']);
+    $params['clean_time'] = (int)(TIME_NOW + $params['clean_increment']);
     //one more time around! LoL
     foreach ($params as $k => $v) {
         $params[$k] = sqlesc($v);
@@ -268,9 +271,10 @@ function cleanup_take_edit()
     cleanup_show_main();
     exit();
 }
+
 function cleanup_show_new()
 {
-	global $lang;
+    global $lang;
     $htmlout = "<h2>{$lang['cleanup_new_head']}</h2>
     <div style='width: 800px; text-align: left; padding: 10px; margin: 0 auto;border-style: solid; border-color: #333333; border-width: 5px 2px;'>
     <form name='inputform' method='post' action='staffpanel.php?tool=cleanup_manager&amp;action=cleanup_manager'>
@@ -307,34 +311,35 @@ function cleanup_show_new()
     {$lang['cleanup_show_yes']} <input name='clean_on' value='1' type='radio' />&nbsp;&nbsp;&nbsp;<input name='clean_on' value='0' checked='checked' type='radio' /> {$lang['cleanup_show_no']}
     </div>
     
-    <div style='text-align:center;'><input type='submit' name='submit' value='{$lang['cleanup_new_add']}' class='button' />&nbsp;<input type='button' value='{$lang['cleanup_new_cancel']}' onclick='javascript: history.back()' /></div>
+    <div style='text-align:center;'><input type='submit' name='submit' value='{$lang['cleanup_new_add']}' class='button' />&nbsp;<input type='button' value='{$lang['cleanup_new_cancel']}' onclick='history.back()' /></div>
     </form>
     </div>";
-    echo stdhead($lang['cleanup_new_stdhead']) . $htmlout . stdfoot();
+    echo stdhead($lang['cleanup_new_stdhead']).$htmlout.stdfoot();
 }
+
 function cleanup_take_new()
 {
     global $params, $lang, $mysqli;
     //ints
-    foreach (array(
-        'clean_increment',
-        'clean_log',
-        'clean_on'
-    ) as $x) {
+    foreach ([
+                 'clean_increment',
+                 'clean_log',
+                 'clean_on',
+             ] as $x) {
         unset($opts);
         if ($x == 'clean_increment') {
-            $opts = array(
-                'options' => array(
-                    'min_range' => 1
-                )
-            );
+            $opts = [
+                'options' => [
+                    'min_range' => 1,
+                ],
+            ];
         } else {
-            $opts = array(
-                'options' => array(
+            $opts = [
+                'options' => [
                     'min_range' => 0,
-                    'max_range' => 1
-                )
-            );
+                    'max_range' => 1,
+                ],
+            ];
         }
         $params[$x] = filter_var($params[$x], FILTER_VALIDATE_INT, $opts);
         if (!is_numeric($params[$x])) {
@@ -343,26 +348,26 @@ function cleanup_take_new()
     }
     unset($opts);
     // strings
-    foreach (array(
-        'clean_title',
-        'clean_desc',
-        'clean_file'
-    ) as $x) {
-        $opts = array(
+    foreach ([
+                 'clean_title',
+                 'clean_desc',
+                 'clean_file',
+             ] as $x) {
+        $opts = [
             'flags' => FILTER_FLAG_STRIP_LOW,
-            FILTER_FLAG_STRIP_HIGH
-        );
+            FILTER_FLAG_STRIP_HIGH,
+        ];
         $params[$x] = filter_var($params[$x], FILTER_SANITIZE_STRING, $opts);
         if (empty($params[$x])) {
             stderr($lang['cleanup_take_error'], "{$lang['cleanup_take_error2']}");
         }
     }
     $params['clean_file'] = preg_replace('#\.{1,}#s', '.', $params['clean_file']);
-    if (!file_exists(CLEAN_DIR . "{$params['clean_file']}")) {
+    if (!file_exists(CLEAN_DIR."{$params['clean_file']}")) {
         stderr($lang['cleanup_take_error'], "{$lang['cleanup_take_error3']}");
     }
     // new clean time =
-    $params['clean_time'] = (int) (time() + $params['clean_increment']);
+    $params['clean_time'] = (int)(time() + $params['clean_increment']);
     $params['clean_cron_key'] = md5(uniqid('', true)); // just for now.
     //one more time around! LoL
     foreach ($params as $k => $v) {
@@ -376,14 +381,15 @@ function cleanup_take_new()
     }
     exit();
 }
+
 function cleanup_take_delete()
 {
     global $params, $lang, $mysqli;
-    $opts = array(
-        'options' => array(
-            'min_range' => 1
-        )
-    );
+    $opts = [
+        'options' => [
+            'min_range' => 1,
+        ],
+    ];
     $params['cid'] = filter_var($params['cid'], FILTER_VALIDATE_INT, $opts);
     if (!is_numeric($params['cid'])) {
         stderr($lang['cleanup_del_error'], "{$lang['cleanup_del_error1']}");
@@ -397,27 +403,28 @@ function cleanup_take_delete()
     }
     exit();
 }
+
 function cleanup_take_unlock()
 {
     global $params, $lang, $mysqli;
-    foreach (array(
-        'cid',
-        'clean_on'
-    ) as $x) {
+    foreach ([
+                 'cid',
+                 'clean_on',
+             ] as $x) {
         unset($opts);
         if ($x == 'cid') {
-            $opts = array(
-                'options' => array(
-                    'min_range' => 1
-                )
-            );
+            $opts = [
+                'options' => [
+                    'min_range' => 1,
+                ],
+            ];
         } else {
-            $opts = array(
-                'options' => array(
+            $opts = [
+                'options' => [
                     'min_range' => 0,
-                    'max_range' => 1
-                )
-            );
+                    'max_range' => 1,
+                ],
+            ];
         }
         $params[$x] = filter_var($params[$x], FILTER_VALIDATE_INT, $opts);
         if (!is_numeric($params[$x])) {
@@ -430,10 +437,11 @@ function cleanup_take_unlock()
     sql_query("UPDATE cleanup SET clean_on = {$params['clean_on']} WHERE clean_id = {$params['cid']}");
     if (1 === $mysqli->affected_rows) {
         cleanup_show_main(); // this go bye bye later
-        
+
     } else {
         stderr($lang['cleanup_unlock_error'], "{$lang['cleanup_unlock_error']}");
     }
     exit();
 }
+
 ?>

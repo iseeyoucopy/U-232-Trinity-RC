@@ -10,12 +10,12 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
-require_once (INCL_DIR . 'user_functions.php');
-require_once (INCL_DIR . 'bbcode_functions.php');
+require_once(__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorrent.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(INCL_DIR.'bbcode_functions.php');
 dbconn(false);
 loggedinorreturn();
-$lang = array_merge(load_language('global') , load_language('viewnfo'));
+$lang = array_merge(load_language('global'), load_language('viewnfo'));
 /*
 $stdhead = array(
     /** include css **/
@@ -25,7 +25,7 @@ $stdhead = array(
     )
 );
 */
-$id = (int) $_GET["id"];
+$id = (int)$_GET["id"];
 if ($CURUSER['class'] < UC_POWER_USER || !is_valid_id($id)) {
     die;
 }
@@ -40,13 +40,13 @@ $HTMLOUT .= "
 <table class='table table-bordered'>
 <tr>
 <td class='text'>\n";
-$HTMLOUT .= " <pre>" . format_urls(htmlsafechars($a['nfo'])) . "</pre>\n";
+$HTMLOUT .= " <pre>".format_urls(htmlsafechars($a['nfo']))."</pre>\n";
 $HTMLOUT .= " </td>
 </tr>
 </table>\n";
 $HTMLOUT .= " </div>
 </div></div>";
 // , true, $stdhead
-echo stdhead($lang['text_stdhead']) . $HTMLOUT . stdfoot(); 
+echo stdhead($lang['text_stdhead']).$HTMLOUT.stdfoot();
 ?>
 

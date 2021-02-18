@@ -13,7 +13,7 @@
 //==made by putyn
 if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
-    $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
+    $HTMLOUT .= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
@@ -25,9 +25,9 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     echo $HTMLOUT;
     exit();
 }
-require_once (INCL_DIR . 'user_functions.php');
-require_once (INCL_DIR . 'html_functions.php');
-require_once (CLASS_DIR . 'class_check.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(INCL_DIR.'html_functions.php');
+require_once(CLASS_DIR.'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_floodlimit'));
@@ -51,16 +51,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     //$out = begin_main_frame() . begin_frame($lang['floodlimit_editflood']);
     $out = '';
-    $out.= '<div class="row"><div class="col-md-12"><h2>'. $lang["floodlimit_editflood"] .'</h2>';
-    $out.= '<form method=\'post\' action=\'\' ><table class="table table-bordered"><tr><td>'.$lang['floodlimit_userclass'].'</td><td>'.$lang['floodlimit_limit'].'</td></tr>';
-    for ($i = UC_MIN; $i <= UC_MAX; $i++) { $out .= '<tr><td>'.get_user_class_name($i).'</td><td><input name=\'limit['.$i.']\' type=\'text\' size=\'10\' value=\''.($limit[$i] ?? 0).'\'/></td></tr>';
+    $out .= '<div class="row"><div class="col-md-12"><h2>'.$lang["floodlimit_editflood"].'</h2>';
+    $out .= '<form method=\'post\' action=\'\' ><table class="table table-bordered"><tr><td>'.$lang['floodlimit_userclass'].'</td><td>'.$lang['floodlimit_limit'].'</td></tr>';
+    for ($i = UC_MIN; $i <= UC_MAX; $i++) {
+        $out .= '<tr><td>'.get_user_class_name($i).'</td><td><input name=\'limit['.$i.']\' type=\'text\' size=\'10\' value=\''.($limit[$i] ?? 0).'\'/></td></tr>';
     }
-    $out.= '<tr><td>'.$lang['floodlimit_note'].'</td></tr><tr><td><input type=\'submit\' value=\''.$lang['floodlimit_save'].'\' /></td></tr>';
-    $out.= '</table></form>';
+    $out .= '<tr><td>'.$lang['floodlimit_note'].'</td></tr><tr><td><input type=\'submit\' value=\''.$lang['floodlimit_save'].'\' /></td></tr>';
+    $out .= '</table></form>';
     $out .= '</div></div>';
-	//$out.= '</table></form>' . end_frame() . end_main_frame();
-    
+    //$out.= '</table></form>' . end_frame() . end_main_frame();
 
-	echo (stdhead($lang['floodlimit_std']) . $out . stdfoot());
-	}
+
+    echo(stdhead($lang['floodlimit_std']).$out.stdfoot());
+}
 ?>

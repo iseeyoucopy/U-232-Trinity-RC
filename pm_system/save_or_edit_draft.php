@@ -13,7 +13,7 @@
 $preview = '';
 //=== don't allow direct access
 if (!defined('BUNNY_PM_SYSTEM')) {
-    $HTMLOUT.= '<!DOCTYPE html>
+    $HTMLOUT .= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
         <head>
         <meta charset="utf-8" />
@@ -39,16 +39,17 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'save as draft') {
     $subject = sqlesc(strip_tags($_POST['subject']));
     if ($save_or_edit === 'save') {
         sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, location, draft, unread, saved) VALUES  
-                                                                        (' . sqlesc($CURUSER['id']) . ', ' . sqlesc($CURUSER['id']) . ',' . TIME_NOW . ', ' . $body . ', ' . $subject . ', \'-2\', \'yes\',\'no\',\'yes\')') || sqlerr(__FILE__, __LINE__);
-        $cache->delete('inbox_new::' . $CURUSER['id']);
-        $cache->delete('inbox_new_sb::' . $CURUSER['id']);
+                                                                        ('.sqlesc($CURUSER['id']).', '.sqlesc($CURUSER['id']).','.TIME_NOW.', '.$body.', '.$subject.', \'-2\', \'yes\',\'no\',\'yes\')') || sqlerr(__FILE__,
+            __LINE__);
+        $cache->delete('inbox_new::'.$CURUSER['id']);
+        $cache->delete('inbox_new_sb::'.$CURUSER['id']);
     }
     if ($save_or_edit === 'edit') {
-        sql_query('UPDATE messages SET msg = ' . $body . ', subject = ' . $subject . ' WHERE id = ' . sqlesc($pm_id)) || sqlerr(__FILE__, __LINE__);
+        sql_query('UPDATE messages SET msg = '.$body.', subject = '.$subject.' WHERE id = '.sqlesc($pm_id)) || sqlerr(__FILE__, __LINE__);
     }
     //=== Check if messages was saved as draft
     if ($mysqli->affected_rows === 0) {
-        stderr($lang[\PM_ERROR], $lang['pm_draft_wasnt']);
+        stderr($lang[PM_ERROR], $lang['pm_draft_wasnt']);
     }
     header('Location: /pm_system.php?action=view_mailbox&box=-2&new_draft=1');
     die();
@@ -60,38 +61,38 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'preview') {
     $preview = '
     <table class="table table-striped">
     <tr>
-        <td colspan="2" class="text-left"><span style="font-weight: bold;">' . $lang['pm_draft_subject'] . '</span>' . htmlsafechars($subject) . '</td>
+        <td colspan="2" class="text-left"><span style="font-weight: bold;">'.$lang['pm_draft_subject'].'</span>'.htmlsafechars($subject).'</td>
     </tr>
     <tr>
-        <td valign="top" class="text-center" width="80px" id="photocol">' . avatar_stuff($CURUSER) . '</td>
-        <td class="text-left" style="min-width:400px;padding:10px;vertical-align: top;">' . format_comment($draft) . '</td>
+        <td valign="top" class="text-center" width="80px" id="photocol">'.avatar_stuff($CURUSER).'</td>
+        <td class="text-left" style="min-width:400px;padding:10px;vertical-align: top;">'.format_comment($draft).'</td>
     </tr>
     </table><br />';
 } else {
     //=== Get the info
-    ($res = sql_query('SELECT * FROM messages WHERE id=' . sqlesc($pm_id))) || sqlerr(__FILE__, __LINE__);
+    ($res = sql_query('SELECT * FROM messages WHERE id='.sqlesc($pm_id))) || sqlerr(__FILE__, __LINE__);
     $message = $res->fetch_assoc();
     $subject = htmlsafechars($message['subject']);
     $draft = $message['msg'];
 }
 //=== print out the page
 //echo stdhead('Save / Edit Draft');
-$HTMLOUT.= '<legend>' . $lang['pm_draft_save_edit'] . '' . $subject . '</legend>' . $top_links . $preview . '
+$HTMLOUT .= '<legend>'.$lang['pm_draft_save_edit'].''.$subject.'</legend>'.$top_links.$preview.'
         <form name="compose" action="pm_system.php" method="post">
-        <input type="hidden" name="id" value="' . $pm_id . '" />
-        <input type="hidden" name="' . $save_or_edit . '" value="1" />
+        <input type="hidden" name="id" value="'.$pm_id.'" />
+        <input type="hidden" name="'.$save_or_edit.'" value="1" />
         <input type="hidden" name="action" value="save_or_edit_draft" />
     <table class="table table-striped">
     <tr>
-        <td class="text-left" colspan="2">' . $lang['pm_edmail_edit'] . '</td>
+        <td class="text-left" colspan="2">'.$lang['pm_edmail_edit'].'</td>
     </tr>
     <tr>
-        <td class="text-right" valign="top"><span style="font-weight: bold;">' . $lang['pm_draft_subject'] . '</span></td>
-        <td class="text-left" valign="top"><input type="text" class="text_default" name="subject" value="' . $subject . '" /></td>
+        <td class="text-right" valign="top"><span style="font-weight: bold;">'.$lang['pm_draft_subject'].'</span></td>
+        <td class="text-left" valign="top"><input type="text" class="text_default" name="subject" value="'.$subject.'" /></td>
     </tr>
     <tr>
-        <td class="text-right" valign="top"><span style="font-weight: bold;">' . $lang['pm_draft_body'] . '</span></td>
-        <td class="text-left" valign="top">' . textbbcode('save_or_edit_draft', 'body', $message['msg']) . '</td>
+        <td class="text-right" valign="top"><span style="font-weight: bold;">'.$lang['pm_draft_body'].'</span></td>
+        <td class="text-left" valign="top">'.textbbcode('save_or_edit_draft', 'body', $message['msg']).'</td>
     </tr>
     <tr>
         <td colspan="2" class="text-center">

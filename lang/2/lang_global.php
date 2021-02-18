@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Mod admin link
     'gl_admin' => "Panel Admin",
     'gl_userblocks' => "Blocks Utilisateur",
@@ -148,8 +148,8 @@ $lang = array(
     'gl_stdfoot_querys_page' => 'page générée en ',
     'gl_stdfoot_querys_seconds' => 'secondes.',
     'gl_stdfoot_querys_server' => 'Accés au Serveur : ',
-    'gl_stdfoot_querys_time' => 'fois',					//singular
-    'gl_stdfoot_querys_times' => '',					//plural
+    'gl_stdfoot_querys_time' => 'fois',                    //singular
+    'gl_stdfoot_querys_times' => '',                    //plural
     'gl_stdfoot_querys_hits' => 'résultats ont été traités.',
     'gl_stdfoot_uptime' => 'Fonctionnement:',
     'gl_stdfoot_powered' => 'Propulsé par ',
@@ -204,13 +204,13 @@ $lang = array(
     'gl_bad_id' => "Mauvaise ID.",
     'gl_not_a_valid_id' => "Ce n'est pas une ID valide",
     'gl_no_way' => "Pas moyen",
-	//stdfoot
-	'gl_stdfoot_support' => "Forum de Support - Cliquez ",
-	'gl_stdfoot_here' => "ici",
-	'gl_stdfoot_opc' => "OpCache",
-	//conectable statusbar
-	'gl_connectable' => "Connectable",
-	'gl_not_connectable' => "Non Connectable",
+    //stdfoot
+    'gl_stdfoot_support' => "Forum de Support - Cliquez ",
+    'gl_stdfoot_here' => "ici",
+    'gl_stdfoot_opc' => "OpCache",
+    //conectable statusbar
+    'gl_connectable' => "Connectable",
+    'gl_not_connectable' => "Non Connectable",
     'gl_na_connectable' => "N/A",
     'gl_lnk_men' => 'USER MENU',
     'gl_lnk_inv' => 'Invitations',
@@ -220,6 +220,6 @@ $lang = array(
     'gl_lnk_lott' => "Loterie",
     'gl_mytorrents' => 'My Torrents',
     'gl_myfriends' => 'My Friends',
-    'gl_search_members' => 'Search Members'
-);
+    'gl_search_members' => 'Search Members',
+];
 ?>

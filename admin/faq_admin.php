@@ -24,15 +24,15 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     echo $HTMLOUT;
     exit();
 }
-require_once(INCL_DIR . 'user_functions.php');
-require_once(INCL_DIR . 'password_functions.php');
-require_once(CLASS_DIR . 'class_check.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(INCL_DIR.'password_functions.php');
+require_once(CLASS_DIR.'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 
 $lang = array_merge($lang, load_language('ad_faq'));
 
-$params         = array_merge($_GET, $_POST);
+$params = array_merge($_GET, $_POST);
 $params['mode'] = isset($params['mode']) ? htmlsafechars($params['mode']) : '';
 switch ($params['mode']) {
     case 'cat_new':
@@ -101,18 +101,19 @@ function Do_show()
     while ($arr = $sql->fetch_assoc()) {
         $htmlout .= "
      <tr>
-     <td>" . (int) $arr['id'] . "</td>
-     <td><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=faq_edit&amp;catid=" . (int) $arr['id'] . "'>" . htmlsafechars($arr['name']) . "</a></td>
-     <td>" . htmlsafechars($arr['shortcut']) . "</td>
-     <td>" . htmlsafechars($arr['min_view']) . "</td>
-     <td><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_edit&amp;catid=" . (int) $arr['id'] . "'><img src='{$TRINITY20['pic_base_url']}button_edit2.gif' height='15px' width='14px' alt='{$lang['faq_edit']}' style='padding-right:3px' /></a>
-     <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_delete&amp;catid=" . (int) $arr['id'] . "'><img src='{$TRINITY20['pic_base_url']}button_delete2.gif' height='13px' width='13px' alt='{$lang['faq_delete']}' style='padding-left:3px' /></a></td>
+     <td>".(int)$arr['id']."</td>
+     <td><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=faq_edit&amp;catid=".(int)$arr['id']."'>".htmlsafechars($arr['name'])."</a></td>
+     <td>".htmlsafechars($arr['shortcut'])."</td>
+     <td>".htmlsafechars($arr['min_view'])."</td>
+     <td><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_edit&amp;catid=".(int)$arr['id']."'><img src='{$TRINITY20['pic_base_url']}button_edit2.gif' height='15px' width='14px' alt='{$lang['faq_edit']}' style='padding-right:3px' /></a>
+     <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_delete&amp;catid=".(int)$arr['id']."'><img src='{$TRINITY20['pic_base_url']}button_delete2.gif' height='13px' width='13px' alt='{$lang['faq_delete']}' style='padding-left:3px' /></a></td>
      </tr>";
     }
     $htmlout .= "</table></div></div></div>";
-    echo stdhead("{$lang['faq_faq']}") . $htmlout . stdfoot();
+    echo stdhead("{$lang['faq_faq']}").$htmlout.stdfoot();
     exit();
 }
+
 // ===added delete
 function Do_Faq_Delete()
 {
@@ -120,24 +121,25 @@ function Do_Faq_Delete()
     if (!isset($_POST['fdata']) || !is_array($_POST['fdata'])) {
         stderr("Error", "Bad data!");
     }
-    $id = array();
+    $id = [];
     foreach ($_POST['fdata'] as $k => $v) {
         if (isset($v['faq_id']) && !empty($v['faq_id'])) {
-            $id[] = sqlesc((int) $v['faq_id']);
+            $id[] = sqlesc((int)$v['faq_id']);
         }
     }
     if (count($id) === 0) {
         stderr("Error", "No faq selected!");
     }
-    sql_query("DELETE FROM faq WHERE id IN( " . implode(',', $id) . " )") || sqlerr(__FILE__, __LINE__);
+    sql_query("DELETE FROM faq WHERE id IN( ".implode(',', $id)." )") || sqlerr(__FILE__, __LINE__);
     $cache->delete('faqs__');
     stderr("Info", "Faq successfully Deleted! <a href='staffpanel.php?tool=faq_admin'>Go Back To Faq Admin?</a>");
 }
+
 // ====end
 function Cat_Delete($chk = false)
 {
     global $cache;
-    $id = isset($_GET['catid']) ? (int) $_GET['catid'] : 0;
+    $id = isset($_GET['catid']) ? (int)$_GET['catid'] : 0;
     if (!is_valid_id($id)) {
         stderr("Error", "Bad ID!");
     }
@@ -146,73 +148,75 @@ function Cat_Delete($chk = false)
 <a href='staffpanel.php?tool=faq_admin&amp;catid={$id}&amp;mode=cat_delete_chk'><span style='font-weight: bold; color: green'>Continue?</span></a>
 or <a href='staffpanel.php?tool=faq_admin'><span style='font-weight: bold; color: red'>Cancel?</span></a>");
     }
-    sql_query("DELETE FROM faq WHERE type = " . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-    sql_query("DELETE FROM faq_cat WHERE id = " . sqlesc($id)) || sqlerr(__FILE__, __LINE__);
+    sql_query("DELETE FROM faq WHERE type = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
+    sql_query("DELETE FROM faq_cat WHERE id = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     $cache->delete('faqs__');
     stderr("Info", "Faq category deleted successfully! <a href='staffpanel.php?tool=faq_admin'>Go Back To Faq Admin?</a>");
 }
+
 function Show_Cat_Edit_Form()
 {
     global $lang, $CURUSER;
-    $htmlout  = '';
-    $maxclass = (int) $CURUSER['class'];
+    $htmlout = '';
+    $maxclass = (int)$CURUSER['class'];
     if (!isset($_GET['catid']) || empty($_GET['catid']) || !is_valid_id($_GET['catid'])) {
         $htmlout .= Do_Error("Error", "No Section selected");
     }
-    $cat_id = (int) $_GET['catid'];
-    ($sql = sql_query("SELECT * FROM faq_cat WHERE id = " . sqlesc($cat_id))) || sqlerr(__FILE__, __LINE__);
+    $cat_id = (int)$_GET['catid'];
+    ($sql = sql_query("SELECT * FROM faq_cat WHERE id = ".sqlesc($cat_id))) || sqlerr(__FILE__, __LINE__);
     if (!$sql->num_rows) {
         stderr("SQL Error", "Nothing doing here!");
     }
-    $htmlout .="<table class='table table-bordered table-striped'>
+    $htmlout .= "<table class='table table-bordered table-striped'>
                 <tr>
                 <td class='colhead'>Name</td>
                 <td class='colhead'>Shortcut</td>
                 <td class='colhead'>Min Class</td></tr>";
     while ($row = $sql->fetch_assoc()) {
-        $htmlout .= "<h2>Faq category No." . (int) $row['id'] . "</h2>
+        $htmlout .= "<h2>Faq category No.".(int)$row['id']."</h2>
                     <form  class='form-inline' name='inputform' method='post' action='staffpanel.php?tool=faq_admin'>
                     <input type='hidden' name='mode' value='takeedit_cat' />
-                    <input type='hidden' name='cat' value='" . (int) $row['id'] . "' />
-                    <tr><td><!--<input type='text' value='" . htmlsafechars($row['name']) . "' class='form-control' placeholder='Name'/>--><input type='text' value='" . htmlsafechars($row['name']) . "' name='name' style='width:380px;' /></td>
-                    <td><input type='text' value='" . htmlsafechars($row['shortcut']) . "' name='shortcut' style='width:380px;' /></td>
+                    <input type='hidden' name='cat' value='".(int)$row['id']."' />
+                    <tr><td><!--<input type='text' value='".htmlsafechars($row['name'])."' class='form-control' placeholder='Name'/>--><input type='text' value='".htmlsafechars($row['name'])."' name='name' style='width:380px;' /></td>
+                    <td><input type='text' value='".htmlsafechars($row['shortcut'])."' name='shortcut' style='width:380px;' /></td>
                     <td><select name='min_view'>";
         for ($i = 0; $i <= $maxclass; ++$i) {
-            $htmlout .= '<option value="' . $i . '"'.($row['min_view'] == $i ? " selected='selected'" : "").'">' . get_user_class_name($i) . '</option>';
+            $htmlout .= '<option value="'.$i.'"'.($row['min_view'] == $i ? " selected='selected'" : "").'">'.get_user_class_name($i).'</option>';
         }
         $htmlout .= "</select></td>
                      <td colspan='3'><input type='submit' name='submit' value='Edit' class='button' /></td>
                      </tr></form>";
     }
     $htmlout .= "</table>";
-    echo stdhead("Edit options") . $htmlout . stdfoot();
+    echo stdhead("Edit options").$htmlout.stdfoot();
     exit();
 }
+
 function Show_Faq_Edit()
 {
     global $lang, $CURUSER;
-    $htmlout  = '';
+    $htmlout = '';
     $maxclass = $CURUSER['class'];
     if (!isset($_GET['catid']) || empty($_GET['catid']) || !is_valid_id($_GET['catid'])) {
         stderr("Error", "No Section selected");
     }
-    $cat_id = (int) $_GET['catid'];
-    ($sql = sql_query("SELECT * FROM faq WHERE type = " . sqlesc($cat_id))) || sqlerr(__FILE__, __LINE__);
+    $cat_id = (int)$_GET['catid'];
+    ($sql = sql_query("SELECT * FROM faq WHERE type = ".sqlesc($cat_id))) || sqlerr(__FILE__, __LINE__);
     if (!$sql->num_rows) {
         stderr("SQL Error", "Nothing doing here!");
     }
     $htmlout .= "<form name='compose' method='post' action='staffpanel.php?tool=faq_admin'>";
 
     while ($row = $sql->fetch_assoc()) {
-        $htmlout .= "<strong>Faq No." . (int) $row['id'] . "</strong>";
+        $htmlout .= "<strong>Faq No.".(int)$row['id']."</strong>";
         $htmlout .= "<br />
     <div style='text-align: left; width: 70%; border: 1px solid;'>
-    <input type='text' value='" . htmlsafechars($row['title']) . "' name='fdata[{$row['id']}][title]' style='width:650px;' />
+    <input type='text' value='".htmlsafechars($row['title'])."' name='fdata[{$row['id']}][title]' style='width:650px;' />
     <span style='float:right;'>
-    <input type='checkbox' name='fdata[{$row['id']}][faq_id]' value='" . (int) $row['id'] . "' />
+    <input type='checkbox' name='fdata[{$row['id']}][faq_id]' value='".(int)$row['id']."' />
     </span>
     <br />
-    <textarea name='fdata[{$row['id']}][text]' rows='10' cols='20' style='width:650px;'>" . htmlsafechars($row['text']) . "</textarea>
+    <textarea name='fdata[{$row['id']}][text]' rows='10' cols='20' style='width:650px;'>".htmlsafechars($row['text'])."</textarea>
     </div>
     <br />";
     }
@@ -223,31 +227,32 @@ function Show_Faq_Edit()
     <option value='faq_delete'>Delete Faq</option>
     </select>
     </form>";
-    echo stdhead("Edit options") . $htmlout . stdfoot();
+    echo stdhead("Edit options").$htmlout.stdfoot();
     exit();
 }
+
 function Do_Faq_Update()
 {
     global $cache, $mysqli;
-    $time      = TIME_NOW;
-    $updateset = array();
+    $time = TIME_NOW;
+    $updateset = [];
     if (!isset($_POST['fdata']) || !is_array($_POST['fdata'])) {
         stderr("Error", "Don't leave any fields blank");
     }
     foreach ($_POST['fdata'] as $k => $v) {
         $holder = '';
         if (isset($v['faq_id']) && !empty($v['faq_id'])) {
-            foreach (array(
-                'title',
-                'text'
-            ) as $x) {
+            foreach ([
+                         'title',
+                         'text',
+                     ] as $x) {
 
-                isset($v[$x]) && (empty($v[$x]) ? stderr('Error', "{$x} is empty") : ($holder .= "{$x} = " . sqlesc($v[$x]) . ", "));
-              
+                isset($v[$x]) && (empty($v[$x]) ? stderr('Error', "{$x} is empty") : ($holder .= "{$x} = ".sqlesc($v[$x]).", "));
+
             }
             $holder = substr($holder, 0, -1);
-            $holder = rtrim($holder,',');
-            $updateset[] = "UPDATE faq SET {$holder} WHERE id = " . sqlesc((int) $v['faq_id']);
+            $holder = rtrim($holder, ',');
+            $updateset[] = "UPDATE faq SET {$holder} WHERE id = ".sqlesc((int)$v['faq_id']);
         }
     }
 
@@ -260,11 +265,12 @@ function Do_Faq_Update()
     $cache->delete('faqs__');
     stderr("Info", "Updated successfully <a href='staffpanel.php?tool=faq_admin'>Go Back To Admin</a>");
 }
+
 function Do_Cat_Update()
 {
     global $cache, $mysqli;
-    $cat_id         = (int) $_POST['cat'];
-    $min_view = sqlesc((int) $_POST['min_view']);
+    $cat_id = (int)$_POST['cat'];
+    $min_view = sqlesc((int)$_POST['min_view']);
     if (!is_valid_id($cat_id)) {
         stderr("Error", "No values");
     }
@@ -274,7 +280,7 @@ function Do_Cat_Update()
     if (empty($_POST['shortcut']) || (strlen($_POST['shortcut']) > 100)) {
         stderr("Error", "No value or value too big");
     }
-    $sql = "UPDATE faq_cat SET name = " . sqlesc(strip_tags($_POST['name'])) . ", shortcut = " . sqlesc($_POST['shortcut']) . ", min_view=$min_view WHERE id=" . sqlesc($cat_id);
+    $sql = "UPDATE faq_cat SET name = ".sqlesc(strip_tags($_POST['name'])).", shortcut = ".sqlesc($_POST['shortcut']).", min_view=$min_view WHERE id=".sqlesc($cat_id);
     sql_query($sql) || sqlerr(__FILE__, __LINE__);
     if ($mysqli->affected_rows == -1) {
         stderr("Warning", "Could not carry out that request");
@@ -282,6 +288,7 @@ function Do_Cat_Update()
     $cache->delete('faqs__');
     stderr("Info", "Updated successfully <a href='staffpanel.php?tool=faq_admin'>Go Back To Admin</a>");
 }
+
 function Do_Cat_Add()
 {
     global $cache, $mysqli;
@@ -292,10 +299,10 @@ function Do_Cat_Add()
     if (empty($_POST['shortcut']) || strlen($_POST['shortcut']) > 100) {
         stderr("Error", "Field is blank or length too long!");
     }
-    $cat_name       = sqlesc(strip_tags($_POST['name']));
-    $cat_scut       = sqlesc($_POST['shortcut']);
+    $cat_name = sqlesc(strip_tags($_POST['name']));
+    $cat_scut = sqlesc($_POST['shortcut']);
     $min_view = sqlesc(strip_tags($_POST['min_view']));
-    $sql            = "INSERT INTO faq_cat (name, shortcut, min_view) VALUES ($cat_name, $cat_scut, $min_view)";
+    $sql = "INSERT INTO faq_cat (name, shortcut, min_view) VALUES ($cat_name, $cat_scut, $min_view)";
     sql_query($sql) || sqlerr(__FILE__, __LINE__);
     if ($mysqli->affected_rows == -1) {
         stderr("Warning", "Couldn't forefill that request");
@@ -303,13 +310,14 @@ function Do_Cat_Add()
     $cache->delete('faqs__');
     $htmlout .= New_Cat_Form(1);
     //return $htmlout;
-    echo stdhead("Add New Title") . $htmlout . stdfoot();
+    echo stdhead("Add New Title").$htmlout.stdfoot();
     exit();
 }
+
 function Do_Faq_Add()
 {
     global $cache, $mysqli;
-    $cat_id = sqlesc((int) $_POST['cat']);
+    $cat_id = sqlesc((int)$_POST['cat']);
     if (!is_valid_id($cat_id)) {
         stderr("Error", "No id");
     }
@@ -317,8 +325,8 @@ function Do_Faq_Add()
         stderr("Error", "Field is blank or length too long! <a href='staffpanel.php?tool=faq_admin'>Go Back</a>");
     }
     $title = sqlesc(strip_tags($_POST['title']));
-    $text    = sqlesc($_POST['text']);
-    $sql     = "INSERT INTO faq (type, title, text) VALUES ($cat_id, $title, $text)";
+    $text = sqlesc($_POST['text']);
+    $sql = "INSERT INTO faq (type, title, text) VALUES ($cat_id, $title, $text)";
     sql_query($sql) || sqlerr(__FILE__, __LINE__);
     if ($mysqli->affected_rows == -1) {
         stderr("Warning", "Couldn't complete that request");
@@ -327,10 +335,11 @@ function Do_Faq_Add()
     New_Faq_Form(1);
     exit();
 }
+
 function New_Cat_Form()
 {
     global $CURUSER, $lang;
-    $htmlout  = '';
+    $htmlout = '';
     $maxclass = $CURUSER['class'];
     $htmlout .= "<h2>Add A New Faq category</h2>
     <form class='form-inline' name='inputform' method='post' action='staffpanel.php?tool=faq_admin'>
@@ -342,14 +351,15 @@ function New_Cat_Form()
     <td>Min class
     <select class='form-control' name='min_view'>";
     for ($i = 0; $i <= $maxclass; ++$i) {
-        $htmlout .= '<option value="' . $i . '">' . get_user_class_name($i) . '</option>';
+        $htmlout .= '<option value="'.$i.'">'.get_user_class_name($i).'</option>';
     }
     $htmlout .= "</select></td>
     <td colspan='3'><input class='form-control' type='submit' name='submit' value='Add' class='button'></td>
     </tr></table></form>";
-    echo stdhead("Add New Category") . $htmlout . stdfoot();
+    echo stdhead("Add New Category").$htmlout.stdfoot();
     exit();
 }
+
 function New_Faq_Form()
 {
     global $CURUSER, $lang, $TRINITY20;
@@ -376,9 +386,10 @@ function New_Faq_Form()
        </textarea><br>
        <input class='form-control' type='submit' name='save_cat' value='Add' class='btn btn-default' />
        </form></div></div></div>";
-    echo stdhead("Add New Faq") . $htmlout . stdfoot();
+    echo stdhead("Add New Faq").$htmlout.stdfoot();
     exit();
 }
+
 function Do_Info($text)
 {
     global $TRINITY20;
@@ -388,6 +399,7 @@ function Do_Info($text)
     $info .= "<a href='staffpanel.php?tool=faq_admin'>Go Back To Admin</a> Or Add another?";
     return $info;
 }
+
 function Do_Error($heading, $text)
 {
     global $TRINITY20;
@@ -396,7 +408,8 @@ function Do_Error($heading, $text)
     $htmlout .= "$text\n";
     $htmlout .= "</div>";
     return $htmlout;
-    echo stdhead("Error") . $htmlout . stdfoot();
+    echo stdhead("Error").$htmlout.stdfoot();
     exit;
 }
-?> 
+
+?>

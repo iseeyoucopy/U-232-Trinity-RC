@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //ban clients
     'ban_clients_stderr' => 'Error',
     'ban_clients_msg1' => 'This client is already banned',
@@ -26,5 +26,5 @@ $lang = array(
     'ban_clients_reason' => 'Reason',
     'ban_clients_banall' => 'Ban all versions?',
     'ban_clients_stdhead2' => 'Ban BitTorrent Clients',
-)
+]
 ?>

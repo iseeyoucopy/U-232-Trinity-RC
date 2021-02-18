@@ -10,25 +10,25 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once (__DIR__ . '/emoticons.php');
+require_once(__DIR__.'/emoticons.php');
 function source_highlighter($source, $lang2geshi)
 {
-    require_once (__DIR__ . '/geshi/geshi.php');
-    $source = str_replace(array(
+    require_once(__DIR__.'/geshi/geshi.php');
+    $source = str_replace([
         "&#039;",
         "&gt;",
         "&lt;",
         "&quot;",
         "&amp;",
-	"<br />"
-    ) , array(
+        "<br />",
+    ], [
         "'",
         ">",
         "<",
         "\"",
         "&",
-		""
-    ) , $source);
+        "",
+    ], $source);
     $lang2geshi = ($lang2geshi == 'html' ? 'html4strict' : $lang2geshi);
     $geshi = new GeSHi($source, $lang2geshi);
     $geshi->set_header_type(GESHI_HEADER_PRE_VALID);
@@ -39,10 +39,11 @@ function source_highlighter($source, $lang2geshi)
     $geshi->set_link_styles(GESHI_LINK, 'color: #000060;');
     $geshi->set_link_styles(GESHI_HOVER, 'background-color: #f0f000;');
     $return = "<div class=\"codeblock phpcodeblock\"><div class=\"title\">PHP Code:<br /></div><div class=\"body\"><div dir=\"ltr\"><code>\n";
-    $return.= $geshi->parse_code();
-    $return.= "\n</code></div></div></div>\n";
+    $return .= $geshi->parse_code();
+    $return .= "\n</code></div></div></div>\n";
     return $return;
 }
+
 function _MediaTag($content, $type)
 {
     global $TRINITY20;
@@ -51,31 +52,39 @@ function _MediaTag($content, $type)
     }
     $return = '';
     switch ($type) {
-    case 'youtube':
-        $return = preg_replace("#^https?://(?:|www\.)youtube\.com/watch\?v=([^\s\'\"<>]+)+?$#i", '<iframe width="500" height="410" src="https://www.youtube.com/embed/\\1" frameborder="0" allowfullscreen></iframe>', $content);
-        break;
-    case 'liveleak':
-        $return = preg_replace("#^http://(?:|www\.)liveleak\.com/view\?i=([_a-zA-Z0-9\-]+)+?$#i", "<object type='application/x-shockwave-flash' height='355' width='425' data='http://www.liveleak.com/e/\\1'><param name='movie' value='http://www.liveleak.com/e/\\1' /><param name='allowScriptAccess' value='sameDomain' /><param name='quality' value='best' /><param name='bgcolor' value='#FFFFFF' /><param name='scale' value='noScale' /><param name='salign' value='TL' /><param name='FlashVars' value='playerMode=embedded' /><param name='wmode' value='transparent' /></object>", $content);
-        break;
-    case 'GameTrailers':
-        $return = preg_replace("#^http://(?:|www\\.)gametrailers\\.com/video/([\\-_a-zA-Z0-9\\-]+)+?/(\\d+)+?\$#i", "<object type='application/x-shockwave-flash' height='355' width='425' data='http://www.gametrailers.com/remote_wrap.php?mid=\\2'><param name='movie' value='http://www.gametrailers.com/remote_wrap.php?mid=\\2' /><param name='allowScriptAccess' value='sameDomain' /> <param name='allowFullScreen' value='true' /><param name='quality' value='high' /></object>", $content);
-        break;
-    case 'imdb':
-        $return = preg_replace("#^http://(?:|www\.)imdb\.com/video/screenplay/([_a-zA-Z0-9\-]+)+?$#i", "<div class='\\1'><div style=\"padding: 3px; background-color: transparent; border: none; width:690px;\"><div style=\"text-transform: uppercase; border-bottom: 1px solid #CCCCCC; margin-bottom: 3px; font-size: 0.8em; font-weight: bold; display: block;\"><span onclick=\"if (this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display != '') { this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display = ''; this.innerHTML = '<b>Imdb Trailer: </b><a href=\'#\' onclick=\'return false;\'>hide</a>'; } else { this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display = 'none'; this.innerHTML = '<b>Imdb Trailer: </b><a href=\'#\' onclick=\'return false;\'>show</a>'; }\" ><b>Imdb Trailer: </b><a href=\"#\" onclick=\"return false;\">show</a></span></div><div class=\"quotecontent\"><div style=\"display: none;\"><iframe style='vertical-align: middle;' src='http://www.imdb.com/video/screenplay/\\1/player' scrolling='no' width='660' height='490' frameborder='0'></iframe></div></div></div></div>", $content);
-        break;
-    case 'vimeo':
-        $return = preg_replace("#^http://(?:|www\\.)vimeo\\.com/(\\d+)+?\$#i", "<object type='application/x-shockwave-flash' width='425' height='355' data='http://vimeo.com/moogaloop.swf?clip_id=\\1&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1'>
+        case 'youtube':
+            $return = preg_replace("#^https?://(?:|www\.)youtube\.com/watch\?v=([^\s\'\"<>]+)+?$#i",
+                '<iframe width="500" height="410" src="https://www.youtube.com/embed/\\1" frameborder="0" allowfullscreen></iframe>', $content);
+            break;
+        case 'liveleak':
+            $return = preg_replace("#^http://(?:|www\.)liveleak\.com/view\?i=([_a-zA-Z0-9\-]+)+?$#i",
+                "<object type='application/x-shockwave-flash' height='355' width='425' data='http://www.liveleak.com/e/\\1'><param name='movie' value='http://www.liveleak.com/e/\\1' /><param name='allowScriptAccess' value='sameDomain' /><param name='quality' value='best' /><param name='bgcolor' value='#FFFFFF' /><param name='scale' value='noScale' /><param name='salign' value='TL' /><param name='FlashVars' value='playerMode=embedded' /><param name='wmode' value='transparent' /></object>",
+                $content);
+            break;
+        case 'GameTrailers':
+            $return = preg_replace("#^http://(?:|www\\.)gametrailers\\.com/video/([\\-_a-zA-Z0-9\\-]+)+?/(\\d+)+?\$#i",
+                "<object type='application/x-shockwave-flash' height='355' width='425' data='http://www.gametrailers.com/remote_wrap.php?mid=\\2'><param name='movie' value='http://www.gametrailers.com/remote_wrap.php?mid=\\2' /><param name='allowScriptAccess' value='sameDomain' /> <param name='allowFullScreen' value='true' /><param name='quality' value='high' /></object>",
+                $content);
+            break;
+        case 'imdb':
+            $return = preg_replace("#^http://(?:|www\.)imdb\.com/video/screenplay/([_a-zA-Z0-9\-]+)+?$#i",
+                "<div class='\\1'><div style=\"padding: 3px; background-color: transparent; border: none; width:690px;\"><div style=\"text-transform: uppercase; border-bottom: 1px solid #CCCCCC; margin-bottom: 3px; font-size: 0.8em; font-weight: bold; display: block;\"><span onclick=\"if (this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display != '') { this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display = ''; this.innerHTML = '<b>Imdb Trailer: </b><a href=\'#\' onclick=\'return false;\'>hide</a>'; } else { this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display = 'none'; this.innerHTML = '<b>Imdb Trailer: </b><a href=\'#\' onclick=\'return false;\'>show</a>'; }\" ><b>Imdb Trailer: </b><a href=\"#\" onclick=\"return false;\">show</a></span></div><div class=\"quotecontent\"><div style=\"display: none;\"><iframe style='vertical-align: middle;' src='http://www.imdb.com/video/screenplay/\\1/player' scrolling='no' width='660' height='490' frameborder='0'></iframe></div></div></div></div>",
+                $content);
+            break;
+        case 'vimeo':
+            $return = preg_replace("#^http://(?:|www\\.)vimeo\\.com/(\\d+)+?\$#i", "<object type='application/x-shockwave-flash' width='425' height='355' data='http://vimeo.com/moogaloop.swf?clip_id=\\1&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1'>
     <param name='allowFullScreen' value='true' />
     <param name='allowScriptAccess' value='sameDomain' />
     <param name='movie' value='http://vimeo.com/moogaloop.swf?clip_id=\\1&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1' />
     <param name='quality' value='high' />
     </object>", $content);
-        break;
-    default:
-        $return = 'not found';
+            break;
+        default:
+            $return = 'not found';
     }
     return $return;
 }
+
 //Finds last occurrence of needle in haystack
 //in PHP5 use strripos() instead of this
 function _strlastpos($haystack, $needle, $offset = 0)
@@ -83,17 +92,19 @@ function _strlastpos($haystack, $needle, $offset = 0)
     $addLen = strlen($needle);
     $endPos = $offset - $addLen;
     while (true) {
-        if (($newPos = strpos($haystack, (string) $needle, $endPos + $addLen)) === false) {
+        if (($newPos = strpos($haystack, (string)$needle, $endPos + $addLen)) === false) {
             break;
         }
         $endPos = $newPos;
     }
     return ($endPos >= 0) ? $endPos : false;
 }
-function validate_imgs($s){
+
+function validate_imgs($s)
+{
     $start = "(http|https)://";
     $end = "+\.(?:jpe?g|png|gif)";
-    preg_match_all("!" . $start . "(.*)" . $end . "!Ui", $s, $result);
+    preg_match_all("!".$start."(.*)".$end."!Ui", $s, $result);
     $array = $result[0];
     foreach ($array as $i => $array) {
         $headers = @get_headers($array);
@@ -104,6 +115,7 @@ function validate_imgs($s){
     }
     return $s;
 }
+
 //=== new test for BBcode errors from http://codesnippets.joyent.com/posts/show/959 by berto
 function check_BBcode($html)
 {
@@ -118,13 +130,14 @@ function check_BBcode($html)
     $openedtags = array_reverse($openedtags);
     for ($i = 0; $i < $len_opened; $i++) {
         if (!in_array($openedtags[$i], $closedtags)) {
-            $html.= '</' . $openedtags[$i] . '>';
+            $html .= '</'.$openedtags[$i].'>';
         } else {
-            unset($closedtags[array_search($openedtags[$i], $closedtags) ]);
+            unset($closedtags[array_search($openedtags[$i], $closedtags)]);
         }
     }
     return $html;
 }
+
 //==format quotes by Retro
 function format_quotes($s)
 {
@@ -136,14 +149,14 @@ function format_quotes($s)
         return $s;
     } // quote mismatch. Return raw string...
     // Get position of opening quotes
-    $openval = array();
-    $pos = - 1;
+    $openval = [];
+    $pos = -1;
     foreach ($openquote as $val) {
         $openval[] = $pos = strpos($s, (string)$val, $pos + 1);
     }
     // Get position of closing quotes
-    $closeval = array();
-    $pos = - 1;
+    $closeval = [];
+    $pos = -1;
     foreach ($closequote as $val) {
         $closeval[] = $pos = strpos($s, (string)$val, $pos + 1);
     }
@@ -152,44 +165,47 @@ function format_quotes($s)
             return $s;
         }
     } // Cannot close before opening. Return raw string...
-            $s = str_replace("[quote]", "<blockquote><cite>Quote:</cite>", $s);
-			$s = preg_replace("/\\[quote=(.+?)\\]/", "<blockquote><cite>\\1 wrote:</cite>", $s);
+    $s = str_replace("[quote]", "<blockquote><cite>Quote:</cite>", $s);
+    $s = preg_replace("/\\[quote=(.+?)\\]/", "<blockquote><cite>\\1 wrote:</cite>", $s);
     return str_replace("[/quote]", "<br /></blockquote>", $s);
 }
+
 function islocal($link)
 {
     global $TRINITY20;
     $flag = false;
     $limit = 60;
-    $TRINITY20['url'] = str_replace(array(
+    $TRINITY20['url'] = str_replace([
         'http://',
         'www',
         'http://www',
         'https://',
-        'https://www'
-    ) , '', $TRINITY20['baseurl']);
+        'https://www',
+    ], '', $TRINITY20['baseurl']);
     if (stripos($link[0], '[url=') !== false) {
         $url = trim($link[1]);
         $title = trim($link[2]);
         if (stripos($link[2], '[img]') !== false) {
             $flag = true;
-            $title = preg_replace("/\[img]((http|https):\/\/[^\s'\"<>]+(\.(jpg|gif|png)))\[\/img\]/i", "<img src=\"\\1\" alt=\"\" border=\"0\" />", $title);
+            $title = preg_replace("/\[img]((http|https):\/\/[^\s'\"<>]+(\.(jpg|gif|png)))\[\/img\]/i", "<img src=\"\\1\" alt=\"\" border=\"0\" />",
+                $title);
         }
     } elseif (stripos($link[0], '[url]') !== false) {
         $url = $title = trim($link[1]);
-    }
-    else {
+    } else {
         $url = $title = trim($link[2]);
     }
     if (strlen($title) > $limit && $flag == false) {
         $l[0] = substr($title, 0, ($limit / 2));
         $l[1] = substr($title, strlen($title) - round($limit / 3));
-        $lshort = $l[0] . "..." . $l[1];
+        $lshort = $l[0]."...".$l[1];
     } else {
         $lshort = $title;
     }
-    return "&nbsp;<a href=\"" . ((stripos($url, (string)$TRINITY20['url']) !== false) ? "" : "https://anonym.to/?") . $url . "\" target=\"_blank\">" . $lshort . "</a>";
+    return "&nbsp;<a href=\"".((stripos($url,
+                (string)$TRINITY20['url']) !== false) ? "" : "https://anonym.to/?").$url."\" target=\"_blank\">".$lshort."</a>";
 }
+
 function format_urls($s)
 {
     return preg_replace_callback("/(\A|[^=\]'\"a-zA-Z0-9])((http|ftp|https|ftps|irc):\/\/[^<>\s]+)/i", "islocal", $s);
@@ -201,11 +217,10 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
     $s = $text;
     unset($text);
     $s = validate_imgs($s);
-    $TRINITY20['url'] = str_replace(array('http://', 'www', 'http://www', 'https://', 'https://www'), '', $TRINITY20['baseurl']);
-    if(isset($_SERVER['HTTPS']) && (bool)$_SERVER['HTTPS'] == true) {
+    $TRINITY20['url'] = str_replace(['http://', 'www', 'http://www', 'https://', 'https://www'], '', $TRINITY20['baseurl']);
+    if (isset($_SERVER['HTTPS']) && (bool)$_SERVER['HTTPS'] == true) {
         $s = preg_replace('/http:\/\/((?:www\.)?'.$TRINITY20['url'].')/i', 'https://$1', $s);
-    }
-    else {
+    } else {
         $s = preg_replace('/https:\/\/((?:www\.)?'.$TRINITY20['url'].')/i', 'http://$1', $s);
     }
     // This fixes the extraneous ;) smilies problem. When there was an html escaped
@@ -219,13 +234,13 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
         $s = htmlsafechars($s, ENT_QUOTES, charset());
     }
     if (preg_match("#function\s*\((.*?)\|\|#is", $s)) {
-        $s = str_replace(array(":", "["), ["&#58;", "&#91;"], $s);
-        $s = str_replace(array("]", ")"), ["&#93;", "&#41;"], $s);
-        $s = str_replace(array("(", "{"), ["&#40;", "&#123;"], $s);
-        $s = str_replace(array("}", "$"), ["&#125;", "&#36;"], $s);
+        $s = str_replace([":", "["], ["&#58;", "&#91;"], $s);
+        $s = str_replace(["]", ")"], ["&#93;", "&#41;"], $s);
+        $s = str_replace(["(", "{"], ["&#40;", "&#123;"], $s);
+        $s = str_replace(["}", "$"], ["&#125;", "&#36;"], $s);
     }
     // BBCode to find...
-    $bb_code_in = array(
+    $bb_code_in = [
         '/\[b\]\s*((\s|.)+?)\s*\[\/b\]/i',
         '/\[i\]\s*((\s|.)+?)\s*\[\/i\]/i',
         '/\[u\]\s*((\s|.)+?)\s*\[\/u\]/i',
@@ -248,10 +263,10 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
         '/\[list\]((\s|.)+?)\[\/list\]/i',
         '/\[\*\]\s?(.*?)\n/i',
         '/\[li\]\s?(.*?)\n/i',
-        '/\[hr\]/'
-    );
+        '/\[hr\]/',
+    ];
     // And replace them by...
-    $bb_code_out = array(
+    $bb_code_out = [
         '<span style="font-weight: bold;">\1</span>',
         '<span style="font-style: italic;">\1</span>',
         '<span style="text-decoration: underline;">\1</span>',
@@ -274,8 +289,8 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
         '<ul class="style">\1</ul>',
         '<li>\1</li>',
         '<li>\1</li>',
-        '<hr />'
-    );
+        '<hr />',
+    ];
     $s = preg_replace($bb_code_in, $bb_code_out, $s);
     if ($urls) {
         $s = format_urls($s);
@@ -301,16 +316,18 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
     }
     //==Media tag
     if (stripos($s, '[media=') !== false) {
-    $s = preg_replace_callback("#\[media=(youtube|liveleak|GameTrailers|vimeo|imdb)\](.+?)\[/media\]#is",
-    fn($media_tag) => _MediaTag($media_tag[2], $media_tag[1]),
-    $s);
+        $s = preg_replace_callback("#\[media=(youtube|liveleak|GameTrailers|vimeo|imdb)\](.+?)\[/media\]#is",
+            fn($media_tag) => _MediaTag($media_tag[2], $media_tag[1]),
+            $s);
     }
 
     if (stripos($s, '[img') !== false && $images) {
         // [img=http://www/image.gif]
-        $s = preg_replace("/\[img\]((http|https):\/\/[^\s'\"<>]+(\.(jpg|gif|png|bmp)))\[\/img\]/i", "<a href=\"\\1\" rel=\"lightbox\"><img src=\"\\1\" border=\"0\" alt=\"\" style=\"max-width: 150px;\" /></a>", $s);
+        $s = preg_replace("/\[img\]((http|https):\/\/[^\s'\"<>]+(\.(jpg|gif|png|bmp)))\[\/img\]/i",
+            "<a href=\"\\1\" rel=\"lightbox\"><img src=\"\\1\" border=\"0\" alt=\"\" style=\"max-width: 150px;\" /></a>", $s);
         // [img=http://www/image.gif]
-        $s = preg_replace("/\[img=((http|https):\/\/[^\s'\"<>]+(\.(gif|jpg|png|bmp)))\]/i", "<a href=\"\\1\" rel=\"lightbox\"><img src=\"\\1\" border=\"0\" alt=\"\" style=\"max-width: 150px;\" /></a>", $s);
+        $s = preg_replace("/\[img=((http|https):\/\/[^\s'\"<>]+(\.(gif|jpg|png|bmp)))\]/i",
+            "<a href=\"\\1\" rel=\"lightbox\"><img src=\"\\1\" border=\"0\" alt=\"\" style=\"max-width: 150px;\" /></a>", $s);
     }
     // [mcom]Text[/mcom]
     if (stripos($s, '[mcom]') !== false) {
@@ -318,17 +335,17 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
    <div style=\"border-color: red; background-color: red; color: white; text-align: center; font-weight: bold; font-size: large;\"><b>\\1</b></div></div>",
             $s);
     }
-   // the [you] tag
+    // the [you] tag
     if (stripos($s, '[you]') !== false) {
-    $s = preg_replace("/https?:\/\/[^\s'\"<>]*\[you\][^\s'\"<>]*/i", " ", $s);
-    $s = preg_replace("/\[you\]/i", $CURUSER['username'], $s);
+        $s = preg_replace("/https?:\/\/[^\s'\"<>]*\[you\][^\s'\"<>]*/i", " ", $s);
+        $s = preg_replace("/\[you\]/i", $CURUSER['username'], $s);
     }
-   // [php]code[/php]
-   if (stripos($s, '[php]') !== false) {
-   $s = preg_replace_callback("#\[(php|sql|html)\](.+?)\[\/\\1\]#is",
-   fn($source_highlight) => source_highlighter($source_highlight[2], $source_highlight[1]),
-   $s);
-   }
+    // [php]code[/php]
+    if (stripos($s, '[php]') !== false) {
+        $s = preg_replace_callback("#\[(php|sql|html)\](.+?)\[\/\\1\]#is",
+            fn($source_highlight) => source_highlighter($source_highlight[2], $source_highlight[1]),
+            $s);
+    }
     // Maintain spacing
     $s = str_replace('  ', ' &nbsp;', $s);
     if (isset($smilies)) {
@@ -352,12 +369,14 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
     $s = format_quotes($s);
     return check_BBcode($s);
 }
+
 //=== smilie function
 function get_smile()
 {
     global $CURUSER;
     return $CURUSER["smile_until"];
 }
+
 ////////////09 bbcode function by putyn///////////////
 function textbbcode($form, $text, $content = "")
 {
@@ -398,7 +417,7 @@ HTML;
 		<span id="clickableAwesomeFont"><i class="fas fa-comment-alt" onclick="tag('mcom')" title="Mod comment" alt="Mod comment"></i></span>
 HTML;
     }
-    return $bbcodebody . <<<HTML
+    return $bbcodebody.<<<HTML
 	<select class="input-group-field" name="fontfont" id="fontfont" onchange="font('font',this.value);" title="Font face">
           <option value="0">Font</option>
           <option value="Arial" style="font-family: Arial;">Arial</option>
@@ -471,10 +490,12 @@ HTML;
 </div>
 HTML;
 }
+
 function user_key_codes($key)
 {
     return "/\[$key\]/i";
 }
+
 function dynamic_user_vars($text)
 {
     global $CURUSER, $TRINITY20;
@@ -496,4 +517,5 @@ function dynamic_user_vars($text)
     $bbkeys = array_map('user_key_codes', $bbkeys);
     return @preg_replace($bbkeys, $bbvals, $text);
 }
+
 ?>

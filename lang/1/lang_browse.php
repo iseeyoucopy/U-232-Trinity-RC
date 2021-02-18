@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Browse
     'browse_error' => "Error",
     'browse_invalid_cat' => "Invalid category ID.",
@@ -40,5 +40,5 @@ $lang = array(
     'browse_all_types' => "All Types",
     'browse_search_btn' => "Search",
     'clear_new_btn' => "Clear new tag!",
-);
+];
 ?>

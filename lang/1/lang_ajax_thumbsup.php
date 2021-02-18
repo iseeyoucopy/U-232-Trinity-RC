@@ -10,9 +10,9 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
-	'ajaxthumbs_up' => "Thumbs Up",
-	'ajaxthumbs_' => "",
+$lang = [
+    'ajaxthumbs_up' => "Thumbs Up",
+    'ajaxthumbs_' => "",
 
-);
+];
 ?>

@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Misc
     'std_adduser' => 'Ajouter un utilisateur',
     'std_err' => 'Erreur',
@@ -27,6 +27,6 @@ $lang = array(
     'text_username' => 'Pseudo',
     'text_password' => 'Mot de passe',
     'text_password2' => 'Re-taper le mot de passe',
-    'text_email' => 'Email'
-);
+    'text_email' => 'Email',
+];
 ?>

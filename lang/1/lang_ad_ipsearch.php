@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'ipsearch_error' => "Error",
     'ipsearch_invalid' => "Invalid IP.",
     'ipsearch_stdhead' => "IP Search",
@@ -26,6 +26,6 @@ $lang = array(
     'ipsearch_num' => "Num of IP's",
     'ipsearch_added' => "Added",
     'ipsearch_invited' => "Invited by",
-    'ipsearch_deleted' => "Deleted"
-);
+    'ipsearch_deleted' => "Deleted",
+];
 ?>

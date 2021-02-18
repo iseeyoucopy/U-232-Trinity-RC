@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //friends errors
     'friends_error' => "Error",
     'friends_invalid_id' => "Invalid ID.",
@@ -40,6 +40,6 @@ $lang = array(
     'friends_await_list' => "Awaiting confirmation",
     'friends_reject' => "Reject",
     //friends stdhead
-    'friends_stdhead' => "Personal lists for"
-);
+    'friends_stdhead' => "Personal lists for",
+];
 ?>

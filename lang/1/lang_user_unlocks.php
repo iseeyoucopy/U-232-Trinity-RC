@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'uunlk_std_head' => "User unlocks",
     'uunlk_std_err1' => "Time shall unfold what plighted cunning hides",
     'uunlk_std_err2' => "Who cover faults, at last shame them derides.... Yer simply no tall enough.",
@@ -24,6 +24,6 @@ $lang = array(
     'uunlk_submit' => "Submit",
     'uunlk_unlock_user_moods' => "Unlock User Moods",
     'uunlk_user_stealth_mod' => "User Stealth Mod",
-    'uunlk_user_unlock_settings' => "User Unlock Settings"
-);
+    'uunlk_user_unlock_settings' => "User Unlock Settings",
+];
 ?>

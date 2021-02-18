@@ -12,7 +12,7 @@
  */
 if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
-    $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
+    $HTMLOUT .= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
@@ -24,8 +24,8 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     echo $HTMLOUT;
     exit();
 }
-require_once (INCL_DIR.'user_functions.php');
-require_once (CLASS_DIR.'class_check.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(CLASS_DIR.'class_check.php');
 class_check(UC_STAFF);
 $lang = array_merge($lang, load_language('ad_addpre'));
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -40,8 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $arr = $res->fetch_assoc();
     $name = $arr['name'];
-    ($res = sql_query("INSERT INTO releases (releasename, time, releasetime, section) VALUES (".sqlesc($name).", ".sqlesc($time).", ".sqlesc($time).", 'Site add')")) || sqlerr(__FILE__, __LINE__);
-    
+    ($res = sql_query("INSERT INTO releases (releasename, time, releasetime, section) VALUES (".sqlesc($name).", ".sqlesc($time).", ".sqlesc($time).", 'Site add')")) || sqlerr(__FILE__,
+        __LINE__);
+
     $cache->delete('torrent_pretime_'.$tid);
     if ($mysqli->affected_rows != 1) {
         stderr("{$lang['text_error']}", "{$lang['text_unable']}");

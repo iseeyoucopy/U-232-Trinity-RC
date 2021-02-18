@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'pmview_error' => 'Error',
     'pmview_noacc' => 'You have no rights to be here',
     'pmview_incorrect' => 'You have no rights to be here, move ya ass freak',
@@ -20,6 +20,6 @@ $lang = array(
     'pmview_from' => 'From:',
     'pmview_to' => 'To:',
     'pmview_message' => 'Message:',
-    'pmview_info' => 'Please inform your user, stat you spy on them'
-);
+    'pmview_info' => 'Please inform your user, stat you spy on them',
+];
 ?>

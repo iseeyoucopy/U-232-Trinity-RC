@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'text_error' => "ERREUR!",
     'text_no' => "Aucune Nouvelle avec cette ID.",
     'text_noright' => "Vous n'avez pas le droit de supprimer cette Nouvelle",
@@ -34,5 +34,5 @@ $lang = array(
     'text_body1' => "Il n'y a pas de Corps de texte",
     'text_body1' => "Il n'y a pas de Corps de texte",
     'text_some' => "Quelquechose s'est mal passé!",
-);
+];
 ?>

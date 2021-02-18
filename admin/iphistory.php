@@ -12,7 +12,7 @@
  */
 if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
-    $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
+    $HTMLOUT .= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
@@ -24,11 +24,11 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     echo $HTMLOUT;
     exit();
 }
-require_once (INCL_DIR . 'user_functions.php');
-require_once (INCL_DIR . 'geoip.inc');
-require_once (INCL_DIR . 'geoipcity.inc');
-require_once (INCL_DIR . 'geoipregionvars.php');
-require_once (CLASS_DIR . 'class_check.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(INCL_DIR.'geoip.inc');
+require_once(INCL_DIR.'geoipcity.inc');
+require_once(INCL_DIR.'geoipregionvars.php');
+require_once(CLASS_DIR.'class_check.php');
 //$class = get_access(basename($_SERVER['REQUEST_URI']));
 //class_check($class);
 error_reporting(0);
@@ -53,27 +53,27 @@ if (isset($_GET["remove"])) {
     $username2 = htmlsafechars($_GET['username2']);
     $deleteip = htmlsafechars($_GET['deleteip']);
     //write_logs("<font color='#FA5858'><b>{$lang['stderr_wipe']}</b></font> (<a href='userdetails.php?id=$CURUSER[id]'><b>$CURUSER[username]</b></a>){$lang['stderr_justwipe']}(<b>$deleteip</b>) {$lang['stderr_from']}(<a href='/userdetails.php?id=$id'><b>$username2</b></a>)'s Ip History.", 'log');
-    sql_query("DELETE FROM ips WHERE id=" . sqlesc($remove)) || sqlerr(__FILE__, __LINE__);
+    sql_query("DELETE FROM ips WHERE id=".sqlesc($remove)) || sqlerr(__FILE__, __LINE__);
 }
 if (isset($_GET["setseedbox"])) {
     $setseedbox = htmlsafechars($_GET['setseedbox']);
     if (is_valid_id($setseedbox)) {
-        sql_query("UPDATE ips SET seedbox=1 WHERE id =" . sqlesc($setseedbox)) || sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE ips SET seedbox=1 WHERE id =".sqlesc($setseedbox)) || sqlerr(__FILE__, __LINE__);
     }
 }
 if (isset($_GET["setseedbox2"])) {
     $setseedbox2 = htmlsafechars($_GET['setseedbox2']);
     if (is_valid_id($setseedbox2)) {
-        sql_query("UPDATE ips SET seedbox=0 WHERE id =" . sqlesc($setseedbox2)) || sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE ips SET seedbox=0 WHERE id =".sqlesc($setseedbox2)) || sqlerr(__FILE__, __LINE__);
     }
 }
-($res = sql_query("SELECT username FROM users WHERE id=" . sqlesc($id))) || sqlerr(__FILE__, __LINE__);
+($res = sql_query("SELECT username FROM users WHERE id=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 ($user = $res->fetch_array(MYSQLI_BOTH)) || stderr("{$lang['stderr_error']}", "{$lang['stderr_noid']}");
 $username = htmlsafechars($user["username"]);
-($resip = sql_query("SELECT * FROM ips WHERE userid = " . sqlesc($id) . " GROUP BY ip ORDER BY id DESC")) || sqlerr(__FILE__, __LINE__);
+($resip = sql_query("SELECT * FROM ips WHERE userid = ".sqlesc($id)." GROUP BY ip ORDER BY id DESC")) || sqlerr(__FILE__, __LINE__);
 $ipcount = $resip->num_rows;
 $HTMLOUT = '';
-$HTMLOUT.= "<table class='table table-bordered'>
+$HTMLOUT .= "<table class='table table-bordered'>
                 <tr><td class='colhead' align='center'>{$lang['iphistory_usedby']}<a class='altlink_white' href='userdetails.php?id=$id'><b>$username</b></a></td></tr>
                 <tr>
                 <td class='heading2' align='center'>{$lang['iphistory_total_unique']} <b>$username</b> {$lang['iphistory_total_logged']} <b><u>$ipcount</u></b>.</td></tr>
@@ -123,13 +123,13 @@ while ($iphistory = $resip->fetch_array(MYSQLI_NUM)) {
         $seedboxdetected = "yes";
     }
     if ($seedboxdetected == 'yes') {
-        sql_query("UPDATE ips SET seedbox=1 WHERE id =" . sqlesc($ipid)) || sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE ips SET seedbox=1 WHERE id =".sqlesc($ipid)) || sqlerr(__FILE__, __LINE__);
     }
     $lastbrowse = (int)$iphistory['lastbrowse']; // Last Browse DATE
     $lastlogin = (int)$iphistory['lastlogin']; // Last Login DATE
     $lastannounce = (int)$iphistory['lastannounce']; // Last Announce DATE
     $iptype = htmlsafechars($iphistory['type']); // IP was first used on
-    $queryc = "SELECT COUNT(id) FROM (SELECT u.id FROM users AS u WHERE u.ip = " . sqlesc($iphistory['ip']) . " UNION SELECT u.id FROM users AS u RIGHT JOIN ips ON u.id= ips.userid WHERE ips.ip =" . sqlesc($iphistory['ip']) . " GROUP BY u.id) AS ipsearch";
+    $queryc = "SELECT COUNT(id) FROM (SELECT u.id FROM users AS u WHERE u.ip = ".sqlesc($iphistory['ip'])." UNION SELECT u.id FROM users AS u RIGHT JOIN ips ON u.id= ips.userid WHERE ips.ip =".sqlesc($iphistory['ip'])." GROUP BY u.id) AS ipsearch";
     ($resip2 = sql_query($queryc)) || sqlerr(__FILE__, __LINE__);
     $arrip2 = $resip2->fetch_row();
     $ipcount = $arrip2[0];
@@ -161,9 +161,10 @@ while ($iphistory = $resip->fetch_array(MYSQLI_NUM)) {
     //Is this a seedbox check
     $seedbox = htmlsafechars($iphistory['seedbox']);
     if ($seedbox == '0') {
-        $seedbox = "<a href='staffpanel.php?tool=iphistory&amp;action=iphistory&amp;id=$id&amp;setseedbox=" . (int)$iphistory['id'] . "'><font color='red'><b>{$lang['iphistory_no']}</b></font></a>";
-        $HTMLOUT.= "<tr>
-                <td class='heading2' align='center'>{$lang['iphistory_browse']}".get_date($lastbrowse, '')."<br />{$lang['iphistory_login']}".get_date($lastlogin, '')."<br />{$lang['iphistory_ann']}".get_date($lastannounce, '')."</td>
+        $seedbox = "<a href='staffpanel.php?tool=iphistory&amp;action=iphistory&amp;id=$id&amp;setseedbox=".(int)$iphistory['id']."'><font color='red'><b>{$lang['iphistory_no']}</b></font></a>";
+        $HTMLOUT .= "<tr>
+                <td class='heading2' align='center'>{$lang['iphistory_browse']}".get_date($lastbrowse,
+                '')."<br />{$lang['iphistory_login']}".get_date($lastlogin, '')."<br />{$lang['iphistory_ann']}".get_date($lastannounce, '')."</td>
                 <td class='heading2' align='center'>$ipshow</td>
                 <td class='heading2' align='center'>$host</td>
                 <td class='heading2' align='center'>$listcity, $listregion<br />$listcountry</td>
@@ -173,10 +174,11 @@ while ($iphistory = $resip->fetch_array(MYSQLI_NUM)) {
                 <td class='heading2' align='center'><a href='staffpanel.php?tool=iphistory&amp;action=bans&amp;banthisuser=$username&amp;banthisip=$userip'><b>{$lang['iphistory_ban']}</b></a></td>
                 </tr>";
     } else {
-        $seedbox = "<a class='altlink' href='staffpanel.php?tool=iphistory&amp;action=iphistory&amp;id=$id&amp;setseedbox2=" . (int)$iphistory['id'] . "'><font color='Green'><b>{$lang['iphistory_yes']}</b></font></a>";
+        $seedbox = "<a class='altlink' href='staffpanel.php?tool=iphistory&amp;action=iphistory&amp;id=$id&amp;setseedbox2=".(int)$iphistory['id']."'><font color='Green'><b>{$lang['iphistory_yes']}</b></font></a>";
         $color = '#CCFFFF';
-        $HTMLOUT.= "<tr>
-                <td class='heading2' align='center' style='background-color:$color'>{$lang['iphistory_browse']}".get_date($lastbrowse, '')."<br />{$lang['iphistory_login']}".get_date($lastlogin, '')."<br />{$lang['iphistory_announce']}".get_date($lastannounce, '')."</td>
+        $HTMLOUT .= "<tr>
+                <td class='heading2' align='center' style='background-color:$color'>{$lang['iphistory_browse']}".get_date($lastbrowse,
+                '')."<br />{$lang['iphistory_login']}".get_date($lastlogin, '')."<br />{$lang['iphistory_announce']}".get_date($lastannounce, '')."</td>
                 <td class='heading2' align='center' style='background-color:$color'>$ipshow</td>
                 <td class='heading2' align='center' style='background-color:$color'>$host</td>
                 <td class='heading2' align='center' style='background-color:$color'>$listcity, $listregion<br />$listcountry</td>
@@ -186,8 +188,8 @@ while ($iphistory = $resip->fetch_array(MYSQLI_NUM)) {
                 <td class='heading2' align='center' style='background-color:$color'><a href='staffpanel.php?tool=iphistory&amp;action=bans&amp;banthisuser=$username&amp;banthisip=$userip'><b>{$lang['iphistory_ban']}</b></a></td>
                 </tr>";
     } // End Seedbox Check
-    
+
 }
-$HTMLOUT.= "</table>";
-echo stdhead("{$username}'s IP History") . $HTMLOUT . stdfoot();
+$HTMLOUT .= "</table>";
+echo stdhead("{$username}'s IP History").$HTMLOUT.stdfoot();
 ?>

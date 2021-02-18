@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //takeupload errors
     'takeupload_failed' => "Upload failed!",
     'takeupload_no_formdata' => "missing form data",
@@ -44,8 +44,8 @@ $lang = array(
     'takeupload_img_exists' => "An image already exists. Contact Admin for assistance.",
     'takeupload_img_copyerror' => "An error occured copy the image to the image storage repository. Contact Admin for assistance.",
     'takeupload_bucket_format' => "The image you are trying (%s) to upload is not allowed!",
-    'takeupload_bucket_size' => "The image is to big (%s)! max size can be " . mksize($TRINITY20['bucket_maxsize']) ,
+    'takeupload_bucket_size' => "The image is to big (%s)! max size can be ".mksize($TRINITY20['bucket_maxsize']),
     'takeupload_no_youtube' => "youtube link is not correct or is not present!",
-    'takeupload_bucket_noimg' => "You forgot about the images!"
-);
+    'takeupload_bucket_noimg' => "You forgot about the images!",
+];
 ?>

@@ -10,8 +10,8 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once(__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
-require_once(INCL_DIR . 'user_functions.php');
+require_once(__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorrent.php');
+require_once(INCL_DIR.'user_functions.php');
 dbconn();
 loggedinorreturn();
 $HTMLOUT = '';
@@ -32,38 +32,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($CURUSER["tenpercent"] == "yes") {
         stderr("Used", "It appears that you have already used your 10% addition.");
     }
-    $sure = (isset($_POST['sure']) ? (int) $_POST['sure'] : '');
+    $sure = (isset($_POST['sure']) ? (int)$_POST['sure'] : '');
     if (!$sure) {
-        stderr("Are you sure?", "It appears that you are not yet sure whether you want to add 10% to your upload or not. Once you are sure you can <a href='tenpercent.php'>return</a> to the 10% page.");
+        stderr("Are you sure?",
+            "It appears that you are not yet sure whether you want to add 10% to your upload or not. Once you are sure you can <a href='tenpercent.php'>return</a> to the 10% page.");
     }
     $time = TIME_NOW;
     $subject = "10% Addition";
-    $msg = "Today, " . get_date($time, 'LONG', 0, 1) . ", you have increased your total upload amount by 10% from [b]" . mksize($uploaded) . "[/b] to [b]" . mksize($newuploaded) . "[/b], which brings your ratio to [b]" . $newratio . "[/b].";
-    ($res = sql_query("UPDATE users SET uploaded = uploaded * 1.1, tenpercent = 'yes' WHERE id = " . sqlesc($CURUSER['id']))) || sqlerr(__FILE__, __LINE__);
+    $msg = "Today, ".get_date($time, 'LONG', 0,
+            1).", you have increased your total upload amount by 10% from [b]".mksize($uploaded)."[/b] to [b]".mksize($newuploaded)."[/b], which brings your ratio to [b]".$newratio."[/b].";
+    ($res = sql_query("UPDATE users SET uploaded = uploaded * 1.1, tenpercent = 'yes' WHERE id = ".sqlesc($CURUSER['id']))) || sqlerr(__FILE__,
+        __LINE__);
     $update['uploaded'] = ($CURUSER['uploaded'] * 1.1);
-    $cache->update_row($keys['user_stats'] . $CURUSER['id'], [
-        'uploaded' => $update['uploaded']
+    $cache->update_row($keys['user_stats'].$CURUSER['id'], [
+        'uploaded' => $update['uploaded'],
     ], $TRINITY20['expires']['u_stats']);
-    $cache->update_row('user_stats_' . $CURUSER['id'], [
-        'uploaded' => $update['uploaded']
+    $cache->update_row('user_stats_'.$CURUSER['id'], [
+        'uploaded' => $update['uploaded'],
     ], $TRINITY20['expires']['user_stats']);
-    $cache->update_row('user' . $CURUSER['id'], [
-        'tenpercent' => 'yes'
+    $cache->update_row('user'.$CURUSER['id'], [
+        'tenpercent' => 'yes',
     ], $TRINITY20['expires']['user_cache']);
-    $cache->update_row($keys['my_userid'] . $CURUSER['id'], [
-        'tenpercent' => 'yes'
+    $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+        'tenpercent' => 'yes',
     ], $TRINITY20['expires']['user_cache']);
-    ($res1 = sql_query("INSERT INTO messages (sender, poster, receiver, subject, msg, added) VALUES (0, 0, " . sqlesc($CURUSER['id']) . ", " . sqlesc($subject) . ", " . sqlesc($msg) . ", '" . TIME_NOW . "')")) || sqlerr(__FILE__, __LINE__);
-    $cache->delete('inbox_new::' . $CURUSER['id']);
-    $cache->delete('inbox_new_sb::' . $CURUSER['id']);
+    ($res1 = sql_query("INSERT INTO messages (sender, poster, receiver, subject, msg, added) VALUES (0, 0, ".sqlesc($CURUSER['id']).", ".sqlesc($subject).", ".sqlesc($msg).", '".TIME_NOW."')")) || sqlerr(__FILE__,
+        __LINE__);
+    $cache->delete('inbox_new::'.$CURUSER['id']);
+    $cache->delete('inbox_new_sb::'.$CURUSER['id']);
     if (!$res) {
         stderr("Error", "It appears that something went wrong while trying to add 10% to your upload amount.");
     } else {
-        stderr("10% Added", "Your total upload amount has been increased by 10% from <b>" . mksize($uploaded) . "</b> to <b>" . mksize($newuploaded) . "</b>, which brings your ratio to <b>$newratio</b>.");
+        stderr("10% Added",
+            "Your total upload amount has been increased by 10% from <b>".mksize($uploaded)."</b> to <b>".mksize($newuploaded)."</b>, which brings your ratio to <b>$newratio</b>.");
     }
 }
 if ($CURUSER["tenpercent"] == "no") {
-    $HTMLOUT.= "
+    $HTMLOUT .= "
   <script type='text/javascript'>
   /*<![CDATA[*/
   function enablesubmit() {
@@ -79,8 +84,8 @@ if ($CURUSER["tenpercent"] == "yes") {
     stderr("Oops", "It appears that you have already used your 10% addition");
     exit();
 }
-$HTMLOUT.= "<div class='row'><div class='col-md-12'>";
-$HTMLOUT.= "<h1 class='text-center'>10&#37;</h1>
+$HTMLOUT .= "<div class='row'><div class='col-md-12'>";
+$HTMLOUT .= "<h1 class='text-center'>10&#37;</h1>
 <table class='table table-bordered'>
 <tr>
 <td style='padding-bottom: 0px'>
@@ -91,8 +96,16 @@ $HTMLOUT.= "<h1 class='text-center'>10&#37;</h1>
 &#8226;&nbsp;The staff will <b>not</b> reset your 10&#37; addition for any reason.<br /><br />
 </b></td></tr></table>
 <table class='table table-bordered'>
-<tr><td class='normalrowhead'>Current&nbsp;upload&nbsp;amount:</td><td class='normal'>" . str_replace(" ", "&nbsp;", mksize($uploaded)) . "</td><td class='embedded' width='5%'></td><td class='normalrowhead'>Increase:</td><td class='normal'>" . str_replace(" ", "&nbsp;", mksize($newuploaded - $uploaded)) . "</td><td class='embedded' width='5%'></td><td class='normalrowhead'>New&nbsp;upload&nbsp;amount:</td><td class='normal'>" . str_replace(" ", "&nbsp;", mksize($newuploaded)) . "</td></tr>
-<tr><td class='normalrowhead'>Current&nbsp;download&nbsp;amount:</td><td class='normal'>" . str_replace(" ", "&nbsp;", mksize($downloaded)) . "</td><td class='embedded' width='5%'></td><td class='normalrowhead'>Increase:</td><td class='normal'>" . str_replace(" ", "&nbsp;", mksize(0)) . "</td><td class='embedded' width='5%'></td><td class='normalrowhead'>New&nbsp;download&nbsp;amount:</td><td class='normal'>" . str_replace(" ", "&nbsp;", mksize($downloaded)) . "</td></tr>
+<tr><td class='normalrowhead'>Current&nbsp;upload&nbsp;amount:</td><td class='normal'>".str_replace(" ", "&nbsp;",
+        mksize($uploaded))."</td><td class='embedded' width='5%'></td><td class='normalrowhead'>Increase:</td><td class='normal'>".str_replace(" ",
+        "&nbsp;",
+        mksize($newuploaded - $uploaded))."</td><td class='embedded' width='5%'></td><td class='normalrowhead'>New&nbsp;upload&nbsp;amount:</td><td class='normal'>".str_replace(" ",
+        "&nbsp;", mksize($newuploaded))."</td></tr>
+<tr><td class='normalrowhead'>Current&nbsp;download&nbsp;amount:</td><td class='normal'>".str_replace(" ", "&nbsp;",
+        mksize($downloaded))."</td><td class='embedded' width='5%'></td><td class='normalrowhead'>Increase:</td><td class='normal'>".str_replace(" ",
+        "&nbsp;",
+        mksize(0))."</td><td class='embedded' width='5%'></td><td class='normalrowhead'>New&nbsp;download&nbsp;amount:</td><td class='normal'>".str_replace(" ",
+        "&nbsp;", mksize($downloaded))."</td></tr>
 <tr><td class='normalrowhead'>Current&nbsp;ratio:</td><td class='normal'>$ratio</td><td class='embedded' width='5%'></td><td class='normalrowhead'>Increase:</td><td class='normal'>$ratiochange</td><td class='embedded' width='5%'></td><td class='normalrowhead'>New&nbsp;ratio:</td><td class='normal'>$newratio</td></tr>
 </table>
 <form name='tenpercent' method='post' action='tenpercent.php'>
@@ -100,5 +113,5 @@ $HTMLOUT.= "<h1 class='text-center'>10&#37;</h1>
 <tr><td align='center'><b>Yes please </b><input type='checkbox' name='sure' value='1' onclick='if (this.checked) enablesubmit(); else disablesubmit();' /></td></tr>
 <tr><td align='center'><input type='submit' name='submit' value='Add 10%' class='btn' disabled='disabled' /></td></tr>
 </table></form>\n";
-$HTMLOUT.= "</div></div>";
-echo stdhead("Ten Percent") . $HTMLOUT . stdfoot();
+$HTMLOUT .= "</div></div>";
+echo stdhead("Ten Percent").$HTMLOUT.stdfoot();

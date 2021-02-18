@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //Details freepoll
     'details_freepoll_vote' => "Vote",
     'details_freepoll_voted' => "Already voted",
@@ -126,7 +126,7 @@ $lang = array(
     'details_add_return' => "  Return",
     'details_add_prev' => "  Next Torrent",
     'details_add_rand' => "Random Any",
-	//==Free Slots Lang
+    //==Free Slots Lang
     'details_bal1_free1' => "Freeleech until ",
     'details_bal1_free2' => " until ",
     'details_bal1_free3' => " and can be resumed or started over using the                  regular download link. Doing so will result in one Freeleech Slot being taken away from your total.",
@@ -145,7 +145,7 @@ $lang = array(
     'details_add_slots9' => "Freeleech and Doubleseed Slots In Use!",
     'details_add_slots10' => " (upload stats x2 and no download stats are recorded)<p>Freeleech Expires: 12:01AM ",
     'details_add_slots11' => " and Doubleseed Expires: 12:01AM ",
-	//==End Free Slots Lang
+    //==End Free Slots Lang
     'details_add_men1' => "Download torrent here",
     'details_add_men2' => "Description and Similar Torrents",
     'details_add_men3' => "NFO and Other Information",
@@ -205,7 +205,7 @@ $lang = array(
     'details_add_lc' => " leecher(s) = ",
     'details_add_reseed1' => "Last10",
     'details_add_reseed2' => "Uploader",
-    'details_add_reseed3' => "Send PM", 
+    'details_add_reseed3' => "Send PM",
     'details_add_reseed4' => "Request reseed",
     'details_add_snatch1' => "Snatches for torrent ",
     'details_add_snatch2' => "Currently ",
@@ -233,6 +233,6 @@ $lang = array(
     'details_add_imdb' => "Auto imdb",
     'details_add_noimdb' => "No Imdb or TVMaze info.",
     'details_add_TY' => "Thank You",
-    'details_add_openclose' => "Open/Close comments"
-);    
+    'details_add_openclose' => "Open/Close comments",
+];
 ?>

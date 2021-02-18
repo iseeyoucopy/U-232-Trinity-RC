@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
- $lang = array(
+$lang = [
     //Email-gateway
     'email_error' => "ERROR",
     'email_bad_id' => "Bad or missing ID.",
@@ -33,6 +33,6 @@
     'email_send' => "Send",
     'email_note_ip' => "Note:",
     'email_ip' => " Your IP-address will be logged and visible to the recipient to prevent abuse.",
-    'email_valid' => "Make sure to supply a valid e-mail address if you expect a reply."
-);
+    'email_valid' => "Make sure to supply a valid e-mail address if you expect a reply.",
+];
 ?>

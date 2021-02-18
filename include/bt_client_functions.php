@@ -21,25 +21,23 @@ function StdDecodePeerId($id_data, $id_name)
         if ($id_name == "BitTornado" || $id_name == "ABC") {
             if ($c != '-' && ctype_digit($c)) {
                 $version_str .= "$c.";
-            }
-            elseif ($c != '-' && ctype_alpha($c)) {
+            } elseif ($c != '-' && ctype_alpha($c)) {
                 $version_str .= (ord($c) - 55).".";
-            }
-            else {
+            } else {
                 break;
             }
         } elseif ($id_name == "BitComet" || $id_name == "BitBuddy" || $id_name == "Lphant" || $id_name == "BitPump" || $id_name == "BitTorrent Plus! v2") {
             if ($c != '-' && ctype_alnum($c)) {
-                $version_str.= "$c";
+                $version_str .= "$c";
                 if ($i == 0) {
                     $version_str = (int)$version_str.".";
                 }
             } else {
-                $version_str.= ".";
+                $version_str .= ".";
                 break;
             }
         } elseif ($c != '-' && ctype_alnum($c)) {
-            $version_str.= "$c.";
+            $version_str .= "$c.";
         } else {
             break;
         }
@@ -47,6 +45,7 @@ function StdDecodePeerId($id_data, $id_name)
     $version_str = substr($version_str, 0, -1);
     return "$id_name $version_str";
 }
+
 function MainlineDecodePeerId($id_data, $id_name)
 {
     $version_str = "";
@@ -59,14 +58,16 @@ function MainlineDecodePeerId($id_data, $id_name)
     $version_str = substr($version_str, 0, -1);
     return "$id_name $version_str";
 }
+
 function DecodeVersionString($ver_data, $id_name)
 {
     $version_str = "";
-    $version_str.= (int) (ord($ver_data[0]) + 0) . ".";
-    $version_str.= (int) (ord($ver_data[1]) / 10 + 0);
-    $version_str.= (int) (ord($ver_data[1]) % 10 + 0);
+    $version_str .= (int)(ord($ver_data[0]) + 0).".";
+    $version_str .= (int)(ord($ver_data[1]) / 10 + 0);
+    $version_str .= (int)(ord($ver_data[1]) % 10 + 0);
     return "$id_name $version_str";
 }
+
 function getagent($httpagent, $peer_id = "")
 {
     // if($peer_id!="") $peer_id=hex2bin($peer_id);
@@ -265,19 +266,19 @@ function getagent($httpagent, $peer_id = "")
     //if ($peer_id[0] == 'A') return StdDecodePeerId(substr($peer_id, 1, 9) , "ABC" - 1); // ABC
     //if ($peer_id[0] == 'R') return StdDecodePeerId(substr($peer_id, 1, 5) , "Tribler"- 1); // Tribler
     //if ($peer_id[0] == 'M') {
-        //if (preg_match("/^Python/", $httpagent, $matches)) return "Spoofing BT Client"; // Spoofing BT Client
-        //return MainlineDecodePeerId(substr($peer_id, 1, 7) , "Mainline"); // Mainline BitTorrent with version
+    //if (preg_match("/^Python/", $httpagent, $matches)) return "Spoofing BT Client"; // Spoofing BT Client
+    //return MainlineDecodePeerId(substr($peer_id, 1, 7) , "Mainline"); // Mainline BitTorrent with version
     //}
     //if ($peer_id[0] == 'O') return StdDecodePeerId(substr($peer_id, 1, 9) , "Osprey Permaseed"); // Osprey Permaseed
     //if ($peer_id[0] == 'S') {
-        //if (preg_match("/^BitTorrent\/3.4.2/", $httpagent, $matches)) return "Spoofing BT Client"; // Spoofing BT Client
-        //return StdDecodePeerId(substr($peer_id, 1, 9) , "Shad0w"); // Shadow's client
+    //if (preg_match("/^BitTorrent\/3.4.2/", $httpagent, $matches)) return "Spoofing BT Client"; // Spoofing BT Client
+    //return StdDecodePeerId(substr($peer_id, 1, 9) , "Shad0w"); // Shadow's client
     //}
     //if ($peer_id[0] == 'T') {
-       // if (preg_match("/^Python/", $httpagent, $matches)) return "Spoofing BT Client"; // Spoofing BT Client
-       // return StdDecodePeerId(substr($peer_id, 1, 9) , "BitTornado"); // BitTornado
+    // if (preg_match("/^Python/", $httpagent, $matches)) return "Spoofing BT Client"; // Spoofing BT Client
+    // return StdDecodePeerId(substr($peer_id, 1, 9) , "BitTornado"); // BitTornado
     //}
-   // if ($peer_id[0] == 'U') return StdDecodePeerId(substr($peer_id, 1, 9) , "UPnP"); // UPnP NAT Bit Torrent
+    // if ($peer_id[0] == 'U') return StdDecodePeerId(substr($peer_id, 1, 9) , "UPnP"); // UPnP NAT Bit Torrent
     // Azureus / Localhost
     if (substr($peer_id, 0, 3) == '-AZ') {
         if (preg_match("/^Localhost (\\d+\\.\\d+\\.\\d+)/", $httpagent, $matches)) {
@@ -289,7 +290,7 @@ function getagent($httpagent, $peer_id = "")
         if (preg_match("/^Python/", $httpagent, $matches)) {
             return "Spoofing BT Client";
         } // Spoofing BT Client
-        return StdDecodePeerId(substr($peer_id, 3, 7) , "Azureus");
+        return StdDecodePeerId(substr($peer_id, 3, 7), "Azureus");
     }
     if (false !== strpos($peer_id, "Azureus")) {
         return "Azureus 2.0.3.2";
@@ -304,11 +305,9 @@ function getagent($httpagent, $peer_id = "")
             return DecodeVersionString(substr($peer_id, 4, 2), "BitComet Mod2");
         } elseif (substr($peer_id, 6, 4) == 'LORD') {
             return DecodeVersionString(substr($peer_id, 4, 2), "BitLord");
-        }
-        elseif (substr($peer_id, 6, 3) == '---' && DecodeVersionString(substr($peer_id, 4, 2) , "BitComet") == 'BitComet 0.54') {
+        } elseif (substr($peer_id, 6, 3) == '---' && DecodeVersionString(substr($peer_id, 4, 2), "BitComet") == 'BitComet 0.54') {
             return "BitVampire";
-        }
-        else {
+        } else {
             return DecodeVersionString(substr($peer_id, 4, 2), "BitComet");
         }
     }
@@ -318,8 +317,7 @@ function getagent($httpagent, $peer_id = "")
             $c = $peer_id[$i + 4];
             if (ctype_alnum($c) || $c == chr(0)) {
                 $rufus_chk = true;
-            }
-            else {
+            } else {
                 break;
             }
         }
@@ -352,8 +350,8 @@ function getagent($httpagent, $peer_id = "")
     // eXeem beta
     if (substr($peer_id, 0, 3) == '-eX') {
         $version_str = "";
-        $version_str.= intval($peer_id[3], 16) . ".";
-        $version_str.= intval($peer_id[4], 16);
+        $version_str .= intval($peer_id[3], 16).".";
+        $version_str .= intval($peer_id[4], 16);
         return "eXeem $version_str";
     }
     if (substr($peer_id, 0, 2) == 'eX') {
@@ -365,12 +363,13 @@ function getagent($httpagent, $peer_id = "")
     //return "$httpagent [$peer_id]";
     return "Unknown client";
 }
+
 //========================================
 //getAgent function by deliopoulos
 //========================================
 function getclient($httpagent, $peer_id)
 {
-	/*
+    /*
     if (preg_match('/^-U([TM])([0-9]{3})([0-9B])-(..)/s', $peer_id, $matches)) {
         $ver = (int)$matches[2];
         $vere = $matches[3];
@@ -399,7 +398,7 @@ function getclient($httpagent, $peer_id)
             2
         } . ' (' . $build . ')';
     }
-	*/
+    */
     if (preg_match('/^Azureus (\d+\.\d+\.\d+\.\d+)/', $httpagent, $matches)) {
         return 'Azureus/'.$matches[1];
     }
@@ -505,4 +504,5 @@ function getclient($httpagent, $peer_id)
     }
     return preg_replace('/[^a-zA-z0-9._-]/', '-', $peer_id);
 }
+
 ?>

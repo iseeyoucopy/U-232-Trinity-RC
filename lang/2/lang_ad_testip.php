@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'testip_error' => 'Erreur',
     'testip_error1' => 'Mauvaise IP',
     'testip_result' => 'Résultat',
@@ -23,5 +23,5 @@ $lang = array(
     'testip_ok' => 'OK',
     'testip_title' => 'Tester Addresse IP',
     'testip_windows_title' => 'Test IP',
-);
+];
 ?>

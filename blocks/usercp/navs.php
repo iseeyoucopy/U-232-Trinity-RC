@@ -1,5 +1,5 @@
 <?php
-$HTMLOUT.= "<ul class='tabs' id='usercp-tabs'>
+$HTMLOUT .= "<ul class='tabs' id='usercp-tabs'>
 	<li class='tabs-title'><a href='usercp.php?action=default'>{$lang['usercp_menu_pms']}</a></li>
 	<li class='tabs-title'><a href='usercp.php?action=avatar'>{$lang['usercp_menu_av']}</a></li>				
 	<li class='tabs-title'><a href='usercp.php?action=signature'>{$lang['usercp_menu_sig']}</a></li>

@@ -10,12 +10,12 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     'wiki_title' => "Wiki",
     'wiki_access_denied' => "Accès refusé",
     'wiki_add' => "Ajouter",
     'wiki_added_by' => " Ajouté par ",
-	'wiki_added_by1' => " Ajouté par: ",
+    'wiki_added_by1' => " Ajouté par: ",
     'wiki_added_by_art' => "Article ajouté par ",
     'wiki_art_found_starting' => "Articles commençant par la lettre: ",
     'wiki_edit' => "Editer",
@@ -32,6 +32,6 @@ $lang = array(
     'wiki_search' => "Chercher",
     'wiki_search_res_for' => "Chercher les occurences pour",
     'wiki_write_user' => "Ecrire: Utilisateur",
-	'wiki_ok' => "OK"
-);
+    'wiki_ok' => "OK",
+];
 ?>

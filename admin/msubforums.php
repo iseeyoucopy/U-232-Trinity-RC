@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * -------   U-232 Codename Trinity   ----------*
  * ---------------------------------------------*
@@ -12,7 +12,7 @@
  */
 if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT = '';
-    $HTMLOUT.= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
+    $HTMLOUT .= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
@@ -24,9 +24,9 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     echo $HTMLOUT;
     exit();
 }
-require_once (INCL_DIR . 'user_functions.php');
-require_once (INCL_DIR . 'html_functions.php');
-require_once (CLASS_DIR . 'class_check.php');
+require_once(INCL_DIR.'user_functions.php');
+require_once(INCL_DIR.'html_functions.php');
+require_once(CLASS_DIR.'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 
@@ -41,25 +41,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     mkglobal("subforum:descr:place");
     if (empty($subforum) || empty($descr) || empty($place)) {
         stderr($lang['forum_mngr_err1'], $lang['forum_mngr_warn1']);
-    }
-    else {
-        sql_query("INSERT INTO forums(`name`,`description` ,`min_class_read` ,`min_class_write` ,`min_class_create`,`place`,`forum_id`) VALUES(" . implode(",", array_map("sqlesc", array($subforum, $descr, sqlesc((int)$_POST['readclass']), sqlesc((int)$_POST['writeclass']), sqlesc((int)$_POST['createclass']), $place, $place))) . ")") || sqlerr(__FILE__, __LINE__);
+    } else {
+        sql_query("INSERT INTO forums(`name`,`description` ,`min_class_read` ,`min_class_write` ,`min_class_create`,`place`,`forum_id`) VALUES(".implode(",",
+                array_map("sqlesc", [
+                    $subforum,
+                    $descr,
+                    sqlesc((int)$_POST['readclass']),
+                    sqlesc((int)$_POST['writeclass']),
+                    sqlesc((int)$_POST['createclass']),
+                    $place,
+                    $place,
+                ])).")") || sqlerr(__FILE__, __LINE__);
         if ($mysqli->insert_id) {
-            header("Refresh: 2; url=" . $this_url);
+            header("Refresh: 2; url=".$this_url);
             stderr($lang['forum_mngr_succ'], $lang['forum_sub_add']);
         } else {
             stderr($lang['forum_mngr_err1'], $lang['forum_mngr_warn2']);
         }
     }
 } else {
-  
+
     //$HTMLOUT .= begin_frame();
 
-	$HTMLOUT .= "<div class='row'><div class='col-md-12'>";
+    $HTMLOUT .= "<div class='row'><div class='col-md-12'>";
     // first build the list with all the subforums
-    ($r_list = sql_query("SELECT f.id as parrentid , f.name as parrentname , f2.id as subid , f2.name as subname, f2.min_class_read, f2.min_class_write, f2.min_class_create, f2.description FROM forums as f LEFT JOIN forums as f2 ON f2.place=f.id WHERE f2.place !=-1 ORDER BY f.id ASC")) || sqlerr(__FILE__, __LINE__);
+    ($r_list = sql_query("SELECT f.id as parrentid , f.name as parrentname , f2.id as subid , f2.name as subname, f2.min_class_read, f2.min_class_write, f2.min_class_create, f2.description FROM forums as f LEFT JOIN forums as f2 ON f2.place=f.id WHERE f2.place !=-1 ORDER BY f.id ASC")) || sqlerr(__FILE__,
+        __LINE__);
 
-	$HTMLOUT .="<table class='table table-bordered'>
+    $HTMLOUT .= "<table class='table table-bordered'>
               <tr>
     	        <td width='100%' align='left' rowspan='2' class='colhead'>{$lang['forum_sub_sub']}</td>
               <td nowrap='nowrap' align='center' rowspan='2' class='colhead'>{$lang['forum_sub_par']}</td>
@@ -75,8 +84,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     while ($a = $r_list->fetch_assoc()) {
 
-        
-		$HTMLOUT .="<tr>
+
+        $HTMLOUT .= "<tr>
     <td width='100%' align='left' ><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".((int)$a["subid"])."' >".(htmlsafechars($a["subname"]))."</a><br/>".(htmlsafechars($a["description"]))."</td>
     <td nowrap='nowrap' align='center'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)($a["parrentid"])."' >".(htmlsafechars($a["parrentname"]))."</a></td>
     <td nowrap='nowrap'>".(get_user_class_name($a['min_class_read']))."</td>
@@ -87,27 +96,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		<a href='{$TRINITY20['baseurl']}/forums.php?action=editforum&amp;forumid=".(int)($a['subid'])."'><img src='{$TRINITY20['pic_base_url']}edit.png' alt='Edit Forum' title='Edit Forum' style='border:none;padding:2px;' /></a></td>
     </tr>";
     }
-    
-    $HTMLOUT .="</table>";
-	$HTMLOUT .= "</div></div>";
+
+    $HTMLOUT .= "</table>";
+    $HTMLOUT .= "</div></div>";
 
     //$HTMLOUT .= end_frame();
     //$HTMLOUT .= begin_frame('Add new subforum');
-	$HTMLOUT .= "<div class='row'><div class='col-md-12'>";
-	  $HTMLOUT .="<form action='".$this_url."' method='post'>
+    $HTMLOUT .= "<div class='row'><div class='col-md-12'>";
+    $HTMLOUT .= "<form action='".$this_url."' method='post'>
 	  <table class='table table-bordered'>
 	  <tr>
 		<td align='right' class='colhead'>{$lang['forum_sub_in']}</td>
 		<td nowrap='nowrap' colspan='3' align='left' >";
-    $select .="<select name=\"place\"><option value=\"\">Select</option>\n";
+    $select .= "<select name=\"place\"><option value=\"\">Select</option>\n";
     ($r = sql_query("SELECT id,name FROM forums WHERE place=-1 ORDER BY name ASC")) || sqlerr(__FILE__, __LINE__);
     while ($ar = $r->fetch_assoc()) {
         $select .= "<option value=\"".(int)$ar["id"]."\">".htmlsafechars($ar["name"])."</option>\n";
     }
     $select .= "</select>\n";
-    $HTMLOUT .=($select);
-    
-		$HTMLOUT .="</td>
+    $HTMLOUT .= ($select);
+
+    $HTMLOUT .= "</td>
 	  </tr>
 	  <tr>
 		<td align='right' class='colhead'>{$lang['forum_sub_sub1']}</td>
@@ -128,31 +137,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     for ($i = 0; $i <= $maxclass; ++$i) {
         $HTMLOUT .= "<option value=\"$i\">".get_user_class_name($i)."</option>\n";
     }
-    $HTMLOUT .=" </select></td>
+    $HTMLOUT .= " </select></td>
 		<td align='center'><select name='writeclass'>
 		<option value=''>{$lang['forum_sub_wr']}</option>";
     $maxclass = $CURUSER["class"];
     for ($i = 0; $i <= $maxclass; ++$i) {
         $HTMLOUT .= "<option value=\"$i\">".get_user_class_name($i)."</option>\n";
     }
-    $HTMLOUT .="</select></td>
+    $HTMLOUT .= "</select></td>
 	  <td align='center'><select name='readclass'>
 		<option value=''>{$lang['forum_sub_rd']}</option>";
     $maxclass = $CURUSER["class"];
     for ($i = 0; $i <= $maxclass; ++$i) {
         $HTMLOUT .= "<option value=\"$i\">".get_user_class_name($i)."</option>\n";
     }
-    $HTMLOUT .="</select></td>
+    $HTMLOUT .= "</select></td>
 	  </tr>
 	  <tr>
 	  <td align='center' colspan='4' class='colhead'>
 	  <input type='submit' value='{$lang['forum_sub_ads']}'/></td></tr>
 	  </table>
 	  </form>";
-	$HTMLOUT .= "</div></div>";
+    $HTMLOUT .= "</div></div>";
 
     //$HTMLOUT .= end_frame();
-     echo stdhead($lang['forum_sub_mng']) . $HTMLOUT . stdfoot();
+    echo stdhead($lang['forum_sub_mng']).$HTMLOUT.stdfoot();
 }
 
 ?>

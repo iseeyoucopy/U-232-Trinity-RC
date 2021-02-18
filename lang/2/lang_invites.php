@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$lang = array(
+$lang = [
     //email invite mod
     'invites_usererror' => "User Error",
     'invites_deny' => "Denied",
@@ -100,6 +100,6 @@ $lang = array(
     'invites_confirm_sorry' => "Sorry",
     'invites_confirm_currlimit' => "The current user account limit  has been reached. Inactive accounts are pruned all the time, please check back again later...",
     'invites_confirm_error' => "Error",
-    'invites_confirm_invalid' => "Invalid action - contact staff"
-);
+    'invites_confirm_invalid' => "Invalid action - contact staff",
+];
 ?>

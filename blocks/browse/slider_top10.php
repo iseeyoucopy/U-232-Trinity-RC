@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$HTMLOUT.='<div class="grid-x grid-margin-x">
+$HTMLOUT .= '<div class="grid-x grid-margin-x">
   <div class="cell large-6 large-offset-3">
   <div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
   <div class="orbit-wrapper">
@@ -20,52 +20,52 @@ $HTMLOUT.='<div class="grid-x grid-margin-x">
     </div>
     <ul class="orbit-container">
       <li class="is-active orbit-slide">';
-        require_once (BLOCK_DIR . 'browse/top10_torrents_24.php');
-        $HTMLOUT.='
+require_once(BLOCK_DIR.'browse/top10_torrents_24.php');
+$HTMLOUT .= '
       </li>
       <li class="orbit-slide">';
-      require_once (BLOCK_DIR . 'browse/top10_movies_24.php');
-      $HTMLOUT.='
+require_once(BLOCK_DIR.'browse/top10_movies_24.php');
+$HTMLOUT .= '
       </li>
       <li class="orbit-slide">';
-      require_once (BLOCK_DIR . 'browse/top10_movies_week.php');
-      $HTMLOUT.='
+require_once(BLOCK_DIR.'browse/top10_movies_week.php');
+$HTMLOUT .= '
       </li>
       <li class="orbit-slide">';
-        require_once (BLOCK_DIR . 'browse/top10_movies_all.php');
-        $HTMLOUT.='
+require_once(BLOCK_DIR.'browse/top10_movies_all.php');
+$HTMLOUT .= '
       </li>
       <li class="orbit-slide">';
-        require_once (BLOCK_DIR . 'browse/top10_tv_24.php');
-        $HTMLOUT.='
+require_once(BLOCK_DIR.'browse/top10_tv_24.php');
+$HTMLOUT .= '
       </li>
       <li class="orbit-slide">';
-        require_once (BLOCK_DIR . 'browse/top10_tv_week.php');
-        $HTMLOUT.='
+require_once(BLOCK_DIR.'browse/top10_tv_week.php');
+$HTMLOUT .= '
       </li>
       <li class="orbit-slide">';
-        require_once (BLOCK_DIR . 'browse/top10_tv_all.php');
-        $HTMLOUT.='
+require_once(BLOCK_DIR.'browse/top10_tv_all.php');
+$HTMLOUT .= '
       </li>
       <li class="orbit-slide">';
-        require_once (BLOCK_DIR . 'browse/top10_music_24.php');
-        $HTMLOUT.='
+require_once(BLOCK_DIR.'browse/top10_music_24.php');
+$HTMLOUT .= '
       </li>
       <li class="orbit-slide">';
-        require_once (BLOCK_DIR . 'browse/top10_music_week.php');
-        $HTMLOUT.='
+require_once(BLOCK_DIR.'browse/top10_music_week.php');
+$HTMLOUT .= '
       </li>
       <li class="orbit-slide">';
-        require_once (BLOCK_DIR . 'browse/top10_music_all.php');
-        $HTMLOUT.='
+require_once(BLOCK_DIR.'browse/top10_music_all.php');
+$HTMLOUT .= '
       </li>
       <li class="orbit-slide">';
-      require_once (BLOCK_DIR . 'browse/top10_other_all.php');
-      $HTMLOUT.='
+require_once(BLOCK_DIR.'browse/top10_other_all.php');
+$HTMLOUT .= '
       </li>
       <li class="orbit-slide">';
-      require_once (BLOCK_DIR . 'browse/mow.php');
-      $HTMLOUT.='
+require_once(BLOCK_DIR.'browse/mow.php');
+$HTMLOUT .= '
       </li>
     </ul>
   </div>
