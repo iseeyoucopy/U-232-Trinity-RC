@@ -1619,7 +1619,8 @@ class IMDBHelper extends IMDB
         ];
         $sInput = str_replace('</li>', ' | ', $sInput);
         $sInput = strip_tags($sInput);
-        $sInput = str_replace(['&nbsp;', $aSearch], [' ', $aReplace], $sInput);
+        if (is_array($sInput))
+            $sInput = str_replace(['&nbsp;', $aSearch], [' ', $aReplace], $sInput);
         $sInput = html_entity_decode($sInput, ENT_QUOTES | ENT_HTML5);
         $sInput = preg_replace('/\s+/', ' ', $sInput);
         $sInput = trim($sInput);
