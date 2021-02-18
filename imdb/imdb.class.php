@@ -1690,7 +1690,6 @@ class IMDBHelper extends IMDB
         $oCurl = curl_init($sUrl);
         curl_setopt_array($oCurl,
             [
-                CURLOPT_BINARYTRANSFER => ($bDownload ? true : false),
                 CURLOPT_CONNECTTIMEOUT => self::IMDB_TIMEOUT,
                 CURLOPT_ENCODING => '',
                 CURLOPT_FOLLOWLOCATION => 0,
