@@ -87,7 +87,9 @@ $country = '';
 $countries = countries();
 $user_country = isset($CURUSER['country']) ? "{$CURUSER['country']}" : '';
 foreach ($countries as $cntry) {
-    $country .= "<option value='".(int)$cntry['id']."'".($user_country == $cntry['id'] ? " selected='selected'" : "").">".htmlsafechars($cntry['name'])."</option>\n";
+    if (is_array($cntry)) {
+        $country .= "<option value='".(int)$cntry['id']."'".($user_country == $cntry['id'] ? " selected='selected'" : "").">".htmlsafechars($cntry['name'])."</option>\n";
+    }
 }
 $gender .= "<select class='input-group-field' name='gender'>
     <option value='Male'>{$lang['signup_male']}</option>

@@ -1619,7 +1619,8 @@ class IMDBHelper extends IMDB
         ];
         $sInput = str_replace('</li>', ' | ', $sInput);
         $sInput = strip_tags($sInput);
-        $sInput = str_replace(['&nbsp;', $aSearch], [' ', $aReplace], $sInput);
+        if (is_array($sInput))
+            $sInput = str_replace(['&nbsp;', $aSearch], [' ', $aReplace], $sInput);
         $sInput = html_entity_decode($sInput, ENT_QUOTES | ENT_HTML5);
         $sInput = preg_replace('/\s+/', ' ', $sInput);
         $sInput = trim($sInput);
@@ -1690,7 +1691,6 @@ class IMDBHelper extends IMDB
         $oCurl = curl_init($sUrl);
         curl_setopt_array($oCurl,
             [
-                CURLOPT_BINARYTRANSFER => ($bDownload ? true : false),
                 CURLOPT_CONNECTTIMEOUT => self::IMDB_TIMEOUT,
                 CURLOPT_ENCODING => '',
                 CURLOPT_FOLLOWLOCATION => 0,

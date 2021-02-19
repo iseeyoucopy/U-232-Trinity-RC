@@ -94,59 +94,59 @@ if ($CURUSER['class'] >= UC_POWER_USER) {
         }
         if ($Detail_Snatch) {
             foreach ($Detail_Snatch as $D_S) {
+                if (is_array($D_S)) {
+                    if (XBT_TRACKER == true) {
+                        //== \\0//
+                        $ratio = ($D_S["downloaded"] > 0 ? number_format($D_S["uploaded"] / $D_S["downloaded"],
+                            3) : ($D_S["uploaded"] > 0 ? "Inf." : "---"));
+                        $active = ($D_S['active'] == 1 ? $active = "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='Yes' title='Yes' />" : $active = "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='No' title='No' />");
+                        $completed = ($D_S['completed'] >= 1 ? $completed = "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='Yes' title='Yes' />" : $completed = "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='No' title='No' />");
+                        $snatchuserxbt = (isset($D_S['username2']) ? ("<a href='userdetails.php?id=".(int)$D_S['uid']."'><b>".htmlsafechars($D_S['username2'])."</b></a>") : "{$lang['details_snatches_unknown']}");
+                        $username_xbt = (($D_S['anonymous2'] == 'yes') ? ($CURUSER['class'] < UC_STAFF && $D_S['uid'] != $CURUSER['id'] ? '' : $snatchuserxbt.' - ')."<i>{$lang['details_snatches_anon']}</i>" : $snatchuserxbt);
+                        $snatched_torrent .= "
+            <tbody><tr>
+                                    <td><font size='2%'>{$username_xbt}</font></td>
+                                    <td><font size='2%'>".mksize($D_S["uploaded"])."</font></td>
+    ".($TRINITY20['ratio_free'] ? "" : "<td><font size='2%'>".mksize($D_S["downloaded"])."</font></td>")."
+                                    <td><font size='2%'>".htmlsafechars($ratio)."</font></td>
+                                    <td><font size='2%'>".mkprettytime($D_S["seedtime"])."</font></td>
+                                    <td><font size='2%'>".mkprettytime($D_S["leechtime"])."</font></td>
+                                    <td><font size='2%'>".get_date($D_S["mtime"], '', 0, 1)."</font></td>
+                                    <td><font size='2%'>".get_date($D_S["completedtime"], '', 0, 1)."</font></td>
+                                    <td><font size='2%'>".(int)$D_S["announced"]."</font></td>
+                                    <td><font size='2%'>".$active."</font></td>
+                                    <td><font size='2%'>".$completed."</font></td>
+            </tr>
+            </tbody>";
 
-                if (XBT_TRACKER == true) {
-                    //== \\0//
-                    $ratio = ($D_S["downloaded"] > 0 ? number_format($D_S["uploaded"] / $D_S["downloaded"],
-                        3) : ($D_S["uploaded"] > 0 ? "Inf." : "---"));
-                    $active = ($D_S['active'] == 1 ? $active = "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='Yes' title='Yes' />" : $active = "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='No' title='No' />");
-                    $completed = ($D_S['completed'] >= 1 ? $completed = "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='Yes' title='Yes' />" : $completed = "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='No' title='No' />");
-                    $snatchuserxbt = (isset($D_S['username2']) ? ("<a href='userdetails.php?id=".(int)$D_S['uid']."'><b>".htmlsafechars($D_S['username2'])."</b></a>") : "{$lang['details_snatches_unknown']}");
-                    $username_xbt = (($D_S['anonymous2'] == 'yes') ? ($CURUSER['class'] < UC_STAFF && $D_S['uid'] != $CURUSER['id'] ? '' : $snatchuserxbt.' - ')."<i>{$lang['details_snatches_anon']}</i>" : $snatchuserxbt);
-                    $snatched_torrent .= "
-		   <tbody><tr>
-                                 <td><font size='2%'>{$username_xbt}</font></td>
-                                 <td><font size='2%'>".mksize($D_S["uploaded"])."</font></td>
-  ".($TRINITY20['ratio_free'] ? "" : "<td><font size='2%'>".mksize($D_S["downloaded"])."</font></td>")."
-                                 <td><font size='2%'>".htmlsafechars($ratio)."</font></td>
-                                 <td><font size='2%'>".mkprettytime($D_S["seedtime"])."</font></td>
-                                 <td><font size='2%'>".mkprettytime($D_S["leechtime"])."</font></td>
-                                 <td><font size='2%'>".get_date($D_S["mtime"], '', 0, 1)."</font></td>
-                                 <td><font size='2%'>".get_date($D_S["completedtime"], '', 0, 1)."</font></td>
-                                 <td><font size='2%'>".(int)$D_S["announced"]."</font></td>
-                                 <td><font size='2%'>".$active."</font></td>
-                                 <td><font size='2%'>".$completed."</font></td>
-        </tr>
-		</tbody>";
-
-                } else {
-                    $upspeed = ($D_S["upspeed"] > 0 ? mksize($D_S["upspeed"]) : ($D_S["seedtime"] > 0 ? mksize($D_S["uploaded"] / ($D_S["seedtime"] + $D_S["leechtime"])) : mksize(0)));
-                    $downspeed = ($D_S["downspeed"] > 0 ? mksize($D_S["downspeed"]) : ($D_S["leechtime"] > 0 ? mksize($D_S["downloaded"] / $D_S["leechtime"]) : mksize(0)));
-                    $ratio = ($D_S["downloaded"] > 0 ? number_format($D_S["uploaded"] / $D_S["downloaded"],
-                        3) : ($D_S["uploaded"] > 0 ? "Inf." : "---"));
-                    $ds_size = isset($D_S["size"]) ? $D_S["size"] : 1;
-                    $completed = sprintf("%.2f%%", 100 * (1 - ($D_S["to_go"] / $ds_size)));
-                    $snatchuser = (isset($D_S['username2']) ? ("<a href='userdetails.php?id=".(int)$D_S['userid']."'><b>".htmlsafechars($D_S['username2'])."</b></a>") : "{$lang['details_snatches_unknown']}");
-                    $username = (($D_S['anonymous2'] == 'yes') ? ($CURUSER['class'] < UC_STAFF && $D_S['userid'] != $CURUSER['id'] ? '' : $snatchuser.' - ')."<i>{$lang['details_snatches_anon']}</i>" : $snatchuser);
-                    $snatched_torrent .= "<tbody><tr>
-                                 <td><font size='2%'>{$username}</font></td>
-                                 <td><font size='2%'>".($D_S["connectable"] == "yes" ? "<font color='green'>{$lang['details_add_yes']}</font>" : "<font color='red'>{$lang['details_add_no']}</font>")."</font></td>
-                                 <td><font size='2%'>".mksize($D_S["uploaded"])."</font></td>
-                                 <td><font size='2%'>".htmlsafechars($upspeed)."/s</font></td>
-  ".($TRINITY20['ratio_free'] ? "" : "<td><font size='2%'>".mksize($D_S["downloaded"])."</font></td>")."
-  ".($TRINITY20['ratio_free'] ? "" : "<td><font size='2%'>".htmlsafechars($downspeed)."/s</font></td>")."
-                                 <td><font size='2%'>".htmlsafechars($ratio)."</font></td>
-                                 <td><font size='2%'>".htmlsafechars($completed)."</font></td>
-                                <td><font size='2%'>".mkprettytime($D_S["seedtime"])."</font></td>
-                                <td><font size='2%'>".mkprettytime($D_S["leechtime"])."</font></td>
-                                 <td><font size='2%'>".get_date($D_S["last_action"], '', 0, 1)."</font></td>
-                                 <td><font size='2%'>".get_date($D_S["complete_date"], '', 0, 1)."</font></td>
-                                 <td><font size='2%'>".htmlsafechars($D_S["agent"])."</font></td>
-                                <td><font size='2%'>".(int)$D_S["port"]."</font></td>
-                                 <td><font size='2%'>".(int)$D_S["timesann"]."</font></td>
-        </tr></tbody>";
+                    } else {
+                        $upspeed = ($D_S["upspeed"] > 0 ? mksize($D_S["upspeed"]) : ($D_S["seedtime"] > 0 ? mksize($D_S["uploaded"] / ($D_S["seedtime"] + $D_S["leechtime"])) : mksize(0)));
+                        $downspeed = ($D_S["downspeed"] > 0 ? mksize($D_S["downspeed"]) : ($D_S["leechtime"] > 0 ? mksize($D_S["downloaded"] / $D_S["leechtime"]) : mksize(0)));
+                        $ratio = ($D_S["downloaded"] > 0 ? number_format($D_S["uploaded"] / $D_S["downloaded"],
+                            3) : ($D_S["uploaded"] > 0 ? "Inf." : "---"));
+                        $ds_size = isset($D_S["size"]) ? $D_S["size"] : 1;
+                        $completed = sprintf("%.2f%%", 100 * (1 - ($D_S["to_go"] / $ds_size)));
+                        $snatchuser = (isset($D_S['username2']) ? ("<a href='userdetails.php?id=".(int)$D_S['userid']."'><b>".htmlsafechars($D_S['username2'])."</b></a>") : "{$lang['details_snatches_unknown']}");
+                        $username = (($D_S['anonymous2'] == 'yes') ? ($CURUSER['class'] < UC_STAFF && $D_S['userid'] != $CURUSER['id'] ? '' : $snatchuser.' - ')."<i>{$lang['details_snatches_anon']}</i>" : $snatchuser);
+                        $snatched_torrent .= "<tbody><tr>
+                                    <td><font size='2%'>{$username}</font></td>
+                                    <td><font size='2%'>".($D_S["connectable"] == "yes" ? "<font color='green'>{$lang['details_add_yes']}</font>" : "<font color='red'>{$lang['details_add_no']}</font>")."</font></td>
+                                    <td><font size='2%'>".mksize($D_S["uploaded"])."</font></td>
+                                    <td><font size='2%'>".htmlsafechars($upspeed)."/s</font></td>
+    ".($TRINITY20['ratio_free'] ? "" : "<td><font size='2%'>".mksize($D_S["downloaded"])."</font></td>")."
+    ".($TRINITY20['ratio_free'] ? "" : "<td><font size='2%'>".htmlsafechars($downspeed)."/s</font></td>")."
+                                    <td><font size='2%'>".htmlsafechars($ratio)."</font></td>
+                                    <td><font size='2%'>".htmlsafechars($completed)."</font></td>
+                                    <td><font size='2%'>".mkprettytime($D_S["seedtime"])."</font></td>
+                                    <td><font size='2%'>".mkprettytime($D_S["leechtime"])."</font></td>
+                                    <td><font size='2%'>".get_date($D_S["last_action"], '', 0, 1)."</font></td>
+                                    <td><font size='2%'>".get_date($D_S["complete_date"], '', 0, 1)."</font></td>
+                                    <td><font size='2%'>".htmlsafechars($D_S["agent"])."</font></td>
+                                    <td><font size='2%'>".(int)$D_S["port"]."</font></td>
+                                    <td><font size='2%'>".(int)$D_S["timesann"]."</font></td>
+            </tr></tbody>";
+                    }
                 }
-
             }
             $snatched_torrent .= "</table>";
             $HTMLOUT .= "<div class='card-section table-scroll'>$snatched_torrent</div>";

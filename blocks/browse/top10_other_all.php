@@ -38,20 +38,22 @@ $HTMLOUT .= "<table class='top10'>
 if ($top10others) {
     $counter = 1;
     foreach ($top10others as $top10otherarr) {
-        $top10otherarr['cat_name'] = htmlsafechars($change[$top10otherarr['category']]['name']);
-        $top10otherarr['cat_pic'] = htmlsafechars($change[$top10otherarr['category']]['image']);
-        $torrname = htmlsafechars($top10otherarr['name']);
-        if (strlen($torrname) > 50) {
-            $torrname = substr($torrname, 0, 50)."...";
+        if (is_array($top10otherarr)) {
+            $top10otherarr['cat_name'] = htmlsafechars($change[$top10otherarr['category']]['name']);
+            $top10otherarr['cat_pic'] = htmlsafechars($change[$top10otherarr['category']]['image']);
+            $torrname = htmlsafechars($top10otherarr['name']);
+            if (strlen($torrname) > 50) {
+                $torrname = substr($torrname, 0, 50)."...";
+            }
+            $HTMLOUT .= "
+                <tr>
+                <td>".$counter++."</td>
+                <td><a class ='float-left' href=\"{$TRINITY20['baseurl']}/details.php?id=".(int)$top10otherarr['id']."&amp;hit=1\">{$torrname}</a></td>
+                <td>".(int)$top10otherarr['times_completed']."</td>
+            <td>".(int)$top10otherarr['seeders']."</td>
+            <td>".(int)$top10otherarr['leechers']."</td>     
+        </tr>";
         }
-        $HTMLOUT .= "
-            <tr>
-            <td>".$counter++."</td>
-            <td><a class ='float-left' href=\"{$TRINITY20['baseurl']}/details.php?id=".(int)$top10otherarr['id']."&amp;hit=1\">{$torrname}</a></td>
-			<td>".(int)$top10otherarr['times_completed']."</td>
-          <td>".(int)$top10otherarr['seeders']."</td>
-          <td>".(int)$top10otherarr['leechers']."</td>     
-	 </tr>";
     }
 } elseif (empty($top10others)) {
     $HTMLOUT .= "<tbody><tr><td>{$lang['top5torrents_no_torrents']}</td></tr></tbody>";

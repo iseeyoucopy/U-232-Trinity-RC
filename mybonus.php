@@ -1703,12 +1703,14 @@ if (!empty($top_donators)) {
     $top_donator = "<h4>Top 10 Contributors </h4>\n";
     if ($top_donators) {
         foreach ($top_donators as $a) {
-            $top_donators_id = (int)$a["id"];
-            $damount_donated = (int)$a["total"];
-            //$top_donators_username = htmlsafechars($a['username']);
-            $user_stuff = $a;
-            $user_stuff['id'] = (int)$a['userid'];
-            $top_donator .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$top_donators_id'>".format_username($user_stuff)."</a> [$damount_donated]";
+            if (is_array($a)) {
+                $top_donators_id = (int)$a["id"];
+                $damount_donated = (int)$a["total"];
+                //$top_donators_username = htmlsafechars($a['username']);
+                $user_stuff = $a;
+                $user_stuff['id'] = (int)$a['userid'];
+                $top_donator .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$top_donators_id'>".format_username($user_stuff)."</a> [$damount_donated]";
+            }
         }
     } elseif (empty($top_donators)) {
         $top_donator .= "Nobodys contibuted yet !!";
@@ -1730,12 +1732,14 @@ if (!empty($top_donators2)) {
     $top_donator2 = "<h4>Top 10 Contributors </h4>";
     if ($top_donators2) {
         foreach ($top_donators2 as $b) {
-            $top_donators2_id = (int)$b["id"];
-            $damount_donated2 = (int)$b["total"];
-            //$top_donators2_username = htmlsafechars($b['username']);
-            $user_stuff = $b;
-            $user_stuff['id'] = (int)$b['userid'];
-            $top_donator2 .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$top_donators2_id'>".format_username($user_stuff)."</a> [$damount_donated2]";
+            if (is_array($b)) {
+                $top_donators2_id = (int)$b["id"];
+                $damount_donated2 = (int)$b["total"];
+                //$top_donators2_username = htmlsafechars($b['username']);
+                $user_stuff = $b;
+                $user_stuff['id'] = (int)$b['userid'];
+                $top_donator2 .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$top_donators2_id'>".format_username($user_stuff)."</a> [$damount_donated2]";
+            }
         }
     } elseif (empty($top_donators2)) {
         $top_donator2 .= "Nobodys contibuted yet !!";
@@ -1757,12 +1761,14 @@ if (!empty($top_donators3)) {
     $top_donator3 = "<h4>Top 10 Contributors </h4>";
     if ($top_donators3) {
         foreach ($top_donators3 as $c) {
-            $top_donators3_id = (int)$c["id"];
-            $damount_donated3 = (int)$c["total"];
-            //$top_donators3_username = htmlsafechars($c['username']);
-            $user_stuff = $c;
-            $user_stuff['id'] = (int)$c['userid'];
-            $top_donator3 .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$top_donators3_id'>".format_username($user_stuff)."</a> [$damount_donated3]";
+            if (is_array($c)) {
+                $top_donators3_id = (int)$c["id"];
+                $damount_donated3 = (int)$c["total"];
+                //$top_donators3_username = htmlsafechars($c['username']);
+                $user_stuff = $c;
+                $user_stuff['id'] = (int)$c['userid'];
+                $top_donator3 .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$top_donators3_id'>".format_username($user_stuff)."</a> [$damount_donated3]";
+            }
         }
     } elseif (empty($top_donators3)) {
         $top_donator3 .= "Nobodys contibuted yet !!";

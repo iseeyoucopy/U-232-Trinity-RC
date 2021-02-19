@@ -40,18 +40,20 @@ $HTMLOUT .= "<table class='top10'>
 if ($top10movies_all) {
     $counter = 1;
     foreach ($top10movies_all as $top10moviesall) {
-        $torrname = htmlsafechars($top10moviesall['name']);
-        if (strlen($torrname) > 50) {
-            $torrname = substr($torrname, 0, 50)."...";
+        if (is_array($top10moviesall)) {
+            $torrname = htmlsafechars($top10moviesall['name']);
+            if (strlen($torrname) > 50) {
+                $torrname = substr($torrname, 0, 50)."...";
+            }
+            $HTMLOUT .= "
+                <tr>
+                <td>".$counter++."</td>
+                <td><a class ='float-left' href='{$TRINITY20['baseurl']}/details.php?id=".(int)$top10moviesall['id']."&amp;hit=1'>{$torrname}</a></td>
+                <td>".(int)$top10moviesall['times_completed']."</td>
+                <td>".(int)$top10moviesall['seeders']."</td>
+                <td>".(int)$top10moviesall['leechers']."</td>     
+                </tr>";
         }
-        $HTMLOUT .= "
-            <tr>
-            <td>".$counter++."</td>
-            <td><a class ='float-left' href='{$TRINITY20['baseurl']}/details.php?id=".(int)$top10moviesall['id']."&amp;hit=1'>{$torrname}</a></td>
-			<td>".(int)$top10moviesall['times_completed']."</td>
-            <td>".(int)$top10moviesall['seeders']."</td>
-            <td>".(int)$top10moviesall['leechers']."</td>     
-	        </tr>";
     }
 } elseif (empty($top10movies_all)) {
     $HTMLOUT .= "<tbody><tr><td>{$lang['top5torrents_no_torrents']}</td></tr></tbody>";

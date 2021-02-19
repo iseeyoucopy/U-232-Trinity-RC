@@ -64,7 +64,9 @@ if (($rules = $cache->get('rules__')) === false) {
 $HTMLOUT .= "<li><a href='#'>Rules</a>
 <ul class='menu vertical nested'>";
 foreach ($rules as $row_rules) {
-    $HTMLOUT .= "<li><a data-toggle='div".htmlsafechars($row_rules['shortcut'])."' href='#".htmlsafechars($row_rules['shortcut'])."'>".htmlsafechars($row_rules['name'])."</a></li>";
+    if (is_array($row_rules)) {
+        $HTMLOUT .= "<li><a data-toggle='div".htmlsafechars($row_rules['shortcut'])."' href='#".htmlsafechars($row_rules['shortcut'])."'>".htmlsafechars($row_rules['name'])."</a></li>";
+    }
 }
 $HTMLOUT .= "</ul></li>";
 $HTMLOUT .= "</ul></div>
