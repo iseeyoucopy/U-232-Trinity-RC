@@ -97,75 +97,58 @@ if (is_array($required_class)) {
 }
 $mode = ($_GET['mode'] ?? $_POST['mode'] ?? '');
 if (empty($mode)) {
-    $HTMLOUT .= "<script type='text/javascript'>
-        /*<![CDATA[*/
-        var checkflag = 'false';
-        var marked_row = new Array;
-       
-        function check(field)
-        {
-                if (checkflag == 'false')
-                {
-                        for (i = 0; i < field.length; i++)
-                                field[i].checked = true;
-                       
-                        checkflag = 'true';
-                       
-                        return 'Un-Check All';
-                }
-                else
-                {
-                        for (i = 0; i < field.length; i++)
-                                field[i].checked = false;
-                       
-                        checkflag = 'false';
-                       
-                        return 'Check All';
-                }
-        };
-        /*]]>*/
-        </script>";
-    $HTMLOUT .= begin_main_frame();
-    $HTMLOUT .= $lang['backup_welcome'];
-    $HTMLOUT .= "<br /><h1 align='center'></h1>";
-    ($res = sql_query('SELECT db.id, db.name, db.added, u.id AS uid, u.username '.'FROM dbbackup AS db '.'LEFT JOIN users AS u ON u.id = db.userid '.'ORDER BY db.added DESC')) || sqlerr(__FILE__,
-        __LINE__);
+    ($res = sql_query('SELECT db.id, db.name, db.added, u.id AS uid, u.username '.'FROM dbbackup AS db '.'LEFT JOIN users AS u ON u.id = db.userid '.'ORDER BY db.added DESC')) || sqlerr(__FILE__,__LINE__);
     if ($res->num_rows > 0) {
-        $HTMLOUT .= "<form method='post' action='staffpanel.php?tool=backup&amp;mode=delete'>
-   <input type='hidden' name='action' value='delete' />
-   <table align='center' cellpadding='5' width='75%'>
-                <tr>
-                <td class='colhead' width='100%'>{$lang['backup_name']}</td>
-                <td class='colhead' align='center'>{$lang['backup_addedon']}</td>
-   <td class='colhead' style='white-space:nowrap;'>{$lang['backup_addedby']}</td>
-                <td class='colhead' align='center'><input style='margin:0' type='checkbox' title='{$lang['backup_markall']}' onclick=\"this.value=check(form);\" /></td>
-                </tr>";
-        while ($arr = $res->fetch_assoc()) {
-            $HTMLOUT .= "<tr>
-                        <td><a href='staffpanel.php?tool=backup&amp;mode=download&amp;id=".(int)$arr['id']."'>".htmlsafechars($arr['name'])."</a></td>
-                        <td style='white-space:nowrap;'>".get_date($arr['added'], 'DATE', 1, 0)."</td>
-     <td align='center'>";
-            if (!empty($arr['username'])) {
-                $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['uid']."'>".htmlsafechars($arr['username'])."</a>";
-            } else {
-                $HTMLOUT .= "unknown[".(int)$arr['uid']."]";
-            }
-            $HTMLOUT .= "</td>
-                        <td><input type='checkbox' style='margin:0' name='ids[]' title='{$lang['backup_mark']}' value='".(int)$arr['id']."' /></td>
-                        </tr>";
-        }
-        $HTMLOUT .= " />
-                 </td></tr></table></form>";
+        $HTMLOUT .= "<div class='card'>
+        <div class='card-divider'>".$lang['backup_welcome']."</div>
+        <div class='card-section>
+            <form method='post' action='staffpanel.php?tool=backup&amp;mode=delete'>
+                <input type='hidden' name='action' value='delete'>
+                <div class='table-scroll'>
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>{$lang['backup_name']}</td>
+                                <td>{$lang['backup_addedon']}</td>
+                                <td>{$lang['backup_addedby']}</td>
+                            </tr>
+                        </thead>";
+                    while ($arr = $res->fetch_assoc()) {
+                        $HTMLOUT .= "
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <a href='staffpanel.php?tool=backup&amp;mode=download&amp;id=".(int)$arr['id']."'>".htmlsafechars($arr['name'])."</a>
+                                </td>
+                                <td>".get_date($arr['added'], 'DATE', 1, 0)."</td>
+                                <td>";
+                                if (!empty($arr['username'])) {
+                                    $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['uid']."'>".htmlsafechars($arr['username'])."</a>";
+                                } else {
+                                    $HTMLOUT .= "unknown[".(int)$arr['uid']."]";
+                                }
+                                $HTMLOUT .= "</td>
+                            </tr>
+                        </tbody>";
+                    }
+                    $HTMLOUT .= "
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>";
     } else {
-        $HTMLOUT .= begin_frame();
-        $HTMLOUT .= "<h2 align='center'>'{$lang['backup_nofound']}'</h2>";
-        $HTMLOUT .= end_frame();
+        $HTMLOUT .= "<div class='card'>
+            <div class='card-section'>".$lang['backup_nofound']."</div>
+        </div>";
     }
-    $HTMLOUT .= "<br />";
-    $HTMLOUT .= stdmsg($lang['backup_options'],
-        "<div align='center'><a href='staffpanel.php?tool=backup&amp;mode=backup'>{$lang['backup_dbbackup']}</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href='staffpanel.php?tool=backup&amp;mode=check'>{$lang['backup_settingschk']}</a></div>");
+    $HTMLOUT .="<div class='callout alert-callout-border primary'>
+        <strong>".$lang['backup_options']."</strong>
+        <p><a href='staffpanel.php?tool=backup&amp;mode=backup'>{$lang['backup_dbbackup']}</a>
+            &nbsp;&nbsp;-&nbsp;&nbsp;<a href='staffpanel.php?tool=backup&amp;mode=check'>{$lang['backup_settingschk']}</a></p>
+        </div>";
     if (!empty($_GET)) {
-        $HTMLOUT .= "<br />";
+        $HTMLOUT .= "";
     }
     if (isset($_GET['backedup'])) {
         $HTMLOUT .= stdmsg($lang['backup_success'], $lang['backup_backedup']);
@@ -271,49 +254,81 @@ if (empty($mode)) {
     }
     header('Location:staffpanel.php?tool=backup&mode='.$location);
 } elseif ($mode == "check") {
-    $HTMLOUT .= begin_main_frame();
-    $HTMLOUT .= "<table align='center' cellpadding='5' width='55%'>
-         <tr>
-  <td class='colhead' colspan='2'>{$lang['backup_settingschk']}(<a href='staffpanel.php?tool=backup'>{$lang['backup_goback']}</a>)</td>
-         </tr>
-         <tr>
-  <td>{$lang['backup_qzip']}<br /><font class='small'>{$lang['backup_optional']}</font></td>
-  <td width='1%' align='center'><b>".($use_gzip ? "<font color='green'>{$lang['backup_yes']}</font>" : "<font color='red'>{$lang['backup_no']}</font>")."</b></td>
-         </tr>
-  <tr>
-  <td>{$lang['backup_qzippath']}<br /><font class='small'>".$gzip_path."</font></td>
-  <td width='1%' align='center'><b>".(is_file($gzip_path) ? "<font color='green'>{$lang['backup_yes']}</font>" : "<font color='red'>{$lang['backup_no']}</font>")."</b></td>
-  </tr>
-  <tr>
-  <td>{$lang['backup_pathfolder']}<br /><font class='small'>".$backupdir."</font></td>
-  <td width='1%' align='center'><b>".(is_dir($backupdir) ? "<font color='green'>{$lang['backup_yes']}</font>" : "<font color='red'>{$lang['backup_no']}</font>")."</b></td>
-         </tr>
-  <tr>
-  <td>{$lang['backup_readfolder']}</td>
-  <td width='1%' align='center'><b>".(is_readable($backupdir) ? "<font color='green'>{$lang['backup_yes']}</font>" : "<font color='red'>{$lang['backup_no']}</font>")."</b></td>
-         </tr>
-  <tr>
-  <td>{$lang['backup_writable']}</td>
-  <td width='1%' align='center'><b>".(is_writable($backupdir) ? "<font color='green'>{$lang['backup_yes']}</font>" : "<font color='red'>{$lang['backup_no']}</font>")."</b></td>
-         </tr>
-  <tr>
-  <td>{$lang['backup_mysqldump']}<br /><font class='small'>".$mysqldump_path."</font></td>
-  <td width='1%' align='center'><b>".(false !== stripos(exec($mysqldump_path),
-            "mysqldump") ? "<font color='green'>{$lang['backup_yes']}</font>" : "<font color='red'>{$lang['backup_no']}</font>")."</b></td>
-         </tr>
-  <tr>
-  <td>{$lang['backup_downafter']}</td>
-  <td width='1%' align='center'><b>".($autodl ? "<font color='green'>{$lang['backup_yes']}</font>" : "<font color='red'>{$lang['backup_no']}</font>")."</b></td>
-         </tr>
-  <tr>
-  <td>{$lang['backup_delafter']}</td>
-  <td width='1%' align='center'><b>".($autodel ? "<font color='green'>{$lang['backup_yes']}</font>" : "<font color='red'>{$lang['backup_no']}</font>")."</b></td>
-         </tr>
-  <tr>
-  <td>{$lang['backup_writeact']}</td>
-  <td width='1%' align='center'><b>".($write2log ? "<font color='green'>{$lang['backup_yes']}</font>" : "<font color='red'>{$lang['backup_no']}</font>")."</b></td>
-         </tr></table>";
-    $HTMLOUT .= end_main_frame();
+    $HTMLOUT .= "<div class='card'>
+        <div class='card-divider'>{$lang['backup_settingschk']} (<a href='staffpanel.php?tool=backup'>{$lang['backup_goback']}</a>)</div>
+        <div class='card-section'>
+            <div class='grid-x grid-padding-x small-up-2 medium-up-3 large-up-4'>
+                <div class='cell'>
+                    <div class='card'>
+                        <div class='card-divider'>{$lang['backup_qzip']}</div>
+                        <div class='card-section'>
+                            {$lang['backup_optional']}
+                            <b>".($use_gzip ? "<font color='green'>{$lang['backup_yes']}</font>" : "<font color='red'>{$lang['backup_no']}</font>")."</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='cell'>
+                    <div class='card'>
+                        <div class='card-divider'>{$lang['backup_pathfolder']}</div>
+                        <div class='card-section'>
+                                ".$backupdir."
+                            <b>".(is_dir($backupdir) ? "<font color='green'>{$lang['backup_yes']}</font>" : "<font color='red'>{$lang['backup_no']}</font>")."</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='cell'>
+                    <div class='card'>
+                        <div class='card-divider'>{$lang['backup_readfolder']}</div>
+                        <div class='card-section'>
+                            <b>".(is_readable($backupdir) ? "<font color='green'>{$lang['backup_yes']}</font>" : "<font color='red'>{$lang['backup_no']}</font>")."</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='cell'>
+                    <div class='card'>
+                        <div class='card-divider'>{$lang['backup_writable']}</div>
+                        <div class='card-section'>
+                            <b>".(is_writable($backupdir) ? "<font color='green'>{$lang['backup_yes']}</font>" : "<font color='red'>{$lang['backup_no']}</font>")."</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='cell'>
+                    <div class='card'>
+                        <div class='card-divider'>{$lang['backup_mysqldump']}</div>
+                        <div class='card-section'>
+                            ".$mysqldump_path."
+                            <b>".(false !== stripos(exec($mysqldump_path),
+                                    "mysqldump") ? "<font color='green'>{$lang['backup_yes']}</font>" : "<font color='red'>{$lang['backup_no']}</font>")."</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='cell'>
+                    <div class='card'>
+                        <div class='card-divider'>{$lang['backup_downafter']}</div>
+                        <div class='card-section'>
+                            <b>".($autodl ? "<font color='green'>{$lang['backup_yes']}</font>" : "<font color='red'>{$lang['backup_no']}</font>")."</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='cell'>
+                    <div class='card'>
+                        <div class='card-divider'>{$lang['backup_delafter']}</div>
+                        <div class='card-section'>
+                            <b>".($autodel ? "<font color='green'>{$lang['backup_yes']}</font>" : "<font color='red'>{$lang['backup_no']}</font>")."</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='cell'>
+                    <div class='card'>
+                        <div class='card-divider'>{$lang['backup_writeact']}</div>
+                        <div class='card-section'>
+                            <b>".($write2log ? "<font color='green'>{$lang['backup_yes']}</font>" : "<font color='red'>{$lang['backup_no']}</font>")."</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>";
     echo stdhead($lang['backup_stdhead']).$HTMLOUT.stdfoot();
 } else {
     stderr($lang['backup_srry'], $lang['backup_unknow']);

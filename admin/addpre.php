@@ -49,23 +49,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     stderr("{$lang['stderr_success']}", "{$lang['text_success']}");
 }
-$HTMLOUT = "
-    <h1>{$lang['text_addpre']}</h1>
+$HTMLOUT = "<div class='card'>
+  <div class='card-divider'>{$lang['text_addpre']}</div>
+  <div class='card-section'>
     <form method='post' action='staffpanel.php?tool=addpre&amp;action=addpre'>
-    <table border='1' cellspacing='0' cellpadding='5'>
-      <tr>
-        <td class='rowhead'>{$lang['table_torrentid']}</td>
-        <td><input size='40' name='id' /></td>
-      </tr>
-      <tr>
-        <td class='rowhead'>{$lang['table_pretime']}</td>
-        <td><input size='40' name='time' /></td>
-      </tr>
-      <tr>
-        <td colspan='2'><input type='submit' class='btn' value='{$lang['btn_add']}' /></td>
-      </tr>
-    </table>
-    </form>";
+      <div class='input-group'>
+        <span class='input-group-label'>{$lang['table_torrentid']}</span>
+        <input class='input-group-field' type='text' name='id'>
+      </div>
+      <div class='input-group'>
+        <span class='input-group-label'>{$lang['table_pretime']}</span>
+        <input class='input-group-field' type='text' name='time'>
+      </div>
+          <input type='submit' class='button float-center' value='{$lang['btn_add']}'>
+      </div>
+    </form>
+  </div>
+</div>";
 echo stdhead("{$lang['stdhead_addpre']}").$HTMLOUT.stdfoot();
-?>
-?>

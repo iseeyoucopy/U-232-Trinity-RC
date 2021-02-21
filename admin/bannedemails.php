@@ -49,58 +49,65 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: staffpanel.php?tool=bannedemails");
     die;
 }
-//$HTMLOUT.= begin_frame("{$lang['ad_banemail_add']}", true);
-
-$HTMLOUT .= "<div class='row'><div class='col-md-12'>";
-
-$HTMLOUT .= "<div class='row'><div class='col-md-12 col-push-3'>
-<form method=\"post\" action=\"staffpanel.php?tool=bannedemails\">
-<table class='table table-bordered'>
-<tr><td class='rowhead'>{$lang['ad_banemail_email']}</td>
-<td><input type=\"text\" name=\"email\" size=\"40\"/></td></tr>
-<tr><td class='rowhead'align='left'>{$lang['ad_banemail_comment']}</td>
-<td><input type=\"text\" name=\"comment\" size=\"40\"/></td></tr>
-<tr><td colspan='2'>{$lang['ad_banemail_info']}</td></tr>
-<tr><td colspan='2' align='center'>
-<input type=\"submit\" value=\"{$lang['ad_banemail_ok']}\" class=\"btn\"/></td></tr>
-</table></form>\n";
-//$HTMLOUT.= end_frame();
-$HTMLOUT .= "</div></div>";
-
-
+$HTMLOUT .= "<div class='card'>
+    <div class='card-divider'>Add email to ban list</div>
+    <div class='card-section'>
+        <form method='post' action='staffpanel.php?tool=bannedemails'>
+            <div class='input-group' aria-describedby='email_info'>
+                <span class='input-group-label'>{$lang['ad_banemail_email']}</span>
+                <input class='input-group-field' type='text' name='email'>
+            </div>
+            <div class='input-group'>
+                <span class='input-group-label'>{$lang['ad_banemail_comment']}</span>
+                <input class='input-group-field' type='text' name='comment'>
+            </div>
+            <p class='help-text' id='email_info'>{$lang['ad_banemail_info']}</p>
+            <input class='button float-center' type='submit' value='{$lang['ad_banemail_ok']}'>
+        </form>
+    </div>
+</div>";
 $count1 = get_row_count('bannedemails');
 $perpage = 15;
 $pager = pager($perpage, $count1, 'staffpanel.php?tool=bannedemails&amp;');
 ($res = sql_query("SELECT b.id, b.added, b.addedby, b.comment, b.email, u.username FROM bannedemails AS b LEFT JOIN users AS u ON b.addedby=u.id ORDER BY added DESC ".$pager['limit'])) || sqlerr(__FILE__,
     __LINE__);
-
-$HTMLOUT .= begin_frame("{$lang['ad_banemail_current']}", true);
-//$HTMLOUT.= "<div class='col-md-3>{$lang["ad_banemail_current"]}";
-
-if ($count1 > $perpage) {
-    $HTMLOUT .= $pager['pagertop'];
-}
+$HTMLOUT.= "<div class='card'>
+    <div class='card-divider'>{$lang["ad_banemail_current"]}</div>
+    <div class='card-section'>";
 if ($res->num_rows == 0) {
-    $HTMLOUT .= "<p align='center'><b>{$lang['ad_banemail_nothing']}</b></p>\n";
+    $HTMLOUT .= "<div class='callout alert-callout-border alert'>
+    <strong>{$lang['ad_banemail_nothing']}</strong>
+    </div>";
 } else {
-    $HTMLOUT .= "<table class='table table-bordered'>\n";
-    $HTMLOUT .= "<tr><td class='colhead'>{$lang['ad_banemail_add1']}</td><td class='colhead' align='left'>{$lang['ad_banemail_email']}</td>"."<td class='colhead' align='left'>{$lang['ad_banemail_by']}</td><td class='colhead' align='left'>{$lang['ad_banemail_comment']}</td><td class='colhead'>{$lang['ad_banemail_remove']}</td></tr>\n";
+    $HTMLOUT .= "
+    <div class='table-scroll'>
+    <table>
+        <thead>
+        <tr>
+            <td>{$lang['ad_banemail_add1']}</td>
+            <td>{$lang['ad_banemail_email']}</td>
+            <td>{$lang['ad_banemail_by']}</td>
+            <td>{$lang['ad_banemail_comment']}</td>
+            <td>{$lang['ad_banemail_remove']}</td>
+        </tr>
+        </thead>";
     while ($arr = $res->fetch_assoc()) {
-        $HTMLOUT .= "<tr><td align='left'>".get_date($arr['added'], '')."</td>
-            <td align='left'>".htmlsafechars($arr['email'])."</td>
-            <td align='left'><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['addedby']."'>".htmlsafechars($arr['username'])."</a></td>
-            <td align='left'>".htmlsafechars($arr['comment'])."</td>
-            <td align='left'><a href='staffpanel.php?tool=bannedemails&amp;remove=".(int)$arr['id']."'>{$lang['ad_banemail_remove1']}</a></td></tr>\n";
+        $HTMLOUT .= "<tbody>
+            <tr>
+                <td>".get_date($arr['added'], '')."</td>
+                <td>".htmlsafechars($arr['email'])."</td>
+                <td><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['addedby']."'>".htmlsafechars($arr['username'])."</a></td>
+                <td>".htmlsafechars($arr['comment'])."</td>
+                <td><a href='staffpanel.php?tool=bannedemails&amp;remove=".(int)$arr['id']."'>{$lang['ad_banemail_remove1']}</a></td>
+            </tr>
+        </tbody>";
     }
-    $HTMLOUT .= "</table>\n";
+    $HTMLOUT .= "</table>
+    </div>";
 }
 if ($count1 > $perpage) {
     $HTMLOUT .= $pager['pagerbottom'];
 }
-$HTMLOUT .= end_frame();
-
-$HTMLOUT .= "</div></div><br>";
-
-
+$HTMLOUT .= "</div></div>";
 echo stdhead("{$lang['ad_banemail_head']}").$HTMLOUT.stdfoot();
 ?>

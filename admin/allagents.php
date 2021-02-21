@@ -66,11 +66,26 @@ class_check($class);
 $lang = array_merge($lang, load_language('ad_allagents'));
 $HTMLOUT = '';
 ($res = sql_query("SELECT agent, peer_id FROM peers GROUP BY agent")) || sqlerr(__FILE__, __LINE__);
-$HTMLOUT .= "<div class='row'><div class='col-md-12'><table class='table table-bordered'>
-	<tr><td class='colhead'>{$lang['allagents_client']}</td><td class='colhead'>{$lang['allagents_peerid']}</td></tr>";
+$HTMLOUT .= "<div class='card'>
+    <div class='card-divider'>All agents</div>
+    <div class='card-section'>
+        <table>
+            <thead>
+	            <tr>
+                    <td>{$lang['allagents_client']}</td>
+                    <td>{$lang['allagents_peerid']}</td>
+                </tr>
+            </thead>";
 while ($arr = $res->fetch_assoc()) {
-    $HTMLOUT .= "<tr><td align='left'>".htmlsafechars($arr["agent"])."</td><td align='left'>".htmlsafechars($arr["peer_id"])."</td></tr>\n";
+    $HTMLOUT .= "<tbody>
+        <tr>
+            <td>".htmlsafechars($arr["agent"])."</td>
+            <td>".htmlsafechars($arr["peer_id"])."</td>
+        </tr>
+    </tbody>";
 }
-$HTMLOUT .= "</table></div></div>\n";
+    $HTMLOUT .= "</table>
+    </div>
+</div>";
 echo stdhead($lang['allagents_allclients']).$HTMLOUT.stdfoot();
 ?>

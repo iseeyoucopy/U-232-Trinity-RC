@@ -72,69 +72,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $CURUSER['class'] == UC_MAX) {
     die;
 }
 ($bc = sql_query('SELECT COUNT(*) FROM bans')) || sqlerr(__FILE__, __LINE__);
-$bcount = $bc->fetch_row;
+$bcount = $bc->fetch_row();
 $count = $bcount[0];
 $perpage = 15;
 $pager = pager($perpage, $count, 'staffpanel.php?tool=bans&amp;');
 ($res = sql_query("SELECT b.*, u.username FROM bans b LEFT JOIN users u on b.addedby = u.id ORDER BY added DESC {$pager['limit']}")) || sqlerr(__FILE__,
     __LINE__);
 $HTMLOUT = '';
-$HTMLOUT .= "<div class='row'><div class='col-md-12'>";
-$HTMLOUT .= "<h1>{$lang['text_current']}</h1>\n";
 if ($res->num_rows == 0) {
-    $HTMLOUT .= "<p align='center'><b>{$lang['text_nothing']}</b></p>\n";
+    $HTMLOUT .= "<div class='callout alert-callout-border alert'>
+        <strong>{$lang['text_nothing']}</strong>
+    </div>";
 } else {
-    if ($count > $perpage) {
-        $HTMLOUT .= $pager['pagertop'];
-    }
-    $HTMLOUT .= "<br />
-      <table class='table table-bordered'>\n";
-    $HTMLOUT .= "<tr>
-        <td class='colhead'>{$lang['header_added']}</td><td class='colhead' align='left'>{$lang['header_firstip']}</td>
-        <td class='colhead' align='left'>{$lang['header_lastip']}</td>
-        <td class='colhead' align='left'>{$lang['header_by']}</td>
-        <td class='colhead' align='left'>{$lang['header_comment']}</td>
-        <td class='colhead'>{$lang['header_remove']}</td>
-      </tr>\n";
+    $HTMLOUT .= "<div class='card'>
+    <div class='card-divider'>{$lang['text_current']}</div>
+    <div class='card-section'>
+    <table class='stack striped'>
+    <thead>
+    <tr>
+        <td>{$lang['header_firstip']}</td>
+        <td>{$lang['header_lastip']}</td>
+        <td>{$lang['header_by']}</td>
+        <td>{$lang['header_comment']}</td>
+        <td>{$lang['header_added']}</td>
+        <td>{$lang['header_remove']}</td>
+      </tr>
+      </thead>";
     while ($arr = $res->fetch_assoc()) {
         $arr["first"] = long2ip($arr["first"]);
         $arr["last"] = long2ip($arr["last"]);
-        $HTMLOUT .= "<tr>
-          <td>".get_date($arr['added'], '')."</td>
-          <td align='left'>".htmlsafechars($arr['first'])."</td>
-          <td align='left'>".htmlsafechars($arr['last'])."</td>
-          <td align='left'><a href='userdetails.php?id=".(int)$arr['addedby']."'>".htmlsafechars($arr['username'])."</a></td>
-          <td align='left'>".htmlsafechars($arr['comment'], ENT_QUOTES)."</td>
+        $HTMLOUT .= "<tbody><tr>
+          <td>".htmlsafechars($arr['first'])."</td>
+          <td>".htmlsafechars($arr['last'])."</td>
+          <td><a href='userdetails.php?id=".(int)$arr['addedby']."'>".htmlsafechars($arr['username'])."</a></td>
+          <td>".htmlsafechars($arr['comment'], ENT_QUOTES)."</td>
           <td><a href='staffpanel.php?tool=bans&amp;remove=".(int)$arr['id']."'>{$lang['text_remove']}</a></td>
-         </tr>\n";
+          <td>".get_date($arr['added'], '')."</td>
+         </tr>
+         </tbody>";
     }
-    $HTMLOUT .= "</table>\n";
-    $HTMLOUT .= "</div></div>";
+    $HTMLOUT .= "</table>";
     if ($count > $perpage) {
         $HTMLOUT .= $pager['pagerbottom'];
     }
+    $HTMLOUT .= "</div></div>";
 }
 if ($CURUSER['class'] == UC_MAX) {
-    $HTMLOUT .= "<div class='row'><div class='col-md-12'>";
-    $HTMLOUT .= "<h2>{$lang['text_addban']}</h2>
-      <form method='post' action='staffpanel.php?tool=bans'>
-      <table class='table table-bordered'>
-      <tr><td class='rowhead'>{$lang['table_firstip']}</td>
-      <td><input type='text' name='first' size='40' /></td>
-      </tr>
-      <tr>
-      <td class='rowhead'>{$lang['table_lastip']}</td>
-      <td><input type='text' name='last' size='40' /></td>
-      </tr>
-      <tr>
-      <td class='rowhead'>{$lang['table_comment']}</td><td><input type='text' name='comment' size='40' /></td>
-      </tr>
-      <tr>
-      <td colspan='2' align='center'><input type='submit' name='okay' value='{$lang['btn_add']}' class='btn' /></td>
-      </tr>
-      </table>
-      </form>";
-    $HTMLOUT .= "</div></div>";
+    $HTMLOUT .= "<div class='card'>
+        <div class='card-divider'>{$lang['text_addban']}</div>
+        <div class='card-section'>
+            <form method='post' action='staffpanel.php?tool=bans'>
+                <div class='input-group'>
+                    <span class='input-group-label'>{$lang['table_firstip']}</span>
+                    <input class='input-group-field' type='text' name='first'>
+                </div>
+                <div class='input-group'>
+                    <span class='input-group-label'>{$lang['table_lastip']}</span>
+                    <input class='input-group-field' type='text' name='last'>
+                </div>
+                <div class='input-group'>
+                    <span class='input-group-label'>{$lang['table_comment']}</span>
+                    <input class='input-group-field' type='text' name='comment'>
+                </div>
+                <input class='button float-center' type='submit' name='okay' value='{$lang['btn_add']}'>
+            </form>
+        </div>
+    </div>";
 }
 echo stdhead("{$lang['stdhead_adduser']}").$HTMLOUT.stdfoot();
 ?>
