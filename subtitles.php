@@ -24,13 +24,30 @@ if (!function_exists('htmlsafechars')) {
     function htmlsafechars($var)
     {
         return str_replace([
-            ,
             '&',
             '>',
             '<',
             '"',
+            '\''
+        ] , [
+            '&amp;',
+            '&gt;',
+            '&lt;',
+            '&quot;',
+            '&#039;'
+         ] , str_replace([
+            '&gt;',
+            '&lt;',
+            '&quot;',
+            '&#039;',
+            '&amp;'
+          ] , [
+            '>',
+            '<',
+            '"',
             '\'',
-        ];
+            '&'
+           ] , $var));
     }
 }
 
