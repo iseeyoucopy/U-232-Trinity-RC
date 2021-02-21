@@ -105,7 +105,7 @@ if (!$user) {
 }
 $userid = (int)$user["id"];
 $user['perms'] = (int)$user['perms'];
-if ($user['enabled'] == 0) {
+if ($user['enabled'] == 'no') {
     err('Permission denied, you\'re not enabled');
 }
 //== Start ip logger - Melvinmeow, Mindless, pdq
@@ -404,18 +404,6 @@ if (!isset($self)) {
             }
         }
     }
-    //=== abnormal upload detection
-    if ($user['highspeed'] == 0 && $upthis > 103872) {
-        //=== Work out time difference
-        $diff = (TIME_NOW - $self['ts']);
-        $rate = ($upthis / ($diff + 1));
-        $last_up = (int)$user['uploaded'];
-        //=== about 5 MB/s
-        if ($rate > 503872) {
-            auto_enter_abnormal_upload($userid, $rate, $upthis, $diff, $torrentid, $agent, $realip, $last_up);
-        }
-    } //=== end abnormal upload detection
-
 }
 //== Snatchlist and Hit and Run begin
 if (portblacklisted($port)) {
