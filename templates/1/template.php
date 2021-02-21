@@ -232,6 +232,7 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
                     <li><a href='" . $TRINITY20['baseurl'] . "/browse.php'>{$lang['gl_torrents']}</a></li>
                     <li><a href='" . $TRINITY20['baseurl'] . "/usercp.php?action=default'>{$lang['gl_usercp']}</a></li>
                     <li><a href='" . $TRINITY20['baseurl'] . "/tv_guide.php'>Tv Guide</a></li>
+                    <li><a href='" . $TRINITY20['baseurl'] . "/forums.php'>{$lang['gl_forums']}</a></li>
                     " . (isset($CURUSER) && $CURUSER['class'] >= UC_STAFF ? "<li><a data-toggle='StaffPanel'>Staff Links</a></li>" : "");
                         $htmlout .= "<script type='text/javascript'>
                             $(document).ready(function(){  
