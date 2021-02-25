@@ -53,8 +53,7 @@ if (isset($_POST['move'])) {
         sql_query('UPDATE messages SET saved = \'yes\', location = '.sqlesc($mailbox).' WHERE id = '.sqlesc($pm_messages).' AND receiver ='.sqlesc($CURUSER['id'])) || sqlerr(__FILE__,
             __LINE__);
     } else {
-        sql_query('UPDATE messages SET saved = \'yes\', location = '.sqlesc($mailbox).' WHERE id IN ('.implode(', ',
-                array_map('sqlesc', $pm_messages)).') AND receiver ='.sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
+        sql_query('UPDATE messages SET saved = \'yes\', location = '.sqlesc($mailbox).' WHERE id IN ('.implode(', ', array_map('sqlesc', $pm_messages)).') AND receiver ='.sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
     }
     //=== Check if messages were moved
     if ($mysqli->affected_rows === 0) {
