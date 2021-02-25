@@ -307,9 +307,9 @@ function countries()
 $country = '';
 $countries = countries();
 foreach ($countries as $cntry) {
-    if ($cntry['id'] == $user['country']) {
-        if (is_array($cntry)) {
-            $country = "<img src=\"{$TRINITY20['pic_base_url']}flag/{$cntry['flagpic']}\" alt=\"".htmlsafechars($cntry['name'])."\" style='margin-left: 8pt'>";
+    if (is_array($cntry)) {
+        if ($cntry['id'] == $user['country']) {
+            $country = "<img src='{$TRINITY20['pic_base_url']}flag/{$cntry['flagpic']}' alt='".htmlsafechars($cntry['name'])."' style='margin-left: 8pt'>";
             break;
         }
     }
