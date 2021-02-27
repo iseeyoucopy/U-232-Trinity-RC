@@ -30,8 +30,8 @@ function make_passhash_login_key($x, $y)
 
 function make_passhash($x, $y, $z)
 {
-    //return password_hash($x.$y.$z, PASSWORD_DEFAULT, ['cost' => 14]);
-    return password_hash($x.$y.$z, PASSWORD_ARGON2ID, ['threads' => 128, 'memory_cost' => 1 << 12, 'time_cost' => 1]);
+	
+	return password_hash($x.$y.$z, PASSWORD_ARGON2ID, ['memory_cost' => 1 << 12, 'time_cost' => 1]);
 }
 
 function make_pass_hash($salt, $md5_once_password)
