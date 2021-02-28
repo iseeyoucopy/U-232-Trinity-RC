@@ -226,7 +226,7 @@ function get_user_from_torrent_pass($torrent_pass)
 // get torrentfromhash by pdq
 function get_torrent_from_hash($info_hash)
 {
-    global $cache, $TRINITY20;
+    global $cache;
     $key = 'torrent::hash:::'.md5($info_hash);
     $ttll = 21600; // 21600;
     if (($torrent = $cache->get($key)) === false) {
@@ -312,7 +312,6 @@ function adjust_torrent_peers($id, $seeds = 0, $leechers = 0, $completed = 0)
     }
     return (bool)$adjust;
 }
-
 // happyhour by putyn
 function get_happy($torrentid, $userid)
 {

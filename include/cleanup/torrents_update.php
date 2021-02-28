@@ -35,17 +35,18 @@ function docleanup($data)
     FROM torrents AS t
     ORDER BY t.id ASC';
     $updatetorrents = [];
-    $tq = sql_query($tsql);
+    ($tq = sql_query($tsql)) || sqlerr(__FILE__,
+    __LINE__);
     while ($t = $tq->fetch_assoc()) {
         if ($t['seeders'] != $t['seeders_num'] || $t['leechers'] != $t['leechers_num'] || $t['comments'] != $t['comments_num']) {
             $updatetorrents[] = '('.$t['id'].', '.$t['seeders_num'].', '.$t['leechers_num'].', '.$t['comments_num'].')';
         }
     }
     $tq->free();
-    $mysqli->next_result();
-    if (count($updatetorrents) > 0) {
+    if (!empty($updatetorrents)) {
         sql_query('INSERT INTO torrents (id, seeders, leechers, comments) VALUES '.implode(', ',
-                $updatetorrents).' ON DUPLICATE KEY UPDATE seeders = VALUES(seeders), leechers = VALUES(leechers), comments = VALUES(comments)');
+                $updatetorrents).' ON DUPLICATE KEY UPDATE seeders = VALUES(seeders), leechers = VALUES(leechers), comments = VALUES(comments)') || sqlerr(__FILE__,
+                    __LINE__);
     }
     unset($updatetorrents);
     if ($queries > 0) {

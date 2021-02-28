@@ -2716,7 +2716,7 @@ CREATE TABLE `topics` (
 
 CREATE TABLE `torrents` (
   `id` int(10) UNSIGNED NOT NULL,
-  `info_hash` binary(20) DEFAULT NULL,
+  `info_hash` binary(20) NOT NULL DEFAULT 0,
   `name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `filename` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `save_as` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
