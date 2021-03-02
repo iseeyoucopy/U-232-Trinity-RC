@@ -95,14 +95,9 @@ for announce url in client.
        
         To Run the Project
         
-        cd /var/www/html
-        
-        git clone https://github.com/iseeyoucopy/gulp4-sass-foundation foundation
-        Then open the folder in your command line, and install the needed dependencies:
- 
-        cd foundation
+        cd /to/your/webroot/directory
         npm install
-        
+
         Finally, run
         
         gulp 
@@ -161,6 +156,8 @@ Staff is automatically added to the same 2 files, but you have to make sure the 
 All Respect goes to Mindless for keeping and coding all this versions
 
 Thanks to darkalchemy for idea of scrapbook multicache
+
+Thanks to HDVinnie for refractoring and style the code as php standards
 
 All Credit goes to the original code creators
 
