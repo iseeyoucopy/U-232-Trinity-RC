@@ -1,0 +1,43 @@
+.divTable {
+	display: table;
+	width: 100%;
+}
+.divTableRow {
+	display: table-row;
+}
+.divTableHeading {
+	background-color: #EEE;
+	display: table-header-group;
+	background-color: #EEE;
+	display: table-header-group;
+	font-weight: bold;
+}
+.divTableCell {
+	border-top: 1px;
+	display: table-cell;
+	box-shadow: none;
+	border-radius: 0;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	padding: 3px 10px;
+}
+.divTableHead {
+	border: 1px solid #999999;
+	display: table-cell;
+	padding: 3px 10px;
+}
+.divTableFoot {
+	background-color: #EEE;
+	display: table-footer-group;
+	font-weight: bold;
+}
+.divTableBody {
+	display: table-row-group;
+}
+.divTableBody:nth-child(even) {
+	background: #f0f4f7;
+}
+.divTableBody:nth-child(odd) {
+	background: #fdfdfd;
+}
