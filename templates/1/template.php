@@ -67,11 +67,9 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
 		<!-- favicon  -->
     	<link rel="shortcut icon" href="/favicon.ico" />
 <!-- Template CSS-->
-        <link rel="stylesheet" href="templates/1/1.css" />
-        <link rel="stylesheet" href="templates/1/fontawesome/css/all.min.css" />
-		<link rel="stylesheet" href="templates/1/foundation-icons/foundation-icons.css" />
-        <link rel="stylesheet" href="foundation/dist/assets/css/app.css">
-        <script src="scripts/jquery.js"></script>';
+        <link rel="stylesheet" href="templates/1/1.css">
+        <link rel="stylesheet" href="dist/css/app.css">
+        <script src="scripts/jquery.min.js"></script>';
     if ($CURUSER) {
         $htmlout .= '<script type="application/rss+xml" title="Latest Torrents" src="/rss.php?torrent_pass=' . $torrent_pass . '"></script>';
         $htmlout .= "<style type='text/css'>#mlike{cursor:pointer;}</style>
@@ -234,21 +232,6 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
                     <li><a href='" . $TRINITY20['baseurl'] . "/tv_guide.php'>Tv Guide</a></li>
                     <li><a href='" . $TRINITY20['baseurl'] . "/forums.php'>{$lang['gl_forums']}</a></li>
                     " . (isset($CURUSER) && $CURUSER['class'] >= UC_STAFF ? "<li><a data-toggle='StaffPanel'>Staff Links</a></li>" : "");
-                        $htmlout .= "<script type='text/javascript'>
-                            $(document).ready(function(){  
-                            $.ajax({
-                                type: 'GET',
-                                url: 'ajax.php',
-                                success: function(data){
-                                    $('#unread_m').append(data);
-                                }
-                            });
-                            setInterval(function(){//setInterval() method execute on every interval until called clearInterval()
-                                    $('#unread_m').load('ajax.php').fadeIn('slow');
-                                    //load() method fetch data from fetch.php page
-                                    }, 1000);    
-                            });
-                        </script>";
                         $htmlout.="<li><a href='" . $TRINITY20['baseurl'] . "/pm_system.php'>{$lang['gl_pms']}<span id='unread_m'></span></a></li>";
                     $htmlout .="</ul>
             </header>
@@ -332,8 +315,7 @@ function stdfoot($stdfoot = false)
             </div><!--  End main outer container -->
         </div><!--  End off-canvas-content -->
 		<!-- localStorage for collapse -->
-        <script src='foundation/dist/assets/js/app.js'></script>
-		<script src='templates/1/fontawesome/js/all.min.js'></script>";
+        <script src='/dist/js/app.js'></script>";
     }
     $htmlfoot .= '</body></html>';
     return $htmlfoot;

@@ -16,6 +16,7 @@
     "jquery": "^3.2.1",
     "motion-ui": "^2.0.3",
     "node-sass": "^4.14.1",
+    "standard": "^16.0.3",
     "what-input": "^5.1.2"
   },
   "devDependencies": {
