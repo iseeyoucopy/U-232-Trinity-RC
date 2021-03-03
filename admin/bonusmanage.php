@@ -49,37 +49,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && (isset($_POST["id"]) || isset($_POST
         stderr($lang['bonusmanager_oops'], "{$lang['bonusmanager_sql']}");
     }
 }
+$HTMLOUT .= "<div class='card'>
+	<div class='card-divider'>{$lang['bonusmanager_bm']}</div>
+	<div class='card-section'>";
 while ($arr = $res->fetch_assoc()) {
-    $count = (++$count) % 2;
-    $class = ($count == 0 ? 'one' : 'two');
-    $HTMLOUT .= "<div class='row'><div class='col-md-12 col-md-offset-1'>
-<form name='bonusmanage' method='post' action='staffpanel.php?tool=bonusmanage&amp;action=bonusmanage'>
-	  <div class='roundedCorners' style='text-align:left;width:80%;border:1px solid black;padding:5px;'>
-   <div class='colhead'><span style='font-weight:bold;font-size:12pt;'>{$lang['bonusmanager_bm']}</span></div>
-	  <table class='table table-bordered'>
-	  <div class='row'><div class='col-md-8 col-md-offset-2'><tr>
-		<td>{$lang['bonusmanager_id']}</td>
-		<td>{$lang['bonusmanager_enabled']}</td>
-		<td>{$lang['bonusmanager_bonus']}</td>
-		<td>{$lang['bonusmanager_points']}</td>
-		<td>{$lang['bonusmanager_pointspool']}</td>
-		<td>{$lang['bonusmanager_minpoints']}</td>
-		<td>{$lang['bonusmanager_description']}</td>
-	  <td>{$lang['bonusmanager_type']}</td>
-		<td>{$lang['bonusmanager_quantity']}</td>
-		<td>{$lang['bonusmanager_action']}</td></tr> 
-	  <tr><td class='$class'>
-		<input name='id' type='hidden' value='".(int)$arr["id"]."' />".(int)$arr['id']."</td>
-		<td class='$class'><input name='enabled' type='checkbox'".($arr["enabled"] == "yes" ? " checked='checked'" : "")." /></td>
-		<td class='$class'>".htmlsafechars($arr["bonusname"])."</td>
-		<td class='$class'><input type='text' name='bonuspoints' value='".(int)$arr["points"]."' size='4' /></td>
-		<td class='$class'><input type='text' name='pointspool' value='".(int)$arr["pointspool"]."' size='4' /></td>
-		<td class='$class'><input type='text' name='minpoints' value='".(int)$arr["minpoints"]."' size='4' /></td>
-		<td class='$class'><textarea name='description' rows='4' cols='10'>".htmlsafechars($arr["description"])."</textarea></td>
-		<td class='$class'>".htmlsafechars($arr["art"])."</td>
-		<td class='$class'>".(($arr["art"] == "traffic" || $arr["art"] == "traffic2" || $arr["art"] == "gift_1" || $arr["art"] == "gift_2") ? (htmlsafechars($arr["menge"]) / 1024 / 1024 / 1024)." GB" : htmlsafechars($arr["menge"]))."</td>
-		<td align='center'><input type='submit' value='{$lang['bonusmanager_submit']}' /></td>
-		</tr></div></div></table></div></form></div></div><br>";
+		$HTMLOUT .= "<div class='card'>
+   			<div class='card-divider'><strong>".htmlsafechars($arr["bonusname"])."</strong></div>
+			<form name='bonusmanage' method='post' action='staffpanel.php?tool=bonusmanage&amp;action=bonusmanage'>
+				<div class='card-section'>
+					<input name='id' type='hidden' value='".(int)$arr["id"]."'>
+					<div class='input-group'>
+						<span class='input-group-label'>{$lang['bonusmanager_type']}</span>
+					   	<input class='input-group-field' type='text' disabled value='".htmlsafechars($arr["art"])."'>
+				 	</div>
+					<div class='input-group'>
+						<span class='input-group-label'>{$lang['bonusmanager_quantity']}</span>
+						<input class='input-group-field' type='text' disabled value='".(($arr["art"] == "traffic" || $arr["art"] == "traffic2" || $arr["art"] == "gift_1" || $arr["art"] == "gift_2") ? (htmlsafechars($arr["menge"]) / 1024 / 1024 / 1024)." GB" : htmlsafechars($arr["menge"]))."'>
+					</div>
+					<div class='input-group'>
+						<span class='input-group-label'>{$lang['bonusmanager_points']}</span>
+				   		<input class='input-group-field' type='text' name='bonuspoints' value='".(int)$arr["points"]."'>
+				 	</div>
+					<div class='input-group'>
+						<span class='input-group-label'>{$lang['bonusmanager_pointspool']}</span>
+						<input class='input-group-field' type='text' name='pointspool' value='".(int)$arr["pointspool"]."'>
+					</div>
+					<div class='input-group'>
+						<span class='input-group-label'>{$lang['bonusmanager_minpoints']}</span>
+						<input class='input-group-field' type='text' name='minpoints' value='".(int)$arr["minpoints"]."'>
+					</div>
+					<div class='input-group'>
+						<span class='input-group-label'>{$lang['bonusmanager_description']}</span>
+							<textarea class='input-group-field' name='description' rows='4'>".htmlsafechars($arr["description"])."</textarea>
+					</div>
+					<div class='clearfix'></div>
+					<p>{$lang['bonusmanager_enabled']}</p>
+					<div class='switch large'>
+						<input class='input-group-field switch-input' type='checkbox' id='enabled'  name='enabled'".($arr["enabled"] == "yes" ? " checked='checked'" : "")." value='yes'>
+						<label class='switch-paddle float-center' for='enabled'>
+							<span class='show-for-sr'>{$lang['bonusmanager_enabled']}</span>
+							<span class='switch-active' aria-hidden='true'>Yes</span>
+							<span class='switch-inactive' aria-hidden='true'>No</span>
+						</label>
+					</div>
+					<input class='button' type='submit' value='{$lang['bonusmanager_submit']}'>
+				</div>
+			</form>
+		</div>";
 }
+$HTMLOUT .="</div></div>";
 echo stdhead($lang['bonusmanager_stdhead']).$HTMLOUT.stdfoot();
 ?>

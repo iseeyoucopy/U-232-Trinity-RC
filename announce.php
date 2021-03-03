@@ -98,7 +98,7 @@ if (!$port || $port > 0xffff) {
 if (!isset($event)) {
     $event = "";
 }
-$seeder = ($left == 0) ? "yes" : "no";
+$seeder = $left === 0 ? "yes" : "no";
 $user = get_user_from_torrent_pass($torrent_pass);
 if (!$user) {
     err('Invalid passkey. Please redownload the torrent from '.$TRINITY20['baseurl']);

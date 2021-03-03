@@ -129,7 +129,7 @@ if ($change[$tor_cat]['min_class'] > $CURUSER['class']) {
 //==
 if (($torrents_xbt = $cache->get('torrent_xbt_data_'.$id)) === false && XBT_TRACKER == true) {
     ($t_xbt_d = sql_query("SELECT seeders, leechers, times_completed FROM torrents WHERE id =".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
-    $torrents_xbt = $t_xbt_d->fetch_assoc;
+    $torrents_xbt = $t_xbt_d->fetch_assoc();
     $cache->set('torrent_xbt_data_'.$id, $torrents_xbt, $TRINITY20['expires']['torrent_xbt_data']);
 }
 //==

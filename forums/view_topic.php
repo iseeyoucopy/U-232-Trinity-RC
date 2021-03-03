@@ -249,7 +249,7 @@ $HTMLOUT .= "<div class='float_left'>";
 $HTMLOUT .= $pagemenu1.$pmlb.$pagemenu2.$pmlb.$pagemenu3;
 $HTMLOUT .= "</div>";
 $HTMLOUT .= "<div style='padding-top: 4px;' class='float_right'>";
-$maypost = ($CURUSER['class'] >= $arr["min_class_write"] && $CURUSER['class'] >= $arr["min_class_create"]);
+$maypost = $CURUSER['class'] >= isset($arr["min_class_write"]) && $CURUSER['class'] >= isset($arr["min_class_create"]);
 if ($locked && $CURUSER['class'] < UC_STAFF && !isMod($forumid, "forum")) {
     $HTMLOUT .= "<p align='center'>This topic is locked; no new posts are allowed.</p>";
 } else {

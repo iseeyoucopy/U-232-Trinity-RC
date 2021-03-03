@@ -217,7 +217,7 @@ function torrenttable($res, $variant = "index")
             $tags = '<i>'.implode(', ', $tags).'</i>';
         }
         $alltags = '';
-        $alltags = "{$newgenre}".(empty($newgenre) ? empty($tags) ? "" : "&nbsp;•&nbsp;&nbsp;<i class='fa fa-tag'></i>&nbsp;{$tags}" : ("&comma;&nbsp;{$tags}"));
+        $alltags = "{$newgenre}".(empty($newgenre) ? (empty($tags) ? "" : "&nbsp;•&nbsp;&nbsp;<i class='fa fa-tag'></i>&nbsp;{$tags}") : ("&comma;&nbsp;{$tags}"));
         /*vip torrent*/
         $viponly = ($row["vip"] == 1 ? "<i class='fas fa-star' style='color:yellow' title='Vip Torrent'></i>&nbsp;" : "");
         /*freeleech Torrent*/
