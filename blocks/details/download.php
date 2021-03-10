@@ -1,42 +1,73 @@
 <?php
 require_once MODS_DIR.'slots_details.php';
-$HTMLOUT .= '<div class="grid-x grid-padding-x">
-  <div class="cell large-4 flex-container flex-dir-column">';
+$s = htmlsafechars($torrents["name"], ENT_QUOTES);
 $poster_url = ((empty($torrents["poster"])) ? $TRINITY20["pic_base_url"]."noposter.png" : htmlsafechars($torrents["poster"]));
-$HTMLOUT .= '<div class="card-section">
-	  <div class="media-object-section">
-    <div class="thumbnail">
-      <img src="'.$poster_url.'">
-    </div>
-  </div>
-	</div>';
-if (!empty($torrents["description"])) {
-    $HTMLOUT .= "<div class='card-section'><table class='striped'><th class='text-center'>{$lang['details_small_descr']}</th><tr><td class='details-text-ellipsis'><i>".htmlsafechars($torrents['description'])."</i></td></tr></table></div>";
-} else {
-    $HTMLOUT .= "<table class='striped'><th>{$lang['details_small_descr']}</th><tr><td><i>{$lang['details_add_nodscrp']}</i></td></tr></table>";
-}
-$HTMLOUT .= '</div>';
-//==09 Poster mod
-$HTMLOUT .= "<div style='display:block;height:20px'></div>";
 $Free_Slot = (XBT_TRACKER == true ? '' : $freeslot);
+$torrents['cat_name'] = htmlsafechars($change[$torrents['category']]['name']);
+$tcatname = isset($torrents["cat_name"]) ? htmlsafechars($torrents["cat_name"]) : $lang['details_add_none'];
+$tadded = get_date($torrents['added'], "LONG");
+$rowuser = (isset($torrents['username']) ? ("<a href='userdetails.php?id=".(int)$torrents['owner']."'><strong>".htmlsafechars($torrents['username'])."</strong></a>") : "{$lang['details_unknown']}");
+$uprow = (($torrents['anonymous'] == 'yes') ? ($CURUSER['class'] < UC_STAFF && $torrents['owner'] != $CURUSER['id'] ? '' : $rowuser.' - ')."<i>{$lang['details_anon']}</i>" : $rowuser);
+$tseeders = (XBT_TRACKER == true) ? "<a href='./peerlist_xbt.php?id=$id#seeders'>".(int)$torrents_xbt["seeders"]."</a>" : "<a href='./peerlist.php?id=$id#seeders'>".(int)$torrents["seeders"]."</a>";
+$tleechers = (XBT_TRACKER == true) ? "<a href='./peerlist_xbt.php?id=$id#leechers'>".(int)$torrents_xbt["leechers"]."</a>" : "<a href='./peerlist.php?id=$id#peers'>".(int)$torrents["leechers"]."</a>";
+$tpeers = (XBT_TRACKER == true) ? "<a href='./peerlist_xbt.php?id=$id#peers'>".((int)$torrents_xbt["seeders"] + (int)$torrents_xbt["leechers"])."</a>" : "<a href='./peerlist.php?id=$id#peers'>".((int)$torrents["seeders"] + (int)$torrents["leechers"])."</a>";
+$XBT_Or_Default = (XBT_TRACKER == true ? 'snatches_xbt.php?id=' : 'snatches.php?id=');
+$XBT_or_default_link = "<a href='{$TRINITY20["baseurl"]}/{$XBT_Or_Default}{$id}'>".(int)$torrents['times_completed']."</a>";
+$tsnatched = (int)$torrents["times_completed"] > 0 ? $XBT_or_default_link : "0";
+$tsize = mksize($torrents["size"]);
+if ($owned) {
+    $editlinkw = "<$editlink><i class='fas fa-edit'></i>";
+}
+$HTMLOUT .= '<div class="grid-x grid-padding-x">
+    <div class="cell medium-4">
+        <div class="card-section">
+            <div class="media-object-section">
+                <div class="thumbnail">
+                    <img src="'.$poster_url.'">
+                </div>
+            </div>
+            <a class="button small expanded" href="download.php?torrent='.$id.'" title="Download torrent">Download torrent</a>
+            <p>'.$Free_Slot.'</p>
+        </div>
+        </div>';
 $HTMLOUT .= "
-<div class='cell large-8'>
-    <table class='striped'>
-	<tbody>
-            <tr>
-            <td width='20%'>
-			{$lang['details_download']}</td>
-            <td>
-			<a data-toggle='download-torrent'><i class='fas fa-download'></i></a>
-			<div class='dropdown-pane padding-bottom-0' id='download-torrent' data-dropdown data-auto-focus='true' data-hover-pane='true'>
-				<a href='download.php?torrent={$id} 'title='Download torrent'><i class='fas fa-download'></i>Download torrent</a>				
-				<p>{$Free_Slot}</p>
-			</div>
-            </td>
-            </tr>";
-/** end **/
-$HTMLOUT .= "</tbody></table>";
-$HTMLOUT .= "
+<div class='cell medium-8'>
+<div class='card'>
+    <div class='card-divider'>$s
+    <span class='label secondary float-left' tabindex='2' data-tooltip title='{$lang['details_edit']}'>
+    ".$editlinkw."
+</span></div>
+    <div class='card-section'>
+{$lang['details_added']} at ".$tadded." by ".$uprow." | " . $lang['details_type']." : ".$tcatname."
+</div>
+</div>
+<div class='grid-x grid-margin-x'>
+<div class='cell medium-auto card'>
+    <span class='label secondary padding-1' tabindex='2' data-tooltip title='{$lang['details_add_sd']}'>
+        <i class='fas fa-arrow-up'></i> ".$tseeders."
+    </span>
+</div>
+<div class='cell medium-auto card'>
+    <span class='label secondary padding-1' tabindex='2' data-tooltip title='{$lang['details_add_lc']}'>
+        <i class='fas fa-arrow-down'></i> ".$tleechers."
+    </span>
+</div>
+<div class='cell medium-auto card'>
+    <span class='label secondary padding-1' tabindex='2' data-tooltip title='{$lang['details_peer_total']}'>
+        <i class='fas fa-dna'></i> {$tpeers}
+    </span>
+</div>
+<div class='cell medium-auto card'>
+    <span class='label secondary padding-1' tabindex='2' data-tooltip title='{$lang['details_snatched']}'>
+        <i class='fas fa-check'></i> ".$tsnatched."
+    </span>
+</div>
+<div class='cell medium-auto card'>
+    <span class='label secondary padding-1' tabindex='2' data-tooltip title='{$lang['details_size']}'>
+    <i class='fas fa-chart-pie'></i> ".$tsize."
+    </span>
+</div>
+</div>
 	<div class='table-scroll'>
     <table class='striped'>
 	<tbody>

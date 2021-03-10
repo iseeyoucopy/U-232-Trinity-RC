@@ -46,37 +46,49 @@ function dltable($name, $arr, $torrent)
     global $CURUSER, $lang, $TRINITY20;
     $htmlout = '';
     if ((is_countable($arr) ? count($arr) : 0) === 0) {
-        return $htmlout = "<div align='left'><b>{$lang['peerslist_no']} $name {$lang['peerslist_data_available']}</b></div>\n";
+        return $htmlout = "<div align='left'><b>{$lang['peerslist_no']} $name {$lang['peerslist_data_available']}</b></div>";
     }
-    $htmlout = "\n";
-    $htmlout .= "<table class='table table-bordered'>\n";
-    $htmlout .= "<tr><td colspan='11' class='colhead'>".(is_countable($arr) ? count($arr) : 0)." $name</td></tr>"."<tr><td class='colhead'>{$lang['peerslist_user_ip']}</td>"."<td class='colhead' align='right'>{$lang['peerslist_uploaded']}</td>"."<td class='colhead' align='right'>{$lang['peerslist_rate']}</td>"."".($TRINITY20['ratio_free'] ? "" : "<td class='colhead' align='right'>{$lang['peerslist_downloaded']}</td>").""."".($TRINITY20['ratio_free'] ? "" : "<td class='colhead' align='right'>{$lang['peerslist_rate']}</td>").""."<td class='colhead' align='right'>{$lang['peerslist_ratio']}</td>"."<td class='colhead' align='right'>{$lang['peerslist_complete']}</td>"."<td class='colhead' align='right'>{$lang['peerslist_idle']}</td>"."<td class='colhead' align='left'>{$lang['peerslist_client']}</td></tr>\n";
+    $htmlout .= "<div class='table-scroll'><table class='striped'>
+        <tr>
+            <td>".(is_countable($arr) ? count($arr) : 0)." $name</td>
+        </tr>"."
+        <tr>
+            <td>{$lang['peerslist_user_ip']}</td>
+            <td>{$lang['peerslist_uploaded']}</td>
+            <td>{$lang['peerslist_rate']}</td>
+            ".($TRINITY20['ratio_free'] ? "" : "<td>{$lang['peerslist_downloaded']}</td>")."
+            ".($TRINITY20['ratio_free'] ? "" : "<td>{$lang['peerslist_rate']}</td>")."
+            <td>{$lang['peerslist_ratio']}</td>
+            <td>{$lang['peerslist_complete']}</td>
+            <td>{$lang['peerslist_idle']}</td>
+            <td>{$lang['peerslist_client']}</td>
+        </tr>";
     $now = TIME_NOW;
     $mod = $CURUSER['class'] >= UC_STAFF;
     foreach ($arr as $e) {
-        $htmlout .= "<tr>\n";
+        $htmlout .= "<tr>";
         $upspeed = ($e["upspeed"] > 0 ? mksize($e["upspeed"]) : ($e["seedtime"] > 0 ? mksize($e["uploaded"] / ($e["seedtime"] + $e["leechtime"])) : mksize(0)));
         $downspeed = ($e["downspeed"] > 0 ? mksize($e["downspeed"]) : ($e["leechtime"] > 0 ? mksize($e["downloaded"] / $e["leechtime"]) : mksize(0)));
         if ($e['username']) {
             if (($e['tanonymous'] == 'yes' && $e['owner'] == $e['uid'] || $e['anonymous'] == 'yes' && $CURUSER['id'] != $e['uid']) && $CURUSER['class'] < UC_STAFF) {
-                $htmlout .= "<td><b>Kezer Soze</b></td>\n";
+                $htmlout .= "<td><b>Kezer Soze</b></td>";
             } else {
-                $htmlout .= "<td><a href='userdetails.php?id=".(int)$e['uid']."'><b>".htmlsafechars($e['username'])."</b></a></td>\n";
+                $htmlout .= "<td><a href='userdetails.php?id=".(int)$e['uid']."'><b>".htmlsafechars($e['username'])."</b></a></td>";
             }
         } else {
-            $htmlout .= "<td>".($mod ? XBT_IP_CONVERT($e["ipa"]) : preg_replace('/\.\d+$/', ".xxx", XBT_IP_CONVERT($e["ipa"])))."</td>\n";
+            $htmlout .= "<td>".($mod ? XBT_IP_CONVERT($e["ipa"]) : preg_replace('/\.\d+$/', ".xxx", XBT_IP_CONVERT($e["ipa"])))."</td>";
         }
-        $htmlout .= "<td align='right'>".mksize($e["uploaded"])."</td>\n";
-        $htmlout .= "<td align='right'><span style=\"white-space: nowrap;\">".htmlsafechars($upspeed)."/s</span></td>\n";
-        $htmlout .= "".($TRINITY20['ratio_free'] ? "" : "<td align='right'>".mksize($e["downloaded"])."</td>")."\n";
-        $htmlout .= "".($TRINITY20['ratio_free'] ? "" : "<td align='right'><span style=\"white-space: nowrap;\">".htmlsafechars($downspeed)."/s</span></td>")."\n";
-        $htmlout .= "<td align=\"right\">".member_ratio($e['uploaded'], $TRINITY20['ratio_free'] ? "0" : $e['downloaded'])."</td>\n";
-        $htmlout .= "<td align='right'>".sprintf("%.2f%%", 100 * (1 - ($e["left"] / $torrent["size"])))."</td>\n";
-        $htmlout .= "<td align='right'>".mkprettytime($now - $e["la"])."</td>\n";
-        $htmlout .= "<td align='left'>".htmlsafechars(getagent($e["peer_id"], $e['peer_id']))."</td>\n";
-        $htmlout .= "</tr>\n";
+        $htmlout .= "<td>".mksize($e["uploaded"])."</td>";
+        $htmlout .= "<td><span style=\"white-space: nowrap;\">".htmlsafechars($upspeed)."/s</span></td>";
+        $htmlout .= "".($TRINITY20['ratio_free'] ? "" : "<td>".mksize($e["downloaded"])."</td>")."";
+        $htmlout .= "".($TRINITY20['ratio_free'] ? "" : "<td><span style='white-space: nowrap;'>".htmlsafechars($downspeed)."/s</span></td>")."";
+        $htmlout .= "<td>".member_ratio($e['uploaded'], $TRINITY20['ratio_free'] ? "0" : $e['downloaded'])."</td>";
+        $htmlout .= "<td>".sprintf("%.2f%%", 100 * (1 - ($e["left"] / $torrent["size"])))."</td>";
+        $htmlout .= "<td>".mkprettytime($now - $e["la"])."</td>";
+        $htmlout .= "<td>".htmlsafechars(getagent($e["peer_id"], $e['peer_id']))."</td>";
+        $htmlout .= "</tr>";
     }
-    return $htmlout."</table>\n";
+    return $htmlout."</table></div>";
 }
 
 ($res = sql_query("SELECT * FROM torrents WHERE id = ".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
@@ -132,8 +144,11 @@ function seed_sort($a, $b)
 
 usort($seeders, "seed_sort");
 usort($downloaders, "leech_sort");
-$HTMLOUT .= "<h1>Peerlist for <a href='{$TRINITY20['baseurl']}/details.php?id=$id'>".htmlsafechars($row['name'])."</a></h1>";
-$HTMLOUT .= dltable("{$lang['peerslist_seeders']}<a name='seeders'></a>", $seeders, $row);
-$HTMLOUT .= '<br>'.dltable("{$lang['peerslist_leechers']}<a name='leechers'></a>", $downloaders, $row).'<br>';
+$HTMLOUT .= "<div class='card'>
+    <div class='card-divider'>
+        Peerlist for <a class='label' href='{$TRINITY20['baseurl']}/details.php?id=$id'>".htmlsafechars($row['name'])."</a></div>
+    <div class='card-section'>".dltable("{$lang['peerslist_seeders']}<a name='seeders'></a>", $seeders, $row)." </div>
+    <div class='card-section'>".dltable("{$lang['peerslist_leechers']}<a name='leechers'></a>", $downloaders, $row)."</div>
+</div>";
 echo stdhead("{$lang['peerslist_stdhead']}").$HTMLOUT.stdfoot();
 ?>

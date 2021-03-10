@@ -183,11 +183,11 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         $htmlout .= '
         <div class="grid-container"><!--  Start main grid-container-->';
             $htmlout.= "
-            <div class='off-canvas position-top' id='profile-dropdown' style='height:3rem; width:100%; z-index: 100;' data-off-canvas>
+            <div class='off-canvas position-top' id='profile-dropdown' style='height:4rem; width:100%; z-index: 100;' data-off-canvas>
             " . StatusBar() . "
             </div>
             <div class='off-canvas-wrapper'>
-            <div class='off-canvas-absolute position-top' id='alerts-dropdown' data-off-canvas>
+            <div class='off-canvas position-top' id='alerts-dropdown' data-off-canvas>
             <div class='grid-x grid-padding-x'>
             <div class='cell'>
             <p class='text-center'>All allerts</p>";

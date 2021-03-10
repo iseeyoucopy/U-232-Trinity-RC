@@ -1,4 +1,4 @@
-//=== to use this script...
+//= to use this script...
 //  make sure to name the form "checkme"
 // and call like so:
 // <form action="" name=checkme onSubmit="return ValidateForm(this,'nameofthing')">
@@ -7,7 +7,7 @@
 // and finally...
 // <a href="javascript:SetChecked(1,'nameofthing[]')"> select all</a> - <a class=altlink href="javascript:SetChecked(0,'nameofthing[]')">un-select all</a>
 // <input class=btn type=submit value="enter"></form>
-//=== handy for selecting many checkboxes :)
+//= handy for selecting many checkboxes :)
 
 var form = 'checkme'
 

@@ -1,5 +1,5 @@
 $nav-text-color: $white;
-$nav-height: 75px;
+$nav-height: 45px;
 $nav-background: #2c3840;
 $offcanvas-padding: 20px;
 
@@ -36,7 +36,7 @@ $offcanvas-padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1.6rem;
+    padding: 0.9rem;
     color: $nav-text-color;
     text-transform: uppercase;
     background-color: lighten($nav-background, 20%);

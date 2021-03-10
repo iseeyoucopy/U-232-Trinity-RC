@@ -33,18 +33,18 @@ function dltable($name, $arr, $torrent)
     }
     $htmlout .= "
     <table class='striped'>
-    <tr><td colspan='11' class='text-left'>".(is_countable($arr) ? count($arr) : 0)." $name</td></tr>
-    <tr><td class='text-center'><i class='fas fa-user' title='{$lang['peerslist_user_ip']}'></i></td>
-    <td class='text-center'><i class='fas fa-link' title='{$lang['peerslist_connectable']}'></i></td>
-    <td class='text-center'><i class='fas fa-upload' title='{$lang['peerslist_uploaded']}'></i></td>
-    <td class='text-center'><i class='fas fa-tachometer-alt' title='{$lang['peerslist_urate']}'></i></td>
-    ".($TRINITY20['ratio_free'] ? "" : "<td class='text-center'><i class='fas fa-download' title='{$lang['peerslist_downloaded']}'></i></td>")."
-    ".($TRINITY20['ratio_free'] ? "" : "<td class='text-center'><i class='fas fa-tachometer-alt' title='{$lang['peerslist_drate']}'></i></td>")."
-    <td class='text-center'><i class='fa fa-percentage' title='{$lang['peerslist_ratio']}'></i></td>
-    <td class='text-center'>{$lang['peerslist_complete']}</td>
-    <td class='text-center'><i class='fas fa-user-clock' title='{$lang['peerslist_connected']}'></i></td>
-    <td class='text-center'>{$lang['peerslist_idle']}</td>
-    <td class='text-center'>{$lang['peerslist_client']}</td></tr>";
+    <tr><td>".(is_countable($arr) ? count($arr) : 0)." $name</td></tr>
+    <tr><td><i class='fas fa-user' title='{$lang['peerslist_user_ip']}'></i></td>
+    <td><i class='fas fa-link' title='{$lang['peerslist_connectable']}'></i></td>
+    <td><i class='fas fa-upload' title='{$lang['peerslist_uploaded']}'></i></td>
+    <td><i class='fas fa-tachometer-alt' title='{$lang['peerslist_urate']}'></i></td>
+    ".($TRINITY20['ratio_free'] ? "" : "<td><i class='fas fa-download' title='{$lang['peerslist_downloaded']}'></i></td>")."
+    ".($TRINITY20['ratio_free'] ? "" : "<td><i class='fas fa-tachometer-alt' title='{$lang['peerslist_drate']}'></i></td>")."
+    <td><i class='fa fa-percentage' title='{$lang['peerslist_ratio']}'></i></td>
+    <td>{$lang['peerslist_complete']}</td>
+    <td><i class='fas fa-user-clock' title='{$lang['peerslist_connected']}'></i></td>
+    <td>{$lang['peerslist_idle']}</td>
+    <td>{$lang['peerslist_client']}</td></tr>";
     $now = TIME_NOW;
     $mod = $CURUSER['class'] >= UC_STAFF;
     foreach ($arr as $e) {
@@ -53,16 +53,16 @@ function dltable($name, $arr, $torrent)
                     "$1.xxx.$3.xxx", $e["ip"]).")")."</td>";
         $secs = max(1, ($now - $e["st"]) - ($now - $e["la"]));
         $htmlout .= "<td align='center'>".($e['connectable'] == "yes" ? "{$lang['peerslist_yes']}" : "<font color='red'>{$lang['peerslist_no']}</font>")."</td>";
-        $htmlout .= "<td class='text-center'>".mksize($e["uploaded"])."</td>";
+        $htmlout .= "<td>".mksize($e["uploaded"])."</td>";
         $htmlout .= "<td class='text-center' style='white-space: nowrap;'>".mksize(($e["uploaded"] - $e["uploadoffset"]) / $secs)."/s</td>";
-        $htmlout .= $TRINITY20['ratio_free'] ? "" : "<td class='text-center'>".mksize($e["downloaded"])."</td>";
+        $htmlout .= $TRINITY20['ratio_free'] ? "" : "<td>".mksize($e["downloaded"])."</td>";
         $htmlout .= $TRINITY20['ratio_free'] ? "" : "<td class='text-center' style='white-space: nowrap;'>".($e["seeder"] == "no" ? (mksize(($e["downloaded"] - $e["downloadoffset"]) / $secs)."/s") : (mksize(($e["downloaded"] - $e["downloadoffset"]) / max(1,
                         $e["finishedat"] - $e['st']))."/s"))."</td>";
-        $htmlout .= "<td class='text-center'>".member_ratio($e['uploaded'], $TRINITY20['ratio_free'] ? "0" : $e['downloaded'])."</td>";
-        $htmlout .= "<td class='text-center'>".sprintf("%.2f%%", 100 * (1 - ($e["to_go"] / $torrent["size"])))."</td>";
-        $htmlout .= "<td class='text-center'>".mkprettytime($now - $e["st"])."</td>";
-        $htmlout .= "<td class='text-center'>".mkprettytime($now - $e["la"])."</td>";
-        $htmlout .= "<td class='text-center'>".htmlsafechars(getagent($e["agent"], $e['peer_id']))."</td>";
+        $htmlout .= "<td>".member_ratio($e['uploaded'], $TRINITY20['ratio_free'] ? "0" : $e['downloaded'])."</td>";
+        $htmlout .= "<td>".sprintf("%.2f%%", 100 * (1 - ($e["to_go"] / $torrent["size"])))."</td>";
+        $htmlout .= "<td>".mkprettytime($now - $e["st"])."</td>";
+        $htmlout .= "<td>".mkprettytime($now - $e["la"])."</td>";
+        $htmlout .= "<td>".htmlsafechars(getagent($e["agent"], $e['peer_id']))."</td>";
         $htmlout .= "</tr>";
     }
     return $htmlout."</table>";
