@@ -67,38 +67,88 @@ function permissioncheck()
     $out .= '</fieldset>';
 
 
-    $out .= '<fieldset><legend>Module check</legend>';
-    $memcached_loaded = true;
+    $out .= '<fieldset><legend>Php Module check</legend>
+    <div class="info">The following PHP modules are required for u232 if you want to use one of them for caching <br/>
+    By default caching is set to memory do you will not need any of them to be installed<br>'.
+            '<input type="button" value="Reload" onclick="window.location.reload()"/>'.
+            '</div>';
     if (!extension_loaded('memcached')) {
-        $continue = $memcached_loaded = false;
         $out .= '<div class="notreadable">memcached</div>';
     } else {
         $out .= '<div class="readable">memcached</div>';
     }
-
-    if (!$memcached_loaded) {
-        $out .= '<div class="info">The memcached module for PHP is not installed and is required for u232<br/>'.
-            '<input type="button" value="Reload" onclick="window.location.reload()"/>'.
-            '</div>';
-    }
-    $redis_loaded = true;
     if (!extension_loaded('redis')) {
-        $continue = $redis_loaded = false;
         $out .= '<div class="notreadable">redis</div>';
     } else {
         $out .= '<div class="readable">redis</div>';
     }
-
-    if (!$redis_loaded) {
-        $out .= '<div class="info">The redis module for PHP is not installed and is required for u232<br/>'.
-            '<input type="button" value="Reload" onclick="window.location.reload()"/>'.
-            '</div>';
+    if (!extension_loaded('apcu')) {
+        $out .= '<div class="notreadable">APCu</div>';
+    } else {
+        $out .= '<div class="readable">APCu</div>';
     }
-    $out .= '</fieldset>';
-
+    $out .= '<legend>PHP required module check</legend>
+    <div class="info">The following PHP modules are required for u232<br>'.
+            '</div>';
+    if (!extension_loaded('curl')) {
+        $out .= '<div class="notreadable">cURL</div>';
+    } else {
+        $out .= '<div class="readable">cURL</div>';
+    }
+    if (!extension_loaded('igbinary')) {
+        $out .= '<div class="notreadable">igbinary</div>';
+    } else {
+        $out .= '<div class="readable">igbinary</div>';
+    }
+    if (!extension_loaded('json')) {
+        $out .= '<div class="notreadable">json</div>';
+    } else {
+        $out .= '<div class="readable">json</div>';
+    }
+    if (!extension_loaded('msgpack')) {
+        $out .= '<div class="notreadable">msgpack</div>';
+    } else {
+        $out .= '<div class="readable">msgpack</div>';
+    }
+    if (!extension_loaded('mysqli')) {
+        $out .= '<div class="notreadable">MySQLi</div>';
+    } else {
+        $out .= '<div class="readable">MySQLi</div>';
+    }
+    if (!extension_loaded('mbstring')) {
+        $out .= '<div class="notreadable">mbstring</div>';
+    } else {
+        $out .= '<div class="readable">mbstring</div>';
+    }
+    if (!extension_loaded('gd')) {
+        $out .= '<div class="notreadable">Image Processing and GD</div>';
+    } else {
+        $out .= '<div class="readable">Image Processing and GD</div>';
+    }
+    if (!extension_loaded('geoip')) {
+        $out .= '<div class="notreadable">GEOIP</div>';
+    } else {
+        $out .= '<div class="readable">GEOIP</div>';
+    }
+    if (!extension_loaded('opcache')) {
+        $out .= '<div class="notreadable">OPcache</div>';
+    } else {
+        $out .= '<div class="readable">OPcache</div>';
+    }
+    if (!extension_loaded('xml')) {
+        $out .= '<div class="notreadable">XML</div>';
+    } else {
+        $out .= '<div class="readable">XML</div>';
+    }
+    if (!extension_loaded('zip')) {
+        $out .= '<div class="notreadable">ZIP</div>';
+    } else {
+        $out .= '<div class="readable">ZIP</div>';
+    }
+    $out .= '<input type="button" value="Reload" onclick="window.location.reload()"/>'.'</fieldset>';
     if ($continue) {
         $out .= '<fieldset><div><input type="button" onclick="window.location.href=\'index.php?step=1\'" value="Next step" /></div></fieldset>';
-        file_put_contents('step0.lock', '1');
+        //file_put_contents('step0.lock', '1');
     }
     return $out;
 }

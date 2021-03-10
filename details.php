@@ -261,7 +261,7 @@ if (isset($_GET["uploaded"])) {
         $HTMLOUT .= "<p><b>{$lang['details_go_back']}<a href='".htmlsafechars($_GET["returnto"])."'>{$lang['details_whence']}</a>.</b></p>\n";
     }
 } elseif (isset($_GET["reseed"])) {
-    $HTMLOUT .= "<div class='alert alert-success col-md-11' align='center'><h2>{$lang['details_add_succ1']}</h2></div>\n";
+    $HTMLOUT .= "<div class='alert alert-success' align='center'><h2>{$lang['details_add_succ1']}</h2></div>\n";
 }
 //==pdq's Torrent Moderation
 if ($CURUSER['class'] >= UC_STAFF) {
@@ -308,14 +308,13 @@ if ($CURUSER['class'] >= UC_STAFF) {
 // end
 $prev_id = ($id - 1);
 $next_id = ($id + 1);
-$s = htmlsafechars($torrents["name"], ENT_QUOTES);
 $url = "edit.php?id=".(int)$torrents["id"];
 if (isset($_GET["returnto"])) {
     $addthis = "&amp;returnto=".urlencode($_GET["returnto"]);
     $url .= $addthis;
     $keepget = $addthis;
 }
-$editlink = "a href=\"$url\" class=\"sublink\"";
+$editlink = "a href=\"$url\"";
 if (!($CURUSER["downloadpos"] == 0 && $CURUSER["id"] != $torrents["owner"] || $CURUSER["downloadpos"] > 1)) {
     require_once MODS_DIR.'free_details.php';
 
@@ -335,7 +334,7 @@ if (!($CURUSER["downloadpos"] == 0 && $CURUSER["id"] != $torrents["owner"] || $C
     /*Tab selector begins*/
     $HTMLOUT .= "
 <div class='callout'>
-<div class='clearfix' ><h4 class='float-left'>$s</h4><a class='float-right' id='thumbsup' href=\"javascript:ThumbsUp('".(int)$torrents['id']."')\"><i class='far fa-thumbs-up'></i></a><hr></div>";
+<div class='clearfix'><a class='float-right' id='thumbsup' href=\"javascript:ThumbsUp('".(int)$torrents['id']."')\"><i class='far fa-thumbs-up'></i></a><hr></div>";
     require_once(BLOCK_DIR.'details/nav.php');
     $HTMLOUT .= '<div class="tabs-content" data-tabs-content="details-tabs">
   <div class="tabs-panel is-active" id="details_panel1">';

@@ -19,7 +19,6 @@ if ($CURUSER['class'] >= UC_POWER_USER) {
     $Which_T_ID = (XBT_TRACKER == true ? 'tid' : 'torrentid');
     $Which_Key_ID = (XBT_TRACKER == true ? 'snatched_count_xbt_' : 'snatched_count_');
     $keys['Snatched_Count'] = $Which_Key_ID.$id;
-
     if (($Row_Count = $cache->get($keys['Snatched_Count'])) === false) {
         ($Count_Q = sql_query("SELECT COUNT($Which_ID) FROM $What_Table $What_Value AND $Which_T_ID =".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
         $Row_Count = $Count_Q->fetch_row();
@@ -28,8 +27,12 @@ if ($CURUSER['class'] >= UC_POWER_USER) {
     $Count = $Row_Count[0];
     $perpage = 15;
     $pager = pager($perpage, $Count, "details.php?id=$id&amp;");
-    $HTMLOUT .= "<div class='callout'>{$lang['details_add_snatch1']}<a href='{$TRINITY20['baseurl']}/details.php?id=".(int)$torrents['id']."'>".htmlsafechars($torrents['name'])."</a>
-<span class='badge float-right'>{$Row_Count['0']}".($Row_Count[0] == 1 ? "" : "es")."</span></div>";
+    $HTMLOUT .= "<div class='card'>
+        <div class='card-divider'>{$lang['details_add_snatch1']}
+        <a class='label' href='{$TRINITY20['baseurl']}/details.php?id=".(int)$torrents['id']."'>".htmlsafechars($torrents['name'])."</a>
+        <span class='badge float-right'>{$Row_Count['0']}".($Row_Count[0] == 1 ? "" : "es")."</span>
+    </div>
+    </div>";
 
     if (($Detail_Snatch = $cache->get($What_cache.$id)) === false) {
         if (XBT_TRACKER == true) {
@@ -53,44 +56,113 @@ if ($CURUSER['class'] >= UC_POWER_USER) {
         }
         //== \\0//
         if (XBT_TRACKER == true) {
-            $snatched_torrent = "
-<thead>
-<tr>
-<th>{$lang['details_snatches_username']}</th>
-<th>{$lang['details_snatches_uploaded']}</th>
-".($TRINITY20['ratio_free'] ? "" : "<th>{$lang['details_snatches_downloaded']}</th>")."
-<th>{$lang['details_snatches_ratio']}</th>
-<th>{$lang['details_snatches_seedtime']}</th>
-<th>{$lang['details_snatches_leechtime']}</th>
-<th>{$lang['details_snatches_lastaction']}</th>
-<th>{$lang['details_snatches_completedat']}</th>
-<th>{$lang['details_snatches_announced']}</th>
-<th>{$lang['details_snatches_active']}</th>
-<th>{$lang['details_snatches_completed']}</th>
-</tr>
-</thead>";
+            $snatched_torrent = "<thead>
+                <tr>
+                    <th>
+                        <span data-tooltip tabindex='3' title='{$lang['details_snatches_username']}'>
+                            <i class='fas fa-user-tie'></i>
+                        </span>
+                    </th>
+                    <th>
+                        <span data-tooltip tabindex='3' title='{$lang['details_snatches_uploaded']}'>
+                            <i class='fas fa-upload'></i>
+                        </span>
+                    </th>
+                    ".(($TRINITY20['ratio_free'] == true) ? "" : "<th>
+                        <span data-tooltip tabindex='3' title='{$lang['details_snatches_downloaded']}'>
+                            <i class='fas fa-download'></i>
+                        </span>
+                    </th>")."
+                    <th>
+                        <span data-tooltip tabindex='3' title='{$lang['details_snatches_ratio']}'>
+                            <i class='fas fa-percentage'></i>
+                        </span>
+                    </th>
+                    <th>
+                        <span data-tooltip tabindex='3' title='{$lang['details_snatches_seedtime']}'>
+                            <i class='fas fa-hourglass-start'></i>
+                        </span>
+                    </th>
+                    <th>
+                        <span data-tooltip tabindex='3' title='{$lang['details_snatches_leechtime']}'>
+                            <i class='fas fa-hourglass-end'></i>
+                        </span>
+                    </th>
+                    <th>{$lang['details_snatches_lastaction']}</th>
+                    <th>{$lang['details_snatches_completedat']}</th>
+                    <th>
+                        <span data-tooltip tabindex='3' title='{$lang['details_snatches_announced']}'>
+                            <i class='fas fa-bullhorn'></i>
+                        </span>
+                    </th>
+                    <th>{$lang['details_snatches_active']}</th>
+                    <th>{$lang['details_snatches_completed']}</th>
+                </tr>
+            </thead>";
         } else {
-            $snatched_torrent = "
-<table class='striped'>
-<thead>
-<tr>
-<th class='text-center'><i class='fas fa-user-tie' title='{$lang['details_snatches_username']}'></i></th>
-<th><i class='fas fa-check' title='{$lang['details_snatches_connectable']}'></i></th>
-<th><i class='fas fa-upload' title='{$lang['details_snatches_uploaded']}'></i></th>
-<th><i class='fas fa-tachometer-alt' title='{$lang['details_snatches_upspeed']}'></i></th>
-".($TRINITY20['ratio_free'] ? "" : "<th><i class='fas fa-download' title='{$lang['details_snatches_downloaded']}'></i></th>")."
-".($TRINITY20['ratio_free'] ? "" : "<th><i class='fas fa-tachometer-alt' title='{$lang['details_snatches_downspeed']}'></i></th>")."
-<th><i class='fa fa-percentage' title='{$lang['details_snatches_ratio']}'></i></th>
-<th class='text-center'><i class='fas fa-spinner' title='{$lang['details_snatches_completed']}'></i></th>
-<th class='text-center'><i class='fas fa-hourglass-start' title='{$lang['details_snatches_seedtime']}'></i></th>
-<th class='text-center'><i class='fas fa-hourglass-end' title='{$lang['details_snatches_leechtime']}'></i></th>
-<th>{$lang['details_snatches_lastaction']}</th>
-<th>{$lang['details_snatches_completedat']}</th>
-<th>{$lang['details_snatches_client']}</th>
-<th>{$lang['details_snatches_port']}</th>
-<th><i class='fas fa-bullhorn' title='{$lang['details_snatches_announced']}'></i></th>
-</tr>
-</thead>";
+            $snatched_torrent = "<thead>
+                <tr>
+                    <th>
+                        <span data-tooltip tabindex='3' title='{$lang['details_snatches_username']}'>
+                            <i class='fas fa-user-tie'></i>
+                        </span>
+                    </th>
+                    <th>
+                        <span data-tooltip tabindex='3' title='{$lang['details_snatches_connectable']}'>
+                            <i class='fas fa-check'></i>
+                        </span>                        
+                    </th>
+                    <th>
+                        <span data-tooltip tabindex='3' title='{$lang['details_snatches_uploaded']}'>
+                            <i class='fas fa-upload'></i>
+                        </span>
+                    </th>
+                    <th>
+                        <span data-tooltip tabindex='3' title='{$lang['details_snatches_upspeed']}'>
+                            <i class='fas fa-tachometer-alt'></i>
+                        </span>
+                    </th>
+                    ".($TRINITY20['ratio_free'] ? "" : "<th>
+                        <span data-tooltip tabindex='3' title='{$lang['details_snatches_downloaded']}'>
+                            <i class='fas fa-download'></i>
+                        </span>
+                    </th>")."
+                    ".($TRINITY20['ratio_free'] ? "" : "<th>
+                        <span data-tooltip tabindex='3' title='{$lang['details_snatches_downspeed']}'>
+                            <i class='fas fa-tachometer-alt'></i>
+                        </span>
+                    </th>")."
+                    <th>
+                        <span data-tooltip tabindex='3' title='{$lang['details_snatches_ratio']}'>
+                            <i class='fas fa-percentage'></i>
+                        </span>
+                    </th>
+                    <th>
+                        <span data-tooltip tabindex='3' title='{$lang['details_snatches_completed']}'>
+                            <i class='fas fa-spinner'></i>
+                        </span>
+                    </th>
+                    <th>
+                        <span data-tooltip tabindex='3' title='{$lang['details_snatches_seedtime']}'>
+                            <i class='fas fa-hourglass-start'></i>
+                        </span>
+                    </th>
+                    <th>
+                        <span data-tooltip tabindex='3' title='{$lang['details_snatches_leechtime']}'>
+                            <i class='fas fa-hourglass-end'></i>
+                        </span>
+                    </th>
+                    <th>{$lang['details_snatches_lastaction']}</th>
+                    <th>{$lang['details_snatches_completedat']}</th>
+                    <th>{$lang['details_snatches_client']}</th>
+                    <th>{$lang['details_snatches_port']}</th>
+                    <th>
+                        <span data-tooltip tabindex='3' title='{$lang['details_snatches_announced']}'>
+                            <i class='fas fa-bullhorn'></i>
+                        </span>
+                    </th>
+                </tr>
+            </thead>";
         }
         if ($Detail_Snatch) {
             foreach ($Detail_Snatch as $D_S) {
@@ -101,23 +173,23 @@ if ($CURUSER['class'] >= UC_POWER_USER) {
                             3) : ($D_S["uploaded"] > 0 ? "Inf." : "---"));
                         $active = ($D_S['active'] == 1 ? $active = "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='Yes' title='Yes' />" : $active = "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='No' title='No' />");
                         $completed = ($D_S['completed'] >= 1 ? $completed = "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='Yes' title='Yes' />" : $completed = "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='No' title='No' />");
-                        $snatchuserxbt = (isset($D_S['username2']) ? ("<a href='userdetails.php?id=".(int)$D_S['uid']."'><b>".htmlsafechars($D_S['username2'])."</b></a>") : "{$lang['details_snatches_unknown']}");
+                        $snatchuserxbt = (isset($D_S['username2']) ? ("<a href='userdetails.php?id=".(int)$D_S['uid']."'><strong>".htmlsafechars($D_S['username2'])."</strong></a>") : "{$lang['details_snatches_unknown']}");
                         $username_xbt = (($D_S['anonymous2'] == 'yes') ? ($CURUSER['class'] < UC_STAFF && $D_S['uid'] != $CURUSER['id'] ? '' : $snatchuserxbt.' - ')."<i>{$lang['details_snatches_anon']}</i>" : $snatchuserxbt);
-                        $snatched_torrent .= "
-            <tbody><tr>
-                                    <td><font size='2%'>{$username_xbt}</font></td>
-                                    <td><font size='2%'>".mksize($D_S["uploaded"])."</font></td>
-    ".($TRINITY20['ratio_free'] ? "" : "<td><font size='2%'>".mksize($D_S["downloaded"])."</font></td>")."
-                                    <td><font size='2%'>".htmlsafechars($ratio)."</font></td>
-                                    <td><font size='2%'>".mkprettytime($D_S["seedtime"])."</font></td>
-                                    <td><font size='2%'>".mkprettytime($D_S["leechtime"])."</font></td>
-                                    <td><font size='2%'>".get_date($D_S["mtime"], '', 0, 1)."</font></td>
-                                    <td><font size='2%'>".get_date($D_S["completedtime"], '', 0, 1)."</font></td>
-                                    <td><font size='2%'>".(int)$D_S["announced"]."</font></td>
-                                    <td><font size='2%'>".$active."</font></td>
-                                    <td><font size='2%'>".$completed."</font></td>
-            </tr>
-            </tbody>";
+                        $snatched_torrent .= "<tbody>
+                            <tr>
+                                <td>{$username_xbt}</td>
+                                <td>".mksize($D_S["uploaded"])."</td>
+                                ".($TRINITY20['ratio_free'] ? "" : "<td>".mksize($D_S["downloaded"])."</td>")."
+                                <td>".htmlsafechars($ratio)."</td>
+                                <td>".mkprettytime($D_S["seedtime"])."</td>
+                                <td>".mkprettytime($D_S["leechtime"])."</td>
+                                <td>".get_date($D_S["mtime"], '', 0, 1)."</td>
+                                <td>".get_date($D_S["completedtime"], '', 0, 1)."</td>
+                                <td>".(int)$D_S["announced"]."</td>
+                                <td>".$active."</td>
+                                <td>".$completed."</td>
+                            </tr>
+                        </tbody>";
 
                     } else {
                         $upspeed = ($D_S["upspeed"] > 0 ? mksize($D_S["upspeed"]) : ($D_S["seedtime"] > 0 ? mksize($D_S["uploaded"] / ($D_S["seedtime"] + $D_S["leechtime"])) : mksize(0)));
@@ -126,35 +198,36 @@ if ($CURUSER['class'] >= UC_POWER_USER) {
                             3) : ($D_S["uploaded"] > 0 ? "Inf." : "---"));
                         $ds_size = isset($D_S["size"]) ? $D_S["size"] : 1;
                         $completed = sprintf("%.2f%%", 100 * (1 - ($D_S["to_go"] / $ds_size)));
-                        $snatchuser = (isset($D_S['username2']) ? ("<a href='userdetails.php?id=".(int)$D_S['userid']."'><b>".htmlsafechars($D_S['username2'])."</b></a>") : "{$lang['details_snatches_unknown']}");
+                        $snatchuser = (isset($D_S['username2']) ? ("<a href='userdetails.php?id=".(int)$D_S['userid']."'><strong>".htmlsafechars($D_S['username2'])."</strong></a>") : "{$lang['details_snatches_unknown']}");
                         $username = (($D_S['anonymous2'] == 'yes') ? ($CURUSER['class'] < UC_STAFF && $D_S['userid'] != $CURUSER['id'] ? '' : $snatchuser.' - ')."<i>{$lang['details_snatches_anon']}</i>" : $snatchuser);
-                        $snatched_torrent .= "<tbody><tr>
-                                    <td><font size='2%'>{$username}</font></td>
-                                    <td><font size='2%'>".($D_S["connectable"] == "yes" ? "<font color='green'>{$lang['details_add_yes']}</font>" : "<font color='red'>{$lang['details_add_no']}</font>")."</font></td>
-                                    <td><font size='2%'>".mksize($D_S["uploaded"])."</font></td>
-                                    <td><font size='2%'>".htmlsafechars($upspeed)."/s</font></td>
-    ".($TRINITY20['ratio_free'] ? "" : "<td><font size='2%'>".mksize($D_S["downloaded"])."</font></td>")."
-    ".($TRINITY20['ratio_free'] ? "" : "<td><font size='2%'>".htmlsafechars($downspeed)."/s</font></td>")."
-                                    <td><font size='2%'>".htmlsafechars($ratio)."</font></td>
-                                    <td><font size='2%'>".htmlsafechars($completed)."</font></td>
-                                    <td><font size='2%'>".mkprettytime($D_S["seedtime"])."</font></td>
-                                    <td><font size='2%'>".mkprettytime($D_S["leechtime"])."</font></td>
-                                    <td><font size='2%'>".get_date($D_S["last_action"], '', 0, 1)."</font></td>
-                                    <td><font size='2%'>".get_date($D_S["complete_date"], '', 0, 1)."</font></td>
-                                    <td><font size='2%'>".htmlsafechars($D_S["agent"])."</font></td>
-                                    <td><font size='2%'>".(int)$D_S["port"]."</font></td>
-                                    <td><font size='2%'>".(int)$D_S["timesann"]."</font></td>
-            </tr></tbody>";
+                        $snatched_torrent .= "<tbody>
+                            <tr>
+                                <td>{$username}</td>
+                                <td>".($D_S["connectable"] == "yes" ? "<font color='green'>{$lang['details_add_yes']}" : "<font color='red'>{$lang['details_add_no']}")."</td>
+                                <td>".mksize($D_S["uploaded"])."</td>
+                                <td>".htmlsafechars($upspeed)."/s</td>
+                                ".($TRINITY20['ratio_free'] ? "" : "<td>".mksize($D_S["downloaded"])."</td>")."
+                                ".($TRINITY20['ratio_free'] ? "" : "<td>".htmlsafechars($downspeed)."/s</td>")."
+                                <td>".htmlsafechars($ratio)."</td>
+                                <td>".htmlsafechars($completed)."</td>
+                                <td>".mkprettytime($D_S["seedtime"])."</td>
+                                <td>".mkprettytime($D_S["leechtime"])."</td>
+                                <td>".get_date($D_S["last_action"], '', 0, 1)."</td>
+                                <td>".get_date($D_S["complete_date"], '', 0, 1)."</td>
+                                <td>".htmlsafechars($D_S["agent"])."</td>
+                                <td>".(int)$D_S["port"]."</td>
+                                <td>".(int)$D_S["timesann"]."</td>
+                            </tr>
+                        </tbody>";
                     }
                 }
             }
-            $snatched_torrent .= "</table>";
-            $HTMLOUT .= "<div class='card-section table-scroll'>$snatched_torrent</div>";
+            $HTMLOUT .= "<div class='card-section table-scroll'>
+                <table class='striped'>$snatched_torrent</table></div>";
         } elseif (empty($Detail_Snatch)) {
             $HTMLOUT .= "<p class='text-center'>{$lang['details_add_snatch4']}</p>
-<p class=text-center'>{$lang['details_add_snatch5']}</p>";
+                <p class=text-center'>{$lang['details_add_snatch5']}</p>";
         }
     }
     $HTMLOUT .= "";
 }
-?>

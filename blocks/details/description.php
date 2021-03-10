@@ -1,18 +1,6 @@
 <?php
-$HTMLOUT .= "<div class='row'>
-<div class='col-md-12'>";
-if (!empty($torrents_txt["descr"])) {
-    $HTMLOUT .= "
-    <table class='striped'>
-    <tr><td><b>{$lang['details_description']}</b></td></tr>
-    <tr>
-    <td>
-    ".str_replace(["\n", "  "], ["<br />\n", "&nbsp; "], format_comment($torrents_txt["descr"]))."<!--</div>--></td></tr></table>";
-}
-
-$HTMLOUT .= '</div><!-- closing col md 12 --></div><!-- closing row -->';
-$HTMLOUT .= "<div class='row'>
-<div class='col-md-12'>";
+$HTMLOUT .= "<div class='grid-x'>
+<div class='cell medium-12'>";
 //== Similar Torrents mod
 $searchname = substr($torrents['name'], 0, 6);
 $query1 = str_replace(" ", ".", sqlesc("%".$searchname."%"));

@@ -6,41 +6,57 @@ $HTMLOUT .= "
 //==subs by putyn
 if (in_array($torrents["category"], $TRINITY20['movie_cats']) && !empty($torrents["subs"])) {
     $HTMLOUT .= "<tr>
-        <td class='rowhead'>{$lang['details_add_sub1']}</td>
-        <td align='left'>";
+        <td>{$lang['details_add_sub1']}</td>
+        <td>";
     $subs_array = explode(",", $torrents["subs"]);
     foreach ($subs_array as $k => $sid) {
         require_once(CACHE_DIR.'subs.php');
         foreach ($subs as $sub) {
             if ($sub["id"] == $sid) {
-                $HTMLOUT .= "<img border=\"0\" width=\"25px\" style=\"padding:3px;\"src=\"".htmlsafechars($sub["pic"])."\" alt=\"".htmlsafechars($sub["name"])."\" title=\"".htmlsafechars($sub["name"])."\" />";
+                $HTMLOUT .= "<img border='0' width='25px' style='padding:3px;' src='".htmlsafechars($sub["pic"])."' alt='".htmlsafechars($sub["name"])."' title='".htmlsafechars($sub["name"])."'>";
             }
         }
     }
-    $HTMLOUT .= "</td></tr>\n";
+    $HTMLOUT .= "</td></tr>";
 }
 if ($CURUSER["class"] >= UC_POWER_USER && $torrents["nfosz"] > 0) {
-    $HTMLOUT .= "<tr><td class='rowhead'>{$lang['details_nfo']}</td><td align='left'><a href='viewnfo.php?id=".(int)$torrents['id']."'><b>{$lang['details_view_nfo']}</b></a> (".mksize($torrents["nfosz"]).")</td></tr>\n";
+    $HTMLOUT .= "<tr>
+        <td>{$lang['details_nfo']}</td>
+        <td>
+            <a href='viewnfo.php?id=".(int)$torrents['id']."'>
+                <b>{$lang['details_view_nfo']}</b>
+            </a> (".mksize($torrents["nfosz"]).")
+        </td>
+    </tr>";
 }
 if ($torrents["visible"] == "no") {
-    $HTMLOUT .= tr("{$lang['details_visible']}", "<b>{$lang['details_no']}</b>{$lang['details_dead']}", 1);
+    $HTMLOUT .= "<tr>
+        <td>{$lang['details_visible']}</td>
+        <td><b>{$lang['details_no']}</b>{$lang['details_dead']}</td>
+    </tr>";
 }
 if ($moderator) {
-    $HTMLOUT .= tr("{$lang['details_banned']}", $torrents["banned"]);
+    $HTMLOUT .= "<tr>
+        <td>{$lang['details_banned']}</td>
+        <td>".$torrents["banned"]."</td>
+    </tr>";
 }
 if ($torrents["nuked"] == "yes") {
-    $HTMLOUT .= "<tr><td class='rowhead'><b>{$lang['details_add_nuk1']}</b></td><td align='left'><img src='{$TRINITY20['pic_base_url']}nuked.gif' alt='Nuked' title='Nuked' /></td></tr>\n";
+    $HTMLOUT .= "<tr>
+        <td><b>{$lang['details_add_nuk1']}</b></td>
+        <td><span data-tooltip tabindex='3' title='Nuked'><i class='fas fa-biohazard'></i></span></td>
+    </tr>";
 }
 if (!empty($torrents["nukereason"])) {
-    $HTMLOUT .= "<tr><td class='rowhead'><b>{$lang['details_add_nuk2']}</b></td><td align='left'>".htmlsafechars($torrents["nukereason"])."</td></tr>\n";
+    $HTMLOUT .= "<tr>
+        <td><b>{$lang['details_add_nuk2']}</b></td>
+        <td>".htmlsafechars($torrents["nukereason"])."</td>
+    </tr>";
 }
-$torrents['cat_name'] = htmlsafechars($change[$torrents['category']]['name']);
-if (isset($torrents["cat_name"])) {
-    $HTMLOUT .= tr("{$lang['details_type']}", htmlsafechars($torrents["cat_name"]));
-} else {
-    $HTMLOUT .= tr("{$lang['details_type']}", "{$lang['details_add_none']}");
-}
-$HTMLOUT .= tr("{$lang['details_add_rate']}", getRate($id, "torrent"), 1);
+$HTMLOUT .= "<tr>
+    <td>{$lang['details_add_rate']}</td>
+    <td>".getRate($id, "torrent")."<td>
+</tr>";
 // --------------- likes start------
 $att_str = '';
 $likes = empty($torrents['user_likes']) ? '' : explode(',', $torrents['user_likes']);
@@ -61,39 +77,63 @@ if (!empty($likes) && count(array_unique($likes)) > 0) {
 }
 $wht = ((!empty($likes) && count(array_unique($likes)) > 0 && in_array($CURUSER['id'], $likes)) ? 'unlike' : 'like');
 
-$HTMLOUT .= tr("Likes",
-    "<span id='mlike' data-com='".(int)$torrents["id"]."' class='details {$wht}'>[".ucfirst($wht)."]</span><span class='tot-".(int)$torrents["id"]."' data-tot='".(!empty($likes) && count(array_unique($likes)) > 0 ? count(array_unique($likes)) : '')."'>&nbsp;{$att_str}</span>",
-    1);
-$HTMLOUT .= tr("{$lang['details_last_seeder']}", "{$lang['details_last_activity']}".get_date($l_a['lastseed'], '', 0, 1));
-$HTMLOUT .= tr("{$lang['details_size']}", mksize($torrents["size"])." (".number_format($torrents["size"])." {$lang['details_bytes']})");
-$HTMLOUT .= tr("{$lang['details_added']}", get_date($torrents['added'], "{$lang['details_long']}"));
+$HTMLOUT .= "<tr>
+        <td>Likes</td>
+        <td>
+            <span id='mlike' data-com='".(int)$torrents["id"]."' class='details {$wht}'>[".ucfirst($wht)."]</span>
+            <span class='tot-".(int)$torrents["id"]."' data-tot='".(!empty($likes) && count(array_unique($likes)) > 0 ? count(array_unique($likes)) : '')."'>&nbsp;{$att_str}</span>
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang['details_last_seeder']}</td>
+        <td>{$lang['details_last_activity']}".get_date($l_a['lastseed'], '', 0, 1)."</td>
+    </tr>";
 //Display pretime
 if ($pretime['time'] == '0') {
     $prestatement = "{$lang['details_add_pre1']}";
 } else {
     $prestatement = get_pretime(time() - $pretime['time'])."{$lang['details_add_pre2']}<br />{$lang['details_add_pre3']}".get_pretime($torrents['added'] - $pretime['time'])."{$lang['details_add_pre4']}";
 }
-$HTMLOUT .= "<tr><td align='right' class='heading'>{$lang['details_add_pre5']}</td><td width='99%' align='left'>".$prestatement."</td></tr>";
-$HTMLOUT .= tr("{$lang['details_views']}", (int)$torrents["views"]);
-$HTMLOUT .= tr("{$lang['details_hits']}", (int)$torrents["hits"]);
-$XBT_Or_Default = (XBT_TRACKER == true ? 'snatches_xbt.php?id=' : 'snatches.php?id=');
-$HTMLOUT .= tr("{$lang['details_snatched']}",
-    ($torrents["times_completed"] > 0 ? "<a href='{$TRINITY20["baseurl"]}/{$XBT_Or_Default}{$id}'>{$torrents['times_completed']} {$lang['details_times']}</a>" : "0 {$lang['details_times']}"),
-    1);
+$HTMLOUT .= "<tr>
+        <td>{$lang['details_add_pre5']}</td>
+        <td>".$prestatement."</td>
+    </tr>
+    <tr>
+        <td>{$lang['details_views']}</td>
+        <td>".(int)$torrents["views"]."</td>
+    </tr>
+    <tr>
+        <td>{$lang['details_hits']}</td>
+        <td>".(int)$torrents["hits"]."</td>
+    </tr>";
 $HTMLOUT .= "
 <script type='text/javascript'>
 function showme() {
     document.getElementById('show').innerHTML = '{$CURUSER['username']} is viewing details for torrent {$TRINITY20['baseurl']}/details.php?id=".(int)$torrents['id']."\"';
 }
 </script>
-<tr><td class='rowhead'>{$lang['details_add_statupd1']}</td><td><button type='button' class='button small info'  id='show' onclick='showme()'>{$lang['details_add_statupd2']}</button></td></tr>";
-$HTMLOUT .= "</table></div><!-- closing cell medium -->
+<tr>
+    <td>{$lang['details_add_statupd1']}</td>
+    <td>
+        <button type='button' class='button small info'  id='show' onclick='showme()'>{$lang['details_add_statupd2']}</button>
+    </td>
+</tr>
+</table></div><!-- closing cell medium -->
 <div class='cell medium-8'>
-<table align='center' class='striped'>";
+<table class='striped'>";
 //==Report Torrent Link
-$HTMLOUT .= tr("{$lang['details_add_rprt1']}",
-    "<form action='report.php?type=Torrent&amp;id=$id' method='post'><input class='button primary' type='submit' name='submit' value='".$lang['details_add_rprt2']."' />&nbsp;&nbsp;<strong><em class='label label-primary'>{$lang['details_add_rprt3']}<a href='rules.php'>{$lang['details_add_rprt4']}</a></em></strong></form>",
-    1);
+$HTMLOUT .= "<tr>
+    <td><form action='report.php?type=Torrent&amp;id=$id' method='post'>
+        <div class='input-group' aria-describedby='report_t'>
+            <span class='input-group-label'>{$lang['details_add_rprt1']}</span>
+            <div class='input-group-button'>
+                <input type='submit' name='submit' class='button' value='Submit'>
+            </div>
+        </div>
+        <p class='help-text' id='report_t'>{$lang['details_add_rprt2']} {$lang['details_add_rprt3']}<a href='rules.php'>{$lang['details_add_rprt4']}</a></p>
+        </form>
+    </td>
+    </tr>";
 //== Tor Reputation by pdq
 $torrent_rep = $torrent_cache['rep'] ?? '';
 if ($torrent_rep && $TRINITY20['rep_sys_on']) {
@@ -102,13 +142,6 @@ if ($torrent_rep && $TRINITY20['rep_sys_on']) {
     $HTMLOUT .= '<tr><td>'.$lang['details_add_reput1'].'</td>
         <td>'.$member_reputation.''.$lang['details_add_reput2'].'</td></tr>';
 }
-//==Anonymous
-$rowuser = (isset($torrents['username']) ? ("<a href='userdetails.php?id=".(int)$torrents['owner']."'><b>".htmlsafechars($torrents['username'])."</b></a>") : "{$lang['details_unknown']}");
-$uprow = (($torrents['anonymous'] == 'yes') ? ($CURUSER['class'] < UC_STAFF && $torrents['owner'] != $CURUSER['id'] ? '' : $rowuser.' - ')."<i>{$lang['details_anon']}</i>" : $rowuser);
-if ($owned) {
-    $uprow .= " $spacer<$editlink><b>{$lang['details_edit']}</b>";
-}
-$HTMLOUT .= tr("{$lang['details_add_byup']}", $uprow, 1);
 //==pdq's Torrent Moderation
 if ($CURUSER['class'] >= UC_STAFF) {
     if (!empty($torrents['checked_by'])) {

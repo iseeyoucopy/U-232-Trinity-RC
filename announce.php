@@ -436,7 +436,7 @@ if (!$mysqli->affected_rows && $seeder == "no") {
         __LINE__);
 }
 $torrent_updateset = $snatch_updateset = [];
-if (isset($self) && $event == "stopped") {
+if (isset($self) && (empty($event) || $event == 'stopped')) {
     $seeder = 'no';
     ann_sql_query("DELETE FROM peers WHERE $selfwhere") || ann_sqlerr(__FILE__, __LINE__);
     //=== only run the function if the ratio is below 1
