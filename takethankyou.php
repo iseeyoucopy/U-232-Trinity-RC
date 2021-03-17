@@ -44,7 +44,7 @@ sql_query("INSERT INTO comments (user, torrent, added, text, ori_text) VALUES ("
 sql_query("UPDATE torrents SET thanks = thanks + 1, comments = comments + 1 WHERE id = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
 $update['thanks'] = ($arr['thanks'] + 1);
 $update['comments'] = ($arr['comments'] + 1);
-$cache->update_row('torrent_details_'.$id, [
+$cache->update_row($keys['torrent_details'].$id, [
     'thanks' => $update['thanks'],
     'comments' => $update['comments'],
 ], $TRINITY20['expires']['torrent_details']);

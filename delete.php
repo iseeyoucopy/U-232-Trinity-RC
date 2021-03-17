@@ -102,8 +102,8 @@ if (XBT_TRACKER == true) {
 $cache->delete('top5_tor_');
 $cache->delete('last5_tor_');
 $cache->delete('scroll_tor_');
-$cache->delete('torrent_details_'.$id);
-$cache->delete('torrent_details_text'.$id);
+$cache->delete($keys['torrent_details'].$id);
+$cache->delete($keys['torrent_details_txt'].$id);
 write_log("{$lang['delete_torrent']} $id ({$row['name']}){$lang['delete_deleted_by']}{$CURUSER['username']} ($reasonstr)\n");
 if ($TRINITY20['seedbonus_on'] == 1) {
     //===remove karma

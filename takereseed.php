@@ -45,7 +45,7 @@ if (count($pms) > 0) {
 
 }
 sql_query("UPDATE torrents set last_reseed=".TIME_NOW." WHERE id=".sqlesc($reseedid)) || sqlerr(__FILE__, __LINE__);
-$cache->update_row('torrent_details_'.$reseedid, [
+$cache->update_row($keys['torrent_details'].$reseedid, [
     'last_reseed' => TIME_NOW,
 ], $TRINITY20['expires']['torrent_details']);
 if ($TRINITY20['seedbonus_on'] == 1) {

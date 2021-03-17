@@ -72,7 +72,7 @@ foreach ($_GET['id'] as $id) {
 
     $id = (int)$id;
 
-    if (($torrents = $cache->get('torrent_details_'.$id)) === false) {
+    if (($torrents = $cache->get($keys['torrent_details'].$id)) === false) {
         $tor_fields_ar_int = [
             'id',
         ];

@@ -63,7 +63,7 @@ $update['points'] = ($row['points'] + $points);
 $update['seedbonus_uploader'] = ($User['seedbonus'] + $points);
 $update['seedbonus_donator'] = ($CURUSER['seedbonus'] - $points);
 //==The torrent
-$cache->update_row('torrent_details_'.$id, [
+$cache->update_row($keys['torrent_details'].$id, [
     'points' => $update['points'],
 ], $TRINITY20['expires']['torrent_details']);
 //==The uploader
@@ -83,7 +83,7 @@ $cache->update_row('user_stats_'.$CURUSER["id"], [
 //== delete the pm keys
 $cache->delete('inbox_new::'.$userid);
 $cache->delete('inbox_new_sb::'.$userid);
-$cache->delete('coin_points_'.$id);
+$cache->delete($keys['coin_points'].$id);
 header("Refresh: 3; url=details.php?id=$id");
 stderr($lang['coins_done'], $lang['coins_successfully_gave_points_to_this_torrent']);
 ?>

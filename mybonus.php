@@ -1282,7 +1282,7 @@ if (isset($_GET['exchange'])) {
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
-            $cache->update_row('torrent_details_'.$torrent_number, ['added' => TIME_NOW, 'bump' => 'yes', 'free' => $free_time], 0);
+            $cache->update_row($keys['torrent_details'].$torrent_number, ['added' => TIME_NOW, 'bump' => 'yes', 'free' => $free_time], 0);
             header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?bump_success=1&t_name={$torrent_number}");
             die;
             break;

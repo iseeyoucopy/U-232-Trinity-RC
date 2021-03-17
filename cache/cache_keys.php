@@ -28,10 +28,21 @@ $keys['bookmark_key'] = 'bookmm:';
 $keys['my_peers'] = 'MyPeers:';
 $keys['my_xbt_peers'] = 'MyPeers_XBT:';
 $keys['similar_tor'] = 'similiar_tor:';
+$keys['torrent_xbt'] = 'torrent_xbt_data_';
+$keys['torrent_details'] = 'torrent_details_';
+$keys['torrent_details_txt'] = 'torrent_details_txt';
+$keys['torrent_pretime'] = 'torrent_pretime_';
+$keys['last_action_xbt'] = 'last_action_xbt_';
+$keys['last_action'] = 'last_action_';
+$keys['user_rep'] = 'user_rep_';
+$keys['checked_by'] = 'checked_by_';
+$keys['coin_points'] = 'coin_points_';
 $keys[''] = '';
 $keys[''] = '';
 $keys[''] = '';
 $keys[''] = '';
 $keys[''] = '';
 $keys[''] = '';
+$keys[''] = '';
+
 ?>

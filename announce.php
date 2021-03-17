@@ -570,10 +570,10 @@ if ($seeder == 'yes') {
         $torrent_updateset[] = 'visible = \'yes\'';
     }
     $torrent_updateset[] = 'last_action = '.TIME_NOW;
-    $cache->update_row('torrent_details_'.$torrentid, [
+    $cache->update_row($keys['torrent_details'].$torrentid, [
         'visible' => 'yes',
     ], $TRINITY20['expires']['torrent_details']);
-    $cache->update_row('last_action_'.$torrentid, [
+    $cache->update_row($keys['last_action'].$torrentid, [
         'lastseed' => TIME_NOW,
     ], 1800);
 }
