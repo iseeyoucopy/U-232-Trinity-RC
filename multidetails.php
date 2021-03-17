@@ -17,7 +17,6 @@ require_once(INCL_DIR.'pager_functions.php');
 require_once(INCL_DIR.'comment_functions.php');
 require_once(INCL_DIR.'html_functions.php');
 require_once(INCL_DIR.'function_rating.php');
-require_once(INCL_DIR.'tvrage_functions.php');
 require_once(IMDB_DIR.'imdb.class.php');
 dbconn(false);
 loggedinorreturn();
