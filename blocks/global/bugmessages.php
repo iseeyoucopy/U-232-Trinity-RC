@@ -11,10 +11,10 @@
  * ------------  @version V6  ------------------*
  */
 if ($TRINITY20['bug_alert'] && $CURUSER['class'] >= UC_STAFF) {
-    if (($bugs = $cache->get('bug_mess_')) === false) {
+    if (($bugs = $cache->get($keys['bug_message'])) === false) {
         ($res1 = sql_query("SELECT COUNT(id) FROM bugs WHERE status = 'na'")) || sqlerr(__FILE__, __LINE__);
         [$bugs] = $res1->fetch_row();
-        $cache->set('bug_mess_', $bugs, $TRINITY20['expires']['alerts']);
+        $cache->set($keys['bug_message'], $bugs, $TRINITY20['expires']['alerts']);
     }
     if ($bugs > 0) {
         $htmlout .= "

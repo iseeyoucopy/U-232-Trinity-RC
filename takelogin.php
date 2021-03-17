@@ -130,8 +130,8 @@ if (!$pass_hash && !$tri_hash) {
     $msg = "[color=red]{$lang['tlogin_log_err2']}[/color]\n{$lang['tlogin_mess1']}".(int)$row['id']."{$lang['tlogin_mess2']}".htmlsafechars($username)."{$lang['tlogin_mess3']}"."{$lang['tlogin_mess4']}".htmlsafechars($ip)."{$lang['tlogin_mess5']}";
     $sql = "INSERT INTO messages (sender, receiver, msg, subject, added) VALUES('System', ".sqlesc($to).", ".sqlesc($msg).", ".sqlesc($subject).", $added);";
     ($res = sql_query("SET SESSION sql_mode = ''", $sql)) || sqlerr(__FILE__, __LINE__);
-    $cache->delete('inbox_new::'.$row['id']);
-    $cache->delete('inbox_new_sb::'.$row['id']);
+    $cache->delete($keys['inbox_new'].$row['id']);
+    $cache->delete($keys['inbox_new_sb'].$row['id']);
     bark("<b>{$lang['gl_error']}</b>{$lang['tlogin_forgot']}");
 } elseif ($pass_hash && !$tri_hash) {
     $secret = mksecret();
@@ -173,8 +173,8 @@ if (!$tri_hash) {
     $msg = "[color=red]{$lang['tlogin_log_err2']}[/color]\n{$lang['tlogin_mess1']}".(int)$rows['id']."{$lang['tlogin_mess2']}".htmlsafechars($username)."{$lang['tlogin_mess3']}"."{$lang['tlogin_mess4']}".htmlsafechars($ip)."{$lang['tlogin_mess5']}";
     $sql = "INSERT INTO messages (sender, receiver, msg, subject, added) VALUES('System', ".sqlesc($to).", ".sqlesc($msg).", ".sqlesc($subject).", $added);";
     ($res = sql_query("SET SESSION sql_mode = ''", $sql)) || sqlerr(__FILE__, __LINE__);
-    $cache->delete('inbox_new::'.$rows['id']);
-    $cache->delete('inbox_new_sb::'.$rows['id']);
+    $cache->delete($keys['inbox_new'].$rows['id']);
+    $cache->delete($keys['inbox_new_sb'].$rows['id']);
     bark("<b>{$lang['gl_error']}</b>{$lang['tlogin_forgot']}");
 }
 
@@ -195,10 +195,10 @@ if ($no_log_ip === 0) {
     if ($res->num_rows == 0) {
         sql_query("INSERT INTO ips (userid, ip, lastlogin, type) VALUES (".sqlesc($userid).", $ip_escaped , $added, 'Login')") || sqlerr(__FILE__,
             __LINE__);
-        $cache->delete('ip_history_'.$userid);
+        $cache->delete($keys['ip_history'].$userid);
     } else {
         sql_query("UPDATE ips SET lastlogin=$added WHERE ip=$ip_escaped AND userid=".sqlesc($userid)) || sqlerr(__FILE__, __LINE__);
-        $cache->delete('ip_history_'.$userid);
+        $cache->delete($keys['ip_history'].$userid);
     }
 }
 $ua = getBrowser();

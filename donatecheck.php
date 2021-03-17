@@ -263,11 +263,11 @@ if ($hand = fsockopen('ssl://www.paypal.com', 443, $errno, $errstr, 30)) {
     }
     sql_query('INSERT INTO messages(receiver,sender,subject,msg,added) VALUES '.implode(',', $msg)) || paypallog($mysqli->error);
     //clear memcache for staff
-    $cache->delete('inbox_new::'.$TRINITY20['paypal_config']['staff']);
-    $cache->delete('inbox_new_sb::'.$TRINITY20['paypal_config']['staff']);
+    $cache->delete($keys['inbox_new'].$TRINITY20['paypal_config']['staff']);
+    $cache->delete($keys['inbox_new_sb'].$TRINITY20['paypal_config']['staff']);
     //and for the user that donated
-    $cache->delete('inbox_new::'.$vars['uid']);
-    $cache->delete('inbox_new_sb::'.$vars['uid']);
+    $cache->delete($keys['inbox_new'].$vars['uid']);
+    $cache->delete($keys['inbox_new_sb'].$vars['uid']);
     fclose($hand);
 } else {
     paypallog('Can\'t open hand');

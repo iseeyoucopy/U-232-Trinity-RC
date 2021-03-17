@@ -30,9 +30,9 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,'.$arr['id'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
                 $achievements_buffer[] = '('.$arr['id'].', '.TIME_NOW.', \'Shout Spammer LVL1\', \'spam1.png\' , \'Made at least 10 posts to the shoutbox today.\')';
                 $usersachiev_buffer[] = '('.$arr['id'].',1, '.$points.')';
-                $cache->delete('inbox_new::'.$arr['id']);
-                $cache->delete('inbox_new_sb::'.$arr['id']);
-                $cache->delete('user_achievement_points_'.$arr['id']);
+                $cache->delete($keys['inbox_new'].$arr['id']);
+                $cache->delete($keys['inbox_new_sb'].$arr['id']);
+                $cache->delete($keys['user_achiev_points'].$arr['id']);
                 $var1 = 'dailyshoutlvl';
             }
             if ($shouts >= 25 && $lvl == 1) {
@@ -40,9 +40,9 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,'.$arr['id'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
                 $achievements_buffer[] = '('.$arr['id'].', '.TIME_NOW.', \'Shout Spammer LVL2\', \'spam2.png\' , \'Made at least 25 posts to the shoutbox today.\')';
                 $usersachiev_buffer[] = '('.$arr['id'].',2, '.$points.')';
-                $cache->delete('inbox_new::'.$arr['id']);
-                $cache->delete('inbox_new_sb::'.$arr['id']);
-                $cache->delete('user_achievement_points_'.$arr['id']);
+                $cache->delete($keys['inbox_new'].$arr['id']);
+                $cache->delete($keys['inbox_new_sb'].$arr['id']);
+                $cache->delete($keys['user_achiev_points'].$arr['id']);
                 $var1 = 'dailyshoutlvl';
             }
             if ($shouts >= 50 && $lvl == 2) {
@@ -50,9 +50,9 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,'.$arr['id'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
                 $achievements_buffer[] = '('.$arr['id'].', '.TIME_NOW.', \'Shout Spammer LVL3\', \'spam3.png\' , \'Made at least 50 posts to the shoutbox today.\')';
                 $usersachiev_buffer[] = '('.$arr['id'].',3, '.$points.')';
-                $cache->delete('inbox_new::'.$arr['id']);
-                $cache->delete('inbox_new_sb::'.$arr['id']);
-                $cache->delete('user_achievement_points_'.$arr['id']);
+                $cache->delete($keys['inbox_new'].$arr['id']);
+                $cache->delete($keys['inbox_new_sb'].$arr['id']);
+                $cache->delete($keys['user_achiev_points'].$arr['id']);
                 $var1 = 'dailyshoutlvl';
             }
             if ($shouts >= 75 && $lvl == 3) {
@@ -60,9 +60,9 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,'.$arr['id'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
                 $achievements_buffer[] = '('.$arr['id'].', '.TIME_NOW.', \'Shout Spammer LVL4\', \'spam4.png\' , \'Made at least 75 posts to the shoutbox today.\')';
                 $usersachiev_buffer[] = '('.$arr['id'].',4, '.$points.')';
-                $cache->delete('inbox_new::'.$arr['id']);
-                $cache->delete('inbox_new_sb::'.$arr['id']);
-                $cache->delete('user_achievement_points_'.$arr['id']);
+                $cache->delete($keys['inbox_new'].$arr['id']);
+                $cache->delete($keys['inbox_new_sb'].$arr['id']);
+                $cache->delete($keys['user_achiev_points'].$arr['id']);
                 $var1 = 'dailyshoutlvl';
             }
             if ($shouts >= 100 && $lvl == 4) {
@@ -70,9 +70,9 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,'.$arr['id'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
                 $achievements_buffer[] = '('.$arr['id'].', '.TIME_NOW.', \'Shout Spammer LVL5\', \'spam5.png\' , \'Made at least 100 posts to the shoutbox today.\')';
                 $usersachiev_buffer[] = '('.$arr['id'].',5, '.$points.')';
-                $cache->delete('inbox_new::'.$arr['id']);
-                $cache->delete('inbox_new_sb::'.$arr['id']);
-                $cache->delete('user_achievement_points_'.$arr['id']);
+                $cache->delete($keys['inbox_new'].$arr['id']);
+                $cache->delete($keys['inbox_new_sb'].$arr['id']);
+                $cache->delete($keys['user_achiev_points'].$arr['id']);
                 $var1 = 'dailyshoutlvl';
             }
         }

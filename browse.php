@@ -405,10 +405,10 @@ if (!$no_log_ip) {
     $res = sql_query("SELECT * FROM ips WHERE ip = " . sqlesc($ip) . " AND userid = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
     if ($res->num_rows == 0) {
         sql_query("INSERT INTO ips (userid, ip, lastbrowse, type) VALUES (" . sqlesc($userid) . ", " . sqlesc($ip) . ", $added, 'Browse')") or sqlerr(__FILE__, __LINE__);
-        $cache->delete('ip_history_' . $userid);
+        $cache->delete($keys['ip_history'] . $userid);
     } else {
         sql_query("UPDATE ips SET lastbrowse = $added WHERE ip=" . sqlesc($ip) . " AND userid = " . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-        $cache->delete('ip_history_' . $userid);
+        $cache->delete($keys['ip_history'] . $userid);
     }
 }
 //== End Ip logger

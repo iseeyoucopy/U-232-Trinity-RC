@@ -45,7 +45,7 @@ function invincible($id, $invincible = true, $bypass_bans = true)
     // delete from iplog current ip
     sql_query('DELETE FROM `ips` WHERE userid = '.sqlesc($id)) || sqlerr(__file__, __line__);
     // delete any iplog caches
-    $cache->delete('ip_history_'.$id);
+    $cache->delete($keys['ip_history'].$id);
     $cache->delete('u_passkey_'.$row['torrent_pass']);
     // update ip in db
     $modcomment = get_date(TIME_NOW, '', 1).' - '.$display.$lang['invincible_thanks_to'].$CURUSER['username']."\n".$row['modcomment'];

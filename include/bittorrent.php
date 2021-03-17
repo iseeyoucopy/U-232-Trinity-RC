@@ -50,11 +50,11 @@ require_once CLASS_DIR.'class_blocks_usercp.php';
 require_once CLASS_DIR.'class_blocks_browse.php';
 require_once CLASS_DIR.'class_bt_options.php';
 require_once CACHE_DIR.'block_settings_cache.php';
-$cores = $cache->get('cores_');
+$cores = $cache->get($keys['cores']);
 if (!$cores || is_null($cores)) {
     $cores = `grep -c processor /proc/cpuinfo`;
     $cores = empty($cores) ? 1 : (int)$cores;
-    $cache->set('cores_', $cores, 0);
+    $cache->set($keys['cores'], $cores, 0);
 }
 $load = sys_getloadavg();
 if ($load[0] > 20) {
@@ -527,7 +527,7 @@ function userlogin()
         }
     }
     // user stats - *Updated*
-    $What_Cache = (XBT_TRACKER == true ? 'userstats_xbt_' : $keys['user_stats']);
+    $What_Cache = (XBT_TRACKER == true ? $keys['userstats_xbt'] : $keys['user_stats']);
     if (($stats = $cache->get($What_Cache.$id)) === false) {
         $What_Expire = (XBT_TRACKER == true ? $TRINITY20['expires']['u_stats_xbt'] : $TRINITY20['expires']['u_stats']);
         $stats_fields_ar_int = [

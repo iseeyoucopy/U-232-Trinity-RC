@@ -120,11 +120,11 @@ if (ANN_IP_LOGGING == 1) {
         if ($res->num_rows == 0) {
             ann_sql_query("INSERT LOW_PRIORITY INTO ips (userid, ip, lastannounce, type) VALUES (".ann_sqlesc($userid).", ".ann_sqlesc($ip).", ".TIME_NOW.",'announce')") || ann_sqlerr(__FILE__,
                 __LINE__);
-            $cache->delete('ip_history_'.$userid);
+            $cache->delete($keys['ip_history'].$userid);
         } else {
             ann_sql_query("UPDATE LOW_PRIORITY ips SET lastannounce = ".TIME_NOW." WHERE ip = ".ann_sqlesc($ip)." AND userid =".ann_sqlesc($userid)) || ann_sqlerr(__FILE__,
                 __LINE__);
-            $cache->delete('ip_history_'.$userid);
+            $cache->delete($keys['ip_history'].$userid);
 
         }
     }

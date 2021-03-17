@@ -14,7 +14,7 @@
 //==Template system by Terranova
 function stdhead($title = "", $msgalert = true, $stdhead = false)
 {
-    global $CURUSER, $TRINITY20, $lang, $free, $_NO_COMPRESS, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
+    global $CURUSER, $TRINITY20, $lang, $keys, $free, $_NO_COMPRESS, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
     if (!$TRINITY20['site_online']) {
         die("Site is down for maintenance, please check back again later... thanks<br />");
     }
@@ -243,7 +243,7 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
 
 function stdfoot($stdfoot = false)
 {
-    global $CURUSER, $TRINITY20, $start, $query_stat, $cache, $querytime, $lang;
+    global $CURUSER, $TRINITY20, $start, $query_stat, $cache, $keys, $querytime, $lang;
     $user_id = $CURUSER['id'] ?? '';
     $debug = (SQL_DEBUG && in_array($user_id, $TRINITY20['allowed_staff']['id']) ? 1 : 0);
     $seconds = microtime(true) - $start;
@@ -421,14 +421,14 @@ function StatusBar()
     } else {
         $connectable = 'N/A';
     }
-    if (($Achievement_Points = $cache->get('user_achievement_points_' . $CURUSER['id'])) === false) {
+    if (($Achievement_Points = $cache->get($keys['user_achiev_points'] . $CURUSER['id'])) === false) {
         $Sql = "SELECT users.id, users.username, usersachiev.achpoints, usersachiev.spentpoints FROM users LEFT JOIN usersachiev ON users.id = usersachiev.id WHERE users.id = " . sqlesc($CURUSER['id']) or sqlerr(__FILE__, __LINE__);
         $result = $mysqli->query($Sql);
         $Achievement_Points = $result->fetch_assoc();;
         $Achievement_Points['id'] = (int)$Achievement_Points['id'];
         $Achievement_Points['achpoints'] = (int)$Achievement_Points['achpoints'];
         $Achievement_Points['spentpoints'] = (int)$Achievement_Points['spentpoints'];
-        $cache->set('user_achievement_points_' . $CURUSER['id'], $Achievement_Points);
+        $cache->set($keys['user_achiev_points'] . $CURUSER['id'], $Achievement_Points);
     }
     $hitnruns = ($CURUSER['hit_and_run_total'] > 0) ? $CURUSER['hit_and_run_total'] : '0';
     $member_reputation = get_reputation($CURUSER);

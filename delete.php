@@ -126,8 +126,8 @@ if ($CURUSER["id"] != $row["owner"] && $CURUSER['pm_on_delete'] == 'yes') {
     $message = "Torrent $id (".htmlsafechars($row['name']).") has been deleted.\n  Reason: $reasonstr";
     sql_query("INSERT INTO messages (sender, receiver, msg, added) VALUES(0, ".sqlesc($pm_on).",".sqlesc($message).", $added)") || sqlerr(__FILE__,
         __LINE__);
-    $cache->delete('inbox_new::'.$pm_on);
-    $cache->delete('inbox_new_sb::'.$pm_on);
+    $cache->delete($keys['inbox_new'].$pm_on);
+    $cache->delete($keys['inbox_new_sb'].$pm_on);
 }
 if (isset($_POST["returnto"])) {
     $ret = "<a href='".htmlsafechars($_POST["returnto"])."'>{$lang['delete_go_back']}</a>";

@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (sql_query('INSERT INTO tickets(user) VALUES '.implode(', ', $t))) {
         sql_query('UPDATE users SET seedbonus = seedbonus - '.($tickets * $lottery_config['ticket_amount']).' WHERE id = '.$CURUSER['id']);
         $seedbonus_new = $CURUSER['seedbonus'] - ($tickets * $lottery_config['ticket_amount']);
-        $What_Cache = (XBT_TRACKER == true ? 'userstats_xbt_' : $keys['user_stats']);
+        $What_Cache = (XBT_TRACKER == true ? $keys['userstats_xbt'] : $keys['user_stats']);
         $What_Expire = (XBT_TRACKER == true ? $TRINITY20['expires']['u_stats_xbt'] : $TRINITY20['expires']['u_stats']);
         $cache->update_row($What_Cache.$CURUSER['id'], [
             'seedbonus' => $seedbonus_new,

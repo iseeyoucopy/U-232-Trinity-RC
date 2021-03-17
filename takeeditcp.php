@@ -271,8 +271,8 @@ if ($action == "avatar") {
             sql_query("INSERT INTO messages(sender, receiver, added, msg, subject) VALUES(0, ".sqlesc($arr['id']).", $dt, $msg, $subject)") || sqlerr(__FILE__,
                 __LINE__);
         }
-        $cache->delete('inbox_new::'.$arr['id']);
-        $cache->delete('inbox_new_sb::'.$arr['id']);
+        $cache->delete($keys['inbox_new'].$arr['id']);
+        $cache->delete($keys['inbox_new_sb'].$arr['id']);
         $urladd .= "&mailsent=1";
     }
     $action = "security";

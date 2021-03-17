@@ -64,9 +64,9 @@ if ($action == 'viewbug') {
             sql_query($uq);
             sql_query("INSERT INTO messages (sender, receiver, added, msg) VALUES (0, ".sqlesc($q1['sender']).", ".TIME_NOW.", {$msg})");
             sql_query("UPDATE bugs SET status=".sqlesc($status).", staff=".sqlesc($CURUSER['id'])." WHERE id = ".sqlesc($id));
-            $cache->delete('inbox_new::'.$q1['sender']);
-            $cache->delete('inbox_new_sb::'.$q1['sender']);
-            $cache->delete('bug_mess_');
+            $cache->delete($keys['inbox_new'].$q1['sender']);
+            $cache->delete($keys['inbox_new_sb'].$q1['sender']);
+            $cache->delete($keys['bug_message']);
         }
         header("location: bugs.php?action=viewbug&id={$id}");
     }
@@ -218,7 +218,7 @@ if ($action == 'viewbug') {
         }
         ($q1 = sql_query("INSERT INTO bugs (title, priority, problem, sender, added) VALUES (".sqlesc($title).", ".sqlesc($priority).", ".sqlesc($problem).", ".sqlesc($CURUSER['id']).", ".TIME_NOW.")")) || sqlerr(__FILE__,
             __LINE__);
-        $cache->delete('bug_mess_');
+        $cache->delete($keys['bug_message']);
         if ($q1) {
             stderr("{$lang['stderr_sucess']}", sprintf($lang['stderr_sucess_2'], $priority));
         } else {

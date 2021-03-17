@@ -378,10 +378,10 @@ if ($no_log_ip === 0) {
     if ($res->num_rows == 0) {
         sql_query("INSERT INTO ips (userid, ip, lastbrowse, type) VALUES (".sqlesc($userid).", ".sqlesc($ip).", $added, 'Browse')") || sqlerr(__FILE__,
             __LINE__);
-        $cache->delete('ip_history_'.$userid);
+        $cache->delete($keys['ip_history'].$userid);
     } else {
         sql_query("UPDATE ips SET lastbrowse = $added WHERE ip=".sqlesc($ip)." AND userid = ".sqlesc($userid)) || sqlerr(__FILE__, __LINE__);
-        $cache->delete('ip_history_'.$userid);
+        $cache->delete($keys['ip_history'].$userid);
     }
 }
 
