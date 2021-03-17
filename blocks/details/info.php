@@ -145,10 +145,10 @@ if ($torrent_rep && $TRINITY20['rep_sys_on']) {
 //==pdq's Torrent Moderation
 if ($CURUSER['class'] >= UC_STAFF) {
     if (!empty($torrents['checked_by'])) {
-        if (($checked_by = $cache->get('checked_by_'.$id)) === false) {
+        if (($checked_by = $cache->get($keys['checked_by'].$id)) === false) {
             ($chckby_query = sql_query("SELECT id FROM users WHERE username=".sqlesc($torrents['checked_by']))) || sqlerr(__FILE__, __LINE__);
             $checked_by = $chckby_query->fetch_assoc();
-            $cache->set('checked_by_'.$id, $checked_by, 30 * 86400);
+            $cache->set($keys['checked_by'].$id, $checked_by, 30 * 86400);
         }
         $HTMLOUT .= "<tr>
     <td>{$lang['details_add_bychk1']}</td>
@@ -175,16 +175,6 @@ if ($torrents["type"] == "multi") {
     } else {
         $HTMLOUT .= tr("{$lang['details_num-files']}", (int)$torrents["numfiles"]."{$lang['details_files']}", 1);
     }
-}
-
-if (XBT_TRACKER == true) {
-    $HTMLOUT .= tr("{$lang['details_peers']}",
-        "<a href='./peerlist_xbt.php?id=$id#seeders'>".(int)$torrents_xbt["seeders"]."{$lang['details_add_sd']}".(int)$torrents_xbt["leechers"]."{$lang['details_add_lc']}".((int)$torrents_xbt["seeders"] + (int)$torrents_xbt["leechers"])."{$lang['details_peer_total']}</a>",
-        1);
-} else {
-    $HTMLOUT .= tr("{$lang['details_peers']}",
-        "<a href='./peerlist.php?id=$id#seeders'>".(int)$torrents["seeders"]."{$lang['details_add_sd']}".(int)$torrents["leechers"]."{$lang['details_add_lc']}".((int)$torrents["seeders"] + (int)$torrents["leechers"])."{$lang['details_peer_total']}</a>",
-        1);
 }
 //==putyns thanks mod
 $HTMLOUT .= tr($lang['details_thanks'], '
