@@ -54,8 +54,8 @@ if ($remove) {
             write_log("{$lang['freeusers_log1']} $remove ($username) 
 			{$lang['freeusers_log2']} $CURUSER[username]");
             $cache->delete($keys['my_userid'].$arr['id']);
-            $cache->delete('inbox_new::'.$arr['id']);
-            $cache->delete('inbox_new_sb::'.$arr['id']);
+            $cache->delete($keys['inbox_new'].$arr['id']);
+            $cache->delete($keys['inbox_new_sb'].$arr['id']);
             $cache->delete('user'.$arr['id']);
         }
     } else {

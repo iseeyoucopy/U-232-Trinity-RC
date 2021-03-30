@@ -88,8 +88,8 @@ if (XBT_TRACKER == true) {
 $cache->delete('top5_tor_');
 $cache->delete('last5_tor_');
 $cache->delete('scroll_tor_');
-$cache->delete('torrent_details_'.$id);
-$cache->delete('torrent_details_text'.$id);
+$cache->delete($keys['torrent_details'].$id);
+$cache->delete($keys['torrent_details_txt'].$id);
 if ($CURUSER['id'] != $q['owner']) {
     $msg = sqlesc("{$lang['fastdelete_msg_first']} [b]{$q['name']}[/b] {$lang['fastdelete_msg_last']} {$CURUSER['username']}");
     sql_query("INSERT INTO messages (sender, receiver, added, msg) VALUES (0, ".sqlesc($q['owner']).", ".TIME_NOW.", {$msg})") || sqlerr(__FILE__,

@@ -120,11 +120,11 @@ if (ANN_IP_LOGGING == 1) {
         if ($res->num_rows == 0) {
             ann_sql_query("INSERT LOW_PRIORITY INTO ips (userid, ip, lastannounce, type) VALUES (".ann_sqlesc($userid).", ".ann_sqlesc($ip).", ".TIME_NOW.",'announce')") || ann_sqlerr(__FILE__,
                 __LINE__);
-            $cache->delete('ip_history_'.$userid);
+            $cache->delete($keys['ip_history'].$userid);
         } else {
             ann_sql_query("UPDATE LOW_PRIORITY ips SET lastannounce = ".TIME_NOW." WHERE ip = ".ann_sqlesc($ip)." AND userid =".ann_sqlesc($userid)) || ann_sqlerr(__FILE__,
                 __LINE__);
-            $cache->delete('ip_history_'.$userid);
+            $cache->delete($keys['ip_history'].$userid);
 
         }
     }
@@ -570,10 +570,10 @@ if ($seeder == 'yes') {
         $torrent_updateset[] = 'visible = \'yes\'';
     }
     $torrent_updateset[] = 'last_action = '.TIME_NOW;
-    $cache->update_row('torrent_details_'.$torrentid, [
+    $cache->update_row($keys['torrent_details'].$torrentid, [
         'visible' => 'yes',
     ], $TRINITY20['expires']['torrent_details']);
-    $cache->update_row('last_action_'.$torrentid, [
+    $cache->update_row($keys['last_action'].$torrentid, [
         'lastseed' => TIME_NOW,
     ], 1800);
 }

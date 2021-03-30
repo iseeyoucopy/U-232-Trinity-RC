@@ -102,8 +102,8 @@ if (XBT_TRACKER == true) {
 $cache->delete('top5_tor_');
 $cache->delete('last5_tor_');
 $cache->delete('scroll_tor_');
-$cache->delete('torrent_details_'.$id);
-$cache->delete('torrent_details_text'.$id);
+$cache->delete($keys['torrent_details'].$id);
+$cache->delete($keys['torrent_details_txt'].$id);
 write_log("{$lang['delete_torrent']} $id ({$row['name']}){$lang['delete_deleted_by']}{$CURUSER['username']} ($reasonstr)\n");
 if ($TRINITY20['seedbonus_on'] == 1) {
     //===remove karma
@@ -126,8 +126,8 @@ if ($CURUSER["id"] != $row["owner"] && $CURUSER['pm_on_delete'] == 'yes') {
     $message = "Torrent $id (".htmlsafechars($row['name']).") has been deleted.\n  Reason: $reasonstr";
     sql_query("INSERT INTO messages (sender, receiver, msg, added) VALUES(0, ".sqlesc($pm_on).",".sqlesc($message).", $added)") || sqlerr(__FILE__,
         __LINE__);
-    $cache->delete('inbox_new::'.$pm_on);
-    $cache->delete('inbox_new_sb::'.$pm_on);
+    $cache->delete($keys['inbox_new'].$pm_on);
+    $cache->delete($keys['inbox_new_sb'].$pm_on);
 }
 if (isset($_POST["returnto"])) {
     $ret = "<a href='".htmlsafechars($_POST["returnto"])."'>{$lang['delete_go_back']}</a>";

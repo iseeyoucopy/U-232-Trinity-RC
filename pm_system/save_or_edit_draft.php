@@ -41,8 +41,8 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'save as draft') {
         sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, location, draft, unread, saved) VALUES  
                                                                         ('.sqlesc($CURUSER['id']).', '.sqlesc($CURUSER['id']).','.TIME_NOW.', '.$body.', '.$subject.', \'-2\', \'yes\',\'no\',\'yes\')') || sqlerr(__FILE__,
             __LINE__);
-        $cache->delete('inbox_new::'.$CURUSER['id']);
-        $cache->delete('inbox_new_sb::'.$CURUSER['id']);
+        $cache->delete($keys['inbox_new'].$CURUSER['id']);
+        $cache->delete($keys['inbox_new_sb'].$CURUSER['id']);
     }
     if ($save_or_edit === 'edit') {
         sql_query('UPDATE messages SET msg = '.$body.', subject = '.$subject.' WHERE id = '.sqlesc($pm_id)) || sqlerr(__FILE__, __LINE__);

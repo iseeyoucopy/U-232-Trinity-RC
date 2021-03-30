@@ -10,7 +10,6 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-//tvmaze functions converted from former tvrage functions
 define('TBUCKET_DIR', BITBUCKET_DIR.DIRECTORY_SEPARATOR.'tvmaze');
 if (!is_dir(TBUCKET_DIR)) {
     mkdir(TBUCKET_DIR);
@@ -42,7 +41,7 @@ function tvmaze_format($tvmaze_data, $tvmaze_type)
 
 function tvmaze(&$torrents)
 {
-    global $cache, $TRINITY20;
+    global $cache, $keys, $TRINITY20;
     $tvmaze_data = '';
     $row_update = [];
     if (preg_match("/^(.*)(?:\.| |_)(?:(?:S\d{1,2}(?:E\d{1,2})?)|20\d\d\.\d\d\.\d\d|Part.\d|CHapters)/i", $torrents['name'], $tmp)) {
@@ -58,7 +57,7 @@ function tvmaze(&$torrents)
     $memkey = 'tvmaze::'.strtolower(str_replace(' ', '', $tvmaze['name']));
     if (($tvmaze_id = $cache->get($memkey)) === false) {
         //get tvmaze id
-        $tvmaze_link = sprintf('http://api.tvmaze.com/singlesearch/shows?q=%s', urlencode($tvmaze['name']));
+        $tvmaze_link = sprintf('https://api.tvmaze.com/singlesearch/shows?q=%s', urlencode($tvmaze['name']));
         $tvmaze_array = json_decode(file_get_contents($tvmaze_link), true, 512, JSON_THROW_ON_ERROR);
         if ($tvmaze_array) {
             $tvmaze_id = $tvmaze_array['id'];
@@ -80,7 +79,7 @@ function tvmaze(&$torrents)
         $tvmaze_link = sprintf('http://api.tvmaze.com/shows/%d', $tvmaze_id);
         $tvmaze_array = json_decode(file_get_contents($tvmaze_link), true, 512, JSON_THROW_ON_ERROR);
         $tvmaze_array['origin_country'] = $tvmaze_array['network']['country']['name'];
-        if (empty($tvmaze_array['genres'])) {
+        if (!empty($tvmaze_array['genres'])) {
             $tvmaze_array['genres2'] = implode(", ", array_map('strtolower', $tvmaze_array['genres']));
         }
 
@@ -96,7 +95,7 @@ function tvmaze(&$torrents)
             $img = "img.php/tvmaze/$tvmaze_id.jpg";
         }
         //==The torrent cache
-        $cache->update_row('torrent_details_'.$torrents['id'], [
+        $cache->update_row($keys['torrent_details'].$torrents['id'], [
             'newgenre' => ucwords($tvmaze_array['genres2']),
         ], 0);
         if (empty($torrents['poster'])) {
@@ -104,7 +103,7 @@ function tvmaze(&$torrents)
         }
 
         //==The torrent cache
-        $cache->update_row('torrent_details_'.$torrents['id'], [
+        $cache->update_row($keys['torrent_details'].$torrents['id'], [
             'poster' => $img,
         ], 0);
         if ((is_countable($row_update) ? count($row_update) : 0) > 0) {

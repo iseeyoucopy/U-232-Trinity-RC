@@ -15,32 +15,50 @@ $XBT_Or_Default = (XBT_TRACKER == true ? 'snatches_xbt.php?id=' : 'snatches.php?
 $XBT_or_default_link = "<a href='{$TRINITY20["baseurl"]}/{$XBT_Or_Default}{$id}'>".(int)$torrents['times_completed']."</a>";
 $tsnatched = (int)$torrents["times_completed"] > 0 ? $XBT_or_default_link : "0";
 $tsize = mksize($torrents["size"]);
+/*
 if ($owned) {
-    $editlinkw = "<$editlink><i class='fas fa-edit'></i>";
+    $editlinkw = "<a href='edit.php?id=".(int)$torrents["id"]."'><i class='fas fa-edit'></i></a>";
 }
-$HTMLOUT .= '<div class="grid-x grid-padding-x">
-    <div class="cell medium-4">
+*/
+$editlinkw = $owned ? "<span class='label secondary float-right' tabindex='2' data-tooltip title='{$lang['details_edit']}'><a href='edit.php?id=".(int)$torrents["id"]."'><i class='fas fa-edit'></i></a>" : "";
+/**  Mod by dokty, rewrote by pdq  **/
+$my_points = 0;
+if (($torrent['torrent_points_'] = $cache->get($keys['coin_points'].$id)) === false) {
+    ($sql_points = sql_query('SELECT userid, points FROM coins WHERE torrentid='.sqlesc($id))) || sqlerr(__FILE__, __LINE__);
+    $torrent['torrent_points_'] = [];
+    if ($sql_points->num_rows !== 0) {
+        while ($points_cache = $sql_points->fetch_assoc()) {
+            $torrent['torrent_points_'][$points_cache['userid']] = $points_cache['points'];
+        }
+    }
+    $cache->set($keys['coin_points'].$id, $torrent['torrent_points_'], 0);
+}
+$my_points = (isset($torrent['torrent_points_'][$CURUSER['id']]) ? (int)$torrent['torrent_points_'][$CURUSER['id']] : 0);
+$HTMLOUT .= '<div class="grid-x">
+    <div class="cell medium-12">
+    <div class="card">
+    <div class="card-divider">'.$s.'
+    '.$editlinkw.'
+</span></div>
+    <div class="card-section">
+'.$lang['details_added'].' at '.$tadded.' by '.$uprow.' | '.$lang['details_type'].' : '.$tcatname.'
+</div>
+</div>
+    </div>
+    <div class="cell medium-3">
         <div class="card-section">
-            <div class="media-object-section">
+            <div class="media-object-section padding-0">
                 <div class="thumbnail">
                     <img src="'.$poster_url.'">
                 </div>
             </div>
-            <a class="button small expanded" href="download.php?torrent='.$id.'" title="Download torrent">Download torrent</a>
+            <a class="button small expanded success" href="download.php?torrent='.$id.'" title="Download torrent">Download torrent</a>
+            <a class="button small expanded" id="thumbsup" href="javascript:ThumbsUp('.(int)$torrents['id'].')">Like</a>
             <p>'.$Free_Slot.'</p>
         </div>
         </div>';
 $HTMLOUT .= "
-<div class='cell medium-8'>
-<div class='card'>
-    <div class='card-divider'>$s
-    <span class='label secondary float-left' tabindex='2' data-tooltip title='{$lang['details_edit']}'>
-    ".$editlinkw."
-</span></div>
-    <div class='card-section'>
-{$lang['details_added']} at ".$tadded." by ".$uprow." | " . $lang['details_type']." : ".$tcatname."
-</div>
-</div>
+<div class='cell medium-9'>
 <div class='grid-x grid-margin-x'>
 <div class='cell medium-auto card'>
     <span class='label secondary padding-1' tabindex='2' data-tooltip title='{$lang['details_add_sd']}'>
@@ -68,26 +86,18 @@ $HTMLOUT .= "
     </span>
 </div>
 </div>
-	<div class='table-scroll'>
+";
+require_once(BLOCK_DIR.'details/imdb.php');
+require_once(BLOCK_DIR.'details/tvmaze.php');
+//require_once(BLOCK_DIR.'details/new_tvmaze.php');
+require_once(BLOCK_DIR.'details/youtube.php');
+$HTMLOUT .= "<div class='table-scroll'>
     <table class='striped'>
 	<tbody>
         <tr>
         <td>{$lang['details_tags']}</td>
         <td>".$keywords."</td>
         </tr>";
-/**  Mod by dokty, rewrote by pdq  **/
-$my_points = 0;
-if (($torrent['torrent_points_'] = $cache->get('coin_points_'.$id)) === false) {
-    ($sql_points = sql_query('SELECT userid, points FROM coins WHERE torrentid='.sqlesc($id))) || sqlerr(__FILE__, __LINE__);
-    $torrent['torrent_points_'] = [];
-    if ($sql_points->num_rows !== 0) {
-        while ($points_cache = $sql_points->fetch_assoc()) {
-            $torrent['torrent_points_'][$points_cache['userid']] = $points_cache['points'];
-        }
-    }
-    $cache->set('coin_points_'.$id, $torrent['torrent_points_'], 0);
-}
-$my_points = (isset($torrent['torrent_points_'][$CURUSER['id']]) ? (int)$torrent['torrent_points_'][$CURUSER['id']] : 0);
 $HTMLOUT .= '<tr>
         <td>'.$lang['details_add_karma1'].'</td>
         <td><b>'.$lang['details_add_karma2'].''.(int)$torrents['points'].''.$lang['details_add_karma3'].''.$my_points.''.$lang['details_add_karma4'].'<br /><br />
@@ -152,4 +162,3 @@ $HTMLOUT .= tr("{$lang['details_info_hash']}",
     '<div class="details-text-ellipsis">'.preg_replace_callback('/./s', "hex_esc", hash_pad($torrents["info_hash"])).'</div>', true);
 $HTMLOUT .= "</tbody></table></div></div>";
 $HTMLOUT .= "</div>";
-?>

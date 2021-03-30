@@ -282,8 +282,8 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
             $msg = sqlesc("You lost a bet ! ".htmlsafechars($CURUSER['username'])." just won ".htmlsafechars($nogb)." of your upload credit !");
             sql_query("INSERT INTO messages (subject, sender, receiver, added, msg, unread, poster) VALUES ($subject, $sendfrom, ".sqlesc($tbet['userid']).", $time, $msg, 'yes', $sendfrom)") || sqlerr(__FILE__,
                 __LINE__);
-            $cache->delete('inbox_new::'.$tbet['userid']);
-            $cache->delete('inbox_new_sb::'.$tbet['userid']);
+            $cache->delete($keys['inbox_new'].$tbet['userid']);
+            $cache->delete($keys['inbox_new_sb'].$tbet['userid']);
             if ($writelog === 1) {
                 write_log($CURUSER['username']." won $nogb {$lang['casino_of_upload_credit_off']} ".htmlsafechars($tbet['proposed']));
             }
@@ -328,8 +328,8 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
         $msg = sqlesc("{$lang['casino_you_just_won']} ".htmlsafechars($nogb)." {$lang['casino_of_upload_credit_from']} ".$CURUSER['username']." !");
         sql_query("INSERT INTO messages (subject, sender, receiver, added, msg, unread, poster) VALUES ($subject, $sendfrom, ".sqlesc($tbet['userid']).", $time, $msg, 'yes', $sendfrom)") || sqlerr(__FILE__,
             __LINE__);
-        $cache->delete('inbox_new::'.$tbet['userid']);
-        $cache->delete('inbox_new_sb::'.$tbet['userid']);
+        $cache->delete($keys['inbox_new'].$tbet['userid']);
+        $cache->delete($keys['inbox_new_sb'].$tbet['userid']);
         if ($writelog === 1) {
             write_log("".htmlsafechars($tbet['proposed'])." won $nogb {$lang['casino_of_upload_credit_off']} ".$CURUSER['username']);
         }

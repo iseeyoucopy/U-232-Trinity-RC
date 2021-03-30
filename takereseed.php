@@ -31,13 +31,13 @@ if ($pm_what == "last10") {
         __LINE__);
     while ($row = $res->fetch_assoc()) {
         $pms[] = "(0,".sqlesc($row["userid"]).",".TIME_NOW.",".sqlesc($pm_msg).($use_subject ? ",".sqlesc($subject) : "").")";
-        $cache->delete('inbox_new::'.$row["userid"]);
-        $cache->delete('inbox_new_sb::'.$row["userid"]);
+        $cache->delete($keys['inbox_new'].$row["userid"]);
+        $cache->delete($keys['inbox_new_sb'].$row["userid"]);
     }
 } elseif ($pm_what == "owner") {
     $pms[] = "(0,$uploader,".TIME_NOW.",".sqlesc($pm_msg).($use_subject ? ",".sqlesc($subject) : "").")";
-    $cache->delete('inbox_new::'.$uploader);
-    $cache->delete('inbox_new_sb::'.$uploader);
+    $cache->delete($keys['inbox_new'].$uploader);
+    $cache->delete($keys['inbox_new_sb'].$uploader);
 }
 if (count($pms) > 0) {
     sql_query("INSERT INTO messages (sender, receiver, added, msg ".($use_subject ? ", subject" : "")." ) VALUES ".implode(",",
@@ -45,7 +45,7 @@ if (count($pms) > 0) {
 
 }
 sql_query("UPDATE torrents set last_reseed=".TIME_NOW." WHERE id=".sqlesc($reseedid)) || sqlerr(__FILE__, __LINE__);
-$cache->update_row('torrent_details_'.$reseedid, [
+$cache->update_row($keys['torrent_details'].$reseedid, [
     'last_reseed' => TIME_NOW,
 ], $TRINITY20['expires']['torrent_details']);
 if ($TRINITY20['seedbonus_on'] == 1) {

@@ -18,10 +18,10 @@ require_once(INCL_DIR.'comment_functions.php');
 require_once(INCL_DIR.'add_functions.php');
 require_once(INCL_DIR.'html_functions.php');
 require_once(INCL_DIR.'function_rating.php');
-//require_once (INCL_DIR . 'tvrage_functions.php');
-require_once(INCL_DIR.'tvmaze_functions.php');// uncomment to use tvmaze
+require_once(INCL_DIR.'tvmaze_functions.php');
 require_once(IMDB_DIR.'imdb.class.php');
 require_once(INCL_DIR.'getpre.php');
+//require_once(CLASS_DIR.'TVMazeIncludes.php');
 dbconn(false);
 loggedinorreturn();
 $lang = array_merge(load_language('global'), load_language('details'), load_language('free_details'));
@@ -58,7 +58,7 @@ foreach ($categorie as $key => $value) {
         'min_class' => $value['min_class'],
     ];
 }
-if (($torrents = $cache->get('torrent_details_'.$id)) === false) {
+if (($torrents = $cache->get($keys['torrent_details'].$id)) === false) {
     $tor_fields_ar_int = [
         'id',
         'leechers',
@@ -120,32 +120,32 @@ if (($torrents = $cache->get('torrent_details_'.$id)) === false) {
     foreach ($tor_fields_ar_str as $i) {
         $torrents[$i] = $torrents[$i];
     }
-    $cache->set('torrent_details_'.$id, $torrents, $TRINITY20['expires']['torrent_details']);
+    $cache->set($keys['torrent_details'].$id, $torrents, $TRINITY20['expires']['torrent_details']);
 }
 $tor_cat = $torrents['category'] ?? '';
 if ($change[$tor_cat]['min_class'] > $CURUSER['class']) {
     stderr("{$lang['details_user_error']}", "{$lang['details_bad_id']}");
 }
 //==
-if (($torrents_xbt = $cache->get('torrent_xbt_data_'.$id)) === false && XBT_TRACKER == true) {
+if (($torrents_xbt = $cache->get($keys['torrent_xbt'].$id)) === false && XBT_TRACKER == true) {
     ($t_xbt_d = sql_query("SELECT seeders, leechers, times_completed FROM torrents WHERE id =".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $torrents_xbt = $t_xbt_d->fetch_assoc();
-    $cache->set('torrent_xbt_data_'.$id, $torrents_xbt, $TRINITY20['expires']['torrent_xbt_data']);
+    $cache->set($keys['torrent_xbt'].$id, $torrents_xbt, $TRINITY20['expires']['torrent_xbt_data']);
 }
 //==
-if (($torrents_txt = $cache->get('torrent_details_txt'.$id)) === false) {
+if (($torrents_txt = $cache->get($keys['torrent_details_txt'].$id)) === false) {
     ($t_txt_des = sql_query("SELECT descr FROM torrents WHERE id =".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $torrents_txt = $t_txt_des->fetch_assoc();
-    $cache->set('torrent_details_txt'.$id, $torrents_txt, $TRINITY20['expires']['torrent_details_text']);
+    $cache->set($keys['torrent_details_txt'].$id, $torrents_txt, $TRINITY20['expires']['torrent_details_text']);
 }
 //Memcache Pretime
-if (($pretime = $cache->get('torrent_pretime_'.$id)) === false) {
+if (($pretime = $cache->get($keys['torrent_pretime'].$id)) === false) {
     $prename = htmlsafechars($torrents['name']);
     ($pre_q = sql_query("SELECT time FROM releases WHERE releasename = ".sqlesc($prename))) || sqlerr(__FILE__, __LINE__);
     $pret = $pre_q->fetch_assoc();
     $pretimere = $pret['time'] ?? '';
     $pretime['time'] = strtotime($pretimere);
-    $cache->set('torrent_pretime_'.$id, $pretime, $TRINITY20['expires']['torrent_pretime']);
+    $cache->set($keys['torrent_pretime'].$id, $pretime, $TRINITY20['expires']['torrent_pretime']);
 }
 $newgenre = '';
 if (!empty($torrents['newgenre'])) {
@@ -160,19 +160,19 @@ if (!empty($torrents['newgenre'])) {
 if (isset($_GET["hit"])) {
     sql_query("UPDATE torrents SET views = views + 1 WHERE id =".sqlesc($id));
     $update['views'] = ($torrents['views'] + 1);
-    $cache->update_row('torrent_details_'.$id, [
+    $cache->update_row($keys['torrent_details'].$id, [
         'views' => $update['views'],
     ], $TRINITY20['expires']['torrent_details']);
     header("Location: {$TRINITY20['baseurl']}/details.php?id=$id");
     exit();
 }
 $What_String = (XBT_TRACKER == true ? 'mtime' : 'last_action');
-$What_String_Key = (XBT_TRACKER == true ? 'last_action_xbt_' : 'last_action_');
+$What_String_Key = (XBT_TRACKER == true ? $keys['last_action_xbt'] : $keys['last_action']);
 if (($l_a = $cache->get($What_String_Key.$id)) === false) {
     ($last_t_ac = sql_query('SELECT '.$What_String.' AS lastseed '.'FROM torrents '.'WHERE id = '.sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $l_a = $last_t_ac->fetch_assoc();
     $l_a['lastseed'] = (int)$l_a['lastseed'];
-    $cache->set('last_action_'.$id, $l_a, 1800);
+    $cache->set($keys['last_action'].$id, $l_a, 1800);
 }
 //==Thumbs Up
 if (($thumbs = $cache->get('thumbs_up:'.$id)) === false) {
@@ -188,12 +188,12 @@ $torrents['times_completed'] = ((XBT_TRACKER === false || $torrents_xbt['times_c
 
 //==rep user query by pdq
 $torrent_user_rep = $torrent_cache['rep'] ?? '';
-if (($torrent_user_rep = $cache->get('user_rep_'.$torrents['owner'])) === false) {
+if (($torrent_user_rep = $cache->get($keys['user_rep'].$torrents['owner'])) === false) {
     $torrent_user_rep = [];
     ($us = sql_query("SELECT reputation FROM users WHERE id =".sqlesc($torrents['owner']))) || sqlerr(__FILE__, __LINE__);
     if ($us->num_rows) {
         $torrent_user_rep = $us->fetch_assoc();
-        $cache->set('user_rep_'.$torrents['owner'], $torrent_user_rep, 14 * 86400);
+        $cache->set($keys['user_rep'].$torrents['owner'], $torrent_user_rep, 14 * 86400);
     }
 }
 $HTMLOUT .= '<script type="text/javascript">
@@ -252,8 +252,8 @@ if (empty($torrents["tags"])) {
 }
 
 if (isset($_GET["uploaded"])) {
-    $HTMLOUT .= "<div class='alert alert-success col-md-11' align='center'><h2>{$lang['details_success']}</h2>";
-    $HTMLOUT .= "<p>{$lang['details_start_seeding']}</p></div>\n";
+    $HTMLOUT .= "<div class='alert alert-success' align='center'><h2>{$lang['details_success']}</h2>";
+    $HTMLOUT .= "<p>{$lang['details_start_seeding']}</p></div>";
     $HTMLOUT .= '<meta http-equiv="refresh" content="1;url=download.php?torrent='.$id.'">';
 } elseif (isset($_GET["edited"])) {
     $HTMLOUT .= "<div class='alert alert-success span11' align='center'><h2>{$lang['details_success_edit']}</h2></div>\n";
@@ -268,30 +268,30 @@ if ($CURUSER['class'] >= UC_STAFF) {
     if (isset($_GET["checked"]) && $_GET["checked"] == 1) {
         sql_query("UPDATE torrents SET checked_by = ".sqlesc($CURUSER['username']).",checked_when = ".TIME_NOW." WHERE id =".sqlesc($id)." LIMIT 1") || sqlerr(__FILE__,
             __LINE__);
-        $cache->update_row('torrent_details_'.$id, [
+        $cache->update_row($keys['torrent_details'].$id, [
             'checked_by' => $CURUSER['username'],
             'checked_when' => TIME_NOW,
         ], $TRINITY20['expires']['torrent_details']);
-        $cache->delete('checked_by_'.$id);
+        $cache->delete($keys['checked_by'].$id);
         write_log("Torrent <a href={$TRINITY20['baseurl']}/details.php?id=$id>(".htmlsafechars($torrents['name']).")</a>{$lang['details_add_chk']}{$CURUSER['username']}");
         header("Location: {$TRINITY20["baseurl"]}/details.php?id=$id&checked=done#Success");
     } elseif (isset($_GET["rechecked"]) && $_GET["rechecked"] == 1) {
         sql_query("UPDATE torrents SET checked_by = ".sqlesc($CURUSER['username']).",checked_when = ".TIME_NOW." WHERE id =".sqlesc($id)." LIMIT 1") || sqlerr(__FILE__,
             __LINE__);
-        $cache->update_row('torrent_details_'.$id, [
+        $cache->update_row($keys['torrent_details'].$id, [
             'checked_by' => $CURUSER['username'],
             'checked_when' => TIME_NOW,
         ], $TRINITY20['expires']['torrent_details']);
-        $cache->delete('checked_by_'.$id);
+        $cache->delete($keys['checked_by'].$id);
         write_log("Torrent <a href={$TRINITY20['baseurl']}/details.php?id=$id>(".htmlsafechars($torrents['name']).")</a>{$lang['details_add_rchk']}{$CURUSER['username']}");
         header("Location: {$TRINITY20["baseurl"]}/details.php?id=$id&rechecked=done#Success");
     } elseif (isset($_GET["clearchecked"]) && $_GET["clearchecked"] == 1) {
         sql_query("UPDATE torrents SET checked_by = '', checked_when='' WHERE id =".sqlesc($id)." LIMIT 1") || sqlerr(__FILE__, __LINE__);
-        $cache->update_row('torrent_details_'.$id, [
+        $cache->update_row($keys['torrent_details'].$id, [
             'checked_by' => '',
             'checked_when' => '',
         ], $TRINITY20['expires']['torrent_details']);
-        $cache->delete('checked_by_'.$id);
+        $cache->delete($keys['checked_by'].$id);
         write_log("Torrent <a href={$TRINITY20["baseurl"]}/details.php?id=$id>(".htmlsafechars($torrents['name']).")</a>{$lang['details_add_uchk']}{$CURUSER['username']}");
         header("Location: {$TRINITY20["baseurl"]}/details.php?id=$id&clearchecked=done#Success");
     }
@@ -332,30 +332,22 @@ if (!($CURUSER["downloadpos"] == 0 && $CURUSER["id"] != $torrents["owner"] || $C
     }
     get_script_access(basename($_SERVER['REQUEST_URI']));
     /*Tab selector begins*/
-    $HTMLOUT .= "
-<div class='callout'>
-<div class='clearfix'><a class='float-right' id='thumbsup' href=\"javascript:ThumbsUp('".(int)$torrents['id']."')\"><i class='far fa-thumbs-up'></i></a><hr></div>";
+    require_once(BLOCK_DIR.'details/download.php');
     require_once(BLOCK_DIR.'details/nav.php');
     $HTMLOUT .= '<div class="tabs-content" data-tabs-content="details-tabs">
-  <div class="tabs-panel is-active" id="details_panel1">';
-    require_once(BLOCK_DIR.'details/download.php');
+  <div class="tabs-panel is-active padding-0" id="details_panel1">';
+    
     $HTMLOUT .= '</div>
   <div class="tabs-panel" id="details_panel2">';
     require_once(BLOCK_DIR.'details/description.php');
     $HTMLOUT .= '</div>
   <div class="tabs-panel" id="details_panel3">';
     require_once(BLOCK_DIR.'details/info.php');
-    $HTMLOUT .= '</div>
-  <div class="tabs-panel" id="details_panel4">';
-    require_once(BLOCK_DIR.'details/snatches.php');
-    $HTMLOUT .= '</div>
-  <div class="tabs-panel" id="details_panel5">';
-    require_once(BLOCK_DIR.'details/imdb.php');
     $HTMLOUT .= '</div>';
+    $HTMLOUT .= "</div>";
 } else {
     $HTMLOUT .= "<table class='striped'><tr><td align='right' class='heading'>{$lang['details_err_down1']}</td><td>{$lang['details_err_down2']}</td></tr></table>";
 }
-$HTMLOUT .= '</div>';
 $HTMLOUT .= "<ul class='menu expanded align-center'>";
 if ($torrents["id"] != $torrents["min_id"]) {
     $HTMLOUT .= "<li class='pagination-previous'><a href='details.php?id={$prev_id}'><b>{$lang['details_add_next']}</b></a></li>";
@@ -363,13 +355,5 @@ if ($torrents["id"] != $torrents["min_id"]) {
 if ($torrents["id"] != $torrents["max_id"]) {
     $HTMLOUT .= "<li class='pagination-next'><a href='details.php?id={$next_id}'><b>{$lang['details_add_prev']}</b></a></li>";
 }
-$HTMLOUT .= "</div>";
-///Add Comment
-
-////Comment disable
-
-
-//Comments
-//////////////////////// HTML OUTPUT ////////////////////////////
 echo stdhead("{$lang['details_details']}\"".htmlsafechars($torrents["name"], ENT_QUOTES)."\"", true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
 ?>

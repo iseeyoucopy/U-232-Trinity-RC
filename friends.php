@@ -53,8 +53,8 @@ if ($action == 'add') {
         $body = sqlesc("[url={$TRINITY20['baseurl']}/userdetails.php?id=$userid][b]This person[/b][/url] has added you to their Friends List. See all Friend Requests [url={$TRINITY20['baseurl']}/friends.php#pending][b]Here[/b][/url]\n ");
         sql_query("INSERT INTO messages (sender, receiver, added, subject, msg) VALUES (0, ".sqlesc($targetid).", '".TIME_NOW."', $subject, $body)") || sqlerr(__FILE__,
             __LINE__);
-        $cache->delete('inbox_new::'.$targetid);
-        $cache->delete('inbox_new_sb::'.$targetid);
+        $cache->delete($keys['inbox_new'].$targetid);
+        $cache->delete($keys['inbox_new_sb'].$targetid);
         if ($r->num_rows == 1) {
             stderr("Error", "User ID is already in your ".htmlsafechars($table_is)." list.");
         }
@@ -112,8 +112,8 @@ if ($action == 'confirm') {
         $body = sqlesc("[url={$TRINITY20['baseurl']}/userdetails.php?id=$userid][b]This person[/b][/url] has just confirmed your Friendship Request. See your Friends  [url={$TRINITY20['baseurl']}/friends.php][b]Here[/b][/url]\n ");
         sql_query("INSERT INTO messages (sender, receiver, added, subject, msg) VALUES (0, ".sqlesc($targetid).", '".TIME_NOW."', $subject, $body)") || sqlerr(__FILE__,
             __LINE__);
-        $cache->delete('inbox_new::'.$targetid);
-        $cache->delete('inbox_new_sb::'.$targetid);
+        $cache->delete($keys['inbox_new'].$targetid);
+        $cache->delete($keys['inbox_new_sb'].$targetid);
         $frag = "friends";
         header("Refresh: 3; url=friends.php?id=$userid#$frag");
         $mysqli->affected_rows == 1 ? stderr("Success", "Friend was added successfully.") : stderr("oopss", "That friend is already confirmed !! .");

@@ -106,7 +106,7 @@ if ($action == 'add') {
                     __LINE__);
             }
             $update['comments'] = ($arr['comments'] + 1);
-            $cache->update_row('torrent_details_'.$id, [
+            $cache->update_row($keys['torrent_details'].$id, [
                 'comments' => $update['comments'],
             ], 0);
             $update['seedbonus'] = ($CURUSER['seedbonus'] + $TRINITY20['bonus_per_comment']);
@@ -250,7 +250,7 @@ if ($action == "edit") {
         }
         $arr['comments'] ??= 0;
         $update['comments'] = ($arr['comments'] - 1);
-        $cache->update_row('torrent_details_'.$id, [
+        $cache->update_row($keys['torrent_details'].$id, [
             'comments' => $update['comments'],
         ], 0);
         $update['seedbonus'] = ($CURUSER['seedbonus'] - 3);

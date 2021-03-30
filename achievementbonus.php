@@ -53,7 +53,7 @@ if ($bonus_type == 1) {
     if ($down >= $bonus_do) {
         $msg = "{$lang['achbon_congratulations']}, {$lang['achbon_you_hv_just_won']} $bonus_desc";
         sql_query("UPDATE usersachiev SET achpoints = achpoints-1, spentpoints = spentpoints+1 WHERE id =".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-        $cache->delete('user_achievement_points_'.$id);
+        $cache->delete($keys['user_achiev_points'].$id);
         $sql = "UPDATE users SET downloaded = downloaded - ".sqlesc($bonus_do)." WHERE id = ".sqlesc($id);
         sql_query($sql) || sqlerr(__FILE__, __LINE__);
         $cache->update_row($keys['user_stats'].$id, [
@@ -66,7 +66,7 @@ if ($bonus_type == 1) {
     if ($down < $bonus_do) {
         $msg = "{$lang['achbon_congratulations']}, {$lang['achbon_your_dl_been_reset_0']}";
         sql_query("UPDATE usersachiev SET achpoints = achpoints-1, spentpoints = spentpoints+1 WHERE id =".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-        $cache->delete('user_achievement_points_'.$id);
+        $cache->delete($keys['user_achiev_points'].$id);
         $sql = "UPDATE users SET downloaded = '0' WHERE id =".sqlesc($id);
         sql_query($sql) || sqlerr(__FILE__, __LINE__);
         $cache->update_row($keys['user_stats'].$id, [
@@ -80,7 +80,7 @@ if ($bonus_type == 1) {
 if ($bonus_type == 2) {
     $msg = "{$lang['achbon_congratulations']}, {$lang['achbon_you_hv_just_won']} $bonus_desc";
     sql_query("UPDATE usersachiev SET achpoints = achpoints-1, spentpoints = spentpoints+1 WHERE id = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-    $cache->delete('user_achievement_points_'.$id);
+    $cache->delete($keys['user_achiev_points'].$id);
     $sql = "UPDATE users SET uploaded = uploaded + ".sqlesc($bonus_do)." WHERE id =".sqlesc($id);
     sql_query($sql) || sqlerr(__FILE__, __LINE__);
     $cache->update_row($keys['user_stats'].$id, [
@@ -93,7 +93,7 @@ if ($bonus_type == 2) {
 if ($bonus_type == 3) {
     $msg = "{$lang['achbon_congratulations']}, {$lang['achbon_you_hv_just_won']} $bonus_desc";
     sql_query("UPDATE usersachiev SET achpoints = achpoints-1, spentpoints = spentpoints+1 WHERE id = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-    $cache->delete('user_achievement_points_'.$id);
+    $cache->delete($keys['user_achiev_points'].$id);
     $sql = "UPDATE users SET invites = invites + ".sqlesc($bonus_do)." WHERE id =".sqlesc($id);
     sql_query($sql) || sqlerr(__FILE__, __LINE__);
     $cache->update_row('user'.$id, [
@@ -106,7 +106,7 @@ if ($bonus_type == 3) {
 if ($bonus_type == 4) {
     $msg = "{$lang['achbon_congratulations']}, {$lang['achbon_you_hv_just_won']} $bonus_desc";
     sql_query("UPDATE usersachiev SET achpoints = achpoints-1, spentpoints = spentpoints+1 WHERE id =".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-    $cache->delete('user_achievement_points_'.$id);
+    $cache->delete($keys['user_achiev_points'].$id);
     $sql = "UPDATE users SET seedbonus = seedbonus + ".sqlesc($bonus_do)." WHERE id =".sqlesc($id);
     sql_query($sql) || sqlerr(__FILE__, __LINE__);
     $cache->update_row($keys['user_stats'].$id, [
@@ -121,27 +121,27 @@ if ($bonus_type == 5) {
     if ($rand_fail == 1) {
         $msg = "{$lang['gl_sorry']}, {$lang['achbon_failed_msg1']}";
         sql_query("UPDATE usersachiev SET achpoints = achpoints-1, spentpoints = spentpoints+1 WHERE id =".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-        $cache->delete('user_achievement_points_'.$id);
+        $cache->delete($keys['user_achiev_points'].$id);
     }
     if ($rand_fail == 2) {
         $msg = "{$lang['gl_sorry']}, {$lang['achbon_failed_msg2']}";
         sql_query("UPDATE usersachiev SET achpoints = achpoints-1, spentpoints = spentpoints+1 WHERE id =".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-        $cache->delete('user_achievement_points_'.$id);
+        $cache->delete($keys['user_achiev_points'].$id);
     }
     if ($rand_fail == 3) {
         $msg = "{$lang['gl_sorry']}, {$lang['achbon_failed_msg3']}";
         sql_query("UPDATE usersachiev SET achpoints = achpoints-1, spentpoints = spentpoints+1 WHERE id =".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-        $cache->delete('user_achievement_points_'.$id);
+        $cache->delete($keys['user_achiev_points'].$id);
     }
     if ($rand_fail == 4) {
         $msg = "{$lang['gl_sorry']}, {$lang['achbon_failed_msg4']}";
         sql_query("UPDATE usersachiev SET achpoints = achpoints-1, spentpoints = spentpoints+1 WHERE id =".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-        $cache->delete('user_achievement_points_'.$id);
+        $cache->delete($keys['user_achiev_points'].$id);
     }
     if ($rand_fail == 5) {
         $msg = "{$lang['gl_sorry']}, {$lang['achbon_failed_msg5']}";
         sql_query("UPDATE usersachiev SET achpoints = achpoints-1, spentpoints = spentpoints+1 WHERE id =".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-        $cache->delete('user_achievement_points_'.$id);
+        $cache->delete($keys['user_achiev_points'].$id);
     }
 }
 header("Refresh: 5; url=usercp.php?action=awards");

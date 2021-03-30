@@ -85,10 +85,10 @@ function delete_torrent($delete_array, $page)
         $cache->delete('top5_tor_');
         $cache->delete('scroll_tor_');
         // torrent_details
-        $cache->delete('torrent_details_'.$id);
-        $cache->delete('torrent_xbt_data_'.$id);
-        $cache->delete('torrent_details_txt'.$id);
-        $cache->delete('coin_points_'.$id);
+        $cache->delete($keys['torrent_details'].$id);
+        $cache->delete($keys['torrent_xbt'].$id);
+        $cache->delete($keys['torrent_details_txt'].$id);
+        $cache->delete($keys['coin_points'].$id);
         $cache->delete($keys['similar_tor'].$id);
         $dt = sqlesc(TIME_NOW - (14 * 86400)); // lose karma if deleted within 2 weeks
         if ($row['added'] < $dt) {

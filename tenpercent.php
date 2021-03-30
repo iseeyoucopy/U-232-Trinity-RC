@@ -58,8 +58,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ], $TRINITY20['expires']['user_cache']);
     ($res1 = sql_query("INSERT INTO messages (sender, poster, receiver, subject, msg, added) VALUES (0, 0, ".sqlesc($CURUSER['id']).", ".sqlesc($subject).", ".sqlesc($msg).", '".TIME_NOW."')")) || sqlerr(__FILE__,
         __LINE__);
-    $cache->delete('inbox_new::'.$CURUSER['id']);
-    $cache->delete('inbox_new_sb::'.$CURUSER['id']);
+    $cache->delete($keys['inbox_new'].$CURUSER['id']);
+    $cache->delete($keys['inbox_new_sb'].$CURUSER['id']);
     if (!$res) {
         stderr("Error", "It appears that something went wrong while trying to add 10% to your upload amount.");
     } else {

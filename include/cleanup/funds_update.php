@@ -49,8 +49,8 @@ function docleanup($data)
                 'donor' => 'no',
                 'donoruntil' => 0,
             ], $TRINITY20['expires']['curuser']);
-            $cache->delete('inbox_new::'.$arr['id']);
-            $cache->delete('inbox_new_sb::'.$arr['id']);
+            $cache->delete($keys['inbox_new'].$arr['id']);
+            $cache->delete($keys['inbox_new_sb'].$arr['id']);
         }
         $count = count($users_buffer);
         if ($count > 0) {

@@ -15,7 +15,7 @@ if ($user['ip'] && ($CURUSER['class'] >= UC_STAFF || $user['id'] == $CURUSER['id
     $dom = @gethostbyaddr($user['ip']);
     $addr = ($dom == $user['ip'] || @gethostbyname($dom) != $user['ip']) ? $user['ip'] : $user['ip'].' ('.$dom.')';
 }
-if (($iphistory = $cache->get('ip_history_'.$id)) === false) {
+if (($iphistory = $cache->get($keys['ip_history'].$id)) === false) {
     ($ipto = sql_query("SELECT COUNT(id),enabled FROM `users` AS iplist WHERE `ip` = ".sqlesc($user["ip"])." group by enabled")) || sqlerr(__FILE__,
         __LINE__);
     $row = $ipto->fetch_row();
@@ -33,7 +33,7 @@ if (($iphistory = $cache->get('ip_history_'.$id)) === false) {
     }
     ($resip = sql_query("SELECT ip FROM ips WHERE userid = ".sqlesc($id)." GROUP BY ip")) || sqlerr(__FILE__, __LINE__);
     $iphistory['ips'] = $resip->num_rows;
-    $cache->set('ip_history_'.$id, $iphistory, $TRINITY20['expires']['iphistory']);
+    $cache->set($keys['ip_history'].$id, $iphistory, $TRINITY20['expires']['iphistory']);
 }
 if (isset($addr) && ($CURUSER['id'] == $id || $CURUSER['class'] >= UC_STAFF)) {
     $HTMLOUT .= "<tr>

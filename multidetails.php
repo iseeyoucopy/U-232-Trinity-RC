@@ -17,7 +17,6 @@ require_once(INCL_DIR.'pager_functions.php');
 require_once(INCL_DIR.'comment_functions.php');
 require_once(INCL_DIR.'html_functions.php');
 require_once(INCL_DIR.'function_rating.php');
-require_once(INCL_DIR.'tvrage_functions.php');
 require_once(IMDB_DIR.'imdb.class.php');
 dbconn(false);
 loggedinorreturn();
@@ -73,7 +72,7 @@ foreach ($_GET['id'] as $id) {
 
     $id = (int)$id;
 
-    if (($torrents = $cache->get('torrent_details_'.$id)) === false) {
+    if (($torrents = $cache->get($keys['torrent_details'].$id)) === false) {
         $tor_fields_ar_int = [
             'id',
         ];

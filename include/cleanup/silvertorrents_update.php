@@ -21,7 +21,7 @@ function docleanup($data)
     if ($res->num_rows > 0) {
         while ($arr = $res->fetch_assoc()) {
             $Silver_buffer[] = '('.$arr['id'].', \'0\')';
-            $cache->update_row('torrent_details_'.$arr['id'], [
+            $cache->update_row($keys['torrent_details'].$arr['id'], [
                 'silver' => 0,
             ], $TRINITY20['expires']['torrent_details']);
         }

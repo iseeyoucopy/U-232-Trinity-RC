@@ -27,9 +27,9 @@ function docleanup($data)
             $msgs_buffer[] = '(0,'.$arr['id'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
             $achievements_buffer[] = '('.$arr['id'].', '.TIME_NOW.', \'Sheep Fondler\', \'sheepfondler.png\' , \'User has been caught touching the sheep at least 1 time.\')';
             $usersachiev_buffer[] = '('.$arr['id'].',1, '.$points.')';
-            $cache->delete('inbox_new::'.$arr['id']);
-            $cache->delete('inbox_new_sb::'.$arr['id']);
-            $cache->delete('user_achievement_points_'.$arr['id']);
+            $cache->delete($keys['inbox_new'].$arr['id']);
+            $cache->delete($keys['inbox_new_sb'].$arr['id']);
+            $cache->delete($keys['user_achiev_points'].$arr['id']);
         }
         $count = count($achievements_buffer);
         if ($count > 0) {

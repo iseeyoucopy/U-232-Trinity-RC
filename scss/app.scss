@@ -18,7 +18,8 @@
 @import 'other_stuff';
 @import 'forum';
 @import 'table_expand';
-@import 'text-colors.scss';
+@import 'text-colors';
+@import 'card_user_container';
 
 // Global styles
 @include foundation-global-styles;

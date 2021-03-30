@@ -931,8 +931,8 @@ if (isset($_GET['exchange'])) {
 
                 $cache->update_row($keys['user_stats'].$ar['id'], ['seedbonus' => $ar['seedbonus']], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_'.$ar['id'], ['seedbonus' => $ar['seedbonus']], $TRINITY20['expires']['user_stats']);
-                //$cache->delete('inbox_new::'.$pms);
-                //$cache->delete('inbox_new_sb::'.$pms);
+                //$cache->delete($keys['inbox_new'].$pms);
+                //$cache->delete($keys['inbox_new_sb'].$pms);
                 // end
             }
             if (count($update_users) > 0) {
@@ -952,8 +952,8 @@ if (isset($_GET['exchange'])) {
 
                 $cache->update_row($keys['user_stats'].$thief_id, ['seedbonus' => $new_bonus], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_'.$thief_id, ['seedbonus' => $new_bonus], $TRINITY20['expires']['user_stats']);
-                //$cache->delete('inbox_new::'.$pms);
-                //$cache->delete('inbox_new_sb::'.$pms);
+                //$cache->delete($keys['inbox_new'].$pms);
+                //$cache->delete($keys['inbox_new_sb'].$pms);
             }
             header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?bounty_success=1");
             die;
@@ -1282,7 +1282,7 @@ if (isset($_GET['exchange'])) {
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
-            $cache->update_row('torrent_details_'.$torrent_number, ['added' => TIME_NOW, 'bump' => 'yes', 'free' => $free_time], 0);
+            $cache->update_row($keys['torrent_details'].$torrent_number, ['added' => TIME_NOW, 'bump' => 'yes', 'free' => $free_time], 0);
             header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?bump_success=1&t_name={$torrent_number}");
             die;
             break;
@@ -1343,8 +1343,8 @@ if (isset($_GET['exchange'])) {
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment, 'modcomment' => $modcomment],
                 $TRINITY20['expires']['user_stats']
             );
-            delete_id_keys('inbox_new::'.$userid);
-            delete_id_keys('inbox_new_sb::'.$userid);
+            delete_id_keys($keys['inbox_new'].$userid);
+            delete_id_keys($keys['inbox_new_sb'].$userid);
             header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?warning_success=1");
             die;
             break;
@@ -1486,8 +1486,8 @@ if (isset($_GET['exchange'])) {
                 $msg = sqlesc("You have been given a gift of $points Karma points by ".format_username($CURUSER));
                 sql_query("INSERT INTO messages (sender, subject, receiver, msg, added) VALUES(0, $subject, $useridgift, $msg, $added)") || sqlerr(__FILE__,
                     __LINE__);
-                delete_id_keys('inbox_new::'.$useridgift);
-                delete_id_keys('inbox_new_sb::'.$useridgift);
+                delete_id_keys($keys['inbox_new'].$useridgift);
+                delete_id_keys($keys['inbox_new_sb'].$useridgift);
                 header(
                     "Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?gift_success=1&gift_amount_points=$points&usernamegift=$usernamegift&gift_id=$useridgift"
                 );

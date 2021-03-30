@@ -36,7 +36,7 @@ if ($id > 0 && $rate >= 1 && $rate <= 5) {
             $r_f = $f_r->fetch_assoc();
             $update['num_ratings'] = ($r_f['num_ratings'] + 1);
             $update['rating_sum'] = ($r_f['rating_sum'] + $rate);
-            $cache->update_row('torrent_details_'.$id, [
+            $cache->update_row($keys['torrent_details'].$id, [
                 'num_ratings' => $update['num_ratings'],
                 'rating_sum' => $update['rating_sum'],
             ], $TRINITY20['expires']['torrent_details']);

@@ -57,7 +57,7 @@ function docleanup($data)
                     'can_leech' => 0,
                     'hnrwarn' => 'yes',
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row('userstats_xbt_'.$arr_fuckers['uid'], [
+                $cache->update_row($keys['userstats_xbt'].$arr_fuckers['uid'], [
                     'modcomment' => $modcomment,
                 ], $TRINITY20['expires']['u_stats_xbt']);
                 $cache->update_row('user_stats_xbt'.$arr_fuckers['uid'], [
@@ -69,8 +69,8 @@ function docleanup($data)
                     'can_leech' => 0,
                     'hnrwarn' => 'yes',
                 ], $TRINITY20['expires']['curuser']);
-                $cache->delete('inbox_new::'.$arr_fuckers['uid']);
-                $cache->delete('inbox_new_sb::'.$arr_fuckers['uid']);
+                $cache->delete($keys['inbox_new'].$arr_fuckers['uid']);
+                $cache->delete($keys['inbox_new_sb'].$arr_fuckers['uid']);
             }
         }
         //=== hit and run... turn their DLs back on if they start seeding again
@@ -112,7 +112,7 @@ function docleanup($data)
                 $cache->update_row('user_stats_xbt'.$arr_good_boy['id'], [
                     'modcomment' => $modcomment,
                 ], $TRINITY20['expires']['user_stats_xbt']);
-                $cache->update_row('userstats_xbt_'.$arr_good_boy['id'], [
+                $cache->update_row($keys['userstats_xbt'].$arr_good_boy['id'], [
                     'modcomment' => $modcomment,
                 ], $TRINITY20['expires']['u_stats_xbt']);
                 $cache->update_row($keys['my_userid'].$arr_good_boy['id'], [
@@ -120,8 +120,8 @@ function docleanup($data)
                     'can_leech' => 1,
                     'hnrwarn' => 'no',
                 ], $TRINITY20['expires']['curuser']);
-                $cache->delete('inbox_new::'.$arr_good_boy['id']);
-                $cache->delete('inbox_new_sb::'.$arr_good_boy['id']);
+                $cache->delete($keys['inbox_new'].$arr_good_boy['id']);
+                $cache->delete($keys['inbox_new_sb'].$arr_good_boy['id']);
             }
         }
         //==End
