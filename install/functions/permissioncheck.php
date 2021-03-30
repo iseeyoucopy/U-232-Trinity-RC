@@ -148,7 +148,7 @@ function permissioncheck()
     $out .= '<input type="button" value="Reload" onclick="window.location.reload()"/>'.'</fieldset>';
     if ($continue) {
         $out .= '<fieldset><div><input type="button" onclick="window.location.href=\'index.php?step=1\'" value="Next step" /></div></fieldset>';
-        //file_put_contents('step0.lock', '1');
+        file_put_contents('step0.lock', '1');
     }
     return $out;
 }
