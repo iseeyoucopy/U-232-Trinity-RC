@@ -288,8 +288,8 @@ function get_all_boxes()
 //=== insert jump to box
 function insertJumpTo($mailbox)
 {
-    global $CURUSER, $cache, $TRINITY20, $lang;
-    if (($insertJumpTo = $cache->get('insertJumpTo'.$CURUSER['id'])) === false) {
+    global $CURUSER, $cache, $TRINITY20, $lang, $keys;
+    if (($insertJumpTo = $cache->get($keys['insertJumpTo'].$CURUSER['id'])) === false) {
         ($res = sql_query('SELECT boxnumber,name FROM pmboxes WHERE userid='.sqlesc($CURUSER['id']).' ORDER BY boxnumber')) || sqlerr(__FILE__,
             __LINE__);
         $insertJumpTo = '<form role="form" action="pm_system.php" method="get">
@@ -300,7 +300,7 @@ function insertJumpTo($mailbox)
             $insertJumpTo .= '<option value="pm_system.php?action=view_mailbox&amp;box='.(int)$row['boxnumber'].'" '.((int)$row['boxnumber'] == $mailbox ? 'selected="selected"' : '').'>'.htmlsafechars($row['name']).'</option></label>';
         }
         $insertJumpTo .= '</select></form>';
-        $cache->set('insertJumpTo'.$CURUSER['id'], $insertJumpTo, $TRINITY20['expires']['insertJumpTo']);
+        $cache->set($keys['insertJumpTo'].$CURUSER['id'], $insertJumpTo, $TRINITY20['expires']['insertJumpTo']);
     }
     return $insertJumpTo;
 }
