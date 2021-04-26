@@ -44,7 +44,7 @@ $id = isset($_GET["id"]) ? (int)$_GET["id"] : 0;
 if (!is_valid_id($id)) {
     stderr($lang['userdetails_error'], "{$lang['userdetails_bad_id']}");
 }
-if (($user = $cache->get('user'.$id)) === false) {
+if (($user = $cache->get($keys['user'].$id)) === false) {
     $user_fields_ar_int = [
         'id',
         'added',
@@ -203,7 +203,7 @@ if (($user = $cache->get('user'.$id)) === false) {
     foreach ($user_fields_ar_str as $i) {
         $user[$i] = $user[$i];
     }
-    $cache->set('user'.$id, $user, $TRINITY20['expires']['user_cache']);
+    $cache->set($keys['user'].$id, $user, $TRINITY20['expires']['user_cache']);
 }
 if ($user["status"] == "pending") {
     stderr($lang['userdetails_error'], $lang['userdetails_still_pending']);
