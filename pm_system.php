@@ -266,8 +266,8 @@ switch ($action) {
 //=== get all PM boxes
 function get_all_boxes()
 {
-    global $CURUSER, $cache, $TRINITY20, $lang;
-    if (($get_all_boxes = $cache->get('get_all_boxes'.$CURUSER['id'])) === false) {
+    global $CURUSER, $cache, $TRINITY20, $lang, $keys;
+    if (($get_all_boxes = $cache->get($keys['get_all_boxes'].$CURUSER['id'])) === false) {
         ($res = sql_query('SELECT boxnumber, name FROM pmboxes WHERE userid='.sqlesc($CURUSER['id']).' ORDER BY boxnumber')) || sqlerr(__FILE__,
             __LINE__);
         $get_all_boxes = '<select name="box">
@@ -280,7 +280,7 @@ function get_all_boxes()
             $get_all_boxes .= '<option value="'.(int)$row['boxnumber'].'">'.htmlsafechars($row['name']).'</option>';
         }
         $get_all_boxes .= '</select>';
-        $cache->set('get_all_boxes'.$CURUSER['id'], $get_all_boxes, $TRINITY20['expires']['get_all_boxes']);
+        $cache->set($keys['get_all_boxes'].$CURUSER['id'], $get_all_boxes, $TRINITY20['expires']['get_all_boxes']);
     }
     return $get_all_boxes;
 }
