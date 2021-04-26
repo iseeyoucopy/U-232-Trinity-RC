@@ -55,7 +55,7 @@ function docleanup($data)
                     'downloadpos' => 0,
                     'hnrwarn' => 'yes',
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row('user_stats_'.$arr_fuckers['userid'], [
+                $cache->update_row($keys['user_stats_'].$arr_fuckers['userid'], [
                     'modcomment' => $modcomment,
                 ], $TRINITY20['expires']['user_stats']);
                 $cache->update_row($keys['user_stats'].$arr_fuckers['userid'], [

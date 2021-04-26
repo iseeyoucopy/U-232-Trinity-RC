@@ -51,7 +51,7 @@ if ($action == 'viewbug') {
                     $cache->update_row($keys['user_stats'].$q1['sender'], [
                         'uploaded' => $update['uploaded'],
                     ], $TRINITY20['expires']['u_stats']);
-                    $cache->update_row('user_stats_'.$q1['sender'], [
+                    $cache->update_row($keys['user_stats_'].$q1['sender'], [
                         'uploaded' => $update['uploaded'],
                     ], $TRINITY20['expires']['user_stats']);
                     break;

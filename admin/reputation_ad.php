@@ -503,7 +503,7 @@ function do_edit_rep()
             'reputation' => $update['rep'],
         ], $TRINITY20['expires']['user_cache']);
         $cache->delete($keys['my_userid'].$r['userid']);
-        $cache->delete('user'.$r['userid']);
+        $cache->delete($keys['user'].$r['userid']);
     }
     redirect("staffpanel.php?tool=reputation_ad&amp;mode=list", "{$lang['rep_ad_edit_saved']} {$r['reputationid']} {$lang['rep_ad_edit_success']}",
         5);

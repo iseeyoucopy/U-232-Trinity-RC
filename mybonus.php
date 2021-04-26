@@ -840,7 +840,7 @@ if (isset($_GET['exchange'])) {
             $cache->update_row($keys['user'].$userid, ['invites' => $inv], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$userid, ['invites' => $inv], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $karma], $TRINITY20['expires']['u_stats']);
-            $cache->update_row('user_stats_'.$userid, ['seedbonus' => $karma, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
+            $cache->update_row($keys['user_stats_'].$userid, ['seedbonus' => $karma, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
             header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?itrade_success=1");
             die;
             break;
@@ -930,7 +930,7 @@ if (isset($_GET['exchange'])) {
                 $cache->update_row($keys['user'].$ar['id'], ['reputation' => $ar['reputation'] - $rep_to_steal], $TRINITY20['expires']['user_cache']);
 
                 $cache->update_row($keys['user_stats'].$ar['id'], ['seedbonus' => $ar['seedbonus']], $TRINITY20['expires']['u_stats']);
-                $cache->update_row('user_stats_'.$ar['id'], ['seedbonus' => $ar['seedbonus']], $TRINITY20['expires']['user_stats']);
+                $cache->update_row($keys['user_stats_'].$ar['id'], ['seedbonus' => $ar['seedbonus']], $TRINITY20['expires']['user_stats']);
                 //$cache->delete($keys['inbox_new'].$pms);
                 //$cache->delete($keys['inbox_new_sb'].$pms);
                 // end
@@ -951,7 +951,7 @@ if (isset($_GET['exchange'])) {
                 $cache->update_row($keys['user'].$thief_id, ['reputation' => $new_rep], $TRINITY20['expires']['user_cache']);
 
                 $cache->update_row($keys['user_stats'].$thief_id, ['seedbonus' => $new_bonus], $TRINITY20['expires']['u_stats']);
-                $cache->update_row('user_stats_'.$thief_id, ['seedbonus' => $new_bonus], $TRINITY20['expires']['user_stats']);
+                $cache->update_row($keys['user_stats_'].$thief_id, ['seedbonus' => $new_bonus], $TRINITY20['expires']['user_stats']);
                 //$cache->delete($keys['inbox_new'].$pms);
                 //$cache->delete($keys['inbox_new_sb'].$pms);
             }

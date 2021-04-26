@@ -44,7 +44,7 @@ function docleanup($data)
                 'leechwarn' => $update['leechwarn'],
                 'downloadpos' => 0,
             ], $TRINITY20['expires']['curuser']);
-            $cache->update_row('user_stats_'.$arr['id'], [
+            $cache->update_row($keys['user_stats_'].$arr['id'], [
                 'modcomment' => $modcomment,
             ], $TRINITY20['expires']['user_stats']);
             $cache->delete($keys['inbox_new'].$arr['id']);
@@ -84,7 +84,7 @@ function docleanup($data)
                 'leechwarn' => 0,
                 'downloadpos' => 1,
             ], $TRINITY20['expires']['curuser']);
-            $cache->update_row('user_stats_'.$arr['id'], [
+            $cache->update_row($keys['user_stats_'].$arr['id'], [
                 'modcomment' => $modcomment,
             ], $TRINITY20['expires']['user_stats']);
             $cache->delete($keys['inbox_new'].$arr['id']);
@@ -116,7 +116,7 @@ function docleanup($data)
                 'leechwarn' => 0,
                 'enabled' => 'no',
             ], $TRINITY20['expires']['user_cache']);
-            $cache->update_row('user_stats_'.$arr['id'], [
+            $cache->update_row($keys['user_stats_'].$arr['id'], [
                 'modcomment' => $modcomment,
             ], $TRINITY20['expires']['user_stats']);
             $cache->update_row($keys['my_userid'].$arr['id'], [

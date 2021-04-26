@@ -56,7 +56,7 @@ if ($remove) {
             $cache->delete($keys['my_userid'].$arr['id']);
             $cache->delete($keys['inbox_new'].$arr['id']);
             $cache->delete($keys['inbox_new_sb'].$arr['id']);
-            $cache->delete('user'.$arr['id']);
+            $cache->delete($keys['user'].$arr['id']);
         }
     } else {
         die($lang['freeusers_fail']);

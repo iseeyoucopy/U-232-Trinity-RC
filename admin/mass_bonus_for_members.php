@@ -95,7 +95,7 @@ switch ($action) {
                     $modcom = sqlesc($modcomment);
                     $pm_buffer[] = '(0, '.$arr_GB['id'].', '.TIME_NOW.', '.$msg.', '.$subject.')';
                     $users_buffer[] = '('.$arr_GB['id'].', '.$GB_new.', '.$modcom.')';
-                    $cache->update_row('user_stats_'.$arr_GB['id'], [
+                    $cache->update_row($keys['user_stats_'].$arr_GB['id'], [
                         'uploaded' => $GB_new,
                         'modcomment' => $modcomment,
                     ], $TRINITY20['expires']['user_stats']);
@@ -135,7 +135,7 @@ switch ($action) {
                             $modcom = sqlesc($modcomment);
                             $pm_buffer[] = '(0, '.$arr_GB['id'].', '.TIME_NOW.', '.$msg.', '.$subject.')';
                             $users_buffer[] = '('.$arr_GB['id'].', '.$GB_new.', '.$modcom.')';
-                            $cache->update_row('user_stats_'.$arr_GB['id'], [
+                            $cache->update_row($keys['user_stats_'].$arr_GB['id'], [
                                 'uploaded' => $GB_new,
                                 'modcomment' => $modcomment,
                             ], $TRINITY20['expires']['user_stats']);
@@ -183,7 +183,7 @@ switch ($action) {
                     $modcom = sqlesc($modcomment);
                     $pm_buffer[] = '(0, '.$arr_karma['id'].', '.TIME_NOW.', '.$msg.', '.$subject.')';
                     $users_buffer[] = '('.$arr_karma['id'].', '.$karma_new.', '.$modcom.')';
-                    $cache->update_row('user_stats_'.$arr_karma['id'], [
+                    $cache->update_row($keys['user_stats_'].$arr_karma['id'], [
                         'seedbonus' => $karma_new,
                         'modcomment' => $modcomment,
                     ], $TRINITY20['expires']['user_stats']);
@@ -223,7 +223,7 @@ switch ($action) {
                             $modcom = sqlesc($modcomment);
                             $pm_buffer[] = '(0, '.$arr_karma['id'].', '.TIME_NOW.', '.$msg.', '.$subject.')';
                             $users_buffer[] = '('.$arr_karma['id'].', '.$karma_new.', '.$modcom.')';
-                            $cache->update_row('user_stats_'.$arr_karma['id'], [
+                            $cache->update_row($keys['user_stats_'].$arr_karma['id'], [
                                 'seedbonus' => $karma_new,
                                 'modcomment' => $modcomment,
                             ], $TRINITY20['expires']['user_stats']);
@@ -277,7 +277,7 @@ switch ($action) {
                     $cache->update_row($keys['user'].$arr_freeslots['id'], [
                         'freeslots' => $freeslots_new,
                     ], $TRINITY20['expires']['user_cache']);
-                    $cache->update_row('user_stats_'.$arr_freeslots['id'], [
+                    $cache->update_row($keys['user_stats_'].$arr_freeslots['id'], [
                         'modcomment' => $modcomment,
                     ], $TRINITY20['expires']['user_stats']);
                     $cache->delete($keys['inbox_new'].$arr_freeslots['id']);
@@ -319,7 +319,7 @@ switch ($action) {
                             $cache->update_row($keys['user'].$arr_freeslots['id'], [
                                 'freeslots' => $freeslots_new,
                             ], $TRINITY20['expires']['user_cache']);
-                            $cache->update_row('user_stats_'.$arr_freeslots['id'], [
+                            $cache->update_row($keys['user_stats_'].$arr_freeslots['id'], [
                                 'modcomment' => $modcomment,
                             ], $TRINITY20['expires']['user_stats']);
                             $cache->delete($keys['inbox_new'].$arr_freeslots['id']);
@@ -368,7 +368,7 @@ switch ($action) {
                     $cache->update_row($keys['user'].$arr_invites['id'], [
                         'invites' => $invites_new,
                     ], $TRINITY20['expires']['user_cache']);
-                    $cache->update_row('user_stats_'.$arr_invites['id'], [
+                    $cache->update_row($keys['user_stats_'].$arr_invites['id'], [
                         'modcomment' => $modcomment,
                     ], $TRINITY20['expires']['user_stats']);
                     $cache->delete($keys['inbox_new'].$arr_invites['id']);
@@ -410,7 +410,7 @@ switch ($action) {
                             $cache->update_row($keys['user'].$arr_invites['id'], [
                                 'invites' => $invites_new,
                             ], $TRINITY20['expires']['user_cache']);
-                            $cache->update_row('user_stats_'.$arr_invites['id'], [
+                            $cache->update_row($keys['user_stats_'].$arr_invites['id'], [
                                 'modcomment' => $modcomment,
                             ], $TRINITY20['expires']['user_stats']);
                             $cache->delete($keys['inbox_new'].$arr_invites['id']);

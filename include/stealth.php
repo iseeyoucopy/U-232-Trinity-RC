@@ -41,7 +41,7 @@ function stealth($id, $stealth = true)
     $cache->update_row($keys['my_userid'].$id, [
         'perms' => $row['perms'],
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user_stats_'.$id, [
+    $cache->update_row($keys['user_stats_'].$id, [
         'modcomment' => $modcomment,
     ], $TRINITY20['expires']['user_stats']);
     if ($id == $CURUSER['id']) {
@@ -51,7 +51,7 @@ function stealth($id, $stealth = true)
         $cache->update_row($keys['my_userid'].$CURUSER['id'], [
             'perms' => $row['perms'],
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row('user_stats_'.$CURUSER['id'], [
+        $cache->update_row($keys['user_stats_'].$CURUSER['id'], [
             'modcomment' => $modcomment,
         ], $TRINITY20['expires']['user_stats']);
     }

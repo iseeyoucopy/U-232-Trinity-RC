@@ -30,7 +30,7 @@ function docleanup($data)
             $cache->update_row($keys['user'].$arr['id'], [
                 'king' => 0,
             ], $TRINITY20['expires']['user_cache']);
-            $cache->update_row('user_stats_'.$arr['id'], [
+            $cache->update_row($keys['user_stats_'].$arr['id'], [
                 'modcomment' => $modcomment,
             ], $TRINITY20['expires']['user_stats']);
             $cache->update_row($keys['my_userid'].$arr['id'], [
