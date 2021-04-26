@@ -194,13 +194,13 @@ if ($game) {
                     $cache->update_row('MyUser'.$CURUSER['id'], [
                         'bjwins' => $update['bjwins'],
                     ], $TRINITY20['expires']['curuser']);
-                    $cache->update_row('user'.$CURUSER['id'], [
+                    $cache->update_row($keys['user'].$CURUSER['id'], [
                         'bjwins' => $update['bjwins'],
                     ], $TRINITY20['expires']['user_cache']);
                     $cache->update_row('MyUser'.$a['userid'], [
                         'bjlosses' => $update['bjlosses'],
                     ], $TRINITY20['expires']['curuser']);
-                    $cache->update_row('user'.$a['userid'], [
+                    $cache->update_row($keys['user'].$a['userid'], [
                         'bjlosses' => $update['bjlosses'],
                     ], $TRINITY20['expires']['user_cache']);
                     $msg = sqlesc("{$lang['bj_you_loss_to']} ".$CURUSER['username']." ({$lang['bj_you_had']} ".$a['points']." {$lang['bj_points2']}, ".$CURUSER['username']." {$lang['bj_had_21_points']}).\n\n");
@@ -254,13 +254,13 @@ if ($game) {
                     $cache->update_row('MyUser'.$a['userid'], [
                         'bjwins' => $update['bjwins'],
                     ], $TRINITY20['expires']['curuser']);
-                    $cache->update_row('user'.$a['userid'], [
+                    $cache->update_row($keys['user'].$a['userid'], [
                         'bjwins' => $update['bjwins'],
                     ], $TRINITY20['expires']['user_cache']);
                     $cache->update_row('MyUser'.$CURUSER['id'], [
                         'bjlosses' => $update['bjlosses'],
                     ], $TRINITY20['expires']['curuser']);
-                    $cache->update_row('user'.$CURUSER['id'], [
+                    $cache->update_row($keys['user'].$CURUSER['id'], [
                         'bjlosses' => $update['bjlosses'],
                     ], $TRINITY20['expires']['user_cache']);
                     $msg = sqlesc("{$lang['bj_you_beat']} ".$CURUSER['username']." ({$lang['bj_you_had']} ".$a['points']." {$lang['bj_points2']}, ".$CURUSER['username']." had $points points).\n\n");
@@ -349,13 +349,13 @@ if ($game) {
                 $cache->update_row('MyUser'.$a['userid'], [
                     'bjwins' => $update['bjwins'],
                 ], $TRINITY20['expires']['curuser']);
-                $cache->update_row('user'.$a['userid'], [
+                $cache->update_row($keys['user'].$a['userid'], [
                     'bjwins' => $update['bjwins'],
                 ], $TRINITY20['expires']['user_cache']);
                 $cache->update_row('MyUser'.$CURUSER['id'], [
                     'bjlosses' => $update['bjlosses'],
                 ], $TRINITY20['expires']['curuser']);
-                $cache->update_row('user'.$CURUSER['id'], [
+                $cache->update_row($keys['user'].$CURUSER['id'], [
                     'bjlosses' => $update['bjlosses'],
                 ], $TRINITY20['expires']['user_cache']);
             }

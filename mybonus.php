@@ -628,7 +628,7 @@ if (isset($_GET['exchange'])) {
             sql_query(
                 "UPDATE users SET reputation = ".sqlesc($rep).", seedbonus = ".sqlesc($seedbonus).", bonuscomment = ".sqlesc($bonuscomment)." WHERE id = ".sqlesc($userid)
             ) || sqlerr(__FILE__, __LINE__);
-            $cache->update_row('user'.$userid, ['reputation' => $rep], $TRINITY20['expires']['user_cache']);
+            $cache->update_row($keys['user'].$userid, ['reputation' => $rep], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$userid, ['reputation' => $rep], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
@@ -653,7 +653,7 @@ if (isset($_GET['exchange'])) {
             sql_query(
                 "UPDATE users SET immunity = ".sqlesc($immunity).", seedbonus = ".sqlesc($seedbonus).", bonuscomment = ".sqlesc($bonuscomment)." WHERE id = ".sqlesc($userid)
             ) || sqlerr(__FILE__, __LINE__);
-            $cache->update_row('user'.$userid, ['immunity' => $immunity], $TRINITY20['expires']['user_cache']);
+            $cache->update_row($keys['user'].$userid, ['immunity' => $immunity], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$userid, ['immunity' => $immunity], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
@@ -678,7 +678,7 @@ if (isset($_GET['exchange'])) {
             sql_query(
                 "UPDATE users SET got_blocks = 'yes', seedbonus = ".sqlesc($seedbonus).", bonuscomment = ".sqlesc($bonuscomment)." WHERE id = ".sqlesc($userid)
             ) || sqlerr(__FILE__, __LINE__);
-            $cache->update_row('user'.$userid, ['got_blocks' => 'yes'], $TRINITY20['expires']['user_cache']);
+            $cache->update_row($keys['user'].$userid, ['got_blocks' => 'yes'], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$userid, ['got_blocks' => 'yes'], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
@@ -703,7 +703,7 @@ if (isset($_GET['exchange'])) {
             sql_query(
                 "UPDATE users SET got_moods = 'yes', seedbonus = ".sqlesc($seedbonus).", bonuscomment = ".sqlesc($bonuscomment)." WHERE id = ".sqlesc($userid)
             ) || sqlerr(__FILE__, __LINE__);
-            $cache->update_row('user'.$userid, ['got_moods' => 'yes'], $TRINITY20['expires']['user_cache']);
+            $cache->update_row($keys['user'].$userid, ['got_moods' => 'yes'], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$userid, ['got_moods' => 'yes'], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
@@ -725,7 +725,7 @@ if (isset($_GET['exchange'])) {
             sql_query(
                 "UPDATE users SET anonymous_until = ".sqlesc($anonymous_until).", seedbonus = ".sqlesc($seedbonus).", bonuscomment = ".sqlesc($bonuscomment)." WHERE id = ".sqlesc($userid)
             ) || sqlerr(__FILE__, __LINE__);
-            $cache->update_row('user'.$userid, ['anonymous_until' => $anonymous_until], $TRINITY20['expires']['user_cache']);
+            $cache->update_row($keys['user'].$userid, ['anonymous_until' => $anonymous_until], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$userid, ['anonymous_until' => $anonymous_until], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
@@ -747,7 +747,7 @@ if (isset($_GET['exchange'])) {
             sql_query(
                 "UPDATE users SET parked_until = ".sqlesc($parked_until).", seedbonus = ".sqlesc($seedbonus).", bonuscomment = ".sqlesc($bonuscomment)." WHERE id = ".sqlesc($userid)
             ) || sqlerr(__FILE__, __LINE__);
-            $cache->update_row('user'.$userid, ['parked_until' => $parked_until], $TRINITY20['expires']['user_cache']);
+            $cache->update_row($keys['user'].$userid, ['parked_until' => $parked_until], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$userid, ['parked_until' => $parked_until], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
@@ -793,7 +793,7 @@ if (isset($_GET['exchange'])) {
             sql_query(
                 "UPDATE users SET free_switch = ".sqlesc($free_switch).", seedbonus = ".sqlesc($seedbonus).", bonuscomment = ".sqlesc($bonuscomment)." WHERE id = ".sqlesc($userid)
             ) || sqlerr(__FILE__, __LINE__);
-            $cache->update_row('user'.$userid, ['free_switch' => $free_switch], $TRINITY20['expires']['user_cache']);
+            $cache->update_row($keys['user'].$userid, ['free_switch' => $free_switch], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$userid, ['free_switch' => $free_switch], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
@@ -813,7 +813,7 @@ if (isset($_GET['exchange'])) {
             sql_query(
                 "UPDATE users SET freeslots = ".sqlesc($slots).", seedbonus = ".sqlesc($seedbonus).", bonuscomment = ".sqlesc($bonuscomment)." WHERE id = ".sqlesc($userid)
             ) || sqlerr(__FILE__, __LINE__);
-            $cache->update_row('user'.$userid, ['freeslots' => $slots], $TRINITY20['expires']['user_cache']);
+            $cache->update_row($keys['user'].$userid, ['freeslots' => $slots], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$userid, ['freeslots' => $slots], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
@@ -837,7 +837,7 @@ if (isset($_GET['exchange'])) {
             sql_query(
                 "UPDATE users SET invites = ".sqlesc($inv).", seedbonus = ".sqlesc($karma).", bonuscomment = ".sqlesc($bonuscomment)." WHERE id = ".sqlesc($userid)." AND invites =".sqlesc($invites)
             ) || sqlerr(__FILE__, __LINE__);
-            $cache->update_row('user'.$userid, ['invites' => $inv], $TRINITY20['expires']['user_cache']);
+            $cache->update_row($keys['user'].$userid, ['invites' => $inv], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$userid, ['invites' => $inv], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $karma], $TRINITY20['expires']['u_stats']);
             $cache->update_row('user_stats_'.$userid, ['seedbonus' => $karma, 'bonuscomment' => $bonuscomment], $TRINITY20['expires']['user_stats']);
@@ -858,7 +858,7 @@ if (isset($_GET['exchange'])) {
             sql_query(
                 "UPDATE users SET invites = ".sqlesc($inv).", freeslots =".sqlesc($fslot).", bonuscomment = ".sqlesc($bonuscomment)." WHERE id = ".sqlesc($userid)." AND invites = ".sqlesc($invites)
             ) || sqlerr(__FILE__, __LINE__);
-            $cache->update_row('user'.$userid, ['invites' => $inv, 'freeslots' => $fslot], $TRINITY20['expires']['user_cache']);
+            $cache->update_row($keys['user'].$userid, ['invites' => $inv, 'freeslots' => $fslot], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$userid, ['invites' => $inv, 'freeslots' => $fslot], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
@@ -884,7 +884,7 @@ if (isset($_GET['exchange'])) {
             sql_query(
                 "UPDATE users SET free_switch = ".sqlesc($free_switch).", pirate = ".sqlesc($pirate).", seedbonus = ".sqlesc($seedbonus).", bonuscomment = ".sqlesc($bonuscomment)." WHERE id = ".sqlesc($userid)
             ) || sqlerr(__FILE__, __LINE__);
-            $cache->update_row('user'.$userid, ['free_switch' => $free_switch, 'pirate' => $pirate], $TRINITY20['expires']['user_cache']);
+            $cache->update_row($keys['user'].$userid, ['free_switch' => $free_switch, 'pirate' => $pirate], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$userid, ['free_switch' => $free_switch, 'pirate' => $pirate], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
@@ -927,7 +927,7 @@ if (isset($_GET['exchange'])) {
                 //== cache updates ???
                 $cache->update_row($keys['my_userid'].$ar['id'], ['reputation' => $ar['reputation'] - $rep_to_steal],
                     $TRINITY20['expires']['curuser']);
-                $cache->update_row('user'.$ar['id'], ['reputation' => $ar['reputation'] - $rep_to_steal], $TRINITY20['expires']['user_cache']);
+                $cache->update_row($keys['user'].$ar['id'], ['reputation' => $ar['reputation'] - $rep_to_steal], $TRINITY20['expires']['user_cache']);
 
                 $cache->update_row($keys['user_stats'].$ar['id'], ['seedbonus' => $ar['seedbonus']], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_'.$ar['id'], ['seedbonus' => $ar['seedbonus']], $TRINITY20['expires']['user_stats']);
@@ -948,7 +948,7 @@ if (isset($_GET['exchange'])) {
                 sql_query('INSERT INTO messages(sender,receiver,added,subject,msg) VALUES '.implode(',', $pms)) || sqlerr(__FILE__, __LINE__);
                 //== cache updates ???
                 $cache->update_row($keys['my_userid'].$thief_id, ['reputation' => $new_rep], $TRINITY20['expires']['curuser']);
-                $cache->update_row('user'.$thief_id, ['reputation' => $new_rep], $TRINITY20['expires']['user_cache']);
+                $cache->update_row($keys['user'].$thief_id, ['reputation' => $new_rep], $TRINITY20['expires']['user_cache']);
 
                 $cache->update_row($keys['user_stats'].$thief_id, ['seedbonus' => $new_bonus], $TRINITY20['expires']['u_stats']);
                 $cache->update_row('user_stats_'.$thief_id, ['seedbonus' => $new_bonus], $TRINITY20['expires']['user_stats']);
@@ -973,7 +973,7 @@ if (isset($_GET['exchange'])) {
             sql_query(
                 "UPDATE users SET free_switch = ".sqlesc($free_switch).", king = ".sqlesc($king).", seedbonus = ".sqlesc($seedbonus).", bonuscomment = ".sqlesc($bonuscomment)." WHERE id = ".sqlesc($userid)
             ) || sqlerr(__FILE__, __LINE__);
-            $cache->update_row('user'.$userid, ['free_switch' => $free_switch, 'king' => $king], $TRINITY20['expires']['user_cache']);
+            $cache->update_row($keys['user'].$userid, ['free_switch' => $free_switch, 'king' => $king], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$userid, ['free_switch' => $free_switch, 'king' => $king], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
@@ -1300,7 +1300,7 @@ if (isset($_GET['exchange'])) {
             sql_query(
                 "UPDATE users SET class = ".UC_VIP.", vip_added = 'yes', vip_until = ".sqlesc($vip_until).", seedbonus = ".sqlesc($seedbonus).", bonuscomment = ".sqlesc($bonuscomment)." WHERE id = ".sqlesc($userid)
             ) || sqlerr(__FILE__, __LINE__);
-            $cache->update_row('user'.$userid, ['class' => 2, 'vip_added' => 'yes', 'vip_until' => $vip_until], $TRINITY20['expires']['user_cache']);
+            $cache->update_row($keys['user'].$userid, ['class' => 2, 'vip_added' => 'yes', 'vip_until' => $vip_until], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$userid, ['class' => 2, 'vip_added' => 'yes', 'vip_until' => $vip_until],
                 $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
@@ -1335,7 +1335,7 @@ if (isset($_GET['exchange'])) {
             $msg = sqlesc("Your warning has been removed by the big Karma payoff... Please keep on your best behaviour from now on.\n");
             sql_query("INSERT INTO messages (sender, receiver, added, msg, subject) VALUES(0, ".sqlesc($userid).", $dt, $msg, $subject)") || sqlerr(__FILE__,
                 __LINE__);
-            $cache->update_row('user'.$userid, ['warned' => 0], $TRINITY20['expires']['user_cache']);
+            $cache->update_row($keys['user'].$userid, ['warned' => 0], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$userid, ['warned' => 0], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
@@ -1356,7 +1356,7 @@ if (isset($_GET['exchange'])) {
             sql_query(
                 "UPDATE users SET smile_until = ".sqlesc($smile_until).", seedbonus = ".sqlesc($seedbonus).", bonuscomment = ".sqlesc($bonuscomment)." WHERE id = ".sqlesc($userid)
             ) || sqlerr(__FILE__, __LINE__);
-            $cache->update_row('user'.$userid, ['smile_until' => $smile_until], $TRINITY20['expires']['user_cache']);
+            $cache->update_row($keys['user'].$userid, ['smile_until' => $smile_until], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$userid, ['smile_until' => $smile_until], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
@@ -1376,7 +1376,7 @@ if (isset($_GET['exchange'])) {
             sql_query(
                 "UPDATE users SET invites = ".sqlesc($inv).", seedbonus = ".sqlesc($seedbonus).", bonuscomment = ".sqlesc($bonuscomment)." WHERE id = ".sqlesc($userid)
             ) || sqlerr(__FILE__, __LINE__);
-            $cache->update_row('user'.$userid, ['invites' => $inv], $TRINITY20['expires']['user_cache']);
+            $cache->update_row($keys['user'].$userid, ['invites' => $inv], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$userid, ['invites' => $inv], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
@@ -1418,7 +1418,7 @@ if (isset($_GET['exchange'])) {
             sql_query(
                 "UPDATE users SET title = ".sqlesc($title).", seedbonus = ".sqlesc($seedbonus).", bonuscomment = ".sqlesc($bonuscomment)." WHERE id = ".sqlesc($userid)
             ) || sqlerr(__FILE__, __LINE__);
-            $cache->update_row('user'.$userid, ['title' => $title], $TRINITY20['expires']['user_cache']);
+            $cache->update_row($keys['user'].$userid, ['title' => $title], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$userid, ['title' => $title], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(

@@ -35,7 +35,7 @@ function stealth($id, $stealth = true)
     $modcomment = get_date(TIME_NOW, '', 1).' - '.$display.' in Stealth Mode thanks to '.$CURUSER['username']."\n".$row['modcomment'];
     sql_query('UPDATE users SET modcomment = '.sqlesc($modcomment).' WHERE id = '.sqlesc($id)) || sqlerr(__file__, __line__);
     // update caches
-    $cache->update_row('user'.$id, [
+    $cache->update_row($keys['user'].$id, [
         'perms' => $row['perms'],
     ], $TRINITY20['expires']['user_cache']);
     $cache->update_row($keys['my_userid'].$id, [
@@ -45,7 +45,7 @@ function stealth($id, $stealth = true)
         'modcomment' => $modcomment,
     ], $TRINITY20['expires']['user_stats']);
     if ($id == $CURUSER['id']) {
-        $cache->update_row('user'.$CURUSER['id'], [
+        $cache->update_row($keys['user'].$CURUSER['id'], [
             'perms' => $row['perms'],
         ], $TRINITY20['expires']['user_cache']);
         $cache->update_row($keys['my_userid'].$CURUSER['id'], [

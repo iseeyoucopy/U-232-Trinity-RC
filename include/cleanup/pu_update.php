@@ -74,7 +74,7 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,'.$userid.', '.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
                 $users_buffer[] = '('.$userid.', '.$class_value.', 1, '.$modcom.')';
                 $update['invites'] = ($arr['invites'] + 1);
-                $cache->update_row('user'.$userid, [
+                $cache->update_row($keys['user'].$userid, [
                     'class' => $class_value,
                     'invites' => $update['invites'],
                 ], $TRINITY20['expires']['user_cache']);

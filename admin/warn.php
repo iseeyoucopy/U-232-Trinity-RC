@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $cache->update_row($keys['my_userid'].$_uid, [
                     'enabled' => 'no',
                 ], $TRINITY20['expires']['curuser']);
-                $cache->update_row('user'.$_uid, [
+                $cache->update_row($keys['user'].$_uid, [
                     'enabled' => 'no',
                 ], $TRINITY20['expires']['user_cache']);
             }
@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $cache->update_row($keys['my_userid'].$_uid, [
                 'warned' => 0,
             ], $TRINITY20['expires']['curuser']);
-            $cache->update_row('user'.$_uid, [
+            $cache->update_row($keys['user'].$_uid, [
                 'warned' => 0,
             ], $TRINITY20['expires']['user_cache']);
         }

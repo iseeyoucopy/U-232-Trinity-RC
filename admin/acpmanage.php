@@ -53,7 +53,7 @@ if (isset($_POST['ids'])) {
     $cache->update_row($keys['my_userid'].$id, [
         'enabled' => 'yes',
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user'.$id, [
+    $cache->update_row($keys['user'].$id, [
         'enabled' => 'yes',
     ], $TRINITY20['expires']['user_cache']);
     //else
@@ -64,7 +64,7 @@ if (isset($_POST['ids'])) {
     $cache->update_row($keys['my_userid'].$id, [
         'status' => 'confirmed',
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user'.$id, [
+    $cache->update_row($keys['user'].$id, [
         'status' => 'confirmed',
     ], $TRINITY20['expires']['user_cache']);
     //else

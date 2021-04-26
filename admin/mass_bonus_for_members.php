@@ -274,7 +274,7 @@ switch ($action) {
                     $cache->update_row($keys['my_userid'].$arr_freeslots['id'], [
                         'freeslots' => $freeslots_new,
                     ], $TRINITY20['expires']['curuser']);
-                    $cache->update_row('user'.$arr_freeslots['id'], [
+                    $cache->update_row($keys['user'].$arr_freeslots['id'], [
                         'freeslots' => $freeslots_new,
                     ], $TRINITY20['expires']['user_cache']);
                     $cache->update_row('user_stats_'.$arr_freeslots['id'], [
@@ -316,7 +316,7 @@ switch ($action) {
                             $cache->update_row($keys['my_userid'].$arr_freeslots['id'], [
                                 'freeslots' => $freeslots_new,
                             ], $TRINITY20['expires']['curuser']);
-                            $cache->update_row('user'.$arr_freeslots['id'], [
+                            $cache->update_row($keys['user'].$arr_freeslots['id'], [
                                 'freeslots' => $freeslots_new,
                             ], $TRINITY20['expires']['user_cache']);
                             $cache->update_row('user_stats_'.$arr_freeslots['id'], [
@@ -365,7 +365,7 @@ switch ($action) {
                     $cache->update_row($keys['my_userid'].$arr_invites['id'], [
                         'invites' => $invites_new,
                     ], $TRINITY20['expires']['curuser']);
-                    $cache->update_row('user'.$arr_invites['id'], [
+                    $cache->update_row($keys['user'].$arr_invites['id'], [
                         'invites' => $invites_new,
                     ], $TRINITY20['expires']['user_cache']);
                     $cache->update_row('user_stats_'.$arr_invites['id'], [
@@ -407,7 +407,7 @@ switch ($action) {
                             $cache->update_row($keys['my_userid'].$arr_invites['id'], [
                                 'invites' => $invites_new,
                             ], $TRINITY20['expires']['curuser']);
-                            $cache->update_row('user'.$arr_invites['id'], [
+                            $cache->update_row($keys['user'].$arr_invites['id'], [
                                 'invites' => $invites_new,
                             ], $TRINITY20['expires']['user_cache']);
                             $cache->update_row('user_stats_'.$arr_invites['id'], [

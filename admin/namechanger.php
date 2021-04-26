@@ -47,7 +47,7 @@ if (isset($mode) && $mode == 'change') {
         $cache->update_row($keys['my_userid'].$uid, [
             'username' => $uname,
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row('user'.$uid, [
+        $cache->update_row($keys['user'].$uid, [
             'username' => $uname,
         ], $TRINITY20['expires']['user_cache']);
         $added = TIME_NOW;

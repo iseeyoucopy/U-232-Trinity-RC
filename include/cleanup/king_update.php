@@ -27,7 +27,7 @@ function docleanup($data)
             $modcom = sqlesc($modcomment);
             $msgs_buffer[] = '(0,'.$arr['id'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).' )';
             $users_buffer[] = '('.$arr['id'].', \'0\', '.$modcom.')';
-            $cache->update_row('user'.$arr['id'], [
+            $cache->update_row($keys['user'].$arr['id'], [
                 'king' => 0,
             ], $TRINITY20['expires']['user_cache']);
             $cache->update_row('user_stats_'.$arr['id'], [

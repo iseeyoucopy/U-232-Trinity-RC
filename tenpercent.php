@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cache->update_row('user_stats_'.$CURUSER['id'], [
         'uploaded' => $update['uploaded'],
     ], $TRINITY20['expires']['user_stats']);
-    $cache->update_row('user'.$CURUSER['id'], [
+    $cache->update_row($keys['user'].$CURUSER['id'], [
         'tenpercent' => 'yes',
     ], $TRINITY20['expires']['user_cache']);
     $cache->update_row($keys['my_userid'].$CURUSER['id'], [

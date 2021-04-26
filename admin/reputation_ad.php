@@ -458,7 +458,7 @@ function do_delete_rep()
     $cache->update_row($keys['my_userid'].$r['userid'], [
         'reputation' => $update['rep'],
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user'.$r['userid'], [
+    $cache->update_row($keys['user'].$r['userid'], [
         'reputation' => $update['rep'],
     ], $TRINITY20['expires']['user_cache']);
     redirect("staffpanel.php?tool=reputation_ad&amp;mode=list", $lang['rep_ad_delete_rep_success'], 5);
@@ -499,7 +499,7 @@ function do_edit_rep()
         $cache->update_row($keys['my_userid'].$r['userid'], [
             'reputation' => $update['rep'],
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row('user'.$r['userid'], [
+        $cache->update_row($keys['user'].$r['userid'], [
             'reputation' => $update['rep'],
         ], $TRINITY20['expires']['user_cache']);
         $cache->delete($keys['my_userid'].$r['userid']);

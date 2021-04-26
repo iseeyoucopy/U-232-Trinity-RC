@@ -164,7 +164,7 @@ $top_links = '<li><a href="pm_system.php?action=search">'.$lang['pm_search'].'</
 if (isset($_GET['change_pm_number'])) {
     $change_pm_number = (isset($_GET['change_pm_number']) ? (int)$_GET['change_pm_number'] : 20);
     sql_query('UPDATE users SET pms_per_page = '.sqlesc($change_pm_number).' WHERE id = '.sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
-    $cache->update_row('user'.$CURUSER['id'], [
+    $cache->update_row($keys['user'].$CURUSER['id'], [
         'pms_per_page' => $change_pm_number,
     ], $TRINITY20['expires']['user_cache']);
     $cache->update_row($keys['my_userid'].$CURUSER['id'], [
@@ -181,7 +181,7 @@ if (isset($_GET['change_pm_number'])) {
 if (isset($_GET['show_pm_avatar'])) {
     $show_pm_avatar = ($_GET['show_pm_avatar'] === 'yes' ? 'yes' : 'no');
     sql_query('UPDATE users SET show_pm_avatar = '.sqlesc($show_pm_avatar).' WHERE id = '.sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
-    $cache->update_row('user'.$CURUSER['id'], [
+    $cache->update_row($keys['user'].$CURUSER['id'], [
         'show_pm_avatar' => $show_pm_avatar,
     ], $TRINITY20['expires']['user_cache']);
     $cache->update_row($keys['my_userid'].$CURUSER['id'], [

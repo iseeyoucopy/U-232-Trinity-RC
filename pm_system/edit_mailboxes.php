@@ -45,7 +45,7 @@ if (isset($_POST['action2'])) {
             $change_pm_number = (isset($_POST['change_pm_number']) ? (int)$_POST['change_pm_number'] : 20);
             sql_query('UPDATE users SET pms_per_page = '.sqlesc($change_pm_number).' WHERE id = '.sqlesc($CURUSER['id'])) || sqlerr(__FILE__,
                 __LINE__);
-            $cache->update_row('user'.$CURUSER['id'], [
+            $cache->update_row($keys['user'].$CURUSER['id'], [
                 'pms_per_page' => $change_pm_number,
             ], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$CURUSER['id'], [
@@ -164,7 +164,7 @@ if (isset($_POST['action2'])) {
                 $cache->update_row($keys['my_userid'].$CURUSER['id'], $curuser_cache, $TRINITY20['expires']['curuser']);
             }
             if ($user_cache !== []) {
-                $cache->update_row('user'.$CURUSER['id'], $user_cache, $TRINITY20['expires']['user_cache']);
+                $cache->update_row($keys['user'].$CURUSER['id'], $user_cache, $TRINITY20['expires']['user_cache']);
             }
             sql_query('UPDATE users SET '.implode(', ', $updateset).' WHERE id = '.sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
             $worked = '&pms=1';

@@ -26,7 +26,7 @@ loggedinorreturn();
 if (isset($_GET['clear_new']) && $_GET['clear_new'] == 1) {
     sql_query("UPDATE users SET last_browse=".TIME_NOW." WHERE id=".sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
     $cache->update_row($keys['my_userid'].$CURUSER['id'], ['last_browse' => TIME_NOW], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user'.$CURUSER['id'], ['last_browse' => TIME_NOW], $TRINITY20['expires']['user_cache']);
+    $cache->update_row($keys['user'].$CURUSER['id'], ['last_browse' => TIME_NOW], $TRINITY20['expires']['user_cache']);
     header("Location: {$TRINITY20['baseurl']}/torrents-today.php");
 }
 $stdfoot = [
@@ -321,7 +321,7 @@ if (($CURUSER['opt1'] & user_options::CLEAR_NEW_TAG_MANUALLY) !== 0) {
     //== clear new tag automatically
     sql_query("UPDATE users SET last_browse=".TIME_NOW." where id=".$CURUSER['id']);
     $cache->update_row($keys['my_userid'].$CURUSER['id'], ['last_browse' => TIME_NOW], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user'.$CURUSER['id'], ['last_browse' => TIME_NOW], $TRINITY20['expires']['user_cache']);
+    $cache->update_row($keys['user'].$CURUSER['id'], ['last_browse' => TIME_NOW], $TRINITY20['expires']['user_cache']);
 }
 $HTMLOUT .= "<br />
     <table width='1000' class='main' border='0' cellspacing='0' cellpadding='0'><tr><td class='embedded'>

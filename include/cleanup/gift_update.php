@@ -21,7 +21,7 @@ function docleanup($data)
     if ($res->num_rows > 0) {
         while ($arr = $res->fetch_assoc()) {
             $users_buffer[] = '('.$arr['id'].', \'no\')';
-            $cache->update_row('user'.$arr['id'], [
+            $cache->update_row($keys['user'].$arr['id'], [
                 'gotgift' => 'no',
             ], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$arr['id'], [

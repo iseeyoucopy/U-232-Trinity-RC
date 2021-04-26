@@ -503,7 +503,7 @@ if ($curuser_cache) {
     $cache->update_row($keys['my_userid'].$CURUSER['id'], $curuser_cache, $TRINITY20['expires']['curuser']);
 }
 if ($user_cache) {
-    $cache->update_row('user'.$CURUSER['id'], $user_cache, $TRINITY20['expires']['user_cache']);
+    $cache->update_row($keys['user'].$CURUSER['id'], $user_cache, $TRINITY20['expires']['user_cache']);
 }
 if ((is_countable($updateset) ? count($updateset) : 0) > 0) {
     sql_query("UPDATE users SET ".implode(",", $updateset)." WHERE id = ".sqlesc($CURUSER["id"])) || sqlerr(__FILE__, __LINE__);

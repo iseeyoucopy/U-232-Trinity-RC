@@ -141,7 +141,7 @@ function class_check($class = 0, $staff = true, $pin = false)
             //sql_query("UPDATE users SET enabled = 'no', class = 1 WHERE id = {$CURUSER['id']}") or sqlerr(__file__, __line__);
             sql_query("UPDATE users SET class = 1 WHERE id = {$CURUSER['id']}") || sqlerr(__file__, __line__);
             /** remove caches **/
-            $cache->update_row('user'.$CURUSER['id'], [
+            $cache->update_row($keys['user'].$CURUSER['id'], [
                 'class' => 1,
             ], $TRINITY20['expires']['user_cache']);
             $cache->update_row($keys['my_userid'].$CURUSER['id'], [

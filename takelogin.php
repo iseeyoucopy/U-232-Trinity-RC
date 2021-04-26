@@ -211,7 +211,7 @@ $cache->update_row($keys['my_userid'].$rows['id'], [
     'last_access' => TIME_NOW,
     'last_login' => TIME_NOW,
 ], $TRINITY20['expires']['curuser']);
-$cache->update_row('user'.$rows['id'], [
+$cache->update_row($keys['user'].$rows['id'], [
     'browser' => $browser,
     'ip' => $ip,
     'last_access' => TIME_NOW,

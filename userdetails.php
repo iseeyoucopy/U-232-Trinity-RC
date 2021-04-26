@@ -328,7 +328,7 @@ if (!(isset($_GET["hit"])) && $CURUSER["id"] != $user["id"]) {
         $cache->update_row($keys['my_userid'].$id, [
             'hits' => $update['user_hits'],
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row('user'.$id, [
+        $cache->update_row($keys['user'].$id, [
             'hits' => $update['user_hits'],
         ], $TRINITY20['expires']['user_cache']);
         sql_query("INSERT INTO userhits (userid, hitid, number, added) VALUES(".sqlesc($CURUSER['id']).", ".sqlesc($id).", ".sqlesc($hitnumber).", ".sqlesc(TIME_NOW).")") || sqlerr(__FILE__,
