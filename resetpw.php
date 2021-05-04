@@ -115,7 +115,7 @@ if ($step == '1') {
         $sechash = h_cook($fetch['username'], $fetch['id'], $fetch['birthday']);
         sql_query("UPDATE users SET editsecret = ".sqlesc($sec)." WHERE id = ".sqlesc($id));
         $cache->update_row($keys['my_userid'].$fetch["id"], ['editsecret' => $sec], $TRINITY20['expires']['curuser']);
-        $cache->update_row('user'.$fetch["id"], ['editsecret' => $sec], $TRINITY20['expires']['user_cache']);
+        $cache->update_row($keys['user'].$fetch["id"], ['editsecret' => $sec], $TRINITY20['expires']['user_cache']);
         $HTMLOUT .= "<div class='grid-container'>
 				<div class='grid-x grid-padding-x align-center-middle text-center margin-top-3'>
 					<div class='callout margin-top-3'>
@@ -178,7 +178,7 @@ if ($step == '1') {
         'passhash' => $newpassword,
         'hash3' => $hash3,
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user'.$id, [
+    $cache->update_row($keys['user'].$id, [
         'secret' => $secret,
         'editsecret' => '',
         'passhash' => $newpassword,

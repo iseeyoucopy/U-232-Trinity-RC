@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'passhash' => $passhash,
         'hash3' => $hash3,
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user'.$uid, [
+    $cache->update_row($keys['user'].$uid, [
         'secret' => $secret,
         'passhash' => $passhash,
         'hash3' => $hash3,

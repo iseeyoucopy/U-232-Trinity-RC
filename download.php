@@ -69,7 +69,7 @@ if ($TRINITY20['seedbonus_on'] == 1 && $row['owner'] != $CURUSER['id']) {
     $cache->update_row($keys['user_stats'].$CURUSER['id'], [
         'seedbonus' => $update['seedbonus'],
     ], $TRINITY20['expires']['u_stats']);
-    $cache->update_row('user_stats_'.$CURUSER['id'], [
+    $cache->update_row($keys['user_stats_'].$CURUSER['id'], [
         'seedbonus' => $update['seedbonus'],
     ], $TRINITY20['expires']['user_stats']);
     //===end
@@ -140,7 +140,7 @@ if (isset($_GET['slot'])) {
     $cache->update_row($keys['my_userid'].$CURUSER['id'], [
         'freeslots' => $CURUSER['freeslots'],
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user'.$CURUSER['id'], [
+    $cache->update_row($keys['user'].$CURUSER['id'], [
         'freeslots' => $user['freeslots'],
     ], $TRINITY20['expires']['user_cache']);
 }
@@ -162,7 +162,7 @@ if (!isset($CURUSER['torrent_pass']) || strlen($CURUSER['torrent_pass']) != 32) 
     $cache->update_row($keys['my_userid'].$CURUSER['id'], [
         'torrent_pass' => $CURUSER['torrent_pass'],
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user'.$CURUSER['id'], [
+    $cache->update_row($keys['user'].$CURUSER['id'], [
         'torrent_pass' => $CURUSER['torrent_pass'],
     ], $TRINITY20['expires']['user_cache']);
 }

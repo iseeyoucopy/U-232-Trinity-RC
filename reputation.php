@@ -200,7 +200,7 @@ if (isset($input['do']) && $input['do'] == 'addrep') {
     $cache->update_row($keys['my_userid'].$res['userid'], [
         'reputation' => $res['reputation'],
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user'.$res['userid'], [
+    $cache->update_row($keys['user'].$res['userid'], [
         'reputation' => $res['reputation'],
     ], $TRINITY20['expires']['user_cache']);
     $cache->delete($keys['user_rep'].$res['userid']);

@@ -448,5 +448,6 @@ ALTER TABLE `users` ADD `forums_mod` varchar(320) CHARACTER SET utf8 DEFAULT NUL
 ALTER TABLE `users` ADD `altnick` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL
 ALTER TABLE `users` ADD `pm_forced` enum('yes','no') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'yes'
 ALTER TABLE `users` ADD `ignore_list` text CHARACTER SET utf8
+ALTER TABLE `users` ADD `birthday` date NOT NULL DEFAULT '1920-01-01'
 ALTER TABLE `usercomments` ADD `user_likes` text CHARACTER SET utf8 NOT NULL
 ALTER TABLE `user_blocks` ADD `browse_page` int(10) unsigned NOT NULL DEFAULT '4'

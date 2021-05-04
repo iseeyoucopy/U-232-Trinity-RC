@@ -1660,7 +1660,7 @@ class AJAXChat
         $cache->update_row($keys['my_userid'].$userID, [
             'chatpost' => 0,
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row('user'.$userID, [
+        $cache->update_row($keys['user'].$userID, [
             'chatpost' => 0,
         ], $TRINITY20['expires']['user_cache']);
     }
@@ -1674,7 +1674,7 @@ class AJAXChat
             $cache->update_row($keys['my_userid'].$row['userID'], [
                 'chatpost' => 1,
             ], $TRINITY20['expires']['curuser']);
-            $cache->update_row('user'.$row['userID'], [
+            $cache->update_row($keys['user'].$row['userID'], [
                 'chatpost' => 1,
             ], $TRINITY20['expires']['user_cache']);
         }
@@ -1695,7 +1695,7 @@ class AJAXChat
                 $cache->update_row($keys['my_userid'].$row['userID'], [
                     'chatpost' => 1,
                 ], $TRINITY20['expires']['curuser']);
-                $cache->update_row('user'.$row['userID'], [
+                $cache->update_row($keys['user'].$row['userID'], [
                     'chatpost' => 1,
                 ], $TRINITY20['expires']['user_cache']);
 

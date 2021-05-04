@@ -125,7 +125,7 @@ if ($do == 'create_invite') {
     $cache->update_row($keys['my_userid'].$CURUSER['id'], [
         'invites' => $update['invites'],
     ], $TRINITY20['expires']['curuser']); // 15 mins
-    $cache->update_row('user'.$CURUSER['id'], [
+    $cache->update_row($keys['user'].$CURUSER['id'], [
         'invites' => $update['invites'],
     ], $TRINITY20['expires']['user_cache']); // 15 mins
     header("Location: ?do=view_page");
@@ -195,7 +195,7 @@ elseif ($do == 'delete_invite') {
     $cache->update_row($keys['my_userid'].$CURUSER['id'], [
         'invites' => $update['invites'],
     ], $TRINITY20['expires']['curuser']); // 15 mins
-    $cache->update_row('user'.$CURUSER['id'], [
+    $cache->update_row($keys['user'].$CURUSER['id'], [
         'invites' => $update['invites'],
     ], $TRINITY20['expires']['user_cache']); // 15 mins
     header("Location: ?do=view_page");
@@ -225,7 +225,7 @@ elseif (($do = 'confirm_account') !== '') {
     $cache->update_row($keys['my_userid'].$userid, [
         'status' => 'confirmed',
     ], $TRINITY20['expires']['curuser']); // 15 mins
-    $cache->update_row('user'.$userid, [
+    $cache->update_row($keys['user'].$userid, [
         'status' => 'confirmed',
     ], $TRINITY20['expires']['user_cache']); // 15 mins
     //==pm to new invitee/////

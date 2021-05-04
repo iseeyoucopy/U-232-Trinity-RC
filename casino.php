@@ -189,7 +189,7 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
         $cache->update_row($keys['user_stats'].$CURUSER['id'], [
             'uploaded' => $update['uploaded'],
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row('user_stats_'.$CURUSER['id'], [
+        $cache->update_row($keys['user_stats_'].$CURUSER['id'], [
             'uploaded' => $update['uploaded'],
         ], $TRINITY20['expires']['user_stats']);
         stderr($lang['casino_yes'],
@@ -212,7 +212,7 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
         $cache->update_row($keys['user_stats'].$CURUSER['id'], [
             'uploaded' => $update['uploaded_loser'],
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row('user_stats_'.$CURUSER['id'], [
+        $cache->update_row($keys['user_stats_'].$CURUSER['id'], [
             'uploaded' => $update['uploaded_loser'],
         ], $TRINITY20['expires']['user_stats']);
         stderr($lang['gl_sorry'],
@@ -269,7 +269,7 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
             $cache->update_row($keys['user_stats'].$CURUSER['id'], [
                 'uploaded' => $update['uploaded'],
             ], $TRINITY20['expires']['u_stats']);
-            $cache->update_row('user_stats_'.$CURUSER['id'], [
+            $cache->update_row($keys['user_stats_'].$CURUSER['id'], [
                 'uploaded' => $update['uploaded'],
             ], $TRINITY20['expires']['user_stats']);
             if ($mysqli->affected_rows == 0) {
@@ -307,7 +307,7 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
         $cache->update_row($keys['user_stats'].$CURUSER['id'], [
             'uploaded' => $update['uploaded'],
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row('user_stats_'.$CURUSER['id'], [
+        $cache->update_row($keys['user_stats_'].$CURUSER['id'], [
             'uploaded' => $update['uploaded'],
         ], $TRINITY20['expires']['user_stats']);
         $update['uploaded_2'] = ($User['uploaded'] + $newup2);
@@ -315,7 +315,7 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
         $cache->update_row($keys['user_stats'].$tbet['userid'], [
             'uploaded' => $update['uploaded_2'],
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row('user_stats_'.$tbet['userid'], [
+        $cache->update_row($keys['user_stats_'].$tbet['userid'], [
             'uploaded' => $update['uploaded_2'],
         ], $TRINITY20['expires']['user_stats']);
         if ($mysqli->affected_rows == 0) {
@@ -380,7 +380,7 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
         $cache->update_row($keys['user_stats'].$CURUSER['id'], [
             'uploaded' => $update['uploaded'],
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row('user_stats_'.$CURUSER['id'], [
+        $cache->update_row($keys['user_stats_'].$CURUSER['id'], [
             'uploaded' => $update['uploaded'],
         ], $TRINITY20['expires']['user_stats']);
         if ($TRINITY20['autoshout_on'] == 1) {

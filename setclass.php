@@ -27,7 +27,7 @@ if (isset($_GET["action"]) && htmlsafechars($_GET["action"]) == "editclass") { /
     $cache->update_row($keys['my_userid'].$CURUSER['id'], [
         'override_class' => $newclass,
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user'.$CURUSER['id'], [
+    $cache->update_row($keys['user'].$CURUSER['id'], [
         'override_class' => $newclass,
     ], $TRINITY20['expires']['user_cache']);
     header("Location: {$TRINITY20['baseurl']}/".$returnto);

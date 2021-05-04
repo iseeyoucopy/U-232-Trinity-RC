@@ -37,7 +37,7 @@ if ($action == 'reset') {
             "{$lang['createlink_you_are_about_to_reset_your_login_link']} <a href='createlink.php?action=reset&amp;id=$id&amp;sure=1'>{$lang['createlink_here']}</a> {$lang['createlink_if_you_are_sure']}.");
     }
     sql_query("UPDATE users SET hash1 = ".sqlesc($hash1)." WHERE id = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-    $cache->update_row('user'.$id, [
+    $cache->update_row($keys['user'].$id, [
         'hash1' => $hash1,
     ], $TRINITY20['expires']['user_cache']);
     $cache->update_row($keys['my_userid'].$id, [
@@ -51,7 +51,7 @@ if ($action == 'reset') {
 } elseif ($arr['hash1'] === null || $arr['hash1'] === '') {
     sql_query("UPDATE users SET hash1 = ".sqlesc($hash1)." WHERE id = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     header("Refresh: 2; url={$TRINITY20['baseurl']}/userdetails.php?id=$id");
-    $cache->update_row('user'.$id, [
+    $cache->update_row($keys['user'].$id, [
         'hash1' => $hash1,
     ], $TRINITY20['expires']['user_cache']);
     $cache->update_row($keys['my_userid'].$id, [

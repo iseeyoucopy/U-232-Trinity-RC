@@ -23,7 +23,7 @@ if ($sid > 0 && $sid != $CURUSER['id']) {
 $cache->update_row($keys['my_userid'].$CURUSER['id'], [
     'stylesheet' => $sid,
 ], $TRINITY20['expires']['curuser']);
-$cache->update_row('user'.$CURUSER['id'], [
+$cache->update_row($keys['user'].$CURUSER['id'], [
     'stylesheet' => $sid,
 ], $TRINITY20['expires']['user_cache']);
 header("Location: {$TRINITY20['baseurl']}/index.php");

@@ -198,10 +198,10 @@ if ($action == "acceptapp") {
     $cache->update_row($keys['my_userid'].$arr['uid'], [
         'class' => 3,
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user_stats_'.$arr['uid'], [
+    $cache->update_row($keys['user_stats_'].$arr['uid'], [
         'modcomment' => $modcomment,
     ], $TRINITY20['expires']['user_stats']);
-    $cache->update_row('user'.$arr['uid'], [
+    $cache->update_row($keys['user'].$arr['uid'], [
         'class' => 3,
     ], $TRINITY20['expires']['user_cache']);
     sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, ".sqlesc($arr['uid']).", $dt, $msg, $subject, 0)") || sqlerr(__FILE__,

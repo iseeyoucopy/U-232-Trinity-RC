@@ -70,14 +70,14 @@ $cache->update_row($keys['torrent_details'].$id, [
 $cache->update_row($keys['user_stats'].$userid, [
     'seedbonus' => $update['seedbonus_uploader'],
 ], $TRINITY20['expires']['u_stats']);
-$cache->update_row('user_stats_'.$userid, [
+$cache->update_row($keys['user_stats_'].$userid, [
     'seedbonus' => $update['seedbonus_uploader'],
 ], $TRINITY20['expires']['user_stats']);
 //==The donator
 $cache->update_row($keys['user_stats'].$CURUSER["id"], [
     'seedbonus' => $update['seedbonus_donator'],
 ], $TRINITY20['expires']['u_stats']);
-$cache->update_row('user_stats_'.$CURUSER["id"], [
+$cache->update_row($keys['user_stats_'].$CURUSER["id"], [
     'seedbonus' => $update['seedbonus_donator'],
 ], $TRINITY20['expires']['user_stats']);
 //== delete the pm keys

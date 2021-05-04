@@ -125,7 +125,7 @@ while ($arr = $res->fetch_assoc()) {
     $queryuser = sql_query("SELECT username FROM users WHERE id=".sqlesc($arr2['user_id']));
     $res3 = $queryuser->fetch_assoc();
     $added = get_date($arr2["added"], 'DATE', 1, 0)." GMT (".(get_date($arr2["added"], 'LONG', 1, 0)).")";
-    $count2 = '';
+    $count2 = null;
     // =======change colors
     if (0 == 0) {
         $count2 += 1;

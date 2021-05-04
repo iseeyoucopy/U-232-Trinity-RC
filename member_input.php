@@ -68,7 +68,7 @@ if ($action == '') {
             if ($id !== $CURUSER['id'] && $CURUSER['class'] > $staff_notes_arr['class']) {
                 //=== add / edit staff_notes
                 sql_query('UPDATE users SET staff_notes = '.sqlesc($posted_notes).' WHERE id ='.sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-                $cache->update_row('user'.$id, [
+                $cache->update_row($keys['user'].$id, [
                     'staff_notes' => $posted_notes,
                 ], $TRINITY20['expires']['user_cache']);
                 //=== add it to the log
@@ -97,7 +97,7 @@ if ($action == '') {
                     $cache->update_row($keys['my_userid'].$id, [
                         'watched_user' => TIME_NOW,
                     ], $TRINITY20['expires']['curuser']);
-                    $cache->update_row('user'.$id, [
+                    $cache->update_row($keys['user'].$id, [
                         'watched_user' => TIME_NOW,
                     ], $TRINITY20['expires']['user_cache']);
                     //=== add it to the log
@@ -110,7 +110,7 @@ if ($action == '') {
                     $cache->update_row($keys['my_userid'].$id, [
                         'watched_user' => 0,
                     ], $TRINITY20['expires']['curuser']);
-                    $cache->update_row('user'.$id, [
+                    $cache->update_row($keys['user'].$id, [
                         'watched_user' => 0,
                     ], $TRINITY20['expires']['user_cache']);
                     //=== add it to the log
@@ -122,7 +122,7 @@ if ($action == '') {
                 if ($_POST['watched_reason'] !== $watched_arr['watched_user_reason']) {
                     //=== edit watched users text
                     sql_query('UPDATE users SET watched_user_reason = '.sqlesc($posted).' WHERE id = '.sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-                    $cache->update_row('user'.$id, [
+                    $cache->update_row($keys['user'].$id, [
                         'watched_user_reason' => $posted,
                     ], $TRINITY20['expires']['user_cache']);
                     //=== add it to the log

@@ -34,6 +34,13 @@ function docleanup($data)
 				 LEFT JOIN ajax_chat_messages ON ajax_chat_messages.torrent_id = torrents.id
 				 WHERE torrents.id = ".sqlesc($arr['id'])) || sqlerr(__FILE__, __LINE__);
         @unlink("{$TRINITY20['torrent_dir']}/{$arr['id']}.torrent");
+        $cache->delete($keys['torrent_details'].$arr['id']);
+        $cache->delete($keys['torrent_pretime'].$arr['id']);
+        $cache->delete($keys['last_action'].$arr['id']);
+        $cache->delete($keys['last_action'].$arr['id']);
+        $cache->delete('thumbs_up:'.$arr['id']);
+        $cache->delete($keys['torrent_details_txt'].$arr['id']);
+        
         write_log("Torrent ".(int)$arr['id']." (".htmlsafechars($arr['name']).") was deleted by system (older than $days days and no seeders)");
     }
     if ($queries > 0) {

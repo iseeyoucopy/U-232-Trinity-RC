@@ -74,8 +74,8 @@ if ($action == 'add') {
         $cache->delete('Friends_'.$userid);
         $cache->delete('Blocks_'.$targetid);
         $cache->delete('Friends_'.$targetid);
-        $cache->delete('user_friends_'.$targetid);
-        $cache->delete('user_friends_'.$userid);
+        $cache->delete($keys['user_friends_'].$targetid);
+        $cache->delete($keys['user_friends_'].$userid);
         header("Location: {$TRINITY20['baseurl']}/friends.php?id=$userid#$frag");
         die;
     }
@@ -106,8 +106,8 @@ if ($action == 'confirm') {
         $cache->delete('Friends_'.$userid);
         $cache->delete('Blocks_'.$targetid);
         $cache->delete('Friends_'.$targetid);
-        $cache->delete('user_friends_'.$targetid);
-        $cache->delete('user_friends_'.$userid);
+        $cache->delete($keys['user_friends_'].$targetid);
+        $cache->delete($keys['user_friends_'].$userid);
         $subject = sqlesc("You have a new friend!");
         $body = sqlesc("[url={$TRINITY20['baseurl']}/userdetails.php?id=$userid][b]This person[/b][/url] has just confirmed your Friendship Request. See your Friends  [url={$TRINITY20['baseurl']}/friends.php][b]Here[/b][/url]\n ");
         sql_query("INSERT INTO messages (sender, receiver, added, subject, msg) VALUES (0, ".sqlesc($targetid).", '".TIME_NOW."', $subject, $body)") || sqlerr(__FILE__,
@@ -139,8 +139,8 @@ elseif ($action == 'delpending') {
         sql_query("DELETE FROM friends WHERE userid=".sqlesc($targetid)." AND friendid=".sqlesc($userid)) || sqlerr(__FILE__, __LINE__);
         $cache->delete('Friends_'.$userid);
         $cache->delete('Friends_'.$targetid);
-        $cache->delete('user_friends_'.$userid);
-        $cache->delete('user_friends_'.$targetid);
+        $cache->delete($keys['user_friends_'].$userid);
+        $cache->delete($keys['user_friends_'].$targetid);
         $frag = "friends";
         header("Refresh: 3; url=friends.php?id=$userid#$frag");
         $mysqli->affected_rows == 1 ? stderr("Success", "Friend was deleted successfully.") : stderr("oopss", "No friend request found with ID !! .");
@@ -167,8 +167,8 @@ elseif ($action == 'delete') {
         sql_query("DELETE FROM friends WHERE userid=".sqlesc($targetid)." AND friendid=".sqlesc($userid)) || sqlerr(__FILE__, __LINE__);
         $cache->delete('Friends_'.$userid);
         $cache->delete('Friends_'.$targetid);
-        $cache->delete('user_friends_'.$userid);
-        $cache->delete('user_friends_'.$targetid);
+        $cache->delete($keys['user_friends_'].$userid);
+        $cache->delete($keys['user_friends_'].$targetid);
         $frag = "friends";
         header("Refresh: 3; url=friends.php?id=$userid#$frag");
         $mysqli->affected_rows == 1 ? stderr("Success", "Friend was deleted successfully.") : stderr("oopss", "No friend request found with ID !! .");
@@ -299,8 +299,9 @@ function countries()
 
 $country = '';
 $countries = countries();
+$user_country = isset($CURUSER['country']) ? "{$CURUSER['country']}" : '';
 foreach ($countries as $cntry) {
-    if ($cntry['id'] == $user['country']) {
+    if (($cntry['id'] ?? '') == $user_country) {
         if (is_array($cntry)) {
             $country = "<img src=\"{$TRINITY20['pic_base_url']}flag/{$cntry['flagpic']}\" alt=\"".htmlsafechars($cntry['name'])."\" style='margin-left: 8pt' />";
             break;

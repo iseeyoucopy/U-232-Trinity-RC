@@ -26,7 +26,7 @@ if (isset($_GET['clear_new']) && $_GET['clear_new'] == 1) {
     $cache->update_row($keys['my_userid'].$CURUSER['id'], [
         'last_browse' => TIME_NOW,
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user'.$CURUSER['id'], [
+    $cache->update_row($keys['user'].$CURUSER['id'], [
         'last_browse' => TIME_NOW,
     ], $TRINITY20['expires']['user_cache']);
     header("Location: {$TRINITY20['baseurl']}/browse_catalogue.php");
@@ -345,7 +345,7 @@ if (($CURUSER['opt1'] & user_options::CLEAR_NEW_TAG_MANUALLY) !== 0) {
     $cache->update_row($keys['my_userid'].$CURUSER['id'], [
         'last_browse' => TIME_NOW,
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user'.$CURUSER['id'], [
+    $cache->update_row($keys['user'].$CURUSER['id'], [
         'last_browse' => TIME_NOW,
     ], $TRINITY20['expires']['user_cache']);
 }

@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $cache->update_row($keys['user_stats'].$a['uid'], [
             'downloaded' => $new_download,
         ], $TRINITY20['expires']['u_status']);
-        $cache->update_row('user'.$a['uid'], [
+        $cache->update_row($keys['user'].$a['uid'], [
             'downloaded' => $new_download,
         ], $TRINITY20['expires']['curuser']);
     }
