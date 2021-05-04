@@ -42,34 +42,6 @@ $HTMLOUT = $offers = $subs_list = $request = $descr = '';
 if ($CURUSER['class'] < UC_UPLOADER || ($CURUSER["uploadpos"] == 0 || $CURUSER["uploadpos"] > 1 || $CURUSER['suspended'] == 'yes')) {
     stderr($lang['upload_sorry'], $lang['upload_no_auth']);
 }
-//==== request dropdown
-$res_request = sql_query('SELECT id, request_name FROM requests WHERE filled_by_user_id = 0 ORDER BY request_name ASC');
-$request = "<div class='input-group'>
-<span class='input-group-label'>{$lang['gl_requests']}</span>
-    <select class='input-group-field' name='request' aria-describedby='requestHelpText'>
-        <option value='0'></option>";
-if ($res_request) {
-    while ($arr_request = $res_request->fetch_assoc()) {
-        $request .= '<option value="'.(int)$arr_request['id'].'">'.htmlsafechars($arr_request['request_name']).'</option>';
-    }
-} else {
-    $request .= "<option value='0'>{$lang['upload_add_noreq']}</option>";
-}
-$request .= "</select></div><p class='help-text' id='requestHelpText'>{$lang['upload_add_fill']}</p>";
-//=== offers list if member has made any offers
-$res_offer = sql_query('SELECT id, offer_name FROM offers WHERE offered_by_user_id = '.sqlesc($CURUSER['id']).' AND status = \'approved\' ORDER BY offer_name ASC');
-if ($res_offer->num_rows > 0) {
-    $offers = "  
-    <div class='input-group'>
-    <span class='input-group-label'>{$lang['gl_offers']}</span>
-    <select class='input-group-field' name='offer'  aria-describedby='offerHelpText'>
-        <option value='0'></option>";
-    $message = "<option value='0'>{$lang['upload_add_offer']}</option>";
-    while ($arr_offer = $res_offer->fetch_assoc()) {
-        $offers .= '<option value="'.(int)$arr_offer['id'].'">'.htmlsafechars($arr_offer['offer_name']).'</option>';
-    }
-    $offers .= "</select></div><p class='help-text' id='offerHelpText'>{$lang['upload_add_offer2']}</p>";
-}
 $HTMLOUT .= "
     <script type='text/javascript'>
     window.onload = function() {
@@ -82,20 +54,20 @@ $HTMLOUT .= "
                 <input type='hidden' name='MAX_FILE_SIZE' value='{$TRINITY20['max_torrent_size']}'>
                 <div class='input-group'>
                     <span class='input-group-label'>{$lang['upload_announce_url']}</span>
-                    <input class='input-group-field' type='text' value='".$TRINITY20['announce_urls']."'>
+                    <input class='input-group-field' type='text' readonly value='".$TRINITY20['announce_urls']."' onclick='select()'>
                 </div>";
 $descr = strip_tags(isset($_POST['descr']) ? trim($_POST['descr']) : '');
 $HTMLOUT .= "<div class='torrent-seperator clone-me'>
     <div class='input-group'>
         <span class='input-group-label'>{$lang['upload_torrent']}</span>
         <div class='input-group-button'>
-            <input type='file' name='file' id='torrent' onchange='getname()'>
+            <input type='file' name='file[]' id='torrent' onchange='getname()'>
         </div>
     </div>
     <div class='input-group'>
         <span class='input-group-label'>{$lang['upload_nfo']}</span>
         <div class='input-group-button'>
-            <input type='file' name='nfo' aria-describedby='nfoHelpText'>
+            <input type='file' name='nfo[]' aria-describedby='nfoHelpText'>
         </div>
     </div>";
 $HTMLOUT .= "<div class='input-group'>
@@ -106,10 +78,12 @@ $cats = genrelist();
 foreach ($cats as $row) {
     $HTMLOUT .= "<option value='".(int)$row["id"]."'>".htmlsafechars($row["name"])."</option>\n";
 }
-$HTMLOUT .= "</select></div></div>";
-$HTMLOUT .= "<div class='torrent-seperator'>
-<a href='#' class='button clone-torrent-form'>Add another torrent</a>
-</div>";
-$HTMLOUT .= "<input type='submit' class='button float-right' value='{$lang['upload_submit']}'></div></div></form>";
+$HTMLOUT .= "</select></div></div>
+<div class='torrent-seperator'>
+    <a href='#' class='button clone-torrent-form'>Add another torrent</a>
+</div>
+<div style='display:inline-block;height:50%;'></div>
+    <input type='submit' class='button float-right' value='{$lang['upload_submit']}'></div>
+</div></form>";
 echo stdhead($lang['upload_stdhead'], true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
 ?>
