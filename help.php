@@ -76,13 +76,13 @@ $HTMLOUT .= "</ul></div>
 </div>";
 //** Start Rules reveal/modal **//
 foreach ($rules as $row_rules) {
-    $HTMLOUT .= "<div class='reveal' id='div".htmlsafechars($row_rules['shortcut'])."' data-reveal>
-      <p><h4 class='sub-header'>".htmlsafechars($row_rules['name'])."</h4></p>";
+    $HTMLOUT .= "<div class='reveal' id='div".htmlsafechars($row_rules['shortcut'] ?? '')."' data-reveal>
+      <p><h4 class='sub-header'>".htmlsafechars($row_rules['name'] ?? '')."</h4></p>";
     $HTMLOUT .= "<ul class='accordion' data-accordion data-allow-all-closed='true'>
     <li class='accordion-item is-active' data-accordion-item>
-      <a href='#' class='accordion-title'>".htmlsafechars($row_rules['title'])."</strong></a>
+      <a href='#' class='accordion-title'>".htmlsafechars($row_rules['title'] ?? '')."</strong></a>
       <div class='accordion-content' data-tab-content>
-      <p>".htmlspecialchars_decode($row_rules['text'])."</p></div>";
+      <p>".htmlspecialchars_decode($row_rules['text'] ?? '')."</p></div>";
     $HTMLOUT .= "</div>";
 }
 //** End Rules reveal/modal **//
