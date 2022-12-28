@@ -2692,7 +2692,7 @@ class AJAXChat
             time() + 60 * 60 * 24 * $this->getConfig('sessionCookieLifeTime'),
             $this->getConfig('sessionCookiePath'),
             $this->getConfig('sessionCookieDomain'),
-            $this->getConfig('sessionCookieSecure')
+            $this->getConfig('sessionCookieSecure') ?? ''
         );
     }
 

@@ -11,8 +11,8 @@
  * ------------  @version V6  ------------------*
  */
 // Announcement Code...
-$ann_subject = trim($CURUSER['curr_ann_subject']);
-$ann_body = trim($CURUSER['curr_ann_body']);
+$ann_subject = trim((string)$CURUSER['curr_ann_subject']);
+$ann_body = trim((string)$CURUSER['curr_ann_body']);
 if (!empty($ann_subject) && !empty($ann_body)) {
     $HTMLOUT .= "
 	<div class='card'>
