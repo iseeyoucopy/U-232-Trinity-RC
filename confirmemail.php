@@ -43,7 +43,7 @@ $cache->update_row($keys['my_userid'].$id, [
     'editsecret' => '',
     'email' => $email,
 ], $TRINITY20['expires']['curuser']);
-$cache->update_row('user'.$id, [
+$cache->update_row($keys['user'].$id, [
     'editsecret' => '',
     'email' => $email,
 ], $TRINITY20['expires']['user_cache']);

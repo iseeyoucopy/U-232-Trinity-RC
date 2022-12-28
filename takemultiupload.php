@@ -49,9 +49,8 @@ function file_list($arr, $id)
     foreach ($arr as $v) {
         $new[] = "($id,".sqlesc($v[0]).",".$v[1].")";
     }
-    return implode(",", $new);
+    return join(",", $new);
 }
-
 $cats = "";
 $res = sql_query("SELECT id, name FROM categories");
 while ($arr = $res->fetch_assoc()) {
@@ -293,7 +292,7 @@ foreach ($file_list as $key => $f) {
 
 
     if ($TRINITY20['autoshout_on'] == 1) {
-        shout2($message, $id);
+        autoshout($message, $id);
 
     }
 
@@ -339,7 +338,7 @@ if ($TRINITY20['seedbonus_on'] == 1) {
     $cache->update_row($keys['user_stats'].$CURUSER["id"], [
         'seedbonus' => $update['seedbonus'],
     ], $TRINITY20['expires']['u_stats']);
-    $cache->update_row('user_stats_'.$CURUSER["id"], [
+    $cache->update_row($keys['user_stats_'].$CURUSER["id"], [
         'seedbonus' => $update['seedbonus'],
     ], $TRINITY20['expires']['user_stats']);
 }

@@ -102,7 +102,7 @@ if ($want_pot && (isset($pot_options[$want_pot]))) {
         $cache->update_row($keys['user_stats'].$CURUSER['id'], [
             'seedbonus' => $update['seedbonus_donator'],
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row('user_stats_'.$CURUSER['id'], [
+        $cache->update_row($keys['user_stats_'].$CURUSER['id'], [
             'seedbonus' => $update['seedbonus_donator'],
         ], $TRINITY20['expires']['curuser']);
         $cache->delete('Sitepot_');
@@ -128,7 +128,7 @@ if ($want_pot && (isset($pot_options[$want_pot]))) {
         $cache->update_row($keys['user_stats'].$CURUSER['id'], [
             'seedbonus' => $update['seedbonus_donator'],
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row('user_stats_'.$CURUSER['id'], [
+        $cache->update_row($keys['user_stats_'].$CURUSER['id'], [
             'seedbonus' => $update['seedbonus_donator'],
         ], $TRINITY20['expires']['curuser']);
         $cache->delete('Sitepot_');

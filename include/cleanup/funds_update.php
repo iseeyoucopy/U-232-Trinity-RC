@@ -36,12 +36,12 @@ function docleanup($data)
             $msgs_buffer[] = '(0,'.$arr['id'].','.TIME_NOW.', '.sqlesc($msg).','.sqlesc($subject).')';
             $users_buffer[] = '('.$arr['id'].','.$arr['vipclass_before'].',\'no\',\'0\', '.$modcom.')';
             $update['class'] = ($arr['vipclass_before']);
-            $cache->update_row('user'.$arr['id'], [
+            $cache->update_row($keys['user'].$arr['id'], [
                 'class' => $update['class'],
                 'donor' => 'no',
                 'donoruntil' => 0,
             ], $TRINITY20['expires']['user_cache']);
-            $cache->update_row('user_stats_'.$arr['id'], [
+            $cache->update_row($keys['user_stats_'].$arr['id'], [
                 'modcomment' => $modcomment,
             ], $TRINITY20['expires']['user_stats']);
             $cache->update_row($keys['my_userid'].$arr['id'], [

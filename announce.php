@@ -589,7 +589,7 @@ if ((is_countable($user_updateset) ? count($user_updateset) : 0) > 0) {
     ann_sql_query('UPDATE LOW_PRIORITY users SET '.implode(',', $user_updateset).' WHERE id = '.ann_sqlesc($userid)) || ann_sqlerr(__FILE__,
         __LINE__);
     $cache->delete($keys['user_stats'].$userid);
-    $cache->delete('user_stats_'.$userid);
+    $cache->delete($keys['user_stats_'].$userid);
 }
 if (isset($_SERVER["HTTP_ACCEPT_ENCODING"]) && $_SERVER["HTTP_ACCEPT_ENCODING"] == "gzip") {
     header("Content-Encoding: gzip");

@@ -54,8 +54,8 @@ function invincible($id, $invincible = true, $bypass_bans = true)
               WHERE id = '.sqlesc($id)) || sqlerr(__file__, __line__);
     //'ipf'   => $ip,
     // update ip in caches
-    //$cache->delete('user'.$id);
-    $cache->update_row('user'.$id, [
+    //$cache->delete($keys['user'].$id);
+    $cache->update_row($keys['user'].$id, [
         'ip' => $ip,
         'perms' => $row['perms'],
     ], $TRINITY20['expires']['user_cache']);
@@ -63,12 +63,12 @@ function invincible($id, $invincible = true, $bypass_bans = true)
         'ip' => $ip,
         'perms' => $row['perms'],
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user_stats_'.$id, [
+    $cache->update_row($keys['user_stats_'].$id, [
         'modcomment' => $modcomment,
     ], $TRINITY20['expires']['user_stats']);
     //'ipf'   => $ip,
     if ($id == $CURUSER['id']) {
-        $cache->update_row('user'.$CURUSER['id'], [
+        $cache->update_row($keys['user'].$CURUSER['id'], [
             'ip' => $ip,
             'perms' => $row['perms'],
         ], $TRINITY20['expires']['user_cache']);
@@ -76,7 +76,7 @@ function invincible($id, $invincible = true, $bypass_bans = true)
             'ip' => $ip,
             'perms' => $row['perms'],
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row('user_stats_'.$CURUSER['id'], [
+        $cache->update_row($keys['user_stats_'].$CURUSER['id'], [
             'modcomment' => $modcomment,
         ], $TRINITY20['expires']['user_stats']);
     }

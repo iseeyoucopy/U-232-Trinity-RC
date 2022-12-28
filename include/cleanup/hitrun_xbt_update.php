@@ -51,7 +51,7 @@ function docleanup($data)
                 }
                 unset($_pms, $_users);
                 $update['hit_and_run_total'] = ($arr_fuckers['hit_and_run_total'] + $arr_fuckers['poop']);
-                $cache->update_row('user'.$arr_fuckers['uid'], [
+                $cache->update_row($keys['user'].$arr_fuckers['uid'], [
                     'hit_and_run_total' => $update['hit_and_run_total'],
                     'downloadpos' => 0,
                     'can_leech' => 0,
@@ -104,7 +104,7 @@ function docleanup($data)
                     __LINE__);
                 //tid='.sqlesc($arr['tid']).' AND
                 unset($_pms, $_users);
-                $cache->update_row('user'.$arr_good_boy['id'], [
+                $cache->update_row($keys['user'].$arr_good_boy['id'], [
                     'downloadpos' => 1,
                     'can_leech' => 1,
                     'hnrwarn' => 'no',

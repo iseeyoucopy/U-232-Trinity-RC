@@ -56,10 +56,10 @@ if (isset($_GET['remove'])) {
             $cache->update_row($keys['my_userid'].$remove_me_Ive_been_good, [
                 'watched_user' => 0,
             ], $TRINITY20['expires']['curuser']);
-            $cache->update_row('user'.$remove_me_Ive_been_good, [
+            $cache->update_row($keys['user'].$remove_me_Ive_been_good, [
                 'watched_user' => 0,
             ], $TRINITY20['expires']['user_cache']);
-            $cache->update_row('user_stats_'.$remove_me_Ive_been_good, [
+            $cache->update_row($keys['user_stats_'].$remove_me_Ive_been_good, [
                 'modcomment' => $modcomment,
             ], $TRINITY20['expires']['user_stats']);
             $count = 1;
@@ -81,10 +81,10 @@ if (isset($_GET['remove'])) {
                 $cache->update_row($keys['my_userid'].$id, [
                     'watched_user' => 0,
                 ], $TRINITY20['expires']['curuser']);
-                $cache->update_row('user'.$id, [
+                $cache->update_row($keys['user'].$id, [
                     'watched_user' => 0,
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row('user_stats_'.$id, [
+                $cache->update_row($keys['user_stats_'].$id, [
                     'modcomment' => $modcomment,
                 ], $TRINITY20['expires']['user_stats']);
                 $count = (++$count);
@@ -140,11 +140,11 @@ if (isset($_GET['add'])) {
         $cache->update_row($keys['my_userid'].$member_whos_been_bad, [
             'watched_user' => TIME_NOW,
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row('user'.$member_whos_been_bad, [
+        $cache->update_row($keys['user'].$member_whos_been_bad, [
             'watched_user' => TIME_NOW,
             'watched_user_reason' => $watched_user_reason,
         ], $TRINITY20['expires']['user_cache']);
-        $cache->update_row('user_stats_'.$member_whos_been_bad, [
+        $cache->update_row($keys['user_stats_'].$member_whos_been_bad, [
             'modcomment' => $modcomment,
         ], $TRINITY20['expires']['user_stats']);
     }

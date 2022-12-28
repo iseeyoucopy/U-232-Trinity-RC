@@ -108,7 +108,7 @@ if ($newtopic) {
         $cache->update_row('userstats_'.$CURUSER["id"], [
             'seedbonus' => $update['seedbonus'],
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row('user_stats_'.$CURUSER["id"], [
+        $cache->update_row($keys['user_stats_'].$CURUSER["id"], [
             'seedbonus' => $update['seedbonus'],
         ], $TRINITY20['expires']['user_stats']);
     }
@@ -169,7 +169,7 @@ if ($newtopic) {
             $cache->update_row('userstats_'.$CURUSER["id"], [
                 'seedbonus' => $update['seedbonus'],
             ], $TRINITY20['expires']['u_stats']);
-            $cache->update_row('user_stats_'.$CURUSER["id"], [
+            $cache->update_row($keys['user_stats_'].$CURUSER["id"], [
                 'seedbonus' => $update['seedbonus'],
             ], $TRINITY20['expires']['user_stats']);
         }

@@ -48,10 +48,10 @@ if (isset($open) && $open == 1) {
                 $cache->update_row($keys['user_stats'].$userid, [
                     'uploaded' => $update['uploaded'],
                 ], $TRINITY20['expires']['u_stats']);
-                $cache->update_row('user_stats_'.$userid, [
+                $cache->update_row($keys['user_stats_'].$userid, [
                     'uploaded' => $update['uploaded'],
                 ], $TRINITY20['expires']['user_stats']);
-                $cache->update_row('user'.$userid, [
+                $cache->update_row($keys['user'].$userid, [
                     'invites' => $update['invites'],
                     'freeslots' => $update['freeslots'],
                     'gotgift' => 'yes',
@@ -73,10 +73,10 @@ Thanks for your support and sharing through year ".date('Y')." ! <br /> Merry Ch
                 $cache->update_row($keys['user_stats'].$userid, [
                     'seedbonus' => $update['seedbonus'],
                 ], $TRINITY20['expires']['u_stats']);
-                $cache->update_row('user_stats_'.$userid, [
+                $cache->update_row($keys['user_stats_'].$userid, [
                     'seedbonus' => $update['seedbonus'],
                 ], $TRINITY20['expires']['user_stats']);
-                $cache->update_row('user'.$userid, [
+                $cache->update_row($keys['user'].$userid, [
                     'invites' => $update['invites'],
                     'gotgift' => 'yes',
                 ], $TRINITY20['expires']['user_cache']);
@@ -97,10 +97,10 @@ Thanks for your support and sharing through year ".date('Y')." ! <br /> Merry Ch
                 $cache->update_row($keys['user_stats'].$userid, [
                     'seedbonus' => $update['seedbonus'],
                 ], $TRINITY20['expires']['u_stats']);
-                $cache->update_row('user_stats_'.$userid, [
+                $cache->update_row($keys['user_stats_'].$userid, [
                     'seedbonus' => $update['seedbonus'],
                 ], $TRINITY20['expires']['user_stats']);
-                $cache->update_row('user'.$userid, [
+                $cache->update_row($keys['user'].$userid, [
                     'invites' => $update['invites'],
                     'freeslots' => $update['freeslots'],
                     'gotgift' => 'yes',
@@ -125,11 +125,11 @@ Thanks for your support and sharing through year ".date('Y')." ! <br /> Merry Ch
                     'seedbonus' => $update['seedbonus'],
                     'uploaded' => $update['uploaded'],
                 ], $TRINITY20['expires']['u_stats']);
-                $cache->update_row('user_stats_'.$userid, [
+                $cache->update_row($keys['user_stats_'].$userid, [
                     'seedbonus' => $update['seedbonus'],
                     'uploaded' => $update['uploaded'],
                 ], $TRINITY20['expires']['user_stats']);
-                $cache->update_row('user'.$userid, [
+                $cache->update_row($keys['user'].$userid, [
                     'invites' => $update['invites'],
                     'freeslots' => $update['freeslots'],
                     'gotgift' => 'yes',

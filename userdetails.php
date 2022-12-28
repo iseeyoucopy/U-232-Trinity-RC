@@ -44,7 +44,7 @@ $id = isset($_GET["id"]) ? (int)$_GET["id"] : 0;
 if (!is_valid_id($id)) {
     stderr($lang['userdetails_error'], "{$lang['userdetails_bad_id']}");
 }
-if (($user = $cache->get('user'.$id)) === false) {
+if (($user = $cache->get($keys['user'].$id)) === false) {
     $user_fields_ar_int = [
         'id',
         'added',
@@ -203,7 +203,7 @@ if (($user = $cache->get('user'.$id)) === false) {
     foreach ($user_fields_ar_str as $i) {
         $user[$i] = $user[$i];
     }
-    $cache->set('user'.$id, $user, $TRINITY20['expires']['user_cache']);
+    $cache->set($keys['user'].$id, $user, $TRINITY20['expires']['user_cache']);
 }
 if ($user["status"] == "pending") {
     stderr($lang['userdetails_error'], $lang['userdetails_still_pending']);
@@ -328,7 +328,7 @@ if (!(isset($_GET["hit"])) && $CURUSER["id"] != $user["id"]) {
         $cache->update_row($keys['my_userid'].$id, [
             'hits' => $update['user_hits'],
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row('user'.$id, [
+        $cache->update_row($keys['user'].$id, [
             'hits' => $update['user_hits'],
         ], $TRINITY20['expires']['user_cache']);
         sql_query("INSERT INTO userhits (userid, hitid, number, added) VALUES(".sqlesc($CURUSER['id']).", ".sqlesc($id).", ".sqlesc($hitnumber).", ".sqlesc(TIME_NOW).")") || sqlerr(__FILE__,

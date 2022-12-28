@@ -141,7 +141,7 @@ function snatchtable_staff($res)
         } else {
             $htmlout_snatch .= "<div class='divTableBody'>
             <div class='divTableRow'>
-            <div class='divTableCell'>".($arr['owner'] == $id ? "<b><font color='orange'>{$lang['userdetails_s_towner']}</font></b><br />" : "".($arr['completedtime'] != '0' ? "<b><font color='lightgreen'>{$lang['userdetails_s_fin']}</font></b><br />" : "<b><font color='red'>{$lang['userdetails_s_nofin']}</font></b><br />")."")."<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($arr['image'])."' alt='".htmlsafechars($arr['name'])."' title='".htmlsafechars($arr['name'])."' /></div>"."
+            <div class='divTableCell'>".($arr['owner'] == $id ? "<b><font color='orange'>{$lang['userdetails_s_towner']}</font></b><br />" : "".($arr['completedtime'] != '0' ? "<b><font color='lightgreen'>{$lang['userdetails_s_fin']}</font></b><br />" : "<b><font color='red'>{$lang['userdetails_s_notfin']}</font></b><br />")."")."<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($arr['image'])."' alt='".htmlsafechars($arr['name'])."' title='".htmlsafechars($arr['name'])."' /></div>"."
             <div class='divTableCell'>
                 <a class='altlink' href='{$TRINITY20['baseurl']}/details.php?id=".(int)$arr['tid']."'><b>".htmlsafechars($arr['torrent_name'])."</b></a>".($arr['completedtime'] != '0' ? "<br /><font color='yellow'>{$lang['userdetails_s_started']}".get_date($arr['started'],
                         0, 1)."</font><br />" : "<font color='yellow'>started:".get_date($arr['started'], 0,

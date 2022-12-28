@@ -29,7 +29,7 @@ function docleanup($data)
             sql_query(account_delete($userid)) || sqlerr(__FILE__, __LINE__);
             if ($mysqli->affected_rows !== false) {
                 $cache->delete($keys['my_userid'].$userid);
-                $cache->delete('user'.$userid);
+                $cache->delete($keys['user'].$userid);
             }
         }
     }

@@ -59,7 +59,7 @@ if ($bonus_type == 1) {
         $cache->update_row($keys['user_stats'].$id, [
             'downloaded' => $down - $bonus_do,
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row('user_stats_'.$id, [
+        $cache->update_row($keys['user_stats_'].$id, [
             'downloaded' => $down - $bonus_do,
         ], $TRINITY20['expires']['user_stats']);
     }
@@ -72,7 +72,7 @@ if ($bonus_type == 1) {
         $cache->update_row($keys['user_stats'].$id, [
             'downloaded' => 0,
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row('user_stats_'.$id, [
+        $cache->update_row($keys['user_stats_'].$id, [
             'downloaded' => 0,
         ], $TRINITY20['expires']['user_stats']);
     }
@@ -86,7 +86,7 @@ if ($bonus_type == 2) {
     $cache->update_row($keys['user_stats'].$id, [
         'uploaded' => $up + $bonus_do,
     ], $TRINITY20['expires']['u_stats']);
-    $cache->update_row('user_stats_'.$id, [
+    $cache->update_row($keys['user_stats_'].$id, [
         'uploaded' => $up + $bonus_do,
     ], $TRINITY20['expires']['user_stats']);
 }
@@ -112,7 +112,7 @@ if ($bonus_type == 4) {
     $cache->update_row($keys['user_stats'].$id, [
         'seedbonus' => $karma + $bonus_do,
     ], $TRINITY20['expires']['u_stats']);
-    $cache->update_row('user_stats_'.$id, [
+    $cache->update_row($keys['user_stats_'].$id, [
         'seedbonus' => $karma + $bonus_do,
     ], $TRINITY20['expires']['user_stats']);
 }
