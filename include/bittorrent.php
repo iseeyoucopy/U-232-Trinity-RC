@@ -907,7 +907,7 @@ function sqlesc($x)
     if (is_integer($x)) {
         return (int)$x;
     }
-    return sprintf('\'%s\'', $mysqli->real_escape_string($x));
+    return sprintf('\'%s\'', $mysqli->real_escape_string($x ?? ''));
 }
 
 function sqlwildcardesc($x)
