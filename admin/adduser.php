@@ -100,33 +100,76 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 $HTMLOUT = '<div class="card">
     <div class="card-divider">'.$lang['std_adduser'].'</div>
-    <form method="post" action="staffpanel.php?tool=adduser&amp;action=adduser">
+    <form method="post" action="staffpanel.php?tool=adduser&amp;action=adduser" data-abide novalidate>
+        <div data-abide-error class="sr-only">
+            There are some errors in your form.
+        </div>
         <div class="card-section">
-            <div class="input-group">
-                <span class="input-group-label">'.$lang['text_username'].'</span>
-                <input class="input-group-field" type="text" name="username">
+            <div class="grid-x grid-padding-x">
+                <div class="small-3 cell hide-for-small-only">
+                    <label for="usr-label" class="text-right middle">
+                        <strong>'.$lang['text_username'].'</strong>
+                    </label>
+                </div>
+                <div class="small-9 cell">
+                    <input type="text" name="username" id="usr-label" placeholder="Please enter your username" required>
+                </div>
             </div>
-            <div class="input-group">
-                <span class="input-group-label">'.$lang['text_password'].'</span>
-                <input class="input-group-field" type="password" name="password">
+            <div class="grid-x grid-padding-x">
+                <div class="small-3 cell hide-for-small-only">
+                    <label for="pass-label" class="text-right middle">
+                        <strong>'.$lang['text_password'].'</strong>
+                    </label>
+                </div>
+                <div class="small-9 cell">
+                    <input type="password" name="password" id="pass-label" placeholder="Please enter your password" required>
+                </div>
             </div>
-            <div class="input-group">
-                <span class="input-group-label">'.$lang['text_password2'].'</span>
-                <input class="input-group-field" type="password" name="password2">
+            <div class="grid-x grid-padding-x">
+                <div class="small-3 cell hide-for-small-only">
+                    <label for="pass2-label" class="text-right middle">
+                        <strong>'.$lang['text_password2'].'</strong>
+                    </label>
+                </div>
+                <div class="small-9 cell">
+                    <input type="password" name="password2" id="pass2-label" placeholder="Please re-enter your password" required>
+                </div>
             </div>
-            <div class="input-group">
-                <span class="input-group-label">'.$lang['text_email'].'</span>
-                <input class="input-group-field" type="text" name="email">
+            <div class="grid-x grid-padding-x">
+                <div class="small-3 cell hide-for-small-only">
+                    <label for="email-label" class="text-right middle">
+                        <strong>'.$lang['text_email'].'</strong>
+                    </label>
+                </div>
+                <div class="small-9 cell">
+                    <input type="text" name="email" id="email-label" placeholder="Please enter your email address" required>
+                </div>
             </div>
-            <div class="input-group">
-                <span class="input-group-label">'.$lang['text_birthday'].'</span>
-                <input class="input-group-field" type="text" name="birthday">
+            <div class="grid-x grid-padding-x">
+                <div class="small-3 cell hide-for-small-only">
+                    <label for="bday-label" class="text-right middle">
+                        <strong>'.$lang['text_birthday'].'</strong>
+                    </label>
+                </div>
+                <div class="small-9 cell">
+                    <input type="date" name="birthday" id="bday-label" required>
+                </div>
             </div>
-            <div class="input-group">
-                <span class="input-group-label">'.$lang['text_pin_code'].'</span>
-                <input class="input-group-field" type="text" name="pincode">
+            <div class="grid-x grid-padding-x">
+                <div class="small-3 cell hide-for-small-only">
+                    <label for="pin-label" class="text-right middle">
+                        <strong>'.$lang['text_pin_code'].'</strong>
+                    </label>
+                </div>
+                <div class="small-9 cell">
+                    <input type="number" name="pincode" id="pin-label" placeholder="Please choose a PIN number" required>
+                </div>
             </div>
-            <input class="button float-center" type="submit" value="'.$lang['btn_okay'].'">
+            <div class="grid-x grid-padding-x">
+            <div class="cell small-offset-3 small-4 medium-offset-4 large-offset-4">
+                <input class="button float-center expanded warning" type="submit" value="'.$lang['btn_okay'].'">
+            </div>
+            </div>
         </div>
     </form>
 </div>';
