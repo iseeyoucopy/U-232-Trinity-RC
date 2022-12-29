@@ -23,6 +23,7 @@ $keys['requests'] = 'request';
 $keys['u_ach_points'] = 'user_achievement_points:';
 $keys['auto_shoutbox'] = 'auto_shoutbox:';
 $keys['user_stats'] = 'userstats:';
+$keys['user_stats_'] = 'userstats:';
 $keys['user_status'] = 'userstatus:';
 $keys['bookmark_key'] = 'bookmm:';
 $keys['my_peers'] = 'MyPeers:';
