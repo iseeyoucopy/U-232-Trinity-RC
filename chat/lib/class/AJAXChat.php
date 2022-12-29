@@ -2389,7 +2389,7 @@ class AJAXChat
                     time() - 42000,
                     $this->getConfig('sessionCookiePath'),
                     $this->getConfig('sessionCookieDomain'),
-                    $this->getConfig('sessionCookieSecure')
+                    $this->getConfig('sessionCookieSecure') ?? ''
                 );
             }
 
