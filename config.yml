@@ -1,5 +1,5 @@
 # Your project's server will run on localhost:xxxx at this port
-PORT: 8000
+PORT: 80
 # Gulp will reference these paths when it copies files
 PATHS:
   # Path to dist folder
@@ -11,6 +11,7 @@ PATHS:
   # Paths to Sass libraries, which can then be loaded with @import
   sass:
     - "scss/foundation-scss"
+    - "scss/custom"
     - "scss/motion-ui-scss"
     - "scss/fontawesome"
   # Paths to JavaScript entry points for webpack to bundle modules
