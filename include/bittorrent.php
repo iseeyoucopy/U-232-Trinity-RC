@@ -76,7 +76,7 @@ if (preg_match('/(?:\< *(?:java|script)|script\:|\+document\.)/i', serialize($_C
 //== Updated 02/215
 function htmlsafechars($txt = '')
 {
-    $txt = preg_replace("/&(?!#[0-9]+;)(?:amp;)?/s", '&amp;', $txt);
+    $txt = preg_replace("/&(?!#[0-9]+;)(?:amp;)?/s", '&amp;', $txt ?? '');
     $txt = str_replace([
         "<",
         ">",
