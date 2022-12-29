@@ -1,0 +1,94 @@
+.be-user-nav {
+	margin-right: 0;
+	>li.dropdown {
+		>a {
+			font-size: 0;
+			img {
+				max-width: 32px;
+				max-height: 32px;
+				border-radius: 50%;
+			}
+			.user-name {
+				margin-left: 8px;
+				display: none;
+				font-size: 1.077rem;
+				line-height: 20px;
+				vertical-align: middle;
+			}
+			&:after {
+				display: none;
+				font-size: 1.231rem;
+				margin-left: 6px;
+			}
+		}
+		.dropdown-menu {
+			width: 220px;
+			padding: 0 0 7px;
+			left: -178px;
+			a {
+				.icon {
+					vertical-align: middle;
+					margin-right: 10px;
+				}
+			}
+			.user-info {
+				background-color: $background-color_33;
+				color: $color_6;
+				overflow: hidden;
+				padding: 20px 15px 14px;
+				border-radius: 2px 2px 0 0;
+				margin-bottom: 7px;
+				.user-name {
+					display: block;
+					font-size: 1.462rem;
+					line-height: 22px;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					overflow: hidden;
+				}
+				.user-position {
+					display: block;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					overflow: hidden;
+					padding-left: 13px;
+					position: relative;
+					&:after {
+						content: "";
+						position: absolute;
+						height: 7px;
+						width: 7px;
+						left: 0;
+						top: 5px;
+						border: 1px solid #f0f0f0;
+						border-radius: 50%;
+						background-color: $background-color_3;
+						display: block;
+					}
+				}
+				.user-position.online {
+					&:after {
+						background-color: $background-color_84;
+						border-color: $border-color_63;
+					}
+				}
+				.user-position.away {
+					&:after {
+						background-color: $background-color_85;
+						border-color: $border-color_64;
+					}
+				}
+				.user-position.busy {
+					&:after {
+						background-color: $background-color_86;
+						border-color: $border-color_65;
+					}
+				}
+				.switch-status {
+					float: right;
+					margin-top: 5px;
+				}
+			}
+		}
+	}
+}

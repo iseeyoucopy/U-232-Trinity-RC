@@ -1,83 +1,40 @@
-// ----------------------------------------------------------------------------
-// Foundswatch v0.1.4 - Cosmo
-// @see https://foundswatch.com
-// (c) 2020 Vino Rodrigues
-// Licensed under MIT
-// Based on ZURB Foundation for Sites, https://get.foundation
-// Based on Bootswatch - Cosmo, (c) Thomas Park, https://bootswatch.com/cosmo
-// ----------------------------------------------------------------------------
-
-//  Foundation for Sites Settings
-//  -----------------------------
-//
-//  Table of Contents:
-//
-//   1. Global
-//   2. Breakpoints
-//   3. The Grid
-//   4. Base Typography
-//   5. Typography Helpers
-//   6. Abide
-//   7. Accordion
-//   8. Accordion Menu
-//   9. Badge
-//  10. Breadcrumbs
-//  11. Button
-//  12. Button Group
-//  13. Callout
-//  14. Card
-//  15. Close Button
-//  16. Drilldown
-//  17. Dropdown
-//  18. Dropdown Menu
-//  19. Flexbox Utilities
-//  20. Forms
-//  21. Label
-//  22. Media Object
-//  23. Menu
-//  24. Meter
-//  25. Off-canvas
-//  26. Orbit
-//  27. Pagination
-//  28. Progress Bar
-//  46. Responsive Embed
-//  47. Reveal
-//  48. Slider
-//  49. Switch
-//  50. Table
-//  51. Tabs
-//  52. Thumbnail
-//  53. Title Bar
-//  54. Tooltip
-//  55. Top Bar
-//  56. Xy Grid
 
 @import 'util/util';
 
-// 0. From bootswatch
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #999 !default;
+$gray-600: #7a8288 !default;
+$gray-700: #52575c !default;
+$gray-800: #3a3f44 !default;
+$gray-900: #272b30 !default;
+$black:    #000 !default;
 
-$__bs__white:    #fff !default;
-$__bs__gray-100: #f8f9fa !default;
-$__bs__gray-200: #e9ecef !default;
-$__bs__gray-300: #dee2e6 !default;
-$__bs__gray-400: #ced4da !default;
-$__bs__gray-500: #adb5bd !default;
-$__bs__gray-600: #868e96 !default;
-$__bs__gray-700: #495057 !default;
-$__bs__gray-800: #373a3c !default;
-$__bs__gray-900: #212529 !default;
-$__bs__black:    #000 !default;
+$blue:    #007bff !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #e83e8c !default;
+$red:     #8F393B !default;
+$orange:  #fd7e14 !default;
+$yellow:  #f89406 !default;
+$green:   #62c462 !default;
+$teal:    #20c997 !default;
+$cyan:    #5bc0de !default;
 
-$__bs__blue:    #2780E3 !default;
-$__bs__indigo:  #6610f2 !default;
-$__bs__purple:  #613d7c !default;
-$__bs__pink:    #e83e8c !default;
-$__bs__red:     #FF0039 !default;
-$__bs__orange:  #f0ad4e !default;
-$__bs__yellow:  #FF7518 !default;
-$__bs__green:   #3FB618 !default;
-$__bs__teal:    #20c997 !default;
-$__bs__cyan:    #9954BB !default;
+$primary:       $gray-800 !default;
+$secondary:     $gray-600 !default;
+$success:       $green !default;
+$info:          $cyan !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$light-gray:         $gray-200 !default;
+$dark-gray:          $gray-900 !default;
+$medium-gray:          $gray-600 !default;
+
+$min-contrast-ratio:   1.95 !default;
 
 $contrast-warnings: false;
 
@@ -88,19 +45,20 @@ $global-font-size: 0.9375rem;
 $global-width: rem-calc(1200);
 $global-lineheight: 1.5;
 $foundation-palette: (
-  primary: $__bs__blue,
-  secondary: $__bs__gray-800,
-  success: $__bs__green,
-  warning: $__bs__yellow,
-  alert: $__bs__red,
+  primary: $gray-800,
+  secondary: $gray-600,
+  success: $green,
+  warning: $yellow,
+  alert: $danger,
+  light-gray: $gray-200,
+  medium-gray: $gray-600,
+  dark-gray: $gray-900,
 );
-$light-gray: $__bs__gray-100;
-$medium-gray: $__bs__gray-500;
-$dark-gray: $__bs__gray-800;
-$black: $__bs__black;
-$white: $__bs__white;
-$body-background: $white;
-$body-font-color: $black;
+$black: $black;
+$white: $white;
+$body-background: $dark-gray;
+$body-color:                #aaa !default;
+$body-font-color: $white;
 $body-font-family: "Segoe UI", "Source Sans Pro", Calibri, Candara, Arial, sans-serif;
 $font-family-monospace: "Source Code Pro", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 $body-antialiased: true;
@@ -109,7 +67,7 @@ $global-padding: 1rem;
 $global-position: 1rem;
 $global-weight-normal: 400;
 $global-weight-bold: 700;
-$global-radius: 0;
+$global-radius: 2;
 $global-menu-padding: 0.7rem 1rem;
 $global-menu-nested-margin: 1rem;
 $global-text-direction: ltr;
@@ -117,7 +75,7 @@ $global-flexbox: true;
 $global-prototype-breakpoints: false;
 $global-button-cursor: auto;
 $global-color-pick-contrast-tolerance: 0;
-$global-content-border: $__bs__gray-300;
+$global-content-border: $gray-300;
 $print-transparent-backgrounds: true;
 $print-hrefs: true;
 $label-radius-global: 0.25rem;
@@ -164,7 +122,7 @@ $header-font-family: $body-font-family;
 $header-font-weight: 300;
 $header-font-style: normal;
 // $font-family-monospace: Consolas, 'Liberation Mono', Courier, monospace;
-$header-color: inherit;
+$header-color: $white;
 $header-lineheight: 1.4;
 $header-margin-bottom: 0.5rem;
 $header-styles: (
@@ -187,12 +145,12 @@ $header-styles: (
 );
 $header-text-rendering: optimizeLegibility;
 $small-font-size: 80%;
-$header-small-font-color: $medium-gray;
+$header-small-font-color: $white;
 $paragraph-lineheight: 1.6;
 $paragraph-margin-bottom: 1rem;
 $paragraph-text-rendering: optimizeLegibility;
 $enable-code-inline: true;
-$anchor-color: $primary-color;
+$anchor-color: $white;
 $anchor-color-hover: scale-color($anchor-color, $lightness: -14%);
 $anchor-text-decoration: none;
 $anchor-text-decoration-hover: none;
@@ -323,7 +281,7 @@ $button-background: $primary-color;
 $button-background-hover: scale-color($button-background, $lightness: -15%);
 $button-color: $white;
 $button-color-alt: $white;
-$button-radius: $global-radius;
+$button-radius: 0.35rem;
 $button-border: 1px solid transparent;
 $button-hollow-border-width: 1px;
 $button-sizes: (
@@ -351,8 +309,7 @@ $buttongroup-radius-on-each: true;
 // 13. Callout
 // -----------
 
-$callout-background: $white;
-$callout-background-fade: 85%;
+$callout-background: $dark-gray;
 $callout-border: 1px solid $global-content-border;
 $callout-margin: 0 0 1rem 0;
 $callout-sizes: (
@@ -360,18 +317,18 @@ $callout-sizes: (
   default: 1rem,
   large: 3rem,
 );
-$callout-font-color: $body-font-color;
+$callout-font-color: $body-color;
 $callout-font-color-alt: $body-background;
-$callout-radius: $global-radius;
+$callout-radius: 0.35rem;
 $callout-link-tint: 30%;
 
 // 14. Card
 // --------
 
-$card-background: $white;
-$card-font-color: $body-font-color;
-$card-divider-background: $primary-color;
-$card-border: 1px solid #007fff;
+$card-background: lighten($body-background, 5%) !default;
+$card-font-color: $white;
+$card-divider-background: lighten($gray-800, 10%) !default;
+$card-border: 1px solid $black;
 $card-shadow: 0 0 10px rgba($black, 0.7);;
 $card-border-radius: 0.35rem;
 $card-padding: $global-padding;
@@ -463,7 +420,7 @@ $helptext-color: $black;
 $helptext-font-size: rem-calc(13);
 $helptext-font-style: italic;
 $input-prefix-color: $black;
-$input-prefix-background: $light-gray;
+$input-prefix-background: $medium-gray;
 $input-prefix-border: 1px solid $medium-gray;
 $input-prefix-padding: 1rem;
 $form-label-color: $black;
@@ -473,6 +430,7 @@ $form-label-line-height: 1.8;
 $select-background: $white;
 $select-triangle-color: $dark-gray;
 $select-radius: $global-radius;
+$input-border-radius: 0.35rem;
 $input-color: $black;
 $input-placeholder-color: $medium-gray;
 $input-font-family: inherit;
@@ -490,7 +448,7 @@ $input-shadow-focus: 0 0 0 0.2rem rgba(get-color(primary), 0.25);  // 0 0 5px $m
 $input-cursor-disabled: not-allowed;
 $input-transition: box-shadow 0.5s, border-color 0.25s ease-in-out;
 $input-number-spinners: true;
-$input-radius: $global-radius;
+$input-radius: $input-border-radius;
 $form-button-radius: $global-radius;
 
 // 21. Label
@@ -534,7 +492,7 @@ $meter-radius: $global-radius;
 $meter-background: $medium-gray;
 $meter-fill-good: $success-color;
 $meter-fill-medium: $warning-color;
-$meter-fill-bad: $alert-color;
+$meter-fill-bad: $red;
 
 // 25. Off-canvas
 // --------------
@@ -659,7 +617,7 @@ $switch-cursor-disabled: not-allowed;
 // 50. Table
 // ---------
 
-$table-background: $white;
+$table-background: $dark-gray;
 $table-color-scale: 5%;
 $table-border: 1px solid $global-content-border;
 $table-padding: rem-calc(8 10 10);
@@ -670,11 +628,11 @@ $table-is-striped: true;
 $table-striped-background: smart-scale($table-background, $table-color-scale);
 $table-stripe: even;
 $table-head-background: smart-scale($table-background, $table-color-scale / 2);
-$table-head-row-hover: darken($table-head-background, $table-hover-scale);
+$table-head-row-hover: rgba($white, .075) !default;
 $table-foot-background: smart-scale($table-background, $table-color-scale);
-$table-foot-row-hover: darken($table-foot-background, $table-hover-scale);
-$table-head-font-color: $body-font-color;
-$table-foot-font-color: $body-font-color;
+$table-foot-row-hover: rgba($white, .075) !default;
+$table-head-font-color: $body-color;
+$table-foot-font-color: $body-color;
 $show-header-for-stacked: false;
 $table-stack-breakpoint: medium;
 
@@ -682,8 +640,8 @@ $table-stack-breakpoint: medium;
 // --------
 
 $tab-margin: 0;
-$tab-background: transparent;  // $white;
-$tab-color: $primary-color;
+$tab-background: $primary-color;  // $white;
+$tab-color: $body-color;
 $tab-background-active: $light-gray;
 $tab-active-color: $primary-color;
 $tab-item-font-size: 1rem;  // rem-calc(12);
@@ -734,8 +692,8 @@ $tooltip-radius: $global-radius;
 // -----------
 
 $topbar-padding: 0.5rem;
-$topbar-background: $__bs__blue;
-$topbar-submenu-background: $__bs__blue;
+$topbar-background: $primary;
+$topbar-submenu-background: $primary;
 $topbar-title-spacing: 0.5rem 1rem 0.5rem 0;
 $topbar-input-width: 200px;
 $topbar-unstack-breakpoint: medium;

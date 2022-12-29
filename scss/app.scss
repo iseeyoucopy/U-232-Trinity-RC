@@ -1,13 +1,6 @@
 @charset 'utf-8';
 
 @import 'settings';
-@import 'pagination';
-@import 'foundswatch';
-@import 'multileveloffcanvas';
-@import 'subnav_header';
-@import 'div_table';
-@import 'table_top10';
-@import 'custom_footer';
 @import 'foundation';
 @import 'fontawesome';
 @import 'regular';
@@ -15,13 +8,10 @@
 @import 'v4-shims';
 @import 'brands';
 @import 'motion-ui';
-@import 'other_stuff';
-@import 'forum';
-@import 'table_expand';
-@import 'text-colors';
-@import 'card_user_container';
+@import 'custom';
 
 // Global styles
+
 @include foundation-global-styles;
 @include foundation-forms;
 @include foundation-typography;

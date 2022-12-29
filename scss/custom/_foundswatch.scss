@@ -178,20 +178,59 @@
 $topbar-text-color: $white;
 $topbar-link-color: rgba($white, 0.9);
 $topbar-link-active-color: $white;
-
 .top-bar {
 	input,
 	button {
 		min-height: 100%;
 		margin-right: 0.5rem;
 	}
-
+	.be-user-nav {
+		display: none;
+	}
+	.be-user-nav {
+		>li.dropdown {
+			.dropdown-menu {
+				a {
+					&:active {
+						background-color: $background-color_3;
+						color: $color_53;
+					}
+					&:focus {
+						background-color: $background-color_3;
+						color: $color_53;
+					}
+					&:hover {
+						background-color: $background-color_6;
+						color: $color_53;
+					}
+				}
+				&:after {
+					left: auto;
+					right: 13px;
+					border-bottom-color: $border-bottom-color_5;
+				}
+				&:before {
+					display: none;
+				}
+			}
+		}
+	}
 	.dropdown.menu {
 		> li > a {
+			float: none;
+			display: inline-block;
+			border: 1px solid transparent;
+			margin-bottom: -1px;
+	
+			&:hover,
+			&:focus {
+			  background: $dark-gray;
+			}
 			color: $topbar-link-color;
 			&:hover, &:active {
 				color: $topbar-link-active-color;
 			}
+
 		}
 		> li.is-dropdown-submenu-parent > a::after {
 			@include css-triangle($dropdownmenu-arrow-size, $topbar-link-color, down);
@@ -205,13 +244,31 @@ $topbar-link-active-color: $white;
 		> li.is-active > a {
 			color: $topbar-link-active-color;
 		}
+		&.opens-inner > .is-dropdown-submenu {
+
+			top: 100%;
+			@if $global-text-direction == 'rtl' {
+			  right: auto;
+			}
+			@else {
+			  left: auto;
+			}
+		  }
+
 		.is-dropdown-submenu {
 			> li > a {
+				color: color-pick-contrast($primary-color);
+
+				&:hover,
+				&:focus {
+				  background: $dark-gray;
+				}
 				color: $topbar-link-color;
 				&:hover, &:active {
 					color: $topbar-link-active-color;
 				}
 			}
+			top: 140%
 		}
 	}
 }
