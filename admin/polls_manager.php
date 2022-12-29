@@ -238,11 +238,47 @@ function poll_box(
     $pid = isset($_GET['pid']) ? (int)$_GET['pid'] : 0;
     $form_type = ($form_type != '' ? $form_type : 'poll_update');
     $HTMLOUT = "";
-    return $HTMLOUT.";
+    $HTMLOUT = "";
+    $HTMLOUT.= "
+    <script type=\"text/javascript\" src=\"scripts/polls.js\"></script>
+     <script type=\"text/javascript\">
+     //<![CDATA[
+      var showfullonload = parseInt(\"{$show_open}\");
+      
+      // Questions
+      var poll_questions = {{$poll_questions}};
+      
+      var poll_choices = {{$poll_choices}};
+      
+      var poll_votes = {{$poll_votes}};
+      var poll_multi = {{$poll_multi}};
+      
+      // Setting elements
+      var max_poll_questions = parseInt(\"{$max_poll_questions}\");
+      var max_poll_choices   = parseInt(\"{$max_poll_choices}\");
+      
+      // HTML elements
+      var html_add_question = \"<div class='row'><div class='col-md-12'><a href='#' title='{$lang['poll_pb_add_q']}' style='color:green;font-weight:bold' onclick='return poll_add_question()'><span class='btn' style='padding:3px;'><img style='vertical-align:-30%;' src='{$TRINITY20['pic_base_url']}/polls/p_plus.gif' alt='{$lang['poll_pb_add_q']}' />{$lang['poll_pb_add_q']}</span></a></div></div>\";
+      
+      var html_add_choice = \"<div class='row'><div class='col-md-12'><li>&nbsp;<a href='#' title='{$lang['poll_pb_add_c']}' style='color:green;font-weight:bold' onclick='return poll_add_choice(\"+'\"'+'<%1>'+'\"'+\")'><span class='btn' style='padding:3px;'><img style='vertical-align:-30%;' src='{$TRINITY20['pic_base_url']}/polls/p_plus.gif' alt='{$lang['poll_pb_add_c']}' />{$lang['poll_pb_add_c']}</span></a></li></div></div>\";
+      
+      var html_question_box = \"<div class='row'><div class='col-md-12'><input  class='form-control' type='text' id='question_<%1>' name='question[<%1>]'  value='<%2>' /> <a href='#' title='{$lang['poll_pb_remove_q']}' style='color:red;font-weight:bold' onclick='return poll_remove_question(\"+'\"'+'<%1>'+'\"'+\")'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_minus.gif' alt='{$lang['poll_pb_add_new']}' /></a></div></div><br /><input class='checkbox' type='checkbox' id='multi_<%1>' name='multi[<%1>]' value='1' <%3> /><br><span>{$lang['poll_pb_multiple']}</span>\";
+      
+      var html_votes_box = \"&nbsp;<input type='text' id='votes_<%1>_<%2>' name='votes[<%1>_<%2>]' size='5' class='input' value='<%3>' />\";
+      
+      var html_choice_box = \"<li><input type='text' id='choice_<%1>_<%2>' name='choice[<%1>_<%2>]' size='35' class='input' value='<%3>' /><%4> <a href='#' title='{$lang['poll_pb_rem_choice']}' style='color:red;font-weight:bold' onclick='return poll_remove_choice(\"+'\"'+'<%1>_<%2>'+'\"'+\")'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_minus.gif' alt='{$lang['poll_pb_add_new']}' /></a></li>\";
+      
+      var html_choice_wrap = \"<ol><%1></ol>\";
+      var html_question_wrap = \"<div><%1></div>\";
+      var html_stat_wrap = \"<br /><div><%1></div>\";
+      
+      // Lang elements
+      var js_lang_confirm = \"{$lang['poll_pb_confirm']}\";
+      var poll_stat_lang = \"{$lang['poll_pb_allowed']} <%1> {$lang['poll_pb_more']} <%2>  {$lang['poll_pb_choices']}\";
       
       //]]>
-     </script>
-     
+     </script>";
+    return $HTMLOUT."   
      <div class='row'><div class='col-md-12'>
      <h2>{$lang['poll_pb_editing']}</h2>
      <br />
@@ -308,7 +344,7 @@ function makepoll()
             if (!$question_id || !isset($choice_id)) {
                 continue;
             }
-            if (!$questions[$question_id]['question']) {
+            if (!$questions[$question_id]['question'] ?? null) {
                 continue;
             }
             $questions[$question_id]['choice'][$choice_id] = htmlsafechars(strip_tags($choice), ENT_QUOTES);
