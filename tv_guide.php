@@ -133,7 +133,7 @@ foreach ($tvsched as $key => $item) {
             break;
         }
     }
-    if (strpos($itemAverageRating, '.')) {
+    if (strpos((string)$itemAverageRating, '.')) {
         $HTMLOUT .= '<span class="fas fa-star-half"></span>';
         $x++;
     }
