@@ -103,29 +103,28 @@ if (curuser::$blocks['index_page'] & block_index::LAST_24_ACTIVE_USERS && $BLOCK
     require_once(BLOCK_DIR.'index/active_24h_users.php');
     $HTMLOUT .= "</div>";
 }
-
+$HTMLOUT .= "<div class='grid-x grid-margin-x' data-equalizer data-equalize-on='medium' id='test-eq'>";
 if (curuser::$blocks['index_page'] & block_index::BIRTHDAY_ACTIVE_USERS && $BLOCKS['active_birthday_users_on']) {
-    $HTMLOUT .= "<div id='BIRTHDAY_ACTIVE_USERS'>";
     require_once(BLOCK_DIR.'index/active_birthday_users.php');
-    $HTMLOUT .= "</div>";
 }
 if (curuser::$blocks['index_page'] & block_index::LATEST_USER && $BLOCKS['latest_user_on']) {
-    $HTMLOUT .= "<div id='LATEST_USER'>";
     require_once(BLOCK_DIR.'index/latest_user.php');
-    $HTMLOUT .= "</div>";
 }
-
+if (curuser::$blocks['index_page'] & block_index::DONATION_PROGRESS && $BLOCKS['donation_progress_on']) { 
+    require_once(BLOCK_DIR.'index/donations.php');
+}
+$HTMLOUT .= "</div>";
 if (curuser::$blocks['index_page'] & block_index::ACTIVE_POLL && $BLOCKS['active_poll_on']) {
     $HTMLOUT .= "<div id='ACTIVE_POLL'>";
     require_once(BLOCK_DIR.'index/poll.php');
     $HTMLOUT .= "</div>";
 }
-
 if (curuser::$blocks['index_page'] & block_index::XMAS_GIFT && $BLOCKS['xmas_gift_on']) {
     $HTMLOUT .= "<div id='XMAS_GIFT'>";
     require_once(BLOCK_DIR.'index/gift.php');
     $HTMLOUT .= "</div>";
 }
+
 /*
 	if (curuser::$blocks['index_page'] & block_index::RADIO && $BLOCKS['radio_on']) {
 $HTMLOUT .="<div id='RADIO'>";
@@ -141,10 +140,6 @@ if (curuser::$blocks['index_page'] & block_index::TORRENTFREAK && $BLOCKS['torre
 
 if (curuser::$blocks['index_page'] & block_index::DISCLAIMER && $BLOCKS['disclaimer_on']) {
     require_once(BLOCK_DIR.'index/disclaimer.php');
-}
-
-if (curuser::$blocks['index_page'] & block_index::DONATION_PROGRESS && $BLOCKS['donation_progress_on']) {
-    require_once(BLOCK_DIR.'index/donations.php');
 }
 
 echo stdhead('Home', true, $stdhead).$HTMLOUT.stdfoot($stdfoot);

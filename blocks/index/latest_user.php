@@ -24,10 +24,10 @@ if (($latestuser_cache = $cache->get($keys['latestuser'])) === false) {
     $latestuser_cache['king'] = (int)$latestuser_cache['king'];
     $cache->set($keys['latestuser'], $latestuser_cache, $TRINITY20['expires']['latestuser']);
 }
-$HTMLOUT .= '<div class="card">
+$HTMLOUT .= '<div class="cell medium-4"><div class="card" data-equalizer-watch>
     <div class="card-divider">'.$lang['index_lmember'].'</div>
         <div class="card-section">'.$lang['index_wmember'].format_username($latestuser_cache).'!</div>
-    </div>';
+        </div></div>';
 //==End	
 // End Class
 // End File
