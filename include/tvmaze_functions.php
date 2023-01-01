@@ -12,7 +12,7 @@
  */
 define('TBUCKET_DIR', BITBUCKET_DIR.DIRECTORY_SEPARATOR.'tvmaze');
 if (!is_dir(TBUCKET_DIR)) {
-    mkdir(TBUCKET_DIR);
+    mkdir(TBUCKET_DIR, 0777, true);
 }
 
 function tvmaze_format($tvmaze_data, $tvmaze_type)
