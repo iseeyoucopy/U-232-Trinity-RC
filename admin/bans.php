@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $CURUSER['class'] == UC_MAX) {
     $first = ip2long($first);
     $last = ip2long($last);
     if ($first == -1 || $first === false || $last == -1 || $last === false) {
-        stderr("{$lang['stderr_error']}", "{$lang['text_badip.']}");
+        stderr("{$lang['stderr_error']}", "{$lang['text_badip']}");
     }
     $added = TIME_NOW;
     for ($i = $first; $i <= $last; $i++) {
