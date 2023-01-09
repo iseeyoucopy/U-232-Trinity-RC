@@ -55,7 +55,7 @@ if ($count > 0) {
     if ($res->num_rows > 0) {
         while ($data = $res->fetch_assoc()) {
             $i++;
-            $http_agent = htmlsafechars($data['browser']);
+            $http_agent = htmlspecialchars($data['browser']);
             if (strpos($http_agent, "Opera") !== false) {
                 $browser = "<i class='fab fa-opera' alt='Opera' title='Opera'></i>&nbsp;&nbsp;Opera";
             } elseif (strpos($http_agent, "Konqueror") !== false) {
@@ -77,10 +77,10 @@ if ($count > 0) {
 			<td>".$i."</td>
 			<td>".get_date($data['date'], '')."</td>
 			<td>".$browser."</td>
-			<td>".htmlsafechars($data['ip'])."</td>
-			<td>".htmlsafechars($data['ip'])." ".((int)$data['uid'] ? "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$data['uid']."'>" : "")."".(htmlsafechars($data['username']) ? "&nbsp;[".htmlsafechars($data['username'])."]</a>" : "{$lang['ref_guest']}")."
-</td><td><a href='".htmlsafechars($data['referer'])."'>".CutName($data['referer'],
-                    '50')."</a></td><!--<td><a href='".htmlsafechars($data['page'])."'>{$lang['ref_view']}</a></td>--></tr>";
+			<td>".htmlspecialchars($data['ip'])."</td>
+			<td>".htmlspecialchars($data['ip'])." ".((int)$data['uid'] ? "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$data['uid']."'>" : "")."".(htmlspecialchars($data['username']) ? "&nbsp;[".htmlspecialchars($data['username'])."]</a>" : "{$lang['ref_guest']}")."
+</td><td><a href='".htmlspecialchars($data['referer'])."'>".CutName($data['referer'],
+                    '50')."</a></td><!--<td><a href='".htmlspecialchars($data['page'])."'>{$lang['ref_view']}</a></td>--></tr>";
             $browser = '';
         }
     }

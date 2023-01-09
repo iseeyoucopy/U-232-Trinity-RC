@@ -309,7 +309,7 @@ $countries = countries();
 foreach ($countries as $cntry) {
     if (is_array($cntry)) {
         if ($cntry['id'] == $user['country']) {
-            $country = "<img src='{$TRINITY20['pic_base_url']}flag/{$cntry['flagpic']}' alt='".htmlsafechars($cntry['name'])."' style='margin-left: 8pt'>";
+            $country = "<img src='{$TRINITY20['pic_base_url']}flag/{$cntry['flagpic']}' alt='".htmlspecialchars($cntry['name'])."' style='margin-left: 8pt'>";
             break;
         }
     }
@@ -383,7 +383,7 @@ if ($CURUSER["id"] != $user["id"] && $CURUSER['class'] >= UC_STAFF) {
 //== End Suspended ==//
 $where_is_now = $user['where_is'] ?? '';
 //== Avatar ==//
-//$user_avatar = $user['avatar'] ? "<img class='img-polaroid' src='" . htmlsafechars($user["avatar"]) . "' width='42' height='42'>" : "<img class='img-polaroid' src='{$TRINITY20['pic_base_url']}forumicons/default_avatar.gif' width='42' height='42'>";
+//$user_avatar = $user['avatar'] ? "<img class='img-polaroid' src='" . htmlspecialchars($user["avatar"]) . "' width='42' height='42'>" : "<img class='img-polaroid' src='{$TRINITY20['pic_base_url']}forumicons/default_avatar.gif' width='42' height='42'>";
 $perms .= ($CURUSER['class'] >= UC_STAFF ? ((($user['perms'] & bt_options::PERMS_NO_IP) !== 0) ? '<img src="'.$TRINITY20['pic_base_url'].'smilies/super.gif" alt="'.$lang['userdetails_invincible'].'"  title="'.$lang['userdetails_invincible'].'">' : '') : '');
 $stealth .= ($CURUSER['class'] >= UC_STAFF ? ((($user['perms'] & bt_options::PERMS_STEALTH) !== 0) ? '&nbsp;&nbsp;<img src="'.$TRINITY20['pic_base_url'].'smilies/ninja.gif" alt="'.$lang['userdetails_stelth'].'"  title="'.$lang['userdetails_stelth'].'">' : '') : '');
 $enabled = $user["enabled"] == 'yes';
@@ -414,7 +414,7 @@ $HTMLOUT .= (($CURUSER["id"] != $user["id"] & $friends > 0) !== 0) ? "<a href='f
 $HTMLOUT .= (($CURUSER["id"] != $user["id"] & $blocks > 0) !== 0) ? "<a href='friends.php?action=delete&amp;type=block&amp;targetid=$id'><dd><i class='fas fa-user-times'></i>{$lang['userdetails_remove_blocks']}</dd></a>" : "<a href='friends.php?action=add&amp;type=block&amp;targetid=$id'><dd><i class='fas fa-user-lock'></i>{$lang['userdetails_add_blocks']}</dd></a>";
 //=== Link to member contact mail - updated 2020 by iseeyoucopy
 $HTMLOUT .= ($CURUSER['class'] >= UC_STAFF || $user['show_email'] === 'yes') ? '<a href="mailto:'. /*decrypt_email(*/
-    htmlsafechars($user['email'])/*)*/.'" target="_blank"><dd><i class="fas fa-envelope"></i>'.$lang['userdetails_send_email'].'</dd></a>' : '';
+    htmlspecialchars($user['email'])/*)*/.'" target="_blank"><dd><i class="fas fa-envelope"></i>'.$lang['userdetails_send_email'].'</dd></a>' : '';
 //== Link Report User - updated 2020 by iseeyoucopy
 $HTMLOUT .= "<a href='report.php?type=User&amp;id=".(int)$user["id"]."'><dd><i class='fas fa-comment-alt'></i>{$lang['userdetails_report']}</dd></a>";
 //== Link to usercp  - updated 2020 by iseeyoucopy
@@ -440,7 +440,7 @@ $HTMLOUT .= ($CURUSER['id'] !== $user['id'] && $CURUSER['class'] >= UC_STAFF) ? 
 $HTMLOUT .= " </div>";
 // == Donor count down - updated 2020 by iseeyoucopy
 if ($user["donor"] && $CURUSER["id"] == $user["id"] || $CURUSER["class"] == UC_SYSOP) {
-    $donoruntil = htmlsafechars($user['donoruntil']);
+    $donoruntil = htmlspecialchars($user['donoruntil']);
     if ($donoruntil == '0') {
         $HTMLOUT .= "";
     } else {
@@ -531,12 +531,12 @@ $HTMLOUT .= "</table></div>";
 
 $HTMLOUT .= "<div class='tabs-panel' id='activity'><table class='striped'>";
 if ($TRINITY20['mood_sys_on']) {
-    $moodname = (isset($mood['name'][$user['mood']]) ? htmlsafechars($mood['name'][$user['mood']]) : $lang['userdetails_neutral']);
-    $moodpic = (isset($mood['image'][$user['mood']]) ? htmlsafechars($mood['image'][$user['mood']]) : 'noexpression.gif');
+    $moodname = (isset($mood['name'][$user['mood']]) ? htmlspecialchars($mood['name'][$user['mood']]) : $lang['userdetails_neutral']);
+    $moodpic = (isset($mood['image'][$user['mood']]) ? htmlspecialchars($mood['image'][$user['mood']]) : 'noexpression.gif');
     $HTMLOUT .= '<tr><td class="rowhead">'.$lang['userdetails_currentmood'].'</td><td align="left"><span class="tool">
        <a href="javascript:;" onclick="PopUp(\'usermood.php\',\''.$lang['userdetails_mood'].'\',530,500,1,1);">
        <img src="'.$TRINITY20['pic_base_url'].'smilies/'.$moodpic.'" alt="'.$moodname.'" border="0">
-       <span class="tip">'.htmlsafechars($user['username']).' '.$moodname.' !</span></a></span></td></tr>';
+       <span class="tip">'.htmlspecialchars($user['username']).' '.$moodname.' !</span></a></span></td></tr>';
 }
 if (curuser::$blocks['userdetails_page'] & block_userdetails::SEEDBONUS && $BLOCKS['userdetails_seedbonus_on']) {
     require_once(BLOCK_DIR.'userdetails/seedbonus.php');

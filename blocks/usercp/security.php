@@ -96,7 +96,7 @@ $HTMLOUT .= "<div class='cell'>
             <div class='card-section float-center'>
                 <div class='input-group'>
                     <span class='input-group-label'><i class='fas fa-at'></i></i></span>
-                    <input class='input-group-field' type='text' size='50' name='email' value='".htmlsafechars($CURUSER["email"])."'>
+                    <input class='input-group-field' type='text' size='50' name='email' value='".htmlspecialchars($CURUSER["email"])."'>
                     <span class='input-group-label'><i class='fas fa-unlock-alt'></i></span>
                     <input class='input-group-field' placeholder='Please type your password' type='password' name='chmailpass' size='50'>
                     <div class='input-group-button'>

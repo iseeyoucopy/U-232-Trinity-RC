@@ -135,7 +135,7 @@ if ($TRINITY20['hnr_online'] == 1 || $CURUSER['id'] == $id || $CURUSER['class'] 
             $hit_n_run = ($a['hit_and_run'] > 0 ? "<img src='{$TRINITY20['pic_base_url']}hnr.gif' width='40px' alt='{$lang['userdetails_c_hitrun']}' title='{$lang['userdetails_c_hitrun1']}' />" : '');
             if (XBT_TRACKER === false) {
                 $completed .= "<tr><td style='padding: 0px' class='$class'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$a['image']}' alt='{$a['name']}' title='{$a['name']}' /></td>
-    <td class='$class'><a class='altlink' href='{$TRINITY20['baseurl']}/details.php?id=".(int)$a['tid']."&amp;hit=1'><b>".htmlsafechars($a['name'])."</b></a>
+    <td class='$class'><a class='altlink' href='{$TRINITY20['baseurl']}/details.php?id=".(int)$a['tid']."&amp;hit=1'><b>".htmlspecialchars($a['name'])."</b></a>
     <br /><font color='.$color.'>  ".(($CURUSER['class'] >= UC_STAFF || $user['id'] == $CURUSER['id']) ? "{$lang['userdetails_c_seedfor']}</font>: ".mkprettytime($a['seedtime']).(($minus_ratio != '0:00' && $a['uploaded'] < $a['downloaded']) ? "<br />{$lang['userdetails_c_should']}".$minus_ratio."&nbsp;&nbsp;" : '').($a['seeder'] == 'yes' ? "&nbsp;<font color='limegreen'> [<b>{$lang['userdetails_c_seeding']}</b>]</font>" : $hit_n_run."&nbsp;".$mark_of_cain) : '')."</td>
     <td align='center' class='$class'>".(int)$a['seeders']."</td>
     <td align='center' class='$class'>".(int)$a['leechers']."</td>
@@ -148,7 +148,7 @@ if ($TRINITY20['hnr_online'] == 1 || $CURUSER['id'] == $id || $CURUSER['class'] 
     <td align='center' class='$class'><font color='$dlc'>[{$lang['userdetails_c_dled']}$dl_speed ]</font></td></tr>";
             } else {
                 $completed .= "<tr><td style='padding: 0px' class='$class'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$a['image']}' alt='{$a['name']}' title='{$a['name']}' /></td>
-    <td class='$class'><a class='altlink' href='{$TRINITY20['baseurl']}/details.php?id=".(int)$a['tid']."&amp;hit=1'><b>".htmlsafechars($a['name'])."</b></a>
+    <td class='$class'><a class='altlink' href='{$TRINITY20['baseurl']}/details.php?id=".(int)$a['tid']."&amp;hit=1'><b>".htmlspecialchars($a['name'])."</b></a>
     <br /><font color='.$color.'>  ".(($CURUSER['class'] >= UC_STAFF || $user['id'] == $CURUSER['id']) ? "{$lang['userdetails_c_seedfor']}</font>: ".mkprettytime($a['seedtime']).(($minus_ratio != '0:00' && $a['uploaded'] < $a['downloaded']) ? "<br />{$lang['userdetails_c_should']}".$minus_ratio."&nbsp;&nbsp;" : '').($a['active'] == 1 && $a['left'] = 0 !== 0 ? "&nbsp;<font color='limegreen'> [<b>{$lang['userdetails_c_seeding']}</b>]</font>" : $hit_n_run) : '')."</td>
     <td align='center' class='$class'>".(int)$a['seeders']."</td>
     <td align='center' class='$class'>".(int)$a['leechers']."</td>

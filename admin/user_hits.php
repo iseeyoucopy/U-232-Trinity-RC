@@ -45,8 +45,8 @@ if (!$count) {
 }
 ($res = sql_query("SELECT username FROM users WHERE id = ".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 $user = $res->fetch_assoc();
-$HTMLOUT .= "<h1>{$lang['userhits_profile']}<a href=\"userdetails.php?id=".$id."\">".htmlsafechars($user['username'])."</a></h1>
-<h2>{$lang['userhits_total']}".htmlsafechars($count)."{$lang['userhits_views']}</h2>";
+$HTMLOUT .= "<h1>{$lang['userhits_profile']}<a href=\"userdetails.php?id=".$id."\">".htmlspecialchars($user['username'])."</a></h1>
+<h2>{$lang['userhits_total']}".htmlspecialchars($count)."{$lang['userhits_views']}</h2>";
 if ($count > $perpage) {
     $HTMLOUT .= $pager['pagertop'];
 }
@@ -62,7 +62,7 @@ $HTMLOUT .= "
 while ($arr = $res->fetch_assoc()) {
     $HTMLOUT .= "
 <tr><td>".number_format($arr['number'])."</td>
-<td><b><a href=\"userdetails.php?id=".(int)$arr['uid']."\">".htmlsafechars($arr['username'])."</a></b></td>
+<td><b><a href=\"userdetails.php?id=".(int)$arr['uid']."\">".htmlspecialchars($arr['username'])."</a></b></td>
 <td>".get_date($arr['added'], 'DATE', 0, 1)."</td>
 </tr>\n";
 }
@@ -70,6 +70,6 @@ $HTMLOUT .= "</table>";
 if ($count > $perpage) {
     $HTMLOUT .= $pager['pagerbottom'];
 }
-echo stdhead($lang['userhits_profile'].htmlsafechars($user['username']).'').$HTMLOUT.stdfoot();
+echo stdhead($lang['userhits_profile'].htmlspecialchars($user['username']).'').$HTMLOUT.stdfoot();
 die();
 ?>

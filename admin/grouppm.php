@@ -54,8 +54,8 @@ function mkint($x)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $groups = $_POST["groups"] ?? "";
     //$groups = isset($_POST["groups"]) ? array_map('mkint',$_POST["groups"]) : ""; //no need for this kind of check because every value its checked inside the switch also the array contains no integer values so that will be a problem
-    $subject = isset($_POST["subject"]) ? htmlsafechars($_POST["subject"]) : "";
-    $msg = isset($_POST["message"]) ? htmlsafechars($_POST["message"]) : "";
+    $subject = isset($_POST["subject"]) ? htmlspecialchars($_POST["subject"]) : "";
+    $msg = isset($_POST["message"]) ? htmlspecialchars($_POST["message"]) : "";
     $msg = str_replace("&amp", "&", $_POST["message"]);
     $sender = isset($_POST["system"]) && $_POST["system"] == "yes" ? 0 : $CURUSER["id"];
     if (empty($subject)) {

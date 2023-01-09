@@ -119,9 +119,9 @@ switch ($action) {
             $status = ($main_query_arr['status'] == 'approved' ? '<span style="color: limegreen;font-weight: bold;">Approved!</span>' : ($main_query_arr['status'] == 'pending' ? '<span style="color: skyblue;font-weight: bold;">Pending...</span>' : '<span style="color: red;font-weight: bold;">denied</span>'));
             $HTMLOUT .= '
     <tr>
-        <td class="'.$class.'" align="center" style="margin: 0; padding: 1;"><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlsafechars($main_query_arr['cat_image'],
-                    ENT_QUOTES).'" alt="'.htmlsafechars($main_query_arr['cat_name'], ENT_QUOTES).'" /></td>
-        <td class="'.$class.'" align="left"><a class="altlink" href="offers.php?action=offer_details&amp;id='.$main_query_arr['offer_id'].'">'.htmlsafechars($main_query_arr['offer_name'],
+        <td class="'.$class.'" align="center" style="margin: 0; padding: 1;"><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlspecialchars($main_query_arr['cat_image'],
+                    ENT_QUOTES).'" alt="'.htmlspecialchars($main_query_arr['cat_name'], ENT_QUOTES).'" /></td>
+        <td class="'.$class.'" align="left"><a class="altlink" href="offers.php?action=offer_details&amp;id='.$main_query_arr['offer_id'].'">'.htmlspecialchars($main_query_arr['offer_name'],
                     ENT_QUOTES).'</a></td>
         <td class="'.$class.'" align="center">'.get_date($main_query_arr['added'], 'LONG').'</td>
         <td class="'.$class.'" align="center">'.number_format($main_query_arr['comments']).'</td>  
@@ -191,7 +191,7 @@ switch ($action) {
         $HTMLOUT .= (isset($_GET['status_changed']) ? '<h1>Offer Status Updated!</h1>' : '').(isset($_GET['voted']) ? '<h1>vote added</h1>' : '').(isset($_GET['comment_deleted']) ? '<h1>comment deleted</h1>' : '').$top_menu.($arr['status'] == 'approved' ? '<span style="color: limegreen;font-weight: bold;">status: approved!</span>' : ($arr['status'] == 'pending' ? '<span style="color: skyblue;font-weight: bold;">status: pending...</span>' : '<span style="color: red;font-weight: bold;">status: denied</span>')).$status_drop_down.'<br /><br />
     <table class="table table-hover table-bordered">
     <tr>
-    <td class="colhead" align="center" colspan="2"><h1>'.htmlsafechars($arr['offer_name'],
+    <td class="colhead" align="center" colspan="2"><h1>'.htmlspecialchars($arr['offer_name'],
                 ENT_QUOTES).($CURUSER['class'] < UC_STAFF ? '' : ' [ <a href="offers.php?action=edit_offer&amp;id='.$id.'">edit</a> ] 
     [ <a href="offers.php?action=delete_offer&amp;id='.$id.'">delete</a> ]').'</h1></td>
     </tr>
@@ -205,12 +205,12 @@ switch ($action) {
     </tr>
     <tr>
     <td class="two" align="right">category:</td>
-    <td align="left" class="two"><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlsafechars($arr['cat_image'],
-                ENT_QUOTES).'" alt="'.htmlsafechars($arr['cat_name'], ENT_QUOTES).'" /></td>
+    <td align="left" class="two"><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlspecialchars($arr['cat_image'],
+                ENT_QUOTES).'" alt="'.htmlspecialchars($arr['cat_name'], ENT_QUOTES).'" /></td>
     </tr>
     <tr>
     <td class="two" align="right">link:</td>
-    <td align="left" class="two"><a class="altlink" href="'.htmlsafechars($arr['link'], ENT_QUOTES).'"  target="_blank">'.htmlsafechars($arr['link'],
+    <td align="left" class="two"><a class="altlink" href="'.htmlspecialchars($arr['link'], ENT_QUOTES).'"  target="_blank">'.htmlspecialchars($arr['link'],
                 ENT_QUOTES).'</a></td>
     </tr>
     <tr>
@@ -232,7 +232,7 @@ switch ($action) {
     For breaking the <a class="altlink" href="rules.php">rules</a></form></td>
     </tr>
     </table>';
-        $HTMLOUT .= '<h1>Comments for '.htmlsafechars($arr['offer_name'], ENT_QUOTES).'</h1><p><a name="startcomments"></a></p>';
+        $HTMLOUT .= '<h1>Comments for '.htmlspecialchars($arr['offer_name'], ENT_QUOTES).'</h1><p><a name="startcomments"></a></p>';
         $commentbar = '<p align="center"><a class="index" href="offers.php?action=add_comment&amp;id='.$id.'">Add a comment</a></p>';
         $count = (int)$arr['comments'];
         if ($count === 0) {
@@ -256,7 +256,7 @@ switch ($action) {
             $HTMLOUT .= ($count > $perpage) ? '<p>'.$menu.'<br /></p>' : '<br />';
         }
         $HTMLOUT .= $commentbar;
-        echo stdhead('Offer details for: '.htmlsafechars($arr['offer_name'], ENT_QUOTES), true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
+        echo stdhead('Offer details for: '.htmlspecialchars($arr['offer_name'], ENT_QUOTES), true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
         break;
     //===========================================================================================//
     //====================================    add new offer      ========================================//
@@ -272,15 +272,15 @@ switch ($action) {
         $category_drop_down = '<select name="category" class="required"><option class="body" value="">Select Offer Category</option>';
         $cats = genrelist();
         foreach ($cats as $row) {
-            $category_drop_down .= '<option class="body" value="'.(int)$row['id'].'"'.($category == $row['id'] ? ' selected="selected"' : '').'>'.htmlsafechars($row['name'],
+            $category_drop_down .= '<option class="body" value="'.(int)$row['id'].'"'.($category == $row['id'] ? ' selected="selected"' : '').'>'.htmlspecialchars($row['name'],
                     ENT_QUOTES).'</option>';
         }
         $category_drop_down .= '</select>';
         if (isset($_POST['category'])) {
             $cat_res = sql_query('SELECT id AS cat_id, name AS cat_name, image AS cat_image FROM categories WHERE id = '.sqlesc($category));
             $cat_arr = $cat_res->fetch_assoc();
-            $cat_image = htmlsafechars($cat_arr['cat_image'], ENT_QUOTES);
-            $cat_name = htmlsafechars($cat_arr['cat_name'], ENT_QUOTES);
+            $cat_image = htmlspecialchars($cat_arr['cat_image'], ENT_QUOTES);
+            $cat_name = htmlspecialchars($cat_arr['cat_name'], ENT_QUOTES);
         }
         //=== if posted and not preview, process it :D
         if (isset($_POST['button']) && $_POST['button'] == 'Submit') {
@@ -299,11 +299,11 @@ switch ($action) {
    '.(isset($_POST['button']) && $_POST['button'] == 'Preview' ? '<br />
 	 <table class="table table-hover table-bordered">
     <tr>
-    <td class="colhead" align="center" colspan="2"><h1>'.htmlsafechars($offer_name, ENT_QUOTES).'</h1></td>
+    <td class="colhead" align="center" colspan="2"><h1>'.htmlspecialchars($offer_name, ENT_QUOTES).'</h1></td>
     </tr>
     <tr>
     <td align="right" class="two">image:</td>
-    <td align="left" class="two"><img src="'.htmlsafechars($image, ENT_QUOTES).'" alt="image" style="max-width:600px;" /></td>
+    <td align="left" class="two"><img src="'.htmlspecialchars($image, ENT_QUOTES).'" alt="image" style="max-width:600px;" /></td>
     </tr>
     <tr>
     <td  class="two" align="right">description:</td>
@@ -311,12 +311,12 @@ switch ($action) {
     </tr>
     <tr>
     <td class="two" align="right">category:</td>
-    <td align="left" class="two"><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlsafechars($cat_image,
-                    ENT_QUOTES).'" alt="'.htmlsafechars($cat_name, ENT_QUOTES).'" /></td>
+    <td align="left" class="two"><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlspecialchars($cat_image,
+                    ENT_QUOTES).'" alt="'.htmlspecialchars($cat_name, ENT_QUOTES).'" /></td>
     </tr>
     <tr>
     <td class="two" align="right">link:</td>
-    <td align="left" class="two"><a class="altlink" href="'.htmlsafechars($link, ENT_QUOTES).'" target="_blank">'.htmlsafechars($link, ENT_QUOTES).'</a></td>
+    <td align="left" class="two"><a class="altlink" href="'.htmlspecialchars($link, ENT_QUOTES).'" target="_blank">'.htmlspecialchars($link, ENT_QUOTES).'</a></td>
     </tr>
     <tr>
     <td class="two" align="right">offered by:</td>
@@ -337,15 +337,15 @@ switch ($action) {
     </tr>
     <tr>
     <td class="two" align="right">name:</td>
-    <td align="left" class="two"><input type="text" size="80"  name="offer_name" value="'.htmlsafechars($offer_name, ENT_QUOTES).'" class="required" /></td>
+    <td align="left" class="two"><input type="text" size="80"  name="offer_name" value="'.htmlspecialchars($offer_name, ENT_QUOTES).'" class="required" /></td>
     </tr>
     <tr>
     <td class="two" align="right">image:</td>
-    <td align="left" class="two"><input type="text" size="80"  name="image" value="'.htmlsafechars($image, ENT_QUOTES).'" class="required" /></td>
+    <td align="left" class="two"><input type="text" size="80"  name="image" value="'.htmlspecialchars($image, ENT_QUOTES).'" class="required" /></td>
     </tr>
     <tr>
     <td class="two" align="right">link:</td>
-    <td align="left" class="two"><input type="text" size="80"  name="link" value="'.htmlsafechars($link, ENT_QUOTES).'" class="required" /></td>
+    <td align="left" class="two"><input type="text" size="80"  name="link" value="'.htmlspecialchars($link, ENT_QUOTES).'" class="required" /></td>
     </tr>
     <tr>
     <td class="two" align="right">category:</td>
@@ -389,7 +389,7 @@ switch ($action) {
             stderr('Error', 'Permission denied.');
         }
         if (!isset($_GET['do_it'])) {
-            stderr('Sanity check...', 'are you sure you would like to delete the offer <b>"'.htmlsafechars($arr['offer_name'], ENT_QUOTES).'"</b>? If so click 
+            stderr('Sanity check...', 'are you sure you would like to delete the offer <b>"'.htmlspecialchars($arr['offer_name'], ENT_QUOTES).'"</b>? If so click 
         <a class="altlink" href="offers.php?action=delete_offer&id='.$id.'&amp;do_it=666" >HERE</a>.');
 
         } else {
@@ -425,14 +425,14 @@ switch ($action) {
         $category_drop_down = '<select name="category" class="required"><option class="body" value="">Select Offer Category</option>';
         $cats = genrelist();
         foreach ($cats as $row) {
-            $category_drop_down .= '<option class="body" value="'.(int)$row['id'].'"'.($category == $row['id'] ? ' selected="selected"' : '').'>'.htmlsafechars($row['name'],
+            $category_drop_down .= '<option class="body" value="'.(int)$row['id'].'"'.($category == $row['id'] ? ' selected="selected"' : '').'>'.htmlspecialchars($row['name'],
                     ENT_QUOTES).'</option>';
         }
         $category_drop_down .= '</select>';
         $cat_res = sql_query('SELECT id AS cat_id, name AS cat_name, image AS cat_image FROM categories WHERE id = '.sqlesc($category));
         $cat_arr = $cat_res->fetch_assoc();
-        $cat_image = htmlsafechars($cat_arr['cat_image'], ENT_QUOTES);
-        $cat_name = htmlsafechars($cat_arr['cat_name'], ENT_QUOTES);
+        $cat_image = htmlspecialchars($cat_arr['cat_image'], ENT_QUOTES);
+        $cat_name = htmlspecialchars($cat_arr['cat_name'], ENT_QUOTES);
         //=== if posted and not preview, process it :D
         if (isset($_POST['button']) && $_POST['button'] == 'Edit') {
             sql_query('UPDATE offers SET offer_name = '.sqlesc($offer_name).', image = '.sqlesc($image).', description = '.sqlesc($body).', 
@@ -450,11 +450,11 @@ switch ($action) {
     '.(isset($_POST['button']) && $_POST['button'] == 'Preview' ? '<br />
 	 <table class="table table-hover table-bordered">
     <tr>
-    <td class="colhead" align="center" colspan="2"><h1>'.htmlsafechars($offer_name, ENT_QUOTES).'</h1></td>
+    <td class="colhead" align="center" colspan="2"><h1>'.htmlspecialchars($offer_name, ENT_QUOTES).'</h1></td>
     </tr>
     <tr>
     <td class="two" align="right">image:</td>
-    <td class="two" align="left"><img src="'.htmlsafechars($image, ENT_QUOTES).'" alt="image" style="max-width:600px;" /></td>
+    <td class="two" align="left"><img src="'.htmlspecialchars($image, ENT_QUOTES).'" alt="image" style="max-width:600px;" /></td>
     </tr>
     <tr>
     <td class="two" align="right">description:</td>
@@ -462,12 +462,12 @@ switch ($action) {
     </tr>
     <tr>
     <td class="two" align="right">category:</td>
-    <td class="two" align="left"><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlsafechars($cat_image,
-                    ENT_QUOTES).'" alt="'.htmlsafechars($cat_name, ENT_QUOTES).'" /></td>
+    <td class="two" align="left"><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlspecialchars($cat_image,
+                    ENT_QUOTES).'" alt="'.htmlspecialchars($cat_name, ENT_QUOTES).'" /></td>
     </tr>
     <tr>
     <td class="two" align="right">link:</td>
-    <td class="two" align="left"><a class="altlink" href="'.htmlsafechars($link, ENT_QUOTES).'" target="_blank">'.htmlsafechars($link, ENT_QUOTES).'</a></td>
+    <td class="two" align="left"><a class="altlink" href="'.htmlspecialchars($link, ENT_QUOTES).'" target="_blank">'.htmlspecialchars($link, ENT_QUOTES).'</a></td>
     </tr>
     </table>
     <br />' : '').'
@@ -480,15 +480,15 @@ switch ($action) {
     </tr>
     <tr>
     <td class="two" align="right">name:</td>
-    <td class="two" align="left"><input type="text" size="80"  name="offer_name" value="'.htmlsafechars($offer_name, ENT_QUOTES).'" class="required" /></td>
+    <td class="two" align="left"><input type="text" size="80"  name="offer_name" value="'.htmlspecialchars($offer_name, ENT_QUOTES).'" class="required" /></td>
     </tr>
     <tr>
     <td class="rowhead" align="right">image:</td>
-    <td align="left"><input type="text" size="80"  name="image" value="'.htmlsafechars($image, ENT_QUOTES).'" class="required" /></td>
+    <td align="left"><input type="text" size="80"  name="image" value="'.htmlspecialchars($image, ENT_QUOTES).'" class="required" /></td>
     </tr>
     <tr>
     <td class="two" align="right">link:</td>
-    <td class="two" align="left"><input type="text" size="80"  name="link" value="'.htmlsafechars($link, ENT_QUOTES).'" class="required" /></td>
+    <td class="two" align="left"><input type="text" size="80"  name="link" value="'.htmlspecialchars($link, ENT_QUOTES).'" class="required" /></td>
     </tr>
     <tr>
     <td class="two" align="right">category:</td>
@@ -532,7 +532,7 @@ switch ($action) {
             stderr('Error', 'No offer with that ID.');
         }
         if (isset($_POST['button']) && $_POST['button'] == 'Save') {
-            $body = htmlsafechars(trim($_POST['descr']));
+            $body = htmlspecialchars(trim($_POST['descr']));
             if (!$body) {
                 stderr('Error', 'Comment body cannot be empty!');
             }
@@ -542,7 +542,7 @@ switch ($action) {
             header('Location: /offers.php?action=offer_details&id='.$id.'&viewcomm='.$newid.'#comm'.$newid);
             die();
         }
-        $body = htmlsafechars(($_POST['descr'] ?? ''));
+        $body = htmlspecialchars(($_POST['descr'] ?? ''));
         $HTMLOUT .= $top_menu.'<form method="post" action="offers.php?action=add_comment">
     <input type="hidden" name="id" value="'.$id.'"/>'.(isset($_POST['button']) && $_POST['button'] == 'Preview' ? '
     <table class="table table-hover table-bordered">
@@ -555,7 +555,7 @@ switch ($action) {
     </tr></table><br />' : '').'
 	 <table class="table table-hover table-bordered">
 	 <tr>
-    <td align="center" class="colhead" colspan="2"><h1>Add a comment to "'.htmlsafechars($arr['offer_name'], ENT_QUOTES).'"</h1></td>
+    <td align="center" class="colhead" colspan="2"><h1>Add a comment to "'.htmlspecialchars($arr['offer_name'], ENT_QUOTES).'"</h1></td>
     </tr>
 	 <tr>
     <td align="right" valign="top" class="two"><b>Comment:</b></td>
@@ -576,7 +576,7 @@ switch ($action) {
             $HTMLOUT .= '<h2>Most recent comments, in reverse order</h2>';
             $HTMLOUT .= comment_table($allrows);
         }
-        echo stdhead('Add a comment to "'.htmlsafechars($arr['offer_name']).'"', true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
+        echo stdhead('Add a comment to "'.htmlspecialchars($arr['offer_name']).'"', true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
         break;
     //===========================================================================================//
     //==================================    edit comment    =============================================//
@@ -596,7 +596,7 @@ switch ($action) {
         if ($arr['user'] != $CURUSER['id'] && $CURUSER['class'] < UC_STAFF) {
             stderr('Error', 'Permission denied.');
         }
-        $body = htmlsafechars(($_POST['descr'] ?? $arr['text']));
+        $body = htmlspecialchars(($_POST['descr'] ?? $arr['text']));
         if (isset($_POST['button']) && $_POST['button'] == 'Edit') {
             if ($body == '') {
                 stderr('Error', 'Comment body cannot be empty!');
@@ -627,7 +627,7 @@ switch ($action) {
     </tr></table><br />' : '').'
     <table class="table table-hover table-bordered">
 	 <tr>
-    <td align="center" class="colhead" colspan="2"><h1>Edit comment to "'.htmlsafechars($arr['offer_name'], ENT_QUOTES).'"</h1></td>
+    <td align="center" class="colhead" colspan="2"><h1>Edit comment to "'.htmlspecialchars($arr['offer_name'], ENT_QUOTES).'"</h1></td>
     </tr>
 	 <tr>
     <td align="right" valign="top" class="two"><b>Comment:</b></td>
@@ -639,7 +639,7 @@ switch ($action) {
     <input name="button" type="submit" class="button" value="Edit" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" /></td>
     </tr>
 	 </table></form>';
-        echo stdhead('Edit comment to "'.htmlsafechars($arr['offer_name'], ENT_QUOTES).'"', true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
+        echo stdhead('Edit comment to "'.htmlspecialchars($arr['offer_name'], ENT_QUOTES).'"', true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
         break;
     //===========================================================================================//
     //==================================    delete comment    =============================================//
@@ -693,7 +693,7 @@ switch ($action) {
         $arr_name = $res_name->fetch_assoc();
         if ($change_it == 'approved') {
             $subject = sqlesc('Your Offer has been approved!');
-            $message = sqlesc("Hi, \n An offer you made has been approved!!! \n\n Please  [url=".$TRINITY20['baseurl']."/upload.php]Upload ".htmlsafechars($arr_name['offer_name'],
+            $message = sqlesc("Hi, \n An offer you made has been approved!!! \n\n Please  [url=".$TRINITY20['baseurl']."/upload.php]Upload ".htmlspecialchars($arr_name['offer_name'],
                     ENT_QUOTES)."[/url] as soon as possible! \n Members who voted on it will be notified as soon as you do! \n\n [url=".$TRINITY20['baseurl']."/offers.php?action=offer_details&id=".$id."]HERE[/url] is your offer.");
             sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, saved, location) 
                 VALUES(0, '.sqlesc($arr_name['offered_by_user_id']).', '.TIME_NOW.', '.$message.', '.$subject.', \'yes\', 1)') || sqlerr(__FILE__,
@@ -701,7 +701,7 @@ switch ($action) {
         }
         if ($change_it == 'denied') {
             $subject = sqlesc('Your Offer has been denied!');
-            $message = sqlesc("Hi, \n An offer you made has been denied. \n\n  [url=".$TRINITY20['baseurl']."/offers.php?action=offer_details&id=".$id."]".htmlsafechars($arr_name['offer_name'],
+            $message = sqlesc("Hi, \n An offer you made has been denied. \n\n  [url=".$TRINITY20['baseurl']."/offers.php?action=offer_details&id=".$id."]".htmlspecialchars($arr_name['offer_name'],
                     ENT_QUOTES)."[/url] was denied by ".$CURUSER['username'].". Please contact them to find out why.");
             sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, saved, location) 
                 VALUES(0, '.sqlesc($arr_name['offered_by_user_id']).', '.TIME_NOW.', '.$message.', '.$subject.', \'yes\', 1)') || sqlerr(__FILE__,
@@ -730,9 +730,9 @@ function comment_table($rows)
             ($res_user = sql_query('SELECT username FROM users WHERE id='.sqlesc($row['editedby']))) || sqlerr(__FILE__, __LINE__);
             $arr_user = $res_user->fetch_assoc();
             $text .= '<p><font size="1" class="small">Last edited by <a href="userdetails.php?id='.(int)$row['editedby'].'">
-        <b>'.htmlsafechars($arr_user['username']).'</b></a> at '.get_date($row['editedat'], 'DATE').'</font></p>';
+        <b>'.htmlspecialchars($arr_user['username']).'</b></a> at '.get_date($row['editedat'], 'DATE').'</font></p>';
         }
-        $top_comment_stuff = (int)$row['comment_id'].' by '.(isset($row['username']) ? print_user_stuff($row).($row['title'] !== '' ? ' [ '.htmlsafechars($row['title']).' ] ' : ' [ '.get_user_class_name($row['class']).' ]  ') : ' M.I.A. ').get_date($row['added'],
+        $top_comment_stuff = (int)$row['comment_id'].' by '.(isset($row['username']) ? print_user_stuff($row).($row['title'] !== '' ? ' [ '.htmlspecialchars($row['title']).' ] ' : ' [ '.get_user_class_name($row['class']).' ]  ') : ' M.I.A. ').get_date($row['added'],
                 '').($row['id'] == $CURUSER['id'] || $CURUSER['class'] >= UC_STAFF ? '
      - [<a href="offers.php?action=edit_comment&amp;id='.(int)$row['offer'].'&amp;comment_id='.(int)$row['comment_id'].'">Edit</a>]' : '').($CURUSER['class'] >= UC_STAFF ? '
      - [<a href="offers.php?action=delete_comment&amp;id='.(int)$row['offer'].'&amp;comment_id='.(int)$row['comment_id'].'">Delete</a>]' : '').($row['editedby'] && $CURUSER['class'] >= UC_STAFF ? '

@@ -25,9 +25,9 @@ $HTMLOUT .= '<div class="grid-container">
 			<div class="callout success margin-3">';
 if ($type == "signup" && isset($_GET['email'])) {
     stderr("{$lang['ok_success']}",
-        sprintf((EMAIL_CONFIRM ? $lang['ok_email_confirm'] : $lang['ok_email']), htmlsafechars($_GET['email'], ENT_QUOTES)));
+        sprintf((EMAIL_CONFIRM ? $lang['ok_email_confirm'] : $lang['ok_email']), htmlspecialchars($_GET['email'], ENT_QUOTES)));
 } elseif ($type == "invite" && isset($_GET['email'])) {
-    stderr("{$lang['ok_invsuccess']}", sprintf($lang['ok_email2'], htmlsafechars($_GET['email'], ENT_QUOTES)));
+    stderr("{$lang['ok_invsuccess']}", sprintf($lang['ok_email2'], htmlspecialchars($_GET['email'], ENT_QUOTES)));
 } elseif ($type == "sysop") {
     $HTMLOUT = stdhead("{$lang['ok_sysop_account']}");
     $HTMLOUT .= "{$lang['ok_sysop_activated']}";

@@ -23,7 +23,7 @@ if (!$id || !is_valid_id($id)) {
     stderr("{$lang['gl_error']}", "{$lang['gl_bad_id']}");
 }
 
-$action = isset($_GET['action']) ? htmlsafechars($_GET['action']) : '';
+$action = isset($_GET['action']) ? htmlspecialchars($_GET['action']) : '';
 ($res = sql_query("SELECT hash1, username, passhash FROM users WHERE id = ".sqlesc($id)." AND class >= ".UC_STAFF)) || sqlerr(__FILE__, __LINE__);
 $arr = $res->fetch_assoc();
 $hash1 = md5($arr['username'].TIME_NOW.$arr['passhash']);

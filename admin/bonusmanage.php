@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && (isset($_POST["id"]) || isset($_POST
     $points = 0 + $_POST["bonuspoints"];
     $pointspool = 0 + $_POST["pointspool"];
     $minpoints = 0 + $_POST["minpoints"];
-    $descr = htmlsafechars($_POST["description"]);
+    $descr = htmlspecialchars($_POST["description"]);
     $enabled = "yes";
     if (isset($_POST["enabled"]) == '') {
         $enabled = "no";
@@ -54,17 +54,17 @@ $HTMLOUT .= "<div class='card'>
 	<div class='card-section'>";
 while ($arr = $res->fetch_assoc()) {
 		$HTMLOUT .= "<div class='card'>
-   			<div class='card-divider'><strong>".htmlsafechars($arr["bonusname"])."</strong></div>
+   			<div class='card-divider'><strong>".htmlspecialchars($arr["bonusname"])."</strong></div>
 			<form name='bonusmanage' method='post' action='staffpanel.php?tool=bonusmanage&amp;action=bonusmanage'>
 				<div class='card-section'>
 					<input name='id' type='hidden' value='".(int)$arr["id"]."'>
 					<div class='input-group'>
 						<span class='input-group-label'>{$lang['bonusmanager_type']}</span>
-					   	<input class='input-group-field' type='text' disabled value='".htmlsafechars($arr["art"])."'>
+					   	<input class='input-group-field' type='text' disabled value='".htmlspecialchars($arr["art"])."'>
 				 	</div>
 					<div class='input-group'>
 						<span class='input-group-label'>{$lang['bonusmanager_quantity']}</span>
-						<input class='input-group-field' type='text' disabled value='".(($arr["art"] == "traffic" || $arr["art"] == "traffic2" || $arr["art"] == "gift_1" || $arr["art"] == "gift_2") ? (htmlsafechars($arr["menge"]) / 1024 / 1024 / 1024)." GB" : htmlsafechars($arr["menge"]))."'>
+						<input class='input-group-field' type='text' disabled value='".(($arr["art"] == "traffic" || $arr["art"] == "traffic2" || $arr["art"] == "gift_1" || $arr["art"] == "gift_2") ? (htmlspecialchars($arr["menge"]) / 1024 / 1024 / 1024)." GB" : htmlspecialchars($arr["menge"]))."'>
 					</div>
 					<div class='input-group'>
 						<span class='input-group-label'>{$lang['bonusmanager_points']}</span>
@@ -80,7 +80,7 @@ while ($arr = $res->fetch_assoc()) {
 					</div>
 					<div class='input-group'>
 						<span class='input-group-label'>{$lang['bonusmanager_description']}</span>
-							<textarea class='input-group-field' name='description' rows='4'>".htmlsafechars($arr["description"])."</textarea>
+							<textarea class='input-group-field' name='description' rows='4'>".htmlspecialchars($arr["description"])."</textarea>
 					</div>
 					<div class='clearfix'></div>
 					<p>{$lang['bonusmanager_enabled']}</p>

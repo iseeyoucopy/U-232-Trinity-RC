@@ -13,7 +13,7 @@ if (in_array($torrents["category"], $TRINITY20['movie_cats']) && !empty($torrent
         require_once(CACHE_DIR.'subs.php');
         foreach ($subs as $sub) {
             if ($sub["id"] == $sid) {
-                $HTMLOUT .= "<img border='0' width='25px' style='padding:3px;' src='".htmlsafechars($sub["pic"])."' alt='".htmlsafechars($sub["name"])."' title='".htmlsafechars($sub["name"])."'>";
+                $HTMLOUT .= "<img border='0' width='25px' style='padding:3px;' src='".htmlspecialchars($sub["pic"])."' alt='".htmlspecialchars($sub["name"])."' title='".htmlspecialchars($sub["name"])."'>";
             }
         }
     }
@@ -50,7 +50,7 @@ if ($torrents["nuked"] == "yes") {
 if (!empty($torrents["nukereason"])) {
     $HTMLOUT .= "<tr>
         <td><b>{$lang['details_add_nuk2']}</b></td>
-        <td>".htmlsafechars($torrents["nukereason"])."</td>
+        <td>".htmlspecialchars($torrents["nukereason"])."</td>
     </tr>";
 }
 $HTMLOUT .= "<tr>
@@ -154,7 +154,7 @@ if ($CURUSER['class'] >= UC_STAFF) {
     <td>{$lang['details_add_bychk1']}</td>
     <td align='left'>
 <p><a class='label label-primary' href='{$TRINITY20["baseurl"]}/userdetails.php?id=".(int)$checked_by['id']."'>
-    <strong>".htmlsafechars($torrents['checked_by'])."</strong></a></p>
+    <strong>".htmlspecialchars($torrents['checked_by'])."</strong></a></p>
     <p><a href='{$TRINITY20["baseurl"]}/details.php?id=".(int)$torrents['id']."&amp;rechecked=1'>
         <small><em class='label label-primary'><strong>{$lang['details_add_bychk2']}</strong></em></small></a> 
     <a href='{$TRINITY20["baseurl"]}/details.php?id=".(int)$torrents['id']."&amp;clearchecked=1'>

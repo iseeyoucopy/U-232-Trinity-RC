@@ -33,7 +33,7 @@ class_check($class);
 $lang = array_merge($lang, load_language('ad_ipsearch'));
 $HTMLOUT = $ip = $mask = '';
 $HTMLOUT .= "<div class='row'><div class='col-md-12'>";
-$ip = isset($_GET["ip"]) ? htmlsafechars(trim($_GET["ip"])) : '';
+$ip = isset($_GET["ip"]) ? htmlspecialchars(trim($_GET["ip"])) : '';
 if ($ip) {
     $regex = "/^(((1?\d{1,2})|(2[0-4]\d)|(25[0-5]))(\.\b|$)){4}$/";
     if (!preg_match($regex, $ip)) {
@@ -41,7 +41,7 @@ if ($ip) {
         echo stdhead("IP Search").$HTMLOUT.stdfoot();
         die();
     }
-    $mask = isset($_GET["mask"]) ? htmlsafechars(trim($_GET["mask"])) : '';
+    $mask = isset($_GET["mask"]) ? htmlspecialchars(trim($_GET["mask"])) : '';
     if ($mask == "" || $mask == "255.255.255.255") {
         $where1 = "u.ip = '$ip'";
         $where2 = "ips.ip = '$ip'";
@@ -111,13 +111,13 @@ if ($ip) {
 		  ORDER BY $orderby
 		  ".$pager['limit']."";
     ($res = sql_query($query1)) || sqlerr(__FILE__, __LINE__);
-    $HTMLOUT .= "<div class='row><div class='col-md-12'><h4 class='text-center'>".htmlsafechars($count)." {$lang['ipsearch_have_used']}".htmlsafechars($ip)." (".htmlsafechars($addr).")</h4></div></div>";
+    $HTMLOUT .= "<div class='row><div class='col-md-12'><h4 class='text-center'>".htmlspecialchars($count)." {$lang['ipsearch_have_used']}".htmlspecialchars($ip)." (".htmlspecialchars($addr).")</h4></div></div>";
     if ($count > $perpage) {
         $HTMLOUT .= $pager['pagertop'];
     }
     $HTMLOUT .= "<table class='table table-bordered'>\n";
     $HTMLOUT .= "<tr>
-	  <td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=username'>{$lang['ipsearch_username']}</a></td>"."<td class='colhead'>{$lang['ipsearch_ratio']}</td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=email'>{$lang['ipsearch_email']}</a></td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=last_ip'>{$lang['ipsearch_ip']}</a></td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=last_access'>{$lang['ipsearch_access']}</a></td>"."<td class='colhead'>{$lang['ipsearch_num']}</td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask'>{$lang['ipsearch_access']} on <br />".htmlsafechars($ip)."</a></td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=added'>{$lang['ipsearch_added']}</a></td>"."<td class='colhead'>{$lang['ipsearch_invited']}</td></tr>";
+	  <td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=username'>{$lang['ipsearch_username']}</a></td>"."<td class='colhead'>{$lang['ipsearch_ratio']}</td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=email'>{$lang['ipsearch_email']}</a></td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=last_ip'>{$lang['ipsearch_ip']}</a></td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=last_access'>{$lang['ipsearch_access']}</a></td>"."<td class='colhead'>{$lang['ipsearch_num']}</td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask'>{$lang['ipsearch_access']} on <br />".htmlspecialchars($ip)."</a></td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=added'>{$lang['ipsearch_added']}</a></td>"."<td class='colhead'>{$lang['ipsearch_invited']}</td></tr>";
     while ($user = $res->fetch_assoc()) {
         if ($user['added'] == '0') {
             $user['added'] = '---';
@@ -132,7 +132,7 @@ if ($ip) {
             if ($array[0] == 0) {
                 $ipstr = $user['last_ip'];
             } else {
-                $ipstr = "<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=testip&amp;action=testip&amp;ip=".htmlsafechars($user['last_ip'])."'><font color='#FF0000'><b>".htmlsafechars($user["last_ip"])."</b></font></a>";
+                $ipstr = "<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=testip&amp;action=testip&amp;ip=".htmlspecialchars($user['last_ip'])."'><font color='#FF0000'><b>".htmlspecialchars($user["last_ip"])."</b></font></a>";
             }
         } else {
             $ipstr = "---";
@@ -146,7 +146,7 @@ if ($ip) {
             if ($invitedby == "") {
                 $invitedby = "<i>[{$lang['ipsearch_deleted']}]</i>";
             } else {
-                $invitedby = "<a href='{$TRINITY20['baseurl']}/userdetails.php?id={$user['invitedby']}'>".htmlsafechars($invitedby)."</a>";
+                $invitedby = "<a href='{$TRINITY20['baseurl']}/userdetails.php?id={$user['invitedby']}'>".htmlspecialchars($invitedby)."</a>";
             }
         } else {
             $invitedby = "--";
@@ -156,7 +156,7 @@ if ($ip) {
                 $user['downloaded'])."</td>
 		  <td style='max-width:130px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;'>".$user['email']."</td><td>".$ipstr."</td>
 		  <td><div class='text-center'>".get_date($user['last_access'], 'DATE', 1, 0)."</div></td>
-		  <td><div class='text-center'><b><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=iphistory&amp;action=iphistory&amp;id=".(int)$user['id']."'>".htmlsafechars($iphistory)."</a></b></div></td>
+		  <td><div class='text-center'><b><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=iphistory&amp;action=iphistory&amp;id=".(int)$user['id']."'>".htmlspecialchars($iphistory)."</a></b></div></td>
 		  <td><div class='text-center'>".get_date($user['access'], 'DATE', 1, 0)."</div></td>
 		  <td><div class='text-center'>".get_date($user['added'], 'DATE', 1, 0)."</div></td>
 		  <td><div class='text-center'>".$invitedby."</div></td>

@@ -33,7 +33,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
             while ($res = $query->fetch_assoc()) {
                 $att .= "<div class='tr'>
 								<div class='td'>$i</div>
-								<div class='td'><a href='details.php?id=".(int)$res['id']."'>".htmlsafechars($res['name'])."</a></div>
+								<div class='td'><a href='details.php?id=".(int)$res['id']."'>".htmlspecialchars($res['name'])."</a></div>
 								<div class='tdclear'></div>
 							</div>";
                 $i++;
@@ -47,7 +47,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
             while ($res = $query->fetch_assoc()) {
                 $att .= "<div class='tr'>
 								<div class='td'>$i</div>
-								<div class='td'><a href='details.php?id=".(int)$res['id']."' class='colhead'>".htmlsafechars($res['name'])."</a></div>
+								<div class='td'><a href='details.php?id=".(int)$res['id']."' class='colhead'>".htmlspecialchars($res['name'])."</a></div>
 								<div class='tdclear'></div>
 							</div>";
                 $i++;

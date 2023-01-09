@@ -19,7 +19,7 @@ if (!isset($CURUSER)) {
 }
 $uid = (int)$CURUSER['id'];
 $tid = isset($_POST['torrentid']) ? (int)$_POST['torrentid'] : (isset($_GET['torrentid']) ? (int)$_GET['torrentid'] : 0);
-$do = isset($_POST['action']) ? htmlsafechars($_POST['action']) : (isset($_GET['action']) ? htmlsafechars($_GET['action']) : 'list');
+$do = isset($_POST['action']) ? htmlspecialchars($_POST['action']) : (isset($_GET['action']) ? htmlspecialchars($_GET['action']) : 'list');
 $ajax = isset($_POST['ajax']) && $_POST['ajax'] == 1;
 function print_list()
 {
@@ -31,7 +31,7 @@ function print_list()
     $hadTh = false;
     if ($qt->num_rows > 0) {
         while ($a = $qt->fetch_assoc()) {
-            $list[] = '<a href=\'userdetails.php?id='.(int)$a['userid'].'\' target=\''.$target.'\'>'.htmlsafechars($a['username']).'</a>';
+            $list[] = '<a href=\'userdetails.php?id='.(int)$a['userid'].'\' target=\''.$target.'\'>'.htmlspecialchars($a['username']).'</a>';
             $ids[] = (int)$a['userid'];
         }
         $hadTh = in_array($uid, $ids);

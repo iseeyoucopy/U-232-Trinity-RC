@@ -32,7 +32,7 @@ if ($CURUSER['class'] >= UC_STAFF) {
         foreach ($mysql_data as $key => $value) {
           if (is_array($value)) {
             if ($value['av_class'] <= $CURUSER['class'] && $value['type'] == 'user') {
-                $htmlout .= '<li><a href="'.htmlsafechars($value["file_name"]).'">'.htmlsafechars($value["page_name"]).'</a></li>';
+                $htmlout .= '<li><a href="'.htmlspecialchars($value["file_name"]).'">'.htmlspecialchars($value["page_name"]).'</a></li>';
             }
           }
         }
@@ -41,7 +41,7 @@ if ($CURUSER['class'] >= UC_STAFF) {
         foreach ($mysql_data as $key => $value) {
           if (is_array($value)) {
             if ($value['av_class'] <= $CURUSER['class'] && $value['type'] == 'settings') {
-                $htmlout .= '<li><a href="'.htmlsafechars($value["file_name"]).'">'.htmlsafechars($value["page_name"]).'</a></li>';
+                $htmlout .= '<li><a href="'.htmlspecialchars($value["file_name"]).'">'.htmlspecialchars($value["page_name"]).'</a></li>';
             }
           }
         }
@@ -49,8 +49,8 @@ if ($CURUSER['class'] >= UC_STAFF) {
         $htmlout .= '<div class="card-divider">Stats</div><ul class="menu vertical">';
         foreach ($mysql_data as $key => $value) {
           if (is_array($value)) {
-            if ((int)$value['av_class'] <= $CURUSER['class'] && htmlsafechars($value['type']) == 'stats') {
-                $htmlout .= '<li><a href="'.htmlsafechars($value["file_name"]).'">'.htmlsafechars($value["page_name"]).'</a></li>';
+            if ((int)$value['av_class'] <= $CURUSER['class'] && htmlspecialchars($value['type']) == 'stats') {
+                $htmlout .= '<li><a href="'.htmlspecialchars($value["file_name"]).'">'.htmlspecialchars($value["page_name"]).'</a></li>';
             }
           }
         }
@@ -58,8 +58,8 @@ if ($CURUSER['class'] >= UC_STAFF) {
         $htmlout .= '<div class="card-divider">Other</div><ul class="menu vertical">';
         foreach ($mysql_data as $key => $value) {
           if (is_array($value)) {
-            if ((int)$value['av_class'] <= $CURUSER['class'] && htmlsafechars($value['type']) == 'other') {
-                $htmlout .= '<li><a href="'.htmlsafechars($value["file_name"]).'">'.htmlsafechars($value["page_name"]).'</a></li>';
+            if ((int)$value['av_class'] <= $CURUSER['class'] && htmlspecialchars($value['type']) == 'other') {
+                $htmlout .= '<li><a href="'.htmlspecialchars($value["file_name"]).'">'.htmlspecialchars($value["page_name"]).'</a></li>';
             }
           }
         }

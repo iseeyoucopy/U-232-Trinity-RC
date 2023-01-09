@@ -49,7 +49,7 @@ if (is_array($scheduled_events)) {
             $endTime = $scheduled_event['endTime'];
             if (TIME_NOW < $endTime && TIME_NOW > $startTime) {
                 if (array_key_exists('overlayText', $scheduled_event)) {
-                    $overlayText = htmlsafechars($scheduled_event['overlayText']);
+                    $overlayText = htmlspecialchars($scheduled_event['overlayText']);
                 }
                 if (!is_string($overlayText)) {
                     $overlayText = "";
@@ -61,19 +61,19 @@ if (is_array($scheduled_events)) {
                     $displayDates = false;
                 }
                 if (array_key_exists('freeleechEnabled', $scheduled_event)) {
-                    $freeleechEnabled = htmlsafechars($scheduled_event['freeleechEnabled']);
+                    $freeleechEnabled = htmlspecialchars($scheduled_event['freeleechEnabled']);
                 }
                 if (!is_bool($freeleechEnabled)) {
                     $freeleechEnabled = false;
                 }
                 if (array_key_exists('duploadEnabled', $scheduled_event)) {
-                    $duploadEnabled = htmlsafechars($scheduled_event['duploadEnabled']);
+                    $duploadEnabled = htmlspecialchars($scheduled_event['duploadEnabled']);
                 }
                 if (!is_bool($duploadEnabled)) {
                     $duploadEnabled = false;
                 }
                 if (array_key_exists('hdownEnabled', $scheduled_event)) {
-                    $hdownEnabled = htmlsafechars($scheduled_event['hdownEnabled']);
+                    $hdownEnabled = htmlspecialchars($scheduled_event['hdownEnabled']);
                 }
                 if (!is_bool($hdownEnabled)) {
                     $hdownEnabled = false;
@@ -136,7 +136,7 @@ if (!is_array($scheduled_events)) {
                     $userid = (int)$_POST['userid'];
                 }
                 if (array_key_exists('editText', $_POST)) {
-                    $text = htmlsafechars($_POST['editText']);
+                    $text = htmlspecialchars($_POST['editText']);
                 }
                 if (array_key_exists('editStartTime', $_POST)) {
                     $start = strtotime(trim($_POST['editStartTime']));
@@ -196,7 +196,7 @@ if (!is_array($scheduled_events)) {
         $users = $scheduled_event;
         $users['id'] = (int)$scheduled_event['userid'];
         $username = format_username($users);
-        $text = htmlsafechars($scheduled_event['overlayText']);
+        $text = htmlspecialchars($scheduled_event['overlayText']);
         $start = get_date((int)$scheduled_event['startTime'], 'DATE');
         $end = get_date((int)$scheduled_event['endTime'], 'DATE');
         $freeleech = (bool)(int)$scheduled_event['freeleechEnabled'];
@@ -245,7 +245,7 @@ if (!is_array($scheduled_events)) {
                 } else {
                     foreach ($scheduled_events as $scheduled_event) {
                         if ($id == $scheduled_event['id']) {
-                            $text = htmlsafechars($scheduled_event['overlayText']);
+                            $text = htmlspecialchars($scheduled_event['overlayText']);
                             $start = get_date((int)$scheduled_event['startTime'], 'DATE');
                             $end = get_date((int)$scheduled_event['endTime'], 'DATE');
                             $freeleech = (bool)(int)$scheduled_event['freeleechEnabled'];

@@ -31,13 +31,13 @@ if (!defined('BUNNY_PM_SYSTEM')) {
 if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
     //=== check to see they have everything or...
     $receiver = sqlesc(isset($_POST['receiver']) ? (int)$_POST['receiver'] : 0);
-    $subject = sqlesc(htmlsafechars($_POST['subject']));
+    $subject = sqlesc(htmlspecialchars($_POST['subject']));
     $body = sqlesc(trim($_POST['body']));
     $save = ((isset($_POST['save']) && $_POST['save'] === 1) ? 'yes' : 'no');
     $delete = sqlesc((isset($_POST['delete']) && $_POST['delete'] !== 0) ? (int)$_POST['delete'] : 0);
     $urgent = sqlesc((isset($_POST['urgent']) && $_POST['urgent'] == 'yes' && $CURUSER['class'] >= UC_STAFF) ? 'yes' : 'no');
-    $returnto = htmlsafechars($_POST['returnto'] ?? '');
-    //$returnto = htmlsafechars($_POST['returnto']);
+    $returnto = htmlspecialchars($_POST['returnto'] ?? '');
+    //$returnto = htmlspecialchars($_POST['returnto']);
     //=== get user info from DB
     ($res_receiver = sql_query('SELECT id, acceptpms, notifs, email, class, username FROM users WHERE id='.sqlesc($receiver))) || sqlerr(__FILE__,
         __LINE__);
@@ -76,7 +76,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
                 $block = $r->fetch_row();
                 $block1 = $block ?? "";
                 if ($block1[0] > 0) {
-                    stderr($lang['pm_forwardpm_refused'], htmlsafechars($arr_receiver['username']).$lang['pm_send_blocked']);
+                    stderr($lang['pm_forwardpm_refused'], htmlspecialchars($arr_receiver['username']).$lang['pm_send_blocked']);
                 }
 
                 break;
@@ -86,13 +86,13 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
                     __LINE__);
                 $friend = $r->fetch_row();
                 if ($friend[0] > 0) {
-                    stderr($lang['pm_forwardpm_refused'], htmlsafechars($arr_receiver['username']).$lang['pm_send_onlyf']);
+                    stderr($lang['pm_forwardpm_refused'], htmlspecialchars($arr_receiver['username']).$lang['pm_send_onlyf']);
                 }
 
                 break;
 
             case 'no':
-                stderr($lang['pm_forwardpm_refused'], htmlsafechars($arr_receiver['username']).$lang['pm_send_doesnt']);
+                stderr($lang['pm_forwardpm_refused'], htmlspecialchars($arr_receiver['username']).$lang['pm_send_doesnt']);
                 break;
         }
     }
@@ -110,7 +110,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
 
     //=== if they just have to know about it right away... send them an email (if selected if profile)
     if (strpos($arr_receiver['notifs'], '[pm]') !== false) {
-        $username = htmlsafechars($CURUSER['username']);
+        $username = htmlspecialchars($CURUSER['username']);
         $body = <<<EOD
 {$lang['pm_forwardpm_pmfrom']} $username!
 
@@ -154,7 +154,7 @@ EOD;
 //=== basic page :D
 $receiver = (isset($_GET['receiver']) ? (int)$_GET['receiver'] : (isset($_POST['receiver']) ? (int)$_POST['receiver'] : 0));
 $replyto = (isset($_GET['replyto']) ? (int)$_GET['replyto'] : (isset($_POST['replyto']) ? (int)$_POST['replyto'] : 0));
-$returnto = htmlsafechars($_POST['returnto'] ?? '');
+$returnto = htmlspecialchars($_POST['returnto'] ?? '');
 if ($receiver === 0) {
     stderr($lang['pm_error'], $lang['pm_send_sysbot']);
 }
@@ -182,23 +182,23 @@ if ($replyto != 0) {
 
     if ($arr_old_message['receiver'] == $CURUSER['id']) {
         $body .= "\n\n\n{$lang['pm_send_wrote0']}$arr_member[0]{$lang['pm_send_wrote']}\n$arr_old_message[msg]\n";
-        $subject = $lang['pm_send_re'].htmlsafechars($arr_old_message['subject']);
+        $subject = $lang['pm_send_re'].htmlspecialchars($arr_old_message['subject']);
     }
 }
 //=== if preview or not replying
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $subject = trim(htmlsafechars($_POST['subject']));
-    $body = trim(htmlsafechars($_POST['body']));
+    $subject = trim(htmlspecialchars($_POST['subject']));
+    $body = trim(htmlspecialchars($_POST['body']));
 }
 //=== and finally print the basic page  :D
 $avatar = (($CURUSER['avatars'] === 'no') ? '' : (empty($CURUSER['avatar']) ? '
-        <img width="80" src="pic/default_avatar.gif" alt="no avatar" />' : (($CURUSER['offensive_avatar'] === 'yes' && $CURUSER['view_offensive_avatar'] === 'no') ? '<img width="80" src="pic/fuzzybunny.gif" alt="fuzzy!" />' : '<img width="80" src="'.htmlsafechars($CURUSER['avatar']).'" alt="avatar" />')));
+        <img width="80" src="pic/default_avatar.gif" alt="no avatar" />' : (($CURUSER['offensive_avatar'] === 'yes' && $CURUSER['view_offensive_avatar'] === 'no') ? '<img width="80" src="pic/fuzzybunny.gif" alt="fuzzy!" />' : '<img width="80" src="'.htmlspecialchars($CURUSER['avatar']).'" alt="avatar" />')));
 //=== Code for preview Retros code
 if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'preview') {
     $HTMLOUT .= '<legend>'.$lang['pm_send_previewpm'].'</legend>
     <table class="striped">
     <tr>
-        <td colspan="2" class="text-left"><span style="font-weight: bold;">subject: </span>'.htmlsafechars($subject).'</td>
+        <td colspan="2" class="text-left"><span style="font-weight: bold;">subject: </span>'.htmlspecialchars($subject).'</td>
     </tr>
     <tr>
         <td class="text-center" width="0px" id="photocol">'.$avatar.'</td>

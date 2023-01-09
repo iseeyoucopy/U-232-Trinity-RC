@@ -98,7 +98,7 @@ $What_Table = (XBT_TRACKER == true ? 'xbt_files_users' : 'snatched');
 $What_Value = (XBT_TRACKER == true ? 'WHERE completedtime != "0"' : 'WHERE complete_date != "0"');
 $count = number_format(get_row_count($What_Table, $What_Value));
 $HTMLOUT .= "<h2 align='center'>{$lang['ad_snatched_torrents_allsnatched']}</h2>
-<font class='small'>{$lang['ad_snatched_torrents_currently']}&nbsp;".htmlsafechars($count)."&nbsp;{$lang['ad_snatched_torrents_snatchedtor']}</font>";
+<font class='small'>{$lang['ad_snatched_torrents_currently']}&nbsp;".htmlspecialchars($count)."&nbsp;{$lang['ad_snatched_torrents_snatchedtor']}</font>";
 $HTMLOUT .= "<div class='row'><div class='col-md-12'>";
 $Which_ID = (XBT_TRACKER == true ? 'fid' : 'id');
 $Which_Table = (XBT_TRACKER == true ? 'xbt_files_users' : 'snatched');
@@ -149,14 +149,14 @@ if ($result->num_rows != 0) {
 </tr>";
     }
     while ($row = $result->fetch_assoc()) {
-        $smallname = substr(htmlsafechars($row["name"]), 0, 25);
-        if ($smallname != htmlsafechars($row["name"])) {
+        $smallname = substr(htmlspecialchars($row["name"]), 0, 25);
+        if ($smallname != htmlspecialchars($row["name"])) {
             $smallname .= '...';
         }
         if (XBT_TRACKER == true) {
-            $HTMLOUT .= "<tr><td><a href='/userdetails.php?id=".(int)$row['uid']."'><b>".htmlsafechars($row['username'])."</b></a></td>
+            $HTMLOUT .= "<tr><td><a href='/userdetails.php?id=".(int)$row['uid']."'><b>".htmlspecialchars($row['username'])."</b></a></td>
 <td align='center'><a href='/details.php?id=".(int)$row['fid']."'><b>".$smallname."</b></a></td>
-<td align='center'><b>".htmlsafechars($row['announced'])."</b></td>
+<td align='center'><b>".htmlspecialchars($row['announced'])."</b></td>
 <td align='center'><b>".mksize($row['uploaded'])."</b></td>
 ".($TRINITY20['ratio_free'] ? "" : "<td align='center'><b>".mksize($row['downloaded'])."</b></td>")."
 <td align='center'><b>".get_snatched_color($row["seedtime"])."</b></td>
@@ -168,11 +168,11 @@ if ($result->num_rows != 0) {
             }
             $HTMLOUT .= "<td align='center'>".($row['seeders'] >= 1 ? "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='{$lang['ad_snatched_torrents_yes']}' title='{$lang['ad_snatched_torrents_yes']}' />" : "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='{$lang['ad_snatched_torrents_no']}' title='{$lang['ad_snatched_torrents_no']}' />")."</td></tr>";
         } else {
-            $HTMLOUT .= "<tr><td><a href='/userdetails.php?id=".(int)$row['userid']."'><b>".htmlsafechars($row['username'])."</b></a></td>
+            $HTMLOUT .= "<tr><td><a href='/userdetails.php?id=".(int)$row['userid']."'><b>".htmlspecialchars($row['username'])."</b></a></td>
 <td align='center'><a href='/details.php?id=".(int)$row['torrentid']."'><b>".$smallname."</b></a></td>
 <td align='center'><b>".get_date($row['hit_and_run'], 'LONG', 0, 1)."</b></td>
-<td align='center'><b>".htmlsafechars($row['mark_of_cain'])."</b></td>
-<td align='center'><b>".htmlsafechars($row['timesann'])."</b></td>
+<td align='center'><b>".htmlspecialchars($row['mark_of_cain'])."</b></td>
+<td align='center'><b>".htmlspecialchars($row['timesann'])."</b></td>
 <td align='center'><b>".mksize($row['uploaded'])."</b></td>
 ".($TRINITY20['ratio_free'] ? "" : "<td align='center'><b>".mksize($row['downloaded'])."</b></td>")."
 <td align='center'><b>".get_snatched_color($row["seedtime"])."</b></td>

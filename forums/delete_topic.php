@@ -35,10 +35,10 @@ if ($CURUSER["class"] >= UC_STAFF || isMod($a["forum_id"], "forum")) {
     $sure = isset($_GET['sure']) && (int)$_GET['sure'];
     if (!$sure) {
         stderr("Sanity check...",
-            "You are about to delete topic ".htmlsafechars($a["topic_name"]).". Click <a href='{$TRINITY20['baseurl']}/forums.php?action=deletetopic&amp;topicid=$topicid&amp;sure=1'>here</a> if you are sure.");
+            "You are about to delete topic ".htmlspecialchars($a["topic_name"]).". Click <a href='{$TRINITY20['baseurl']}/forums.php?action=deletetopic&amp;topicid=$topicid&amp;sure=1'>here</a> if you are sure.");
     } else {
         write_log("topicdelete",
-            "Topic <b>".htmlsafechars($a["topic_name"])."</b> was deleted by <a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$CURUSER['id']."'>".htmlsafechars($CURUSER['username'])."</a>.");
+            "Topic <b>".htmlspecialchars($a["topic_name"])."</b> was deleted by <a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$CURUSER['id']."'>".htmlspecialchars($CURUSER['username'])."</a>.");
         if ($Multi_forum['configs']['use_attachment_mod']) {
             ($res = sql_query("SELECT attachments.file_name "."FROM posts "."LEFT JOIN attachments ON attachments.post_id = posts.id "."WHERE posts.topic_id = ".sqlesc($topicid))) || sqlerr(__FILE__,
                 __LINE__);

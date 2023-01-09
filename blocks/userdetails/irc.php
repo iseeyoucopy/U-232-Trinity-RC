@@ -26,7 +26,7 @@ function calctime($val)
 if ($user['onirc'] == 'yes') {
     $ircbonus = (empty($user['irctotal']) ? '0.0' : number_format($user["irctotal"] / $TRINITY20['autoclean_interval'], 1));
     $HTMLOUT .= "<tr><td class='rowhead' valign='top' align='right'>{$lang['userdetails_irc_bonus']}</td><td align='left'>{$ircbonus}</td></tr>";
-    $irctotal = (empty($user['irctotal']) ? htmlsafechars($user['username']).$lang['userdetails_irc_never'] : calctime($user['irctotal']));
+    $irctotal = (empty($user['irctotal']) ? htmlspecialchars($user['username']).$lang['userdetails_irc_never'] : calctime($user['irctotal']));
     $HTMLOUT .= "<tr><td class='rowhead' valign='top' align='right'>{$lang['userdetails_irc_idle']}</td><td align='left'>{$irctotal}</td></tr>";
 }
 //==end

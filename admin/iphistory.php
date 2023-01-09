@@ -49,27 +49,27 @@ if (!is_valid_id($id)) {
 }
 /// Custom function....
 if (isset($_GET["remove"])) {
-    $remove = htmlsafechars($_GET['remove']);
-    $username2 = htmlsafechars($_GET['username2']);
-    $deleteip = htmlsafechars($_GET['deleteip']);
+    $remove = htmlspecialchars($_GET['remove']);
+    $username2 = htmlspecialchars($_GET['username2']);
+    $deleteip = htmlspecialchars($_GET['deleteip']);
     //write_logs("<font color='#FA5858'><b>{$lang['stderr_wipe']}</b></font> (<a href='userdetails.php?id=$CURUSER[id]'><b>$CURUSER[username]</b></a>){$lang['stderr_justwipe']}(<b>$deleteip</b>) {$lang['stderr_from']}(<a href='/userdetails.php?id=$id'><b>$username2</b></a>)'s Ip History.", 'log');
     sql_query("DELETE FROM ips WHERE id=".sqlesc($remove)) || sqlerr(__FILE__, __LINE__);
 }
 if (isset($_GET["setseedbox"])) {
-    $setseedbox = htmlsafechars($_GET['setseedbox']);
+    $setseedbox = htmlspecialchars($_GET['setseedbox']);
     if (is_valid_id($setseedbox)) {
         sql_query("UPDATE ips SET seedbox=1 WHERE id =".sqlesc($setseedbox)) || sqlerr(__FILE__, __LINE__);
     }
 }
 if (isset($_GET["setseedbox2"])) {
-    $setseedbox2 = htmlsafechars($_GET['setseedbox2']);
+    $setseedbox2 = htmlspecialchars($_GET['setseedbox2']);
     if (is_valid_id($setseedbox2)) {
         sql_query("UPDATE ips SET seedbox=0 WHERE id =".sqlesc($setseedbox2)) || sqlerr(__FILE__, __LINE__);
     }
 }
 ($res = sql_query("SELECT username FROM users WHERE id=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 ($user = $res->fetch_array(MYSQLI_BOTH)) || stderr("{$lang['stderr_error']}", "{$lang['stderr_noid']}");
-$username = htmlsafechars($user["username"]);
+$username = htmlspecialchars($user["username"]);
 ($resip = sql_query("SELECT * FROM ips WHERE userid = ".sqlesc($id)." GROUP BY ip ORDER BY id DESC")) || sqlerr(__FILE__, __LINE__);
 $ipcount = $resip->num_rows;
 $HTMLOUT = '';
@@ -95,7 +95,7 @@ $HTMLOUT .= "<table class='table table-bordered'>
                 </tr>";
 while ($iphistory = $resip->fetch_array(MYSQLI_NUM)) {
     $host = gethostbyaddr($iphistory['ip']); //Hostname
-    $userip = htmlsafechars($iphistory['ip']); //Users Ip
+    $userip = htmlspecialchars($iphistory['ip']); //Users Ip
     $ipid = (int)$iphistory['id']; // IP ID
     if ($host == $userip) {
         $host = "<font color='red'><b>{$lang['iphistory_notfound']}</b></font>";
@@ -128,7 +128,7 @@ while ($iphistory = $resip->fetch_array(MYSQLI_NUM)) {
     $lastbrowse = (int)$iphistory['lastbrowse']; // Last Browse DATE
     $lastlogin = (int)$iphistory['lastlogin']; // Last Login DATE
     $lastannounce = (int)$iphistory['lastannounce']; // Last Announce DATE
-    $iptype = htmlsafechars($iphistory['type']); // IP was first used on
+    $iptype = htmlspecialchars($iphistory['type']); // IP was first used on
     $queryc = "SELECT COUNT(id) FROM (SELECT u.id FROM users AS u WHERE u.ip = ".sqlesc($iphistory['ip'])." UNION SELECT u.id FROM users AS u RIGHT JOIN ips ON u.id= ips.userid WHERE ips.ip =".sqlesc($iphistory['ip'])." GROUP BY u.id) AS ipsearch";
     ($resip2 = sql_query($queryc)) || sqlerr(__FILE__, __LINE__);
     $arrip2 = $resip2->fetch_row();
@@ -138,12 +138,12 @@ while ($iphistory = $resip->fetch_array(MYSQLI_NUM)) {
     $banarr = $banres->fetch_row();
     if ($banarr[0] == 0) {
         if ($ipcount > 1) {
-            $ipshow = "<b><a class='altlink' href='staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=".htmlsafechars($iphistory['ip'])."'><font color='black'>".htmlsafechars($iphistory['ip'])."</font></a></b>";
+            $ipshow = "<b><a class='altlink' href='staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=".htmlspecialchars($iphistory['ip'])."'><font color='black'>".htmlspecialchars($iphistory['ip'])."</font></a></b>";
         } else {
-            $ipshow = "<a class='altlink' href='staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=".htmlsafechars($iphistory['ip'])."'><b><font color='blue'>".htmlsafechars($iphistory['ip'])."</font></b></a>";
+            $ipshow = "<a class='altlink' href='staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=".htmlspecialchars($iphistory['ip'])."'><b><font color='blue'>".htmlspecialchars($iphistory['ip'])."</font></b></a>";
         }
     } else {
-        $ipshow = "<a class='altlink' href='staffpanel.php?tool=testip&amp;action=testip&amp;ip=".htmlsafechars($iphistory['ip'])."'><font color='red'><b>".htmlsafechars($iphistory['ip'])."</b></font></a>";
+        $ipshow = "<a class='altlink' href='staffpanel.php?tool=testip&amp;action=testip&amp;ip=".htmlspecialchars($iphistory['ip'])."'><font color='red'><b>".htmlspecialchars($iphistory['ip'])."</b></font></a>";
     }
     // User IP listed for GeoIP tracing
     $gi = geoip_open("GeoIP/GeoIP.dat", GEOIP_STANDARD);
@@ -159,7 +159,7 @@ while ($iphistory = $resip->fetch_array(MYSQLI_NUM)) {
     geoip_close($gi);
     // end fetch geoip code
     //Is this a seedbox check
-    $seedbox = htmlsafechars($iphistory['seedbox']);
+    $seedbox = htmlspecialchars($iphistory['seedbox']);
     if ($seedbox == '0') {
         $seedbox = "<a href='staffpanel.php?tool=iphistory&amp;action=iphistory&amp;id=$id&amp;setseedbox=".(int)$iphistory['id']."'><font color='red'><b>{$lang['iphistory_no']}</b></font></a>";
         $HTMLOUT .= "<tr>

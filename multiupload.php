@@ -76,7 +76,7 @@ $HTMLOUT .= "<div class='input-group'>
         <option value='0'>({$lang['upload_choose_one']})</option>";
 $cats = genrelist();
 foreach ($cats as $row) {
-    $HTMLOUT .= "<option value='".(int)$row["id"]."'>".htmlsafechars($row["name"])."</option>\n";
+    $HTMLOUT .= "<option value='".(int)$row["id"]."'>".htmlspecialchars($row["name"])."</option>\n";
 }
 $HTMLOUT .= "</select></div></div>
 <div class='torrent-seperator'>

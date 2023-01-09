@@ -117,9 +117,9 @@ function localisedDate($timestamp = -1, $format = '')
     if ($timestamp == -1) {
         $timestamp = time();
     }
-    $date = preg_replace('@%[aA]@', $day_of_week[(int)strftime('%w', $timestamp)], $format);
-    $date = preg_replace('@%[bB]@', $month[(int)strftime('%m', $timestamp) - 1], $date);
-    return strftime($date, $timestamp);
+    $date = preg_replace('@%[aA]@', $day_of_week[(int)date('d M Y', $timestamp)], $format);
+    $date = preg_replace('@%[bB]@', $month[(int)date('d M Y', $timestamp) - 1], $date);
+    return date($date, $timestamp);
 } // end of the 'localisedDate()' function
 ////////////////////// END FUNCTION LIST /////////////////////////////////////
 $HTMLOUT = '';
@@ -235,7 +235,7 @@ foreach ($queryStats as $name => $value) {
     // the number of connections is not an item of the Query types
     // but is included in Questions. Then the total of the percentages is 100.
     $QUERY_STATS .= "<tr>
-          <td>&nbsp;".htmlsafechars($name)."&nbsp;</td>
+          <td>&nbsp;".htmlspecialchars($name)."&nbsp;</td>
           <td  align='right'>&nbsp;".number_format($value, 0, '.', ',')."&nbsp;</td>
           <td  align='right'>&nbsp;".number_format(($value * 3600 / $serverStatus['Uptime']), 2, '.', ',')."&nbsp;</td>
           <td  align='right'>&nbsp;".number_format(($value * 100 / ($serverStatus['Questions'] - $serverStatus['Connections'])), 2, '.', ',')."&nbsp;%&nbsp;</td>
@@ -266,8 +266,8 @@ if (!empty($serverStatus)) {
     $countRows = 0;
     foreach ($serverStatus as $name => $value) {
         $STATUS_TABLE .= "<tr>
-            <td>&nbsp;".htmlsafechars(str_replace('_', ' ', $name))."&nbsp;</td>
-            <td  align='right'>&nbsp;".htmlsafechars($value)."&nbsp;</td>
+            <td>&nbsp;".htmlspecialchars(str_replace('_', ' ', $name))."&nbsp;</td>
+            <td  align='right'>&nbsp;".htmlspecialchars($value)."&nbsp;</td>
         </tr>";
     }
     unset($useBgcolorOne);

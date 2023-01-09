@@ -27,7 +27,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 }
 $userid = (int)$CURUSER["id"];
 if ($Multi_forum['configs']['use_poll_mod'] && $_SERVER['REQUEST_METHOD'] == "POST") {
-    $choice = htmlsafechars($_POST['choice']);
+    $choice = htmlspecialchars($_POST['choice']);
     $pollid = (int)$_POST["pollid"];
     if (ctype_digit($choice) && $choice < 256 && $choice == floor($choice)) {
         ($res = sql_query("SELECT pa.id "."FROM postpolls AS p "."LEFT JOIN postpollanswers AS pa ON pa.pollid = p.id AND pa.userid=".sqlesc($userid)." "."WHERE p.id = ".sqlesc($pollid))) || sqlerr(__FILE__,
@@ -61,7 +61,7 @@ $locked = ($arr['locked'] == 'yes');
 $subject = $arr['topic_name'];
 $sticky = ($arr['sticky'] == "yes");
 $forumid = (int)$arr['forum_id'];
-$forum = htmlsafechars($arr["forum_name"]);
+$forum = htmlspecialchars($arr["forum_name"]);
 $postcount = (int)$arr['p_count'];
 if ($CURUSER["class"] < $arr["min_class_read"]) {
     stderr("Error", "You are not permitted to view this topic.");
@@ -110,7 +110,7 @@ $HTMLOUT .= "<div class='navigation'>
                 &gt;
                 <a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".$forumid."'>{$forum}</a>
                 <br><img src='templates/1/pic/carbon/nav_bit.png' alt=''>
-                <span class='active'>".htmlsafechars($subject)."</span>
+                <span class='active'>".htmlspecialchars($subject)."</span>
                 </div><br />";
 */
 /*
@@ -120,7 +120,7 @@ if ($Multi_forum['configs']['use_poll_mod'] && is_valid_id($pollid)) {
     if ($res->num_rows > 0) {
         $arr1 = $res->fetch_assoc();
         $userid = (int)$CURUSER['id'];
-        $question = htmlsafechars($arr1["question"]);
+        $question = htmlspecialchars($arr1["question"]);
         $o = [
             $arr1["option0"],
             $arr1["option1"],
@@ -193,7 +193,7 @@ if ($Multi_forum['configs']['use_poll_mod'] && is_valid_id($pollid)) {
                 $c = ($i % 2 !== 0 ? '' : "poll");
                 $p = ($tvotes == 0 ? 0 : round($a[0] / $tvotes * 100));
                 $c = ($i % 2 !== 0 ? '' : "poll");
-                $HTMLOUT .= "<label>".htmlsafechars($a[1])."</label>
+                $HTMLOUT .= "<label>".htmlspecialchars($a[1])."</label>
                 <div class='progress' role='progressbar' tabindex='0' aria-valuenow='".$p."' aria-valuemin='0' aria-valuetext='25 percent' aria-valuemax='100'>
                     <span class='progress-meter' style='width: ".$p."%'>
                         <span class='progress-meter-text'>".$p."%</span>
@@ -205,7 +205,7 @@ if ($Multi_forum['configs']['use_poll_mod'] && is_valid_id($pollid)) {
             $HTMLOUT .= "<form method='post' action='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$topicid."'>
                   <input type='hidden' name='pollid' value='".$pollid."'>";
             for ($i = 0; $a = $o[$i]; ++$i) {
-                $HTMLOUT .= "<input type='radio' name='choice' value='$i'>".htmlsafechars($a)."
+                $HTMLOUT .= "<input type='radio' name='choice' value='$i'>".htmlspecialchars($a)."
                             <input class='tiny button' type='submit' value='Vote!'></form>";
             }
         }
@@ -233,10 +233,10 @@ if ($Multi_forum['configs']['use_poll_mod'] && is_valid_id($pollid)) {
                         if ($CURUSER['class'] < UC_STAFF && $arr_vv["userid"] != $CURUSER["id"]) {
                             $voters = "<i>Anonymous</i>";
                         } else {
-                            $voters = "<i>Anonymous</i>[<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr_vv['userid']."'><strong>".htmlsafechars($arr_vv['username'])."</strong></a>]";
+                            $voters = "<i>Anonymous</i>[<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr_vv['userid']."'><strong>".htmlspecialchars($arr_vv['username'])."</strong></a>]";
                         }
                     } else {
-                        $voters .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr_vv['userid']."'><strong>".htmlsafechars($arr_vv['username'])."</strong></a>";
+                        $voters .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr_vv['userid']."'><strong>".htmlspecialchars($arr_vv['username'])."</strong></a>";
                     }
                 }
                 $HTMLOUT .= $voters."[<font class='small'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid'>hide</a></font>]";
@@ -356,7 +356,7 @@ $HTMLOUT .= "<div class='card'>
         $postid = (int)$arr["id"];
         $postadd = (int)$arr['added'];
         $posterid = (int)$arr['user_id'];
-        $posticon = ($arr["icon"] > 0 ? "<img src='{$TRINITY20['pic_base_url']}post_icons/icon".htmlsafechars($arr["icon"]).".gif' style='padding-left:3px;' alt='post icon' title='post icon' />" : "&nbsp;");
+        $posticon = ($arr["icon"] > 0 ? "<img src='{$TRINITY20['pic_base_url']}post_icons/icon".htmlspecialchars($arr["icon"]).".gif' style='padding-left:3px;' alt='post icon' title='post icon' />" : "&nbsp;");
         $added = get_date($arr['added'], 'DATE', 1, 0)." GMT <font class='small'>(".(get_date($arr['added'], 'LONG', 1, 0)).")</font>";
         // ---- Get poster details
         $uploaded = mksize($arr['uploaded']);
@@ -367,16 +367,16 @@ $HTMLOUT .= "<div class='card'>
         if (($postid > $lpr) && ($postadd > (TIME_NOW - $TRINITY20['readpost_expiry']))) {
             $newp = "&nbsp;&nbsp;<span class='badge btn btn-danger disabled' style='color:#fff'><strong></strong>NEW</strong></span>";
         }
-        $moodname = (isset($mood['name'][$arr['mood']]) ? htmlsafechars($mood['name'][$arr['mood']]) : 'is feeling neutral');
-        $moodpic = (isset($mood['image'][$arr['mood']]) ? htmlsafechars($mood['image'][$arr['mood']]) : 'noexpression.gif');
+        $moodname = (isset($mood['name'][$arr['mood']]) ? htmlspecialchars($mood['name'][$arr['mood']]) : 'is feeling neutral');
+        $moodpic = (isset($mood['image'][$arr['mood']]) ? htmlspecialchars($mood['image'][$arr['mood']]) : 'noexpression.gif');
         $signature = ($CURUSER['signatures'] == 'yes' ? format_comment($arr['signature']) : '');
         $user_stuff = $arr;
         $user_stuff['id'] = (int)$arr['uid'];
         $postername = format_username($user_stuff, true);
         $width = '75';
         $avatar = ($CURUSER["avatars"] == "yes" ? (($arr['p_anon'] == 'yes' && $CURUSER['class'] < UC_STAFF) ? '<img style="max-width:'.$width.'px;" src="'.$TRINITY20['pic_base_url'].'anonymous_1.jpg" alt="avatar" />' : avatar_stuff($arr)) : "");
-        $title2 = (empty($postername) ? ('') : (empty($arr['title']) ? "(".get_user_class_name($arr['class']).")" : "(".(htmlsafechars($arr['title'])).")"));
-        $title = ($arr['p_anon'] == 'yes' ? '<i>Anonymous</i>' : htmlsafechars($title2));
+        $title2 = (empty($postername) ? ('') : (empty($arr['title']) ? "(".get_user_class_name($arr['class']).")" : "(".(htmlspecialchars($arr['title'])).")"));
+        $title = ($arr['p_anon'] == 'yes' ? '<i>Anonymous</i>' : htmlspecialchars($title2));
         $class_name = (($arr['p_anon'] == 'yes' && $CURUSER['class'] < UC_STAFF) ? "Anonymous" : get_user_class_name($arr["class"]));
         $forumposts = (empty($postername) ? ('N/A') : ($arr['posts_count'] != 0 ? (int)$arr['posts_count'] : 'N/A'));
         if ($arr["p_anon"] == "yes") {
@@ -408,7 +408,7 @@ $HTMLOUT .= "<div class='card'>
                                 if ($TRINITY20['mood_sys_on']) {
                                     $HTMLOUT .= '<!-- Mood -->
                                         <span class="smalltext"><a href="javascript:;" onclick="PopUp("usermood.php","Mood",530,500,1,1);"><img src="'.$TRINITY20['pic_base_url'].'smilies/'.$moodpic.'" alt="'.$moodname.'" border="0" /></a>
-                                        <span class="tip">'.(($arr['p_anon'] == 'yes' && $CURUSER['class'] < UC_STAFF) ? '<i>Anonymous</i>' : htmlsafechars($arr['username'])).' '.$moodname.' !</span>&nbsp;</span>';
+                                        <span class="tip">'.(($arr['p_anon'] == 'yes' && $CURUSER['class'] < UC_STAFF) ? '<i>Anonymous</i>' : htmlspecialchars($arr['username'])).' '.$moodname.' !</span>&nbsp;</span>';
                                 }
                                 //' . (getRate($topicid, "topic")) . '
                                 if (($arr["p_anon"] == "yes") && $CURUSER['class'] < UC_STAFF && $posterid != $CURUSER["id"]) {
@@ -434,7 +434,7 @@ $HTMLOUT .= "<div class='card'>
                                 <span id='mlike' data-com='".(int)$arr["id"]."' class='forum {$wht}'>[".ucfirst($wht)."]</span>
                                 <span class='tot-".(int)$arr["id"]."' data-tot='".(!empty($likes) && count(array_unique($likes)) > 0 ? count(array_unique($likes)) : '')."'>&nbsp;{$att_str}</span>";
                                 if (is_valid_id($arr['edited_by'])) {
-                                    $HTMLOUT .= "<span class='post_edit' id='edited_by_14'><font size='1' class='small'>Last edited by <a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['edited_by']."'><strong>".htmlsafechars($arr['u2_username'])."</strong></a> at ".get_date($arr['edit_date'],
+                                    $HTMLOUT .= "<span class='post_edit' id='edited_by_14'><font size='1' class='small'>Last edited by <a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['edited_by']."'><strong>".htmlspecialchars($arr['u2_username'])."</strong></a> at ".get_date($arr['edit_date'],
                                             'LONG', 1, 0)." GMT</font></span>";
                                 }
                             $HTMLOUT .= "</span>
@@ -443,8 +443,8 @@ $HTMLOUT .= "<div class='card'>
                             $HTMLOUT .= $newp;
                         }
                         $HTMLOUT .="<a href='#top'><img align='right' src='{$TRINITY20['pic_base_url']}".$Multi_forum['configs']['forum_pics']['arrow_up']."' alt='Top' /></a>";
-                        $highlight = (isset($_GET['highlight']) ? htmlsafechars($_GET['highlight']) : '');
-                        $body = (empty($highlight) ? format_comment($arr['body']) : highlight(htmlsafechars(trim($highlight)), format_comment($arr['body'])));
+                        $highlight = (isset($_GET['highlight']) ? htmlspecialchars($_GET['highlight']) : '');
+                        $body = (empty($highlight) ? format_comment($arr['body']) : highlight(htmlspecialchars(trim($highlight)), format_comment($arr['body'])));
                         if ($Multi_forum['configs']['use_attachment_mod'] && ((!empty($arr['at_filename']) && is_valid_id($arr['at_id'])) && $arr['at_postid'] == $postid)) {
                             foreach ($Multi_forum['configs']['allowed_file_extensions'] as $allowed_file_extension) {
                                 if (substr($arr['at_filename'], -2) || substr($arr['at_filename'], -3) == $allowed_file_extension) {
@@ -457,7 +457,7 @@ $HTMLOUT .= "<div class='card'>
                                         <table cellpadding='0' cellspacing='3' border='0'>
                                         <tr>
                                         <td><img class='inlineimg' src='{$TRINITY20['pic_base_url']}$aimg.gif' alt='' width='16' height='16' border='0' style='vertical-align:baseline' />&nbsp;</td>
-                                        <td><a href='{$TRINITY20['baseurl']}/forums.php?action=attachment&amp;attachmentid=".(int)$arr['at_id']."' target='_blank'>".htmlsafechars($arr['at_filename'])."</a> [".mksize($arr['at_size']).", ".(int)$arr['at_downloads']." downloads]</td>
+                                        <td><a href='{$TRINITY20['baseurl']}/forums.php?action=attachment&amp;attachmentid=".(int)$arr['at_id']."' target='_blank'>".htmlspecialchars($arr['at_filename'])."</a> [".mksize($arr['at_size']).", ".(int)$arr['at_downloads']." downloads]</td>
                                         <td>&nbsp;&nbsp;<input type='button' class='none' value='See who downloaded' tabindex='1' onclick='window.open('{$TRINITY20['baseurl']}/forums.php?action=whodownloaded&amp;fileid=".(int)$arr['at_id']."','whodownloaded','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50'); return false;' />".($CURUSER['class'] >= UC_STAFF ? "&nbsp;&nbsp;<input type='button' class='gobutton' value='Delete' tabindex='2' onclick='window.open('{$TRINITY20['baseurl']}/forums.php?action=attachment&amp;subaction=delete&amp;attachmentid=".(int)$arr['at_id']."','attachment','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50'); return false;' />" : "")."</td>
                                         </tr>
                                         </table>
@@ -584,7 +584,7 @@ if (isMod($topicid)) {
     $CURUSER['class'] = UC_STAFF;
 }
 echo stdhead("Forums :: View Topic: $subject", true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
-$uploaderror = (isset($_GET['uploaderror']) ? htmlsafechars($_GET['uploaderror']) : '');
+$uploaderror = (isset($_GET['uploaderror']) ? htmlspecialchars($_GET['uploaderror']) : '');
 if (!empty($uploaderror)) {
     $HTMLOUT .= "<script>alert('Upload Failed: {$uploaderror}\nHowever your post was successful saved!\n\nClick 'OK' to continue.');</script>";
 }

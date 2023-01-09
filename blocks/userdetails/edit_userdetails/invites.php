@@ -19,7 +19,7 @@ $HTMLOUT .= "<div class='cell medium-12'>
         <label for='invite_pos_no'>{$lang['userdetails_no']}</label>";
 $HTMLOUT .= "<div class='input-group'>
         <span class='input-group-label'>{$lang['userdetails_invites']}</span>
-        <input class='input-group-field' type='text'name='invites' value='".htmlsafechars($user['invites'])."'>
+        <input class='input-group-field' type='text'name='invites' value='".htmlspecialchars($user['invites'])."'>
     </div>
     </fieldset>
 </div>";

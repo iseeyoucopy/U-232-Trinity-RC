@@ -79,8 +79,8 @@ $HTMLOUT .= "<div class='card'>
 while ($arr = $res->fetch_assoc()) {
     $HTMLOUT .= "<tbody>
         <tr>
-            <td>".htmlsafechars($arr["agent"])."</td>
-            <td>".htmlsafechars($arr["peer_id"])."</td>
+            <td>".htmlspecialchars($arr["agent"])."</td>
+            <td>".htmlspecialchars($arr["peer_id"])."</td>
         </tr>
     </tbody>";
 }

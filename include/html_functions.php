@@ -66,7 +66,7 @@ function tr($x, $y, $noesc = 0)
     if ($noesc) {
         $a = $y;
     } else {
-        $a = htmlsafechars($y);
+        $a = htmlspecialchars($y);
         $a = str_replace("\n", "<br />\n", $a);
     }
     return "<tr>

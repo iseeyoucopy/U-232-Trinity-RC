@@ -39,7 +39,7 @@ if ($top10tvs_24) {
     $counter = 1;
     foreach ($top10tvs_24 as $top10tvs24) {
         if (is_array($top10tvs24)) {
-            $torrname = htmlsafechars($top10tvs24['name']);
+            $torrname = htmlspecialchars($top10tvs24['name']);
             if (strlen($torrname) > 50) {
                 $torrname = substr($torrname, 0, 50)."...";
             }

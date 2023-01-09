@@ -34,13 +34,13 @@ if ($CURUSER['class'] < UC_POWER_USER || !is_valid_id($id)) {
 $HTMLOUT = '';
 $HTMLOUT .= "
 <div class='row'>
-<div  class='col-md-12 text-center'><h2>{$lang['text_nfofor']}<a href='{$TRINITY20['baseurl']}/details.php?id=$id'>".htmlsafechars($a['name'])."</a></h2></div>
+<div  class='col-md-12 text-center'><h2>{$lang['text_nfofor']}<a href='{$TRINITY20['baseurl']}/details.php?id=$id'>".htmlspecialchars($a['name'])."</a></h2></div>
 <div  class='col-md-12 text-center'><h2>{$lang['text_forbest']}<a href='ftp://{$_SERVER['HTTP_HOST']}/misc/linedraw.ttf'>{$lang['text_linedraw']}</a>{$lang['text_font']}</h2></div>
 <div class='row'><div class='col-md-12'>
 <table class='table table-bordered'>
 <tr>
 <td class='text'>\n";
-$HTMLOUT .= " <pre>".format_urls(htmlsafechars($a['nfo']))."</pre>\n";
+$HTMLOUT .= " <pre>".format_urls(htmlspecialchars($a['nfo']))."</pre>\n";
 $HTMLOUT .= " </td>
 </tr>
 </table>\n";

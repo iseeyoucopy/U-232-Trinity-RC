@@ -37,7 +37,7 @@ $arr = $res->fetch_assoc($res);
 $sure = isset($_GET['sure']) && (int)$_GET['sure'];
 if (!$sure || $sure != 1) {
     stderr('Sanity check...',
-        'You are about to delete a poll. Click <a href='.$TRINITY20['baseurl'].'/forums.php?action='.htmlsafechars($action).'&amp;pollid='.(int)$arr['id'].'&amp;sure=1>here</a> if you are sure.');
+        'You are about to delete a poll. Click <a href='.$TRINITY20['baseurl'].'/forums.php?action='.htmlspecialchars($action).'&amp;pollid='.(int)$arr['id'].'&amp;sure=1>here</a> if you are sure.');
 }
 sql_query("DELETE pp.*, ppa.* FROM postpolls AS pp LEFT JOIN postpollanswers AS ppa ON ppa.pollid = pp.id WHERE pp.id=".sqlesc($pollid));
 if ($mysqli->affected_rows == 0) {

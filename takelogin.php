@@ -44,7 +44,7 @@ function failedloginscheck()
     [$total] = $res->fetch_row();
     if ($total >= $TRINITY20['failedlogins']) {
         sql_query("UPDATE failedlogins SET banned = 'yes' WHERE ip=".sqlesc($ip)) || sqlerr(__FILE__, __LINE__);
-        stderr($lang['tlogin_locked'], "{$lang['tlogin_lockerr1']} . <b>(".htmlsafechars($ip).")</b> . {$lang['tlogin_lockerr2']}");
+        stderr($lang['tlogin_locked'], "{$lang['tlogin_lockerr1']} . <b>(".htmlspecialchars($ip).")</b> . {$lang['tlogin_lockerr2']}");
     }
 } // End
 if (!mkglobal('username:password'.($TRINITY20['captcha_on'] ? ($gotkey ? ":" : ":captchaSelection:") : ":").'submitme')) {
@@ -127,7 +127,7 @@ if (!$pass_hash && !$tri_hash) {
     }
     $to = ((int)$row["id"]);
     $subject = "{$lang['tlogin_log_err1']}";
-    $msg = "[color=red]{$lang['tlogin_log_err2']}[/color]\n{$lang['tlogin_mess1']}".(int)$row['id']."{$lang['tlogin_mess2']}".htmlsafechars($username)."{$lang['tlogin_mess3']}"."{$lang['tlogin_mess4']}".htmlsafechars($ip)."{$lang['tlogin_mess5']}";
+    $msg = "[color=red]{$lang['tlogin_log_err2']}[/color]\n{$lang['tlogin_mess1']}".(int)$row['id']."{$lang['tlogin_mess2']}".htmlspecialchars($username)."{$lang['tlogin_mess3']}"."{$lang['tlogin_mess4']}".htmlspecialchars($ip)."{$lang['tlogin_mess5']}";
     $sql = "INSERT INTO messages (sender, receiver, msg, subject, added) VALUES('System', ".sqlesc($to).", ".sqlesc($msg).", ".sqlesc($subject).", $added);";
     ($res = sql_query("SET SESSION sql_mode = ''", $sql)) || sqlerr(__FILE__, __LINE__);
     $cache->delete($keys['inbox_new'].$row['id']);
@@ -170,7 +170,7 @@ if (!$tri_hash) {
     }
     $to = ((int)$rows["id"]);
     $subject = "{$lang['tlogin_log_err1']}";
-    $msg = "[color=red]{$lang['tlogin_log_err2']}[/color]\n{$lang['tlogin_mess1']}".(int)$rows['id']."{$lang['tlogin_mess2']}".htmlsafechars($username)."{$lang['tlogin_mess3']}"."{$lang['tlogin_mess4']}".htmlsafechars($ip)."{$lang['tlogin_mess5']}";
+    $msg = "[color=red]{$lang['tlogin_log_err2']}[/color]\n{$lang['tlogin_mess1']}".(int)$rows['id']."{$lang['tlogin_mess2']}".htmlspecialchars($username)."{$lang['tlogin_mess3']}"."{$lang['tlogin_mess4']}".htmlspecialchars($ip)."{$lang['tlogin_mess5']}";
     $sql = "INSERT INTO messages (sender, receiver, msg, subject, added) VALUES('System', ".sqlesc($to).", ".sqlesc($msg).", ".sqlesc($subject).", $added);";
     ($res = sql_query("SET SESSION sql_mode = ''", $sql)) || sqlerr(__FILE__, __LINE__);
     $cache->delete($keys['inbox_new'].$rows['id']);

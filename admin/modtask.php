@@ -114,7 +114,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     }
     $updateset = $curuser_cache = $user_cache = $stats_cache = $user_stats_cache = $useredit['update'] = [];
     $setbits = $clrbits = 0;
-    $username = (($CURUSER['perms'] & bt_options::PERMS_STEALTH) !== 0 ? 'System' : htmlsafechars($CURUSER['username']));
+    $username = (($CURUSER['perms'] & bt_options::PERMS_STEALTH) !== 0 ? 'System' : htmlspecialchars($CURUSER['username']));
     $modcomment = (isset($_POST['modcomment']) && $CURUSER['class'] == UC_MAX) ? $_POST['modcomment'] : $user['modcomment'];
     //== Set class
     if ((isset($_POST['class'])) && (($class = $_POST['class']) != $user['class'])) {
@@ -192,7 +192,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     if ((isset($_POST['donorlengthadd'])) && ($donorlengthadd = 0 + $_POST['donorlengthadd'])) {
         $donoruntil = (int)$user["donoruntil"];
         $dur = $donorlengthadd.$lang['modtask_donor_week'].($donorlengthadd > 1 ? $lang['modtask_donor_weeks'] : "");
-        $msg = sqlesc($lang['modtask_donor_dear'].htmlsafechars($user['username'])."{$lang['modtask_donor_msg2']} $dur {$lang['modtask_donor_msg3']}".$username);
+        $msg = sqlesc($lang['modtask_donor_dear'].htmlspecialchars($user['username'])."{$lang['modtask_donor_msg2']} $dur {$lang['modtask_donor_msg3']}".$username);
         $subject = sqlesc($lang['modtask_donor_subject_again']);
         $modcomment = get_date(TIME_NOW, 'DATE',
                 1)."{$lang['modtask_donor_set_another']} $dur {$lang['modtask_gl_by']}".$CURUSER['username'].".\n".$modcomment;
@@ -620,7 +620,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
             $updateset[] = "av_h = ".sqlesc($image['img_height']);
         }
         $modcomment = get_date(TIME_NOW, 'DATE',
-                1)."{$lang['modtask_avatar_change']}".htmlsafechars($curavatar)."{$lang['modtask_to']}".htmlsafechars($avatar)."{$lang['modtask_by']} ".$CURUSER['username'].".\n".$modcomment;
+                1)."{$lang['modtask_avatar_change']}".htmlspecialchars($curavatar)."{$lang['modtask_to']}".htmlspecialchars($avatar)."{$lang['modtask_by']} ".$CURUSER['username'].".\n".$modcomment;
         $updateset[] = "avatar = ".sqlesc($avatar);
         $useredit['update'][] = $lang['modtask_avatar_changed'];
         $curuser_cache['avatar'] = $avatar;
@@ -656,7 +656,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
             $updateset[] = "sig_h = ".sqlesc($image['img_height']);
         }
         $modcomment = get_date(TIME_NOW, 'DATE',
-                1)."{$lang['modtask_signature_change']}".htmlsafechars($cursignature)."{$lang['modtask_to']}".htmlsafechars($signature)."{$lang['modtask_by']} ".$CURUSER['username'].".\n".$modcomment;
+                1)."{$lang['modtask_signature_change']}".htmlspecialchars($cursignature)."{$lang['modtask_to']}".htmlspecialchars($signature)."{$lang['modtask_by']} ".$CURUSER['username'].".\n".$modcomment;
         $updateset[] = "signature = ".sqlesc($signature);
         $useredit['update'][] = $lang['modtask_signature_changed'];
         $curuser_cache['signature'] = $signature;
@@ -666,9 +666,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     //=== allow invites
     if ((isset($_POST['invite_on'])) && (($invite_on = $_POST['invite_on']) != $user['invite_on'])) {
         $modcomment = get_date(TIME_NOW, 'DATE',
-                1).$lang['modtask_invites_allowed'].htmlsafechars($user['invite_on'])."{$lang['modtask_to']}$invite_on{$lang['modtask_gl_by']}".$CURUSER['username'].".\n".$modcomment;
+                1).$lang['modtask_invites_allowed'].htmlspecialchars($user['invite_on'])."{$lang['modtask_to']}$invite_on{$lang['modtask_gl_by']}".$CURUSER['username'].".\n".$modcomment;
         $updateset[] = "invite_on = ".sqlesc($invite_on);
-        $useredit['update'][] = $lang['modtask_invites_enabled'].htmlsafechars($invite_on).'';
+        $useredit['update'][] = $lang['modtask_invites_enabled'].htmlspecialchars($invite_on).'';
         $curuser_cache['invite_on'] = $invite_on;
         $user_cache['invite_on'] = $invite_on;
     }
@@ -935,7 +935,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
             $subject = sqlesc($lang['modtask_suspend_title']);
             $msg = sqlesc($lang['modtask_suspend_msg'].$username.".\n[b]{$lang['modtask_suspend_msg1']}[/b]\n".sqlesc($suspended_reason).".\n\n{$lang['modtask_suspend_msg2']}\n\n{$lang['modtask_suspend_msg3']}\n\n{$lang['modtask_suspend_msg4']}\n".$TRINITY20['site_name'].$lang['modtask_suspend_msg5']);
             //=== post to forum
-            $body = sqlesc("{$lang['modtask_suspend_acc_for']}[b][url=".$TRINITY20['baseurl']."/userdetails.php?id=".(int)$user["id"]."]".htmlsafechars($user["username"])."[/url][/b]{$lang['modtask_suspend_has_by']}".$CURUSER['username']."\n\n [b]{$lang['modtask_suspend_reason']}[/b]\n ".sqlesc($suspended_reason).".\n");
+            $body = sqlesc("{$lang['modtask_suspend_acc_for']}[b][url=".$TRINITY20['baseurl']."/userdetails.php?id=".(int)$user["id"]."]".htmlspecialchars($user["username"])."[/url][/b]{$lang['modtask_suspend_has_by']}".$CURUSER['username']."\n\n [b]{$lang['modtask_suspend_reason']}[/b]\n ".sqlesc($suspended_reason).".\n");
             auto_post($subject, $body);
         }
         if ($_POST['suspended'] === 'no') {
@@ -1044,7 +1044,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     //=== website
     if ((isset($_POST['website'])) && (($website = $_POST['website']) != $user['website'])) {
         $modcomment = get_date(TIME_NOW, 'DATE',
-                1).$lang['modtask_website_changed_to'].strip_tags($_POST['website']).$lang['modtask_gl_from'].htmlsafechars($user['website']).$lang['modtask_gl_by'].$CURUSER['username'].".\n".$modcomment;
+                1).$lang['modtask_website_changed_to'].strip_tags($_POST['website']).$lang['modtask_gl_from'].htmlspecialchars($user['website']).$lang['modtask_gl_by'].$CURUSER['username'].".\n".$modcomment;
         $updateset[] = 'website = '.sqlesc($website);
         $useredit['update'][] = $lang['modtask_website_changed'];
         $curuser_cache['website'] = $website;
@@ -1125,9 +1125,9 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         'opt2' => $row['opt2'],
     ], $TRINITY20['expires']['user_cache']);
     //== 09 Updated Sysop log - thanks to pdq
-    write_info("{$lang['modtask_sysop_user_acc']} $userid (<a href='userdetails.php?id=$userid'>".htmlsafechars($user['username'])."</a>)\n{$lang['modtask_sysop_thing']}".implode(', ',
+    write_info("{$lang['modtask_sysop_user_acc']} $userid (<a href='userdetails.php?id=$userid'>".htmlspecialchars($user['username'])."</a>)\n{$lang['modtask_sysop_thing']}".implode(', ',
             $useredit['update'])."{$lang['modtask_gl_by']}<a href='userdetails.php?id={$CURUSER['id']}'>{$CURUSER['username']}</a>");
-    $returnto = htmlsafechars($_POST["returnto"]);
+    $returnto = htmlspecialchars($_POST["returnto"]);
     header("Location: {$TRINITY20['baseurl']}/$returnto");
     stderr("{$lang['modtask_user_error']}", "{$lang['modtask_try_again']}");
 }

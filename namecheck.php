@@ -52,12 +52,12 @@ if (strlen($_GET["wantusername"]) > 12) {
     exit();
 }
 
-$checkname = htmlsafechars($_GET["wantusername"]);
+$checkname = htmlspecialchars($_GET["wantusername"]);
 ($result = sql_query("SELECT username FROM users WHERE username = ".sqlesc($checkname))) || sqlerr(__FILE__, __LINE__);
 $numbers = $result->num_rows;
 if ($numbers > 0) {
     while ($namecheck = $result->fetch_assoc()) {
-        $HTMLOUT .= "<p class='text-danger'><i class='fas fa-times-circle'></i><strong>Sorry... Username - ".htmlsafechars($namecheck["username"])." is already in use.</strong></p>";
+        $HTMLOUT .= "<p class='text-danger'><i class='fas fa-times-circle'></i><strong>Sorry... Username - ".htmlspecialchars($namecheck["username"])." is already in use.</strong></p>";
     }
 } else {
     $HTMLOUT .= "<p class='text-success'><i class='fas fa-check-circle'></i><strong>Username Available</strong></p>";

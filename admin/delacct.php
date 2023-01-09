@@ -34,8 +34,8 @@ $lang = array_merge($lang, load_language('ad_delacct'));
 
 //==
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = trim(htmlsafechars($_POST["username"]));
-    $password = trim(htmlsafechars($_POST["password"]));
+    $username = trim(htmlspecialchars($_POST["username"]));
+    $password = trim(htmlspecialchars($_POST["password"]));
     if (!$username || !$password) {
         stderr("{$lang['text_error']}", "{$lang['text_please']}");
     }

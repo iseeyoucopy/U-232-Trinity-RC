@@ -104,15 +104,15 @@ if (isset($_POST["form"]) != 1) {
 
 } else {
     $app['userid'] = (int)$_POST['userid'];
-    $app['connectable'] = htmlsafechars($_POST['connectable']);
-    $app['speed'] = htmlsafechars($_POST['speed']);
-    $app['offer'] = htmlsafechars($_POST['offer']);
-    $app['reason'] = htmlsafechars($_POST['reason']);
-    $app['sites'] = htmlsafechars($_POST['sites']);
-    $app['sitenames'] = htmlsafechars($_POST['sitenames']);
-    $app['scene'] = htmlsafechars($_POST['scene']);
-    $app['creating'] = htmlsafechars($_POST['creating']);
-    $app['seeding'] = htmlsafechars($_POST['seeding']);
+    $app['connectable'] = htmlspecialchars($_POST['connectable']);
+    $app['speed'] = htmlspecialchars($_POST['speed']);
+    $app['offer'] = htmlspecialchars($_POST['offer']);
+    $app['reason'] = htmlspecialchars($_POST['reason']);
+    $app['sites'] = htmlspecialchars($_POST['sites']);
+    $app['sitenames'] = htmlspecialchars($_POST['sitenames']);
+    $app['scene'] = htmlspecialchars($_POST['scene']);
+    $app['creating'] = htmlspecialchars($_POST['creating']);
+    $app['seeding'] = htmlspecialchars($_POST['seeding']);
     if (!is_valid_id($app['userid'])) {
         stderr($lang['uploadapp_error'], $lang['uploadapp_tryagain']);
     }

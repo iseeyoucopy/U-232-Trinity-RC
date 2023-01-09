@@ -65,7 +65,7 @@ if (isset($_GET["id"])) {
     }
 }
 if (isset($_GET["type"])) {
-    $type = ($_GET["type"] ? htmlsafechars($_GET["type"]) : htmlsafechars($_POST["type"]));
+    $type = ($_GET["type"] ? htmlspecialchars($_GET["type"]) : htmlspecialchars($_POST["type"]));
     $typesallowed = [
         "User",
         "Comment",
@@ -147,7 +147,7 @@ if ($count == '0') {
         if ($arr_info["delt_with"]) {
             $res_who = sql_query("SELECT username FROM users WHERE id=".sqlesc($arr_info['who_delt_with_it']));
             $arr_who = $res_who->fetch_assoc();
-            $who_delt = isset($arr_who["username"]) ? "<a class='altlink' href='userdetails.php?id=".(int)$arr_info['who_delt_with_it']."'><b>".htmlsafechars($arr_who['username'])."</b></a>" : "<b>Deleted User</b>";
+            $who_delt = isset($arr_who["username"]) ? "<a class='altlink' href='userdetails.php?id=".(int)$arr_info['who_delt_with_it']."'><b>".htmlspecialchars($arr_who['username'])."</b></a>" : "<b>Deleted User</b>";
             $dealtwith = "<font color='{$solved_color}'><b>{$lang['reports_yes']}</b> </font> {$lang['reports_by']} {$who_delt} <br /> {$lang['reports_in']} <font color='{$solved_color}'>{$solved_in}</font>";
             $checkbox = "<input type='radio' name='id' value='".(int)$arr_info['id']."' disabled='disabled' />";
         } else {
@@ -160,72 +160,72 @@ if ($count == '0') {
                 case "User":
                     $res_who2 = sql_query("SELECT username FROM users WHERE id=".sqlesc($arr_info['reporting_what']));
                     $arr_who2 = $res_who2->fetch_assoc();
-                    $link_to_thing = isset($arr_who2) ? "<a class='altlink' href='userdetails.php?id=".(int)$arr_info['reporting_what']."'><b>".htmlsafechars($arr_who2['username'])."</b></a>" : "<b>User Deleted</b>";
+                    $link_to_thing = isset($arr_who2) ? "<a class='altlink' href='userdetails.php?id=".(int)$arr_info['reporting_what']."'><b>".htmlspecialchars($arr_who2['username'])."</b></a>" : "<b>User Deleted</b>";
                     break;
 
                 case "Comment":
                     $res_who2 = sql_query("SELECT comments.user, users.username, torrents.id FROM comments, users, torrents WHERE comments.user = users.id AND comments.id=".sqlesc($arr_info['reporting_what']));
                     $arr_who2 = $res_who2->fetch_assoc();
-                    $link_to_thing = isset($arr_who2) ? "<a class='altlink' href='details.php?id=".(int)$arr_who2['id']."&amp;viewcomm=".(int)$arr_info['reporting_what']."#comm".(int)$arr_info['reporting_what']."'><b>".htmlsafechars($arr_who2['username'])."</b></a>" : "<b>Comment Deleted</b>";
+                    $link_to_thing = isset($arr_who2) ? "<a class='altlink' href='details.php?id=".(int)$arr_who2['id']."&amp;viewcomm=".(int)$arr_info['reporting_what']."#comm".(int)$arr_info['reporting_what']."'><b>".htmlspecialchars($arr_who2['username'])."</b></a>" : "<b>Comment Deleted</b>";
                     break;
 
                 case "Request_Comment":
                     $res_who2 = sql_query("SELECT comments.request, comments.user, users.username FROM comments, users WHERE comments.user = users.id AND comments.id=".sqlesc($arr_info['reporting_what']));
                     $arr_who2 = $res_who2->fetch_assoc();
-                    $link_to_thing = isset($arr_who2) ? "<a class='altlink' href='requests.php?id=".(int)$arr_who2['request']."&amp;req_details=1&amp;viewcomm=".(int)$arr_info['reporting_what']."#comm".(int)$arr_info['reporting_what']."'><b>".htmlsafechars($arr_who2['username'])."</b></a>" : "<b>Comment Deleted</b>";
+                    $link_to_thing = isset($arr_who2) ? "<a class='altlink' href='requests.php?id=".(int)$arr_who2['request']."&amp;req_details=1&amp;viewcomm=".(int)$arr_info['reporting_what']."#comm".(int)$arr_info['reporting_what']."'><b>".htmlspecialchars($arr_who2['username'])."</b></a>" : "<b>Comment Deleted</b>";
                     break;
 
                 case "Offer_Comment":
                     $res_who2 = sql_query("SELECT comments.offer, comments.user, users.username FROM comments, users WHERE comments.user = users.id AND comments.id=".sqlesc($arr_info['reporting_what']));
                     $arr_who2 = $res_who2->fetch_assoc();
-                    $link_to_thing = isset($arr_who2) ? "<a class='altlink' href='offers.php?action=offer_details&amp;id=".(int)$arr_who2['offer']."&amp;comment_id=".(int)$arr_info['reporting_what']."#comments'><b>".htmlsafechars($arr_who2['username'])."</b></a>" : "<b>Comment Deleted</b>";
+                    $link_to_thing = isset($arr_who2) ? "<a class='altlink' href='offers.php?action=offer_details&amp;id=".(int)$arr_who2['offer']."&amp;comment_id=".(int)$arr_info['reporting_what']."#comments'><b>".htmlspecialchars($arr_who2['username'])."</b></a>" : "<b>Comment Deleted</b>";
                     break;
 
                 case "Request":
                     $res_who2 = sql_query("SELECT request_name FROM requests WHERE id=".sqlesc($arr_info['reporting_what']));
                     $arr_who2 = $res_who2->fetch_assoc();
-                    $link_to_thing = isset($arr_who2) ? "<a class='altlink' href='requests.php?id=".(int)$arr_info['reporting_what']."&amp;req_details=1'><b>".htmlsafechars($arr_who2['request_name'])."</b></a>" : "<b>Request Deleted</b>";
+                    $link_to_thing = isset($arr_who2) ? "<a class='altlink' href='requests.php?id=".(int)$arr_info['reporting_what']."&amp;req_details=1'><b>".htmlspecialchars($arr_who2['request_name'])."</b></a>" : "<b>Request Deleted</b>";
                     break;
 
                 case "Offer":
                     $res_who2 = sql_query("SELECT offer_name FROM offers WHERE id=".sqlesc($arr_info['reporting_what']));
                     $arr_who2 = $res_who2->fetch_assoc();
-                    $link_to_thing = isset($arr_who2) ? "<a class='altlink' href='offers.php?action=offer_details&amp;id=".(int)$arr_info['reporting_what']."'><b>".htmlsafechars($arr_who2['offer_name'])."</b></a>" : "<b>Offer Deleted</b>";
+                    $link_to_thing = isset($arr_who2) ? "<a class='altlink' href='offers.php?action=offer_details&amp;id=".(int)$arr_info['reporting_what']."'><b>".htmlspecialchars($arr_who2['offer_name'])."</b></a>" : "<b>Offer Deleted</b>";
                     break;
 
                 case "Torrent":
                     $res_who2 = sql_query("SELECT name FROM torrents WHERE id =".sqlesc($arr_info['reporting_what']));
                     $arr_who2 = $res_who2->fetch_assoc();
-                    $link_to_thing = isset($arr_who2) ? "<a class='altlink' href='details.php?id=".(int)$arr_info['reporting_what']."'><b>".htmlsafechars($arr_who2['name'])."</b></a>" : "<b>Torrent Deleted</b>";
+                    $link_to_thing = isset($arr_who2) ? "<a class='altlink' href='details.php?id=".(int)$arr_info['reporting_what']."'><b>".htmlspecialchars($arr_who2['name'])."</b></a>" : "<b>Torrent Deleted</b>";
                     break;
 
                 case "Hit_And_Run":
                     $res_who2 = sql_query("SELECT users.username, torrents.name, r.2nd_value FROM users, torrents LEFT JOIN reports AS r ON r.2nd_value = torrents.id WHERE users.id=".sqlesc($arr_info['reporting_what']));
                     $arr_who2 = $res_who2->fetch_assoc();
-                    $link_to_thing = isset($arr_who2) ? "<b>{$lang['reports_user']}</b> <a class='altlink' href='userdetails.php?id=".(int)$arr_info['reporting_what']."&amp;completed=1'><b>{$arr_who2['username']}</b></a><br />{$lang['reports_hit']}<br /> <a class='altlink' href='details.php?id=".(int)$arr_info['2nd_value']."&amp;page=0#snatched'><b>".htmlsafechars($arr_who2['name'])."</b></a>" : "<b>HnR Deleted</b>";
+                    $link_to_thing = isset($arr_who2) ? "<b>{$lang['reports_user']}</b> <a class='altlink' href='userdetails.php?id=".(int)$arr_info['reporting_what']."&amp;completed=1'><b>{$arr_who2['username']}</b></a><br />{$lang['reports_hit']}<br /> <a class='altlink' href='details.php?id=".(int)$arr_info['2nd_value']."&amp;page=0#snatched'><b>".htmlspecialchars($arr_who2['name'])."</b></a>" : "<b>HnR Deleted</b>";
                     break;
 
                 case "Post":
                     $res_who2 = sql_query("SELECT topic_name FROM topics WHERE id =".sqlesc($arr_info['2nd_value']));
                     $arr_who2 = $res_who2->fetch_assoc();
-                    $link_to_thing = isset($arr_who2) ? "<b>{$lang['reports_post']}</b> <a class='altlink' href='forums.php?action=viewtopic&amp;topicid=".(int)$arr_info['2nd_value']."&amp;page=last#".(int)$arr_info['reporting_what']."'><b>".htmlsafechars($arr_who2['topic_name'])."</b></a>" : "<b>{$lang['reports_post']} Deleted</b>";
+                    $link_to_thing = isset($arr_who2) ? "<b>{$lang['reports_post']}</b> <a class='altlink' href='forums.php?action=viewtopic&amp;topicid=".(int)$arr_info['2nd_value']."&amp;page=last#".(int)$arr_info['reporting_what']."'><b>".htmlspecialchars($arr_who2['topic_name'])."</b></a>" : "<b>{$lang['reports_post']} Deleted</b>";
                     break;
             }
         }
-        $reported_by = isset($arr_info['reported_by']) ? "<a class='altlink' href='userdetails.php?id=".(int)$arr_info['reported_by']."'>"."<b>".htmlsafechars($arr_info['username'])."</b></a>" : "<b>User Deleted</b>";
+        $reported_by = isset($arr_info['reported_by']) ? "<a class='altlink' href='userdetails.php?id=".(int)$arr_info['reported_by']."'>"."<b>".htmlspecialchars($arr_info['username'])."</b></a>" : "<b>User Deleted</b>";
         $HTMLOUT .= "<tr><td align='left' valign='top' class='$class'>".get_date($arr_info['added'], 'DATE', 0, 1)."</td>
         <td align='left' valign='top' class='$class'>{$reported_by}</td>
         <td align='left' valign='top' class='$class'>{$link_to_thing}</td>
         <td align='left' valign='top' class='$class'><b>".str_replace("_", " ", $arr_info["reporting_type"])."</b>"."</td>
-        <td align='left' valign='top' class='$class'>".htmlsafechars($arr_info['reason'])."</td>
+        <td align='left' valign='top' class='$class'>".htmlspecialchars($arr_info['reason'])."</td>
         <td align='center' valign='top' class='$class'>{$dealtwith} {$delt_link}</td>
         <td align='center' valign='middle' class='$class'>{$checkbox}</td>".($CURUSER["class"] == UC_MAX ? "<td align='center' valign='middle' class='$class'><a class='altlink' href='staffpanel.php?tool=reports&amp;action=reports&amp;id=".(int)$arr_info['id']."&amp;delete=1'><font color='red'>{$lang['reports_delete']}</font></a></td>" : "")."</tr>\n";
         // ===how was it delt with?
         if ($arr_info['how_delt_with']) {
             $HTMLOUT .= "<tr>
-        <td colspan='".($CURUSER["class"] == UC_MAX ? "8" : "7")."' class='$class' align='left'><b>{$lang['reports_with']} ".(isset($arr_who['username']) ? htmlsafechars($arr_who['username']) : 'Deleted User').":</b> ".get_date($arr_info['when_delt_with'],
+        <td colspan='".($CURUSER["class"] == UC_MAX ? "8" : "7")."' class='$class' align='left'><b>{$lang['reports_with']} ".(isset($arr_who['username']) ? htmlspecialchars($arr_who['username']) : 'Deleted User').":</b> ".get_date($arr_info['when_delt_with'],
                     'LONG', 0, 1)."</td></tr>
-        <tr><td colspan='".($CURUSER["class"] == UC_MAX ? "8" : "7")."' class='$class' align='left'>".htmlsafechars($arr_info['how_delt_with'])."<br /><br /></td></tr>";
+        <tr><td colspan='".($CURUSER["class"] == UC_MAX ? "8" : "7")."' class='$class' align='left'>".htmlspecialchars($arr_info['how_delt_with'])."<br /><br /></td></tr>";
         }
     }
 }

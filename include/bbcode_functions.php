@@ -231,7 +231,7 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
     // fix messed up links
     $s = str_replace([';)', '&amp;'], [':wink:', '&'], $s);
     if ($strip_html) {
-        $s = htmlsafechars($s, ENT_QUOTES, charset());
+        $s = htmlspecialchars($s, ENT_QUOTES, charset());
     }
     if (preg_match("#function\s*\((.*?)\|\|#is", $s)) {
         $s = str_replace([":", "["], ["&#58;", "&#91;"], $s);

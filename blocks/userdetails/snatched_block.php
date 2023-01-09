@@ -35,9 +35,9 @@ function snatchtable($res)
         $XBT_or_PHP_TIME = (XBT_TRACKER == true ? $arr["completedtime"] : $arr["complete_date"]);
         $htmlout .= "<div class='divTableBody'>
             <div class='divTableRow'>
-                <div class='divTableCell'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($arr["catimg"])."' alt='".htmlsafechars($arr["catname"])."' width='42' height='42'></div>
+                <div class='divTableCell'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlspecialchars($arr["catimg"])."' alt='".htmlspecialchars($arr["catname"])."' width='42' height='42'></div>
                 <div class='divTableCell'><a href='details.php?id=".(int)$XBT_or_PHP."'><b>".(strlen($arr["name"]) > 50 ? substr($arr["name"], 0,
-                    50 - 3)."..." : htmlsafechars($arr["name"]))."</b></a></div>
+                    50 - 3)."..." : htmlspecialchars($arr["name"]))."</b></a></div>
                 <div class='divTableCell'>".mksize($arr["uploaded"])."</div>
                 <div class='divTableCell'>$upspeed/s</div>
                 ".($TRINITY20['ratio_free'] ? "" : "<div class='divTableCell'>".mksize($arr["downloaded"])."</div>")."
@@ -124,8 +124,8 @@ function snatchtable_staff($res)
         if (XBT_TRACKER === false) {
             $htmlout_snatch .= "<div class='divTableBody'>
             <div class='divTableRow'>
-            <div class='divTableCell'>".($arr['owner'] == $id ? "<strong><font color='orange'>{$lang['userdetails_s_towner']}</font></strong><br />" : "".($arr['complete_date'] != '0' ? "<b><font color='lightgreen'>{$lang['userdetails_s_fin']}</font></b><br />" : "<b><font color='red'>{$lang['userdetails_s_notfin']}</font></b><br />")."")."<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($arr['image'])."' alt='".htmlsafechars($arr['name'])."' title='".htmlsafechars($arr['name'])."' /></div>"."
-            <div class='divTableCell'><a class='altlink' href='{$TRINITY20['baseurl']}/details.php?id=".(int)$arr['torrentid']."'><b>".htmlsafechars($arr['torrent_name'])."</b></a>".($arr['complete_date'] != '0' ? "<br /><font color='yellow'>{$lang['userdetails_s_started']}".get_date($arr['start_date'],
+            <div class='divTableCell'>".($arr['owner'] == $id ? "<strong><font color='orange'>{$lang['userdetails_s_towner']}</font></strong><br />" : "".($arr['complete_date'] != '0' ? "<b><font color='lightgreen'>{$lang['userdetails_s_fin']}</font></b><br />" : "<b><font color='red'>{$lang['userdetails_s_notfin']}</font></b><br />")."")."<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlspecialchars($arr['image'])."' alt='".htmlspecialchars($arr['name'])."' title='".htmlspecialchars($arr['name'])."' /></div>"."
+            <div class='divTableCell'><a class='altlink' href='{$TRINITY20['baseurl']}/details.php?id=".(int)$arr['torrentid']."'><b>".htmlspecialchars($arr['torrent_name'])."</b></a>".($arr['complete_date'] != '0' ? "<br /><font color='yellow'>{$lang['userdetails_s_started']}".get_date($arr['start_date'],
                         0, 1)."</font><br />" : "<font color='yellow'>{$lang['userdetails_s_started']}".get_date($arr['start_date'], 0,
                         1)."</font><br /><font color='orange'>{$lang['userdetails_s_laction']}".get_date($arr['last_action'], 0,
                         1)."</font>".get_date($arr['complete_date'], 0,
@@ -136,14 +136,14 @@ function snatchtable_staff($res)
             <div class='divTableCell'><font color='lightgreen'>{$lang['userdetails_s_upld']}<br /><b>".mksize($arr["uploaded"])."</b></font>".($TRINITY20['ratio_free'] ? "" : "<br /><font color='orange'>{$lang['userdetails_s_dld']}<br /><b>".mksize($arr["downloaded"])."</b></font>")."</div>
             <div class='divTableCell'>".mksize($arr["size"])."".($TRINITY20['ratio_free'] ? "" : "<br />{$lang['userdetails_s_diff']}<br /><font color='orange'><b>".mksize($arr['size'] - $arr["downloaded"])."</b></font>")."</div>
             <div class='divTableCell'>".$ratio."<br />".($arr['seeder'] == 'yes' ? "<font color='lightgreen'><b>{$lang['userdetails_s_seeding']}</b></font>" : "<font color='red'><b>{$lang['userdetails_s_nseeding']}</b></font>")."</div>
-            <div class='divTableCell'>".htmlsafechars($arr["agent"])."<br />{$lang['userdetails_s_port']}".(int)$arr["port"]."<br />".($arr["connectable"] == 'yes' ? "<b>{$lang['userdetails_s_conn']}</b> <font color='lightgreen'>{$lang['userdetails_yes']}</font>" : "<b>{$lang['userdetails_s_conn']}</b> <font color='red'><b>{$lang['userdetails_no']}</b></font>")."</div>
+            <div class='divTableCell'>".htmlspecialchars($arr["agent"])."<br />{$lang['userdetails_s_port']}".(int)$arr["port"]."<br />".($arr["connectable"] == 'yes' ? "<b>{$lang['userdetails_s_conn']}</b> <font color='lightgreen'>{$lang['userdetails_yes']}</font>" : "<b>{$lang['userdetails_s_conn']}</b> <font color='red'><b>{$lang['userdetails_no']}</b></font>")."</div>
             </div></div>";
         } else {
             $htmlout_snatch .= "<div class='divTableBody'>
             <div class='divTableRow'>
-            <div class='divTableCell'>".($arr['owner'] == $id ? "<b><font color='orange'>{$lang['userdetails_s_towner']}</font></b><br />" : "".($arr['completedtime'] != '0' ? "<b><font color='lightgreen'>{$lang['userdetails_s_fin']}</font></b><br />" : "<b><font color='red'>{$lang['userdetails_s_notfin']}</font></b><br />")."")."<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($arr['image'])."' alt='".htmlsafechars($arr['name'])."' title='".htmlsafechars($arr['name'])."' /></div>"."
+            <div class='divTableCell'>".($arr['owner'] == $id ? "<b><font color='orange'>{$lang['userdetails_s_towner']}</font></b><br />" : "".($arr['completedtime'] != '0' ? "<b><font color='lightgreen'>{$lang['userdetails_s_fin']}</font></b><br />" : "<b><font color='red'>{$lang['userdetails_s_notfin']}</font></b><br />")."")."<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlspecialchars($arr['image'])."' alt='".htmlspecialchars($arr['name'])."' title='".htmlspecialchars($arr['name'])."' /></div>"."
             <div class='divTableCell'>
-                <a class='altlink' href='{$TRINITY20['baseurl']}/details.php?id=".(int)$arr['tid']."'><b>".htmlsafechars($arr['torrent_name'])."</b></a>".($arr['completedtime'] != '0' ? "<br /><font color='yellow'>{$lang['userdetails_s_started']}".get_date($arr['started'],
+                <a class='altlink' href='{$TRINITY20['baseurl']}/details.php?id=".(int)$arr['tid']."'><b>".htmlspecialchars($arr['torrent_name'])."</b></a>".($arr['completedtime'] != '0' ? "<br /><font color='yellow'>{$lang['userdetails_s_started']}".get_date($arr['started'],
                         0, 1)."</font><br />" : "<font color='yellow'>started:".get_date($arr['started'], 0,
                         1)."</font><br /><font color='orange'>{$lang['userdetails_s_laction']}".get_date($arr['mtime'], 0,
                         1)."</font>".get_date($arr['completedtime'], 0,
@@ -154,7 +154,7 @@ function snatchtable_staff($res)
                 <div class='divTableCell'><font color='lightgreen'>{$lang['userdetails_s_upld']}<br /><b>".mksize($arr["uploaded"])."</b></font>".($TRINITY20['ratio_free'] ? "" : "<br /><font color='orange'>{$lang['userdetails_s_dld']}<br /><b>".mksize($arr["downloaded"])."</b></font>")."</div>
                 <div class='divTableCell'>".mksize($arr["size"])."".($TRINITY20['ratio_free'] ? "" : "<br />{$lang['userdetails_s_diff']}<br /><font color='orange'><b>".mksize($arr['size'] - $arr["downloaded"])."</b></font>")."</div>
                 <div class='divTableCell'>".$ratio."<br />".($arr['active'] == 1 ? "<font color='lightgreen'><b>{$lang['userdetails_s_seeding']}</b></font>" : "<font color='red'><b>{$lang['userdetails_s_nseeding']}</b></font>")."</div>
-                <div class='divTableCell'>".htmlsafechars($arr["peer_id"])."<br />".($arr["connectable"] == 1 ? "<b>{$lang['userdetails_s_conn']}</b> <font color='lightgreen'>{$lang['userdetails_yes']}</font>" : "<b>{$lang['userdetails_s_conn']}</b> <font color='red'><b>{$lang['userdetails_no']}</b></font>")."</div>
+                <div class='divTableCell'>".htmlspecialchars($arr["peer_id"])."<br />".($arr["connectable"] == 1 ? "<b>{$lang['userdetails_s_conn']}</b> <font color='lightgreen'>{$lang['userdetails_yes']}</font>" : "<b>{$lang['userdetails_s_conn']}</b> <font color='red'><b>{$lang['userdetails_no']}</b></font>")."</div>
                 </div></div>";
         }
     }

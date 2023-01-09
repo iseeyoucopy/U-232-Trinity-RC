@@ -56,12 +56,12 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'save as draft') {
 } //=== end save draft
 //=== Code for preview Retros code
 if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'preview') {
-    $subject = htmlsafechars(trim($_POST['subject']));
+    $subject = htmlspecialchars(trim($_POST['subject']));
     $draft = trim($_POST['body']);
     $preview = '
     <table class="table table-striped">
     <tr>
-        <td colspan="2" class="text-left"><span style="font-weight: bold;">'.$lang['pm_draft_subject'].'</span>'.htmlsafechars($subject).'</td>
+        <td colspan="2" class="text-left"><span style="font-weight: bold;">'.$lang['pm_draft_subject'].'</span>'.htmlspecialchars($subject).'</td>
     </tr>
     <tr>
         <td valign="top" class="text-center" width="80px" id="photocol">'.avatar_stuff($CURUSER).'</td>
@@ -72,7 +72,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'preview') {
     //=== Get the info
     ($res = sql_query('SELECT * FROM messages WHERE id='.sqlesc($pm_id))) || sqlerr(__FILE__, __LINE__);
     $message = $res->fetch_assoc();
-    $subject = htmlsafechars($message['subject']);
+    $subject = htmlspecialchars($message['subject']);
     $draft = $message['msg'];
 }
 //=== print out the page

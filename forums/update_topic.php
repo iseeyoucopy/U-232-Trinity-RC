@@ -40,14 +40,14 @@ if (isMod($topic_arr["forum_id"]) || $CURUSER['class'] >= UC_STAFF) {
         stderr('Error...', 'You are not allowed to edit this topic.');
     }
     $forumid = (int)$topic_arr['forum_id'];
-    $subject = htmlsafechars($topic_arr['topic_name']);
-    if ((isset($_GET['delete']) ? htmlsafechars($_GET['delete']) : (isset($_POST['delete']) ? htmlsafechars($_POST['delete']) : '')) == 'yes') {
-        if ((isset($_GET['sure']) ? htmlsafechars($_GET['sure']) : (isset($_POST['sure']) ? htmlsafechars($_POST['sure']) : '')) != 'yes') {
+    $subject = htmlspecialchars($topic_arr['topic_name']);
+    if ((isset($_GET['delete']) ? htmlspecialchars($_GET['delete']) : (isset($_POST['delete']) ? htmlspecialchars($_POST['delete']) : '')) == 'yes') {
+        if ((isset($_GET['sure']) ? htmlspecialchars($_GET['sure']) : (isset($_POST['sure']) ? htmlspecialchars($_POST['sure']) : '')) != 'yes') {
             stderr("Sanity check...",
                 "You are about to delete this topic: <b>".$subject."</b>. Click <a href='{$TRINITY20['baseurl']}/forums.php?action=$action&amp;topicid=$topicid&amp;delete=yes&amp;sure=yes'>here</a> if you are sure.");
         }
         write_log("topicdelete",
-            "Topic <b>".$subject."</b> was deleted by <a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$CURUSER['id']."'>".htmlsafechars($CURUSER['username'])."</a>.");
+            "Topic <b>".$subject."</b> was deleted by <a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$CURUSER['id']."'>".htmlspecialchars($CURUSER['username'])."</a>.");
         if ($Multi_forum['configs']['use_attachment_mod']) {
             ($res = sql_query("SELECT attachments.file_name "."FROM posts "."LEFT JOIN attachments ON attachments.post_id = posts.id "."WHERE posts.topic_id=".sqlesc($topicid))) || sqlerr(__FILE__,
                 __LINE__);
@@ -76,7 +76,7 @@ if (isMod($topic_arr["forum_id"]) || $CURUSER['class'] >= UC_STAFF) {
     if ($sticky != $topic_arr['sticky']) {
         $updateset[] = 'sticky='.sqlesc($sticky);
     }
-    $new_subject = htmlsafechars($_POST['topic_name']);
+    $new_subject = htmlspecialchars($_POST['topic_name']);
     if ($new_subject != $subject) {
         if (empty($new_subject)) {
             stderr('Error...', 'Topic name cannot be empty.');

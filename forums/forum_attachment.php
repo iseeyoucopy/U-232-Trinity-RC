@@ -43,7 +43,7 @@ if (!is_file($filename)) {
 if (!is_readable($filename)) {
     die('Attachment is unreadable.');
 }
-if ((isset($_GET['subaction']) ? htmlsafechars($_GET['subaction']) : '') == 'delete') {
+if ((isset($_GET['subaction']) ? htmlspecialchars($_GET['subaction']) : '') == 'delete') {
     if ($CURUSER['id'] != $resat["owner"] && $CURUSER['class'] < UC_STAFF) {
         die('Not your attachment to delete.');
     }

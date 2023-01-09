@@ -19,10 +19,10 @@ $HTMLOUT = "";
 if ($CURUSER['class'] < UC_STAFF || $CURUSER['override_class'] != 255) {
     stderr("Error", "wots the story ?");
 }
-if (isset($_GET["action"]) && htmlsafechars($_GET["action"]) == "editclass") { //Process the querystring - No security checks are done as a temporary class higher
+if (isset($_GET["action"]) && htmlspecialchars($_GET["action"]) == "editclass") { //Process the querystring - No security checks are done as a temporary class higher
     //then the actual class mean absoluetly nothing.
     $newclass = (int)$_GET['class'];
-    $returnto = htmlsafechars($_GET['returnto']);
+    $returnto = htmlspecialchars($_GET['returnto']);
     sql_query("UPDATE users SET override_class = ".sqlesc($newclass)." WHERE id = ".sqlesc($CURUSER['id'])); // Set temporary class
     $cache->update_row($keys['my_userid'].$CURUSER['id'], [
         'override_class' => $newclass,

@@ -11,7 +11,7 @@
  * ------------  @version V6  ------------------*
  */
 //==Usercomments - pdq
-$HTMLOUT .= "<h1>{$lang['userdetails_comm_left']}<a href='userdetails.php?id=$id'>".htmlsafechars($user['username'])."</a></h1>
+$HTMLOUT .= "<h1>{$lang['userdetails_comm_left']}<a href='userdetails.php?id=$id'>".htmlspecialchars($user['username'])."</a></h1>
     <a name='startcomments'></a>";
 $commentbar = "<a href='usercomment.php?action=add&amp;userid={$id}'>Add a comment</a>\n";
 $subres = sql_query("SELECT COUNT(id) FROM usercomments WHERE userid = ".sqlesc($id));

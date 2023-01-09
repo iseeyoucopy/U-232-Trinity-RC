@@ -22,7 +22,7 @@ $possible_actions = [
     'bugs',
     'add',
 ];
-$action = (isset($_GET['action']) ? htmlsafechars($_GET['action']) : (isset($_POST['action']) ? htmlsafechars($_POST['action']) : ''));
+$action = (isset($_GET['action']) ? htmlspecialchars($_GET['action']) : (isset($_POST['action']) ? htmlspecialchars($_POST['action']) : ''));
 if (!in_array($action, $possible_actions)) {
     stderr('Error', 'A ruffian that will swear, drink, dance, revel the night, rob, murder and commit the oldest of ins the newest kind of ways.');
 }
@@ -32,7 +32,7 @@ if ($action == 'viewbug') {
             stderr("{$lang['stderr_error']}", "{$lang['stderr_only_coder']}");
         }
         $id = isset($_POST["id"]) ? (int)$_POST["id"] : '';
-        $status = isset($_POST["status"]) ? htmlsafechars($_POST["status"]) : '';
+        $status = isset($_POST["status"]) ? htmlspecialchars($_POST["status"]) : '';
         if ($status == 'na') {
             stderr("{$lang['stderr_error']}", "{$lang['stderr_no_na']}");
         }
@@ -44,7 +44,7 @@ if ($action == 'viewbug') {
         while ($q1 = $query1->fetch_assoc()) {
             switch ($status) {
                 case 'fixed':
-                    $msg = sqlesc("Hello ".htmlsafechars($q1['username']).".\nYour bug: [b]".htmlsafechars($q1['title'])."[/b] has been treated by one of our coder, and is done.\n\nWe would to thank you and therefore we have added [b]2 GB[/b] to your upload total :].\n\nBest regards, {$TRINITY20['site_name']}'s coders.\n");
+                    $msg = sqlesc("Hello ".htmlspecialchars($q1['username']).".\nYour bug: [b]".htmlspecialchars($q1['title'])."[/b] has been treated by one of our coder, and is done.\n\nWe would to thank you and therefore we have added [b]2 GB[/b] to your upload total :].\n\nBest regards, {$TRINITY20['site_name']}'s coders.\n");
                     $uq = "UPDATE users SET uploaded = uploaded +". 1024 * 1024 * 1024 * 2 ." WHERE id = ".sqlesc($q1['sender'])."";
                     $update['uploaded'] = ($q1['uploaded'] + 1024 * 1024 * 1024 * 2);
                     $update['uploaded'] = ($q1['uploaded'] + 1024 * 1024 * 1024 * 2);
@@ -57,7 +57,7 @@ if ($action == 'viewbug') {
                     break;
 
                 case 'ignored':
-                    $msg = sqlesc("Hello ".htmlsafechars($q1['username']).".\nYour bug: [b]".htmlsafechars($q1['title'])."[/b] has been ignored by one of our coder.\n\nPossibly it was not a bug.\n\nBest regards, {$TRINITY20['site_name']}'s coders.\n");
+                    $msg = sqlesc("Hello ".htmlspecialchars($q1['username']).".\nYour bug: [b]".htmlspecialchars($q1['title'])."[/b] has been ignored by one of our coder.\n\nPossibly it was not a bug.\n\nBest regards, {$TRINITY20['site_name']}'s coders.\n");
                     $uq = "";
                     break;
             }
@@ -80,9 +80,9 @@ if ($action == 'viewbug') {
     ($as = sql_query("SELECT b.*, u.username, u.class, staff.username AS st, staff.class AS stclass FROM bugs AS b LEFT JOIN users AS u ON b.sender = u.id LEFT JOIN users AS staff ON b.staff = staff.id WHERE b.id =".sqlesc($id))) || sqlerr(__FILE__,
         __LINE__);
     while ($a = $as->fetch_assoc()) {
-        $title = htmlsafechars($a['title']);
+        $title = htmlspecialchars($a['title']);
         $added = get_date($a['added'], '', 0, 1);
-        $addedby = "<a href='userdetails.php?id=".(int)$a['sender']."'>".htmlsafechars($a['username'])."</a> <i>(".get_user_class_name($a['class']).")</i>";
+        $addedby = "<a href='userdetails.php?id=".(int)$a['sender']."'>".htmlspecialchars($a['username'])."</a> <i>(".get_user_class_name($a['class']).")</i>";
         switch ($a['priority']) {
             case 'low':
                 $priority = "<font color='green'>{$lang['low']}</font>";
@@ -96,7 +96,7 @@ if ($action == 'viewbug') {
                 $priority = "<font color='red'><b><u>{$lang['veryhigh']}</u></b></font>";
                 break;
         }
-        $problem = htmlsafechars($a['problem']);
+        $problem = htmlspecialchars($a['problem']);
         switch ($a['status']) {
             case 'fixed':
                 $status = "<font color='green'><b>{$lang['fixed']}</b></font>";
@@ -119,7 +119,7 @@ if ($action == 'viewbug') {
                 break;
 
             default:
-                $by = "<a href='userdetails.php?id=".(int)$a['staff']."'>".htmlsafechars($a['st'])."</a> <i>(".get_user_class_name($a['stclass']).")</i>";
+                $by = "<a href='userdetails.php?id=".(int)$a['staff']."'>".htmlspecialchars($a['st'])."</a> <i>(".get_user_class_name($a['stclass']).")</i>";
                 break;
         }
         $HTMLOUT .= "<form method='post' action='{$_SERVER["PHP_SELF"]}?action=viewbug'>
@@ -188,12 +188,12 @@ if ($action == 'viewbug') {
                     break;
             }
             $HTMLOUT .= "<tr>
-          <td class='text-center'><a href='?action=viewbug&amp;id=".(int)$q1['id']."'>".htmlsafechars($q1['title'])."</a></td>
+          <td class='text-center'><a href='?action=viewbug&amp;id=".(int)$q1['id']."'>".htmlspecialchars($q1['title'])."</a></td>
           <td class='text-center' nowrap='nowrap'>".get_date($q1['added'],
-                    'TINY')." / <a href='userdetails.php?id=".(int)$q1['sender']."'>".htmlsafechars($q1['username'])."</a></td>
+                    'TINY')." / <a href='userdetails.php?id=".(int)$q1['sender']."'>".htmlspecialchars($q1['username'])."</a></td>
           <td class='text-center'>{$priority}</td>
           <td class='text-center'>{$status}</td>
-      <td class='text-center'>".($q1['status'] != 'na' ? "<a href='userdetails.php?id=".(int)$q1['staff']."'>".htmlsafechars($q1['staffusername'])."</a>" : "---")."</td>
+      <td class='text-center'>".($q1['status'] != 'na' ? "<a href='userdetails.php?id=".(int)$q1['staff']."'>".htmlspecialchars($q1['staffusername'])."</a>" : "---")."</td>
       </tr>";
         }
         $HTMLOUT .= "</table>";
@@ -204,9 +204,9 @@ if ($action == 'viewbug') {
     }
 } elseif ($action == 'add') {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $title = htmlsafechars($_POST['title']);
-        $priority = htmlsafechars($_POST['priority']);
-        $problem = htmlsafechars($_POST['problem']);
+        $title = htmlspecialchars($_POST['title']);
+        $priority = htmlspecialchars($_POST['priority']);
+        $problem = htmlspecialchars($_POST['problem']);
         if (empty($title) || empty($priority) || empty($problem)) {
             stderr("{$lang['stderr_error']}", "{$lang['stderr_missing']}");
         }

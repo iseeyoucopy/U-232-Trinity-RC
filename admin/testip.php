@@ -53,7 +53,7 @@ if ($ip) {
         while ($arr = $res->fetch_assoc()) {
             $first = long2ip($arr["first"]);
             $last = long2ip($arr["last"]);
-            $comment = htmlsafechars($arr["comment"]);
+            $comment = htmlspecialchars($arr["comment"]);
             $HTMLOUT .= "<tr><td>$first</td><td>$last</td><td>$comment</td></tr>\n";
         }
         $HTMLOUT .= "</table>\n";

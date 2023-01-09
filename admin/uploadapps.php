@@ -38,7 +38,7 @@ $possible_actions = [
     'takeappdelete',
     'app',
 ];
-$action = (isset($_GET['action']) ? htmlsafechars($_GET['action']) : '');
+$action = (isset($_GET['action']) ? htmlspecialchars($_GET['action']) : '');
 if (!in_array($action, $possible_actions)) {
     stderr($lang['uploadapps_error'], $lang['uploadapps_ruffian']);
 }
@@ -100,7 +100,7 @@ if ($action == "app" || $action == "show") {
             $HTMLOUT .= "<tr>
             <td>{$elapsed}</td>
             <td><a href='staffpanel.php?tool=uploadapps&amp;action=viewapp&amp;id=".(int)$arr['id']."'>{$lang['uploadapps_viewapp']}</a></td>
-            <td><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['uid']."'>".htmlsafechars($arr['username'])."</a></td>
+            <td><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['uid']."'>".htmlspecialchars($arr['username'])."</a></td>
             <td>{$membertime}</td>
             <td>".get_user_class_name($arr["class"])."</td>
             <td>".mksize($arr["uploaded"])."</td>
@@ -128,50 +128,50 @@ if ($action == "viewapp") {
     $HTMLOUT .= "<div class='row'><div class='col-md-12'><h1 align='center'>Uploader application</h1>
     <table class='table table-bordered'>
     <tr>
-    <td class='rowhead' width='25%'>{$lang['uploadapps_username1']} </td><td><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['uid']."'>".htmlsafechars($arr['username'])."</a></td>
+    <td class='rowhead' width='25%'>{$lang['uploadapps_username1']} </td><td><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['uid']."'>".htmlspecialchars($arr['username'])."</a></td>
     </tr>
     <tr>
-    <td class='rowhead'>{$lang['uploadapps_joined']} </td><td>".htmlsafechars($membertime)."</td>
+    <td class='rowhead'>{$lang['uploadapps_joined']} </td><td>".htmlspecialchars($membertime)."</td>
     </tr>
     <tr>
-    <td class='rowhead'>{$lang['uploadapps_upped1']} </td><td>".htmlsafechars(mksize($arr["uploaded"]))."</td>
+    <td class='rowhead'>{$lang['uploadapps_upped1']} </td><td>".htmlspecialchars(mksize($arr["uploaded"]))."</td>
     </tr>
     ".($TRINITY20['ratio_free'] ? "" : "<tr>
-    <td class='rowhead'>{$lang['uploadapps_downed']} </td><td>".htmlsafechars(mksize($arr["downloaded"]))."</td>
+    <td class='rowhead'>{$lang['uploadapps_downed']} </td><td>".htmlspecialchars(mksize($arr["downloaded"]))."</td>
     </tr>")."
     <tr>
     <td class='rowhead'>{$lang['uploadapps_ratio1']} </td><td>".member_ratio($arr['uploaded'], $TRINITY20['ratio_free'] ? '0' : $arr['downloaded'])."</td>
     </tr>
     <tr>
-    <td class='rowhead'>{$lang['uploadapps_connectable']} </td><td>".htmlsafechars($arr["connectable"])."</td>
+    <td class='rowhead'>{$lang['uploadapps_connectable']} </td><td>".htmlspecialchars($arr["connectable"])."</td>
     </tr>
     <tr>
     <td class='rowhead'>{$lang['uploadapps_class1']} </td><td>".get_user_class_name($arr["class"])."</td>
     </tr>
     <tr>
-    <td class='rowhead'>{$lang['uploadapps_applied1']} </td><td>".htmlsafechars($elapsed)."</td>
+    <td class='rowhead'>{$lang['uploadapps_applied1']} </td><td>".htmlspecialchars($elapsed)."</td>
     </tr>
     <tr>
-    <td class='rowhead'>{$lang['uploadapps_upspeed']} </td><td>".htmlsafechars($arr["speed"])."</td>
+    <td class='rowhead'>{$lang['uploadapps_upspeed']} </td><td>".htmlspecialchars($arr["speed"])."</td>
     </tr>
     <tr>
-    <td class='rowhead'>{$lang['uploadapps_offer']} </td><td>".htmlsafechars($arr["offer"])."</td>
+    <td class='rowhead'>{$lang['uploadapps_offer']} </td><td>".htmlspecialchars($arr["offer"])."</td>
     </tr>
     <tr>
-    <td class='rowhead'>{$lang['uploadapps_why']} </td><td>".htmlsafechars($arr["reason"])."</td>
+    <td class='rowhead'>{$lang['uploadapps_why']} </td><td>".htmlspecialchars($arr["reason"])."</td>
     </tr>
     <tr>
-    <td class='rowhead'>{$lang['uploadapps_uploader']} </td><td>".htmlsafechars($arr["sites"])."</td>
+    <td class='rowhead'>{$lang['uploadapps_uploader']} </td><td>".htmlspecialchars($arr["sites"])."</td>
     </tr>";
     if ($arr["sitenames"] != "") {
-        $HTMLOUT .= "<tr><td class='rowhead'>{$lang['uploadapps_sites']} </td><td>".htmlsafechars($arr["sitenames"])."</td></tr>
-    <tr><td class='rowhead'>{$lang['uploadapps_axx']} </td><td>".htmlsafechars($arr["scene"])."</td></tr>
-    <tr><td colspan='2'>{$lang['uploadapps_create']} <b>".htmlsafechars($arr["creating"])."</b><br />{$lang['uploadapps_seeding']} <b>".htmlsafechars($arr["seeding"])."</b></td></tr>";
+        $HTMLOUT .= "<tr><td class='rowhead'>{$lang['uploadapps_sites']} </td><td>".htmlspecialchars($arr["sitenames"])."</td></tr>
+    <tr><td class='rowhead'>{$lang['uploadapps_axx']} </td><td>".htmlspecialchars($arr["scene"])."</td></tr>
+    <tr><td colspan='2'>{$lang['uploadapps_create']} <b>".htmlspecialchars($arr["creating"])."</b><br />{$lang['uploadapps_seeding']} <b>".htmlspecialchars($arr["seeding"])."</b></td></tr>";
     }
     if ($arr["status"] == "pending") {
         $HTMLOUT .= "<tr><td align='center' colspan='2'><form method='post' action='staffpanel.php?tool=uploadapps&amp;action=acceptapp'><input name='id' type='hidden' value='".(int)$arr["id"]."' /><b>{$lang['uploadapps_note']}</b><br /><input type='text' name='note' size='40' /> <input type='submit' value='{$lang['uploadapps_accept']}' style='height: 20px' /></form><br /><form method='post' action='staffpanel.php?tool=uploadapps&amp;action=rejectapp'><input name='id' type='hidden' value='".(int)$arr["id"]."' /><b>{$lang['uploadapps_reason']}</b><br /><input type='text' name='reason' size='40' /> <input type='submit' value='{$lang['uploadapps_reject']}' style='height: 20px' /></form></td></tr></table></div></div>";
     } else {
-        $HTMLOUT .= "<tr><td colspan='2' align='center'>{$lang['uploadapps_application']} ".($arr["status"] == "accepted" ? "accepted" : "rejected")." by <b>".htmlsafechars($arr["moderator"])."</b><br />{$lang['uploadapps_comm']}".htmlsafechars($arr["comment"])."</td></tr></table>
+        $HTMLOUT .= "<tr><td colspan='2' align='center'>{$lang['uploadapps_application']} ".($arr["status"] == "accepted" ? "accepted" : "rejected")." by <b>".htmlspecialchars($arr["moderator"])."</b><br />{$lang['uploadapps_comm']}".htmlspecialchars($arr["comment"])."</td></tr></table>
     <div align='center'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=uploadapps&amp;action=app'>{$lang['uploadapps_return']}</a></div></div></div>";
     }
 }
@@ -184,7 +184,7 @@ if ($action == "acceptapp") {
     ($res = sql_query("SELECT uploadapp.id, users.username, users.modcomment, users.id AS uid FROM uploadapp INNER JOIN users on uploadapp.userid = users.id WHERE uploadapp.id = $id")) || sqlerr(__FILE__,
         __LINE__);
     $arr = $res->fetch_assoc();
-    $note = htmlsafechars($_POST["note"]);
+    $note = htmlspecialchars($_POST["note"]);
     $subject = sqlesc($lang['uploadapps_subject']);
     $msg = sqlesc("{$lang['uploadapps_msg']}\n\n{$lang['uploadapps_msg_note']} $note");
     $msg1 = sqlesc("{$lang['uploadapps_msg_user']} [url={$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['uid']."][b]{$arr['username']}[/b][/url] {$lang['uploadapps_msg_been']} {$CURUSER['username']}.");
@@ -228,7 +228,7 @@ if ($action == "rejectapp") {
     ($res = sql_query("SELECT uploadapp.id, users.id AS uid FROM uploadapp INNER JOIN users on uploadapp.userid = users.id WHERE uploadapp.id=".sqlesc($id))) || sqlerr(__FILE__,
         __LINE__);
     $arr = $res->fetch_assoc();
-    $reason = htmlsafechars($_POST["reason"]);
+    $reason = htmlspecialchars($_POST["reason"]);
     $subject = sqlesc($lang['uploadapps_subject']);
     $msg = sqlesc("{$lang['uploadapps_rej_no']}\n\n{$lang['uploadapps_rej_reason']} $reason");
     $dt = TIME_NOW;

@@ -21,9 +21,9 @@ if ($CURUSER['suspended'] == 'yes') {
     stderr("Sorry", "Your account is suspended");
 }
 flood_limit('comments');
-$action = (isset($_GET['action']) ? htmlsafechars($_GET['action']) : 0);
+$action = (isset($_GET['action']) ? htmlspecialchars($_GET['action']) : 0);
 //$vaction = array('add','delete','edit','approve','disapprove','vieworiginal','');
-//$action = (isset($_POST['action']) && in_array($_POST['action'],$vaction) ? htmlsafechars($_POST['action']) : (isset($_GET['action']) && in_array($_GET['action'],$vaction) ? htmlsafechars($_GET['action']) : ''));
+//$action = (isset($_POST['action']) && in_array($_POST['action'],$vaction) ? htmlspecialchars($_POST['action']) : (isset($_GET['action']) && in_array($_GET['action'],$vaction) ? htmlspecialchars($_GET['action']) : ''));
 $stdhead = [
     /** include css **/
     'css' => [
@@ -124,7 +124,7 @@ if ($action == 'add') {
         if ($cpm_r['commentpm'] == 'yes') {
             $added = TIME_NOW;
             $subby = sqlesc("Someone has left a comment");
-            $notifs = sqlesc("You have received a comment on your torrent [url={$TRINITY20['baseurl']}/details.php?id={$id}] ".htmlsafechars($arr['name'])."[/url].");
+            $notifs = sqlesc("You have received a comment on your torrent [url={$TRINITY20['baseurl']}/details.php?id={$id}] ".htmlspecialchars($arr['name'])."[/url].");
             sql_query("INSERT INTO messages (sender, receiver, subject, msg, added) VALUES(0, ".sqlesc($arr['owner']).", $subby, $notifs, $added)") || sqlerr(__FILE__,
                 __LINE__);
         }
@@ -142,8 +142,8 @@ if ($action == 'add') {
         stderr("{$lang['comment_error']}", "No $locale with that ID.");
     }
     $HTMLOUT = '';
-    $body = htmlsafechars(($_POST['body'] ?? ''));
-    $HTMLOUT .= "<h1>{$lang['comment_add']}'".htmlsafechars($arr[$name])."'</h1>
+    $body = htmlspecialchars(($_POST['body'] ?? ''));
+    $HTMLOUT .= "<h1>{$lang['comment_add']}'".htmlspecialchars($arr[$name])."'</h1>
       <br /><form name='compose' method='post' action='comment.php?action=add'>
       <input type='hidden' name='tid' value='{$id}'/>
       <input type='hidden' name='locale' value='$name' />";
@@ -192,7 +192,7 @@ if ($action == "edit") {
         if ($body == '') {
             stderr("{$lang['comment_error']}", "{$lang['comment_body']}");
         }
-        $text = htmlsafechars($body);
+        $text = htmlspecialchars($body);
         $editedat = TIME_NOW;
         if (isset($_POST['lasteditedby']) || $CURUSER['class'] < UC_STAFF) {
             sql_query("UPDATE comments SET text=".sqlesc($text).", editedat=$editedat, edit_name=".sqlesc($CURUSER['username']).", editedby=".sqlesc($CURUSER['id'])." WHERE id=".sqlesc($commentid)) || sqlerr(__FILE__,
@@ -205,7 +205,7 @@ if ($action == "edit") {
         die;
     }
     $HTMLOUT = '';
-    $HTMLOUT .= "<h1>{$lang['comment_edit']}'".htmlsafechars($arr[$name])."'</h1>
+    $HTMLOUT .= "<h1>{$lang['comment_edit']}'".htmlspecialchars($arr[$name])."'</h1>
       <form method='post' action='comment.php?action=edit&amp;cid=$commentid'>
       <input type='hidden' name='locale' value='$name' />
        <input type='hidden' name='tid' value='".(int)$arr['tid']."' />
@@ -213,7 +213,7 @@ if ($action == "edit") {
     if ($TRINITY20['BBcode'] && function_exists('textbbcode')) {
         $HTMLOUT .= textbbcode('comments', 'body', $arr["text"]);
     } else {
-        $HTMLOUT .= "<textarea name='text' rows='10' cols='60'>".htmlsafechars($arr["text"])."</textarea>";
+        $HTMLOUT .= "<textarea name='text' rows='10' cols='60'>".htmlspecialchars($arr["text"])."</textarea>";
     }
     $HTMLOUT .= '
       <br />'.($CURUSER['class'] >= UC_STAFF ? '<input type="checkbox" value="lasteditedby" checked="checked" name="lasteditedby" id="lasteditedby" /> Show Last Edited By<br /><br />' : '').' <input type="submit" class="btn" value="'.$lang['comment_doit'].'" /></form>';
@@ -282,9 +282,9 @@ if ($action == "edit") {
     $HTMLOUT .= "<h1>{$lang['comment_original_content']}#$commentid</h1>
       <table width='500' border='1' cellspacing='0' cellpadding='5'>
       <tr><td class='comment'>
-      ".htmlsafechars($arr["ori_text"])."
+      ".htmlspecialchars($arr["ori_text"])."
       </td></tr></table>";
-    $returnto = (isset($_SERVER['HTTP_REFERER']) ? htmlsafechars($_SERVER['HTTP_REFERER']) : 0);
+    $returnto = (isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 0);
     if ($returnto) {
         $HTMLOUT .= "<p>(<a href='$returnto'>back</a>)</p>\n";
     }

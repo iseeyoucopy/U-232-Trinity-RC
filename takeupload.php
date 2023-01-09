@@ -349,7 +349,7 @@ if ($offer > 0) {
     ($res_offer = sql_query('SELECT user_id FROM offer_votes WHERE vote = \'yes\' AND user_id != '.sqlesc($CURUSER['id']).' AND offer_id = '.sqlesc($offer))) || sqlerr(__FILE__,
         __LINE__);
     $subject = sqlesc('An offer you voted for has been uploaded!');
-    $message = sqlesc("Hi, \n An offer you were interested in has been uploaded!!! \n\n Click  [url=".$TRINITY20['baseurl']."/details.php?id=".$id."]".htmlsafechars($torrent,
+    $message = sqlesc("Hi, \n An offer you were interested in has been uploaded!!! \n\n Click  [url=".$TRINITY20['baseurl']."/details.php?id=".$id."]".htmlspecialchars($torrent,
             ENT_QUOTES)."[/url] to see the torrent page!");
     while ($arr_offer = $res_offer->fetch_assoc()) {
         sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, saved, location) 
@@ -357,7 +357,7 @@ if ($offer > 0) {
         $cache->delete($keys['inbox_new'].$arr_offer['user_id']);
         $cache->delete($keys['inbox_new_sb'].$arr_offer['user_id']);
     }
-    write_log('Offered torrent '.$id.' ('.htmlsafechars($torrent).') was uploaded by '.$CURUSER['username']);
+    write_log('Offered torrent '.$id.' ('.htmlspecialchars($torrent).') was uploaded by '.$CURUSER['username']);
     $filled = 1;
 }
 $filled = 0;
@@ -365,7 +365,7 @@ $filled = 0;
 if ($request > 0) {
     ($res_req = sql_query('SELECT user_id FROM request_votes WHERE vote = \'yes\' AND request_id = '.sqlesc($request))) || sqlerr(__FILE__, __LINE__);
     $subject = sqlesc('A  request you were interested in has been uploaded!');
-    $message = sqlesc("Hi :D \n A request you were interested in has been uploaded!!! \n\n Click  [url=".$TRINITY20['baseurl']."/details.php?id=".$id."]".htmlsafechars($torrent,
+    $message = sqlesc("Hi :D \n A request you were interested in has been uploaded!!! \n\n Click  [url=".$TRINITY20['baseurl']."/details.php?id=".$id."]".htmlspecialchars($torrent,
             ENT_QUOTES)."[/url] to see the torrent page!");
     while ($arr_req = $res_req->fetch_assoc()) {
         sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, saved, location) 
@@ -376,7 +376,7 @@ if ($request > 0) {
     sql_query('UPDATE requests SET filled_by_user_id = '.sqlesc($CURUSER['id']).', filled_torrent_id = '.sqlesc($id).' WHERE id = '.sqlesc($request)) || sqlerr(__FILE__,
         __LINE__);
     sql_query("UPDATE usersachiev SET reqfilled = reqfilled + 1 WHERE id =".sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
-    write_log('Request for torrent '.$id.' ('.htmlsafechars($torrent).') was filled by '.$CURUSER['username']);
+    write_log('Request for torrent '.$id.' ('.htmlspecialchars($torrent).') was filled by '.$CURUSER['username']);
     $filled = 1;
 }
 if ($filled == 0) {
@@ -387,7 +387,7 @@ if (($fd1 = @fopen("rss.xml", "w")) && ($fd2 = fopen("rssdd.xml", "w"))) {
     $cats = "";
     $res = sql_query("SELECT id, name FROM categories");
     while ($arr = $res->fetch_assoc()) {
-        $cats[$arr["id"]] = htmlsafechars($arr["name"]);
+        $cats[$arr["id"]] = htmlspecialchars($arr["name"]);
     }
     $s = "<?xml version=\"1.0\" encoding=\"iso-8859-1\" ?>\n<rss version=\"0.91\">\n<channel>\n"."<title>{$TRINITY20['site_name']}</title>\n<description>TRINITY20 is the best!</description>\n<link>{$TRINITY20['baseurl']}/</link>\n";
     @fwrite($fd1, $s);
@@ -395,11 +395,11 @@ if (($fd1 = @fopen("rss.xml", "w")) && ($fd2 = fopen("rssdd.xml", "w"))) {
     ($r = sql_query("SELECT id,name,descr,filename,category FROM torrents ORDER BY added DESC LIMIT 15")) || sqlerr(__FILE__, __LINE__);
     while ($a = $r->fetch_assoc()) {
         $cat = $cats[$a["category"]];
-        $s = "<item>\n<title>".htmlsafechars($a["name"]." ($cat)")."</title>\n"."<description>".htmlsafechars($a["descr"])."</description>\n";
+        $s = "<item>\n<title>".htmlspecialchars($a["name"]." ($cat)")."</title>\n"."<description>".htmlspecialchars($a["descr"])."</description>\n";
         @fwrite($fd1, $s);
         @fwrite($fd2, $s);
         @fwrite($fd1, "<link>{$TRINITY20['baseurl']}/details.php?id=".(int)$a['id']."&amp;hit=1</link>\n</item>\n");
-        $filename = htmlsafechars($a["filename"]);
+        $filename = htmlspecialchars($a["filename"]);
         @fwrite($fd2, "<link>{$TRINITY20['baseurl']}/download.php?torrent=".(int)$a['id']."/$filename</link>\n</item>\n");
     }
     $s = "</channel>\n</rss>\n";
@@ -416,14 +416,14 @@ foreach ($categorie as $key => $value) {
         'name' => $value['name'],
     ];
 }
-$Cat_Name['cat_name'] = htmlsafechars($change[$_POST['type']]['name']);
+$Cat_Name['cat_name'] = htmlspecialchars($change[$_POST['type']]['name']);
 if ($TRINITY20['seedbonus_on'] == 1) {
     if (isset($_POST['uplver']) && $_POST['uplver'] == 'yes') {
-        $message = "New Torrent : Category = ".htmlsafechars($Cat_Name['cat_name']).", [url={$TRINITY20['baseurl']}/details.php?id=$id] ".htmlsafechars($torrent)."[/url] Uploaded - Anonymous User";
+        $message = "New Torrent : Category = ".htmlspecialchars($Cat_Name['cat_name']).", [url={$TRINITY20['baseurl']}/details.php?id=$id] ".htmlspecialchars($torrent)."[/url] Uploaded - Anonymous User";
     } else {
-        $message = "New Torrent : Category = ".htmlsafechars($Cat_Name['cat_name']).", [url={$TRINITY20['baseurl']}/details.php?id=$id] ".htmlsafechars($torrent)."[/url] Uploaded by ".htmlsafechars($CURUSER["username"])."";
+        $message = "New Torrent : Category = ".htmlspecialchars($Cat_Name['cat_name']).", [url={$TRINITY20['baseurl']}/details.php?id=$id] ".htmlspecialchars($torrent)."[/url] Uploaded by ".htmlspecialchars($CURUSER["username"])."";
     }
-    $messages = "{$TRINITY20['site_name']} New Torrent : Category = ".htmlsafechars($Cat_Name['cat_name']).", $torrent Uploaded By: $anon ".mksize($totallen)." {$TRINITY20['baseurl']}/details.php?id=$id";
+    $messages = "{$TRINITY20['site_name']} New Torrent : Category = ".htmlspecialchars($Cat_Name['cat_name']).", $torrent Uploaded By: $anon ".mksize($totallen)." {$TRINITY20['baseurl']}/details.php?id=$id";
     //===add karma
     sql_query("UPDATE users SET seedbonus=seedbonus+".sqlesc($TRINITY20['bonus_per_upload']).", numuploads=numuploads+1 WHERE id = ".sqlesc($CURUSER["id"])) || sqlerr(__FILE__,
         __LINE__);
@@ -436,9 +436,11 @@ if ($TRINITY20['seedbonus_on'] == 1) {
         'seedbonus' => $update['seedbonus'],
     ], $TRINITY20['expires']['user_stats']);
 }
+/*
 if ($TRINITY20['autoshout_on'] == 1) {
     shout2($message, $id);
 
 }
+*/
 header("Location: {$TRINITY20['baseurl']}/details.php?id=$id&uploaded=1");
 ?> 

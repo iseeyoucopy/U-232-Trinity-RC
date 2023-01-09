@@ -26,7 +26,7 @@ if ($CURUSER['class'] < UC_POWER_USER || ($CURUSER["id"] != $userid && $CURUSER[
     stderr($lang['stderr_errorhead'], $lang['stderr_perms']);
 }
 $page = (isset($_GET['page']) ? $_GET["page"] : ''); // not used?
-$action = (isset($_GET['action']) ? htmlsafechars($_GET["action"]) : '');
+$action = (isset($_GET['action']) ? htmlspecialchars($_GET["action"]) : '');
 //-------- Global variables
 $perpage = 25;
 $HTMLOUT = '';
@@ -72,9 +72,9 @@ if ($action == "viewposts") {
         $postid = (int)$arr["id"];
         $posterid = (int)$arr["user_id"];
         $topicid = (int)$arr["t_id"];
-        $topicname = htmlsafechars($arr["topic_name"]);
+        $topicname = htmlspecialchars($arr["topic_name"]);
         $forumid = (int)$arr["f_id"];
-        $forumname = htmlsafechars($arr["name"]);
+        $forumname = htmlspecialchars($arr["name"]);
         $dt = (TIME_NOW - $TRINITY20['readpost_expiry']);
         $newposts = 0;
         if ($arr['added'] > $dt) {
@@ -95,7 +95,7 @@ if ($action == "viewposts") {
             $subres = sql_query("SELECT username FROM users WHERE id=".sqlesc($arr['edited_by']));
             if ($subres->num_rows == 1) {
                 $subrow = $subres->fetch_assoc();
-                $body .= "<p><font size='1' class='small'>{$lang['posts_lasteditedby']} <a href='userdetails.php?id=".(int)$arr['edited_by']."'><b>".htmlsafechars($subrow['username'])."</b></a> {$lang['posts_at']} ".get_date($arr['edit_date'],
+                $body .= "<p><font size='1' class='small'>{$lang['posts_lasteditedby']} <a href='userdetails.php?id=".(int)$arr['edited_by']."'><b>".htmlspecialchars($subrow['username'])."</b></a> {$lang['posts_at']} ".get_date($arr['edit_date'],
                         'LONG', 0, 1)."</font></p>\n";
             }
         }
@@ -149,7 +149,7 @@ if ($action == "viewcomments") {
     $HTMLOUT .= begin_frame();
     while ($arr = $res->fetch_assoc()) {
         $commentid = (int)$arr["id"];
-        $torrent = htmlsafechars($arr["name"]);
+        $torrent = htmlspecialchars($arr["name"]);
         // make sure the line doesn't wrap
         if (strlen($torrent) > 55) {
             $torrent = substr($torrent, 0, 52)."...";

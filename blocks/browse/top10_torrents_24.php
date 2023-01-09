@@ -40,9 +40,9 @@ if (!empty($top10torrents24)) {
         $counter = 1;
         foreach ($top10torrents24 as $top10torrent24arr) {
             if (is_array($top10torrent24arr)) {
-                $top10torrent24arr['cat_name'] = htmlsafechars($change[$top10torrent24arr['category']]['name']);
-                $top10torrent24arr['cat_pic'] = htmlsafechars($change[$top10torrent24arr['category']]['image']);
-                $torrname = htmlsafechars($top10torrent24arr['name']);
+                $top10torrent24arr['cat_name'] = htmlspecialchars($change[$top10torrent24arr['category']]['name']);
+                $top10torrent24arr['cat_pic'] = htmlspecialchars($change[$top10torrent24arr['category']]['image']);
+                $torrname = htmlspecialchars($top10torrent24arr['name']);
                 if (strlen($torrname) > 50) {
                     $torrname = substr($torrname, 0, 50)."...";
                 }

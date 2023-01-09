@@ -17,7 +17,7 @@ dbconn();
 loggedinorreturn();
 $lang = array_merge(load_language('global'), load_language('subtitles'));
 
-$action = (isset($_POST["action"]) ? htmlsafechars($_POST["action"]) : "");
+$action = (isset($_POST["action"]) ? htmlspecialchars($_POST["action"]) : "");
 if ($action == "download") {
     $id = isset($_POST["sid"]) ? (int)$_POST["sid"] : 0;
     if ($id == 0) {

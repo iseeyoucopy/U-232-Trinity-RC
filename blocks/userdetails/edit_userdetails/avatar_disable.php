@@ -12,7 +12,7 @@
  */
 $HTMLOUT .= "<div class='input-group'>
   <span class='input-group-label'>{$lang['userdetails_avatar_url']}</span>
-  <input class='input-group-field'  type='text' name='avatar' value='".htmlsafechars($user["avatar"])."'>
+  <input class='input-group-field'  type='text' name='avatar' value='".htmlspecialchars($user["avatar"])."'>
 </div>";
 if ($user['avatarpos'] != 1) {
     $HTMLOUT .= "<div class='cell medium-12'>

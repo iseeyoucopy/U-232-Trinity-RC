@@ -56,7 +56,7 @@ $locales = [
     'torrents',
     'users',
 ];
-$rep_locale = (isset($input['locale']) && (in_array($input['locale'], $locales)) ? htmlsafechars($input['locale']) : 'posts');
+$rep_locale = (isset($input['locale']) && (in_array($input['locale'], $locales)) ? htmlspecialchars($input['locale']) : 'posts');
 if (!$check) {
     rep_output('Incorrect Access');
 }
@@ -240,7 +240,7 @@ else {
                     $posneg = 'balance';
                 }
                 if ($GVARS['g_rep_seeown']) {
-                    $postrep['reason'] = htmlsafechars($postrep['reason'])." <span class='desc'>{$lang["rep_left_by"]} <a href=\"{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$postrep['leftby_id']."\" target='_blank'>".htmlspecialchars($postrep['leftby_name'])."</a></span>";
+                    $postrep['reason'] = htmlspecialchars($postrep['reason'])." <span class='desc'>{$lang["rep_left_by"]} <a href=\"{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$postrep['leftby_id']."\" target='_blank'>".htmlspecialchars($postrep['leftby_name'])."</a></span>";
                 }
                 $reasonbits .= "<tr>
 	<td class='row2' width='1%'><img src='./pic/rep/reputation_$posneg.gif' border='0' alt='' /></td>
@@ -298,7 +298,7 @@ else {
         ///////////////////////////////////////////////
         //$rep_info = sprintf("".$lang["info_your_rep_on"]." <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=%d&amp;page=p%d#%d' target='_blank'>".$lang["info_this_post"]."</a> ".$lang["info_is"]." %s.", $res['topicid'], $input['pid'], $input['pid'], $rep );
         $rep_points = sprintf("".$lang["info_you_have"]." %d ".$lang["info_reputation_points"]."", $CURUSER['reputation']);
-        $html = "<tr><td class='darkrow1'>".htmlsafechars($rep_info)."</td></tr>
+        $html = "<tr><td class='darkrow1'>".htmlspecialchars($rep_info)."</td></tr>
 						<tr>
 							<td class='row2'>
 							<div class='tablepad'>";
@@ -320,10 +320,10 @@ else {
         //	Feel free to alter HTML/CSS here
         ///////////////////////////////////////////////
         $res['anon'] ??= 'no';
-        $rep_text = sprintf("What do you think of %s's ".$this_rep."?", ($res['anon'] == 'yes' ? 'Anonymous' : htmlsafechars($res['username'])));
+        $rep_text = sprintf("What do you think of %s's ".$this_rep."?", ($res['anon'] == 'yes' ? 'Anonymous' : htmlspecialchars($res['username'])));
         $negativerep = $is_mod || $GVARS['g_rep_negative'];
         $closewindow = false;
-        $html = "<tr><td class='darkrow1'>{$lang["info_add_rep"]} <b>".htmlsafechars($res['username'])."</b></td></tr>
+        $html = "<tr><td class='darkrow1'>{$lang["info_add_rep"]} <b>".htmlspecialchars($res['username'])."</b></td></tr>
 						<tr>
 							<td class='row2'>
 							<form action='reputation.php' method='post'>	
@@ -353,7 +353,7 @@ else {
 						<input type='hidden' name='act' value='reputation' />
 						<input type='hidden' name='do' value='addrep' />
 						<input type='hidden' name='pid' value='".(int)$input['pid']."' />
-						<input type='hidden' name='locale' value='".htmlsafechars($input['locale'])."' />
+						<input type='hidden' name='locale' value='".htmlspecialchars($input['locale'])."' />
 						<input type='submit' value='".$lang["info_add_rep"]."' class='button' accesskey='s' />
 						<input type='button' value='Close Window' class='button' accesskey='c' onclick='self.close()' />
 					</div>	

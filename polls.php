@@ -79,12 +79,12 @@ function parse_poll()
     }
     if ($check == 1) {
         //ok, lets get this show on the road!
-        $htmlout = poll_header($poll_data['pid'], htmlsafechars($poll_data['poll_question'], ENT_QUOTES));
+        $htmlout = poll_header($poll_data['pid'], htmlspecialchars($poll_data['poll_question'], ENT_QUOTES));
         $poll_answers = unserialize(stripslashes($poll_data['choices']));
         reset($poll_answers);
         foreach ($poll_answers as $id => $data) {
             //subtitle question
-            $question = htmlsafechars($data['question'], ENT_QUOTES);
+            $question = htmlspecialchars($data['question'], ENT_QUOTES);
             $choice_html = "";
             $tv_poll = 0;
             //get total votes for each choice
@@ -93,7 +93,7 @@ function parse_poll()
             }
             // Get the choises from the unserialised array
             foreach ($data['choice'] as $choice_id => $text) {
-                $choice = htmlsafechars($text, ENT_QUOTES);
+                $choice = htmlspecialchars($text, ENT_QUOTES);
                 $votes = (int)$data['votes'][$choice_id];
                 if (strlen($choice) < 1) {
                     continue;
@@ -111,21 +111,21 @@ function parse_poll()
         $htmlout .= show_total_votes($tv_poll);
     } elseif ($check == 2) {
         // only for guests when view before vote is off
-        $htmlout = poll_header($poll_data['pid'], htmlsafechars($poll_data['poll_question'], ENT_QUOTES));
+        $htmlout = poll_header($poll_data['pid'], htmlspecialchars($poll_data['poll_question'], ENT_QUOTES));
         //$htmlout.= poll_show_no_guest_view();
         $htmlout .= show_total_votes($total_votes);
     } else {
         $poll_answers = unserialize(stripslashes($poll_data['choices']));
         reset($poll_answers);
         //output poll form
-        $htmlout = poll_header($poll_data['pid'], htmlsafechars($poll_data['poll_question'], ENT_QUOTES));
+        $htmlout = poll_header($poll_data['pid'], htmlspecialchars($poll_data['poll_question'], ENT_QUOTES));
         foreach ($poll_answers as $id => $data) {
             // get the question again!
-            $question = htmlsafechars($data['question'], ENT_QUOTES);
+            $question = htmlspecialchars($data['question'], ENT_QUOTES);
             $choice_html = "";
             // get choices for this question
             foreach ($data['choice'] as $choice_id => $text) {
-                $choice = htmlsafechars($text, ENT_QUOTES);
+                $choice = htmlspecialchars($text, ENT_QUOTES);
                 $votes = (int)$data['votes'][$choice_id];
                 if (strlen($choice) < 1) {
                     continue;

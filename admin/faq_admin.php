@@ -33,7 +33,7 @@ class_check($class);
 $lang = array_merge($lang, load_language('ad_faq'));
 
 $params = array_merge($_GET, $_POST);
-$params['mode'] = isset($params['mode']) ? htmlsafechars($params['mode']) : '';
+$params['mode'] = isset($params['mode']) ? htmlspecialchars($params['mode']) : '';
 switch ($params['mode']) {
     case 'cat_new':
         New_Cat_Form();
@@ -102,9 +102,9 @@ function Do_show()
         $htmlout .= "
      <tr>
      <td>".(int)$arr['id']."</td>
-     <td><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=faq_edit&amp;catid=".(int)$arr['id']."'>".htmlsafechars($arr['name'])."</a></td>
-     <td>".htmlsafechars($arr['shortcut'])."</td>
-     <td>".htmlsafechars($arr['min_view'])."</td>
+     <td><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=faq_edit&amp;catid=".(int)$arr['id']."'>".htmlspecialchars($arr['name'])."</a></td>
+     <td>".htmlspecialchars($arr['shortcut'])."</td>
+     <td>".htmlspecialchars($arr['min_view'])."</td>
      <td><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_edit&amp;catid=".(int)$arr['id']."'><img src='{$TRINITY20['pic_base_url']}button_edit2.gif' height='15px' width='14px' alt='{$lang['faq_edit']}' style='padding-right:3px' /></a>
      <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_delete&amp;catid=".(int)$arr['id']."'><img src='{$TRINITY20['pic_base_url']}button_delete2.gif' height='13px' width='13px' alt='{$lang['faq_delete']}' style='padding-left:3px' /></a></td>
      </tr>";
@@ -177,8 +177,8 @@ function Show_Cat_Edit_Form()
                     <form  class='form-inline' name='inputform' method='post' action='staffpanel.php?tool=faq_admin'>
                     <input type='hidden' name='mode' value='takeedit_cat' />
                     <input type='hidden' name='cat' value='".(int)$row['id']."' />
-                    <tr><td><!--<input type='text' value='".htmlsafechars($row['name'])."' class='form-control' placeholder='Name'/>--><input type='text' value='".htmlsafechars($row['name'])."' name='name' style='width:380px;' /></td>
-                    <td><input type='text' value='".htmlsafechars($row['shortcut'])."' name='shortcut' style='width:380px;' /></td>
+                    <tr><td><!--<input type='text' value='".htmlspecialchars($row['name'])."' class='form-control' placeholder='Name'/>--><input type='text' value='".htmlspecialchars($row['name'])."' name='name' style='width:380px;' /></td>
+                    <td><input type='text' value='".htmlspecialchars($row['shortcut'])."' name='shortcut' style='width:380px;' /></td>
                     <td><select name='min_view'>";
         for ($i = 0; $i <= $maxclass; ++$i) {
             $htmlout .= '<option value="'.$i.'"'.($row['min_view'] == $i ? " selected='selected'" : "").'">'.get_user_class_name($i).'</option>';
@@ -211,12 +211,12 @@ function Show_Faq_Edit()
         $htmlout .= "<strong>Faq No.".(int)$row['id']."</strong>";
         $htmlout .= "<br />
     <div style='text-align: left; width: 70%; border: 1px solid;'>
-    <input type='text' value='".htmlsafechars($row['title'])."' name='fdata[{$row['id']}][title]' style='width:650px;' />
+    <input type='text' value='".htmlspecialchars($row['title'])."' name='fdata[{$row['id']}][title]' style='width:650px;' />
     <span style='float:right;'>
     <input type='checkbox' name='fdata[{$row['id']}][faq_id]' value='".(int)$row['id']."' />
     </span>
     <br />
-    <textarea name='fdata[{$row['id']}][text]' rows='10' cols='20' style='width:650px;'>".htmlsafechars($row['text'])."</textarea>
+    <textarea name='fdata[{$row['id']}][text]' rows='10' cols='20' style='width:650px;'>".htmlspecialchars($row['text'])."</textarea>
     </div>
     <br />";
     }

@@ -41,7 +41,7 @@ class page_verify
     function check($task_name = 'Default')
     {
         global $CURUSER, $TRINITY20, $lang, $_SESSION;
-        $returl = (isset($_SERVER['HTTP_REFERER']) ? htmlsafechars($_SERVER['HTTP_REFERER']) : $TRINITY20['baseurl']."/login.php");
+        $returl = (isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : $TRINITY20['baseurl']."/login.php");
         $returl = str_replace('&amp;', '&', $returl);
         if (isset($_SESSION['HTTP_USER_AGENT']) && $_SESSION['HTTP_USER_AGENT'] != $_SERVER['HTTP_USER_AGENT']) {
             stderr("Error", "Please resubmit the form. <a href='".$returl."'>Click HERE</a>", false);

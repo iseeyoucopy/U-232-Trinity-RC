@@ -33,12 +33,12 @@ if ($r->num_rows > 0) {
                 <div class="divTableCell">Edit</div>
         </div>';
     while ($a = $r->fetch_assoc()) {
-        $cat = "<img src={$TRINITY20['pic_base_url']}/caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($a['image'])." title=".htmlsafechars($a['cname'])." alt=".htmlsafechars($a['cname']).">";
+        $cat = "<img src={$TRINITY20['pic_base_url']}/caticons/{$CURUSER['categorie_icon']}/".htmlspecialchars($a['image'])." title=".htmlspecialchars($a['cname'])." alt=".htmlspecialchars($a['cname']).">";
         $torrents .= '
         <div class="divTableBody">
             <div class="divTableRow">
                 <div class="divTableCell">'.$cat.'</div>
-                <div class="divTableCell"><a href="details.php?id='.(int)$a['id'].'&amp;hit=1"><strong>'.htmlsafechars($a['name']).'</strong></a></div>
+                <div class="divTableCell"><a href="details.php?id='.(int)$a['id'].'&amp;hit=1"><strong>'.htmlspecialchars($a['name']).'</strong></a></div>
                 <div class="divTableCell">'.(int)$a['seeders'].'</div>
                 <div class="divTableCell">'.(int)$a['leechers'].'</div>';
         if (($CURUSER["id"] != $id && $CURUSER["class"] < UC_STAFF)) {
@@ -119,8 +119,8 @@ function maketable($res_tb)
             $ratio = "---";
         }
         $catimage = "{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$arr['image']}";
-        $catname = "&nbsp;&nbsp;".htmlsafechars($arr["catname"]);
-        $catimage = "<img src=\"".htmlsafechars($catimage)."\" title=\"$catname\" alt=\"$catname\" width='42' height='42' />";
+        $catname = "&nbsp;&nbsp;".htmlspecialchars($arr["catname"]);
+        $catimage = "<img src=\"".htmlspecialchars($catimage)."\" title=\"$catname\" alt=\"$catname\" width='42' height='42' />";
         $size = str_replace(" ", "<br />", mksize($arr["size"]));
         $uploaded = str_replace(" ", "<br />", mksize($arr["uploaded"]));
         $downloaded = str_replace(" ", "<br />", mksize($arr["downloaded"]));
@@ -142,7 +142,7 @@ function maketable($res_tb)
             <div class="divTableBody">
                 <div class="divTableRow">
                     <div class="divTableCell">'.$catimage.'</div>
-                    <div class="divTableCell"><a href="details.php?id='.(int)$XBT_or_PHP.'&amp;hit=1"><b>'.htmlsafechars($arr['torrentname']).'</b></a>
+                    <div class="divTableCell"><a href="details.php?id='.(int)$XBT_or_PHP.'&amp;hit=1"><b>'.htmlspecialchars($arr['torrentname']).'</b></a>
                     <div class="divTableCell">'.$size.'</div>
                     <div class="divTableCell">'.$seeders.'</div>
                     <div class="divTableCell">'.$leechers.'</div>

@@ -277,7 +277,7 @@ foreach ($file_list as $key => $f) {
         $successful += 1;
     }
     $messages = "{$TRINITY20['site_name']} New Torrent: $torrent Uploaded By: $anon ".mksize($totallen)." {$TRINITY20['baseurl']}/details.php?id=$id";
-    $message = "New Torrent : Category = ".htmlsafechars($cats[$catid]).", [url={$TRINITY20['baseurl']}/details.php?id=$id] ".htmlsafechars($torrent)."[/url] Uploaded - Anonymous User";
+    $message = "New Torrent : Category = ".htmlspecialchars($cats[$catid]).", [url={$TRINITY20['baseurl']}/details.php?id=$id] ".htmlspecialchars($torrent)."[/url] Uploaded - Anonymous User";
 
     sql_query("DELETE FROM files WHERE torrent = ".sqlesc($id));
 
@@ -304,11 +304,11 @@ foreach ($file_list as $key => $f) {
         ($r = sql_query("SELECT id,name,descr,filename,category FROM torrents ORDER BY added DESC LIMIT 15")) || sqlerr(__FILE__, __LINE__);
         while ($a = $r->fetch_assoc()) {
             $cat = $cats[$a["category"]];
-            $s = "<item>\n<title>".htmlsafechars($a["name"]." ($cat)")."</title>\n"."<description>".htmlsafechars($a["descr"])."</description>\n";
+            $s = "<item>\n<title>".htmlspecialchars($a["name"]." ($cat)")."</title>\n"."<description>".htmlspecialchars($a["descr"])."</description>\n";
             @fwrite($fd1, $s);
             @fwrite($fd2, $s);
             @fwrite($fd1, "<link>{$TRINITY20['baseurl']}/details.php?id=".(int)$a['id']."&amp;hit=1</link>\n</item>\n");
-            $filename = htmlsafechars($a["filename"]);
+            $filename = htmlspecialchars($a["filename"]);
             @fwrite($fd2, "<link>{$TRINITY20['baseurl']}/download.php?torrent=".(int)$a['id']."/$filename</link>\n</item>\n");
         }
         $s = "</channel>\n</rss>\n";

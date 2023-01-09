@@ -24,7 +24,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     echo $HTMLOUT;
     exit();
 }
-$body = (isset($_POST['body']) ? htmlsafechars($_POST['body']) : '');
+$body = (isset($_POST['body']) ? htmlspecialchars($_POST['body']) : '');
 $HTMLOUT .= '<div class="card">
     <div class="card-divider">Preview Post</div>
     <div class="card-section">

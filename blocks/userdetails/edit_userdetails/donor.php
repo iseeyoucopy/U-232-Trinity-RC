@@ -27,8 +27,8 @@ if ($user["donor"] == "no") {
 }
 $HTMLOUT .= "<div class='input-group'>
 <span class='input-group-label'>{$lang['userdetails_cdonation']}</span>
-    <input class='input-group-field' placeholder='{$lang['userdetails_cdonation']}' type='text' name='donated' value=".htmlsafechars($user["donated"]).">
-    <span class='input-group-label'>{$lang['userdetails_tdonations']}".htmlsafechars($user["total_donated"])."</span>
+    <input class='input-group-field' placeholder='{$lang['userdetails_cdonation']}' type='text' name='donated' value=".htmlspecialchars($user["donated"]).">
+    <span class='input-group-label'>{$lang['userdetails_tdonations']}".htmlspecialchars($user["total_donated"])."</span>
     </div>";
 if ($user["donor"] == "yes") {
     $HTMLOUT .= "<div class='input-group'>

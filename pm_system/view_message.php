@@ -54,7 +54,7 @@ if ($message['friend'] > 0) {
 <a class="tiny button" href="friends.php?action=add&amp;type=block&amp;targetid='.$id.'">'.$lang['pm_mailbox_addb'].'</a>';
 }
 $avatar = ((!$CURUSER['opt1'] & user_options::AVATARS) !== 0 ? '' : (empty($arr_user_stuff['avatar']) ? '
-    <img width="80" src="pic/default_avatar.gif" alt="no avatar" />' : (($arr_user_stuff['opt1'] & user_options::OFFENSIVE_AVATAR && !$CURUSER['opt1'] & user_options::VIEW_OFFENSIVE_AVATAR) ? '<img width="80" src="pic/fuzzybunny.gif" alt="fuzzy!" />' : '<a href="'.htmlsafechars($arr_user_stuff['avatar']).'"><img width="80" src="'.htmlsafechars($arr_user_stuff['avatar']).'" alt="avatar" /></a>')));
+    <img width="80" src="pic/default_avatar.gif" alt="no avatar" />' : (($arr_user_stuff['opt1'] & user_options::OFFENSIVE_AVATAR && !$CURUSER['opt1'] & user_options::VIEW_OFFENSIVE_AVATAR) ? '<img width="80" src="pic/fuzzybunny.gif" alt="fuzzy!" />' : '<a href="'.htmlspecialchars($arr_user_stuff['avatar']).'"><img width="80" src="'.htmlspecialchars($arr_user_stuff['avatar']).'" alt="avatar" /></a>')));
 //=== get mailbox name ===//
 if ($message['location'] > 1) {
     //=== get name of PM box if not in or out ===//
@@ -64,7 +64,7 @@ if ($message['location'] > 1) {
     if ($res->num_rows === 0) {
         stderr($lang['pm_error'], $lang['pm_mailbox_invalid']);
     }
-    $mailbox_name = htmlsafechars($arr_box_name[0]);
+    $mailbox_name = htmlspecialchars($arr_box_name[0]);
     $other_box_info = '<p class="text-center"><span style="color: red;">'.$lang['pm_mailbox_asterisc'].'</span><span style="font-weight: bold;">'.$lang['pm_mailbox_note'].'</span>
                                            '.$lang['pm_mailbox_max'].'<span style="font-weight: bold;">'.$maxbox.'</span>'.$lang['pm_mailbox_either'].'
                                             <span style="font-weight: bold;">'.$lang['pm_mailbox_inbox'].'</span>'.$lang['pm_mailbox_or'].'<span style="font-weight: bold;">'.$lang['pm_mailbox_sentbox'].'</span>.</p>';
@@ -90,7 +90,7 @@ $HTMLOUT .= '<div class="cell large-3 secondary"><ul class="vertical menu">
 		</div>
 		</div><p>'.($message['sender'] === $CURUSER['id'] ? $lang['pm_viewmsg_to'] : 'From:').($userStuffId == 0 ? $lang['pm_viewmsg_sys'] : print_user_stuff($arr_user_stuff)).'</p>
 		'.$lang['pm_send_subject'].'
-		'.($message['subject'] !== '' ? htmlsafechars($message['subject']) : $lang['pm_search_nosubject']).($message['urgent'] === 'yes' ? '<span class="float-right label alert"> '.$lang['pm_mailbox_urgent'].'</span>' : '').'       
+		'.($message['subject'] !== '' ? htmlspecialchars($message['subject']) : $lang['pm_search_nosubject']).($message['urgent'] === 'yes' ? '<span class="float-right label alert"> '.$lang['pm_mailbox_urgent'].'</span>' : '').'       
         '.(($message['sender'] === $CURUSER['id'] && $message['unread'] == 'yes') ? ''.$lang['pm_mailbox_char1'].$lang['pm_mailbox_unread'].$lang['pm_mailbox_char2'] : '').'
 		<div class="callout success margin-0">'.format_comment($message['msg']).'</div>
 		<div class="clearfix">

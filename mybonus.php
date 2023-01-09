@@ -60,7 +60,7 @@ if (isset($_GET["freeleech_success"]) && $_GET["freeleech_success"]) {
 		<h3 class='panel-title panel-success'>{$lang['bonus_success']}</h3>
 	</div>"
                 ."<div class='card-section'><img src='{$TRINITY20['pic_base_url']}/smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /><span class='label label-success'>{$lang['bonus_congrats']}</span>
-{$CURUSER['username']}{$lang['bonus_settracker']}<b>{$lang['bonus_freelech1']}</b> <img src='{$TRINITY20['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br><br>{$lang['bonus_remaining']}".htmlsafechars($_GET['norefund'])."{$lang['bonus_pointsfree']}"
+{$CURUSER['username']}{$lang['bonus_settracker']}<b>{$lang['bonus_freelech1']}</b> <img src='{$TRINITY20['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br><br>{$lang['bonus_remaining']}".htmlspecialchars($_GET['norefund'])."{$lang['bonus_pointsfree']}"
                 ."<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />"
                 ."</div></div>";
             echo stdhead($CURUSER['username'].$lang['bonus_user_kmbp'], true, $stdhead).$HTMLOUT.stdfoot();
@@ -94,7 +94,7 @@ if (isset($_GET["doubleup_success"]) && $_GET["doubleup_success"]) {
         if ($_GET["norefund"] != '0') {
             $HTMLOUT .= "<table width='80%'><tr><td class='colhead' align='left' colspan='2'><h1>{$lang['bonus_success']}</h1></td></tr><tr>"
                 ."<td align='left' class='one'><img src='{$TRINITY20['pic_base_url']}smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'><span class='label label-success'>{$lang['bonus_congrats']}</span>
-{$CURUSER['username']}{$lang['bonus_settracker']}<b>{$lang['bonus_doubleup1']}</b> <img src='{$TRINITY20['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br><br>{$lang['bonus_remaining']}".htmlsafechars($_GET['norefund'])."{$lang['bonus_pointsdouble']}"
+{$CURUSER['username']}{$lang['bonus_settracker']}<b>{$lang['bonus_doubleup1']}</b> <img src='{$TRINITY20['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br><br>{$lang['bonus_remaining']}".htmlspecialchars($_GET['norefund'])."{$lang['bonus_pointsdouble']}"
                 ."<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />"
                 ."</td></tr></table>";
             echo stdhead($CURUSER['username'].$lang['bonus_user_kmbp'], true, $stdhead).$HTMLOUT.stdfoot();
@@ -129,7 +129,7 @@ if (isset($_GET["halfdown_success"]) && $_GET["halfdown_success"]) {
         if ($_GET["norefund"] != '0') {
             $HTMLOUT .= "<table width='80%'><tr><td class='colhead' align='left' colspan='2'><h1>{$lang['bonus_success']}</h1></td></tr><tr>"
                 ."<td align='left' class='one'><img src='{$TRINITY20['pic_base_url']}smilies/karma.gif' alt='good_karma' title='{$lang['bonus_goodk']}' /></td><td align='left' class='one'><span class='label label-success'>{$lang['bonus_congrats']}</span>
-{$CURUSER['username']}{$lang['bonus_settracker']}<b>{$lang['bonus_halfdown11']}</b> <img src='{$TRINITY20['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br><br>{$lang['bonus_remaining']}".htmlsafechars($_GET['norefund'])."{$lang['bonus_pointshalf']}"
+{$CURUSER['username']}{$lang['bonus_settracker']}<b>{$lang['bonus_halfdown11']}</b> <img src='{$TRINITY20['pic_base_url']}smilies/w00t.gif' alt='w00t' title='W00t' /><br><br>{$lang['bonus_remaining']}".htmlspecialchars($_GET['norefund'])."{$lang['bonus_pointshalf']}"
                 ."<br />{$lang['bonus_clickgbs']} <a class='altlink' href='{$TRINITY20['baseurl']}/mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}<br /><br />"
                 ."</td></tr></table>";
             echo stdhead($CURUSER['username'].$lang['bonus_user_kmbp'], true, $stdhead).$HTMLOUT.stdfoot();
@@ -468,7 +468,7 @@ switch (true) {
         $arr_free = $res_free->fetch_assoc();
         stderr(
             'Success!',
-            '<img src="pic/smilies/karma.gif" alt="'.$lang['bonus_goodk'].'" /> <b>Congratulations '.format_username($CURUSER).'!!!</b> <img src="pic/smilies/karma.gif" alt="'.$lang['bonus_goodk'].'" /><br />  you have ReAnimated the torrent <b><a class="altlink" href="details.php?id='.$arr_free['id'].'">'.htmlsafechars($arr_free['name']).'</a></b>! Bringing it back to page one! <img src="pic/smilies/w00t.gif" alt="w00t" />'.$lang['bonus_clickgbs'].'<a class="altlink" href="mybonus.php">'.$lang['bonus_kpoints'].'</a>'.$lang['bonus_kbpp'].'<br /><br />'
+            '<img src="pic/smilies/karma.gif" alt="'.$lang['bonus_goodk'].'" /> <b>Congratulations '.format_username($CURUSER).'!!!</b> <img src="pic/smilies/karma.gif" alt="'.$lang['bonus_goodk'].'" /><br />  you have ReAnimated the torrent <b><a class="altlink" href="details.php?id='.$arr_free['id'].'">'.htmlspecialchars($arr_free['name']).'</a></b>! Bringing it back to page one! <img src="pic/smilies/w00t.gif" alt="w00t" />'.$lang['bonus_clickgbs'].'<a class="altlink" href="mybonus.php">'.$lang['bonus_kpoints'].'</a>'.$lang['bonus_kbpp'].'<br /><br />'
         );
         echo stdhead($CURUSER['username'].$lang['bonus_user_kmbp'], true, $stdhead).$HTMLOUT.stdfoot();
         die;
@@ -492,9 +492,9 @@ switch (true) {
         $HTMLOUT .= "
 <div class='card'>
 	<div class='card-section'>
-		<div class='callout alert-callout-border success'><b>{$lang['bonus_congrats']}".format_username($CURUSER)." </b> you have spread the Karma well.<br>Member <b>".htmlsafechars($_GET['usernamegift'])."</b> will be pleased with your kindness!<br /><br />This is the message that was sent:<br />
+		<div class='callout alert-callout-border success'><b>{$lang['bonus_congrats']}".format_username($CURUSER)." </b> you have spread the Karma well.<br>Member <b>".htmlspecialchars($_GET['usernamegift'])."</b> will be pleased with your kindness!<br /><br />This is the message that was sent:<br />
 <b>Subject:</b> Someone Loves you!<br /> <p>You have been given a gift of <b>".(0 + $_GET['gift_amount_points'])."</b> Karma points by ".format_username($CURUSER)."</p><br />
-You may also <a class='altlink' href='{$TRINITY20['baseurl']}/pm_system.php?action=send_message&amp;receiver=".(0 + $_GET['gift_id'])."'>send ".htmlsafechars($_GET['usernamegift'])." a message as well</a>, or go back to your <a class='altlink' href='mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}</div></div></div>";
+You may also <a class='altlink' href='{$TRINITY20['baseurl']}/pm_system.php?action=send_message&amp;receiver=".(0 + $_GET['gift_id'])."'>send ".htmlspecialchars($_GET['usernamegift'])." a message as well</a>, or go back to your <a class='altlink' href='mybonus.php'>{$lang['bonus_kbp']}</a>{$lang['bonus_kbpp']}</div></div></div>";
         echo stdhead($CURUSER['username'].$lang['bonus_user_kmbp'], true, $stdhead).$HTMLOUT.stdfoot();
         die;
 
@@ -561,7 +561,7 @@ if (isset($_GET['exchange'])) {
     $res_points = sql_query("SELECT * FROM bonus WHERE id =".sqlesc($option));
     $arr_points = $res_points->fetch_assoc();
 
-    $art = htmlsafechars($arr_points['art']);
+    $art = htmlspecialchars($arr_points['art']);
     $points = (float)$arr_points['points'];
     $minpoints = (float)$arr_points['minpoints'];
 
@@ -584,7 +584,7 @@ if (isset($_GET['exchange'])) {
     $seedbonus = ($bonus - $points);
     $upload = (float)$User['uploaded'];
     $download = (float)$User['downloaded'];
-    $bonuscomment = htmlsafechars($User['bonuscomment']);
+    $bonuscomment = htmlspecialchars($User['bonuscomment']);
     $free_switch = (int)$User['free_switch'];
     $warned = (int)$User['warned'];
     $reputation = (int)$User['reputation'];
@@ -1053,7 +1053,7 @@ if (isset($_GET['exchange'])) {
             $cache->delete('freecontribution_datas_alerts_');
             write_bonus_log($CURUSER["id"], $donation, $type = "freeleech");
             $Remaining = ($arr_points['points'] - $arr_points['pointspool'] - $donation);
-            $msg = $CURUSER['username']." Donated ".$donation." karma point".($donation > 1 ? 's' : '')." into the freeleech contribution pot ! * Only [b]".htmlsafechars($Remaining)."[/b] more karma point".($Remaining > 1 ? 's' : '')." to go! * [color=green][b]Freeleech contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]".$donation."/".$points.'[/url]';
+            $msg = $CURUSER['username']." Donated ".$donation." karma point".($donation > 1 ? 's' : '')." into the freeleech contribution pot ! * Only [b]".htmlspecialchars($Remaining)."[/b] more karma point".($Remaining > 1 ? 's' : '')." to go! * [color=green][b]Freeleech contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]".$donation."/".$points.'[/url]';
             autoshout($msg);
             header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?freeleech_success=2");
             die;
@@ -1127,7 +1127,7 @@ if (isset($_GET['exchange'])) {
             $cache->delete('freecontribution_datas_alerts_');
             write_bonus_log($CURUSER["id"], $donation, $type = "doubleupload");
             $Remaining = ($arr_points['points'] - $arr_points['pointspool'] - $donation);
-            $msg = $CURUSER['username']." Donated ".$donation." karma point".($donation > 1 ? 's' : '')." into the double upload contribution pot ! * Only [b]".htmlsafechars($Remaining)."[/b] more karma point".($Remaining > 1 ? 's' : '')." to go! * [color=green][b]Double upload contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]".$donation."/".$points.'[/url]';
+            $msg = $CURUSER['username']." Donated ".$donation." karma point".($donation > 1 ? 's' : '')." into the double upload contribution pot ! * Only [b]".htmlspecialchars($Remaining)."[/b] more karma point".($Remaining > 1 ? 's' : '')." to go! * [color=green][b]Double upload contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]".$donation."/".$points.'[/url]';
 
             autoshout($msg);
             header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?doubleup_success=2");
@@ -1201,7 +1201,7 @@ if (isset($_GET['exchange'])) {
             $cache->delete('freecontribution_datas_alerts_');
             write_bonus_log($CURUSER["id"], $donation, $type = "halfdownload");
             $Remaining = ($arr_points['points'] - $arr_points['pointspool'] - $donation);
-            $msg = $CURUSER['username']." Donated ".$donation." karma point".($donation > 1 ? 's' : '')." into the half download contribution pot ! * Only [b]".htmlsafechars($Remaining)."[/b] more karma point".($Remaining > 1 ? 's' : '')." to go! * [color=green][b]Half download contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]".$donation."/".$points.'[/url]';
+            $msg = $CURUSER['username']." Donated ".$donation." karma point".($donation > 1 ? 's' : '')." into the half download contribution pot ! * Only [b]".htmlspecialchars($Remaining)."[/b] more karma point".($Remaining > 1 ? 's' : '')." to go! * [color=green][b]Half download contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]".$donation."/".$points.'[/url]';
 
             autoshout($msg);
             header("Refresh: 0; url={$TRINITY20['baseurl']}/mybonus.php?halfdown_success=2");
@@ -1239,7 +1239,7 @@ if (isset($_GET['exchange'])) {
             ) || sqlerr(__FILE__, __LINE__);
             $difference = $arr_snatched['downloaded'] - $arr_snatched['uploaded'];
             $bonuscomment = get_date(TIME_NOW, 'DATE',
-                    1)." - ".$points." Points for 1 to 1 ratio on torrent: ".htmlsafechars($arr_snatched['name'])." ".$torrent_number.", ".$difference." added .\n ".$bonuscomment;
+                    1)." - ".$points." Points for 1 to 1 ratio on torrent: ".htmlspecialchars($arr_snatched['name'])." ".$torrent_number.", ".$difference." added .\n ".$bonuscomment;
             sql_query(
                 "UPDATE users SET uploaded = ".sqlesc($upload + $difference).", bonuscomment = ".sqlesc($bonuscomment).", seedbonus = ".sqlesc($seedbonus)." WHERE id = ".sqlesc($userid)
             ) || sqlerr(__FILE__, __LINE__);
@@ -1324,7 +1324,7 @@ if (isset($_GET['exchange'])) {
             $bonuscomment = get_date(TIME_NOW, 'DATE', 1)." - ".$points." Points for removing warning.\n ".$bonuscomment;
             ($res_warning = sql_query("SELECT modcomment FROM users WHERE id =".sqlesc($userid))) || sqlerr(__FILE__, __LINE__);
             $arr = $res_warning->fetch_assoc();
-            $modcomment = htmlsafechars($arr['modcomment']);
+            $modcomment = htmlspecialchars($arr['modcomment']);
             $modcomment = get_date(TIME_NOW, 'DATE', 1)." - Warning removed by - Bribe with Karma.\n".$modcomment;
             $modcom = sqlesc($modcomment);
             sql_query(
@@ -1393,7 +1393,7 @@ if (isset($_GET['exchange'])) {
             /**** the $words array are words that you DO NOT want the user to have... use to filter "bad words" & user class...
              * the user class is just for show, but what the hell :p Add more or edit to your liking.
              *note if they try to use a restricted word, they will recieve the special title "I just wasted my karma" *****/
-            $title = strip_tags(htmlsafechars($_POST['title']));
+            $title = strip_tags(htmlspecialchars($_POST['title']));
             $words = [
                 'fuck',
                 'shit',
@@ -1433,13 +1433,13 @@ if (isset($_GET['exchange'])) {
         case 'gift_1':
             //=== trade for giving the gift of karma
             $points = 0 + $_POST['bonusgift'];
-            $usernamegift = htmlsafechars($_POST['username']);
+            $usernamegift = htmlspecialchars($_POST['username']);
             $res = sql_query("SELECT id,seedbonus,bonuscomment,username FROM users WHERE username=".sqlesc($usernamegift));
             $arr = $res->fetch_assoc();
             $useridgift = (int)$arr['id'];
             $userseedbonus = (float)$arr['seedbonus'];
-            $bonuscomment_gift = htmlsafechars($arr['bonuscomment']);
-            $usernamegift = htmlsafechars($arr['username']);
+            $bonuscomment_gift = htmlspecialchars($arr['bonuscomment']);
+            $usernamegift = htmlspecialchars($arr['username']);
 
             $check_me = [100, 200, 300, 400, 500, 1000, 5000, 10000, 20000, 50000, 100000];
             if (!in_array($points, $check_me)) {
@@ -1706,7 +1706,7 @@ if (!empty($top_donators)) {
             if (is_array($a)) {
                 $top_donators_id = (int)$a["id"];
                 $damount_donated = (int)$a["total"];
-                //$top_donators_username = htmlsafechars($a['username']);
+                //$top_donators_username = htmlspecialchars($a['username']);
                 $user_stuff = $a;
                 $user_stuff['id'] = (int)$a['userid'];
                 $top_donator .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$top_donators_id'>".format_username($user_stuff)."</a> [$damount_donated]";
@@ -1735,7 +1735,7 @@ if (!empty($top_donators2)) {
             if (is_array($b)) {
                 $top_donators2_id = (int)$b["id"];
                 $damount_donated2 = (int)$b["total"];
-                //$top_donators2_username = htmlsafechars($b['username']);
+                //$top_donators2_username = htmlspecialchars($b['username']);
                 $user_stuff = $b;
                 $user_stuff['id'] = (int)$b['userid'];
                 $top_donator2 .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$top_donators2_id'>".format_username($user_stuff)."</a> [$damount_donated2]";
@@ -1764,7 +1764,7 @@ if (!empty($top_donators3)) {
             if (is_array($c)) {
                 $top_donators3_id = (int)$c["id"];
                 $damount_donated3 = (int)$c["total"];
-                //$top_donators3_username = htmlsafechars($c['username']);
+                //$top_donators3_username = htmlspecialchars($c['username']);
                 $user_stuff = $c;
                 $user_stuff['id'] = (int)$c['userid'];
                 $top_donator3 .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$top_donators3_id'>".format_username($user_stuff)."</a> [$damount_donated3]";
@@ -1820,12 +1820,12 @@ while ($gets = $res->fetch_assoc()) {
             $HTMLOUT .= "
 		<form action='{$TRINITY20['baseurl']}/mybonus.php?exchange=1' method='post'>
 		<input type='hidden' name='option' value='".(int)$gets['id']."'>
-		<input type='hidden' name='art' value='".htmlsafechars($gets['art'])."'>
+		<input type='hidden' name='art' value='".htmlspecialchars($gets['art'])."'>
 		<div class='cell' data-equalizer-watch>
 			<div class='card'>
 				<div class='card-section'>
-					<strong>".htmlsafechars($gets['bonusname'])."</strong>
-					<span data-tooltip class='float-right' tabindex='1' title='".htmlsafechars($gets['description'])."' data-position='bottom' data-alignment='right'><i class='fas fa-info'></i></span>
+					<strong>".htmlspecialchars($gets['bonusname'])."</strong>
+					<span data-tooltip class='float-right' tabindex='1' title='".htmlspecialchars($gets['description'])."' data-position='bottom' data-alignment='right'><i class='fas fa-info'></i></span>
 					<div class='input-group'>
 						<span class='input-group-label'>$".(float)$gets['points']."</span>
 						<input type='text' class='input-group-field' name='title' size='30' maxlength='30' placeholder='Enter the Special Title you would like to have '>
@@ -1843,12 +1843,12 @@ while ($gets = $res->fetch_assoc()) {
             $HTMLOUT .= "
 		<form action='{$TRINITY20['baseurl']}/mybonus.php?exchange=1' method='post'>
 		<input type='hidden' name='option' value='".(int)$gets['id']."' />
-		<input type='hidden' name='art' value='".htmlsafechars($gets['art'])."' />
+		<input type='hidden' name='art' value='".htmlspecialchars($gets['art'])."' />
 			<div class='cell'>
 				<div class='card'>
 					<div class='card-section'>
-					<strong>".htmlsafechars($gets['bonusname'])."</strong>
-					<span data-tooltip class='float-right' tabindex='1' title='".htmlsafechars($gets['description'])."' data-position='bottom' data-alignment='right'><i class='fas fa-info'></i></span>
+					<strong>".htmlspecialchars($gets['bonusname'])."</strong>
+					<span data-tooltip class='float-right' tabindex='1' title='".htmlspecialchars($gets['description'])."' data-position='bottom' data-alignment='right'><i class='fas fa-info'></i></span>
 						<select name='bonusgift'> 
 						<option value='100.0'> 100.0</option> 
 						<option value='200.0'> 200.0</option> 
@@ -1879,12 +1879,12 @@ while ($gets = $res->fetch_assoc()) {
             $HTMLOUT .= "
 		<form action='{$TRINITY20['baseurl']}/mybonus.php?exchange=1' method='post'>
 		<input type='hidden' name='option' value='".(int)$gets['id']."'>
-		<input type='hidden' name='art' value='".htmlsafechars($gets['art'])."'>
+		<input type='hidden' name='art' value='".htmlspecialchars($gets['art'])."'>
 			<div class='cell' data-equalizer-watch>
 			<div class='card'>
 				<div class='card-section'>
-					<strong>".htmlsafechars($gets['bonusname'])."</strong>
-					<span data-tooltip class='float-right' tabindex='1' title='".htmlsafechars($gets['description'])."' data-position='bottom' data-alignment='right'><i class='fas fa-info'></i></span>
+					<strong>".htmlspecialchars($gets['bonusname'])."</strong>
+					<span data-tooltip class='float-right' tabindex='1' title='".htmlspecialchars($gets['description'])."' data-position='bottom' data-alignment='right'><i class='fas fa-info'></i></span>
 					<div class='input-group'>
 						<span class='input-group-label'>".(float)$gets['points']."<i class='fas fa-coins'></i></span>
 						<input class='input-group-field' type='text' disabled >
@@ -1902,12 +1902,12 @@ while ($gets = $res->fetch_assoc()) {
             $HTMLOUT .= "
         <form action='{$TRINITY20['baseurl']}/mybonus.php?exchange=1' method='post'>
 		<input type='hidden' name='option' value='".(int)$gets['id']."' /> 
-		<input type='hidden' name='art' value='".htmlsafechars($gets['art'])."' />
+		<input type='hidden' name='art' value='".htmlspecialchars($gets['art'])."' />
 			<div class='cell' data-equalizer-watch>
 			<div class='card'>
 				<div class='card-section'>
-					<strong>".htmlsafechars($gets["bonusname"])."</strong>
-					<span data-tooltip class='float-right' tabindex='1' title='".htmlsafechars($gets['description'])."' data-position='bottom' data-alignment='right'><i class='fas fa-info'></i></span>
+					<strong>".htmlspecialchars($gets["bonusname"])."</strong>
+					<span data-tooltip class='float-right' tabindex='1' title='".htmlspecialchars($gets['description'])."' data-position='bottom' data-alignment='right'><i class='fas fa-info'></i></span>
 					".$top_donator."
 					<div class='input-group'>
 						<span class='input-group-label'><strong>".(float)$gets['minpoints']."</strong><i class='fas fa-coins'></i></span>
@@ -1927,12 +1927,12 @@ while ($gets = $res->fetch_assoc()) {
             $HTMLOUT .= "
 		<form action='{$TRINITY20['baseurl']}/mybonus.php?exchange=1' method='post'>
 		<input type='hidden' name='option' value='".(int)$gets['id']."'> 
-		<input type='hidden' name='art' value='".htmlsafechars($gets['art'])."'>
+		<input type='hidden' name='art' value='".htmlspecialchars($gets['art'])."'>
 			<div class='cell' data-equalizer-watch>
 			<div class='card'>
 				<div class='card-section'>
-					<strong>".htmlsafechars($gets["bonusname"])."</strong>
-					<span data-tooltip class='float-right' tabindex='1' title='".htmlsafechars($gets['description'])."' data-position='bottom' data-alignment='right'><i class='fas fa-info'></i></span>
+					<strong>".htmlspecialchars($gets["bonusname"])."</strong>
+					<span data-tooltip class='float-right' tabindex='1' title='".htmlspecialchars($gets['description'])."' data-position='bottom' data-alignment='right'><i class='fas fa-info'></i></span>
 					".$top_donator2."
 					<div class='input-group'>
 						<span class='input-group-label'><strong>".(float)$gets['minpoints']."</strong><i class='fas fa-coins'></i></span>
@@ -1952,12 +1952,12 @@ while ($gets = $res->fetch_assoc()) {
             $HTMLOUT .= "
 		<form action='{$TRINITY20['baseurl']}/mybonus.php?exchange=1' method='post'>
 		<input type='hidden' name='option' value='".(int)$gets['id']."'>
-		<input type='hidden' name='art' value='".htmlsafechars($gets['art'])."'>
+		<input type='hidden' name='art' value='".htmlspecialchars($gets['art'])."'>
 			<div class='cell' data-equalizer-watch>
 			<div class='card'>
 				<div class='card-section'>
-					<strong>".htmlsafechars($gets["bonusname"])."</strong>
-					<span data-tooltip class='float-right' tabindex='1' title='".htmlsafechars($gets['description'])."' data-position='bottom' data-alignment='right'><i class='fas fa-info'></i></span>
+					<strong>".htmlspecialchars($gets["bonusname"])."</strong>
+					<span data-tooltip class='float-right' tabindex='1' title='".htmlspecialchars($gets['description'])."' data-position='bottom' data-alignment='right'><i class='fas fa-info'></i></span>
 					".$top_donator3."
 					<div class='input-group'>
 						<span class='input-group-label'><strong>".(float)$gets['minpoints']."</strong><i class='fas fa-coins'></i></span>
@@ -1977,12 +1977,12 @@ while ($gets = $res->fetch_assoc()) {
             $HTMLOUT .= "
 		<form action='{$TRINITY20['baseurl']}/mybonus.php?exchange=1' method='post'>
 		<input type='hidden' name='option' value='".(int)$gets['id']."'>
-		<input type='hidden' name='art' value='".htmlsafechars($gets['art'])."'>
+		<input type='hidden' name='art' value='".htmlspecialchars($gets['art'])."'>
 			<div class='cell' data-equalizer-watch>
 			<div class='card'>
 				<div class='card-section'>
-					<strong>".htmlsafechars($gets['bonusname'])."</strong>
-					<span data-tooltip class='float-right' tabindex='1' title='".htmlsafechars($gets['description'])."' data-position='bottom' data-alignment='right'><i class='fas fa-info'></i></span>
+					<strong>".htmlspecialchars($gets['bonusname'])."</strong>
+					<span data-tooltip class='float-right' tabindex='1' title='".htmlspecialchars($gets['description'])."' data-position='bottom' data-alignment='right'><i class='fas fa-info'></i></span>
 					<div class='input-group'>
 						<span class='input-group-label'><strong>".(float)$gets['points']."</strong><i class='fas fa-coins'></i></span>
 						<input class='input-group-field' type='text' name='torrent_id' placeholder='Torrent ID' size='4' maxlength='8'>
@@ -1999,12 +1999,12 @@ while ($gets = $res->fetch_assoc()) {
             $HTMLOUT .= "
             <form action='{$TRINITY20['baseurl']}/mybonus.php?exchange=1' method='post'>
             <input type='hidden' name='option' value='".(int)$gets['id']."' />
-            <input type='hidden' name='art' value='".htmlsafechars($gets['art'])."' />
+            <input type='hidden' name='art' value='".htmlspecialchars($gets['art'])."' />
                 <div class='cell' data-equalizer-watch>
                 <div class='card'>
                     <div class='card-section'>
-                        <strong>".htmlsafechars($gets['bonusname'])."</strong>
-                        <span data-tooltip class='float-right' tabindex='1' title='".htmlsafechars($gets['description'])."' data-position='bottom' data-alignment='right'><i class='fas fa-info'></i></span>
+                        <strong>".htmlspecialchars($gets['bonusname'])."</strong>
+                        <span data-tooltip class='float-right' tabindex='1' title='".htmlspecialchars($gets['description'])."' data-position='bottom' data-alignment='right'><i class='fas fa-info'></i></span>
                         <div class='input-group'>
                             <span class='input-group-label'><strong>".(float)$gets['points']."</strong><i class='fas fa-coins'></i></span>
                             <input class='input-group-field' type='text' name='torrent_id' placeholder='Torrent ID' size='4' maxlength='8'>
@@ -2022,12 +2022,12 @@ while ($gets = $res->fetch_assoc()) {
             $HTMLOUT .= "
 		<form action='{$TRINITY20['baseurl']}/mybonus.php?exchange=1' method='post'>
 		<input type='hidden' name='option' value='".(int)$gets['id']."'>
-		<input type='hidden' name='art' value='".htmlsafechars($gets['art'])."'>
+		<input type='hidden' name='art' value='".htmlspecialchars($gets['art'])."'>
 			<div class='cell' data-equalizer-watch>
 			<div class='card'>
 				<div class='card-section'>
-					<strong>".htmlsafechars($gets["bonusname"])."</strong>
-					<span data-tooltip class='float-right' tabindex='1' title='".htmlsafechars($gets['description'])."' data-position='bottom' data-alignment='right' aria-controls='collapse".$gets['id']."'><i class='fas fa-info'></i></span>
+					<strong>".htmlspecialchars($gets["bonusname"])."</strong>
+					<span data-tooltip class='float-right' tabindex='1' title='".htmlspecialchars($gets['description'])."' data-position='bottom' data-alignment='right' aria-controls='collapse".$gets['id']."'><i class='fas fa-info'></i></span>
 					<div class='input-group'>
 						<span class='input-group-label'><strong>".(float)$gets['points']."</strong><i class='fas fa-coins'></i></span>
 						<input class='input-group-field' type='text' disabled>

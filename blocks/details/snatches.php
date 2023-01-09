@@ -29,7 +29,7 @@ if ($CURUSER['class'] >= UC_POWER_USER) {
     $pager = pager($perpage, $Count, "details.php?id=$id&amp;");
     $HTMLOUT .= "<div class='card'>
         <div class='card-divider'>{$lang['details_add_snatch1']}
-        <a class='label' href='{$TRINITY20['baseurl']}/details.php?id=".(int)$torrents['id']."'>".htmlsafechars($torrents['name'])."</a>
+        <a class='label' href='{$TRINITY20['baseurl']}/details.php?id=".(int)$torrents['id']."'>".htmlspecialchars($torrents['name'])."</a>
         <span class='badge float-right'>{$Row_Count['0']}".($Row_Count[0] == 1 ? "" : "es")."</span>
     </div>
     </div>";
@@ -173,14 +173,14 @@ if ($CURUSER['class'] >= UC_POWER_USER) {
                             3) : ($D_S["uploaded"] > 0 ? "Inf." : "---"));
                         $active = ($D_S['active'] == 1 ? $active = "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='Yes' title='Yes' />" : $active = "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='No' title='No' />");
                         $completed = ($D_S['completed'] >= 1 ? $completed = "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='Yes' title='Yes' />" : $completed = "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='No' title='No' />");
-                        $snatchuserxbt = (isset($D_S['username2']) ? ("<a href='userdetails.php?id=".(int)$D_S['uid']."'><strong>".htmlsafechars($D_S['username2'])."</strong></a>") : "{$lang['details_snatches_unknown']}");
+                        $snatchuserxbt = (isset($D_S['username2']) ? ("<a href='userdetails.php?id=".(int)$D_S['uid']."'><strong>".htmlspecialchars($D_S['username2'])."</strong></a>") : "{$lang['details_snatches_unknown']}");
                         $username_xbt = (($D_S['anonymous2'] == 'yes') ? ($CURUSER['class'] < UC_STAFF && $D_S['uid'] != $CURUSER['id'] ? '' : $snatchuserxbt.' - ')."<i>{$lang['details_snatches_anon']}</i>" : $snatchuserxbt);
                         $snatched_torrent .= "<tbody>
                             <tr>
                                 <td>{$username_xbt}</td>
                                 <td>".mksize($D_S["uploaded"])."</td>
                                 ".($TRINITY20['ratio_free'] ? "" : "<td>".mksize($D_S["downloaded"])."</td>")."
-                                <td>".htmlsafechars($ratio)."</td>
+                                <td>".htmlspecialchars($ratio)."</td>
                                 <td>".mkprettytime($D_S["seedtime"])."</td>
                                 <td>".mkprettytime($D_S["leechtime"])."</td>
                                 <td>".get_date($D_S["mtime"], '', 0, 1)."</td>
@@ -198,23 +198,23 @@ if ($CURUSER['class'] >= UC_POWER_USER) {
                             3) : ($D_S["uploaded"] > 0 ? "Inf." : "---"));
                         $ds_size = isset($D_S["size"]) ? $D_S["size"] : 1;
                         $completed = sprintf("%.2f%%", 100 * (1 - ($D_S["to_go"] / $ds_size)));
-                        $snatchuser = (isset($D_S['username2']) ? ("<a href='userdetails.php?id=".(int)$D_S['userid']."'><strong>".htmlsafechars($D_S['username2'])."</strong></a>") : "{$lang['details_snatches_unknown']}");
+                        $snatchuser = (isset($D_S['username2']) ? ("<a href='userdetails.php?id=".(int)$D_S['userid']."'><strong>".htmlspecialchars($D_S['username2'])."</strong></a>") : "{$lang['details_snatches_unknown']}");
                         $username = (($D_S['anonymous2'] == 'yes') ? ($CURUSER['class'] < UC_STAFF && $D_S['userid'] != $CURUSER['id'] ? '' : $snatchuser.' - ')."<i>{$lang['details_snatches_anon']}</i>" : $snatchuser);
                         $snatched_torrent .= "<tbody>
                             <tr>
                                 <td>{$username}</td>
                                 <td>".($D_S["connectable"] == "yes" ? "<font color='green'>{$lang['details_add_yes']}" : "<font color='red'>{$lang['details_add_no']}")."</td>
                                 <td>".mksize($D_S["uploaded"])."</td>
-                                <td>".htmlsafechars($upspeed)."/s</td>
+                                <td>".htmlspecialchars($upspeed)."/s</td>
                                 ".($TRINITY20['ratio_free'] ? "" : "<td>".mksize($D_S["downloaded"])."</td>")."
-                                ".($TRINITY20['ratio_free'] ? "" : "<td>".htmlsafechars($downspeed)."/s</td>")."
-                                <td>".htmlsafechars($ratio)."</td>
-                                <td>".htmlsafechars($completed)."</td>
+                                ".($TRINITY20['ratio_free'] ? "" : "<td>".htmlspecialchars($downspeed)."/s</td>")."
+                                <td>".htmlspecialchars($ratio)."</td>
+                                <td>".htmlspecialchars($completed)."</td>
                                 <td>".mkprettytime($D_S["seedtime"])."</td>
                                 <td>".mkprettytime($D_S["leechtime"])."</td>
                                 <td>".get_date($D_S["last_action"], '', 0, 1)."</td>
                                 <td>".get_date($D_S["complete_date"], '', 0, 1)."</td>
-                                <td>".htmlsafechars($D_S["agent"])."</td>
+                                <td>".htmlspecialchars($D_S["agent"])."</td>
                                 <td>".(int)$D_S["port"]."</td>
                                 <td>".(int)$D_S["timesann"]."</td>
                             </tr>

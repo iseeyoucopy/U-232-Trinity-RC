@@ -30,7 +30,7 @@ $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 //==== Load Languages
 $lang = array_merge($lang, load_language('ad_comments'));
-$view = isset($_GET['view']) ? htmlsafechars($_GET['view']) : '';
+$view = isset($_GET['view']) ? htmlspecialchars($_GET['view']) : '';
 switch ($view) {
 //==== Page: View all comments
     case "allComments":
@@ -72,10 +72,10 @@ switch ($view) {
                 'user' => (int)$comment['user'],
                 'torrent' => (int)$comment['torrent'],
                 'id' => (int)$comment['id'],
-                'text' => htmlsafechars($comment['text']),
-                'ori_text' => htmlsafechars($comment['ori_text']),
-                'username' => htmlsafechars($comment['username']),
-                'name' => htmlsafechars($comment['name']),
+                'text' => htmlspecialchars($comment['text']),
+                'ori_text' => htmlspecialchars($comment['ori_text']),
+                'username' => htmlspecialchars($comment['username']),
+                'name' => htmlspecialchars($comment['name']),
                 'added' => (int)$comment['added'],
             ];
             //==== Alternate colors in table rows generated using MySQLI
@@ -146,7 +146,7 @@ switch ($view) {
 
         //==== HTML Output
         $HTMLOUT = "<div class='row'><div class='col-md-12'><table class='table table-bordered'>".
-            "<tr><td align='center' colspan='8'><strong><em>{$lang['text_results']} ".htmlsafechars($_POST['keywords'])."</em>".
+            "<tr><td align='center' colspan='8'><strong><em>{$lang['text_results']} ".htmlspecialchars($_POST['keywords'])."</em>".
             "</strong></td></tr>".
             "<tr><td class='colhead'>{$lang['text_comm_id']}</td>".
             "<td class='colhead'>{$lang['text_user_id']}</td>".
@@ -164,10 +164,10 @@ switch ($view) {
                 'id' => (int)$comment['id'],
                 'user' => (int)$comment['user'],
                 'torrent' => (int)$comment['torrent'],
-                'text' => htmlsafechars($comment['text']),
+                'text' => htmlspecialchars($comment['text']),
                 'added' => (int)$comment['added'],
-                'name' => htmlsafechars($comment['name']),
-                'username' => htmlsafechars($comment['username']),
+                'name' => htmlspecialchars($comment['name']),
+                'username' => htmlspecialchars($comment['username']),
             ];
 
             //==== Alternate colors in table rows generated using MySQLI
@@ -234,10 +234,10 @@ while ($comment = $query->fetch_assoc()) {
         'user' => (int)$comment['user'],
         'torrent' => (int)$comment['torrent'],
         'id' => (int)$comment['id'],
-        'text' => htmlsafechars($comment['text']),
-        'ori_text' => htmlsafechars($comment['ori_text']),
-        'username' => htmlsafechars($comment['username']),
-        'name' => htmlsafechars($comment['name']),
+        'text' => htmlspecialchars($comment['text']),
+        'ori_text' => htmlspecialchars($comment['ori_text']),
+        'username' => htmlspecialchars($comment['username']),
+        'name' => htmlspecialchars($comment['name']),
         'added' => (int)$comment['added'],
     ];
     //==== Alternate colors in table rows generated using MySQLI

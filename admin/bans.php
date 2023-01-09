@@ -52,7 +52,7 @@ if ($remove > 0) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $CURUSER['class'] == UC_MAX) {
     $first = trim($_POST["first"]);
     $last = trim($_POST["last"]);
-    $comment = htmlsafechars(trim($_POST["comment"]));
+    $comment = htmlspecialchars(trim($_POST["comment"]));
     if (!$first || !$last || !$comment) {
         stderr("{$lang['stderr_error']}", "{$lang['text_missing']}");
     }
@@ -102,10 +102,10 @@ if ($res->num_rows == 0) {
         $arr["first"] = long2ip($arr["first"]);
         $arr["last"] = long2ip($arr["last"]);
         $HTMLOUT .= "<tbody><tr>
-          <td>".htmlsafechars($arr['first'])."</td>
-          <td>".htmlsafechars($arr['last'])."</td>
-          <td><a href='userdetails.php?id=".(int)$arr['addedby']."'>".htmlsafechars($arr['username'])."</a></td>
-          <td>".htmlsafechars($arr['comment'], ENT_QUOTES)."</td>
+          <td>".htmlspecialchars($arr['first'])."</td>
+          <td>".htmlspecialchars($arr['last'])."</td>
+          <td><a href='userdetails.php?id=".(int)$arr['addedby']."'>".htmlspecialchars($arr['username'])."</a></td>
+          <td>".htmlspecialchars($arr['comment'], ENT_QUOTES)."</td>
           <td><a href='staffpanel.php?tool=bans&amp;remove=".(int)$arr['id']."'>{$lang['text_remove']}</a></td>
           <td>".get_date($arr['added'], '')."</td>
          </tr>

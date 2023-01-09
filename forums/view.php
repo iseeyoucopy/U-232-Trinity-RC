@@ -155,7 +155,7 @@ $HTMLOUT .= "<div class='container'>
   						<li><a href='index.php'>".$TRINITY20["site_name"]."</a></li>
   						<li><a href='forums.php'>Forums</a></li>
   						<li>
-							<span class='show-for-sr'>Current: </span>".htmlsafechars($arr["forum_name"])."
+							<span class='show-for-sr'>Current: </span>".htmlspecialchars($arr["forum_name"])."
   						</li>
 					</ul>
 				</nav>
@@ -167,7 +167,7 @@ if ($TRINITY20['forums_online'] == 0) {
 if ($subforums > 0) {
     $HTMLOUT .= "<div class='card'>
 				<div class='card-divider'>
-					<strong>".htmlsafechars($arr["forum_name"])."</strong>
+					<strong>".htmlspecialchars($arr["forum_name"])."</strong>
 					</label>
 				</div>
 				<div class='card-section'>".show_forums($forumid, true)."</div>
@@ -189,7 +189,7 @@ $HTMLOUT .= "<a class='button small float-right' href='forums.php?action=viewunr
 if ($topics_res->num_rows > 0) {
     $HTMLOUT .= "
 		  <div class='card'>
-			<div class='card-divider'><strong>".htmlsafechars($arr["forum_name"])." </strong></div>
+			<div class='card-divider'><strong>".htmlspecialchars($arr["forum_name"])." </strong></div>
 			<div class='card-section'>
 			".forum_stats()."
 				<div class='divTable'>
@@ -204,7 +204,7 @@ if ($topics_res->num_rows > 0) {
         $user_stuff['id'] = (int)$topic_arr['uid1'];
         $user_stuff1 = $topic_arr;
         $user_stuff1['id'] = (int)$topic_arr['uid2'];
-        $user_stuff1['username'] = htmlsafechars($topic_arr['u2_username']);
+        $user_stuff1['username'] = htmlspecialchars($topic_arr['u2_username']);
         $topicid = (int)$topic_arr['id'];
         $topic_userid = (int)$topic_arr['user_id'];
         $sticky = ($topic_arr['sticky'] == "yes");
@@ -256,13 +256,13 @@ if ($topics_res->num_rows > 0) {
         }
         $new = ($topic_arr["p_added"] > (TIME_NOW - $TRINITY20['readpost_expiry'])) ? ((int)$topic_arr['p_id'] > $topic_arr['last_post_read']) : 0;
         $topicpic = ($topic_arr['locked'] == "yes" ? ($new ? "<i class='row-icon-font far fa-file-excel'></i>" : "<i class='far fa-file-excel'>") : ($new ? "<i class='row-icon-font fas fa-file-alt'></i>" : "<i class='row-icon-font far fa-file'></i>"));
-        $post_icon = ($sticky ? "<i class='row-icon-font fas fa-thumbtack fa-rotate-90'></i>" : ($topic_arr["icon"] > 0 ? "<img src=\"".$TRINITY20['pic_base_url']."post_icons/icon".htmlsafechars($topic_arr["icon"]).".gif\" alt=\"post icon\" title=\"post icon\" />" : "&nbsp;"));
+        $post_icon = ($sticky ? "<i class='row-icon-font fas fa-thumbtack fa-rotate-90'></i>" : ($topic_arr["icon"] > 0 ? "<img src=\"".$TRINITY20['pic_base_url']."post_icons/icon".htmlspecialchars($topic_arr["icon"]).".gif\" alt=\"post icon\" title=\"post icon\" />" : "&nbsp;"));
         $HTMLOUT .= "<div class='divTableBody'>
 				  	<div class='divTableRow'>
 						<div class='divTableCell'>
 						  	<span class='icon-wrapper'>	".$topicpic."</span>
 							<a class='topictitle' href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$topicid."'>
-								<strong>".htmlsafechars($topic_arr['topic_name'])."</strong>
+								<strong>".htmlspecialchars($topic_arr['topic_name'])."</strong>
 							</a>
 							<span class='float-right'>".$post_icon."</span>
 							<span class='float-right'>".($pollim ? "<i class='fas fa-poll'></i>" : '')."</span><br>
@@ -281,7 +281,7 @@ if ($topics_res->num_rows > 0) {
 		</div>";
 } else {
     $HTMLOUT .= "<div class='card'>
-			<div class='card-divider'><strong>".htmlsafechars($arr["forum_name"])." </strong></div>
+			<div class='card-divider'><strong>".htmlspecialchars($arr["forum_name"])." </strong></div>
 			<div class='card-section'>
 				<div class='callout alert-callout-border alert'>
 				<strong><p>No Topics Found</p></strong>

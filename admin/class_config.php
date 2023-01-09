@@ -45,7 +45,7 @@ $possible_modes = [
     'remove',
     '',
 ];
-$mode = (isset($_GET['mode']) ? htmlsafechars($_GET['mode']) : '');
+$mode = (isset($_GET['mode']) ? htmlspecialchars($_GET['mode']) : '');
 if (!in_array($mode, $possible_modes)) {
     stderr($lang['classcfg_error'], $lang['classcfg_error1']);
 }
@@ -54,14 +54,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         foreach ($class_config as $c_name => $value) {
             // handing from database
             $c_value = $value['value']; // $key is like UC_USER etc....
-            $c_classname = htmlsafechars($value['classname']);
+            $c_classname = htmlspecialchars($value['classname']);
             $c_classcolor = $value['classcolor'];
             $c_classcolor = str_replace("#", "", "$c_classcolor");
             $c_classpic = $value['classpic'];
             // handling from posting of contents
             $post_data = $_POST[$c_name]; //    0=> value,1=>classname,2=>classcolor,3=>classpic
             $value = $post_data[0];
-            $classname = htmlsafechars($post_data[1]);
+            $classname = htmlspecialchars($post_data[1]);
             $classcolor = $post_data[2];
             $classcolor = str_replace("#", "", "$classcolor");
             $classpic = $post_data[3];
@@ -108,12 +108,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     //ADD CLASS
     if ($mode == 'add' && (!empty($_POST['name']) && !empty($_POST['value']) && !empty($_POST['cname']) && !empty($_POST['color']))) {
-        $name = isset($_POST['name']) ? htmlsafechars($_POST['name']) : stderr($lang['classcfg_error'], $lang['classcfg_error_class_name']);
+        $name = isset($_POST['name']) ? htmlspecialchars($_POST['name']) : stderr($lang['classcfg_error'], $lang['classcfg_error_class_name']);
         $value = isset($_POST['value']) ? (int)$_POST['value'] : stderr($lang['classcfg_error'], $lang['classcfg_error_class_value']);
-        $r_name = isset($_POST['cname']) ? htmlsafechars($_POST['cname']) : stderr($lang['classcfg_error'], $lang['classcfg_error_class_value']);
-        $color = isset($_POST['color']) ? htmlsafechars($_POST['color']) : '';
+        $r_name = isset($_POST['cname']) ? htmlspecialchars($_POST['cname']) : stderr($lang['classcfg_error'], $lang['classcfg_error_class_value']);
+        $color = isset($_POST['color']) ? htmlspecialchars($_POST['color']) : '';
         $color = str_replace("#", "", "$color");
-        $pic = isset($_POST['pic']) ? htmlsafechars($_POST['pic']) : '';
+        $pic = isset($_POST['pic']) ? htmlspecialchars($_POST['pic']) : '';
         //FIND UC_MAX;
         //FROM HERE
         // CAN REMOVE THE QUERY I THINK.   $old_max = UC_MAX;  OR EVEN  $new_max = UC_MAX +1;  << BOTH WORK
@@ -215,7 +215,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     // remove
     if ($mode == 'remove') {
-        $name = isset($_POST['remove']) ? htmlsafechars($_POST['remove']) : stderr($lang['classcfg_error'], $lang['classcfg_error_required']);
+        $name = isset($_POST['remove']) ? htmlspecialchars($_POST['remove']) : stderr($lang['classcfg_error'], $lang['classcfg_error_required']);
         ($res = sql_query("SELECT value from class_config WHERE name = '$name' ")) || sqlerr(__FILE__, __LINE__);
         while ($arr = $res->fetch_array(MYSQLI_BOTH)) {
             $value = $arr['value'];
@@ -310,12 +310,12 @@ $HTMLOUT .= "<div class='row'><div class='col-md-12'>
 while ($arr = $res->fetch_assoc()) {
     $HTMLOUT .= "
 <tr>
-<td>".htmlsafechars($arr['name'])."</td>
-<td><input type='text' class='form-control' name='".htmlsafechars($arr['name'])."[]' size='2' value='".(int)$arr['value']." 'readonly='readonly' /></td>
-<td><input type='text' class='form-control' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['classname'])."' /></td>
-<td><input type='text' class='form-control' name='".htmlsafechars($arr['name'])."[]' size='8' value='#".htmlsafechars($arr['classcolor'])."' /></td>
-<td><input type='text' class='form-control' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['classpic'])."' /></td>
-<td><form name='remove' action='staffpanel.php?tool=class_config&amp;mode=remove' method='post'><input type='hidden' name='remove' value='".htmlsafechars($arr['name'])."' /><input class='btn btn-default' type='submit' value='{$lang['classcfg_class_remove']}' /></form></td>
+<td>".htmlspecialchars($arr['name'])."</td>
+<td><input type='text' class='form-control' name='".htmlspecialchars($arr['name'])."[]' size='2' value='".(int)$arr['value']." 'readonly='readonly' /></td>
+<td><input type='text' class='form-control' name='".htmlspecialchars($arr['name'])."[]' size='8' value='".htmlspecialchars($arr['classname'])."' /></td>
+<td><input type='text' class='form-control' name='".htmlspecialchars($arr['name'])."[]' size='8' value='#".htmlspecialchars($arr['classcolor'])."' /></td>
+<td><input type='text' class='form-control' name='".htmlspecialchars($arr['name'])."[]' size='8' value='".htmlspecialchars($arr['classpic'])."' /></td>
+<td><form name='remove' action='staffpanel.php?tool=class_config&amp;mode=remove' method='post'><input type='hidden' name='remove' value='".htmlspecialchars($arr['name'])."' /><input class='btn btn-default' type='submit' value='{$lang['classcfg_class_remove']}' /></form></td>
 </tr>";
 }
 $HTMLOUT .= "</table><br /><br /> ";
@@ -331,8 +331,8 @@ $HTMLOUT .= "<h3>{$lang['classcfg_class_security']}</h3>
 while ($arr1 = $res1->fetch_assoc()) {
     $HTMLOUT .= "
 <tr>
-<td>".htmlsafechars($arr1['name'])."</td>
-<td><input type='text' class='form-control' name='".htmlsafechars($arr1['name'])."[]' size='2' value='".(int)$arr1['value']."' /></td>
+<td>".htmlspecialchars($arr1['name'])."</td>
+<td><input type='text' class='form-control' name='".htmlspecialchars($arr1['name'])."[]' size='2' value='".(int)$arr1['value']."' /></td>
 <td><form name='remove' action='staffpanel.php?tool=class_config&amp;mode=remove' method='post'></form></td>
 </tr>";
 }

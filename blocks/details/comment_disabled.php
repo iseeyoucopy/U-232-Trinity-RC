@@ -10,7 +10,7 @@ if ($torrents["allow_comments"] == "yes" || $CURUSER['class'] >= UC_STAFF && $CU
         </table></p>
      </div>
      </div><div class='row'><div class='col-md-1'></div><div class='col-md-10'>\n";
-    echo stdhead("{$lang['details_details']}\"".htmlsafechars($torrents["name"], ENT_QUOTES)."\"", true, $stdhead).$HTMLOUT.stdfoot(true, $stdfoot);
+    echo stdhead("{$lang['details_details']}\"".htmlspecialchars($torrents["name"], ENT_QUOTES)."\"", true, $stdhead).$HTMLOUT.stdfoot(true, $stdfoot);
     die();
 }
 ?>

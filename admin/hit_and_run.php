@@ -75,7 +75,7 @@ while ($hit_and_run_arr = $hit_and_run_rez->fetch_assoc()) {
     if ($Xbt_Seed && $Uid_ID !== $hit_and_run_arr['owner']) {
         $ratio_site = member_ratio($hit_and_run_arr['up'], $TRINITY20['ratio_free'] ? '0' : $hit_and_run_arr['down']);
         $ratio_torrent = member_ratio($hit_and_run_arr['uload'], $TRINITY20['ratio_free'] ? '0' : $hit_and_run_arr['dload']);
-        $avatar = ($CURUSER['avatars'] == 'yes' ? ($hit_and_run_arr['avatar'] == '' ? '<img src="pic/default_avatar.gif"  width="40" alt="default avatar" />' : '<img src="'.htmlsafechars($hit_and_run_arr['avatar']).'" alt="avatar"  width="40" />') : '');
+        $avatar = ($CURUSER['avatars'] == 'yes' ? ($hit_and_run_arr['avatar'] == '' ? '<img src="pic/default_avatar.gif"  width="40" alt="default avatar" />' : '<img src="'.htmlspecialchars($hit_and_run_arr['avatar']).'" alt="avatar"  width="40" />') : '');
         $torrent_needed_seed_time = $hit_and_run_arr['seedtime'];
         //=== get times per class
         switch (true) {
@@ -123,7 +123,7 @@ while ($hit_and_run_arr = $hit_and_run_rez->fetch_assoc()) {
         $HTMLOUT .= '<tr><td align="left">'.$avatar.'</td>
         <td align="left"><a class="altlink" href="userdetails.php?id='.(int)$Uid_ID.'&amp;completed=1#completed">'.format_username($users).'</a>  [ '.get_user_class_name($hit_and_run_arr['class']).' ]
 </td>
-        <td align="left"><a class="altlink" href="details.php?id='.(int)$T_ID.'&amp;hit=1">'.htmlsafechars($hit_and_run_arr['name']).'</a><br />
+        <td align="left"><a class="altlink" href="details.php?id='.(int)$T_ID.'&amp;hit=1">'.htmlspecialchars($hit_and_run_arr['name']).'</a><br />
         '.$lang['hitnrun_leechers'].''.(int)$hit_and_run_arr['numleeching'].'<br />
         '.$lang['hitnrun_seeders'].' '.(int)$hit_and_run_arr['numseeding'].'
      </td>

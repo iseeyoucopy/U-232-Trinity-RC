@@ -49,7 +49,7 @@ function dltable($name, $arr, $torrent)
     $mod = $CURUSER['class'] >= UC_STAFF;
     foreach ($arr as $e) {
         $htmlout .= "<tr>";
-        $htmlout .= (($e['tanonymous'] == 'yes' && $e['owner'] == $e['userid'] || $e['anonymous'] == 'yes' && $CURUSER['id'] != $e['userid']) && $CURUSER['class'] < UC_STAFF) ? "<td class='text-left'><b>Kezer Soze</b></td>" : "<td class='text-left'><a href='userdetails.php?id=".(int)$e['userid']."'><b>".htmlsafechars($e['username'])."</b></a>".($mod ? "<br />({$e["ip"]})" : "<br />(".preg_replace('~(\d+)\.(\d+)\.(\d+)\.(\d+)~',
+        $htmlout .= (($e['tanonymous'] == 'yes' && $e['owner'] == $e['userid'] || $e['anonymous'] == 'yes' && $CURUSER['id'] != $e['userid']) && $CURUSER['class'] < UC_STAFF) ? "<td class='text-left'><b>Kezer Soze</b></td>" : "<td class='text-left'><a href='userdetails.php?id=".(int)$e['userid']."'><b>".htmlspecialchars($e['username'])."</b></a>".($mod ? "<br />({$e["ip"]})" : "<br />(".preg_replace('~(\d+)\.(\d+)\.(\d+)\.(\d+)~',
                     "$1.xxx.$3.xxx", $e["ip"]).")")."</td>";
         $secs = max(1, ($now - $e["st"]) - ($now - $e["la"]));
         $htmlout .= "<td align='center'>".($e['connectable'] == "yes" ? "{$lang['peerslist_yes']}" : "<font color='red'>{$lang['peerslist_no']}</font>")."</td>";
@@ -62,7 +62,7 @@ function dltable($name, $arr, $torrent)
         $htmlout .= "<td>".sprintf("%.2f%%", 100 * (1 - ($e["to_go"] / $torrent["size"])))."</td>";
         $htmlout .= "<td>".mkprettytime($now - $e["st"])."</td>";
         $htmlout .= "<td>".mkprettytime($now - $e["la"])."</td>";
-        $htmlout .= "<td>".htmlsafechars(getagent($e["agent"], $e['peer_id']))."</td>";
+        $htmlout .= "<td>".htmlspecialchars(getagent($e["agent"], $e['peer_id']))."</td>";
         $htmlout .= "</tr>";
     }
     return $htmlout."</table>";
@@ -124,7 +124,7 @@ usort($downloaders, "leech_sort");
 $HTMLOUT .= "
     <div class='card'>
         <div class='card-divider'>
-            <p>Peerlist for Torrent <a href='{$TRINITY20['baseurl']}/details.php?id=$id'><span class='label secondary'>".htmlsafechars($row['name'])."</span></a></p>
+            <p>Peerlist for Torrent <a href='{$TRINITY20['baseurl']}/details.php?id=$id'><span class='label secondary'>".htmlspecialchars($row['name'])."</span></a></p>
         </div>
         <div class='card-section'>
             <div class='table-scroll'>";

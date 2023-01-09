@@ -40,7 +40,7 @@ $record_mail = true; // set this true or false . If you set this true every time
 $days = 50; //number of days of inactivity
 // end config
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $action = isset($_POST["action"]) ? htmlsafechars(trim($_POST["action"])) : '';
+    $action = isset($_POST["action"]) ? htmlspecialchars(trim($_POST["action"])) : '';
     if (empty($_POST["userid"]) && (($action == "deluser") || ($action == "mail"))) {
         stderr($lang['inactive_error'], "{$lang['inactive_selectuser']}");
     }
@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $count = $res->num_rows;
         while ($arr = $res->fetch_array(MYSQLI_BOTH)) {
             $userid = (int)$arr["id"];
-            $username = htmlsafechars($arr["username"]);
+            $username = htmlspecialchars($arr["username"]);
             ($res_del = sql_query(account_delete($userid))) || sqlerr(__FILE__, __LINE__);
             if ($mysqli->affected_rows !== false) {
                 $cache->delete($keys['my_userid'].$userid);
@@ -72,8 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $count = $res->num_rows;
         while ($arr = $res->fetch_array(MYSQLI_BOTH)) {
             $id = (int)$arr["id"];
-            $username = htmlsafechars($arr["username"]);
-            $email = htmlsafechars($arr["email"]);
+            $username = htmlspecialchars($arr["username"]);
+            $email = htmlspecialchars($arr["email"]);
             $added = get_date($arr["added"], 'DATE');
             $last_access = get_date($arr["last_access"], 'DATE');
             $subject = "{$lang['inactive_youracc']}{$TRINITY20['site_name']} !";
@@ -134,7 +134,7 @@ if ($count_inactive > 0) {
     /*]]>*/
     </script>";
     $HTMLOUT .= "<div class='row'><div class='col-md-12'>";
-    $HTMLOUT .= "<h2>".htmlsafechars($count)."{$lang['inactive_accounts']} ".htmlsafechars($days)." {$lang['inactive_days']}</h2>
+    $HTMLOUT .= "<h2>".htmlspecialchars($count)."{$lang['inactive_accounts']} ".htmlspecialchars($days)." {$lang['inactive_days']}</h2>
     <form method='post' action='staffpanel.php?tool=inactive&amp;action=inactive'>
     <table class='table table-bordered'>
     <tr>
@@ -149,9 +149,9 @@ if ($count_inactive > 0) {
         $last_seen = (($arr["last_access"] == "0") ? "never" : "".get_date($arr["last_access"], 'DATE')."&nbsp;");
         $class = get_user_class_name($arr["class"]);
         $HTMLOUT .= "<tr>
-        <td><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr["id"]."'>".htmlsafechars($arr["username"])."</a></td>
+        <td><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr["id"]."'>".htmlspecialchars($arr["username"])."</a></td>
         <td>".$class."</td>
-        <td style='max-width:130px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;'><a href='mailto:".htmlsafechars($arr["email"])."'>".htmlsafechars($arr["email"])."</a></td>
+        <td style='max-width:130px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;'><a href='mailto:".htmlspecialchars($arr["email"])."'>".htmlspecialchars($arr["email"])."</a></td>
         <td>".$ratio."</td>
         <td>".$last_seen."</td>
         <td align='center' bgcolor='#FF0000'><input type='checkbox' name='userid[]' value='".(int)$arr["id"]."' /></td></tr>
@@ -168,7 +168,7 @@ if ($count_inactive > 0) {
         $ress = sql_query("SELECT avps.value_s AS userid, avps.value_i AS last_mail, avps.value_u AS mails, users.username FROM avps LEFT JOIN users ON avps.value_s=users.id WHERE avps.arg='inactivemail' LIMIT 1");
         $date = $ress->fetch_assoc();
         if ($date["last_mail"] > 0) {
-            $HTMLOUT .= "<tr><td colspan='6' class='colhead' align='center' style='color:red;'>{$lang['inactive_lastmail']} <a href='{$TRINITY20['baseurl']}/userdetails.php?id=".htmlsafechars($date["userid"])."'>".htmlsafechars($date["username"])."</a> {$lang['inactive_on']} <b>".get_date($date["last_mail"],
+            $HTMLOUT .= "<tr><td colspan='6' class='colhead' align='center' style='color:red;'>{$lang['inactive_lastmail']} <a href='{$TRINITY20['baseurl']}/userdetails.php?id=".htmlspecialchars($date["userid"])."'>".htmlspecialchars($date["username"])."</a> {$lang['inactive_on']} <b>".get_date($date["last_mail"],
                     'DATE')." -  ".$date["mails"]."</b>{$lang['inactive_email']} ".($date["mails"] > 1 ? "s" : "")."  {$lang['inactive_sent']}</td></tr>";
         }
     }

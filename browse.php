@@ -113,7 +113,7 @@ if (isset($_GET['sort']) && isset($_GET['type'])) {
         'owner',
     ];
     $column = isset($_GET['sort']) && isset($_valid_sort[(int)$_GET['sort']]) ? $_valid_sort[(int)$_GET['sort']] : $_valid_sort[0];
-    switch (htmlsafechars($_GET['type'])) {
+    switch (htmlspecialchars($_GET['type'])) {
         case 'asc':
             $ascdesc = "ASC";
             $linkascdesc = "asc";
@@ -304,7 +304,7 @@ foreach ($cats as $cat) {
         $HTMLOUT .= ($i !== 0) ? "" : "";
         $HTMLOUT .= "<div class='cell'>
                             <input name='c".(int)$cat['id']."'  type='checkbox' ".(in_array($cat['id'], $wherecatina) ? "checked='checked' " : "")."value='1' >
-                            <a href='browse.php?cat=".(int)$cat['id']."'> ".((curuser::$blocks['browse_page'] & block_browse::ICONS && $BLOCKS['browse_icons_on']) ? "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($cat['image'])."' alt='".htmlsafechars($cat['name'])."' title='".htmlsafechars($cat['name'])."'>" : "".htmlsafechars($cat['name'])."")."</a>
+                            <a href='browse.php?cat=".(int)$cat['id']."'> ".((curuser::$blocks['browse_page'] & block_browse::ICONS && $BLOCKS['browse_icons_on']) ? "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlspecialchars($cat['image'])."' alt='".htmlspecialchars($cat['name'])."' title='".htmlspecialchars($cat['name'])."'>" : "".htmlspecialchars($cat['name'])."")."</a>
                             </div>";
         $i++;
     }
@@ -354,7 +354,7 @@ foreach ([
 $searchin .= '</select>';
 $HTMLOUT .= '<div class="input-group">
   <span class="input-group-label"><i class="fa fa-search-plus"></i></span>
-  <input class="input-group-field" type="text" name="search" value="'.(isset($searchstr) ? htmlsafechars($searchstr, ENT_QUOTES) : "").'" placeholder="Search Torrents">
+  <input class="input-group-field" type="text" name="search" value="'.(isset($searchstr) ? htmlspecialchars($searchstr, ENT_QUOTES) : "").'" placeholder="Search Torrents">
    <span>
     '.$searchin.'
   </span>
@@ -377,7 +377,7 @@ if (curuser::$blocks['browse_page'] & block_browse::VIEWSCLOUD && $BLOCKS['brows
 }
 $HTMLOUT .= "{$new_button}";
 if (isset($cleansearchstr)) {
-    $HTMLOUT .= "<div class='row'><div class='col-md-6 col-md-offset-4'><h2>{$lang['browse_search']} ".htmlsafechars($searchstr,
+    $HTMLOUT .= "<div class='row'><div class='col-md-6 col-md-offset-4'><h2>{$lang['browse_search']} ".htmlspecialchars($searchstr,
             ENT_QUOTES)."</h2></div></div>\n";
 }
 if ($count) {

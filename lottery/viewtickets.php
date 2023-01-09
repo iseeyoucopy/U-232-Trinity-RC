@@ -40,7 +40,7 @@ if (!$qs->num_rows) {
     </tr>";
     while ($ar = $qs->fetch_assoc()) {
         $html .= "<tr>
-                  <td align='left'><a href='userdetails.php?id=".(int)$ar['id']."'>".htmlsafechars($ar['username'])."</a></td>
+                  <td align='left'><a href='userdetails.php?id=".(int)$ar['id']."'>".htmlspecialchars($ar['username'])."</a></td>
                   <td align='center'>".(int)$ar['tickets']."</td>
                   <td align='center'>".(float)$ar['seedbonus']."</td>
         </tr>";

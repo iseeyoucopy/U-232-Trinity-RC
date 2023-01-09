@@ -49,7 +49,7 @@ HTML;
             $HTMLOUT .= "<br/>";
         }
         $HTMLOUT .= "<label for=\"cat_".(int)$a['id']."\">
-      <img src=\"{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($a['image'])."\" alt=\"".htmlsafechars($a['name'])."\" title=\"".htmlsafechars($a['name'])."\" />
+      <img src=\"{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlspecialchars($a['image'])."\" alt=\"".htmlspecialchars($a['name'])."\" title=\"".htmlspecialchars($a['name'])."\" />
      <input type=\"checkbox\" name=\"cats[]\" id=\"cat_".(int)$a['id']."\" value=\"".(int)$a['id']."\" /></label>\n";
         $i++;
     }

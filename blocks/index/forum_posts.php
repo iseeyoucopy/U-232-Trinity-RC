@@ -76,24 +76,24 @@ if ($topics && (is_countable($topics) ? count($topics) : 0) > 0) {
                     if ($CURUSER['class'] < UC_STAFF && $topicarr['user_id'] != $CURUSER['id']) {
                         $username = (empty($topicarr['username']) ? "<i>{$lang['index_fposts_unknow']}</i>" : "<i>{$lang['index_fposts_anonymous']}</i>");
                     } else {
-                        $username = (empty($topicarr['username']) ? "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>" : "<i>{$lang['index_fposts_anonymous']}</i>&nbsp;&nbsp;<a href='".$TRINITY20['baseurl']."/userdetails.php?id=".(int)$topicarr['puser_id']."'><b>[".htmlsafechars($topicarr['username'])."]</b></a>");
+                        $username = (empty($topicarr['username']) ? "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>" : "<i>{$lang['index_fposts_anonymous']}</i>&nbsp;&nbsp;<a href='".$TRINITY20['baseurl']."/userdetails.php?id=".(int)$topicarr['puser_id']."'><b>[".htmlspecialchars($topicarr['username'])."]</b></a>");
                     }
                 } else {
-                    $username = (empty($topicarr['username']) ? "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>" : "<a href='".$TRINITY20['baseurl']."/userdetails.php?id=".(int)$topicarr['puser_id']."'><b>".htmlsafechars($topicarr['username'])."</b></a>");
+                    $username = (empty($topicarr['username']) ? "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>" : "<a href='".$TRINITY20['baseurl']."/userdetails.php?id=".(int)$topicarr['puser_id']."'><b>".htmlspecialchars($topicarr['username'])."</b></a>");
                 }
                 if ($topicarr['tan'] == 'yes') {
                     if ($CURUSER['class'] < UC_STAFF && $topicarr['user_id'] != $CURUSER['id']) {
                         $author = (empty($topicarr['u2_username']) ? $topic_userid == '0' ? "<i>System</i>" : "<i>{$lang['index_fposts_unknow']}</i>" : ("<i>{$lang['index_fposts_anonymous']}</i>"));
                     } else {
-                        $author = (empty($topicarr['u2_username']) ? $topic_userid == '0' ? "<i>System</i>" : "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>" : ("<i>{$lang['index_fposts_anonymous']}</i>&nbsp;&nbsp;<a href='".$TRINITY20['baseurl']."/userdetails.php?id=".$topic_userid."'><b>[".htmlsafechars($topicarr['u2_username'])."]</b></a>"));
+                        $author = (empty($topicarr['u2_username']) ? $topic_userid == '0' ? "<i>System</i>" : "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>" : ("<i>{$lang['index_fposts_anonymous']}</i>&nbsp;&nbsp;<a href='".$TRINITY20['baseurl']."/userdetails.php?id=".$topic_userid."'><b>[".htmlspecialchars($topicarr['u2_username'])."]</b></a>"));
                     }
                 } else {
-                    $author = (empty($topicarr['u2_username']) ? $topic_userid == '0' ? "<i>System</i>" : "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>" : ("<a href='".$TRINITY20['baseurl']."/userdetails.php?id=".$topic_userid."'><b>".htmlsafechars($topicarr['u2_username'])."</b></a>"));
+                    $author = (empty($topicarr['u2_username']) ? $topic_userid == '0' ? "<i>System</i>" : "<i>{$lang['index_fposts_unknow']}[$topic_userid]</i>" : ("<a href='".$TRINITY20['baseurl']."/userdetails.php?id=".$topic_userid."'><b>".htmlspecialchars($topicarr['u2_username'])."</b></a>"));
                 }
                 $staffimg = ($topicarr['min_class_read'] >= UC_STAFF ? "<img src='".$TRINITY20['pic_base_url']."staff.png' border='0' alt='Staff forum' title='Staff Forum' />" : '');
                 $stickyimg = ($topicarr['sticky'] == 'yes' ? "<img src='".$TRINITY20['pic_base_url']."sticky.gif' border='0' alt='{$lang['index_fposts_sticky']}' title='{$lang['index_fposts_stickyt']}' />&nbsp;&nbsp;" : '');
                 $lockedimg = ($topicarr['locked'] == 'yes' ? "<img src='".$TRINITY20['pic_base_url']."forumicons/locked.gif' alt='{$lang['index_fposts_locked']}' title='{$lang['index_fposts_lockedt']}' />&nbsp;" : '');
-                $topic_name = $lockedimg.$stickyimg."<a href='/forums.php?action=viewtopic&amp;topicid=$topicid&amp;page=last#".(int)$topicarr['last_post']."'><b>".htmlsafechars($topicarr['topic_name'])."</b></a>&nbsp;&nbsp;$staffimg&nbsp;&nbsp;$menu<br />{$lang['index_fposts_in']}<a href='forums.php?action=viewforum&amp;forumid=".(int)$topicarr['forum_id']."'>".htmlsafechars($topicarr['name'])."</a>&nbsp;by&nbsp;$author&nbsp;&nbsp;($added)";
+                $topic_name = $lockedimg.$stickyimg."<a href='/forums.php?action=viewtopic&amp;topicid=$topicid&amp;page=last#".(int)$topicarr['last_post']."'><b>".htmlspecialchars($topicarr['topic_name'])."</b></a>&nbsp;&nbsp;$staffimg&nbsp;&nbsp;$menu<br />{$lang['index_fposts_in']}<a href='forums.php?action=viewforum&amp;forumid=".(int)$topicarr['forum_id']."'>".htmlspecialchars($topicarr['name'])."</a>&nbsp;by&nbsp;$author&nbsp;&nbsp;($added)";
                 $HTMLOUT .= "
                         <tr>
                             <td>{$topic_name}</td>

@@ -38,7 +38,7 @@ if (isset($topicid) && !is_valid_id($topicid)) {
 }
 
 $newtopic = is_valid_id($forumid);
-$subject = (isset($_POST["topic_name"]) ? htmlsafechars($_POST["topic_name"]) : '');
+$subject = (isset($_POST["topic_name"]) ? htmlspecialchars($_POST["topic_name"]) : '');
 
 if ($newtopic) {
     $subject = trim($subject);
@@ -120,7 +120,7 @@ if ($newtopic) {
     }
 
     $arr = $res->fetch_assoc();
-    $subject = htmlsafechars($arr["topic_name"]);
+    $subject = htmlspecialchars($arr["topic_name"]);
     if ($arr["locked"] == 'yes' && $CURUSER['class'] < UC_STAFF) {
         stderr("Error", "This topic is locked; No new posts are allowed.");
     }
@@ -129,7 +129,7 @@ if ($newtopic) {
     while ($row = $res_sub->fetch_assoc()) {
         ($res_yes = sql_query("SELECT subscription_pm, username FROM users WHERE id=".sqlesc($row["user_id"]))) || sqlerr(__FILE__, __LINE__);
         $arr_yes = $res_yes->fetch_assoc();
-        $msg = "Hey there!!! \n a thread you subscribed to: ".htmlsafechars($arr["topic_name"])." has had a new post!\n click [url=".$TRINITY20['baseurl']."/forums.php?action=viewtopic&topicid=".$topicid."&page=last][b]HERE[/b][/url] to read it!\n\nTo view your subscriptions, or un-subscribe, click [url=".$TRINITY20['baseurl']."/subscriptions.php][b]HERE[/b][/url].\n\ncheers.";
+        $msg = "Hey there!!! \n a thread you subscribed to: ".htmlspecialchars($arr["topic_name"])." has had a new post!\n click [url=".$TRINITY20['baseurl']."/forums.php?action=viewtopic&topicid=".$topicid."&page=last][b]HERE[/b][/url] to read it!\n\nTo view your subscriptions, or un-subscribe, click [url=".$TRINITY20['baseurl']."/subscriptions.php][b]HERE[/b][/url].\n\ncheers.";
         if ($arr_yes["subscription_pm"] == 'yes' && $row["user_id"] != $CURUSER["id"]) {
             sql_query("INSERT INTO messages (sender, subject, receiver, added, msg) VALUES(".sqlesc($TRINITY20['bot_id']).", ".sqlesc("New post in subscribed thread!").", ".sqlesc($row['user_id']).", '".TIME_NOW."', ".sqlesc($msg).")") || sqlerr(__FILE__,
                 __LINE__);
@@ -184,14 +184,14 @@ if ($newtopic) {
 }
 
 if ($Multi_forum['configs']['use_attachment_mod'] && (($_POST['uploadattachment'] ?? '') == 'yes')) {
-    $file = htmlsafechars($_FILES['file']);
-    $fname = htmlsafechars($file['name']);
+    $file = htmlspecialchars($_FILES['file']);
+    $fname = htmlspecialchars($file['name']);
     $size = (int)$file['size'];
-    $tmpname = htmlsafechars($file['tmp_name']);
+    $tmpname = htmlspecialchars($file['tmp_name']);
     $tgtfile = $Multi_forum['configs']['attachment_dir']."/".$fname;
     $pp = pathinfo($fname = $file['name']);
-    $error = htmlsafechars($file['error']);
-    $type = htmlsafechars($file['type']);
+    $error = htmlspecialchars($file['error']);
+    $type = htmlspecialchars($file['type']);
 
     $uploaderror = '';
 

@@ -80,7 +80,7 @@ function invincible($id, $invincible = true, $bypass_bans = true)
             'modcomment' => $modcomment,
         ], $TRINITY20['expires']['user_stats']);
     }
-    write_log(''.$lang['invincible_member'].'[b][url=userdetails.php?id='.$id.']'.(htmlsafechars($row['username'])).'[/url][/b]'.$lang['invincible_is'].' '.$display.' '.$lang['invincible_thanks_to1'].' [b]'.$CURUSER['username'].'[/b]');
+    write_log(''.$lang['invincible_member'].'[b][url=userdetails.php?id='.$id.']'.(htmlspecialchars($row['username'])).'[/url][/b]'.$lang['invincible_is'].' '.$display.' '.$lang['invincible_thanks_to1'].' [b]'.$CURUSER['username'].'[/b]');
     // header ouput
     $cache->set('display_'.$CURUSER['id'], $display, 5);
     header('Location: userdetails.php?id='.$id);

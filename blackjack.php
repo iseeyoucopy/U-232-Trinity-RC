@@ -25,8 +25,8 @@ if ($CURUSER['class'] < UC_POWER_USER) {
 }
 $mb = 1024 * 1024 * 1024;
 $now = TIME_NOW;
-$game = isset($_POST["game"]) ? htmlsafechars($_POST["game"]) : '';
-$start_ = isset($_POST["start_"]) ? htmlsafechars($_POST["start_"]) : '';
+$game = isset($_POST["game"]) ? htmlspecialchars($_POST["game"]) : '';
+$start_ = isset($_POST["start_"]) ? htmlspecialchars($_POST["start_"]) : '';
 if ($game) {
     function cheater_check($arg)
     {
@@ -60,7 +60,7 @@ if ($game) {
         foreach ($arr as $card_id) {
             $used_card = sql_query("SELECT * FROM cards WHERE id=".sqlesc($card_id));
             $used_cards = $used_card->fetch_assoc();
-            $showcards .= "<img src='{$TRINITY20['pic_base_url']}cards/".htmlsafechars($used_cards["pic"])."' width='71' height='96' border='0' alt='{$lang['bj_cards']}' title='{$lang['bj_cards']}' />";
+            $showcards .= "<img src='{$TRINITY20['pic_base_url']}cards/".htmlspecialchars($used_cards["pic"])."' width='71' height='96' border='0' alt='{$lang['bj_cards']}' title='{$lang['bj_cards']}' />";
             if ($used_cards["points"] > 1) {
                 $points += $used_cards['points'];
             } else {
@@ -108,7 +108,7 @@ if ($game) {
                 } else {
                     $aces++;
                 }
-                $showcards .= "<img src='{$TRINITY20['pic_base_url']}cards/".htmlsafechars($cardarr['pic'])."' width='71' height='96' border='0' alt='{$lang['bj_cards']}' title='{$lang['bj_cards']}' />";
+                $showcards .= "<img src='{$TRINITY20['pic_base_url']}cards/".htmlspecialchars($cardarr['pic'])."' width='71' height='96' border='0' alt='{$lang['bj_cards']}' title='{$lang['bj_cards']}' />";
                 $cardids2[] = $cardid;
             }
             for ($i = 0; $i < $aces; $i++) {
@@ -213,7 +213,7 @@ if ($game) {
                 $cache->delete($keys['inbox_new'].$a['userid']);
                 $cache->delete($keys['inbox_new_sb'].$a['userid']);
                 sql_query("DELETE FROM blackjack WHERE userid IN (".sqlesc($CURUSER['id']).", ".sqlesc($a['userid']).")");
-                $HTMLOUT .= "<tr><td align='center'>{$lang['bj_your_opp_was']} ".htmlsafechars($a["username"]).", {$lang['bj_he_she_had']} ".htmlsafechars($a['points'])." {$lang['bj_points2']}, $winorlose.<br /><br /><b><a href='/blackjack.php'>{$lang['bj_play_again']}</a></b></td></tr>";
+                $HTMLOUT .= "<tr><td align='center'>{$lang['bj_your_opp_was']} ".htmlspecialchars($a["username"]).", {$lang['bj_he_she_had']} ".htmlspecialchars($a['points'])." {$lang['bj_points2']}, $winorlose.<br /><br /><b><a href='/blackjack.php'>{$lang['bj_play_again']}</a></b></td></tr>";
             } else {
                 sql_query("UPDATE blackjack SET status = 'waiting', date=".$now.", gameover = 'yes' WHERE userid = ".sqlesc($CURUSER['id']));
                 $HTMLOUT .= "<tr><td align='center'>{$lang['bj_there_are_no_other_players']}<br /><br /><b><a href='/blackjack.php'>{$lang['bj_back']}</a></b><br /></td></tr>";
@@ -269,7 +269,7 @@ if ($game) {
                 $cache->delete($keys['inbox_new'].$a['userid']);
                 $cache->delete($keys['inbox_new_sb'].$a['userid']);
                 sql_query("DELETE FROM blackjack WHERE userid IN (".sqlesc($CURUSER['id']).", ".sqlesc($a['userid']).")");
-                $HTMLOUT .= "<tr><td align='center'>{$lang['bj_your_opp_was']} ".htmlsafechars($a["username"]).", {$lang['bj_he_she_had']} ".htmlsafechars($a['points'])." {$lang['bj_points2']}, $winorlose.<br /><br /><b><a href='blackjack.php'>{$lang['bj_play_again']}</a></b></td></tr>";
+                $HTMLOUT .= "<tr><td align='center'>{$lang['bj_your_opp_was']} ".htmlspecialchars($a["username"]).", {$lang['bj_he_she_had']} ".htmlspecialchars($a['points'])." {$lang['bj_points2']}, $winorlose.<br /><br /><b><a href='blackjack.php'>{$lang['bj_play_again']}</a></b></td></tr>";
             } else {
                 sql_query("UPDATE blackjack SET status = 'waiting', date=".$now.", gameover='yes' WHERE userid = ".sqlesc($CURUSER['id']));
                 $HTMLOUT .= "<tr><td align='center'>{$lang['bj_there_are_no_other_players']}<br /><br /><b><a href='/blackjack.php'>{$lang['bj_back']}</a></b><br /></td></tr>";
@@ -304,24 +304,24 @@ if ($game) {
         <tr><td colspan='2'>
         <table class='message table'>
         <tr><td align='center'>{$showcards}</td></tr>
-        <tr><td align='center'><b>{$lang['bj_points']} = ".htmlsafechars($playerarr['points'])."</b></td></tr>";
+        <tr><td align='center'><b>{$lang['bj_points']} = ".htmlspecialchars($playerarr['points'])."</b></td></tr>";
         if ($waitarr['c'] > 0) {
             $r = sql_query("SELECT bj.*, u.username, u.uploaded, u.downloaded, u.bjwins, u.bjlosses FROM blackjack AS bj LEFT JOIN users AS u ON u.id=bj.userid WHERE bj.status='waiting' AND bj.userid != ".sqlesc($CURUSER['id'])." ORDER BY bj.date ASC LIMIT 1");
             $a = $r->fetch_assoc();
             if ($a["points"] == $playerarr['points']) {
                 $subject = sqlesc($lang['bj_blackjack_results']);
                 $winorlose = $lang['bj_nobody_won'];
-                $msg = sqlesc("{$lang['bj_your_opp_was']} ".$CURUSER['username'].", you both had ".htmlsafechars($a['points'])." points - it was a tie.\n\n");
+                $msg = sqlesc("{$lang['bj_your_opp_was']} ".$CURUSER['username'].", you both had ".htmlspecialchars($a['points'])." points - it was a tie.\n\n");
             } else {
                 if (($a["points"] < $playerarr['points'] && $a['points'] < 21) || ($a["points"] > $playerarr['points'] && $a['points'] > 21)) {
                     $subject = sqlesc($lang['bj_blackjack_results']);
-                    $msg = sqlesc("{$lang['bj_you_loss_to']} ".$CURUSER['username']." ({$lang['bj_you_had']} ".htmlsafechars($a['points'])." {$lang['bj_points2']}, ".$CURUSER['username']." had ".htmlsafechars($playerarr['points'])." points).\n\n");
+                    $msg = sqlesc("{$lang['bj_you_loss_to']} ".$CURUSER['username']." ({$lang['bj_you_had']} ".htmlspecialchars($a['points'])." {$lang['bj_points2']}, ".$CURUSER['username']." had ".htmlspecialchars($playerarr['points'])." points).\n\n");
                     $winorlose = "{$lang['bj_you_won']} ".mksize($mb);
                     $st_query = "+ ".$mb.", bjwins = bjwins +";
                     $nd_query = "- ".$mb.", bjlosses = bjlosses +";
                 } elseif (($a["points"] > $playerarr['points'] && $a['points'] < 21) || $a["points"] == 21 || ($a["points"] < $playerarr['points'] && $a['points'] > 21)) {
                     $subject = sqlesc($lang['bj_blackjack_results']);
-                    $msg = sqlesc("{$lang['bj_you_beat']} ".$CURUSER['username']." ({$lang['bj_you_had']} ".htmlsafechars($a['points'])." {$lang['bj_points2']}, ".$CURUSER['username']." had ".htmlsafechars($playerarr['points'])." points).\n\n");
+                    $msg = sqlesc("{$lang['bj_you_beat']} ".$CURUSER['username']." ({$lang['bj_you_had']} ".htmlspecialchars($a['points'])." {$lang['bj_points2']}, ".$CURUSER['username']." had ".htmlspecialchars($playerarr['points'])." points).\n\n");
                     $winorlose = "{$lang['bj_you_lost']} ".mksize($mb);
                     $st_query = "- ".$mb.", bjlosses = bjlosses +";
                     $nd_query = "+ ".$mb.", bjwins = bjwins +";
@@ -363,7 +363,7 @@ if ($game) {
             $cache->delete($keys['inbox_new'].$a['userid']);
             $cache->delete($keys['inbox_new_sb'].$a['userid']);
             sql_query("DELETE FROM blackjack WHERE userid IN (".sqlesc($CURUSER['id']).", ".sqlesc($a['userid']).")");
-            $HTMLOUT .= "<tr><td align='center'>{$lang['bj_your_opp_was']} ".htmlsafechars($a["username"]).", {$lang['bj_he_she_had']} ".htmlsafechars($a['points'])." {$lang['bj_points2']}, $winorlose.<br /><br /><b><a href='/blackjack.php'>{$lang['bj_play_again']}</a></b></td></tr>";
+            $HTMLOUT .= "<tr><td align='center'>{$lang['bj_your_opp_was']} ".htmlspecialchars($a["username"]).", {$lang['bj_he_she_had']} ".htmlspecialchars($a['points'])." {$lang['bj_points2']}, $winorlose.<br /><br /><b><a href='/blackjack.php'>{$lang['bj_play_again']}</a></b></td></tr>";
         } else {
             sql_query("UPDATE blackjack SET status = 'waiting', date=".$now.", gameover='yes' WHERE userid = ".sqlesc($CURUSER['id']));
             $HTMLOUT .= "<tr><td align='center'>{$lang['bj_there_are_no_other_players']}<br /><br /><b><a href='/blackjack.php'>{$lang['bj_back']}</a></b><br /></td></tr>";
@@ -397,11 +397,11 @@ if ($game) {
   <div class='row'><div class='col-sm-6 col-sm-offset-3'><table class='table'>
     <tr><td colspan='2' align='center'>
     <h1>{$lang['bj_personal_stats']}</h1></td></tr>
-    <tr><td align='left'><b>{$lang['bj_wins']}</b></td><td align='center'><b>".htmlsafechars($tot_wins)."</b></td></tr>
-    <tr><td align='left'><b>{$lang['bj_losses']}</b></td><td align='center'><b>".htmlsafechars($tot_losses)."</b></td></tr>
-    <tr><td align='left'><b>{$lang['bj_games_played']}</b></td><td align='center'><b>".htmlsafechars($tot_games)."</b></td></tr>
-    <tr><td align='left'><b>{$lang['bj_win']} {$lang['bj_percentage']}</b></td><td align='center'><b>".htmlsafechars($win_perc)."</b></td></tr>
-    <tr><td align='left'><b>+/-</b></td><td align='center'><b>".htmlsafechars($plus_minus)."</b></td></tr>
+    <tr><td align='left'><b>{$lang['bj_wins']}</b></td><td align='center'><b>".htmlspecialchars($tot_wins)."</b></td></tr>
+    <tr><td align='left'><b>{$lang['bj_losses']}</b></td><td align='center'><b>".htmlspecialchars($tot_losses)."</b></td></tr>
+    <tr><td align='left'><b>{$lang['bj_games_played']}</b></td><td align='center'><b>".htmlspecialchars($tot_games)."</b></td></tr>
+    <tr><td align='left'><b>{$lang['bj_win']} {$lang['bj_percentage']}</b></td><td align='center'><b>".htmlspecialchars($win_perc)."</b></td></tr>
+    <tr><td align='left'><b>+/-</b></td><td align='center'><b>".htmlspecialchars($plus_minus)."</b></td></tr>
     </table></div></div>";
     echo stdhead($lang['bj_title']).$HTMLOUT.stdfoot();
 }

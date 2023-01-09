@@ -20,7 +20,7 @@ $lang = array_merge(load_language('global'), load_language('credits'));
 
 $HTMLOUT = "";
 
-$action = isset($_GET["action"]) ? htmlsafechars(trim($_GET["action"])) : '';
+$action = isset($_GET["action"]) ? htmlspecialchars(trim($_GET["action"])) : '';
 
 $act_validation = ['', 'add', 'edit', 'delete', 'update'];
 
@@ -73,11 +73,11 @@ if ($action == 'edit' && $CURUSER['class'] >= UC_SYSOP) {
         $HTMLOUT .= "<form method='post' action='".$_SERVER['PHP_SELF']."?action=update&amp;id=".$id."'>
 <table width='50%' cellpadding='10' cellspacing='1' border='1'>
   <tr><td class='rowhead'>{$lang['credits_mod']}</td>".
-            "<td align='left' style='padding: 0px'><input type='text' size='60' maxlength='120' name='name' "."value='".htmlsafechars($mod['name'])."' /></td></tr>\n".
+            "<td align='left' style='padding: 0px'><input type='text' size='60' maxlength='120' name='name' "."value='".htmlspecialchars($mod['name'])."' /></td></tr>\n".
             "<tr>
   <td class='rowhead'>{$lang['credits_description']}</td>".
             "<td align='left' style='padding: 0px'>
-  <input type='text' size='60' maxlength='120' name='description' value='".htmlsafechars($mod['description'])."' /></td></tr>\n".
+  <input type='text' size='60' maxlength='120' name='description' value='".htmlspecialchars($mod['description'])."' /></td></tr>\n".
             "<tr>
   <td class='rowhead'>{$lang['credits_category']}</td>
 <td align='left' style='padding: 0px'>
@@ -93,7 +93,7 @@ if ($action == 'edit' && $CURUSER['class'] >= UC_SYSOP) {
         $HTMLOUT .= "</select></td></tr>";
 
         $HTMLOUT .= "<tr><td class='rowhead'>{$lang['credits_link']}</td>".
-            "<td align='left' style='padding: 0px'><input type='text' size='60' maxlength='120' name='link' "."value='".htmlsafechars($mod['u232lnk'])."' /></td></tr>\n".
+            "<td align='left' style='padding: 0px'><input type='text' size='60' maxlength='120' name='link' "."value='".htmlspecialchars($mod['u232lnk'])."' /></td></tr>\n".
             "<tr>
 <td class='rowhead'>{$lang['credits_status']}</td>
 <td align='left' style='padding: 0px'>
@@ -109,7 +109,7 @@ if ($action == 'edit' && $CURUSER['class'] >= UC_SYSOP) {
         $HTMLOUT .= "</select></td></tr>";
 
         $HTMLOUT .= "<tr><td class='rowhead'>{$lang['credits_credits']}</td><td align='left' style='padding: 0px'>
-<input type='text' size='60' maxlength='120' name='credits' value='".htmlsafechars($mod['credit'])."' /></td></tr>\n";
+<input type='text' size='60' maxlength='120' name='credits' value='".htmlspecialchars($mod['credit'])."' /></td></tr>\n";
         $HTMLOUT .= "<tr><td colspan='2' align='center'><input type='submit' value='Submit' /></td></tr>\n";
         $HTMLOUT .= "</table></form>";
     }
@@ -190,16 +190,16 @@ if ($row = $res->fetch_array(MYSQLI_BOTH)) {
         $credit = $row["credit"];
         $descr = $row["description"];
 
-        $HTMLOUT .= "<tr><td><a target='_blank' class='altlink' href='".$link."'>".htmlsafechars(CutName($name, 60))."</a>";
+        $HTMLOUT .= "<tr><td><a target='_blank' class='altlink' href='".$link."'>".htmlspecialchars(CutName($name, 60))."</a>";
         if ($CURUSER['class'] >= UC_ADMINISTRATOR) {
             $HTMLOUT .= "&nbsp<a class='altlink_blue' href='?action=edit&amp;id=".$id."'>{$lang['credits_edit']}</a>&nbsp<a class='altlink_blue' href=\"javascript:confirm_delete(".$id.");\">{$lang['credits_delete']}</a>";
 
         }
 
-        $HTMLOUT .= "<br /><font class='small'>".htmlsafechars($descr)."</font></td>";
-        $HTMLOUT .= "<td><b>".htmlsafechars($category)."</b></td>";
+        $HTMLOUT .= "<br /><font class='small'>".htmlspecialchars($descr)."</font></td>";
+        $HTMLOUT .= "<td><b>".htmlspecialchars($category)."</b></td>";
         $HTMLOUT .= "<td><b>".format_comment($status)."</b></td>";
-        $HTMLOUT .= "<td>".htmlsafechars($credit)."</td></tr>";
+        $HTMLOUT .= "<td>".htmlspecialchars($credit)."</td></tr>";
     } while ($row = $res->fetch_array(MYSQLI_BOTH));
 } else {
     $HTMLOUT .= "<tr><td colspan='4'>{$lang['credits_nosofar']}</td></tr>";

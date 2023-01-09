@@ -73,24 +73,6 @@ if (preg_match('/(?:\< *(?:java|script)|script\:|\+document\.)/i', serialize($_C
     die('Forbidden');
 }
 
-//== Updated 02/215
-function htmlsafechars($txt = '')
-{
-    $txt = preg_replace("/&(?!#[0-9]+;)(?:amp;)?/s", '&amp;', $txt ?? '');
-    $txt = str_replace([
-        "<",
-        ">",
-        '"',
-        "'",
-    ], [
-        "&lt;",
-        "&gt;",
-        "&quot;",
-        '&#039;',
-    ], $txt);
-    return $txt;
-}
-
 function PostKey($ids = [])
 {
     global $TRINITY20;
@@ -145,8 +127,7 @@ function dbconn($autoclean = false)
     global $TRINITY20, $mysqli;
     $mysqli = new mysqli($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass'], $TRINITY20['mysql_db']);
     if ($mysqli->connect_errno) {
-        echo "Connection Problems".PHP_EOL;
-        echo "Sorry, U-232 was unable to connect to the database. This may be caused by the server being busy. Please try again later. ".$mysqli->connect_error;
+        printf("Connection Problems" .PHP_EOL. "Sorry, U-232 was unable to connect to the database. This may be caused by the server being busy. Please try again later. ".$mysqli->connect_error);
         exit();
     }
     userlogin();
@@ -158,7 +139,7 @@ function dbconn($autoclean = false)
 
 function status_change($id)
 {
-    sql_query('UPDATE announcement_process SET status = 0 WHERE user_id = '.sqlesc($id).' AND status = 1');
+    sql_query('UPDATE announcement_process SET status = 0 WHERE user_id = '.sqlesc($id).' AND status = 1') || sqlerr(__FILE__, __LINE__);
 }
 
 //== check bans by djGrrr <3 pdq
@@ -391,7 +372,6 @@ function userlogin()
         header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please={$salty}");
         return;
     }
-    /*
         //If curr_ann_id > 0 but curr_ann_body IS NULL, then force a refresh
         if (($row['curr_ann_id'] > 0) AND ($row['curr_ann_body'] == NULL)) {
         $row['curr_ann_id'] = 0;
@@ -427,8 +407,8 @@ function userlogin()
                 if ($result->num_rows) { // Announcement valid for member
                     $row['curr_ann_id'] = (int) $ann_row['main_id'];
                     // Create two row elements to hold announcement subject and body.
-                    $row['curr_ann_subject'] = htmlsafechars($ann_row['subject']);
-                    $row['curr_ann_body'] = htmlsafechars($ann_row['body']);
+                    $row['curr_ann_subject'] = htmlspecialchars($ann_row['subject']);
+                    $row['curr_ann_body'] = htmlspecialchars($ann_row['body']);
                     // Create additional set for main UPDATE query.
                     $add_set = ', curr_ann_id = ' . sqlesc($ann_row['main_id']);
                     $cache->update_row($keys['user'] . $id, [
@@ -482,7 +462,6 @@ function userlogin()
             }
             unset($result, $ann_row);
         }
-        */
     // bans by djGrrr <3 pdq
     if (!isset($row['perms']) || (!($row['perms'] & bt_options::PERMS_BYPASS_BAN))) {
         $banned = false;
@@ -500,7 +479,7 @@ function userlogin()
       <title>Forbidden</title>
       </head><body>
       <h1>403 Forbidden</h1>Unauthorized IP address!
-      <p>Reason: <strong>'.htmlsafechars($reason).'</strong></p>
+      <p>Reason: <strong>'.htmlspecialchars($reason).'</strong></p>
       </body></html>';
             die;
         }
@@ -509,7 +488,7 @@ function userlogin()
     if ($row["class"] >= UC_STAFF) {
         $allowed_ID = $TRINITY20['allowed_staff']['id'];
         if (!in_array(((int)$row["id"]), $allowed_ID, true)) {
-            $msg = "Fake Account Detected: Username: ".htmlsafechars($row["username"])." - UserID: ".(int)$row["id"]." - UserIP : ".getip();
+            $msg = "Fake Account Detected: Username: ".htmlspecialchars($row["username"])." - UserID: ".(int)$row["id"]." - UserIP : ".getip();
             // Demote and disable
             sql_query("UPDATE users SET enabled = 'no', class = 0 WHERE id =".sqlesc($row["id"])) or sqlerr(__file__, __line__);
             $cache->update_row('Myuser_'.$row['id'], [
@@ -603,7 +582,7 @@ function userlogin()
     $userupdate1 = "last_access_numb = ".TIME_NOW;
     //end online-time
     $update_time = ($row['onlinetime'] + $update_time);
-    $add_set = $add_set ?? '';
+    $add_set = isset($add_set) ? $add_set : '';
     if (($row['last_access'] != '0') and (($row['last_access']) < ($dt - 180)) /** 3 mins **/ || ($row['ip'] !== $ip)) {
         sql_query("UPDATE users SET where_is =".sqlesc($whereis).", ip=".sqlesc($ip).$add_set.", last_access=".TIME_NOW.", $userupdate0, $userupdate1 WHERE id=".sqlesc($row['id']));
         $cache->update_row($keys['my_userid'].$row['id'], [
@@ -1068,7 +1047,7 @@ function sqlerr($file = '', $line = '')
 	    		   <blockquote>\n<h1>MySQLI Error</h1><b>There appears to be an error with the database.</b><br />
 	    		   You can try to refresh the page by clicking <a href=\"javascript:window.location=window.location;\">here</a>.
 	    		   <br /><br /><b>Error Returned</b><br />
-	    		   <form name='mysql'><textarea rows=\"15\" cols=\"60\">".htmlsafechars($the_error,
+	    		   <form name='mysql'><textarea rows=\"15\" cols=\"60\">".htmlspecialchars($the_error,
                 ENT_QUOTES)."</textarea></form><br>We apologise for any inconvenience</blockquote></body></html>";
         echo $out;
     }
@@ -1300,8 +1279,9 @@ function flood_limit($table)
 //== Sql query count by pdq
 function sql_query($query)
 {
-    global $query_stat, $mysqli;
+    global $mysqli, $query_stat;
     $query_start_time = microtime(true); // Start time
+    //$result = mysqli_query($GLOBALS["___mysqli_ston"], $query);
     $result = $mysqli->query($query);
     $query_end_time = microtime(true); // End time
     $querytime = ($query_end_time - $query_start_time);

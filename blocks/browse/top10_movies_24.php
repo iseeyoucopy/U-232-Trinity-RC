@@ -41,9 +41,9 @@ if ($top10movies24) {
     $counter = 1;
     foreach ($top10movies24 as $top10movie24arr) {
         if (is_array($top10movie24arr)) {
-            $top10movie24arr['cat_name'] = htmlsafechars($change[$top10movie24arr['category']]['name']);
-            $top10movie24arr['cat_pic'] = htmlsafechars($change[$top10movie24arr['category']]['image']);
-            $torrname = htmlsafechars($top10movie24arr['name']);
+            $top10movie24arr['cat_name'] = htmlspecialchars($change[$top10movie24arr['category']]['name']);
+            $top10movie24arr['cat_pic'] = htmlspecialchars($change[$top10movie24arr['category']]['image']);
+            $torrname = htmlspecialchars($top10movie24arr['name']);
             if (strlen($torrname) > 50) {
                 $torrname = substr($torrname, 0, 50)."...";
             }

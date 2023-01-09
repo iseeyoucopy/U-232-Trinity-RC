@@ -50,7 +50,7 @@ $request = "<div class='input-group'>
         <option value='0'></option>";
 if ($res_request) {
     while ($arr_request = $res_request->fetch_assoc()) {
-        $request .= '<option value="'.(int)$arr_request['id'].'">'.htmlsafechars($arr_request['request_name']).'</option>';
+        $request .= '<option value="'.(int)$arr_request['id'].'">'.htmlspecialchars($arr_request['request_name']).'</option>';
     }
 } else {
     $request .= "<option value='0'>{$lang['upload_add_noreq']}</option>";
@@ -66,7 +66,7 @@ if ($res_offer->num_rows > 0) {
         <option value='0'></option>";
     $message = "<option value='0'>{$lang['upload_add_offer']}</option>";
     while ($arr_offer = $res_offer->fetch_assoc()) {
-        $offers .= '<option value="'.(int)$arr_offer['id'].'">'.htmlsafechars($arr_offer['offer_name']).'</option>';
+        $offers .= '<option value="'.(int)$arr_offer['id'].'">'.htmlspecialchars($arr_offer['offer_name']).'</option>';
     }
     $offers .= "</select></div><p class='help-text' id='offerHelpText'>{$lang['upload_add_offer2']}";
 }
@@ -142,7 +142,7 @@ $s = "<div class='input-group'>
             <option value='0'>({$lang['upload_choose_one']})</option>";
 $cats = genrelist();
 foreach ($cats as $row) {
-    $s .= "<option value='".(int)$row["id"]."'>".htmlsafechars($row["name"])."</option>";
+    $s .= "<option value='".(int)$row["id"]."'>".htmlspecialchars($row["name"])."</option>";
 }
 $s .= "</select></div>";
 $rg = "<div class='input-group'>
@@ -191,7 +191,7 @@ $subs_list .= "";
 $i = 0;
 foreach ($subs as $s) {
     $subs_list .= ($i && $i % 4 == 0) ? "" : "";
-    $subs_list .= "<input  id='checkbox".(int)$s["id"]."' name=subs[]' type='checkbox' value= ".(int)$s["id"]."><label for='checkbox".(int)$s["id"]."'>".htmlsafechars($s["name"])."</label>";
+    $subs_list .= "<input  id='checkbox".(int)$s["id"]."' name=subs[]' type='checkbox' value= ".(int)$s["id"]."><label for='checkbox".(int)$s["id"]."'>".htmlspecialchars($s["name"])."</label>";
     ++$i;
 }
 $subs_list .= "";

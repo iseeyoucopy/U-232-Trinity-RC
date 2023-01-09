@@ -43,7 +43,7 @@ $HTMLOUT .= "
                     <li><a href='index.php'>".$TRINITY20["site_name"]."</a></li>
                     <li><a href='forums.php'>Forums</a></li>
                     <li>
-                        <span class='show-for-sr'>Current: </span> ".htmlsafechars($arr["name"])."
+                        <span class='show-for-sr'>Current: </span> ".htmlspecialchars($arr["name"])."
                     </li>
                 </ul>
             </nav>
@@ -51,7 +51,7 @@ $HTMLOUT .= "
     </div>
     <div class='card'>
         <div class='card-divider'>
-            <strong>".htmlsafechars($arr["name"])."</strong>
+            <strong>".htmlspecialchars($arr["name"])."</strong>
         </div>
         <div class='card-section'>
             ".show_forums($ovfid, false, $forums, true, true)."

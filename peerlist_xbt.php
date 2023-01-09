@@ -73,19 +73,19 @@ function dltable($name, $arr, $torrent)
             if (($e['tanonymous'] == 'yes' && $e['owner'] == $e['uid'] || $e['anonymous'] == 'yes' && $CURUSER['id'] != $e['uid']) && $CURUSER['class'] < UC_STAFF) {
                 $htmlout .= "<td><b>Kezer Soze</b></td>";
             } else {
-                $htmlout .= "<td><a href='userdetails.php?id=".(int)$e['uid']."'><b>".htmlsafechars($e['username'])."</b></a></td>";
+                $htmlout .= "<td><a href='userdetails.php?id=".(int)$e['uid']."'><b>".htmlspecialchars($e['username'])."</b></a></td>";
             }
         } else {
             $htmlout .= "<td>".($mod ? XBT_IP_CONVERT($e["ipa"]) : preg_replace('/\.\d+$/', ".xxx", XBT_IP_CONVERT($e["ipa"])))."</td>";
         }
         $htmlout .= "<td>".mksize($e["uploaded"])."</td>";
-        $htmlout .= "<td><span style=\"white-space: nowrap;\">".htmlsafechars($upspeed)."/s</span></td>";
+        $htmlout .= "<td><span style=\"white-space: nowrap;\">".htmlspecialchars($upspeed)."/s</span></td>";
         $htmlout .= "".($TRINITY20['ratio_free'] ? "" : "<td>".mksize($e["downloaded"])."</td>")."";
-        $htmlout .= "".($TRINITY20['ratio_free'] ? "" : "<td><span style='white-space: nowrap;'>".htmlsafechars($downspeed)."/s</span></td>")."";
+        $htmlout .= "".($TRINITY20['ratio_free'] ? "" : "<td><span style='white-space: nowrap;'>".htmlspecialchars($downspeed)."/s</span></td>")."";
         $htmlout .= "<td>".member_ratio($e['uploaded'], $TRINITY20['ratio_free'] ? "0" : $e['downloaded'])."</td>";
         $htmlout .= "<td>".sprintf("%.2f%%", 100 * (1 - ($e["left"] / $torrent["size"])))."</td>";
         $htmlout .= "<td>".mkprettytime($now - $e["la"])."</td>";
-        $htmlout .= "<td>".htmlsafechars(getagent($e["peer_id"], $e['peer_id']))."</td>";
+        $htmlout .= "<td>".htmlspecialchars(getagent($e["peer_id"], $e['peer_id']))."</td>";
         $htmlout .= "</tr>";
     }
     return $htmlout."</table></div>";
@@ -146,7 +146,7 @@ usort($seeders, "seed_sort");
 usort($downloaders, "leech_sort");
 $HTMLOUT .= "<div class='card'>
     <div class='card-divider'>
-        Peerlist for <a class='label' href='{$TRINITY20['baseurl']}/details.php?id=$id'>".htmlsafechars($row['name'])."</a></div>
+        Peerlist for <a class='label' href='{$TRINITY20['baseurl']}/details.php?id=$id'>".htmlspecialchars($row['name'])."</a></div>
     <div class='card-section'>".dltable("{$lang['peerslist_seeders']}<a name='seeders'></a>", $seeders, $row)." </div>
     <div class='card-section'>".dltable("{$lang['peerslist_leechers']}<a name='leechers'></a>", $downloaders, $row)."</div>
 </div>";

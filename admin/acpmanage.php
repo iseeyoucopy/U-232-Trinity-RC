@@ -45,7 +45,7 @@ if (isset($_POST['ids'])) {
             stderr($lang['std_error'], $lang['text_invalid']);
         }
     }
-    $do = isset($_POST["do"]) ? htmlsafechars(trim($_POST["do"])) : '';
+    $do = isset($_POST["do"]) ? htmlspecialchars(trim($_POST["do"])) : '';
     if ($do == 'enabled') {
         sql_query("UPDATE users SET enabled = 'yes' WHERE ID IN(".implode(', ', array_map('sqlesc', $ids)).") AND enabled = 'no'") || sqlerr(__FILE__,
             __LINE__);
@@ -124,8 +124,8 @@ $HTMLOUT .= "<div class='card'>
                         $added = get_date($arr['added'], 'LONG', 0, 1);
                         $last_access = get_date($arr['last_access'], 'LONG', 0, 1);
                         $class = get_user_class_name($arr["class"]);
-                        $status = htmlsafechars($arr['status']);
-                        $enabled = htmlsafechars($arr['enabled']);
+                        $status = htmlspecialchars($arr['status']);
+                        $enabled = htmlspecialchars($arr['enabled']);
                     $HTMLOUT .= "<tbody>
                     <tr>
                         <td>
@@ -133,7 +133,7 @@ $HTMLOUT .= "<div class='card'>
                         </td>
                         <td>
                             <a href='/userdetails.php?id=".(int)$arr['id']."'>
-                                <b>".htmlsafechars($arr['username'])."</b>
+                                <b>".htmlspecialchars($arr['username'])."</b>
                             </a>".($arr["donor"] == "yes" ? "<span data-tooltip class='top' tabindex='2' title='".$lang['text_donor']."'><i class='fas fa-star' style='color:yellow'></i></span>" : "").($arr["warned"] >= 1 ? "<span data-tooltip class='top' tabindex='2' title='".$lang['text_warned']."'><i class='fas fa-exclamation-triangle'></i></span>" : "")."
                         </td>
                         <td>{$added}</td>

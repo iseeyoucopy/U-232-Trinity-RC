@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
  	<table class='table table-bordered'>
  	<tr>
  	<td colspan='2'><b>Subject: </b>
- 	<input name='subject' type='text' size='76' value='".htmlsafechars($subject)."' /></td>
+ 	<input name='subject' type='text' size='76' value='".htmlspecialchars($subject)."' /></td>
  	</tr>
  	<tr><td colspan='2'><div align='center'>
                        ".textbbcode('compose', 'body')."
@@ -137,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $newtime = TIME_NOW + (86400 * $expiry);
         $HTMLOUT .= "<table class='table table-bordered'>
  	<tr><td bgcolor='#663366' align='center' valign='baseline'><h2><font color='white'>Announcement: 
- 	".htmlsafechars($subject)."</font></h2></td></tr>
+ 	".htmlspecialchars($subject)."</font></h2></td></tr>
  	<tr><td class='text'>
  	".format_comment($body)."<br /><hr />Expires: ".get_date($newtime, 'DATE')."";
         $HTMLOUT .= "</td></tr></table></div></div><br>";
@@ -145,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 } else { // Shouldn't be here
     header("HTTP/1.0 404 Not Found");
     $HTMLOUT = "";
-    $HTMLOUT .= "<html><h1>Not Found</h1><p>The requested URL ".htmlsafechars($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], '/') + 1)." was not found on this server.</p>
+    $HTMLOUT .= "<html><h1>Not Found</h1><p>The requested URL ".htmlspecialchars($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], '/') + 1)." was not found on this server.</p>
 <hr />
 <address>{$_SERVER['SERVER_SOFTWARE']} Server at {$TRINITY20['baseurl']} Port 80</address></body></html>\n";
     echo $HTMLOUT;

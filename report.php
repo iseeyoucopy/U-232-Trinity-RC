@@ -28,7 +28,7 @@ $id = ($_GET["id"] ? (int)$_GET["id"] : (int)$_POST["id"]);
 if (!is_valid_id($id)) {
     stderr("{$lang['report_error']}", "{$lang['report_error1']}");
 }
-$type = (isset($_GET["type"]) ? htmlsafechars($_GET["type"]) : htmlsafechars($_POST["type"]));
+$type = (isset($_GET["type"]) ? htmlspecialchars($_GET["type"]) : htmlspecialchars($_POST["type"]));
 $typesallowed = [
     "User",
     "Comment",
@@ -57,7 +57,7 @@ if ((isset($_GET["do_it"])) || (isset($_POST["do_it"]))) {
         stderr("{$lang['report_error']}", "{$lang['report_error3']}");
     }
     // == make sure the reason is filled out and is set
-    $reason = htmlsafechars($_POST["reason"]);
+    $reason = htmlspecialchars($_POST["reason"]);
     if (!$reason) {
         stderr("{$lang['report_error']}", "{$lang['report_error4']}");
     }

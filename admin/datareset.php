@@ -82,9 +82,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     while ($a = $q1->fetch_assoc()) {
         $newd = ($a["ud"] > 0 ? $a["ud"] - $a["sd"] : 0);
         $new_download[] = "(".$a["uid"].",".$newd.")";
-        $tname = htmlsafechars($a["name"]);
-        $msg = $lang['datareset_hey'].htmlsafechars($a["username"])."\n";
-        $msg .= $lang['datareset_looks'].htmlsafechars($a["name"]).$lang['datareset_nuked'];
+        $tname = htmlspecialchars($a["name"]);
+        $msg = $lang['datareset_hey'].htmlspecialchars($a["username"])."\n";
+        $msg .= $lang['datareset_looks'].htmlspecialchars($a["name"]).$lang['datareset_nuked'];
         $msg .= $lang['datareset_down'].mksize($a["sd"]).$lang['datareset_downbe'].mksize($newd)."\n";
         $pms[] = "(0,".sqlesc($a["uid"]).",".TIME_NOW.",".sqlesc($msg).")";
         $cache->update_row($keys['user_stats'].$a['uid'], [
@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ], $TRINITY20['expires']['curuser']);
     }
     //==Send the pm !!
-    sql_query("INSERT into messages (sender, receiver, added, msg) VALUES ".implode(",", array_map("sqlesc", $pms))) || sqlerr(__FILE__, __LINE__);
+    sql_query("INSERT into messages (sender, receiver, added, msg) VALUES ".implode(",", array_map("$mysqli->real_escape_string", $pms))) || sqlerr(__FILE__, __LINE__);
     //==Update user download amount
     sql_query("INSERT INTO users (id,downloaded) VALUES ".implode(",",
             array_map("sqlesc", $new_download))." ON DUPLICATE key UPDATE downloaded=values(downloaded)") || sqlerr(__FILE__, __LINE__);
@@ -105,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         deletetorrent($tid);
         remove_torrent_peers($tid);
     }
-    write_log($lang['datareset_torr'].$tname.$lang['datareset_wdel'].htmlsafechars($CURUSER["username"]).$lang['datareset_allusr']);
+    write_log($lang['datareset_torr'].$tname.$lang['datareset_wdel'].htmlspecialchars($CURUSER["username"]).$lang['datareset_allusr']);
     header("Refresh: 3; url=staffpanel.php?tool=datareset");
     stderr($lang['datareset_stderr'], $lang['datareset_pls']);
 } else {

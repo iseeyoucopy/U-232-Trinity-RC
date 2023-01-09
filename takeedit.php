@@ -306,7 +306,7 @@ if ($torrent_txt_cache) {
     $cache->update_row($keys['torrent_details_txt'].$id, $torrent_txt_cache, $TRINITY20['expires']['torrent_details_text']);
 }
 remove_torrent($infohash);
-write_log("torrent edited - ".htmlsafechars($name).' was edited by '.(($fetch_assoc['anonymous'] == 'yes') ? 'Anonymous' : htmlsafechars($CURUSER['username']))."");
+write_log("torrent edited - ".htmlspecialchars($name).' was edited by '.(($fetch_assoc['anonymous'] == 'yes') ? 'Anonymous' : htmlspecialchars($CURUSER['username']))."");
 $cache->delete('editedby_'.$id);
 $returl = (isset($_POST['returnto']) ? urlencode($_POST['returnto']) : 'details.php?id='.$id.'&edited=1');
 header("Refresh: 0; url=$returl");

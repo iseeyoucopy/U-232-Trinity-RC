@@ -77,7 +77,7 @@ switch (true) {
             ($qus = sql_query('SELECT id,username FROM users WHERE id '.(is_array($uids) ? 'IN ('.implode(',',
                         $uids).')' : '='.$uids))) || sqlerr(__FILE__, __LINE__);
             while ($aus = $qus->fetch_assoc()) {
-                $last_winners[] = "<a href='userdetails.php?id=".(int)$aus['id']."'>".htmlsafechars($aus['username'])."</a>";
+                $last_winners[] = "<a href='userdetails.php?id=".(int)$aus['id']."'>".htmlspecialchars($aus['username'])."</a>";
             }
 
             $html .= stdmsg("Lottery Winners Info", "<ul style='text-align:left;'><li>Last winners: ".implode(', ',

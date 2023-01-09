@@ -118,12 +118,12 @@ if (empty($mode)) {
                         <tbody>
                             <tr>
                                 <td>
-                                    <a href='staffpanel.php?tool=backup&amp;mode=download&amp;id=".(int)$arr['id']."'>".htmlsafechars($arr['name'])."</a>
+                                    <a href='staffpanel.php?tool=backup&amp;mode=download&amp;id=".(int)$arr['id']."'>".htmlspecialchars($arr['name'])."</a>
                                 </td>
                                 <td>".get_date($arr['added'], 'DATE', 1, 0)."</td>
                                 <td>";
                                 if (!empty($arr['username'])) {
-                                    $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['uid']."'>".htmlsafechars($arr['username'])."</a>";
+                                    $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['uid']."'>".htmlspecialchars($arr['username'])."</a>";
                                 } else {
                                     $HTMLOUT .= "unknown[".(int)$arr['uid']."]";
                                 }
@@ -210,7 +210,7 @@ if (empty($mode)) {
             $ctype = "application/force-download";
     }
     if ($write2log) {
-        write_log($CURUSER['username'].'('.get_user_class_name($CURUSER['class']).') downloaded a database('.htmlsafechars($arr['name']).').');
+        write_log($CURUSER['username'].'('.get_user_class_name($CURUSER['class']).') downloaded a database('.htmlspecialchars($arr['name']).').');
     }
     header('Refresh: 0; url=staffpanel.php'.($autodl && !$autodel ? '' : '?tool=backup&mode=delete&id='.$id));
     header("Pragma: public");

@@ -40,9 +40,9 @@ if ($top10music_24) {
     $counter = 1;
     foreach ($top10music_24 as $top10music_24w_arr) {
         if (is_array($top10music_24w_arr)) {
-            $top10music_24w_arr['cat_name'] = htmlsafechars($change[$top10music_24w_arr['category']]['name']);
-            $top10music_24w_arr['cat_pic'] = htmlsafechars($change[$top10music_24w_arr['category']]['image']);
-            $torrname = htmlsafechars($top10music_24w_arr['name']);
+            $top10music_24w_arr['cat_name'] = htmlspecialchars($change[$top10music_24w_arr['category']]['name']);
+            $top10music_24w_arr['cat_pic'] = htmlspecialchars($change[$top10music_24w_arr['category']]['image']);
+            $torrname = htmlspecialchars($top10music_24w_arr['name']);
             if (strlen($torrname) > 50) {
                 $torrname = substr($torrname, 0, 50)."...";
             }

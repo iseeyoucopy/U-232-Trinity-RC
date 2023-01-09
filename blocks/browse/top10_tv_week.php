@@ -40,7 +40,7 @@ if ($top10tv_week) {
     $counter = 1;
     foreach ($top10tv_week as $top10tvsweek) {
         if (is_array($top10tvsweek)) {
-            $torrname = htmlsafechars($top10tvsweek['name']);
+            $torrname = htmlspecialchars($top10tvsweek['name']);
             if (strlen($torrname) > 50) {
                 $torrname = substr($torrname, 0, 50)."...";
             }

@@ -41,7 +41,7 @@ function resize_image($in)
     return $out;
 }
 
-$action = isset($_POST["action"]) ? htmlsafechars(trim($_POST["action"])) : '';
+$action = isset($_POST["action"]) ? htmlspecialchars(trim($_POST["action"])) : '';
 $updateset = $updateset_block = $curuser_cache = $user_cache = [];
 $setbits = $clrbits = 0;
 //== Avatars stuffs
@@ -265,7 +265,7 @@ if ($action == "avatar") {
         $spm = $emailquery->fetch_assoc();
         $dt = TIME_NOW;
         $subject = sqlesc($lang['takeeditcp_email_alert']);
-        $msg = sqlesc("{$lang['takeeditcp_email_user']}[url={$TRINITY20['baseurl']}/userdetails.php?id=".(int)$spm['id']."][b]".htmlsafechars($spm['username'])."[/b][/url]{$lang['takeeditcp_email_changed']}{$lang['takeeditcp_email_old']}".htmlsafechars($spm['email'])."{$lang['takeeditcp_email_new']}$email{$lang['takeeditcp_email_check']}");
+        $msg = sqlesc("{$lang['takeeditcp_email_user']}[url={$TRINITY20['baseurl']}/userdetails.php?id=".(int)$spm['id']."][b]".htmlspecialchars($spm['username'])."[/b][/url]{$lang['takeeditcp_email_changed']}{$lang['takeeditcp_email_old']}".htmlspecialchars($spm['email'])."{$lang['takeeditcp_email_new']}$email{$lang['takeeditcp_email_check']}");
         ($pmstaff = sql_query('SELECT id FROM users WHERE class = '.UC_ADMINISTRATOR)) || sqlerr(__FILE__, __LINE__);
         while ($arr = $pmstaff->fetch_assoc()) {
             sql_query("INSERT INTO messages(sender, receiver, added, msg, subject) VALUES(0, ".sqlesc($arr['id']).", $dt, $msg, $subject)") || sqlerr(__FILE__,

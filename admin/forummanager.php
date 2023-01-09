@@ -34,8 +34,8 @@ $lang = array_merge($lang, load_language('ad_forum_manage'));
 
 $id = isset($_GET['id']) && is_valid_id($_GET['id']) ? (int)$_GET['id'] : (isset($_POST['id']) && is_valid_id($_POST['id']) ? (int)$_POST['id'] : 0);
 $v_do = ['edit', 'process_edit', 'process_add', 'delete', ''];
-$do = isset($_GET['do']) && in_array($_GET['do'], $v_do) ? htmlsafechars($_GET['do']) : (isset($_POST['do']) && in_array($_POST['do'],
-    $v_do) ? htmlsafechars($_POST['do']) : '');
+$do = isset($_GET['do']) && in_array($_GET['do'], $v_do) ? htmlspecialchars($_GET['do']) : (isset($_POST['do']) && in_array($_POST['do'],
+    $v_do) ? htmlspecialchars($_POST['do']) : '');
 $this_url = 'staffpanel.php?tool=forummanager&action=forummanager';
 switch ($do) {
     case 'delete' :
@@ -117,8 +117,8 @@ switch ($do) {
 					</tr>";
             while ($a = $r1->fetch_assoc()) {
                 $htmlout .= "<tr onmouseover=\"this.bgColor='#999';\" onmouseout=\"this.bgColor='';\">
-						<td align='left'><a href='forums.php?action=viewforum&amp;forumid=".(int)$a['fid']."'>".htmlsafechars($a['f_name'])."</a><br/><span class='small'>".htmlsafechars($a['description'])."</span></td>
-						<td><a href='forums.php?action=viewforum&amp;forumid=".(int)$a['oid']."'>".htmlsafechars($a['o_name'])."</a></td>
+						<td align='left'><a href='forums.php?action=viewforum&amp;forumid=".(int)$a['fid']."'>".htmlspecialchars($a['f_name'])."</a><br/><span class='small'>".htmlspecialchars($a['description'])."</span></td>
+						<td><a href='forums.php?action=viewforum&amp;forumid=".(int)$a['oid']."'>".htmlspecialchars($a['o_name'])."</a></td>
 						<td>".get_user_class_name($a['min_class_read'])."</td>
 						<td>".get_user_class_name($a['min_class_write'])."</td>
 						<td>".get_user_class_name($a['min_class_create'])."</td>
@@ -143,16 +143,16 @@ switch ($do) {
             }
         }
 
-        $htmlout .= "<div class='row'><div class='col-md-12'><h2>".($edit_action ? ''.$lang['fm_mp_edit2'].' <u>'.htmlsafechars($a3['f_name']).'</u>' : $lang['fm_mp_addfo'])."</h2>";
+        $htmlout .= "<div class='row'><div class='col-md-12'><h2>".($edit_action ? ''.$lang['fm_mp_edit2'].' <u>'.htmlspecialchars($a3['f_name']).'</u>' : $lang['fm_mp_addfo'])."</h2>";
         $htmlout .= "<form action='".$this_url."' method='post'>
 	<table class='table table-bordered'>
-	<tr><td colspan='2' align='center' class='colhead'>".($edit_action ? ''.$lang['fm_mp_edit2'].' <u>'.htmlsafechars($a3['f_name']).'</u>' : $lang['fm_mp_addfo'])."</td></tr>
-	<tr><td align='right' valign='top'>{$lang['fm_mp_fname']}</td><td align='left'><input type='text' value='".($edit_action ? htmlsafechars($a3['f_name']) : '')."'name='forumname' size='40' /></td></tr>
-	<tr><td align='right' valign='top'>{$lang['fm_mp_description']}</td><td align='left'><textarea rows='3' cols='38' name='forumdescr'>".($edit_action ? htmlsafechars($a3['description']) : '')."</textarea></td></tr>";
+	<tr><td colspan='2' align='center' class='colhead'>".($edit_action ? ''.$lang['fm_mp_edit2'].' <u>'.htmlspecialchars($a3['f_name']).'</u>' : $lang['fm_mp_addfo'])."</td></tr>
+	<tr><td align='right' valign='top'>{$lang['fm_mp_fname']}</td><td align='left'><input type='text' value='".($edit_action ? htmlspecialchars($a3['f_name']) : '')."'name='forumname' size='40' /></td></tr>
+	<tr><td align='right' valign='top'>{$lang['fm_mp_description']}</td><td align='left'><textarea rows='3' cols='38' name='forumdescr'>".($edit_action ? htmlspecialchars($a3['description']) : '')."</textarea></td></tr>";
         $htmlout .= "<tr><td align='right' valign='top'>{$lang['fm_mp_over2']}</td><td align='left'><select name='overforum'>";
         ($r2 = sql_query('SELECT id,name FROM over_forums ORDER BY name')) || sqlerr(__FILE__, __LINE__);
         while ($a = $r2->fetch_assoc()) {
-            $htmlout .= "<option value='".(int)$a['id']."' ".($edit_action && ($a['id'] == $a3['forum_id']) ? 'selected=\'selected\'' : '').">".htmlsafechars($a['name'])."</option>";
+            $htmlout .= "<option value='".(int)$a['id']."' ".($edit_action && ($a['id'] == $a3['forum_id']) ? 'selected=\'selected\'' : '').">".htmlspecialchars($a['name'])."</option>";
         }
         $htmlout .= "</select></td></tr>";
         $classes = "<select name='#name'>";
@@ -163,11 +163,11 @@ switch ($do) {
         if ($edit_action) {
             $htmlout .= "
 	<tr><td align='right' valign='top'>{$lang['fm_mp_min_r']}</td><td align='left'>".str_replace(['#name', 'value=\''.$a3['min_class_read'].'\''],
-                    ['minclassread', 'value=\''.htmlsafechars($a3['min_class_read']).'\' selected=\'selected\''], $classes)."</td></tr>
+                    ['minclassread', 'value=\''.htmlspecialchars($a3['min_class_read']).'\' selected=\'selected\''], $classes)."</td></tr>
 	<tr><td align='right' valign='top'>{$lang['fm_mp_min_w']}</td><td align='left'>".str_replace(['#name', 'value=\''.$a3['min_class_write'].'\''],
-                    ['minclasswrite', 'value=\''.htmlsafechars($a3['min_class_write']).'\' selected=\'selected\''], $classes)."</td></tr>
+                    ['minclasswrite', 'value=\''.htmlspecialchars($a3['min_class_write']).'\' selected=\'selected\''], $classes)."</td></tr>
 	<tr><td align='right' valign='top'>{$lang['fm_mp_min_c']}</td><td align='left'>".str_replace(['#name', 'value=\''.$a3['min_class_create'].'\''],
-                    ['minclasscreate', 'value=\''.htmlsafechars($a3['min_class_create']).'\' selected=\'selected\''], $classes)."</td></tr>";
+                    ['minclasscreate', 'value=\''.htmlspecialchars($a3['min_class_create']).'\' selected=\'selected\''], $classes)."</td></tr>";
         } else {
             $htmlout .= "
 	<tr><td align='right' valign='top'>{$lang['fm_mp_min_r']}</td><td align='left'>".str_replace('#name', 'minclassread', $classes)."</td></tr>

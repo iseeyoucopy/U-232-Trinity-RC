@@ -80,7 +80,7 @@ $stdfoot = [
     ],
 ];
 //=== Post/Get actions - so we know what to do :P
-$posted_action = (isset($_GET["action"]) ? htmlsafechars($_GET["action"]) : (isset($_POST["action"]) ? htmlsafechars($_POST["action"]) : ''));
+$posted_action = (isset($_GET["action"]) ? htmlspecialchars($_GET["action"]) : (isset($_POST["action"]) ? htmlspecialchars($_POST["action"]) : ''));
 //=== Add all possible actions here and check them to be sure they are allowed :)
 $valid_actions = [
     'view_default',
@@ -279,7 +279,7 @@ switch ($action) {
                 continue;
             }
             $ovfid = (int)$ovf_arr["id"];
-            $ovfname = htmlsafechars($ovf_arr["name"]);
+            $ovfname = htmlspecialchars($ovf_arr["name"]);
             $HTMLOUT .= "<div class='card'>
                             <div class='card-divider'>
                                    <strong><a href='{$TRINITY20['baseurl']}/forums.php?action=forumview&amp;forid=".$ovfid."'>".$ovfname."</a></strong>

@@ -54,7 +54,7 @@ $possible_actions = [
     'default',
     'user_blocks',
 ];
-$action = isset($_GET["action"]) ? htmlsafechars(trim($_GET["action"])) : '';
+$action = isset($_GET["action"]) ? htmlspecialchars(trim($_GET["action"])) : '';
 if (!in_array($action, $possible_actions)) {
     stderr('error', '<div class="alert alert-error span11">'.$lang['usercp_err1'].'</div>');
 }
@@ -99,4 +99,4 @@ if ($action == "user_blocks") {
     }
 }
 $HTMLOUT .= '</div>';
-echo stdhead(htmlsafechars($CURUSER["username"], ENT_QUOTES)."{$lang['usercp_stdhead']} ", true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
+echo stdhead(htmlspecialchars($CURUSER["username"], ENT_QUOTES)."{$lang['usercp_stdhead']} ", true, $stdhead).$HTMLOUT.stdfoot($stdfoot);

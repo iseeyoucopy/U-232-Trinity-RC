@@ -36,7 +36,7 @@ class_check($class);
 $lang = array_merge($lang, load_language('ad_shitlist'));
 $HTMLOUT = $message = $title = '';
 //=== check if action2 is sent (either $_POST or $_GET) if so make sure it's what you want it to be
-$action2 = (isset($_POST['action2']) ? htmlsafechars($_POST['action2']) : (isset($_GET['action2']) ? htmlsafechars($_GET['action2']) : ''));
+$action2 = (isset($_POST['action2']) ? htmlspecialchars($_POST['action2']) : (isset($_GET['action2']) ? htmlspecialchars($_GET['action2']) : ''));
 $good_stuff = [
     'new',
     'add',
@@ -49,7 +49,7 @@ switch ($action2) {
 
     case 'new':
         $shit_list_id = (isset($_GET['shit_list_id']) ? (int)$_GET['shit_list_id'] : 0);
-        $return_to = str_replace('&amp;', '&', htmlsafechars($_GET['return_to']));
+        $return_to = str_replace('&amp;', '&', htmlspecialchars($_GET['return_to']));
         $cache->delete('shit_list_'.$CURUSER['id']);
         if ($shit_list_id == $CURUSER["id"]) {
             stderr($lang['shitlist_stderr'], $lang['shitlist_stderr1']);
@@ -61,7 +61,7 @@ switch ($action2) {
         $arr_name = $res_name->fetch_assoc();
         $check_if_there = sql_query('SELECT suspect FROM shit_list WHERE userid='.sqlesc($CURUSER['id']).' AND suspect='.sqlesc($shit_list_id));
         if ($check_if_there->num_rows == 1) {
-            stderr($lang['shitlist_stderr'], $lang['shitlist_already1'].htmlsafechars($arr_name['username']).$lang['shitlist_already2']);
+            stderr($lang['shitlist_stderr'], $lang['shitlist_already1'].htmlspecialchars($arr_name['username']).$lang['shitlist_already2']);
         }
         $level_of_shittyness = '';
         $level_of_shittyness .= '<select name="shittyness"><option value="0">'.$lang['shitlist_level'].'</option>';
@@ -71,7 +71,7 @@ switch ($action2) {
             $i++;
         }
         $level_of_shittyness .= '</select>';
-        $HTMLOUT .= '<h1><img src="pic/smilies/shit.gif" alt="*" />'.$lang['shitlist_add1'].''.htmlsafechars($arr_name['username']).''.$lang['shitlist_add2'].'<img src="pic/smilies/shit.gif" alt="*" /></h1>
+        $HTMLOUT .= '<h1><img src="pic/smilies/shit.gif" alt="*" />'.$lang['shitlist_add1'].''.htmlspecialchars($arr_name['username']).''.$lang['shitlist_add2'].'<img src="pic/smilies/shit.gif" alt="*" /></h1>
       <form method="post" action="staffpanel.php?tool=shit_list&amp;action=shit_list&amp;action2=add">
    <table border="0" cellspacing="0" cellpadding="5" align="center">
    <tr>
@@ -101,7 +101,7 @@ switch ($action2) {
     case 'add':
         $shit_list_id = (isset($_POST['shit_list_id']) ? (int)$_POST['shit_list_id'] : 0);
         $shittyness = (isset($_POST['shittyness']) ? (int)$_POST['shittyness'] : 0);
-        $return_to = str_replace('&amp;', '&', htmlsafechars($_POST['return_to']));
+        $return_to = str_replace('&amp;', '&', htmlspecialchars($_POST['return_to']));
         if (!is_valid_id($shit_list_id) || !is_valid_id($shittyness)) {
             stderr($lang['shitlist_stderr'], $lang['shitlist_stderr2']);
         }
@@ -124,8 +124,8 @@ switch ($action2) {
         $res_name = sql_query('SELECT username FROM users WHERE id='.sqlesc($shit_list_id));
         $arr_name = $res_name->fetch_assoc();
         if (!$sure) {
-            stderr($lang['shitlist_delete1'].htmlsafechars($arr_name['username']).$lang['shitlist_delete2'],
-                ''.$lang['shitlist_delete3'].'<b>'.htmlsafechars($arr_name['username']).'</b>'.$lang['shitlist_delete4'].'  
+            stderr($lang['shitlist_delete1'].htmlspecialchars($arr_name['username']).$lang['shitlist_delete2'],
+                ''.$lang['shitlist_delete3'].'<b>'.htmlspecialchars($arr_name['username']).'</b>'.$lang['shitlist_delete4'].'  
          <a class="altlink" href="staffpanel.php?tool=shit_list&amp;action=shit_list&amp;action2=delete&amp;shit_list_id='.$shit_list_id.'&amp;sure=1"><span class="btn" style="padding:1px;">'.$lang['shitlist_delete5'].'</span></a>'.$lang['shitlist_delete6'].'');
         }
         sql_query('DELETE FROM shit_list WHERE userid='.sqlesc($CURUSER['id']).' AND suspect='.sqlesc($shit_list_id));
@@ -133,7 +133,7 @@ switch ($action2) {
             stderr($lang['shitlist_stderr'], $lang['shitlist_nomember']);
         }
         $cache->delete('shit_list_'.$shit_list_id);
-        $message = '<legend>'.$lang['shitlist_delsuccess'].' <b>'.htmlsafechars($arr_name['username']).'</b>'.$lang['shitlist_delsuccess1'].' </legend>';
+        $message = '<legend>'.$lang['shitlist_delsuccess'].' <b>'.htmlspecialchars($arr_name['username']).'</b>'.$lang['shitlist_delsuccess1'].' </legend>';
         break;
 } //=== end switch
 //=== get stuff ready for page
@@ -145,7 +145,7 @@ $res = sql_query('SELECT s.suspect as suspect_id, s.text, s.shittyness, s.added 
                   ORDER BY shittyness DESC');
 //=== default page
 $HTMLOUT .= $message.'
-   <legend>'.$lang['shitlist_message1'].''.htmlsafechars($CURUSER['username']).'</legend>
+   <legend>'.$lang['shitlist_message1'].''.htmlspecialchars($CURUSER['username']).'</legend>
    <table width="950" class="table table-bordered" cellpadding="5" align="center">
    <tr>
      <td class="colhead" align="center" valign="top" colspan="4">
@@ -186,5 +186,5 @@ if ($res->num_rows == 0) {
 } //=== end while
 $HTMLOUT .= (($i % 2 == 0) ? '<td class="one" align="center" colspan="2"></td></tr>' : '');
 $HTMLOUT .= '</table><p align="center"><span class="btn" style="padding:3px;"><img style="vertical-align:middle;" src="'.$TRINITY20['pic_base_url'].'/btn_search.gif" /><a class="altlink" href="users.php">'.$lang['shitlist_find'].'</span></a></p>';
-echo stdhead($lang['shitlist_stdhead'].htmlsafechars($CURUSER['username'])).$HTMLOUT.stdfoot();
+echo stdhead($lang['shitlist_stdhead'].htmlspecialchars($CURUSER['username'])).$HTMLOUT.stdfoot();
 ?>

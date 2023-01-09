@@ -115,7 +115,7 @@ function show_level()
 		<td width='20%' $css>{$lang['rep_ad_show_min']}</td>
 		<td width='15%' $css>{$lang['rep_ad_show_controls']}</td></tr>";
     while ($res = $query->fetch_assoc()) {
-        $html .= "<tr>\n"."	<td>#".$res['reputationlevelid']."</td>\n"."	<td>{$lang['rep_ad_show_user']} <b>".htmlsafechars($res['level'])."</b></td>\n"."	<td align='center'><input type='text' name='reputation[".$res['reputationlevelid']."]' value='".$res['minimumreputation']."' size='12' /></td>\n"."	<td align='center'><span class='btn'><a href='staffpanel.php?tool=reputation_ad&amp;mode=edit&amp;reputationlevelid=".$res['reputationlevelid']."'>{$lang['rep_ad_show_edit']}</a></span>&nbsp;<span class='btn'><a href='staffpanel.php?tool=reputation_ad&amp;mode=dodelete&amp;reputationlevelid=".$res['reputationlevelid']."'>{$lang['rep_ad_show_del']}</a></span></td>\n"."</tr>\n";
+        $html .= "<tr>\n"."	<td>#".$res['reputationlevelid']."</td>\n"."	<td>{$lang['rep_ad_show_user']} <b>".htmlspecialchars($res['level'])."</b></td>\n"."	<td align='center'><input type='text' name='reputation[".$res['reputationlevelid']."]' value='".$res['minimumreputation']."' size='12' /></td>\n"."	<td align='center'><span class='btn'><a href='staffpanel.php?tool=reputation_ad&amp;mode=edit&amp;reputationlevelid=".$res['reputationlevelid']."'>{$lang['rep_ad_show_edit']}</a></span>&nbsp;<span class='btn'><a href='staffpanel.php?tool=reputation_ad&amp;mode=dodelete&amp;reputationlevelid=".$res['reputationlevelid']."'>{$lang['rep_ad_show_del']}</a></span></td>\n"."</tr>\n";
     }
     $html .= "<tr><td colspan='3' align='center'>
 					<input type='submit' value='{$lang['rep_ad_show_update']}' accesskey='s' class='btn' /> 
@@ -130,7 +130,7 @@ function show_level()
 
 function show_form($type = 'edit')
 {
-    global $input, $lang;
+    global $input, $lang, $res;
     $html = $lang['rep_ad_form_html'];
     if ($type == 'edit') {
         ($query = sql_query('SELECT * FROM reputationlevel WHERE reputationlevelid='.(int)$input['reputationlevelid'])) || sqlerr(__LINE__, __FILE__);
@@ -138,7 +138,7 @@ function show_form($type = 'edit')
             stderr($lang['rep_ad_form_error'], $lang['rep_ad_form_error_msg']);
         }
         $title = $lang['rep_ad_form_title'];
-        $html .= "<br /><span style='font-weight:normal;'>".htmlsafechars($res['level'])." ({$lang['rep_ad_form_id']}{$res['reputationlevelid']})</span><br />";
+        $html .= "<br /><span style='font-weight:normal;'>".htmlspecialchars($res['level'])." ({$lang['rep_ad_form_id']}{$res['reputationlevelid']})</span><br />";
         $button = $lang['rep_ad_form_btn'];
         $extra = "<input type='button' class='button' value='{$lang['rep_ad_form_back']}' accesskey='b' class='btn' onclick='history.back(1)' />";
         $mode = 'doedit';
@@ -187,7 +187,7 @@ function do_update($type = "")
         }
         $level = sqlesc($level);
         $minrep = sqlesc((int)$input['minimumreputation']);
-        $redirect = ''.$lang['rep_ad_update_saved'].' <i>'.htmlsafechars($input['level'], ENT_QUOTES).'</i> '.$lang['rep_ad_update_success'].'';
+        $redirect = ''.$lang['rep_ad_update_saved'].' <i>'.htmlspecialchars($input['level'], ENT_QUOTES).'</i> '.$lang['rep_ad_update_success'].'';
     }
     // what we gonna do?
     if ($type == 'new') {
@@ -269,10 +269,10 @@ function show_form_rep()
 				<input name='mode' value='doeditrep' type='hidden' />";
     $html .= "<h2>{$lang['rep_ad_rep_form_head']}</h2>";
     $html .= "<table class='table table-bordered'>";
-    $html .= "<tr><td width='37%'>{$lang['rep_ad_rep_form_topic']}</td><td width='63%'><a href='forums.php?action=viewtopic&amp;topicid={$res['topic_id']}&amp;page=p{$res['postid']}#{$res['postid']}' target='_blank'>".htmlsafechars($res['topic_name'])."</a></td></tr>";
+    $html .= "<tr><td width='37%'>{$lang['rep_ad_rep_form_topic']}</td><td width='63%'><a href='forums.php?action=viewtopic&amp;topicid={$res['topic_id']}&amp;page=p{$res['postid']}#{$res['postid']}' target='_blank'>".htmlspecialchars($res['topic_name'])."</a></td></tr>";
     $html .= "<tr><td>{$lang['rep_ad_rep_form_left_by']}</td><td>{$res['leftby_name']}</td></tr>";
     $html .= "<tr><td>{$lang['rep_ad_rep_form_left_for']}</td><td width='63%'>{$res['leftfor_name']}</td></tr>";
-    $html .= "<tr><td>{$lang['rep_ad_rep_form_comment']}</td><td width='63%'><input type='text' name='reason' value='".htmlsafechars($res['reason'])."' size='35' maxlength='250' /></td></tr>";
+    $html .= "<tr><td>{$lang['rep_ad_rep_form_comment']}</td><td width='63%'><input type='text' name='reason' value='".htmlspecialchars($res['reason'])."' size='35' maxlength='250' /></td></tr>";
     $html .= "<tr><td>{$lang['rep_ad_rep_form_rep']}</td><td><input type='text' name='reputation' value='{$res['reputation']}' size='35' maxlength='10' /></td></tr>";
     $html .= "<tr><td colspan='2' align='center'><input type='submit' value='{$lang['rep_ad_rep_form_save']}' accesskey='s' class='btn' /> <input type='reset' tabindex='1' value='{$lang['rep_ad_rep_form_reset']}' accesskey='r' class='btn' /></td></tr>";
     $html .= "</table></form></div></div>";
@@ -340,7 +340,7 @@ function view_list()
         if (!empty($input['leftby'])) {
             $left_b = sql_query("SELECT id FROM users WHERE username = ".sqlesc($input['leftby']));
             if (!$left_b->num_rows) {
-                stderr($lang['rep_ad_view_err3'], $lang['rep_ad_view_err4'].htmlsafechars($input['leftby'], ENT_QUOTES));
+                stderr($lang['rep_ad_view_err3'], $lang['rep_ad_view_err4'].htmlspecialchars($input['leftby'], ENT_QUOTES));
             }
             $leftby = $left_b->fetch_assoc();
             $who = $leftby['id'];
@@ -349,7 +349,7 @@ function view_list()
         if (!empty($input['leftfor'])) {
             $left_f = sql_query("SELECT id FROM users WHERE username = ".sqlesc($input['leftfor']));
             if (!$left_f->num_rows) {
-                stderr($lang['rep_ad_view_err3'], $lang['rep_ad_view_err4'].htmlsafechars($input['leftfor'], ENT_QUOTES));
+                stderr($lang['rep_ad_view_err3'], $lang['rep_ad_view_err4'].htmlspecialchars($input['leftfor'], ENT_QUOTES));
             }
             $leftfor = $left_f->fetch_assoc();
             $user = $leftfor['id'];
@@ -425,7 +425,7 @@ function view_list()
             $html .= "<td><a href='userdetails.php?id={$r['leftfor_id']}' target='_blank'>{$r['leftfor_name']}</a></td>";
             $html .= "<td>{$r['dateadd']}</td>";
             $html .= "<td align='right'>{$r['reputation']}</td>";
-            $html .= "<td><a href='forums.php?action=viewtopic&amp;topicid={$r['topic_id']}&amp;page=p{$r['postid']}#{$r['postid']}' target='_blank'>".htmlsafechars($r['reason'])."</a></td>";
+            $html .= "<td><a href='forums.php?action=viewtopic&amp;topicid={$r['topic_id']}&amp;page=p{$r['postid']}#{$r['postid']}' target='_blank'>".htmlspecialchars($r['reason'])."</a></td>";
             $html .= "<td><a href='staffpanel.php?tool=reputation_ad&amp;mode=editrep&amp;reputationid={$r['reputationid']}'><span class='btn'>{$lang['rep_ad_view_edit']}</span></a>&nbsp;<a href='reputation_ad.php?mode=dodelrep&amp;reputationid={$r['reputationid']}'><span class='btn'>{$lang['rep_ad_view_delete']}</span></a></td></tr>";
         }
         $html .= "</table>";

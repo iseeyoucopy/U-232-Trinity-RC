@@ -30,7 +30,7 @@ $view_actions = [
     'viewbookmarks',
     'viewsharemarks',
 ];
-$action = (isset($_GET['action']) ? htmlsafechars($_GET['action']) : 'viewbookmarks');
+$action = (isset($_GET['action']) ? htmlspecialchars($_GET['action']) : 'viewbookmarks');
 if (!in_array($action, $possible_actions) && !in_array($action, $view_actions)) {
     stderr($lang['bookmark_err'], $lang['bookmark_aruffian']);
 }
@@ -202,17 +202,17 @@ if ($action == 'add') {
                 ];
             }
             while ($row = $res->fetch_assoc()) {
-                $row['cat_name'] = htmlsafechars($change[$row['category']]['name']);
-                $row['cat_pic'] = htmlsafechars($change[$row['category']]['image']);
+                $row['cat_name'] = htmlspecialchars($change[$row['category']]['name']);
+                $row['cat_pic'] = htmlspecialchars($change[$row['category']]['image']);
                 $id = (int)$row["id"];
                 $HTMLOUT .= "<tr>";
                 $HTMLOUT .= "<td class='text-center' style='padding: 0px'>";
                 if (isset($row["cat_name"])) {
                     $HTMLOUT .= '<a href="browse.php?cat='.(int)$row['category'].'">';
                     if (isset($row["cat_pic"]) && $row["cat_pic"] != "") {
-                        $HTMLOUT .= "<img border='0' src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($row['cat_pic'])."' alt='".htmlsafechars($row['cat_name'])."' />";
+                        $HTMLOUT .= "<img border='0' src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlspecialchars($row['cat_pic'])."' alt='".htmlspecialchars($row['cat_name'])."' />";
                     } else {
-                        $HTMLOUT .= htmlsafechars($row["cat_name"]);
+                        $HTMLOUT .= htmlspecialchars($row["cat_name"]);
                     }
                     $HTMLOUT .= "</a>";
                 } else {
@@ -220,7 +220,7 @@ if ($action == 'add') {
                 }
                 $HTMLOUT .= "</td>";
                 //TORRENT NAME
-                $dispname = htmlsafechars($row["name"]);
+                $dispname = htmlspecialchars($row["name"]);
                 $HTMLOUT .= "<td class='text-left'><a href='details.php?id=$id&amp;hit=1'><b>".CutName($dispname, 35)."</b></a>&nbsp;</td>";
                 //DELETE BOOKMARK
                 $HTMLOUT .= "<td class='text-center'><a href='bookmarks.php?torrent={$id}&amp;action=delete'><i class='fas fa-trash' title='{$lang['bookmarks_del3']}'></i></a></td>";
@@ -288,7 +288,7 @@ if ($action == 'add') {
                     $HTMLOUT .= "<td class='text-center'>0</td>";
                 }
                 //UPLOADER
-                $HTMLOUT .= "<td class='text-center'>".(isset($row["username"]) ? (($row['opt1'] & user_options::ANONYMOUS && $CURUSER['class'] < UC_STAFF && $row['owner'] != $CURUSER['id']) ? "<i>".$lang['torrenttable_anon']."</i>" : "<a href='userdetails.php?id=".(int)$row["owner"]."'><b>".htmlsafechars($row["username"])."</b></a>") : "<i>(".$lang["torrenttable_unknown_uploader"].")</i>")."</td></tr>";
+                $HTMLOUT .= "<td class='text-center'>".(isset($row["username"]) ? (($row['opt1'] & user_options::ANONYMOUS && $CURUSER['class'] < UC_STAFF && $row['owner'] != $CURUSER['id']) ? "<i>".$lang['torrenttable_anon']."</i>" : "<a href='userdetails.php?id=".(int)$row["owner"]."'><b>".htmlspecialchars($row["username"])."</b></a>") : "<i>(".$lang["torrenttable_unknown_uploader"].")</i>")."</td></tr>";
             }
             return $HTMLOUT."</tbody></table></div>";
         }
@@ -323,9 +323,9 @@ if ($action == 'add') {
         $count = $row[0];
         if ($count == 0) {
             header("Refresh: 3; url={$TRINITY20['baseurl']}/bookmarks.php");
-            stderr($lang['bookmarks_err'], "User ".htmlsafechars($arr['username'])." has no sharemarks");
+            stderr($lang['bookmarks_err'], "User ".htmlspecialchars($arr['username'])." has no sharemarks");
         } else {
-            $pagetitle = $lang['bookmarks_sharefor'].htmlsafechars($arr['username']);
+            $pagetitle = $lang['bookmarks_sharefor'].htmlspecialchars($arr['username']);
 //==Sharemarks Table
             function sharetable($res, $variant = "index")
             {
@@ -371,8 +371,8 @@ if ($action == 'add') {
                     ];
                 }
                 while ($row = $res->fetch_assoc()) {
-                    $row['cat_name'] = htmlsafechars($change[$row['category']]['name']);
-                    $row['cat_pic'] = htmlsafechars($change[$row['category']]['image']);
+                    $row['cat_name'] = htmlspecialchars($change[$row['category']]['name']);
+                    $row['cat_pic'] = htmlspecialchars($change[$row['category']]['image']);
                     $id = (int)$row["id"];
                     $HTMLOUT .= "<tr>\n";
                     $HTMLOUT .= "<td align='center' style='padding: 0px'>";
@@ -388,7 +388,7 @@ if ($action == 'add') {
                         $HTMLOUT .= "-";
                     }
                     $HTMLOUT .= "</td>\n";
-                    $dispname = htmlsafechars($row["name"]);
+                    $dispname = htmlspecialchars($row["name"]);
                     $HTMLOUT .= "<td align='left'><a href='details.php?";
                     if ($variant == "mytorrents") {
                         $HTMLOUT .= "returnto=".urlencode($_SERVER["REQUEST_URI"])."&amp;";
@@ -460,14 +460,14 @@ if ($action == 'add') {
                         $HTMLOUT .= "<td align='right'>0</td>\n";
                     }
                     if ($variant == "index") {
-                        $HTMLOUT .= "<td align='center'>".(isset($row["username"]) ? ("<a href='userdetails.php?id=".(int)$row["owner"]."'><b>".htmlsafechars($row["username"])."</b></a>") : "<i>(".$lang["torrenttable_unknown_uploader"].")</i>")."</td>\n";
+                        $HTMLOUT .= "<td align='center'>".(isset($row["username"]) ? ("<a href='userdetails.php?id=".(int)$row["owner"]."'><b>".htmlspecialchars($row["username"])."</b></a>") : "<i>(".$lang["torrenttable_unknown_uploader"].")</i>")."</td>\n";
                     }
                     $HTMLOUT .= "</tr>\n";
                 }
                 return $HTMLOUT."</table>\n";
             }
 
-            $HTMLOUT .= "<h1>".$lang['bookmarks_sharefor']." <a href=\"userdetails.php?id=".$userid."\">".htmlsafechars($arr['username'])."</a></h1>";
+            $HTMLOUT .= "<h1>".$lang['bookmarks_sharefor']." <a href=\"userdetails.php?id=".$userid."\">".htmlspecialchars($arr['username'])."</a></h1>";
             $HTMLOUT .= "<b><a href=\"bookmarks.php?action=viewbookmarks&amp;id=".(int)$CURUSER['id']."\">{$lang['bookmarks_my']}</a></b>";
             $torrentsperpage = $CURUSER["torrentsperpage"];
             if (!$torrentsperpage) {

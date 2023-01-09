@@ -46,7 +46,7 @@ $pager = pager($perpage, $count, "?id=$id&amp");
 
 if (!$count) {
     stderr("No Hit And Runs",
-        "<font class='statusbartext'>It appears that <a class='altlink_default' href='userdetails.php?id=".(int)$arr['id']."'>".htmlsafechars($arr['username'])."</a> currently has no hit and runs.</font>");
+        "<font class='statusbartext'>It appears that <a class='altlink_default' href='userdetails.php?id=".(int)$arr['id']."'>".htmlspecialchars($arr['username'])."</a> currently has no hit and runs.</font>");
 }
 
 ($r = sql_query("SELECT torrents.name,torrents.added AS torrent_added, snatched.start_date AS s, snatched.complete_date AS c, snatched.downspeed, snatched.seedtime, snatched.seeder, snatched.torrentid as tid, snatched.id, categories.id as category, categories.image, categories.name as catname, users.class, users.id, snatched.uploaded, snatched.downloaded, snatched.hit_and_run, snatched.mark_of_cain, snatched.complete_date, snatched.last_action, torrents.seeders, torrents.leechers, torrents.owner, snatched.start_date AS st, snatched.start_date FROM snatched JOIN users ON users.id = snatched.userid JOIN torrents ON torrents.id = snatched.torrentid JOIN categories ON categories.id = torrents.category WHERE snatched.finished='yes' AND userid=".sqlesc($id)." AND snatched.hit_and_run != '0' AND torrents.owner != ".sqlesc($id)." ORDER BY snatched.id DESC {$pager['limit']}")) || sqlerr(__FILE__,
@@ -58,7 +58,7 @@ if ($r->num_rows > 0) {
         <table class='clear' width='100%' border='0'>
         <tr>
         <td width='100%' class='clear2'>
-       <font class='statusbartext' size='2'>Hit and Runs for user: <a class='altlink' href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['id']."'>".htmlsafechars($arr['username'])."</a></font></td>
+       <font class='statusbartext' size='2'>Hit and Runs for user: <a class='altlink' href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['id']."'>".htmlspecialchars($arr['username'])."</a></font></td>
       </tr>
     </table>
     </div>
@@ -127,7 +127,7 @@ if ($r->num_rows > 0) {
         $hit_n_run = ($a['hit_and_run'] > 0 ? "<img src='{$TRINITY20['pic_base_url']}hnr.gif' width='40px' alt='hit and run' title='hit and run!' />" : '');
 
         $HTMLOUT .= "<tr>
-      <td style='padding: 0px'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($a['image'])."' alt='".htmlsafechars($a['name'])."' title='".htmlsafechars($a['name'])."' /></td>
+      <td style='padding: 0px'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlspecialchars($a['image'])."' alt='".htmlspecialchars($a['name'])."' title='".htmlspecialchars($a['name'])."' /></td>
         <td><a class='altlink' href='{$TRINITY20['baseurl']}/details.php?id=".$a['tid']."&amp;hit=1'><b>".CutName($a['name'], 25)."</b></a></td>
         <td align='center'>".mksize($a['uploaded'])."</td>
         <td align='center'>".mksize($a['downloaded'])."</td>

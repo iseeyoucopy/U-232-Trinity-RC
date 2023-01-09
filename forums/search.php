@@ -32,7 +32,7 @@ if (!empty($keywords)) {
     ($res = sql_query("SELECT COUNT(id) AS c FROM posts WHERE body LIKE ".sqlesc("%".sqlwildcardesc($keywords)."%"))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
     $count = (int)$arr['c'];
-    $keywords = htmlsafechars($keywords);
+    $keywords = htmlspecialchars($keywords);
     if ($count == 0) {
         $error = true;
     } else {
@@ -62,9 +62,9 @@ if (!empty($keywords)) {
             }
             $HTMLOUT .= "<tr>".
                 "<td align='center'>".(int)$post['id']."</td>".
-                "<td align=left width='100%'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;highlight=$keywords&amp;topicid=".(int)$post['topic_id']."&amp;page=p".(int)$post['id']."#".(int)$post['id']."'><b>".htmlsafechars($post['topic_name'])."</b></a></td>".
-                "<td align=left style='white-space: nowrap;'>".(empty($post['name']) ? 'unknown['.(int)$post['forum_id'].']' : "<a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$post['forum_id']."'><b>".htmlsafechars($post['name'])."</b></a>")."</td>".
-                "<td align=left style='white-space: nowrap;'>".(empty($post['username']) ? 'unknown['.(int)$post['user_id'].']' : "<b><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$post['user_id']."'>".htmlsafechars($post['username'])."</a></b>")."<br />at ".get_date($post['added'],
+                "<td align=left width='100%'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;highlight=$keywords&amp;topicid=".(int)$post['topic_id']."&amp;page=p".(int)$post['id']."#".(int)$post['id']."'><b>".htmlspecialchars($post['topic_name'])."</b></a></td>".
+                "<td align=left style='white-space: nowrap;'>".(empty($post['name']) ? 'unknown['.(int)$post['forum_id'].']' : "<a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$post['forum_id']."'><b>".htmlspecialchars($post['name'])."</b></a>")."</td>".
+                "<td align=left style='white-space: nowrap;'>".(empty($post['username']) ? 'unknown['.(int)$post['user_id'].']' : "<b><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$post['user_id']."'>".htmlspecialchars($post['username'])."</a></b>")."<br />at ".get_date($post['added'],
                     'DATE', 1, 0)."</td>".
                 "</tr>";
         }

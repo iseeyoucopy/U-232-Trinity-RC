@@ -38,7 +38,7 @@ if ($CURUSER['class'] >= UC_STAFF) {
     $dt = TIME_NOW;
     ($res = sql_query("SELECT username FROM users WHERE id=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $arr = $res->fetch_assoc();
-    $username = htmlsafechars($arr['username']);
+    $username = htmlspecialchars($arr['username']);
     sql_query("DELETE FROM peers WHERE userid=".sqlesc($id));
     $effected = $mysqli->affected_rows;
     //=== write to log

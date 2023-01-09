@@ -146,10 +146,10 @@ if ($count == 0) {
 			<td class='colhead' align='center' nowrap='nowrap'><input type='checkbox' name='checkall' /></td>
 		</tr>";
     while ($a = $g->fetch_assoc()) {
-        $tip = ($do == "leechwarn" ? $lang['leechwarn_warned_for'].htmlsafechars($a["warn_reason"])."<br />".$lang['leechwarn_warned_till'].get_date($a["leechwarn"],
-                'DATE', 1)." - ".mkprettytime($a['leechwarn'] - TIME_NOW) : $lang['leechwarn_disabled_for'].htmlsafechars($a["disable_reason"]));
+        $tip = ($do == "leechwarn" ? $lang['leechwarn_warned_for'].htmlspecialchars($a["warn_reason"])."<br />".$lang['leechwarn_warned_till'].get_date($a["leechwarn"],
+                'DATE', 1)." - ".mkprettytime($a['leechwarn'] - TIME_NOW) : $lang['leechwarn_disabled_for'].htmlspecialchars($a["disable_reason"]));
         $HTMLOUT .= "<tr>
-				  <td align='left' width='100%'><a href='userdetails.php?id=".(int)$a["id"]."' onmouseover=\"Tip('($tip)')\" onmouseout=\"UnTip()\">".htmlsafechars($a["username"])."</a></td>
+				  <td align='left' width='100%'><a href='userdetails.php?id=".(int)$a["id"]."' onmouseover=\"Tip('($tip)')\" onmouseout=\"UnTip()\">".htmlspecialchars($a["username"])."</a></td>
 				  <td align='left' nowrap='nowrap'>".(float)$a["ratio"]."<br /><font class='small'><b>{$lang['leechwarn_d']}</b>".mksize($a["downloaded"])."&nbsp;<b>{$lang['leechwarn_u']}</b> ".mksize($a["uploaded"])."</font></td>
 				  <td align='center' nowrap='nowrap'>".get_user_class_name($a["class"])."</td>
 				  <td align='center' nowrap='nowrap'>".get_date($a["last_access"], 'LONG', 0, 1)."</td>
@@ -166,7 +166,7 @@ if ($count == 0) {
 				</select>
 				&raquo;
 				<input type='submit' value='{$lang['leechwarn_apply']}' />
-				<input type='hidden' value='".htmlsafechars($_SERVER["REQUEST_URI"])."' name='ref' />
+				<input type='hidden' value='".htmlspecialchars($_SERVER["REQUEST_URI"])."' name='ref' />
 			</td>
 			</tr>
 			</table>

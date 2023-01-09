@@ -1,12 +1,12 @@
 <?php
 require_once MODS_DIR.'slots_details.php';
-$s = htmlsafechars($torrents["name"], ENT_QUOTES);
-$poster_url = ((empty($torrents["poster"])) ? $TRINITY20["pic_base_url"]."noposter.png" : htmlsafechars($torrents["poster"]));
+$s = htmlspecialchars($torrents["name"], ENT_QUOTES);
+$poster_url = ((empty($torrents["poster"])) ? $TRINITY20["pic_base_url"]."noposter.png" : htmlspecialchars($torrents["poster"]));
 $Free_Slot = (XBT_TRACKER == true ? '' : $freeslot);
-$torrents['cat_name'] = htmlsafechars($change[$torrents['category']]['name']);
-$tcatname = isset($torrents["cat_name"]) ? htmlsafechars($torrents["cat_name"]) : $lang['details_add_none'];
+$torrents['cat_name'] = htmlspecialchars($change[$torrents['category']]['name']);
+$tcatname = isset($torrents["cat_name"]) ? htmlspecialchars($torrents["cat_name"]) : $lang['details_add_none'];
 $tadded = get_date($torrents['added'], "LONG");
-$rowuser = (isset($torrents['username']) ? ("<a href='userdetails.php?id=".(int)$torrents['owner']."'><strong>".htmlsafechars($torrents['username'])."</strong></a>") : "{$lang['details_unknown']}");
+$rowuser = (isset($torrents['username']) ? ("<a href='userdetails.php?id=".(int)$torrents['owner']."'><strong>".htmlspecialchars($torrents['username'])."</strong></a>") : "{$lang['details_unknown']}");
 $uprow = (($torrents['anonymous'] == 'yes') ? ($CURUSER['class'] < UC_STAFF && $torrents['owner'] != $CURUSER['id'] ? '' : $rowuser.' - ')."<i>{$lang['details_anon']}</i>" : $rowuser);
 $tseeders = (XBT_TRACKER == true) ? "<a href='./peerlist_xbt.php?id=$id#seeders'>".(int)$torrents_xbt["seeders"]."</a>" : "<a href='./peerlist.php?id=$id#seeders'>".(int)$torrents["seeders"]."</a>";
 $tleechers = (XBT_TRACKER == true) ? "<a href='./peerlist_xbt.php?id=$id#leechers'>".(int)$torrents_xbt["leechers"]."</a>" : "<a href='./peerlist.php?id=$id#peers'>".(int)$torrents["leechers"]."</a>";

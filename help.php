@@ -39,7 +39,7 @@ foreach ($cats as $row) {
     } else {
         $HTMLOUT .= "";
     }
-    $HTMLOUT .= "<li><a data-toggle='div".htmlsafechars($row['shortcut'])."' href='#".htmlsafechars($row['shortcut'])."'>".htmlsafechars($row['name'])."</a></li>";
+    $HTMLOUT .= "<li><a data-toggle='div".htmlspecialchars($row['shortcut'])."' href='#".htmlspecialchars($row['shortcut'])."'>".htmlspecialchars($row['name'])."</a></li>";
     $count++;
 }
 $HTMLOUT .= "</ul></li>";
@@ -65,7 +65,7 @@ $HTMLOUT .= "<li><a href='#'>Rules</a>
 <ul class='menu vertical nested'>";
 foreach ($rules as $row_rules) {
     if (is_array($row_rules)) {
-        $HTMLOUT .= "<li><a data-toggle='div".htmlsafechars($row_rules['shortcut'])."' href='#".htmlsafechars($row_rules['shortcut'])."'>".htmlsafechars($row_rules['name'])."</a></li>";
+        $HTMLOUT .= "<li><a data-toggle='div".htmlspecialchars($row_rules['shortcut'])."' href='#".htmlspecialchars($row_rules['shortcut'])."'>".htmlspecialchars($row_rules['name'])."</a></li>";
     }
 }
 $HTMLOUT .= "</ul></li>";
@@ -76,11 +76,11 @@ $HTMLOUT .= "</ul></div>
 </div>";
 //** Start Rules reveal/modal **//
 foreach ($rules as $row_rules) {
-    $HTMLOUT .= "<div class='reveal' id='div".htmlsafechars($row_rules['shortcut'] ?? '')."' data-reveal>
-      <p><h4 class='sub-header'>".htmlsafechars($row_rules['name'] ?? '')."</h4></p>";
+    $HTMLOUT .= "<div class='reveal' id='div".htmlspecialchars($row_rules['shortcut'] ?? '')."' data-reveal>
+      <p><h4 class='sub-header'>".htmlspecialchars($row_rules['name'] ?? '')."</h4></p>";
     $HTMLOUT .= "<ul class='accordion' data-accordion data-allow-all-closed='true'>
     <li class='accordion-item is-active' data-accordion-item>
-      <a href='#' class='accordion-title'>".htmlsafechars($row_rules['title'] ?? '')."</strong></a>
+      <a href='#' class='accordion-title'>".htmlspecialchars($row_rules['title'] ?? '')."</strong></a>
       <div class='accordion-content' data-tab-content>
       <p>".htmlspecialchars_decode($row_rules['text'] ?? '')."</p></div>";
     $HTMLOUT .= "</div>";
@@ -88,8 +88,8 @@ foreach ($rules as $row_rules) {
 //** End Rules reveal/modal **//
 //** Start FAQ reveal/modal **//
 foreach ($cats as $row) {
-    $HTMLOUT .= "<div class='reveal' id='div".htmlsafechars($row['shortcut'])."'  data-reveal>
-      <p><h2>".htmlsafechars($row['name'])."</h2></p>";
+    $HTMLOUT .= "<div class='reveal' id='div".htmlspecialchars($row['shortcut'])."'  data-reveal>
+      <p><h2>".htmlspecialchars($row['name'])."</h2></p>";
     foreach ($faqs as $item) {
         if ($item['type'] == $row['id']) {
             $item['text'] = str_replace([

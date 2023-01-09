@@ -26,7 +26,7 @@ $flag_xy = [
         169,
     ],
 ];
-$user = isset($_GET['user']) ? htmlsafechars($_GET['user']) : '';
+$user = isset($_GET['user']) ? htmlspecialchars($_GET['user']) : '';
 if (!file_exists($_settings.strtolower($user).".set") || !is_array($var = unserialize(file_get_contents($_settings.strtolower($user).".set")))) {
     exit("Can't create avatar, settings file not found!");
 }

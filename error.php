@@ -32,7 +32,7 @@ if ($string == '400') {
     $page = 'Bad Request - 400';
     $text = 'There has been an error with the page you are trying to view. Please try again later.';
 }
-$domain = htmlsafechars($_SERVER['HTTP_HOST']);
+$domain = htmlspecialchars($_SERVER['HTTP_HOST']);
 $htmlout = '';
 $htmlout = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">

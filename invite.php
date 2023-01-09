@@ -26,7 +26,7 @@ dbconn();
 loggedinorreturn();
 $HTMLOUT = $sure = '';
 $lang = array_merge(load_language('global'), load_language('invite_code'));
-$do = (isset($_GET["do"]) ? htmlsafechars($_GET["do"]) : (isset($_POST["do"]) ? htmlsafechars($_POST["do"]) : ''));
+$do = (isset($_GET["do"]) ? htmlspecialchars($_GET["do"]) : (isset($_POST["do"]) ? htmlspecialchars($_POST["do"]) : ''));
 $valid_actions = [
     'create_invite',
     'delete_invite',
@@ -63,7 +63,7 @@ if ($do == 'view_page') {
         for ($i = 0; $i < $rows; ++$i) {
             $arr = $query->fetch_assoc();
             if ($arr['status'] == 'pending') {
-                $user = "<td align='center'>".htmlsafechars($arr['username'])."</td>";
+                $user = "<td align='center'>".htmlspecialchars($arr['username'])."</td>";
             } else {
                 $user = "<td align='center'><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['id']."'>".format_username($arr)."</a></td>";
             }
@@ -93,10 +93,10 @@ if ($do == 'view_page') {
         for ($i = 0; $i < $num_row; ++$i) {
             $fetch_assoc = $select->fetch_assoc();
             $HTMLOUT .= "<tr class='one'>
-<td>".htmlsafechars($fetch_assoc['code'])." <a href='?do=send_email&amp;id=".(int)$fetch_assoc['id']."'><img src='{$TRINITY20['pic_base_url']}email.gif' border='0' alt='Email' title='Send Email' /></a></td>
+<td>".htmlspecialchars($fetch_assoc['code'])." <a href='?do=send_email&amp;id=".(int)$fetch_assoc['id']."'><img src='{$TRINITY20['pic_base_url']}email.gif' border='0' alt='Email' title='Send Email' /></a></td>
 <td>".get_date($fetch_assoc['invite_added'], '', 0, 1)."</td>";
             $HTMLOUT .= "<td><a href='?do=delete_invite&amp;id=".(int)$fetch_assoc['id']."&amp;sender=".(int)$CURUSER['id']."'><img src='{$TRINITY20['pic_base_url']}del.png' border='0' alt='Delete'/></a></td>
-<td>".htmlsafechars($fetch_assoc['status'])."</td></tr>";
+<td>".htmlspecialchars($fetch_assoc['status'])."</td></tr>";
         }
     }
     $HTMLOUT .= "<tr class='one'><td colspan='6' align='center'><div class='col-sm-3 col-sm-offset-4'><form class='form-horizontal' role='form' action='?do=create_invite' method='post'><input class='form-control' type='submit' value='{$lang['invites_create']}'></form></div></div></td></tr>";
@@ -138,8 +138,8 @@ if ($do == 'create_invite') {
  */
 elseif ($do == 'send_email') {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $email = (isset($_POST['email']) ? htmlsafechars($_POST['email']) : '');
-        $invite = (isset($_POST['code']) ? htmlsafechars($_POST['code']) : '');
+        $email = (isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '');
+        $invite = (isset($_POST['code']) ? htmlspecialchars($_POST['code']) : '');
         if (!$email) {
             stderr($lang['invites_error'], $lang['invites_noemail']);
         }
@@ -151,8 +151,8 @@ elseif ($do == 'send_email') {
         if (!validemail($email)) {
             stderr($lang['invites_error'], $lang['invites_invalidemail']);
         }
-        $inviter = htmlsafechars($CURUSER['username']);
-        $body = "{$lang['invites_send_emailpart1']} ".htmlsafechars($inviter)." {$lang['invites_send_emailpart2']} ".htmlsafechars($email)." {$lang['invites_send_emailpart3']} ".htmlsafechars($invite)." {$lang['invites_send_emailpart4']}";
+        $inviter = htmlspecialchars($CURUSER['username']);
+        $body = "{$lang['invites_send_emailpart1']} ".htmlspecialchars($inviter)." {$lang['invites_send_emailpart2']} ".htmlspecialchars($email)." {$lang['invites_send_emailpart3']} ".htmlspecialchars($invite)." {$lang['invites_send_emailpart4']}";
         $sendit = mail($email, "{$lang['invites_send_email1_ema']}", $body, "{$lang['invites_send_email1_bod']}", "-f{$TRINITY20['site_email']}");
         if (!$sendit) {
             stderr($lang['invites_error'], $lang['invites_unable']);
@@ -168,7 +168,7 @@ elseif ($do == 'send_email') {
         __LINE__);
     ($fetch = $query->fetch_assoc()) || stderr($lang['invites_error'], $lang['invites_noexsist']);
     $HTMLOUT .= "<form method='post' action='?do=send_email'><table border='1' cellspacing='0' cellpadding='10'>
-<tr><td class='rowhead'>{$lang['invites_mail_email']}</td><td><input type='text' size='40' name='email' /></td></tr><tr><td colspan='2' align='center'><input type='hidden' name='code' value='".htmlsafechars($fetch['code'])."' /></td></tr><tr><td colspan='2' align='center'><input type='submit' value='".$lang['invites_mail_send']."' class='btn' /></td></tr></table></form>";
+<tr><td class='rowhead'>{$lang['invites_mail_email']}</td><td><input type='text' size='40' name='email' /></td></tr><tr><td colspan='2' align='center'><input type='hidden' name='code' value='".htmlspecialchars($fetch['code'])."' /></td></tr><tr><td colspan='2' align='center'><input type='submit' value='".$lang['invites_mail_send']."' class='btn' /></td></tr></table></form>";
     echo stdhead('Invites').$HTMLOUT.stdfoot();
 } /**
  * @action Delete Invites
@@ -182,7 +182,7 @@ elseif ($do == 'delete_invite') {
         stderr($lang['invites_error'], $lang['invites_noexsist']);
     }
     if (isset($_GET['sure'])) {
-        $sure = htmlsafechars($_GET['sure']);
+        $sure = htmlspecialchars($_GET['sure']);
     }
     if (!$sure) {
         stderr($lang['invites_delete1'],
@@ -214,11 +214,11 @@ elseif (($do = 'confirm_account') !== '') {
         stderr($lang['invites_error'], $lang['invites_errorid']);
     }
     if (isset($_GET['sure'])) {
-        $sure = htmlsafechars($_GET['sure']);
+        $sure = htmlspecialchars($_GET['sure']);
     }
     if (!$sure) {
         stderr($lang['invites_confirm1'],
-            $lang['invites_sure1'].' '.htmlsafechars($assoc['username']).' '.$lang['invites_sure2'].' <a href="?do=confirm_account&amp;userid='.$userid.'&amp;sender='.(int)$CURUSER['id'].'&amp;sure=yes">'.$lang['invites_sure3'].'</a>'.$lang['invites_sure4'].'<a href="?do=view_page">'.$lang['invites_sure3'].'</a>'.$lang['invites_sure5'].'');
+            $lang['invites_sure1'].' '.htmlspecialchars($assoc['username']).' '.$lang['invites_sure2'].' <a href="?do=confirm_account&amp;userid='.$userid.'&amp;sender='.(int)$CURUSER['id'].'&amp;sure=yes">'.$lang['invites_sure3'].'</a>'.$lang['invites_sure4'].'<a href="?do=view_page">'.$lang['invites_sure3'].'</a>'.$lang['invites_sure5'].'');
     }
     sql_query('UPDATE users SET status = "confirmed" WHERE id = '.sqlesc($userid).' AND invitedby = '.sqlesc($CURUSER['id']).' AND status="pending"') || sqlerr(__FILE__,
         __LINE__);

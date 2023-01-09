@@ -42,13 +42,13 @@ $HTMLOUT .= "{$lang['index_mow_title']}
 if ($motw_cached) {
     foreach ($motw_cached as $m_w) {
         if (is_array($m_w)) {
-            $mw['cat_name'] = htmlsafechars($change[$m_w['category']]['name']);
-            $mw['cat_pic'] = htmlsafechars($change[$m_w['category']]['image']);
+            $mw['cat_name'] = htmlspecialchars($change[$m_w['category']]['name']);
+            $mw['cat_pic'] = htmlspecialchars($change[$m_w['category']]['image']);
             $HTMLOUT .= "
                         <tbody>
                             <tr>
-                                <td class='text-center'><img src='pic/caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($mw["cat_pic"])."' alt='".htmlsafechars($mw["cat_name"])."' title='".htmlsafechars($mw["cat_name"])."' /></td>
-                                <td><a href='{$TRINITY20['baseurl']}/details.php?id=".(int)$m_w["id"]."'><b>".htmlsafechars($m_w["name"])."</b></a></td>
+                                <td class='text-center'><img src='pic/caticons/{$CURUSER['categorie_icon']}/".htmlspecialchars($mw["cat_pic"])."' alt='".htmlspecialchars($mw["cat_name"])."' title='".htmlspecialchars($mw["cat_name"])."' /></td>
+                                <td><a href='{$TRINITY20['baseurl']}/details.php?id=".(int)$m_w["id"]."'><b>".htmlspecialchars($m_w["name"])."</b></a></td>
                                 <td class='text-center'><span class='badge'>".(int)$m_w["times_completed"]."</span></td>
                                 <td class='text-center'><span class='badge'>".(int)$m_w["seeders"]."</span></td>
                                 <td class='text-center'><span class='badge'>".(int)$m_w["leechers"]."</span> </td>

@@ -69,7 +69,7 @@ if (isset($_POST['action2'])) {
             $new_box = $_POST['new'];
             foreach ($new_box as $key => $add_it) {
                 if (validusername($add_it) && $add_it !== '') {
-                    $name = htmlsafechars($add_it);
+                    $name = htmlspecialchars($add_it);
                     sql_query('INSERT INTO pmboxes (userid, name, boxnumber) VALUES ('.sqlesc($CURUSER['id']).', '.sqlesc($name).', '.sqlesc($box).')') || sqlerr(__FILE__,
                         __LINE__);
                     $cache->delete($keys['get_all_boxes'].$CURUSER['id']);
@@ -93,7 +93,7 @@ if (isset($_POST['action2'])) {
             while ($row = $res->fetch_assoc()) {
                 //=== if name different AND safe, update it
                 if (validusername($_POST['edit'.$row['id']]) && $_POST['edit'.$row['id']] !== '' && $_POST['edit'.$row['id']] !== $row['name']) {
-                    $name = htmlsafechars($_POST['edit'.$row['id']]);
+                    $name = htmlspecialchars($_POST['edit'.$row['id']]);
                     sql_query('UPDATE pmboxes SET name='.sqlesc($name).' WHERE id='.sqlesc($row['id']).' LIMIT 1') || sqlerr(__FILE__, __LINE__);
                     $cache->delete($keys['get_all_boxes'].$CURUSER['id']);
                     $cache->delete($keys['insertJumpTo'].$CURUSER['id']);
@@ -190,8 +190,8 @@ if ($res->num_rows > 0) {
                         <td>
                         <form action="pm_system.php" method="post">
                         <input type="hidden" name="action" value="edit_mailboxes" />
-                        <input type="hidden" name="action2" value="edit_boxes" />'.$lang['pm_edmail_box'].''.((int)$row['boxnumber'] - 1).'<span style="font-weight: bold;">'.htmlsafechars($row['name']).':</span></td>
-                        <td class="text-left" colspan="2"><input type="text" name="edit'.(0 + $row['id']).'" value="'.htmlsafechars($row['name']).'" style="text_default" />'.$lang['pm_edmail_contain'].''.htmlsafechars($messages).''.$lang['pm_edmail_messages'].'</td>
+                        <input type="hidden" name="action2" value="edit_boxes" />'.$lang['pm_edmail_box'].''.((int)$row['boxnumber'] - 1).'<span style="font-weight: bold;">'.htmlspecialchars($row['name']).':</span></td>
+                        <td class="text-left" colspan="2"><input type="text" name="edit'.(0 + $row['id']).'" value="'.htmlspecialchars($row['name']).'" style="text_default" />'.$lang['pm_edmail_contain'].''.htmlspecialchars($messages).''.$lang['pm_edmail_messages'].'</td>
                     </tr>';
     }
     $all_my_boxes .= '
@@ -236,7 +236,7 @@ if ($r->num_rows > 0) {
     while ($a = $r->fetch_assoc()) {
         $categories .= ($i && $i % 2 == 0) ? "</tr><tr>" : "";
         $categories .= "<td class='bottom' style='padding-right: 5px'><input name='cat".(int)$a['id']."' type='checkbox' ".(strpos($CURUSER['notifs'],
-                (string)"[cat{$a['id']}]") !== false ? " checked='checked'" : "")." value='yes' />&nbsp;<a class='catlink' href='browse.php?cat=".(int)$a['id']."'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($a['image'])."' alt='".htmlsafechars($a['name'])."' title='".htmlsafechars($a['name'])."' /></a>&nbsp;".htmlspecialchars($a["name"])."</td>\n";
+                (string)"[cat{$a['id']}]") !== false ? " checked='checked'" : "")." value='yes' />&nbsp;<a class='catlink' href='browse.php?cat=".(int)$a['id']."'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlspecialchars($a['image'])."' alt='".htmlspecialchars($a['name'])."' title='".htmlspecialchars($a['name'])."' /></a>&nbsp;".htmlspecialchars($a["name"])."</td>\n";
         ++$i;
     }
     $categories .= "</tr></table>";

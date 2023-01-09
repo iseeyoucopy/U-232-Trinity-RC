@@ -833,8 +833,6 @@ EOB;
         }
         break;
 
-        break;
-
     case 4: //item dump
         if (!isset($_GET['key']) || !isset($_GET['server'])) {
             echo "No key set!";
