@@ -32,7 +32,7 @@ if (isset($_GET['clear_new']) && $_GET['clear_new'] == 1) {
 $stdfoot = [
 
     /** include js **/
-    'js' => ['java_klappe', 'wz_tooltip'],
+    'js' => ['wz_tooltip'],
 ];
 $stdhead = [
 

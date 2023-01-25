@@ -21,7 +21,6 @@ $lang = array_merge(load_language('global'), load_language('mytorrents'), load_l
 $stdfoot = [
     /** include js **/
     'js' => [
-        'java_klappe',
         'wz_tooltip',
     ],
 ];
