@@ -27,7 +27,7 @@ $HTMLOUT .= '<div class="reveal" id="watched-user" data-reveal>
 				<input type="radio" value="no" name="add_to_watched_users"'.($user['watched_user'] == 0 ? ' checked="checked"' : '').' id="watchedNo1">
 				<label for="watchedYes1">'.$lang['userdetails_no1'].'</label>
 			</fieldset>
-			<textarea id="watched_reason" cols="50" rows="6" name="watched_reason">'.htmlspecialchars($user['watched_user_reason']).'</textarea>
+			<textarea id="watched_reason" cols="50" rows="6" name="watched_reason">'.htmlspecialchars($user['watched_user_reason'] ?? '').'</textarea>
 			<input id="watched_user_button" type="submit" value="'.$lang['userdetails_submit'].'" class="tiny button" name="watched_user_button">
 		</form>
 		<button class="close-button" data-close aria-label="Close modal" type="button">
