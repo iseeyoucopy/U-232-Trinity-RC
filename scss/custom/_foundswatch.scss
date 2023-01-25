@@ -1,14 +1,13 @@
 // ----------------------------------------------------------------------------
-// Foundswatch v0.1.4 - Cosmo
+// Foundswatch v1.0.0 - Darkly
 // @see https://foundswatch.com
 // (c) 2020 Vino Rodrigues
 // Licensed under MIT
 // Based on ZURB Foundation for Sites, https://get.foundation
-// Based on Bootswatch - Cosmo, (c) Thomas Park, https://bootswatch.com/cosmo
+// Based on Bootswatch - Darkly, (c) Thomas Park, https://bootswatch.com/darkly
 // ----------------------------------------------------------------------------
 
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 // 0. borrowed from bootstrap
 // --------------------------
@@ -44,8 +43,11 @@
 // --------
 
 .is-invalid-input {
+	border-color: get-color(alert);
+
 	&:focus,
 	&:active {
+		border-color: get-color(alert);
 		box-shadow: 0 0 0 0.2rem rgba(get-color(alert), 0.25);
 	}
 
@@ -54,13 +56,32 @@
 	}
 }
 
+// 7. Accordion
+// ------------
+
+.accordion {
+	.accordion-title {
+		color: $body-font-color;
+	}
+}
+
 // 8. Accordion Menu
 // -----------------
 
 .accordion-menu {
 	.is-accordion-submenu-parent {
-		&.is-active > a::after {
-			border-top-color: $white;
+		& > a::after {
+			border-top-color: $black;
+		}
+
+		&:not(.has-submenu-toggle) {
+			> a::after {
+				border-top-color: $black;
+			}
+		}
+
+		&[aria-expanded='true'].is-active > a {
+			background-color: inherit;
 		}
 	}
 }
@@ -69,7 +90,8 @@
 // --------
 
 .badge {
-	font-weight: 700;
+	border-radius: $badge-font-size;
+	font-weight: $global-weight-bold;
 }
 
 // 10. Breadcrumbs
@@ -77,11 +99,85 @@
 
 .breadcrumbs {
 	padding: rem-calc(12 16);
-	padding-bottom: 0rem;
-	background-color: $light-gray;
+	background-color: $global-background-active;
+	border-radius: $global-radius;
 
 	li {
+		text-transform: inherit;
 		font-size: 1rem;
+	}
+}
+
+// 11. Button
+// ----------
+
+.button.clear {
+	color: get-color(success);
+
+	&:hover,
+	&:focus {
+		color: scale-color(get-color(success), $lightness: 15%);
+	}
+
+	@each $color, $value in $foundation-palette {
+		&.#{$color}:hover,
+		&.#{$color}:focus {
+			color: scale-color($value, $lightness: 15%);
+		}
+	}
+}
+
+.button.hollow {
+	color: scale-color($__bs__white, $lightness: -15%);;
+	border-color: scale-color($__bs__white, $lightness: -15%);;
+
+	&:hover,
+	&:focus {
+		color: $primary-color;
+		border-color: $primary-color;
+	}
+
+	@each $color, $value in $foundation-palette {
+		&.#{$color}:hover,
+		&.#{$color}:focus {
+			color: scale-color($value, $lightness: 15%);
+			border-color: scale-color($value, $lightness: 15%);
+		}
+	}
+}
+
+// 12. Button Group
+// ----------------
+
+.button-group .button {
+	&:focus,
+	&:active {
+		z-index: 1;
+	}
+}
+
+// 13. Callout
+// -----------
+
+.callout {
+	a:not(.button) {
+		text-decoration: underline;
+		color: $black
+	}
+	a:hover:not(.button) {
+		// text-decoration: underline;
+		color: darken($black, 10%);
+	}
+	.close-button {
+		color: inherit;
+	}
+	hr {
+		border-color: $black;
+	}
+	@each $color, $value in $foundation-palette {
+		&.#{$color} {
+			border-color: $value;
+		}
 	}
 }
 
@@ -89,16 +185,26 @@
 // -------------
 
 .drilldown {
-	.is-drilldown-submenu-parent.is-active > a::after {
-		border-left-color: $white;
+	.is-drilldown-submenu-parent > a::after {
+		border-left-color: $black;
+	}
+	.js-drilldown-back > a::before {
+		border-right-color: $black;
 	}
 }
 
-// 21. Label
-// ---------
+// 23. Menu
+// --------
 
-.label {
-	font-weight: 700;
+.menu {
+	a {
+		color: $black;
+	}
+
+	.is-active > a {
+		color: $black;
+		border-radius: $global-radius;
+	}
 }
 
 // 27. Pagination
@@ -106,9 +212,36 @@
 
 .pagination {
 	display: flex;
+	border-radius: $global-radius;
+
+	a:hover {
+		border-radius: 0;
+	}
 
 	li {
-		border: 1px solid $global-content-border;
+		border-radius: 0;
+		background-color: darken(get-color(success), 10%);
+		// border: $global-border;
+
+		&:first-child,
+		&:first-child > a {
+			border-top-left-radius: $global-radius;
+			border-bottom-left-radius: $global-radius;
+		}
+		&:last-child,
+		&:last-child > a {
+			border-top-right-radius: $global-radius;
+			border-bottom-right-radius: $global-radius;
+		}
+
+		// &.current {
+		// 	border-color: scale-color($pagination-item-background-current, $lightness: $button-background-hover-lightness);
+		// }
+
+		&.disabled,
+		&.disabled:hover {
+			background-color: darken(get-color(success), 15%);
+		}
 
 		&.ellipsis {
 			padding: $pagination-item-padding;
@@ -119,6 +252,13 @@
 			}
 		}
 	}
+}
+
+// 28. Progress Bar
+// ----------------
+
+.progress-meter-text {
+	color: $black;
 }
 
 // 49. Switch
@@ -133,6 +273,10 @@
 	&.tiny .switch-paddle { border-radius: $switch-height-tiny / 2;	}
 	&.small .switch-paddle { border-radius: $switch-height-small / 2; }
 	&.large .switch-paddle { border-radius: $switch-height-large / 2; }
+}
+
+input:checked ~ .switch-paddle::after {
+	background-color: $black;
 }
 
 // 51. Tabs
@@ -161,10 +305,14 @@
 }
 
 .tabs-title {
+	> a:hover {
+		border-top-left-radius: $global-radius;
+		border-top-right-radius: $global-radius;
+	}
+
 	> a:focus,
 	> a[aria-selected="true"] {
 		background-color: inherit;
-		color: inherit;
 	}
 }
 
@@ -175,62 +323,23 @@
 // 55. Top bar
 // -----------
 
-$topbar-text-color: $white;
-$topbar-link-color: rgba($white, 0.9);
-$topbar-link-active-color: $white;
+$topbar-text-color: $black;
+$topbar-link-color: rgba($black, 0.6);
+$topbar-link-active-color: $black;
+
 .top-bar {
 	input,
 	button {
 		min-height: 100%;
 		margin-right: 0.5rem;
 	}
-	.be-user-nav {
-		display: none;
-	}
-	.be-user-nav {
-		>li.dropdown {
-			.dropdown-menu {
-				a {
-					&:active {
-						background-color: $background-color_3;
-						color: $color_53;
-					}
-					&:focus {
-						background-color: $background-color_3;
-						color: $color_53;
-					}
-					&:hover {
-						background-color: $background-color_6;
-						color: $color_53;
-					}
-				}
-				&:after {
-					left: auto;
-					right: 13px;
-					border-bottom-color: $border-bottom-color_5;
-				}
-				&:before {
-					display: none;
-				}
-			}
-		}
-	}
+
 	.dropdown.menu {
 		> li > a {
-			float: none;
-			display: inline-block;
-			border: 1px solid transparent;
-			margin-bottom: -1px;
-	
-			&:hover,
-			&:focus {
-			  background: $dark-gray;
-			}
 			color: $topbar-link-color;
 			&:hover, &:active {
 				color: $topbar-link-active-color;
 			}
-
 		}
 		> li.is-dropdown-submenu-parent > a::after {
 			@include css-triangle($dropdownmenu-arrow-size, $topbar-link-color, down);
@@ -243,32 +352,15 @@ $topbar-link-active-color: $white;
 		}
 		> li.is-active > a {
 			color: $topbar-link-active-color;
+			background-color: inherit;
 		}
-		&.opens-inner > .is-dropdown-submenu {
-
-			top: 100%;
-			@if $global-text-direction == 'rtl' {
-			  right: auto;
-			}
-			@else {
-			  left: auto;
-			}
-		  }
-
 		.is-dropdown-submenu {
 			> li > a {
-				color: color-pick-contrast($primary-color);
-
-				&:hover,
-				&:focus {
-				  background: $dark-gray;
-				}
 				color: $topbar-link-color;
 				&:hover, &:active {
 					color: $topbar-link-active-color;
 				}
 			}
-			top: 140%
 		}
 	}
 }
