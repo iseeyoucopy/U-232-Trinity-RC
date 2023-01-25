@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MatthiasMullie\Scrapbook\Adapters;
 
 /**
@@ -12,57 +14,14 @@ namespace MatthiasMullie\Scrapbook\Adapters;
  */
 class PostgreSQL extends SQL
 {
-    /**
-     * @var bool
-     */
-    protected $conflictSupport = true;
+    protected bool $conflictSupport = true;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function flush()
+    public function flush(): bool
     {
         return $this->client->exec("TRUNCATE TABLE $this->table") !== false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function set($key, $value, $expire = 0)
-    {
-        if (!$this->conflictSupport) {
-            return parent::set($key, $value, $expire);
-        }
-
-        $this->clearExpired();
-
-        $statement = $this->client->prepare(
-            "INSERT INTO $this->table (k, v, e)
-            VALUES (:key, :value, :expire) 
-            ON CONFLICT (k) DO UPDATE SET v=EXCLUDED.v, e=EXCLUDED.e"
-        );
-
-        $statement->execute(array(
-            ':key' => $key,
-            ':value' => $this->serialize($value),
-            ':expire' => $this->expire($expire),
-        ));
-
-        // ON CONFLICT is not supported in versions < 9.5, in which case we'll
-        // have to fall back on add/replace
-        if ($statement->errorCode() === '42601') {
-            $this->conflictSupport = false;
-
-            return $this->set($key, $value, $expire);
-        }
-
-        return $statement->rowCount() === 1;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function get($key, &$token = null)
+    public function get(string $key, mixed &$token = null): mixed
     {
         $return = parent::get($key, $token);
 
@@ -75,10 +34,7 @@ class PostgreSQL extends SQL
         return $return;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMulti(array $keys, array &$tokens = null)
+    public function getMulti(array $keys, array &$tokens = null): array
     {
         $return = parent::getMulti($keys, $tokens);
 
@@ -91,25 +47,52 @@ class PostgreSQL extends SQL
         return $return;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function init()
+    public function set(string $key, mixed $value, int $expire = 0): bool
+    {
+        if (!$this->conflictSupport) {
+            return parent::set($key, $value, $expire);
+        }
+
+        $this->clearExpired();
+
+        $serialized = $this->serialize($value);
+        $expiration = $this->expire($expire);
+
+        $statement = $this->client->prepare(
+            "INSERT INTO $this->table (k, v, e)
+            VALUES (:key, :value, :expire) 
+            ON CONFLICT (k) DO UPDATE SET v=EXCLUDED.v, e=EXCLUDED.e"
+        );
+
+        $statement->bindParam(':key', $key);
+        $statement->bindParam(':value', $serialized, \PDO::PARAM_LOB, strlen($serialized));
+        $statement->bindParam(':expire', $expiration);
+        $statement->execute();
+
+        // ON CONFLICT is not supported in versions < 9.5, in which case we'll
+        // have to fall back on add/replace
+        if ($statement->errorCode() === '42601') {
+            $this->conflictSupport = false;
+
+            return $this->set($key, $value, $expire);
+        }
+
+        return $statement->rowCount() === 1;
+    }
+
+    protected function init(): void
     {
         $this->client->exec(
             "CREATE TABLE IF NOT EXISTS $this->table (
                 k VARCHAR NOT NULL PRIMARY KEY,
-                v TEXT,
+                v BYTEA,
                 e TIMESTAMP NULL DEFAULT NULL
             )"
         );
         $this->client->exec("CREATE INDEX IF NOT EXISTS e_index ON $this->table (e)");
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function unserialize($value)
+    protected function unserialize(mixed $value): mixed
     {
         // BYTEA data return streams. Even though it's not how init() will
         // configure the DB by default, it could be used instead!

@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MatthiasMullie\Scrapbook\Adapters;
 
-use PDO;
-use MatthiasMullie\Scrapbook\KeyValueStore;
 use MatthiasMullie\Scrapbook\Adapters\Collections\SQL as Collection;
+use MatthiasMullie\Scrapbook\KeyValueStore;
 
 /**
  * SQL adapter. Basically just a wrapper over \PDO, but in an exchangeable
@@ -19,33 +20,23 @@ use MatthiasMullie\Scrapbook\Adapters\Collections\SQL as Collection;
  */
 abstract class SQL implements KeyValueStore
 {
-    /**
-     * @var PDO
-     */
-    protected $client;
+    protected \PDO $client;
 
-    /**
-     * @var string
-     */
-    protected $table;
+    protected string $table;
 
     /**
      * Create the database/indices if it does not already exist.
      */
     abstract protected function init();
 
-    /**
-     * @param PDO    $client
-     * @param string $table
-     */
-    public function __construct(PDO $client, $table = 'cache')
+    public function __construct(\PDO $client, string $table = 'cache')
     {
         $this->client = $client;
         $this->table = $table;
 
         // don't throw exceptions - it's ok to fail, as long as the return value
         // reflects that!
-        $this->client->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+        $this->client->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
 
         // make sure the database exists (or just "fail" silently)
         $this->init();
@@ -54,22 +45,19 @@ abstract class SQL implements KeyValueStore
         $this->clearExpired();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function get($key, &$token = null)
+    public function get(string $key, mixed &$token = null): mixed
     {
         $statement = $this->client->prepare(
             "SELECT v
             FROM $this->table
             WHERE k = :key AND (e IS NULL OR e > :expire)"
         );
-        $statement->execute(array(
+        $statement->execute([
             ':key' => $key,
             ':expire' => date('Y-m-d H:i:s'), // right now!
-        ));
+        ]);
 
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $result = $statement->fetch(\PDO::FETCH_ASSOC);
 
         if (!isset($result['v'])) {
             $token = null;
@@ -82,18 +70,15 @@ abstract class SQL implements KeyValueStore
         return $this->unserialize($result['v']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMulti(array $keys, array &$tokens = null)
+    public function getMulti(array $keys, array &$tokens = null): array
     {
-        $tokens = array();
+        $tokens = [];
         if (empty($keys)) {
-            return array();
+            return [];
         }
 
         // escape input, can't bind multiple params for IN()
-        $quoted = array();
+        $quoted = [];
         foreach ($keys as $key) {
             $quoted[] = $this->client->quote($key);
         }
@@ -102,14 +87,13 @@ abstract class SQL implements KeyValueStore
             "SELECT k, v
             FROM $this->table
             WHERE
-                k IN (".implode(',', $quoted).') AND
+                k IN (" . implode(',', $quoted) . ') AND
                 (e IS NULL OR e > :expire)'
         );
-        $statement->execute(array(':expire' => date('Y-m-d H:i:s')));
-        $values = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->execute([':expire' => date('Y-m-d H:i:s')]);
+        $values = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
-        $result = array();
-        $tokens = array();
+        $result = [];
         foreach ($values as $value) {
             $tokens[$value['k']] = $value['v'];
             $result[$value['k']] = $this->unserialize($value['v']);
@@ -118,10 +102,7 @@ abstract class SQL implements KeyValueStore
         return $result;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function set($key, $value, $expire = 0)
+    public function set(string $key, mixed $value, int $expire = 0): bool
     {
         // PostgreSQL doesn't have a decent UPSERT (like REPLACE or even INSERT
         // ... ON DUPLICATE KEY UPDATE ...); here's a "works for all" downgrade
@@ -138,58 +119,51 @@ abstract class SQL implements KeyValueStore
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setMulti(array $items, $expire = 0)
+    public function setMulti(array $items, int $expire = 0): array
     {
-        $success = array();
+        $success = [];
 
         // PostgreSQL's lack of a decent UPSERT is even worse for multiple
         // values - we can only do them one at a time...
         foreach ($items as $key => $value) {
+            // PHP treats numeric keys as integers, but they're allowed
+            $key = (string) $key;
             $success[$key] = $this->set($key, $value, $expire);
         }
 
         return $success;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function delete($key)
+    public function delete(string $key): bool
     {
         $statement = $this->client->prepare(
             "DELETE FROM $this->table
             WHERE k = :key"
         );
 
-        $statement->execute(array(':key' => $key));
+        $statement->execute([':key' => $key]);
 
         return $statement->rowCount() === 1;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function deleteMulti(array $keys)
+    public function deleteMulti(array $keys): array
     {
         if (empty($keys)) {
-            return array();
+            return [];
         }
 
         // we'll need these to figure out which could not be deleted...
         $items = $this->getMulti($keys);
 
         // escape input, can't bind multiple params for IN()
-        $quoted = array();
+        $quoted = [];
         foreach ($keys as $key) {
             $quoted[] = $this->client->quote($key);
         }
 
         $statement = $this->client->query(
             "DELETE FROM $this->table
-            WHERE k IN (".implode(',', $quoted).')'
+            WHERE k IN (" . implode(',', $quoted) . ')'
         );
 
         /*
@@ -208,10 +182,7 @@ abstract class SQL implements KeyValueStore
         return $success;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function add($key, $value, $expire = 0)
+    public function add(string $key, mixed $value, int $expire = 0): bool
     {
         $value = $this->serialize($value);
         $expire = $this->expire($expire);
@@ -223,19 +194,16 @@ abstract class SQL implements KeyValueStore
             VALUES (:key, :value, :expire)"
         );
 
-        $statement->execute(array(
+        $statement->execute([
             ':key' => $key,
             ':value' => $value,
             ':expire' => $expire,
-        ));
+        ]);
 
         return $statement->rowCount() === 1;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function replace($key, $value, $expire = 0)
+    public function replace(string $key, mixed $value, int $expire = 0): bool
     {
         $value = $this->serialize($value);
         $expire = $this->expire($expire);
@@ -248,11 +216,11 @@ abstract class SQL implements KeyValueStore
             WHERE k = :key"
         );
 
-        $statement->execute(array(
+        $statement->execute([
             ':key' => $key,
             ':value' => $value,
             ':expire' => $expire,
-        ));
+        ]);
 
         if ($statement->rowCount() === 1) {
             return true;
@@ -266,18 +234,15 @@ abstract class SQL implements KeyValueStore
             FROM $this->table
             WHERE k = :key AND v = :value"
         );
-        $statement->execute(array(
+        $statement->execute([
             ':key' => $key,
             ':value' => $value,
-        ));
+        ]);
 
         return $statement->fetchColumn(0) === $expire;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function cas($token, $key, $value, $expire = 0)
+    public function cas(mixed $token, string $key, mixed $value, int $expire = 0): bool
     {
         $value = $this->serialize($value);
         $expire = $this->expire($expire);
@@ -290,12 +255,12 @@ abstract class SQL implements KeyValueStore
             WHERE k = :key AND v = :token"
         );
 
-        $statement->execute(array(
+        $statement->execute([
             ':key' => $key,
             ':value' => $value,
             ':expire' => $expire,
             ':token' => $token,
-        ));
+        ]);
 
         if ($statement->rowCount() === 1) {
             return true;
@@ -309,19 +274,16 @@ abstract class SQL implements KeyValueStore
             FROM $this->table
             WHERE k = :key AND v = :value AND v = :token"
         );
-        $statement->execute(array(
+        $statement->execute([
             ':key' => $key,
             ':value' => $value,
             ':token' => $token,
-        ));
+        ]);
 
         return $statement->fetchColumn(0) === $expire;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function increment($key, $offset = 1, $initial = 0, $expire = 0)
+    public function increment(string $key, int $offset = 1, int $initial = 0, int $expire = 0): int|false
     {
         if ($offset <= 0 || $initial < 0) {
             return false;
@@ -330,10 +292,7 @@ abstract class SQL implements KeyValueStore
         return $this->doIncrement($key, $offset, $initial, $expire);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function decrement($key, $offset = 1, $initial = 0, $expire = 0)
+    public function decrement(string $key, int $offset = 1, int $initial = 0, int $expire = 0): int|false
     {
         if ($offset <= 0 || $initial < 0) {
             return false;
@@ -342,10 +301,7 @@ abstract class SQL implements KeyValueStore
         return $this->doIncrement($key, -$offset, $initial, $expire);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function touch($key, $expire)
+    public function touch(string $key, int $expire): bool
     {
         $expire = $this->expire($expire);
 
@@ -357,27 +313,21 @@ abstract class SQL implements KeyValueStore
             WHERE k = :key"
         );
 
-        $statement->execute(array(
+        $statement->execute([
             ':key' => $key,
             ':expire' => $expire,
-        ));
+        ]);
 
         return $statement->rowCount() === 1;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function flush()
+    public function flush(): bool
     {
         // TRUNCATE doesn't work on SQLite - DELETE works for all
         return $this->client->exec("DELETE FROM $this->table") !== false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCollection($name)
+    public function getCollection(string $name): KeyValueStore
     {
         return new Collection($this, $this->client, $this->table, $name);
     }
@@ -386,15 +336,8 @@ abstract class SQL implements KeyValueStore
      * Shared between increment/decrement: both have mostly the same logic
      * (decrement just increments a negative value), but need their validation
      * & use of non-ttl native methods split up.
-     *
-     * @param string $key
-     * @param int    $offset
-     * @param int    $initial
-     * @param int    $expire
-     *
-     * @return int|bool
      */
-    protected function doIncrement($key, $offset, $initial, $expire)
+    protected function doIncrement(string $key, int $offset, int $initial, int $expire): int|false
     {
         /*
          * I used to have all this logic in a huge & ugly query, but getting
@@ -439,28 +382,24 @@ abstract class SQL implements KeyValueStore
      * taking the expiration status into consideration.
      * An expired column should simply not exist.
      */
-    protected function clearExpired()
+    protected function clearExpired(): void
     {
         $statement = $this->client->prepare(
             "DELETE FROM $this->table
             WHERE e < :expire"
         );
 
-        $statement->execute(array(':expire' => date('Y-m-d H:i:s')));
+        $statement->execute([':expire' => date('Y-m-d H:i:s')]);
     }
 
     /**
      * Transforms expiration times into TIMESTAMP (Y-m-d H:i:s) format, which DB
      * will understand and be able to compare with other dates.
-     *
-     * @param int $expire
-     *
-     * @return null|string
      */
-    protected function expire($expire)
+    protected function expire(int $expire): string|null
     {
         if ($expire === 0) {
-            return;
+            return null;
         }
 
         // relative time in seconds, <30 days
@@ -476,24 +415,16 @@ abstract class SQL implements KeyValueStore
      * on incrementing them in the DB, but revisited that idea.
      * However, not serializing numbers still causes some small DB storage gains
      * and it's safe (serialized data can never be confused for an int).
-     *
-     * @param mixed $value
-     *
-     * @return string|int
      */
-    protected function serialize($value)
+    protected function serialize(mixed $value): string
     {
-        return is_int($value) || is_float($value) ? $value : serialize($value);
+        return is_int($value) || is_float($value) ? (string) $value : serialize($value);
     }
 
     /**
      * Numbers aren't serialized for storage size purposes.
-     *
-     * @param mixed $value
-     *
-     * @return mixed|int|float
      */
-    protected function unserialize($value)
+    protected function unserialize(mixed $value): mixed
     {
         if (is_numeric($value)) {
             $int = (int) $value;
@@ -509,6 +440,6 @@ abstract class SQL implements KeyValueStore
             return $value;
         }
 
-        return unserialize($value);
+        return unserialize($value, ['allowed_classes' => true]);
     }
 }

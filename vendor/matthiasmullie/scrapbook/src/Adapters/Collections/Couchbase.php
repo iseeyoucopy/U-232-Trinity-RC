@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MatthiasMullie\Scrapbook\Adapters\Collections;
 
-use MatthiasMullie\Scrapbook\Adapters\Couchbase as Adapter;
 use MatthiasMullie\Scrapbook\Adapters\Collections\Utils\PrefixReset;
+use MatthiasMullie\Scrapbook\Adapters\Couchbase as Adapter;
 
 /**
  * Couchbase adapter for a subset of data, accomplished by prefixing keys.
@@ -26,11 +28,7 @@ use MatthiasMullie\Scrapbook\Adapters\Collections\Utils\PrefixReset;
  */
 class Couchbase extends PrefixReset
 {
-    /**
-     * @param Adapter $cache
-     * @param string  $name
-     */
-    public function __construct(Adapter $cache, $name)
+    public function __construct(Adapter $cache, string $name)
     {
         parent::__construct($cache, $name);
     }
