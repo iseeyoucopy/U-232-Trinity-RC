@@ -29,7 +29,7 @@ if ($user['birthday'] != '0') {
     }
     $HTMLOUT .= "<tr><td class='rowhead'>{$lang['userdetails_age']}</td><td align='left'>".htmlspecialchars($age)."</td></tr>\n";
     $birthday = date("Y-m-d", strtotime($birthday));
-    $HTMLOUT .= "<tr><td class='rowhead'>{$lang['userdetails_birthday']}</td><td align='left'>".htmlspecialchars($birthday)."</td></tr>\n";
+    $HTMLOUT .= "<tr><td class='rowhead'>{$lang['userdetails_birthday']}</td><td align='left'>".htmlspecialchars($birthday ?? '')."</td></tr>\n";
 }
 //==End
 // End Class
