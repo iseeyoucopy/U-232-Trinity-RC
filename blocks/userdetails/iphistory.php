@@ -29,6 +29,9 @@ if (($iphistory = $cache->get($keys['ip_history'].$id)) === false) {
         $enbl = isset($ipuse['yes']) ? $ipuse['yes'].' enabled ' : '';
         $dbl = isset($ipuse['no']) ? $ipuse['no'].' disabled ' : '';
         $mid = $enbl && $dbl ? 'and' : '';
+        if (!is_array($iphistory)) {
+            $iphistory = [];
+        }
         $iphistory['use'] = "<b>(<font color='red'>{$lang['userdetails_ip_warn']}</font> <a href='staffpanel.php?tool=usersearch&amp;action=usersearch&amp;ip=$ipcheck'>{$lang['userdetails_ip_used']}$enbl $mid $dbl{$lang['userdetails_ip_users']}</a>)</b>";
     }
     ($resip = sql_query("SELECT ip FROM ips WHERE userid = ".sqlesc($id)." GROUP BY ip")) || sqlerr(__FILE__, __LINE__);
