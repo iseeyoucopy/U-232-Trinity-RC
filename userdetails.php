@@ -36,7 +36,6 @@ $stdfoot = [
     /* include js **/
     'js' => [
         'popup',
-        'java_klappe',
         'flush_torrents',
     ],
 ];
