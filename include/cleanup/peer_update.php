@@ -38,10 +38,10 @@ function docleanup($data)
         $update = [];
         adjust_torrent_peers($tid, -$torrent_seeds[$tid], -$torrent_leeches[$tid], 0);
         if ($torrent_seeds[$tid] !== 0) {
-            $update[] = 'seeders = (seeders - '.$torrent_seeds[$tid].')';
+            $update[] = 'seeders = (seeders < '.$torrent_seeds[$tid].')';
         }
         if ($torrent_leeches[$tid] !== 0) {
-            $update[] = 'leechers = (leechers - '.$torrent_leeches[$tid].')';
+            $update[] = 'leechers = (leechers < '.$torrent_leeches[$tid].')';
         }
         sql_query('UPDATE torrents SET '.implode(', ', $update).' WHERE id = '.$tid) || sqlerr(__FILE__,
         __LINE__);
@@ -49,9 +49,7 @@ function docleanup($data)
     if ($queries > 0) {
         write_log("Peers clean-------------------- Peer cleanup Complete using $queries queries --------------------");
     }
-    if (false !== $mysqli->affected_rows) {
-        $data['clean_desc'] = $mysqli->affected_rows." items deleted/updated";
-    }
+    if ($mysqli->affected_rows) $data['clean_desc'] = $mysqli->affected_rows." items deleted/updated";
     if ($data['clean_log']) {
         cleanup_log($data);
     }

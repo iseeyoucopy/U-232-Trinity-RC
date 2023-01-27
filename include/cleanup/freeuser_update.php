@@ -56,9 +56,7 @@ function docleanup($data)
     if ($queries > 0) {
         write_log("Freelech clean-------------------- Freeleech cleanup Complete using $queries queries --------------------");
     }
-    if (false !== $mysqli->affected_rows) {
-        $data['clean_desc'] = $mysqli->affected_rows." items updated";
-    }
+    if ($mysqli->affected_rows) $data['clean_desc'] = $mysqli->affected_rows." items updated";
     if ($data['clean_log']) {
         cleanup_log($data);
     }

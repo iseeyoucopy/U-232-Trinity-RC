@@ -46,9 +46,7 @@ function docleanup($data)
     if ($queries > 0) {
         write_log("Delete Old Torrents XBT Clean -------------------- Delete Old XBT Torrents cleanup Complete using $queries queries --------------------");
     }
-    if (false !== $mysqli->affected_rows) {
-        $data['clean_desc'] = $mysqli->affected_rows." items deleted/updated";
-    }
+    if ($mysqli->affected_rows) $data['clean_desc'] = $mysqli->affected_rows." items deleted/updated";
     if ($data['clean_log']) {
         cleanup_log($data);
     }

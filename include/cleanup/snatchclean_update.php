@@ -18,9 +18,7 @@ function docleanup($data)
     //== Delete snatched
     $dt = (TIME_NOW - (30 * 86400));
     sql_query("DELETE FROM snatched WHERE complete_date < ".sqlesc($dt)) || sqlerr(__FILE__, __LINE__);
-    if (false !== $mysqli->affected_rows) {
-        $data['clean_desc'] = $mysqli->affected_rows." items deleted/updated";
-    }
+    if ($mysqli->affected_rows) $data['clean_desc'] = $mysqli->affected_rows." items deleted/updated";
 
     $snatchedcounts = [];
     $snatchedres = sql_query("SELECT torrentid, COUNT(*) AS count FROM snatched WHERE complete_date > 0 GROUP BY torrentid");

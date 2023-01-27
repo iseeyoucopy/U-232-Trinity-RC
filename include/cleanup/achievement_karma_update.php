@@ -21,7 +21,7 @@ function docleanup($data)
     $msg_buffer = $usersachiev_buffer = $achievements_buffer = [];
     if ($res->num_rows > 0) {
         $dt = TIME_NOW;
-        $points = random_int(1, 3);
+        $points = rand(1, 3);
         $subject = sqlesc("New Achievement Earned!");
         while ($arr = $res->fetch_assoc()) {
             $seedbonus = (float)$arr['seedbonus'];
@@ -150,9 +150,7 @@ function docleanup($data)
         }
         unset($usersachiev_buffer, $achievements_buffer, $msgs_buffer, $count);
     }
-    if (false !== $mysqli->affected_rows) {
-        $data['clean_desc'] = $mysqli->affected_rows." items updated";
-    }
+    if ($mysqli->affected_rows) $data['clean_desc'] = $mysqli->affected_rows." items updated";
     if ($data['clean_log']) {
         cleanup_log($data);
     }

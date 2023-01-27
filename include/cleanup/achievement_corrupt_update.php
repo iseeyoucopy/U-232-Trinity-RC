@@ -47,9 +47,7 @@ function docleanup($data)
         }
         unset($usersachiev_buffer, $achievement_buffer, $msgs_buffer, $count);
     }
-    if (false !== $mysqli->affected_rows) {
-        $data['clean_desc'] = $mysqli->affected_rows." items updated";
-    }
+    if ($mysqli->affected_rows) $data['clean_desc'] = $mysqli->affected_rows." items updated";
     if ($data['clean_log']) {
         cleanup_log($data);
     }

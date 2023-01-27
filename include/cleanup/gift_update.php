@@ -40,9 +40,7 @@ function docleanup($data)
     if ($queries > 0) {
         write_log("Xmas gift reset Clean -------------------- Xmas gift reset cleanup Complete using $queries queries --------------------");
     }
-    if (false !== $mysqli->affected_rows) {
-        $data['clean_desc'] = $mysqli->affected_rows." items deleted/updated";
-    }
+    if ($mysqli->affected_rows) $data['clean_desc'] = $mysqli->affected_rows." items deleted/updated";
     if ($data['clean_log']) {
         cleanup_log($data);
     }

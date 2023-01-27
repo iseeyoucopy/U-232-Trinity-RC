@@ -23,7 +23,7 @@ function docleanup($data)
         $msg = sqlesc("Congratulations, you have just earned the [b]Avatar Setter[/b] achievement. :) [img]".$TRINITY20['baseurl']."/pic/achievements/piratesheep.png[/img]");
         while ($arr = $res->fetch_assoc()) {
             $dt = TIME_NOW;
-            $points = random_int(1, 3);
+            $points = rand(1, 3);
             $msgs_buffer[] = '(0,'.$arr['id'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
             $achievements_buffer[] = '('.$arr['id'].', '.TIME_NOW.', \'Avatar Setter\', \'piratesheep.png\' , \'User has successfully set an avatar on profile settings.\')';
             $usersachiev_buffer[] = '('.$arr['id'].',1, '.$points.')';
@@ -46,7 +46,7 @@ function docleanup($data)
         }
         unset($usersachiev_buffer, $achievement_buffer, $msgs_buffer, $count);
     }
-    if (false !== $mysqli->affected_rows) {
+    if ($mysqli->affected_rows) {
         $data['clean_desc'] = $mysqli->affected_rows." items updated";
     }
     if ($data['clean_log']) {
