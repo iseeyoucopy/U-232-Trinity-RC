@@ -12,6 +12,7 @@
  */
 require_once(__DIR__."/include/ann_config.php");
 require_once(INCL_DIR.'ann_functions.php');
+require_once(CACHE_DIR.'cache_keys.php');
 if (isset($_SERVER['HTTP_COOKIE']) || isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) || isset($_SERVER['HTTP_ACCEPT_CHARSET'])) {
     exit('It takes 46 muscles to frown but only 4 to flip \'em the bird.');
 }
@@ -593,7 +594,7 @@ if ((is_countable($user_updateset) ? count($user_updateset) : 0) > 0) {
 }
 if (isset($_SERVER["HTTP_ACCEPT_ENCODING"]) && $_SERVER["HTTP_ACCEPT_ENCODING"] == "gzip") {
     header("Content-Encoding: gzip");
-    echo gzencode(benc_resp_raw($resp), 9, FORCE_GZIP);
+    echo gzencode(benc_resp_raw($resp ?? ""), 9, FORCE_GZIP);
 } else {
     benc_resp_raw($resp);
 }
