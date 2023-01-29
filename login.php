@@ -16,8 +16,7 @@ require_once(CLASS_DIR.'page_verify.php');
 dbconn();
 global $CURUSER;
 if (isset($CURUSER)) {
-    header("Location: {$TRINITY20['baseurl']}/index.php");
-    exit();
+	redirect( 'index.php' );
 }
 
 get_template();
@@ -59,7 +58,7 @@ $HTMLOUT .= "<div class='grid-container'>
 	        <div class='grid-x grid-padding-x align-center-middle text-center margin-top-3'>
 		    <div class='callout margin-top-3'>
 			<div class='corner-badge'>".left()."</div>
-			<img src='pic/logo.png'>";
+			<img src='" . url( 'pic/logo.png' ) . "'>";
 unset($returnto);
 if (!empty($_GET["returnto"])) {
     $returnto = htmlspecialchars($_GET["returnto"]);
