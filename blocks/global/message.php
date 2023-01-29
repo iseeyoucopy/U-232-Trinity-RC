@@ -18,12 +18,12 @@ if ($TRINITY20['msg_alert'] && $CURUSER && ($unread = $cache->get($keys['inbox_n
     $unread = (int)$arr[0];
     $cache->set($keys['inbox_new'].$CURUSER['id'], $unread, $TRINITY20['expires']['unread']);
 }
-/*
+
 if (($CURUSER['pm_forced'] == 'yes') AND (!defined("INBOX_SCRIPT")) AND ($unread)) {
    header("Location: {$TRINITY20['baseurl']}/pm_system.php");
    die;
 }
-*/
+
 //==End
 if ($TRINITY20['msg_alert'] && isset($unread) && !empty($unread)) {
     $htmlout .= "

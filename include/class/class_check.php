@@ -191,11 +191,11 @@ function get_access($script)
         }
         $i++;
     }
-    if (($class = $cache->get('av_class_'.$ending)) == false) {
+    if (($class = $cache->get($keys['av_class'].$ending)) == false) {
         ($classid = sql_query("SELECT av_class FROM staffpanel WHERE file_name LIKE '%$ending%'")) || sqlerr(__file__, __line__);
         $classid = $classid->fetch_assoc();
         $class = isset($classid['av_class']) ? (int)$classid['av_class'] : '';
-        $cache->set('av_class_'.$ending, $class, 900); //== test values 15 minutes to 0 once delete key in place //==
+        $cache->set($keys['av_class'].$ending, $class, 900); //== test values 15 minutes to 0 once delete key in place //==
     }
     return $class;
 }

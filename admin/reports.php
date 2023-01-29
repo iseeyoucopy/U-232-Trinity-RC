@@ -90,7 +90,7 @@ if ((isset($_GET["deal_with_report"])) || (isset($_POST["deal_with_report"]))) {
     $when_delt_with = "when_delt_with = ".sqlesc(TIME_NOW);
     sql_query("UPDATE reports SET delt_with = 1, $how_delt_with, $when_delt_with , who_delt_with_it =".sqlesc($CURUSER['id'])." WHERE delt_with!=1 AND id =".sqlesc($_POST['id'])) || sqlerr(__FILE__,
         __LINE__);
-    $cache->delete('new_report_');
+    $cache->delete($keys['new_report']);
 }
 // === end deal_with_report
 // === main reports page
@@ -98,7 +98,7 @@ $HTMLOUT .= "<table class='table table-bordered'><tr><td class='colhead'><h1>{$l
 // === if get delete
 if ((isset($_GET["delete"])) && ($CURUSER["class"] == UC_MAX)) {
     ($res = sql_query("DELETE FROM reports WHERE id =".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
-    $cache->delete('new_report_');
+    $cache->delete($keys['new_report']);
     $HTMLOUT .= "<h1>{$lang['reports_deleted']}</h1>\n";
 }
 // === get the count make the page

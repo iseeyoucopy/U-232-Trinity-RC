@@ -348,15 +348,15 @@ if ($CURUSER["id"] != $user["id"]) {
     $showpmbutton = ($r->num_rows == 1 ? 1 : 0);
 }
 //== Add or Remove Friends - updated 2020 by iseeyoucopy
-if (($friends = $cache->get('Friends_'.$id)) === false) {
+if (($friends = $cache->get($keys['u_friends'].$id)) === false) {
     ($r3 = sql_query("SELECT id FROM friends WHERE userid=".sqlesc($CURUSER['id'])." AND friendid=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $friends = $r3->num_rows;
-    $cache->set('Friends_'.$id, $friends, 10);
+    $cache->set($keys['u_friends'].$id, $friends, 10);
 }
-if (($blocks = $cache->get('Blocks_'.$id)) === false) {
+if (($blocks = $cache->get($keys['u_blocks'].$id)) === false) {
     ($r4 = sql_query("SELECT id FROM blocks WHERE userid=".sqlesc($CURUSER['id'])." AND blockid=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $blocks = $r4->num_rows;
-    $cache->set('Blocks_'.$id, $blocks, 10);
+    $cache->set($keys['u_blocks'].$id, $blocks, 10);
 }
 //== Join date 
 $joindate = $user["added"];
@@ -365,11 +365,11 @@ $joindate = $user['added'] == 0 ? "{$lang['userdetails_na']}" : get_date($user['
 //==Last Seen 
 $lastseen = $user["last_access"];
 $lastseen = $lastseen == 0 ? "{$lang['userdetails_never']}" : get_date($user['last_access'], '', 0, 1);
-if (($shit_list = $cache->get('shit_list_'.$id)) === false) {
+if (($shit_list = $cache->get($keys['shit_list'].$id)) === false) {
     ($check_if_theyre_shitty = sql_query("SELECT suspect FROM shit_list WHERE userid=".sqlesc($CURUSER['id'])." AND suspect=".sqlesc($id))) || sqlerr(__FILE__,
         __LINE__);
     [$shit_list] = $check_if_theyre_shitty->fetch_row();
-    $cache->set('shit_list_'.$id, $shit_list, $TRINITY20['expires']['shit_list']);
+    $cache->set($keys['shit_list'].$id, $shit_list, $TRINITY20['expires']['shit_list']);
 }
 $HTMLOUT = $perms = $stealth = $suspended = $watched_user = '';
 if (($user['anonymous'] == 'yes') && ($CURUSER['class'] < UC_STAFF && $user["id"] != $CURUSER["id"])) {

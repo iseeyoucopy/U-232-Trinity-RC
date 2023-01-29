@@ -37,7 +37,7 @@ if (isset($_GET['id'])) {
         $cache->update_row($keys['user'].$CURUSER['id'], [
             'mood' => $moodid,
         ], $TRINITY20['expires']['user_cache']);
-        $cache->delete('topmoods');
+        $cache->delete($keys['topmoods']);
         write_log('<b>'.$lang['user_mood_change'].'</b> '.$CURUSER['username'].' '.htmlspecialchars($rmood['name']).'<img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlspecialchars($rmood['image']).'" alt="" />');
         $HTMLOUT .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">		

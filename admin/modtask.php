@@ -144,7 +144,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         sql_query("INSERT INTO funds (cash, user, added) VALUES (".sqlesc($donated).", ".sqlesc($userid).", $added)") || sqlerr(__file__, __line__);
         $updateset[] = "donated = ".sqlesc($donated);
         $updateset[] = "total_donated = ".$user['total_donated']." + ".sqlesc($donated);
-        $cache->delete('totalfunds_');
+        $cache->delete($keys['ttl_funds']);
         $curuser_cache['donated'] = $donated;
         $user_cache['donated'] = $donated;
         $curuser_cache['total_donated'] = ($user['total_donated'] + $donated);
@@ -1061,7 +1061,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         $updateset[] = "forum_mod=".sqlesc($forum_mod);
         $curuser_cache['forum_mod'] = $forum_mod;
         $user_cache['forum_mod'] = $forum_mod;
-        $cache->delete('forummods');
+        $cache->delete($keys['forummods']);
         $modcomment = get_date(TIME_NOW, 'DATE', 1)." ".$CURUSER["username"]." ".$whatm." forum moderator rights\n".$modcomment;
     }
 
@@ -1076,7 +1076,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         $updateset[] = "forums_mod =".sqlesc($foo);
         $curuser_cache['forums_mod'] = $foo;
         $user_cache['forums_mod'] = $foo;
-        $cache->delete('forummods');
+        $cache->delete($keys['forummods']);
     }
     //== Add ModComment... (if we changed stuff we update otherwise we dont include this..)
     if (($CURUSER['class'] == UC_MAX && ($user['modcomment'] != $_POST['modcomment'] || $modcomment != $_POST['modcomment'])) || ($CURUSER['class'] < UC_MAX && $modcomment != $user['modcomment'])) {

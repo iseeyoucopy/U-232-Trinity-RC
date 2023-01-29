@@ -19,7 +19,7 @@ foreach ($categorie as $key => $value) {
     ];
 }
 
-if (($top10moviesweek = $cache->get('top10_mov_week_')) === false) {
+if (($top10moviesweek = $cache->get($keys['top10_mov_week'])) === false) {
     $tortimeweekmovie = $_SERVER['REQUEST_TIME'] - 604800;
     ($res_movweek = sql_query("SELECT id, times_completed, seeders, poster, leechers, name, category from torrents WHERE last_action >= {$tortimeweekmovie} AND category IN (".implode(", ",
             $TRINITY20['movie_cats']).") ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}")) || sqlerr(__FILE__,
@@ -28,7 +28,7 @@ if (($top10moviesweek = $cache->get('top10_mov_week_')) === false) {
         $top10moviesweek = (array)$top10moviesweek;
         $top10moviesweek[] = $top10movieweek;
     }
-    $cache->set('top10_mov_week_', $top10moviesweek);
+    $cache->set($keys['top10_mov_week'], $top10moviesweek);
 }
 $HTMLOUT .= "<table class='top10'>
             <tr>

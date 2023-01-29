@@ -18,7 +18,7 @@ foreach ($categorie as $key => $value) {
         'image' => $value['image'],
     ];
 }
-if (($top10torrents24 = $cache->get('top10_tor_24_')) === false) {
+if (($top10torrents24 = $cache->get($keys['top10_tor_24'])) === false) {
     $tortime24 = $_SERVER['REQUEST_TIME'] - 86400;
     ($res_top10_24 = sql_query("SELECT id, times_completed, seeders, poster, leechers, name, category from torrents WHERE last_action >= {$tortime24} ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}")) || sqlerr(__FILE__,
         __LINE__);
@@ -26,7 +26,7 @@ if (($top10torrents24 = $cache->get('top10_tor_24_')) === false) {
         $top10torrents24 = (array)$top10torrents24;
         $top10torrents24[] = $top10torrent24;
     }
-    $cache->set('top10_tor_24_', $top10torrents24);
+    $cache->set($keys['top10_tor_24'], $top10torrents24);
 }
 if (!empty($top10torrents24)) {
     $HTMLOUT .= "<table class='top10'>

@@ -215,7 +215,7 @@ if ($action == "acceptapp") {
     }
     $cache->delete($keys['inbox_new'].$subarr['id']);
     $cache->delete($keys['inbox_new_sb'].$subarr['id']);
-    $cache->delete('new_uploadapp_');
+    $cache->delete($keys['new_uploadapp']);
     stderr($lang['uploadapps_app_accepted'],
         "{$lang['uploadapps_app_msg']} {$lang['uploadapps_app_click']} <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=uploadapps&amp;action=app'><b>{$lang['uploadapps_app_here']}</b></a> {$lang['uploadapps_app_return']}");
 }
@@ -236,7 +236,7 @@ if ($action == "rejectapp") {
         __LINE__);
     sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, {$arr['uid']}, $dt, $msg, $subject, 0)") || sqlerr(__FILE__,
         __LINE__);
-    $cache->delete('new_uploadapp_');
+    $cache->delete($keys['new_uploadapp']);
     stderr($lang['uploadapps_app_rej'],
         "{$lang['uploadapps_app_rejbeen']} {$lang['uploadapps_app_click']} <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=uploadapps&amp;action=app'><b>{$lang['uploadapps_app_here']}</b></a>{$lang['uploadapps_app_return']}");
 }
@@ -246,7 +246,7 @@ if ($action == "takeappdelete") {
         stderr($lang['uploadapps_silly'], $lang['uploadapps_twix']);
     } else {
         sql_query("DELETE FROM uploadapp WHERE id IN (".implode(",", $_POST['deleteapp']).") ") || sqlerr(__FILE__, __LINE__);
-        $cache->delete('new_uploadapp_');
+        $cache->delete($keys['new_uploadapp']);
         stderr($lang['uploadapps_deleted'],
             "{$lang['uploadapps_deletedsuc']} {$lang['uploadapps_app_click']} <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=uploadapps&amp;action=app'><b>{$lang['uploadapps_app_here']}</b></a>{$lang['uploadapps_app_return']}");
     }

@@ -102,7 +102,7 @@ function docleanup($data)
                     'downloadpos' => 1,
                     'hnrwarn' => 'no',
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row('user_stats'.$arr_good_boy['id'], [
+                $cache->update_row($keys['user_stats'].$arr_good_boy['id'], [
                     'modcomment' => $modcomment,
                 ], $TRINITY20['expires']['user_stats']);
                 $cache->update_row($keys['user_stats'].$arr_good_boy['id'], [

@@ -21,7 +21,7 @@ function parse_poll()
         'allow_result_view' => 1,
         'allow_poll_tags' => 1,
     ]; // move this elsewhere later!
-    if (($poll_data = $cache->get('poll_data_'.$CURUSER['id'])) === false) {
+    if (($poll_data = $cache->get($keys['poll_data'].$CURUSER['id'])) === false) {
         //$poll_data = array();
         //search for a poll with given ID
         $query = sql_query("SELECT * FROM polls
@@ -36,7 +36,7 @@ function parse_poll()
         while ($row = $query->fetch_assoc()) {
             $poll_data = $row;
         }
-        $cache->set('poll_data_'.$CURUSER['id'], $poll_data, $TRINITY20['expires']['poll_data']);
+        $cache->set($keys['poll_data'].$CURUSER['id'], $poll_data, $TRINITY20['expires']['poll_data']);
     }
     //return $poll_data;
     $member_voted = 0;

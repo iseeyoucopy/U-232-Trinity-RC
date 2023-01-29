@@ -13,11 +13,11 @@
 if ($CURUSER['class'] >= UC_POWER_USER) {
 //== Snatched Torrents mod
     $What_Table = (XBT_TRACKER == true ? 'xbt_peers' : 'snatched');
-    $What_cache = (XBT_TRACKER == true ? 'snatched_tor_xbt_' : 'snatched_tor_');
+    $What_cache = (XBT_TRACKER == true ? $keys['snatched_tor_xbt'] : $keys['snatched_tor']);
     $What_Value = (XBT_TRACKER == true ? 'WHERE completedtime != "0"' : 'WHERE complete_date != "0"');
     $Which_ID = (XBT_TRACKER == true ? 'tid' : 'id');
     $Which_T_ID = (XBT_TRACKER == true ? 'tid' : 'torrentid');
-    $Which_Key_ID = (XBT_TRACKER == true ? 'snatched_count_xbt_' : 'snatched_count_');
+    $Which_Key_ID = (XBT_TRACKER == true ? $keys['snatched_count_xbt'] : $keys['snatched_count']);
     $keys['Snatched_Count'] = $Which_Key_ID.$id;
     if (($Row_Count = $cache->get($keys['Snatched_Count'])) === false) {
         ($Count_Q = sql_query("SELECT COUNT($Which_ID) FROM $What_Table $What_Value AND $Which_T_ID =".sqlesc($id))) || sqlerr(__FILE__, __LINE__);

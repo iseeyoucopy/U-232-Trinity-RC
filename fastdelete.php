@@ -85,9 +85,9 @@ if (XBT_TRACKER == true) {
     deletetorrent($id);
     remove_torrent_peers($id);
 }
-$cache->delete('top5_tor_');
-$cache->delete('last5_tor_');
-$cache->delete('scroll_tor_');
+$cache->delete($keys['top5_tor']);
+$cache->delete($keys['last5_tor']);
+$cache->delete($keys['scroll_tor']);
 $cache->delete($keys['torrent_details'].$id);
 $cache->delete($keys['torrent_details_txt'].$id);
 if ($CURUSER['id'] != $q['owner']) {

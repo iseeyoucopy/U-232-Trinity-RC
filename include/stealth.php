@@ -57,7 +57,7 @@ function stealth($id, $stealth = true)
     }
     write_log('Member [b][url=userdetails.php?id='.$id.']'.(htmlspecialchars($row['username'])).'[/url][/b] '.$display.' in Stealth Mode thanks to [b]'.$CURUSER['username'].'[/b]');
     // header ouput
-    $cache->set('display_stealth'.$CURUSER['id'], $display, 5);
+    $cache->set($keys['display_stealth'].$CURUSER['id'], $display, 5);
     header('Location: userdetails.php?id='.$id);
     exit();
 }

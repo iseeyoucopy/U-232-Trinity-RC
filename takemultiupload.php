@@ -321,9 +321,9 @@ foreach ($file_list as $key => $f) {
 
 
 $cache->delete($keys['my_peers'].$CURUSER['id']);
-//$cache->delete('lastest_tor_');  //
-$cache->delete('last5_tor_');
-$cache->delete('scroll_tor_');
+//$cache->delete($keys['lastest_tor']);  //
+$cache->delete($keys['last5_tor']);
+$cache->delete($keys['scroll_tor']);
 
 //==
 

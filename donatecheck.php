@@ -248,7 +248,7 @@ if ($hand = fsockopen('ssl://www.paypal.com', 443, $errno, $errstr, 30)) {
             sql_query(sprintf('INSERT INTO funds(cash,user,added) VALUES (%d,%d,%d)', $vars['amount'], $vars['uid'],
                 TIME_NOW)) || paypallog($mysqli->error);
             //clear the cache for the funds
-            $cache->delete('totalfunds_');
+            $cache->delete($keys['ttl_funds']);
             $msg[] = '('.$vars['uid'].',0,'.sqlesc('Donation - processed').','.sqlesc("Your donation was processed by paypal and our system\nWe remind you that you donated ".$vars['amount'].$TRINITY20['paypal_config']['currency']."\nIf you forgot what you'll get check the donation page again\nStaff from ".$TRINITY20['site_name']." is grateful for your donation\nIf you have any question's feel free to contact someone from staff").','.TIME_NOW.')';
             $msg[] = '('.$TRINITY20['paypal_config']['staff'].',0,'.sqlesc('Donation - made').','.sqlesc("This [url=".$TRINITY20['baseurl']."/userdetails.php?id=".(int)$vars['uid']."]user[/url] - donated ".$vars['amount'].$TRINITY20['paypal_config']['currency'].(empty($vars['memo']) ? '' : "\nUser sent a message with his donation:\n[b]".$vars['memo']."[/b]")).','.TIME_NOW.')';
         } else {

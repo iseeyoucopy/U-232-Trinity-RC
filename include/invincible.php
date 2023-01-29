@@ -46,7 +46,7 @@ function invincible($id, $invincible = true, $bypass_bans = true)
     sql_query('DELETE FROM `ips` WHERE userid = '.sqlesc($id)) || sqlerr(__file__, __line__);
     // delete any iplog caches
     $cache->delete($keys['ip_history'].$id);
-    $cache->delete('u_passkey_'.$row['torrent_pass']);
+    $cache->delete($keys['u_passkey'].$row['torrent_pass']);
     // update ip in db
     $modcomment = get_date(TIME_NOW, '', 1).' - '.$display.$lang['invincible_thanks_to'].$CURUSER['username']."\n".$row['modcomment'];
     //ipf = '.sqlesc($ip).',
@@ -82,7 +82,7 @@ function invincible($id, $invincible = true, $bypass_bans = true)
     }
     write_log(''.$lang['invincible_member'].'[b][url=userdetails.php?id='.$id.']'.(htmlspecialchars($row['username'])).'[/url][/b]'.$lang['invincible_is'].' '.$display.' '.$lang['invincible_thanks_to1'].' [b]'.$CURUSER['username'].'[/b]');
     // header ouput
-    $cache->set('display_'.$CURUSER['id'], $display, 5);
+    $cache->set($keys['display'].$CURUSER['id'], $display, 5);
     header('Location: userdetails.php?id='.$id);
     exit();
 }

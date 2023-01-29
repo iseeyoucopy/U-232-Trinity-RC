@@ -22,9 +22,9 @@ if (XBT_TRACKER == true) {
 } else {
     /** karma contribution alert hack **/
     $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $half_down_enabled = '';
-    if (($scheduled_events = $cache->get('freecontribution_datas_alerts_')) === false) {
+    if (($scheduled_events = $cache->get($keys['freecontribution_datas_alerts'])) === false) {
         $scheduled_events = mysql_fetch_all("SELECT * from `events` ORDER BY `startTime` DESC LIMIT 3;", []);
-        $cache->set('freecontribution_datas_alerts_', $scheduled_events, 3 * 86400);
+        $cache->set($keys['freecontribution_datas_alerts'], $scheduled_events, 3 * 86400);
     }
 
     if (is_array($scheduled_events)) {
@@ -66,11 +66,11 @@ if (XBT_TRACKER == true) {
     }
 //=== get total points
 //$target_fl = 30000;
-    if (($freeleech_counter = $cache->get('freeleech_counter_alerts_')) === false) {
+    if (($freeleech_counter = $cache->get($keys['freeleech_counter_alerts'])) === false) {
         $total_fl = sql_query('SELECT SUM(pointspool) AS pointspool, points FROM bonus WHERE id =11');
         $fl_total_row = $total_fl->fetch_assoc();
         $percent_fl = number_format($fl_total_row['pointspool'] / $fl_total_row['points'] * 100, 2);
-        $cache->set('freeleech_counter_alerts_', $percent_fl, 0);
+        $cache->set($keys['freeleech_counter_alerts'], $percent_fl, 0);
     } else {
         $percent_fl = $freeleech_counter;
     }
@@ -102,11 +102,11 @@ if (XBT_TRACKER == true) {
     }
 //=== get total points
 //$target_du = 30000;
-    if (($doubleupload_counter = $cache->get('doubleupload_counter_alerts_')) === false) {
+    if (($doubleupload_counter = $cache->get($keys['doubleupload_counter_alerts'])) === false) {
         $total_du = sql_query('SELECT SUM(pointspool) AS pointspool, points FROM bonus WHERE id =12');
         $du_total_row = $total_du->fetch_assoc();
         $percent_du = number_format($du_total_row['pointspool'] / $du_total_row['points'] * 100, 2);
-        $cache->set('doubleupload_counter_alerts_', $percent_du, 0);
+        $cache->set($keys['doubleupload_counter_alerts'], $percent_du, 0);
     } else {
         $percent_du = $doubleupload_counter;
     }
@@ -138,11 +138,11 @@ if (XBT_TRACKER == true) {
     }
 //=== get total points
 //$target_hd = 30000;
-    if (($halfdownload_counter = $cache->get('halfdownload_counter_alerts_')) === false) {
+    if (($halfdownload_counter = $cache->get($keys['halfdownload_counter_alerts'])) === false) {
         ($total_hd = sql_query('SELECT SUM(pointspool) AS pointspool, points FROM bonus WHERE id =13')) || sqlerr(__FILE__, __LINE__);
         $hd_total_row = $total_hd->fetch_assoc();
         $percent_hd = number_format($hd_total_row['pointspool'] / $hd_total_row['points'] * 100, 2);
-        $cache->set('halfdownload_counter_alerts_', $percent_hd, 0);
+        $cache->set($keys['halfdownload_counter_alerts'], $percent_hd, 0);
     } else {
         $percent_hd = $halfdownload_counter;
     }

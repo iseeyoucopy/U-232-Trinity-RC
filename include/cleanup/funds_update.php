@@ -20,7 +20,7 @@ function docleanup($data)
     $dt = sqlesc(TIME_NOW - $secs);
     sql_query("DELETE FROM funds WHERE added < $dt");
     //if ($mysqli->affected_rows() > 0)
-    $cache->delete('totalfunds_');
+    $cache->delete($keys['totalfunds']);
     // ===End
     //== Donation Progress Mod Updated For Tbdev 2009/2010 by Bigjoos/pdq
     ($res = sql_query("SELECT id, modcomment, vipclass_before FROM users WHERE donor='yes' AND donoruntil < ".TIME_NOW." AND donoruntil <> '0'")) || sqlerr(__FILE__,

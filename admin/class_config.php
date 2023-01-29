@@ -206,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ftruncate($filenum, 0);
             fwrite($filenum, $configfile);
             fclose($filenum);
-            $cache->delete('is_staffs_');
+            $cache->delete($keys['is_staffs']);
             stderr($lang['classcfg_success'], $lang['classcfg_success_save']);
         } else {
             stderr($lang['classcfg_error'], $lang['classcfg_error_query2']);
@@ -247,7 +247,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         while ($i <= $old_max) {
             sql_query("UPDATE users SET class = class -1 where class = $i") || sqlerr(__FILE__, __LINE__);
             sql_query("UPDATE staffpanel SET av_class = av_class -1 where av_class = $i") || sqlerr(__FILE__, __LINE__);
-            $cache->delete('is_staffs_');
+            $cache->delete($keys['is_staffs']);
             $i++;
         }
 

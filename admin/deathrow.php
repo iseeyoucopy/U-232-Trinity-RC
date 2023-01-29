@@ -81,9 +81,9 @@ function delete_torrent($delete_array, $page)
         remove_torrent_peers($id);
         remove_torrent($row['info_hash']);
         // index_last5_posters
-        $cache->delete('last5_tor_');
-        $cache->delete('top5_tor_');
-        $cache->delete('scroll_tor_');
+        $cache->delete($keys['last5_tor']);
+        $cache->delete($keys['top5_tor']);
+        $cache->delete($keys['scroll_tor']);
         // torrent_details
         $cache->delete($keys['torrent_details'].$id);
         $cache->delete($keys['torrent_xbt'].$id);

@@ -90,7 +90,7 @@ $HTMLOUT .= "<div class='card'>
 	</div>
 	<div class='card-section'>";
 $offers = [];
-if (($offers = $cache->get('offers_')) === false) {
+if (($offers = $cache->get($keys['offers'])) === false) {
     ($res = sql_query("SELECT o.id AS offer_id, o.offer_name, o.category, o.comments, o.added, o.filled_torrent_id, o.vote_yes_count, o.vote_no_count, o.status, u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.leechwarn, u.chatpost, u.pirate, u.king FROM offers AS o LEFT JOIN users AS u ON o.offered_by_user_id = u.id WHERE filled_torrent_id = 0 ORDER BY added DESC LIMIT {$TRINITY20['offers']['off_limit']}")) || sqlerr(__FILE__,
         __LINE__);
     if ($res->num_rows) {
@@ -98,7 +98,7 @@ if (($offers = $cache->get('offers_')) === false) {
             $offers = (array)$offers;
             $offers[] = $offer;
         }
-        $cache->update_row('offers_', $offers, $TRINITY20['expires']['off_limit']);
+        $cache->update_row($keys['offers'], $offers, $TRINITY20['expires']['off_limit']);
     }
 }
 if ((is_countable($offers) ? count($offers) : 0) > 0) {

@@ -2,8 +2,7 @@
 
 
 ///User Blocks without Bitwise by iseeyoucopy
-$user_blocks_key = 'blocksss::'.$row['id'];
-if (($user_row = $cache->get($user_blocks_key)) === false) {
+if (($user_row = $cache->get($key['blocks'].$row['id'])) === false) {
     $user_opt_int = [
         'id',
         'userid',
@@ -85,7 +84,7 @@ if (($user_row = $cache->get($user_blocks_key)) === false) {
     foreach ($user_opt_str as $ii) {
         $user_row[$ii] = $user_row[$ii];
     }
-    $cache->set($user_blocks_key, $user_row, $TRINITY20['expires']['curuser']);
+    $cache->set($key['blocks'].$row['id'], $user_row, $TRINITY20['expires']['curuser']);
     unset($c1_sql);
 }
 ?>

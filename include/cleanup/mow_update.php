@@ -22,7 +22,7 @@ function docleanup($data)
         $arr = $res_tor->fetch_assoc();
         sql_query("UPDATE avps SET value_u=".sqlesc($arr['id']).", value_i=".sqlesc(TIME_NOW)." WHERE avps.arg='bestfilmofweek'") || sqlerr(__FILE__,
             __LINE__);
-        $cache->delete('top_movie_2');
+        $cache->delete($keys['top_movie_2']);
         write_log("Torrent [".(int)$arr["id"]."]&nbsp;[".htmlentities($arr["name"])."] was set 'Best Film of the Week' by system");
     }
     //==End

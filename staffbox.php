@@ -50,7 +50,7 @@ switch ($do) {
     case 'delete':
         if ($id > 0) {
             if (sql_query('DELETE FROM staffmessages WHERE id IN ('.implode(',', $id).')')) {
-                $cache->delete('staff_mess_');
+                $cache->delete($keys['staff_mess']);
                 header('Refresh: 2; url='.$_SERVER['PHP_SELF']);
                 stderr($lang['staffbox_success'], $lang['staffbox_delete_ids']);
             } else {
@@ -77,7 +77,7 @@ switch ($do) {
             $message = ', answer='.sqlesc($message);
             if (sql_query('UPDATE staffmessages SET answered=\'1\', answeredby='.sqlesc($CURUSER['id']).' '.$message.' WHERE id IN ('.implode(',',
                     $id).')')) {
-                $cache->delete('staff_mess_');
+                $cache->delete($keys['staff_mess']);
                 header('Refresh: 2; url='.$_SERVER['PHP_SELF']);
                 stderr($lang['staffbox_success'], $lang['staffbox_setanswered_ids']);
             } else {
@@ -127,7 +127,7 @@ switch ($do) {
     case 'restart':
         if ($id > 0) {
             if (sql_query('UPDATE staffmessages SET answered=\'0\', answeredby=\'0\' WHERE id IN ('.implode(',', $id).')')) {
-                $cache->delete('staff_mess_');
+                $cache->delete($keys['staff_mess']);
                 header('Refresh: 2; url='.$_SERVER['PHP_SELF']);
                 stderr($lang['staffbox_success'], $lang['staffbox_restart_ids']);
             } else {

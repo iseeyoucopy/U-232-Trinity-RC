@@ -256,12 +256,12 @@ if (isset($cleansearchstr) && $searchstr != '') {
     $wherea[] = implode(' OR ', $searchincrt);
 }
 $where = (is_countable($wherea) ? count($wherea) : 0) > 0 ? 'WHERE '.implode(' AND ', $wherea) : '';
-$where_key = 'where::'.sha1($where);
-if (($count = $cache->get($where_key)) === false) {
+
+if (($count = $cache->get($keys['where'].sha1($where))) === false) {
     ($res = sql_query("SELECT COUNT(id) FROM torrents $where")) || sqlerr(__FILE__, __LINE__);
     $row = $res->fetch_row();
     $count = (int)$row[0];
-    $cache->set($where_key, $count, $TRINITY20['expires']['browse_where']);
+    $cache->set($keys['where'].sha1($where), $count, $TRINITY20['expires']['browse_where']);
 }
 $torrentsperpage = $CURUSER["torrentsperpage"];
 if (!$torrentsperpage) {

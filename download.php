@@ -53,7 +53,7 @@ if (happyHour('check') && happyCheck('checkid', $row['category']) && XBT_TRACKER
     happyLog($CURUSER['id'], $id, $multiplier);
     sql_query('INSERT INTO happyhour (userid, torrentid, multiplier ) VALUES ('.sqlesc($CURUSER['id']).','.sqlesc($id).','.sqlesc($multiplier).')') || sqlerr(__FILE__,
         __LINE__);
-    $cache->delete($CURUSER['id'].'_happy');
+    $cache->delete($CURUSER['id'].$keys['happyhour']);
 }
 
 if (($CURUSER['seedbonus'] === 0 || $CURUSER['seedbonus'] < $TRINITY20['bonus_per_download'])) {
@@ -134,7 +134,7 @@ if (isset($_GET['slot'])) {
     } else {
         stderr('ERROR', 'What\'s up doc?');
     }
-    $cache->delete('fllslot_'.$CURUSER['id']);
+    $cache->delete($keys['fllslot'].$CURUSER['id']);
     make_freeslots($CURUSER['id'], 'fllslot_');
     $user['freeslots'] = ($CURUSER['freeslots'] - 1);
     $cache->update_row($keys['my_userid'].$CURUSER['id'], [
@@ -146,9 +146,9 @@ if (isset($_GET['slot'])) {
 }
 /* end **/
 $cache->delete($keys['my_peers'].$CURUSER['id']);
-$cache->delete('top5_tor_');
-$cache->delete('last5_tor_');
-$cache->delete('scroll_tor_');
+$cache->delete($keys['top5_tor']);
+$cache->delete($keys['last5_tor']);
+$cache->delete($keys['scroll_tor']);
 if (!isset($CURUSER['torrent_pass']) || strlen($CURUSER['torrent_pass']) != 32) {
     ($xbt_config_query = sql_query("SELECT value FROM xbt_config WHERE name='torrent_pass_private_key'")) || sqlerr(__FILE__, __LINE__);
     $xbt_config = $xbt_config_query->fetch_row();

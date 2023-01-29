@@ -60,7 +60,7 @@ function docleanup($data)
                 $cache->update_row($keys['userstats_xbt'].$arr_fuckers['uid'], [
                     'modcomment' => $modcomment,
                 ], $TRINITY20['expires']['u_stats_xbt']);
-                $cache->update_row('user_stats_xbt'.$arr_fuckers['uid'], [
+                $cache->update_row($keys['user_stats_xbt'].$arr_fuckers['uid'], [
                     'modcomment' => $modcomment,
                 ], $TRINITY20['expires']['user_stats_xbt']);
                 $cache->update_row($keys['my_userid'].$arr_fuckers['uid'], [
@@ -109,7 +109,7 @@ function docleanup($data)
                     'can_leech' => 1,
                     'hnrwarn' => 'no',
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row('user_stats_xbt'.$arr_good_boy['id'], [
+                $cache->update_row($keys['user_stats_xbt'].$arr_good_boy['id'], [
                     'modcomment' => $modcomment,
                 ], $TRINITY20['expires']['user_stats_xbt']);
                 $cache->update_row($keys['userstats_xbt'].$arr_good_boy['id'], [

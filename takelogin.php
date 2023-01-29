@@ -59,12 +59,11 @@ if ($TRINITY20['captcha_on'] && !$gotkey && (empty($captchaSelection) || $_SESSI
 }
 function bark($text = 'Username or password incorrect')
 {
-    global $lang, $TRINITY20, $cache;
+    global $lang, $TRINITY20, $cache, $keys;
     $sha = sha1($_SERVER['REMOTE_ADDR']);
-    $dict_key = 'dictbreaker:::'.$sha;
-    $flood = $cache->get($dict_key);
+    $flood = $cache->get($keys['dictbreaker'].$sha);
     if ($flood === false) {
-        $cache->set($dict_key, 'flood_check', 20);
+        $cache->set($keys['dictbreaker'].$sha, 'flood_check', 20);
     } else {
         die("{$lang['tlogin_err4']}");
     }

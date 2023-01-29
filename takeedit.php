@@ -298,16 +298,16 @@ if ((is_countable($updateset) ? count($updateset) : 0) > 0) {
 }
 if ($torrent_cache !== []) {
     $cache->update_row($keys['torrent_details'].$id, $torrent_cache, $TRINITY20['expires']['torrent_details']);
-    $cache->delete('top5_tor_');
-    $cache->delete('last5_tor_');
-    $cache->delete('scroll_tor_');
+    $cache->delete($keys['top5_tor']);
+    $cache->delete($keys['last5_tor']);
+    $cache->delete($keys['scroll_tor']);
 }
 if ($torrent_txt_cache) {
     $cache->update_row($keys['torrent_details_txt'].$id, $torrent_txt_cache, $TRINITY20['expires']['torrent_details_text']);
 }
 remove_torrent($infohash);
 write_log("torrent edited - ".htmlspecialchars($name).' was edited by '.(($fetch_assoc['anonymous'] == 'yes') ? 'Anonymous' : htmlspecialchars($CURUSER['username']))."");
-$cache->delete('editedby_'.$id);
+$cache->delete($keys['editedby'].$id);
 $returl = (isset($_POST['returnto']) ? urlencode($_POST['returnto']) : 'details.php?id='.$id.'&edited=1');
 header("Refresh: 0; url=$returl");
 ?>

@@ -11,10 +11,10 @@
  * ------------  @version V6  ------------------*
  */
 if ($TRINITY20['uploadapp_alert'] && $CURUSER['class'] >= UC_STAFF) {
-    if (($newapp = $cache->get('new_uploadapp_')) === false) {
+    if (($newapp = $cache->get($keys['new_uploadapp'])) === false) {
         ($res_newapps = sql_query("SELECT count(id) FROM uploadapp WHERE status = 'pending'")) || sqlerr(__FILE__, __LINE__);
         [$newapp] = $res_newapps->fetch_row();
-        $cache->set('new_uploadapp_', $newapp, $TRINITY20['expires']['alerts']);
+        $cache->set($keys['new_uploadapp'], $newapp, $TRINITY20['expires']['alerts']);
     }
     if ($newapp > 0) {
         $htmlout .= "

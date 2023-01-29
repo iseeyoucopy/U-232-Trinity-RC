@@ -30,7 +30,7 @@ if ($id > 0 && $rate >= 1 && $rate <= 5) {
     if (sql_query("INSERT INTO rating(".$what.",rating,user) VALUES (".sqlesc($id).",".sqlesc($rate).",".sqlesc($uid).")")) {
         $table = ($what == "torrent" ? "torrents" : "topics");
         sql_query("UPDATE ".$table." SET num_ratings = num_ratings + 1, rating_sum = rating_sum+".sqlesc($rate)." WHERE id = ".sqlesc($id));
-        $cache->delete('rating_'.$what.'_'.$id.'_'.$CURUSER['id']);
+        $cache->delete($keys['rating'].$what.'_'.$id.'_'.$CURUSER['id']);
         if ($what == "torrent") {
             ($f_r = sql_query("SELECT num_ratings, rating_sum FROM torrents WHERE id = ".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
             $r_f = $f_r->fetch_assoc();

@@ -12,8 +12,8 @@
  */
 function searchcloud($limit = 50)
 {
-    global $cache, $TRINITY20;
-    if (!($return = $cache->get('searchcloud'))) {
+    global $cache, $TRINITY20, $keys;
+    if (!($return = $cache->get($keys['searchcloud']))) {
         ($search_q = sql_query('SELECT searchedfor,howmuch FROM searchcloud ORDER BY id DESC '.($limit > 0 ? 'LIMIT '.$limit : ''))) || sqlerr(__FILE__,
             __LINE__);
         if ($search_q->num_rows) {
@@ -22,7 +22,7 @@ function searchcloud($limit = 50)
                 $return[$search_a['searchedfor']] = $search_a['howmuch'];
             }
             ksort($return);
-            $cache->set('searchcloud', $return, 0);
+            $cache->set($keys['searchcloud'], $return, 0);
             return $return;
         }
         return [];
@@ -33,15 +33,15 @@ function searchcloud($limit = 50)
 
 function searchcloud_insert($word)
 {
-    global $cache, $TRINITY20;
+    global $cache, $TRINITY20, $keys;
     $searchcloud = searchcloud();
     $ip = getip();
     $howmuch = isset($searchcloud[$word]) ? $searchcloud[$word] + 1 : 1;
     if (!(is_countable($searchcloud) ? count($searchcloud) : 0) || !isset($searchcloud[$word])) {
         $searchcloud[$word] = $howmuch;
-        $cache->set('searchcloud', $searchcloud, 0);
+        $cache->set($keys['searchcloud'], $searchcloud, 0);
     } else {
-        $cache->update_row('searchcloud', [
+        $cache->update_row($keys['searchcloud'], [
             $word => $howmuch,
         ], 0);
     }

@@ -173,12 +173,11 @@ if (isset($cleansearchstr) && $searchstr != '') {
     $wherea[] = implode(' OR ', $searchincrt);
 }
 $where = count($wherea) > 0 ? 'WHERE '.implode(' AND ', $wherea) : '';
-$where_key = 'todaywhere::'.sha1($where);
-if (($count = $cache->get($where_key)) === false) {
+if (($count = $cache->get($keys['todaywhere'].sha1($where))) === false) {
     ($res = sql_query("SELECT COUNT(id) FROM torrents $where")) || sqlerr(__FILE__, __LINE__);
     $row = $res->fetch_row();
     $count = (int)$row[0];
-    $cache->set($where_key, $count, $TRINITY20['expires']['browse_where']);
+    $cache->set($keys['todaywhere'].sha1($where), $count, $TRINITY20['expires']['browse_where']);
 }
 $torrentsperpage = $CURUSER["torrentsperpage"];
 if (!$torrentsperpage) {
@@ -201,7 +200,7 @@ if ($count) {
 
     /*
     $TRINITY20['expires']['torrent_browse'] = 30;
-    if (($torrents = $cache->get('torrent_browse_' . $CURUSER['class'])) === false) {
+    if (($torrents = $cache->get($keys['torrent_browse'] . $CURUSER['class'])) === false) {
     $tor_fields_ar_int = array(
         'id',
         'leechers',
@@ -255,7 +254,7 @@ if ($count) {
     $torrents = $result->fetch_assoc();
     foreach ($tor_fields_ar_int as $i) $torrents[$i] = (int)$torrents[$i];
     foreach ($tor_fields_ar_str as $i) $torrents[$i] = $torrents[$i];
-    $cache->set('torrent_browse_' . $CURUSER['class'], $torrents, $TRINITY20['expires']['torrent_browse']);
+    $cache->set($keys['torrent_browse'] . $CURUSER['class'], $torrents, $TRINITY20['expires']['torrent_browse']);
     }
     */
     $query = "SELECT id, search_text, category, leechers, seeders, bump, release_group, subs, name, times_completed, size, added, poster, descr, type, free, silver, comments, numfiles, filename, anonymous, sticky, nuked, vip, nukereason, newgenre, description, owner, username, youtube, checked_by, IF(nfo <> '', 1, 0) as nfoav,"."IF(num_ratings < {$TRINITY20['minvotes']}, NULL, ROUND(rating_sum / num_ratings, 1)) AS rating "."FROM torrents {$where} {$orderby} {$pager['limit']}";

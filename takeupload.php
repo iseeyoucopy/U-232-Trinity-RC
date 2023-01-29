@@ -321,9 +321,9 @@ if (XBT_TRACKER == false) {
 }
 $id = $mysqli->insert_id;
 $cache->delete($keys['my_peers'].$CURUSER['id']);
-//$cache->delete('lastest_tor_');  //
-$cache->delete('last5_tor_');
-$cache->delete('scroll_tor_');
+//$cache->delete($keys['lastest_tor']);  //
+$cache->delete($keys['last5_tor']);
+$cache->delete($keys['scroll_tor']);
 
 sql_query("DELETE FROM files WHERE torrent = ".sqlesc($id));
 function file_list($arr, $id)

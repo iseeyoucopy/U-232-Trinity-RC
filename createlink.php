@@ -43,7 +43,7 @@ if ($action == 'reset') {
     $cache->update_row($keys['my_userid'].$id, [
         'hash1' => $hash1,
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('hash1_'.$id, [
+    $cache->update_row($keys['hash1'].$id, [
         'hash1' => $hash1,
     ], $TRINITY20['expires']['user_hash']);
     header("Refresh: 1; url={$TRINITY20['baseurl']}/userdetails.php?id=$id");
@@ -57,7 +57,7 @@ if ($action == 'reset') {
     $cache->update_row($keys['my_userid'].$id, [
         'hash1' => $hash1,
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('hash1_'.$id, [
+    $cache->update_row($keys['hash1'].$id, [
         'hash1' => $hash1,
     ], $TRINITY20['expires']['user_hash']);
     stderr('Success', $lang['createlink_your_login_link_was_created_successfully']);

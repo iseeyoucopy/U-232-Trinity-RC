@@ -29,11 +29,11 @@ if ($SitePot['value_u'] < TIME_NOW && $SitePot['value_s'] == '1') {
 
 //=== site pot-o-meter (.) (.) == set the target amount for free leech
 //=== get total points
-if (($site_pot_counter = $cache->get('site_pot_counter')) === false) {
+if (($site_pot_counter = $cache->get($keys['site_pot_counter'])) === false) {
     $total = sql_query('SELECT value_i FROM avps WHERE avps.arg = "sitepot"');
     $total_row = $total->fetch_assoc();
     $percent = number_format($total_row['value_i'] / $potsize * 100, 2);
-    $cache->set('site_pot_counter', $percent);
+    $cache->set($keys['site_pot_counter'], $percent);
 } else {
     $percent = $site_pot_counter;
 }
@@ -105,11 +105,11 @@ if ($want_pot && (isset($pot_options[$want_pot]))) {
         $cache->update_row($keys['user_statss'].$CURUSER['id'], [
             'seedbonus' => $update['seedbonus_donator'],
         ], $TRINITY20['expires']['curuser']);
-        $cache->delete('Sitepot_');
+        $cache->delete($keys['sitepot']);
         write_log("Site Pot ".$CURUSER['username']." has donated ".$want_pot." karma points to the site pot. {$Remaining} karma points remaining.");
         sql_query("UPDATE avps SET value_i = value_i + ".sqlesc($want_pot)." 
                      WHERE arg = 'sitepot'") || sqlerr(__file__, __line__);
-        $cache->delete('site_pot_counter');
+        $cache->delete($keys['site_pot_counter']);
         /** shoutbox announce **/
         require_once(INCL_DIR.'bbcode_functions.php');
         $msg = $CURUSER['username']." put ".$want_pot." karma point".($want_pot > 1 ? 's' : '')." into the site pot! * Only [b]".$Remaining."[/b] more karma point".($Remaining > 1 ? 's' : '')." to go! * [color=green][b]Site Pot:[/b][/color] [url={$TRINITY20['baseurl']}/sitepot.php]".$give."/".$potsize.'[/url]';
@@ -131,13 +131,13 @@ if ($want_pot && (isset($pot_options[$want_pot]))) {
         $cache->update_row($keys['user_statss'].$CURUSER['id'], [
             'seedbonus' => $update['seedbonus_donator'],
         ], $TRINITY20['expires']['curuser']);
-        $cache->delete('Sitepot_');
+        $cache->delete($keys['sitepot']);
 
         write_log("Site Pot ".$CURUSER['username']." has donated ".$want_pot." karma points to the site pot.");
         sql_query("UPDATE avps SET value_i = value_i + ".sqlesc($want_pot).", 
                      value_u = '".(86400 + TIME_NOW)."', 
                      value_s = '1' WHERE arg = 'sitepot'") || sqlerr(__file__, __line__);
-        $cache->delete('site_pot_counter');
+        $cache->delete($keys['site_pot_counter']);
         write_log("24 HR FREELEECH is now active! It was started on ".get_date(TIME_NOW, 'DATE').".");
         /** shoutbox announce **/
         require_once(INCL_DIR.'bbcode_functions.php');

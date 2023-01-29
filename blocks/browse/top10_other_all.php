@@ -18,7 +18,7 @@ foreach ($categorie as $key => $value) {
         'image' => $value['image'],
     ];
 }
-if (($top10others = $cache->get('top10_other_')) === false) {
+if (($top10others = $cache->get($keys['top10_other'])) === false) {
     ($res_other = sql_query("SELECT id, times_completed, seeders, leechers, name, category from torrents WHERE category IN (".implode(", ",
             $TRINITY20['other_cats']).") ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}")) || sqlerr(__FILE__,
         __LINE__);
@@ -26,7 +26,7 @@ if (($top10others = $cache->get('top10_other_')) === false) {
         $top10others = (array)$top10others;
         $top10others[] = $top10other;
     }
-    $cache->set('top10_other_', $top10others);
+    $cache->set($keys['top10_other'], $top10others);
 }
 $HTMLOUT .= "<table class='top10'>
             <tr>

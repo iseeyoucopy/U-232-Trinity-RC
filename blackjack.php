@@ -191,13 +191,13 @@ if ($game) {
                         'uploaded' => $update['uploaded_loser'],
                     ], $TRINITY20['expires']['user_stats']);
                     //== curuser values
-                    $cache->update_row('MyUser'.$CURUSER['id'], [
+                    $cache->update_row($keys['my_userid'].$CURUSER['id'], [
                         'bjwins' => $update['bjwins'],
                     ], $TRINITY20['expires']['curuser']);
                     $cache->update_row($keys['user'].$CURUSER['id'], [
                         'bjwins' => $update['bjwins'],
                     ], $TRINITY20['expires']['user_cache']);
-                    $cache->update_row('MyUser'.$a['userid'], [
+                    $cache->update_row($keys['my_userid'].$a['userid'], [
                         'bjlosses' => $update['bjlosses'],
                     ], $TRINITY20['expires']['curuser']);
                     $cache->update_row($keys['user'].$a['userid'], [
@@ -251,13 +251,13 @@ if ($game) {
                         'uploaded' => $update['uploaded_loser'],
                     ], $TRINITY20['expires']['user_stats']);
                     //== curuser values
-                    $cache->update_row('MyUser'.$a['userid'], [
+                    $cache->update_row($keys['my_userid'].$a['userid'], [
                         'bjwins' => $update['bjwins'],
                     ], $TRINITY20['expires']['curuser']);
                     $cache->update_row($keys['user'].$a['userid'], [
                         'bjwins' => $update['bjwins'],
                     ], $TRINITY20['expires']['user_cache']);
-                    $cache->update_row('MyUser'.$CURUSER['id'], [
+                    $cache->update_row($keys['my_userid'].$CURUSER['id'], [
                         'bjlosses' => $update['bjlosses'],
                     ], $TRINITY20['expires']['curuser']);
                     $cache->update_row($keys['user'].$CURUSER['id'], [
@@ -346,13 +346,13 @@ if ($game) {
                     'uploaded' => $update['uploaded_loser'],
                 ], $TRINITY20['expires']['user_stats']);
                 //== curuser values
-                $cache->update_row('MyUser'.$a['userid'], [
+                $cache->update_row($keys['my_userid'].$a['userid'], [
                     'bjwins' => $update['bjwins'],
                 ], $TRINITY20['expires']['curuser']);
                 $cache->update_row($keys['user'].$a['userid'], [
                     'bjwins' => $update['bjwins'],
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row('MyUser'.$CURUSER['id'], [
+                $cache->update_row($keys['my_userid'].$CURUSER['id'], [
                     'bjlosses' => $update['bjlosses'],
                 ], $TRINITY20['expires']['curuser']);
                 $cache->update_row($keys['user'].$CURUSER['id'], [

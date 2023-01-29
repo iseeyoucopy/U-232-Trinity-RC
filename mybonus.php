@@ -607,7 +607,7 @@ if (isset($_GET['exchange'])) {
                 $TRINITY20['expires']['u_stats']
             );
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['uploaded' => $upload + $arr_points['menge'], 'seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -632,7 +632,7 @@ if (isset($_GET['exchange'])) {
             $cache->update_row($keys['my_userid'].$userid, ['reputation' => $rep], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -657,7 +657,7 @@ if (isset($_GET['exchange'])) {
             $cache->update_row($keys['my_userid'].$userid, ['immunity' => $immunity], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -682,7 +682,7 @@ if (isset($_GET['exchange'])) {
             $cache->update_row($keys['my_userid'].$userid, ['got_blocks' => 'yes'], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -707,7 +707,7 @@ if (isset($_GET['exchange'])) {
             $cache->update_row($keys['my_userid'].$userid, ['got_moods' => 'yes'], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -729,7 +729,7 @@ if (isset($_GET['exchange'])) {
             $cache->update_row($keys['my_userid'].$userid, ['anonymous_until' => $anonymous_until], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -751,7 +751,7 @@ if (isset($_GET['exchange'])) {
             $cache->update_row($keys['my_userid'].$userid, ['parked_until' => $parked_until], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -775,7 +775,7 @@ if (isset($_GET['exchange'])) {
                 $TRINITY20['expires']['u_stats']
             );
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['downloaded' => $download - $arr_points['menge'], 'seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -797,7 +797,7 @@ if (isset($_GET['exchange'])) {
             $cache->update_row($keys['my_userid'].$userid, ['free_switch' => $free_switch], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -817,7 +817,7 @@ if (isset($_GET['exchange'])) {
             $cache->update_row($keys['my_userid'].$userid, ['freeslots' => $slots], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -862,7 +862,7 @@ if (isset($_GET['exchange'])) {
             $cache->update_row($keys['my_userid'].$userid, ['invites' => $inv, 'freeslots' => $fslot], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -888,7 +888,7 @@ if (isset($_GET['exchange'])) {
             $cache->update_row($keys['my_userid'].$userid, ['free_switch' => $free_switch, 'pirate' => $pirate], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -977,7 +977,7 @@ if (isset($_GET['exchange'])) {
             $cache->update_row($keys['my_userid'].$userid, ['free_switch' => $free_switch, 'king' => $king], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -1013,16 +1013,16 @@ if (isset($_GET['exchange'])) {
                 sql_query("UPDATE bonus SET pointspool = ".sqlesc($norefund)." WHERE id = '11' LIMIT 1") || sqlerr(__FILE__, __LINE__);
                 $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
                 $cache->update_row(
-                    'user_stats_'.$userid,
+                    $keys['user_statss'].$userid,
                     ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                     $TRINITY20['expires']['user_stats']
                 );
-                $cache->delete('freecontribution_');
-                $cache->delete('top_donators_');
-                $cache->delete('freeleech_counter');
-                $cache->delete('freeleech_counter_alerts_');
-                $cache->delete('freecontribution_datas_');
-                $cache->delete('freecontribution_datas_alerts_');
+                $cache->delete($keys['freecontribution']);
+                $cache->delete($keys['top_donators']);
+                $cache->delete($keys['freeleech_counter']);
+                $cache->delete($keys['freeleech_counter_alerts']);
+                $cache->delete($keys['freecontribution_datas']);
+                $cache->delete($keys['freecontribution_datas_alerts']);
                 write_bonus_log($CURUSER["id"], $donation, $type = "freeleech");
                 $msg = $CURUSER['username']." Donated ".$donation." karma point".($donation > 1 ? 's' : '')." into the freeleech contribution pot and has activated freeleech for 3 days ".$donation."/".$points.'';
 
@@ -1041,16 +1041,16 @@ if (isset($_GET['exchange'])) {
             ) || sqlerr(__FILE__, __LINE__);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
-            $cache->delete('freecontribution_');
-            $cache->delete('top_donators_');
-            $cache->delete('freeleech_counter');
-            $cache->delete('freeleech_counter_alerts_');
-            $cache->delete('freecontribution_datas_');
-            $cache->delete('freecontribution_datas_alerts_');
+            $cache->delete($keys['freecontribution']);
+            $cache->delete($keys['top_donators']);
+            $cache->delete($keys['freeleech_counter']);
+            $cache->delete($keys['freeleech_counter_alerts']);
+            $cache->delete($keys['freecontribution_datas']);
+            $cache->delete($keys['freecontribution_datas_alerts']);
             write_bonus_log($CURUSER["id"], $donation, $type = "freeleech");
             $Remaining = ($arr_points['points'] - $arr_points['pointspool'] - $donation);
             $msg = $CURUSER['username']." Donated ".$donation." karma point".($donation > 1 ? 's' : '')." into the freeleech contribution pot ! * Only [b]".htmlspecialchars($Remaining)."[/b] more karma point".($Remaining > 1 ? 's' : '')." to go! * [color=green][b]Freeleech contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]".$donation."/".$points.'[/url]';
@@ -1088,16 +1088,16 @@ if (isset($_GET['exchange'])) {
                 sql_query("UPDATE bonus SET pointspool = ".sqlesc($norefund)." WHERE id = '12' LIMIT 1") || sqlerr(__FILE__, __LINE__);
                 $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
                 $cache->update_row(
-                    'user_stats_'.$userid,
+                    $keys['user_statss'].$userid,
                     ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                     $TRINITY20['expires']['user_stats']
                 );
-                $cache->delete('freecontribution_');
-                $cache->delete('top_donators2_');
-                $cache->delete('doubleupload_counter');
-                $cache->delete('doubleupload_counter_alerts_');
-                $cache->delete('freecontribution_datas_');
-                $cache->delete('freecontribution_datas_alerts_');
+                $cache->delete($keys['freecontribution']);
+                $cache->delete($keys['top_donators2']);
+                $cache->delete($keys['doubleupload_counter']);
+                $cache->delete($keys['doubleupload_counter_alerts']);
+                $cache->delete($keys['freecontribution_datas']);
+                $cache->delete($keys['freecontribution_datas_alerts']);
                 write_bonus_log($CURUSER["id"], $donation, $type = "doubleupload");
                 $msg = $CURUSER['username']." Donated ".$donation." karma point".($donation > 1 ? 's' : '')." into the double upload contribution pot and has activated Double Upload for 3 days ".$donation."/".$points.'';
                 if ($TRINITY20['autoshout_on'] == 1) {
@@ -1115,16 +1115,16 @@ if (isset($_GET['exchange'])) {
             ) || sqlerr(__FILE__, __LINE__);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
-            $cache->delete('freecontribution_');
-            $cache->delete('top_donators2_');
-            $cache->delete('doubleupload_counter');
-            $cache->delete('doubleupload_counter_alerts_');
-            $cache->delete('freecontribution_datas_');
-            $cache->delete('freecontribution_datas_alerts_');
+            $cache->delete($keys['freecontribution']);
+            $cache->delete($keys['top_donators2']);
+            $cache->delete($keys['doubleupload_counter']);
+            $cache->delete($keys['doubleupload_counter_alerts']);
+            $cache->delete($keys['freecontribution_datas']);
+            $cache->delete($keys['freecontribution_datas_alerts']);
             write_bonus_log($CURUSER["id"], $donation, $type = "doubleupload");
             $Remaining = ($arr_points['points'] - $arr_points['pointspool'] - $donation);
             $msg = $CURUSER['username']." Donated ".$donation." karma point".($donation > 1 ? 's' : '')." into the double upload contribution pot ! * Only [b]".htmlspecialchars($Remaining)."[/b] more karma point".($Remaining > 1 ? 's' : '')." to go! * [color=green][b]Double upload contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]".$donation."/".$points.'[/url]';
@@ -1163,16 +1163,16 @@ if (isset($_GET['exchange'])) {
                 sql_query("UPDATE bonus SET pointspool = ".sqlesc($norefund)." WHERE id = '13' LIMIT 1") || sqlerr(__FILE__, __LINE__);
                 $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
                 $cache->update_row(
-                    'user_stats_'.$userid,
+                    $keys['user_statss'].$userid,
                     ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                     $TRINITY20['expires']['user_stats']
                 );
-                $cache->delete('freecontribution_');
-                $cache->delete('top_donators3_');
-                $cache->delete('halfdownload_counter');
-                $cache->delete('halfdownload_counter_alerts_');
-                $cache->delete('freecontribution_datas_');
-                $cache->delete('freecontribution_datas_alerts_');
+                $cache->delete($keys['freecontribution']);
+                $cache->delete($keys['top_donators3']);
+                $cache->delete($keys['halfdownload_counter']);
+                $cache->delete($keys['halfdownload_counter_alerts']);
+                $cache->delete($keys['freecontribution_datas']);
+                $cache->delete($keys['freecontribution_datas_alerts']);
                 write_bonus_log($CURUSER["id"], $donation, $type = "halfdownload");
                 $msg = $CURUSER['username']." Donated ".$donation." karma point".($donation > 1 ? 's' : '')." into the half download contribution pot and has activated half download for 3 days ".$donation."/".$points.'';
 
@@ -1189,16 +1189,16 @@ if (isset($_GET['exchange'])) {
             ) || sqlerr(__FILE__, __LINE__);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
-            $cache->delete('freecontribution_');
-            $cache->delete('top_donators3_');
-            $cache->delete('halfdownload_counter');
-            $cache->delete('halfdownload_counter_alerts_');
-            $cache->delete('freecontribution_datas_');
-            $cache->delete('freecontribution_datas_alerts_');
+            $cache->delete($keys['freecontribution']);
+            $cache->delete($keys['top_donators3']);
+            $cache->delete($keys['halfdownload_counter']);
+            $cache->delete($keys['halfdownload_counter_alerts']);
+            $cache->delete($keys['freecontribution_datas']);
+            $cache->delete($keys['freecontribution_datas_alerts']);
             write_bonus_log($CURUSER["id"], $donation, $type = "halfdownload");
             $Remaining = ($arr_points['points'] - $arr_points['pointspool'] - $donation);
             $msg = $CURUSER['username']." Donated ".$donation." karma point".($donation > 1 ? 's' : '')." into the half download contribution pot ! * Only [b]".htmlspecialchars($Remaining)."[/b] more karma point".($Remaining > 1 ? 's' : '')." to go! * [color=green][b]Half download contribution:[/b][/color] [url={$TRINITY20['baseurl']}/mybonus.php]".$donation."/".$points.'[/url]';
@@ -1249,7 +1249,7 @@ if (isset($_GET['exchange'])) {
                 $TRINITY20['expires']['u_stats']
             );
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['uploaded' => $upload + $difference, 'seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -1278,7 +1278,7 @@ if (isset($_GET['exchange'])) {
             ) || sqlerr(__FILE__, __LINE__);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -1305,7 +1305,7 @@ if (isset($_GET['exchange'])) {
                 $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -1339,7 +1339,7 @@ if (isset($_GET['exchange'])) {
             $cache->update_row($keys['my_userid'].$userid, ['warned' => 0], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment, 'modcomment' => $modcomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -1360,7 +1360,7 @@ if (isset($_GET['exchange'])) {
             $cache->update_row($keys['my_userid'].$userid, ['smile_until' => $smile_until], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -1380,7 +1380,7 @@ if (isset($_GET['exchange'])) {
             $cache->update_row($keys['my_userid'].$userid, ['invites' => $inv], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -1422,7 +1422,7 @@ if (isset($_GET['exchange'])) {
             $cache->update_row($keys['my_userid'].$userid, ['title' => $title], $TRINITY20['expires']['curuser']);
             $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
             $cache->update_row(
-                'user_stats_'.$userid,
+                $keys['user_statss'].$userid,
                 ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                 $TRINITY20['expires']['user_stats']
             );
@@ -1470,13 +1470,13 @@ if (isset($_GET['exchange'])) {
                 );
                 $cache->update_row($keys['user_stats'].$userid, ['seedbonus' => $seedbonus], $TRINITY20['expires']['u_stats']);
                 $cache->update_row(
-                    'user_stats_'.$userid,
+                    $keys['user_statss'].$userid,
                     ['seedbonus' => $seedbonus, 'bonuscomment' => $bonuscomment],
                     $TRINITY20['expires']['user_stats']
                 );
                 $cache->update_row($keys['user_stats'].$useridgift, ['seedbonus' => $giftbonus1], $TRINITY20['expires']['u_stats']);
                 $cache->update_row(
-                    'user_stats_'.$useridgift,
+                    $keys['user_statss'].$useridgift,
                     ['seedbonus' => $giftbonus1, 'bonuscomment' => $bonuscomment_gift],
                     $TRINITY20['expires']['user_stats']
                 );
@@ -1509,9 +1509,9 @@ $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $
 // Limited this to 3 because of performance reasons and i wanted to go through last 3 events, anyway the most we can have
 // is that halfdownload is enabled, double upload is enabled as well as freeleech !
 if (XBT_TRACKER == false) {
-    if (($scheduled_events = $cache->get('freecontribution_datas_')) === false) {
+    if (($scheduled_events = $cache->get($keys['freecontribution_datas'])) === false) {
         $scheduled_events = mysql_fetch_all("SELECT * from `events` ORDER BY `startTime` DESC LIMIT 3;", []);
-        $cache->set('freecontribution_datas_', $scheduled_events, 3 * 86400);
+        $cache->set($keys['freecontribution_datas'], $scheduled_events, 3 * 86400);
     }
 
     if (is_array($scheduled_events)) {
@@ -1551,15 +1551,15 @@ if (XBT_TRACKER == false) {
             }
         }
     }
-    //$cache->delete('freecontribution_datas_');
+    //$cache->delete($keys['freecontribution_datas']);
     //=== freeleech contribution meter
     //$target_fl = 30000;
     //=== get total points
-    if (($freeleech_counter = $cache->get('freeleech_counter')) === false) {
+    if (($freeleech_counter = $cache->get($keys['freeleech_counter'])) === false) {
         $total_fl = sql_query('SELECT SUM(pointspool) AS pointspool, points FROM bonus WHERE id =11');
         $fl_total_row = $total_fl->fetch_assoc();
         $percent_fl = number_format($fl_total_row['pointspool'] / $fl_total_row['points'] * 100, 2);
-        $cache->set('freeleech_counter', $percent_fl, 0);
+        $cache->set($keys['freeleech_counter'], $percent_fl, 0);
     } else {
         $percent_fl = $freeleech_counter;
     }
@@ -1596,14 +1596,14 @@ if (XBT_TRACKER == false) {
             $font_color_fl = '<strong><font color="red">'.number_format($percent_fl).' %</font></strong>';
             break;
     }
-    //$cache->delete('freeleech_counter');
+    //$cache->delete($keys['freeleech_counter']);
     //=== get total points
     //$target_du = 30000;
-    if (($doubleupload_counter = $cache->get('doubleupload_counter')) === false) {
+    if (($doubleupload_counter = $cache->get($keys['doubleupload_counter'])) === false) {
         $total_du = sql_query('SELECT SUM(pointspool) AS pointspool, points FROM bonus WHERE id =12');
         $du_total_row = $total_du->fetch_assoc();
         $percent_du = number_format($du_total_row['pointspool'] / $du_total_row['points'] * 100, 2);
-        $cache->set('doubleupload_counter', $percent_du, 0);
+        $cache->set($keys['doubleupload_counter'], $percent_du, 0);
     } else {
         $percent_du = $doubleupload_counter;
     }
@@ -1642,11 +1642,11 @@ if (XBT_TRACKER == false) {
     }
     //=== get total points
     //$target_hd = 30000;
-    if (($halfdownload_counter = $cache->get('halfdownload_counter')) === false) {
+    if (($halfdownload_counter = $cache->get($keys['halfdownload_counter'])) === false) {
         $total_hd = sql_query('SELECT SUM(pointspool) AS pointspool, points FROM bonus WHERE id =13');
         $hd_total_row = $total_hd->fetch_assoc();
         $percent_hd = number_format($hd_total_row['pointspool'] / $hd_total_row['points'] * 100, 2);
-        $cache->set('halfdownload_counter', $percent_hd, 0);
+        $cache->set($keys['halfdownload_counter'], $percent_hd, 0);
     } else {
         $percent_hd = $halfdownload_counter;
     }
@@ -1689,7 +1689,7 @@ if (XBT_TRACKER == false) {
     $hstatus = $half_down_enabled ? "<strong><font color='green'>&nbsp;ON&nbsp;</font></strong>" : $font_color_hd."";
 }
 //==09 Ezeros freeleech contribution top 10 - pdq.Bigjoos
-if (($top_donators = $cache->get('top_donators_')) === false) {
+if (($top_donators = $cache->get($keys['top_donators'])) === false) {
     ($a = sql_query(
         "SELECT bonuslog.id, SUM(bonuslog.donation) AS total, users.username, users.id AS userid, users.pirate, users.king, users.class, users.donor, users.warned, users.leechwarn, users.enabled, users.chatpost FROM bonuslog LEFT JOIN users ON bonuslog.id=users.id WHERE bonuslog.type = 'freeleech' GROUP BY bonuslog.id ORDER BY total DESC LIMIT 10;"
     )) || sqlerr(__FILE__, __LINE__);
@@ -1697,7 +1697,7 @@ if (($top_donators = $cache->get('top_donators_')) === false) {
         $top_donators = (array)$top_donators;
         $top_donators[] = $top_donator;
     }
-    $cache->set('top_donators_', $top_donators, 0);
+    $cache->set($keys['top_donators'], $top_donators, 0);
 }
 if (!empty($top_donators)) {
     $top_donator = "<h4>Top 10 Contributors </h4>\n";
@@ -1716,9 +1716,9 @@ if (!empty($top_donators)) {
         $top_donator .= "Nobodys contibuted yet !!";
     }
 }
-//$cache->delete('top_donators_');
+//$cache->delete($keys['top_donators']);
 //==
-if (($top_donators2 = $cache->get('top_donators2_')) === false) {
+if (($top_donators2 = $cache->get($keys['top_donators2'])) === false) {
     ($b = sql_query(
         "SELECT bonuslog.id, SUM(bonuslog.donation) AS total, users.username, users.id AS userid, users.pirate, users.king, users.class, users.donor, users.warned, users.leechwarn, users.enabled, users.chatpost FROM bonuslog LEFT JOIN users ON bonuslog.id=users.id WHERE bonuslog.type = 'doubleupload' GROUP BY bonuslog.id ORDER BY total DESC LIMIT 10;"
     )) || sqlerr(__FILE__, __LINE__);
@@ -1726,7 +1726,7 @@ if (($top_donators2 = $cache->get('top_donators2_')) === false) {
         $top_donators2 = (array)$top_donators2;
         $top_donators2[] = $top_donator2;
     }
-    $cache->set('top_donators2_', $top_donators2, 0);
+    $cache->set($keys['top_donators2'], $top_donators2, 0);
 }
 if (!empty($top_donators2)) {
     $top_donator2 = "<h4>Top 10 Contributors </h4>";
@@ -1745,9 +1745,9 @@ if (!empty($top_donators2)) {
         $top_donator2 .= "Nobodys contibuted yet !!";
     }
 }
-//$cache->delete('top_donators2_');
+//$cache->delete($keys['top_donators2']);
 //==
-if (($top_donators3 = $cache->get('top_donators3_')) === false) {
+if (($top_donators3 = $cache->get($keys['top_donators3'])) === false) {
     ($c = sql_query(
         "SELECT bonuslog.id, SUM(bonuslog.donation) AS total, users.username, users.id AS userid, users.pirate, users.king, users.class, users.donor, users.warned, users.leechwarn, users.enabled, users.chatpost FROM bonuslog LEFT JOIN users ON bonuslog.id=users.id WHERE bonuslog.type = 'halfdownload' GROUP BY bonuslog.id ORDER BY total DESC LIMIT 10;"
     )) || sqlerr(__FILE__, __LINE__);
@@ -1755,7 +1755,7 @@ if (($top_donators3 = $cache->get('top_donators3_')) === false) {
         $top_donators3 = (array)$top_donators3;
         $top_donators3[] = $top_donator3;
     }
-    $cache->set('top_donators3_', $top_donators3, 0);
+    $cache->set($keys['top_donators3'], $top_donators3, 0);
 }
 if (!empty($top_donators3)) {
     $top_donator3 = "<h4>Top 10 Contributors </h4>";
@@ -1774,7 +1774,7 @@ if (!empty($top_donators3)) {
         $top_donator3 .= "Nobodys contibuted yet !!";
     }
 }
-//$cache->delete('top_donators3_');
+//$cache->delete($keys['top_donators3']);
 //==End
 if (XBT_TRACKER == false) {
     //== Show the percentages

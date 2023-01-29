@@ -304,11 +304,11 @@ if (!isset($self)) {
                 }
             }
             if ($max > 0) {
-                if (($Slot_Query = $cache->get('max_slots_'.$userid)) === false) {
+                if (($Slot_Query = $cache->get($keys['max_slots'].$userid)) === false) {
                     ($Slot_Q = sql_query("SELECT COUNT(*) AS num FROM peers WHERE userid=".sqlesc($userid)." AND seeder='no'")) || ann_sqlerr(__FILE__,
                         __LINE__);
                     $Slot_Query = $Slot_Q->fetch_assoc();
-                    $cache->set('max_slots_'.$userid, $Slot_Query, $TRINITY20['expires']['max_slots']);
+                    $cache->set($keys['max_slots'].$userid, $Slot_Query, $TRINITY20['expires']['max_slots']);
                 }
                 if ($Slot_Q['num'] >= $max) {
                     err("Access denied (Torrents Limit exceeded - $max) See FAQ!");
@@ -320,7 +320,7 @@ if (!isset($self)) {
     $upthis = max(0, $uploaded - $self["uploaded"]);
     $downthis = max(0, $downloaded - $self["downloaded"]);
     //==sitepot
-    if (($Pot_query = $cache->get('Sitepot_')) === false) {
+    if (($Pot_query = $cache->get($keys['sitepot'])) === false) {
         $Pot_query_fields_ar_int = [
             'value_s',
             'value_i',
@@ -331,7 +331,7 @@ if (!isset($self)) {
         foreach ($Pot_query_fields_ar_int as $i) {
             $Pot_query[$i] = (int)$Pot_query[$i];
         }
-        $cache->set('Sitepot_', $Pot_query, $TRINITY20['expires']['sitepot']);
+        $cache->set($keys['sitepot'], $Pot_query, $TRINITY20['expires']['sitepot']);
     }
     if ($Pot_query["value_s"] == 1 && $Pot_query["value_i"] >= 10000) {
         $downthis = 0;
@@ -342,7 +342,7 @@ if (!isset($self)) {
         $downthis = 0;
     }
     //== Karma contribution system by ezero updated by putyn/Mindless
-    if (($contribution = $cache->get('freecontribution_')) === false) {
+    if (($contribution = $cache->get($keys['freecontribution'])) === false) {
         $contribution_fields_ar_int = [
             'startTime',
             'endTime',
@@ -361,7 +361,7 @@ if (!isset($self)) {
         foreach ($contribution_fields_ar_str as $i) {
             $contribution[$i] = $contribution[$i];
         }
-        $cache->set('freecontribution_', $contribution, $TRINITY20['expires']['contribution']);
+        $cache->set($keys['freecontribution'], $contribution, $TRINITY20['expires']['contribution']);
     }
     if ($contribution["startTime"] < TIME_NOW && $contribution["endTime"] > TIME_NOW) {
         if ($contribution['freeleechEnabled'] == 1) {
@@ -411,7 +411,7 @@ if (portblacklisted($port)) {
     err("Port $port is blacklisted.");
 } elseif ($TRINITY20['connectable_check']) {
     //== connectable checking - pdq
-    $connkey = 'conn_'.md5($realip.':'.$port);
+    $connkey = $keys['conn'].md5($realip.':'.$port);
     if (($connectable = $cache->get($connkey)) === false) {
         $sockres = @fsockopen($realip, $port, $errno, $errstr, 5);
         if (!$sockres) {

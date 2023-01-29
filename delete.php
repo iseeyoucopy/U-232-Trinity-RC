@@ -98,10 +98,10 @@ if (XBT_TRACKER == true) {
     deletetorrent($id);
     remove_torrent_peers($id);
 }
-//$cache->delete('lastest_tor_');
-$cache->delete('top5_tor_');
-$cache->delete('last5_tor_');
-$cache->delete('scroll_tor_');
+//$cache->delete($keys['lastest_tor']);
+$cache->delete($keys['top5_tor']);
+$cache->delete($keys['last5_tor']);
+$cache->delete($keys['scroll_tor']);
 $cache->delete($keys['torrent_details'].$id);
 $cache->delete($keys['torrent_details_txt'].$id);
 write_log("{$lang['delete_torrent']} $id ({$row['name']}){$lang['delete_deleted_by']}{$CURUSER['username']} ($reasonstr)\n");
