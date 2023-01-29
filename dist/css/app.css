@@ -7006,7 +7006,7 @@ readers do not read off random characters that represent icons */
   display: table-row; }
 
 .divTableHeading {
-  background-color: #EEE;
+  background-color: rgb(15, 15, 15);
   display: table-header-group;
   background-color: #EEE;
   display: table-header-group;
@@ -7036,10 +7036,10 @@ readers do not read off random characters that represent icons */
   display: table-row-group; }
 
 .divTableBody:nth-child(even) {
-  background: #f0f4f7; }
+  background: #303030; }
 
 .divTableBody:nth-child(odd) {
-  background: #fdfdfd; }
+  background: #333232; }
 
 .top10 {
   font-family: Arial, Helvetica, sans-serif;
