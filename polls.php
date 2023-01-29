@@ -12,7 +12,7 @@
  */
 function parse_poll()
 {
-    global $CURUSER, $TRINITY20, $cache;
+    global $CURUSER, $TRINITY20, $cache, $keys;
     $htmlout = "";
     $check = 0;
     $poll_footer = "";
