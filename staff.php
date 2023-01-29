@@ -32,7 +32,7 @@ while ($arr2 = $query->fetch_assoc()) {
         $staffs[$arr2["class"]][] = $arr2;
     }
     if ($arr2["support"] == 'yes') {
-        $support[] = $arr2;
+        $support .= $arr2;
     }
 }
 function DoStaff($staff, $staffclass, $cols = 2)
