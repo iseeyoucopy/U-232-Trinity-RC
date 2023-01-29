@@ -8,7 +8,7 @@ if ((in_array($torrents['category'], $TRINITY20['movie_cats'])) && $torrents['ur
     $poster = $IMDB->getPoster("small", true);
     $release_date = $IMDB->getReleaseDate();
     $poster = "/".$poster;
-    $poster = "imgw.php".$poster;
+    $poster = "imdb".$poster;
     $runtime = $IMDB->getRuntime();
     $title = $IMDB->getTitle();
     $year = $IMDB->getYear();
