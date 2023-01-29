@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $cache->update_row($keys['my_userid'].$id, [
             'perms' => $row['perms'],
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row('user_'.$id, [
+        $cache->update_row($keys['user'].$id, [
             'perms' => $row['perms'],
         ], $TRINITY20['expires']['user_cache']);
     }

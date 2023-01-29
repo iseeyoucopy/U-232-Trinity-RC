@@ -243,7 +243,7 @@ if ($hand = fsockopen('ssl://www.paypal.com', 443, $errno, $errstr, 30)) {
             $cache->delete($keys['my_userid'].$vars['uid']);
             $cache->delete($keys['user'].$vars['uid']);
             $cache->delete($keys['user_stats'].$vars['uid']);
-            $cache->delete($keys['user_stats_'].$vars['uid']);
+            $cache->delete($keys['user_statss'].$vars['uid']);
             //update total funds
             sql_query(sprintf('INSERT INTO funds(cash,user,added) VALUES (%d,%d,%d)', $vars['amount'], $vars['uid'],
                 TIME_NOW)) || paypallog($mysqli->error);

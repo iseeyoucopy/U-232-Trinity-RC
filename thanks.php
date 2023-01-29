@@ -121,7 +121,7 @@ switch ($do) {
             $cache->update_row($keys['user_stats'].$uid, [
                 'seedbonus' => $update['seedbonus'],
             ], $TRINITY20['expires']['u_stats']);
-            $cache->update_row($keys['user_stats_'].$uid, [
+            $cache->update_row($keys['user_statss'].$uid, [
                 'seedbonus' => $update['seedbonus'],
             ], $TRINITY20['expires']['user_stats']);
             // ===end

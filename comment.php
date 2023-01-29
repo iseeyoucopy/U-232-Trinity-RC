@@ -113,7 +113,7 @@ if ($action == 'add') {
             $cache->update_row($keys['user_stats'].$CURUSER["id"], [
                 'seedbonus' => $update['seedbonus'],
             ], $TRINITY20['expires']['u_stats']);
-            $cache->update_row($keys['user_stats_'].$CURUSER["id"], [
+            $cache->update_row($keys['user_statss'].$CURUSER["id"], [
                 'seedbonus' => $update['seedbonus'],
             ], $TRINITY20['expires']['user_stats']);
             //===end
@@ -257,7 +257,7 @@ if ($action == "edit") {
         $cache->update_row($keys['user_stats'].$CURUSER["id"], [
             'seedbonus' => $update['seedbonus'],
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row($keys['user_stats_'].$CURUSER["id"], [
+        $cache->update_row($keys['user_statss'].$CURUSER["id"], [
             'seedbonus' => $update['seedbonus'],
         ], $TRINITY20['expires']['user_stats']);
         //===end

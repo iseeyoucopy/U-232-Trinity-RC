@@ -411,7 +411,7 @@ if (portblacklisted($port)) {
     err("Port $port is blacklisted.");
 } elseif ($TRINITY20['connectable_check']) {
     //== connectable checking - pdq
-    $connkey = 'conn:'.md5($realip.':'.$port);
+    $connkey = 'conn_'.md5($realip.':'.$port);
     if (($connectable = $cache->get($connkey)) === false) {
         $sockres = @fsockopen($realip, $port, $errno, $errstr, 5);
         if (!$sockres) {
@@ -590,12 +590,12 @@ if ((is_countable($user_updateset) ? count($user_updateset) : 0) > 0) {
     ann_sql_query('UPDATE LOW_PRIORITY users SET '.implode(',', $user_updateset).' WHERE id = '.ann_sqlesc($userid)) || ann_sqlerr(__FILE__,
         __LINE__);
     $cache->delete($keys['user_stats'].$userid);
-    $cache->delete($keys['user_stats_'].$userid);
+    $cache->delete($keys['user_statss'].$userid);
 }
 if (isset($_SERVER["HTTP_ACCEPT_ENCODING"]) && $_SERVER["HTTP_ACCEPT_ENCODING"] == "gzip") {
     header("Content-Encoding: gzip");
-    echo gzencode(benc_resp_raw($resp ?? ""), 9, FORCE_GZIP);
+    echo gzencode(benc_resp_raw($resp ?? ''), 9, FORCE_GZIP);
 } else {
-    benc_resp_raw($resp);
+    benc_resp_raw($resp ?? '');
 }
 ?>

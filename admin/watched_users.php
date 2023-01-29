@@ -59,7 +59,7 @@ if (isset($_GET['remove'])) {
             $cache->update_row($keys['user'].$remove_me_Ive_been_good, [
                 'watched_user' => 0,
             ], $TRINITY20['expires']['user_cache']);
-            $cache->update_row($keys['user_stats_'].$remove_me_Ive_been_good, [
+            $cache->update_row($keys['user_statss'].$remove_me_Ive_been_good, [
                 'modcomment' => $modcomment,
             ], $TRINITY20['expires']['user_stats']);
             $count = 1;
@@ -84,7 +84,7 @@ if (isset($_GET['remove'])) {
                 $cache->update_row($keys['user'].$id, [
                     'watched_user' => 0,
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row($keys['user_stats_'].$id, [
+                $cache->update_row($keys['user_statss'].$id, [
                     'modcomment' => $modcomment,
                 ], $TRINITY20['expires']['user_stats']);
                 $count = (++$count);
@@ -144,7 +144,7 @@ if (isset($_GET['add'])) {
             'watched_user' => TIME_NOW,
             'watched_user_reason' => $watched_user_reason,
         ], $TRINITY20['expires']['user_cache']);
-        $cache->update_row($keys['user_stats_'].$member_whos_been_bad, [
+        $cache->update_row($keys['user_statss'].$member_whos_been_bad, [
             'modcomment' => $modcomment,
         ], $TRINITY20['expires']['user_stats']);
     }

@@ -181,13 +181,13 @@ if ($game) {
                     $cache->update_row($keys['user_stats'].$CURUSER['id'], [
                         'uploaded' => $update['uploaded'],
                     ], $TRINITY20['expires']['u_stats']);
-                    $cache->update_row($keys['user_stats_'].$CURUSER['id'], [
+                    $cache->update_row($keys['user_statss'].$CURUSER['id'], [
                         'uploaded' => $update['uploaded'],
                     ], $TRINITY20['expires']['user_stats']);
                     $cache->update_row($keys['user_stats'].$a['userid'], [
                         'uploaded' => $update['uploaded_loser'],
                     ], $TRINITY20['expires']['u_stats']);
-                    $cache->update_row($keys['user_stats_'].$a['userid'], [
+                    $cache->update_row($keys['user_statss'].$a['userid'], [
                         'uploaded' => $update['uploaded_loser'],
                     ], $TRINITY20['expires']['user_stats']);
                     //== curuser values
@@ -241,13 +241,13 @@ if ($game) {
                     $cache->update_row($keys['user_stats'].$a['userid'], [
                         'uploaded' => $update['uploaded'],
                     ], $TRINITY20['expires']['u_stats']);
-                    $cache->update_row($keys['user_stats_'].$a['userid'], [
+                    $cache->update_row($keys['user_statss'].$a['userid'], [
                         'uploaded' => $update['uploaded'],
                     ], $TRINITY20['expires']['user_stats']);
                     $cache->update_row($keys['user_stats'].$CURUSER['id'], [
                         'uploaded' => $update['uploaded_loser'],
                     ], $TRINITY20['expires']['u_stats']);
-                    $cache->update_row($keys['user_stats_'].$CURUSER['id'], [
+                    $cache->update_row($keys['user_statss'].$CURUSER['id'], [
                         'uploaded' => $update['uploaded_loser'],
                     ], $TRINITY20['expires']['user_stats']);
                     //== curuser values
@@ -336,13 +336,13 @@ if ($game) {
                 $cache->update_row($keys['user_stats'].$a['userid'], [
                     'uploaded' => $update['uploaded'],
                 ], $TRINITY20['expires']['u_stats']);
-                $cache->update_row($keys['user_stats_'].$a['userid'], [
+                $cache->update_row($keys['user_statss'].$a['userid'], [
                     'uploaded' => $update['uploaded'],
                 ], $TRINITY20['expires']['user_stats']);
                 $cache->update_row($keys['user_stats'].$CURUSER['id'], [
                     'uploaded' => $update['uploaded_loser'],
                 ], $TRINITY20['expires']['u_stats']);
-                $cache->update_row($keys['user_stats_'].$CURUSER['id'], [
+                $cache->update_row($keys['user_statss'].$CURUSER['id'], [
                     'uploaded' => $update['uploaded_loser'],
                 ], $TRINITY20['expires']['user_stats']);
                 //== curuser values

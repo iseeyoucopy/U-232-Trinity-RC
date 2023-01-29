@@ -248,8 +248,8 @@ $latestuser_cache['king'] = '0';
 //$latestuser_cache['perms'] =  (int)$arr['perms'];
 
 /** OOPs **/
-$cache->set('latestuser', $latestuser_cache, 0, $TRINITY20['expires']['latestuser']);
-$cache->delete('birthdayusers');
+$cache->set($keys['latestuser'], $latestuser_cache, 0, $TRINITY20['expires']['latestuser']);
+$cache->delete($keys['birthdayusers']);
 write_log('User account '.htmlspecialchars($wantusername).' was created!');
 if ($TRINITY20['autoshout_on'] == 1) {
     autoshout($message);

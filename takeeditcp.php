@@ -357,8 +357,8 @@ elseif ($action == "personal") {
         }
         sql_query('INSERT INTO ustatus(userid,last_status,last_update,archive) VALUES('.sqlesc($CURUSER['id']).','.sqlesc($status).','.TIME_NOW.','.sqlesc(serialize($status_archive)).') ON DUPLICATE KEY UPDATE last_status=values(last_status),last_update=values(last_update),archive=values(archive)') || sqlerr(__FILE__,
             __LINE__);
+        $cache->delete($keys['userstatus'].$CURUSER['id']);
         $cache->delete($keys['user_status'].$CURUSER['id']);
-        $cache->delete('user_status_'.$CURUSER['id']);
     }
     //end status update;
     if (isset($_POST['stylesheet']) && (($stylesheet = (int)$_POST['stylesheet']) != $CURUSER['stylesheet']) && is_valid_id($stylesheet)) {
@@ -412,7 +412,7 @@ elseif ($action == "personal") {
         $updateset[] = "birthday = ".sqlesc($birthday);
         $curuser_cache['birthday'] = $birthday;
         $user_cache['birthday'] = $birthday;
-        $cache->delete('birthdayusers');
+        $cache->delete($keys['birthdayusers']);
     }
     $action = "personal";
 } elseif ($action == "location") {
@@ -518,7 +518,7 @@ if ($clrbits !== 0) {
 if ((is_countable($updateset_block) ? count($updateset_block) : 0) > 0) {
     sql_query('UPDATE user_blocks SET '.implode(',', $updateset_block).' WHERE userid = '.sqlesc($CURUSER["id"])) || sqlerr(__FILE__, __LINE__);
 }
-$cache->delete('blocks::'.$CURUSER["id"]);
+$cache->delete($keys['blocks'].$CURUSER["id"]);
 if ($setbits || $clrbits) {
     sql_query('UPDATE users SET opt1 = ((opt1 | '.$setbits.') & ~'.$clrbits.'), opt2 = ((opt2 | '.$setbits.') & ~'.$clrbits.') WHERE id = '.sqlesc($CURUSER["id"])) || sqlerr(__file__,
         __line__);
@@ -532,7 +532,7 @@ $cache->update_row($keys['my_userid'].$CURUSER["id"], [
     'opt1' => $row['opt1'],
     'opt2' => $row['opt2'],
 ], $TRINITY20['expires']['curuser']);
-$cache->update_row('user_'.$CURUSER["id"], [
+$cache->update_row($keys['user'].$CURUSER["id"], [
     'opt1' => $row['opt1'],
     'opt2' => $row['opt2'],
 ], $TRINITY20['expires']['user_cache']);

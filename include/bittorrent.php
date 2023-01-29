@@ -20,6 +20,7 @@ if (!file_exists(__DIR__.DIRECTORY_SEPARATOR.'config.php')) {
     die();
 }
 require_once(__DIR__.DIRECTORY_SEPARATOR.'config.php');
+require_once(CLASS_DIR.'class_url_builder.php');
 require_once(INCL_DIR.'user_functions.php');
 require_once(CACHE_DIR.'free_cache.php');
 require_once(CACHE_DIR.'site_settings.php');
@@ -145,21 +146,20 @@ function status_change($id)
 //== check bans by djGrrr <3 pdq
 function check_bans($ip, $reason = '')
 {
-    global $TRINITY20, $cache, $c, $mysqli;
-    //$ip_decrypt = $c->decrypt($ip);
-    $key = 'bans::'.$ip;
-    if (($ban = $cache->get($key)) === false && $ip != '127.0.0.1') {
+    global $TRINITY20, $cache, $c, $mysqli, $keys;
+    $ip_decrypt = $c->decrypt($ip);
+    if (($ban = $cache->get($keys['bans'].$ip)) === false && $ip != '127.0.0.1') {
         $nip = ip2long($ip);
         ($ban_sql = sql_query('SELECT comment FROM bans WHERE (first <= '.sqlesc($nip).' AND last >= '.sqlesc($nip).') LIMIT 1')) || sqlerr(__FILE__, __LINE__);
         if ($ban_sql->num_rows) {
             $comment = $ban_sql->fetch_row();
             $reason = 'Manual Ban ('.$comment[0].')';
-            $cache->set($key, $reason, 86400); // 86400 // banned
+            $cache->set($keys['bans'].$ip, $reason, 86400); // 86400 // banned
             return true;
         }
         $ban_sql->free();
         $mysqli->next_result();
-        $cache->set($key, 0, 86400); // 86400 // not banned
+        $cache->set($keys['bans'].$ip, 0, 86400); // 86400 // not banned
         return false;
     }
 
@@ -491,7 +491,7 @@ function userlogin()
             $msg = "Fake Account Detected: Username: ".htmlspecialchars($row["username"])." - UserID: ".(int)$row["id"]." - UserIP : ".getip();
             // Demote and disable
             sql_query("UPDATE users SET enabled = 'no', class = 0 WHERE id =".sqlesc($row["id"])) or sqlerr(__file__, __line__);
-            $cache->update_row('Myuser_'.$row['id'], [
+            $cache->update_row($keys['my_userid'].$row['id'], [
                 'enabled' => 'no',
                 'class' => 0,
             ], $TRINITY20['expires']['curuser']);
@@ -538,7 +538,7 @@ function userlogin()
     $row['uploaded'] = $stats['uploaded'];
     $row['downloaded'] = $stats['downloaded'];
     //==
-    if (($ustatus = $cache->get($keys['user_status'].$id)) === false) {
+    if (($ustatus = $cache->get($keys['userstatus'].$id)) === false) {
         $sql2 = sql_query('SELECT * FROM ustatus WHERE userid = '.sqlesc($id));
         if ($sql2->num_rows) {
             $ustatus = $sql2->fetch_assoc();
@@ -549,14 +549,13 @@ function userlogin()
                 'archive' => '',
             ];
         }
-        $cache->set($keys['user_status'].$id, $ustatus, $TRINITY20['expires']['u_status']); // 30 days
+        $cache->set($keys['userstatus'].$id, $ustatus, $TRINITY20['expires']['u_status']); // 30 days
     }
     $row['last_status'] = $ustatus['last_status'];
     $row['last_update'] = $ustatus['last_update'];
     $row['archive'] = $ustatus['archive'];
     // bitwise curuser bloks by pdq
-    $blocks_key = 'blocks::'.$row['id'];
-    if (($CURBLOCK = $cache->get($blocks_key)) === false) {
+    if (($CURBLOCK = $cache->get($keys['blocks'].$row['id'])) === false) {
         $c_sql = sql_query('SELECT * FROM user_blocks WHERE userid = '.sqlesc($row['id'])) or sqlerr(__FILE__, __LINE__);
         if ($c_sql->num_rows == 0) {
             sql_query('INSERT INTO user_blocks(userid) VALUES('.sqlesc($row['id']).')');
@@ -569,7 +568,7 @@ function userlogin()
         $CURBLOCK['userdetails_page'] = (int)$CURBLOCK['userdetails_page'];
         $CURBLOCK['browse_page'] = (int)$CURBLOCK['browse_page'];
         //$CURBLOCK['usercp_page'] = (int)$CURBLOCK['usercp_page'];
-        $cache->set($blocks_key, $CURBLOCK, 0);
+        $cache->set($keys['blocks'].$row['id'], $CURBLOCK, 0);
     }
     //== online time pdq, original code by superman
     $userupdate0 = 'onlinetime = onlinetime + 0';
@@ -738,14 +737,14 @@ function make_bookmarks($userid, $key)
 //genrelist - pdq
 function genrelist()
 {
-    global $cache, $TRINITY20;
-    if (($ret = $cache->get('genrelist')) == false) {
+    global $cache, $TRINITY20, $keys;
+    if (($ret = $cache->get($keys['genrelist'])) == false) {
         $ret = [];
         $res = sql_query("SELECT id, image, name, min_class FROM categories ORDER BY name");
         while ($row = $res->fetch_assoc()) {
             $ret[] = $row;
         }
-        $cache->set('genrelist', $ret, $TRINITY20['expires']['genrelist']);
+        $cache->set($keys['genrelist'], $ret, $TRINITY20['expires']['genrelist']);
     }
     return $ret;
 }

@@ -387,7 +387,7 @@ if (($fd1 = @fopen("rss.xml", "w")) && ($fd2 = fopen("rssdd.xml", "w"))) {
     $cats = "";
     $res = sql_query("SELECT id, name FROM categories");
     while ($arr = $res->fetch_assoc()) {
-        $cats[$arr["id"]] = htmlspecialchars($arr["name"]);
+        $cats[$arr["id"]] = htmlspecialchars($arr["name"] ?? '');
     }
     $s = "<?xml version=\"1.0\" encoding=\"iso-8859-1\" ?>\n<rss version=\"0.91\">\n<channel>\n"."<title>{$TRINITY20['site_name']}</title>\n<description>TRINITY20 is the best!</description>\n<link>{$TRINITY20['baseurl']}/</link>\n";
     @fwrite($fd1, $s);
@@ -432,7 +432,7 @@ if ($TRINITY20['seedbonus_on'] == 1) {
     $cache->update_row($keys['user_stats'].$CURUSER["id"], [
         'seedbonus' => $update['seedbonus'],
     ], $TRINITY20['expires']['u_stats']);
-    $cache->update_row($keys['user_stats_'].$CURUSER["id"], [
+    $cache->update_row($keys['user_statss'].$CURUSER["id"], [
         'seedbonus' => $update['seedbonus'],
     ], $TRINITY20['expires']['user_stats']);
 }

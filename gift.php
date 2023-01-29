@@ -48,7 +48,7 @@ if (isset($open) && $open == 1) {
                 $cache->update_row($keys['user_stats'].$userid, [
                     'uploaded' => $update['uploaded'],
                 ], $TRINITY20['expires']['u_stats']);
-                $cache->update_row($keys['user_stats_'].$userid, [
+                $cache->update_row($keys['user_statss'].$userid, [
                     'uploaded' => $update['uploaded'],
                 ], $TRINITY20['expires']['user_stats']);
                 $cache->update_row($keys['user'].$userid, [
@@ -73,7 +73,7 @@ Thanks for your support and sharing through year ".date('Y')." ! <br /> Merry Ch
                 $cache->update_row($keys['user_stats'].$userid, [
                     'seedbonus' => $update['seedbonus'],
                 ], $TRINITY20['expires']['u_stats']);
-                $cache->update_row($keys['user_stats_'].$userid, [
+                $cache->update_row($keys['user_statss'].$userid, [
                     'seedbonus' => $update['seedbonus'],
                 ], $TRINITY20['expires']['user_stats']);
                 $cache->update_row($keys['user'].$userid, [
@@ -97,7 +97,7 @@ Thanks for your support and sharing through year ".date('Y')." ! <br /> Merry Ch
                 $cache->update_row($keys['user_stats'].$userid, [
                     'seedbonus' => $update['seedbonus'],
                 ], $TRINITY20['expires']['u_stats']);
-                $cache->update_row($keys['user_stats_'].$userid, [
+                $cache->update_row($keys['user_statss'].$userid, [
                     'seedbonus' => $update['seedbonus'],
                 ], $TRINITY20['expires']['user_stats']);
                 $cache->update_row($keys['user'].$userid, [
@@ -125,7 +125,7 @@ Thanks for your support and sharing through year ".date('Y')." ! <br /> Merry Ch
                     'seedbonus' => $update['seedbonus'],
                     'uploaded' => $update['uploaded'],
                 ], $TRINITY20['expires']['u_stats']);
-                $cache->update_row($keys['user_stats_'].$userid, [
+                $cache->update_row($keys['user_statss'].$userid, [
                     'seedbonus' => $update['seedbonus'],
                     'uploaded' => $update['uploaded'],
                 ], $TRINITY20['expires']['user_stats']);

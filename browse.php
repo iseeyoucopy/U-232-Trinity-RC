@@ -313,7 +313,7 @@ $only_free = ((isset($_GET['only_free'])) ? (int)$_GET['only_free'] : '');
 //=== checkbox for only free torrents
 $HTMLOUT .= '<div class="cell">
                                 <input type="checkbox" name="only_free" value="1"'.(isset($_GET['only_free']) ? ' checked="checked"' : '').'>
-                                <img src="'.$TRINITY20['pic_base_url'].'/free.png" height="42" width="42">
+                                <img src="'.$TRINITY20['pic_base_url'].'free.png" height="42" width="42">
                             </div>
                 </div>
             </div>

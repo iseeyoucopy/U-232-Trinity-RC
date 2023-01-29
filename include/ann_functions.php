@@ -10,6 +10,9 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
+require_once(CACHE_DIR.'cache_keys.php');
+use U232\Cache;
+$cache = new Cache($TRINITY20);
 $mysqli = new mysqli($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass'], $TRINITY20['mysql_db']);
 if ($mysqli->connect_errno !== 0) {
     err('Please call back later');
@@ -184,11 +187,11 @@ function freeleech_announce()
 
 function get_user_from_torrent_pass($torrent_pass)
 {
-    global $cache, $TRINITY20;
+    global $cache, $TRINITY20, $keys;
     if (strlen($torrent_pass) != 32 || !bin2hex($torrent_pass)) {
         return false;
     }
-    $key = 'user::torrent_pass:::'.$torrent_pass;
+    $key = $keys['user_torrent_pass'].$torrent_pass;
     if (($user = $cache->get($key)) === false) {
         $user_fields_ar_int = [
             'id',
@@ -315,9 +318,8 @@ function adjust_torrent_peers($id, $seeds = 0, $leechers = 0, $completed = 0)
 // happyhour by putyn
 function get_happy($torrentid, $userid)
 {
-    global $cache;
-    $keys['happyhour'] = $userid.'_happy';
-    if (($happy = $cache->get($keys['happyhour'])) === false) {
+    global $cache, $keys;
+    if (($happy = $cache->get($userid.$keys['happyhour'])) === false) {
         ($res_happy = ann_sql_query("SELECT id, userid, torrentid, multiplier from happyhour where userid=".ann_sqlesc($userid))) || ann_sqlerr(__FILE__,
             __LINE__);
         $happy = [];
@@ -326,7 +328,7 @@ function get_happy($torrentid, $userid)
                 $happy[$rowhappy['torrentid']] = $rowhappy['multiplier'];
             }
         }
-        $cache->set($userid.'_happy', $happy, 0);
+        $cache->set($userid.$keys['happyhour'], $happy, 0);
     }
     if (!empty($happy) && isset($happy[$torrentid])) {
         return $happy[$torrentid];

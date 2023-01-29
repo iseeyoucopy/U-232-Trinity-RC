@@ -48,7 +48,7 @@ function remove_torrent_pass($torrent_pass)
     if (strlen($torrent_pass) != 32 || !bin2hex($torrent_pass)) {
         return false;
     }
-    $key = 'user::torrent_pass:::'.$torrent_pass;
+    $key = $keys['user_torrent_pass'].$torrent_pass;
     $cache->delete($key);
 }
 
@@ -1097,7 +1097,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         $cache->update_row($keys['user_stats'].$userid, $stats_cache, $TRINITY20['expires']['u_stats']);
     }
     if ($user_stats_cache !== []) {
-        $cache->update_row($keys['user_stats_'].$userid, $user_stats_cache, $TRINITY20['expires']['user_stats']);
+        $cache->update_row($keys['user_statss'].$userid, $user_stats_cache, $TRINITY20['expires']['user_stats']);
     }
     if (count($updateset) > 0) {
         sql_query("UPDATE users SET ".implode(", ", $updateset)." WHERE id=".sqlesc($userid)) || sqlerr(__FILE__, __LINE__);
@@ -1120,7 +1120,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         'opt1' => $row['opt1'],
         'opt2' => $row['opt2'],
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row('user_'.$userid, [
+    $cache->update_row($keys['user'].$userid, [
         'opt1' => $row['opt1'],
         'opt2' => $row['opt2'],
     ], $TRINITY20['expires']['user_cache']);

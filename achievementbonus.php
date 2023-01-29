@@ -59,7 +59,7 @@ if ($bonus_type == 1) {
         $cache->update_row($keys['user_stats'].$id, [
             'downloaded' => $down - $bonus_do,
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row($keys['user_stats_'].$id, [
+        $cache->update_row($keys['user_statss'].$id, [
             'downloaded' => $down - $bonus_do,
         ], $TRINITY20['expires']['user_stats']);
     }
@@ -72,7 +72,7 @@ if ($bonus_type == 1) {
         $cache->update_row($keys['user_stats'].$id, [
             'downloaded' => 0,
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row($keys['user_stats_'].$id, [
+        $cache->update_row($keys['user_statss'].$id, [
             'downloaded' => 0,
         ], $TRINITY20['expires']['user_stats']);
     }
@@ -86,7 +86,7 @@ if ($bonus_type == 2) {
     $cache->update_row($keys['user_stats'].$id, [
         'uploaded' => $up + $bonus_do,
     ], $TRINITY20['expires']['u_stats']);
-    $cache->update_row($keys['user_stats_'].$id, [
+    $cache->update_row($keys['user_statss'].$id, [
         'uploaded' => $up + $bonus_do,
     ], $TRINITY20['expires']['user_stats']);
 }
@@ -96,7 +96,7 @@ if ($bonus_type == 3) {
     $cache->delete($keys['user_achiev_points'].$id);
     $sql = "UPDATE users SET invites = invites + ".sqlesc($bonus_do)." WHERE id =".sqlesc($id);
     sql_query($sql) || sqlerr(__FILE__, __LINE__);
-    $cache->update_row('user'.$id, [
+    $cache->update_row($keys['user'].$id, [
         'invites' => $invite + $bonus_do,
     ], $TRINITY20['expires']['user_cache']);
     $cache->update_row($keys['my_userid'].$id, [
@@ -112,7 +112,7 @@ if ($bonus_type == 4) {
     $cache->update_row($keys['user_stats'].$id, [
         'seedbonus' => $karma + $bonus_do,
     ], $TRINITY20['expires']['u_stats']);
-    $cache->update_row($keys['user_stats_'].$id, [
+    $cache->update_row($keys['user_statss'].$id, [
         'seedbonus' => $karma + $bonus_do,
     ], $TRINITY20['expires']['user_stats']);
 }

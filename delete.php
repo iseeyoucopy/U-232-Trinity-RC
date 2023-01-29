@@ -114,7 +114,7 @@ if ($TRINITY20['seedbonus_on'] == 1) {
     $cache->update_row($keys['user_stats'].$row["owner"], [
         'seedbonus' => $update['seedbonus'],
     ], $TRINITY20['expires']['u_stats']);
-    $cache->update_row($keys['user_stats_'].$row["owner"], [
+    $cache->update_row($keys['user_statss'].$row["owner"], [
         'seedbonus' => $update['seedbonus'],
     ], $TRINITY20['expires']['user_stats']);
     //===end

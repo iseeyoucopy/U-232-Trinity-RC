@@ -3,7 +3,7 @@ require_once MODS_DIR.'slots_details.php';
 $s = htmlspecialchars($torrents["name"], ENT_QUOTES);
 $poster_url = ((empty($torrents["poster"])) ? $TRINITY20["pic_base_url"]."noposter.png" : htmlspecialchars($torrents["poster"]));
 $Free_Slot = (XBT_TRACKER == true ? '' : $freeslot);
-$torrents['cat_name'] = htmlspecialchars($change[$torrents['category']]['name']);
+$torrents['cat_name'] = htmlspecialchars($change[$torrents['category']]['name'], ENT_QUOTES);
 $tcatname = isset($torrents["cat_name"]) ? htmlspecialchars($torrents["cat_name"]) : $lang['details_add_none'];
 $tadded = get_date($torrents['added'], "LONG");
 $rowuser = (isset($torrents['username']) ? ("<a href='userdetails.php?id=".(int)$torrents['owner']."'><strong>".htmlspecialchars($torrents['username'])."</strong></a>") : "{$lang['details_unknown']}");

@@ -36,8 +36,8 @@ function url2short($x)
 function jsonmsg($arr)
 {
     global $cache, $CURUSER, $keys;
+    $cache->delete($keys['userstatus'].$CURUSER['id']);
     $cache->delete($keys['user_status'].$CURUSER['id']);
-    $cache->delete('user_status_'.$CURUSER['id']);
     return json_encode([
         'msg' => $arr[0],
         'status' => $arr[1],

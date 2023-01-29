@@ -63,7 +63,7 @@ function invincible($id, $invincible = true, $bypass_bans = true)
         'ip' => $ip,
         'perms' => $row['perms'],
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row($keys['user_stats_'].$id, [
+    $cache->update_row($keys['user_statss'].$id, [
         'modcomment' => $modcomment,
     ], $TRINITY20['expires']['user_stats']);
     //'ipf'   => $ip,
@@ -76,7 +76,7 @@ function invincible($id, $invincible = true, $bypass_bans = true)
             'ip' => $ip,
             'perms' => $row['perms'],
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row($keys['user_stats_'].$CURUSER['id'], [
+        $cache->update_row($keys['user_statss'].$CURUSER['id'], [
             'modcomment' => $modcomment,
         ], $TRINITY20['expires']['user_stats']);
     }

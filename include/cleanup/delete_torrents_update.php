@@ -38,7 +38,7 @@ function docleanup($data)
         $cache->delete($keys['torrent_pretime'].$arr['id']);
         $cache->delete($keys['last_action'].$arr['id']);
         $cache->delete($keys['last_action'].$arr['id']);
-        $cache->delete('thumbs_up:'.$arr['id']);
+        $cache->delete($keys['thumbs_up'].$arr['id']);
         $cache->delete($keys['torrent_details_txt'].$arr['id']);
         
         write_log("Torrent ".(int)$arr['id']." (".htmlspecialchars($arr['name']).") was deleted by system (older than $days days and no seeders)");

@@ -208,7 +208,7 @@ if ($user["status"] == "pending") {
     stderr($lang['userdetails_error'], $lang['userdetails_still_pending']);
 }
 // user stats
-$What_Cache = (XBT_TRACKER == true ? 'user_stats_xbt_' : 'user_stats_');
+$What_Cache = (XBT_TRACKER == true ? $keys['user_stats_xbt'] : $keys['user_stats']);
 if (($user_stats = $cache->get($What_Cache.$id)) === false) {
     $What_Expire = (XBT_TRACKER == true ? $TRINITY20['expires']['user_stats_xbt'] : $TRINITY20['expires']['user_stats']);
     $stats_fields_ar_int = [
@@ -236,7 +236,7 @@ if (($user_stats = $cache->get($What_Cache.$id)) === false) {
     }
     $cache->set($What_Cache.$id, $user_stats, $What_Expire); // 5 mins
 }
-if (($user_status = $cache->get('user_status_'.$id)) === false) {
+if (($user_status = $cache->get($key['user_status'].$id)) === false) {
     $sql_2 = sql_query('SELECT * FROM ustatus WHERE userid = '.sqlesc($id));
     if ($sql_2->num_rows) {
         $user_status = $sql_2->fetch_assoc();
@@ -247,7 +247,7 @@ if (($user_status = $cache->get('user_status_'.$id)) === false) {
             'archive' => '',
         ];
     }
-    $cache->set('user_status_'.$id, $user_status, $TRINITY20['expires']['user_status']); // 30 days
+    $cache->set($keys['user_status'].$id, $user_status, $TRINITY20['expires']['user_status']); // 30 days
 
 }
 //=== delete H&R

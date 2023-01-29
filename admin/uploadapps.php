@@ -198,7 +198,7 @@ if ($action == "acceptapp") {
     $cache->update_row($keys['my_userid'].$arr['uid'], [
         'class' => 3,
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row($keys['user_stats_'].$arr['uid'], [
+    $cache->update_row($keys['user_statss'].$arr['uid'], [
         'modcomment' => $modcomment,
     ], $TRINITY20['expires']['user_stats']);
     $cache->update_row($keys['user'].$arr['uid'], [

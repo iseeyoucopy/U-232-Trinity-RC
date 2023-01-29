@@ -43,12 +43,13 @@ $stdfoot = [
         'sack',
     ],
 ];
-$HTMLOUT = $torrent_cache = '';
-if (!isset($_GET['id']) || !is_valid_id($_GET['id'])) {
+
+$id = isset($_GET["id"]) ? (int)$_GET["id"] : 0;
+
+if (!is_valid_id($id)) {
     stderr("{$lang['details_user_error']}", "{$lang['details_bad_id']}");
 }
-$id = (int)$_GET["id"];
-
+$HTMLOUT = $torrent_cache = '';
 $categorie = genrelist();
 foreach ($categorie as $key => $value) {
     $change[$value['id']] = [
@@ -58,6 +59,7 @@ foreach ($categorie as $key => $value) {
         'min_class' => $value['min_class'],
     ];
 }
+
 if (($torrents = $cache->get($keys['torrent_details'].$id)) === false) {
     $tor_fields_ar_int = [
         'id',
@@ -143,8 +145,10 @@ if (($pretime = $cache->get($keys['torrent_pretime'].$id)) === false) {
     $prename = htmlspecialchars($torrents['name']);
     ($pre_q = sql_query("SELECT time FROM releases WHERE releasename = ".sqlesc($prename))) || sqlerr(__FILE__, __LINE__);
     $pret = $pre_q->fetch_assoc();
-    $pretimere = $pret['time'] ?? '';
-    $pretime['time'] = strtotime($pretimere);
+    if (!is_array($pretime)) {
+        $pretime = [];
+    }
+    $pretime['time'] = strtotime($pret['time'] ?? '');
     $cache->set($keys['torrent_pretime'].$id, $pretime, $TRINITY20['expires']['torrent_pretime']);
 }
 $newgenre = '';
@@ -175,12 +179,12 @@ if (($l_a = $cache->get($What_String_Key.$id)) === false) {
     $cache->set($keys['last_action'].$id, $l_a, 1800);
 }
 //==Thumbs Up
-if (($thumbs = $cache->get('thumbs_up:'.$id)) === false) {
+if (($thumbs = $cache->get($keys['thumbs_up'].$id)) === false) {
     ($thumbs_query = sql_query("SELECT id, type, torrentid, userid FROM thumbsup WHERE torrentid = ".sqlesc($torrents['id']))) || sqlerr(__FILE__,
         __LINE__);
     $thumbs = $thumbs_query->num_rows;
     $thumbs = (int)$thumbs;
-    $cache->set('thumbs_up:'.$id, $thumbs, 0);
+    $cache->set($keys['thumbs_up'].$id, $thumbs, 0);
 }
 //==
 /* seeders/leechers/completed caches pdq**/

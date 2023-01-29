@@ -36,7 +36,7 @@ function docleanup($data)
                     $cache->update_row($keys['user_stats'].$Buffer_User, [
                         'seedbonus' => $update['seedbonus'],
                     ], $TRINITY20['expires']['u_stats']);
-                    $cache->update_row($keys['user_stats_'].$Buffer_User, [
+                    $cache->update_row($keys['user_statss'].$Buffer_User, [
                         'seedbonus' => $update['seedbonus'],
                     ], $TRINITY20['expires']['user_stats']);
                 }
