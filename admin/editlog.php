@@ -106,7 +106,6 @@ if (!$exist || isset($_POST['update']) && $_POST['update'] == 'Update') {
     $data = unserialize($data);
 }
 // We now need to link current contents with stored contents.
-reset($fetch_set);
 reset($data);
 $current = $fetch_set;
 $last = $data;
@@ -174,7 +173,6 @@ $HTMLOUT .= "
 <td align='center' width='70%' bgcolor='orange'><strong>{$lang['editlog_modified']}</strong></td>
 <td align='center' bgcolor='orange'><strong>{$lang['editlog_modified1']}</strong></td>
 </tr>";
-reset($current);
 $count = 0;
 foreach ($current as $x) {
     if ($x['status'] == 'modified') {
@@ -204,7 +202,6 @@ $HTMLOUT .= "
 <td align='center' width='70%' bgcolor='orange'><strong>{$lang['editlog_deleted']}</strong></td>
 <td align='center' bgcolor='orange'><strong>{$lang['editlog_deleted1']}</strong></td>
 </tr>";
-reset($current);
 $count = 0;
 foreach ($current as $x) {
     if ($x['status'] == 'deleted') {
