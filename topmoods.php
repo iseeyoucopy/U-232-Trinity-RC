@@ -41,7 +41,7 @@ $abba = '<div class="container well"><div class="row"><div class="col-md-6 col-m
          <td class="text-center">Mood</td>
          <td class="text-center">Icon</td>
          </tr>';
-$topmoods = $cache->get($keys['topmoods']);
+$topmoods = $cache->get($cache_keys['topmoods']);
 if ($topmoods === false) {
     ($res = sql_query('SELECT moods.*, users.mood, COUNT(users.mood) as moodcount '.'FROM users LEFT JOIN moods ON (users.mood = moods.id) GROUP BY users.mood '.'ORDER BY moodcount DESC, moods.id ASC')) || sqlerr(__FILE__,
         __LINE__);
@@ -51,7 +51,7 @@ if ($topmoods === false) {
                  <td class="text-center"><img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlspecialchars($arr['image']).'" alt="" /></td>
                  </tr>';
     }
-    $cache->set($keys['topmoods'], $topmoods, 0);
+    $cache->set($cache_keys['topmoods'], $topmoods, 0);
 }
 $HTMLOUT .= $abba.$topmoods.'</table></div></div></div><br>';
 echo stdhead("Top Moods").$HTMLOUT.stdfoot($stdhead);

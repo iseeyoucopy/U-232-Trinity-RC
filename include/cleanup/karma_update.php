@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache, $mysqli, $keys;
+    global $TRINITY20, $queries, $cache, $mysqli, $cache_keys;
     set_time_limit(0);
     ignore_user_abort(1);
     //=== Update karma seeding bonus... made nicer by devinkray :D
@@ -33,10 +33,10 @@ function docleanup($data)
                 if ($arr['users_id'] == $Buffer_User && $arr['users_id'] != null) {
                     $users_buffer[] = '('.$Buffer_User.', '.$TRINITY20['bonus_per_duration'].' * '.$arr['tcount'].')';
                     $update['seedbonus'] = ($arr['seedbonus'] + $TRINITY20['bonus_per_duration'] * $arr['tcount']);
-                    $cache->update_row($keys['user_stats'].$Buffer_User, [
+                    $cache->update_row($cache_keys['user_stats'].$Buffer_User, [
                         'seedbonus' => $update['seedbonus'],
                     ], $TRINITY20['expires']['u_stats']);
-                    $cache->update_row($keys['user_statss'].$Buffer_User, [
+                    $cache->update_row($cache_keys['user_statss'].$Buffer_User, [
                         'seedbonus' => $update['seedbonus'],
                     ], $TRINITY20['expires']['user_stats']);
                 }

@@ -63,27 +63,27 @@ $update['points'] = ($row['points'] + $points);
 $update['seedbonus_uploader'] = ($User['seedbonus'] + $points);
 $update['seedbonus_donator'] = ($CURUSER['seedbonus'] - $points);
 //==The torrent
-$cache->update_row($keys['torrent_details'].$id, [
+$cache->update_row($cache_keys['torrent_details'].$id, [
     'points' => $update['points'],
 ], $TRINITY20['expires']['torrent_details']);
 //==The uploader
-$cache->update_row($keys['user_stats'].$userid, [
+$cache->update_row($cache_keys['user_stats'].$userid, [
     'seedbonus' => $update['seedbonus_uploader'],
 ], $TRINITY20['expires']['u_stats']);
-$cache->update_row($keys['user_statss'].$userid, [
+$cache->update_row($cache_keys['user_statss'].$userid, [
     'seedbonus' => $update['seedbonus_uploader'],
 ], $TRINITY20['expires']['user_stats']);
 //==The donator
-$cache->update_row($keys['user_stats'].$CURUSER["id"], [
+$cache->update_row($cache_keys['user_stats'].$CURUSER["id"], [
     'seedbonus' => $update['seedbonus_donator'],
 ], $TRINITY20['expires']['u_stats']);
-$cache->update_row($keys['user_statss'].$CURUSER["id"], [
+$cache->update_row($cache_keys['user_statss'].$CURUSER["id"], [
     'seedbonus' => $update['seedbonus_donator'],
 ], $TRINITY20['expires']['user_stats']);
 //== delete the pm keys
-$cache->delete($keys['inbox_new'].$userid);
-$cache->delete($keys['inbox_new_sb'].$userid);
-$cache->delete($keys['coin_points'].$id);
+$cache->delete($cache_keys['inbox_new'].$userid);
+$cache->delete($cache_keys['inbox_new_sb'].$userid);
+$cache->delete($cache_keys['coin_points'].$id);
 header("Refresh: 3; url=details.php?id=$id");
 stderr($lang['coins_done'], $lang['coins_successfully_gave_points_to_this_torrent']);
 ?>

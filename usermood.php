@@ -31,13 +31,13 @@ if (isset($_GET['id'])) {
     if ($res_moods->num_rows) {
         $rmood = $res_moods->fetch_assoc();
         sql_query('UPDATE users SET mood = '.sqlesc($moodid).' WHERE id = '.sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
-        $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+        $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
             'mood' => $moodid,
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row($keys['user'].$CURUSER['id'], [
+        $cache->update_row($cache_keys['user'].$CURUSER['id'], [
             'mood' => $moodid,
         ], $TRINITY20['expires']['user_cache']);
-        $cache->delete($keys['topmoods']);
+        $cache->delete($cache_keys['topmoods']);
         write_log('<b>'.$lang['user_mood_change'].'</b> '.$CURUSER['username'].' '.htmlspecialchars($rmood['name']).'<img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlspecialchars($rmood['image']).'" alt="" />');
         $HTMLOUT .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">		

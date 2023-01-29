@@ -44,19 +44,19 @@ function getip()
 
 function check_bans($ip, &$reason = '')
 {
-    global $TRINITY20, $cache, $mysqli, $keys;
-    if (($ban = $cache->get($keys['bans'].$ip)) === false) {
+    global $TRINITY20, $cache, $mysqli, $cache_keys;
+    if (($ban = $cache->get($cache_keys['bans'].$ip)) === false) {
         $nip = ip2long($ip);
         $ban_sql = sql_query('SELECT comment FROM bans WHERE (first <= '.$nip.' AND last >= '.$nip.') LIMIT 1');
         if ($ban_sql->num_rows) {
             $comment = $ban_sql->fetch_row();
             $reason = 'Manual Ban ('.$comment[0].')';
-            $cache->set($keys['bans'].$ip, $reason, 86400); // 86400 // banned
+            $cache->set($cache_keys['bans'].$ip, $reason, 86400); // 86400 // banned
             return true;
         }
         $ban_sql->free();
         $mysqli->next_result();
-        $cache->set($keys['bans'].$ip, 0, 86400); // 86400 // not banned
+        $cache->set($cache_keys['bans'].$ip, 0, 86400); // 86400 // not banned
         return false;
     }
 

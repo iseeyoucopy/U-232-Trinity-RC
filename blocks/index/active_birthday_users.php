@@ -12,7 +12,7 @@
  */
 //==Start birthdayusers pdq
 $current_date = getdate();
-if (($birthday_users_cache = $cache->get($keys['birthdayusers'])) === false) {
+if (($birthday_users_cache = $cache->get($cache_keys['birthdayusers'])) === false) {
     $birthdayusers = '';
     $birthday_users_cache = [];
     ($res = sql_query("SELECT id, username, class, donor, title, warned, enabled, chatpost, leechwarn, pirate, king, birthday, perms FROM users WHERE MONTH(birthday) = ".sqlesc($current_date['mon'])." AND DAYOFMONTH(birthday) = ".sqlesc($current_date['mday'])." AND perms < ".bt_options::PERMS_STEALTH." ORDER BY username ASC")) || sqlerr(__FILE__,
@@ -26,7 +26,7 @@ if (($birthday_users_cache = $cache->get($keys['birthdayusers'])) === false) {
     }
     $birthday_users_cache['birthdayusers'] = $birthdayusers;
     $birthday_users_cache['actcount'] = $actcount;
-    $cache->set($keys['birthdayusers'], $birthday_users_cache, $TRINITY20['expires']['birthdayusers']);
+    $cache->set($cache_keys['birthdayusers'], $birthday_users_cache, $TRINITY20['expires']['birthdayusers']);
 }
 if (!$birthday_users_cache['birthdayusers']) {
     $birthday_users_cache['birthdayusers'] = $lang['index_birthday_no'];

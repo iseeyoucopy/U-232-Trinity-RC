@@ -44,22 +44,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ($res = sql_query("UPDATE users SET uploaded = uploaded * 1.1, tenpercent = 'yes' WHERE id = ".sqlesc($CURUSER['id']))) || sqlerr(__FILE__,
         __LINE__);
     $update['uploaded'] = ($CURUSER['uploaded'] * 1.1);
-    $cache->update_row($keys['user_stats'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['user_stats'].$CURUSER['id'], [
         'uploaded' => $update['uploaded'],
     ], $TRINITY20['expires']['u_stats']);
-    $cache->update_row($keys['user_statss'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['user_statss'].$CURUSER['id'], [
         'uploaded' => $update['uploaded'],
     ], $TRINITY20['expires']['user_stats']);
-    $cache->update_row($keys['user'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['user'].$CURUSER['id'], [
         'tenpercent' => 'yes',
     ], $TRINITY20['expires']['user_cache']);
-    $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
         'tenpercent' => 'yes',
     ], $TRINITY20['expires']['user_cache']);
     ($res1 = sql_query("INSERT INTO messages (sender, poster, receiver, subject, msg, added) VALUES (0, 0, ".sqlesc($CURUSER['id']).", ".sqlesc($subject).", ".sqlesc($msg).", '".TIME_NOW."')")) || sqlerr(__FILE__,
         __LINE__);
-    $cache->delete($keys['inbox_new'].$CURUSER['id']);
-    $cache->delete($keys['inbox_new_sb'].$CURUSER['id']);
+    $cache->delete($cache_keys['inbox_new'].$CURUSER['id']);
+    $cache->delete($cache_keys['inbox_new_sb'].$CURUSER['id']);
     if (!$res) {
         stderr("Error", "It appears that something went wrong while trying to add 10% to your upload amount.");
     } else {

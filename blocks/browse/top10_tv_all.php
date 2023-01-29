@@ -17,14 +17,14 @@ foreach ($categorie as $key => $value) {
         'image' => $value['image'],
     ];
 }
-if (($top10tvs_all = $cache->get($keys['top10_tv_all'])) === false) {
+if (($top10tvs_all = $cache->get($cache_keys['top10_tv_all'])) === false) {
     ($res_tvall = sql_query("SELECT id, times_completed, seeders, leechers, name from torrents WHERE category IN (".implode(", ",
             $TRINITY20['tv_cats']).") ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}")) || sqlerr(__FILE__, __LINE__);
     while ($top10tv_all = $res_tvall->fetch_assoc()) {
         $top10tvs_all = (array)$top10tvs_all;
         $top10tvs_all[] = $top10tv_all;
     }
-    $cache->set($keys['top10_tv_all'], $top10tvs_all);
+    $cache->set($cache_keys['top10_tv_all'], $top10tvs_all);
 }
 $HTMLOUT .= "<table class='top10'>
             <tr>

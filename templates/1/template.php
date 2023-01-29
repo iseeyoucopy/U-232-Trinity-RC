@@ -14,7 +14,7 @@
 //==Template system by Terranova
 function stdhead($title = "", $msgalert = true, $stdhead = false)
 {
-    global $CURUSER, $TRINITY20, $lang, $keys, $free, $_NO_COMPRESS, $mysqli, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
+    global $CURUSER, $TRINITY20, $lang, $cache_keys, $free, $_NO_COMPRESS, $mysqli, $cache, $BLOCKS, $CURBLOCK, $mood, $blocks;
     if (!$TRINITY20['site_online']) {
         die("Site is down for maintenance, please check back again later... thanks<br />");
     }
@@ -222,16 +222,16 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
 
 function stdfoot($stdfoot = false)
 {
-    global $CURUSER, $TRINITY20, $start, $query_stat, $cache, $keys, $querytime, $lang;
+    global $CURUSER, $TRINITY20, $start, $query_stat, $cache, $cache_keys, $querytime, $lang;
     $user_id = $CURUSER['id'] ?? '';
     $debug = (SQL_DEBUG && in_array($user_id, $TRINITY20['allowed_staff']['id']) ? 1 : 0);
     $seconds = microtime(true) - $start;
     $r_seconds = round($seconds, 5);
     $queries = (!empty($query_stat)); // sql query count by pdq
     // load averages - pdq
-    if ($debug && ($uptime = $cache->get($keys['uptime'])) === false) {
+    if ($debug && ($uptime = $cache->get($cache_keys['uptime'])) === false) {
         $uptime = `uptime`;
-        $cache->set($keys['uptime'], $uptime, 25);
+        $cache->set($cache_keys['uptime'], $uptime, 25);
     }
     //== end class
     $htmlfoot = '';
@@ -312,7 +312,7 @@ function stdmsg($heading, $text)
 
 function StatusBar()
 {
-    global $CURUSER, $TRINITY20, $lang, $rep_is_on, $cache, $mysqli, $msgalert, $keys;
+    global $CURUSER, $TRINITY20, $lang, $rep_is_on, $cache, $mysqli, $msgalert, $cache_keys;
     if (!$CURUSER) {
         return "";
     }
@@ -354,7 +354,7 @@ function StatusBar()
         $max = 999;
     }
     if (XBT_TRACKER == true) {
-        if ($MyPeersXbtCache = $cache->get($keys['my_xbt_peers'] . $CURUSER['id']) === false) {
+        if ($MyPeersXbtCache = $cache->get($cache_keys['my_xbt_peers'] . $CURUSER['id']) === false) {
             $seed['yes'] = $seed['no'] = 0;
             $seed['conn'] = 3;
             $result = sql_query("SELECT COUNT(uid) AS `count`, `left`, `active`, `connectable` FROM `xbt_peers` WHERE uid= " . sqlesc($CURUSER['id']) . " AND `left` = 0 AND `active` = 1") or sqlerr(__LINE__, __FILE__);
@@ -363,12 +363,12 @@ function StatusBar()
                 $seed[$key] = number_format(0 + $a['count']);
                 $seed['conn'] = $a['connectable'] == 0 ? 1 : 2;
             }
-            $cache->set($keys['my_xbt_peers'] . $CURUSER['id'], $seed, $TRINITY20['expires']['MyPeers_xbt_']);
+            $cache->set($cache_keys['my_xbt_peers'] . $CURUSER['id'], $seed, $TRINITY20['expires']['MyPeers_xbt_']);
             //unset($result, $a);
         }
         $seed = $MyPeersXbtCache;
     } else {
-        if (($MyPeersCache = $cache->get($keys['my_peers'] . $CURUSER['id'])) === false) {
+        if (($MyPeersCache = $cache->get($cache_keys['my_peers'] . $CURUSER['id'])) === false) {
             $seed['yes'] = $seed['no'] = 0;
             $seed['conn'] = 3;
             $resultp = "SELECT COUNT(id) AS count, seeder, connectable FROM peers WHERE userid=" . sqlesc($CURUSER['id']) . " GROUP BY seeder" or sqlerr(__FILE__, __LINE__);
@@ -379,7 +379,7 @@ function StatusBar()
                 $seed[$key] = number_format(0 + $rows['count']);
                 $seed['conn'] = $rows['connectable'] == 'no' ? 1 : 2;
             }
-            $cache->set($keys['my_peers'] . $CURUSER['id'], $seed, 0);
+            $cache->set($cache_keys['my_peers'] . $CURUSER['id'], $seed, 0);
             unset($resultp, $rows);
         }
         $seed = $MyPeersCache;
@@ -399,14 +399,14 @@ function StatusBar()
     } else {
         $connectable = 'N/A';
     }
-    if (($Achievement_Points = $cache->get($keys['user_achiev_points'] . $CURUSER['id'])) === false) {
+    if (($Achievement_Points = $cache->get($cache_keys['user_achiev_points'] . $CURUSER['id'])) === false) {
         $Sql = "SELECT users.id, users.username, usersachiev.achpoints, usersachiev.spentpoints FROM users LEFT JOIN usersachiev ON users.id = usersachiev.id WHERE users.id = " . sqlesc($CURUSER['id']) or sqlerr(__FILE__, __LINE__);
         $result = $mysqli->query($Sql);
         $Achievement_Points = $result->fetch_assoc();;
         $Achievement_Points['id'] = (int)$Achievement_Points['id'];
         $Achievement_Points['achpoints'] = (int)$Achievement_Points['achpoints'];
         $Achievement_Points['spentpoints'] = (int)$Achievement_Points['spentpoints'];
-        $cache->set($keys['user_achiev_points'] . $CURUSER['id'], $Achievement_Points);
+        $cache->set($cache_keys['user_achiev_points'] . $CURUSER['id'], $Achievement_Points);
     }
     $hitnruns = ($CURUSER['hit_and_run_total'] > 0) ? $CURUSER['hit_and_run_total'] : '0';
     $member_reputation = get_reputation($CURUSER);

@@ -66,9 +66,9 @@ $HTMLOUT = "<script type='text/javascript'>
     };
     </script>";
 if ($CURUSER['class'] >= UC_STAFF) {
-    if (($mod_cache_name = $cache->get($keys['editedby'].$id)) === false) {
+    if (($mod_cache_name = $cache->get($cache_keys['editedby'].$id)) === false) {
         $mod_cache_name = $CURUSER['username'];
-        $cache->set($keys['editedby'].$id, $mod_cache_name, $TRINITY20['expires']['ismoddin']);
+        $cache->set($cache_keys['editedby'].$id, $mod_cache_name, $TRINITY20['expires']['ismoddin']);
     }
     $HTMLOUT .= '<div class="row"><div class="col-sm-4 col-sm-offset-1"><h1><font size="+1"><font color="#FF0000">'.$mod_cache_name.'</font>'.$lang['edit_curr'].'</font></h1></div></div>';
 }

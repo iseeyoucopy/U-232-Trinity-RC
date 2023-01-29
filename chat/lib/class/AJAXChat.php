@@ -1633,7 +1633,7 @@ class AJAXChat
 
     function banUser($userName, $banMinutes = null, $userID = null)
     {
-        global $TRINITY20, $cache, $keys;
+        global $TRINITY20, $cache, $cache_keys;
         if ($userID === null) {
             $userID = $this->getIDFromName($userName);
         }
@@ -1657,24 +1657,24 @@ class AJAXChat
 						   '.sqlesc($this->ipToStorageFormat($ip)).')') or sqlerr(__FILE__, __LINE__);
 
         sql_query("UPDATE users SET chatpost = '0' WHERE id = ".sqlesc($userID)) or sqlerr(__FILE__, __LINE__);
-        $cache->update_row($keys['my_userid'].$userID, [
+        $cache->update_row($cache_keys['my_userid'].$userID, [
             'chatpost' => 0,
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row($keys['user'].$userID, [
+        $cache->update_row($cache_keys['user'].$userID, [
             'chatpost' => 0,
         ], $TRINITY20['expires']['user_cache']);
     }
 
     function unbanUser($userName)
     {
-        global $TRINITY20, $cache, $keys;
+        global $TRINITY20, $cache, $cache_keys;
         $result = sql_query("SELECT userID FROM ajax_chat_bans WHERE userName = ".sqlesc($userName)) or sqlerr(__FILE__, __LINE__);
         while ($row = $result->fetch_assoc()) {
             sql_query("UPDATE users SET chatpost = '1' WHERE id = ".sqlesc($row['userID'])) or sqlerr(__FILE__, __LINE__);
-            $cache->update_row($keys['my_userid'].$row['userID'], [
+            $cache->update_row($cache_keys['my_userid'].$row['userID'], [
                 'chatpost' => 1,
             ], $TRINITY20['expires']['curuser']);
-            $cache->update_row($keys['user'].$row['userID'], [
+            $cache->update_row($cache_keys['user'].$row['userID'], [
                 'chatpost' => 1,
             ], $TRINITY20['expires']['user_cache']);
         }
@@ -1685,17 +1685,17 @@ class AJAXChat
 
     function removeExpiredBans()
     {
-        global $TRINITY20, $cache, $keys;
+        global $TRINITY20, $cache, $cache_keys;
         $result = sql_query('SELECT a.userID, a.userName, a.dateTime, u.id, u.username 
 		                     FROM ajax_chat_bans AS a LEFT JOIN users AS u ON a.userID = u.id AND a.userName = u.username WHERE dateTime < NOW()');
         $count = $result->num_rows;
         if ($count > 0) {
             while ($row = $result->fetch_assoc()) {
                 sql_query("UPDATE users SET chatpost = '1' WHERE id = ".sqlesc($row['userID'])) or sqlerr(__FILE__, __LINE__);
-                $cache->update_row($keys['my_userid'].$row['userID'], [
+                $cache->update_row($cache_keys['my_userid'].$row['userID'], [
                     'chatpost' => 1,
                 ], $TRINITY20['expires']['curuser']);
-                $cache->update_row($keys['user'].$row['userID'], [
+                $cache->update_row($cache_keys['user'].$row['userID'], [
                     'chatpost' => 1,
                 ], $TRINITY20['expires']['user_cache']);
 

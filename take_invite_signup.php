@@ -230,8 +230,8 @@ $msg = sqlesc("Hey there [you] ! :wave:\nIt seems that someone you invited to {$
 $subject = sqlesc("Someone you invited has arrived!");
 sql_query("INSERT INTO messages (sender, subject, receiver, msg, added) VALUES (0, $subject, ".sqlesc($sender).", $msg, $added)") || sqlerr(__FILE__,
     __LINE__);
-$cache->delete($keys['inbox_new'].$sender);
-$cache->delete($keys['inbox_new_sb'].$sender);
+$cache->delete($cache_keys['inbox_new'].$sender);
+$cache->delete($cache_keys['inbox_new_sb'].$sender);
 //////////////end/////////////////////
 sql_query('UPDATE invite_codes SET receiver = '.sqlesc($id).', status = "Confirmed" WHERE sender = '.sqlesc((int)$assoc['sender']).' AND code = '.sqlesc($invite)) || sqlerr(__FILE__,
     __LINE__);
@@ -248,8 +248,8 @@ $latestuser_cache['king'] = '0';
 //$latestuser_cache['perms'] =  (int)$arr['perms'];
 
 /** OOPs **/
-$cache->set($keys['latestuser'], $latestuser_cache, 0, $TRINITY20['expires']['latestuser']);
-$cache->delete($keys['birthdayusers']);
+$cache->set($cache_keys['latestuser'], $latestuser_cache, 0, $TRINITY20['expires']['latestuser']);
+$cache->delete($cache_keys['birthdayusers']);
 write_log('User account '.htmlspecialchars($wantusername).' was created!');
 if ($TRINITY20['autoshout_on'] == 1) {
     autoshout($message);

@@ -53,13 +53,13 @@ if (isset($_GET['remove'])) {
             $modcomment = get_date(TIME_NOW, 'DATE', 1)." - {$lang['watched_removed']} $CURUSER[username].\n".$user['modcomment'];
             sql_query('UPDATE users SET watched_user = \'0\', modcomment='.sqlesc($modcomment).' WHERE id='.sqlesc($remove_me_Ive_been_good)) || sqlerr(__FILE__,
                 __LINE__);
-            $cache->update_row($keys['my_userid'].$remove_me_Ive_been_good, [
+            $cache->update_row($cache_keys['my_userid'].$remove_me_Ive_been_good, [
                 'watched_user' => 0,
             ], $TRINITY20['expires']['curuser']);
-            $cache->update_row($keys['user'].$remove_me_Ive_been_good, [
+            $cache->update_row($cache_keys['user'].$remove_me_Ive_been_good, [
                 'watched_user' => 0,
             ], $TRINITY20['expires']['user_cache']);
-            $cache->update_row($keys['user_statss'].$remove_me_Ive_been_good, [
+            $cache->update_row($cache_keys['user_statss'].$remove_me_Ive_been_good, [
                 'modcomment' => $modcomment,
             ], $TRINITY20['expires']['user_stats']);
             $count = 1;
@@ -74,17 +74,17 @@ if (isset($_GET['remove'])) {
                 $modcomment = get_date(TIME_NOW, 'DATE', 1)." - {$lang['watched_removed']} $CURUSER[username].\n".$user['modcomment'];
                 sql_query('UPDATE users SET watched_user = \'0\', modcomment='.sqlesc($modcomment).' WHERE id='.sqlesc($id)) || sqlerr(__FILE__,
                     __LINE__);
-                $cache->begin_transaction($keys['my_userid'].$id);
+                $cache->begin_transaction($cache_keys['my_userid'].$id);
                 $cache->update_row(false, [
                     'watched_user' => 0,
                 ]);
-                $cache->update_row($keys['my_userid'].$id, [
+                $cache->update_row($cache_keys['my_userid'].$id, [
                     'watched_user' => 0,
                 ], $TRINITY20['expires']['curuser']);
-                $cache->update_row($keys['user'].$id, [
+                $cache->update_row($cache_keys['user'].$id, [
                     'watched_user' => 0,
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row($keys['user_statss'].$id, [
+                $cache->update_row($cache_keys['user_statss'].$id, [
                     'modcomment' => $modcomment,
                 ], $TRINITY20['expires']['user_stats']);
                 $count = (++$count);
@@ -137,14 +137,14 @@ if (isset($_GET['add'])) {
         $modcomment = get_date(TIME_NOW, 'DATE', 1)." - ".$lang['watched_addedwu']." $CURUSER[username].\n".$user['modcomment'];
         sql_query('UPDATE users SET watched_user = '.TIME_NOW.', modcomment='.sqlesc($modcomment).', watched_user_reason = '.sqlesc($watched_user_reason).' WHERE id='.sqlesc($member_whos_been_bad)) || sqlerr(__FILE__,
             __LINE__);
-        $cache->update_row($keys['my_userid'].$member_whos_been_bad, [
+        $cache->update_row($cache_keys['my_userid'].$member_whos_been_bad, [
             'watched_user' => TIME_NOW,
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row($keys['user'].$member_whos_been_bad, [
+        $cache->update_row($cache_keys['user'].$member_whos_been_bad, [
             'watched_user' => TIME_NOW,
             'watched_user_reason' => $watched_user_reason,
         ], $TRINITY20['expires']['user_cache']);
-        $cache->update_row($keys['user_statss'].$member_whos_been_bad, [
+        $cache->update_row($cache_keys['user_statss'].$member_whos_been_bad, [
             'modcomment' => $modcomment,
         ], $TRINITY20['expires']['user_stats']);
     }

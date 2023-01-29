@@ -186,10 +186,10 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
             __LINE__);
         $update['uploaded'] = ($User['uploaded'] + $win);
         //==stats
-        $cache->update_row($keys['user_stats'].$CURUSER['id'], [
+        $cache->update_row($cache_keys['user_stats'].$CURUSER['id'], [
             'uploaded' => $update['uploaded'],
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row($keys['user_statss'].$CURUSER['id'], [
+        $cache->update_row($cache_keys['user_statss'].$CURUSER['id'], [
             'uploaded' => $update['uploaded'],
         ], $TRINITY20['expires']['user_stats']);
         stderr($lang['casino_yes'],
@@ -209,10 +209,10 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
             __LINE__);
         $update['uploaded_loser'] = ($User['uploaded'] - $betmb);
         //==stats
-        $cache->update_row($keys['user_stats'].$CURUSER['id'], [
+        $cache->update_row($cache_keys['user_stats'].$CURUSER['id'], [
             'uploaded' => $update['uploaded_loser'],
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row($keys['user_statss'].$CURUSER['id'], [
+        $cache->update_row($cache_keys['user_statss'].$CURUSER['id'], [
             'uploaded' => $update['uploaded_loser'],
         ], $TRINITY20['expires']['user_stats']);
         stderr($lang['gl_sorry'],
@@ -266,10 +266,10 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
                 __LINE__);
             $update['uploaded'] = ($User['uploaded'] + $tbet['amount']);
             //==stats
-            $cache->update_row($keys['user_stats'].$CURUSER['id'], [
+            $cache->update_row($cache_keys['user_stats'].$CURUSER['id'], [
                 'uploaded' => $update['uploaded'],
             ], $TRINITY20['expires']['u_stats']);
-            $cache->update_row($keys['user_statss'].$CURUSER['id'], [
+            $cache->update_row($cache_keys['user_statss'].$CURUSER['id'], [
                 'uploaded' => $update['uploaded'],
             ], $TRINITY20['expires']['user_stats']);
             if ($mysqli->affected_rows == 0) {
@@ -282,8 +282,8 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
             $msg = sqlesc("You lost a bet ! ".htmlspecialchars($CURUSER['username'])." just won ".htmlspecialchars($nogb)." of your upload credit !");
             sql_query("INSERT INTO messages (subject, sender, receiver, added, msg, unread, poster) VALUES ($subject, $sendfrom, ".sqlesc($tbet['userid']).", $time, $msg, 'yes', $sendfrom)") || sqlerr(__FILE__,
                 __LINE__);
-            $cache->delete($keys['inbox_new'].$tbet['userid']);
-            $cache->delete($keys['inbox_new_sb'].$tbet['userid']);
+            $cache->delete($cache_keys['inbox_new'].$tbet['userid']);
+            $cache->delete($cache_keys['inbox_new_sb'].$tbet['userid']);
             if ($writelog === 1) {
                 write_log($CURUSER['username']." won $nogb {$lang['casino_of_upload_credit_off']} ".htmlspecialchars($tbet['proposed']));
             }
@@ -304,18 +304,18 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
         sql_query("UPDATE casino SET deposit = deposit-".sqlesc($tbet['amount'])." WHERE userid = ".sqlesc($tbet['userid']));
         $update['uploaded'] = ($newup);
         //==stats
-        $cache->update_row($keys['user_stats'].$CURUSER['id'], [
+        $cache->update_row($cache_keys['user_stats'].$CURUSER['id'], [
             'uploaded' => $update['uploaded'],
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row($keys['user_statss'].$CURUSER['id'], [
+        $cache->update_row($cache_keys['user_statss'].$CURUSER['id'], [
             'uploaded' => $update['uploaded'],
         ], $TRINITY20['expires']['user_stats']);
         $update['uploaded_2'] = ($User['uploaded'] + $newup2);
         //==stats
-        $cache->update_row($keys['user_stats'].$tbet['userid'], [
+        $cache->update_row($cache_keys['user_stats'].$tbet['userid'], [
             'uploaded' => $update['uploaded_2'],
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row($keys['user_statss'].$tbet['userid'], [
+        $cache->update_row($cache_keys['user_statss'].$tbet['userid'], [
             'uploaded' => $update['uploaded_2'],
         ], $TRINITY20['expires']['user_stats']);
         if ($mysqli->affected_rows == 0) {
@@ -328,8 +328,8 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
         $msg = sqlesc("{$lang['casino_you_just_won']} ".htmlspecialchars($nogb)." {$lang['casino_of_upload_credit_from']} ".$CURUSER['username']." !");
         sql_query("INSERT INTO messages (subject, sender, receiver, added, msg, unread, poster) VALUES ($subject, $sendfrom, ".sqlesc($tbet['userid']).", $time, $msg, 'yes', $sendfrom)") || sqlerr(__FILE__,
             __LINE__);
-        $cache->delete($keys['inbox_new'].$tbet['userid']);
-        $cache->delete($keys['inbox_new_sb'].$tbet['userid']);
+        $cache->delete($cache_keys['inbox_new'].$tbet['userid']);
+        $cache->delete($cache_keys['inbox_new_sb'].$tbet['userid']);
         if ($writelog === 1) {
             write_log("".htmlspecialchars($tbet['proposed'])." won $nogb {$lang['casino_of_upload_credit_off']} ".$CURUSER['username']);
         }
@@ -377,10 +377,10 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
         sql_query("UPDATE casino SET deposit = deposit + ".sqlesc($nobits)." WHERE userid = ".sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
         $update['uploaded'] = ($newups);
         //==stats
-        $cache->update_row($keys['user_stats'].$CURUSER['id'], [
+        $cache->update_row($cache_keys['user_stats'].$CURUSER['id'], [
             'uploaded' => $update['uploaded'],
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row($keys['user_statss'].$CURUSER['id'], [
+        $cache->update_row($cache_keys['user_statss'].$CURUSER['id'], [
             'uploaded' => $update['uploaded'],
         ], $TRINITY20['expires']['user_stats']);
         if ($TRINITY20['autoshout_on'] == 1) {

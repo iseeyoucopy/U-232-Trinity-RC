@@ -50,7 +50,7 @@ function calctime($val)
 
 function delete_torrent($delete_array, $page)
 {
-    global $TRINITY20, $CURUSER, $cache, $lang, $keys;
+    global $TRINITY20, $CURUSER, $cache, $lang, $cache_keys;
     if (empty($delete_array)) {
         return false;
     }
@@ -81,15 +81,15 @@ function delete_torrent($delete_array, $page)
         remove_torrent_peers($id);
         remove_torrent($row['info_hash']);
         // index_last5_posters
-        $cache->delete($keys['last5_tor']);
-        $cache->delete($keys['top5_tor']);
-        $cache->delete($keys['scroll_tor']);
+        $cache->delete($cache_keys['last5_tor']);
+        $cache->delete($cache_keys['top5_tor']);
+        $cache->delete($cache_keys['scroll_tor']);
         // torrent_details
-        $cache->delete($keys['torrent_details'].$id);
-        $cache->delete($keys['torrent_xbt'].$id);
-        $cache->delete($keys['torrent_details_txt'].$id);
-        $cache->delete($keys['coin_points'].$id);
-        $cache->delete($keys['similar_tor'].$id);
+        $cache->delete($cache_keys['torrent_details'].$id);
+        $cache->delete($cache_keys['torrent_xbt'].$id);
+        $cache->delete($cache_keys['torrent_details_txt'].$id);
+        $cache->delete($cache_keys['coin_points'].$id);
+        $cache->delete($cache_keys['similar_tor'].$id);
         $dt = sqlesc(TIME_NOW - (14 * 86400)); // lose karma if deleted within 2 weeks
         if ($row['added'] < $dt) {
             sql_query("UPDATE users SET seedbonus = seedbonus-15.0 WHERE id = ".sqlesc($row['owner'])) || sqlerr(__FILE__, __LINE__);

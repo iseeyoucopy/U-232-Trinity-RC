@@ -11,11 +11,11 @@
  * ------------  @version V6  ------------------*
  */
 $progress = '';
-if (($totalfunds_cache = $cache->get($keys['ttl_funds'])) === false) {
+if (($totalfunds_cache = $cache->get($cache_keys['ttl_funds'])) === false) {
     ($totalfunds_cache_query = sql_query("SELECT sum(cash) as total_funds FROM funds")) || sqlerr(__FILE__, __LINE__);
     $totalfunds_cache = $totalfunds_cache_query->fetch_assoc();
     $totalfunds_cache["total_funds"] = (int)$totalfunds_cache["total_funds"];
-    $cache->set($keys['ttl_funds'], $totalfunds_cache, $TRINITY20['expires']['total_funds']);
+    $cache->set($cache_keys['ttl_funds'], $totalfunds_cache, $TRINITY20['expires']['total_funds']);
 }
 $funds_so_far = (int)$totalfunds_cache["total_funds"];
 $funds_difference = $TRINITY20['totalneeded'] - $funds_so_far;

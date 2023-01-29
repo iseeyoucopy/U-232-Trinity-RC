@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-if (($active_users_cache = $cache->get($keys['act_users'])) === false) {
+if (($active_users_cache = $cache->get($cache_keys['act_users'])) === false) {
     $dt = $_SERVER['REQUEST_TIME'] - 180;
     $activeusers = '';
     $active_users_cache = [];
@@ -29,7 +29,7 @@ if (($active_users_cache = $cache->get($keys['act_users'])) === false) {
     $active_users_cache['au'] = number_format($actcount);
     $active_users_cache['aaaa'] = "<span class='badge'>".$active_users_cache['actcount']."</span>";
     $last24_cache['v'] = $v;
-    $cache->set($keys['act_users'], $active_users_cache, $TRINITY20['expires']['activeusers']);
+    $cache->set($cache_keys['act_users'], $active_users_cache, $TRINITY20['expires']['activeusers']);
 }
 if (!$active_users_cache['activeusers']) {
     $active_users_cache['activeusers'] = $lang['index_active_users_no'];

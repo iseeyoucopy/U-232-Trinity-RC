@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache, $mysqli, $keys;
+    global $TRINITY20, $queries, $cache, $mysqli, $cache_keys;
     set_time_limit(1200);
     ignore_user_abort(1);
     include(CACHE_DIR.'hit_and_run_settings.php');
@@ -51,26 +51,26 @@ function docleanup($data)
                 }
                 unset($_pms, $_users);
                 $update['hit_and_run_total'] = ($arr_fuckers['hit_and_run_total'] + $arr_fuckers['poop']);
-                $cache->update_row($keys['user'].$arr_fuckers['uid'], [
+                $cache->update_row($cache_keys['user'].$arr_fuckers['uid'], [
                     'hit_and_run_total' => $update['hit_and_run_total'],
                     'downloadpos' => 0,
                     'can_leech' => 0,
                     'hnrwarn' => 'yes',
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row($keys['userstats_xbt'].$arr_fuckers['uid'], [
+                $cache->update_row($cache_keys['userstats_xbt'].$arr_fuckers['uid'], [
                     'modcomment' => $modcomment,
                 ], $TRINITY20['expires']['u_stats_xbt']);
-                $cache->update_row($keys['user_stats_xbt'].$arr_fuckers['uid'], [
+                $cache->update_row($cache_keys['user_stats_xbt'].$arr_fuckers['uid'], [
                     'modcomment' => $modcomment,
                 ], $TRINITY20['expires']['user_stats_xbt']);
-                $cache->update_row($keys['my_userid'].$arr_fuckers['uid'], [
+                $cache->update_row($cache_keys['my_userid'].$arr_fuckers['uid'], [
                     'hit_and_run_total' => $update['hit_and_run_total'],
                     'downloadpos' => 0,
                     'can_leech' => 0,
                     'hnrwarn' => 'yes',
                 ], $TRINITY20['expires']['curuser']);
-                $cache->delete($keys['inbox_new'].$arr_fuckers['uid']);
-                $cache->delete($keys['inbox_new_sb'].$arr_fuckers['uid']);
+                $cache->delete($cache_keys['inbox_new'].$arr_fuckers['uid']);
+                $cache->delete($cache_keys['inbox_new_sb'].$arr_fuckers['uid']);
             }
         }
         //=== hit and run... turn their DLs back on if they start seeding again
@@ -104,24 +104,24 @@ function docleanup($data)
                     __LINE__);
                 //tid='.sqlesc($arr['tid']).' AND
                 unset($_pms, $_users);
-                $cache->update_row($keys['user'].$arr_good_boy['id'], [
+                $cache->update_row($cache_keys['user'].$arr_good_boy['id'], [
                     'downloadpos' => 1,
                     'can_leech' => 1,
                     'hnrwarn' => 'no',
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row($keys['user_stats_xbt'].$arr_good_boy['id'], [
+                $cache->update_row($cache_keys['user_stats_xbt'].$arr_good_boy['id'], [
                     'modcomment' => $modcomment,
                 ], $TRINITY20['expires']['user_stats_xbt']);
-                $cache->update_row($keys['userstats_xbt'].$arr_good_boy['id'], [
+                $cache->update_row($cache_keys['userstats_xbt'].$arr_good_boy['id'], [
                     'modcomment' => $modcomment,
                 ], $TRINITY20['expires']['u_stats_xbt']);
-                $cache->update_row($keys['my_userid'].$arr_good_boy['id'], [
+                $cache->update_row($cache_keys['my_userid'].$arr_good_boy['id'], [
                     'downloadpos' => 1,
                     'can_leech' => 1,
                     'hnrwarn' => 'no',
                 ], $TRINITY20['expires']['curuser']);
-                $cache->delete($keys['inbox_new'].$arr_good_boy['id']);
-                $cache->delete($keys['inbox_new_sb'].$arr_good_boy['id']);
+                $cache->delete($cache_keys['inbox_new'].$arr_good_boy['id']);
+                $cache->delete($cache_keys['inbox_new_sb'].$arr_good_boy['id']);
             }
         }
         //==End

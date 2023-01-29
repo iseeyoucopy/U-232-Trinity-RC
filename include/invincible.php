@@ -13,7 +13,7 @@
 // pdq 2010
 function invincible($id, $invincible = true, $bypass_bans = true)
 {
-    global $CURUSER, $cache, $TRINITY20, $keys;
+    global $CURUSER, $cache, $TRINITY20, $cache_keys;
     $lang = load_language('invincible_function');
     $ip = '127.0.0.1';
     $setbits = $clrbits = 0;
@@ -45,8 +45,8 @@ function invincible($id, $invincible = true, $bypass_bans = true)
     // delete from iplog current ip
     sql_query('DELETE FROM `ips` WHERE userid = '.sqlesc($id)) || sqlerr(__file__, __line__);
     // delete any iplog caches
-    $cache->delete($keys['ip_history'].$id);
-    $cache->delete($keys['u_passkey'].$row['torrent_pass']);
+    $cache->delete($cache_keys['ip_history'].$id);
+    $cache->delete($cache_keys['u_passkey'].$row['torrent_pass']);
     // update ip in db
     $modcomment = get_date(TIME_NOW, '', 1).' - '.$display.$lang['invincible_thanks_to'].$CURUSER['username']."\n".$row['modcomment'];
     //ipf = '.sqlesc($ip).',
@@ -54,35 +54,35 @@ function invincible($id, $invincible = true, $bypass_bans = true)
               WHERE id = '.sqlesc($id)) || sqlerr(__file__, __line__);
     //'ipf'   => $ip,
     // update ip in caches
-    //$cache->delete($keys['user'].$id);
-    $cache->update_row($keys['user'].$id, [
+    //$cache->delete($cache_keys['user'].$id);
+    $cache->update_row($cache_keys['user'].$id, [
         'ip' => $ip,
         'perms' => $row['perms'],
     ], $TRINITY20['expires']['user_cache']);
-    $cache->update_row($keys['my_userid'].$id, [
+    $cache->update_row($cache_keys['my_userid'].$id, [
         'ip' => $ip,
         'perms' => $row['perms'],
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row($keys['user_statss'].$id, [
+    $cache->update_row($cache_keys['user_statss'].$id, [
         'modcomment' => $modcomment,
     ], $TRINITY20['expires']['user_stats']);
     //'ipf'   => $ip,
     if ($id == $CURUSER['id']) {
-        $cache->update_row($keys['user'].$CURUSER['id'], [
+        $cache->update_row($cache_keys['user'].$CURUSER['id'], [
             'ip' => $ip,
             'perms' => $row['perms'],
         ], $TRINITY20['expires']['user_cache']);
-        $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+        $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
             'ip' => $ip,
             'perms' => $row['perms'],
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row($keys['user_statss'].$CURUSER['id'], [
+        $cache->update_row($cache_keys['user_statss'].$CURUSER['id'], [
             'modcomment' => $modcomment,
         ], $TRINITY20['expires']['user_stats']);
     }
     write_log(''.$lang['invincible_member'].'[b][url=userdetails.php?id='.$id.']'.(htmlspecialchars($row['username'])).'[/url][/b]'.$lang['invincible_is'].' '.$display.' '.$lang['invincible_thanks_to1'].' [b]'.$CURUSER['username'].'[/b]');
     // header ouput
-    $cache->set($keys['display'].$CURUSER['id'], $display, 5);
+    $cache->set($cache_keys['display'].$CURUSER['id'], $display, 5);
     header('Location: userdetails.php?id='.$id);
     exit();
 }

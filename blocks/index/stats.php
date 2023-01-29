@@ -11,7 +11,7 @@
  * ------------  @version V6  ------------------*
  */
 //==Stats Begin
-if (($stats_cache = $cache->get($keys['site_stats'])) === false) {
+if (($stats_cache = $cache->get($cache_keys['site_stats'])) === false) {
     $stats_cache_query = sql_query("SELECT *, seeders + leechers AS peers, seeders / leechers AS ratio, unconnectables / (seeders + leechers) AS ratiounconn FROM stats WHERE id = '1' LIMIT 1");
     $stats_cache = $stats_cache_query->fetch_assoc();
     $stats_cache['seeders'] = (int)$stats_cache['seeders'];
@@ -39,7 +39,7 @@ if (($stats_cache = $cache->get($keys['site_stats'])) === false) {
     $stats_cache['moderators'] = (int)$stats_cache['moderators'];
     $stats_cache['administrators'] = (int)$stats_cache['administrators'];
     $stats_cache['sysops'] = (int)$stats_cache['sysops'];
-    $cache->set($keys['site_stats'], $stats_cache, $TRINITY20['expires']['site_stats']);
+    $cache->set($cache_keys['site_stats'], $stats_cache, $TRINITY20['expires']['site_stats']);
 }
 //==End
 //==Installer 09 stats

@@ -50,10 +50,10 @@ if (isset($_POST['ids'])) {
         sql_query("UPDATE users SET enabled = 'yes' WHERE ID IN(".implode(', ', array_map('sqlesc', $ids)).") AND enabled = 'no'") || sqlerr(__FILE__,
             __LINE__);
     }
-    $cache->update_row($keys['my_userid'].$id, [
+    $cache->update_row($cache_keys['my_userid'].$id, [
         'enabled' => 'yes',
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row($keys['user'].$id, [
+    $cache->update_row($cache_keys['user'].$id, [
         'enabled' => 'yes',
     ], $TRINITY20['expires']['user_cache']);
     //else
@@ -61,10 +61,10 @@ if (isset($_POST['ids'])) {
         sql_query("UPDATE users SET status = 'confirmed' WHERE ID IN(".implode(', ',
                 array_map('sqlesc', $ids)).") AND status = 'pending'") || sqlerr(__FILE__, __LINE__);
     }
-    $cache->update_row($keys['my_userid'].$id, [
+    $cache->update_row($cache_keys['my_userid'].$id, [
         'status' => 'confirmed',
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row($keys['user'].$id, [
+    $cache->update_row($cache_keys['user'].$id, [
         'status' => 'confirmed',
     ], $TRINITY20['expires']['user_cache']);
     //else

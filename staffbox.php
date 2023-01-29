@@ -50,7 +50,7 @@ switch ($do) {
     case 'delete':
         if ($id > 0) {
             if (sql_query('DELETE FROM staffmessages WHERE id IN ('.implode(',', $id).')')) {
-                $cache->delete($keys['staff_mess']);
+                $cache->delete($cache_keys['staff_mess']);
                 header('Refresh: 2; url='.$_SERVER['PHP_SELF']);
                 stderr($lang['staffbox_success'], $lang['staffbox_delete_ids']);
             } else {
@@ -72,12 +72,12 @@ switch ($do) {
             $response = htmlspecialchars($message)."\n---".htmlspecialchars($a['username'])." wrote ---\n".htmlspecialchars($a['msg']);
             sql_query('INSERT INTO messages(sender,receiver,added,subject,msg) VALUES('.sqlesc($CURUSER['id']).','.sqlesc($a['sender']).','.TIME_NOW.','.sqlesc('RE: '.$a['subject']).','.sqlesc($response).')') || sqlerr(__FILE__,
                 __LINE__);
-            $cache->delete($keys['inbox_new'].$a['sender']);
-            $cache->delete($keys['inbox_new_sb'].$a['sender']);
+            $cache->delete($cache_keys['inbox_new'].$a['sender']);
+            $cache->delete($cache_keys['inbox_new_sb'].$a['sender']);
             $message = ', answer='.sqlesc($message);
             if (sql_query('UPDATE staffmessages SET answered=\'1\', answeredby='.sqlesc($CURUSER['id']).' '.$message.' WHERE id IN ('.implode(',',
                     $id).')')) {
-                $cache->delete($keys['staff_mess']);
+                $cache->delete($cache_keys['staff_mess']);
                 header('Refresh: 2; url='.$_SERVER['PHP_SELF']);
                 stderr($lang['staffbox_success'], $lang['staffbox_setanswered_ids']);
             } else {
@@ -127,7 +127,7 @@ switch ($do) {
     case 'restart':
         if ($id > 0) {
             if (sql_query('UPDATE staffmessages SET answered=\'0\', answeredby=\'0\' WHERE id IN ('.implode(',', $id).')')) {
-                $cache->delete($keys['staff_mess']);
+                $cache->delete($cache_keys['staff_mess']);
                 header('Refresh: 2; url='.$_SERVER['PHP_SELF']);
                 stderr($lang['staffbox_success'], $lang['staffbox_restart_ids']);
             } else {

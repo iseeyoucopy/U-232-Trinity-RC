@@ -30,13 +30,13 @@ if ($id > 0 && $rate >= 1 && $rate <= 5) {
     if (sql_query("INSERT INTO rating(".$what.",rating,user) VALUES (".sqlesc($id).",".sqlesc($rate).",".sqlesc($uid).")")) {
         $table = ($what == "torrent" ? "torrents" : "topics");
         sql_query("UPDATE ".$table." SET num_ratings = num_ratings + 1, rating_sum = rating_sum+".sqlesc($rate)." WHERE id = ".sqlesc($id));
-        $cache->delete($keys['rating'].$what.'_'.$id.'_'.$CURUSER['id']);
+        $cache->delete($cache_keys['rating'].$what.'_'.$id.'_'.$CURUSER['id']);
         if ($what == "torrent") {
             ($f_r = sql_query("SELECT num_ratings, rating_sum FROM torrents WHERE id = ".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
             $r_f = $f_r->fetch_assoc();
             $update['num_ratings'] = ($r_f['num_ratings'] + 1);
             $update['rating_sum'] = ($r_f['rating_sum'] + $rate);
-            $cache->update_row($keys['torrent_details'].$id, [
+            $cache->update_row($cache_keys['torrent_details'].$id, [
                 'num_ratings' => $update['num_ratings'],
                 'rating_sum' => $update['rating_sum'],
             ], $TRINITY20['expires']['torrent_details']);
@@ -46,10 +46,10 @@ if ($id > 0 && $rate >= 1 && $rate <= 5) {
             $amount = ($what == 'torrent' ? $TRINITY20['bonus_per_rating'] : $TRINITY20['bonus_per_topic']);
             sql_query("UPDATE users SET seedbonus = seedbonus+".sqlesc($amount)." WHERE id = ".sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
             $update['seedbonus'] = ($CURUSER['seedbonus'] + $amount);
-            $cache->update_row($keys['user_stats'].$CURUSER["id"], [
+            $cache->update_row($cache_keys['user_stats'].$CURUSER["id"], [
                 'seedbonus' => $update['seedbonus'],
             ], $TRINITY20['expires']['u_stats']);
-            $cache->update_row($keys['user_statss'].$CURUSER["id"], [
+            $cache->update_row($cache_keys['user_statss'].$CURUSER["id"], [
                 'seedbonus' => $update['seedbonus'],
             ], $TRINITY20['expires']['user_stats']);
             //===end

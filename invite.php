@@ -122,10 +122,10 @@ if ($do == 'create_invite') {
         __LINE__);
     sql_query('UPDATE users SET invites = invites - 1 WHERE id = '.sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
     $update['invites'] = ($CURUSER['invites'] - 1);
-    $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
         'invites' => $update['invites'],
     ], $TRINITY20['expires']['curuser']); // 15 mins
-    $cache->update_row($keys['user'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['user'].$CURUSER['id'], [
         'invites' => $update['invites'],
     ], $TRINITY20['expires']['user_cache']); // 15 mins
     header("Location: ?do=view_page");
@@ -192,10 +192,10 @@ elseif ($do == 'delete_invite') {
         __LINE__);
     sql_query('UPDATE users SET invites = invites + 1 WHERE id = '.sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
     $update['invites'] = ($CURUSER['invites'] + 1);
-    $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
         'invites' => $update['invites'],
     ], $TRINITY20['expires']['curuser']); // 15 mins
-    $cache->update_row($keys['user'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['user'].$CURUSER['id'], [
         'invites' => $update['invites'],
     ], $TRINITY20['expires']['user_cache']); // 15 mins
     header("Location: ?do=view_page");
@@ -222,10 +222,10 @@ elseif (($do = 'confirm_account') !== '') {
     }
     sql_query('UPDATE users SET status = "confirmed" WHERE id = '.sqlesc($userid).' AND invitedby = '.sqlesc($CURUSER['id']).' AND status="pending"') || sqlerr(__FILE__,
         __LINE__);
-    $cache->update_row($keys['my_userid'].$userid, [
+    $cache->update_row($cache_keys['my_userid'].$userid, [
         'status' => 'confirmed',
     ], $TRINITY20['expires']['curuser']); // 15 mins
-    $cache->update_row($keys['user'].$userid, [
+    $cache->update_row($cache_keys['user'].$userid, [
         'status' => 'confirmed',
     ], $TRINITY20['expires']['user_cache']); // 15 mins
     //==pm to new invitee/////

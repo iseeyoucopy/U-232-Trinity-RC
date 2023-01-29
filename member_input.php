@@ -68,7 +68,7 @@ if ($action == '') {
             if ($id !== $CURUSER['id'] && $CURUSER['class'] > $staff_notes_arr['class']) {
                 //=== add / edit staff_notes
                 sql_query('UPDATE users SET staff_notes = '.sqlesc($posted_notes).' WHERE id ='.sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-                $cache->update_row($keys['user'].$id, [
+                $cache->update_row($cache_keys['user'].$id, [
                     'staff_notes' => $posted_notes,
                 ], $TRINITY20['expires']['user_cache']);
                 //=== add it to the log
@@ -94,10 +94,10 @@ if ($action == '') {
                 if (isset($_POST['add_to_watched_users']) && $_POST['add_to_watched_users'] == 'yes' && $watched_arr['watched_user'] == 0) {
                     //=== set them to watched user
                     sql_query('UPDATE users SET watched_user = '.TIME_NOW.' WHERE id = '.sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-                    $cache->update_row($keys['my_userid'].$id, [
+                    $cache->update_row($cache_keys['my_userid'].$id, [
                         'watched_user' => TIME_NOW,
                     ], $TRINITY20['expires']['curuser']);
-                    $cache->update_row($keys['user'].$id, [
+                    $cache->update_row($cache_keys['user'].$id, [
                         'watched_user' => TIME_NOW,
                     ], $TRINITY20['expires']['user_cache']);
                     //=== add it to the log
@@ -107,10 +107,10 @@ if ($action == '') {
                 if (isset($_POST['add_to_watched_users']) && $_POST['add_to_watched_users'] == 'no' && $watched_arr['watched_user'] > 0) {
                     //=== remove them from watched users
                     sql_query('UPDATE users SET watched_user = 0 WHERE id = '.sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-                    $cache->update_row($keys['my_userid'].$id, [
+                    $cache->update_row($cache_keys['my_userid'].$id, [
                         'watched_user' => 0,
                     ], $TRINITY20['expires']['curuser']);
-                    $cache->update_row($keys['user'].$id, [
+                    $cache->update_row($cache_keys['user'].$id, [
                         'watched_user' => 0,
                     ], $TRINITY20['expires']['user_cache']);
                     //=== add it to the log
@@ -122,7 +122,7 @@ if ($action == '') {
                 if ($_POST['watched_reason'] !== $watched_arr['watched_user_reason']) {
                     //=== edit watched users text
                     sql_query('UPDATE users SET watched_user_reason = '.sqlesc($posted).' WHERE id = '.sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-                    $cache->update_row($keys['user'].$id, [
+                    $cache->update_row($cache_keys['user'].$id, [
                         'watched_user_reason' => $posted,
                     ], $TRINITY20['expires']['user_cache']);
                     //=== add it to the log

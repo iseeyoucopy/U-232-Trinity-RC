@@ -39,11 +39,11 @@ if (!password_verify($email.$row['added'], $confirm)) {
     stderr("{$lang['confirmmail_user_error']}", "{$lang['confirmmail_not_complete']}");
 }
 sql_query("UPDATE users SET editsecret='', email=".sqlesc($email)." WHERE id=".sqlesc($id)." AND editsecret=".sqlesc($row["editsecret"]));
-$cache->update_row($keys['my_userid'].$id, [
+$cache->update_row($cache_keys['my_userid'].$id, [
     'editsecret' => '',
     'email' => $email,
 ], $TRINITY20['expires']['curuser']);
-$cache->update_row($keys['user'].$id, [
+$cache->update_row($cache_keys['user'].$id, [
     'editsecret' => '',
     'email' => $email,
 ], $TRINITY20['expires']['user_cache']);

@@ -178,29 +178,29 @@ if ($game) {
                     $update['bjwins'] = ($User['bjwins'] + 1);
                     $update['bjlosses'] = ($a['bjlosses'] + 1);
                     //==stats
-                    $cache->update_row($keys['user_stats'].$CURUSER['id'], [
+                    $cache->update_row($cache_keys['user_stats'].$CURUSER['id'], [
                         'uploaded' => $update['uploaded'],
                     ], $TRINITY20['expires']['u_stats']);
-                    $cache->update_row($keys['user_statss'].$CURUSER['id'], [
+                    $cache->update_row($cache_keys['user_statss'].$CURUSER['id'], [
                         'uploaded' => $update['uploaded'],
                     ], $TRINITY20['expires']['user_stats']);
-                    $cache->update_row($keys['user_stats'].$a['userid'], [
+                    $cache->update_row($cache_keys['user_stats'].$a['userid'], [
                         'uploaded' => $update['uploaded_loser'],
                     ], $TRINITY20['expires']['u_stats']);
-                    $cache->update_row($keys['user_statss'].$a['userid'], [
+                    $cache->update_row($cache_keys['user_statss'].$a['userid'], [
                         'uploaded' => $update['uploaded_loser'],
                     ], $TRINITY20['expires']['user_stats']);
                     //== curuser values
-                    $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+                    $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
                         'bjwins' => $update['bjwins'],
                     ], $TRINITY20['expires']['curuser']);
-                    $cache->update_row($keys['user'].$CURUSER['id'], [
+                    $cache->update_row($cache_keys['user'].$CURUSER['id'], [
                         'bjwins' => $update['bjwins'],
                     ], $TRINITY20['expires']['user_cache']);
-                    $cache->update_row($keys['my_userid'].$a['userid'], [
+                    $cache->update_row($cache_keys['my_userid'].$a['userid'], [
                         'bjlosses' => $update['bjlosses'],
                     ], $TRINITY20['expires']['curuser']);
-                    $cache->update_row($keys['user'].$a['userid'], [
+                    $cache->update_row($cache_keys['user'].$a['userid'], [
                         'bjlosses' => $update['bjlosses'],
                     ], $TRINITY20['expires']['user_cache']);
                     $msg = sqlesc("{$lang['bj_you_loss_to']} ".$CURUSER['username']." ({$lang['bj_you_had']} ".$a['points']." {$lang['bj_points2']}, ".$CURUSER['username']." {$lang['bj_had_21_points']}).\n\n");
@@ -210,8 +210,8 @@ if ($game) {
                     $msg = sqlesc("{$lang['bj_you_tied_with']} ".$CURUSER['username']." ({$lang['bj_you_both_had']} ".$a['points']." points).\n\n");
                 }
                 sql_query("INSERT INTO messages (sender, receiver, added, msg, subject) VALUES(0, ".sqlesc($a['userid']).", $now, $msg, $subject)");
-                $cache->delete($keys['inbox_new'].$a['userid']);
-                $cache->delete($keys['inbox_new_sb'].$a['userid']);
+                $cache->delete($cache_keys['inbox_new'].$a['userid']);
+                $cache->delete($cache_keys['inbox_new_sb'].$a['userid']);
                 sql_query("DELETE FROM blackjack WHERE userid IN (".sqlesc($CURUSER['id']).", ".sqlesc($a['userid']).")");
                 $HTMLOUT .= "<tr><td align='center'>{$lang['bj_your_opp_was']} ".htmlspecialchars($a["username"]).", {$lang['bj_he_she_had']} ".htmlspecialchars($a['points'])." {$lang['bj_points2']}, $winorlose.<br /><br /><b><a href='/blackjack.php'>{$lang['bj_play_again']}</a></b></td></tr>";
             } else {
@@ -238,36 +238,36 @@ if ($game) {
                     $update['bjwins'] = ($a['bjwins'] + 1);
                     $update['bjlosses'] = ($User['bjlosses'] + 1);
                     //==stats
-                    $cache->update_row($keys['user_stats'].$a['userid'], [
+                    $cache->update_row($cache_keys['user_stats'].$a['userid'], [
                         'uploaded' => $update['uploaded'],
                     ], $TRINITY20['expires']['u_stats']);
-                    $cache->update_row($keys['user_statss'].$a['userid'], [
+                    $cache->update_row($cache_keys['user_statss'].$a['userid'], [
                         'uploaded' => $update['uploaded'],
                     ], $TRINITY20['expires']['user_stats']);
-                    $cache->update_row($keys['user_stats'].$CURUSER['id'], [
+                    $cache->update_row($cache_keys['user_stats'].$CURUSER['id'], [
                         'uploaded' => $update['uploaded_loser'],
                     ], $TRINITY20['expires']['u_stats']);
-                    $cache->update_row($keys['user_statss'].$CURUSER['id'], [
+                    $cache->update_row($cache_keys['user_statss'].$CURUSER['id'], [
                         'uploaded' => $update['uploaded_loser'],
                     ], $TRINITY20['expires']['user_stats']);
                     //== curuser values
-                    $cache->update_row($keys['my_userid'].$a['userid'], [
+                    $cache->update_row($cache_keys['my_userid'].$a['userid'], [
                         'bjwins' => $update['bjwins'],
                     ], $TRINITY20['expires']['curuser']);
-                    $cache->update_row($keys['user'].$a['userid'], [
+                    $cache->update_row($cache_keys['user'].$a['userid'], [
                         'bjwins' => $update['bjwins'],
                     ], $TRINITY20['expires']['user_cache']);
-                    $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+                    $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
                         'bjlosses' => $update['bjlosses'],
                     ], $TRINITY20['expires']['curuser']);
-                    $cache->update_row($keys['user'].$CURUSER['id'], [
+                    $cache->update_row($cache_keys['user'].$CURUSER['id'], [
                         'bjlosses' => $update['bjlosses'],
                     ], $TRINITY20['expires']['user_cache']);
                     $msg = sqlesc("{$lang['bj_you_beat']} ".$CURUSER['username']." ({$lang['bj_you_had']} ".$a['points']." {$lang['bj_points2']}, ".$CURUSER['username']." had $points points).\n\n");
                 }
                 sql_query("INSERT INTO messages (sender, receiver, added, msg, subject) VALUES(0, ".$a['userid'].", $now, $msg, $subject)");
-                $cache->delete($keys['inbox_new'].$a['userid']);
-                $cache->delete($keys['inbox_new_sb'].$a['userid']);
+                $cache->delete($cache_keys['inbox_new'].$a['userid']);
+                $cache->delete($cache_keys['inbox_new_sb'].$a['userid']);
                 sql_query("DELETE FROM blackjack WHERE userid IN (".sqlesc($CURUSER['id']).", ".sqlesc($a['userid']).")");
                 $HTMLOUT .= "<tr><td align='center'>{$lang['bj_your_opp_was']} ".htmlspecialchars($a["username"]).", {$lang['bj_he_she_had']} ".htmlspecialchars($a['points'])." {$lang['bj_points2']}, $winorlose.<br /><br /><b><a href='blackjack.php'>{$lang['bj_play_again']}</a></b></td></tr>";
             } else {
@@ -333,35 +333,35 @@ if ($game) {
                 $update['bjwins'] = ($a['bjwins'] + 1);
                 $update['bjlosses'] = ($User['bjlosses'] + 1);
                 //==stats
-                $cache->update_row($keys['user_stats'].$a['userid'], [
+                $cache->update_row($cache_keys['user_stats'].$a['userid'], [
                     'uploaded' => $update['uploaded'],
                 ], $TRINITY20['expires']['u_stats']);
-                $cache->update_row($keys['user_statss'].$a['userid'], [
+                $cache->update_row($cache_keys['user_statss'].$a['userid'], [
                     'uploaded' => $update['uploaded'],
                 ], $TRINITY20['expires']['user_stats']);
-                $cache->update_row($keys['user_stats'].$CURUSER['id'], [
+                $cache->update_row($cache_keys['user_stats'].$CURUSER['id'], [
                     'uploaded' => $update['uploaded_loser'],
                 ], $TRINITY20['expires']['u_stats']);
-                $cache->update_row($keys['user_statss'].$CURUSER['id'], [
+                $cache->update_row($cache_keys['user_statss'].$CURUSER['id'], [
                     'uploaded' => $update['uploaded_loser'],
                 ], $TRINITY20['expires']['user_stats']);
                 //== curuser values
-                $cache->update_row($keys['my_userid'].$a['userid'], [
+                $cache->update_row($cache_keys['my_userid'].$a['userid'], [
                     'bjwins' => $update['bjwins'],
                 ], $TRINITY20['expires']['curuser']);
-                $cache->update_row($keys['user'].$a['userid'], [
+                $cache->update_row($cache_keys['user'].$a['userid'], [
                     'bjwins' => $update['bjwins'],
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+                $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
                     'bjlosses' => $update['bjlosses'],
                 ], $TRINITY20['expires']['curuser']);
-                $cache->update_row($keys['user'].$CURUSER['id'], [
+                $cache->update_row($cache_keys['user'].$CURUSER['id'], [
                     'bjlosses' => $update['bjlosses'],
                 ], $TRINITY20['expires']['user_cache']);
             }
             sql_query("INSERT INTO messages (sender, receiver, added, msg, subject) VALUES(0, ".$a['userid'].", $now, $msg, $subject)");
-            $cache->delete($keys['inbox_new'].$a['userid']);
-            $cache->delete($keys['inbox_new_sb'].$a['userid']);
+            $cache->delete($cache_keys['inbox_new'].$a['userid']);
+            $cache->delete($cache_keys['inbox_new_sb'].$a['userid']);
             sql_query("DELETE FROM blackjack WHERE userid IN (".sqlesc($CURUSER['id']).", ".sqlesc($a['userid']).")");
             $HTMLOUT .= "<tr><td align='center'>{$lang['bj_your_opp_was']} ".htmlspecialchars($a["username"]).", {$lang['bj_he_she_had']} ".htmlspecialchars($a['points'])." {$lang['bj_points2']}, $winorlose.<br /><br /><b><a href='/blackjack.php'>{$lang['bj_play_again']}</a></b></td></tr>";
         } else {

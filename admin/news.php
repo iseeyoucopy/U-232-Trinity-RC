@@ -76,9 +76,9 @@ if ($mode == 'delete') {
     }
     function deletenewsid($newsid)
     {
-        global $CURUSER, $cache, $keys;
+        global $CURUSER, $cache, $cache_keys;
         sql_query("DELETE FROM news WHERE id = ".sqlesc($newsid)." AND userid = ".sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
-        $cache->delete($keys['latest_news']);
+        $cache->delete($cache_keys['latest_news']);
     }
 
     $HTMLOUT .= deletenewsid($newsid);
@@ -105,7 +105,7 @@ if ($mode == 'add') {
     }
     sql_query("INSERT INTO news (userid, added, body, title, sticky, anonymous) VALUES (".sqlesc($CURUSER['id']).",".sqlesc($added).", ".sqlesc($body).", ".sqlesc($title).", ".sqlesc($sticky).", ".sqlesc($anonymous).")") || sqlerr(__FILE__,
         __LINE__);
-    $cache->delete($keys['latest_news']);
+    $cache->delete($cache_keys['latest_news']);
     header("Refresh: 3; url=staffpanel.php?tool=news&mode=news");
     $mysqli->affected_rows == 1 ? stderr($lang['news_success'], $lang['news_add_success']) : stderr($lang['news_add_oopss'],
         $lang['news_add_something']);
@@ -134,7 +134,7 @@ if ($mode == 'edit') {
         }
         sql_query("UPDATE news SET body=".sqlesc($body).", sticky=".sqlesc($sticky).", anonymous=".sqlesc($anonymous).", title=".sqlesc($title)." WHERE id=".sqlesc($newsid)) || sqlerr(__FILE__,
             __LINE__);
-        $cache->delete($keys['latest_news']);
+        $cache->delete($cache_keys['latest_news']);
         header("Refresh: 3; url=staffpanel.php?tool=news&mode=news");
         stderr($lang['news_success'], $lang['news_edit_success']);
     } else {

@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-$keys = [
+$cache_keys = [
     'birthdayusers' => 'bdayusers_',
     'last24' => 'last24_',
     'site_stats' => 'site_stats_',

@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache, $mysqli, $keys;
+    global $TRINITY20, $queries, $cache, $mysqli, $cache_keys;
     set_time_limit(0);
     ignore_user_abort(1);
     //=== Avatar ban removal by Bigjoos/pdq:)
@@ -27,17 +27,17 @@ function docleanup($data)
             $modcom = sqlesc($modcomment);
             $msgs_buffer[] = '(0,'.$arr['id'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).' )';
             $users_buffer[] = '('.$arr['id'].', \'1\', '.$modcom.')';
-            $cache->update_row($keys['user'].$arr['id'], [
+            $cache->update_row($cache_keys['user'].$arr['id'], [
                 'avatarpos' => 1,
             ], $TRINITY20['expires']['user_cache']);
-            $cache->update_row($keys['user_statss'].$arr['id'], [
+            $cache->update_row($cache_keys['user_statss'].$arr['id'], [
                 'modcomment' => $modcomment,
             ], $TRINITY20['expires']['user_stats']);
-            $cache->update_row($keys['my_userid'].$arr['id'], [
+            $cache->update_row($cache_keys['my_userid'].$arr['id'], [
                 'avatarpos' => 1,
             ], $TRINITY20['expires']['curuser']);
-            $cache->delete($keys['inbox_new'].$arr['id']);
-            $cache->delete($keys['inbox_new_sb'].$arr['id']);
+            $cache->delete($cache_keys['inbox_new'].$arr['id']);
+            $cache->delete($cache_keys['inbox_new_sb'].$arr['id']);
         }
         $count = count($users_buffer);
         if ($count > 0) {

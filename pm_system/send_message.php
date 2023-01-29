@@ -100,8 +100,8 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
     sql_query('INSERT INTO messages (poster, sender, receiver, added, msg, subject, saved, location, urgent) VALUES 
                             ('.sqlesc($CURUSER['id']).', '.sqlesc($CURUSER['id']).', '.sqlesc($receiver).', '.TIME_NOW.', '.$body.', '.$subject.', '.sqlesc($save).', 1,'.$urgent.')') || sqlerr(__FILE__,
         __LINE__);
-    $cache->delete($keys['inbox_new'].$receiver);
-    $cache->delete($keys['inbox_new_sb'].$receiver);
+    $cache->delete($cache_keys['inbox_new'].$receiver);
+    $cache->delete($cache_keys['inbox_new_sb'].$receiver);
 
     //=== make sure it worked then...
     if ($mysqli->affected_rows === 0) {

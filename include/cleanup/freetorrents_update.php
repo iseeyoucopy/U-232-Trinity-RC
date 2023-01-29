@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache, $mysqli, $keys;
+    global $TRINITY20, $queries, $cache, $mysqli, $cache_keys;
     set_time_limit(0);
     ignore_user_abort(1);
     //=== Clean free
@@ -21,7 +21,7 @@ function docleanup($data)
     if ($res->num_rows > 0) {
         while ($arr = $res->fetch_assoc()) {
             $Free_buffer[] = '('.$arr['id'].', \'0\')';
-            $cache->update_row($keys['torrent_details'].$arr['id'], [
+            $cache->update_row($cache_keys['torrent_details'].$arr['id'], [
                 'free' => 0,
             ], $TRINITY20['expires']['torrent_details']);
         }

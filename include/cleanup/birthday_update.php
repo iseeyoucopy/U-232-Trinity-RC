@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache, $mysqli, $keys;
+    global $TRINITY20, $queries, $cache, $mysqli, $cache_keys;
     set_time_limit(0);
     ignore_user_abort(1);
     //== Pm birthday users
@@ -27,10 +27,10 @@ function docleanup($data)
             $msgs_buffer[] = '(0,'.$arr['id'].', '.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
             $users_buffer[] = '('.$arr['id'].', 10737418240)';
             $update['uploaded'] = ($arr['uploaded'] + 10_737_418_240);
-            $cache->update_row($keys['user_stats'].$arr['id'], [
+            $cache->update_row($cache_keys['user_stats'].$arr['id'], [
                 'uploaded' => $update['uploaded'],
             ], $TRINITY20['expires']['u_stats']);
-            $cache->update_row($keys['user_statss'].$arr['id'], [
+            $cache->update_row($cache_keys['user_statss'].$arr['id'], [
                 'uploaded' => $update['uploaded'],
             ], $TRINITY20['expires']['user_stats']);
         }

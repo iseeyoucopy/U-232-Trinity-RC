@@ -31,21 +31,21 @@ if ($edit_mood['action'] == 'added') {
     if ($edit_mood['name'] && $edit_mood['name'] && $edit_mood['name'] && ($edit_mood['name'] != ''.$lang['moods_example'].'' && $edit_mood['image'] != 'smile1.gif')) {
         sql_query('INSERT INTO moods (name, image, bonus) VALUES ('.sqlesc($edit_mood['name']).', '.sqlesc($edit_mood['image']).', '.sqlesc($edit_mood['bonus']).')') || sqlerr(__FILE__,
             __LINE__);
-        $cache->delete($keys['topmoods']);
+        $cache->delete($cache_keys['topmoods']);
         write_log('<b>'.$lang['moods_added'].'</b> '.htmlspecialchars($CURUSER['username']).' - '.htmlspecialchars($edit_mood['name']).'<img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlspecialchars($edit_mood['image']).'" alt="" />');
     }
 } elseif ($edit_mood['action'] == 'edited') {
     if ($edit_mood['name'] && $edit_mood['name'] && $edit_mood['name']) {
         sql_query('UPDATE moods SET name = '.sqlesc($edit_mood['name']).', image = '.sqlesc($edit_mood['image']).', bonus = '.sqlesc($edit_mood['bonus']).' WHERE id = '.sqlesc($edit_mood['id'])) || sqlerr(__FILE__,
             __LINE__);
-        $cache->delete($keys['topmoods']);
+        $cache->delete($cache_keys['topmoods']);
         write_log('<b>'.$lang['moods_edited'].'</b> '.htmlspecialchars($CURUSER['username']).' - '.htmlspecialchars($edit_mood['name']).'<img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlspecialchars($edit_mood['image']).'" alt="" />');
     }
 }
 /*
 elseif ($edit_mood['action'] == 'remove') {
    sql_query('DELETE FROM moods WHERE id = '.$edit_mood['id'].' LIMIT 1') or sqlerr(__FILE__, __LINE__);
-   $cache->del_value($keys['topmoods']);
+   $cache->del_value($cache_keys['topmoods']);
    write_log2('<b>'.$lang['moods_deleted'].'</b> '.$CURUSER['username'].' - '.$edit_mood['id']);
 }
 */

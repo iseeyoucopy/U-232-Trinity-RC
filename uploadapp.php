@@ -158,8 +158,8 @@ if (isset($_POST["form"]) != 1) {
             sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, ".sqlesc($arr['id']).", $dt, $msg, $subject, 0)") || sqlerr(__FILE__,
                 __LINE__);
         }
-        $cache->delete($keys['inbox_new'].$arr['id']);
-        $cache->delete($keys['inbox_new_sb'].$arr['id']);
+        $cache->delete($cache_keys['inbox_new'].$arr['id']);
+        $cache->delete($cache_keys['inbox_new_sb'].$arr['id']);
         stderr($lang['uploadapp_appsent'], $lang['uploadapp_success']);
     }
 }

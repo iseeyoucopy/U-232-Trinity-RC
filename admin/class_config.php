@@ -154,8 +154,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $row1 = [];
                 $row1[] = $row;
                 foreach ($row1 as $row2) {
-                    $cache->update_row($keys['my_userid'].$row2['id'], ['class' => $row2['class']], $TRINITY20['expires']['curuser']);
-                    $cache->update_row($keys['user'].$row2['id'], ['class' => $row2['class']], $TRINITY20['expires']['user_cache']);
+                    $cache->update_row($cache_keys['my_userid'].$row2['id'], ['class' => $row2['class']], $TRINITY20['expires']['curuser']);
+                    $cache->update_row($cache_keys['user'].$row2['id'], ['class' => $row2['class']], $TRINITY20['expires']['user_cache']);
                 }
             }
         }
@@ -175,8 +175,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $row1 = [];
                 $row1[] = $row;
                 foreach ($row1 as $row2) {
-                    $cache->update_row($keys['my_userid'].$row2['id'], ['class' => $row2['class']], $TRINITY20['expires']['curuser']);
-                    $cache->update_row($keys['user'].$row2['id'], ['class' => $row2['class']], $TRINITY20['expires']['user_cache']);
+                    $cache->update_row($cache_keys['my_userid'].$row2['id'], ['class' => $row2['class']], $TRINITY20['expires']['curuser']);
+                    $cache->update_row($cache_keys['user'].$row2['id'], ['class' => $row2['class']], $TRINITY20['expires']['user_cache']);
                 }
             }
         }
@@ -206,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ftruncate($filenum, 0);
             fwrite($filenum, $configfile);
             fclose($filenum);
-            $cache->delete($keys['is_staffs']);
+            $cache->delete($cache_keys['is_staffs']);
             stderr($lang['classcfg_success'], $lang['classcfg_success_save']);
         } else {
             stderr($lang['classcfg_error'], $lang['classcfg_error_query2']);
@@ -247,7 +247,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         while ($i <= $old_max) {
             sql_query("UPDATE users SET class = class -1 where class = $i") || sqlerr(__FILE__, __LINE__);
             sql_query("UPDATE staffpanel SET av_class = av_class -1 where av_class = $i") || sqlerr(__FILE__, __LINE__);
-            $cache->delete($keys['is_staffs']);
+            $cache->delete($cache_keys['is_staffs']);
             $i++;
         }
 
@@ -257,8 +257,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $row1 = [];
             $row1[] = $row;
             foreach ($row1 as $row2) {
-                $cache->update_row($keys['my_userid'].$row2['id'], ['class' => $row2['class']], $TRINITY20['expires']['curuser']);
-                $cache->update_row($keys['user'].$row2['id'], ['class' => $row2['class']], $TRINITY20['expires']['user_cache']);
+                $cache->update_row($cache_keys['my_userid'].$row2['id'], ['class' => $row2['class']], $TRINITY20['expires']['curuser']);
+                $cache->update_row($cache_keys['user'].$row2['id'], ['class' => $row2['class']], $TRINITY20['expires']['user_cache']);
             }
         }
         if (sql_query("DELETE FROM class_config WHERE name = ".sqlesc($name)."")) {

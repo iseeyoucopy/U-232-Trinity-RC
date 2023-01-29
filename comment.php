@@ -106,14 +106,14 @@ if ($action == 'add') {
                     __LINE__);
             }
             $update['comments'] = ($arr['comments'] + 1);
-            $cache->update_row($keys['torrent_details'].$id, [
+            $cache->update_row($cache_keys['torrent_details'].$id, [
                 'comments' => $update['comments'],
             ], 0);
             $update['seedbonus'] = ($CURUSER['seedbonus'] + $TRINITY20['bonus_per_comment']);
-            $cache->update_row($keys['user_stats'].$CURUSER["id"], [
+            $cache->update_row($cache_keys['user_stats'].$CURUSER["id"], [
                 'seedbonus' => $update['seedbonus'],
             ], $TRINITY20['expires']['u_stats']);
-            $cache->update_row($keys['user_statss'].$CURUSER["id"], [
+            $cache->update_row($cache_keys['user_statss'].$CURUSER["id"], [
                 'seedbonus' => $update['seedbonus'],
             ], $TRINITY20['expires']['user_stats']);
             //===end
@@ -250,14 +250,14 @@ if ($action == "edit") {
         }
         $arr['comments'] ??= 0;
         $update['comments'] = ($arr['comments'] - 1);
-        $cache->update_row($keys['torrent_details'].$id, [
+        $cache->update_row($cache_keys['torrent_details'].$id, [
             'comments' => $update['comments'],
         ], 0);
         $update['seedbonus'] = ($CURUSER['seedbonus'] - 3);
-        $cache->update_row($keys['user_stats'].$CURUSER["id"], [
+        $cache->update_row($cache_keys['user_stats'].$CURUSER["id"], [
             'seedbonus' => $update['seedbonus'],
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row($keys['user_statss'].$CURUSER["id"], [
+        $cache->update_row($cache_keys['user_statss'].$CURUSER["id"], [
             'seedbonus' => $update['seedbonus'],
         ], $TRINITY20['expires']['user_stats']);
         //===end

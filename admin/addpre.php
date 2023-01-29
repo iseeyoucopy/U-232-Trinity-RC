@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ($res = sql_query("INSERT INTO releases (releasename, time, releasetime, section) VALUES (".sqlesc($name).", ".sqlesc($time).", ".sqlesc($time).", 'Site add')")) || sqlerr(__FILE__,
         __LINE__);
 
-    $cache->delete($keys['torrent_pretime'].$tid);
+    $cache->delete($cache_keys['torrent_pretime'].$tid);
     if ($mysqli->affected_rows != 1) {
         stderr("{$lang['text_error']}", "{$lang['text_unable']}");
     }

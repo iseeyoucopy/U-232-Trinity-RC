@@ -65,10 +65,10 @@ if (!$_POST['nullvote']) {
     }
     @sql_query("INSERT INTO poll_voters (user_id, ip_address, poll_id, vote_date)
                         VALUES ({$CURUSER['id']}, ".sqlesc($CURUSER['ip']).",{$poll_data['pid']}, ".TIME_NOW.")");
-    $cache->delete($keys['poll_data'].$CURUSER['id']);
+    $cache->delete($cache_keys['poll_data'].$CURUSER['id']);
     /*
                 $update['votes'] = ($poll_data['votes'] + 1);
-                $cache->update_row($keys['poll_data'].$CURUSER['id'],  array('votes' => $update['votes']), $TRINITY20['expires']['poll_data']);
+                $cache->update_row($cache_keys['poll_data'].$CURUSER['id'],  array('votes' => $update['votes']), $TRINITY20['expires']['poll_data']);
     */
     if (-1 == $mysqli->affected_rows) {
         stderr('DBERROR', 'Could not update records');
@@ -90,10 +90,10 @@ if (!$_POST['nullvote']) {
 } else {
     @sql_query("INSERT INTO poll_voters (user_id, ip_address, poll_id, vote_date)
                 VALUES({$CURUSER['id']}, ".sqlesc($CURUSER['ip']).", {$poll_data['pid']}, ".TIME_NOW.")");
-    $cache->delete($keys['poll_data'].$CURUSER['id']);
+    $cache->delete($cache_keys['poll_data'].$CURUSER['id']);
     /*
                 $update['votes'] = ($poll_data['votes'] + 1);
-                $cache->update_row($keys['poll_data'].$CURUSER['id'],  array('votes' => $update['votes']), $TRINITY20['expires']['poll_data']);
+                $cache->update_row($cache_keys['poll_data'].$CURUSER['id'],  array('votes' => $update['votes']), $TRINITY20['expires']['poll_data']);
     */
     if (-1 == $mysqli->affected_rows) {
         stderr('DBERROR', 'Could not update records');

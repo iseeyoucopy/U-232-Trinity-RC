@@ -118,10 +118,10 @@ switch ($do) {
             $User = $sql->fetch_assoc();
             $update['seedbonus'] = ($User['seedbonus'] + $TRINITY20['bonus_per_thanks']);
             //header("Refresh: 1; url=details.php?id=$id");
-            $cache->update_row($keys['user_stats'].$uid, [
+            $cache->update_row($cache_keys['user_stats'].$uid, [
                 'seedbonus' => $update['seedbonus'],
             ], $TRINITY20['expires']['u_stats']);
-            $cache->update_row($keys['user_statss'].$uid, [
+            $cache->update_row($cache_keys['user_statss'].$uid, [
                 'seedbonus' => $update['seedbonus'],
             ], $TRINITY20['expires']['user_stats']);
             // ===end

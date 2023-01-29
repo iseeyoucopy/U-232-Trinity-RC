@@ -29,7 +29,7 @@ require_once(INCL_DIR.'password_functions.php');
 require_once(CLASS_DIR.'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
-$cache->delete($keys['rules']);
+$cache->delete($cache_keys['rules']);
 
 $lang = array_merge($lang, load_language('ad_rules'));
 
@@ -145,7 +145,7 @@ function Do_Rules_Delete()
         stderr("Error", "No rules selected!");
     }
     sql_query("DELETE FROM rules WHERE id IN( ".implode(',', $id)." )") || sqlerr(__FILE__, __LINE__);
-    $cache->delete($keys['rules']);
+    $cache->delete($cache_keys['rules']);
     header("Refresh: 3; url=staffpanel.php?tool=rules_admin");
     stderr("Info", "Rules successfully Deleted! Please wait while you are redirected.");
 }
@@ -165,7 +165,7 @@ or <a href='staffpanel.php?tool=rules_admin'><span style='font-weight: bold; col
     }
     sql_query("DELETE FROM rules WHERE type = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     sql_query("DELETE FROM rules_cat WHERE id = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-    $cache->delete($keys['rules']);
+    $cache->delete($cache_keys['rules']);
     header("Refresh: 3; url=staffpanel.php?tool=rules_admin");
     stderr("Info", "Rules category deleted successfully! Please wait while you are redirected.");
 }
@@ -289,7 +289,7 @@ function Do_Rules_Update()
         stderr("SQL Error", "Update failed");
     }
     header("Refresh: 3; url=staffpanel.php?tool=rules_admin");
-    $cache->delete($keys['rules']);
+    $cache->delete($cache_keys['rules']);
     stderr("Info", "Updated successfully! Please wait while you are redirected.");
 }
 
@@ -313,7 +313,7 @@ function Do_Cat_Update()
         stderr("Warning", "Could not carry out that request");
     }
     header("Refresh: 3; url=staffpanel.php?tool=rules_admin");
-    $cache->delete($keys['rules']);
+    $cache->delete($cache_keys['rules']);
     stderr("Info", "Updated successfully! Please wait while you are redirected.");
 }
 
@@ -335,7 +335,7 @@ function Do_Cat_Add()
     if ($mysqli->affected_rows == -1) {
         stderr("Warning", "Couldn't forefill that request");
     }
-    $cache->delete($keys['rules']);
+    $cache->delete($cache_keys['rules']);
     $htmlout .= New_Cat_Form(1);
     echo stdhead("Add New Title").$htmlout.stdfoot();
     exit();
@@ -358,7 +358,7 @@ function Do_Rules_Add()
     if ($mysqli->affected_rows == -1) {
         stderr("Warning", "Couldn't forefill that request");
     }
-    $cache->delete($keys['rules']);
+    $cache->delete($cache_keys['rules']);
     New_Rules_Form(1);
     exit();
 }

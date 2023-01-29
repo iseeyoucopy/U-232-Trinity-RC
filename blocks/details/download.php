@@ -23,7 +23,7 @@ if ($owned) {
 $editlinkw = $owned ? "<span class='label secondary float-right' tabindex='2' data-tooltip title='{$lang['details_edit']}'><a href='edit.php?id=".(int)$torrents["id"]."'><i class='fas fa-edit'></i></a>" : "";
 /**  Mod by dokty, rewrote by pdq  **/
 $my_points = 0;
-if (($torrent['torrent_points_'] = $cache->get($keys['coin_points'].$id)) === false) {
+if (($torrent['torrent_points_'] = $cache->get($cache_keys['coin_points'].$id)) === false) {
     ($sql_points = sql_query('SELECT userid, points FROM coins WHERE torrentid='.sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $torrent['torrent_points_'] = [];
     if ($sql_points->num_rows !== 0) {
@@ -31,7 +31,7 @@ if (($torrent['torrent_points_'] = $cache->get($keys['coin_points'].$id)) === fa
             $torrent['torrent_points_'][$points_cache['userid']] = $points_cache['points'];
         }
     }
-    $cache->set($keys['coin_points'].$id, $torrent['torrent_points_'], 0);
+    $cache->set($cache_keys['coin_points'].$id, $torrent['torrent_points_'], 0);
 }
 $my_points = (isset($torrent['torrent_points_'][$CURUSER['id']]) ? (int)$torrent['torrent_points_'][$CURUSER['id']] : 0);
 $HTMLOUT .= '<div class="grid-x">

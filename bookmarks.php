@@ -58,14 +58,14 @@ if ($action == 'add') {
     }
     function addbookmark($torrentid)
     {
-        global $CURUSER, $cache, $lang, $keys;
+        global $CURUSER, $cache, $lang, $cache_keys;
         if ((get_row_count("bookmarks", "WHERE userid=".sqlesc($CURUSER['id'])." AND torrentid = ".sqlesc($torrentid))) > 0) {
             stderr($lang['bookmark_err'], $lang['bookmark_already']);
         }
         sql_query("INSERT INTO bookmarks (userid, torrentid) VALUES (".sqlesc($CURUSER['id']).", ".sqlesc($torrentid).")") || sqlerr(__FILE__,
             __LINE__);
-        $cache->delete($keys['bookmark_key'].$CURUSER['id']);
-        make_bookmarks($CURUSER['id'], $keys['bookmark_key']);
+        $cache->delete($cache_keys['bookmark_key'].$CURUSER['id']);
+        make_bookmarks($CURUSER['id'], $cache_keys['bookmark_key']);
     }
 
     addbookmark($torrentid);
@@ -85,10 +85,10 @@ if ($action == 'add') {
     }
     function deletebookmark($torrentid)
     {
-        global $CURUSER, $cache, $keys;
+        global $CURUSER, $cache, $cache_keys;
         sql_query("DELETE FROM bookmarks WHERE torrentid = ".sqlesc($torrentid)." AND userid = ".sqlesc($CURUSER['id']));
-        $cache->delete($keys['bookmark_key'].$CURUSER['id']);
-        make_bookmarks($CURUSER['id'], $keys['bookmark_key']);
+        $cache->delete($cache_keys['bookmark_key'].$CURUSER['id']);
+        make_bookmarks($CURUSER['id'], $cache_keys['bookmark_key']);
     }
 
     deletebookmark($torrentid);
@@ -108,10 +108,10 @@ if ($action == 'add') {
     }
     function publickbookmark($torrentid)
     {
-        global $CURUSER, $cache, $keys;
+        global $CURUSER, $cache, $cache_keys;
         sql_query("UPDATE bookmarks SET private = 'no' WHERE private = 'yes' AND torrentid = ".sqlesc($torrentid)." AND userid = ".sqlesc($CURUSER['id']));
-        $cache->delete($keys['bookmark_key'].$CURUSER['id']);
-        make_bookmarks($CURUSER['id'], $keys['bookmark_key']);
+        $cache->delete($cache_keys['bookmark_key'].$CURUSER['id']);
+        make_bookmarks($CURUSER['id'], $cache_keys['bookmark_key']);
     }
 
     publickbookmark($torrentid);
@@ -134,10 +134,10 @@ if ($action == 'add') {
     }
     function privatebookmark($torrentid)
     {
-        global $CURUSER, $cache, $keys;
+        global $CURUSER, $cache, $cache_keys;
         sql_query("UPDATE bookmarks SET private = 'yes' WHERE private = 'no' AND torrentid = ".sqlesc($torrentid)." AND userid = ".sqlesc($CURUSER['id']));
-        $cache->delete($keys['bookmark_key'].$CURUSER['id']);
-        make_bookmarks($CURUSER['id'], $keys['bookmark_key']);
+        $cache->delete($cache_keys['bookmark_key'].$CURUSER['id']);
+        make_bookmarks($CURUSER['id'], $cache_keys['bookmark_key']);
     }
 
     privatebookmark($torrentid);

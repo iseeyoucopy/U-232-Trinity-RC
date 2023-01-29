@@ -92,8 +92,8 @@ $body = "\n\n".$_POST['body']."\n\n{$lang['pm_forwardpm_0']}[b]".$first_from."{$
 sql_query('INSERT INTO `messages` (`sender`, `receiver`, `added`, `subject`, `msg`, `unread`, `location`, `saved`, `poster`, `urgent`) 
                         VALUES ('.sqlesc($CURUSER['id']).', '.sqlesc($to_username['id']).', '.TIME_NOW.', '.sqlesc($subject).', '.sqlesc($body).', \'yes\', 1, '.sqlesc($save).', 0, '.sqlesc($urgent).')') || sqlerr(__FILE__,
     __LINE__);
-$cache->delete($keys['inbox_new'].$to_username['id']);
-$cache->delete($keys['inbox_new_sb'].$to_username['id']);
+$cache->delete($cache_keys['inbox_new'].$to_username['id']);
+$cache->delete($cache_keys['inbox_new_sb'].$to_username['id']);
 //=== Check if message was forwarded
 if ($mysqli->affected_rows === 0) {
     stderr($lang['pm_error'], $lang['pm_forwardpm_msg_fwd']);

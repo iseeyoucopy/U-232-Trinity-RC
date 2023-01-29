@@ -12,7 +12,7 @@
  */
 //==Connectable and port shit
 if ($CURUSER['id'] == $id || $CURUSER['class'] >= UC_STAFF) {
-    $What_Cache = (XBT_TRACKER == true ? $keys['port_data_xbt'] : $keys['port_data']);
+    $What_Cache = (XBT_TRACKER == true ? $cache_keys['port_data_xbt'] : $cache_keys['port_data']);
     if (($port_data = $cache->get($What_Cache.$id)) === false) {
         if (XBT_TRACKER == true) {
             ($q1 = sql_query('SELECT `active` FROM `xbt_peers` WHERE uid = '.sqlesc($id).' LIMIT 1')) || sqlerr(__FILE__, __LINE__);
@@ -20,7 +20,7 @@ if ($CURUSER['id'] == $id || $CURUSER['class'] >= UC_STAFF) {
             ($q1 = sql_query('SELECT connectable, port ,agent FROM peers WHERE userid = '.sqlesc($id).' LIMIT 1')) || sqlerr(__FILE__, __LINE__);
         }
         $port_data = $q1->fetch_row();
-        $cache->set($keys['port_data'].$id, $port_data, $TRINITY20['expires']['port_data']);
+        $cache->set($cache_keys['port_data'].$id, $port_data, $TRINITY20['expires']['port_data']);
     }
     if ($port_data > 0) {
         $connect = $port_data[0];

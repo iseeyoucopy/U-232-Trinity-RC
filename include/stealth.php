@@ -13,7 +13,7 @@
 // pdq 2010
 function stealth($id, $stealth = true)
 {
-    global $CURUSER, $cache, $TRINITY20, $keys;
+    global $CURUSER, $cache, $TRINITY20, $cache_keys;
     $setbits = $clrbits = 0;
     if ($stealth) {
         $display = 'is';
@@ -35,29 +35,29 @@ function stealth($id, $stealth = true)
     $modcomment = get_date(TIME_NOW, '', 1).' - '.$display.' in Stealth Mode thanks to '.$CURUSER['username']."\n".$row['modcomment'];
     sql_query('UPDATE users SET modcomment = '.sqlesc($modcomment).' WHERE id = '.sqlesc($id)) || sqlerr(__file__, __line__);
     // update caches
-    $cache->update_row($keys['user'].$id, [
+    $cache->update_row($cache_keys['user'].$id, [
         'perms' => $row['perms'],
     ], $TRINITY20['expires']['user_cache']);
-    $cache->update_row($keys['my_userid'].$id, [
+    $cache->update_row($cache_keys['my_userid'].$id, [
         'perms' => $row['perms'],
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row($keys['user_statss'].$id, [
+    $cache->update_row($cache_keys['user_statss'].$id, [
         'modcomment' => $modcomment,
     ], $TRINITY20['expires']['user_stats']);
     if ($id == $CURUSER['id']) {
-        $cache->update_row($keys['user'].$CURUSER['id'], [
+        $cache->update_row($cache_keys['user'].$CURUSER['id'], [
             'perms' => $row['perms'],
         ], $TRINITY20['expires']['user_cache']);
-        $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+        $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
             'perms' => $row['perms'],
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row($keys['user_statss'].$CURUSER['id'], [
+        $cache->update_row($cache_keys['user_statss'].$CURUSER['id'], [
             'modcomment' => $modcomment,
         ], $TRINITY20['expires']['user_stats']);
     }
     write_log('Member [b][url=userdetails.php?id='.$id.']'.(htmlspecialchars($row['username'])).'[/url][/b] '.$display.' in Stealth Mode thanks to [b]'.$CURUSER['username'].'[/b]');
     // header ouput
-    $cache->set($keys['display_stealth'].$CURUSER['id'], $display, 5);
+    $cache->set($cache_keys['display_stealth'].$CURUSER['id'], $display, 5);
     header('Location: userdetails.php?id='.$id);
     exit();
 }

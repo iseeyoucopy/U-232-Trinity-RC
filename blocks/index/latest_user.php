@@ -11,7 +11,7 @@
  * ------------  @version V6  ------------------*
  */
 /** latestuser index **/
-if (($latestuser_cache = $cache->get($keys['latestuser'])) === false) {
+if (($latestuser_cache = $cache->get($cache_keys['latestuser'])) === false) {
     ($latestuser_cache_query = sql_query('SELECT id, username, class, donor, warned, enabled, chatpost, leechwarn, pirate, king FROM users WHERE status="confirmed" ORDER BY id DESC LIMIT 1')) || sqlerr(__FILE__,
         __LINE__);
     $latestuser_cache = $latestuser_cache_query->fetch_assoc();
@@ -22,7 +22,7 @@ if (($latestuser_cache = $cache->get($keys['latestuser'])) === false) {
     $latestuser_cache['leechwarn'] = (int)$latestuser_cache['leechwarn'];
     $latestuser_cache['pirate'] = (int)$latestuser_cache['pirate'];
     $latestuser_cache['king'] = (int)$latestuser_cache['king'];
-    $cache->set($keys['latestuser'], $latestuser_cache, $TRINITY20['expires']['latestuser']);
+    $cache->set($cache_keys['latestuser'], $latestuser_cache, $TRINITY20['expires']['latestuser']);
 }
 $HTMLOUT .= '<div class="cell medium-4"><div class="card" data-equalizer-watch>
     <div class="card-divider">'.$lang['index_lmember'].'</div>

@@ -28,7 +28,7 @@ $langs = [
 ];
 function radioinfo($radio)
 {
-    global $langs, $TRINITY20, $cache,$keys, $CURUSER, $radio_host, $radio_port, $radio_password;
+    global $langs, $TRINITY20, $cache,$cache_keys, $CURUSER, $radio_host, $radio_port, $radio_password;
     $xml = $html = $history = '';
     if ($hand = @fsockopen($radio_host, $radio_port, $errno, $errstr, 30)) {
         fwrite($hand,
@@ -59,11 +59,11 @@ function radioinfo($radio)
 
         unset($data['STREAMSTATUS']);
         $md5_current_song = md5($data['SONGTITLE']);
-        $current_song = $cache->get($keys['current_radio_song']);
+        $current_song = $cache->get($cache_keys['current_radio_song']);
         if ($current_song === false || $current_song != $md5_current_song) {
             autoshout(str_replace(['<', '>'], ['[', ']'],
                 $data['SONGTITLE'].' playing on '.strtolower($data['SERVERTITLE']).' - '.strtolower($data['SERVERURL'])));
-            $cache->set($keys['current_radio_song'], $md5_current_song, 0);
+            $cache->set($cache_keys['current_radio_song'], $md5_current_song, 0);
         }
         $html = '<fieldset>
             <legend>'.$TRINITY20['site_name'].' radio</legend><ul>';

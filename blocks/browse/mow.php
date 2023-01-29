@@ -19,14 +19,14 @@ foreach ($categorie as $key => $value) {
         'image' => $value['image'],
     ];
 }
-if (($motw_cached = $cache->get($keys['top_movie_2'])) === false) {
+if (($motw_cached = $cache->get($cache_keys['top_movie_2'])) === false) {
     ($motw = sql_query("SELECT torrents.id, torrents.leechers, torrents.seeders, torrents.category, torrents.name, torrents.times_completed FROM torrents INNER JOIN avps ON torrents.id=avps.value_u WHERE avps.arg='bestfilmofweek' LIMIT 1")) || sqlerr(__FILE__,
         __LINE__);
     while ($motw_cache = $motw->fetch_assoc()) {
         $motw_cached = (array)$motw_cached;
         $motw_cached[] = $motw_cache;
     }
-    $cache->set($keys['top_movie_2'], $motw_cached, 0);
+    $cache->set($cache_keys['top_movie_2'], $motw_cached, 0);
 }
 $HTMLOUT .= "{$lang['index_mow_title']}
                 <table class='stack'>

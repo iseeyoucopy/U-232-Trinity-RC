@@ -99,7 +99,7 @@
 /// @param {Map} $map - Map to pull a value from.
 /// @param {String} $keys... - Keys to use when looking for a value.
 /// @returns {Mixed} The value found in the map.
-@function map-deep-get($map, $keys...) {
+@function map-deep-get($map, $cache_keys...) {
   @each $key in $keys {
     $map: map-get($map, $key);
   }

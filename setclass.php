@@ -24,10 +24,10 @@ if (isset($_GET["action"]) && htmlspecialchars($_GET["action"]) == "editclass") 
     $newclass = (int)$_GET['class'];
     $returnto = htmlspecialchars($_GET['returnto']);
     sql_query("UPDATE users SET override_class = ".sqlesc($newclass)." WHERE id = ".sqlesc($CURUSER['id'])); // Set temporary class
-    $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
         'override_class' => $newclass,
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row($keys['user'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['user'].$CURUSER['id'], [
         'override_class' => $newclass,
     ], $TRINITY20['expires']['user_cache']);
     header("Location: {$TRINITY20['baseurl']}/".$returnto);

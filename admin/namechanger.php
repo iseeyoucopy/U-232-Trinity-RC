@@ -44,10 +44,10 @@ if (isset($mode) && $mode == 'change') {
             stderr($lang['namechanger_err'], $lang['namechanger_cannot']);
         }
         ($change = sql_query("UPDATE users SET username=".sqlesc($uname)." WHERE id=".sqlesc($uid))) || sqlerr(__FILE__, __LINE__);
-        $cache->update_row($keys['my_userid'].$uid, [
+        $cache->update_row($cache_keys['my_userid'].$uid, [
             'username' => $uname,
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row($keys['user'].$uid, [
+        $cache->update_row($cache_keys['user'].$uid, [
             'username' => $uname,
         ], $TRINITY20['expires']['user_cache']);
         $added = TIME_NOW;

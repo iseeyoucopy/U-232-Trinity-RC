@@ -17,7 +17,7 @@ foreach ($categorie as $key => $value) {
         'image' => $value['image'],
     ];
 }
-if (($top10tv_week = $cache->get($keys['top10_tv_week'])) === false) {
+if (($top10tv_week = $cache->get($cache_keys['top10_tv_week'])) === false) {
     $tortime24tv = $_SERVER['REQUEST_TIME'] - 604800;
     ($res_tvw = sql_query("SELECT id, times_completed, seeders, leechers, name from torrents WHERE last_action >= {$tortime24tv} AND category IN (".implode(", ",
             $TRINITY20['tv_cats']).") ORDER BY seeders + leechers DESC LIMIT {$TRINITY20['latest_torrents_limit']}")) || sqlerr(__FILE__, __LINE__);
@@ -25,7 +25,7 @@ if (($top10tv_week = $cache->get($keys['top10_tv_week'])) === false) {
         $top10tv_week = (array)$top10tv_week;
         $top10tv_week[] = $top10tvs_week;
     }
-    $cache->set($keys['top10_tv_week'], $top10tv_week);
+    $cache->set($cache_keys['top10_tv_week'], $top10tv_week);
 }
 $HTMLOUT .= "
             <table class='top10'>

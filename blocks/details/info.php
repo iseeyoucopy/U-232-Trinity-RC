@@ -145,10 +145,10 @@ if ($torrent_rep && $TRINITY20['rep_sys_on']) {
 //==pdq's Torrent Moderation
 if ($CURUSER['class'] >= UC_STAFF) {
     if (!empty($torrents['checked_by'])) {
-        if (($checked_by = $cache->get($keys['checked_by'].$id)) === false) {
+        if (($checked_by = $cache->get($cache_keys['checked_by'].$id)) === false) {
             ($chckby_query = sql_query("SELECT id FROM users WHERE username=".sqlesc($torrents['checked_by']))) || sqlerr(__FILE__, __LINE__);
             $checked_by = $chckby_query->fetch_assoc();
-            $cache->set($keys['checked_by'].$id, $checked_by, 30 * 86400);
+            $cache->set($cache_keys['checked_by'].$id, $checked_by, 30 * 86400);
         }
         $HTMLOUT .= "<tr>
     <td>{$lang['details_add_bychk1']}</td>

@@ -164,10 +164,10 @@ $top_links = '<li><a href="pm_system.php?action=search">'.$lang['pm_search'].'</
 if (isset($_GET['change_pm_number'])) {
     $change_pm_number = (isset($_GET['change_pm_number']) ? (int)$_GET['change_pm_number'] : 20);
     sql_query('UPDATE users SET pms_per_page = '.sqlesc($change_pm_number).' WHERE id = '.sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
-    $cache->update_row($keys['user'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['user'].$CURUSER['id'], [
         'pms_per_page' => $change_pm_number,
     ], $TRINITY20['expires']['user_cache']);
-    $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
         'pms_per_page' => $change_pm_number,
     ], $TRINITY20['expires']['curuser']);
     if (isset($_GET['edit_mail_boxes'])) {
@@ -181,10 +181,10 @@ if (isset($_GET['change_pm_number'])) {
 if (isset($_GET['show_pm_avatar'])) {
     $show_pm_avatar = ($_GET['show_pm_avatar'] === 'yes' ? 'yes' : 'no');
     sql_query('UPDATE users SET show_pm_avatar = '.sqlesc($show_pm_avatar).' WHERE id = '.sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
-    $cache->update_row($keys['user'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['user'].$CURUSER['id'], [
         'show_pm_avatar' => $show_pm_avatar,
     ], $TRINITY20['expires']['user_cache']);
-    $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
         'show_pm_avatar' => $show_pm_avatar,
     ], $TRINITY20['expires']['curuser']);
     if (isset($_GET['edit_mail_boxes'])) {
@@ -266,8 +266,8 @@ switch ($action) {
 //=== get all PM boxes
 function get_all_boxes()
 {
-    global $CURUSER, $cache, $TRINITY20, $lang, $keys;
-    if (($get_all_boxes = $cache->get($keys['get_all_boxes'].$CURUSER['id'])) === false) {
+    global $CURUSER, $cache, $TRINITY20, $lang, $cache_keys;
+    if (($get_all_boxes = $cache->get($cache_keys['get_all_boxes'].$CURUSER['id'])) === false) {
         ($res = sql_query('SELECT boxnumber, name FROM pmboxes WHERE userid='.sqlesc($CURUSER['id']).' ORDER BY boxnumber')) || sqlerr(__FILE__,
             __LINE__);
         $get_all_boxes = '<select name="box">
@@ -280,7 +280,7 @@ function get_all_boxes()
             $get_all_boxes .= '<option value="'.(int)$row['boxnumber'].'">'.htmlspecialchars($row['name']).'</option>';
         }
         $get_all_boxes .= '</select>';
-        $cache->set($keys['get_all_boxes'].$CURUSER['id'], $get_all_boxes, $TRINITY20['expires']['get_all_boxes']);
+        $cache->set($cache_keys['get_all_boxes'].$CURUSER['id'], $get_all_boxes, $TRINITY20['expires']['get_all_boxes']);
     }
     return $get_all_boxes;
 }
@@ -288,8 +288,8 @@ function get_all_boxes()
 //=== insert jump to box
 function insertJumpTo($mailbox)
 {
-    global $CURUSER, $cache, $TRINITY20, $lang, $keys;
-    if (($insertJumpTo = $cache->get($keys['insertJumpTo'].$CURUSER['id'])) === false) {
+    global $CURUSER, $cache, $TRINITY20, $lang, $cache_keys;
+    if (($insertJumpTo = $cache->get($cache_keys['insertJumpTo'].$CURUSER['id'])) === false) {
         ($res = sql_query('SELECT boxnumber,name FROM pmboxes WHERE userid='.sqlesc($CURUSER['id']).' ORDER BY boxnumber')) || sqlerr(__FILE__,
             __LINE__);
         $insertJumpTo = '<form role="form" action="pm_system.php" method="get">
@@ -300,7 +300,7 @@ function insertJumpTo($mailbox)
             $insertJumpTo .= '<option value="pm_system.php?action=view_mailbox&amp;box='.(int)$row['boxnumber'].'" '.((int)$row['boxnumber'] == $mailbox ? 'selected="selected"' : '').'>'.htmlspecialchars($row['name']).'</option></label>';
         }
         $insertJumpTo .= '</select></form>';
-        $cache->set($keys['insertJumpTo'].$CURUSER['id'], $insertJumpTo, $TRINITY20['expires']['insertJumpTo']);
+        $cache->set($cache_keys['insertJumpTo'].$CURUSER['id'], $insertJumpTo, $TRINITY20['expires']['insertJumpTo']);
     }
     return $insertJumpTo;
 }

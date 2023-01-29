@@ -25,7 +25,7 @@ function readMore($text, $char, $link)
 
 function torrenttable($res, $variant = "index")
 {
-    global $TRINITY20, $CURUSER, $lang, $free, $cache, $keys;
+    global $TRINITY20, $CURUSER, $lang, $free, $cache, $cache_keys;
     require_once(INCL_DIR.'bbcode_functions.php');
     require_once(CLASS_DIR.'class_user_options_2.php');
     $htmlout = $prevdate = $nuked = $free_slot = $freetorrent = $free_color = $slots_check = $double_slot = $private = $newgenre = $oldlink = $char = $description = $type = $sort = $row = $youtube = '';
@@ -47,7 +47,7 @@ function torrenttable($res, $variant = "index")
                 break;
         }
         $slot = make_freeslots($CURUSER['id'], 'fllslot_');
-        $book = make_bookmarks($CURUSER['id'], $keys['bookmark_key']);
+        $book = make_bookmarks($CURUSER['id'], $cache_keys['bookmark_key']);
         $all_free_tag = ($fl['modifier'] != 0 && ($fl['expires'] > TIME_NOW || $fl['expires'] == 1) ? ' <a class="info" href="#">
             <b>'.$free_display.'</b> 
             <span>'.($fl['expires'] != 1 ? '

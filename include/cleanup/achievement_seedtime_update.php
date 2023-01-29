@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache, $mysqli, $keys;
+    global $TRINITY20, $queries, $cache, $mysqli, $cache_keys;
     set_time_limit(0);
     ignore_user_abort(1);
     // *Updated* Seedtime Achievements Mod by MelvinMeow
@@ -42,9 +42,9 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,'.$arr['userid'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
                 $achievements_buffer[] = '('.$arr['userid'].', '.TIME_NOW.', \'7 Day Seeder\', \'7dayseed.png\' , \'Seeded a snatched torrent for a total of at least 7 days.\')';
                 $usersachiev_buffer[] = '('.$arr['userid'].',7, '.$points.')';
-                $cache->delete($keys['inbox_new'].$arr['userid']);
-                $cache->delete($keys['inbox_new_sb'].$arr['userid']);
-                $cache->delete($keys['user_achiev_points'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new_sb'].$arr['userid']);
+                $cache->delete($cache_keys['user_achiev_points'].$arr['userid']);
                 $var1 = 'dayseed';
             }
             if ($dayseed == 7 && $timeseeded >= $seedtime2) {
@@ -52,9 +52,9 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,'.$arr['userid'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
                 $achievements_buffer[] = '('.$arr['userid'].', '.TIME_NOW.', \'14 Day Seeder\', \'14dayseed.png\' , \'Seeded a snatched torrent for a total of at least 14 days.\')';
                 $usersachiev_buffer[] = '('.$arr['userid'].',14, '.$points.')';
-                $cache->delete($keys['inbox_new'].$arr['userid']);
-                $cache->delete($keys['inbox_new_sb'].$arr['userid']);
-                $cache->delete($keys['user_achiev_points'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new_sb'].$arr['userid']);
+                $cache->delete($cache_keys['user_achiev_points'].$arr['userid']);
                 $var1 = 'dayseed';
             }
             if ($dayseed == 14 && $timeseeded >= $seedtime3) {
@@ -62,9 +62,9 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,'.$arr['userid'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
                 $achievements_buffer[] = '('.$arr['userid'].', '.TIME_NOW.', \'21 Day Seeder\', \'21dayseed.png\' , \'Seeded a snatched torrent for a total of at least 21 days.\')';
                 $usersachiev_buffer[] = '('.$arr['userid'].',21, '.$points.')';
-                $cache->delete($keys['inbox_new'].$arr['userid']);
-                $cache->delete($keys['inbox_new_sb'].$arr['userid']);
-                $cache->delete($keys['user_achiev_points'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new_sb'].$arr['userid']);
+                $cache->delete($cache_keys['user_achiev_points'].$arr['userid']);
                 $var1 = 'dayseed';
             }
             if ($dayseed == 21 && $timeseeded >= $seedtime4) {
@@ -72,9 +72,9 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,'.$arr['userid'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
                 $achievements_buffer[] = '('.$arr['userid'].', '.TIME_NOW.', \'28 Day Seeder\', \'28dayseed.png\' , \'Seeded a snatched torrent for a total of at least 28 days.\')';
                 $usersachiev_buffer[] = '('.$arr['userid'].',28, '.$points.')';
-                $cache->delete($keys['inbox_new'].$arr['userid']);
-                $cache->delete($keys['inbox_new_sb'].$arr['userid']);
-                $cache->delete($keys['user_achiev_points'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new_sb'].$arr['userid']);
+                $cache->delete($cache_keys['user_achiev_points'].$arr['userid']);
                 $var1 = 'dayseed';
             }
             if ($dayseed == 28 && $timeseeded >= $seedtime5) {
@@ -82,9 +82,9 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,'.$arr['userid'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
                 $achievements_buffer[] = '('.$arr['userid'].', '.TIME_NOW.', \'45 Day Seeder\', \'45dayseed.png\' , \'Seeded a snatched torrent for a total of at least 45 days.\')';
                 $usersachiev_buffer[] = '('.$arr['userid'].',45, '.$points.')';
-                $cache->delete($keys['inbox_new'].$arr['userid']);
-                $cache->delete($keys['inbox_new_sb'].$arr['userid']);
-                $cache->delete($keys['user_achiev_points'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new_sb'].$arr['userid']);
+                $cache->delete($cache_keys['user_achiev_points'].$arr['userid']);
                 $var1 = 'dayseed';
             }
             if ($dayseed == 45 && $timeseeded >= $seedtime6) {
@@ -92,9 +92,9 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,'.$arr['userid'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
                 $achievements_buffer[] = '('.$arr['userid'].', '.TIME_NOW.', \'60 Day Seeder\', \'60dayseed.png\' , \'Seeded a snatched torrent for a total of at least 60 days.\')';
                 $usersachiev_buffer[] = '('.$arr['userid'].',60, '.$points.')';
-                $cache->delete($keys['inbox_new'].$arr['userid']);
-                $cache->delete($keys['inbox_new_sb'].$arr['userid']);
-                $cache->delete($keys['user_achiev_points'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new_sb'].$arr['userid']);
+                $cache->delete($cache_keys['user_achiev_points'].$arr['userid']);
                 $var1 = 'dayseed';
             }
             if ($dayseed == 60 && $timeseeded >= $seedtime7) {
@@ -102,9 +102,9 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,'.$arr['userid'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
                 $achievements_buffer[] = '('.$arr['userid'].', '.TIME_NOW.', \'90 Day Seeder\', \'90dayseed.png\' , \'Seeded a snatched torrent for a total of at least 90 days.\')';
                 $usersachiev_buffer[] = '('.$arr['userid'].',90, '.$points.')';
-                $cache->delete($keys['inbox_new'].$arr['userid']);
-                $cache->delete($keys['inbox_new_sb'].$arr['userid']);
-                $cache->delete($keys['user_achiev_points'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new_sb'].$arr['userid']);
+                $cache->delete($cache_keys['user_achiev_points'].$arr['userid']);
                 $var1 = 'dayseed';
             }
             if ($dayseed == 90 && $timeseeded >= $seedtime8) {
@@ -112,9 +112,9 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,'.$arr['userid'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
                 $achievements_buffer[] = '('.$arr['userid'].', '.TIME_NOW.', \'120 Day Seeder\', \'120dayseed.png\' , \'Seeded a snatched torrent for a total of at least 120 days.\')';
                 $usersachiev_buffer[] = '('.$arr['userid'].',120, '.$points.')';
-                $cache->delete($keys['inbox_new'].$arr['userid']);
-                $cache->delete($keys['inbox_new_sb'].$arr['userid']);
-                $cache->delete($keys['user_achiev_points'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new_sb'].$arr['userid']);
+                $cache->delete($cache_keys['user_achiev_points'].$arr['userid']);
                 $var1 = 'dayseed';
             }
             if ($dayseed == 120 && $timeseeded >= $seedtime9) {
@@ -122,9 +122,9 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,'.$arr['userid'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
                 $achievements_buffer[] = '('.$arr['userid'].', '.TIME_NOW.', \'200 Day Seeder\', \'200dayseed.png\' , \'Seeded a snatched torrent for a total of at least 200 days.\')';
                 $usersachiev_buffer[] = '('.$arr['userid'].',200, '.$points.')';
-                $cache->delete($keys['inbox_new'].$arr['userid']);
-                $cache->delete($keys['inbox_new_sb'].$arr['userid']);
-                $cache->delete($keys['user_achiev_points'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new_sb'].$arr['userid']);
+                $cache->delete($cache_keys['user_achiev_points'].$arr['userid']);
                 $var1 = 'dayseed';
             }
             if ($dayseed == 200 && $timeseeded >= $seedtime10) {
@@ -132,9 +132,9 @@ function docleanup($data)
                 $msgs_buffer[] = '(0,'.$arr['userid'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
                 $achievements_buffer[] = '('.$arr['userid'].', '.TIME_NOW.', \'365 Day Seeder\', \'365dayseed.png\' , \'Seeded a snatched torrent for a total of at least 1 Year.\')';
                 $usersachiev_buffer[] = '('.$arr['userid'].',365, '.$points.')';
-                $cache->delete($keys['inbox_new'].$arr['userid']);
-                $cache->delete($keys['inbox_new_sb'].$arr['userid']);
-                $cache->delete($keys['user_achiev_points'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new'].$arr['userid']);
+                $cache->delete($cache_keys['inbox_new_sb'].$arr['userid']);
+                $cache->delete($cache_keys['user_achiev_points'].$arr['userid']);
                 $var1 = 'dayseed';
             }
         }

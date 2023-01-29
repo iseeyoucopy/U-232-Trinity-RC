@@ -195,27 +195,27 @@ if ($action == "acceptapp") {
         __LINE__);
     sql_query("UPDATE users SET class = ".UC_UPLOADER.", modcomment = ".sqlesc($modcomment)." WHERE id=".sqlesc($arr['uid'])." AND class < ".UC_STAFF) || sqlerr(__FILE__,
         __LINE__);
-    $cache->update_row($keys['my_userid'].$arr['uid'], [
+    $cache->update_row($cache_keys['my_userid'].$arr['uid'], [
         'class' => 3,
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row($keys['user_statss'].$arr['uid'], [
+    $cache->update_row($cache_keys['user_statss'].$arr['uid'], [
         'modcomment' => $modcomment,
     ], $TRINITY20['expires']['user_stats']);
-    $cache->update_row($keys['user'].$arr['uid'], [
+    $cache->update_row($cache_keys['user'].$arr['uid'], [
         'class' => 3,
     ], $TRINITY20['expires']['user_cache']);
     sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, ".sqlesc($arr['uid']).", $dt, $msg, $subject, 0)") || sqlerr(__FILE__,
         __LINE__);
-    $cache->delete($keys['inbox_new'].$arr['uid']);
-    $cache->delete($keys['inbox_new_sb'].$arr['uid']);
+    $cache->delete($cache_keys['inbox_new'].$arr['uid']);
+    $cache->delete($cache_keys['inbox_new_sb'].$arr['uid']);
     ($subres = sql_query("SELECT id FROM users WHERE class >= ".UC_STAFF)) || sqlerr(__FILE__, __LINE__);
     while ($subarr = $subres->fetch_assoc()) {
         sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, ".sqlesc($subarr['id']).", $dt, $msg1, $subject, 0)") || sqlerr(__FILE__,
             __LINE__);
     }
-    $cache->delete($keys['inbox_new'].$subarr['id']);
-    $cache->delete($keys['inbox_new_sb'].$subarr['id']);
-    $cache->delete($keys['new_uploadapp']);
+    $cache->delete($cache_keys['inbox_new'].$subarr['id']);
+    $cache->delete($cache_keys['inbox_new_sb'].$subarr['id']);
+    $cache->delete($cache_keys['new_uploadapp']);
     stderr($lang['uploadapps_app_accepted'],
         "{$lang['uploadapps_app_msg']} {$lang['uploadapps_app_click']} <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=uploadapps&amp;action=app'><b>{$lang['uploadapps_app_here']}</b></a> {$lang['uploadapps_app_return']}");
 }
@@ -236,7 +236,7 @@ if ($action == "rejectapp") {
         __LINE__);
     sql_query("INSERT INTO messages(sender, receiver, added, msg, subject, poster) VALUES(0, {$arr['uid']}, $dt, $msg, $subject, 0)") || sqlerr(__FILE__,
         __LINE__);
-    $cache->delete($keys['new_uploadapp']);
+    $cache->delete($cache_keys['new_uploadapp']);
     stderr($lang['uploadapps_app_rej'],
         "{$lang['uploadapps_app_rejbeen']} {$lang['uploadapps_app_click']} <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=uploadapps&amp;action=app'><b>{$lang['uploadapps_app_here']}</b></a>{$lang['uploadapps_app_return']}");
 }
@@ -246,7 +246,7 @@ if ($action == "takeappdelete") {
         stderr($lang['uploadapps_silly'], $lang['uploadapps_twix']);
     } else {
         sql_query("DELETE FROM uploadapp WHERE id IN (".implode(",", $_POST['deleteapp']).") ") || sqlerr(__FILE__, __LINE__);
-        $cache->delete($keys['new_uploadapp']);
+        $cache->delete($cache_keys['new_uploadapp']);
         stderr($lang['uploadapps_deleted'],
             "{$lang['uploadapps_deletedsuc']} {$lang['uploadapps_app_click']} <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=uploadapps&amp;action=app'><b>{$lang['uploadapps_app_here']}</b></a>{$lang['uploadapps_app_return']}");
     }

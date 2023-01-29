@@ -53,7 +53,7 @@ if (happyHour('check') && happyCheck('checkid', $row['category']) && XBT_TRACKER
     happyLog($CURUSER['id'], $id, $multiplier);
     sql_query('INSERT INTO happyhour (userid, torrentid, multiplier ) VALUES ('.sqlesc($CURUSER['id']).','.sqlesc($id).','.sqlesc($multiplier).')') || sqlerr(__FILE__,
         __LINE__);
-    $cache->delete($CURUSER['id'].$keys['happyhour']);
+    $cache->delete($CURUSER['id'].$cache_keys['happyhour']);
 }
 
 if (($CURUSER['seedbonus'] === 0 || $CURUSER['seedbonus'] < $TRINITY20['bonus_per_download'])) {
@@ -66,10 +66,10 @@ if ($TRINITY20['seedbonus_on'] == 1 && $row['owner'] != $CURUSER['id']) {
         __LINE__);
     $update['seedbonus'] = ($CURUSER['seedbonus'] - $TRINITY20['bonus_per_download']);
     $update['seedbonus'] = ($CURUSER['seedbonus'] - $TRINITY20['bonus_per_download']);
-    $cache->update_row($keys['user_stats'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['user_stats'].$CURUSER['id'], [
         'seedbonus' => $update['seedbonus'],
     ], $TRINITY20['expires']['u_stats']);
-    $cache->update_row($keys['user_statss'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['user_statss'].$CURUSER['id'], [
         'seedbonus' => $update['seedbonus'],
     ], $TRINITY20['expires']['user_stats']);
     //===end
@@ -134,21 +134,21 @@ if (isset($_GET['slot'])) {
     } else {
         stderr('ERROR', 'What\'s up doc?');
     }
-    $cache->delete($keys['fllslot'].$CURUSER['id']);
+    $cache->delete($cache_keys['fllslot'].$CURUSER['id']);
     make_freeslots($CURUSER['id'], 'fllslot_');
     $user['freeslots'] = ($CURUSER['freeslots'] - 1);
-    $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
         'freeslots' => $CURUSER['freeslots'],
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row($keys['user'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['user'].$CURUSER['id'], [
         'freeslots' => $user['freeslots'],
     ], $TRINITY20['expires']['user_cache']);
 }
 /* end **/
-$cache->delete($keys['my_peers'].$CURUSER['id']);
-$cache->delete($keys['top5_tor']);
-$cache->delete($keys['last5_tor']);
-$cache->delete($keys['scroll_tor']);
+$cache->delete($cache_keys['my_peers'].$CURUSER['id']);
+$cache->delete($cache_keys['top5_tor']);
+$cache->delete($cache_keys['last5_tor']);
+$cache->delete($cache_keys['scroll_tor']);
 if (!isset($CURUSER['torrent_pass']) || strlen($CURUSER['torrent_pass']) != 32) {
     ($xbt_config_query = sql_query("SELECT value FROM xbt_config WHERE name='torrent_pass_private_key'")) || sqlerr(__FILE__, __LINE__);
     $xbt_config = $xbt_config_query->fetch_row();
@@ -159,10 +159,10 @@ if (!isset($CURUSER['torrent_pass']) || strlen($CURUSER['torrent_pass']) != 32) 
     $passkey = sprintf('%08x%s', $uid, substr(sha1(sprintf('%s %d %d %s', $site_key, $torrent_pass_version, $uid, $info_hash)), 0, 24));
     $CURUSER['torrent_pass'] = $passkey;
     sql_query('UPDATE users SET torrent_pass='.sqlesc($CURUSER['torrent_pass']).'WHERE id='.sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
-    $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
         'torrent_pass' => $CURUSER['torrent_pass'],
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row($keys['user'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['user'].$CURUSER['id'], [
         'torrent_pass' => $CURUSER['torrent_pass'],
     ], $TRINITY20['expires']['user_cache']);
 }

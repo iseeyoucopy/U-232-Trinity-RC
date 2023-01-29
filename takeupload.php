@@ -320,10 +320,10 @@ if (XBT_TRACKER == false) {
     remove_torrent($infohash);
 }
 $id = $mysqli->insert_id;
-$cache->delete($keys['my_peers'].$CURUSER['id']);
-//$cache->delete($keys['lastest_tor']);  //
-$cache->delete($keys['last5_tor']);
-$cache->delete($keys['scroll_tor']);
+$cache->delete($cache_keys['my_peers'].$CURUSER['id']);
+//$cache->delete($cache_keys['lastest_tor']);  //
+$cache->delete($cache_keys['last5_tor']);
+$cache->delete($cache_keys['scroll_tor']);
 
 sql_query("DELETE FROM files WHERE torrent = ".sqlesc($id));
 function file_list($arr, $id)
@@ -354,8 +354,8 @@ if ($offer > 0) {
     while ($arr_offer = $res_offer->fetch_assoc()) {
         sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, saved, location) 
     VALUES(0, '.sqlesc($arr_offer['user_id']).', '.TIME_NOW.', '.$message.', '.$subject.', \'yes\', 1)') || sqlerr(__FILE__, __LINE__);
-        $cache->delete($keys['inbox_new'].$arr_offer['user_id']);
-        $cache->delete($keys['inbox_new_sb'].$arr_offer['user_id']);
+        $cache->delete($cache_keys['inbox_new'].$arr_offer['user_id']);
+        $cache->delete($cache_keys['inbox_new_sb'].$arr_offer['user_id']);
     }
     write_log('Offered torrent '.$id.' ('.htmlspecialchars($torrent).') was uploaded by '.$CURUSER['username']);
     $filled = 1;
@@ -370,8 +370,8 @@ if ($request > 0) {
     while ($arr_req = $res_req->fetch_assoc()) {
         sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, saved, location) 
     VALUES(0, '.sqlesc($arr_req['user_id']).', '.TIME_NOW.', '.$message.', '.$subject.', \'yes\', 1)') || sqlerr(__FILE__, __LINE__);
-        $cache->delete($keys['inbox_new'].$arr_req['user_id']);
-        $cache->delete($keys['inbox_new_sb'].$arr_req['user_id']);
+        $cache->delete($cache_keys['inbox_new'].$arr_req['user_id']);
+        $cache->delete($cache_keys['inbox_new_sb'].$arr_req['user_id']);
     }
     sql_query('UPDATE requests SET filled_by_user_id = '.sqlesc($CURUSER['id']).', filled_torrent_id = '.sqlesc($id).' WHERE id = '.sqlesc($request)) || sqlerr(__FILE__,
         __LINE__);
@@ -429,10 +429,10 @@ if ($TRINITY20['seedbonus_on'] == 1) {
         __LINE__);
     //===end
     $update['seedbonus'] = ($CURUSER['seedbonus'] + $TRINITY20['bonus_per_upload']);
-    $cache->update_row($keys['user_stats'].$CURUSER["id"], [
+    $cache->update_row($cache_keys['user_stats'].$CURUSER["id"], [
         'seedbonus' => $update['seedbonus'],
     ], $TRINITY20['expires']['u_stats']);
-    $cache->update_row($keys['user_statss'].$CURUSER["id"], [
+    $cache->update_row($cache_keys['user_statss'].$CURUSER["id"], [
         'seedbonus' => $update['seedbonus'],
     ], $TRINITY20['expires']['user_stats']);
 }

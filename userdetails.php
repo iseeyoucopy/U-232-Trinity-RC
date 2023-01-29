@@ -43,7 +43,7 @@ $id = isset($_GET["id"]) ? (int)$_GET["id"] : 0;
 if (!is_valid_id($id)) {
     stderr($lang['userdetails_error'], "{$lang['userdetails_bad_id']}");
 }
-if (($user = $cache->get($keys['user'].$id)) === false) {
+if (($user = $cache->get($cache_keys['user'].$id)) === false) {
     $user_fields_ar_int = [
         'id',
         'added',
@@ -202,13 +202,13 @@ if (($user = $cache->get($keys['user'].$id)) === false) {
     foreach ($user_fields_ar_str as $i) {
         $user[$i] = $user[$i];
     }
-    $cache->set($keys['user'].$id, $user, $TRINITY20['expires']['user_cache']);
+    $cache->set($cache_keys['user'].$id, $user, $TRINITY20['expires']['user_cache']);
 }
 if ($user["status"] == "pending") {
     stderr($lang['userdetails_error'], $lang['userdetails_still_pending']);
 }
 // user stats
-$What_Cache = (XBT_TRACKER == true ? $keys['user_stats_xbt'] : $keys['user_stats']);
+$What_Cache = (XBT_TRACKER == true ? $cache_keys['user_stats_xbt'] : $cache_keys['user_stats']);
 if (($user_stats = $cache->get($What_Cache.$id)) === false) {
     $What_Expire = (XBT_TRACKER == true ? $TRINITY20['expires']['user_stats_xbt'] : $TRINITY20['expires']['user_stats']);
     $stats_fields_ar_int = [
@@ -247,7 +247,7 @@ if (($user_status = $cache->get($key['user_status'].$id)) === false) {
             'archive' => '',
         ];
     }
-    $cache->set($keys['user_status'].$id, $user_status, $TRINITY20['expires']['user_status']); // 30 days
+    $cache->set($cache_keys['user_status'].$id, $user_status, $TRINITY20['expires']['user_status']); // 30 days
 
 }
 //=== delete H&R
@@ -324,10 +324,10 @@ if (!(isset($_GET["hit"])) && $CURUSER["id"] != $user["id"]) {
         sql_query("UPDATE users SET hits = hits + 1 WHERE id = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
         // do update hits userdetails cache
         $update['user_hits'] = ($user['hits'] + 1);
-        $cache->update_row($keys['my_userid'].$id, [
+        $cache->update_row($cache_keys['my_userid'].$id, [
             'hits' => $update['user_hits'],
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row($keys['user'].$id, [
+        $cache->update_row($cache_keys['user'].$id, [
             'hits' => $update['user_hits'],
         ], $TRINITY20['expires']['user_cache']);
         sql_query("INSERT INTO userhits (userid, hitid, number, added) VALUES(".sqlesc($CURUSER['id']).", ".sqlesc($id).", ".sqlesc($hitnumber).", ".sqlesc(TIME_NOW).")") || sqlerr(__FILE__,
@@ -348,15 +348,15 @@ if ($CURUSER["id"] != $user["id"]) {
     $showpmbutton = ($r->num_rows == 1 ? 1 : 0);
 }
 //== Add or Remove Friends - updated 2020 by iseeyoucopy
-if (($friends = $cache->get($keys['u_friends'].$id)) === false) {
+if (($friends = $cache->get($cache_keys['u_friends'].$id)) === false) {
     ($r3 = sql_query("SELECT id FROM friends WHERE userid=".sqlesc($CURUSER['id'])." AND friendid=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $friends = $r3->num_rows;
-    $cache->set($keys['u_friends'].$id, $friends, 10);
+    $cache->set($cache_keys['u_friends'].$id, $friends, 10);
 }
-if (($blocks = $cache->get($keys['u_blocks'].$id)) === false) {
+if (($blocks = $cache->get($cache_keys['u_blocks'].$id)) === false) {
     ($r4 = sql_query("SELECT id FROM blocks WHERE userid=".sqlesc($CURUSER['id'])." AND blockid=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
     $blocks = $r4->num_rows;
-    $cache->set($keys['u_blocks'].$id, $blocks, 10);
+    $cache->set($cache_keys['u_blocks'].$id, $blocks, 10);
 }
 //== Join date 
 $joindate = $user["added"];
@@ -365,11 +365,11 @@ $joindate = $user['added'] == 0 ? "{$lang['userdetails_na']}" : get_date($user['
 //==Last Seen 
 $lastseen = $user["last_access"];
 $lastseen = $lastseen == 0 ? "{$lang['userdetails_never']}" : get_date($user['last_access'], '', 0, 1);
-if (($shit_list = $cache->get($keys['shit_list'].$id)) === false) {
+if (($shit_list = $cache->get($cache_keys['shit_list'].$id)) === false) {
     ($check_if_theyre_shitty = sql_query("SELECT suspect FROM shit_list WHERE userid=".sqlesc($CURUSER['id'])." AND suspect=".sqlesc($id))) || sqlerr(__FILE__,
         __LINE__);
     [$shit_list] = $check_if_theyre_shitty->fetch_row();
-    $cache->set($keys['shit_list'].$id, $shit_list, $TRINITY20['expires']['shit_list']);
+    $cache->set($cache_keys['shit_list'].$id, $shit_list, $TRINITY20['expires']['shit_list']);
 }
 $HTMLOUT = $perms = $stealth = $suspended = $watched_user = '';
 if (($user['anonymous'] == 'yes') && ($CURUSER['class'] < UC_STAFF && $user["id"] != $CURUSER["id"])) {

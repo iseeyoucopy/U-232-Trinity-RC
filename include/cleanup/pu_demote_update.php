@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache, $mysqli, $keys;
+    global $TRINITY20, $queries, $cache, $mysqli, $cache_keys;
     set_time_limit(1200);
     ignore_user_abort(1);
     //== Updated demote power users
@@ -64,17 +64,17 @@ function docleanup($data)
                 $modcom = sqlesc($modcomment);
                 $msgs_buffer[] = '(0,'.$userid.', '.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
                 $users_buffer[] = '('.$userid.', '.$prev_class.', '.$modcom.')';
-                $cache->update_row($keys['user'].$userid, [
+                $cache->update_row($cache_keys['user'].$userid, [
                     'class' => $prev_class,
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row($keys['user_statss'].$userid, [
+                $cache->update_row($cache_keys['user_statss'].$userid, [
                     'modcomment' => $modcomment,
                 ], $TRINITY20['expires']['user_stats']);
-                $cache->update_row($keys['my_userid'].$userid, [
+                $cache->update_row($cache_keys['my_userid'].$userid, [
                     'class' => $prev_class,
                 ], $TRINITY20['expires']['curuser']);
-                $cache->delete($keys['inbox_new'].$userid);
-                $cache->delete($keys['inbox_new_sb'].$userid);
+                $cache->delete($cache_keys['inbox_new'].$userid);
+                $cache->delete($cache_keys['inbox_new_sb'].$userid);
             }
             $count = count($users_buffer);
             if ($count > 0) {

@@ -59,11 +59,11 @@ if ($TRINITY20['captcha_on'] && !$gotkey && (empty($captchaSelection) || $_SESSI
 }
 function bark($text = 'Username or password incorrect')
 {
-    global $lang, $TRINITY20, $cache, $keys;
+    global $lang, $TRINITY20, $cache, $cache_keys;
     $sha = sha1($_SERVER['REMOTE_ADDR']);
-    $flood = $cache->get($keys['dictbreaker'].$sha);
+    $flood = $cache->get($cache_keys['dictbreaker'].$sha);
     if ($flood === false) {
-        $cache->set($keys['dictbreaker'].$sha, 'flood_check', 20);
+        $cache->set($cache_keys['dictbreaker'].$sha, 'flood_check', 20);
     } else {
         die("{$lang['tlogin_err4']}");
     }
@@ -129,8 +129,8 @@ if (!$pass_hash && !$tri_hash) {
     $msg = "[color=red]{$lang['tlogin_log_err2']}[/color]\n{$lang['tlogin_mess1']}".(int)$row['id']."{$lang['tlogin_mess2']}".htmlspecialchars($username)."{$lang['tlogin_mess3']}"."{$lang['tlogin_mess4']}".htmlspecialchars($ip)."{$lang['tlogin_mess5']}";
     $sql = "INSERT INTO messages (sender, receiver, msg, subject, added) VALUES('System', ".sqlesc($to).", ".sqlesc($msg).", ".sqlesc($subject).", $added);";
     ($res = sql_query("SET SESSION sql_mode = ''", $sql)) || sqlerr(__FILE__, __LINE__);
-    $cache->delete($keys['inbox_new'].$row['id']);
-    $cache->delete($keys['inbox_new_sb'].$row['id']);
+    $cache->delete($cache_keys['inbox_new'].$row['id']);
+    $cache->delete($cache_keys['inbox_new_sb'].$row['id']);
     bark("<b>{$lang['gl_error']}</b>{$lang['tlogin_forgot']}");
 } elseif ($pass_hash && !$tri_hash) {
     $secret = mksecret();
@@ -172,8 +172,8 @@ if (!$tri_hash) {
     $msg = "[color=red]{$lang['tlogin_log_err2']}[/color]\n{$lang['tlogin_mess1']}".(int)$rows['id']."{$lang['tlogin_mess2']}".htmlspecialchars($username)."{$lang['tlogin_mess3']}"."{$lang['tlogin_mess4']}".htmlspecialchars($ip)."{$lang['tlogin_mess5']}";
     $sql = "INSERT INTO messages (sender, receiver, msg, subject, added) VALUES('System', ".sqlesc($to).", ".sqlesc($msg).", ".sqlesc($subject).", $added);";
     ($res = sql_query("SET SESSION sql_mode = ''", $sql)) || sqlerr(__FILE__, __LINE__);
-    $cache->delete($keys['inbox_new'].$rows['id']);
-    $cache->delete($keys['inbox_new_sb'].$rows['id']);
+    $cache->delete($cache_keys['inbox_new'].$rows['id']);
+    $cache->delete($cache_keys['inbox_new_sb'].$rows['id']);
     bark("<b>{$lang['gl_error']}</b>{$lang['tlogin_forgot']}");
 }
 
@@ -194,23 +194,23 @@ if ($no_log_ip === 0) {
     if ($res->num_rows == 0) {
         sql_query("INSERT INTO ips (userid, ip, lastlogin, type) VALUES (".sqlesc($userid).", $ip_escaped , $added, 'Login')") || sqlerr(__FILE__,
             __LINE__);
-        $cache->delete($keys['ip_history'].$userid);
+        $cache->delete($cache_keys['ip_history'].$userid);
     } else {
         sql_query("UPDATE ips SET lastlogin=$added WHERE ip=$ip_escaped AND userid=".sqlesc($userid)) || sqlerr(__FILE__, __LINE__);
-        $cache->delete($keys['ip_history'].$userid);
+        $cache->delete($cache_keys['ip_history'].$userid);
     }
 }
 $ua = getBrowser();
 $browser = "Browser: ".$ua['name']." ".$ua['version'].". Os: ".$ua['platform'];
 sql_query('UPDATE users SET browser='.sqlesc($browser).', ip = '.$ip_escaped.', last_access='.TIME_NOW.', last_login='.TIME_NOW.' WHERE id='.sqlesc($rows['id'])) || sqlerr(__FILE__,
     __LINE__);
-$cache->update_row($keys['my_userid'].$rows['id'], [
+$cache->update_row($cache_keys['my_userid'].$rows['id'], [
     'browser' => $browser,
     'ip' => $ip,
     'last_access' => TIME_NOW,
     'last_login' => TIME_NOW,
 ], $TRINITY20['expires']['curuser']);
-$cache->update_row($keys['user'].$rows['id'], [
+$cache->update_row($cache_keys['user'].$rows['id'], [
     'browser' => $browser,
     'ip' => $ip,
     'last_access' => TIME_NOW,

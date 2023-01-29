@@ -35,7 +35,7 @@ $HTMLOUT = "";
 //==delete torrents by putyn
 function deletetorrent($tid)
 {
-    global $TRINITY20, $cache, $CURUSER, $lang, $keys;
+    global $TRINITY20, $cache, $CURUSER, $lang, $cache_keys;
     sql_query("DELETE peers.*, files.*, comments.*, snatched.*, thanks.*, bookmarks.*, coins.*, rating.*, ajax_chat_messages.*, torrents.* FROM torrents 
 				 LEFT JOIN peers ON peers.torrent = torrents.id
 				 LEFT JOIN files ON files.torrent = torrents.id
@@ -48,12 +48,12 @@ function deletetorrent($tid)
 				 LEFT JOIN ajax_chat_messages ON ajax_chat_messages.torrent_id = torrents.id
 				 WHERE torrents.id =".sqlesc($tid)) || sqlerr(__FILE__, __LINE__);
     unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
-    $cache->delete($keys['my_peers'].$CURUSER['id']);
+    $cache->delete($cache_keys['my_peers'].$CURUSER['id']);
 }
 
 function deletetorrent_xbt($tid)
 {
-    global $TRINITY20, $cache, $CURUSER, $lang, $keys;
+    global $TRINITY20, $cache, $CURUSER, $lang, $cache_keys;
     sql_query("UPDATE torrents SET flags = 1 WHERE id = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     sql_query("DELETE files.*, comments.*, xbt_files_users.*, thanks.*, bookmarks.*, coins.*, rating.*, ajax_chat_messages.*, torrents.* FROM torrents 
 				 LEFT JOIN files ON files.torrent = torrents.id
@@ -66,7 +66,7 @@ function deletetorrent_xbt($tid)
 				 LEFT JOIN ajax_chat_messages ON ajax_chat_messages.torrent_id = torrents.id
 				 WHERE torrents.id =".sqlesc($tid)." AND flags=1") || sqlerr(__FILE__, __LINE__);
     unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
-    $cache->delete($keys['my_xbt_peers'].$CURUSER['id']);
+    $cache->delete($cache_keys['my_xbt_peers'].$CURUSER['id']);
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -87,10 +87,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $msg .= $lang['datareset_looks'].htmlspecialchars($a["name"]).$lang['datareset_nuked'];
         $msg .= $lang['datareset_down'].mksize($a["sd"]).$lang['datareset_downbe'].mksize($newd)."\n";
         $pms[] = "(0,".sqlesc($a["uid"]).",".TIME_NOW.",".sqlesc($msg).")";
-        $cache->update_row($keys['user_stats'].$a['uid'], [
+        $cache->update_row($cache_keys['user_stats'].$a['uid'], [
             'downloaded' => $new_download,
         ], $TRINITY20['expires']['u_status']);
-        $cache->update_row($keys['user'].$a['uid'], [
+        $cache->update_row($cache_keys['user'].$a['uid'], [
             'downloaded' => $new_download,
         ], $TRINITY20['expires']['curuser']);
     }

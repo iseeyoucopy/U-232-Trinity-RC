@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache, $mysqli, $keys;
+    global $TRINITY20, $queries, $cache, $mysqli, $cache_keys;
     set_time_limit(1200);
     ignore_user_abort(1);
     // ===Clear funds after one month
@@ -20,7 +20,7 @@ function docleanup($data)
     $dt = sqlesc(TIME_NOW - $secs);
     sql_query("DELETE FROM funds WHERE added < $dt");
     //if ($mysqli->affected_rows() > 0)
-    $cache->delete($keys['totalfunds']);
+    $cache->delete($cache_keys['totalfunds']);
     // ===End
     //== Donation Progress Mod Updated For Tbdev 2009/2010 by Bigjoos/pdq
     ($res = sql_query("SELECT id, modcomment, vipclass_before FROM users WHERE donor='yes' AND donoruntil < ".TIME_NOW." AND donoruntil <> '0'")) || sqlerr(__FILE__,
@@ -36,21 +36,21 @@ function docleanup($data)
             $msgs_buffer[] = '(0,'.$arr['id'].','.TIME_NOW.', '.sqlesc($msg).','.sqlesc($subject).')';
             $users_buffer[] = '('.$arr['id'].','.$arr['vipclass_before'].',\'no\',\'0\', '.$modcom.')';
             $update['class'] = ($arr['vipclass_before']);
-            $cache->update_row($keys['user'].$arr['id'], [
+            $cache->update_row($cache_keys['user'].$arr['id'], [
                 'class' => $update['class'],
                 'donor' => 'no',
                 'donoruntil' => 0,
             ], $TRINITY20['expires']['user_cache']);
-            $cache->update_row($keys['user_statss'].$arr['id'], [
+            $cache->update_row($cache_keys['user_statss'].$arr['id'], [
                 'modcomment' => $modcomment,
             ], $TRINITY20['expires']['user_stats']);
-            $cache->update_row($keys['my_userid'].$arr['id'], [
+            $cache->update_row($cache_keys['my_userid'].$arr['id'], [
                 'class' => $update['class'],
                 'donor' => 'no',
                 'donoruntil' => 0,
             ], $TRINITY20['expires']['curuser']);
-            $cache->delete($keys['inbox_new'].$arr['id']);
-            $cache->delete($keys['inbox_new_sb'].$arr['id']);
+            $cache->delete($cache_keys['inbox_new'].$arr['id']);
+            $cache->delete($cache_keys['inbox_new_sb'].$arr['id']);
         }
         $count = count($users_buffer);
         if ($count > 0) {

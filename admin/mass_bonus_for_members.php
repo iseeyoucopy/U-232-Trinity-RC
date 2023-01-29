@@ -95,15 +95,15 @@ switch ($action) {
                     $modcom = sqlesc($modcomment);
                     $pm_buffer[] = '(0, '.$arr_GB['id'].', '.TIME_NOW.', '.$msg.', '.$subject.')';
                     $users_buffer[] = '('.$arr_GB['id'].', '.$GB_new.', '.$modcom.')';
-                    $cache->update_row($keys['user_statss'].$arr_GB['id'], [
+                    $cache->update_row($cache_keys['user_statss'].$arr_GB['id'], [
                         'uploaded' => $GB_new,
                         'modcomment' => $modcomment,
                     ], $TRINITY20['expires']['user_stats']);
-                    $cache->update_row($keys['user_stats'].$arr_GB['id'], [
+                    $cache->update_row($cache_keys['user_stats'].$arr_GB['id'], [
                         'uploaded' => $GB_new,
                     ], $TRINITY20['expires']['u_stats']);
-                    $cache->delete($keys['inbox_new'].$arr_GB['id']);
-                    $cache->delete($keys['inbox_new_sb'].$arr_GB['id']);
+                    $cache->delete($cache_keys['inbox_new'].$arr_GB['id']);
+                    $cache->delete($cache_keys['inbox_new_sb'].$arr_GB['id']);
                 }
                 $count = count($users_buffer);
                 if ($count > 0) {
@@ -135,15 +135,15 @@ switch ($action) {
                             $modcom = sqlesc($modcomment);
                             $pm_buffer[] = '(0, '.$arr_GB['id'].', '.TIME_NOW.', '.$msg.', '.$subject.')';
                             $users_buffer[] = '('.$arr_GB['id'].', '.$GB_new.', '.$modcom.')';
-                            $cache->update_row($keys['user_statss'].$arr_GB['id'], [
+                            $cache->update_row($cache_keys['user_statss'].$arr_GB['id'], [
                                 'uploaded' => $GB_new,
                                 'modcomment' => $modcomment,
                             ], $TRINITY20['expires']['user_stats']);
-                            $cache->update_row($keys['user_stats'].$arr_GB['id'], [
+                            $cache->update_row($cache_keys['user_stats'].$arr_GB['id'], [
                                 'uploaded' => $GB_new,
                             ], $TRINITY20['expires']['u_stats']);
-                            $cache->delete($keys['inbox_new'].$arr_GB['id']);
-                            $cache->delete($keys['inbox_new_sb'].$arr_GB['id']);
+                            $cache->delete($cache_keys['inbox_new'].$arr_GB['id']);
+                            $cache->delete($cache_keys['inbox_new_sb'].$arr_GB['id']);
                         }
                         $count = count($users_buffer);
                         if ($count > 0) {
@@ -183,15 +183,15 @@ switch ($action) {
                     $modcom = sqlesc($modcomment);
                     $pm_buffer[] = '(0, '.$arr_karma['id'].', '.TIME_NOW.', '.$msg.', '.$subject.')';
                     $users_buffer[] = '('.$arr_karma['id'].', '.$karma_new.', '.$modcom.')';
-                    $cache->update_row($keys['user_statss'].$arr_karma['id'], [
+                    $cache->update_row($cache_keys['user_statss'].$arr_karma['id'], [
                         'seedbonus' => $karma_new,
                         'modcomment' => $modcomment,
                     ], $TRINITY20['expires']['user_stats']);
-                    $cache->update_row($keys['user_stats'].$arr_karma['id'], [
+                    $cache->update_row($cache_keys['user_stats'].$arr_karma['id'], [
                         'seedbonus' => $karma_new,
                     ], $TRINITY20['expires']['u_stats']);
-                    $cache->delete($keys['inbox_new'].$arr_karma['id']);
-                    $cache->delete($keys['inbox_new_sb'].$arr_karma['id']);
+                    $cache->delete($cache_keys['inbox_new'].$arr_karma['id']);
+                    $cache->delete($cache_keys['inbox_new_sb'].$arr_karma['id']);
                 }
                 $count = count($users_buffer);
                 if ($count > 0) {
@@ -223,15 +223,15 @@ switch ($action) {
                             $modcom = sqlesc($modcomment);
                             $pm_buffer[] = '(0, '.$arr_karma['id'].', '.TIME_NOW.', '.$msg.', '.$subject.')';
                             $users_buffer[] = '('.$arr_karma['id'].', '.$karma_new.', '.$modcom.')';
-                            $cache->update_row($keys['user_statss'].$arr_karma['id'], [
+                            $cache->update_row($cache_keys['user_statss'].$arr_karma['id'], [
                                 'seedbonus' => $karma_new,
                                 'modcomment' => $modcomment,
                             ], $TRINITY20['expires']['user_stats']);
-                            $cache->update_row($keys['user_stats'].$arr_karma['id'], [
+                            $cache->update_row($cache_keys['user_stats'].$arr_karma['id'], [
                                 'seedbonus' => $karma_new,
                             ], $TRINITY20['expires']['u_stats']);
-                            $cache->delete($keys['inbox_new'].$arr_karma['id']);
-                            $cache->delete($keys['inbox_new_sb'].$arr_karma['id']);
+                            $cache->delete($cache_keys['inbox_new'].$arr_karma['id']);
+                            $cache->delete($cache_keys['inbox_new_sb'].$arr_karma['id']);
                         }
                         $count = count($users_buffer);
                         if ($count > 0) {
@@ -271,17 +271,17 @@ switch ($action) {
                     $modcom = sqlesc($modcomment);
                     $pm_buffer[] = '(0, '.$arr_freeslots['id'].', '.TIME_NOW.', '.$msg.', '.$subject.')';
                     $users_buffer[] = '('.$arr_freeslots['id'].', '.$freeslots_new.', '.$modcom.')';
-                    $cache->update_row($keys['my_userid'].$arr_freeslots['id'], [
+                    $cache->update_row($cache_keys['my_userid'].$arr_freeslots['id'], [
                         'freeslots' => $freeslots_new,
                     ], $TRINITY20['expires']['curuser']);
-                    $cache->update_row($keys['user'].$arr_freeslots['id'], [
+                    $cache->update_row($cache_keys['user'].$arr_freeslots['id'], [
                         'freeslots' => $freeslots_new,
                     ], $TRINITY20['expires']['user_cache']);
-                    $cache->update_row($keys['user_statss'].$arr_freeslots['id'], [
+                    $cache->update_row($cache_keys['user_statss'].$arr_freeslots['id'], [
                         'modcomment' => $modcomment,
                     ], $TRINITY20['expires']['user_stats']);
-                    $cache->delete($keys['inbox_new'].$arr_freeslots['id']);
-                    $cache->delete($keys['inbox_new_sb'].$arr_freeslots['id']);
+                    $cache->delete($cache_keys['inbox_new'].$arr_freeslots['id']);
+                    $cache->delete($cache_keys['inbox_new_sb'].$arr_freeslots['id']);
                 }
                 $count = count($users_buffer);
                 if ($count > 0) {
@@ -313,17 +313,17 @@ switch ($action) {
                             $modcom = sqlesc($modcomment);
                             $pm_buffer[] = '(0, '.$arr_freeslots['id'].', '.TIME_NOW.', '.$msg.', '.$subject.')';
                             $users_buffer[] = '('.$arr_freeslots['id'].', '.$freeslots_new.', '.$modcom.')';
-                            $cache->update_row($keys['my_userid'].$arr_freeslots['id'], [
+                            $cache->update_row($cache_keys['my_userid'].$arr_freeslots['id'], [
                                 'freeslots' => $freeslots_new,
                             ], $TRINITY20['expires']['curuser']);
-                            $cache->update_row($keys['user'].$arr_freeslots['id'], [
+                            $cache->update_row($cache_keys['user'].$arr_freeslots['id'], [
                                 'freeslots' => $freeslots_new,
                             ], $TRINITY20['expires']['user_cache']);
-                            $cache->update_row($keys['user_statss'].$arr_freeslots['id'], [
+                            $cache->update_row($cache_keys['user_statss'].$arr_freeslots['id'], [
                                 'modcomment' => $modcomment,
                             ], $TRINITY20['expires']['user_stats']);
-                            $cache->delete($keys['inbox_new'].$arr_freeslots['id']);
-                            $cache->delete($keys['inbox_new_sb'].$arr_freeslots['id']);
+                            $cache->delete($cache_keys['inbox_new'].$arr_freeslots['id']);
+                            $cache->delete($cache_keys['inbox_new_sb'].$arr_freeslots['id']);
                         }
                         $count = count($users_buffer);
                         if ($count > 0) {
@@ -362,17 +362,17 @@ switch ($action) {
                     $modcom = sqlesc($modcomment);
                     $pm_buffer[] = '(0, '.$arr_invites['id'].', '.TIME_NOW.', '.$msg.', '.$subject.')';
                     $users_buffer[] = '('.$arr_invites['id'].', '.$invites_new.', '.$modcom.')';
-                    $cache->update_row($keys['my_userid'].$arr_invites['id'], [
+                    $cache->update_row($cache_keys['my_userid'].$arr_invites['id'], [
                         'invites' => $invites_new,
                     ], $TRINITY20['expires']['curuser']);
-                    $cache->update_row($keys['user'].$arr_invites['id'], [
+                    $cache->update_row($cache_keys['user'].$arr_invites['id'], [
                         'invites' => $invites_new,
                     ], $TRINITY20['expires']['user_cache']);
-                    $cache->update_row($keys['user_statss'].$arr_invites['id'], [
+                    $cache->update_row($cache_keys['user_statss'].$arr_invites['id'], [
                         'modcomment' => $modcomment,
                     ], $TRINITY20['expires']['user_stats']);
-                    $cache->delete($keys['inbox_new'].$arr_invites['id']);
-                    $cache->delete($keys['inbox_new_sb'].$arr_invites['id']);
+                    $cache->delete($cache_keys['inbox_new'].$arr_invites['id']);
+                    $cache->delete($cache_keys['inbox_new_sb'].$arr_invites['id']);
                 }
                 $count = count($users_buffer);
                 if ($count > 0) {
@@ -404,17 +404,17 @@ switch ($action) {
                             $modcom = sqlesc($modcomment);
                             $pm_buffer[] = '(0, '.$arr_invites['id'].', '.TIME_NOW.', '.$msg.', '.$subject.')';
                             $users_buffer[] = '('.$arr_invites['id'].', '.$invites_new.', '.$modcom.')';
-                            $cache->update_row($keys['my_userid'].$arr_invites['id'], [
+                            $cache->update_row($cache_keys['my_userid'].$arr_invites['id'], [
                                 'invites' => $invites_new,
                             ], $TRINITY20['expires']['curuser']);
-                            $cache->update_row($keys['user'].$arr_invites['id'], [
+                            $cache->update_row($cache_keys['user'].$arr_invites['id'], [
                                 'invites' => $invites_new,
                             ], $TRINITY20['expires']['user_cache']);
-                            $cache->update_row($keys['user_statss'].$arr_invites['id'], [
+                            $cache->update_row($cache_keys['user_statss'].$arr_invites['id'], [
                                 'modcomment' => $modcomment,
                             ], $TRINITY20['expires']['user_stats']);
-                            $cache->delete($keys['inbox_new'].$arr_invites['id']);
-                            $cache->delete($keys['inbox_new_sb'].$arr_invites['id']);
+                            $cache->delete($cache_keys['inbox_new'].$arr_invites['id']);
+                            $cache->delete($cache_keys['inbox_new_sb'].$arr_invites['id']);
                         }
                         $count = count($users_buffer);
                         if ($count > 0) {
@@ -449,8 +449,8 @@ switch ($action) {
                 $body = sqlesc(htmlspecialchars($_POST['body']));
                 while ($arr_pms = $res_pms->fetch_assoc()) {
                     $pm_buffer[] = '(0, '.$arr_pms['id'].', '.TIME_NOW.', '.$body.', '.$subject.')';
-                    $cache->delete($keys['inbox_new'].$arr_pms['id']);
-                    $cache->delete($keys['inbox_new_sb'].$arr_pms['id']);
+                    $cache->delete($cache_keys['inbox_new'].$arr_pms['id']);
+                    $cache->delete($cache_keys['inbox_new_sb'].$arr_pms['id']);
                 }
                 $count = count($pm_buffer);
                 if ($count > 0) {
@@ -474,8 +474,8 @@ switch ($action) {
                         $body = sqlesc(htmlspecialchars($_POST['body']));
                         while ($arr_pms = $res_pms->fetch_assoc()) {
                             $pm_buffer[] = '(0, '.$arr_pms['id'].', '.TIME_NOW.', '.$body.', '.$subject.')';
-                            $cache->delete($keys['inbox_new'].$arr_pms['id']);
-                            $cache->delete($keys['inbox_new_sb'].$arr_pms['id']);
+                            $cache->delete($cache_keys['inbox_new'].$arr_pms['id']);
+                            $cache->delete($cache_keys['inbox_new_sb'].$arr_pms['id']);
                         }
                         $count = count($pm_buffer);
                         if ($count > 0) {

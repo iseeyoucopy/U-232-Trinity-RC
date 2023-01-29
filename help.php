@@ -44,22 +44,22 @@ foreach ($cats as $row) {
 }
 $HTMLOUT .= "</ul></li>";
 $count = 0;
-if (($faqs = $cache->get($keys['faqs'])) === false) {
+if (($faqs = $cache->get($cache_keys['faqs'])) === false) {
     $faqs = [];
     ($q2 = sql_query("SELECT * FROM faq")) || sqlerr(__FILE__, __LINE__);
     while ($row = $q2->fetch_assoc()) {
         $faqs[] = $row;
     }
-    $cache->set($keys['faqs'], $faqs, $TRINITY20['expires']['faqs']);
+    $cache->set($cache_keys['faqs'], $faqs, $TRINITY20['expires']['faqs']);
 }
 $rules = [];
-if (($rules = $cache->get($keys['rules'])) === false) {
+if (($rules = $cache->get($cache_keys['rules'])) === false) {
     $q = sql_query("SELECT rules_cat.id, rules_cat.name, rules_cat.shortcut, rules_cat.min_view, rules.type, rules.title, rules.text FROM rules_cat LEFT JOIN rules ON rules.type=rules_cat.id WHERE rules_cat.min_view <=".sqlesc($CURUSER['class']));
     while ($item1 = $q->fetch_assoc()) {
         $rules = (array)$rules;
         $rules[] = $item1;
     }
-    $cache->set($keys['rules'], $rules, $TRINITY20['expires']['rules']);
+    $cache->set($cache_keys['rules'], $rules, $TRINITY20['expires']['rules']);
 }
 $HTMLOUT .= "<li><a href='#'>Rules</a>
 <ul class='menu vertical nested'>";

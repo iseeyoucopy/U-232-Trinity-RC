@@ -52,12 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     ]);
     ($res = sql_query("UPDATE users SET secret=".sqlesc($secret).", passhash=".sqlesc($passhash).", hash3=".sqlesc($hash3).", hintanswer=".sqlesc($wanthintanswer)." WHERE username=".sqlesc($username)." AND id=".sqlesc($uid)." AND class<".$CURUSER['class'])) || sqlerr(__FILE__,
         __LINE__);
-    $cache->update_row($keys['my_userid'].$uid, [
+    $cache->update_row($cache_keys['my_userid'].$uid, [
         'secret' => $secret,
         'passhash' => $passhash,
         'hash3' => $hash3,
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row($keys['user'].$uid, [
+    $cache->update_row($cache_keys['user'].$uid, [
         'secret' => $secret,
         'passhash' => $passhash,
         'hash3' => $hash3,

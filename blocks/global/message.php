@@ -11,12 +11,12 @@
  * ------------  @version V6  ------------------*
  */
 //==Memcached message query
-if ($TRINITY20['msg_alert'] && $CURUSER && ($unread = $cache->get($keys['inbox_new'].$CURUSER['id'])) === false) {
+if ($TRINITY20['msg_alert'] && $CURUSER && ($unread = $cache->get($cache_keys['inbox_new'].$CURUSER['id'])) === false) {
     ($res = sql_query('SELECT count(id) FROM messages WHERE receiver='.sqlesc($CURUSER['id']).' && unread="yes" AND location = "1"')) || sqlerr(__FILE__,
         __LINE__);
     $arr = $res->fetch_row();
     $unread = (int)$arr[0];
-    $cache->set($keys['inbox_new'].$CURUSER['id'], $unread, $TRINITY20['expires']['unread']);
+    $cache->set($cache_keys['inbox_new'].$CURUSER['id'], $unread, $TRINITY20['expires']['unread']);
 }
 
 if (($CURUSER['pm_forced'] == 'yes') AND (!defined("INBOX_SCRIPT")) AND ($unread)) {

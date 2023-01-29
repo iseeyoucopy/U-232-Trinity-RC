@@ -18,7 +18,7 @@ if ($CURUSER['class'] >= UC_STAFF) {
 $HTMLOUT .= "<div class='card'>
 	<div class='card-divider'>{$lang['news_title']}{$adminbutton}</div>";
 $prefix = 'min5l3ss';
-$news = $cache->get($keys['latest_news']);
+$news = $cache->get($cache_keys['latest_news']);
 if ($news === false) {
     ($res = sql_query("SELECT ".$prefix.".id AS nid, ".$prefix.".userid, ".$prefix.".added, ".$prefix.".title, ".$prefix.".body, ".$prefix.".sticky, ".$prefix.".anonymous, u.username, u.id, u.class, u.warned, u.chatpost, u.pirate, u.king, u.leechwarn, u.enabled, u.donor FROM news AS ".$prefix." LEFT JOIN users AS u ON u.id = ".$prefix.".userid WHERE ".$prefix.".added + ( 3600 *24 *45 ) > ".TIME_NOW." ORDER BY sticky, ".$prefix.".added DESC LIMIT 10")) || sqlerr(__FILE__,
         __LINE__);
@@ -26,7 +26,7 @@ if ($news === false) {
         $news = (array)$news;
         $news[] = $array;
     }
-    $cache->set($keys['latest_news'], $news, $TRINITY20['expires']['latest_news']);
+    $cache->set($cache_keys['latest_news'], $news, $TRINITY20['expires']['latest_news']);
 }
 $news_flag = 0;
 if ($news) {

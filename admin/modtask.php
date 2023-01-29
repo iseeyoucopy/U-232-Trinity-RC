@@ -48,7 +48,7 @@ function remove_torrent_pass($torrent_pass)
     if (strlen($torrent_pass) != 32 || !bin2hex($torrent_pass)) {
         return false;
     }
-    $key = $keys['user_torrent_pass'].$torrent_pass;
+    $key = $cache_keys['user_torrent_pass'].$torrent_pass;
     $cache->delete($key);
 }
 
@@ -144,7 +144,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         sql_query("INSERT INTO funds (cash, user, added) VALUES (".sqlesc($donated).", ".sqlesc($userid).", $added)") || sqlerr(__file__, __line__);
         $updateset[] = "donated = ".sqlesc($donated);
         $updateset[] = "total_donated = ".$user['total_donated']." + ".sqlesc($donated);
-        $cache->delete($keys['ttl_funds']);
+        $cache->delete($cache_keys['ttl_funds']);
         $curuser_cache['donated'] = $donated;
         $user_cache['donated'] = $donated;
         $curuser_cache['total_donated'] = ($user['total_donated'] + $donated);
@@ -1061,7 +1061,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         $updateset[] = "forum_mod=".sqlesc($forum_mod);
         $curuser_cache['forum_mod'] = $forum_mod;
         $user_cache['forum_mod'] = $forum_mod;
-        $cache->delete($keys['forummods']);
+        $cache->delete($cache_keys['forummods']);
         $modcomment = get_date(TIME_NOW, 'DATE', 1)." ".$CURUSER["username"]." ".$whatm." forum moderator rights\n".$modcomment;
     }
 
@@ -1076,7 +1076,7 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         $updateset[] = "forums_mod =".sqlesc($foo);
         $curuser_cache['forums_mod'] = $foo;
         $user_cache['forums_mod'] = $foo;
-        $cache->delete($keys['forummods']);
+        $cache->delete($cache_keys['forummods']);
     }
     //== Add ModComment... (if we changed stuff we update otherwise we dont include this..)
     if (($CURUSER['class'] == UC_MAX && ($user['modcomment'] != $_POST['modcomment'] || $modcomment != $_POST['modcomment'])) || ($CURUSER['class'] < UC_MAX && $modcomment != $user['modcomment'])) {
@@ -1085,19 +1085,19 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     $user_stats_cache['modcomment'] = $modcomment;
     $stats_cache['modcomment'] = $modcomment;
     //== Memcache - delete the keys
-    $cache->delete($keys['inbox_new'].$userid);
-    $cache->delete($keys['inbox_new_sb'].$userid);
+    $cache->delete($cache_keys['inbox_new'].$userid);
+    $cache->delete($cache_keys['inbox_new_sb'].$userid);
     if ($curuser_cache) {
-        $cache->update_row($keys['my_userid'].$userid, $curuser_cache, $TRINITY20['expires']['curuser']);
+        $cache->update_row($cache_keys['my_userid'].$userid, $curuser_cache, $TRINITY20['expires']['curuser']);
     }
     if ($user_cache) {
-        $cache->update_row($keys['user'].$userid, $user_cache, $TRINITY20['expires']['user_cache']);
+        $cache->update_row($cache_keys['user'].$userid, $user_cache, $TRINITY20['expires']['user_cache']);
     }
     if ($stats_cache !== []) {
-        $cache->update_row($keys['user_stats'].$userid, $stats_cache, $TRINITY20['expires']['u_stats']);
+        $cache->update_row($cache_keys['user_stats'].$userid, $stats_cache, $TRINITY20['expires']['u_stats']);
     }
     if ($user_stats_cache !== []) {
-        $cache->update_row($keys['user_statss'].$userid, $user_stats_cache, $TRINITY20['expires']['user_stats']);
+        $cache->update_row($cache_keys['user_statss'].$userid, $user_stats_cache, $TRINITY20['expires']['user_stats']);
     }
     if (count($updateset) > 0) {
         sql_query("UPDATE users SET ".implode(", ", $updateset)." WHERE id=".sqlesc($userid)) || sqlerr(__FILE__, __LINE__);
@@ -1116,11 +1116,11 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
     $row = $res->fetch_assoc();
     $row['opt1'] = $row['opt1'];
     $row['opt2'] = $row['opt2'];
-    $cache->update_row($keys['my_userid'].$userid, [
+    $cache->update_row($cache_keys['my_userid'].$userid, [
         'opt1' => $row['opt1'],
         'opt2' => $row['opt2'],
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row($keys['user'].$userid, [
+    $cache->update_row($cache_keys['user'].$userid, [
         'opt1' => $row['opt1'],
         'opt2' => $row['opt2'],
     ], $TRINITY20['expires']['user_cache']);

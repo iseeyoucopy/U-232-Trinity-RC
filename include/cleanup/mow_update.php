@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache, $mysqli, $keys;
+    global $TRINITY20, $queries, $cache, $mysqli, $cache_keys;
     set_time_limit(1200);
     ignore_user_abort(1);
     //== Movie of the week
@@ -22,7 +22,7 @@ function docleanup($data)
         $arr = $res_tor->fetch_assoc();
         sql_query("UPDATE avps SET value_u=".sqlesc($arr['id']).", value_i=".sqlesc(TIME_NOW)." WHERE avps.arg='bestfilmofweek'") || sqlerr(__FILE__,
             __LINE__);
-        $cache->delete($keys['top_movie_2']);
+        $cache->delete($cache_keys['top_movie_2']);
         write_log("Torrent [".(int)$arr["id"]."]&nbsp;[".htmlentities($arr["name"])."] was set 'Best Film of the Week' by system");
     }
     //==End

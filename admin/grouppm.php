@@ -131,8 +131,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (count($pms) > 0) {
                 ($r = sql_query("INSERT INTO messages(sender,receiver,added,msg,subject) VALUES ".implode(",", $pms))) || sqlerr(__FILE__, __LINE__);
             }
-            $cache->delete($keys['inbox_new'].$rid);
-            $cache->delete($keys['inbox_new_sb'].$rid);
+            $cache->delete($cache_keys['inbox_new'].$rid);
+            $cache->delete($cache_keys['inbox_new_sb'].$rid);
             $err[] = ($r ? $lang['grouppm_sent'] : $lang['grouppm_again']);
         } else {
             $err[] = $lang['grouppm_nousers'];

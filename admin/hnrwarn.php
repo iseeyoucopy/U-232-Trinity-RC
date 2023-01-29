@@ -72,10 +72,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (sql_query("UPDATE users set enabled='no', modcomment=CONCAT(".sqlesc(get_date(TIME_NOW, 'DATE',
                     1).$lang['hnrwarn_disabled'].$CURUSER['username']."\n").",modcomment) WHERE id IN (".implode(",", $_uids).")")) {
             foreach ($_uids as $uid) {
-                $cache->update_row($keys['my_userid'].$uid, [
+                $cache->update_row($cache_keys['my_userid'].$uid, [
                     'enabled' => 'no',
                 ], $TRINITY20['expires']['curuser']);
-                $cache->update_row($keys['user'].$uid, [
+                $cache->update_row($cache_keys['user'].$uid, [
                     'enabled' => 'no',
                 ], $TRINITY20['expires']['user_cache']);
             }
@@ -92,10 +92,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         foreach ($_uids as $id) {
             $pms[] = "(0,".$id.",".sqlesc($sub).",".sqlesc($body).",".sqlesc(TIME_NOW).")";
         }
-        $cache->update_row($keys['my_userid'].$id, [
+        $cache->update_row($cache_keys['my_userid'].$id, [
             'hnrwarn' => 'no',
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row($keys['user'].$id, [
+        $cache->update_row($cache_keys['user'].$id, [
             'hnrwarn' => 'no',
         ], $TRINITY20['expires']['user_cache']);
         if (count($pms) > 0) {

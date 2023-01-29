@@ -12,13 +12,13 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache, $mysqli, $keys;
+    global $TRINITY20, $queries, $cache, $mysqli, $cache_keys;
     set_time_limit(1200);
     ignore_user_abort(1);
     //== sitepot
     sql_query("UPDATE avps SET value_i = 0, value_s = '0' WHERE arg = 'sitepot' AND value_u < ".TIME_NOW." AND value_s = '1'") || sqlerr(__file__,
         __line__);
-    $cache->delete($keys['sitepot']);
+    $cache->delete($cache_keys['sitepot']);
 
     if ($queries > 0) {
         write_log("Sitepot -------------------- Sitepot CLean Complete using $queries queries--------------------");

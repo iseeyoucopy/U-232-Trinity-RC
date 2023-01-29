@@ -21,7 +21,7 @@ if ((in_array($torrents['category'], $TRINITY20['movie_cats'])) && $torrents['ur
     }
 
     //==The torrent cache
-    $cache->update_row($keys['torrent_details'].$torrents['id'], [
+    $cache->update_row($cache_keys['torrent_details'].$torrents['id'], [
         'poster' => $poster,
     ], 0);
 

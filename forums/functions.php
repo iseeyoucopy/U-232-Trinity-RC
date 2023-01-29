@@ -138,8 +138,8 @@ function forum_stats()
 {
     global $TRINITY20, $cache;
     $htmlout = '';
-    $keys['f_activeusers'] = 'forum_activeusers';
-    if (($forum_active_users_cache = $cache->get($keys['f_activeusers'])) === false) {
+    $cache_keys['f_activeusers'] = 'forum_activeusers';
+    if (($forum_active_users_cache = $cache->get($cache_keys['f_activeusers'])) === false) {
         $dt = $_SERVER['REQUEST_TIME'] - 180;
         $htmlout = $forum_activeusers = '';
         $forum_active_users_cache = [];
@@ -155,7 +155,7 @@ function forum_stats()
         }
         $forum_active_users_cache['activeusers'] = $forum_activeusers;
         $forum_active_users_cache['actcount'] = $forum_actcount;
-        $cache->set($keys['f_activeusers'], $forum_active_users_cache, $TRINITY20['expires']['forum_activeusers']);
+        $cache->set($cache_keys['f_activeusers'], $forum_active_users_cache, $TRINITY20['expires']['forum_activeusers']);
     }
     if (!$forum_active_users_cache['activeusers']) {
         $forum_active_users_cache['activeusers'] = 'There have been no active users in the last 15 minutes.';

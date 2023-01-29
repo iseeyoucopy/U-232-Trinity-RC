@@ -207,7 +207,7 @@ $psecret = $editsecret;
         ])).", ".($arr[0] ? "" : UC_SYSOP.", ")."".TIME_NOW.",".TIME_NOW." , $time_offset, {$dst_in_use['tm_isdst']}, $user_frees)")) || sqlerr(__FILE__,
     __LINE__);
 
-$cache->delete($keys['birthdayusers']);
+$cache->delete($cache_keys['birthdayusers']);
 
 $message = "{$lang['takesignup_welcome']} {$TRINITY20['site_name']} {$lang['takesignup_member']} ".htmlspecialchars($wantusername)."";
 
@@ -241,7 +241,7 @@ $latestuser_cache['chatpost'] = 1;
 $latestuser_cache['leechwarn'] = 0;
 $latestuser_cache['pirate'] = 0;
 $latestuser_cache['king'] = 0;
-$cache->set($keys['latestuser'], $latestuser_cache, $TRINITY20['expires']['latestuser']);
+$cache->set($cache_keys['latestuser'], $latestuser_cache, $TRINITY20['expires']['latestuser']);
 
 write_log("User account ".(int)$id." (".htmlspecialchars($wantusername).") was succesfully register");
 

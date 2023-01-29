@@ -17,7 +17,7 @@ if ($CURUSER['class'] >= UC_STAFF) {
     <button class="close-button" aria-label="Close menu" type="button" data-close>
       <span aria-hidden="true">&times;</span>
     </button>';
-    $mysql_data = $cache->get($keys['is_staff'].$CURUSER['class']);
+    $mysql_data = $cache->get($cache_keys['is_staff'].$CURUSER['class']);
     if ($mysql_data === false || is_null($mysql_data)) {
         ($res = sql_query('SELECT * FROM staffpanel WHERE av_class <= '.sqlesc($CURUSER['class']).' ORDER BY page_name ASC')) || sqlerr(__FILE__,
             __LINE__);
@@ -25,7 +25,7 @@ if ($CURUSER['class'] >= UC_STAFF) {
             $mysql_data = (array)$mysql_data;
             $mysql_data[] = $arr;
     }
-    $cache->set($keys['is_staff'].$CURUSER['class'], $mysql_data, $TRINITY20['expires']['staff_check']);
+    $cache->set($cache_keys['is_staff'].$CURUSER['class'], $mysql_data, $TRINITY20['expires']['staff_check']);
   }
     if ($mysql_data) {
         $htmlout .= '<div class="card-divider">User</div><ul class="menu vertical">';

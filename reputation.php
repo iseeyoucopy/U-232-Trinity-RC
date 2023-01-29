@@ -197,13 +197,13 @@ if (isset($input['do']) && $input['do'] == 'addrep') {
     $score = fetch_reppower($CURUSER, $input['reputation']);
     $res['reputation'] += $score;
     sql_query("UPDATE users set reputation=".sqlesc((int)$res['reputation'])." WHERE id=".sqlesc($res['userid'])) || sqlerr(__FILE__, __LINE__);
-    $cache->update_row($keys['my_userid'].$res['userid'], [
+    $cache->update_row($cache_keys['my_userid'].$res['userid'], [
         'reputation' => $res['reputation'],
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row($keys['user'].$res['userid'], [
+    $cache->update_row($cache_keys['user'].$res['userid'], [
         'reputation' => $res['reputation'],
     ], $TRINITY20['expires']['user_cache']);
-    $cache->delete($keys['user_rep'].$res['userid']);
+    $cache->delete($cache_keys['user_rep'].$res['userid']);
     $save = [
         'reputation' => sqlesc($score),
         'whoadded' => sqlesc($CURUSER['id']),

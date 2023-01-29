@@ -271,8 +271,8 @@ if ($action == "avatar") {
             sql_query("INSERT INTO messages(sender, receiver, added, msg, subject) VALUES(0, ".sqlesc($arr['id']).", $dt, $msg, $subject)") || sqlerr(__FILE__,
                 __LINE__);
         }
-        $cache->delete($keys['inbox_new'].$arr['id']);
-        $cache->delete($keys['inbox_new_sb'].$arr['id']);
+        $cache->delete($cache_keys['inbox_new'].$arr['id']);
+        $cache->delete($cache_keys['inbox_new_sb'].$arr['id']);
         $urladd .= "&mailsent=1";
     }
     $action = "security";
@@ -357,8 +357,8 @@ elseif ($action == "personal") {
         }
         sql_query('INSERT INTO ustatus(userid,last_status,last_update,archive) VALUES('.sqlesc($CURUSER['id']).','.sqlesc($status).','.TIME_NOW.','.sqlesc(serialize($status_archive)).') ON DUPLICATE KEY UPDATE last_status=values(last_status),last_update=values(last_update),archive=values(archive)') || sqlerr(__FILE__,
             __LINE__);
-        $cache->delete($keys['userstatus'].$CURUSER['id']);
-        $cache->delete($keys['user_status'].$CURUSER['id']);
+        $cache->delete($cache_keys['userstatus'].$CURUSER['id']);
+        $cache->delete($cache_keys['user_status'].$CURUSER['id']);
     }
     //end status update;
     if (isset($_POST['stylesheet']) && (($stylesheet = (int)$_POST['stylesheet']) != $CURUSER['stylesheet']) && is_valid_id($stylesheet)) {
@@ -412,7 +412,7 @@ elseif ($action == "personal") {
         $updateset[] = "birthday = ".sqlesc($birthday);
         $curuser_cache['birthday'] = $birthday;
         $user_cache['birthday'] = $birthday;
-        $cache->delete($keys['birthdayusers']);
+        $cache->delete($cache_keys['birthdayusers']);
     }
     $action = "personal";
 } elseif ($action == "location") {
@@ -500,10 +500,10 @@ elseif ($action == "personal") {
 }
 //== End == then update the sets :)
 if ($curuser_cache) {
-    $cache->update_row($keys['my_userid'].$CURUSER['id'], $curuser_cache, $TRINITY20['expires']['curuser']);
+    $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], $curuser_cache, $TRINITY20['expires']['curuser']);
 }
 if ($user_cache) {
-    $cache->update_row($keys['user'].$CURUSER['id'], $user_cache, $TRINITY20['expires']['user_cache']);
+    $cache->update_row($cache_keys['user'].$CURUSER['id'], $user_cache, $TRINITY20['expires']['user_cache']);
 }
 if ((is_countable($updateset) ? count($updateset) : 0) > 0) {
     sql_query("UPDATE users SET ".implode(",", $updateset)." WHERE id = ".sqlesc($CURUSER["id"])) || sqlerr(__FILE__, __LINE__);
@@ -518,7 +518,7 @@ if ($clrbits !== 0) {
 if ((is_countable($updateset_block) ? count($updateset_block) : 0) > 0) {
     sql_query('UPDATE user_blocks SET '.implode(',', $updateset_block).' WHERE userid = '.sqlesc($CURUSER["id"])) || sqlerr(__FILE__, __LINE__);
 }
-$cache->delete($keys['blocks'].$CURUSER["id"]);
+$cache->delete($cache_keys['blocks'].$CURUSER["id"]);
 if ($setbits || $clrbits) {
     sql_query('UPDATE users SET opt1 = ((opt1 | '.$setbits.') & ~'.$clrbits.'), opt2 = ((opt2 | '.$setbits.') & ~'.$clrbits.') WHERE id = '.sqlesc($CURUSER["id"])) || sqlerr(__file__,
         __line__);
@@ -528,11 +528,11 @@ if ($setbits || $clrbits) {
 $row = $res->fetch_assoc();
 $row['opt1'] = (int)$row['opt1'];
 $row['opt2'] = (int)$row['opt2'];
-$cache->update_row($keys['my_userid'].$CURUSER["id"], [
+$cache->update_row($cache_keys['my_userid'].$CURUSER["id"], [
     'opt1' => $row['opt1'],
     'opt2' => $row['opt2'],
 ], $TRINITY20['expires']['curuser']);
-$cache->update_row($keys['user'].$CURUSER["id"], [
+$cache->update_row($cache_keys['user'].$CURUSER["id"], [
     'opt1' => $row['opt1'],
     'opt2' => $row['opt2'],
 ], $TRINITY20['expires']['user_cache']);

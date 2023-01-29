@@ -2,8 +2,8 @@
 
 function genrelist2()
 {
-    global $cache, $TRINITY20, $keys;
-    if (!($cats = $cache->get($keys['categories']))) {
+    global $cache, $TRINITY20, $cache_keys;
+    if (!($cats = $cache->get($cache_keys['categories']))) {
         $row = sql_query("SELECT id, name, image, parent_id, tabletype, min_class FROM categories ORDER BY name");
         while ($mysqlcats = $row->fetch_assoc()) {
             $allcats[] = $mysqlcats;
@@ -35,7 +35,7 @@ function genrelist2()
                 $i++;
             }
         }
-        $cache->set($keys['categories'], $cats, $TRINITY20['expires']['genrelist2']);
+        $cache->set($cache_keys['categories'], $cats, $TRINITY20['expires']['genrelist2']);
     }
     return $cats;
 }

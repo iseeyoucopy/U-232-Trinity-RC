@@ -41,7 +41,7 @@ if ($remove > 0) {
     $last = 0 + $ban['last'];
     for ($i = $first; $i <= $last; $i++) {
         $ip = long2ip($i);
-        $cache->delete($keys['bans'].$ip);
+        $cache->delete($cache_keys['bans'].$ip);
     }
     if (is_valid_id($remove)) {
         sql_query("DELETE FROM bans WHERE id=".sqlesc($remove)) || sqlerr(__FILE__, __LINE__);
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $CURUSER['class'] == UC_MAX) {
     }
     $added = TIME_NOW;
     for ($i = $first; $i <= $last; $i++) {
-        $cache->delete($keys['bans'].long2ip($i));
+        $cache->delete($cache_keys['bans'].long2ip($i));
     }
     sql_query("INSERT INTO bans (added, addedby, first, last, comment) VALUES($added, ".sqlesc($CURUSER['id']).", ".sqlesc($first).", ".sqlesc($last).", ".sqlesc($comment).")") || sqlerr(__FILE__,
         __LINE__);

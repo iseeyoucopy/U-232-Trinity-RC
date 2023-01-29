@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         stderr($lang['contactstaff_error'], $lang['contactstaff_no_sub']);
     }
     if (sql_query('INSERT INTO staffmessages (sender, added, msg, subject) VALUES('.sqlesc($CURUSER['id']).', '.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')')) {
-        $cache->delete($keys['staff_mess']);
+        $cache->delete($cache_keys['staff_mess']);
         header('Refresh: 3; url='.urldecode($returnto)); //redirect but wait 3 seconds
         stderr($lang['contactstaff_success'], $lang['contactstaff_success_msg']);
     } else {

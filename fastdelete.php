@@ -32,7 +32,7 @@ $id = (int)$_GET["id"];
 
 function deletetorrent($id)
 {
-    global $TRINITY20, $cache, $CURUSER, $lang, $keys;
+    global $TRINITY20, $cache, $CURUSER, $lang, $cache_keys;
     sql_query("DELETE peers.*, files.*, comments.*, snatched.*, thanks.*, bookmarks.*, coins.*, rating.*, thumbsup.*, ajax_chat_messages.*, torrents.* FROM torrents 
 				 LEFT JOIN peers ON peers.torrent = torrents.id
 				 LEFT JOIN files ON files.torrent = torrents.id
@@ -46,12 +46,12 @@ function deletetorrent($id)
 				 LEFT JOIN ajax_chat_messages ON ajax_chat_messages.torrent_id = torrents.id
 				 WHERE torrents.id =".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
-    $cache->delete($keys['my_peers'].$CURUSER['id']);
+    $cache->delete($cache_keys['my_peers'].$CURUSER['id']);
 }
 
 function deletetorrent_xbt($id)
 {
-    global $TRINITY20, $cache, $CURUSER, $lang, $keys;
+    global $TRINITY20, $cache, $CURUSER, $lang, $cache_keys;
     sql_query("UPDATE torrents SET flags = 1 WHERE id = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     sql_query("DELETE files.*, comments.*, thankyou.*, thanks.*, thumbsup.*, bookmarks.*, coins.*, rating.*, ajax_chat_messages.*, xbt_files_users.* FROM xbt_files_users
                                      LEFT JOIN files ON files.torrent = xbt_files_users.fid
@@ -65,7 +65,7 @@ function deletetorrent_xbt($id)
 									 LEFT JOIN ajax_chat_messages ON ajax_chat_messages.torrent_id = xbt_files_users.fid
                                      WHERE xbt_files_users.fid =".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
-    $cache->delete($keys['my_xbt_peers'].$CURUSER['id']);
+    $cache->delete($cache_keys['my_xbt_peers'].$CURUSER['id']);
 }
 
 ($q_query = sql_query("SELECT name, owner FROM torrents WHERE id =".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
@@ -85,11 +85,11 @@ if (XBT_TRACKER == true) {
     deletetorrent($id);
     remove_torrent_peers($id);
 }
-$cache->delete($keys['top5_tor']);
-$cache->delete($keys['last5_tor']);
-$cache->delete($keys['scroll_tor']);
-$cache->delete($keys['torrent_details'].$id);
-$cache->delete($keys['torrent_details_txt'].$id);
+$cache->delete($cache_keys['top5_tor']);
+$cache->delete($cache_keys['last5_tor']);
+$cache->delete($cache_keys['scroll_tor']);
+$cache->delete($cache_keys['torrent_details'].$id);
+$cache->delete($cache_keys['torrent_details_txt'].$id);
 if ($CURUSER['id'] != $q['owner']) {
     $msg = sqlesc("{$lang['fastdelete_msg_first']} [b]{$q['name']}[/b] {$lang['fastdelete_msg_last']} {$CURUSER['username']}");
     sql_query("INSERT INTO messages (sender, receiver, added, msg) VALUES (0, ".sqlesc($q['owner']).", ".TIME_NOW.", {$msg})") || sqlerr(__FILE__,
@@ -101,10 +101,10 @@ if ($TRINITY20['seedbonus_on'] == 1) {
     sql_query("UPDATE users SET seedbonus = seedbonus-".sqlesc($TRINITY20['bonus_per_delete'])." WHERE id = ".sqlesc($q["owner"])) || sqlerr(__FILE__,
         __LINE__);
     $update['seedbonus'] = ($CURUSER['seedbonus'] - $TRINITY20['bonus_per_delete']);
-    $cache->update_row($keys['user_stats'].$q["owner"], [
+    $cache->update_row($cache_keys['user_stats'].$q["owner"], [
         'seedbonus' => $update['seedbonus'],
     ], $TRINITY20['expires']['u_stats']);
-    $cache->update_row($keys['user_statss'].$q["owner"], [
+    $cache->update_row($cache_keys['user_statss'].$q["owner"], [
         'seedbonus' => $update['seedbonus'],
     ], $TRINITY20['expires']['user_stats']);
     //===end

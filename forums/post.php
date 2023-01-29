@@ -89,7 +89,7 @@ if ($newtopic) {
         __LINE__);
     ($postid = $mysqli->insert_id) || stderr("Error", "No post ID returned!");
     update_topic_last_post($topicid);
-    $cache->delete($keys['last_posts_b'].$CURUSER['class']);
+    $cache->delete($cache_keys['last_posts_b'].$CURUSER['class']);
     if ($TRINITY20['autoshout_on'] == 1) {
         if ($anonymous == 'yes') {
             $message = "[Anonymous*] Created a new forum thread [url={$TRINITY20['baseurl']}/forums.php?action=viewtopic&topicid=$topicid&page=last]{$subject}[/url]";
@@ -105,10 +105,10 @@ if ($newtopic) {
         sql_query("UPDATE users SET seedbonus = seedbonus+".sqlesc($TRINITY20['bonus_per_topic'])." WHERE id =  ".sqlesc($CURUSER['id']."")) || sqlerr(__FILE__,
             __LINE__);
         $update['seedbonus'] = ($CURUSER['seedbonus'] + $TRINITY20['bonus_per_topic']);
-        $cache->update_row($keys['user_stats'].$CURUSER["id"], [
+        $cache->update_row($cache_keys['user_stats'].$CURUSER["id"], [
             'seedbonus' => $update['seedbonus'],
         ], $TRINITY20['expires']['u_stats']);
-        $cache->update_row($keys['user_statss'].$CURUSER["id"], [
+        $cache->update_row($cache_keys['user_statss'].$CURUSER["id"], [
             'seedbonus' => $update['seedbonus'],
         ], $TRINITY20['expires']['user_stats']);
     }
@@ -156,7 +156,7 @@ if ($newtopic) {
             } else {
                 $message = $CURUSER['username']." replied to the thread [url={$TRINITY20['baseurl']}/forums.php?action=viewtopic&topicid=$topicid&page=last]{$subject}[/url]";
             }
-            $cache->delete($keys['last_posts_b'].$CURUSER['class']);
+            $cache->delete($cache_keys['last_posts_b'].$CURUSER['class']);
             if (!in_array($forumid, $TRINITY20['staff_forums'])) {
                 autoshout($message);
 
@@ -166,10 +166,10 @@ if ($newtopic) {
             sql_query("UPDATE users SET seedbonus = seedbonus+".sqlesc($TRINITY20['bonus_per_post'])." WHERE id = ".sqlesc($CURUSER['id'])) || sqlerr(__FILE__,
                 __LINE__);
             $update['seedbonus'] = ($CURUSER['seedbonus'] + $TRINITY20['bonus_per_post']);
-            $cache->update_row($keys['user_stats'].$CURUSER["id"], [
+            $cache->update_row($cache_keys['user_stats'].$CURUSER["id"], [
                 'seedbonus' => $update['seedbonus'],
             ], $TRINITY20['expires']['u_stats']);
-            $cache->update_row($keys['user_statss'].$CURUSER["id"], [
+            $cache->update_row($cache_keys['user_statss'].$CURUSER["id"], [
                 'seedbonus' => $update['seedbonus'],
             ], $TRINITY20['expires']['user_stats']);
         }

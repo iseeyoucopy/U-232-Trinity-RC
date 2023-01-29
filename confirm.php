@@ -40,10 +40,10 @@ if (!password_verify($row['email'].$row['added'], $confirm)) {
     stderr("{$lang['confirm_user_error']}", "{$lang['confirm_cannot_confirm']}");
 }
 sql_query("UPDATE users SET status='confirmed', editsecret='' WHERE id=".sqlesc($id)." AND status='pending'");
-$cache->update_row($keys['my_userid'].$id, [
+$cache->update_row($cache_keys['my_userid'].$id, [
     'status' => 'confirmed',
 ], $TRINITY20['expires']['curuser']);
-$cache->update_row($keys['user'].$id, [
+$cache->update_row($cache_keys['user'].$id, [
     'status' => 'confirmed',
 ], $TRINITY20['expires']['user_cache']);
 if (!$mysqli->affected_rows) {

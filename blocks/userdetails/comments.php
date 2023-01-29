@@ -11,10 +11,10 @@
  * ------------  @version V6  ------------------*
  */
 //==comments
-if (($torrentcomments = $cache->get($keys['torrent_comments'].$id)) === false) {
+if (($torrentcomments = $cache->get($cache_keys['torrent_comments'].$id)) === false) {
     ($res = sql_query("SELECT COUNT(id) FROM comments WHERE user=".sqlesc($user['id']))) || sqlerr(__FILE__, __LINE__);
     [$torrentcomments] = $res->fetch_row();
-    $cache->set($keys['torrent_comments'].$id, $torrentcomments, $TRINITY20['expires']['torrent_comments']);
+    $cache->set($cache_keys['torrent_comments'].$id, $torrentcomments, $TRINITY20['expires']['torrent_comments']);
 }
 if ($CURUSER['id'] == $id || $CURUSER['class'] >= UC_STAFF) {
     if ($torrentcomments && (($user["class"] >= UC_POWER_USER && $user["id"] == $CURUSER["id"]) || $CURUSER['class'] >= UC_STAFF)) {

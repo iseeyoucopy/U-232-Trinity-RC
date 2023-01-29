@@ -11,7 +11,7 @@
  * ------------  @version V6  ------------------*
  */
 //=== testing concept of "share ratio"
-$What_Cache = (XBT_TRACKER == true ? $keys['share_ratio_xbt'] : $keys['share_ratio']);
+$What_Cache = (XBT_TRACKER == true ? $cache_keys['share_ratio_xbt'] : $cache_keys['share_ratio']);
 $What_Table = (XBT_TRACKER == true ? 'xbt_peers' : 'snatched');
 $What_String = (XBT_TRACKER == true ? 'tid' : 'id');
 $What_User_String = (XBT_TRACKER == true ? 'uid' : 'userid');

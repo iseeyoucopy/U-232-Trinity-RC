@@ -14,22 +14,22 @@ if (!isset($_GET['id'])) {
 if (isset($_GET['id']) && $_GET['id'] !== '') {
 }
 $show_id = $_GET['id'];
-if (($tvshow = $cache->get($keys['tv_show'].$show_id)) === false) {
+if (($tvshow = $cache->get($cache_keys['tv_show'].$show_id)) === false) {
     $date = date(('Y-m-d'));
     $tvmaze = file_get_contents('https://api.tvmaze.com/shows/'.$show_id.'?embed[]=episodes&embed[]=cast');
     $tvshow = json_decode($tvmaze, true, 512, JSON_THROW_ON_ERROR);
 }
-if (($tvshow_s = $cache->get($keys['tv_shows_ep'].$show_id)) === false) {
+if (($tvshow_s = $cache->get($cache_keys['tv_shows_ep'].$show_id)) === false) {
     $date = date(('Y-m-d'));
     $tvmaze_s = file_get_contents('https://api.tvmaze.com/shows/'.$show_id.'/seasons');
     $tvshow_s = json_decode($tvmaze_s, true, 512, JSON_THROW_ON_ERROR);
 }
-if (($tvshow_ep = $cache->get($keys['tv_show_ep'].$show_id)) === false) {
+if (($tvshow_ep = $cache->get($cache_keys['tv_show_ep'].$show_id)) === false) {
     $date = date(('Y-m-d'));
     $tvmaze_ep = file_get_contents('https://api.tvmaze.com/shows/'.$show_id.'/episodes');
     $tvshow_ep = json_decode($tvmaze_ep, true, 512, JSON_THROW_ON_ERROR);
 }
-if (($tvshow_cast = $cache->get($keys['tv_show_cast'].$show_id)) === false) {
+if (($tvshow_cast = $cache->get($cache_keys['tv_show_cast'].$show_id)) === false) {
     $date = date(('Y-m-d'));
     $tvmaze_cast = file_get_contents('https://api.tvmaze.com/shows/'.$show_id.'/cast');
     $tvshow_cast = json_decode($tvmaze_cast, true, 512, JSON_THROW_ON_ERROR);

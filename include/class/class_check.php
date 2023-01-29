@@ -53,7 +53,7 @@ if (!defined('TBVERSION')) { //cannot access this file directly
  */
 function class_check($class = 0, $staff = true, $pin = false)
 {
-    global $CURUSER, $TRINITY20, $cache, $keys;
+    global $CURUSER, $TRINITY20, $cache, $cache_keys;
     require_once(CACHE_DIR.'staff_settings2.php');
     /** basic checking **/
     if (!$CURUSER) {
@@ -141,10 +141,10 @@ function class_check($class = 0, $staff = true, $pin = false)
             //sql_query("UPDATE users SET enabled = 'no', class = 1 WHERE id = {$CURUSER['id']}") or sqlerr(__file__, __line__);
             sql_query("UPDATE users SET class = 1 WHERE id = {$CURUSER['id']}") || sqlerr(__file__, __line__);
             /** remove caches **/
-            $cache->update_row($keys['user'].$CURUSER['id'], [
+            $cache->update_row($cache_keys['user'].$CURUSER['id'], [
                 'class' => 1,
             ], $TRINITY20['expires']['user_cache']);
-            $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+            $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
                 'class' => 1,
             ], $TRINITY20['expires']['curuser']);
             //==
@@ -191,11 +191,11 @@ function get_access($script)
         }
         $i++;
     }
-    if (($class = $cache->get($keys['av_class'].$ending)) == false) {
+    if (($class = $cache->get($cache_keys['av_class'].$ending)) == false) {
         ($classid = sql_query("SELECT av_class FROM staffpanel WHERE file_name LIKE '%$ending%'")) || sqlerr(__file__, __line__);
         $classid = $classid->fetch_assoc();
         $class = isset($classid['av_class']) ? (int)$classid['av_class'] : '';
-        $cache->set($keys['av_class'].$ending, $class, 900); //== test values 15 minutes to 0 once delete key in place //==
+        $cache->set($cache_keys['av_class'].$ending, $class, 900); //== test values 15 minutes to 0 once delete key in place //==
     }
     return $class;
 }

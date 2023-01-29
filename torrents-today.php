@@ -25,8 +25,8 @@ dbconn(false);
 loggedinorreturn();
 if (isset($_GET['clear_new']) && $_GET['clear_new'] == 1) {
     sql_query("UPDATE users SET last_browse=".TIME_NOW." WHERE id=".sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
-    $cache->update_row($keys['my_userid'].$CURUSER['id'], ['last_browse' => TIME_NOW], $TRINITY20['expires']['curuser']);
-    $cache->update_row($keys['user'].$CURUSER['id'], ['last_browse' => TIME_NOW], $TRINITY20['expires']['user_cache']);
+    $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], ['last_browse' => TIME_NOW], $TRINITY20['expires']['curuser']);
+    $cache->update_row($cache_keys['user'].$CURUSER['id'], ['last_browse' => TIME_NOW], $TRINITY20['expires']['user_cache']);
     header("Location: {$TRINITY20['baseurl']}/torrents-today.php");
 }
 $stdfoot = [
@@ -173,11 +173,11 @@ if (isset($cleansearchstr) && $searchstr != '') {
     $wherea[] = implode(' OR ', $searchincrt);
 }
 $where = count($wherea) > 0 ? 'WHERE '.implode(' AND ', $wherea) : '';
-if (($count = $cache->get($keys['todaywhere'].sha1($where))) === false) {
+if (($count = $cache->get($cache_keys['todaywhere'].sha1($where))) === false) {
     ($res = sql_query("SELECT COUNT(id) FROM torrents $where")) || sqlerr(__FILE__, __LINE__);
     $row = $res->fetch_row();
     $count = (int)$row[0];
-    $cache->set($keys['todaywhere'].sha1($where), $count, $TRINITY20['expires']['browse_where']);
+    $cache->set($cache_keys['todaywhere'].sha1($where), $count, $TRINITY20['expires']['browse_where']);
 }
 $torrentsperpage = $CURUSER["torrentsperpage"];
 if (!$torrentsperpage) {
@@ -200,7 +200,7 @@ if ($count) {
 
     /*
     $TRINITY20['expires']['torrent_browse'] = 30;
-    if (($torrents = $cache->get($keys['torrent_browse'] . $CURUSER['class'])) === false) {
+    if (($torrents = $cache->get($cache_keys['torrent_browse'] . $CURUSER['class'])) === false) {
     $tor_fields_ar_int = array(
         'id',
         'leechers',
@@ -254,7 +254,7 @@ if ($count) {
     $torrents = $result->fetch_assoc();
     foreach ($tor_fields_ar_int as $i) $torrents[$i] = (int)$torrents[$i];
     foreach ($tor_fields_ar_str as $i) $torrents[$i] = $torrents[$i];
-    $cache->set($keys['torrent_browse'] . $CURUSER['class'], $torrents, $TRINITY20['expires']['torrent_browse']);
+    $cache->set($cache_keys['torrent_browse'] . $CURUSER['class'], $torrents, $TRINITY20['expires']['torrent_browse']);
     }
     */
     $query = "SELECT id, search_text, category, leechers, seeders, bump, release_group, subs, name, times_completed, size, added, poster, descr, type, free, silver, comments, numfiles, filename, anonymous, sticky, nuked, vip, nukereason, newgenre, description, owner, username, youtube, checked_by, IF(nfo <> '', 1, 0) as nfoav,"."IF(num_ratings < {$TRINITY20['minvotes']}, NULL, ROUND(rating_sum / num_ratings, 1)) AS rating "."FROM torrents {$where} {$orderby} {$pager['limit']}";
@@ -319,8 +319,8 @@ if (($CURUSER['opt1'] & user_options::CLEAR_NEW_TAG_MANUALLY) !== 0) {
 
     //== clear new tag automatically
     sql_query("UPDATE users SET last_browse=".TIME_NOW." where id=".$CURUSER['id']);
-    $cache->update_row($keys['my_userid'].$CURUSER['id'], ['last_browse' => TIME_NOW], $TRINITY20['expires']['curuser']);
-    $cache->update_row($keys['user'].$CURUSER['id'], ['last_browse' => TIME_NOW], $TRINITY20['expires']['user_cache']);
+    $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], ['last_browse' => TIME_NOW], $TRINITY20['expires']['curuser']);
+    $cache->update_row($cache_keys['user'].$CURUSER['id'], ['last_browse' => TIME_NOW], $TRINITY20['expires']['user_cache']);
 }
 $HTMLOUT .= "<br />
     <table width='1000' class='main' border='0' cellspacing='0' cellpadding='0'><tr><td class='embedded'>
@@ -377,10 +377,10 @@ if ($no_log_ip === 0) {
     if ($res->num_rows == 0) {
         sql_query("INSERT INTO ips (userid, ip, lastbrowse, type) VALUES (".sqlesc($userid).", ".sqlesc($ip).", $added, 'Browse')") || sqlerr(__FILE__,
             __LINE__);
-        $cache->delete($keys['ip_history'].$userid);
+        $cache->delete($cache_keys['ip_history'].$userid);
     } else {
         sql_query("UPDATE ips SET lastbrowse = $added WHERE ip=".sqlesc($ip)." AND userid = ".sqlesc($userid)) || sqlerr(__FILE__, __LINE__);
-        $cache->delete($keys['ip_history'].$userid);
+        $cache->delete($cache_keys['ip_history'].$userid);
     }
 }
 

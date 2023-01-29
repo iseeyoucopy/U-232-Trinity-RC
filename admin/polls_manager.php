@@ -72,7 +72,7 @@ function delete_poll()
     }
     sql_query("DELETE FROM polls WHERE pid = ".sqlesc($pid));
     sql_query("DELETE FROM poll_voters WHERE poll_id = ".sqlesc($pid));
-    $cache->delete($keys['poll_data'].$CURUSER['id']);
+    $cache->delete($cache_keys['poll_data'].$CURUSER['id']);
     show_poll_archive();
 }
 
@@ -100,7 +100,7 @@ function update_poll()
     $username = sqlesc($CURUSER['username']);
     sql_query("UPDATE polls SET choices=$poll_data, starter_id={$CURUSER['id']}, starter_name=$username, votes=$total_votes, poll_question=$poll_title WHERE pid=".sqlesc($pid)) || sqlerr(__FILE__,
         __LINE__);
-    $cache->delete($keys['poll_data'].$CURUSER['id']);
+    $cache->delete($cache_keys['poll_data'].$CURUSER['id']);
     if (-1 == $mysqli->affected_rows) {
         $msg = "<h2>{$lang['poll_up_error']}</h2>
       <a href='javascript:history.back()' title='{$lang['poll_up_fix_it']}' style='color:green;font-weight:bold'><span class='btn' style='padding:3px;'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_delete.gif' alt='{$lang['poll_up_back']}' />{$lang['poll_up_back']}</span></a>";
@@ -129,7 +129,7 @@ function insert_new_poll()
     $time = TIME_NOW;
     sql_query("INSERT INTO polls (start_date, choices, starter_id, starter_name, votes, poll_question)VALUES($time, $poll_data, {$CURUSER['id']}, $username, 0, $poll_title)") || sqlerr(__FILE__,
         __LINE__);
-    $cache->delete($keys['poll_data'].$CURUSER['id']);
+    $cache->delete($cache_keys['poll_data'].$CURUSER['id']);
     if (false == $mysqli->insert_id) {
         $msg = "<h2>{$lang['poll_inp_error']}</h2>
       <a href='javascript:history.back()' title='{$lang['poll_inp_fix_it']}' style='color:green;font-weight:bold'><span class='btn' style='padding:3px;'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_delete.gif' alt='{$lang['poll_inp_back']}' />{$lang['poll_inp_back']}</span></a>";

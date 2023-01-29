@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $keys, $mysqli;
+    global $TRINITY20, $queries, $cache_keys, $mysqli;
     set_time_limit(0);
     ignore_user_abort(1);
     ($lconf = sql_query('SELECT * FROM lottery_config')) || sqlerr(__FILE__, __LINE__);

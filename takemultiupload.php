@@ -320,10 +320,10 @@ foreach ($file_list as $key => $f) {
 }
 
 
-$cache->delete($keys['my_peers'].$CURUSER['id']);
-//$cache->delete($keys['lastest_tor']);  //
-$cache->delete($keys['last5_tor']);
-$cache->delete($keys['scroll_tor']);
+$cache->delete($cache_keys['my_peers'].$CURUSER['id']);
+//$cache->delete($cache_keys['lastest_tor']);  //
+$cache->delete($cache_keys['last5_tor']);
+$cache->delete($cache_keys['scroll_tor']);
 
 //==
 
@@ -335,10 +335,10 @@ if ($TRINITY20['seedbonus_on'] == 1) {
         __LINE__);
     //===end
     $update['seedbonus'] = ($CURUSER['seedbonus'] + $bonus_val);
-    $cache->update_row($keys['user_stats'].$CURUSER["id"], [
+    $cache->update_row($cache_keys['user_stats'].$CURUSER["id"], [
         'seedbonus' => $update['seedbonus'],
     ], $TRINITY20['expires']['u_stats']);
-    $cache->update_row($keys['user_statss'].$CURUSER["id"], [
+    $cache->update_row($cache_keys['user_statss'].$CURUSER["id"], [
         'seedbonus' => $update['seedbonus'],
     ], $TRINITY20['expires']['user_stats']);
 }

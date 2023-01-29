@@ -31,13 +31,13 @@ if ($pm_what == "last10") {
         __LINE__);
     while ($row = $res->fetch_assoc()) {
         $pms[] = "(0,".sqlesc($row["userid"]).",".TIME_NOW.",".sqlesc($pm_msg).($use_subject ? ",".sqlesc($subject) : "").")";
-        $cache->delete($keys['inbox_new'].$row["userid"]);
-        $cache->delete($keys['inbox_new_sb'].$row["userid"]);
+        $cache->delete($cache_keys['inbox_new'].$row["userid"]);
+        $cache->delete($cache_keys['inbox_new_sb'].$row["userid"]);
     }
 } elseif ($pm_what == "owner") {
     $pms[] = "(0,$uploader,".TIME_NOW.",".sqlesc($pm_msg).($use_subject ? ",".sqlesc($subject) : "").")";
-    $cache->delete($keys['inbox_new'].$uploader);
-    $cache->delete($keys['inbox_new_sb'].$uploader);
+    $cache->delete($cache_keys['inbox_new'].$uploader);
+    $cache->delete($cache_keys['inbox_new_sb'].$uploader);
 }
 if (count($pms) > 0) {
     sql_query("INSERT INTO messages (sender, receiver, added, msg ".($use_subject ? ", subject" : "")." ) VALUES ".implode(",",
@@ -45,7 +45,7 @@ if (count($pms) > 0) {
 
 }
 sql_query("UPDATE torrents set last_reseed=".TIME_NOW." WHERE id=".sqlesc($reseedid)) || sqlerr(__FILE__, __LINE__);
-$cache->update_row($keys['torrent_details'].$reseedid, [
+$cache->update_row($cache_keys['torrent_details'].$reseedid, [
     'last_reseed' => TIME_NOW,
 ], $TRINITY20['expires']['torrent_details']);
 if ($TRINITY20['seedbonus_on'] == 1) {
@@ -53,10 +53,10 @@ if ($TRINITY20['seedbonus_on'] == 1) {
     sql_query("UPDATE users SET seedbonus = seedbonus-{$TRINITY20['bonus_per_reseed']} WHERE id = ".sqlesc($CURUSER["id"])) || sqlerr(__FILE__,
         __LINE__);
     $update['seedbonus'] = ($CURUSER['seedbonus'] - $TRINITY20['bonus_per_reseed']);
-    $cache->update_row($keys['user_stats'].$CURUSER["id"], [
+    $cache->update_row($cache_keys['user_stats'].$CURUSER["id"], [
         'seedbonus' => $update['seedbonus'],
     ], $TRINITY20['expires']['u_stats']);
-    $cache->update_row($keys['user_statss'].$CURUSER["id"], [
+    $cache->update_row($cache_keys['user_statss'].$CURUSER["id"], [
         'seedbonus' => $update['seedbonus'],
     ], $TRINITY20['expires']['user_stats']);
     //===end

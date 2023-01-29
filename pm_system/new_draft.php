@@ -39,8 +39,8 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'save draft') {
     sql_query('INSERT INTO messages (sender, receiver, added, msg, subject, location, draft, unread, saved) VALUES  
                                                                         ('.sqlesc($CURUSER['id']).', '.sqlesc($CURUSER['id']).','.TIME_NOW.', '.$body.', '.$subject.', \'-2\', \'yes\',\'no\',\'yes\')') || sqlerr(__FILE__,
         __LINE__);
-    $cache->delete($keys['inbox_new'].$CURUSER['id']);
-    $cache->delete($keys['inbox_new_sb'].$CURUSER['id']);
+    $cache->delete($cache_keys['inbox_new'].$CURUSER['id']);
+    $cache->delete($cache_keys['inbox_new_sb'].$CURUSER['id']);
     $new_draft_id = $mysqli->insert_id;
     //=== Check if messages was saved as draft
     if ($mysqli->affected_rows === 0) {

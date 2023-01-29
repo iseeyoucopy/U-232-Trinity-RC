@@ -21,10 +21,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($sid > 0 && $sid != $CURUSER['id']) {
         sql_query('UPDATE users SET stylesheet='.sqlesc($sid).' WHERE id = '.sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
     }
-    $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
         'stylesheet' => $sid,
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row($keys['user'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['user'].$CURUSER['id'], [
         'stylesheet' => $sid,
     ], $TRINITY20['expires']['user_cache']);
     $HTMLOUT .= "<script language='javascript' type='text/javascript'>

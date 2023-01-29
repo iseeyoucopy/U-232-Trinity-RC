@@ -81,10 +81,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                      WHERE id = '.sqlesc($id).' LIMIT 1')) || sqlerr(__file__, __line__);
         $row = $res->fetch_assoc();
         $row['perms'] = (int)$row['perms'];
-        $cache->update_row($keys['my_userid'].$id, [
+        $cache->update_row($cache_keys['my_userid'].$id, [
             'perms' => $row['perms'],
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row($keys['user'].$id, [
+        $cache->update_row($cache_keys['user'].$id, [
             'perms' => $row['perms'],
         ], $TRINITY20['expires']['user_cache']);
     }

@@ -52,7 +52,7 @@ function snatchtable($res)
 }
 
 //==Snatched
-if (($user['opt1'] & user_options::HIDECUR || $CURUSER['id'] == $id || $CURUSER['class'] >= UC_STAFF) && ($user_snatches_data = $cache->get($keys['user_snatches_data'].$id)) === false) {
+if (($user['opt1'] & user_options::HIDECUR || $CURUSER['id'] == $id || $CURUSER['class'] >= UC_STAFF) && ($user_snatches_data = $cache->get($cache_keys['user_snatches_data'].$id)) === false) {
     if (XBT_TRACKER === false) {
         ($ressnatch = sql_query("SELECT s.*, t.name AS name, c.name AS catname, c.image AS catimg FROM snatched AS s INNER JOIN torrents AS t ON s.torrentid = t.id LEFT JOIN categories AS c ON t.category = c.id WHERE s.userid =".sqlesc($user['id'])." AND s.torrentid IN (SELECT id FROM torrents)")) || sqlerr(__FILE__,
             __LINE__);
@@ -63,7 +63,7 @@ if (($user['opt1'] & user_options::HIDECUR || $CURUSER['id'] == $id || $CURUSER[
     $count_snatched = $ressnatch->num_rows;
     if ($ressnatch->num_rows > 0) {
         $user_snatches_data = snatchtable($ressnatch);
-        $cache->set($keys['user_snatches_data'].$id, $user_snatches_data, $TRINITY20['expires']['user_snatches_data']);
+        $cache->set($cache_keys['user_snatches_data'].$id, $user_snatches_data, $TRINITY20['expires']['user_snatches_data']);
     } else {
         $user_snatches_data = $lang['userdetails_s_nothing'];
     }

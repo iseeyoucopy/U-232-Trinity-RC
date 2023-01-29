@@ -16,7 +16,7 @@ if (XBT_TRACKER == false && $TRINITY20['crazy_hour'] == true) {
         global $CURUSER, $TRINITY20, $cache, $lang;
         $htmlout = $cz = '';
         $crazy_hour = (TIME_NOW + 3600);
-        if (($crazyhour['crazyhour'] = $cache->get($keys['crazyhour'])) === false) {
+        if (($crazyhour['crazyhour'] = $cache->get($cache_keys['crazyhour'])) === false) {
             ($crazyhour['crazyhour_sql'] = sql_query('SELECT var, amount FROM freeleech WHERE type = "crazyhour"')) || sqlerr(__FILE__, __LINE__);
             $crazyhour['crazyhour'] = [];
             if ($crazyhour['crazyhour_sql']->num_rows !== 0) {
@@ -27,11 +27,11 @@ if (XBT_TRACKER == false && $TRINITY20['crazy_hour'] == true) {
                 sql_query('UPDATE freeleech SET var = '.$crazyhour['crazyhour']['var'].', amount = '.$crazyhour['crazyhour']['amount'].' WHERE type = "crazyhour"') || sqlerr(__FILE__,
                     __LINE__);
             }
-            $cache->set($keys['crazyhour'], $crazyhour['crazyhour'], 0);
+            $cache->set($cache_keys['crazyhour'], $crazyhour['crazyhour'], 0);
         }
         $cimg = '<img src="'.$TRINITY20['pic_base_url'].'cat_free.gif" alt="FREE!" />';
         if ($crazyhour['crazyhour']['var'] < TIME_NOW) { // if crazyhour over
-            $cz_lock = $cache->set($keys['crazyhour_lock'], 1, 10);
+            $cz_lock = $cache->set($cache_keys['crazyhour_lock'], 1, 10);
             if ($cz_lock !== false) {
                 $crazyhour['crazyhour_new'] = mktime(23, 59, 59, date('m'), date('d'), date('y'));
                 $crazyhour['crazyhour']['var'] = random_int($crazyhour['crazyhour_new'], ($crazyhour['crazyhour_new'] + 86400));
@@ -39,7 +39,7 @@ if (XBT_TRACKER == false && $TRINITY20['crazy_hour'] == true) {
                 $crazyhour['remaining'] = ($crazyhour['crazyhour']['var'] - TIME_NOW);
                 sql_query('UPDATE freeleech SET var = '.$crazyhour['crazyhour']['var'].', amount = '.$crazyhour['crazyhour']['amount'].' WHERE type = "crazyhour"') || sqlerr(__FILE__,
                     __LINE__);
-                $cache->set($keys['crazyhour'], $crazyhour['crazyhour'], 0);
+                $cache->set($cache_keys['crazyhour'], $crazyhour['crazyhour'], 0);
                 write_log('Next [color=#FFCC00][b]Crazyhour[/b][/color] is at '.get_date($crazyhour['crazyhour']['var'] + ($CURUSER['time_offset'] - 3600),
                         'LONG').'');
                 $text = 'Next [color=orange][b]Crazyhour[/b][/color] is at '.get_date($crazyhour['crazyhour']['var'] + ($CURUSER['time_offset'] - 3600),
@@ -53,11 +53,11 @@ if (XBT_TRACKER == false && $TRINITY20['crazy_hour'] == true) {
         } elseif (($crazyhour['crazyhour']['var'] < $crazy_hour) && ($crazyhour['crazyhour']['var'] >= TIME_NOW)) { // if crazyhour
             if ($crazyhour['crazyhour']['amount'] !== 1) {
                 $crazyhour['crazyhour']['amount'] = 1;
-                $cz_lock = $cache->set($keys['crazyhour_lock'], 1, 10);
+                $cz_lock = $cache->set($cache_keys['crazyhour_lock'], 1, 10);
                 if ($cz_lock !== false) {
                     sql_query('UPDATE freeleech SET amount = '.$crazyhour['crazyhour']['amount'].' WHERE type = "crazyhour"') || sqlerr(__FILE__,
                         __LINE__);
-                    $cache->set($keys['crazyhour'], $crazyhour['crazyhour'], 0);
+                    $cache->set($cache_keys['crazyhour'], $crazyhour['crazyhour'], 0);
                     write_log('w00t! It\'s [color=#FFCC00][b]Crazyhour[/b][/color]!');
                     $text = 'w00t! It\'s [color=orange][b]Crazyhour[/b][/color] :w00t:';
                     $message = 'w00t! It\'s <span style="font-weight:bold;color:orange;">Crazyhour</span> <img src="pic/smilies/w00t.gif" alt=":w00t:">';

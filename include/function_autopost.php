@@ -22,8 +22,8 @@ function auto_post($subject = "Error - Subject Missing", $body = "Error - No Bod
         sql_query("INSERT INTO topics (user_id, forum_id, topic_name) VALUES({$TRINITY20['bot_id']}, {$TRINITY20['staff']['forumid']}, $subject)") || sqlerr(__FILE__,
             __LINE__);
         $topicid = $mysqli->insert_id;
-        $cache->delete($keys['last_posts'].$CURUSER['class']);
-        $cache->delete($keys['forum_posts'].$CURUSER['id']);
+        $cache->delete($cache_keys['last_posts'].$CURUSER['class']);
+        $cache->delete($cache_keys['forum_posts'].$CURUSER['id']);
     }
     $added = TIME_NOW;
     sql_query("INSERT INTO posts (topic_id, user_id, added, body) "."VALUES(".sqlesc($topicid).", {$TRINITY20['bot_id']}, $added, ".sqlesc($body).")") || sqlerr(__FILE__,
@@ -32,8 +32,8 @@ function auto_post($subject = "Error - Subject Missing", $body = "Error - No Bod
     ($arr = $res->fetch_row()) || die("No post found");
     $postid = $arr[0];
     sql_query("UPDATE topics SET last_post=".sqlesc($postid)." WHERE id=".sqlesc($topicid)) || sqlerr(__FILE__, __LINE__);
-    $cache->delete($keys['last_posts'].$CURUSER['class']);
-    $cache->delete($keys['forum_posts'].$CURUSER['id']);
+    $cache->delete($cache_keys['last_posts'].$CURUSER['class']);
+    $cache->delete($cache_keys['forum_posts'].$CURUSER['id']);
 }
 
 ?>

@@ -13,16 +13,16 @@
 if ($CURUSER['class'] >= UC_POWER_USER) {
 //== Snatched Torrents mod
     $What_Table = (XBT_TRACKER == true ? 'xbt_peers' : 'snatched');
-    $What_cache = (XBT_TRACKER == true ? $keys['snatched_tor_xbt'] : $keys['snatched_tor']);
+    $What_cache = (XBT_TRACKER == true ? $cache_keys['snatched_tor_xbt'] : $cache_keys['snatched_tor']);
     $What_Value = (XBT_TRACKER == true ? 'WHERE completedtime != "0"' : 'WHERE complete_date != "0"');
     $Which_ID = (XBT_TRACKER == true ? 'tid' : 'id');
     $Which_T_ID = (XBT_TRACKER == true ? 'tid' : 'torrentid');
-    $Which_Key_ID = (XBT_TRACKER == true ? $keys['snatched_count_xbt'] : $keys['snatched_count']);
-    $keys['Snatched_Count'] = $Which_Key_ID.$id;
-    if (($Row_Count = $cache->get($keys['Snatched_Count'])) === false) {
+    $Which_Key_ID = (XBT_TRACKER == true ? $cache_keys['snatched_count_xbt'] : $cache_keys['snatched_count']);
+    $cache_keys['Snatched_Count'] = $Which_Key_ID.$id;
+    if (($Row_Count = $cache->get($cache_keys['Snatched_Count'])) === false) {
         ($Count_Q = sql_query("SELECT COUNT($Which_ID) FROM $What_Table $What_Value AND $Which_T_ID =".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
         $Row_Count = $Count_Q->fetch_row();
-        $cache->set($keys['Snatched_Count'], $Row_Count, $TRINITY20['expires']['details_snatchlist']);
+        $cache->set($cache_keys['Snatched_Count'], $Row_Count, $TRINITY20['expires']['details_snatchlist']);
     }
     $Count = $Row_Count[0];
     $perpage = 15;

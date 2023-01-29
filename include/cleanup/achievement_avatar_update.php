@@ -12,7 +12,7 @@
  */
 function docleanup($data)
 {
-    global $TRINITY20, $queries, $cache, $mysqli, $keys;
+    global $TRINITY20, $queries, $cache, $mysqli, $cache_keys;
     set_time_limit(0);
     ignore_user_abort(1);
     // Updated Avatar Setter Achievement
@@ -27,9 +27,9 @@ function docleanup($data)
             $msgs_buffer[] = '(0,'.$arr['id'].','.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
             $achievements_buffer[] = '('.$arr['id'].', '.TIME_NOW.', \'Avatar Setter\', \'piratesheep.png\' , \'User has successfully set an avatar on profile settings.\')';
             $usersachiev_buffer[] = '('.$arr['id'].',1, '.$points.')';
-            $cache->delete($keys['inbox_new'].$arr['id']);
-            $cache->delete($keys['inbox_new_sb'].$arr['id']);
-            $cache->delete($keys['user_achiev_points'].$arr['id']);
+            $cache->delete($cache_keys['inbox_new'].$arr['id']);
+            $cache->delete($cache_keys['inbox_new_sb'].$arr['id']);
+            $cache->delete($cache_keys['user_achiev_points'].$arr['id']);
         }
         $count = count($achievements_buffer);
         if ($count > 0) {

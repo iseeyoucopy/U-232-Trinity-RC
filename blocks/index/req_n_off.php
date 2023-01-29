@@ -31,7 +31,7 @@ $HTMLOUT .= "<div class='card'>
 	</div>
 	<div class='card-section'>";
 $requests = [];
-if (($requests = $cache->get($keys['requests'])) === false) {
+if (($requests = $cache->get($cache_keys['requests'])) === false) {
     ($res = sql_query("SELECT r.id AS request_id, r.request_name, r.category, r.comments, r.added, r.vote_yes_count, r.vote_no_count, r.filled_by_user_id, u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.leechwarn, u.chatpost, u.pirate, u.king FROM requests AS r LEFT JOIN users AS u ON r.requested_by_user_id = u.id WHERE filled_by_user_id = '' ORDER BY added DESC LIMIT {$TRINITY20['requests']['req_limit']}")) || sqlerr(__FILE__,
         __LINE__);
     if ($res->num_rows) {
@@ -39,7 +39,7 @@ if (($requests = $cache->get($keys['requests'])) === false) {
             $requests = (array)$requests;
             $requests[] = $request;
         }
-        $cache->set($keys['requests'], $requests, $TRINITY20['expires']['req_limit']);
+        $cache->set($cache_keys['requests'], $requests, $TRINITY20['expires']['req_limit']);
     }
 }
 if (!empty($requests)) {
@@ -90,7 +90,7 @@ $HTMLOUT .= "<div class='card'>
 	</div>
 	<div class='card-section'>";
 $offers = [];
-if (($offers = $cache->get($keys['offers'])) === false) {
+if (($offers = $cache->get($cache_keys['offers'])) === false) {
     ($res = sql_query("SELECT o.id AS offer_id, o.offer_name, o.category, o.comments, o.added, o.filled_torrent_id, o.vote_yes_count, o.vote_no_count, o.status, u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.leechwarn, u.chatpost, u.pirate, u.king FROM offers AS o LEFT JOIN users AS u ON o.offered_by_user_id = u.id WHERE filled_torrent_id = 0 ORDER BY added DESC LIMIT {$TRINITY20['offers']['off_limit']}")) || sqlerr(__FILE__,
         __LINE__);
     if ($res->num_rows) {
@@ -98,7 +98,7 @@ if (($offers = $cache->get($keys['offers'])) === false) {
             $offers = (array)$offers;
             $offers[] = $offer;
         }
-        $cache->update_row($keys['offers'], $offers, $TRINITY20['expires']['off_limit']);
+        $cache->update_row($cache_keys['offers'], $offers, $TRINITY20['expires']['off_limit']);
     }
 }
 if ((is_countable($offers) ? count($offers) : 0) > 0) {

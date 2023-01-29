@@ -131,7 +131,7 @@ function Do_Faq_Delete()
         stderr("Error", "No faq selected!");
     }
     sql_query("DELETE FROM faq WHERE id IN( ".implode(',', $id)." )") || sqlerr(__FILE__, __LINE__);
-    $cache->delete($keys['faqs']);
+    $cache->delete($cache_keys['faqs']);
     stderr("Info", "Faq successfully Deleted! <a href='staffpanel.php?tool=faq_admin'>Go Back To Faq Admin?</a>");
 }
 
@@ -150,7 +150,7 @@ or <a href='staffpanel.php?tool=faq_admin'><span style='font-weight: bold; color
     }
     sql_query("DELETE FROM faq WHERE type = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     sql_query("DELETE FROM faq_cat WHERE id = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-    $cache->delete($keys['faqs']);
+    $cache->delete($cache_keys['faqs']);
     stderr("Info", "Faq category deleted successfully! <a href='staffpanel.php?tool=faq_admin'>Go Back To Faq Admin?</a>");
 }
 
@@ -262,7 +262,7 @@ function Do_Faq_Update()
     if ($mysqli->affected_rows == -1) {
         stderr("SQL Error", "Update failed");
     }
-    $cache->delete($keys['faqs']);
+    $cache->delete($cache_keys['faqs']);
     stderr("Info", "Updated successfully <a href='staffpanel.php?tool=faq_admin'>Go Back To Admin</a>");
 }
 
@@ -285,7 +285,7 @@ function Do_Cat_Update()
     if ($mysqli->affected_rows == -1) {
         stderr("Warning", "Could not carry out that request");
     }
-    $cache->delete($keys['faqs']);
+    $cache->delete($cache_keys['faqs']);
     stderr("Info", "Updated successfully <a href='staffpanel.php?tool=faq_admin'>Go Back To Admin</a>");
 }
 
@@ -307,7 +307,7 @@ function Do_Cat_Add()
     if ($mysqli->affected_rows == -1) {
         stderr("Warning", "Couldn't forefill that request");
     }
-    $cache->delete($keys['faqs']);
+    $cache->delete($cache_keys['faqs']);
     $htmlout .= New_Cat_Form(1);
     //return $htmlout;
     echo stdhead("Add New Title").$htmlout.stdfoot();
@@ -331,7 +331,7 @@ function Do_Faq_Add()
     if ($mysqli->affected_rows == -1) {
         stderr("Warning", "Couldn't complete that request");
     }
-    $cache->delete($keys['faqs']);
+    $cache->delete($cache_keys['faqs']);
     New_Faq_Form(1);
     exit();
 }

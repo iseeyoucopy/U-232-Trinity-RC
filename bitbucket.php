@@ -89,10 +89,10 @@ if (!isset($_FILES['file'])) {
         }
         $avatar = sqlesc($_GET['avatar']);
         sql_query("UPDATE users SET avatar = $avatar WHERE id = {$CURUSER['id']}") || sqlerr(__FILE__, __LINE__);
-        $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+        $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
             'avatar' => $_GET['avatar'],
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row($keys['user'].$CURUSER['id'], [
+        $cache->update_row($cache_keys['user'].$CURUSER['id'], [
             'avatar' => $_GET['avatar'],
         ], $TRINITY20['expires']['user_cache']);
         header("Refresh: 0; url={$TRINITY20['baseurl']}/bitbucket.php?images=$type&updated=avatar");

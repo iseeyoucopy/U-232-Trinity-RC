@@ -23,10 +23,10 @@ loggedinorreturn();
 
 if (isset($_GET['clear_new']) && $_GET['clear_new'] == 1) {
     sql_query("UPDATE users SET last_browse=".TIME_NOW." WHERE id=".sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
-    $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
         'last_browse' => TIME_NOW,
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row($keys['user'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['user'].$CURUSER['id'], [
         'last_browse' => TIME_NOW,
     ], $TRINITY20['expires']['user_cache']);
     header("Location: {$TRINITY20['baseurl']}/browse_catalogue.php");
@@ -257,11 +257,11 @@ if (isset($cleansearchstr) && $searchstr != '') {
 }
 $where = (is_countable($wherea) ? count($wherea) : 0) > 0 ? 'WHERE '.implode(' AND ', $wherea) : '';
 
-if (($count = $cache->get($keys['where'].sha1($where))) === false) {
+if (($count = $cache->get($cache_keys['where'].sha1($where))) === false) {
     ($res = sql_query("SELECT COUNT(id) FROM torrents $where")) || sqlerr(__FILE__, __LINE__);
     $row = $res->fetch_row();
     $count = (int)$row[0];
-    $cache->set($keys['where'].sha1($where), $count, $TRINITY20['expires']['browse_where']);
+    $cache->set($cache_keys['where'].sha1($where), $count, $TRINITY20['expires']['browse_where']);
 }
 $torrentsperpage = $CURUSER["torrentsperpage"];
 if (!$torrentsperpage) {
@@ -341,10 +341,10 @@ if (($CURUSER['opt1'] & user_options::CLEAR_NEW_TAG_MANUALLY) !== 0) {
 } else {
     //== clear new tag automatically
     sql_query("UPDATE users SET last_browse=".TIME_NOW." where id=".$CURUSER['id']);
-    $cache->update_row($keys['my_userid'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
         'last_browse' => TIME_NOW,
     ], $TRINITY20['expires']['curuser']);
-    $cache->update_row($keys['user'].$CURUSER['id'], [
+    $cache->update_row($cache_keys['user'].$CURUSER['id'], [
         'last_browse' => TIME_NOW,
     ], $TRINITY20['expires']['user_cache']);
 }
@@ -432,10 +432,10 @@ if ($no_log_ip === 0) {
     if ($res->num_rows == 0) {
         sql_query("INSERT INTO ips (userid, ip, lastbrowse, type) VALUES (".sqlesc($userid).", ".sqlesc($ip).", $added, 'Browse')") || sqlerr(__FILE__,
             __LINE__);
-        $cache->delete($keys['ip_history'].$userid);
+        $cache->delete($cache_keys['ip_history'].$userid);
     } else {
         sql_query("UPDATE ips SET lastbrowse = $added WHERE ip=".sqlesc($ip)." AND userid = ".sqlesc($userid)) || sqlerr(__FILE__, __LINE__);
-        $cache->delete($keys['ip_history'].$userid);
+        $cache->delete($cache_keys['ip_history'].$userid);
     }
 }
 //== End Ip logger

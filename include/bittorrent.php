@@ -51,11 +51,11 @@ require_once CLASS_DIR.'class_blocks_usercp.php';
 require_once CLASS_DIR.'class_blocks_browse.php';
 require_once CLASS_DIR.'class_bt_options.php';
 require_once CACHE_DIR.'block_settings_cache.php';
-$cores = $cache->get($keys['cores']);
+$cores = $cache->get($cache_keys['cores']);
 if (!$cores || is_null($cores)) {
     $cores = `grep -c processor /proc/cpuinfo`;
     $cores = empty($cores) ? 1 : (int)$cores;
-    $cache->set($keys['cores'], $cores, 0);
+    $cache->set($cache_keys['cores'], $cores, 0);
 }
 $load = sys_getloadavg();
 if ($load[0] > 20) {
@@ -146,20 +146,20 @@ function status_change($id)
 //== check bans by djGrrr <3 pdq
 function check_bans($ip, $reason = '')
 {
-    global $TRINITY20, $cache, $c, $mysqli, $keys;
+    global $TRINITY20, $cache, $c, $mysqli, $cache_keys;
     $ip_decrypt = $c->decrypt($ip);
-    if (($ban = $cache->get($keys['bans'].$ip)) === false && $ip != '127.0.0.1') {
+    if (($ban = $cache->get($cache_keys['bans'].$ip)) === false && $ip != '127.0.0.1') {
         $nip = ip2long($ip);
         ($ban_sql = sql_query('SELECT comment FROM bans WHERE (first <= '.sqlesc($nip).' AND last >= '.sqlesc($nip).') LIMIT 1')) || sqlerr(__FILE__, __LINE__);
         if ($ban_sql->num_rows) {
             $comment = $ban_sql->fetch_row();
             $reason = 'Manual Ban ('.$comment[0].')';
-            $cache->set($keys['bans'].$ip, $reason, 86400); // 86400 // banned
+            $cache->set($cache_keys['bans'].$ip, $reason, 86400); // 86400 // banned
             return true;
         }
         $ban_sql->free();
         $mysqli->next_result();
-        $cache->set($keys['bans'].$ip, 0, 86400); // 86400 // not banned
+        $cache->set($cache_keys['bans'].$ip, 0, 86400); // 86400 // not banned
         return false;
     }
 
@@ -173,7 +173,7 @@ function check_bans($ip, $reason = '')
 
 function userlogin()
 {
-    global $TRINITY20, $cache, $keys, $CURBLOCK, $mood, $whereis, $CURUSER, $c, $reason;
+    global $TRINITY20, $cache, $cache_keys, $CURBLOCK, $mood, $whereis, $CURUSER, $c, $reason;
     unset($GLOBALS["CURUSER"]);
     $dt = TIME_NOW;
     $ip = getip();
@@ -192,7 +192,7 @@ function userlogin()
         return;
     }
     // let's cache $CURUSER - pdq - *Updated*
-    if (($row = $cache->get($keys['my_userid'].$id)) === false) { // $row not found
+    if (($row = $cache->get($cache_keys['my_userid'].$id)) === false) { // $row not found
         $user_fields_ar_int = [
             'id',
             'added',
@@ -362,7 +362,7 @@ function userlogin()
         foreach ($user_fields_ar_str as $i) {
             $row[$i] = $row[$i];
         }
-        $cache->set($keys['my_userid'].$id, $row, $TRINITY20['expires']['curuser']);
+        $cache->set($cache_keys['my_userid'].$id, $row, $TRINITY20['expires']['curuser']);
         unset($result);
     }
     //==
@@ -411,10 +411,10 @@ function userlogin()
                     $row['curr_ann_body'] = htmlspecialchars($ann_row['body']);
                     // Create additional set for main UPDATE query.
                     $add_set = ', curr_ann_id = ' . sqlesc($ann_row['main_id']);
-                    $cache->update_row($keys['user'] . $id, [
+                    $cache->update_row($cache_keys['user'] . $id, [
                         'curr_ann_id' => $ann_row['main_id']
                     ], $TRINITY20['expires']['user_cache']);
-                    $cache->update_row($keys['my_userid'] . $id, [
+                    $cache->update_row($cache_keys['my_userid'] . $id, [
                         'curr_ann_id' => $ann_row['main_id']
                     ], $TRINITY20['expires']['curuser']);
                     $status = 2;
@@ -422,10 +422,10 @@ function userlogin()
                 } else {
                     // Announcement not valid for member...
                     $add_set = ', curr_ann_last_check = ' . sqlesc($dt);
-                    $cache->update_row($keys['user'] . $id, [
+                    $cache->update_row($cache_keys['user'] . $id, [
                         'curr_ann_last_check' => $dt
                     ], $TRINITY20['expires']['user_cache']);
-                    $cache->update_row($keys['my_userid'] . $id, [
+                    $cache->update_row($cache_keys['my_userid'] . $id, [
                         'curr_ann_last_check' => $dt
                     ], $TRINITY20['expires']['curuser']);
                     $status = 1;
@@ -453,10 +453,10 @@ function userlogin()
             } else {
                 // No Main Result Set. Set last update to now...
                 $add_set = ', curr_ann_last_check = ' . sqlesc($dt);
-                $cache->update_row($keys['user'] . $id, [
+                $cache->update_row($cache_keys['user'] . $id, [
                     'curr_ann_last_check' => $dt
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row($keys['my_userid'] . $id, [
+                $cache->update_row($cache_keys['my_userid'] . $id, [
                     'curr_ann_last_check' => $dt
                 ], $TRINITY20['expires']['curuser']);
             }
@@ -491,11 +491,11 @@ function userlogin()
             $msg = "Fake Account Detected: Username: ".htmlspecialchars($row["username"])." - UserID: ".(int)$row["id"]." - UserIP : ".getip();
             // Demote and disable
             sql_query("UPDATE users SET enabled = 'no', class = 0 WHERE id =".sqlesc($row["id"])) or sqlerr(__file__, __line__);
-            $cache->update_row($keys['my_userid'].$row['id'], [
+            $cache->update_row($cache_keys['my_userid'].$row['id'], [
                 'enabled' => 'no',
                 'class' => 0,
             ], $TRINITY20['expires']['curuser']);
-            $cache->update_row($keys['user'].$row['id'], [
+            $cache->update_row($cache_keys['user'].$row['id'], [
                 'enabled' => 'no',
                 'class' => 0,
             ], $TRINITY20['expires']['user_cache']);
@@ -506,7 +506,7 @@ function userlogin()
         }
     }
     // user stats - *Updated*
-    $What_Cache = (XBT_TRACKER == true ? $keys['userstats_xbt'] : $keys['user_stats']);
+    $What_Cache = (XBT_TRACKER == true ? $cache_keys['userstats_xbt'] : $cache_keys['user_stats']);
     if (($stats = $cache->get($What_Cache.$id)) === false) {
         $What_Expire = (XBT_TRACKER == true ? $TRINITY20['expires']['u_stats_xbt'] : $TRINITY20['expires']['u_stats']);
         $stats_fields_ar_int = [
@@ -538,7 +538,7 @@ function userlogin()
     $row['uploaded'] = $stats['uploaded'];
     $row['downloaded'] = $stats['downloaded'];
     //==
-    if (($ustatus = $cache->get($keys['userstatus'].$id)) === false) {
+    if (($ustatus = $cache->get($cache_keys['userstatus'].$id)) === false) {
         $sql2 = sql_query('SELECT * FROM ustatus WHERE userid = '.sqlesc($id));
         if ($sql2->num_rows) {
             $ustatus = $sql2->fetch_assoc();
@@ -549,13 +549,13 @@ function userlogin()
                 'archive' => '',
             ];
         }
-        $cache->set($keys['userstatus'].$id, $ustatus, $TRINITY20['expires']['u_status']); // 30 days
+        $cache->set($cache_keys['userstatus'].$id, $ustatus, $TRINITY20['expires']['u_status']); // 30 days
     }
     $row['last_status'] = $ustatus['last_status'];
     $row['last_update'] = $ustatus['last_update'];
     $row['archive'] = $ustatus['archive'];
     // bitwise curuser bloks by pdq
-    if (($CURBLOCK = $cache->get($keys['blocks'].$row['id'])) === false) {
+    if (($CURBLOCK = $cache->get($cache_keys['blocks'].$row['id'])) === false) {
         $c_sql = sql_query('SELECT * FROM user_blocks WHERE userid = '.sqlesc($row['id'])) or sqlerr(__FILE__, __LINE__);
         if ($c_sql->num_rows == 0) {
             sql_query('INSERT INTO user_blocks(userid) VALUES('.sqlesc($row['id']).')');
@@ -568,7 +568,7 @@ function userlogin()
         $CURBLOCK['userdetails_page'] = (int)$CURBLOCK['userdetails_page'];
         $CURBLOCK['browse_page'] = (int)$CURBLOCK['browse_page'];
         //$CURBLOCK['usercp_page'] = (int)$CURBLOCK['usercp_page'];
-        $cache->set($keys['blocks'].$row['id'], $CURBLOCK, 0);
+        $cache->set($cache_keys['blocks'].$row['id'], $CURBLOCK, 0);
     }
     //== online time pdq, original code by superman
     $userupdate0 = 'onlinetime = onlinetime + 0';
@@ -584,14 +584,14 @@ function userlogin()
     $add_set = isset($add_set) ? $add_set : '';
     if (($row['last_access'] != '0') and (($row['last_access']) < ($dt - 180)) /** 3 mins **/ || ($row['ip'] !== $ip)) {
         sql_query("UPDATE users SET where_is =".sqlesc($whereis).", ip=".sqlesc($ip).$add_set.", last_access=".TIME_NOW.", $userupdate0, $userupdate1 WHERE id=".sqlesc($row['id']));
-        $cache->update_row($keys['my_userid'].$row['id'], [
+        $cache->update_row($cache_keys['my_userid'].$row['id'], [
             'last_access' => TIME_NOW,
             'onlinetime' => $update_time,
             'last_access_numb' => TIME_NOW,
             'where_is' => $whereis,
             'ip' => $ip,
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row($keys['user'].$row['id'], [
+        $cache->update_row($cache_keys['user'].$row['id'], [
             'last_access' => TIME_NOW,
             'onlinetime' => $update_time,
             'last_access_numb' => TIME_NOW,
@@ -737,14 +737,14 @@ function make_bookmarks($userid, $key)
 //genrelist - pdq
 function genrelist()
 {
-    global $cache, $TRINITY20, $keys;
-    if (($ret = $cache->get($keys['genrelist'])) == false) {
+    global $cache, $TRINITY20, $cache_keys;
+    if (($ret = $cache->get($cache_keys['genrelist'])) == false) {
         $ret = [];
         $res = sql_query("SELECT id, image, name, min_class FROM categories ORDER BY name");
         while ($row = $res->fetch_assoc()) {
             $ret[] = $row;
         }
-        $cache->set($keys['genrelist'], $ret, $TRINITY20['expires']['genrelist']);
+        $cache->set($cache_keys['genrelist'], $ret, $TRINITY20['expires']['genrelist']);
     }
     return $ret;
 }

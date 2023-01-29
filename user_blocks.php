@@ -25,7 +25,7 @@ if ($CURUSER['got_blocks'] == 'no') {
     stderr($lang['gl_error'], $lang['user_b_err1']);
     die;
 }
-$cache->delete($keys['blocks'].$id);
+$cache->delete($cache_keys['blocks'].$id);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $updateset = [];
@@ -378,7 +378,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ((is_countable($updateset) ? count($updateset) : 0) > 0) {
         sql_query('UPDATE user_blocks SET '.implode(',', $updateset).' WHERE userid = '.sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     }
-    $cache->delete($keys['blocks'].$id);
+    $cache->delete($cache_keys['blocks'].$id);
     header("Location: {$TRINITY20['baseurl']}/usercp.php?edited=1&action=user_blocks#user-block");
 }
 echo stdhead($lang['user_b_echo'], true).stdfoot();

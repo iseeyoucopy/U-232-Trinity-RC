@@ -12,14 +12,14 @@
  */
 //== Users friends list
 $dt = TIME_NOW - 180;
-if (($users_friends = $cache->get($keys['user_friends'].$id)) === false) {
+if (($users_friends = $cache->get($cache_keys['user_friends'].$id)) === false) {
     ($fr = sql_query("SELECT f.friendid as uid, f.userid AS userid, u.last_access, u.id, u.ip, u.avatar, u.username, u.class, u.donor, u.title, u.warned, u.enabled, u.chatpost, u.leechwarn, u.pirate, u.king, u.downloaded, u.uploaded, u.perms FROM friends AS f LEFT JOIN users as u ON f.friendid = u.id WHERE userid=".sqlesc($id)." ORDER BY username ASC LIMIT 100")) || sqlerr(__file__,
         __line__);
     while ($user_friends = $fr->fetch_assoc()) {
         $users_friends = (array)$users_friends;
         $users_friends[] = $user_friends;
     }
-    $cache->set($keys['user_friends'].$id, $users_friends, 0);
+    $cache->set($cache_keys['user_friends'].$id, $users_friends, 0);
 }
 if ($users_friends && (is_countable($users_friends) ? count($users_friends) : 0) > 0) {
     $user_friends = "<table width='100%' class='main' border='1' cellspacing='0' cellpadding='5'>\n"."<tr><td class='colhead' width='20'>{$lang['userdetails_avatar']}</td><td class='colhead'>{$lang['userdetails_username']}".($CURUSER['class'] >= UC_STAFF ? $lang['userdetails_fip'] : "")."</td><td class='colhead' align='center'>{$lang['userdetails_uploaded']}</td>".($TRINITY20['ratio_free'] ? "" : "<td class='colhead' align='center'>{$lang['userdetails_downloaded']}</td>")."<td class='colhead' align='center'>{$lang['userdetails_ratio']}</td><td class='colhead' align='center'>{$lang['userdetails_status']}</td></tr>\n";
