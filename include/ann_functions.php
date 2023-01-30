@@ -33,7 +33,7 @@ function ann_sqlerr($file = '', $line = '')
         $_ann_sql_err .= "\n URL:".$_SERVER['REQUEST_URI'];
         $error_username = $CURUSER['username'] ?? '';
         $error_userid = $CURUSER['id'] ?? '';
-        $_ann_sql_err .= "\n Username: {$error_username}[{$error_userid}]";
+        $_ann_sql_err .= "\n Username: $error_username[$error_userid]";
         if ($FH = @fopen($TRINITY20['ann_sql_error_log'], 'a')) {
             @fwrite($FH, $_ann_sql_err);
             @fclose($FH);
@@ -48,7 +48,6 @@ function ann_sql_query($a_query)
     $a_query_start_time = microtime(true); // Start time
     $result = $mysqli->query($a_query);
     $a_query_end_time = microtime(true); // End time
-    $a_querytime = ($a_query_end_time - $a_query_start_time);
     $a_query_stat[] = [
         'seconds' => number_format($a_query_end_time - $a_query_start_time, 6),
         'query' => $a_query,
@@ -71,7 +70,7 @@ function ann_sql_query($a_query)
 //== Crazyhour by pdq
 function crazyhour_announce()
 {
-    global $cache, $TRINITY20, $mysqli, $cache_keys;
+    global $cache, $cache_keys;
     $crazy_hour = (TIME_NOW + 3600);
     if (($cz['crazyhour'] = $cache->get($cache_keys['crazyhour'])) === false) {
         ($cz['sql'] = ann_sql_query('SELECT var, amount FROM freeleech WHERE type = "crazyhour"')) || ann_sqlerr(__FILE__, __LINE__);
@@ -84,17 +83,17 @@ function crazyhour_announce()
             ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = '.$cz['crazyhour']['var'].', amount = '.$cz['crazyhour']['amount'].' 
          WHERE type = "crazyhour"') || ann_sqlerr(__FILE__, __LINE__);
         }
-        $cache->set($cache_keys['crazyhour'], $cz['crazyhour'], 0);
+        $cache->set($cache_keys['crazyhour'], $cz['crazyhour']);
     }
     if ($cz['crazyhour']['var'] < TIME_NOW) { // if crazyhour over
-        if (($cz_lock = $cache->set($cache_keys['crazyhour_lock'], 1, 10)) !== false) {
+        if (($cache->set($cache_keys['crazyhour_lock'], 1, 10)) !== false) {
             $cz['crazyhour_new'] = mktime(23, 59, 59, date('m'), date('d'), date('y'));
             $cz['crazyhour']['var'] = random_int($cz['crazyhour_new'], ($cz['crazyhour_new'] + 86400));
             $cz['crazyhour']['amount'] = 0;
             $cz['remaining'] = ($cz['crazyhour']['var'] - TIME_NOW);
             ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = '.$cz['crazyhour']['var'].', amount = '.$cz['crazyhour']['amount'].' '.'WHERE type = "crazyhour"') || ann_sqlerr(__FILE__,
                 __LINE__);
-            $cache->set($cache_keys['crazyhour'], $cz['crazyhour'], 0);
+            $cache->set($cache_keys['crazyhour'], $cz['crazyhour']);
             // log, shoutbot
             $text = 'Next [color=orange][b]Crazyhour[/b][/color] is at '.date('F j, g:i a', $cz['crazyhour']['var']);
             $text_parsed = 'Next <span style="font-weight:bold;color:orange;">Crazyhour</span> is at '.date('F j, g:i a', $cz['crazyhour']['var']);
@@ -107,13 +106,13 @@ function crazyhour_announce()
         return false;
     }
 
-    if (($cz['crazyhour']['var'] < $crazy_hour) && ($cz['crazyhour']['var'] >= TIME_NOW)) { // if crazyhour
+    if (($cz['crazyhour']['var'] < $crazy_hour)) { // if crazyhour
         if ($cz['crazyhour']['amount'] !== 1) {
             $cz['crazyhour']['amount'] = 1;
-            if (($cz_lock = $cache->set($cache_keys['crazyhour_lock'], 1, 10)) !== false) {
+            if (($cache->set($cache_keys['crazyhour_lock'], 1, 10)) !== false) {
                 ann_sql_query('UPDATE LOW_PRIORITY freeleech SET amount = '.$cz['crazyhour']['amount'].' 
             WHERE type = "crazyhour"') || ann_sqlerr(__FILE__, __LINE__);
-                $cache->set($cache_keys['crazyhour'], $cz['crazyhour'], 0);
+                $cache->set($cache_keys['crazyhour'], $cz['crazyhour']);
                 // log, shoutbot
                 $text = 'w00t! It\'s [color=orange][b]Crazyhour[/b][/color] :w00t:';
                 $text_parsed = 'w00t! It\'s <span style="font-weight:bold;color:orange;">Crazyhour</span> <img src="pic/smilies/w00t.gif" alt=":w00t:" />';
@@ -132,7 +131,7 @@ function crazyhour_announce()
 
 function freeleech_announce()
 {
-    global $cache, $TRINITY20, $cache_keys;
+    global $cache, $cache_keys;
     if (($fl['countdown'] = $cache->get($cache_keys['freeleech_countdown'])) === false) { // pot_of_gold
         ($fl['sql'] = ann_sql_query('SELECT var, amount FROM freeleech WHERE type = "countdown"')) || ann_sqlerr(__FILE__, __LINE__);
         $fl['countdown'] = [];
@@ -145,30 +144,30 @@ function freeleech_announce()
             ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = '.ann_sqlesc($fl['freeleech']['var']).', amount = '.ann_sqlesc($fl['countdown']['amount']).' '.
                 'WHERE type = "countdown"') || ann_sqlerr(__FILE__, __LINE__);
         }
-        $cache->set($cache_keys['freeleech_countdown'], $fl['countdown'], 0);
+        $cache->set($cache_keys['freeleech_countdown'], $fl['countdown']);
     }
 
     if (($fl['countdown']['var'] !== 0) && (TIME_NOW > ($fl['countdown']['var']))) { // end of freeleech sunday
-        if (($fc_lock = $cache->set($cache_keys['freeleech_countdown_lock'], 1, 10)) !== false) {
+        if (($cache->set($cache_keys['freeleech_countdown_lock'], 1, 10)) !== false) {
             $fl['countdown']['var'] = 0;
             //$fl['countdown']['amount'] = strtotime('next Monday');  // timestamp sunday
             $fl['countdown']['amount'] = 43200;  // timestamp test
             ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = '.ann_sqlesc($fl['countdown']['var']).', amount = '.ann_sqlesc($fl['countdown']['amount']).' '.
                 'WHERE type = "countdown"') || ann_sqlerr(__FILE__, __LINE__);
-            $cache->update_row($cache_keys['freeleech_countdown'], ['var' => $fl['countdown']['var'], 'amount' => $fl['countdown']['amount']], 0);
+            $cache->update_row($cache_keys['freeleech_countdown'], ['var' => $fl['countdown']['var'], 'amount' => $fl['countdown']['amount']]);
         }
         return false;
     }
 
     if (TIME_NOW > ($fl['countdown']['amount'])) {
-        if ($fl['countdown']['var'] == 0 && ($cz_lock = $cache->set($cache_keys['crazyhour_lock'], 1, 10)) !== false) {
+        if ($fl['countdown']['var'] == 0 && ($cache->set($cache_keys['crazyhour_lock'], 1, 10)) !== false) {
             //$fl['countdown']['var'] = strtotime('next Monday');
             $fl['countdown']['var'] = 43200;
             //'.$ahead_by.'
             //$ahead_by = readable_time(($fl['countdown']['var'] - 86400) - $fl['countdown']['amount']);
             ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = '.ann_sqlesc($fl['countdown']['var']).' '.
                 'WHERE type = "countdown"') || ann_sqlerr(__FILE__, __LINE__);
-            $cache->update_row($cache_keys['freeleech_countdown'], ['var' => $fl['countdown']['var']], 0);
+            $cache->update_row($cache_keys['freeleech_countdown'], ['var' => $fl['countdown']['var']]);
             $free_message = 'It will last for xx ending on Monday 12:00 am GMT.';
             $text = '[color=#33CCCC][b]Freeleech Activated![/b][/color]'."\n".$free_message;
             $text_parsed = '<span style="color:#33CCCC;font-weight:bold;">Freeleech Activated!</span>'."\n".$free_message;
@@ -297,7 +296,7 @@ function adjust_torrent_peers($id, $seeds = 0, $leechers = 0, $completed = 0)
     if ($leechers > 0) {
         $adjust += (bool)$cache->increment($cache_keys['torrents_leechs'].$id, $leechers);
     } elseif ($leechers < 0) {
-        $adjust += (bool)$cache->decrement($cache_keys['torrents_leechs'].$idy, -$leechers);
+        $adjust += (bool)$cache->decrement($cache_keys['torrents_leechs'].$id, -$leechers);
     }
     if ($completed > 0) {
         $adjust += (bool)$cache->increment($cache_keys['torrents_comps'], $completed);
@@ -317,7 +316,7 @@ function get_happy($torrentid, $userid)
                 $happy[$rowhappy['torrentid']] = $rowhappy['multiplier'];
             }
         }
-        $cache->set($userid.$cache_keys['happyhour'], $happy, 0);
+        $cache->set($userid.$cache_keys['happyhour'], $happy);
     }
     if (!empty($happy) && isset($happy[$torrentid])) {
         return $happy[$torrentid];
@@ -387,11 +386,15 @@ function gzip()
     }
 }
 
-function benc_resp_raw($x)
+function benc_resp_raw($x): void
 {
     header("Content-Type: text/plain");
     header("Pragma: no-cache");
-    echo($x);
+    if ($_SERVER['HTTP_ACCEPT_ENCODING'] == 'gzip') {
+        header("Content-Encoding: gzip");
+        echo gzencode($x, 9, FORCE_GZIP);
+    } else
+    echo $x;
 }
 
 function benc($obj)
@@ -400,18 +403,13 @@ function benc($obj)
         return;
     }
     $c = $obj["value"];
-    switch ($obj["type"]) {
-        case "string":
-            return benc_str($c);
-        case "integer":
-            return benc_int($c);
-        case "list":
-            return benc_list($c);
-        case "dictionary":
-            return benc_dict($c);
-        default:
-            return;
-    }
+    return match ($obj["type"]) {
+        "string" => benc_str ($c),
+        "integer" => benc_int ($c),
+        "list" => benc_list ($c),
+        "dictionary" => benc_dict ($c),
+        default => null,
+    };
 }
 
 function benc_str($s)
@@ -485,5 +483,3 @@ function ann_sqlesc($x)
     }
     return sprintf('\'%s\'', $mysqli->real_escape_string($x));
 }
-
-?>

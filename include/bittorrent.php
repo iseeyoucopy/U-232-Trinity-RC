@@ -52,10 +52,10 @@ require_once CLASS_DIR.'class_blocks_browse.php';
 require_once CLASS_DIR.'class_bt_options.php';
 require_once CACHE_DIR.'block_settings_cache.php';
 $cores = $cache->get($cache_keys['cores']);
-if (!$cores || is_null($cores)) {
+if (!$cores) {
     $cores = `grep -c processor /proc/cpuinfo`;
     $cores = empty($cores) ? 1 : (int)$cores;
-    $cache->set($cache_keys['cores'], $cores, 0);
+    $cache->set($cache_keys['cores'], $cores);
 }
 $load = sys_getloadavg();
 if ($load[0] > 20) {
@@ -80,7 +80,7 @@ function PostKey($ids = [])
     if (!is_array($ids)) {
         return false;
     }
-    return hash("sha3-512", "".$TRINITY20['tracker_post_key'].join('', $ids).$TRINITY20['tracker_post_key']."");
+    return hash("sha3-512", "".$TRINITY20['tracker_post_key'].join('', $ids).$TRINITY20['tracker_post_key']);
 }
 
 function CheckPostKey($ids, $key)
@@ -89,16 +89,16 @@ function CheckPostKey($ids, $key)
     if (!is_array($ids) or !$key) {
         return false;
     }
-    return $key == hash("sha3-512", "".$TRINITY20['tracker_post_key'].join('', $ids).$TRINITY20['tracker_post_key']."");
+    return $key == hash("sha3-512", "".$TRINITY20['tracker_post_key'].join('', $ids).$TRINITY20['tracker_post_key']);
 }
 
 /**** validip/getip courtesy of manolete <manolete@myway.com> ****/
 //== IP Validation
 function validip($ip)
 {
-    return filter_var($ip, FILTER_VALIDATE_IP,
+    return (bool)filter_var ($ip, FILTER_VALIDATE_IP,
         ['flags' => FILTER_FLAG_NO_PRIV_RANGE, FILTER_FLAG_NO_RES_RANGE]
-    ) ? true : false;
+    );
 }
 
 //== Patched function to detect REAL IP address if it's valid
@@ -144,10 +144,9 @@ function status_change($id)
 }
 
 //== check bans by djGrrr <3 pdq
-function check_bans($ip, $reason = '')
+function check_bans($ip)
 {
-    global $TRINITY20, $cache, $c, $mysqli, $cache_keys;
-    $ip_decrypt = $c->decrypt($ip);
+    global $cache, $mysqli, $cache_keys;
     if (($ban = $cache->get($cache_keys['bans'].$ip)) === false && $ip != '127.0.0.1') {
         $nip = ip2long($ip);
         ($ban_sql = sql_query('SELECT comment FROM bans WHERE (first <= '.sqlesc($nip).' AND last >= '.sqlesc($nip).') LIMIT 1')) || sqlerr(__FILE__, __LINE__);
@@ -166,19 +165,16 @@ function check_bans($ip, $reason = '')
     if (!$ban) {
         return false;
     } else {
-        $reason = $ban;
         return true;
     }
 }
 
 function userlogin()
 {
-    global $TRINITY20, $cache, $cache_keys, $CURBLOCK, $mood, $whereis, $CURUSER, $c, $reason;
+    global $TRINITY20, $cache, $cache_keys, $CURBLOCK, $mood, $whereis, $CURUSER, $reason;
     unset($GLOBALS["CURUSER"]);
     $dt = TIME_NOW;
     $ip = getip();
-    //$ipe = $c -> decrypt($ip);
-    //$nip = ip2long($ip);
     $ipf = $_SERVER['REMOTE_ADDR'];
     if (isset($CURUSER)) {
         return;
@@ -343,13 +339,13 @@ function userlogin()
             'pin_code',
         ];
         $user_fields = implode(', ', array_merge($user_fields_ar_int, $user_fields_ar_float, $user_fields_ar_str));
-        $res = "SELECT {$user_fields}, ann_main.subject AS curr_ann_subject, ann_main.body AS curr_ann_body "."FROM users AS u "."LEFT JOIN announcement_main AS ann_main "."ON ann_main.main_id = u.curr_ann_id "."WHERE u.id = ".sqlesc($id)." AND u.enabled='yes' AND u.status = 'confirmed'" or sqlerr(__FILE__,
+        $res = "SELECT $user_fields, ann_main.subject AS curr_ann_subject, ann_main.body AS curr_ann_body "."FROM users AS u "."LEFT JOIN announcement_main AS ann_main "."ON ann_main.main_id = u.curr_ann_id "."WHERE u.id = ".sqlesc($id)." AND u.enabled='yes' AND u.status = 'confirmed'" or sqlerr(__FILE__,
             __LINE__);
         $result = sql_query($res);
         if ($result->num_rows == 0) {
             $salty_user = $row['username'] ?? '';
             $salty = HashIt($TRINITY20['site']['salt'], $salty_user);
-            header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please={$salty}");
+            header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please=$salty");
             return;
         }
         $row = $result->fetch_assoc();
@@ -367,9 +363,8 @@ function userlogin()
     }
     //==
     if (get_mycookie('pass') !== h_cook($row['hash3'], $_SERVER["REMOTE_ADDR"], $row["id"])) {
-        $salty_user = $row['username'] ?? '';
         $salty = HashIt($TRINITY20['site']['salt'], $row['username']);
-        header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please={$salty}");
+        header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please=$salty");
         return;
     }
         //If curr_ann_id > 0 but curr_ann_body IS NULL, then force a refresh
@@ -465,10 +460,10 @@ function userlogin()
     // bans by djGrrr <3 pdq
     if (!isset($row['perms']) || (!($row['perms'] & bt_options::PERMS_BYPASS_BAN))) {
         $banned = false;
-        if (check_bans($ip, $reason)) {
+        if (check_bans($ip)) {
             $banned = true;
         } elseif ($ip != $ipf) {
-            if (check_bans($ipf, $reason)) {
+            if (check_bans($ipf)) {
                 $banned = true;
             }
         }
@@ -501,14 +496,14 @@ function userlogin()
             ], $TRINITY20['expires']['user_cache']);
             write_log($msg);
             $salty = HashIt($TRINITY20['site']['salt'], $row['username']);
-            header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please={$salty}");
+            header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please=$salty");
             //die;
         }
     }
     // user stats - *Updated*
-    $What_Cache = (XBT_TRACKER == true ? $cache_keys['userstats_xbt'] : $cache_keys['user_stats']);
+    $What_Cache = (XBT_TRACKER ? $cache_keys['userstats_xbt'] : $cache_keys['user_stats']);
     if (($stats = $cache->get($What_Cache.$id)) === false) {
-        $What_Expire = (XBT_TRACKER == true ? $TRINITY20['expires']['u_stats_xbt'] : $TRINITY20['expires']['u_stats']);
+        $What_Expire = (XBT_TRACKER ? $TRINITY20['expires']['u_stats_xbt'] : $TRINITY20['expires']['u_stats']);
         $stats_fields_ar_int = [
             'uploaded',
             'downloaded',
@@ -568,7 +563,7 @@ function userlogin()
         $CURBLOCK['userdetails_page'] = (int)$CURBLOCK['userdetails_page'];
         $CURBLOCK['browse_page'] = (int)$CURBLOCK['browse_page'];
         //$CURBLOCK['usercp_page'] = (int)$CURBLOCK['usercp_page'];
-        $cache->set($cache_keys['blocks'].$row['id'], $CURBLOCK, 0);
+        $cache->set($cache_keys['blocks'].$row['id'], $CURBLOCK);
     }
     //== online time pdq, original code by superman
     $userupdate0 = 'onlinetime = onlinetime + 0';
@@ -581,7 +576,7 @@ function userlogin()
     $userupdate1 = "last_access_numb = ".TIME_NOW;
     //end online-time
     $update_time = ($row['onlinetime'] + $update_time);
-    $add_set = isset($add_set) ? $add_set : '';
+    $add_set = $add_set ?? '';
     if (($row['last_access'] != '0') and (($row['last_access']) < ($dt - 180)) /** 3 mins **/ || ($row['ip'] !== $ip)) {
         sql_query("UPDATE users SET where_is =".sqlesc($whereis).", ip=".sqlesc($ip).$add_set.", last_access=".TIME_NOW.", $userupdate0, $userupdate1 WHERE id=".sqlesc($row['id']));
         $cache->update_row($cache_keys['my_userid'].$row['id'], [
@@ -612,24 +607,16 @@ function charset()
 {
     global $CURUSER, $TRINITY20;
     $lang_charset = isset($CURUSER['language']) ? "{$CURUSER['language']}" : $TRINITY20['language'];
-    switch ($lang_charset) {
-        case ($lang_charset == 2):
-            return "UTF-8";
-//    case ($lang_charset == 3):
-//        return "ISO-8859-17";
-//    case ($lang_charset == 4):
-//		return "ISO-8859-15";
-        default:
-            return "UTF-8";
-    }
+    return match ($lang_charset) {
+        default => "UTF-8",
+    };
 }
 
 //== 2010 Tbdev Cleanup Manager by ColdFusion
 function autoclean()
 {
-    global $TRINITY20;
     $now = TIME_NOW;
-    $sql = sql_query("SELECT * FROM cleanup WHERE clean_on = 1 AND clean_time <= {$now} ORDER BY clean_time ASC LIMIT 0,1");
+    $sql = sql_query("SELECT * FROM cleanup WHERE clean_on = 1 AND clean_time <= $now ORDER BY clean_time ASC LIMIT 0,1");
     $row = $sql->fetch_assoc();
     $cleanid = $row['clean_id'] ?? '';
     $cleanfile = $row['clean_file'] ?? '';
@@ -703,7 +690,7 @@ function get_template()
 //free slots - pdq
 function make_freeslots($userid, $key)
 {
-    global $cache, $TRINITY20;
+    global $cache;
     if (($slot = $cache->get($key.$userid)) === false) {
         $res_slots = sql_query('SELECT * FROM freeslots WHERE userid = '.sqlesc($userid)) or sqlerr(__file__, __line__);
         $slot = [];
@@ -720,7 +707,7 @@ function make_freeslots($userid, $key)
 //bookmarks - pdq
 function make_bookmarks($userid, $key)
 {
-    global $cache, $TRINITY20;
+    global $cache;
     if (($book = $cache->get($key.$userid)) === false) {
         $res_books = sql_query('SELECT * FROM bookmarks WHERE userid = '.sqlesc($userid)) or sqlerr(__file__, __line__);
         $book = [];
@@ -738,7 +725,7 @@ function make_bookmarks($userid, $key)
 function genrelist()
 {
     global $cache, $TRINITY20, $cache_keys;
-    if (($ret = $cache->get($cache_keys['genrelist'])) == false) {
+    if (!($ret = $cache->get ($cache_keys['genrelist']))) {
         $ret = [];
         $res = sql_query("SELECT id, image, name, min_class FROM categories ORDER BY name");
         while ($row = $res->fetch_assoc()) {
@@ -752,7 +739,7 @@ function genrelist()
 // moods - pdq
 function create_moods($force = false)
 {
-    global $cache, $TRINITY20;
+    global $cache;
     $key = 'moods';
     if (($mood = $cache->get($key)) === false || $force) {
         $res_moods = sql_query('SELECT * FROM moods ORDER BY id ASC') or sqlerr(__file__, __line__);
@@ -786,8 +773,7 @@ function delete_id_keys($keys, $keyname = false)
 
 function unesc($x)
 {
-    $x = is_array($x) ? array_map('unesc', $x) : stripslashes($x);
-    return $x;
+    return is_array($x) ? array_map('unesc', $x) : stripslashes($x);
 }
 
 function mksize($bytes)
@@ -870,12 +856,12 @@ function mkglobal($vars)
 
 function validfilename($name)
 {
-    return preg_match('/^[^\0-\x1f:\\\\\/?*\xff#<>|]+$/si', $name);
+    return preg_match('/^[^\0-\x1f:\\\\\/?*\xff#<>|]+$/i', $name);
 }
 
 function validemail($email)
 {
-    return preg_match('/^[\w.-]+@([\w.-]+\.)+[a-z]{2,6}$/is', $email);
+    return preg_match('/^[\w.-]+@([\w.-]+\.)+[a-z]{2,6}$/i', $email);
 }
 
 //putyn  08/08/2011
@@ -894,7 +880,7 @@ function sqlwildcardesc($x)
     return str_replace(['%', '_'], ['\\%', '\\_'], $mysqli->real_escape_string($x));
 }
 
-function httperr($code = 404)
+function httperr()
 {
     header("HTTP/1.0 404 Not found");
     echo "<h1>Not Found</h1>\n";
@@ -976,10 +962,10 @@ function loggedinorreturn()
 function searchfield($s)
 {
     return preg_replace([
-        '/[^a-z0-9]/si',
-        '/^\s*/s',
-        '/\s*$/s',
-        '/\s+/s',
+        '/[^a-z0-9]/i',
+        '/^\s*/',
+        '/\s*$/',
+        '/\s+/',
     ], [
         " ",
         "",
@@ -1027,7 +1013,7 @@ function sqlerr($file = '', $line = '')
         $_error_string .= "\n URL:".$_SERVER['REQUEST_URI'];
         $error_username = $CURUSER['username'] ?? '';
         $error_userid = $CURUSER['id'] ?? '';
-        $_error_string .= "\n Username: {$error_username}[{$error_userid}]";
+        $_error_string .= "\n Username: $error_username[$error_userid]";
         if ($FH = @fopen($TRINITY20['sql_error_log'], 'a')) {
             @fwrite($FH, $_error_string);
             @fclose($FH);
@@ -1102,7 +1088,6 @@ function get_time_offset()
 function get_time_offset()
 {
     global $CURUSER, $TRINITY20;
-    $r = 0;
     $user_t_offset = $CURUSER['time_offset'] ?? '';
     $user_dst = $CURUSER['dst_in_use'] ?? '';
     $r = ($user_t_offset != "") * 3600;
@@ -1125,9 +1110,9 @@ function get_date($date, $method, $norelative = 0, $full_relative = 0)
         'JOINED' => $TRINITY20['time_joined'],
         'SHORT' => $TRINITY20['time_short'],
         'LONG' => $TRINITY20['time_long'],
-        'TTABLE' => $TRINITY20['time_ttable'] ? $TRINITY20['time_ttable'] : 'd-m-Y, H:i:s',
-        'TINY' => $TRINITY20['time_tiny'] ? $TRINITY20['time_tiny'] : 'j M Y - G:i',
-        'DATE' => $TRINITY20['time_date'] ? $TRINITY20['time_date'] : 'j M Y',
+        'TTABLE' => $TRINITY20['time_ttable'] ?: 'd-m-Y, H:i:s',
+        'TINY' => $TRINITY20['time_tiny'] ?: 'j M Y - G:i',
+        'DATE' => $TRINITY20['time_date'] ?: 'j M Y',
     ];
     if (!$date) {
         return '--';
@@ -1211,12 +1196,11 @@ function get_date($date, $method, $norelative = 0, $full_relative = 0)
 
 function ratingpic($num)
 {
-    global $TRINITY20;
     $r = round($num * 2) / 2;
     if ($r < 1 || $r > 5) {
         return;
     }
-    return "<img src=\"pic/ratings/{$r}.gif\" border=\"0\" alt=\"Rating: $num / 5\" title=\"Rating: $num / 5\" />";
+    return "<img src=\"pic/ratings/$r.gif\" border=\"0\" alt=\"Rating: $num / 5\" title=\"Rating: $num / 5\" />";
 }
 
 function hash_pad($hash)
@@ -1239,16 +1223,16 @@ function load_language($file = '')
 {
     global $TRINITY20, $CURUSER;
     if (!isset($GLOBALS['CURUSER']) or empty($GLOBALS['CURUSER']['language'])) {
-        if (!file_exists(LANG_DIR."{$TRINITY20['language']}/lang_{$file}.php")) {
+        if (!file_exists(LANG_DIR."{$TRINITY20['language']}/lang_$file.php")) {
             stderr('System Error', 'Can\'t find language files');
         }
-        require_once(LANG_DIR."{$TRINITY20['language']}/lang_{$file}.php");
+        require_once(LANG_DIR."{$TRINITY20['language']}/lang_$file.php");
         return $lang;
     }
-    if (!file_exists(LANG_DIR."{$CURUSER['language']}/lang_{$file}.php")) {
+    if (!file_exists(LANG_DIR."{$CURUSER['language']}/lang_$file.php")) {
         stderr('System Error', 'Can\'t find language files');
     } else {
-        require_once LANG_DIR."{$CURUSER['language']}/lang_{$file}.php";
+        require_once LANG_DIR."{$CURUSER['language']}/lang_$file.php";
     }
     return $lang;
 }
@@ -1372,5 +1356,3 @@ function get_script_access($script)
         $i++;
     }
 }
-
-?>
