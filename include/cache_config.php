@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 global $TRINITY20;
-$TRINITY20['sitecache']['driver'] = 'redis'; // Choices are memory, file, redis, memcached, apcu
+$TRINITY20['sitecache']['driver'] = 'memcached'; // Choices are memory, file, redis, memcached, apcu
 $TRINITY20['sitecache']['prefix'] = 'u232_';
 
 // Redis Settings

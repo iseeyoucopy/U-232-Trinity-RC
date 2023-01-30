@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-
+declare(strict_types=1);
 use U232\Cache;
 
 //==Start execution time
@@ -1290,7 +1290,7 @@ function strip_tags_array($ar)
 function referer()
 {
     $host = !empty($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : '';
-    $http_referer = getenv("HTTP_REFERER");
+    $http_referer = getenv("HTTP_REFERER") ?: '';
     if ((strpos($http_referer, $host) === false) && ($http_referer != "")) {
         $ip = $_SERVER['REMOTE_ADDR'];
         $http_agent = $_SERVER["HTTP_USER_AGENT"];

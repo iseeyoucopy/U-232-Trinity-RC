@@ -181,7 +181,7 @@ function class_check($class = 0, $staff = true, $pin = false)
 //===== Modded For V4 By Stoner ================\\
 function get_access($script)
 {
-    global $CURUSER, $TRINITY20, $cache;
+    global $CURUSER, $TRINITY20, $cache, $cache_keys;
     $ending = parse_url($script, PHP_URL_QUERY);
     $count = substr_count($ending, "&");
     $i = 0;

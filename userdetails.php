@@ -236,7 +236,7 @@ if (($user_stats = $cache->get($What_Cache.$id)) === false) {
     }
     $cache->set($What_Cache.$id, $user_stats, $What_Expire); // 5 mins
 }
-if (($user_status = $cache->get($key['user_status'].$id)) === false) {
+if (($user_status = $cache->get($cache_keys['user_status'].$id)) === false) {
     $sql_2 = sql_query('SELECT * FROM ustatus WHERE userid = '.sqlesc($id));
     if ($sql_2->num_rows) {
         $user_status = $sql_2->fetch_assoc();
