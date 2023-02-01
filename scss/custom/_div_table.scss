@@ -6,9 +6,9 @@
 	display: table-row;
 }
 .divTableHeading {
-	background-color: #EEE;
+	background-color: #252525;
 	display: table-header-group;
-	background-color: #EEE;
+	background-color: #252525;
 	display: table-header-group;
 	font-weight: bold;
 }
@@ -23,7 +23,7 @@
 	padding: 3px 10px;
 }
 .divTableHead {
-	border: 1px solid #999999;
+	border: 1px solid #3f3f3f;
 	display: table-cell;
 	padding: 3px 10px;
 }
@@ -36,8 +36,8 @@
 	display: table-row-group;
 }
 .divTableBody:nth-child(even) {
-	background: #f0f4f7;
+	background: transparent;
 }
 .divTableBody:nth-child(odd) {
-	background: #fdfdfd;
+	background: #343434;
 }

@@ -320,7 +320,23 @@ input:checked ~ .switch-paddle::after {
 	border: none;
 }
 
-// 55. Top bar
+//55. Card
+// -------
+.card {
+	flex: 1 1 auto;
+	padding: var(1rem) var(1rem);
+	color: var(--bs-card-color);
+}
+.card-divider {
+	--card-inner-border-radius: calc(0.375rem - 1px);
+    border-radius: var(--card-inner-border-radius) var(--card-inner-border-radius) 0 0;
+	display: flex;
+    flex: 0 1 1 auto;
+    padding: 0.7rem;
+    background: #303030;
+}
+
+// 56. Top bar
 // -----------
 
 $topbar-text-color: $black;

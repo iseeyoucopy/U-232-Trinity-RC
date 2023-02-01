@@ -10,13 +10,15 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-if (XBT_TRACKER == true) {
+if (XBT_TRACKER) {
     $htmlout .= "
-	<a class='button small' data-toggle='collapse' href='#colapseXBT' role='button' aria-expanded='false' aria-controls='colapseXBT'>
-      XBT TRACKER
-  </a>
-  <div class='collapse' id='colapseXBT'>
-	<div class='alert alert-success'>When XBT TRACKER is running -<br /> There is no alerts for crazyhour, <br /> happyhour, or active freeslots &#128560</div>
+    <a class='button' data-toggle='xbt-tracker-1'>XBT TRACKER</a>
+    <div class='reveal' id='xbt-tracker-1' data-reveal>
+        <div class='mobile-ios-modal-inner'>
+    <span class='label success'>  
+    When XBT TRACKER is running there is no alerts for crazyhour, happyhour, or active freeslots &#128560
+    </span>
+  </div>
   </div>";
     $htmlout .= "";
 } else {
@@ -148,60 +150,61 @@ if (XBT_TRACKER == true) {
     }
     switch ($percent_hd) {
         case $percent_hd >= 90:
-            $font_color_hd = '<strong>'.number_format($percent_hd).'&nbsp;%</strong>';
+            $font_color_hd = '<strong>'.number_format($percent_hd).' %</strong>';
             break;
         case $percent_hd >= 80:
-            $font_color_hd = '<strong>'.number_format($percent_hd).'&nbsp;%</strong>';
+            $font_color_hd = '<strong>'.number_format($percent_hd).' %</strong>';
             break;
         case $percent_hd >= 70:
-            $font_color_hd = '<strong>'.number_format($percent_hd).'&nbsp;%</strong>';
+            $font_color_hd = '<strong>'.number_format($percent_hd).' %</strong>';
             break;
         case $percent_hd >= 50:
-            $font_color_hd = '<strong>'.number_format($percent_hd).'&nbsp;%</strong>';
+            $font_color_hd = '<strong>'.number_format($percent_hd).' %</strong>';
             break;
         case $percent_hd >= 40:
-            $font_color_hd = '<strong>'.number_format($percent_hd).'&nbsp;%</strong>';
+            $font_color_hd = '<strong>'.number_format($percent_hd).' %</strong>';
             break;
         case $percent_hd >= 30:
-            $font_color_hd = '<strong>'.number_format($percent_hd).'&nbsp;%</strong>';
+            $font_color_hd = '<strong>'.number_format($percent_hd).' %</strong>';
             break;
         case $percent_hd >= 20:
-            $font_color_hd = '<strong>'.number_format($percent_hd).'&nbsp;%</strong>';
+            $font_color_hd = '<strong>'.number_format($percent_hd).' %</strong>';
             break;
         case $percent_hd < 20:
-            $font_color_hd = '<strong>'.number_format($percent_hd).'&nbsp;%</strong>';
+            $font_color_hd = '<strong>'.number_format($percent_hd).' %</strong>';
             break;
     }
 
-    $fstatus = $freeleech_enabled ? "<strong>&nbsp;ON&nbsp;</strong>" : $font_color_fl."";
-    $dstatus = $double_upload_enabled ? "<strong>&nbsp;ON&nbsp;</strong>" : $font_color_du."";
-    $hstatus = $half_down_enabled ? "<strong>&nbsp;ON&nbsp;</strong>" : $font_color_hd."";
-    $htmlout .= "<a class='button small success' data-toggle='karma-dropdown-1'>Karma Contribution's</a>
-	<div class='dropdown-pane' id='karma-dropdown-1' data-dropdown data-hover='true' data-hover-pane='true'>
-		<div class='card card-body'><div class='alert alert-success'>Freeleech&nbsp;[&nbsp;";
+    $fstatus = $freeleech_enabled ? "<strong> ON </strong>" : $font_color_fl."";
+    $dstatus = $double_upload_enabled ? "<strong> ON </strong>" : $font_color_du."";
+    $hstatus = $half_down_enabled ? "<strong> ON </strong>" : $font_color_hd."";
+
+    $htmlout .= "<a class='button' data-toggle='karma-dropdown-1'>Karma Contribution's</a>
+    <div class='reveal' id='karma-dropdown-1' data-reveal>
+        <div class='mobile-ios-modal-inner'><p>Freeleech ";
     if ($freeleech_enabled) {
-        $htmlout .= "<strong>&nbsp;ON</strong>&nbsp;".get_date($freeleech_start_time, 'DATE')."&nbsp;-&nbsp;".get_date($freeleech_end_time, 'DATE');
+        $htmlout .= "<strong> ON </strong> ".get_date($freeleech_start_time, 'DATE')." - ".get_date($freeleech_end_time, 'DATE');
     } else {
         $htmlout .= $fstatus;
     }
-    $htmlout .= "&nbsp;]<br />";
+    $htmlout .= " </p>";
 
-    $htmlout .= "DoubleUpload&nbsp;[&nbsp;";
+    $htmlout .= "<p>DoubleUpload ";
     if ($double_upload_enabled) {
-        $htmlout .= "<strong>&nbsp;ON</strong>&nbsp;".get_date($double_upload_start_time, 'DATE')."&nbsp;-&nbsp;".get_date($double_upload_end_time,
+        $htmlout .= "<strong> ON </strong> ".get_date($double_upload_start_time, 'DATE')." - ".get_date($double_upload_end_time,
                 'DATE');
     } else {
         $htmlout .= $dstatus;
     }
-    $htmlout .= "&nbsp;]<br />";
+    $htmlout .= " </p>";
 
-    $htmlout .= "Half Download&nbsp;[&nbsp;";
+    $htmlout .= "<p>Half Download ";
     if ($half_down_enabled) {
-        $htmlout .= "<strong>&nbsp;ON</strong>&nbsp;".get_date($half_down_start_time, 'DATE')."&nbsp;-&nbsp;".get_date($half_down_end_time, 'DATE');
+        $htmlout .= "<strong> ON</strong> ".get_date($half_down_start_time, 'DATE')." - ".get_date($half_down_end_time, 'DATE');
     } else {
         $htmlout .= $hstatus;
     }
-    $htmlout .= "&nbsp;]</div></div></div>";
+    $htmlout .= " </p></div></div>";
 }
 //=== karma contribution alert end
 // End Class

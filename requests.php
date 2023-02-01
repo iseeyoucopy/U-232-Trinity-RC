@@ -57,8 +57,8 @@ $valid_actions = [
 $action = (in_array($posted_action, $valid_actions) ? $posted_action : 'default');
 //=== top menu :D
 $top_menu = '<p class="text-center">
-    <a class="button hollow small" href="requests.php">'.$lang['req_view_all'].'</a>
-    <a class="button hollow small" href="requests.php?action=add_new_request">'.$lang['req_add_new'].'</a>
+    <a class="button" href="requests.php">'.$lang['req_view_all'].'</a>
+    <a class="button" href="requests.php?action=add_new_request">'.$lang['req_add_new'].'</a>
     </p>';
 switch ($action) {
     case 'vote':

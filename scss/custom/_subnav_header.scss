@@ -6,9 +6,7 @@ $subnav-hero-height: 300px;
 $subnav-hero-transition: all 0.35s ease-in-out;
 
 .subnav-hero-section {
-  background: url('') 50% no-repeat;
   text-align: center;
-  //background: $subnav-hero-bg;
   background-size: cover;
   position: relative;
   overflow: visible;
@@ -23,7 +21,7 @@ $subnav-hero-transition: all 0.35s ease-in-out;
 }
 
 .subnav-hero-subnav {
-  background: #2c3840;
+  background: #303030;
   float: none;
   position: absolute;
   text-align: center;

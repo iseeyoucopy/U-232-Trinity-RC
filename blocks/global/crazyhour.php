@@ -10,10 +10,10 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-if (XBT_TRACKER == false && $TRINITY20['crazy_hour'] == true) {
+if (!XBT_TRACKER && $TRINITY20['crazy_hour']) {
     function crazyhour()
     {
-        global $CURUSER, $TRINITY20, $cache, $lang;
+        global $CURUSER, $TRINITY20, $cache, $lang, $cache_keys;
         $htmlout = $cz = '';
         $crazy_hour = (TIME_NOW + 3600);
         if (($crazyhour['crazyhour'] = $cache->get($cache_keys['crazyhour'])) === false) {
@@ -44,7 +44,7 @@ if (XBT_TRACKER == false && $TRINITY20['crazy_hour'] == true) {
                         'LONG').'');
                 $text = 'Next [color=orange][b]Crazyhour[/b][/color] is at '.get_date($crazyhour['crazyhour']['var'] + ($CURUSER['time_offset'] - 3600),
                         'LONG');
-                $text_parsed = '<b class="button small success">Next <span style="font-weight:bold;color:orange;">Crazyhour</span> is at '.get_date($crazyhour['crazyhour']['var'] + ($CURUSER['time_offset'] - 3600),
+                $text_parsed = '<a class="button success">Next <span style="font-weight:bold;color:orange;">Crazyhour</span> is at '.get_date($crazyhour['crazyhour']['var'] + ($CURUSER['time_offset'] - 3600),
                         'LONG');
                 sql_query('INSERT INTO shoutbox (userid, date, text, text_parsed) '.' VALUES (2, '.TIME_NOW.', '.sqlesc($text).', '.sqlesc($text_parsed).')') || sqlerr(__FILE__,
                     __LINE__);
@@ -81,7 +81,8 @@ if (XBT_TRACKER == false && $TRINITY20['crazy_hour'] == true) {
         return $htmlout.('
     <div class="input-group margin-0">
         <span class="input-group-label label success">'.$lang['gl_crazy_'].'</span>
-        <span class="input-group-label label primary">'.$lang['gl_crazy_message4'].'&nbsp;'.$lang['gl_crazy_message5'].'&nbsp;'.$lang['gl_crazy_message6'].'&nbsp;'.mkprettytime($crazyhour['crazyhour']['var'] - 3600 - TIME_NOW).'&nbsp;'.$lang['gl_crazy_at'].'&nbsp;'.get_date($crazyhour['crazyhour']['var'] + ($CURUSER['time_offset'] - 3600),
+        <span class="input-group-label label primary">'.$lang['gl_crazy_message4'].'&nbsp;'.$lang['gl_crazy_message5'].'&nbsp;'.$lang['gl_crazy_message6'].'&nbsp;'.mkprettytime($crazyhour['crazyhour']['var'] - 3600 - TIME_NOW).'&nbsp;'.$lang['gl_crazy_at'].'&nbsp;'.
+        get_date($crazyhour['crazyhour']['var'] + $CURUSER['time_offset'] - 3600,
                     'LONG').'</span>
     </div>');
     }

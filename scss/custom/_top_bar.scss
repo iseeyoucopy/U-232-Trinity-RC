@@ -1,0 +1,217 @@
+$color_1: var(--nav-item-txt-color);
+$color_2: var(--nav-item-txt-color-hover);
+$color_3: var(--nav-item-txt-color-active);
+$color_4: var(--catbg-bg);
+$background-color_1: var(--amt-bg);
+$border-color_1: var(--header-border-color);
+$border-color_2: var(--uppersection-bg);
+
+/* Top Bar */
+#top_section {
+	min-height: 45px;
+	border-color: $border-color_1;
+}
+#top_info {
+	display: flex;
+	padding: 0;
+	min-height: 44px;
+	align-items: center;
+	gap: 0;
+	>li {
+		display: flex;
+		margin: 0;
+		>a {
+			font-size: 1.2em;
+			border: none;
+			color: $color_1;
+			min-width: 45px;
+			height: 45px;
+			text-align: center;
+			background: var(--nav-item-bg);
+			padding: 0 12px;
+			box-shadow: none;
+			text-shadow: none !important;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 0;
+			position: relative;
+			&:focus {
+				border: none;
+				color: $color_1;
+				min-width: 45px;
+				height: 45px;
+				text-align: center;
+				background: var(--nav-item-bg);
+				padding: 0 12px;
+				box-shadow: none;
+				text-shadow: none !important;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-radius: 0;
+				position: relative;
+			}
+			span {
+				&:not(.fa) {
+					font-size: 0.85em;
+					margin-inline: 3px;
+				}
+			}
+			&:hover {
+				box-shadow: none;
+				border: none;
+				color: $color_2;
+				background: var(--nav-item-bg-hover);
+			}
+			>span.amt {
+				position: absolute;
+				padding: 0;
+				top: 2px;
+				right: 0;
+				margin-left: -5px;
+				height: 20px;
+				width: 20px;
+				border-radius: 50%;
+				font-size: 0.7em;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background-color: $background-color_1;
+			}
+		}
+		>a.open {
+			border: none;
+			color: $color_1;
+			min-width: 45px;
+			height: 45px;
+			text-align: center;
+			background: var(--nav-item-bg);
+			padding: 0 12px;
+			box-shadow: none;
+			text-shadow: none !important;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 0;
+			position: relative;
+		}
+		&:hover {
+			>a {
+				border: none;
+				color: $color_1;
+				min-width: 45px;
+				height: 45px;
+				text-align: center;
+				background: var(--nav-item-bg);
+				padding: 0 12px;
+				box-shadow: none;
+				text-shadow: none !important;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-radius: 0;
+				position: relative;
+			}
+		}
+		>a.active {
+			color: $color_3;
+			background: var(--nav-item-bg-active);
+			&:focus {
+				color: $color_3;
+				background: var(--nav-item-bg-active);
+			}
+		}
+		>a.active.open {
+			color: $color_3;
+			background: var(--nav-item-bg-active);
+		}
+	}
+	>li.button_login {
+		background: var(--header-bg);
+		font-weight: bold;
+	}
+	>li.button_signup {
+		background: var(--titlebg-bg);
+	}
+	>li#user_colorpicker {
+		flex-grow: 1;
+		justify-content: flex-end;
+		position: relative;
+		>a {
+			&:first-child {
+				color: $color_4;
+			}
+		}
+	}
+}
+#profile_menu_top {
+	img.avatar {
+		width: 28px;
+		height: 28px;
+		float: none;
+		margin: 0;
+		vertical-align: middle;
+	}
+}
+li#user_colorpicker {
+	>ul#colorpicker_menu {
+		width: 10em;
+		min-width: 10em;
+		display: none;
+		li {
+			display: block;
+		}
+	}
+}
+ul.quickbuttons {
+	li {
+		span.amt {
+			a {
+				position: absolute;
+				padding: 0;
+				top: 2px;
+				right: 0;
+				margin-left: -5px;
+				height: 20px;
+				width: 20px;
+				border-radius: 50%;
+				font-size: 0.7em;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background-color: $background-color_1;
+			}
+		}
+	}
+}
+.pm_unread {
+	border-color: $border-color_2;
+}
+.alerts_unread {
+	border-color: $border-color_2;
+}
+.pm_bar {
+	display: flex;
+	flex-direction: row;
+	>div {
+		flex-basis: 0;
+		flex-grow: 1;
+	}
+	.pm_sending {
+		a.floatright {
+			float: none;
+		}
+		a {
+			&:last-child {
+				&:before {
+					content: "| ";
+				}
+			}
+		}
+	}
+	.pm_mailbox {
+		margin: 0;
+		text-align: right;
+	}
+}
