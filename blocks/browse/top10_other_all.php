@@ -39,9 +39,9 @@ if ($top10others) {
     $counter = 1;
     foreach ($top10others as $top10otherarr) {
         if (is_array($top10otherarr)) {
-            $top10otherarr['cat_name'] = htmlspecialchars($change[$top10otherarr['category']]['name']);
-            $top10otherarr['cat_pic'] = htmlspecialchars($change[$top10otherarr['category']]['image']);
-            $torrname = htmlspecialchars($top10otherarr['name']);
+            $top10otherarr['cat_name'] = htmlsafechars($change[$top10otherarr['category']]['name']);
+            $top10otherarr['cat_pic'] = htmlsafechars($change[$top10otherarr['category']]['image']);
+            $torrname = htmlsafechars($top10otherarr['name']);
             if (strlen($torrname) > 50) {
                 $torrname = substr($torrname, 0, 50)."...";
             }

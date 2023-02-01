@@ -38,7 +38,7 @@ $comment_id = (isset($_GET['comment_id']) ? (int)$_GET['comment_id'] : (isset($_
 $category = (isset($_GET['category']) ? (int)$_GET['category'] : (isset($_POST['category']) ? (int)$_POST['category'] : 0));
 $requested_by_id = isset($_GET['requested_by_id']) ? (int)$_GET['requested_by_id'] : 0;
 $vote = isset($_POST['vote']) ? (int)$_POST['vote'] : 0;
-$posted_action = strip_tags((isset($_GET['action']) ? htmlspecialchars($_GET['action']) : (isset($_POST['action']) ? htmlspecialchars($_POST['action']) : '')));
+$posted_action = strip_tags((isset($_GET['action']) ? htmlsafechars($_GET['action']) : (isset($_POST['action']) ? htmlsafechars($_POST['action']) : '')));
 //===========================================================================================//
 //==================================    let them vote on it!    ==========================================//
 //===========================================================================================//
@@ -118,11 +118,11 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
             $HTMLOUT .= '
     <tr>
         <td>
-            <img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlspecialchars($main_query_arr['cat_image'],
-                    ENT_QUOTES).'" alt="'.htmlspecialchars($main_query_arr['cat_name'], ENT_QUOTES).'">
+            <img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlsafechars($main_query_arr['cat_image'],
+                    ENT_QUOTES).'" alt="'.htmlsafechars($main_query_arr['cat_name'], ENT_QUOTES).'">
         </td>
         <td>
-            <a href="requests.php?action=request_details&amp;id='.(int)$main_query_arr['request_id'].'"><span>'.htmlspecialchars($main_query_arr['request_name'],
+            <a href="requests.php?action=request_details&amp;id='.(int)$main_query_arr['request_id'].'"><span>'.htmlsafechars($main_query_arr['request_name'],
                     ENT_QUOTES).'</span></a>
         </td>
         <td align="center">'.get_date($main_query_arr['added'], 'LONG').'</td>
@@ -183,7 +183,7 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
         $HTMLOUT .= (isset($_GET['voted']) ? '<h1>'.$lang['req_det_votadd'].'</h1>' : '').(isset($_GET['comment_deleted']) ? '<h1>'.$lang['req_det_comdel'].'</h1>' : '').$top_menu.'
   <table class="striped">
   <tr>
-  <td><h4>'.htmlspecialchars($arr['request_name'],
+  <td><h4>'.htmlsafechars($arr['request_name'],
                 ENT_QUOTES).($CURUSER['class'] < UC_STAFF ? '' : ' [ <a href="requests.php?action=edit_request&amp;id='.$id.'">'.$lang['req_det_edit'].'</a> ] 
   [ <a href="requests.php?action=delete_request&amp;id='.$id.'">'.$lang['req_add_del'].'</a> ]').'</h4></td>
   </tr>
@@ -197,12 +197,12 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
   </tr>
   <tr>
   <td>'.$lang['add_cat'].'</td>
-  <td><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlspecialchars($arr['cat_image'],
-                ENT_QUOTES).'" alt="'.htmlspecialchars($arr['cat_name'], ENT_QUOTES).'" /></td>
+  <td><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlsafechars($arr['cat_image'],
+                ENT_QUOTES).'" alt="'.htmlsafechars($arr['cat_name'], ENT_QUOTES).'" /></td>
   </tr>
   <tr>
   <td>'.$lang['req_det_link'].'</td>
-  <td><a href="'.htmlspecialchars($arr['link'], ENT_QUOTES).'"  target="_blank">'.htmlspecialchars($arr['link'], ENT_QUOTES).'</a></td>
+  <td><a href="'.htmlsafechars($arr['link'], ENT_QUOTES).'"  target="_blank">'.htmlsafechars($arr['link'], ENT_QUOTES).'</a></td>
   </tr>
   <tr>
   <td>'.$lang['req_votes'].'</td>
@@ -226,7 +226,7 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
   '.$lang['req_det_brk'].' <a class="altlink" href="rules.php">'.$lang['gl_rules'].'</a></form></td>
   </tr>
   </table>';
-        $HTMLOUT .= '<h1>'.$lang['req_det_cofor'].' '.htmlspecialchars($arr['request_name'], ENT_QUOTES).'</h1><p><a name="startcomments"></a></p>';
+        $HTMLOUT .= '<h1>'.$lang['req_det_cofor'].' '.htmlsafechars($arr['request_name'], ENT_QUOTES).'</h1><p><a name="startcomments"></a></p>';
         $commentbar = '<p align="center"><a class="index" href="requests.php?action=add_comment&amp;id='.$id.'">'.$lang['details_add_comment'].'</a></p>';
         $count = (int)$arr['comments'];
         if ($count === 0) {
@@ -249,7 +249,7 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
             $HTMLOUT .= ($count > $perpage) ? ''.$menu.'<br />' : '<br />';
         }
         $HTMLOUT .= $commentbar;
-        echo stdhead($lang['details_details'].htmlspecialchars($arr['request_name'], ENT_QUOTES), true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
+        echo stdhead($lang['details_details'].htmlsafechars($arr['request_name'], ENT_QUOTES), true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
         break;
     //===========================================================================================//
     //====================================    add new request      ========================================//
@@ -258,22 +258,22 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
     case 'add_new_request':
         require_once INCL_DIR.'bbcode_functions.php';
         $request_name = strip_tags(isset($_POST['request_name']) ? trim($_POST['request_name']) : '');
-        $image = strip_tags(isset($_POST['image']) ? trim(htmlspecialchars($_POST['image'])) : '');
-        $body = (isset($_POST['descr']) ? trim(htmlspecialchars($_POST['descr'])) : '');
-        $link = strip_tags(isset($_POST['link']) ? trim(htmlspecialchars($_POST['link'])) : '');
+        $image = strip_tags(isset($_POST['image']) ? trim(htmlsafechars($_POST['image'])) : '');
+        $body = (isset($_POST['descr']) ? trim(htmlsafechars($_POST['descr'])) : '');
+        $link = strip_tags(isset($_POST['link']) ? trim(htmlsafechars($_POST['link'])) : '');
         //=== do the cat list :D
         $category_drop_down = '<select name="category" class="required"><option class="body" value="">'.$lang['add_select_cat'].'</option>';
         $cats = genrelist();
         foreach ($cats as $row) {
-            $category_drop_down .= '<option class="body" value="'.(int)$row['id'].'"'.($category == $row['id'] ? ' selected="selected"' : '').'>'.htmlspecialchars($row['name']).'</option>';
+            $category_drop_down .= '<option class="body" value="'.(int)$row['id'].'"'.($category == $row['id'] ? ' selected="selected"' : '').'>'.htmlsafechars($row['name']).'</option>';
         }
         $category_drop_down .= '</select>';
         if (isset($_POST['category'])) {
             ($cat_res = sql_query('SELECT id AS cat_id, name AS cat_name, image AS cat_image FROM categories WHERE id = '.sqlesc($category))) || sqlerr(__FILE__,
                 __LINE__);
             $cat_arr = $cat_res->fetch_assoc();
-            $cat_image = htmlspecialchars($cat_arr['cat_image'], ENT_QUOTES);
-            $cat_name = htmlspecialchars($cat_arr['cat_name'], ENT_QUOTES);
+            $cat_image = htmlsafechars($cat_arr['cat_image'], ENT_QUOTES);
+            $cat_name = htmlsafechars($cat_arr['cat_name'], ENT_QUOTES);
         }
         //=== if posted and not preview, process it :D
         if (isset($_POST['button']) && $_POST['button'] == $lang['req_det_sbmt']) {
@@ -292,11 +292,11 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
    '.(isset($_POST['button']) && $_POST['button'] == $lang['req_det_prvw'] ? '<br />
 	<table border="0" cellspacing="0" cellpadding="5" align="center" width="700px">
    <tr>
-   <td class="colhead" align="center" colspan="2"><h1>'.htmlspecialchars($request_name, ENT_QUOTES).'</h1></td>
+   <td class="colhead" align="center" colspan="2"><h1>'.htmlsafechars($request_name, ENT_QUOTES).'</h1></td>
    </tr>
    <tr>
    <td>'.$lang['add_image'].'</td>
-   <td><img src="'.htmlspecialchars($image, ENT_QUOTES).'" alt="image" style="max-width:600px;" /></td>
+   <td><img src="'.htmlsafechars($image, ENT_QUOTES).'" alt="image" style="max-width:600px;" /></td>
    </tr>
    <tr>
    <td>'.$lang['add_description'].'</td>
@@ -304,12 +304,12 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
    </tr>
    <tr>
    <td>'.$lang['add_cat'].'</td>
-   <td><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlspecialchars($cat_image, ENT_QUOTES).'" alt="'.htmlspecialchars($cat_name,
+   <td><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlsafechars($cat_image, ENT_QUOTES).'" alt="'.htmlsafechars($cat_name,
                     ENT_QUOTES).'" /></td>
     </tr>
     <tr>
     <td>'.$lang['req_det_link'].'</td>
-    <td><a class="altlink" href="'.htmlspecialchars($link, ENT_QUOTES).'" target="_blank">'.htmlspecialchars($link, ENT_QUOTES).'</a></td>
+    <td><a class="altlink" href="'.htmlsafechars($link, ENT_QUOTES).'" target="_blank">'.htmlsafechars($link, ENT_QUOTES).'</a></td>
     </tr>
     <tr>
     <td>'.$lang['req_req_by'].'</td>
@@ -329,15 +329,15 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
     </tr>
     <tr>
     <td>'.$lang['req_name'].'</td>
-    <td><input type="text" size="80"  name="request_name" value="'.htmlspecialchars($request_name, ENT_QUOTES).'" class="required" /></td>
+    <td><input type="text" size="80"  name="request_name" value="'.htmlsafechars($request_name, ENT_QUOTES).'" class="required" /></td>
     </tr>
     <tr>
     <td>'.$lang['add_image'].'</td>
-    <td><input type="text" size="80"  name="image" value="'.htmlspecialchars($image, ENT_QUOTES).'" class="required" /></td>
+    <td><input type="text" size="80"  name="image" value="'.htmlsafechars($image, ENT_QUOTES).'" class="required" /></td>
     </tr>
     <tr>
     <td>'.$lang['req_det_link'].'</td>
-    <td><input type="text" size="80"  name="link" value="'.htmlspecialchars($link, ENT_QUOTES).'" class="required" /></td>
+    <td><input type="text" size="80"  name="link" value="'.htmlsafechars($link, ENT_QUOTES).'" class="required" /></td>
     </tr>
     <tr>
     <td>'.$lang['add_cat'].'</td>
@@ -381,7 +381,7 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
             stderr($lang['error_error'], $lang['req_add_err8']);
         }
         if (!isset($_GET['do_it'])) {
-            stderr($lang['req_add_warn1'], $lang['req_add_warn2'].htmlspecialchars($arr['request_name'], ENT_QUOTES).''.$lang['req_add_warn3'].' 
+            stderr($lang['req_add_warn1'], $lang['req_add_warn2'].htmlsafechars($arr['request_name'], ENT_QUOTES).''.$lang['req_add_warn3'].' 
         <a class="altlink" href="requests.php?action=delete_request&amp;id='.$id.'&amp;do_it=666" >'.$lang['req_add_warn4'].'</a>.');
         } else {
             sql_query('DELETE FROM requests WHERE id='.sqlesc($id)) || sqlerr(__FILE__, __LINE__);
@@ -423,15 +423,15 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
         $category_drop_down = '<select name="category" class="required"><option class="body" value="">'.$lang['req_slct_req'].'</option>';
         $cats = genrelist();
         foreach ($cats as $row) {
-            $category_drop_down .= '<option class="body" value="'.(int)$row['id'].'"'.($category == $row['id'] ? ' selected="selected""' : '').'>'.htmlspecialchars($row['name'],
+            $category_drop_down .= '<option class="body" value="'.(int)$row['id'].'"'.($category == $row['id'] ? ' selected="selected""' : '').'>'.htmlsafechars($row['name'],
                     ENT_QUOTES).'</option>';
         }
         $category_drop_down .= '</select>';
         ($cat_res = sql_query('SELECT id AS cat_id, name AS cat_name, image AS cat_image FROM categories WHERE id = '.sqlesc($category))) || sqlerr(__FILE__,
             __LINE__);
         $cat_arr = $cat_res->fetch_assoc();
-        $cat_image = htmlspecialchars($cat_arr['cat_image'], ENT_QUOTES);
-        $cat_name = htmlspecialchars($cat_arr['cat_name'], ENT_QUOTES);
+        $cat_image = htmlsafechars($cat_arr['cat_image'], ENT_QUOTES);
+        $cat_name = htmlsafechars($cat_arr['cat_name'], ENT_QUOTES);
         //=== if posted and not preview, process it :D
         if (isset($_POST['button']) && $_POST['button'] == $lang['req_det_edit']) {
             $remove_or_not = (isset($_POST['filled_by']) ? ' filled_by_user_id = 0, filled_torrent_id = 0' : '');
@@ -450,11 +450,11 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
    '.(isset($_POST['button']) && $_POST['button'] == $lang['req_det_prvw'] ? '<br />
 	<table class="table table-hover table-bordered">
    <tr>
-   <td class="colhead" align="center" colspan="2"><h1>'.htmlspecialchars($request_name, ENT_QUOTES).'</h1></td>
+   <td class="colhead" align="center" colspan="2"><h1>'.htmlsafechars($request_name, ENT_QUOTES).'</h1></td>
    </tr>
    <tr>
    <td>'.$lang['add_image'].'</td>
-   <td><img src="'.htmlspecialchars($image, ENT_QUOTES).'" alt="image" style="max-width:600px;" /></td>
+   <td><img src="'.htmlsafechars($image, ENT_QUOTES).'" alt="image" style="max-width:600px;" /></td>
    </tr>
    <tr>
    <td>'.$lang['add_description'].'</td>
@@ -462,12 +462,12 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
    </tr>
    <tr>
    <td>'.$lang['add_cat'].'</td>
-   <td><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlspecialchars($cat_image, ENT_QUOTES).'" alt="'.htmlspecialchars($cat_name,
+   <td><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlsafechars($cat_image, ENT_QUOTES).'" alt="'.htmlsafechars($cat_name,
                     ENT_QUOTES).'" /></td>
    </tr>
    <tr>
    <td>'.$lang['req_det_link'].'</td>
-   <td><a class="altlink" href="'.htmlspecialchars($link, ENT_QUOTES).'" target="_blank">'.htmlspecialchars($link, ENT_QUOTES).'</a></td>
+   <td><a class="altlink" href="'.htmlsafechars($link, ENT_QUOTES).'" target="_blank">'.htmlsafechars($link, ENT_QUOTES).'</a></td>
    </tr>
    </table>
    <br />' : '').'
@@ -480,15 +480,15 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
    </tr>
    <tr>
    <td>'.$lang['req_name'].'</td>
-   <td><input type="text" size="80"  name="request_name" value="'.htmlspecialchars($request_name, ENT_QUOTES).'" class="required" /></td>
+   <td><input type="text" size="80"  name="request_name" value="'.htmlsafechars($request_name, ENT_QUOTES).'" class="required" /></td>
    </tr>
    <tr>
    <td>'.$lang['add_image'].'</td>
-   <td><input type="text" size="80"  name="image" value="'.htmlspecialchars($image, ENT_QUOTES).'" class="required" /></td>
+   <td><input type="text" size="80"  name="image" value="'.htmlsafechars($image, ENT_QUOTES).'" class="required" /></td>
    </tr>
    <tr>
    <td>'.$lang['req_det_link'].'</td>
-   <td><input type="text" size="80"  name="link" value="'.htmlspecialchars($link, ENT_QUOTES).'" class="required" /></td>
+   <td><input type="text" size="80"  name="link" value="'.htmlsafechars($link, ENT_QUOTES).'" class="required" /></td>
    </tr>
    <tr>
    <td>'.$lang['add_cat'].'</td>
@@ -547,13 +547,13 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
             header('Location: /requests.php?action=request_details&id='.$id.'&viewcomm='.$newid.'#comm'.$newid);
             die();
         }
-        $body = htmlspecialchars(($_POST['descr'] ?? ''));
+        $body = htmlsafechars(($_POST['descr'] ?? ''));
         $HTMLOUT .= $top_menu.'<form method="post" action="requests.php?action=add_comment">
     <input type="hidden" name="id" value="'.$id.'"/>
     '.(isset($_POST['button']) && $_POST['button'] == $lang['req_det_prvw'] ? '
 	<h1>'.$lang['req_det_prvw'].'</h1>
     '.format_comment($body).'' : '').'
-	<h1>'.$lang['req_det_adco'].''.htmlspecialchars($arr['request_name'], ENT_QUOTES).'"</h1>
+	<h1>'.$lang['req_det_adco'].''.htmlsafechars($arr['request_name'], ENT_QUOTES).'"</h1>
 	<b>'.$lang['req_det_comnt'].'</b>'.textbbcode('requests', 'descr').'
     <input name="button" type="submit" class="button small" value="'.$lang['req_det_prvw'].'"> 
     <input name="button" type="submit" class="button small" value="'.$lang['req_det_save'].'"></form>';
@@ -588,7 +588,7 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
         if ($arr['user'] != $CURUSER['id'] && $CURUSER['class'] < UC_STAFF) {
             stderr($lang['error_error'], $lang['req_add_err8']);
         }
-        $body = htmlspecialchars(($_POST['descr'] ?? $arr['text']));
+        $body = htmlsafechars(($_POST['descr'] ?? $arr['text']));
         if (isset($_POST['button']) && $_POST['button'] == $lang['req_det_edit']) {
             if ($body == '') {
                 stderr($lang['error_error'], $lang['error_error2']);
@@ -619,7 +619,7 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
     </tr></table><br />' : '').'
     <table class="table table-hover table-bordered">
 	 <tr>
-    <td>h1>'.$lang['req_det_edco'].''.htmlspecialchars($arr['request_name'], ENT_QUOTES).'"</h1></td>
+    <td>h1>'.$lang['req_det_edco'].''.htmlsafechars($arr['request_name'], ENT_QUOTES).'"</h1></td>
     </tr>
 	 <tr>
     <td><b>'.$lang['req_det_comnt'].'</b></td><td align="left">'.textbbcode('requests', 'descr', $arr['text']).'</td>
@@ -673,10 +673,10 @@ function comment_table($rows)
         if ($row['editedby']) {
             ($res_user = sql_query('SELECT username FROM users WHERE id='.sqlesc($row['editedby']))) || sqlerr(__FILE__, __LINE__);
             $arr_user = $res_user->fetch_assoc();
-            $text .= '<p><font size="1" class="small">Last edited by <a href="userdetails.php?id='.(int)$row['editedby'].'"><b>'.htmlspecialchars($arr_user['username']).'</b></a> at '.get_date($row['editedat'],
+            $text .= '<p><font size="1" class="small">Last edited by <a href="userdetails.php?id='.(int)$row['editedby'].'"><b>'.htmlsafechars($arr_user['username']).'</b></a> at '.get_date($row['editedat'],
                     'DATE').'</font></p>';
         }
-        $top_comment_stuff = (int)$row['comment_id'].' by '.(isset($row['username']) ? print_user_stuff($row).($row['title'] !== '' ? ' [ '.htmlspecialchars($row['title']).' ] ' : ' [ '.get_user_class_name($row['class']).' ]  ') : ' M.I.A. ').get_date($row['added'],
+        $top_comment_stuff = (int)$row['comment_id'].' by '.(isset($row['username']) ? print_user_stuff($row).($row['title'] !== '' ? ' [ '.htmlsafechars($row['title']).' ] ' : ' [ '.get_user_class_name($row['class']).' ]  ') : ' M.I.A. ').get_date($row['added'],
                 '').($row['id'] == $CURUSER['id'] || $CURUSER['class'] >= UC_STAFF ? '
      - [<a href="requests.php?action=edit_comment&amp;id='.(int)$row['request'].'&amp;comment_id='.(int)$row['comment_id'].'">Edit</a>]' : '').($CURUSER['class'] >= UC_STAFF ? '
      - [<a href="requests.php?action=delete_comment&amp;id='.(int)$row['request'].'&amp;comment_id='.(int)$row['comment_id'].'">Delete</a>]' : '').($row['editedby'] && $CURUSER['class'] >= UC_STAFF ? '

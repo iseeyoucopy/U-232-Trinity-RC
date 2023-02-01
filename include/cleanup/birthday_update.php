@@ -22,7 +22,7 @@ function docleanup($data)
     $msgs_buffer = $users_buffer = [];
     if ($res->num_rows > 0) {
         while ($arr = $res->fetch_assoc()) {
-            $msg = "Hey there  ".htmlspecialchars($arr['username'])." happy birthday, hope you have a good day we awarded you 10 gig...Njoi.\n";
+            $msg = "Hey there  ".htmlsafechars($arr['username'])." happy birthday, hope you have a good day we awarded you 10 gig...Njoi.\n";
             $subject = "Its your birthday!!";
             $msgs_buffer[] = '(0,'.$arr['id'].', '.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
             $users_buffer[] = '('.$arr['id'].', 10737418240)';

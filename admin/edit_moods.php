@@ -32,14 +32,14 @@ if ($edit_mood['action'] == 'added') {
         sql_query('INSERT INTO moods (name, image, bonus) VALUES ('.sqlesc($edit_mood['name']).', '.sqlesc($edit_mood['image']).', '.sqlesc($edit_mood['bonus']).')') || sqlerr(__FILE__,
             __LINE__);
         $cache->delete($cache_keys['topmoods']);
-        write_log('<b>'.$lang['moods_added'].'</b> '.htmlspecialchars($CURUSER['username']).' - '.htmlspecialchars($edit_mood['name']).'<img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlspecialchars($edit_mood['image']).'" alt="" />');
+        write_log('<b>'.$lang['moods_added'].'</b> '.htmlsafechars($CURUSER['username']).' - '.htmlsafechars($edit_mood['name']).'<img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlsafechars($edit_mood['image']).'" alt="" />');
     }
 } elseif ($edit_mood['action'] == 'edited') {
     if ($edit_mood['name'] && $edit_mood['name'] && $edit_mood['name']) {
         sql_query('UPDATE moods SET name = '.sqlesc($edit_mood['name']).', image = '.sqlesc($edit_mood['image']).', bonus = '.sqlesc($edit_mood['bonus']).' WHERE id = '.sqlesc($edit_mood['id'])) || sqlerr(__FILE__,
             __LINE__);
         $cache->delete($cache_keys['topmoods']);
-        write_log('<b>'.$lang['moods_edited'].'</b> '.htmlspecialchars($CURUSER['username']).' - '.htmlspecialchars($edit_mood['name']).'<img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlspecialchars($edit_mood['image']).'" alt="" />');
+        write_log('<b>'.$lang['moods_edited'].'</b> '.htmlsafechars($CURUSER['username']).' - '.htmlsafechars($edit_mood['name']).'<img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlsafechars($edit_mood['image']).'" alt="" />');
     }
 }
 /*
@@ -57,9 +57,9 @@ if ($edit_mood['action'] == 'edit' && $edit_mood['id']) {
             <form method='post' action='staffpanel.php?tool=edit_moods&amp;action=edited'>
             <table class='table table-bordered'>
             <tr><td class='colhead'>{$lang['moods_name']}</td>
-            <td><input type='text' name='name' size='40' value ='".htmlspecialchars($edit_mood['arr']['name'])."' /></td></tr>
+            <td><input type='text' name='name' size='40' value ='".htmlsafechars($edit_mood['arr']['name'])."' /></td></tr>
             <tr><td class='colhead'>{$lang['moods_image']}</td>
-            <td><input type='text' name='image' size='40' value ='".htmlspecialchars($edit_mood['arr']['image'])."' /></td></tr>
+            <td><input type='text' name='image' size='40' value ='".htmlsafechars($edit_mood['arr']['image'])."' /></td></tr>
             <tr><td class='colhead'>{$lang['moods_bonus']}</td>
             <td><input type='checkbox' name='bonus'".($edit_mood['arr']['bonus'] ? ' checked="checked"' : '')." /></td></tr>
             <tr><td colspan='2' align='center'>
@@ -98,9 +98,9 @@ if ($res->num_rows) {
     $color = true;
     while ($arr = $res->fetch_assoc()) {
         $HTMLOUT .= '<tr '.(($color = !$color) ? ' style="background-color:#000000;"' : 'style="background-color:#0f0f0f;"').'>
-      <td><img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlspecialchars($arr['image']).'" alt="" /></td>
-      <td align="left">'.htmlspecialchars($arr['name']).'</td>
-      <td align="left">'.htmlspecialchars($arr['image']).'</td>
+      <td><img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlsafechars($arr['image']).'" alt="" /></td>
+      <td align="left">'.htmlsafechars($arr['name']).'</td>
+      <td align="left">'.htmlsafechars($arr['image']).'</td>
       <td align="left">'.($arr['bonus'] != 0 ? ''.$lang['moods_yes'].'' : ''.$lang['moods_no'].'').'</td>
       <td><a style="color:#FF0000" href="staffpanel.php?tool=edit_moods&amp;id='.(int)$arr['id'].'&amp;action=edit">'.$lang['moods_edit1'].'</a></td></tr>'.
             //<td><a style="color:#FF0000" href="staffpanel.php?tool=edit_moods&amp;action=remove$amp;id='.$arr['id'].'&amp;hash='.$form_hash.'>'.$lang['moods_remove'].'</a></td></tr>

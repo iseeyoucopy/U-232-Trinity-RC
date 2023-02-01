@@ -44,7 +44,7 @@ if ($mailbox > 1) {
     if ($res_box_name->num_rows === 0) {
         stderr($lang['pm_error'], $lang['pm_mailbox_invalid']);
     }
-    $mailbox_name = htmlspecialchars($arr_box_name[0]);
+    $mailbox_name = htmlsafechars($arr_box_name[0]);
     $other_box_info = '<p align="center"><span style="color: red;">'.$lang['pm_mailbox_asterisc'].'</span><span style="font-weight: bold;">'.$lang['pm_mailbox_note'].'</span>
                                             '.$lang['pm_mailbox_max'].'<span style="font-weight: bold;">'.$maxbox.'</span>'.$lang['pm_mailbox_either'].'
                                             <span style="font-weight: bold;">'.$lang['pm_mailbox_inbox'].'</span>'.$lang['pm_mailbox_or'].'<span style="font-weight: bold;">'.$lang['pm_mailbox_sentbox'].'</span>'.$lang['pm_mailbox_dot'].'</p>';
@@ -70,7 +70,7 @@ $link = 'pm_system.php?action=view_mailbox&amp;box='.$mailbox.($perpage < $messa
                             WHERE '.($mailbox === PM_INBOX ? 'receiver = '.$CURUSER['id'].' AND location = 1' : ($mailbox === PM_SENTBOX ? 'sender = '.$CURUSER['id'].' AND (saved = \'yes\' || unread= \'yes\') AND draft = \'no\' ' : 'receiver = '.$CURUSER['id'].' AND location = '.sqlesc($mailbox))).' 
                             ORDER BY '.$order_by.(isset($_GET['ASC']) ? ' ASC ' : ' DESC ').$LIMIT)) || sqlerr(__FILE__, __LINE__);
 //=== Start Page
-//echo stdhead(htmlspecialchars($mailbox_name));
+//echo stdhead(htmlsafechars($mailbox_name));
 //=== let's make the table
 $HTMLOUT .= $h1_thingie;
 $HTMLOUT .= '<a name="pm"></a><form action="pm_system.php" method="post" name="checkme" onsubmit="return ValidateForm(this,\'pm\')"><div class="grid-x grid-margin-x">';
@@ -103,7 +103,7 @@ if ($res->num_rows === 0) {
         </tr>';
 } else {
     while ($row = $res->fetch_assoc()) {
-        $subject = (empty($row['subject']) ? $lang['pm_search_nosubject'] : htmlspecialchars($row['subject']));
+        $subject = (empty($row['subject']) ? $lang['pm_search_nosubject'] : htmlsafechars($row['subject']));
         $who_sent_it = ($row['id'] == 0 ? '<span style="font-weight: bold;">'.$lang['pm_forward_system'].'</span>' : print_user_stuff($row));
         $read_unread = ($row['unread'] === 'yes' ? '<i class="fas fa-envelope"></i>' : '<i class="fas fa-envelope-open"></i>');
         $extra = ($row['unread'] === 'yes' ? $lang['pm_mailbox_char1'].'<span style="color: red;">'.$lang['pm_mailbox_unread'].'</span>'.$lang['pm_mailbox_char2'].'' : '').($row['urgent'] === 'yes' ? '<span style="color: red;">'.$lang['pm_mailbox_urgent'].'</span>' : '');

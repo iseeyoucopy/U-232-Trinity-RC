@@ -23,8 +23,8 @@ $htmlout = '';
 function readMore($text, $char, $link)
 {
     global $TRINITY20, $lang;
-    return (strlen($text) > $char ? substr(htmlspecialchars($text), 0,
-            $char - 1)."...<br /><a href='$link'>{$lang['catol_read_more']}</a>" : htmlspecialchars($text));
+    return (strlen($text) > $char ? substr(htmlsafechars($text), 0,
+            $char - 1)."...<br /><a href='$link'>{$lang['catol_read_more']}</a>" : htmlsafechars($text));
 }
 
 function peer_list($array)
@@ -36,8 +36,8 @@ function peer_list($array)
     foreach ($array as $p) {
         $time = max(1, (TIME_NOW - $p["started"]) - (TIME_NOW - $p["last_action"]));
         $htmlout .= "
-            <a href='userdetails.php?id=".(int)$p["p_uid"]."' >".htmlspecialchars($p["p_user"])."</a>            
-".($CURUSER['class'] >= UC_STAFF ? htmlspecialchars($p["ip"])." : ".(int)$p["port"] : "xx.xx.xx.xx:xxxx")."            
+            <a href='userdetails.php?id=".(int)$p["p_uid"]."' >".htmlsafechars($p["p_user"])."</a>            
+".($CURUSER['class'] >= UC_STAFF ? htmlsafechars($p["ip"])." : ".(int)$p["port"] : "xx.xx.xx.xx:xxxx")."            
 ".($p["downloaded"] > 0 ? number_format(($p["uploaded"] / $p["downloaded"]), 2) : ($p["uploaded"] > 0 ? "&infin;" : "---"))."            
 ".($p["downloaded"] > 0 ? mksize($p["downloaded"])." @".(mksize(($p["downloaded"] - $p["downloadoffset"]) / $time))."s" : "0kb")."            
 ".($p["uploaded"] > 0 ? mksize($p["uploaded"])." @".(mksize(($p["uploaded"] - $p["uploadoffset"]) / $time))."s" : "0kb")."            
@@ -47,8 +47,8 @@ function peer_list($array)
     return $htmlout."";
 }
 
-$letter = (isset($_GET["letter"]) ? htmlspecialchars($_GET["letter"]) : "");
-$search = (isset($_GET["search"]) ? htmlspecialchars($_GET["search"]) : "");
+$letter = (isset($_GET["letter"]) ? htmlsafechars($_GET["letter"]) : "");
+$search = (isset($_GET["search"]) ? htmlsafechars($_GET["search"]) : "");
 if (strlen($search) > 4) {
     $where = "WHERE t.name LIKE".sqlesc("%".$search."%");
     $p = "search=".$search."&amp;";
@@ -112,11 +112,11 @@ if (count($rows) > 0) {
         $htmlout .= "<div class='panel col-sm-3 col-sm-offset-0 panel-default browsep'>
         <div style='display:block; height:5px;'></div>
 
-  	<p class='browsed text-center'><b><font color='rgb(67,158,76)'>{$lang['catol_upper']} :</font></b>&nbsp;<a href='userdetails.php?id=".(int)$row["owner"]."'>".($row["user"] ? htmlspecialchars($row["user"]) : "{$lang['catol_unknown']}[".(int)$row["owner"]."]")."</a></p>
+  	<p class='browsed text-center'><b><font color='rgb(67,158,76)'>{$lang['catol_upper']} :</font></b>&nbsp;<a href='userdetails.php?id=".(int)$row["owner"]."'>".($row["user"] ? htmlsafechars($row["user"]) : "{$lang['catol_unknown']}[".(int)$row["owner"]."]")."</a></p>
 
-	<p class='browsepd text-center'>".($row["poster"] ? "<a href=\"".htmlspecialchars($row["poster"])."\"><img src=\"".htmlspecialchars($row["poster"])."\" border=\"0\" width=\"150\" height=\"225\" alt=\"{$lang['catol_no_poster']}\" title=\"{$lang['catol_no_poster']}\" /></a>" : "<img src=\"pic/noposter.png\" border=\"0\" width=\"150\" alt=\"{$lang['catol_no_poster']}\" title=\"{$lang['catol_no_poster']}\" />")."</p>
+	<p class='browsepd text-center'>".($row["poster"] ? "<a href=\"".htmlsafechars($row["poster"])."\"><img src=\"".htmlsafechars($row["poster"])."\" border=\"0\" width=\"150\" height=\"225\" alt=\"{$lang['catol_no_poster']}\" title=\"{$lang['catol_no_poster']}\" /></a>" : "<img src=\"pic/noposter.png\" border=\"0\" width=\"150\" alt=\"{$lang['catol_no_poster']}\" title=\"{$lang['catol_no_poster']}\" />")."</p>
   
-<p  class='squashp browsepd text-center'><b><font color='rgb(67,158,76)'>Torrent:</font></b>&nbsp;<a href='details.php?id=".(int)$row["id"]."&amp;hit=1'><b>".substr(htmlspecialchars($row["name"]),
+<p  class='squashp browsepd text-center'><b><font color='rgb(67,158,76)'>Torrent:</font></b>&nbsp;<a href='details.php?id=".(int)$row["id"]."&amp;hit=1'><b>".substr(htmlsafechars($row["name"]),
                 0, 60)."</b></a></p>
 	
 ";

@@ -29,8 +29,8 @@ require_once(CLASS_DIR.'class_check.php');
 class_check(UC_STAFF);
 $lang = array_merge($lang, load_language('ad_addpre'));
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $tid = trim(htmlspecialchars($_POST["id"]));
-    $time = trim(htmlspecialchars($_POST["time"]));
+    $tid = trim(htmlsafechars($_POST["id"]));
+    $time = trim(htmlsafechars($_POST["time"]));
     if (!$tid || !$time) {
         stderr("{$lang['text_error']}", "{$lang['text_please']}");
     }

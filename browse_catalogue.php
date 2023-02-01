@@ -117,7 +117,7 @@ if (isset($_GET['sort'], $_GET['type'])) {
         'owner',
     ];
     $column = isset($_GET['sort']) && isset($_valid_sort[(int)$_GET['sort']]) ? $_valid_sort[(int)$_GET['sort']] : $_valid_sort[0];
-    switch (htmlspecialchars($_GET['type'])) {
+    switch (htmlsafechars($_GET['type'])) {
         case 'asc':
             $ascdesc = "ASC";
             $linkascdesc = "asc";
@@ -307,7 +307,7 @@ foreach ($cats as $cat) {
         $HTMLOUT .= ($i && $i % $TRINITY20['catsperrow'] == 0) ? "</tr><tr>" : "";
         $HTMLOUT .= "<td style=\"padding-bottom: 2px;padding-left: 7px\">
              <input name='c".(int)$cat['id']."' class=\"styled\" type=\"checkbox\" ".(in_array($cat['id'],
-                $wherecatina) ? "checked='checked' " : "")."value='1' /><a class='catlink' href='browse_catalogue.php?cat=".(int)$cat['id']."'> ".((($CURUSER['opt2'] & user_options_2::BROWSE_ICONS) !== 0) ? "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlspecialchars($cat['image'])."' alt='".htmlspecialchars($cat['name'])."' title='".htmlspecialchars($cat['name'])."' />" : "".htmlspecialchars($cat['name'])."")."</a></td>\n";
+                $wherecatina) ? "checked='checked' " : "")."value='1' /><a class='catlink' href='browse_catalogue.php?cat=".(int)$cat['id']."'> ".((($CURUSER['opt2'] & user_options_2::BROWSE_ICONS) !== 0) ? "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($cat['image'])."' alt='".htmlsafechars($cat['name'])."' title='".htmlsafechars($cat['name'])."' />" : "".htmlsafechars($cat['name'])."")."</a></td>\n";
         $i++;
     }
 }
@@ -401,7 +401,7 @@ $HTMLOUT .= "</div><br><div class='col-md-2 col-md-offset-5'><input class='form-
            </form><br >";
 $HTMLOUT .= "{$new_button}";
 if (isset($cleansearchstr)) {
-    $HTMLOUT .= "<div class='row'><div class='col-md-6 col-md-offset-4'><h2>{$lang['browse_search']} ".htmlspecialchars($searchstr,
+    $HTMLOUT .= "<div class='row'><div class='col-md-6 col-md-offset-4'><h2>{$lang['browse_search']} ".htmlsafechars($searchstr,
             ENT_QUOTES)."</h2></div></div>\n";
 }
 if ($count) {

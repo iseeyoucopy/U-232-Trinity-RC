@@ -34,7 +34,7 @@ $cache->delete($cache_keys['rules']);
 $lang = array_merge($lang, load_language('ad_rules'));
 
 $params = array_merge($_GET, $_POST);
-$params['mode'] = isset($params['mode']) ? htmlspecialchars($params['mode']) : '';
+$params['mode'] = isset($params['mode']) ? htmlsafechars($params['mode']) : '';
 switch ($params['mode']) {
     case 'cat_new':
         New_Cat_Form();
@@ -105,9 +105,9 @@ function Do_show()
         <tbody>
             <tr>
                 <td>".(int)$arr['id']."</td>
-                <td><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=rules_edit&amp;catid=".(int)$arr['id']."'>".htmlspecialchars($arr['name'])."</a></td>
-                <td>".htmlspecialchars($arr['shortcut'])."</td>
-                <td>".htmlspecialchars($arr['min_view'])."</td>
+                <td><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=rules_edit&amp;catid=".(int)$arr['id']."'>".htmlsafechars($arr['name'])."</a></td>
+                <td>".htmlsafechars($arr['shortcut'])."</td>
+                <td>".htmlsafechars($arr['min_view'])."</td>
                 <td>
                     <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=rules_admin&amp;mode=cat_edit&amp;catid=".(int)$arr['id']."'>
                         <span data-tooltip tabindex='1' title='{$lang['rules_edit']}'>
@@ -197,8 +197,8 @@ function Show_Cat_Edit_Form()
         <input type='hidden' name='mode' value='takeedit_cat'>
         <input type='hidden' name='cat' value='".(int)$row['id']."'>
         <tbody>
-        <tr><td><input type='text' value='".htmlspecialchars($row['name'])."' name='name'></td>
-        <td><input type='text' value='".htmlspecialchars($row['shortcut'])."' name='shortcut'></td>
+        <tr><td><input type='text' value='".htmlsafechars($row['name'])."' name='name'></td>
+        <td><input type='text' value='".htmlsafechars($row['shortcut'])."' name='shortcut'></td>
 
         <td>
             <div class='input-group'>
@@ -238,10 +238,10 @@ function Show_Rules_Edit()
         $htmlout .= "<div class='card-divider'><strong>Rules No.".(int)$row['id']."</strong></div>";
         $htmlout .= "<div class='card-section'>
             <div class='input-group'>
-                <input class='input-group-field' type='text' value='".htmlspecialchars($row['title'])."' name='fdata[{$row['id']}][title]'>
+                <input class='input-group-field' type='text' value='".htmlsafechars($row['title'])."' name='fdata[{$row['id']}][title]'>
                 <input class='input-group-field' type='checkbox' name='fdata[{$row['id']}][rules_id]' value='".(int)$row['id']."'>
             </div>
-            <textarea name='fdata[{$row['id']}][text]' rows='10' cols='20'>".htmlspecialchars($row['text'])."</textarea>
+            <textarea name='fdata[{$row['id']}][text]' rows='10' cols='20'>".htmlsafechars($row['text'])."</textarea>
         </div>";
     }
     $htmlout .= "<div class='input-group'>
@@ -422,7 +422,7 @@ function New_Rules_Form()
                 <select class='input-group-field' name='cat'>
                 <option value=''>--Select--</option>";
     while ($v = $sql->fetch_assoc()) {
-        $htmlout .= "<option value='".(int)$v['id']."'>".htmlspecialchars($v['name'])."</option>";
+        $htmlout .= "<option value='".(int)$v['id']."'>".htmlsafechars($v['name'])."</option>";
     }
     $htmlout .= "</select>
                 </div>

@@ -56,7 +56,7 @@ function insert_quick_jump_menu($currentforum = 0)
     ($res = sql_query("SELECT id, name, min_class_read FROM forums ORDER BY name")) || sqlerr(__FILE__, __LINE__);
     while ($arr = $res->fetch_assoc()) {
         if ($CURUSER['class'] >= $arr["min_class_read"]) {
-            $htmlout .= "<option value='".(int)$arr["id"].($currentforum == $arr["id"] ? " selected='selected'" : "")."'>".htmlspecialchars($arr["name"])."</option>";
+            $htmlout .= "<option value='".(int)$arr["id"].($currentforum == $arr["id"] ? " selected='selected'" : "")."'>".htmlsafechars($arr["name"])."</option>";
         }
     }
     return $htmlout."</select></font>
@@ -73,13 +73,13 @@ function insert_compose_frame($id, $newtopic = true, $quote = false, $attachment
     if ($newtopic) {
         ($res = sql_query("SELECT name FROM forums WHERE id=".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
         ($arr = $res->fetch_assoc()) || die("Bad forum ID!");
-        // $htmlout .="<h3>New topic in <a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".$id."'>".htmlspecialchars($arr["name"])."</a> forum</h3>";
+        // $htmlout .="<h3>New topic in <a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".$id."'>".htmlsafechars($arr["name"])."</a> forum</h3>";
         $htmlout .= "<!--<div class='navigation'>
 				<a href='index.php'>".$TRINITY20["site_name"]."</a> 
 				&gt;
 				<a href='forums.php'>Forums</a>
 				&gt;
-				<a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".$id."'>".htmlspecialchars($arr["name"])."</a>
+				<a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".$id."'>".htmlsafechars($arr["name"])."</a>
 				<br><img src='templates/1/pic/carbon/nav_bit.png' alt=''>
 				<span class='active'>New Topic</span>
 				</div><br />-->";
@@ -87,7 +87,7 @@ function insert_compose_frame($id, $newtopic = true, $quote = false, $attachment
         ($res = sql_query("SELECT t.forum_id, t.topic_name, t.locked, f.min_class_read, f.name AS forum_name FROM topics AS t LEFT JOIN forums AS f ON f.id = t.forum_id WHERE t.id=".sqlesc($id))) || sqlerr(__FILE__,
             __LINE__);
         ($arr = $res->fetch_assoc()) || die("Forum error, Topic not found.");
-        $forum = htmlspecialchars($arr["forum_name"]);
+        $forum = htmlsafechars($arr["forum_name"]);
         $forumid = (int)$arr['forum_id'];
         if ($arr['locked'] == 'yes') {
             stderr("Sorry", "The topic is locked.");
@@ -110,11 +110,11 @@ function insert_compose_frame($id, $newtopic = true, $quote = false, $attachment
 				&gt;
 				<a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".$forumid."'>{$forum}</a>
 				&gt;
-				<a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$id."'>".htmlspecialchars($arr["topic_name"])."</a>
+				<a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$id."'>".htmlsafechars($arr["topic_name"])."</a>
 				<br><img src='templates/1/pic/carbon/nav_bit.png' alt=''>
 				<span class='active'>Post Reply</span>
 				</div><br />-->";
-        // $htmlout .="<h3 align='center'>Reply to topic:<a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$id."'>".htmlspecialchars($arr["topic_name"])."</a></h3>";
+        // $htmlout .="<h3 align='center'>Reply to topic:<a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$id."'>".htmlsafechars($arr["topic_name"])."</a></h3>";
     }
     $htmlout .= "
     <script type='text/javascript'>
@@ -171,12 +171,12 @@ function insert_compose_frame($id, $newtopic = true, $quote = false, $attachment
     $htmlout .= "<tr>
 		<td class=row valign='top'>Body</td>
 		<td class=row>";
-    $qbody = ($quote ? "[quote=".htmlspecialchars($arr["username"])."]".htmlspecialchars($arr["body"])."[/quote]" : "");
+    $qbody = ($quote ? "[quote=".htmlsafechars($arr["username"])."]".htmlsafechars($arr["body"])."[/quote]" : "");
     //if (function_exists('BBcode'))
     //$htmlout .= BBcode($qbody, true);
     if (function_exists('textbbcode')) {
         $htmlout .= ' 
-		'.textbbcode('compose', 'body', isset($qbody) ? htmlspecialchars($qbody) : '').' 
+		'.textbbcode('compose', 'body', isset($qbody) ? htmlsafechars($qbody) : '').' 
 		';
     } else {
         $htmlout .= "<textarea name='body' style='width:99%' rows='7'>{$qbody}</textarea>";
@@ -218,7 +218,7 @@ function insert_compose_frame($id, $newtopic = true, $quote = false, $attachment
             $htmlout .= "<br />";
             $htmlout .= begin_frame("10 last posts, in reverse order");
             while ($post = $postres->fetch_assoc()) {
-                //$avatar = ($CURUSER["avatars"] == "all" ? htmlspecialchars($post["avatar"]) : ($CURUSER["avatars"] == "some" && $post["offavatar"] == "no" ? htmlspecialchars($post["avatar"]) : ""));
+                //$avatar = ($CURUSER["avatars"] == "all" ? htmlsafechars($post["avatar"]) : ($CURUSER["avatars"] == "some" && $post["offavatar"] == "no" ? htmlsafechars($post["avatar"]) : ""));
                 $avatar = ($CURUSER["avatars"] == "yes" ? avatar_stuff($post) : "");
                 if ($post['anonymous'] == 'yes') {
                     $avatar = $TRINITY20['pic_base_url'].$Multi_forum['configs']['forum_pics']['default_avatar'];

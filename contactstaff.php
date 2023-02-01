@@ -24,9 +24,9 @@ $stdhead = [
     ],
 ];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $msg = isset($_POST['msg']) ? htmlspecialchars($_POST['msg']) : '';
-    $subject = isset($_POST['subject']) ? htmlspecialchars($_POST['subject']) : '';
-    $returnto = isset($_POST['returnto']) ? htmlspecialchars($_POST['returnto']) : $_SERVER['PHP_SELF'];
+    $msg = isset($_POST['msg']) ? htmlsafechars($_POST['msg']) : '';
+    $subject = isset($_POST['subject']) ? htmlsafechars($_POST['subject']) : '';
+    $returnto = isset($_POST['returnto']) ? htmlsafechars($_POST['returnto']) : $_SERVER['PHP_SELF'];
     if (empty($msg)) {
         stderr($lang['contactstaff_error'], $lang['contactstaff_no_msg']);
     }

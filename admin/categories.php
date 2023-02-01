@@ -109,7 +109,7 @@ function move_cat_form()
     $select = "<select name='new_cat_id'>\n<option value='0'>{$lang['categories_select']}</option>\n";
     $cats = genrelist();
     foreach ($cats as $c) {
-        $select .= ($c['id'] != $r['id']) ? "<option value='{$c["id"]}'>".htmlspecialchars($c['name'], ENT_QUOTES)."</option>\n" : "";
+        $select .= ($c['id'] != $r['id']) ? "<option value='{$c["id"]}'>".htmlsafechars($c['name'], ENT_QUOTES)."</option>\n" : "";
     }
     $select .= "</select>\n";
     $check .= "<tr>
@@ -124,14 +124,14 @@ function move_cat_form()
     
       <table class='table table-bordered'>
       <tr>
-        <td colspan='2' class='colhead'>".$lang['categories_move_about'].htmlspecialchars($r['name'], ENT_QUOTES)."</td>
+        <td colspan='2' class='colhead'>".$lang['categories_move_about'].htmlsafechars($r['name'], ENT_QUOTES)."</td>
       </tr>
       <tr>
         <td colspan='2'>{$lang['categories_move_note']}</td>
       </tr>
       <tr>
         <td align='right' width='50%'><span style='color:red;font-weight:bold;'>{$lang['categories_move_old']}</span></td>
-        <td>".htmlspecialchars($r['name'], ENT_QUOTES)."</td>
+        <td>".htmlsafechars($r['name'], ENT_QUOTES)."</td>
       </tr>
       {$check}
       <tr>
@@ -226,7 +226,7 @@ function delete_cat_form()
         $select = "<select name='new_cat_id'>\n<option value='0'>{$lang['categories_select']}</option>\n";
         $cats = genrelist();
         foreach ($cats as $c) {
-            $select .= ($c['id'] != $r['id']) ? "<option value='{$c["id"]}'>".htmlspecialchars($c['name'], ENT_QUOTES)."</option>\n" : "";
+            $select .= ($c['id'] != $r['id']) ? "<option value='{$c["id"]}'>".htmlsafechars($c['name'], ENT_QUOTES)."</option>\n" : "";
         }
         $select .= "</select>\n";
         $check .= "<tr>
@@ -242,23 +242,23 @@ function delete_cat_form()
     
       <table class='torrenttable' align='center' width='80%' bgcolor='#555555' cellspacing='2' cellpadding='2'>
       <tr>
-        <td colspan='2' class='colhead'>{$lang['categories_del_about']}".htmlspecialchars($r['name'], ENT_QUOTES)."</td>
+        <td colspan='2' class='colhead'>{$lang['categories_del_about']}".htmlsafechars($r['name'], ENT_QUOTES)."</td>
       </tr>
       <tr>
         <td align='right' width='50%'>{$lang['categories_del_name']}</td>
-        <td>".htmlspecialchars($r['name'], ENT_QUOTES)."</td>
+        <td>".htmlsafechars($r['name'], ENT_QUOTES)."</td>
       </tr>
       <tr>
         <td align='right'>{$lang['categories_del_description']}</td>
-        <td>".htmlspecialchars($r['cat_desc'], ENT_QUOTES)."</td>
+        <td>".htmlsafechars($r['cat_desc'], ENT_QUOTES)."</td>
       </tr>
        <tr>
         <td align='right'>{$lang['categories_show_minclass']}</td>
-        <td>".htmlspecialchars(get_user_class_name($r['min_class']), ENT_QUOTES)."</td>
+        <td>".htmlsafechars(get_user_class_name($r['min_class']), ENT_QUOTES)."</td>
           </tr>
       <tr>
         <td align='right'>{$lang['categories_del_image']}</td>
-        <td>".htmlspecialchars($r['image'], ENT_QUOTES)."</td>
+        <td>".htmlsafechars($r['image'], ENT_QUOTES)."</td>
       </tr>
       {$check}
       <tr>
@@ -328,7 +328,7 @@ function edit_cat_form()
         $select = "<select name='cat_image'>\n<option value='0'>{$lang['categories_edit_select']}</option>\n";
         foreach ($files as $f) {
             $selected = ($f == $r['image']) ? " selected='selected'" : "";
-            $select .= "<option value='".htmlspecialchars($f, ENT_QUOTES)."'$selected>".htmlspecialchars($f, ENT_QUOTES)."</option>\n";
+            $select .= "<option value='".htmlsafechars($f, ENT_QUOTES)."'$selected>".htmlsafechars($f, ENT_QUOTES)."</option>\n";
         }
         $select .= "</select>\n";
         $check = "<tr>
@@ -353,11 +353,11 @@ function edit_cat_form()
       <table class='torrenttable' align='center' width='80%' bgcolor='#555555' cellspacing='2' cellpadding='2'>
       <tr>
         <td align='right'>{$lang['categories_edit_name']}</td>
-        <td><input type='text' name='cat_name' class='option' size='50' value='".htmlspecialchars($r['name'], ENT_QUOTES)."' /></td>
+        <td><input type='text' name='cat_name' class='option' size='50' value='".htmlsafechars($r['name'], ENT_QUOTES)."' /></td>
       </tr>
       <tr>
         <td align='right'>{$lang['categories_del_description']}</td>
-        <td><textarea cols='50' rows='5' name='cat_desc'>".htmlspecialchars($r['cat_desc'], ENT_QUOTES)."</textarea></td>
+        <td><textarea cols='50' rows='5' name='cat_desc'>".htmlsafechars($r['cat_desc'], ENT_QUOTES)."</textarea></td>
       </tr>
           <tr>
             <td align='right'>{$lang['categories_show_minclass']}</td>
@@ -389,7 +389,7 @@ function show_categories()
         $select = "<select name='new_cat_image'>\n<option value='0'>{$lang['categories_edit_select']}</option>\n";
         foreach ($files as $f) {
             $i = 0;
-            $select .= "<option value='".htmlspecialchars($f, ENT_QUOTES)."'>".htmlspecialchars($f, ENT_QUOTES)."</option>\n";
+            $select .= "<option value='".htmlsafechars($f, ENT_QUOTES)."'>".htmlsafechars($f, ENT_QUOTES)."</option>\n";
             $i++;
         }
         $select .= "</select>\n";
@@ -462,12 +462,12 @@ function show_categories()
         $htmlout = '<h1>'.$lang['categories_show_oops'].'</h1>';
     } else {
         while ($row = $query->fetch_assoc()) {
-            $cat_image = file_exists($TRINITY20['pic_base_url'].'caticons/1/'.$row['image']) ? "<img border='0' src='{$TRINITY20['pic_base_url']}caticons/1/".htmlspecialchars($row['image'])."' alt='".(int)$row['id']."' />" : "{$lang['categories_show_no_image']}";
+            $cat_image = file_exists($TRINITY20['pic_base_url'].'caticons/1/'.$row['image']) ? "<img border='0' src='{$TRINITY20['pic_base_url']}caticons/1/".htmlsafechars($row['image'])."' alt='".(int)$row['id']."' />" : "{$lang['categories_show_no_image']}";
             $htmlout .= "<tr>
           <td><b>{$lang['categories_show_id2']} (".(int)$row['id'].")</b></td>	
-          <td>".htmlspecialchars($row['name'])."</td>
-          <td>".htmlspecialchars($row['cat_desc'])."</td>
-          <td>".htmlspecialchars(get_user_class_name($row['min_class']))."</td>
+          <td>".htmlsafechars($row['name'])."</td>
+          <td>".htmlsafechars($row['cat_desc'])."</td>
+          <td>".htmlsafechars(get_user_class_name($row['min_class']))."</td>
           <td>$cat_image</td>
           <td ><a href='staffpanel.php?tool=categories&amp;action=categories&amp;mode=edit_cat&amp;id=".(int)$row['id']."'>
             <img src='{$TRINITY20['pic_base_url']}aff_tick.gif' alt='{$lang['categories_show_edit2']}' title='{$lang['categories_show_edit']}' width='12' height='12' border='0' /></a></td>

@@ -87,7 +87,7 @@ function update_poll()
     if (!isset($_POST['poll_question']) || empty($_POST['poll_question'])) {
         stderr($lang['poll_up_usr_err'], $lang['poll_up_no_title']);
     }
-    $poll_title = sqlesc(htmlspecialchars(strip_tags($_POST['poll_question']), ENT_QUOTES));
+    $poll_title = sqlesc(htmlsafechars(strip_tags($_POST['poll_question']), ENT_QUOTES));
     //get the main crux of the poll data
     $poll_data = makepoll();
     $total_votes = isset($poll_data['total_votes']) ? (int)$poll_data['total_votes'] : 0;
@@ -117,7 +117,7 @@ function insert_new_poll()
     if (!isset($_POST['poll_question']) || empty($_POST['poll_question'])) {
         stderr($lang['poll_inp_usr_err'], $lang['poll_inp_no_title']);
     }
-    $poll_title = sqlesc(htmlspecialchars(strip_tags($_POST['poll_question']), ENT_QUOTES));
+    $poll_title = sqlesc(htmlsafechars(strip_tags($_POST['poll_question']), ENT_QUOTES));
     //get the main crux of the poll data
     $poll_data = makepoll();
     if (!is_array($poll_data) || !count($poll_data)) {
@@ -210,10 +210,10 @@ function show_poll_archive()
             $row['start_date'] = get_date($row['start_date'], 'DATE');
             $HTMLOUT .= "<tr>
           <td>".(int)$row['pid']."</td>
-          <td>".htmlspecialchars($row['poll_question'])."</td>
+          <td>".htmlsafechars($row['poll_question'])."</td>
           <td>".(int)$row['votes']."</td>
-          <td>".htmlspecialchars($row['start_date'])."</td>
-          <td><a href='userdetails.php?id=".(int)$row['starter_id']."'>".htmlspecialchars($row['starter_name'])."</a></td>
+          <td>".htmlsafechars($row['start_date'])."</td>
+          <td><a href='userdetails.php?id=".(int)$row['starter_id']."'>".htmlsafechars($row['starter_name'])."</a></td>
           <td><a href='staffpanel.php?tool=polls_manager&amp;action=polls_manager&amp;mode=edit&amp;pid=".(int)$row['pid']."'><span class='btn' title='{$lang['poll_spa_edit_title']}'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_edit.gif' alt='{$lang['poll_spa_edit']}' />&nbsp;{$lang['poll_spa_edit']}</span></a>&nbsp;
           <a href='staffpanel.php?tool=polls_manager&amp;action=polls_manager&amp;mode=delete&amp;pid=".(int)$row['pid']."'><span class='btn' title='{$lang['poll_spa_delete_title']}'><img style='vertical-align:middle;' src='{$TRINITY20['pic_base_url']}/polls/p_delete.gif' alt='{$lang['poll_spa_delete']}' />&nbsp{$lang['poll_spa_delete']}</span></a></td>
         </tr>";
@@ -325,7 +325,7 @@ function makepoll()
             if (!$q || !$id) {
                 continue;
             }
-            $questions[$id]['question'] = htmlspecialchars(strip_tags($q), ENT_QUOTES);
+            $questions[$id]['question'] = htmlsafechars(strip_tags($q), ENT_QUOTES);
         }
     }
     if (isset($_POST['multi']) && is_array($_POST['multi']) && count($_POST['multi'])) {
@@ -347,7 +347,7 @@ function makepoll()
             if (!$questions[$question_id]['question'] ?? null) {
                 continue;
             }
-            $questions[$question_id]['choice'][$choice_id] = htmlspecialchars(strip_tags($choice), ENT_QUOTES);
+            $questions[$question_id]['choice'][$choice_id] = htmlsafechars(strip_tags($choice), ENT_QUOTES);
             $_POST['votes'] ??= 0;
             $questions[$question_id]['votes'][$choice_id] = (int)$_POST['votes'][$question_id.'_'.$choice_id];
             $poll_total_votes += $questions[$question_id]['votes'][$choice_id];

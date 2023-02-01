@@ -40,7 +40,7 @@ function getRate($id, $what)
     $p = ($rating_count > 0 ? round((($rating_cache["sum"] / $rating_count) * 20), 2) : 0);
     $rating_r = $rating_cache["rated"] ?? '';
     if ($rating_r) {
-        $rate = "<ul class=\"star-rating\" title=\"You rated this ".$what." ".htmlspecialchars($rating_cache["rating"])." star".(htmlspecialchars($rating_cache["rating"]) > 1 ? "s" : "")."\"><li style=\"width: ".$p."%;\" class=\"current-rating\">.</li></ul>";
+        $rate = "<ul class=\"star-rating\" title=\"You rated this ".$what." ".htmlsafechars($rating_cache["rating"])." star".(htmlsafechars($rating_cache["rating"]) > 1 ? "s" : "")."\"><li style=\"width: ".$p."%;\" class=\"current-rating\">.</li></ul>";
     } elseif ($what == 'torrent') {
         $rate = "<ul class=\"star-rating\" title=\"You must download this ".$what." in order to rate it.\"><li style=\"width: %;\" class=\"current-rating\">".$p.".</li></ul>";
     } else {

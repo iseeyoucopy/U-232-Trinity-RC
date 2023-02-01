@@ -32,7 +32,7 @@ class_check($class);
 $lang = array_merge($lang, load_language('ad_reset'));
 //== Reset Lost Password
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = trim(htmlspecialchars($_POST['username']));
+    $username = trim(htmlsafechars($_POST['username']));
     $password = $_POST['password'];
     $uid = (int)$_POST["uid"];
     $query = sql_query("SELECT username, passhash, secret, hash3, email, hintanswer, added, pin_code, birthday FROM users WHERE username = ".sqlesc($username)." AND id=".sqlesc($uid));
@@ -72,9 +72,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ], $postkey) == false) {
         stderr($lang['reset_stderr2'], $lang['reset_stderr3']);
     }
-    write_log($lang['reset_pwreset'], $lang['reset_pw_log1'].htmlspecialchars($username).$lang['reset_pw_log2'].htmlspecialchars($CURUSER['username']));
+    write_log($lang['reset_pwreset'], $lang['reset_pw_log1'].htmlsafechars($username).$lang['reset_pw_log2'].htmlsafechars($CURUSER['username']));
     stderr($lang['reset_pw_success'],
-        ''.$lang['reset_pw_success1'].' <b>'.htmlspecialchars($username).'</b>The hint for'.htmlspecialchars($username).' is '.htmlspecialchars($hint).'<b>'.$lang['reset_pw_success2'].'<b>'.htmlspecialchars($newpassword).'</b>.');
+        ''.$lang['reset_pw_success1'].' <b>'.htmlsafechars($username).'</b>The hint for'.htmlsafechars($username).' is '.htmlsafechars($hint).'<b>'.$lang['reset_pw_success2'].'<b>'.htmlsafechars($newpassword).'</b>.');
 }
 $HTMLOUT = "";
 $HTMLOUT .= "<div class='row'><div class='col-md-12'><h1>{$lang['reset_title']}</h1>

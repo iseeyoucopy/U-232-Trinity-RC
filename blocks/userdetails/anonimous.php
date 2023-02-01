@@ -15,7 +15,7 @@ if ($CURUSER["id"] != $user["id"]) {
 $HTMLOUT .= "<div class='card text-white bg-warning mb-3' style='max-width: 18rem;'>";
 $HTMLOUT .= "<tr><td>{$lang['userdetails_anonymous']}</td></tr>";
 if ($user["avatar"]) {
-    $HTMLOUT .= "<tr><td><img src='".htmlspecialchars($user["avatar"])."'></td></tr>\n";
+    $HTMLOUT .= "<tr><td><img src='".htmlsafechars($user["avatar"])."'></td></tr>\n";
 }
 if ($user["info"]) {
     $HTMLOUT .= "<div class='card-section'>'".format_comment($user["info"])."'</div>";

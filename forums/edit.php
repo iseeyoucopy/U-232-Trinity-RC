@@ -54,11 +54,11 @@ if ($CURUSER['class'] >= MAX_CLASS || isMod($forumid, "forum")) {
             <form method='post' action='{$TRINITY20['baseurl']}/forums.php?action=updateforum&amp;forumid=$forumid'>
                 <div class='input-group'>
                     <span class='input-group-label'>Forum name</span>
-                    <input class='input-group-field' type='text' size='60' maxlength='{$Multi_forum['configs']['maxsubjectlength']}' name='name' value='".htmlspecialchars($forum['name'])."'>
+                    <input class='input-group-field' type='text' size='60' maxlength='{$Multi_forum['configs']['maxsubjectlength']}' name='name' value='".htmlsafechars($forum['name'])."'>
                 </div>
                 <div class='input-group'>
                     <span class='input-group-label'>Description</span>
-                    <textarea class='input-group-field' name='description' cols='60' rows='3'>".htmlspecialchars($forum['description'])."</textarea>
+                    <textarea class='input-group-field' name='description' cols='60' rows='3'>".htmlsafechars($forum['description'])."</textarea>
                 </div>
                 <div class='input-group'>
                     <span class='input-group-label'>Minimum Class required to View</span>

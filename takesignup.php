@@ -67,7 +67,7 @@ if (empty($wantusername) || empty($wantpassword) || empty($email) || empty($pass
     stderr($lang['takesignup_user_error'], $lang['takesignup_blank']);
 }
 if (!blacklist($wantusername)) {
-    stderr($lang['takesignup_user_error'], sprintf($lang['takesignup_badusername'], htmlspecialchars($wantusername)));
+    stderr($lang['takesignup_user_error'], sprintf($lang['takesignup_badusername'], htmlsafechars($wantusername)));
 }
 if ($wantpassword != $passagain) {
     stderr($lang['takesignup_user_error'], $lang['takesignup_nomatch']);
@@ -109,7 +109,7 @@ if (!(isset($_POST['country']))) {
     stderr($lang['takesignup_error'], $lang['takesignup_country']);
 }
 $country = (((isset($_POST['country']) && is_valid_id($_POST['country'])) ? (int)$_POST['country'] : 0));
-$gender = isset($_POST['gender']) && isset($_POST['gender']) ? htmlspecialchars($_POST['gender']) : '';
+$gender = isset($_POST['gender']) && isset($_POST['gender']) ? htmlsafechars($_POST['gender']) : '';
 // make sure user agrees to everything...
 if ($_POST["rulesverify"] != "yes" || $_POST["faqverify"] != "yes" || $_POST["ageverify"] != "yes") {
     stderr($lang['takesignup_failed'], $lang['takesignup_qualify']);
@@ -131,7 +131,7 @@ if ($a[0] != 0) {
 if ($TRINITY20['dupeip_check_on'] == 1) {
     $c_query = sql_query("SELECT COUNT(id) FROM users WHERE ip=" . sqlesc($_SERVER['REMOTE_ADDR'])) or sqlerr(__FILE__, __LINE__);
     $c = $c_query->fetch_row();
-    if ($c[0] != 0) stderr($lang['takesignup_error'], "{$lang['takesignup_ip']}&nbsp;" . htmlspecialchars($_SERVER['REMOTE_ADDR']) . "&nbsp;{$lang['takesignup_ip_used']}");
+    if ($c[0] != 0) stderr($lang['takesignup_error'], "{$lang['takesignup_ip']}&nbsp;" . htmlsafechars($_SERVER['REMOTE_ADDR']) . "&nbsp;{$lang['takesignup_ip_used']}");
 }*/
 /*=== check for dupe account by GodFather ===*/
 if ($TRINITY20['dupeaccount_check_on'] == 1) {
@@ -160,7 +160,7 @@ if ($TRINITY20['dupeaccount_check_on'] == 1) {
     if (!empty($email)) {
         ($x = sql_query("SELECT id, comment FROM bannedemails WHERE email = ".sqlesc($email))) || sqlerr(__FILE__, __LINE__);
         if ($yx = $x->fetch_assoc()) {
-            stderr("{$lang['takesignup_user_error']}", "{$lang['takesignup_bannedmail']}".htmlspecialchars($yx['comment']));
+            stderr("{$lang['takesignup_user_error']}", "{$lang['takesignup_bannedmail']}".htmlsafechars($yx['comment']));
         }
     }
 }
@@ -209,7 +209,7 @@ $psecret = $editsecret;
 
 $cache->delete($cache_keys['birthdayusers']);
 
-$message = "{$lang['takesignup_welcome']} {$TRINITY20['site_name']} {$lang['takesignup_member']} ".htmlspecialchars($wantusername)."";
+$message = "{$lang['takesignup_welcome']} {$TRINITY20['site_name']} {$lang['takesignup_member']} ".htmlsafechars($wantusername)."";
 
 if (!$ret && $mysqli->errno) {
     stderr($lang['takesignup_user_error'], $lang['takesignup_user_exists']);
@@ -226,7 +226,7 @@ if (!$arr[0]) {
 //==New member pm
 //$added = TIME_NOW;
 $subject = sqlesc($lang['takesignup_msg_subject']);
-$msg = sqlesc("{$lang['takesignup_hey']} ".htmlspecialchars($wantusername)."{$lang['takesignup_msg_body0']} {$TRINITY20['site_name']} {$lang['takesignup_msg_body1']}");
+$msg = sqlesc("{$lang['takesignup_hey']} ".htmlsafechars($wantusername)."{$lang['takesignup_msg_body0']} {$TRINITY20['site_name']} {$lang['takesignup_msg_body1']}");
 sql_query("INSERT INTO messages (sender, subject, receiver, msg, added) VALUES (0, $subject, ".sqlesc($id).", $msg, $added)") || sqlerr(__FILE__,
     __LINE__);
 
@@ -243,7 +243,7 @@ $latestuser_cache['pirate'] = 0;
 $latestuser_cache['king'] = 0;
 $cache->set($cache_keys['latestuser'], $latestuser_cache, $TRINITY20['expires']['latestuser']);
 
-write_log("User account ".(int)$id." (".htmlspecialchars($wantusername).") was succesfully register");
+write_log("User account ".(int)$id." (".htmlsafechars($wantusername).") was succesfully register");
 
 if ($TRINITY20['autoshout_on'] == 1) {
     autoshout($message);

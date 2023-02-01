@@ -67,9 +67,9 @@ function make_nice_address($ip)
     return $ip.'<br />'.$dom;
 }
 
-$msg_to_analyze = (isset($_POST['msg_to_analyze']) ? htmlspecialchars($_POST['msg_to_analyze']) : '');
-$invite_code = (isset($_POST['invite_code']) ? htmlspecialchars($_POST['invite_code']) : '');
-$user_names = (isset($_POST['user_names']) ? preg_replace('/[^a-zA-Z0-9]/', '', htmlspecialchars($_POST['user_names'])) : '');
+$msg_to_analyze = (isset($_POST['msg_to_analyze']) ? htmlsafechars($_POST['msg_to_analyze']) : '');
+$invite_code = (isset($_POST['invite_code']) ? htmlsafechars($_POST['invite_code']) : '');
+$user_names = (isset($_POST['user_names']) ? preg_replace('/[^a-zA-Z0-9]/', '', htmlsafechars($_POST['user_names'])) : '');
 $HTMLOUT = $found = $not_found = $count = $no_matches_for_this_email = $matches_for_email = $no_matches_for_this_ip = $matches_for_ip = '';
 $number = 0;
 $HTMLOUT .= '<div class="row"><div class="col-md-12">';
@@ -140,7 +140,7 @@ if (isset($_POST['user_names'])) {
             $found .= '<tr>
     <td align="left" class="'.$class2.'">'.$search_users.'</td>
     <td align="left" class="'.$class2.'">'.print_user_stuff($arr).'</td>
-    <td align="center" class="'.$class2.'">'.htmlspecialchars($arr['email']).'</td>
+    <td align="center" class="'.$class2.'">'.htmlsafechars($arr['email']).'</td>
     <td align="center" class="'.$class2.'">
     <span style="color: blue;" title="added">'.get_date($arr['added'], '').'</span><br />
     <span style="color: green;" title="last access">'.get_date($arr['last_access'], '').'</span></td>
@@ -203,7 +203,7 @@ if (isset($_POST['msg_to_analyze'])) {
                     $random_number = random_int(1, 666_666_666);
                     $matches_for_email .= '<tr>
     <td align="left" class="'.$class2.'">'.print_user_stuff($arr).'</td>
-    <td align="center" class="'.$class2.'">'.htmlspecialchars($arr['email']).'</td>
+    <td align="center" class="'.$class2.'">'.htmlsafechars($arr['email']).'</td>
     <td align="center" class="'.$class2.'">
     <span style="color: blue;" title="added">'.get_date($arr['added'], '').'</span><br />
     <span style="color: green;" title="last access">'.get_date($arr['last_access'], '').'</span></td>
@@ -296,7 +296,7 @@ if (isset($_POST['msg_to_analyze'])) {
                     $matches_for_ip .= '<tr>
                             <td align="left" class="'.$class2.'">'.print_user_stuff($arr).'</td>
                             <td align="center" class="'.$class2.'"><span style="color: red; font-weight: bold;">'.$tested_ip.' </span></td>
-                            <td align="center" class="'.$class2.'">'.htmlspecialchars($arr['email']).'</td>
+                            <td align="center" class="'.$class2.'">'.htmlsafechars($arr['email']).'</td>
                             <td align="center" class="'.$class2.'">
                             <span style="color: blue;" title="added">'.get_date($arr['added'], '').'</span><br />
                             <span style="color: green;" title="last access">'.get_date($arr['last_access'], '').'</span>
@@ -347,8 +347,8 @@ if (isset($_POST['invite_code'])) {
                 </tr>
                 <tr>
                 <td align="left">'.print_user_stuff($user).'</td>
-                <td align="center">'.htmlspecialchars($user['email']).'</td>
-                <td align="center">'.htmlspecialchars($user['ip']).'</td>
+                <td align="center">'.htmlsafechars($user['email']).'</td>
+                <td align="center">'.htmlsafechars($user['ip']).'</td>
                 <td align="center">'.get_date($user['last_access'], '').'</td>
                 <td align="center">'.get_date($user['added'], '').'</td>
                 <td align="center"><img src="pic/up.png" alt="'.$lang['mega_up'].'" title="'.$lang['mega_uploaded'].'" /> <span style="color: green;">'.mksize($user['uploaded']).'</span>
@@ -382,8 +382,8 @@ if (isset($_POST['invite_code'])) {
                 <tr>
                 <td align="left">'.print_user_stuff($user_invited).'</td>
                 
-                <td align="center">'.htmlspecialchars($user_invited['email']).'</td>
-                <td align="center">'.htmlspecialchars($user_invited['ip']).'</td>
+                <td align="center">'.htmlsafechars($user_invited['email']).'</td>
+                <td align="center">'.htmlsafechars($user_invited['ip']).'</td>
                 <td align="center">'.get_date($user_invited['last_access'], '').'</td>
                 <td align="center">'.get_date($user_invited['added'], '').'</td>
                 <td align="center"><img src="pic/up.png" alt="'.$lang['mega_up'].'" title="'.$lang['mega_uploaded'].'" /> <span style="color: green;">'.mksize($user_invited['uploaded']).'</span>

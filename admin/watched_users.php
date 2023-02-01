@@ -20,7 +20,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 <title>404 Not Found</title>
 </head><body>
 <h1>Not Found</h1>
-<p>The requested URL '.htmlspecialchars($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], '/') + 1).' was not found on this server.</p>
+<p>The requested URL '.htmlsafechars($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], '/') + 1).' was not found on this server.</p>
 <hr>
 <address>'.$_SERVER['SERVER_SOFTWARE'].' Server at '.$TRINITY20['baseurl'].' Port 80</address>
 </body></html>';
@@ -63,7 +63,7 @@ if (isset($_GET['remove'])) {
                 'modcomment' => $modcomment,
             ], $TRINITY20['expires']['user_stats']);
             $count = 1;
-            $removed_log = '<a href="userdetails.php?id='.$remove_me_Ive_been_good.'" class="altlink">'.htmlspecialchars($user['username']).'</a>';
+            $removed_log = '<a href="userdetails.php?id='.$remove_me_Ive_been_good.'" class="altlink">'.htmlsafechars($user['username']).'</a>';
         }
     } else {
         foreach ($remove_me_Ive_been_good as $id) {
@@ -88,7 +88,7 @@ if (isset($_GET['remove'])) {
                     'modcomment' => $modcomment,
                 ], $TRINITY20['expires']['user_stats']);
                 $count = (++$count);
-                $removed_log .= '<a href="userdetails.php?id='.$id.'" class="altlink">'.htmlspecialchars($user['username']).'</a> ';
+                $removed_log .= '<a href="userdetails.php?id='.$id.'" class="altlink">'.htmlsafechars($user['username']).'</a> ';
             }
         }
     }
@@ -110,7 +110,7 @@ if (isset($_GET['add'])) {
         $user = $res->fetch_assoc();
         if ($user['watched_user'] > 0) {
             stderr($lang['watched_stderr'],
-                htmlspecialchars($user['username']).' '.$lang['watched_already'].'<a href="userdetails.php?id='.$member_whos_been_bad.'" >'.$lang['watched_backto'].' '.htmlspecialchars($user['username']).'\'s '.$lang['watched_profile'].'</a>');
+                htmlsafechars($user['username']).' '.$lang['watched_already'].'<a href="userdetails.php?id='.$member_whos_been_bad.'" >'.$lang['watched_backto'].' '.htmlsafechars($user['username']).'\'s '.$lang['watched_profile'].'</a>');
         }
         //== ok they are not watched yet let's add the info part 1
         if ($_GET['add'] && $_GET['add'] == 1) {
@@ -122,8 +122,8 @@ if (isset($_GET['add'])) {
  <td class="colhead">'.$lang['watched_add'].' '.$user['username'].''.$lang['watched_towu'].'</td>
  </tr>
  <tr>
- <td align="center"><b>'.$lang['watched_pleasefil'].''.htmlspecialchars($user['username']).' '.$lang['watched_userlist'].'</b><br />
- <textarea cols="60" rows="6" name="reason">'.htmlspecialchars($user['watched_user_reason']).'</textarea><br /></td>
+ <td align="center"><b>'.$lang['watched_pleasefil'].''.htmlsafechars($user['username']).' '.$lang['watched_userlist'].'</b><br />
+ <textarea cols="60" rows="6" name="reason">'.htmlsafechars($user['watched_user_reason']).'</textarea><br /></td>
  </tr>
  <tr>
  <td class="colhead">
@@ -133,7 +133,7 @@ if (isset($_GET['add'])) {
             stderr('watched Users', $naughty_box);
         }
         //=== all is good, let's enter them \o/
-        $watched_user_reason = htmlspecialchars($_POST['reason']);
+        $watched_user_reason = htmlsafechars($_POST['reason']);
         $modcomment = get_date(TIME_NOW, 'DATE', 1)." - ".$lang['watched_addedwu']." $CURUSER[username].\n".$user['modcomment'];
         sql_query('UPDATE users SET watched_user = '.TIME_NOW.', modcomment='.sqlesc($modcomment).', watched_user_reason = '.sqlesc($watched_user_reason).' WHERE id='.sqlesc($member_whos_been_bad)) || sqlerr(__FILE__,
             __LINE__);
@@ -150,8 +150,8 @@ if (isset($_GET['add'])) {
     }
     //=== Check if member was added
     if ($mysqli->affected_rows > 0) {
-        $H1_thingie = '<h1>'.$lang['watched_success'].'!'.htmlspecialchars($user['username']).' '.$lang['watched_isadded'].'!</h1>';
-        write_log('[b]'.$CURUSER['username'].'[/b] '.$lang['watched_isadded'].' <a href="userdetails.php?id='.$member_whos_been_bad.'" class="altlink">'.htmlspecialchars($user['username']).'</a> '.$lang['watched_tothe'].' <a href="staffpanel.php?tool=watched_users&amp;action=watched_users" class="altlink">'.$lang['watched_users_list'].'</a>.');
+        $H1_thingie = '<h1>'.$lang['watched_success'].'!'.htmlsafechars($user['username']).' '.$lang['watched_isadded'].'!</h1>';
+        write_log('[b]'.$CURUSER['username'].'[/b] '.$lang['watched_isadded'].' <a href="userdetails.php?id='.$member_whos_been_bad.'" class="altlink">'.htmlsafechars($user['username']).'</a> '.$lang['watched_tothe'].' <a href="staffpanel.php?tool=watched_users&amp;action=watched_users" class="altlink">'.$lang['watched_users_list'].'</a>.');
     }
 }
 //=== get number of watched members

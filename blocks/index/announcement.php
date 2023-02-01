@@ -20,7 +20,7 @@ if (!empty($ann_subject) && !empty($ann_body)) {
 		<div class='card-section'>
 			<table class='table table-bordered'>
 				<tr>
-					<td bgcolor='transparent'><b><font color='red'>{$lang['index_ann_title']}&nbsp;: ".htmlspecialchars($ann_subject)."</font></b></td>
+					<td bgcolor='transparent'><b><font color='red'>{$lang['index_ann_title']}&nbsp;: ".htmlsafechars($ann_subject)."</font></b></td>
 				</tr>
 				<tr>
 					<td style='padding: 10px; background:lightgrey'>".format_comment($ann_body)."<br /><hr /><br />   {$lang['index_ann_click']}<a href='{$TRINITY20['baseurl']}/clear_announcement.php'>

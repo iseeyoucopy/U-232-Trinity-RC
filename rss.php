@@ -12,7 +12,7 @@
  */
 require_once(__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorrent.php');
 dbconn();
-$torrent_pass = (isset($_GET["torrent_pass"]) ? htmlspecialchars($_GET["torrent_pass"]) : '');
+$torrent_pass = (isset($_GET["torrent_pass"]) ? htmlsafechars($_GET["torrent_pass"]) : '');
 $feed = (isset($_GET["type"]) && $_GET['type'] == 'dl' ? 'dl' : 'web');
 $cats = ($_GET["cats"] ?? '');
 if ($cats) {
@@ -50,8 +50,8 @@ $HTMLOUT = "<?xml version=\"1.0\" encoding=\"windows-1251\" ?>\n<rss version=\"0
 while ($a = $res->fetch_assoc()) {
     $link = $TRINITY20['baseurl'].($feed == "dl" ? "/download.php?torrent=".(int)$a['id'].'&amp;torrent_pass='.$torrent_pass : "/details.php?id=".(int)$a["id"]."&amp;hit=1");
     $br = "&lt;br/&gt;";
-    $HTMLOUT .= "<item><title>".htmlspecialchars($a["name"])."</title><link>{$link}</link><description>{$br}Category: ".htmlspecialchars($a['catname'])." {$br} Size: ".mksize((int)$a["size"])." {$br} Leechers: ".(int)$a["leechers"]." {$br} Seeders: ".(int)$a["seeders"]." {$br} Added: ".get_date($a['added'],
-            'DATE')." {$br} Description: ".htmlspecialchars(substr($a["descr"], 0, 450))." {$br}</description>\n</item>\n";
+    $HTMLOUT .= "<item><title>".htmlsafechars($a["name"])."</title><link>{$link}</link><description>{$br}Category: ".htmlsafechars($a['catname'])." {$br} Size: ".mksize((int)$a["size"])." {$br} Leechers: ".(int)$a["leechers"]." {$br} Seeders: ".(int)$a["seeders"]." {$br} Added: ".get_date($a['added'],
+            'DATE')." {$br} Description: ".htmlsafechars(substr($a["descr"], 0, 450))." {$br}</description>\n</item>\n";
 }
 $HTMLOUT .= "</channel>\n</rss>\n";
 echo($HTMLOUT);

@@ -30,7 +30,7 @@ $pager = pager($perpage, $count, "happylog.php?id=$id&amp;");
 ($res = sql_query("SELECT h.userid, h.torrentid, h.date, h.multi, t.name FROM happylog as h LEFT JOIN torrents AS t on t.id=h.torrentid WHERE h.userid=".sqlesc($id)." ORDER BY h.date DESC ".$pager['limit'])) || sqlerr(__FILE__,
     __LINE__);
 $HTMLOUT .= begin_main_frame();
-$HTMLOUT .= begin_frame("Happy hour log for ".htmlspecialchars($user["username"])."");
+$HTMLOUT .= begin_frame("Happy hour log for ".htmlsafechars($user["username"])."");
 if ($res->num_rows > 0) {
     $HTMLOUT .= $pager['pagertop'];
     $HTMLOUT .= "<table class='table table-bordered'>
@@ -38,7 +38,7 @@ if ($res->num_rows > 0) {
     <td class='colhead'>Multiplier</td>
     <td class='colhead' nowrap='nowrap'>Date started</td></tr>";
     while ($arr = $res->fetch_assoc()) {
-        $HTMLOUT .= "<tr><td><a href='details.php?id=".(int)$arr["torrentid"]."'>".htmlspecialchars($arr["name"])."</a></td>
+        $HTMLOUT .= "<tr><td><a href='details.php?id=".(int)$arr["torrentid"]."'>".htmlsafechars($arr["name"])."</a></td>
     <td>".(int)$arr["multi"]."</td>
     <td nowrap='nowrap'>".get_date($arr["date"], 'LONG', 1, 0)."</td></tr>";
     }
@@ -49,5 +49,5 @@ if ($res->num_rows > 0) {
 }
 $HTMLOUT .= end_frame();
 $HTMLOUT .= end_main_frame();
-echo stdhead("Happy hour log for ".htmlspecialchars($user["username"])."").$HTMLOUT.stdfoot();
+echo stdhead("Happy hour log for ".htmlsafechars($user["username"])."").$HTMLOUT.stdfoot();
 ?>

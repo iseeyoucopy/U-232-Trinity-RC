@@ -47,7 +47,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
             if (empty($row['name'])) {
                 die(false);
             }
-            $outhtml .= "$i : <a href='details.php?id=".(int)$row['id']."' class='hover'>".htmlspecialchars($row['name'])."</a><br/>";
+            $outhtml .= "$i : <a href='details.php?id=".(int)$row['id']."' class='hover'>".htmlsafechars($row['name'])."</a><br/>";
             $i++;
 
         }

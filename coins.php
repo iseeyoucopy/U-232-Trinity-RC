@@ -55,7 +55,7 @@ sql_query("INSERT INTO coins (userid, torrentid, points) VALUES (".sqlesc($CURUS
 sql_query("UPDATE users SET seedbonus=seedbonus+".sqlesc($points)." WHERE id=".sqlesc($userid)) || sqlerr(__FILE__, __LINE__);
 sql_query("UPDATE users SET seedbonus=seedbonus-".sqlesc($points)." WHERE id=".sqlesc($CURUSER["id"])) || sqlerr(__FILE__, __LINE__);
 sql_query("UPDATE torrents SET points=points+".sqlesc($points)." WHERE id=".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-$msg = sqlesc("{$lang['coins_you_have_been_given']} ".htmlspecialchars($points)." {$lang['coins_points_by']} ".$CURUSER["username"]." {$lang['coins_for_torrent']} [url=".$TRINITY20['baseurl']."/details.php?id=".$id."]".htmlspecialchars($row["name"])."[/url].");
+$msg = sqlesc("{$lang['coins_you_have_been_given']} ".htmlsafechars($points)." {$lang['coins_points_by']} ".$CURUSER["username"]." {$lang['coins_for_torrent']} [url=".$TRINITY20['baseurl']."/details.php?id=".$id."]".htmlsafechars($row["name"])."[/url].");
 $subject = sqlesc($lang['coins_you_have_been_given_a_gift']);
 sql_query("INSERT INTO messages (sender, receiver, msg, added, subject) VALUES({$TRINITY20['bot_id']}, ".sqlesc($userid).", $msg, ".TIME_NOW.", $subject)") || sqlerr(__FILE__,
     __LINE__);

@@ -18,7 +18,7 @@ die('Error You already logged out you muppet');
 exit();
 }*/
 global $CURUSER;
-$hash_please = (isset($_GET['hash_please']) && htmlspecialchars($_GET['hash_please']));
+$hash_please = (isset($_GET['hash_please']) && htmlsafechars($_GET['hash_please']));
 $salty_username = isset($CURUSER['username']) ? "{$CURUSER['username']}" : '';
 $salty = HashIt($TRINITY20['site']['salt'], $salty_username);
 if (empty($hash_please)) {

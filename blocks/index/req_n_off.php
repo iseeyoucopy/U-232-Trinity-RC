@@ -57,15 +57,15 @@ if (!empty($requests)) {
     if ($requests) {
         foreach ($requests as $requestarr) {
             if (is_array($requestarr)) {  
-                $torrname = htmlspecialchars($requestarr['request_name']);
-                $requestarr['cat_name'] = htmlspecialchars($change[$requestarr['category']]['name']);
-                $requestarr['cat_pic'] = htmlspecialchars($change[$requestarr['category']]['image']);
+                $torrname = htmlsafechars($requestarr['request_name']);
+                $requestarr['cat_name'] = htmlsafechars($change[$requestarr['category']]['name']);
+                $requestarr['cat_pic'] = htmlsafechars($change[$requestarr['category']]['image']);
                 $request_f = ($requestarr['filled_by_user_id'] > 0 ? '<a href="details.php?id='.(int)$requestarr['filled_torrent_id'].'" title='.$lang['req_off_goto'].'><span style="color: limegreen;font-weight: bold;">'.$lang['req_off_yes1'].'</span></a>' : '<span style="color: red;font-weight: bold;">'.$lang['req_off_no1'].'</span>');
                 if (strlen($torrname) > 50) {
                     $torrname = substr($torrname, 0, 50)."...";
                 }
                 $HTMLOUT .= " <tbody><tr>
-                <td class='text-center'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlspecialchars($requestarr["cat_pic"])."' alt='".htmlspecialchars($requestarr["cat_name"])."' title='".htmlspecialchars($requestarr["cat_name"])."' /></td>
+                <td class='text-center'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($requestarr["cat_pic"])."' alt='".htmlsafechars($requestarr["cat_name"])."' title='".htmlsafechars($requestarr["cat_name"])."' /></td>
                     <td class='text-left'><a href=\"{$TRINITY20['baseurl']}/requests.php?action=request_details&amp;id=".(int)$requestarr['request_id']."&amp;hit=1\" >{$torrname}</a></td>
             <td class='text-center'>".get_date($requestarr['added'], 'LONG')."</td>
                 <td class='text-center'>".number_format($requestarr['comments'])."</td>  
@@ -115,15 +115,15 @@ if ((is_countable($offers) ? count($offers) : 0) > 0) {
     if ($offers) {
         foreach ($offers as $offerarr) {
             if (is_array($offerarr)) {
-                $torrname = htmlspecialchars($offerarr['offer_name']);
-                $offerarr['cat_name'] = htmlspecialchars($change[$offerarr['category']]['name']);
-                $offerarr['cat_pic'] = htmlspecialchars($change[$offerarr['category']]['image']);
+                $torrname = htmlsafechars($offerarr['offer_name']);
+                $offerarr['cat_name'] = htmlsafechars($change[$offerarr['category']]['name']);
+                $offerarr['cat_pic'] = htmlsafechars($change[$offerarr['category']]['image']);
                 $status = ($offerarr['status'] == 'approved' ? '<span style="color: limegreen;font-weight: bold;">'.$lang['req_off_app'].'</span>' : ($offerarr['status'] == 'pending' ? '<span style="color: skyblue;font-weight: bold;">'.$lang['req_off_pend'].'</span>' : '<span style="color: red;font-weight: bold;">'.$lang['req_off_den'].'</span>'));
                 if (strlen($torrname) > 50) {
                     $torrname = substr($torrname, 0, 50)."...";
                 }
                 $HTMLOUT .= " <tbody><tr>
-                <td class='text-center'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlspecialchars($offerarr["cat_pic"])."' alt='".htmlspecialchars($offerarr["cat_name"])."' title='".htmlspecialchars($offerarr["cat_name"])."' /></td>
+                <td class='text-center'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($offerarr["cat_pic"])."' alt='".htmlsafechars($offerarr["cat_name"])."' title='".htmlsafechars($offerarr["cat_name"])."' /></td>
                     <td class='text-left'><a href=\"{$TRINITY20['baseurl']}/offers.php?action=offer_details&amp;id=".(int)$offerarr['offer_id']."&amp;hit=1\" >{$torrname}</a></td>
             <td class='text-center'>".get_date($offerarr['added'], 'LONG')."</td>
                 <td class='text-center'>".number_format($offerarr['comments'])."</td>  

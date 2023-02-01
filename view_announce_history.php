@@ -16,7 +16,7 @@ require_once INCL_DIR.'bbcode_functions.php';
 dbconn(false);
 loggedinorreturn();
 $lang = array_merge(load_language('global'), load_language('announce_history'));
-$action = (isset($_GET['action']) ? htmlspecialchars($_GET['action']) : '');
+$action = (isset($_GET['action']) ? htmlsafechars($_GET['action']) : '');
 $HTMLOUT = "";
 $HTMLOUT .= "<table class='table table-bordered'>
 <tr>
@@ -51,7 +51,7 @@ if ($action == 'read_announce') {
     }
     $HTMLOUT .= "<table class='table table-bordered'>
  	<tr>
- 	<td bgcolor='orange'>{$lang['annhistory_subject']}<b>".htmlspecialchars($subject)."</b></td>
+ 	<td bgcolor='orange'>{$lang['annhistory_subject']}<b>".htmlsafechars($subject)."</b></td>
  	</tr>
  	<tr>
  	<td bgcolor='#333333'>".format_comment($body)."</td>
@@ -68,7 +68,7 @@ $HTMLOUT .= "<table class='table table-bordered'>
 <td class='text-center' bgcolor='orange'><b>{$lang['annhistory_subject1']}</b></td>
 </tr>";
 foreach ($ann_list as $x) {
-    $HTMLOUT .= "<tr><td align='center'><a href='?action=read_announce&amp;id=".(int)$x[0]."'>".htmlspecialchars($x[1])."</a></td></tr>\n";
+    $HTMLOUT .= "<tr><td align='center'><a href='?action=read_announce&amp;id=".(int)$x[0]."'>".htmlsafechars($x[1])."</a></td></tr>\n";
 }
 $HTMLOUT .= "</table>";
 $HTMLOUT .= "</td></tr></table>";

@@ -34,8 +34,8 @@ class_check($class);
 $lang = array_merge($lang, load_language('forums'));
 $id = isset($_GET['id']) && is_valid_id($_GET['id']) ? (int)$_GET['id'] : (isset($_POST['id']) && is_valid_id($_POST['id']) ? (int)$_POST['id'] : 0);
 $v_do = ['edit', 'process_edit', 'process_add', 'delete', ''];
-$do = isset($_GET['do']) && in_array($_GET['do'], $v_do) ? htmlspecialchars($_GET['do']) : (isset($_POST['do']) && in_array($_POST['do'],
-    $v_do) ? htmlspecialchars($_POST['do']) : '');
+$do = isset($_GET['do']) && in_array($_GET['do'], $v_do) ? htmlsafechars($_GET['do']) : (isset($_POST['do']) && in_array($_POST['do'],
+    $v_do) ? htmlsafechars($_POST['do']) : '');
 $this_url = 'staffpanel.php?tool=moforums&action=moforums';
 switch ($do) {
     case 'delete' :
@@ -105,7 +105,7 @@ switch ($do) {
 					</tr>";
             while ($a = $r1->fetch_assoc()) {
                 $htmlout .= "<tr onmouseover=\"this.bgColor='#999';\" onmouseout=\"this.bgColor='';\">
-						<td align='left'><a href='forums.php?action=viewforum&amp;forumid=".(int)$a['id']."'>".htmlspecialchars($a['name'])."</a><br/><span class='small'>".htmlspecialchars($a['description'])."</span></td>
+						<td align='left'><a href='forums.php?action=viewforum&amp;forumid=".(int)$a['id']."'>".htmlsafechars($a['name'])."</a><br/><span class='small'>".htmlsafechars($a['description'])."</span></td>
 						<td>".get_user_class_name($a['min_class_view'])."</td>
 					
 						<td><a href='".$this_url."&amp;do=edit&amp;id=".(int)$a['id']."#edit'>{$lang['forum_mngr_edt']}</a></td>
@@ -129,12 +129,12 @@ switch ($do) {
             }
         }
 
-        $htmlout .= "<div class='row'><div class='col-md-12'><h2>".($edit_action ? ''.$lang['forum_mngr_edt1'].' <u>'.htmlspecialchars($a3['name']).'</u>' : $lang['forum_mngr_adn'])."</h2>";
+        $htmlout .= "<div class='row'><div class='col-md-12'><h2>".($edit_action ? ''.$lang['forum_mngr_edt1'].' <u>'.htmlsafechars($a3['name']).'</u>' : $lang['forum_mngr_adn'])."</h2>";
         $htmlout .= "<form action='".$this_url."' method='post'>
 	<table class='table table-bordered' id='edit'>
-	<tr><td colspan='2' align='center' class='colhead'> ".($edit_action ? ''.$lang['forum_mngr_edt1'].' <u>'.htmlspecialchars($a3['name']).'</u>' : $lang['forum_mngr_adn'])."</td></tr>
-	<tr><td align='right' valign='top'>{$lang['forum_mngr_name2']}</td><td align='left'><input type='text' value='".($edit_action ? htmlspecialchars($a3['name']) : '')."'name='name' size='40' /></td></tr>
-	<tr><td align='right' valign='top'>{$lang['forum_mngr_desc']}</td><td align='left'><textarea rows='3' cols='38' name='description'>".($edit_action ? htmlspecialchars($a3['description']) : '')."</textarea></td></tr>";
+	<tr><td colspan='2' align='center' class='colhead'> ".($edit_action ? ''.$lang['forum_mngr_edt1'].' <u>'.htmlsafechars($a3['name']).'</u>' : $lang['forum_mngr_adn'])."</td></tr>
+	<tr><td align='right' valign='top'>{$lang['forum_mngr_name2']}</td><td align='left'><input type='text' value='".($edit_action ? htmlsafechars($a3['name']) : '')."'name='name' size='40' /></td></tr>
+	<tr><td align='right' valign='top'>{$lang['forum_mngr_desc']}</td><td align='left'><textarea rows='3' cols='38' name='description'>".($edit_action ? htmlsafechars($a3['description']) : '')."</textarea></td></tr>";
 
         $classes = "<select name='#name'>";
         for ($i = UC_USER; $i <= UC_MAX; $i++) {
@@ -146,8 +146,8 @@ switch ($do) {
             $htmlout .= "
 	<tr><td align='right' valign='top'>{$lang['forum_mngr_min']}</td><td align='left'>".str_replace([
                     '#name',
-                    'value=\''.htmlspecialchars($a3['min_class_view']).'\'',
-                ], ['minclassview', 'value=\''.htmlspecialchars($a3['min_class_view']).'\' selected=\'selected\''], $classes)."</td></tr>";
+                    'value=\''.htmlsafechars($a3['min_class_view']).'\'',
+                ], ['minclassview', 'value=\''.htmlsafechars($a3['min_class_view']).'\' selected=\'selected\''], $classes)."</td></tr>";
         } else {
             $htmlout .= "
 	<tr><td align='right' valign='top'>{$lang['forum_mngr_name']}</td><td align='left'>".str_replace('#name', 'minclassview', $classes)."</td></tr>";

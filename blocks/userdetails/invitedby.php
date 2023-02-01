@@ -34,8 +34,8 @@ if ($rez_invited->num_rows < 1) {
 		<td class="colhead"><b>'.$lang['userdetails_ratio'].'</b></td>
 		<td class="colhead"><b>'.$lang['userdetails_status'].'</b></td></tr>';
     while ($arr_invited = $rez_invited->fetch_assoc()) {
-        $inviteted_by_this_member .= '<tr><td>'.($arr_invited['status'] == 'pending' ? htmlspecialchars($arr_invited['username']) : format_username($arr_invited).'<br />'.$arr_invited['ip']).'</td>
-		<td>'.htmlspecialchars($arr_invited['email']).'</td>
+        $inviteted_by_this_member .= '<tr><td>'.($arr_invited['status'] == 'pending' ? htmlsafechars($arr_invited['username']) : format_username($arr_invited).'<br />'.$arr_invited['ip']).'</td>
+		<td>'.htmlsafechars($arr_invited['email']).'</td>
 		<td>'.mksize($arr_invited['uploaded']).'</td>
 		'.($TRINITY20['ratio_free'] ? '' : '<td>'.mksize($arr_invited['downloaded']).'</td>').'
 		<td>'.member_ratio($arr_invited['uploaded'], $TRINITY20['ratio_free'] ? '0' : $arr_invited['downloaded']).'</td>

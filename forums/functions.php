@@ -88,7 +88,7 @@ function subforums($arr)
     $sub = "<font class='small'>Subforums:";
     $i = 0;
     foreach ($arr as $k) {
-        $sub .= "&nbsp;<img src='{$TRINITY20['pic_base_url']}bullet_".($k["new"] == 1 ? "green.png" : "white.png")."' width='8' title='".($k["new"] == 1 ? "New posts" : "Not new")."' border='0' alt='Subforum' /><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$k["id"]."'>".htmlspecialchars($k["name"])."</a>".((is_countable($arr) ? count($arr) : 0) - 1 === $i ? "" : ",");
+        $sub .= "&nbsp;<img src='{$TRINITY20['pic_base_url']}bullet_".($k["new"] == 1 ? "green.png" : "white.png")."' width='8' title='".($k["new"] == 1 ? "New posts" : "Not new")."' border='0' alt='Subforum' /><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$k["id"]."'>".htmlsafechars($k["name"])."</a>".((is_countable($arr) ? count($arr) : 0) - 1 === $i ? "" : ",");
         $i++;
     }
     return $sub."</font>";
@@ -128,7 +128,7 @@ function showMods($ars)
     $i = 0;
     $count = is_countable($ars) ? count($ars) : 0;
     foreach ($ars as $a) {
-        $mods .= "<a href='userdetails.php?id=".(int)$a[0]."'>".htmlspecialchars($a[1])."</a>".($count - 1 === $i ? "" : " ,");
+        $mods .= "<a href='userdetails.php?id=".(int)$a[0]."'>".htmlsafechars($a[1])."</a>".($count - 1 === $i ? "" : " ,");
         $i++;
     }
     return $mods."</font>";
@@ -186,13 +186,13 @@ function show_forums($forid, $subforums = false, $sfa = "", $mods_array = "", $s
                     if ($CURUSER['class'] < UC_STAFF && $sfa[$forumid]['last_post']['user_id'] != $CURUSER['id']) {
                         $lastpost1 = "Anonymous<br />";
                     } else {
-                        $lastpost1 = "Anonymous[<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$sfa[$forumid]['last_--post']['userid']."'><b>".htmlspecialchars($sfa[$forumid]['last_post']['user'])."</b></a>]<br />";
+                        $lastpost1 = "Anonymous[<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$sfa[$forumid]['last_--post']['userid']."'><b>".htmlsafechars($sfa[$forumid]['last_post']['user'])."</b></a>]<br />";
                     }
                 } elseif ($sfa[$forumid]['last_post']["anonymous"] == "no") {
-                    $lastpost1 = "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$sfa[$forumid]['last_post']['userid']."'><b>".htmlspecialchars($sfa[$forumid]['last_post']['user'])."</b></a><br />";
+                    $lastpost1 = "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$sfa[$forumid]['last_post']['userid']."'><b>".htmlsafechars($sfa[$forumid]['last_post']['user'])."</b></a><br />";
                 }
                 $lastpost = "".get_date($sfa[$forumid]['last_post']['added'], 'LONG', 1,
-                        0)."<br />"."by $lastpost1"."in <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".(int)$sfa[$forumid]['last_post']['topic']."&amp;page=p".(int)$sfa[$forumid]['last_post']['post_id']."#p".(int)$sfa[$forumid]['last_post']['post_id']."'><b>".htmlspecialchars($sfa[$forumid]['last_post']['tname'])."</b></a>";
+                        0)."<br />"."by $lastpost1"."in <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".(int)$sfa[$forumid]['last_post']['topic']."&amp;page=p".(int)$sfa[$forumid]['last_post']['post_id']."#p".(int)$sfa[$forumid]['last_post']['post_id']."'><b>".htmlsafechars($sfa[$forumid]['last_post']['tname'])."</b></a>";
             } elseif (($sfa[$forumid]['last_post']['postid'] < $forums_arr['pid'])) {
                 if ($forums_arr["anonymous"] == "yes") {
                     if ($CURUSER['class'] < UC_STAFF && $forums_arr["user_id"] != $CURUSER["id"]) {
@@ -206,7 +206,7 @@ function show_forums($forid, $subforums = false, $sfa = "", $mods_array = "", $s
                             true)."</b></a><br />";
                 }
                 $lastpost = "".get_date($forums_arr["added"], 'LONG', 1,
-                        0)."<br />"."by $lastpost2"."in <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".(int)$forums_arr["topic_id"]."&amp;page=p$lastpostid#p$lastpostid'><b>".htmlspecialchars($forums_arr['topic_name'])."</b></a>";
+                        0)."<br />"."by $lastpost2"."in <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".(int)$forums_arr["topic_id"]."&amp;page=p$lastpostid#p$lastpostid'><b>".htmlsafechars($forums_arr['topic_name'])."</b></a>";
             } else {
                 $lastpost = "N/A";
             }
@@ -214,14 +214,14 @@ function show_forums($forid, $subforums = false, $sfa = "", $mods_array = "", $s
             if ($forums_arr["anonymous"] == "yes") {
                 if ($CURUSER['class'] < UC_STAFF && $forums_arr["user_id"] != $CURUSER["id"]) {
                     $lastpost = "".get_date($forums_arr["added"], 'LONG', 1,
-                            0)."<br />"."by <i>Anonymous</i><br />"."in <a href='".$TRINITY20['baseurl']."/forums.php?action=viewtopic&amp;topicid=".(int)$forums_arr["topic_id"]."&amp;page=p$lastpostid#p$lastpostid'><b>".htmlspecialchars($forums_arr['topic_name'])."</b></a>";
+                            0)."<br />"."by <i>Anonymous</i><br />"."in <a href='".$TRINITY20['baseurl']."/forums.php?action=viewtopic&amp;topicid=".(int)$forums_arr["topic_id"]."&amp;page=p$lastpostid#p$lastpostid'><b>".htmlsafechars($forums_arr['topic_name'])."</b></a>";
                 } else {
                     $lastpost = "".get_date($forums_arr["added"], 'LONG', 1,
                             0)."<br />"."by <i>Anonymous[</i><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$forums_arr["user_id"]."'><b>".format_username($user_stuff,
-                            true)."</b></a>]<br />"."in <a href='{$TRINITY20['baseurl']}/forums.php??action=viewtopic&amp;topicid=".(int)$forums_arr["topic_id"]."&amp;page=p$lastpostid#p$lastpostid'><b>".htmlspecialchars($forums_arr['topic_name'])."</b></a>";
+                            true)."</b></a>]<br />"."in <a href='{$TRINITY20['baseurl']}/forums.php??action=viewtopic&amp;topicid=".(int)$forums_arr["topic_id"]."&amp;page=p$lastpostid#p$lastpostid'><b>".htmlsafechars($forums_arr['topic_name'])."</b></a>";
                 }
             } else {
-                $lastpost = "<span class='smalltext'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".(int)$forums_arr["topic_id"]."&amp;page=p$lastpostid#p$lastpostid'>".htmlspecialchars($forums_arr['topic_name'])."</a><br />"."".get_date($forums_arr["added"],
+                $lastpost = "<span class='smalltext'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".(int)$forums_arr["topic_id"]."&amp;page=p$lastpostid#p$lastpostid'>".htmlsafechars($forums_arr['topic_name'])."</a><br />"."".get_date($forums_arr["added"],
                         'LONG', 1,
                         0)."<br />"."by <a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$forums_arr["user_id"]."'>".format_username($user_stuff,
                         true)."</a> ";
@@ -248,9 +248,9 @@ function show_forums($forid, $subforums = false, $sfa = "", $mods_array = "", $s
             <div class='divTableCell'>".$img."</div>
             <div class='divTableCell'>
                 <a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".$forumid."'>
-                    <strong>".htmlspecialchars($forums_arr["name"])."</strong>
+                    <strong>".htmlsafechars($forums_arr["name"])."</strong>
                 </a>
-                <br>".((empty($forums_arr["description"])) ? '' : htmlspecialchars($forums_arr["description"]))."<br>
+                <br>".((empty($forums_arr["description"])) ? '' : htmlsafechars($forums_arr["description"]))."<br>
                 ".(($subforums == false && !empty($sfa[$forumid])) ? subforums($sfa[$forumid]["topics"]) : '')."
                 ".(($show_mods == true && isset($mods_array[$forumid])) ? showMods($mods_array[$forumid]) : '')."
             </div>

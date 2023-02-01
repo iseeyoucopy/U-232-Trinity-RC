@@ -75,25 +75,25 @@ if ($CURUSER['class'] >= UC_STAFF) {
 $ismodd = '<div class="row"><div class="col-sm-12"><b>'.$lang['edit_stdhead'].'</b> '.(($CURUSER['class'] > UC_UPLOADER) ? '<small><a href="edit.php?id='.$id.'&amp;unedit=1">'.$lang['edit_clkhere'].'</a>'.$lang['edit_clktemp'].'</small>' : '').'</div></div>';
 $HTMLOUT .= "<form method='post' name='edit' action='takeedit.php' enctype='multipart/form-data'><input type='hidden' name='id' value='$id' />";
 if (isset($_GET["returnto"])) {
-    $HTMLOUT .= "<input type='hidden' name='returnto' value='".htmlspecialchars($_GET["returnto"])."' />";
+    $HTMLOUT .= "<input type='hidden' name='returnto' value='".htmlsafechars($_GET["returnto"])."' />";
 }
 $HTMLOUT .= "<div class='panel inverse' style='width:82%; margin-left:9%;'>
 <div class='row'><div class='col-sm-12'>$ismodd</div></div>
-<div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_imdb_url']}' type='text' name='url' value='".htmlspecialchars($row["url"])."'></div></div><br>
-<div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_poster']}' type='text' name='poster' value='".htmlspecialchars($row["poster"])."'><br />{$lang['edit_poster1']}\n</div></div><br>
-<div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_tube']}' type='text' name='youtube' value='".htmlspecialchars($row["youtube"])."'><br />{$lang['edit_youtube_info']}\n</div></div><br>
-<div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_torrent_name']}' type='text' name='name' value='".htmlspecialchars($row["name"])."'></div>
+<div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_imdb_url']}' type='text' name='url' value='".htmlsafechars($row["url"])."'></div></div><br>
+<div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_poster']}' type='text' name='poster' value='".htmlsafechars($row["poster"])."'><br />{$lang['edit_poster1']}\n</div></div><br>
+<div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_tube']}' type='text' name='youtube' value='".htmlsafechars($row["youtube"])."'><br />{$lang['edit_youtube_info']}\n</div></div><br>
+<div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_torrent_name']}' type='text' name='name' value='".htmlsafechars($row["name"])."'></div>
 </div><br>
-<div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_torrent_tags']}' type='text' name='tags' value='".htmlspecialchars($row["tags"])."'><br />({$lang['edit_tags_info']})\n</div>
+<div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_torrent_tags']}' type='text' name='tags' value='".htmlsafechars($row["tags"])."'><br />({$lang['edit_tags_info']})\n</div>
 </div><br>
-<div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_torrent_description']}' type='text' name='description' value='".htmlspecialchars($row["description"])."'></div>
+<div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_torrent_description']}' type='text' name='description' value='".htmlsafechars($row["description"])."'></div>
 </div><br>
 <div class='row'><div class='col-sm-12'>{$lang["edit_nfo"]}<br /><input type='radio' name='nfoaction' value='keep' checked='checked' />{$lang['edit_keep_current']}<br /><input type='radio' name='nfoaction' value='update' />{$lang['edit_update']}<br /><input type='file' name='nfo' size='80' /> </div>
 </div><br>";
 $c = (strpos($row["ori_descr"], "<") === false) || (strpos($row["ori_descr"], "&lt;") !== false) ? "" : " checked";
 $HTMLOUT .= "
 <div class='row'><div class='col-sm-12'>{$lang['edit_description']} ".textbbcode("edit", "descr",
-        "".htmlspecialchars($row['ori_descr'])."")."<br />{$lang['edit_tags']}</div></div><br>";
+        "".htmlsafechars($row['ori_descr'])."")."<br />{$lang['edit_tags']}</div></div><br>";
 $s = "<br><select class='form-control' name='type'>";
 $cats = genrelist();
 foreach ($cats as $subrow) {
@@ -101,7 +101,7 @@ foreach ($cats as $subrow) {
     if ($subrow["id"] == $row["category"]) {
         $s .= " selected='selected'";
     }
-    $s .= ">".htmlspecialchars($subrow["name"])."</option>\n";
+    $s .= ">".htmlsafechars($subrow["name"])."</option>\n";
 }
 $s .= "</select>\n";
 $HTMLOUT .= "<div class='row'>
@@ -113,7 +113,7 @@ $i = 0;
 foreach ($subs as $s) {
     $subs_list .= ($i && $i % 4 == 0) ? "" : "";
     $subs_list .= "<label class='checkbox-inline'><input name=\"subs[]\" ".(strpos($row["subs"],
-            (string)$s["id"]) !== false ? " checked='checked'" : "")."  type=\"checkbox\" value=\"".(int)$s["id"]."\" />".htmlspecialchars($s["name"])."</label>\n";
+            (string)$s["id"]) !== false ? " checked='checked'" : "")."  type=\"checkbox\" value=\"".(int)$s["id"]."\" />".htmlsafechars($s["name"])."</label>\n";
     ++$i;
 }
 $subs_list .= "";
@@ -135,7 +135,7 @@ $HTMLOUT .= "</div>";
 $HTMLOUT .= "<br><div class='row'><div class='col-sm-12'></div></div>";
 if ($CURUSER['class'] >= UC_UPLOADER) {
     $HTMLOUT .= "<div class='row'><div class='col-sm-2'>{$lang['edit_nuked']}<input type='radio' name='nuked'".($row["nuked"] == "yes" ? " checked='checked'" : "")." value='yes' />{$lang['edit_yes']}<input type='radio' name='nuked'".($row["nuked"] == "no" ? " checked='checked'" : "")." value='no' />{$lang['edit_no']}</div>";
-    $HTMLOUT .= "<div class='col-sm-10'><input class='form-control' placeholder='{$lang['edit_nukr']}' type='text' name='nukereason' value='".htmlspecialchars($row["nukereason"])."' /></div></div>";
+    $HTMLOUT .= "<div class='col-sm-10'><input class='form-control' placeholder='{$lang['edit_nukr']}' type='text' name='nukereason' value='".htmlsafechars($row["nukereason"])."' /></div></div>";
 }
 $HTMLOUT .= "<br><div class='row'><div class='col-sm-12'></div></div>";
 $HTMLOUT .= "<br><div class='row'>
@@ -183,7 +183,7 @@ if ($CURUSER['class'] >= UC_STAFF && $CURUSER['class'] == UC_MAX) {
     $messc = $row["allow_comments"] == "yes" ? "&nbsp;<br>{$lang['edit_com_allow']}" : "&nbsp;<br>{$lang['edit_com_only']}";
     $HTMLOUT .= "<div class='col-sm-4'><font color='red'>&nbsp;*&nbsp;</font><b>&nbsp;{$lang['edit_comment']}</b>
     <select name='allow_comments'>
-    <option value='".htmlspecialchars($row["allow_comments"])."'>".htmlspecialchars($row["allow_comments"])."</option>
+    <option value='".htmlsafechars($row["allow_comments"])."'>".htmlsafechars($row["allow_comments"])."</option>
     <option value='yes'>{$lang['edit_yes']}</option><option value='no'>{$lang['edit_no']}</option></select>{$messc}\n";
 }
 // ===end
@@ -222,7 +222,7 @@ $HTMLOUT .= "<br><div class='row'>
         <table>
     <tr>
     <td align='left'>
-    <input type='radio' name='genre' value='keep' checked='checked' />{$lang['edit_touch1']} [ <b>{$lang['edit_touch2']}<font color='lightblue'>".htmlspecialchars($row['newgenre'])."</font></b> ] <br /></td>
+    <input type='radio' name='genre' value='keep' checked='checked' />{$lang['edit_touch1']} [ <b>{$lang['edit_touch2']}<font color='lightblue'>".htmlsafechars($row['newgenre'])."</font></b> ] <br /></td>
     <td style='border:none'><input type='radio' name='genre' value='movie' />{$lang['upload_add_movie']}</td>
     <td style='border:none'><input type='radio' name='genre' value='music' />{$lang['upload_add_music']}</td>
     <td style='border:none'><input type='radio' name='genre' value='game' />{$lang['upload_add_game']}</td>
@@ -307,7 +307,7 @@ $HTMLOUT .= "
       <td><input name='reasontype' type='radio' value='5' checked='checked' />&nbsp;{$lang['edit_other']}</td><td><input type='text' size='40' name='reason[]' />({$lang['edit_req']})<input type='hidden' name='id' value='$id' /></td>
     </tr>";
 if (isset($_GET["returnto"])) {
-    $HTMLOUT .= "<input type='hidden' name='returnto' value='".htmlspecialchars($_GET["returnto"])."'>";
+    $HTMLOUT .= "<input type='hidden' name='returnto' value='".htmlsafechars($_GET["returnto"])."'>";
 }
 $HTMLOUT .= "<tr><td colspan='2' align='center'><input type='submit' value='{$lang['edit_delete']}' class='button'></td>
     </tr>

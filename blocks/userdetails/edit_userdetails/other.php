@@ -13,9 +13,9 @@
 $HTMLOUT .= "
 <div class='input-group'>
     <span class='input-group-label'>{$lang['userdetails_title']}</span>
-    <input class='input-group-field' type='text'name='title' value='".htmlspecialchars($user['title'] ?? '')."'>
+    <input class='input-group-field' type='text'name='title' value='".htmlsafechars($user['title'] ?? '')."'>
 </div>
-<textarea placeholder='{$lang['userdetails_signature']}' cols='60' rows='2' name='signature'>".htmlspecialchars($user['signature'] ?? '')."</textarea>
+<textarea placeholder='{$lang['userdetails_signature']}' cols='60' rows='2' name='signature'>".htmlsafechars($user['signature'] ?? '')."</textarea>
 
 <div class='input-group'>
     <span class='input-group-label'>{$lang['userdetails_signature_rights']}</span>
@@ -46,7 +46,7 @@ if ($CURUSER['class'] == UC_STAFF && $user["class"] > UC_VIP) {
 $HTMLOUT .= "<div class='cell large-6'>
     <fieldset class='fieldset'>
         <legend>{$lang['userdetails_supportfor']}</legend>
-        <textarea cols='60' rows='2' name='supportfor'>".htmlspecialchars($user["supportfor"] ?? '')."</textarea>
+        <textarea cols='60' rows='2' name='supportfor'>".htmlsafechars($user["supportfor"] ?? '')."</textarea>
     </fieldset>
     </div>
     <div class='cell large-6'>
@@ -61,14 +61,14 @@ if ($CURUSER["class"] < UC_SYSOP) {
     $HTMLOUT .= "<div class='cell large-4 medium-3'>
             <fieldset class='fieldset'>
                 <legend>{$lang['userdetails_comment']}</legend>
-                <textarea cols='40' rows='6' name='modcomment' readonly='readonly'>".htmlspecialchars($user_stats["modcomment"] ?? '')."</textarea>
+                <textarea cols='40' rows='6' name='modcomment' readonly='readonly'>".htmlsafechars($user_stats["modcomment"] ?? '')."</textarea>
             </fieldset>
         </div>";
 } else {
     $HTMLOUT .= "<div class='cell large-4 medium-3'>
             <fieldset class='fieldset'>
                 <legend>{$lang['userdetails_comment']}</legend>
-                <textarea cols='40' rows='6' name='modcomment'>".htmlspecialchars($user_stats["modcomment"] ?? '')."</textarea>
+                <textarea cols='40' rows='6' name='modcomment'>".htmlsafechars($user_stats["modcomment"] ?? '')."</textarea>
         </fieldset>
         </div>";
 }
@@ -81,7 +81,7 @@ $HTMLOUT .= "<div class='cell large-4 medium-3'>
     <div class='cell large-4 medium-3'>
         <fieldset class='fieldset'>
         <legend>{$lang['userdetails_bonus_comment']}</legend>
-            <textarea cols='40' rows='6' name='bonuscomment' readonly='readonly' style='background:purple;color:yellow;'>".htmlspecialchars($user_stats["bonuscomment"] ?? '')."</textarea>
+            <textarea cols='40' rows='6' name='bonuscomment' readonly='readonly' style='background:purple;color:yellow;'>".htmlsafechars($user_stats["bonuscomment"] ?? '')."</textarea>
         </fieldset>
     </div>
     <fieldset class='cell medium-6'>

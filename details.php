@@ -142,7 +142,7 @@ if (($torrents_txt = $cache->get($cache_keys['torrent_details_txt'].$id)) === fa
 }
 //Memcache Pretime
 if (($pretime = $cache->get($cache_keys['torrent_pretime'].$id)) === false) {
-    $prename = htmlspecialchars($torrents['name']);
+    $prename = htmlsafechars($torrents['name']);
     ($pre_q = sql_query("SELECT time FROM releases WHERE releasename = ".sqlesc($prename))) || sqlerr(__FILE__, __LINE__);
     $pret = $pre_q->fetch_assoc();
     if (!is_array($pretime)) {
@@ -250,7 +250,7 @@ if (empty($torrents["tags"])) {
     $tags = explode(",", $torrents['tags']);
     $keywords = "";
     foreach ($tags as $tag) {
-        $keywords .= "<a href='browse.php?search=$tag&amp;searchin=tags&amp;incldead=1'>".htmlspecialchars($tag)."</a>,";
+        $keywords .= "<a href='browse.php?search=$tag&amp;searchin=tags&amp;incldead=1'>".htmlsafechars($tag)."</a>,";
     }
     $keywords = substr($keywords, 0, (strlen($keywords) - 1));
 }
@@ -262,7 +262,7 @@ if (isset($_GET["uploaded"])) {
 } elseif (isset($_GET["edited"])) {
     $HTMLOUT .= "<div class='alert alert-success span11' align='center'><h2>{$lang['details_success_edit']}</h2></div>\n";
     if (isset($_GET["returnto"])) {
-        $HTMLOUT .= "<p><b>{$lang['details_go_back']}<a href='".htmlspecialchars($_GET["returnto"])."'>{$lang['details_whence']}</a>.</b></p>\n";
+        $HTMLOUT .= "<p><b>{$lang['details_go_back']}<a href='".htmlsafechars($_GET["returnto"])."'>{$lang['details_whence']}</a>.</b></p>\n";
     }
 } elseif (isset($_GET["reseed"])) {
     $HTMLOUT .= "<div class='alert alert-success' align='center'><h2>{$lang['details_add_succ1']}</h2></div>\n";
@@ -277,7 +277,7 @@ if ($CURUSER['class'] >= UC_STAFF) {
             'checked_when' => TIME_NOW,
         ], $TRINITY20['expires']['torrent_details']);
         $cache->delete($cache_keys['checked_by'].$id);
-        write_log("Torrent <a href={$TRINITY20['baseurl']}/details.php?id=$id>(".htmlspecialchars($torrents['name']).")</a>{$lang['details_add_chk']}{$CURUSER['username']}");
+        write_log("Torrent <a href={$TRINITY20['baseurl']}/details.php?id=$id>(".htmlsafechars($torrents['name']).")</a>{$lang['details_add_chk']}{$CURUSER['username']}");
         header("Location: {$TRINITY20["baseurl"]}/details.php?id=$id&checked=done#Success");
     } elseif (isset($_GET["rechecked"]) && $_GET["rechecked"] == 1) {
         sql_query("UPDATE torrents SET checked_by = ".sqlesc($CURUSER['username']).",checked_when = ".TIME_NOW." WHERE id =".sqlesc($id)." LIMIT 1") || sqlerr(__FILE__,
@@ -287,7 +287,7 @@ if ($CURUSER['class'] >= UC_STAFF) {
             'checked_when' => TIME_NOW,
         ], $TRINITY20['expires']['torrent_details']);
         $cache->delete($cache_keys['checked_by'].$id);
-        write_log("Torrent <a href={$TRINITY20['baseurl']}/details.php?id=$id>(".htmlspecialchars($torrents['name']).")</a>{$lang['details_add_rchk']}{$CURUSER['username']}");
+        write_log("Torrent <a href={$TRINITY20['baseurl']}/details.php?id=$id>(".htmlsafechars($torrents['name']).")</a>{$lang['details_add_rchk']}{$CURUSER['username']}");
         header("Location: {$TRINITY20["baseurl"]}/details.php?id=$id&rechecked=done#Success");
     } elseif (isset($_GET["clearchecked"]) && $_GET["clearchecked"] == 1) {
         sql_query("UPDATE torrents SET checked_by = '', checked_when='' WHERE id =".sqlesc($id)." LIMIT 1") || sqlerr(__FILE__, __LINE__);
@@ -296,7 +296,7 @@ if ($CURUSER['class'] >= UC_STAFF) {
             'checked_when' => '',
         ], $TRINITY20['expires']['torrent_details']);
         $cache->delete($cache_keys['checked_by'].$id);
-        write_log("Torrent <a href={$TRINITY20["baseurl"]}/details.php?id=$id>(".htmlspecialchars($torrents['name']).")</a>{$lang['details_add_uchk']}{$CURUSER['username']}");
+        write_log("Torrent <a href={$TRINITY20["baseurl"]}/details.php?id=$id>(".htmlsafechars($torrents['name']).")</a>{$lang['details_add_uchk']}{$CURUSER['username']}");
         header("Location: {$TRINITY20["baseurl"]}/details.php?id=$id&clearchecked=done#Success");
     }
     if (isset($_GET["checked"]) && $_GET["checked"] == 'done') {
@@ -329,7 +329,7 @@ if (!($CURUSER["downloadpos"] == 0 && $CURUSER["id"] != $torrents["owner"] || $C
         'snatches',
         'imdb',
     ];
-    $action = isset($_GET["action"]) ? htmlspecialchars(trim($_GET["action"])) : 'torrents';
+    $action = isset($_GET["action"]) ? htmlsafechars(trim($_GET["action"])) : 'torrents';
     if (!in_array($action, $possible_actions)) {
         stderr('Error',
             '<br><div class="alert alert-error span11">Error! Change a few things up and try submitting again.</div>');
@@ -359,5 +359,5 @@ if ($torrents["id"] != $torrents["min_id"]) {
 if ($torrents["id"] != $torrents["max_id"]) {
     $HTMLOUT .= "<li class='pagination-next'><a href='details.php?id={$next_id}'><b>{$lang['details_add_prev']}</b></a></li>";
 }
-echo stdhead("{$lang['details_details']}\"".htmlspecialchars($torrents["name"], ENT_QUOTES)."\"", true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
+echo stdhead("{$lang['details_details']}\"".htmlsafechars($torrents["name"], ENT_QUOTES)."\"", true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
 ?>

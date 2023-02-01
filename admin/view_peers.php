@@ -92,7 +92,7 @@ $row = $res->fetch_row();
 $count = $row[0];
 $peersperpage = 15;
 $HTMLOUT .= "<h2 align='center'>{$lang['wpeers_h2']}</h2>
-<font class='small'>{$lang['wpeers_there']}".htmlspecialchars($count)."{$lang['wpeers_peer']}".($count > 1 ? $lang['wpeers_ps'] : "")."{$lang['wpeers_curr']}</font>";
+<font class='small'>{$lang['wpeers_there']}".htmlsafechars($count)."{$lang['wpeers_peer']}".($count > 1 ? $lang['wpeers_ps'] : "")."{$lang['wpeers_curr']}</font>";
 //$HTMLOUT.= begin_main_frame();
 $HTMLOUT .= "<div class='row'><div class='col-md-12'>";
 $pager = pager($peersperpage, $count, "staffpanel.php?tool=view_peers&amp;action=view_peers&amp;");
@@ -141,8 +141,8 @@ if ($result->num_rows != 0) {
 </tr>";
     }
     while ($row = $result->fetch_assoc()) {
-        $smallname = substr(htmlspecialchars($row["name"]), 0, 25);
-        if ($smallname != htmlspecialchars($row["name"])) {
+        $smallname = substr(htmlsafechars($row["name"]), 0, 25);
+        if ($smallname != htmlsafechars($row["name"])) {
             $smallname .= '...';
         }
         if (XBT_TRACKER == true) {
@@ -151,34 +151,34 @@ if ($result->num_rows != 0) {
         }
         if (XBT_TRACKER == true) {
             $HTMLOUT .= '<tr>
-<td><a href="userdetails.php?id='.(int)($row['uid']).'">'.htmlspecialchars($row['username']).'</a></td>
+<td><a href="userdetails.php?id='.(int)($row['uid']).'">'.htmlsafechars($row['username']).'</a></td>
 <td><a href="details.php?id='.(int)($row['tid']).'">'.$smallname.'</a></td>
-<td align="center">'.htmlspecialchars($row['ipa']).'</td>
-<td align="center">'.htmlspecialchars(mksize($row['uploaded'])).'</td>
-'.($TRINITY20['ratio_free'] == true ? '' : '<td align="center">'.htmlspecialchars(mksize($row['downloaded'])).'</td>').'
-<td align="center">'.htmlspecialchars($row['torrent_pass']).'</td>
+<td align="center">'.htmlsafechars($row['ipa']).'</td>
+<td align="center">'.htmlsafechars(mksize($row['uploaded'])).'</td>
+'.($TRINITY20['ratio_free'] == true ? '' : '<td align="center">'.htmlsafechars(mksize($row['downloaded'])).'</td>').'
+<td align="center">'.htmlsafechars($row['torrent_pass']).'</td>
 <td align="center">'.($row['active'] >= 1 ? "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='{$lang['wpeers_yes']}' title='{$lang['wpeers_yes']}' />" : "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='{$lang['wpeers_no']}' title='{$lang['wpeers_no']}' />").'</td>
 <td align="center">'.get_date($row['mtime'], 'DATE', 0, 1).'</td>
-<td align="center">'.htmlspecialchars(mksize($row['upspeed'])).'/s</td>
-'.($TRINITY20['ratio_free'] == true ? '' : '<td align="center">'.htmlspecialchars(mksize($row['downspeed'])).'/s</td>').'
-<td align="center">'.htmlspecialchars(mksize($row['left'])).'</td>
+<td align="center">'.htmlsafechars(mksize($row['upspeed'])).'/s</td>
+'.($TRINITY20['ratio_free'] == true ? '' : '<td align="center">'.htmlsafechars(mksize($row['downspeed'])).'/s</td>').'
+<td align="center">'.htmlsafechars(mksize($row['left'])).'</td>
 </tr>';
         } else {
             $HTMLOUT .= '<tr>
-<td><a href="userdetails.php?id='.(int)($row['userid']).'">'.htmlspecialchars($row['username']).'</a></td>
+<td><a href="userdetails.php?id='.(int)($row['userid']).'">'.htmlsafechars($row['username']).'</a></td>
 <td><a href="details.php?id='.(int)($row['torrent']).'">'.$smallname.'</a></td>
-<td align="center">'.htmlspecialchars($row['ip']).'</td>
-<td align="center">'.htmlspecialchars($row['port']).'</td>
-<td align="center">'.htmlspecialchars(mksize($row['uploaded'])).'</td>
-'.($TRINITY20['ratio_free'] == true ? '' : '<td align="center">'.htmlspecialchars(mksize($row['downloaded'])).'</td>').'
-<td align="center">'.htmlspecialchars($row['torrent_pass']).'</td>
+<td align="center">'.htmlsafechars($row['ip']).'</td>
+<td align="center">'.htmlsafechars($row['port']).'</td>
+<td align="center">'.htmlsafechars(mksize($row['uploaded'])).'</td>
+'.($TRINITY20['ratio_free'] == true ? '' : '<td align="center">'.htmlsafechars(mksize($row['downloaded'])).'</td>').'
+<td align="center">'.htmlsafechars($row['torrent_pass']).'</td>
 <td align="center">'.($row['connectable'] == 'yes' ? "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='{$lang['wpeers_yes']}' title='{$lang['wpeers_yes']}' />" : "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='{$lang['wpeers_no']}' title='{$lang['wpeers_no']}' />").'</td>
 <td align="center">'.($row['seeder'] == 'yes' ? "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='{$lang['wpeers_yes']}' title='{$lang['wpeers_yes']}' />" : "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='{$lang['wpeers_no']}' title='{$lang['wpeers_no']}' />").'</td>
 <td align="center">'.get_date($row['started'], 'DATE').'</td>
 <td align="center">'.get_date($row['last_action'], 'DATE', 0, 1).'</td>
-<td align="center">'.htmlspecialchars(mksize($row['uploadoffset'])).'</td>
-'.($TRINITY20['ratio_free'] == true ? '' : '<td align="center">'.htmlspecialchars(mksize($row['downloadoffset'])).'</td>').'
-<td align="center">'.htmlspecialchars(mksize($row['to_go'])).'</td>
+<td align="center">'.htmlsafechars(mksize($row['uploadoffset'])).'</td>
+'.($TRINITY20['ratio_free'] == true ? '' : '<td align="center">'.htmlsafechars(mksize($row['downloadoffset'])).'</td>').'
+<td align="center">'.htmlsafechars(mksize($row['to_go'])).'</td>
 </tr>';
         }
     }

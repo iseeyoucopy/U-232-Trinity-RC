@@ -29,7 +29,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
 if ($res->num_rows > 0) {
     $arr1 = $res->fetch_assoc();
     $userid = (int)$CURUSER['id'];
-    $question = htmlspecialchars($arr1["question"]);
+    $question = htmlsafechars($arr1["question"]);
     $o = [
         $arr1["option0"],
         $arr1["option1"],
@@ -107,7 +107,7 @@ if ($res->num_rows > 0) {
             $p = ($tvotes == 0 ? 0 : round($a[0] / $tvotes * 100));
             $c = ($i % 2 !== 0 ? '' : "poll");
             $HTMLOUT .= "<tr>";
-            $HTMLOUT .= "<td width='1%' style='padding:3px;white-space:nowrap;' class='embedded".$c."'>".htmlspecialchars($a[1])."</td>
+            $HTMLOUT .= "<td width='1%' style='padding:3px;white-space:nowrap;' class='embedded".$c."'>".htmlsafechars($a[1])."</td>
 					<td width='99%' class='embedded".$c."' align='center'>
 					<img src='{$TRINITY20['pic_base_url']}bar_left.gif' alt='bar_left.gif' />
 					<img src='{$TRINITY20['pic_base_url']}bar.gif' alt='bar.gif'  height='9' width='".($p * 3)."' />
@@ -120,7 +120,7 @@ if ($res->num_rows > 0) {
         $HTMLOUT .= "<form method='post' action='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$topicid."'>
 				  <input type='hidden' name='pollid' value='".$pollid."' />";
         for ($i = 0; $a = $o[$i]; ++$i) {
-            $HTMLOUT .= "<input type='radio' name='choice' value='$i' />".htmlspecialchars($a)."<br />
+            $HTMLOUT .= "<input type='radio' name='choice' value='$i' />".htmlsafechars($a)."<br />
 				  <br />
 				  <p align='center'><input type='submit' value='Vote!' /></p>";
         }
@@ -142,10 +142,10 @@ if ($res->num_rows > 0) {
                     if ($CURUSER['class'] < UC_STAFF && $arr_vv["userid"] != $CURUSER["id"]) {
                         $voters = "<i>Anonymous</i>";
                     } else {
-                        $voters = "<i>Anonymous</i>[<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr_vv['userid']."'><b>".htmlspecialchars($arr_vv['username'])."</b></a>]";
+                        $voters = "<i>Anonymous</i>[<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr_vv['userid']."'><b>".htmlsafechars($arr_vv['username'])."</b></a>]";
                     }
                 } else {
-                    $voters .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr_vv['userid']."'><b>".htmlspecialchars($arr_vv['username'])."</b></a>";
+                    $voters .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr_vv['userid']."'><b>".htmlsafechars($arr_vv['username'])."</b></a>";
                 }
             }
             $HTMLOUT .= $voters."<br />[<font class='small'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid'>hide</a></font>]";

@@ -55,8 +55,8 @@ $HTMLOUT = "<!DOCTYPE html>
 $dls = 0;
 while ($arr = $res->fetch_assoc()) {
     $HTMLOUT .= "<tr align='center'>".
-        "<td>".htmlspecialchars($arr['file_name'])."</td>".
-        "<td><a class='pointer' onclick=\"opener.location=('/userdetails.php?id=".(int)$arr['user_id']."'); self.close();\">".htmlspecialchars($arr['username'])."</a></td>".
+        "<td>".htmlsafechars($arr['file_name'])."</td>".
+        "<td><a class='pointer' onclick=\"opener.location=('/userdetails.php?id=".(int)$arr['user_id']."'); self.close();\">".htmlsafechars($arr['username'])."</a></td>".
         "<td>".(int)$arr['times_downloaded']."</td>".
         "<td>".get_date($arr['date'], 'DATE', 1, 0)." (".get_date($arr['date'], 'DATE', 1, 0).")</td>".
         "</tr>";

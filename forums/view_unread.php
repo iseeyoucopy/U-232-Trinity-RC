@@ -26,7 +26,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     exit();
 }
 // -------- Action: View unread posts
-if ((isset($_POST[$action]) ? htmlspecialchars($_POST[$action]) : '') == 'clear') {
+if ((isset($_POST[$action]) ? htmlsafechars($_POST[$action]) : '') == 'clear') {
     $topic_ids = ($_POST['topic_id'] ?? []);
     if (empty($topic_ids)) {
         header('Location: '.$TRINITY20['baseurl'].'/forums.php?action='.$action);
@@ -122,10 +122,10 @@ if ($count > 0) {
                     <span class='thread_status newfolder' title='New posts.'>&nbsp;</span>
                 </td>
                 <td class=row align='left'>
-                    <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".(int)$arr['id']."&amp;page=last#last'>".htmlspecialchars($arr['topic_name'])."</a><br />in&nbsp;<font class='small'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$arr['forum_id']."'>".htmlspecialchars($arr['name'])."</a></font>
+                    <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".(int)$arr['id']."&amp;page=last#last'>".htmlsafechars($arr['topic_name'])."</a><br />in&nbsp;<font class='small'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$arr['forum_id']."'>".htmlsafechars($arr['name'])."</a></font>
                  </td>
                 <td class=row align='center'>
-                    <input type='checkbox' name='topic_id[]' value='".htmlspecialchars($arr['id'])."' />
+                    <input type='checkbox' name='topic_id[]' value='".htmlsafechars($arr['id'])."' />
                 </td>
             </tr>";
     }

@@ -47,8 +47,8 @@ if ($topmoods === false) {
         __LINE__);
     while ($arr = $res->fetch_assoc()) {
         $topmoods .= '<tr><td class="text-center">'.(int)$arr['moodcount'].'</td>
-                 <td class="text-center">'.htmlspecialchars($arr['name']).' '.($arr['bonus'] == 1 ? '<a href="/mybonus.php" style="color:lime">(bonus)</a>' : '').'</td>
-                 <td class="text-center"><img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlspecialchars($arr['image']).'" alt="" /></td>
+                 <td class="text-center">'.htmlsafechars($arr['name']).' '.($arr['bonus'] == 1 ? '<a href="/mybonus.php" style="color:lime">(bonus)</a>' : '').'</td>
+                 <td class="text-center"><img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlsafechars($arr['image']).'" alt="" /></td>
                  </tr>';
     }
     $cache->set($cache_keys['topmoods'], $topmoods, 0);

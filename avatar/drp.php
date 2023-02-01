@@ -21,8 +21,8 @@ $op[7] = 'Browser';
 $op[8] = 'Profile hits';
 $op[9] = 'Online time';
 $var['line1']['value'] = $var['line2']['value'] = $var['line3']['value'] = 0;
-if (isset($_POST["firstrun"]) && htmlspecialchars($_POST["firstrun"]) == 1) {
-    $user = isset($_POST["user"]) ? strtolower(htmlspecialchars($_POST["user"])) : "";
+if (isset($_POST["firstrun"]) && htmlsafechars($_POST["firstrun"]) == 1) {
+    $user = isset($_POST["user"]) ? strtolower(htmlsafechars($_POST["user"])) : "";
     if (file_exists($_settings.$user.".set")) {
         $var = unserialize(file_get_contents($_settings.$user.".set"));
     }

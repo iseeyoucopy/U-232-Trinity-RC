@@ -47,13 +47,13 @@ $perpage = 15;
 $pager = pager($perpage, $count, "snatches.php?id=$id&amp;");
 if (!$count) {
     stderr("No snatches",
-        "It appears that there are currently no snatches for the torrent <a href='details.php?id=".(int)$arr['id']."'>".htmlspecialchars($arr['name'])."</a>.");
+        "It appears that there are currently no snatches for the torrent <a href='details.php?id=".(int)$arr['id']."'>".htmlsafechars($arr['name'])."</a>.");
 }
 $HTMLOUT .= "
 <div class='grid-x grid-paddinx-x'>
   <div class='card'>
     <div class='card-divider'>
-      <p>Snatches for torrent <a href='{$TRINITY20['baseurl']}/details.php?id=".(int)$arr['id']."'><span class='label secondary'>".htmlspecialchars($arr['name'])."</span></a></p>
+      <p>Snatches for torrent <a href='{$TRINITY20['baseurl']}/details.php?id=".(int)$arr['id']."'><span class='label secondary'>".htmlsafechars($arr['name'])."</span></a></p>
     </div>
     <div class='card-section'>
     <span class='label'>Currently <span class='badge success'>{$row['0']}</span> snatch".($row[0] == 1 ? "" : "es")."</span>";
@@ -87,23 +87,23 @@ while ($arr = $res->fetch_assoc()) {
     $downspeed = ($arr["downspeed"] > 0 ? mksize($arr["downspeed"]) : ($arr["leechtime"] > 0 ? mksize($arr["downloaded"] / $arr["leechtime"]) : mksize(0)));
     $ratio = ($arr["downloaded"] > 0 ? number_format($arr["uploaded"] / $arr["downloaded"], 3) : ($arr["uploaded"] > 0 ? "Inf." : "---"));
     $completed = sprintf("%.2f%%", 100 * (1 - ($arr["to_go"] / $arr["size"])));
-    $snatchuser = (isset($arr['username2']) ? ("<a href='userdetails.php?id=".(int)$arr['userid']."'><b>".htmlspecialchars($arr['username2'])."</b></a>") : "{$lang['snatches_unknown']}");
+    $snatchuser = (isset($arr['username2']) ? ("<a href='userdetails.php?id=".(int)$arr['userid']."'><b>".htmlsafechars($arr['username2'])."</b></a>") : "{$lang['snatches_unknown']}");
     $username = (($arr['anonymous2'] == 'yes') ? ($CURUSER['class'] < UC_STAFF && $arr['userid'] != $CURUSER['id'] ? '' : $snatchuser.' - ')."<i>{$lang['snatches_anon']}</i>" : $snatchuser);
     //if($arr['owner'] != $arr['su']){
     $HTMLOUT .= "<tr>
   <td align='left'>{$username}</td>
   <td class='text-center'>".($arr["connectable"] == "yes" ? "<font color='green'>Yes</font>" : "<font color='red'>No</font>")."</td>
   <td class='text-center'>".mksize($arr["uploaded"])."</td>
-  <td class='text-center'>".htmlspecialchars($upspeed)."/s</td>
+  <td class='text-center'>".htmlsafechars($upspeed)."/s</td>
   ".($TRINITY20['ratio_free'] ? "" : "<td class='text-center'>".mksize($arr["downloaded"])."</td>")."
-  ".($TRINITY20['ratio_free'] ? "" : "<td class='text-center'>".htmlspecialchars($downspeed)."/s</td>")."
-  <td class='text-center'>".htmlspecialchars($ratio)."</td>
-  <td class='text-center'>".htmlspecialchars($completed)."</td>
+  ".($TRINITY20['ratio_free'] ? "" : "<td class='text-center'>".htmlsafechars($downspeed)."/s</td>")."
+  <td class='text-center'>".htmlsafechars($ratio)."</td>
+  <td class='text-center'>".htmlsafechars($completed)."</td>
   <td class='text-center'>".mkprettytime($arr["seedtime"])."</td>
   <td class='text-center'>".mkprettytime($arr["leechtime"])."</td>
   <td class='text-center'>".get_date($arr["last_action"], '', 0, 1)."</td>
   <td class='text-center'>".get_date($arr["complete_date"], '', 0, 1)."</td>
-  <td class='text-center'>".htmlspecialchars($arr["agent"])."</td>
+  <td class='text-center'>".htmlsafechars($arr["agent"])."</td>
   <td class='text-center'>".(int)$arr["port"]."</td>
   <td class='text-center'>".(int)$arr["timesann"]."</td>
   </tr>";

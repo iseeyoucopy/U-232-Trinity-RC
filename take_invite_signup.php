@@ -65,7 +65,7 @@ if (empty($wantusername) || empty($wantpassword) || empty($email) || empty($invi
     stderr("Error", "Don't leave any fields blank.");
 }
 if (!blacklist($wantusername)) {
-    stderr($lang['takesignup_user_error'], sprintf($lang['takesignup_badusername'], htmlspecialchars($wantusername)));
+    stderr($lang['takesignup_user_error'], sprintf($lang['takesignup_badusername'], htmlsafechars($wantusername)));
 }
 if (strlen($wantusername) > 12) {
     stderr("Error", "Sorry, username is too long (max is 12 chars)");
@@ -114,19 +114,19 @@ if (strlen((string)$pincode) != 4) {
     stderr($lang['takesignup_user_error'], "Pin Code must be 4 digits");
 }
 $country = (((isset($_POST['country']) && is_valid_id($_POST['country'])) ? (int)$_POST['country'] : 0));
-$gender = isset($_POST['gender']) && isset($_POST['gender']) ? htmlspecialchars($_POST['gender']) : '';
+$gender = isset($_POST['gender']) && isset($_POST['gender']) ? htmlsafechars($_POST['gender']) : '';
 // check if email addy is already in use
 ($a_query = sql_query('SELECT COUNT(id) FROM users WHERE email = '.sqlesc($email))) || sqlerr(__FILE__, __LINE__);
 $a = $a_query->fetch_row();
 if ($a[0] != 0) {
-    stderr('Error', 'The e-mail address <b>'.htmlspecialchars($email).'</b> is already in use.');
+    stderr('Error', 'The e-mail address <b>'.htmlsafechars($email).'</b> is already in use.');
 }
 //=== check if ip addy is already in use
 if ($TRINITY20['dupeip_check_on']) {
     ($c_query = sql_query("SELECT COUNT(id) FROM users WHERE ip=".sqlesc($_SERVER['REMOTE_ADDR']))) || sqlerr(__FILE__, __LINE__);
     $c = $c_query->fetch_row();
     if ($c[0] != 0) {
-        stderr("Error", "The ip ".htmlspecialchars($_SERVER['REMOTE_ADDR'])." is already in use. We only allow one account per ip address.");
+        stderr("Error", "The ip ".htmlsafechars($_SERVER['REMOTE_ADDR'])." is already in use. We only allow one account per ip address.");
     }
 }
 
@@ -156,7 +156,7 @@ if ($TRINITY20['dupeaccount_check_on'] == 1) {
     if (!empty($email)) {
         ($x = sql_query("SELECT id, comment FROM bannedemails WHERE email = ".sqlesc($email))) || sqlerr(__FILE__, __LINE__);
         if ($yx = $x->fetch_assoc()) {
-            stderr("{$lang['takesignup_user_error']}", "{$lang['takesignup_bannedmail']}".htmlspecialchars($yx['comment']));
+            stderr("{$lang['takesignup_user_error']}", "{$lang['takesignup_bannedmail']}".htmlsafechars($yx['comment']));
         }
     }
 }
@@ -219,7 +219,7 @@ $user_frees = (TIME_NOW + 14 * 86400);
 $id = $mysqli->insert_id;
 sql_query("INSERT INTO usersachiev (id, username) VALUES (".sqlesc($id).", ".sqlesc($wantusername).")") || sqlerr(__FILE__, __LINE__);
 sql_query("UPDATE usersachiev SET invited=invited+1 WHERE id =".sqlesc($assoc['sender'])) || sqlerr(__FILE__, __LINE__);
-$message = "Welcome New {$TRINITY20['site_name']} Member : - ".htmlspecialchars($wantusername)."";
+$message = "Welcome New {$TRINITY20['site_name']} Member : - ".htmlsafechars($wantusername)."";
 if (!$new_user && $mysqli->errno) {
     stderr("Error", "Username already exists!");
 }
@@ -250,7 +250,7 @@ $latestuser_cache['king'] = '0';
 /** OOPs **/
 $cache->set($cache_keys['latestuser'], $latestuser_cache, 0, $TRINITY20['expires']['latestuser']);
 $cache->delete($cache_keys['birthdayusers']);
-write_log('User account '.htmlspecialchars($wantusername).' was created!');
+write_log('User account '.htmlsafechars($wantusername).' was created!');
 if ($TRINITY20['autoshout_on'] == 1) {
     autoshout($message);
 }

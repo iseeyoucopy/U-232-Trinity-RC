@@ -30,10 +30,10 @@ if ($sim_torrents && (is_countable($sim_torrents) ? count($sim_torrents) : 0) > 
     if ($sim_torrents) {
         foreach ($sim_torrents as $a) {
             if (is_array($a)) {
-                $sim_tor['cat_name'] = htmlspecialchars($change[$a['category']]['name']);
-                $sim_tor['cat_pic'] = htmlspecialchars($change[$a['category']]['image']);
+                $sim_tor['cat_name'] = htmlsafechars($change[$a['category']]['name']);
+                $sim_tor['cat_pic'] = htmlsafechars($change[$a['category']]['image']);
                 $cat = "<img src=\"pic/caticons/{$CURUSER['categorie_icon']}/{$sim_tor['cat_pic']}\" alt=\"{$sim_tor['cat_name']}\" title=\"{$sim_tor['cat_name']}\" />";
-                $name = htmlspecialchars(CutName($a["name"]));
+                $name = htmlsafechars(CutName($a["name"]));
                 $seeders = (int)$a["seeders"];
                 $leechers = (int)$a["leechers"];
                 $added = get_date($a["added"], 'DATE', 0, 1);
@@ -52,7 +52,7 @@ if ($sim_torrents && (is_countable($sim_torrents) ? count($sim_torrents) : 0) > 
         $HTMLOUT .= "
         <table class='striped'>\n
         <tr>
-        <td>{$lang['details_sim_no1']}".htmlspecialchars($torrents["name"])."{$lang['details_sim_no2']}</td>
+        <td>{$lang['details_sim_no1']}".htmlsafechars($torrents["name"])."{$lang['details_sim_no2']}</td>
         </tr></table>";
     }
 }

@@ -40,9 +40,9 @@ if (!$count) {
 $HTMLOUT = '';
 ($get_bonus = sql_query("SELECT * FROM ach_bonus WHERE bonus_id =".sqlesc($rand))) || sqlerr(__FILE__, __LINE__);
 $bonus = $get_bonus->fetch_assoc();
-$bonus_desc = htmlspecialchars($bonus['bonus_desc']);
-$bonus_type = htmlspecialchars($bonus['bonus_type']);
-$bonus_do = htmlspecialchars($bonus['bonus_do']);
+$bonus_desc = htmlsafechars($bonus['bonus_desc']);
+$bonus_type = htmlsafechars($bonus['bonus_type']);
+$bonus_do = htmlsafechars($bonus['bonus_do']);
 ($get_d = sql_query("SELECT * FROM users WHERE id =".sqlesc($id))) || sqlerr(__FILE__, __LINE__);
 $dn = $get_d->fetch_assoc();
 $down = (float)$dn['downloaded'];

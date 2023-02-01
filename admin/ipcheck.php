@@ -70,14 +70,14 @@ while ($ras = $res->fetch_assoc()) {
                 $last_access = get_date($arr['last_access'], '', 1, 0);
                 $utc = $uc % 2 == 0 ? "" : " bgcolor=\"333333\"";
                 $HTMLOUT .= "<tr$utc><td align='left'><a href='userdetails.php?id=".(int)$arr['id']."'>".format_username($arr, true)."</a></td>
-                                  <td style='max-width:130px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;'>".htmlspecialchars($arr['email'])."</td>
+                                  <td style='max-width:130px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;'>".htmlsafechars($arr['email'])."</td>
                                   <td>$added</td>
                                   <td>$last_access</td>
                                   ".($TRINITY20['ratio_free'] ? "" : "<td align='center'>$downloaded</td>")."
                                   <td>$uploaded</td>
                                   <td>".member_ratio($arr['uploaded'], $TRINITY20['ratio_free'] ? '0' : $arr['downloaded'])."</td>
-                                  <td><span style=\"font-weight: bold;\">".htmlspecialchars($arr['ip'])."</span></td>\n</tr>\n";
-                $ip = htmlspecialchars($arr["ip"]);
+                                  <td><span style=\"font-weight: bold;\">".htmlsafechars($arr['ip'])."</span></td>\n</tr>\n";
+                $ip = htmlsafechars($arr["ip"]);
             }
         }
     }

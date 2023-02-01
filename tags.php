@@ -41,7 +41,7 @@ $test = $_POST["test"] ?? '';
 $HTMLOUT .= "{$lang['tags_title']}
 
     <form method='post' action='?'>
-    <textarea name='test' cols='60' rows='3'>".($test ? htmlspecialchars($test) : "")."</textarea>
+    <textarea name='test' cols='60' rows='3'>".($test ? htmlsafechars($test) : "")."</textarea>
     <input type='submit' value='{$lang['tags_test']}' style='height: 23px; margin-left: 5px' />
     </form>";
 if ($test != "") {

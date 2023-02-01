@@ -48,7 +48,7 @@ function rep_cache()
 $GVARS = array(
 ';
     foreach ($_POST as $k => $v) {
-        $rep_out .= ($k == 'rep_undefined') ? "\t'{$k}' => '".htmlspecialchars($v, ENT_QUOTES)."',\n" : "\t'{$k}' => ".(int)$v.",\n";
+        $rep_out .= ($k == 'rep_undefined') ? "\t'{$k}' => '".htmlsafechars($v, ENT_QUOTES)."',\n" : "\t'{$k}' => ".(int)$v.",\n";
     }
     $rep_out .= "\t'g_rep_negative' => TRUE,\n";
     $rep_out .= "\t'g_rep_seeown' => TRUE,\n";

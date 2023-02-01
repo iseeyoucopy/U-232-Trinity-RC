@@ -58,7 +58,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == $save_or_edit) {
         sql_query('UPDATE messages SET msg = '.$body.', subject = '.$subject.' WHERE id = '.sqlesc($pm_id)) || sqlerr(__FILE__, __LINE__);
     } elseif ($save_or_edit === 'send') {
         //=== Try finding a user with specified name
-        $res_receiver = sql_query('SELECT id, class, acceptpms, notifs, email, class, username FROM users WHERE LOWER(username)=LOWER('.sqlesc(htmlspecialchars($_POST['to'])).') LIMIT 1');
+        $res_receiver = sql_query('SELECT id, class, acceptpms, notifs, email, class, username FROM users WHERE LOWER(username)=LOWER('.sqlesc(htmlsafechars($_POST['to'])).') LIMIT 1');
         $arr_receiver = $res_receiver->fetch_assoc();
         if (!is_valid_id($arr_receiver['id'])) {
             stderr($lang['pm_error'], $lang['pm_forwardpm_nomember']);
@@ -88,7 +88,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == $save_or_edit) {
                         __LINE__);
                     $block = $r->fetch_row();
                     if ($block[0] > 0) {
-                        stderr($lang['pm_forwardpm_refused'], htmlspecialchars($arr_receiver['username']).$lang['pm_send_blocked']);
+                        stderr($lang['pm_forwardpm_refused'], htmlsafechars($arr_receiver['username']).$lang['pm_send_blocked']);
                     }
                     break;
 
@@ -97,12 +97,12 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == $save_or_edit) {
                         __LINE__);
                     $friend = $r->fetch_row();
                     if ($friend[0] > 0) {
-                        stderr($lang['pm_forwardpm_refused'], htmlspecialchars($arr_receiver['username']).$lang['pm_send_onlyf']);
+                        stderr($lang['pm_forwardpm_refused'], htmlsafechars($arr_receiver['username']).$lang['pm_send_onlyf']);
                     }
                     break;
 
                 case 'no':
-                    stderr($lang['pm_forwardpm_refused'], htmlspecialchars($arr_receiver['username']).$lang['pm_send_doesnt']);
+                    stderr($lang['pm_forwardpm_refused'], htmlsafechars($arr_receiver['username']).$lang['pm_send_doesnt']);
                     break;
             }
         }
@@ -118,7 +118,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == $save_or_edit) {
         }
         //=== if they just have to know about it right away... send them an email (if selected if profile)
         if (strpos($arr_receiver['notifs'], '[pm]') !== false) {
-            $username = htmlspecialchars($CURUSER['username']);
+            $username = htmlsafechars($CURUSER['username']);
             $body = <<<EOD
 {$lang['pm_forwardpm_pmfrom']} from $username!
 
@@ -149,12 +149,12 @@ EOD;
 } //=== end save draft
 //=== Code for preview Retros code
 if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'preview') {
-    $subject = htmlspecialchars(trim($_POST['subject']));
+    $subject = htmlsafechars(trim($_POST['subject']));
     $draft = trim($_POST['body']);
     $preview = '
     <table class="table table-striped">
     <tr>
-        <td colspan="2" class="text-left"><span style="font-weight: bold;">'.$lang['pm_draft_subject'].'</span>'.htmlspecialchars($subject).'</td>
+        <td colspan="2" class="text-left"><span style="font-weight: bold;">'.$lang['pm_draft_subject'].'</span>'.htmlsafechars($subject).'</td>
     </tr>
     <tr>
         <td valign="top" class="text-center" width="80px" id="photocol">'.avatar_stuff($CURUSER).'</td>
@@ -165,7 +165,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'preview') {
     //=== Get the info
     ($res = sql_query('SELECT * FROM messages WHERE id='.sqlesc($pm_id))) || sqlerr(__FILE__, __LINE__);
     $message = $res->fetch_assoc();
-    $subject = htmlspecialchars($message['subject']);
+    $subject = htmlsafechars($message['subject']);
     $draft = $message['msg'];
 }
 //=== print out the page
@@ -182,7 +182,7 @@ $HTMLOUT .= '<h1>'.$lang['pm_usedraft'].''.$subject.'</h1>'.$top_links.$preview.
     <tr>
         <td class="text-right" valign="top"><span style="font-weight: bold;">'.$lang['pm_forward_to'].'</span></td>
         <td class="text-left" valign="top"><input type="text" name="to" value="'.((isset($_POST['to']) && validusername($_POST['to'],
-            false)) ? htmlspecialchars($_POST['to']) : $lang['pm_forward_user']).'" class="member" onfocus="this.value=\'\';" />
+            false)) ? htmlsafechars($_POST['to']) : $lang['pm_forward_user']).'" class="member" onfocus="this.value=\'\';" />
          '.$lang['pm_usedraft_usr'].'</td>
     </tr>
     <tr>

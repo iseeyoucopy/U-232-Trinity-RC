@@ -41,7 +41,7 @@ function docleanup($data)
         $cache->delete($cache_keys['thumbs_up'].$arr['id']);
         $cache->delete($cache_keys['torrent_details_txt'].$arr['id']);
         
-        write_log("Torrent ".(int)$arr['id']." (".htmlspecialchars($arr['name']).") was deleted by system (older than $days days and no seeders)");
+        write_log("Torrent ".(int)$arr['id']." (".htmlsafechars($arr['name']).") was deleted by system (older than $days days and no seeders)");
     }
     if ($queries > 0) {
         write_log("Delete Old Torrents Clean -------------------- Delete Old Torrents cleanup Complete using $queries queries --------------------");

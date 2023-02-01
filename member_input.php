@@ -16,7 +16,7 @@ require_once INCL_DIR.'user_functions.php';
 dbconn(false);
 loggedinorreturn();
 //=== get action posted so we know what to do :P
-$posted_action = (isset($_POST['action']) ? htmlspecialchars($_POST['action']) : (isset($_GET['action']) ? htmlspecialchars($_GET['action']) : ''));
+$posted_action = (isset($_POST['action']) ? htmlsafechars($_POST['action']) : (isset($_GET['action']) ? htmlsafechars($_GET['action']) : ''));
 //=== add all possible actions here and check them to be sure they are ok
 $valid_actions = [
     'flush_torrents',
@@ -61,7 +61,7 @@ if ($action == '') {
                 stderr('Error', 'How did you get here?');
             }
             $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
-            $posted_notes = isset($_POST['new_staff_note']) ? htmlspecialchars($_POST['new_staff_note']) : '';
+            $posted_notes = isset($_POST['new_staff_note']) ? htmlsafechars($_POST['new_staff_note']) : '';
             //=== make sure they are staff, not editing their own and playing nice :P
             ($staff_notes_res = sql_query('SELECT staff_notes, class, username FROM users WHERE id='.sqlesc($id))) || sqlerr(__FILE__, __LINE__);
             $staff_notes_arr = $staff_notes_res->fetch_assoc();
@@ -72,9 +72,9 @@ if ($action == '') {
                     'staff_notes' => $posted_notes,
                 ], $TRINITY20['expires']['user_cache']);
                 //=== add it to the log
-                write_log('<b>'.$CURUSER['username'].'</b> edited member <a href="userdetails.php?id='.$id.'" title="go to '.htmlspecialchars($staff_notes_arr['username']).(substr($staff_notes_arr['username'],
-                        -1) == 's' ? '\'' : '\'s').' staff notes"><b>'.htmlspecialchars($staff_notes_arr['username']).(substr($staff_notes_arr['username'],
-                        -1) == 's' ? '\'' : '\'s').'</b></a> staff notes. Changes made:<br />Was:<br />'.htmlspecialchars($staff_notes_arr['staff_notes']).'<br />is now:<br />'.htmlspecialchars($_POST['new_staff_note']).'');
+                write_log('<b>'.$CURUSER['username'].'</b> edited member <a href="userdetails.php?id='.$id.'" title="go to '.htmlsafechars($staff_notes_arr['username']).(substr($staff_notes_arr['username'],
+                        -1) == 's' ? '\'' : '\'s').' staff notes"><b>'.htmlsafechars($staff_notes_arr['username']).(substr($staff_notes_arr['username'],
+                        -1) == 's' ? '\'' : '\'s').'</b></a> staff notes. Changes made:<br />Was:<br />'.htmlsafechars($staff_notes_arr['staff_notes']).'<br />is now:<br />'.htmlsafechars($_POST['new_staff_note']).'');
             }
             header('Location: userdetails.php?id='.$id.'&sn=1');
             break;
@@ -84,7 +84,7 @@ if ($action == '') {
                 stderr('Error', 'How did you get here?');
             }
             $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
-            $posted = isset($_POST['watched_reason']) ? htmlspecialchars($_POST['watched_reason']) : '';
+            $posted = isset($_POST['watched_reason']) ? htmlsafechars($_POST['watched_reason']) : '';
             //=== make sure they are staff, not editing their own and playing nice :P
             ($watched_res = sql_query('SELECT watched_user, watched_user_reason, class, username FROM users WHERE id='.sqlesc($id))) || sqlerr(__FILE__,
                 __LINE__);
@@ -101,8 +101,8 @@ if ($action == '') {
                         'watched_user' => TIME_NOW,
                     ], $TRINITY20['expires']['user_cache']);
                     //=== add it to the log
-                    write_log('<b>'.$CURUSER['username'].'</b> added member <a href="userdetails.php?id='.$id.'" title="go to '.htmlspecialchars($watched_arr['username']).(substr($watched_arr['username'],
-                            -1) == 's' ? '\'' : '\'s').' page">'.htmlspecialchars($watched_arr['username']).'</a> to watched users.');
+                    write_log('<b>'.$CURUSER['username'].'</b> added member <a href="userdetails.php?id='.$id.'" title="go to '.htmlsafechars($watched_arr['username']).(substr($watched_arr['username'],
+                            -1) == 's' ? '\'' : '\'s').' page">'.htmlsafechars($watched_arr['username']).'</a> to watched users.');
                 }
                 if (isset($_POST['add_to_watched_users']) && $_POST['add_to_watched_users'] == 'no' && $watched_arr['watched_user'] > 0) {
                     //=== remove them from watched users
@@ -114,8 +114,8 @@ if ($action == '') {
                         'watched_user' => 0,
                     ], $TRINITY20['expires']['user_cache']);
                     //=== add it to the log
-                    write_log('<b>'.$CURUSER['username'].'</b> removed member <a href="userdetails.php?id='.$id.'" title="go to '.htmlspecialchars($watched_arr['username']).(substr($watched_arr['username'],
-                            -1) == 's' ? '\'' : '\'s').' page">'.htmlspecialchars($watched_arr['username']).'</a> from watched users. <br />'.htmlspecialchars($watched_arr['username']).' had been on the list since '.get_date($watched_arr['watched_user'],
+                    write_log('<b>'.$CURUSER['username'].'</b> removed member <a href="userdetails.php?id='.$id.'" title="go to '.htmlsafechars($watched_arr['username']).(substr($watched_arr['username'],
+                            -1) == 's' ? '\'' : '\'s').' page">'.htmlsafechars($watched_arr['username']).'</a> from watched users. <br />'.htmlsafechars($watched_arr['username']).' had been on the list since '.get_date($watched_arr['watched_user'],
                             '').'.', $CURUSER['id']);
                 }
                 //=== only change if different
@@ -126,8 +126,8 @@ if ($action == '') {
                         'watched_user_reason' => $posted,
                     ], $TRINITY20['expires']['user_cache']);
                     //=== add it to the log
-                    write_log('<b>'.$CURUSER['username'].'</b> changed watched user text for: <a href="userdetails.php?id='.$id.'" title="go to '.htmlspecialchars($watched_arr['username']).(substr($watched_arr['username'],
-                            -1) == 's' ? '\'' : '\'s').' page">'.htmlspecialchars($watched_arr['username']).'</a>  Changes made:<br />Text was:<br />'.htmlspecialchars($watched_arr['watched_user_reason']).'<br />Is now:<br />'.htmlspecialchars($_POST['watched_reason']).'');
+                    write_log('<b>'.$CURUSER['username'].'</b> changed watched user text for: <a href="userdetails.php?id='.$id.'" title="go to '.htmlsafechars($watched_arr['username']).(substr($watched_arr['username'],
+                            -1) == 's' ? '\'' : '\'s').' page">'.htmlsafechars($watched_arr['username']).'</a>  Changes made:<br />Text was:<br />'.htmlsafechars($watched_arr['watched_user_reason']).'<br />Is now:<br />'.htmlsafechars($_POST['watched_reason']).'');
                 }
             }
             header('Location: userdetails.php?id='.$id.'&wu=1');

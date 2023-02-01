@@ -41,9 +41,9 @@ if ($top10moviesweek) {
     $counter = 1;
     foreach ($top10moviesweek as $top10movieweekarr) {
         if (is_array($top10movieweekarr)) {
-            $top10movieweekarr['cat_name'] = htmlspecialchars($change[$top10movieweekarr['category']]['name']);
-            $top10movieweekarr['cat_pic'] = htmlspecialchars($change[$top10movieweekarr['category']]['image']);
-            $torrname = htmlspecialchars($top10movieweekarr['name']);
+            $top10movieweekarr['cat_name'] = htmlsafechars($change[$top10movieweekarr['category']]['name']);
+            $top10movieweekarr['cat_pic'] = htmlsafechars($change[$top10movieweekarr['category']]['image']);
+            $torrname = htmlsafechars($top10movieweekarr['name']);
             if (strlen($torrname) > 50) {
                 $torrname = substr($torrname, 0, 50)."...";
             }

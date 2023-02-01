@@ -39,9 +39,9 @@ if ($top10music_all) {
     $counter = 1;
     foreach ($top10music_all as $top10music_all_arr) {
         if (is_array($top10music_all_arr)) {
-            $top10music_all_arr['cat_name'] = htmlspecialchars($change[$top10music_all_arr['category']]['name']);
-            $top10music_all_arr['cat_pic'] = htmlspecialchars($change[$top10music_all_arr['category']]['image']);
-            $torrname = htmlspecialchars($top10music_all_arr['name']);
+            $top10music_all_arr['cat_name'] = htmlsafechars($change[$top10music_all_arr['category']]['name']);
+            $top10music_all_arr['cat_pic'] = htmlsafechars($change[$top10music_all_arr['category']]['image']);
+            $torrname = htmlsafechars($top10music_all_arr['name']);
             if (strlen($torrname) > 50) {
                 $torrname = substr($torrname, 0, 50)."...";
             }

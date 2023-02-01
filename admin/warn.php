@@ -151,7 +151,7 @@ if ($count == 0) {
         $tip = ($do == "warned" ? $lang['warn_for'].$a["warn_reason"]."<br />".$lang['warn_till'].get_date($a["warned"], 'DATE',
                 1)." - ".mkprettytime($a['warned'] - TIME_NOW) : $lang['warn_disabled_for'].$a["disable_reason"]);
         $HTMLOUT .= "<tr>
-                                  <td align='left' width='100%'><a href='userdetails.php?id=".(int)$a["id"]."' onmouseover=\"Tip('($tip)')\" onmouseout=\"UnTip()\">".htmlspecialchars($a["username"])."</a></td>
+                                  <td align='left' width='100%'><a href='userdetails.php?id=".(int)$a["id"]."' onmouseover=\"Tip('($tip)')\" onmouseout=\"UnTip()\">".htmlsafechars($a["username"])."</a></td>
                                   <td align='left' nowrap='nowrap'>".(float)$a["ratio"]."<br /><font class='small'><b>{$lang["warn_down"]}</b>".mksize($a["downloaded"])."&nbsp;<b>{$lang["warn_upl"]}</b> ".mksize($a["uploaded"])."</font></td>
                                   <td align='center' nowrap='nowrap'>".get_user_class_name($a["class"])."</td>
                                   <td align='center' nowrap='nowrap'>".get_date($a["last_access"], 'LONG', 0, 1)."</td>
@@ -168,7 +168,7 @@ if ($count == 0) {
                                 </select>
                                 &raquo;
                                 <input type='submit' value='Apply' />
-                                <input type='hidden' value='".htmlspecialchars($_SERVER["REQUEST_URI"])."' name='ref' />
+                                <input type='hidden' value='".htmlsafechars($_SERVER["REQUEST_URI"])."' name='ref' />
                         </td>
                         </tr>
                         </table>

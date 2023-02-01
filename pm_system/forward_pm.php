@@ -45,7 +45,7 @@ if ($message['receiver'] == $CURUSER['id'] && $message['sender'] == $CURUSER['id
     stderr($lang['pm_error'], $lang['pm_forwardpm_gentleman']);
 }
 //=== Try finding a user with specified name
-$res_username = sql_query('SELECT id, class, acceptpms, notifs FROM users WHERE LOWER(username)=LOWER('.sqlesc(htmlspecialchars($_POST['to'])).') LIMIT 1');
+$res_username = sql_query('SELECT id, class, acceptpms, notifs FROM users WHERE LOWER(username)=LOWER('.sqlesc(htmlsafechars($_POST['to'])).') LIMIT 1');
 $to_username = $res_username->fetch_assoc();
 if ($res_username->num_rows === 0) {
     stderr($lang['pm_error'], $lang['pm_forwardpm_nomember']);
@@ -86,9 +86,9 @@ if ($CURUSER['class'] < UC_STAFF) {
     }
 }
 //=== ok... all is good... let's get the info and send it :D
-$subject = htmlspecialchars($_POST['subject']);
-$first_from = (validusername($_POST['first_from']) ? htmlspecialchars($_POST['first_from']) : '');
-$body = "\n\n".$_POST['body']."\n\n{$lang['pm_forwardpm_0']}[b]".$first_from."{$lang['pm_forwardpm_1']}[/b] \"".htmlspecialchars($message['subject'])."\"{$lang['pm_forwardpm_2']}".$message['msg']."\n";
+$subject = htmlsafechars($_POST['subject']);
+$first_from = (validusername($_POST['first_from']) ? htmlsafechars($_POST['first_from']) : '');
+$body = "\n\n".$_POST['body']."\n\n{$lang['pm_forwardpm_0']}[b]".$first_from."{$lang['pm_forwardpm_1']}[/b] \"".htmlsafechars($message['subject'])."\"{$lang['pm_forwardpm_2']}".$message['msg']."\n";
 sql_query('INSERT INTO `messages` (`sender`, `receiver`, `added`, `subject`, `msg`, `unread`, `location`, `saved`, `poster`, `urgent`) 
                         VALUES ('.sqlesc($CURUSER['id']).', '.sqlesc($to_username['id']).', '.TIME_NOW.', '.sqlesc($subject).', '.sqlesc($body).', \'yes\', 1, '.sqlesc($save).', 0, '.sqlesc($urgent).')') || sqlerr(__FILE__,
     __LINE__);
@@ -100,7 +100,7 @@ if ($mysqli->affected_rows === 0) {
 }
 //=== if they just have to know about it right away... send them an email (if selected if profile)
 if (strpos($to_username['notifs'], '[pm]') !== false) {
-    $username = htmlspecialchars($CURUSER['username']);
+    $username = htmlsafechars($CURUSER['username']);
     $body = <<<EOD
 {$lang['pm_forwardpm_pmfrom']}$username{$lang['pm_forwardpm_exc']}
 

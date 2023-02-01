@@ -74,6 +74,22 @@ if (preg_match('/(?:\< *(?:java|script)|script\:|\+document\.)/i', serialize($_C
     die('Forbidden');
 }
 
+function htmlsafechars($txt = '')
+{
+    $txt = preg_replace("/&(?!#[0-9]+;)(?:amp;)?/s", '&amp;', $txt);
+    return str_replace([
+        "<",
+        ">",
+        '"',
+        "'"
+    ], [
+        "&lt;",
+        "&gt;",
+        "&quot;",
+        '&#039;'
+    ], $txt);
+}
+
 function PostKey($ids = [])
 {
     global $TRINITY20;
@@ -402,8 +418,8 @@ function userlogin()
                 if ($result->num_rows) { // Announcement valid for member
                     $row['curr_ann_id'] = (int) $ann_row['main_id'];
                     // Create two row elements to hold announcement subject and body.
-                    $row['curr_ann_subject'] = htmlspecialchars($ann_row['subject']);
-                    $row['curr_ann_body'] = htmlspecialchars($ann_row['body']);
+                    $row['curr_ann_subject'] = htmlsafechars($ann_row['subject']);
+                    $row['curr_ann_body'] = htmlsafechars($ann_row['body']);
                     // Create additional set for main UPDATE query.
                     $add_set = ', curr_ann_id = ' . sqlesc($ann_row['main_id']);
                     $cache->update_row($cache_keys['user'] . $id, [
@@ -474,7 +490,7 @@ function userlogin()
       <title>Forbidden</title>
       </head><body>
       <h1>403 Forbidden</h1>Unauthorized IP address!
-      <p>Reason: <strong>'.htmlspecialchars($reason).'</strong></p>
+      <p>Reason: <strong>'.htmlsafechars($reason).'</strong></p>
       </body></html>';
             die;
         }
@@ -483,7 +499,7 @@ function userlogin()
     if ($row["class"] >= UC_STAFF) {
         $allowed_ID = $TRINITY20['allowed_staff']['id'];
         if (!in_array(((int)$row["id"]), $allowed_ID, true)) {
-            $msg = "Fake Account Detected: Username: ".htmlspecialchars($row["username"])." - UserID: ".(int)$row["id"]." - UserIP : ".getip();
+            $msg = "Fake Account Detected: Username: ".htmlsafechars($row["username"])." - UserID: ".(int)$row["id"]." - UserIP : ".getip();
             // Demote and disable
             sql_query("UPDATE users SET enabled = 'no', class = 0 WHERE id =".sqlesc($row["id"])) or sqlerr(__file__, __line__);
             $cache->update_row($cache_keys['my_userid'].$row['id'], [
@@ -1035,7 +1051,7 @@ function sqlerr($file = '', $line = '')
 	    		   <blockquote>\n<h1>MySQLI Error</h1><b>There appears to be an error with the database.</b><br />
 	    		   You can try to refresh the page by clicking <a href=\"javascript:window.location=window.location;\">here</a>.
 	    		   <br /><br /><b>Error Returned</b><br />
-	    		   <form name='mysql'><textarea rows=\"15\" cols=\"60\">".htmlspecialchars($the_error,
+	    		   <form name='mysql'><textarea rows=\"15\" cols=\"60\">".htmlsafechars($the_error,
                 ENT_QUOTES)."</textarea></form><br>We apologise for any inconvenience</blockquote></body></html>";
         echo $out;
     }

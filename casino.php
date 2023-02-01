@@ -67,7 +67,7 @@ while ($arr = $res->fetch_assoc()) {
 }
 if ($CURUSER['class'] < $player) {
     stderr($lang['gl_sorry'],
-        "".htmlspecialchars($CURUSER["username"])." {$lang['casino_the_moderators_do_not_allow_your_class']} ".get_user_class_name($player)." {$lang['casino_to_play_casino']}");
+        "".htmlsafechars($CURUSER["username"])." {$lang['casino_the_moderators_do_not_allow_your_class']} ".get_user_class_name($player)." {$lang['casino_to_play_casino']}");
 }
 $query = "SELECT * from casino where userid = ".sqlesc($CURUSER['id'])."";
 ($result = sql_query($query)) || sqlerr(__FILE__, __LINE__);
@@ -82,12 +82,12 @@ $user_lost = $row["lost"] ?? '';
 $user_trys = isset($row["trys"]) ? (int)$row["trys"] : '';
 $user_date = isset($row["date"]) ? (int)$row["date"] : '';
 $user_deposit = $row["deposit"] ?? '';
-$user_enableplay = isset($row["enableplay"]) ? htmlspecialchars($row["enableplay"]) : '';
+$user_enableplay = isset($row["enableplay"]) ? htmlsafechars($row["enableplay"]) : '';
 if ($user_enableplay == "no") {
-    stderr($lang['gl_sorry'], "".htmlspecialchars($CURUSER["username"])." {$lang['casino_your_banned_from_casino']}");
+    stderr($lang['gl_sorry'], "".htmlsafechars($CURUSER["username"])." {$lang['casino_your_banned_from_casino']}");
 }
 if (is_numeric($user_win) && is_numeric($user_lost) && ($user_win - $user_lost) > $max_download_user) {
-    stderr($lang['gl_sorry'], "".htmlspecialchars($CURUSER["username"])." {$lang['casino_you_have_reached_the_max_dl_for_a_single_user']}");
+    stderr($lang['gl_sorry'], "".htmlsafechars($CURUSER["username"])." {$lang['casino_you_have_reached_the_max_dl_for_a_single_user']}");
 }
 if ($CURUSER["downloaded"] > 0) {
     $ratio = number_format($CURUSER["uploaded"] / $CURUSER["downloaded"], 2);
@@ -97,7 +97,7 @@ if ($CURUSER["downloaded"] > 0) {
     $ratio = 0;
 }
 if ($TRINITY20['ratio_free'] === false && $ratio < $required_ratio) {
-    stderr($lang['gl_sorry'], "".htmlspecialchars($CURUSER["username"])." {$lang['casino_your_ratio_is_under']} {$required_ratio}");
+    stderr($lang['gl_sorry'], "".htmlsafechars($CURUSER["username"])." {$lang['casino_your_ratio_is_under']} {$required_ratio}");
 }
 ($global_down2 = sql_query("SELECT (sum(win)-sum(lost)) AS globaldown,(sum(deposit)) AS globaldeposit, sum(win) AS win, sum(lost) AS lost FROM casino")) || sqlerr(__FILE__,
     __LINE__);
@@ -138,7 +138,7 @@ if ($user_win < $user_everytimewin_mb) {
 }
 if ($global_down > $max_download_global) {
     stderr($lang['gl_sorry'],
-        "".htmlspecialchars($CURUSER["username"])." {$lang['casino_but_global_max_win_is_above']} ".htmlspecialchars(mksize($max_download_global)));
+        "".htmlsafechars($CURUSER["username"])." {$lang['casino_but_global_max_win_is_above']} ".htmlsafechars(mksize($max_download_global)));
 }
 //== Updated post color/number by pdq
 $goback = "<a href='$casino'>{$lang['casino_go_back']}</a>";
@@ -173,12 +173,12 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
         $cheat_value += 5;
         $winner_was = (int)$_POST["number"];
     } else {
-        $winner_was = htmlspecialchars($_POST["color"]);
+        $winner_was = htmlsafechars($_POST["color"]);
     }
     $win = $win_amount * $betmb;
     if ($CURUSER["uploaded"] < $betmb) {
         stderr($lang['gl_sorry'],
-            "".htmlspecialchars($CURUSER["username"])." {$lang['casino_but_you_have_not_uploaded']} ".htmlspecialchars(mksize($betmb)));
+            "".htmlsafechars($CURUSER["username"])." {$lang['casino_but_you_have_not_uploaded']} ".htmlsafechars(mksize($betmb)));
     }
     if (random_int(0, $cheat_value) === $cheat_value) {
         sql_query("UPDATE users SET uploaded = uploaded + ".sqlesc($win)." WHERE id=".sqlesc($CURUSER["id"])) || sqlerr(__FILE__, __LINE__);
@@ -193,7 +193,7 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
             'uploaded' => $update['uploaded'],
         ], $TRINITY20['expires']['user_stats']);
         stderr($lang['casino_yes'],
-            "".htmlspecialchars($winner_was)." {$lang['casino_is_the_result']} ".htmlspecialchars($CURUSER["username"])." {$lang['casino_you_got_it_and_win']} ".htmlspecialchars(mksize($win))."&nbsp;&nbsp;&nbsp;$goback");
+            "".htmlsafechars($winner_was)." {$lang['casino_is_the_result']} ".htmlsafechars($CURUSER["username"])." {$lang['casino_you_got_it_and_win']} ".htmlsafechars(mksize($win))."&nbsp;&nbsp;&nbsp;$goback");
     } else {
         if (isset($_POST["number"])) {
             do {
@@ -216,7 +216,7 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
             'uploaded' => $update['uploaded_loser'],
         ], $TRINITY20['expires']['user_stats']);
         stderr($lang['gl_sorry'],
-            "".htmlspecialchars($fake_winner)." {$lang['casino_is_the_winner_and_not']} ".htmlspecialchars($winner_was).", ".htmlspecialchars($CURUSER["username"])." {$lang['casino_you_lost']} ".htmlspecialchars(mksize($betmb))."&nbsp;&nbsp;&nbsp;$goback");
+            "".htmlsafechars($fake_winner)." {$lang['casino_is_the_winner_and_not']} ".htmlsafechars($winner_was).", ".htmlsafechars($CURUSER["username"])." {$lang['casino_you_lost']} ".htmlsafechars(mksize($betmb))."&nbsp;&nbsp;&nbsp;$goback");
     }
 } else {
     //== Get user stats
@@ -257,7 +257,7 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
         }
         if (isset($debt) && $alwdebt != 1) {
             stderr($lang['gl_sorry'],
-                "<h2>{$lang['casino_you_are']} ".htmlspecialchars(mksize($nobits - $CURUSER['uploaded']))." {$lang['casino_short_of_making_that_bet']} !</h2>&nbsp;&nbsp;&nbsp;$goback");
+                "<h2>{$lang['casino_you_are']} ".htmlsafechars(mksize($nobits - $CURUSER['uploaded']))." {$lang['casino_short_of_making_that_bet']} !</h2>&nbsp;&nbsp;&nbsp;$goback");
         }
         if ($random == 1) {
             sql_query("UPDATE users SET uploaded = uploaded+".sqlesc($tbet['amount'])." WHERE id = ".sqlesc($CURUSER['id'])) || sqlerr(__FILE__,
@@ -279,19 +279,19 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
             sql_query("UPDATE casino_bets SET challenged = ".sqlesc($CURUSER['username']).", winner = ".sqlesc($CURUSER['username'])." WHERE id =".sqlesc($betid)) || sqlerr(__FILE__,
                 __LINE__);
             $subject = sqlesc($lang['casino_casino_results']);
-            $msg = sqlesc("You lost a bet ! ".htmlspecialchars($CURUSER['username'])." just won ".htmlspecialchars($nogb)." of your upload credit !");
+            $msg = sqlesc("You lost a bet ! ".htmlsafechars($CURUSER['username'])." just won ".htmlsafechars($nogb)." of your upload credit !");
             sql_query("INSERT INTO messages (subject, sender, receiver, added, msg, unread, poster) VALUES ($subject, $sendfrom, ".sqlesc($tbet['userid']).", $time, $msg, 'yes', $sendfrom)") || sqlerr(__FILE__,
                 __LINE__);
             $cache->delete($cache_keys['inbox_new'].$tbet['userid']);
             $cache->delete($cache_keys['inbox_new_sb'].$tbet['userid']);
             if ($writelog === 1) {
-                write_log($CURUSER['username']." won $nogb {$lang['casino_of_upload_credit_off']} ".htmlspecialchars($tbet['proposed']));
+                write_log($CURUSER['username']." won $nogb {$lang['casino_of_upload_credit_off']} ".htmlsafechars($tbet['proposed']));
             }
             if ($delold === 1) {
                 sql_query("DELETE FROM casino_bets WHERE id =".sqlesc($tbet['id'])) || sqlerr(__FILE__, __LINE__);
             }
             stderr($lang['casino_you_got_it'],
-                "<h2>{$lang['casino_you_won_the_bet']}, ".htmlspecialchars($nogb)." {$lang['casino_has_been_credited_to_your_account']}, at <a href='userdetails.php?id=".(int)$tbet['userid']."'>".htmlspecialchars($tbet['proposed'])."'s</a> {$lang['casino_expense']} !</h2>&nbsp;&nbsp;&nbsp;$goback");
+                "<h2>{$lang['casino_you_won_the_bet']}, ".htmlsafechars($nogb)." {$lang['casino_has_been_credited_to_your_account']}, at <a href='userdetails.php?id=".(int)$tbet['userid']."'>".htmlsafechars($tbet['proposed'])."'s</a> {$lang['casino_expense']} !</h2>&nbsp;&nbsp;&nbsp;$goback");
             exit();
         }
 
@@ -325,19 +325,19 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
         sql_query("UPDATE casino_bets SET challenged = ".sqlesc($CURUSER['username']).", winner = ".sqlesc($tbet['proposed'])." WHERE id = ".sqlesc($betid)) || sqlerr(__FILE__,
             __LINE__);
         $subject = sqlesc($lang['casino_casino_results']);
-        $msg = sqlesc("{$lang['casino_you_just_won']} ".htmlspecialchars($nogb)." {$lang['casino_of_upload_credit_from']} ".$CURUSER['username']." !");
+        $msg = sqlesc("{$lang['casino_you_just_won']} ".htmlsafechars($nogb)." {$lang['casino_of_upload_credit_from']} ".$CURUSER['username']." !");
         sql_query("INSERT INTO messages (subject, sender, receiver, added, msg, unread, poster) VALUES ($subject, $sendfrom, ".sqlesc($tbet['userid']).", $time, $msg, 'yes', $sendfrom)") || sqlerr(__FILE__,
             __LINE__);
         $cache->delete($cache_keys['inbox_new'].$tbet['userid']);
         $cache->delete($cache_keys['inbox_new_sb'].$tbet['userid']);
         if ($writelog === 1) {
-            write_log("".htmlspecialchars($tbet['proposed'])." won $nogb {$lang['casino_of_upload_credit_off']} ".$CURUSER['username']);
+            write_log("".htmlsafechars($tbet['proposed'])." won $nogb {$lang['casino_of_upload_credit_off']} ".$CURUSER['username']);
         }
         if ($delold === 1) {
             sql_query("DELETE FROM casino_bets WHERE id =".sqlesc($tbet['id'])) || sqlerr(__FILE__, __LINE__);
         }
         stderr($lang['casino_damn_it'],
-            "<h2>{$lang['casino_you_lost_the_bet']} <a href='userdetails.php?id=".(int)$tbet['userid']."'>".htmlspecialchars($tbet['proposed'])."</a> {$lang['casino_has_won']} ".htmlspecialchars($nogb)." {$lang['casino_of_your_hard_earnt_upload_credit']} !</h2> &nbsp;&nbsp;&nbsp;$goback");
+            "<h2>{$lang['casino_you_lost_the_bet']} <a href='userdetails.php?id=".(int)$tbet['userid']."'>".htmlsafechars($tbet['proposed'])."</a> {$lang['casino_has_won']} ".htmlsafechars($nogb)." {$lang['casino_of_your_hard_earnt_upload_credit']} !</h2> &nbsp;&nbsp;&nbsp;$goback");
         exit();
     }
     //== Add a new bet
@@ -349,7 +349,7 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
     if (isset($_POST["unit"])) {
         if ($openbet >= $maxusrbet) {
             stderr($lang['gl_sorry'],
-                "{$lang['casino_there_are_already']} ".htmlspecialchars($openbet)." {$lang['casino_bets_open_take_an_open_bet']} !");
+                "{$lang['casino_there_are_already']} ".htmlsafechars($openbet)." {$lang['casino_bets_open_take_an_open_bet']} !");
         }
         if ($nobits <= 0) {
             stderr($lang['gl_sorry'], " {$lang['casino_this_wont_work_enter_a_pos_val']}?");
@@ -361,7 +361,7 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
         $debt = $nobits - $CURUSER['uploaded'];
         if ($CURUSER['uploaded'] < $nobits && $alwdebt != 1) {
             stderr($lang['gl_sorry'],
-                "<h2>{$lang['casino_thats']} ".htmlspecialchars(mksize($debt))." {$lang['casino_more_than_you_got']}!</h2>$goback");
+                "<h2>{$lang['casino_thats']} ".htmlsafechars(mksize($debt))." {$lang['casino_more_than_you_got']}!</h2>$goback");
         }
         ($betsp = sql_query("SELECT id, amount FROM casino_bets WHERE userid = ".sqlesc($CURUSER['id'])." ORDER BY time ASC")) || sqlerr(__FILE__,
             __LINE__);
@@ -406,7 +406,7 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
     //== Place bet table
     if ($openbet < $maxusrbet) {
         if ($totbets >= $maxtotbet) {
-            $HTMLOUT .= "<br />{$lang['casino_there_are_already']} ".htmlspecialchars($maxtotbet)." {$lang['casino_bets_open_take_an_open_bet']} !<br />";
+            $HTMLOUT .= "<br />{$lang['casino_there_are_already']} ".htmlsafechars($maxtotbet)." {$lang['casino_bets_open_take_an_open_bet']} !<br />";
         } else {
             $HTMLOUT .= "<br />
             <form class=\"form-horizontal\" name=\"p2p\" method=\"post\" action=\"casino.php\">
@@ -429,7 +429,7 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
             $HTMLOUT .= "</td></tr></table></div></form></div></div></div></div><br />";
         }
     } else {
-        $HTMLOUT .= "<b>{$lang['casino_you_already_have']} ".htmlspecialchars($maxusrbet)." {$lang['casino_open_bets_wait_until_they_are_comp']}.</b><br /><br />";
+        $HTMLOUT .= "<b>{$lang['casino_you_already_have']} ".htmlsafechars($maxusrbet)." {$lang['casino_open_bets_wait_until_they_are_comp']}.</b><br /><br />";
     }
     //== Open Bets table
     $HTMLOUT .= "<div class='card'>	
@@ -441,8 +441,8 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
             </tr>";
     while ($res = $loca->fetch_assoc()) {
         $HTMLOUT .= "<tr>
-            <td align=\"center\">".htmlspecialchars($res['proposed'])."</td>
-            <td align=\"center\">".htmlspecialchars(mksize($res['amount']))."</td>
+            <td align=\"center\">".htmlsafechars($res['proposed'])."</td>
+            <td align=\"center\">".htmlsafechars(mksize($res['amount']))."</td>
             <td align=\"center\">".get_date($res['time'], 'LONG', 0, 1)."</td>
             <td align=\"center\"><b><a href='{$casino}?takebet=".(int)$res['id']."'>{$lang['casino_this']}</a></b></td>
             </tr>";

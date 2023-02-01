@@ -46,7 +46,7 @@ if (isset($_GET["total_donors"])) {
         stderr($lang['donate_sorry'], $lang['donate_nofound']);
     }
     $users = number_format(get_row_count("users", "WHERE total_donated != '0.00'"));
-    $HTMLOUT .= "<div class='row'><div class='col-md-12'><h2>{$lang['donate_list_all']} [".htmlspecialchars($users)."]</h2>";
+    $HTMLOUT .= "<div class='row'><div class='col-md-12'><h2>{$lang['donate_list_all']} [".htmlsafechars($users)."]</h2>";
 
     ($res = sql_query("SELECT id, username, email, added, donated, donoruntil, total_donated FROM users WHERE total_donated != '0.00' ORDER BY id DESC ".$pager['limit']."")) || sqlerr(__FILE__,
         __LINE__);
@@ -61,7 +61,7 @@ else {
         stderr($lang['donate_sorry'], $lang['donate_nofound']);
     }
     $users = number_format(get_row_count("users", "WHERE donor='yes'"));
-    $HTMLOUT .= "<div class='row'><div class='col-md-12'><h2>{$lang['donate_list_curr']} [".htmlspecialchars($users)." ]</h2>";
+    $HTMLOUT .= "<div class='row'><div class='col-md-12'><h2>{$lang['donate_list_curr']} [".htmlsafechars($users)." ]</h2>";
 
     ($res = sql_query("SELECT id, username, email, added, donated, total_donated, donoruntil FROM users WHERE donor='yes' ORDER BY id DESC ".$pager['limit']."")) || sqlerr(__FILE__,
         __LINE__);
@@ -82,7 +82,7 @@ while ($arr = $res->fetch_assoc()) {
         $class = "two";
     }
     // =======end
-    $HTMLOUT .= "<tr><td valign='bottom' class='$class'><a class='altlink' href='{$TRINITY20['baseurl']}/userdetails.php?id=".htmlspecialchars($arr['id'])."'>".htmlspecialchars($arr['id'])."</a></td>"."<td align='left' valign='bottom' class='$class'><a class='altlink' href='{$TRINITY20['baseurl']}/userdetails.php?id=".htmlspecialchars($arr['id'])."'><b>".htmlspecialchars($arr['username'])."</b></a>"."</td><td align='left' valign='bottom' class='$class'><a class='altlink' href='mailto:".htmlspecialchars($arr['email'])."'>".htmlspecialchars($arr['email'])."</a>"."</td><td align='left' valign='bottom' class='$class'><font size=\"-3\"> ".get_date($arr['added'],
+    $HTMLOUT .= "<tr><td valign='bottom' class='$class'><a class='altlink' href='{$TRINITY20['baseurl']}/userdetails.php?id=".htmlsafechars($arr['id'])."'>".htmlsafechars($arr['id'])."</a></td>"."<td align='left' valign='bottom' class='$class'><a class='altlink' href='{$TRINITY20['baseurl']}/userdetails.php?id=".htmlsafechars($arr['id'])."'><b>".htmlsafechars($arr['username'])."</b></a>"."</td><td align='left' valign='bottom' class='$class'><a class='altlink' href='mailto:".htmlsafechars($arr['email'])."'>".htmlsafechars($arr['email'])."</a>"."</td><td align='left' valign='bottom' class='$class'><font size=\"-3\"> ".get_date($arr['added'],
             'DATE')."</font>"."</td><td align='left' valign='bottom' class='$class'>";
     $donoruntil = (int)$arr['donoruntil'];
     if ($donoruntil == '0') {
@@ -91,7 +91,7 @@ while ($arr = $res->fetch_assoc()) {
         $HTMLOUT .= "<font size=\"-3\"> ".get_date($arr['donoruntil'],
                 'DATE')." [ ".mkprettytime($donoruntil - TIME_NOW)." ]{$lang['donate_togo']}</font>";
     }
-    $HTMLOUT .= "</td><td align='left' valign='bottom' class='$class'><b>&#163;".htmlspecialchars($arr['donated'])."</b></td>"."<td align='left' valign='bottom' class='$class'><b>&#163;".htmlspecialchars($arr['total_donated'])."</b></td>"."<td align='left' valign='bottom' class='$class'><b><a class='altlink' href='{$TRINITY20['baseurl']}/pm_system.php?action=send_message&amp;receiver=".(int)$arr['id']."'>{$lang['donate_sendpm']}</a></b></td></tr>";
+    $HTMLOUT .= "</td><td align='left' valign='bottom' class='$class'><b>&#163;".htmlsafechars($arr['donated'])."</b></td>"."<td align='left' valign='bottom' class='$class'><b>&#163;".htmlsafechars($arr['total_donated'])."</b></td>"."<td align='left' valign='bottom' class='$class'><b><a class='altlink' href='{$TRINITY20['baseurl']}/pm_system.php?action=send_message&amp;receiver=".(int)$arr['id']."'>{$lang['donate_sendpm']}</a></b></td></tr>";
 }
 $HTMLOUT .= "</table>";
 $HTMLOUT .= "</div></div>";

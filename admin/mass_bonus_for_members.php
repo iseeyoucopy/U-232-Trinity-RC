@@ -20,7 +20,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 <title>404 Not Found</title>
 </head><body>
 <h1>Not Found</h1>
-<p>The requested URL '.htmlspecialchars($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], '/') + 1).' was not found on this server.</p>
+<p>The requested URL '.htmlsafechars($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], '/') + 1).' was not found on this server.</p>
 <hr />
 <address>'.$_SERVER['SERVER_SOFTWARE'].' Server at '.$TRINITY20['baseurl'].' Port 80</address>
 </body></html>';
@@ -56,7 +56,7 @@ $stdfoot = [
 ];
 $h1_thingie = $HTMLOUT = '';
 //=== check if action_2 is sent ($_POST) if so make sure it's what you want it to be
-$action_2 = (isset($_POST['action_2']) ? htmlspecialchars($_POST['action_2']) : 'no_action');
+$action_2 = (isset($_POST['action_2']) ? htmlsafechars($_POST['action_2']) : 'no_action');
 $good_stuff = [
     'upload_credit',
     'karma',
@@ -70,7 +70,7 @@ if (isset($_POST['all_or_selected_classes'])) {
     $free_for_classes = 1;
 } else {
     $free_for_classes = 0;
-    $free_for = (isset($_POST['free_for_classes']) ? htmlspecialchars($_POST['free_for_classes']) : '');
+    $free_for = (isset($_POST['free_for_classes']) ? htmlsafechars($_POST['free_for_classes']) : '');
 }
 //=== switch for the actions \\o\o/o//
 switch ($action) {
@@ -445,8 +445,8 @@ switch ($action) {
             $res_pms = sql_query('SELECT id FROM users WHERE enabled = \'yes\' AND suspended = \'no\'');
             $pm_buffer = [];
             if ($res_pms->num_rows > 0) {
-                $subject = sqlesc(htmlspecialchars($_POST['subject']));
-                $body = sqlesc(htmlspecialchars($_POST['body']));
+                $subject = sqlesc(htmlsafechars($_POST['subject']));
+                $body = sqlesc(htmlsafechars($_POST['body']));
                 while ($arr_pms = $res_pms->fetch_assoc()) {
                     $pm_buffer[] = '(0, '.$arr_pms['id'].', '.TIME_NOW.', '.$body.', '.$subject.')';
                     $cache->delete($cache_keys['inbox_new'].$arr_pms['id']);
@@ -470,8 +470,8 @@ switch ($action) {
                     $res_pms = sql_query('SELECT id FROM users WHERE enabled = \'yes\' AND suspended = \'no\' AND class = '.$class);
                     $pm_buffer = [];
                     if ($res_pms->num_rows > 0) {
-                        $subject = sqlesc(htmlspecialchars($_POST['subject']));
-                        $body = sqlesc(htmlspecialchars($_POST['body']));
+                        $subject = sqlesc(htmlsafechars($_POST['subject']));
+                        $body = sqlesc(htmlsafechars($_POST['body']));
                         while ($arr_pms = $res_pms->fetch_assoc()) {
                             $pm_buffer[] = '(0, '.$arr_pms['id'].', '.TIME_NOW.', '.$body.', '.$subject.')';
                             $cache->delete($cache_keys['inbox_new'].$arr_pms['id']);
@@ -551,8 +551,8 @@ while ($i <= 50) {
 }
 $invites_drop_down .= '</select>'.$lang['bonusmanager_invite_amount'].'';
 //== pms \0/ (*)(*)
-$subject = isset($_POST['subject']) ? htmlspecialchars($_POST['subject']) : $lang['bonusmanager_pm_masspm'];
-$body = isset($_POST['body']) ? htmlspecialchars($_POST['body']) : $lang['bonusmanager_pm_texthere'];
+$subject = isset($_POST['subject']) ? htmlsafechars($_POST['subject']) : $lang['bonusmanager_pm_masspm'];
+$body = isset($_POST['body']) ? htmlsafechars($_POST['body']) : $lang['bonusmanager_pm_texthere'];
 $pm_drop_down = '<form name="pm" method="post" action="mass_bonus_for_members.php">
                  <input type="hidden" name="pm" value="pm" />
                  <table class="table table-bordered">

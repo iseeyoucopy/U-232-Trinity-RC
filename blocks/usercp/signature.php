@@ -9,10 +9,10 @@ $HTMLOUT .= tr(''.$lang['usercp_sign_view'].'',
     1);
 //$HTMLOUT.= tr('View Signatures', '<input class="styled" type="checkbox" name="signatures"' . (($CURUSER['opt1'] & user_options::SIGNATURES) ? ' checked="checked"' : '') . ' value="yes" /> (Check to view signatures)', 1);
 $HTMLOUT .= tr(''.$lang['usercp_sign_tit'].'',
-    '<textarea name="signature" cols="50" rows="4">'.htmlspecialchars($CURUSER['signature'], ENT_QUOTES).'</textarea><br />'.$lang['usercp_sign_BB'].'',
+    '<textarea name="signature" cols="50" rows="4">'.htmlsafechars($CURUSER['signature'], ENT_QUOTES).'</textarea><br />'.$lang['usercp_sign_BB'].'',
     1);
 $HTMLOUT .= tr($lang['usercp_info'],
-    "<textarea name='info' cols='50' rows='4'>".htmlspecialchars($CURUSER["info"], ENT_QUOTES)."</textarea><br />{$lang['usercp_tags']}", 1);
+    "<textarea name='info' cols='50' rows='4'>".htmlsafechars($CURUSER["info"], ENT_QUOTES)."</textarea><br />{$lang['usercp_tags']}", 1);
 $HTMLOUT .= "<tr ><td align='center' colspan='2'><input class='btn btn-primary' type='submit' value='{$lang['usercp_sign_sub']}' style='height: 40px' /></td></tr>";
 
 $HTMLOUT .= "</table>";

@@ -30,10 +30,10 @@ $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_namechanger'));
 $HTMLOUT = '';
-$mode = (isset($_GET['mode']) && htmlspecialchars($_GET['mode']));
+$mode = (isset($_GET['mode']) && htmlsafechars($_GET['mode']));
 if (isset($mode) && $mode == 'change') {
     $uid = (int)$_POST["uid"];
-    $uname = htmlspecialchars($_POST["uname"]);
+    $uname = htmlsafechars($_POST["uname"]);
     if ($_POST["uname"] == "" || $_POST["uid"] == "") {
         stderr($lang['namechanger_err'], $lang['namechanger_missing']);
     }
@@ -59,7 +59,7 @@ if (isset($mode) && $mode == 'change') {
         sql_query("INSERT INTO messages (sender, receiver, msg, subject, added) VALUES(0, $uid, $changed, $subject, $added)") || sqlerr(__FILE__,
             __LINE__);
         header("Refresh: 2; url=staffpanel.php?tool=namechanger");
-        stderr($lang['namechanger_success'], $lang['namechanger_u_changed'].htmlspecialchars($uname).$lang['namechanger_please']);
+        stderr($lang['namechanger_success'], $lang['namechanger_u_changed'].htmlsafechars($uname).$lang['namechanger_please']);
     }
 }
 $HTMLOUT .= "<div class='row'><div class='col-md-12'>

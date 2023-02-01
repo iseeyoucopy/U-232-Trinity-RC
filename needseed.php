@@ -21,11 +21,11 @@ $possible_actions = [
     'leechers',
     'seeders',
 ];
-$needed = (isset($_GET['needed']) ? htmlspecialchars($_GET['needed']) : 'seeders');
+$needed = (isset($_GET['needed']) ? htmlsafechars($_GET['needed']) : 'seeders');
 if (!in_array($needed, $possible_actions)) {
     stderr('Error', 'A ruffian that will swear, drink, dance, revel the night, rob, murder and commit the oldest of ins the newest kind of ways.');
 }
-//$needed = isset($_GET["needed"]) ? htmlspecialchars($_GET["needed"]) : '';
+//$needed = isset($_GET["needed"]) ? htmlsafechars($_GET["needed"]) : '';
 $categorie = genrelist();
 foreach ($categorie as $key => $value) {
     $change[$value['id']] = [
@@ -53,12 +53,12 @@ if ($needed == "leechers") {
             $What_ID = (XBT_TRACKER === true ? $arr['fid'] : $arr['torrent']);
             $What_User_ID = (XBT_TRACKER === true ? $arr['uid'] : $arr['userid']);
             if ($change[$arr['category']]['min_class'] < $CURUSER['class']) {
-                $needseed['cat_name'] = htmlspecialchars($change[$arr['category']]['name']);
-                $needseed['cat_pic'] = htmlspecialchars($change[$arr['category']]['image']);
+                $needseed['cat_name'] = htmlsafechars($change[$arr['category']]['name']);
+                $needseed['cat_pic'] = htmlsafechars($change[$arr['category']]['image']);
                 $cat = "<img src=\"pic/caticons/{$CURUSER['categorie_icon']}/{$needseed['cat_pic']}\" alt=\"{$needseed['cat_name']}\" title=\"{$needseed['cat_name']}\" />";
-                $torrname = htmlspecialchars(CutName($arr["name"], 80));
+                $torrname = htmlsafechars(CutName($arr["name"], 80));
                 $peers = (int)$arr['seeders']." seeder".((int)$arr['seeders'] > 1 ? "s" : "").", ".(int)$arr['leechers']." leecher".((int)$arr['leechers'] > 1 ? "s" : "");
-                $HTMLOUT .= "<tr><td><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$What_User_ID."'>".htmlspecialchars($arr['username'])."</a>&nbsp;(".member_ratio($arr['uploaded'],
+                $HTMLOUT .= "<tr><td><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$What_User_ID."'>".htmlsafechars($arr['username'])."</a>&nbsp;(".member_ratio($arr['uploaded'],
                         $arr['downloaded']).")</td><td><a href='{$TRINITY20['baseurl']}/details.php?id=".(int)$What_ID."' title='{$torrname}'>{$torrname}</a></td><td>{$cat}</td><td>{$peers}</td></tr>\n";
             }
         }
@@ -77,10 +77,10 @@ if ($needed == "leechers") {
         $HTMLOUT .= "<table class='table table-bordered'>
         <tr><td class='colhead'>{$lang['needseed_cat']}</td><td class='colhead'>{$lang['needseed_tor']}</td><td class='colhead'>{$lang['needseed_seed']}</td><td class='colhead'>{$lang['needseed_leech']}</td></tr>\n";
         while ($arr = $res->fetch_assoc()) {
-            $needseed['cat_name'] = htmlspecialchars($change[$arr['category']]['name']);
-            $needseed['cat_pic'] = htmlspecialchars($change[$arr['category']]['image']);
+            $needseed['cat_name'] = htmlsafechars($change[$arr['category']]['name']);
+            $needseed['cat_pic'] = htmlsafechars($change[$arr['category']]['image']);
             $cat = "<img src=\"pic/caticons/{$CURUSER['categorie_icon']}/{$needseed['cat_pic']}\" alt=\"{$needseed['cat_name']}\" title=\"{$needseed['cat_name']}\" />";
-            $torrname = htmlspecialchars(CutName($arr['name'], 80));
+            $torrname = htmlsafechars(CutName($arr['name'], 80));
             $HTMLOUT .= "<tr><td>{$cat}</td><td><a href='{$TRINITY20['baseurl']}/details.php?id=".(int)$arr['id']."&amp;hit=1' title='{$torrname}'>{$torrname}</a></td><td align='center'><span style='color: red'>".(int)$arr['seeders']."</span></td><td align='center'>".(int)$arr['leechers']."</td></tr>\n";
         }
         $HTMLOUT .= "</table>\n";

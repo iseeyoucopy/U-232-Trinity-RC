@@ -43,7 +43,7 @@ $valid_do = [
 $do = isset($_GET['do']) && in_array($_GET['do'], $valid_do) ? $_GET['do'] : (isset($_POST['do']) && in_array($_POST['do'],
     $valid_do) ? $_POST['do'] : '');
 $id = isset($_GET['id']) ? (int)$_GET['id'] : (isset($_POST['id']) && is_array($_POST['id']) ? array_map('mkint', $_POST['id']) : 0);
-$message = isset($_POST['message']) && !empty($_POST['message']) ? htmlspecialchars($_POST['message']) : '';
+$message = isset($_POST['message']) && !empty($_POST['message']) ? htmlsafechars($_POST['message']) : '';
 $reply = isset($_POST['reply']) && $_POST['reply'] == 1;
 $stdhead = $HTMLOUT = '';
 switch ($do) {
@@ -69,7 +69,7 @@ switch ($do) {
             ($q1 = sql_query('SELECT s.msg,s.sender,s.subject,u.username FROM staffmessages as s LEFT JOIN users as u ON s.sender=u.id WHERE s.id IN ('.implode(',',
                     $id).')')) || sqlerr(__FILE__, __LINE__);
             $a = $q1->fetch_assoc();
-            $response = htmlspecialchars($message)."\n---".htmlspecialchars($a['username'])." wrote ---\n".htmlspecialchars($a['msg']);
+            $response = htmlsafechars($message)."\n---".htmlsafechars($a['username'])." wrote ---\n".htmlsafechars($a['msg']);
             sql_query('INSERT INTO messages(sender,receiver,added,subject,msg) VALUES('.sqlesc($CURUSER['id']).','.sqlesc($a['sender']).','.TIME_NOW.','.sqlesc('RE: '.$a['subject']).','.sqlesc($response).')') || sqlerr(__FILE__,
                 __LINE__);
             $cache->delete($cache_keys['inbox_new'].$a['sender']);
@@ -97,10 +97,10 @@ switch ($do) {
                 $HTMLOUT .= "<div class='row'><div class='col-md-12'>";
                 $HTMLOUT .= "<form action='".$_SERVER['PHP_SELF']."' method='post'>
 		<table class='table table-bordered'>
-		<tr><td>{$lang['staffbox_pm_from']}&nbsp;<a href='userdetails.php?id=".(int)$a['sender']."'>".htmlspecialchars($a['username'])."</a> at ".get_date($a['added'],
+		<tr><td>{$lang['staffbox_pm_from']}&nbsp;<a href='userdetails.php?id=".(int)$a['sender']."'>".htmlsafechars($a['username'])."</a> at ".get_date($a['added'],
                         'DATE', 1)."<br/>
-			{$lang['staffbox_pm_subject']} : <b>".htmlspecialchars($a['subject'])."</b><br/>
-			{$lang['staffbox_pm_answered']} : <b>".($a['answeredby'] > 0 ? "<a href='userdetails.php?id=".(int)$a['answeredby']."'>".htmlspecialchars($a['username2'])."</a>" : "<span style='color:#ff0000'>No</span>")."</b>
+			{$lang['staffbox_pm_subject']} : <b>".htmlsafechars($a['subject'])."</b><br/>
+			{$lang['staffbox_pm_answered']} : <b>".($a['answeredby'] > 0 ? "<a href='userdetails.php?id=".(int)$a['answeredby']."'>".htmlsafechars($a['username2'])."</a>" : "<span style='color:#ff0000'>No</span>")."</b>
 					</td></tr>
 			<tr><td>".format_comment($a['msg'])."</td></tr>
 			<tr><td>{$lang['staffbox_pm_answer']}<br/>
@@ -160,10 +160,10 @@ switch ($do) {
                 __LINE__);
             while ($a = $r->fetch_assoc()) {
                 $HTMLOUT .= "<tr>
-                   <td><a href='".$_SERVER['PHP_SELF']."?do=view&amp;id=".(int)$a['id']."'>".htmlspecialchars($a['subject'])."</a></td>
-                   <td ><b>".($a['username'] ? "<a href='userdetails.php?id=".(int)$a['sender']."'>".htmlspecialchars($a['username'])."</a>" : "Unknown[".(int)$a['sender']."]")."</b></td>
+                   <td><a href='".$_SERVER['PHP_SELF']."?do=view&amp;id=".(int)$a['id']."'>".htmlsafechars($a['subject'])."</a></td>
+                   <td ><b>".($a['username'] ? "<a href='userdetails.php?id=".(int)$a['sender']."'>".htmlsafechars($a['username'])."</a>" : "Unknown[".(int)$a['sender']."]")."</b></td>
                    <td nowrap='nowrap'>".get_date($a['added'], 'DATE', 1)."<br/><span class='small'>".get_date($a['added'], 0, 1)."</span></td>
-				   <td ><b>".($a['answeredby'] > 0 ? "by <a href='userdetails.php?id=".(int)$a['answeredby']."'>".htmlspecialchars($a['username2'])."</a>" : "<span style='color:#ff0000'>No</span>")."</b></td>
+				   <td ><b>".($a['answeredby'] > 0 ? "by <a href='userdetails.php?id=".(int)$a['answeredby']."'>".htmlsafechars($a['username2'])."</a>" : "<span style='color:#ff0000'>No</span>")."</b></td>
                    <td><input type='checkbox' name='id[]' value='".(int)$a['id']."' /></td>
                   </tr>\n";
             }

@@ -20,11 +20,11 @@ $newpage->check('takecounts');
 $lang = array_merge(load_language('global'), load_language('achievementlist'));
 //$doUpdate = false;
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $CURUSER['class'] >= UC_MAX) {
-    $clienticon = htmlspecialchars(trim($_POST["clienticon"]));
-    $achievname = htmlspecialchars(trim($_POST["achievname"]));
-    $notes = htmlspecialchars($_POST["notes"]);
-    $clienticon = htmlspecialchars($clienticon);
-    $achievname = htmlspecialchars($achievname);
+    $clienticon = htmlsafechars(trim($_POST["clienticon"]));
+    $achievname = htmlsafechars(trim($_POST["achievname"]));
+    $notes = htmlsafechars($_POST["notes"]);
+    $clienticon = htmlsafechars($clienticon);
+    $achievname = htmlsafechars($achievname);
     sql_query("INSERT INTO achievementist (achievname, notes, clienticon) VALUES(".sqlesc($achievname).", ".sqlesc($notes).", ".sqlesc($clienticon).")") || sqlerr(__FILE__,
         __LINE__);
     $message = "{$lang['achlst_new_ach_been_added']}. {$lang['achlst_achievement']}: [{$achievname}]";

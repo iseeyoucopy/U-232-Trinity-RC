@@ -48,7 +48,7 @@ function bjtable($res, $frame_caption)
             $plus_minus = "-";
             $plus_minus .= mksize(($a['losses'] - $a['wins']) * 100 * 1024 * 1024);
         }
-        $htmlout .= "<tr><td>$num</td><td align='left'>"."<b><a href='userdetails.php?id=".(int)$a['id']."'>".htmlspecialchars($a['username'])."</a></b></td>"."<td align='right'>".number_format($a['wins'],
+        $htmlout .= "<tr><td>$num</td><td align='left'>"."<b><a href='userdetails.php?id=".(int)$a['id']."'>".htmlsafechars($a['username'])."</a></b></td>"."<td align='right'>".number_format($a['wins'],
                 0)."</td>"."<td align='right'>".number_format($a['losses'], 0)."</td>"."<td align='right'>".number_format($a['games'],
                 0)."</td>"."<td align='right'>$win_perc</td>"."<td align='right'>$plus_minus</td>"."</tr>\n";
     }

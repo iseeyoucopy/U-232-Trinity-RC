@@ -22,7 +22,7 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         $title = $TRINITY20['site_name'].(isset($_GET['tbv']) ? " (".TBVERSION.")" : '');
     }
     else {
-        $title = $TRINITY20['site_name'].(isset($_GET['tbv']) ? " (".TBVERSION.")" : '')." :: ".htmlspecialchars($title);
+        $title = $TRINITY20['site_name'].(isset($_GET['tbv']) ? " (".TBVERSION.")" : '')." :: ".htmlsafechars($title);
     }
     if ($CURUSER) {
         $TRINITY20['stylesheet'] = isset($CURUSER['stylesheet']) ? "{$CURUSER['stylesheet']}.css" : $TRINITY20['stylesheet'];
@@ -137,7 +137,7 @@ function stdfoot($stdfoot = false)
                                         <span class='text-danger' title='{$lang['gl_stdfoot_ysoq']}'>" . $value['seconds'] . "</span>" : "
                                         <span class='text-success' title='{$lang['gl_stdfoot_qg']}'>" . $value['seconds'] . "</span>") . "
                                     </td>
-                                    <td>" . htmlspecialchars($value['query']) . "</td>
+                                    <td>" . htmlsafechars($value['query']) . "</td>
                                 </tr>
                             </tbody>";
         }

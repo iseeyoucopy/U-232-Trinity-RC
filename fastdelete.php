@@ -111,7 +111,7 @@ if ($TRINITY20['seedbonus_on'] == 1) {
 }
 
 if (isset($_GET["returnto"])) {
-    $ret = "<a href='".htmlspecialchars($_GET["returnto"])."'>{$lang['fastdelete_returnto']}</a>";
+    $ret = "<a href='".htmlsafechars($_GET["returnto"])."'>{$lang['fastdelete_returnto']}</a>";
 } else {
     $ret = "<a href='{$TRINITY20['baseurl']}/index.php'>{$lang['fastdelete_index']}</a>";
 }

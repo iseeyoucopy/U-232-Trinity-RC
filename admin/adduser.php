@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (isset($_POST['email']) && validemail($_POST['email'])) {
-        $insert['email'] = htmlspecialchars($_POST['email']);
+        $insert['email'] = htmlsafechars($_POST['email']);
     } else {
         stderr($lang['std_err'], $lang['err_email']);
     }
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         implode(', ', array_map('sqlesc', $insert))))) {
 
         $user_id = $mysqli->insert_id;
-        write_log("User account ".(int)$user_id." (".htmlspecialchars($insert['username']).") was created by {$CURUSER['username']}");
+        write_log("User account ".(int)$user_id." (".htmlsafechars($insert['username']).") was created by {$CURUSER['username']}");
         stderr($lang['std_success'], sprintf($lang['text_user_added'], $user_id));
     } else {
         if ($mysqli->errno) {

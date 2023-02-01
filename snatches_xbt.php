@@ -47,9 +47,9 @@ $perpage = 15;
 $pager = pager($perpage, $count, "snatches.php?id=$id&amp;");
 if (!$count) {
     stderr("No snatches",
-        "It appears that there are currently no snatches for the torrent <a href='details.php?id=".(int)$arr['id']."'>".htmlspecialchars($arr['name'])."</a>.");
+        "It appears that there are currently no snatches for the torrent <a href='details.php?id=".(int)$arr['id']."'>".htmlsafechars($arr['name'])."</a>.");
 }
-$HTMLOUT .= "<h1>Snatches for torrent <a href='{$TRINITY20['baseurl']}/details.php?id=".(int)$arr['id']."'>".htmlspecialchars($arr['name'])."</a></h1>\n";
+$HTMLOUT .= "<h1>Snatches for torrent <a href='{$TRINITY20['baseurl']}/details.php?id=".(int)$arr['id']."'>".htmlsafechars($arr['name'])."</a></h1>\n";
 $HTMLOUT .= "<h2>Currently {$row['0']} snatch".($row[0] == 1 ? "" : "es")."</h2>\n";
 if ($count > $perpage) {
     $HTMLOUT .= $pager['pagertop'];
@@ -73,13 +73,13 @@ while ($arr = $res->fetch_assoc()) {
     $ratio = ($arr["downloaded"] > 0 ? number_format($arr["uploaded"] / $arr["downloaded"], 3) : ($arr["uploaded"] > 0 ? "Inf." : "---"));
     $active = ($arr['active'] == 1 ? $active = "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='Yes' title='Yes' />" : $active = "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='No' title='No' />");
     $completed = ($arr['completed'] >= 1 ? $completed = "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='Yes' title='Yes' />" : $completed = "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='No' title='No' />");
-    $snatchuser = (isset($arr['username2']) ? ("<a href='userdetails.php?id=".(int)$arr['uid']."'><b>".htmlspecialchars($arr['username2'])."</b></a>") : "{$lang['snatches_unknown']}");
+    $snatchuser = (isset($arr['username2']) ? ("<a href='userdetails.php?id=".(int)$arr['uid']."'><b>".htmlsafechars($arr['username2'])."</b></a>") : "{$lang['snatches_unknown']}");
     $username = (($arr['anonymous2'] == 'yes') ? ($CURUSER['class'] < UC_STAFF && $arr['uid'] != $CURUSER['id'] ? '' : $snatchuser.' - ')."<i>{$lang['snatches_anon']}</i>" : $snatchuser);
     $HTMLOUT .= "<tr>
   <td align='left'>{$username}</td>
   <td align='right'>".mksize($arr["uploaded"])."</td>
   ".($TRINITY20['ratio_free'] ? "" : "<td align='right'>".mksize($arr["downloaded"])."</td>")."
-  <td align='right'>".htmlspecialchars($ratio)."</td>
+  <td align='right'>".htmlsafechars($ratio)."</td>
   <td align='right'>".mkprettytime($arr["seedtime"])."</td>
   <td align='right'>".mkprettytime($arr["leechtime"])."</td>
   <td align='right'>".get_date($arr["mtime"], '', 0, 1)."</td>

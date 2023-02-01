@@ -51,7 +51,7 @@ $possible_modes = [
     'remove',
     '',
 ];
-$mode = (isset($_GET['mode']) ? htmlspecialchars($_GET['mode']) : '');
+$mode = (isset($_GET['mode']) ? htmlsafechars($_GET['mode']) : '');
 if (!in_array($mode, $possible_modes)) {
     stderr($lang['classpromo_error'], $lang['classpromo_ruffian']);
 }
@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($mode == 'add') {
 
         print_r($_POST, true);
-        $name = isset($_POST['name']) ? htmlspecialchars($_POST['name']) : stderr($lang['classpromo_error'], $lang['classpromo_err_clsname']);
+        $name = isset($_POST['name']) ? htmlsafechars($_POST['name']) : stderr($lang['classpromo_error'], $lang['classpromo_err_clsname']);
         $min_ratio = $_POST['min_ratio'] ?? stderr($lang['classpromo_error'], $lang['classpromo_err_minratio']);
         $uploaded = isset($_POST['uploaded']) ? (int)$_POST['uploaded'] : stderr($lang['classpromo_error'], $lang['classpromo_err_upl']);
         $time = isset($_POST['time']) ? (int)$_POST['time'] : stderr($lang['classpromo_error'], $lang['classpromo_err_time']);
@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // remove
     if ($mode == 'remove') {
-        $name = isset($_POST['remove']) ? htmlspecialchars($_POST['remove']) : stderr($lang['classpromo_error'], $lang['classpromo_err_required']);
+        $name = isset($_POST['remove']) ? htmlsafechars($_POST['remove']) : stderr($lang['classpromo_error'], $lang['classpromo_err_required']);
         if (sql_query("DELETE FROM class_promo WHERE name = ".sqlesc($name)."")) {
             stderr($lang['classpromo_success'], $lang['classpromo_success_reset']);
         } else {
@@ -141,15 +141,15 @@ while ($arr = $res->fetch_assoc()) {
     $HTMLOUT .= "
 <tr>
 
-<td class='table' align='center'><input type='text' name='".htmlspecialchars($arr['name'])."[]' size='25' value='".get_user_class_name(htmlspecialchars($arr['name']))." ' readonly='readonly'/> (".htmlspecialchars($arr['name']).")</td>
-<td class='table' align='center'>&nbsp;<input type='hidden' name='".htmlspecialchars($arr['name'])."[]' size='8' value='".htmlspecialchars($arr['id'])."' /></td>
-<td class='table' align='center'><input type='text' name='".htmlspecialchars($arr['name'])."[]' size='8' value='".htmlspecialchars($arr['min_ratio'])."'  /></td>
-<td class='table' align='center'><input type='text' name='".htmlspecialchars($arr['name'])."[]' size='8' value='".htmlspecialchars($arr['uploaded'])."' /></td>
-<td class='table' align='center'><input type='text' name='".htmlspecialchars($arr['name'])."[]' size='8' value='".htmlspecialchars($arr['time'])."'  /></td>
-<td class='table' align='center'><input type='text' name='".htmlspecialchars($arr['name'])."[]' size='8' value='".htmlspecialchars($arr['low_ratio'])."'  /></td>
+<td class='table' align='center'><input type='text' name='".htmlsafechars($arr['name'])."[]' size='25' value='".get_user_class_name(htmlsafechars($arr['name']))." ' readonly='readonly'/> (".htmlsafechars($arr['name']).")</td>
+<td class='table' align='center'>&nbsp;<input type='hidden' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['id'])."' /></td>
+<td class='table' align='center'><input type='text' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['min_ratio'])."'  /></td>
+<td class='table' align='center'><input type='text' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['uploaded'])."' /></td>
+<td class='table' align='center'><input type='text' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['time'])."'  /></td>
+<td class='table' align='center'><input type='text' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['low_ratio'])."'  /></td>
 
 <td class='table' align='center'>
-<form name='remove' action='staffpanel.php?tool=class_promo&amp;mode=remove' method='post'><input type='hidden' name='remove' value='".htmlspecialchars($arr['name'])."' /><input type='submit' value='{$lang['classpromo_remove']}' /></form></td>
+<form name='remove' action='staffpanel.php?tool=class_promo&amp;mode=remove' method='post'><input type='hidden' name='remove' value='".htmlsafechars($arr['name'])."' /><input type='submit' value='{$lang['classpromo_remove']}' /></form></td>
 </tr>";
 }
 //$HTMLOUT.= "<br /><br /> ";

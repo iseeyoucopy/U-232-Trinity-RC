@@ -72,82 +72,82 @@ $HTMLOUT .= "
 <form action='staffpanel.php?tool=paypal_settings' method='post'>
 <table class='table table-bordered'>
 <tr><td>{$lang['paypal_donate']}</td><td align='left'>{$lang['paypal_yes']}<input type='radio' name='enable' value='1' ".($paypal_config['enable'] ? 'checked=\'checked\'' : '')." />{$lang['paypal_no']}<input type='radio' name='enable' value='0' ".($paypal_config['enable'] ? '' : 'checked=\'checked\'')." /></td></tr>
-<tr><td>{$lang['paypal_email']}</td><td><input type='text' class='form-control' name='email' size='25' value='".htmlspecialchars($paypal_config['email'])."' /></td></tr>
-<tr><td>{$lang['paypal_currency']}</td><td><input type='text' class='form-control' name='currency' size='4' value='".htmlspecialchars($paypal_config['currency'])."' /></td></tr>
-<tr><td>{$lang['paypal_user_pm']}</td><td><input type='text' class='form-control' name='staff' size='2' value='".htmlspecialchars($paypal_config['staff'])."' /></td></tr>
-<tr><td>{$lang['paypal_sandbox']}</td><td><input type='text' class='form-control' name='sandbox' size='9' value='".htmlspecialchars($paypal_config['sandbox'])."' /></td></tr>
+<tr><td>{$lang['paypal_email']}</td><td><input type='text' class='form-control' name='email' size='25' value='".htmlsafechars($paypal_config['email'])."' /></td></tr>
+<tr><td>{$lang['paypal_currency']}</td><td><input type='text' class='form-control' name='currency' size='4' value='".htmlsafechars($paypal_config['currency'])."' /></td></tr>
+<tr><td>{$lang['paypal_user_pm']}</td><td><input type='text' class='form-control' name='staff' size='2' value='".htmlsafechars($paypal_config['staff'])."' /></td></tr>
+<tr><td>{$lang['paypal_sandbox']}</td><td><input type='text' class='form-control' name='sandbox' size='9' value='".htmlsafechars($paypal_config['sandbox'])."' /></td></tr>
 <tr><td colspan='2' align='center'><input type='submit' class='btn btn-default' value='{$lang['paypal_apply']}' /></td></tr>
 </table><br /><br />
 <h2><b><i>{$lang['paypal_array_one']}</i></b>{$lang['paypal_title']}</h2>
 <table class='table table-bordered'>
-<tr><td><b><i>{$lang['paypal_array_one']}</i></b>{$lang['paypal_amount']}".$paypal_config['currency']."{$lang['paypal_donated']}</td><td><input type='text' class='form-control' name='gb_donated_1' size='3' value='".htmlspecialchars($paypal_config['gb_donated_1'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_one']}</i></b>{$lang['paypal_vip']}</td><td><input type='text' class='form-control' name='vip_dur_1' size='2' value='".htmlspecialchars($paypal_config['vip_dur_1'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_one']}</i></b>{$lang['paypal_donor_status']}</td><td><input type='text' class='form-control' name='donor_dur_1' size='2' value='".htmlspecialchars($paypal_config['donor_dur_1'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_one']}</i></b>{$lang['paypal_freelech']}</td><td><input type='text' class='form-control' name='free_dur_1' size='2' value='".htmlspecialchars($paypal_config['free_dur_1'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_one']}</i></b>{$lang['paypal_amount_gb']}</td><td><input type='text' class='form-control' name='up_amt_1' size='4' value='".htmlspecialchars($paypal_config['up_amt_1'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_one']}</i></b>{$lang['paypal_amount_karma']}</td><td><input type='text' class='form-control' name='kp_amt_1' size='4' value='".htmlspecialchars($paypal_config['kp_amt_1'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_one']}</i></b>{$lang['paypal_amount_invite']}</td><td><input type='text' class='form-control' name='inv_amt_1' size='4' value='".htmlspecialchars($paypal_config['inv_amt_1'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_one']}</i></b>{$lang['paypal_donor_until']}</td><td><input type='text' class='form-control' name='duntil_dur_1' size='2' value='".htmlspecialchars($paypal_config['duntil_dur_1'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_one']}</i></b>{$lang['paypal_immunity']}</td><td><input type='text' class='form-control' name='imm_dur_1' size='2' value='".htmlspecialchars($paypal_config['imm_dur_1'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_one']}</i></b>{$lang['paypal_amount']}".$paypal_config['currency']."{$lang['paypal_donated']}</td><td><input type='text' class='form-control' name='gb_donated_1' size='3' value='".htmlsafechars($paypal_config['gb_donated_1'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_one']}</i></b>{$lang['paypal_vip']}</td><td><input type='text' class='form-control' name='vip_dur_1' size='2' value='".htmlsafechars($paypal_config['vip_dur_1'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_one']}</i></b>{$lang['paypal_donor_status']}</td><td><input type='text' class='form-control' name='donor_dur_1' size='2' value='".htmlsafechars($paypal_config['donor_dur_1'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_one']}</i></b>{$lang['paypal_freelech']}</td><td><input type='text' class='form-control' name='free_dur_1' size='2' value='".htmlsafechars($paypal_config['free_dur_1'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_one']}</i></b>{$lang['paypal_amount_gb']}</td><td><input type='text' class='form-control' name='up_amt_1' size='4' value='".htmlsafechars($paypal_config['up_amt_1'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_one']}</i></b>{$lang['paypal_amount_karma']}</td><td><input type='text' class='form-control' name='kp_amt_1' size='4' value='".htmlsafechars($paypal_config['kp_amt_1'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_one']}</i></b>{$lang['paypal_amount_invite']}</td><td><input type='text' class='form-control' name='inv_amt_1' size='4' value='".htmlsafechars($paypal_config['inv_amt_1'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_one']}</i></b>{$lang['paypal_donor_until']}</td><td><input type='text' class='form-control' name='duntil_dur_1' size='2' value='".htmlsafechars($paypal_config['duntil_dur_1'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_one']}</i></b>{$lang['paypal_immunity']}</td><td><input type='text' class='form-control' name='imm_dur_1' size='2' value='".htmlsafechars($paypal_config['imm_dur_1'])."' /></td></tr>
 </table><br />
 <h2><b><i>{$lang['paypal_array_two']}</i></b>{$lang['paypal_title']}</h2>
 <table class='table table-bordered'>
-<tr><td><b><i>{$lang['paypal_array_two']}</i></b>{$lang['paypal_amount']}".$paypal_config['currency']."{$lang['paypal_donated']}</td><td><input type='text' class='form-control' name='gb_donated_2' size='3' value='".htmlspecialchars($paypal_config['gb_donated_2'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_two']}</i></b>{$lang['paypal_vip']}</td><td><input type='text' class='form-control' name='vip_dur_2' size='2' value='".htmlspecialchars($paypal_config['vip_dur_2'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_two']}</i></b>{$lang['paypal_donor_status']}</td><td><input type='text' class='form-control' name='donor_dur_2' size='2' value='".htmlspecialchars($paypal_config['donor_dur_2'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_two']}</i></b>{$lang['paypal_freelech']}</td><td><input type='text' class='form-control' name='free_dur_2' size='2' value='".htmlspecialchars($paypal_config['free_dur_2'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_two']}</i></b>{$lang['paypal_amount_gb']}</td><td><input type='text' class='form-control' name='up_amt_2' size='4' value='".htmlspecialchars($paypal_config['up_amt_2'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_two']}</i></b>{$lang['paypal_amount_karma']}</td><td><input type='text' class='form-control' name='kp_amt_2' size='4' value='".htmlspecialchars($paypal_config['kp_amt_2'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_two']}</i></b>{$lang['paypal_amount_invite']}</td><td><input type='text' class='form-control' name='inv_amt_2' size='4' value='".htmlspecialchars($paypal_config['inv_amt_2'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_two']}</i></b>{$lang['paypal_donor_until']}</td><td><input type='text' class='form-control' name='duntil_dur_2' size='2' value='".htmlspecialchars($paypal_config['duntil_dur_2'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_two']}</i></b>{$lang['paypal_immunity']}</td><td><input type='text' class='form-control' name='imm_dur_2' size='2' value='".htmlspecialchars($paypal_config['imm_dur_2'])."' /></td></tr></table><br />
+<tr><td><b><i>{$lang['paypal_array_two']}</i></b>{$lang['paypal_amount']}".$paypal_config['currency']."{$lang['paypal_donated']}</td><td><input type='text' class='form-control' name='gb_donated_2' size='3' value='".htmlsafechars($paypal_config['gb_donated_2'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_two']}</i></b>{$lang['paypal_vip']}</td><td><input type='text' class='form-control' name='vip_dur_2' size='2' value='".htmlsafechars($paypal_config['vip_dur_2'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_two']}</i></b>{$lang['paypal_donor_status']}</td><td><input type='text' class='form-control' name='donor_dur_2' size='2' value='".htmlsafechars($paypal_config['donor_dur_2'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_two']}</i></b>{$lang['paypal_freelech']}</td><td><input type='text' class='form-control' name='free_dur_2' size='2' value='".htmlsafechars($paypal_config['free_dur_2'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_two']}</i></b>{$lang['paypal_amount_gb']}</td><td><input type='text' class='form-control' name='up_amt_2' size='4' value='".htmlsafechars($paypal_config['up_amt_2'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_two']}</i></b>{$lang['paypal_amount_karma']}</td><td><input type='text' class='form-control' name='kp_amt_2' size='4' value='".htmlsafechars($paypal_config['kp_amt_2'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_two']}</i></b>{$lang['paypal_amount_invite']}</td><td><input type='text' class='form-control' name='inv_amt_2' size='4' value='".htmlsafechars($paypal_config['inv_amt_2'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_two']}</i></b>{$lang['paypal_donor_until']}</td><td><input type='text' class='form-control' name='duntil_dur_2' size='2' value='".htmlsafechars($paypal_config['duntil_dur_2'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_two']}</i></b>{$lang['paypal_immunity']}</td><td><input type='text' class='form-control' name='imm_dur_2' size='2' value='".htmlsafechars($paypal_config['imm_dur_2'])."' /></td></tr></table><br />
 <h2><b><i>{$lang['paypal_array_three']}</i></b>{$lang['paypal_title']}</h2>
 <table class='table table-bordered'>
-<tr><td><b><i>{$lang['paypal_array_three']}</i></b>{$lang['paypal_amount']}".$paypal_config['currency']."{$lang['paypal_donated']}</td><td><input type='text' class='form-control' name='gb_donated_3' size='3' value='".htmlspecialchars($paypal_config['gb_donated_3'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_three']}</i></b>{$lang['paypal_vip']}</td><td><input type='text' class='form-control' name='vip_dur_3' size='2' value='".htmlspecialchars($paypal_config['vip_dur_3'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_three']}</i></b>{$lang['paypal_donor_status']}</td><td><input type='text' class='form-control' name='donor_dur_3' size='2' value='".htmlspecialchars($paypal_config['donor_dur_3'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_three']}</i></b>{$lang['paypal_freelech']}</td><td><input type='text' class='form-control' name='free_dur_3' size='2' value='".htmlspecialchars($paypal_config['free_dur_3'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_three']}</i></b>{$lang['paypal_amount_gb']}</td><td><input type='text' class='form-control' name='up_amt_3' size='4' value='".htmlspecialchars($paypal_config['up_amt_3'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_three']}</i></b>{$lang['paypal_amount_karma']}</td><td><input type='text' class='form-control' name='kp_amt_3' size='4' value='".htmlspecialchars($paypal_config['kp_amt_3'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_three']}</i></b>{$lang['paypal_amount_invite']}</td><td><input type='text' class='form-control' name='inv_amt_3' size='4' value='".htmlspecialchars($paypal_config['inv_amt_3'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_three']}</i></b>{$lang['paypal_donor_until']}</td><td><input type='text' class='form-control' name='duntil_dur_3' size='2' value='".htmlspecialchars($paypal_config['duntil_dur_3'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_three']}</i></b>{$lang['paypal_immunity']}</td><td><input type='text' class='form-control' name='imm_dur_3' size='2' value='".htmlspecialchars($paypal_config['imm_dur_3'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_three']}</i></b>{$lang['paypal_amount']}".$paypal_config['currency']."{$lang['paypal_donated']}</td><td><input type='text' class='form-control' name='gb_donated_3' size='3' value='".htmlsafechars($paypal_config['gb_donated_3'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_three']}</i></b>{$lang['paypal_vip']}</td><td><input type='text' class='form-control' name='vip_dur_3' size='2' value='".htmlsafechars($paypal_config['vip_dur_3'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_three']}</i></b>{$lang['paypal_donor_status']}</td><td><input type='text' class='form-control' name='donor_dur_3' size='2' value='".htmlsafechars($paypal_config['donor_dur_3'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_three']}</i></b>{$lang['paypal_freelech']}</td><td><input type='text' class='form-control' name='free_dur_3' size='2' value='".htmlsafechars($paypal_config['free_dur_3'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_three']}</i></b>{$lang['paypal_amount_gb']}</td><td><input type='text' class='form-control' name='up_amt_3' size='4' value='".htmlsafechars($paypal_config['up_amt_3'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_three']}</i></b>{$lang['paypal_amount_karma']}</td><td><input type='text' class='form-control' name='kp_amt_3' size='4' value='".htmlsafechars($paypal_config['kp_amt_3'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_three']}</i></b>{$lang['paypal_amount_invite']}</td><td><input type='text' class='form-control' name='inv_amt_3' size='4' value='".htmlsafechars($paypal_config['inv_amt_3'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_three']}</i></b>{$lang['paypal_donor_until']}</td><td><input type='text' class='form-control' name='duntil_dur_3' size='2' value='".htmlsafechars($paypal_config['duntil_dur_3'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_three']}</i></b>{$lang['paypal_immunity']}</td><td><input type='text' class='form-control' name='imm_dur_3' size='2' value='".htmlsafechars($paypal_config['imm_dur_3'])."' /></td></tr>
 </table><br />
 <h2><b><i>{$lang['paypal_array_four']}</i></b>{$lang['paypal_title']}</h2>
 <table class='table table-bordered'>
-<tr><td><b><i>{$lang['paypal_array_four']}</i></b>{$lang['paypal_amount']}".$paypal_config['currency']."{$lang['paypal_donated']}</td><td><input type='text' class='form-control' name='gb_donated_4' size='3' value='".htmlspecialchars($paypal_config['gb_donated_4'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_four']}</i></b>{$lang['paypal_vip']}</td><td><input type='text' class='form-control' name='vip_dur_4' size='2' value='".htmlspecialchars($paypal_config['vip_dur_4'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_four']}</i></b>{$lang['paypal_donor_status']}</td><td><input type='text' class='form-control' name='donor_dur_4' size='2' value='".htmlspecialchars($paypal_config['donor_dur_4'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_four']}</i></b>{$lang['paypal_freelech']}</td><td><input type='text' class='form-control' name='free_dur_4' size='2' value='".htmlspecialchars($paypal_config['free_dur_4'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_four']}</i></b>{$lang['paypal_amount_gb']}</td><td><input type='text' class='form-control' name='up_amt_4' size='4' value='".htmlspecialchars($paypal_config['up_amt_4'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_four']}</i></b>{$lang['paypal_amount_karma']}</td><td><input type='text' class='form-control' name='kp_amt_4' size='4' value='".htmlspecialchars($paypal_config['kp_amt_4'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_four']}</i></b>{$lang['paypal_amount_invite']}</td><td><input type='text' class='form-control' name='inv_amt_4' size='4' value='".htmlspecialchars($paypal_config['inv_amt_4'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_four']}</i></b>{$lang['paypal_donor_until']}</td><td><input type='text' class='form-control' name='duntil_dur_4' size='2' value='".htmlspecialchars($paypal_config['duntil_dur_4'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_four']}</i></b>{$lang['paypal_immunity']}</td><td><input type='text' class='form-control' name='imm_dur_4' size='2' value='".htmlspecialchars($paypal_config['imm_dur_4'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_four']}</i></b>{$lang['paypal_amount']}".$paypal_config['currency']."{$lang['paypal_donated']}</td><td><input type='text' class='form-control' name='gb_donated_4' size='3' value='".htmlsafechars($paypal_config['gb_donated_4'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_four']}</i></b>{$lang['paypal_vip']}</td><td><input type='text' class='form-control' name='vip_dur_4' size='2' value='".htmlsafechars($paypal_config['vip_dur_4'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_four']}</i></b>{$lang['paypal_donor_status']}</td><td><input type='text' class='form-control' name='donor_dur_4' size='2' value='".htmlsafechars($paypal_config['donor_dur_4'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_four']}</i></b>{$lang['paypal_freelech']}</td><td><input type='text' class='form-control' name='free_dur_4' size='2' value='".htmlsafechars($paypal_config['free_dur_4'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_four']}</i></b>{$lang['paypal_amount_gb']}</td><td><input type='text' class='form-control' name='up_amt_4' size='4' value='".htmlsafechars($paypal_config['up_amt_4'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_four']}</i></b>{$lang['paypal_amount_karma']}</td><td><input type='text' class='form-control' name='kp_amt_4' size='4' value='".htmlsafechars($paypal_config['kp_amt_4'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_four']}</i></b>{$lang['paypal_amount_invite']}</td><td><input type='text' class='form-control' name='inv_amt_4' size='4' value='".htmlsafechars($paypal_config['inv_amt_4'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_four']}</i></b>{$lang['paypal_donor_until']}</td><td><input type='text' class='form-control' name='duntil_dur_4' size='2' value='".htmlsafechars($paypal_config['duntil_dur_4'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_four']}</i></b>{$lang['paypal_immunity']}</td><td><input type='text' class='form-control' name='imm_dur_4' size='2' value='".htmlsafechars($paypal_config['imm_dur_4'])."' /></td></tr>
 </table><br />
 <h2><b><i>{$lang['paypal_array_five']}</i></b>{$lang['paypal_title']}</h2>
 <table class='table table-bordered'>
-<tr><td><b><i>{$lang['paypal_array_five']}</i></b>{$lang['paypal_amount']}".$paypal_config['currency']."{$lang['paypal_donated']}</td><td><input type='text' class='form-control' name='gb_donated_5' size='3' value='".htmlspecialchars($paypal_config['gb_donated_5'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_five']}</i></b>{$lang['paypal_vip']}</td><td><input type='text' class='form-control' name='vip_dur_5' size='2' value='".htmlspecialchars($paypal_config['vip_dur_5'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_five']}</i></b>{$lang['paypal_donor_status']}</td><td><input type='text' class='form-control' name='donor_dur_5' size='2' value='".htmlspecialchars($paypal_config['donor_dur_5'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_five']}</i></b>{$lang['paypal_freelech']}</td><td><input type='text' class='form-control' name='free_dur_5' size='2' value='".htmlspecialchars($paypal_config['free_dur_5'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_five']}</i></b>{$lang['paypal_amount_gb']}</td><td><input type='text' class='form-control' name='up_amt_5' size='4' value='".htmlspecialchars($paypal_config['up_amt_5'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_five']}</i></b>{$lang['paypal_amount_karma']}</td><td><input type='text' class='form-control' name='kp_amt_5' size='4' value='".htmlspecialchars($paypal_config['kp_amt_5'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_five']}</i></b>{$lang['paypal_amount_invite']}</td><td><input type='text' class='form-control' name='inv_amt_5' size='4' value='".htmlspecialchars($paypal_config['inv_amt_5'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_five']}</i></b>{$lang['paypal_donor_until']}</td><td><input type='text' class='form-control' name='duntil_dur_5' size='2' value='".htmlspecialchars($paypal_config['duntil_dur_5'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_five']}</i></b>{$lang['paypal_immunity']}</td><td><input type='text' class='form-control' name='imm_dur_5' size='2' value='".htmlspecialchars($paypal_config['imm_dur_5'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_five']}</i></b>{$lang['paypal_amount']}".$paypal_config['currency']."{$lang['paypal_donated']}</td><td><input type='text' class='form-control' name='gb_donated_5' size='3' value='".htmlsafechars($paypal_config['gb_donated_5'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_five']}</i></b>{$lang['paypal_vip']}</td><td><input type='text' class='form-control' name='vip_dur_5' size='2' value='".htmlsafechars($paypal_config['vip_dur_5'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_five']}</i></b>{$lang['paypal_donor_status']}</td><td><input type='text' class='form-control' name='donor_dur_5' size='2' value='".htmlsafechars($paypal_config['donor_dur_5'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_five']}</i></b>{$lang['paypal_freelech']}</td><td><input type='text' class='form-control' name='free_dur_5' size='2' value='".htmlsafechars($paypal_config['free_dur_5'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_five']}</i></b>{$lang['paypal_amount_gb']}</td><td><input type='text' class='form-control' name='up_amt_5' size='4' value='".htmlsafechars($paypal_config['up_amt_5'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_five']}</i></b>{$lang['paypal_amount_karma']}</td><td><input type='text' class='form-control' name='kp_amt_5' size='4' value='".htmlsafechars($paypal_config['kp_amt_5'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_five']}</i></b>{$lang['paypal_amount_invite']}</td><td><input type='text' class='form-control' name='inv_amt_5' size='4' value='".htmlsafechars($paypal_config['inv_amt_5'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_five']}</i></b>{$lang['paypal_donor_until']}</td><td><input type='text' class='form-control' name='duntil_dur_5' size='2' value='".htmlsafechars($paypal_config['duntil_dur_5'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_five']}</i></b>{$lang['paypal_immunity']}</td><td><input type='text' class='form-control' name='imm_dur_5' size='2' value='".htmlsafechars($paypal_config['imm_dur_5'])."' /></td></tr>
 </table><br />
 <h2><b><i>{$lang['paypal_array_six']}</i></b>{$lang['paypal_title']}</h2>
 <table class='table table-bordered'>
-<tr><td><b><i>{$lang['paypal_array_six']}</i></b>{$lang['paypal_amount']}".$paypal_config['currency']."{$lang['paypal_donated']}</td><td><input type='text' class='form-control' name='gb_donated_6' size='3' value='".htmlspecialchars($paypal_config['gb_donated_6'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_six']}</i></b>{$lang['paypal_vip']}</td><td><input type='text' class='form-control' name='vip_dur_6' size='2' value='".htmlspecialchars($paypal_config['vip_dur_6'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_six']}</i></b>{$lang['paypal_donor_status']}</td><td><input type='text' class='form-control' name='donor_dur_6' size='2' value='".htmlspecialchars($paypal_config['donor_dur_6'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_six']}</i></b>{$lang['paypal_freelech']}</td><td><input type='text' class='form-control' name='free_dur_6' size='2' value='".htmlspecialchars($paypal_config['free_dur_6'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_six']}</i></b>{$lang['paypal_amount_gb']}</td><td><input type='text' class='form-control' name='up_amt_6' size='4' value='".htmlspecialchars($paypal_config['up_amt_6'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_six']}</i></b>{$lang['paypal_amount_karma']}</td><td><input type='text' class='form-control' name='kp_amt_6' size='4' value='".htmlspecialchars($paypal_config['kp_amt_6'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_six']}</i></b>{$lang['paypal_amount_invite']}</td><td><input type='text' class='form-control' name='inv_amt_6' size='4' value='".htmlspecialchars($paypal_config['inv_amt_6'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_six']}</i></b>{$lang['paypal_donor_until']}</td><td><input type='text' class='form-control' name='duntil_dur_6' size='2' value='".htmlspecialchars($paypal_config['duntil_dur_6'])."' /></td></tr>
-<tr><td><b><i>{$lang['paypal_array_six']}</i></b>{$lang['paypal_immunity']}</td><td><input type='text' class='form-control' name='imm_dur_6' size='2' value='".htmlspecialchars($paypal_config['imm_dur_6'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_six']}</i></b>{$lang['paypal_amount']}".$paypal_config['currency']."{$lang['paypal_donated']}</td><td><input type='text' class='form-control' name='gb_donated_6' size='3' value='".htmlsafechars($paypal_config['gb_donated_6'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_six']}</i></b>{$lang['paypal_vip']}</td><td><input type='text' class='form-control' name='vip_dur_6' size='2' value='".htmlsafechars($paypal_config['vip_dur_6'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_six']}</i></b>{$lang['paypal_donor_status']}</td><td><input type='text' class='form-control' name='donor_dur_6' size='2' value='".htmlsafechars($paypal_config['donor_dur_6'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_six']}</i></b>{$lang['paypal_freelech']}</td><td><input type='text' class='form-control' name='free_dur_6' size='2' value='".htmlsafechars($paypal_config['free_dur_6'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_six']}</i></b>{$lang['paypal_amount_gb']}</td><td><input type='text' class='form-control' name='up_amt_6' size='4' value='".htmlsafechars($paypal_config['up_amt_6'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_six']}</i></b>{$lang['paypal_amount_karma']}</td><td><input type='text' class='form-control' name='kp_amt_6' size='4' value='".htmlsafechars($paypal_config['kp_amt_6'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_six']}</i></b>{$lang['paypal_amount_invite']}</td><td><input type='text' class='form-control' name='inv_amt_6' size='4' value='".htmlsafechars($paypal_config['inv_amt_6'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_six']}</i></b>{$lang['paypal_donor_until']}</td><td><input type='text' class='form-control' name='duntil_dur_6' size='2' value='".htmlsafechars($paypal_config['duntil_dur_6'])."' /></td></tr>
+<tr><td><b><i>{$lang['paypal_array_six']}</i></b>{$lang['paypal_immunity']}</td><td><input type='text' class='form-control' name='imm_dur_6' size='2' value='".htmlsafechars($paypal_config['imm_dur_6'])."' /></td></tr>
 <tr><td colspan='2' align='center'><input type='submit' class='btn btn-default' value='{$lang['paypal_apply']}'' /></td></tr>
 </table>
 </form></div></div>";

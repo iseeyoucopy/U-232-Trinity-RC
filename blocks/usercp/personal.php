@@ -2,7 +2,7 @@
 $templates = sql_query("SELECT id, name FROM stylesheets ORDER BY id");
 while ($templ = $templates->fetch_assoc()) {
     if (file_exists("templates/".(int)$templ['id']."/template.php")) {
-        $stylesheets .= "<option value='".(int)$templ['id']."'".($templ['id'] == $CURUSER['stylesheet'] ? " selected='selected'" : "").">".htmlspecialchars($templ['name'])."</option>";
+        $stylesheets .= "<option value='".(int)$templ['id']."'".($templ['id'] == $CURUSER['stylesheet'] ? " selected='selected'" : "").">".htmlsafechars($templ['name'])."</option>";
     }
 }
 $HTMLOUT .= "
@@ -13,7 +13,7 @@ $HTMLOUT .= "
 			</td>
 		</tr>";
 if ($CURUSER['class'] >= UC_VIP) {
-    $HTMLOUT .= tr($lang['usercp_title'], "<input size='50' value='".htmlspecialchars($CURUSER["title"])."' name='title' /><br />", 1);
+    $HTMLOUT .= tr($lang['usercp_title'], "<input size='50' value='".htmlsafechars($CURUSER["title"])."' name='title' /><br />", 1);
 }
 //==status mod
 $CURUSER['archive'] = unserialize($CURUSER['archive']);
@@ -47,7 +47,7 @@ if ($CURUSER['archive'] && (is_countable($CURUSER['archive']) ? count($CURUSER['
     if (is_array($CURUSER['archive'])) {
         foreach (array_reverse($CURUSER['archive'], true) as $a_id => $sa) {
             $HTMLOUT .= '<div id="status_'.$a_id.'">
-    <div style="float:left">'.htmlspecialchars($sa['status']).'
+    <div style="float:left">'.htmlsafechars($sa['status']).'
     <small>added '.get_date($sa['date'], '', 0, 1).'</small></div>
     <div style="float:right;cursor:pointer;"><span onclick="status_delete('.$a_id.')"></span></div>
     <div style="clear:both;border:1px solid #222;border-width:1px 0 0 0;margin-bottom:3px;"></div></div>';
@@ -68,7 +68,7 @@ $HTMLOUT .= tr($lang['usercp_gender'], "<input type='radio' name='gender'".($CUR
     <input type='radio' name='gender'".($CURUSER["gender"] == "Female" ? " checked='checked'" : "")." value='Female' />{$lang['usercp_female']}
     <input type='radio' name='gender'".($CURUSER["gender"] == "N/A" ? " checked='checked'" : "")." value='N/A' />{$lang['usercp_na']}", 1);
 $HTMLOUT .= tr(''.$lang['usercp_soc_www'].'',
-    '<img src="pic/social_media/www.gif" alt="www" title="www" width="16px" height="16px" /><input type="text" size="30" name="website"  value="'.htmlspecialchars($CURUSER['website']).'" />',
+    '<img src="pic/social_media/www.gif" alt="www" title="www" width="16px" height="16px" /><input type="text" size="30" name="website"  value="'.htmlsafechars($CURUSER['website']).'" />',
     1);
 //==09 Birthday
 $day = $month = $year = '';

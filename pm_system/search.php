@@ -27,8 +27,8 @@ if (!defined('BUNNY_PM_SYSTEM')) {
     exit();
 }
 //=== get post / get stuff
-$keywords = (isset($_POST['keywords']) ? htmlspecialchars($_POST['keywords']) : '');
-$member = (isset($_POST['member']) ? htmlspecialchars($_POST['member']) : '');
+$keywords = (isset($_POST['keywords']) ? htmlsafechars($_POST['keywords']) : '');
+$member = (isset($_POST['member']) ? htmlsafechars($_POST['member']) : '');
 $all_boxes = (isset($_POST['all_boxes']) ? (int)$_POST['all_boxes'] : '');
 $sender_reciever = ($mailbox >= 1 ? 'sender' : 'receiver');
 //== query stuff
@@ -38,8 +38,8 @@ $limit = (isset($_POST['limit']) ? (int)$_POST['limit'] : 25);
 $as_list_post = (isset($_POST['as_list_post']) ? (int)$_POST['as_list_post'] : 2);
 $desc_asc = (isset($_POST['ASC']) == 1 ? 'ASC' : 'DESC');
 //=== search in
-$subject = (isset($_POST['subject']) ? htmlspecialchars($_POST['subject']) : '');
-$text = (isset($_POST['text']) ? htmlspecialchars($_POST['text']) : '');
+$subject = (isset($_POST['subject']) ? htmlsafechars($_POST['subject']) : '');
+$text = (isset($_POST['text']) ? htmlsafechars($_POST['text']) : '');
 $member_sys = (isset($_POST['system']) ? 'system' : '');
 //=== get sort and check to see if it's ok...
 $possible_sort = [
@@ -49,11 +49,11 @@ $possible_sort = [
     'receiver',
     'relevance',
 ];
-$sort = (isset($_GET['sort']) ? htmlspecialchars($_GET['sort']) : (isset($_POST['sort']) ? htmlspecialchars($_POST['sort']) : 'relevance'));
+$sort = (isset($_GET['sort']) ? htmlsafechars($_GET['sort']) : (isset($_POST['sort']) ? htmlsafechars($_POST['sort']) : 'relevance'));
 if (!in_array($sort, $possible_sort)) {
     stderr($lang['pm_error'], $lang['pm_error_ruffian']);
 } else {
-    $sort = htmlspecialchars(isset($_POST['sort']));
+    $sort = htmlsafechars(isset($_POST['sort']));
 }
 //=== Try finding a user with specified name
 if ($member) {
@@ -78,7 +78,7 @@ $get_all_boxes = '<select name="box">
                                             <option class="body" value="-1" '.($mailbox == PM_SENTBOX ? 'selected="selected"' : '').'>'.$lang['pm_sentbox'].'</option>
                                             <option class="body" value="-2" '.($mailbox == PM_DRAFTS ? 'selected="selected"' : '').'>'.$lang['pm_drafts'].'</option>';
 while ($row = $res->fetch_assoc()) {
-    $get_all_boxes .= '<option class="body" value="'.(int)$row['boxnumber'].'" '.($row['boxnumber'] == $mailbox ? 'selected="selected"' : '').'>'.htmlspecialchars($row['name']).'</option>';
+    $get_all_boxes .= '<option class="body" value="'.(int)$row['boxnumber'].'" '.($row['boxnumber'] == $mailbox ? 'selected="selected"' : '').'>'.htmlsafechars($row['name']).'</option>';
 }
 $get_all_boxes .= '</select>';
 //=== make up page
@@ -197,7 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $num_result = $res_search->num_rows;
     //=== show the search resaults \o/o\o/o\o/
-    $HTMLOUT .= '<h1>'.$lang['pm_search_your_for'].''.($keywords ? '"'.$keywords.'"' : ($member ? $lang['pm_search_member'].htmlspecialchars($arr_username['username']).$lang['pm_search_pms'] : ($member_sys !== '' ? $lang['pm_search_sysmsg'] : ''))).'</h1>
+    $HTMLOUT .= '<h1>'.$lang['pm_search_your_for'].''.($keywords ? '"'.$keywords.'"' : ($member ? $lang['pm_search_member'].htmlsafechars($arr_username['username']).$lang['pm_search_pms'] : ($member_sys !== '' ? $lang['pm_search_sysmsg'] : ''))).'</h1>
         <div style="text-align: center;">'.($num_result < $limit ? $lang['pm_search_returned'] : $lang['pm_search_show_first']).' <span style="font-weight: bold;">'.$num_result.'</span> 
         '.$lang['pm_search_match'].''.($num_result === 1 ? '' : $lang['pm_search_matches']).$lang['pm_search_excl'].($num_result === 0 ? $lang['pm_search_better'] : '').'</div>';
     //=== let's make the table
@@ -234,11 +234,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ($res_box_name = sql_query('SELECT name FROM pmboxes WHERE userid = '.sqlesc($CURUSER['id']).' AND boxnumber = '.sqlesc($row['location']))) || sqlerr(__FILE__,
                 __LINE__);
             $arr_box_name = $res_box_name->fetch_assoc();
-            $arr_box = htmlspecialchars($arr_box_name['name']);
+            $arr_box = htmlsafechars($arr_box_name['name']);
         }
         //==== highlight search terms... from Jaits search forums mod
         $body = str_ireplace($keywords, '<span style="font-weight:bold;">'.$keywords.'</span>', format_comment($row['msg']));
-        $subject = str_ireplace($keywords, '<span style="font-weight:bold;">'.$keywords.'</span>', htmlspecialchars($row['subject']));
+        $subject = str_ireplace($keywords, '<span style="font-weight:bold;">'.$keywords.'</span>', htmlsafechars($row['subject']));
         //=== print the damn thing ... if it's as a list or as posts...
         $HTMLOUT .= ($as_list_post == 2 ? '
     <tr>

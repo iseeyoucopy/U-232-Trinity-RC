@@ -56,7 +56,7 @@ make_year(BITBUCKET_DIR);
 make_month(BITBUCKET_DIR);
 if (!isset($_FILES['file'])) {
     if (isset($_GET["delete"])) {
-        $getfile = htmlspecialchars($_GET['delete']);
+        $getfile = htmlsafechars($_GET['delete']);
         $delfile = urldecode(encrypt_decrypt('decrypt', $getfile));
         $delhash = t_Hash($delfile, $USERSALT, $SaLt);
 
@@ -98,7 +98,7 @@ if (!isset($_FILES['file'])) {
         header("Refresh: 0; url={$TRINITY20['baseurl']}/bitbucket.php?images=$type&updated=avatar");
     }
     if (isset($_GET["updated"]) && $_GET["updated"] == 'avatar') {
-        $HTMLOUT .= "<h3>{$lang['bitbucket_updated']}<img src='".htmlspecialchars($CURUSER['avatar'])."' border='0' alt='' /></h3>";
+        $HTMLOUT .= "<h3>{$lang['bitbucket_updated']}<img src='".htmlsafechars($CURUSER['avatar'])."' border='0' alt='' /></h3>";
     }
     $HTMLOUT .= "<form action=\"".$_SERVER['PHP_SELF']."\" method=\"post\" enctype=\"multipart/form-data\">
 <table width=\"300\" align=\"center\">

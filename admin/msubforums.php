@@ -86,8 +86,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
         $HTMLOUT .= "<tr>
-    <td width='100%' align='left' ><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".((int)$a["subid"])."' >".(htmlspecialchars($a["subname"]))."</a><br/>".(htmlspecialchars($a["description"]))."</td>
-    <td nowrap='nowrap' align='center'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)($a["parrentid"])."' >".(htmlspecialchars($a["parrentname"]))."</a></td>
+    <td width='100%' align='left' ><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".((int)$a["subid"])."' >".(htmlsafechars($a["subname"]))."</a><br/>".(htmlsafechars($a["description"]))."</td>
+    <td nowrap='nowrap' align='center'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)($a["parrentid"])."' >".(htmlsafechars($a["parrentname"]))."</a></td>
     <td nowrap='nowrap'>".(get_user_class_name($a['min_class_read']))."</td>
     <td nowrap='nowrap'>".(get_user_class_name($a['min_class_write']))."</td>
     <td nowrap='nowrap'>".(get_user_class_name($a['min_class_create']))."</td>
@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $select .= "<select name=\"place\"><option value=\"\">Select</option>\n";
     ($r = sql_query("SELECT id,name FROM forums WHERE place=-1 ORDER BY name ASC")) || sqlerr(__FILE__, __LINE__);
     while ($ar = $r->fetch_assoc()) {
-        $select .= "<option value=\"".(int)$ar["id"]."\">".htmlspecialchars($ar["name"])."</option>\n";
+        $select .= "<option value=\"".(int)$ar["id"]."\">".htmlsafechars($ar["name"])."</option>\n";
     }
     $select .= "</select>\n";
     $HTMLOUT .= ($select);

@@ -39,7 +39,7 @@ if ($CURUSER['class'] >= MAX_CLASS || isMod($forumid, "forum")) {
         if ($topics > 0) {
             while ($topic = $rt->fetch_assoc()) {
                 $ids[] = $topic['id'];
-                $forum = htmlspecialchars($topic['name']);
+                $forum = htmlsafechars($topic['name']);
             }
             $rp = sql_query("SELECT COUNT(id) FROM posts WHERE topic_id IN (".implode(', ', $ids).")");
             foreach ($ids as $id) {
@@ -76,7 +76,7 @@ if ($CURUSER['class'] >= MAX_CLASS || isMod($forumid, "forum")) {
     while ($topic = $rt->fetch_assoc()) {
         $tids[] = $topic['id'];
         if ($Multi_forum['configs']['use_attachment_mod'] && !empty($topic['filename'])) {
-            $filename = $Multi_forum['configs']['attachment_dir']."/".htmlspecialchars($topic['filename']);
+            $filename = $Multi_forum['configs']['attachment_dir']."/".htmlsafechars($topic['filename']);
             if (is_file($filename)) {
                 unlink($filename);
             }

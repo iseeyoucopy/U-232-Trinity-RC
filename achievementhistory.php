@@ -46,7 +46,7 @@ $count = $row[0];
 $perpage = 15;
 if (!$count) {
     stderr($lang['achievement_history_no'],
-        "{$lang['achievement_history_err2']}<a class='altlink' href='userdetails.php?id=".(int)$arr['id']."'>".htmlspecialchars($arr['username'])."</a>{$lang['achievement_history_err3']}");
+        "{$lang['achievement_history_err2']}<a class='altlink' href='userdetails.php?id=".(int)$arr['id']."'>".htmlsafechars($arr['username'])."</a>{$lang['achievement_history_err3']}");
 }
 $pager = pager($perpage, $count, "?id=$id&amp;");
 if ($id == $CURUSER['id']) {

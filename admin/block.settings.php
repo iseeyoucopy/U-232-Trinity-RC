@@ -58,7 +58,7 @@ function block_cache()
 $BLOCKS = array(
 ';
     foreach ($_POST as $k => $v) {
-        $block_out .= ($k == 'block_undefined') ? "\t'{$k}' => '".htmlspecialchars($v)."',\n" : "\t'{$k}' => ".(int)$v.",\n";
+        $block_out .= ($k == 'block_undefined') ? "\t'{$k}' => '".htmlsafechars($v)."',\n" : "\t'{$k}' => ".(int)$v.",\n";
     }
     $block_out .= '
 );

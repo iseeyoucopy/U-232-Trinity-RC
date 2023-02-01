@@ -93,7 +93,7 @@ foreach ($_GET['id'] as $id) {
             $torrents[$i] = $torrents[$i];
         }
 
-        $s = htmlspecialchars($torrents["name"], ENT_QUOTES);
+        $s = htmlsafechars($torrents["name"], ENT_QUOTES);
 
     }
 
@@ -112,7 +112,7 @@ foreach ($_GET['id'] as $id) {
                 <tr>
                 <td align=\"right\" class=\"heading\" width=\"3%\">{$lang['details_download']}</td>
                 <td align=\"left\" class='details-text-ellipsis'>
-                <a class=\"index\" href=\"download.php?torrent={$id}\">&nbsp;<u>" . htmlspecialchars($torrents["filename"]) . "</u></a>{$Free_Slot}
+                <a class=\"index\" href=\"download.php?torrent={$id}\">&nbsp;<u>" . htmlsafechars($torrents["filename"]) . "</u></a>{$Free_Slot}
                 </td>
                 </tr>";
         /** end **/
@@ -121,12 +121,12 @@ foreach ($_GET['id'] as $id) {
         $HTMLOUT.= "<tr>
             <td>{$lang['details_zip']}</td>
             <td align=\"left\" class='details-text-ellipsis'>
-            <a class=\"index\" href=\"download.php?torrent={$id}&amp;zip=1\">&nbsp;<u>" . htmlspecialchars($torrents["filename"]) . "</u></a>{$Free_Slot_Zip}</td></tr>";
+            <a class=\"index\" href=\"download.php?torrent={$id}&amp;zip=1\">&nbsp;<u>" . htmlsafechars($torrents["filename"]) . "</u></a>{$Free_Slot_Zip}</td></tr>";
         //==Torrent as text by putyn
         $HTMLOUT.= "<tr>
             <td>{$lang['details_text']}</td>
             <td align=\"left\" class='details-text-ellipsis'>
-            <a class=\"index\" href=\"download.php?torrent={$id}&amp;text=1\">&nbsp;<u>" . htmlspecialchars($torrents["filename"]) . "</u></a>{$Free_Slot_Text}</td></tr></table>";
+            <a class=\"index\" href=\"download.php?torrent={$id}&amp;text=1\">&nbsp;<u>" . htmlsafechars($torrents["filename"]) . "</u></a>{$Free_Slot_Text}</td></tr></table>";
 
         $HTMLOUT.= "</div><!-- closnig col-md-8 --> </div><!-- closing row -->";
         $HTMLOUT .="</div><!-- closing tab pane -->";
@@ -136,5 +136,5 @@ foreach ($_GET['id'] as $id) {
 
 $HTMLOUT .= "</div></div><div class='row'><div class='col-md-1'></div><div class='col-md-12'>";
 //////////////////////// HTML OUTPUT ////////////////////////////
-echo stdhead("{$lang['details_details']}\"".htmlspecialchars($torrents["name"], ENT_QUOTES)."\"", true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
+echo stdhead("{$lang['details_details']}\"".htmlsafechars($torrents["name"], ENT_QUOTES)."\"", true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
 ?>

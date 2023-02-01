@@ -150,7 +150,7 @@ foreach ($current as $x) {
         $HTMLOUT .= "
 <tr>
 <td align='center'>";
-        $HTMLOUT .= htmlspecialchars(substr($x['name'], 2));
+        $HTMLOUT .= htmlsafechars(substr($x['name'], 2));
         $HTMLOUT .= "</td>
 <td align='center'>";
         $HTMLOUT .= get_date($x['modify'], 'DATE', 0, 1);
@@ -179,7 +179,7 @@ foreach ($current as $x) {
         $HTMLOUT .= "
 <tr>
 <td align='center'>";
-        $HTMLOUT .= htmlspecialchars(substr($x['name'], 2));
+        $HTMLOUT .= htmlsafechars(substr($x['name'], 2));
         $HTMLOUT .= "</td>
 <td align='center'>";
         $HTMLOUT .= get_date($x['modify'], 'DATE', 0, 1);
@@ -208,7 +208,7 @@ foreach ($current as $x) {
         $HTMLOUT .= "
 <tr>
 <td align='center'>";
-        $HTMLOUT .= htmlspecialchars(substr($x['name'], 2));
+        $HTMLOUT .= htmlsafechars(substr($x['name'], 2));
         $HTMLOUT .= "</td>
 <td align='center'>";
         $HTMLOUT .= get_date($x['modify'], 'DATE', 0, 1);

@@ -18,7 +18,7 @@ dbconn(false);
 loggedinorreturn();
 $lang = array_merge(load_language('global'), load_language('friends'));
 $userid = isset($_GET['id']) ? (int)$_GET['id'] : $CURUSER['id'];
-$action = isset($_GET['action']) ? htmlspecialchars($_GET['action']) : '';
+$action = isset($_GET['action']) ? htmlsafechars($_GET['action']) : '';
 if (!is_valid_id($userid)) {
     stderr($lang['friends_error'], $lang['friends_invalid_id']);
 }
@@ -56,7 +56,7 @@ if ($action == 'add') {
         $cache->delete($cache_keys['inbox_new'].$targetid);
         $cache->delete($cache_keys['inbox_new_sb'].$targetid);
         if ($r->num_rows == 1) {
-            stderr("Error", "User ID is already in your ".htmlspecialchars($table_is)." list.");
+            stderr("Error", "User ID is already in your ".htmlsafechars($table_is)." list.");
         }
         sql_query("INSERT INTO $table_is VALUES (0, ".sqlesc($userid).", ".sqlesc($targetid).", 'no')") || sqlerr(__FILE__, __LINE__);
         stderr("Request Added!",
@@ -67,7 +67,7 @@ if ($action == 'add') {
     if ($type == 'block') {
         ($r = sql_query("SELECT id FROM $table_is WHERE userid=".sqlesc($userid)." AND $field_is=".sqlesc($targetid))) || sqlerr(__FILE__, __LINE__);
         if ($r->num_rows == 1) {
-            stderr("Error", "User ID is already in your ".htmlspecialchars($table_is)." list.");
+            stderr("Error", "User ID is already in your ".htmlsafechars($table_is)." list.");
         }
         sql_query("INSERT INTO $table_is VALUES (0, ".sqlesc($userid).", ".sqlesc($targetid).")") || sqlerr(__FILE__, __LINE__);
         $cache->delete($cache_keys['u_blocks'].$userid);
@@ -122,7 +122,7 @@ if ($action == 'confirm') {
 elseif ($action == 'delpending') {
     $targetid = (int)$_GET['targetid'];
     $sure = isset($_GET['sure']) ? (int)$_GET['sure'] : false;
-    $type = htmlspecialchars($_GET['type']);
+    $type = htmlsafechars($_GET['type']);
     if (!is_valid_id($targetid)) {
         stderr("Error", "Invalid ID.");
     }
@@ -149,7 +149,7 @@ elseif ($action == 'delpending') {
 elseif ($action == 'delete') {
     $targetid = (int)$_GET['targetid'];
     $sure = isset($_GET['sure']) ? (int)$_GET['sure'] : false;
-    $type = htmlspecialchars($_GET['type']);
+    $type = htmlsafechars($_GET['type']);
     if (!is_valid_id($targetid)) {
         stderr("Error", "Invalid ID.");
     }
@@ -200,7 +200,7 @@ if ($res->num_rows == 0) {
     while ($friendp = $res->fetch_assoc()) {
         $dt = TIME_NOW - 180;
         $online = ($friendp["last_access"] >= $dt && $friendp['perms'] < bt_options::PERMS_STEALTH ? '&nbsp;<img src="'.$TRINITY20['baseurl'].'/images/staff/online.png" border="0" alt="Online" title="Online" />' : '<img src="'.$TRINITY20['baseurl'].'/images/staff/offline.png" border="0" alt="Offline" title="Offline" />');
-        $title = htmlspecialchars($friendp["title"]);
+        $title = htmlsafechars($friendp["title"]);
         if (!$title) {
             $title = get_user_class_name($friendp["class"]);
         }
@@ -208,7 +208,7 @@ if ($res->num_rows == 0) {
                 '') : "Never");
         $confirm = "<br /><span class='btn'><a href='{$TRINITY20['baseurl']}/friends.php?id=$userid&amp;action=confirm&amp;type=friend&amp;targetid=".(int)$friendp['id']."'>Confirm</a></span>";
         $block = "&nbsp;<span class='btn'><a href='{$TRINITY20['baseurl']}/friends.php?action=add&amp;type=block&amp;targetid=".(int)$friendp['id']."'>Block</a></span>";
-        $avatar = ($CURUSER["avatars"] == "yes" ? htmlspecialchars($friendp["avatar"]) : "");
+        $avatar = ($CURUSER["avatars"] == "yes" ? htmlsafechars($friendp["avatar"]) : "");
         if (!$avatar) {
             $avatar = "{$TRINITY20['pic_base_url']}default_avatar.gif";
         }
@@ -250,7 +250,7 @@ if ($res->num_rows == 0) {
     while ($friend = $res->fetch_assoc()) {
         $dt = TIME_NOW - 180;
         $online = ($friend["last_access"] >= $dt && $friend['perms'] < bt_options::PERMS_STEALTH ? '&nbsp;<img src="'.$TRINITY20['baseurl'].'/images/staff/online.png" border="0" alt="Online" title="Online" />' : '<img src="'.$TRINITY20['baseurl'].'/images/staff/offline.png" border="0" alt="Offline" title="Offline" />');
-        $title = htmlspecialchars($friend["title"]);
+        $title = htmlsafechars($friend["title"]);
         if (!$title) {
             $title = get_user_class_name($friend["class"]);
         }
@@ -259,7 +259,7 @@ if ($res->num_rows == 0) {
                 '') : "Never");
         $delete = "<span class='btn'><a href='{$TRINITY20['baseurl']}/friends.php?id=$userid&amp;action=delete&amp;type=friend&amp;targetid=".(int)$friend['id']."'>{$lang['friends_remove']}</a></span>";
         $pm_link = "&nbsp;<span class='btn'><a href='{$TRINITY20['baseurl']}/pm_system.php?action=send_message&amp;receiver=".(int)$friend['id']."'>{$lang['friends_pm']}</a></span>";
-        $avatar = ($CURUSER["avatars"] == "yes" ? htmlspecialchars($friend["avatar"]) : "");
+        $avatar = ($CURUSER["avatars"] == "yes" ? htmlsafechars($friend["avatar"]) : "");
         if (!$avatar) {
             $avatar = "{$TRINITY20['pic_base_url']}default_avatar.gif";
         }
@@ -303,14 +303,14 @@ $user_country = isset($CURUSER['country']) ? "{$CURUSER['country']}" : '';
 foreach ($countries as $cntry) {
     if (($cntry['id'] ?? '') == $user_country) {
         if (is_array($cntry)) {
-            $country = "<img src=\"{$TRINITY20['pic_base_url']}flag/{$cntry['flagpic']}\" alt=\"".htmlspecialchars($cntry['name'])."\" style='margin-left: 8pt' />";
+            $country = "<img src=\"{$TRINITY20['pic_base_url']}flag/{$cntry['flagpic']}\" alt=\"".htmlsafechars($cntry['name'])."\" style='margin-left: 8pt' />";
             break;
         }
     }
 }
 $HTMLOUT .= "<br />
   <table class='table table-bordered'>
-  <tr><td class='embedded'><h1 style='margin:0px'>&nbsp;{$lang['friends_personal']}&nbsp;".htmlspecialchars($user['username'], ENT_QUOTES)."&nbsp;$country</h1></td></tr></table>
+  <tr><td class='embedded'><h1 style='margin:0px'>&nbsp;{$lang['friends_personal']}&nbsp;".htmlsafechars($user['username'], ENT_QUOTES)."&nbsp;$country</h1></td></tr></table>
   <br /><table class='main' width='750' border='0' cellspacing='0' cellpadding='0'>
   <tr>
   <td class='colhead'><h2 align='left' style='width:50%;'><a name='friends'>&nbsp;{$lang['friends_friends_list']}</a></h2></td>
@@ -332,5 +332,5 @@ $HTMLOUT .= "<br />
   <td style='padding:10px;background-color:#777777;' valign='top'>$friendreqs</td>
   </tr>
   </table><p><a href='users.php'><b>{$lang['friends_user_list']}</b></a></p>";
-echo stdhead("{$lang['friends_stdhead']} ".htmlspecialchars($user['username'])).$HTMLOUT.stdfoot();
+echo stdhead("{$lang['friends_stdhead']} ".htmlsafechars($user['username'])).$HTMLOUT.stdfoot();
 ?>

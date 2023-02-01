@@ -123,14 +123,14 @@ if ($TRINITY20['seedbonus_on'] == 1) {
 if ($CURUSER["id"] != $row["owner"] && $CURUSER['pm_on_delete'] == 'yes') {
     $added = TIME_NOW;
     $pm_on = (int)$row["owner"];
-    $message = "Torrent $id (".htmlspecialchars($row['name']).") has been deleted.\n  Reason: $reasonstr";
+    $message = "Torrent $id (".htmlsafechars($row['name']).") has been deleted.\n  Reason: $reasonstr";
     sql_query("INSERT INTO messages (sender, receiver, msg, added) VALUES(0, ".sqlesc($pm_on).",".sqlesc($message).", $added)") || sqlerr(__FILE__,
         __LINE__);
     $cache->delete($cache_keys['inbox_new'].$pm_on);
     $cache->delete($cache_keys['inbox_new_sb'].$pm_on);
 }
 if (isset($_POST["returnto"])) {
-    $ret = "<a href='".htmlspecialchars($_POST["returnto"])."'>{$lang['delete_go_back']}</a>";
+    $ret = "<a href='".htmlsafechars($_POST["returnto"])."'>{$lang['delete_go_back']}</a>";
 } else {
     $ret = "<a href='{$TRINITY20['baseurl']}/browse.php'>{$lang['delete_back_browse']}</a>";
 }

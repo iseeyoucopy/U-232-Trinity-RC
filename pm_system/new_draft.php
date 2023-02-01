@@ -51,12 +51,12 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'save draft') {
 } //=== end save draft
 //=== Code for preview Retros code
 if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'preview') {
-    $subject = htmlspecialchars(trim($_POST['subject']));
-    $draft = htmlspecialchars(trim($_POST['body']));
+    $subject = htmlsafechars(trim($_POST['subject']));
+    $draft = htmlsafechars(trim($_POST['body']));
     $preview = '
     <table class="table table-striped">
     <tr>
-        <td colspan="2" class="text-left"><span style="font-weight: bold;">subject: </span>'.htmlspecialchars($subject).'</td>
+        <td colspan="2" class="text-left"><span style="font-weight: bold;">subject: </span>'.htmlsafechars($subject).'</td>
     </tr>
     <tr>
         <td valign="top" class="text-center" width="80px" id="photocol">'.avatar_stuff($CURUSER).'</td>

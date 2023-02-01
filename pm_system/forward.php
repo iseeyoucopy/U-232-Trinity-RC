@@ -48,17 +48,17 @@ if ($message['sender'] !== $CURUSER['id']) {
     $arr_forward = $res_forward->fetch_assoc();
     $forwarded_username = ($message['sender'] === 0 ? $lang['pm_forward_system'] : ($res_forward->num_rows === 0 ? $lang['pm_forward_unknow'] : $arr_forward['username']));
 } else {
-    $forwarded_username = htmlspecialchars($CURUSER['username']);
+    $forwarded_username = htmlsafechars($CURUSER['username']);
 }
 //=== print out the forwarding page
-$HTMLOUT .= '<h1>'.$lang['pm_forward_fwd'].''.htmlspecialchars($message['subject']).'</h1>
+$HTMLOUT .= '<h1>'.$lang['pm_forward_fwd'].''.htmlsafechars($message['subject']).'</h1>
         <form name="compose" action="pm_system.php" method="post">
         <input type="hidden" name="id" value="'.$pm_id.'" />
         <input type="hidden" name="action" value="forward_pm" />
     <table class="table table-striped">
     <tr>
         <td colspan="2" class="text-left" valign="top"><h1>'.$lang['pm_forward_fwd_msg'].'
-        <img src="pic/arrow_next.gif" alt=":" />'.$lang['pm_forward_fwd'].''.htmlspecialchars($message['subject']).'</h1></td>
+        <img src="pic/arrow_next.gif" alt=":" />'.$lang['pm_forward_fwd'].''.htmlsafechars($message['subject']).'</h1></td>
     </tr>
     <tr>
         <td class="text-rigt" valign="top"><span style="font-weight: bold;">'.$lang['pm_forward_to'].'</span></td>
@@ -74,7 +74,7 @@ $HTMLOUT .= '<h1>'.$lang['pm_forward_fwd'].''.htmlspecialchars($message['subject
     </tr>
     <tr>
         <td class="text-right" valign="top"><span style="font-weight: bold;">'.$lang['pm_forward_subject'].'</span></td>
-        <td class="text-left" valign="top"><input type="text" class="text_default" name="subject" value="'.$lang['pm_forward_fwd'].''.htmlspecialchars($message['subject']).'" /></td>
+        <td class="text-left" valign="top"><input type="text" class="text_default" name="subject" value="'.$lang['pm_forward_fwd'].''.htmlsafechars($message['subject']).'" /></td>
     </tr>
     <tr>
         <td class="text-center"></td>

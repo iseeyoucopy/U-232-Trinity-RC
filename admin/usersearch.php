@@ -65,7 +65,7 @@ $highlight = " bgcolor='lightgrey'";
                         echo $lang['usersearch_name'] ?></td>
                     <td <?php
                     echo (isset($_POST['n']) && !empty($_POST['n'])) ? $highlight : "" ?>><input name="n" type="text" value=""<?php
-                        echo isset($_POST['n']) ? htmlspecialchars($_POST['n']) : "" ?>" size='25' />
+                        echo isset($_POST['n']) ? htmlsafechars($_POST['n']) : "" ?>" size='25' />
                     </td>
 
                     <td valign="middle" class='rowhead'><?php
@@ -854,7 +854,7 @@ if (count($_POST) > 0) {
                 if ($array[0] == 0) {
                     $ipstr = $user['ip'];
                 } else {
-                    $ipstr = "<a href='staffpanel.php?tool=testip&amp;action=testip&amp;ip=".htmlspecialchars($user['ip'])."'><font color='#FF0000'><b>".htmlspecialchars($user['ip'])."</b></font></a>";
+                    $ipstr = "<a href='staffpanel.php?tool=testip&amp;action=testip&amp;ip=".htmlsafechars($user['ip'])."'><font color='#FF0000'><b>".htmlsafechars($user['ip'])."</b></font></a>";
                 }
             } else {
                 $ipstr = "---";
@@ -881,13 +881,13 @@ if (count($_POST) > 0) {
             $n = $auxres->fetch_row();
             $n_comments = $n[0];
             $ids .= (int)$user['id'].':';
-            $HTMLOUT .= "<tr><td><b><a href='userdetails.php?id=".(int)$user['id']."'>".htmlspecialchars($user['username'])."</a></b>".($user["donor"] == "yes" ? "<img src='pic/star.gif' alt=\"{$lang['usersearch_donor']}\" />" : "").($user["warned"] == "yes" ? "<img src=\"pic/warned.gif\" alt=\"{$lang['usersearch_warned']}\" />" : "")."</td>
+            $HTMLOUT .= "<tr><td><b><a href='userdetails.php?id=".(int)$user['id']."'>".htmlsafechars($user['username'])."</a></b>".($user["donor"] == "yes" ? "<img src='pic/star.gif' alt=\"{$lang['usersearch_donor']}\" />" : "").($user["warned"] == "yes" ? "<img src=\"pic/warned.gif\" alt=\"{$lang['usersearch_warned']}\" />" : "")."</td>
           <td>".ratios($user['uploaded'], $user['downloaded'])."</td>
-          <td>".$ipstr."</td><td>".htmlspecialchars($user['email'])."</td>
+          <td>".$ipstr."</td><td>".htmlsafechars($user['email'])."</td>
           <td><div align='center'>".get_date($user['added'], '')."</div></td>
           <td><div align='center'>".get_date($user['last_access'], '', 0, 1)."</div></td>
-          <td><div align='center'>".htmlspecialchars($user['status'])."</div></td>
-          <td><div align='center'>".htmlspecialchars($user['enabled'])."</div></td>
+          <td><div align='center'>".htmlsafechars($user['status'])."</div></td>
+          <td><div align='center'>".htmlsafechars($user['enabled'])."</div></td>
           <td><div align='center'>".ratios($pul, $pdl)."</div></td>
           <td><div align='right'>".number_format($pul / 1_048_576)."</div></td>
           <td><div align='right'>".number_format($pdl / 1_048_576)."</div></td>

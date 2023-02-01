@@ -39,8 +39,8 @@ if (is_valid_id($remove)) {
     write_log("{$lang['ad_banemail_log1']} $remove {$lang['ad_banemail_log2']} {$CURUSER['username']}");
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = htmlspecialchars(trim($_POST["email"]));
-    $comment = htmlspecialchars(trim($_POST["comment"]));
+    $email = htmlsafechars(trim($_POST["email"]));
+    $comment = htmlsafechars(trim($_POST["comment"]));
     if (!$email || !$comment) {
         stderr("{$lang['ad_banemail_error']}", "{$lang['ad_banemail_missing']}");
     }
@@ -95,9 +95,9 @@ if ($res->num_rows == 0) {
         $HTMLOUT .= "<tbody>
             <tr>
                 <td>".get_date($arr['added'], '')."</td>
-                <td>".htmlspecialchars($arr['email'])."</td>
-                <td><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['addedby']."'>".htmlspecialchars($arr['username'])."</a></td>
-                <td>".htmlspecialchars($arr['comment'])."</td>
+                <td>".htmlsafechars($arr['email'])."</td>
+                <td><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['addedby']."'>".htmlsafechars($arr['username'])."</a></td>
+                <td>".htmlsafechars($arr['comment'])."</td>
                 <td><a href='staffpanel.php?tool=bannedemails&amp;remove=".(int)$arr['id']."'>{$lang['ad_banemail_remove1']}</a></td>
             </tr>
         </tbody>";

@@ -33,7 +33,7 @@ $HTML = '';
 if (!function_exists("html")) {
     function html($VAL)
     {
-        return htmlspecialchars($VAL, ENT_QUOTES);
+        return htmlsafechars($VAL, ENT_QUOTES);
     }
 }
 if (isset($_GET['act'])) {
@@ -55,13 +55,13 @@ if (isset($_GET['act'])) {
 			<form action='{$TRINITY20['baseurl']}/staffpanel.php?tool=themes&amp;action=themes&amp;act=4' method='post'>
          <input type='hidden' value='".(int)$TEM['id']."' name='uri' />
          <table class='table table-bordered'>
-			<tr><td colspan='2' class='colhead' align='center'>{$lang['themes_edit_tem']} ".htmlspecialchars($TEM['name'])."</td></tr>
+			<tr><td colspan='2' class='colhead' align='center'>{$lang['themes_edit_tem']} ".htmlsafechars($TEM['name'])."</td></tr>
 			<tr><td class='rowhead'>{$lang['themes_id']}<br/>{$lang['themes_explain_id']}</td>
          <td><input type='text' value='".(int)$TEM['id']."' name='id' /></td></tr>
 			<tr><td class='rowhead'>{$lang['themes_uri']}</td>
          <td><input type='text' value='".(int)$TEM['uri']."' name='uri' /></td></tr>
 			<tr><td class='rowhead'>{$lang['themes_name']}</td>
-         <td><input type='text' value='".htmlspecialchars($TEM['name'])."' name='title' /></td></tr>
+         <td><input type='text' value='".htmlsafechars($TEM['name'])."' name='title' /></td></tr>
 			<tr><td class='rowhead'>{$lang['themes_is_folder']}</td><td>
 			<b>".(file_exists("templates/".(int)$TEM['id']."/template.php") ? "{$lang['themes_file_exists']}" : "{$lang['themes_not_exists']}")."</b>
 			</td></tr>
@@ -114,7 +114,7 @@ if (isset($_GET['act'])) {
         }
         $ID = (int)$_POST['id'];
         $URI = (int)$_POST['uri'];
-        $NAME = htmlspecialchars($_POST['title']);
+        $NAME = htmlsafechars($_POST['title']);
         if (!is_valid_id($ID)) {
             stderr("{$lang['themes_error']}", "{$lang['themes_inv_id']}");
         }
@@ -166,7 +166,7 @@ if (isset($_GET['act'])) {
         }
         if (!file_exists("templates/".$_POST['id']."/template.php")) {
             stderr("{$lang['themes_nofile']}",
-                "{$lang['themes_inv_file']}<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=themes&amp;action=themes&amp;act=7&amp;id=".(int)$_POST['id']."&amp;uri=".(int)$_POST['uri']."&amp;name=".htmlspecialchars($_POST['name'])."'>{$lang['themes_file_exists']}</a>/
+                "{$lang['themes_inv_file']}<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=themes&amp;action=themes&amp;act=7&amp;id=".(int)$_POST['id']."&amp;uri=".(int)$_POST['uri']."&amp;name=".htmlsafechars($_POST['name'])."'>{$lang['themes_file_exists']}</a>/
 			<a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=themes'>{$lang['themes_not_exists']}</a>");
         }
         sql_query("INSERT INTO stylesheets(id, uri, name)VALUES(".sqlesc($_POST['id']).", ".sqlesc($_POST['uri']).", ".sqlesc($_POST['name']).")");
@@ -184,7 +184,7 @@ if (isset($_GET['act'])) {
         }
         $ID = (int)$_GET['id'];
         $URI = (int)$_GET['uri'];
-        $NAME = htmlspecialchars($_GET['name']);
+        $NAME = htmlsafechars($_GET['name']);
         sql_query("INSERT INTO stylesheets(id, uri, name)VALUES(".sqlesc($ID).", ".sqlesc($URI).",  ".sqlesc($NAME).")");
         header("Location: staffpanel.php?tool=themes&action=themes&msg=3");
     }

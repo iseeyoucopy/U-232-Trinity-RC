@@ -126,7 +126,7 @@ $possible_actions = [
     'move_or_delete_multi',
     'send_message',
 ];
-$action = (isset($_GET['action']) ? htmlspecialchars($_GET['action']) : (isset($_POST['action']) ? htmlspecialchars($_POST['action']) : 'view_mailbox'));
+$action = (isset($_GET['action']) ? htmlsafechars($_GET['action']) : (isset($_POST['action']) ? htmlsafechars($_POST['action']) : 'view_mailbox'));
 if (!in_array($action, $possible_actions)) {
     stderr($lang['pm_error'], $lang['pm_error_ruffian']);
 }
@@ -149,7 +149,7 @@ $good_order_by = [
     'subject',
     'id',
 ];
-$order_by = (isset($_GET['order_by']) ? htmlspecialchars($_GET['order_by']) : 'added');
+$order_by = (isset($_GET['order_by']) ? htmlsafechars($_GET['order_by']) : 'added');
 if (!in_array($order_by, $good_order_by)) {
     stderr($lang['pm_error'], $lang['pm_error_temp']);
 }
@@ -277,7 +277,7 @@ function get_all_boxes()
                                             <option value="-1">'.$lang['pm_sentbox'].'</option>
                                             <option value="-2">'.$lang['pm_drafts'].'</option>';
         while ($row = $res->fetch_assoc()) {
-            $get_all_boxes .= '<option value="'.(int)$row['boxnumber'].'">'.htmlspecialchars($row['name']).'</option>';
+            $get_all_boxes .= '<option value="'.(int)$row['boxnumber'].'">'.htmlsafechars($row['name']).'</option>';
         }
         $get_all_boxes .= '</select>';
         $cache->set($cache_keys['get_all_boxes'].$CURUSER['id'], $get_all_boxes, $TRINITY20['expires']['get_all_boxes']);
@@ -297,7 +297,7 @@ function insertJumpTo($mailbox)
 									<label>'.$lang['pm_jump_to'].'
                                     <select name="box" onchange="location = this.options[this.selectedIndex].value;">';
         while ($row = $res->fetch_assoc()) {
-            $insertJumpTo .= '<option value="pm_system.php?action=view_mailbox&amp;box='.(int)$row['boxnumber'].'" '.((int)$row['boxnumber'] == $mailbox ? 'selected="selected"' : '').'>'.htmlspecialchars($row['name']).'</option></label>';
+            $insertJumpTo .= '<option value="pm_system.php?action=view_mailbox&amp;box='.(int)$row['boxnumber'].'" '.((int)$row['boxnumber'] == $mailbox ? 'selected="selected"' : '').'>'.htmlsafechars($row['name']).'</option></label>';
         }
         $insertJumpTo .= '</select></form>';
         $cache->set($cache_keys['insertJumpTo'].$CURUSER['id'], $insertJumpTo, $TRINITY20['expires']['insertJumpTo']);

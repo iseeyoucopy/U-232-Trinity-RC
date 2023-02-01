@@ -93,18 +93,18 @@ if ($top5torrents && (is_countable($top5torrents) ? count($top5torrents) : 0) > 
     if ($top5torrents) {
         foreach ($top5torrents as $top5torrentarr) {
             if (is_array($top5torrentarr)) {
-                $top5torrentarr['cat_name'] = htmlspecialchars($change[$top5torrentarr['category']]['name']);
-                $top5torrentarr['cat_pic'] = htmlspecialchars($change[$top5torrentarr['category']]['image']);
-                $torrname = htmlspecialchars($top5torrentarr['name']);
+                $top5torrentarr['cat_name'] = htmlsafechars($change[$top5torrentarr['category']]['name']);
+                $top5torrentarr['cat_pic'] = htmlsafechars($change[$top5torrentarr['category']]['image']);
+                $torrname = htmlsafechars($top5torrentarr['name']);
                 if (strlen($torrname) > 50) {
                     $torrname = substr($torrname, 0, 50)."...";
                 }
                 $thealth = health($top5torrentarr['leechers'], $top5torrentarr['seeders']);
-                $poster = empty($top5torrentarr["poster"]) ? "<img src=\'{$TRINITY20['pic_base_url']}noposter.jpg\' width=\'150\' height=\'220\' />" : "<img src=\'".htmlspecialchars($top5torrentarr['poster'])."\' width=\'150\' height=\'220\' />";
+                $poster = empty($top5torrentarr["poster"]) ? "<img src=\'{$TRINITY20['pic_base_url']}noposter.jpg\' width=\'150\' height=\'220\' />" : "<img src=\'".htmlsafechars($top5torrentarr['poster'])."\' width=\'150\' height=\'220\' />";
                 $HTMLOUT .= "
                 <tbody><tr>
-                <th scope='row'><img src='pic/caticons/{$CURUSER['categorie_icon']}/".htmlspecialchars($top5torrentarr["cat_pic"])."' alt='".htmlspecialchars($top5torrentarr["cat_name"])."' title='".htmlspecialchars($top5torrentarr["cat_name"])."' /></td>
-                <td><a href=\"{$TRINITY20['baseurl']}/details.php?id=".(int)$top5torrentarr['id']."&amp;hit=1\" onmouseover=\"Tip('<b>{$lang['index_ltst_name']}".htmlspecialchars($top5torrentarr['name'])."</b><br /><b>{$lang['index_ltst_seeder']}".(int)$top5torrentarr['seeders']."</b><br /><b>{$lang['index_ltst_leecher']}".(int)$top5torrentarr['leechers']."</b><br />$poster');\" onmouseout=\"UnTip();\">{$torrname}</a></td>
+                <th scope='row'><img src='pic/caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($top5torrentarr["cat_pic"])."' alt='".htmlsafechars($top5torrentarr["cat_name"])."' title='".htmlsafechars($top5torrentarr["cat_name"])."' /></td>
+                <td><a href=\"{$TRINITY20['baseurl']}/details.php?id=".(int)$top5torrentarr['id']."&amp;hit=1\" onmouseover=\"Tip('<b>{$lang['index_ltst_name']}".htmlsafechars($top5torrentarr['name'])."</b><br /><b>{$lang['index_ltst_seeder']}".(int)$top5torrentarr['seeders']."</b><br /><b>{$lang['index_ltst_leecher']}".(int)$top5torrentarr['leechers']."</b><br />$poster');\" onmouseout=\"UnTip();\">{$torrname}</a></td>
             <td><span class='badge'>".(int)$top5torrentarr['seeders']."</span></td>
             <td><span class='badge'>".(int)$top5torrentarr['leechers']."</span></td>     
         </tr></tbody>";
@@ -138,18 +138,18 @@ if ($last5torrents && (is_countable($last5torrents) ? count($last5torrents) : 0)
     if ($last5torrents) {
         foreach ($last5torrents as $last5torrentarr) {
             if (is_array($last5torrentarr)) {
-                $last5torrentarr['cat_name'] = htmlspecialchars($change[$last5torrentarr['category']]['name']);
-                $last5torrentarr['cat_pic'] = htmlspecialchars($change[$last5torrentarr['category']]['image']);
+                $last5torrentarr['cat_name'] = htmlsafechars($change[$last5torrentarr['category']]['name']);
+                $last5torrentarr['cat_pic'] = htmlsafechars($change[$last5torrentarr['category']]['image']);
                 $thealth = health($last5torrentarr['leechers'], $last5torrentarr['seeders']);
-                $torrname = htmlspecialchars($last5torrentarr['name']);
+                $torrname = htmlsafechars($last5torrentarr['name']);
                 if (strlen($torrname) > 50) {
                     $torrname = substr($torrname, 0, 50)."...";
                 }
-                $poster = empty($last5torrentarr["poster"]) ? "<img src=\'{$TRINITY20['pic_base_url']}noposter.jpg\' width=\'150\' height=\'220\' />" : "<img src=\'".htmlspecialchars($last5torrentarr['poster'])."\' width=\'150\' height=\'220\' />";
+                $poster = empty($last5torrentarr["poster"]) ? "<img src=\'{$TRINITY20['pic_base_url']}noposter.jpg\' width=\'150\' height=\'220\' />" : "<img src=\'".htmlsafechars($last5torrentarr['poster'])."\' width=\'150\' height=\'220\' />";
                 $HTMLOUT .= "
                 <tbody><tr>
-                <th scope='row'><img src='pic/caticons/{$CURUSER['categorie_icon']}/".htmlspecialchars($last5torrentarr["cat_pic"])."' alt='".htmlspecialchars($last5torrentarr["cat_name"])."' title='".htmlspecialchars($last5torrentarr["cat_name"])."' /></td>
-                <td><a href=\"{$TRINITY20['baseurl']}/details.php?id=".(int)$last5torrentarr['id']."&amp;hit=1\"></a><a href=\"{$TRINITY20['baseurl']}/details.php?id=".(int)$last5torrentarr['id']."&amp;hit=1\" onmouseover=\"Tip('<b>{$lang['index_ltst_name']}".htmlspecialchars($last5torrentarr['name'])."</b><br /><b>{$lang['index_ltst_seeder']}".(int)$last5torrentarr['seeders']."</b><br /><b>{$lang['index_ltst_leecher']}".(int)$last5torrentarr['leechers']."</b><br />$poster');\" onmouseout=\"UnTip();\">{$torrname}</a></td>
+                <th scope='row'><img src='pic/caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($last5torrentarr["cat_pic"])."' alt='".htmlsafechars($last5torrentarr["cat_name"])."' title='".htmlsafechars($last5torrentarr["cat_name"])."' /></td>
+                <td><a href=\"{$TRINITY20['baseurl']}/details.php?id=".(int)$last5torrentarr['id']."&amp;hit=1\"></a><a href=\"{$TRINITY20['baseurl']}/details.php?id=".(int)$last5torrentarr['id']."&amp;hit=1\" onmouseover=\"Tip('<b>{$lang['index_ltst_name']}".htmlsafechars($last5torrentarr['name'])."</b><br /><b>{$lang['index_ltst_seeder']}".(int)$last5torrentarr['seeders']."</b><br /><b>{$lang['index_ltst_leecher']}".(int)$last5torrentarr['leechers']."</b><br />$poster');\" onmouseout=\"UnTip();\">{$torrname}</a></td>
                 <td><span class='badge'>".(int)$last5torrentarr['seeders']."</span></td>
                 <td><span class='badge'>".(int)$last5torrentarr['leechers']."</span></td>            
             </tr></tbody>";

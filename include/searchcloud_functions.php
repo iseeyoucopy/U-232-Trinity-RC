@@ -83,7 +83,7 @@ function cloud()
             ];
             //spew out some html malarky!
             $cloud_tags[] = '<a style="color:'.$colour_array[random_int(0,
-                    5)].'; font-size: '.floor($size).'px'.'" class="tag_cloud" href="browse.php?search='.urlencode($tag).'&amp;searchin=all&amp;incldead=1'.'" title="\''.htmlspecialchars($tag).'\' returned a count of '.$count.'">'.htmlspecialchars(stripslashes($tag)).'</a>';
+                    5)].'; font-size: '.floor($size).'px'.'" class="tag_cloud" href="browse.php?search='.urlencode($tag).'&amp;searchin=all&amp;incldead=1'.'" title="\''.htmlsafechars($tag).'\' returned a count of '.$count.'">'.htmlsafechars(stripslashes($tag)).'</a>';
         }
         return implode("\n", $cloud_tags)."\n";
     }

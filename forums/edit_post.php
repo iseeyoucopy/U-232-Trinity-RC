@@ -39,7 +39,7 @@ if (($CURUSER["id"] != $arr["user_id"] || $arr["locked"] == 'yes') && $CURUSER['
     stderr("Error", "Access Denied!");
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $body = trim(htmlspecialchars($_POST['body']));
+    $body = trim(htmlsafechars($_POST['body']));
     $posticon = (isset($_POST["iconid"]) ? 0 + $_POST["iconid"] : 0);
     if (empty($body)) {
         stderr("Error", "Body cannot be empty!");
@@ -65,7 +65,7 @@ $HTMLOUT .= "<form name='compose' method='post' action='{$TRINITY20['baseurl']}/
                             <div class='card-divider'>Edit Post</div>
                             <div class='card-section'>
                                 ".(function_exists('textbbcode') ? textbbcode('compose', 'body',
-        htmlspecialchars($arr["body"])) : "<textarea name='body' style='width:99%' rows='7'>".htmlspecialchars($arr["body"])."</textarea>")." 
+        htmlsafechars($arr["body"])) : "<textarea name='body' style='width:99%' rows='7'>".htmlsafechars($arr["body"])."</textarea>")." 
                             </div>
                         </div>
                     </div>

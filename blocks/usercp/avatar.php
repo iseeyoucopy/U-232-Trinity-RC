@@ -6,13 +6,13 @@ $HTMLOUT .= "
 	</tr>";
 //==Disable avatar selection
 if (!($CURUSER["avatarpos"] == 0 || $CURUSER["avatarpos"] != 1)) {
-    $HTMLOUT .= "<tr><td class='rowhead'>{$lang['usercp_avatar']}</td><td><input name='avatar' size='50' value='".htmlspecialchars($CURUSER["avatar"])."' /><br />
+    $HTMLOUT .= "<tr><td class='rowhead'>{$lang['usercp_avatar']}</td><td><input name='avatar' size='50' value='".htmlsafechars($CURUSER["avatar"])."' /><br />
     <font class='small'>{$lang['usercp_av_mess1']}\n<br />
     {$lang['usercp_av_mess2']} <a href='{$TRINITY20['baseurl']}/avatar/index.php'>{$lang['usercp_av_mess3']}</a>.<br />
     {$lang['usercp_av_mess4']} <a href='{$TRINITY20['baseurl']}/bitbucket.php'>{$lang['usercp_av_mess5']}</a>.</font>
     </td></tr>";
 } else {
-    $HTMLOUT .= "<tr><td class='rowhead'>{$lang['usercp_avatar']}</td><td><input name='avatar' size='50' value='".htmlspecialchars($CURUSER["avatar"])."' readonly='readonly'/>
+    $HTMLOUT .= "<tr><td class='rowhead'>{$lang['usercp_avatar']}</td><td><input name='avatar' size='50' value='".htmlsafechars($CURUSER["avatar"])."' readonly='readonly'/>
     <br />{$lang['usercp_no_avatar_allow']}</td></tr>";
 }
 //==End

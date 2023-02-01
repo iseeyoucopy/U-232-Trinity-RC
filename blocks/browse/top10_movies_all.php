@@ -41,7 +41,7 @@ if ($top10movies_all) {
     $counter = 1;
     foreach ($top10movies_all as $top10moviesall) {
         if (is_array($top10moviesall)) {
-            $torrname = htmlspecialchars($top10moviesall['name']);
+            $torrname = htmlsafechars($top10moviesall['name']);
             if (strlen($torrname) > 50) {
                 $torrname = substr($torrname, 0, 50)."...";
             }

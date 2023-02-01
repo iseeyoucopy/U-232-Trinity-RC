@@ -55,7 +55,7 @@ function stealth($id, $stealth = true)
             'modcomment' => $modcomment,
         ], $TRINITY20['expires']['user_stats']);
     }
-    write_log('Member [b][url=userdetails.php?id='.$id.']'.(htmlspecialchars($row['username'])).'[/url][/b] '.$display.' in Stealth Mode thanks to [b]'.$CURUSER['username'].'[/b]');
+    write_log('Member [b][url=userdetails.php?id='.$id.']'.(htmlsafechars($row['username'])).'[/url][/b] '.$display.' in Stealth Mode thanks to [b]'.$CURUSER['username'].'[/b]');
     // header ouput
     $cache->set($cache_keys['display_stealth'].$CURUSER['id'], $display, 5);
     header('Location: userdetails.php?id='.$id);

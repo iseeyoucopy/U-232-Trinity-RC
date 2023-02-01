@@ -20,7 +20,7 @@ function linkcolor($num)
 
 function readMore($text, $char, $link)
 {
-    return (strlen($text) > $char ? substr(htmlspecialchars($text), 0, $char - 1)."...<br /><a href='$link'>Read more...</a>" : htmlspecialchars($text));
+    return (strlen($text) > $char ? substr(htmlsafechars($text), 0, $char - 1)."...<br /><a href='$link'>Read more...</a>" : htmlsafechars($text));
 }
 
 function torrenttable($res, $variant = "index")
@@ -87,7 +87,7 @@ function torrenttable($res, $variant = "index")
             $oldlink[] = sprintf('%s=%s', urlencode($key), urlencode($var));
         }
     }
-    $oldlink = empty($oldlink) ? '' : implode('&amp;', array_map('htmlspecialchars', $oldlink)).'&amp;';
+    $oldlink = empty($oldlink) ? '' : implode('&amp;', array_map('htmlsafechars', $oldlink)).'&amp;';
     $links = [
         'link1',
         'link2',
@@ -156,9 +156,9 @@ function torrenttable($res, $variant = "index")
             }
             $prevdate = get_date($row['added'], 'DATE');
         }
-        $row['cat_name'] = htmlspecialchars($change[$row['category']]['name']);
-        $row['cat_pic'] = htmlspecialchars($change[$row['category']]['image']);
-        $row['min_class'] = htmlspecialchars($change[$row['category']]['min_class']);
+        $row['cat_name'] = htmlsafechars($change[$row['category']]['name']);
+        $row['cat_pic'] = htmlsafechars($change[$row['category']]['image']);
+        $row['min_class'] = htmlsafechars($change[$row['category']]['min_class']);
         /** Freeslot/doubleslot in Use **/
         $id = (int)$row["id"];
         //foreach ($slot as $sl) $slots_check = ($sl['torrentid'] == $id && $sl['free'] == 'yes' OR $sl['doubleup'] == 'yes');
@@ -169,7 +169,7 @@ function torrenttable($res, $variant = "index")
             if (isset($row["cat_pic"]) && $row["cat_pic"] != "") {
                 $htmlout .= "<img border='0' src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$row['cat_pic']}' alt='{$row['cat_name']}' />";
             } else {
-                $htmlout .= htmlspecialchars($row["cat_name"]);
+                $htmlout .= htmlsafechars($row["cat_name"]);
             }
             $htmlout .= "</a>";
         } else {
@@ -177,15 +177,15 @@ function torrenttable($res, $variant = "index")
         }
         $htmlout .= "</div></td>";
 
-        //$smalldescr = (!empty($row['description']) ? "<br /><i>[" . htmlspecialchars($row['description']) . "]</i>" : "");
-        //$checked = ((!empty($row['checked_by']) && $CURUSER['class'] >= UC_USER) ? "<img src='{$TRINITY20['pic_base_url']}mod.gif' width='15' border='0' alt='Checked - by " . htmlspecialchars($row['checked_by']) . "' title='Checked - by " . htmlspecialchars($row['checked_by']) . "' />&nbsp;" : "");
-        //$poster = empty($row["poster"]) ? "<img src=\'{$TRINITY20['pic_base_url']}noposter.png\' width=\'150\' height=\'220\' border=\'0\' alt=\'Poster\' title=\'poster\' />" : "<img src=\'" . htmlspecialchars($row['poster']) . "\' width=\'150\' height=\'220\' border=\'0\' alt=\'Poster\' title=\'poster\' />";
+        //$smalldescr = (!empty($row['description']) ? "<br /><i>[" . htmlsafechars($row['description']) . "]</i>" : "");
+        //$checked = ((!empty($row['checked_by']) && $CURUSER['class'] >= UC_USER) ? "<img src='{$TRINITY20['pic_base_url']}mod.gif' width='15' border='0' alt='Checked - by " . htmlsafechars($row['checked_by']) . "' title='Checked - by " . htmlsafechars($row['checked_by']) . "' />&nbsp;" : "");
+        //$poster = empty($row["poster"]) ? "<img src=\'{$TRINITY20['pic_base_url']}noposter.png\' width=\'150\' height=\'220\' border=\'0\' alt=\'Poster\' title=\'poster\' />" : "<img src=\'" . htmlsafechars($row['poster']) . "\' width=\'150\' height=\'220\' border=\'0\' alt=\'Poster\' title=\'poster\' />";
         //$rating = empty($row["rating"]) ? "No votes yet":"".ratingpic($row["rating"])."";
-        //$youtube = (!empty($row['youtube']) ? "<a href='" . htmlspecialchars($row['youtube']) . "' target='_blank'><i class='fab fa-youtube' style='color:red' title='Youtube Trailer'></i></a>&nbsp;" : "");
+        //$youtube = (!empty($row['youtube']) ? "<a href='" . htmlsafechars($row['youtube']) . "' target='_blank'><i class='fab fa-youtube' style='color:red' title='Youtube Trailer'></i></a>&nbsp;" : "");
         //if (isset($row["descr"])) $descr = str_replace("\"", "&quot;", readMore($row["descr"], 350, "details.php?id=" . (int)$row["id"] . "&amp;hit=1"));
         //$descr = str_replace('&', '&amp;', $descr);
         //$bump = ($row['bump'] == "yes" ? "<img src='{$TRINITY20['pic_base_url']}up.gif' width='12px' alt='Re-Animated torrent' title='This torrent was ReAnimated!' />&nbsp;" : "");
-        //$nuked = ($row["nuked"] == "yes" ? "<i class='fas fa-radiation-alt' style='background:yellow;color:black;border-radius:50%;' title='Reason: " . htmlspecialchars($row["nukereason"]) . "'></i>&nbsp;" : "");
+        //$nuked = ($row["nuked"] == "yes" ? "<i class='fas fa-radiation-alt' style='background:yellow;color:black;border-radius:50%;' title='Reason: " . htmlsafechars($row["nukereason"]) . "'></i>&nbsp;" : "");
         //$release_group = ($row['release_group'] == "scene" ? "<img src='{$TRINITY20['pic_base_url']}scene.gif' title='Scene' alt='Scene' style='border:none' />&nbsp;" : ($row['release_group'] == "p2p" ? "<img src='{$TRINITY20['pic_base_url']}p2p.gif' title='P2P' alt='P2P' />&nbsp;" : ""));
         /* slots mod */
         /*if (!empty($slot)) foreach ($slot as $sl) {
@@ -231,10 +231,10 @@ function torrenttable($res, $variant = "index")
         $silver_tag = ($row['silver'] != 0 ? '<br /><a class="info" href="#"><b>[SILVER]</b>&nbsp;<span>'.($row['silver'] > 1 ? 'Expires: '.get_date($row['silver'],
                     'DATE').'<br />('.mkprettytime($row['silver'] - TIME_NOW).' to go)' : 'Unlimited').'</span></a>&nbsp;' : '');
         $sticky = ($row['sticky'] == "yes" ? "&nbsp;<i class='fas fa-thumbtack' style='color:#6699ff;' title='Sticky!' data-fa-transform='rotate-30'></i>&nbsp;" : "");
-        $uploader = (isset($row["username"]) ? (($row["anonymous"] == "yes" && $CURUSER['class'] < UC_STAFF && $row['owner'] != $CURUSER['id']) ? "<i>".$lang['torrenttable_anon']."</i>" : "<a href='userdetails.php?id=".(int)$row["owner"]."'><b>".htmlspecialchars($row["username"])."</b></a>") : "<i>(".$lang["torrenttable_unknown_uploader"].")</i>");
+        $uploader = (isset($row["username"]) ? (($row["anonymous"] == "yes" && $CURUSER['class'] < UC_STAFF && $row['owner'] != $CURUSER['id']) ? "<i>".$lang['torrenttable_anon']."</i>" : "<a href='userdetails.php?id=".(int)$row["owner"]."'><b>".htmlsafechars($row["username"])."</b></a>") : "<i>(".$lang["torrenttable_unknown_uploader"].")</i>");
         $newbutton = ($row['added'] >= $CURUSER['last_browse'] ? "<span class='label alert' style='margin-left: 6px;padding: 2px 4px;border-radius:2px;'>new</span>" : "");
         /*print torrent*/
-        $htmlout .= "<td class='text-left' style='padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 2px;white-space: nowrap;'><div style='font-size: 14px;font-weight: 600;padding: 5px 0 2px 0;'>{$sticky}<a href='details.php?id={$id}".($variant == 'index' ? '&amp;hit=1' : '')."' title='".htmlspecialchars($row["name"])."'>".CutName(htmlspecialchars($row["name"]),
+        $htmlout .= "<td class='text-left' style='padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 2px;white-space: nowrap;'><div style='font-size: 14px;font-weight: 600;padding: 5px 0 2px 0;'>{$sticky}<a href='details.php?id={$id}".($variant == 'index' ? '&amp;hit=1' : '')."' title='".htmlsafechars($row["name"])."'>".CutName(htmlsafechars($row["name"]),
                 45)."</a>$newbutton$freetorrent</div>
         <div style='font-size: 12px;color: #978f8f;'><a href='{$_SERVER["PHP_SELF"]}?{$oldlink}sort=2&amp;type={$link2}'><i class='fa fa-user-circle'></i></a>&nbsp;{$uploader}&nbsp;in&nbsp;{$row['cat_name']}{$alltags}</div></td>";
         /*Edit Link*/

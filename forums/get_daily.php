@@ -86,12 +86,12 @@ while ($getdaily = $res->fetch_assoc()) {
     $HTMLOUT .= "<div class='divTableBody'>
                         <div class='divTableRow'>
                             <div class='divTableCell'>
-                                <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".(int)$getdaily['tid']."&amp;page=".$postid."#".$postid."'>".htmlspecialchars($getdaily['topic_name'])."</a>
-                                <b>In</b>&nbsp;<a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$getdaily['forum_id']."'>".htmlspecialchars($getdaily['name'])."</a>
+                                <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".(int)$getdaily['tid']."&amp;page=".$postid."#".$postid."'>".htmlsafechars($getdaily['topic_name'])."</a>
+                                <b>In</b>&nbsp;<a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$getdaily['forum_id']."'>".htmlsafechars($getdaily['name'])."</a>
                             </div>
                             <div class='divTableCell'>".number_format($getdaily['views'])."</div>
                             <div class='divTableCell'>
-                                ".(empty($getdaily['username']) ? "<b>unknown[".$posterid."]</b>" : "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".$posterid."'>".htmlspecialchars($getdaily['username'])."</a>")."
+                                ".(empty($getdaily['username']) ? "<b>unknown[".$posterid."]</b>" : "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".$posterid."'>".htmlsafechars($getdaily['username'])."</a>")."
                             </div>
                             <div class='divTableCell'>".get_date($getdaily['added'], 'LONG', 1, 0)."</div>
                         </div>

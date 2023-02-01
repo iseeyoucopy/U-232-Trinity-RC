@@ -104,7 +104,7 @@ if ($step == '1') {
                 "".$answer."") && ($fetch['hintanswer'] != md5($answer)))) {
         $ip = getip();
         $useragent = $_SERVER['HTTP_USER_AGENT'];
-        $msg = "".htmlspecialchars($fetch['username']).", on ".get_date(TIME_NOW, '', 1,
+        $msg = "".htmlsafechars($fetch['username']).", on ".get_date(TIME_NOW, '', 1,
                 0).", {$lang['main_message']}"."\n\n{$lang['main_message1']} ".$ip." (".@gethostbyaddr($ip).")"."\n {$lang['main_message2']} ".$useragent."\n\n {$lang['main_message3']}\n {$lang['main_message4']}\n";
         $subject = "Failed password reset";
         sql_query('INSERT INTO messages (receiver, msg, subject, added) VALUES ('.sqlesc((int)$fetch['id']).', '.sqlesc($msg).', '.sqlesc($subject).', '.TIME_NOW.')') || sqlerr(__FILE__,

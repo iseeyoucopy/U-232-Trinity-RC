@@ -20,7 +20,7 @@ dbconn(false);
 loggedinorreturn();
 $lang = array_merge(load_language('global'), load_language('usercomment'));
 $HTMLOUT = $user = '';
-$action = isset($_GET["action"]) ? htmlspecialchars(trim($_GET["action"])) : '';
+$action = isset($_GET["action"]) ? htmlsafechars(trim($_GET["action"])) : '';
 $stdhead = [
     /** include css **/
     'css' => [
@@ -44,7 +44,7 @@ if ($action == "add") {
         if (!$arr) {
             stderr($lang['gl_error'], $lang['usercomment_no_user_with_that_id']);
         }
-        $body = isset($_POST['body']) ? htmlspecialchars($_POST['body']) : '';
+        $body = isset($_POST['body']) ? htmlsafechars($_POST['body']) : '';
         if (!$body) {
             stderr($lang['gl_error'], $lang['usercomment_comment_body_cannot_be_empty']);
         }
@@ -63,7 +63,7 @@ if ($action == "add") {
     if (!$arr) {
         stderr($lang['gl_error'], $lang['usercomment_no_user_with_that_id']);
     }
-    $HTMLOUT .= "<h1>{$lang['usercomment_add_a_comment_for']} '".htmlspecialchars($arr["username"])."'</h1>
+    $HTMLOUT .= "<h1>{$lang['usercomment_add_a_comment_for']} '".htmlsafechars($arr["username"])."'</h1>
     <form method='post' action='usercomment.php?action=add'>
     <input type='hidden' name='userid' value='$userid' />
     <div>".textbbcode('usercomment', 'body')."</div>
@@ -78,7 +78,7 @@ if ($action == "add") {
         $HTMLOUT .= "<h2>{$lang['usercomment_most_recent_comments_in_reverse_order']}</h2>\n";
         $HTMLOUT .= usercommenttable($allrows);
     }
-    echo stdhead("{$lang['usercomment_add_a_comment_for']} \"".htmlspecialchars($arr["username"])."\"", true, $stdhead).$HTMLOUT.stdfoot();
+    echo stdhead("{$lang['usercomment_add_a_comment_for']} \"".htmlsafechars($arr["username"])."\"", true, $stdhead).$HTMLOUT.stdfoot();
     die;
 }
 
@@ -97,8 +97,8 @@ if ($action == "edit") {
         stderr($lang['gl_error'], "{$lang['usercomment_permission_denied']}");
     }
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $body = htmlspecialchars($_POST["body"]);
-        $returnto = htmlspecialchars($_POST["returnto"]);
+        $body = htmlsafechars($_POST["body"]);
+        $returnto = htmlsafechars($_POST["returnto"]);
         if ($body == "") {
             stderr($lang['gl_error'], $lang['usercomment_comment_body_cannot_be_empty']);
         }
@@ -112,13 +112,13 @@ if ($action == "edit") {
         }
         die;
     }
-    $HTMLOUT .= "<h1>Edit comment for \"".htmlspecialchars($arr["username"])."\"</h1>
+    $HTMLOUT .= "<h1>Edit comment for \"".htmlsafechars($arr["username"])."\"</h1>
     <form method='post' action='usercomment.php?action=edit&amp;cid={$commentid}'>
     <input type='hidden' name='returnto' value='{$_SERVER["HTTP_REFERER"]}' />
     <input type=\"hidden\" name=\"cid\" value='".(int)$commentid."' />
     ".textbbcode('usercomment', 'body', $arr["text"])."
     <input type='submit' class='btn' value='{$lang['usercomment_do_it']}' /></form>";
-    echo stdhead("Edit comment for \"".htmlspecialchars($arr["username"])."\"", true, $stdhead).$HTMLOUT.stdfoot();
+    echo stdhead("Edit comment for \"".htmlsafechars($arr["username"])."\"", true, $stdhead).$HTMLOUT.stdfoot();
     die;
 } elseif ($action == "delete") {
     $commentid = 0 + $_GET["cid"];
@@ -145,7 +145,7 @@ if ($action == "edit") {
     if ($userid && $mysqli->affected_rows > 0) {
         sql_query("UPDATE users SET comments = comments - 1 WHERE id = ".sqlesc($userid));
     }
-    $returnto = htmlspecialchars($_GET["returnto"]);
+    $returnto = htmlsafechars($_GET["returnto"]);
     if ($returnto) {
         header("Location: $returnto");
     } else {
@@ -169,9 +169,9 @@ if ($action == "edit") {
     $HTMLOUT .= "<h1>Original contents of comment #{$commentid}</h1>
     <table width='500' border='1' cellspacing='0' cellpadding='5'>
     <tr><td class='comment'>\n";
-    $HTMLOUT .= " ".htmlspecialchars($arr["ori_text"]);
+    $HTMLOUT .= " ".htmlsafechars($arr["ori_text"]);
     $HTMLOUT .= "</td></tr></table>\n";
-    $returnto = htmlspecialchars($_SERVER["HTTP_REFERER"]);
+    $returnto = htmlsafechars($_SERVER["HTTP_REFERER"]);
     if ($returnto) {
         $HTMLOUT .= "<font size='small'>(<a href='{$returnto}'>back</a>)</font>\n";
     }

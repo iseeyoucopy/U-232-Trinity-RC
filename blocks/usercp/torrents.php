@@ -26,7 +26,7 @@ if ($r->num_rows > 0) {
                 <input name='cat{$a['id']}' type='checkbox' ".(strpos($CURUSER['notifs'],
                 (string)"[cat{$a['id']}]") !== false ? " checked='checked'" : "")." value='yes'>
                 <a class='catlink' href='browse.php?cat={$a['id']}'>
-                <img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlspecialchars($a['image'])."' alt='".htmlspecialchars($a['name'])."' title='".htmlspecialchars($a['name'])."'></a>&nbsp;".htmlspecialchars($a["name"])."
+                <img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($a['image'])."' alt='".htmlsafechars($a['name'])."' title='".htmlsafechars($a['name'])."'></a>&nbsp;".htmlsafechars($a["name"])."
             </td>";
         ++$i;
     }

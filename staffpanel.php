@@ -69,7 +69,7 @@ if ($TRINITY20['staffpanel_online'] == 0) {
 define('IN_TRINITY20_ADMIN', true);
 require_once(CLASS_DIR.'class_check.php');
 class_check(UC_STAFF);
-$action = (isset($_GET['action']) ? htmlspecialchars($_GET['action']) : (isset($_POST['action']) ? htmlspecialchars($_POST['action']) : null));
+$action = (isset($_GET['action']) ? htmlsafechars($_GET['action']) : (isset($_POST['action']) ? htmlsafechars($_POST['action']) : null));
 $id = (isset($_GET['id']) ? (int)$_GET['id'] : (isset($_POST['id']) ? (int)$_POST['id'] : null));
 $class_color = (function_exists('get_user_class_color'));
 $tool = ($_GET['tool'] ?? $_POST['tool'] ?? null);
@@ -183,13 +183,13 @@ if (in_array($tool, $staff_tools) && file_exists(ADMIN_DIR.$staff_tools[$tool].'
     }
     if (!$sure) {
         stderr($lang['spanel_sanity_check'],
-            $lang['spanel_are_you_sure_del'].': "'.htmlspecialchars($arr['page_name']).'"? '.$lang['spanel_click'].' <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&amp;id='.$id.'&amp;sure=yes">'.$lang['spanel_here'].'</a> '.$lang['spanel_to_del_it_or'].' <a href="'.$_SERVER['PHP_SELF'].'">'.$lang['spanel_here'].'</a> '.$lang['spanel_to_go_back'].'.');
+            $lang['spanel_are_you_sure_del'].': "'.htmlsafechars($arr['page_name']).'"? '.$lang['spanel_click'].' <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&amp;id='.$id.'&amp;sure=yes">'.$lang['spanel_here'].'</a> '.$lang['spanel_to_del_it_or'].' <a href="'.$_SERVER['PHP_SELF'].'">'.$lang['spanel_here'].'</a> '.$lang['spanel_to_go_back'].'.');
     }
     sql_query('DELETE FROM staffpanel WHERE id = '.sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     $cache->delete($cache_keys['is_staffs']);
     if ($mysqli->affected_rows) {
         if ($CURUSER['class'] <= UC_MAX) {
-            write_log($lang['spanel_page'].' "'.htmlspecialchars($arr['page_name']).'"('.($class_color ? '[color=#'.get_user_class_color($arr['av_class']).']' : '').get_user_class_name($arr['av_class']).($class_color ? '[/color]' : '').') '.$lang['spanel_was_del_sp_by'].' [url='.$TRINITY20['baseurl'].'/userdetails.php?id='.(int)$CURUSER['id'].']'.$CURUSER['username'].'[/url]('.($class_color ? '[color=#'.get_user_class_color($CURUSER['class']).']' : '').get_user_class_name($CURUSER['class']).($class_color ? '[/color]' : '').')');
+            write_log($lang['spanel_page'].' "'.htmlsafechars($arr['page_name']).'"('.($class_color ? '[color=#'.get_user_class_color($arr['av_class']).']' : '').get_user_class_name($arr['av_class']).($class_color ? '[/color]' : '').') '.$lang['spanel_was_del_sp_by'].' [url='.$TRINITY20['baseurl'].'/userdetails.php?id='.(int)$CURUSER['id'].']'.$CURUSER['username'].'[/url]('.($class_color ? '[color=#'.get_user_class_color($CURUSER['class']).']' : '').get_user_class_name($CURUSER['class']).($class_color ? '[/color]' : '').')');
         }
         header('Location: '.$_SERVER['PHP_SELF']);
         exit();
@@ -371,9 +371,9 @@ if (in_array($tool, $staff_tools) && file_exists(ADMIN_DIR.$staff_tools[$tool].'
                 }
                 $HTMLOUT .= "</tr>";
             }
-            $HTMLOUT .= "<tr align='center'><td align='left'><a href='".htmlspecialchars($arr['file_name'])."' title='".htmlspecialchars($arr['page_name'])."'>
-      ".htmlspecialchars($arr['page_name'])."</a><br /><font class='small'>".htmlspecialchars($arr['description'])."</font></td>
-<td><a href='userdetails.php?id=".(int)$arr['added_by']."'>".htmlspecialchars($arr['username'])."</a></td>
+            $HTMLOUT .= "<tr align='center'><td align='left'><a href='".htmlsafechars($arr['file_name'])."' title='".htmlsafechars($arr['page_name'])."'>
+      ".htmlsafechars($arr['page_name'])."</a><br /><font class='small'>".htmlsafechars($arr['description'])."</font></td>
+<td><a href='userdetails.php?id=".(int)$arr['added_by']."'>".htmlsafechars($arr['username'])."</a></td>
       <td>
       <span style='white-space: nowrap;'>".get_date($arr['added'], 'LONG', 0, 1)."<br /></span>
       </td>";

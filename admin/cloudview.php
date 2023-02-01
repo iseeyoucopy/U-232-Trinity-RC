@@ -76,9 +76,9 @@ $HTMLOUT .= "
 <td class='colhead' align='left' width='1%'>{$lang['cloudview_ip']}</td>
 <td class='colhead' width='1%'>{$lang['cloudview_del']}</td></tr>\n";
 while ($arr = $search_q->fetch_assoc()) {
-    $search_phrase = htmlspecialchars($arr['searchedfor']);
+    $search_phrase = htmlsafechars($arr['searchedfor']);
     $hits = (int)$arr['howmuch'];
-    $ip = htmlspecialchars($arr['ip']);
+    $ip = htmlsafechars($arr['ip']);
     $HTMLOUT .= "<tr>
 <td class='one' align='left'>$search_phrase</td>
 <td class='two' align='left'>$hits</td>

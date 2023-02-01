@@ -82,9 +82,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     while ($a = $q1->fetch_assoc()) {
         $newd = ($a["ud"] > 0 ? $a["ud"] - $a["sd"] : 0);
         $new_download[] = "(".$a["uid"].",".$newd.")";
-        $tname = htmlspecialchars($a["name"]);
-        $msg = $lang['datareset_hey'].htmlspecialchars($a["username"])."\n";
-        $msg .= $lang['datareset_looks'].htmlspecialchars($a["name"]).$lang['datareset_nuked'];
+        $tname = htmlsafechars($a["name"]);
+        $msg = $lang['datareset_hey'].htmlsafechars($a["username"])."\n";
+        $msg .= $lang['datareset_looks'].htmlsafechars($a["name"]).$lang['datareset_nuked'];
         $msg .= $lang['datareset_down'].mksize($a["sd"]).$lang['datareset_downbe'].mksize($newd)."\n";
         $pms[] = "(0,".sqlesc($a["uid"]).",".TIME_NOW.",".sqlesc($msg).")";
         $cache->update_row($cache_keys['user_stats'].$a['uid'], [
@@ -105,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         deletetorrent($tid);
         remove_torrent_peers($tid);
     }
-    write_log($lang['datareset_torr'].$tname.$lang['datareset_wdel'].htmlspecialchars($CURUSER["username"]).$lang['datareset_allusr']);
+    write_log($lang['datareset_torr'].$tname.$lang['datareset_wdel'].htmlsafechars($CURUSER["username"]).$lang['datareset_allusr']);
     header("Refresh: 3; url=staffpanel.php?tool=datareset");
     stderr($lang['datareset_stderr'], $lang['datareset_pls']);
 } else {

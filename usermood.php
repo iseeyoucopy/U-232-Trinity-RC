@@ -38,7 +38,7 @@ if (isset($_GET['id'])) {
             'mood' => $moodid,
         ], $TRINITY20['expires']['user_cache']);
         $cache->delete($cache_keys['topmoods']);
-        write_log('<b>'.$lang['user_mood_change'].'</b> '.$CURUSER['username'].' '.htmlspecialchars($rmood['name']).'<img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlspecialchars($rmood['image']).'" alt="" />');
+        write_log('<b>'.$lang['user_mood_change'].'</b> '.$CURUSER['username'].' '.htmlsafechars($rmood['name']).'<img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlsafechars($rmood['image']).'" alt="" />');
         $HTMLOUT .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">		
       <html xmlns="http://www.w3.org/1999/xhtml">
@@ -76,7 +76,7 @@ while ($arr = $res->fetch_assoc()) {
     }
     $HTMLOUT .= '<td>
          <a href="?id='.(int)$arr['id'].'">
-         <img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlspecialchars($arr['image']).'" alt="" />'.htmlspecialchars($arr['name']).'
+         <img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlsafechars($arr['image']).'" alt="" />'.htmlsafechars($arr['name']).'
          </a>
          </td>';
     $count++;

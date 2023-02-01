@@ -36,8 +36,8 @@ if ($CURUSER['class'] >= MAX_CLASS || isMod($forumid, "forum")) {
     if ($res->num_rows == 0) {
         stderr('Error', 'No forum with that ID!');
     }
-    $name = htmlspecialchars($_POST['name']);
-    $description = htmlspecialchars($_POST['description']);
+    $name = htmlsafechars($_POST['name']);
+    $description = htmlsafechars($_POST['description']);
     if (empty($name)) {
         stderr("Error", "You must specify a name for the forum.");
     }

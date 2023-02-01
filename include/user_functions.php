@@ -137,7 +137,7 @@ function get_reputation($user, $mode = '', $rep_is_on = true, $post_id = 0)
         }
         // now decide the locale
         if ($mode != '') {
-            return "Rep: ".$posneg."<br /><br /><a href='javascript:;' onclick=\"PopUp('{$TRINITY20['baseurl']}/reputation.php?pid=".($post_id != 0 ? (int)$post_id : (int)$user['id'])."&amp;locale=".$mode."','Reputation',400,241,1,1);\"><button type='button' class='tiny button' style='margin-top:-9px;' alt='Add reputation:: ".htmlspecialchars($user['username'])."' title='Add reputation:: ".htmlspecialchars($user['username'])."'><i class='fa fa-check'></i> Add Rep</button></a>";
+            return "Rep: ".$posneg."<br /><br /><a href='javascript:;' onclick=\"PopUp('{$TRINITY20['baseurl']}/reputation.php?pid=".($post_id != 0 ? (int)$post_id : (int)$user['id'])."&amp;locale=".$mode."','Reputation',400,241,1,1);\"><button type='button' class='tiny button' style='margin-top:-9px;' alt='Add reputation:: ".htmlsafechars($user['username'])."' title='Add reputation:: ".htmlsafechars($user['username'])."'><i class='fa fa-check'></i> Add Rep</button></a>";
         }
 
         return " ".$posneg;
@@ -437,10 +437,10 @@ function format_username($user, $icons = true)
         return 'System';
     }
 
-    if ((isset($user['username']) ? htmlspecialchars($user['username']) : '') == '') {
+    if ((isset($user['username']) ? htmlsafechars($user['username']) : '') == '') {
         return 'unknown['.$userf_id.']';
     }
-    $username = '<span style="color:#'.get_user_class_color($userf_class).';"><strong>'.htmlspecialchars($user['username']).'</strong></span>';
+    $username = '<span style="color:#'.get_user_class_color($userf_class).';"><strong>'.htmlsafechars($user['username']).'</strong></span>';
     $str = '<span style="white-space: nowrap;"><a class="user_'.$userf_id.'" href="'.$TRINITY20['baseurl'].'/userdetails.php?id='.$userf_id.'" target="_blank">'.$username.'</a>';
     if ($icons != false) {
         $str .= ($user['donor'] == 'yes' ? '<img src="'.$TRINITY20['pic_base_url'].'star.png" alt="Donor" title="Donor" />' : '');
@@ -519,7 +519,7 @@ function avatar_stuff($avatar, $width = 80)
 {
     global $CURUSER, $TRINITY20;
     require_once (CLASS_DIR . 'class_user_options.php');
-    $avatar_show = (!($CURUSER['opt1'] & user_options::AVATARS) ? '' : (!$avatar['avatar'] ? '<img style="max-width:' . $width . 'px;" src="' . $TRINITY20['pic_base_url'] . 'default_avatar.gif" alt="avatar" />' : (($CURUSER['opt1'] & user_options::OFFENSIVE_AVATAR && $CURUSER['opt2'] & user_options::VIEW_OFFENSIVE_AVATAR) ? '<img style="max-width:' . $width . 'px;" src="' . $TRINITY20['pic_base_url'] . 'fuzzybunny.gif" alt="avatar" />' : '<img style="max-width:' . $width . 'px;" src="' . htmlspecialchars($avatar['avatar']) . '" alt="avatar" />')));
+    $avatar_show = (!($CURUSER['opt1'] & user_options::AVATARS) ? '' : (!$avatar['avatar'] ? '<img style="max-width:' . $width . 'px;" src="' . $TRINITY20['pic_base_url'] . 'default_avatar.gif" alt="avatar" />' : (($CURUSER['opt1'] & user_options::OFFENSIVE_AVATAR && $CURUSER['opt2'] & user_options::VIEW_OFFENSIVE_AVATAR) ? '<img style="max-width:' . $width . 'px;" src="' . $TRINITY20['pic_base_url'] . 'fuzzybunny.gif" alt="avatar" />' : '<img style="max-width:' . $width . 'px;" src="' . htmlsafechars($avatar['avatar']) . '" alt="avatar" />')));
     return $avatar_show;
 }
 */
@@ -527,7 +527,7 @@ function avatar_stuff($avatar, $width = 80)
 function avatar_stuff($avatar, $width = 80)
 {
     global $CURUSER, $TRINITY20;
-    return $CURUSER['avatars'] == 'no' ? '' : ($avatar['avatar'] ? ($avatar['offensive_avatar'] === 'yes' && $CURUSER['view_offensive_avatar'] === 'no') ? '<img style="max-width:'.$width.'px;" src="'.$TRINITY20['pic_base_url'].'fuzzybunny.gif" alt="avatar" />' : '<img style="max-width:'.$width.'px;" src="'.htmlspecialchars($avatar['avatar']).'" alt="avatar" />' : ('<img style="max-width:'.$width.'px;" src="'.$TRINITY20['pic_base_url'].'default_avatar.gif" alt="avatar" />'));
+    return $CURUSER['avatars'] == 'no' ? '' : ($avatar['avatar'] ? ($avatar['offensive_avatar'] === 'yes' && $CURUSER['view_offensive_avatar'] === 'no') ? '<img style="max-width:'.$width.'px;" src="'.$TRINITY20['pic_base_url'].'fuzzybunny.gif" alt="avatar" />' : '<img style="max-width:'.$width.'px;" src="'.htmlsafechars($avatar['avatar']).'" alt="avatar" />' : ('<img style="max-width:'.$width.'px;" src="'.$TRINITY20['pic_base_url'].'default_avatar.gif" alt="avatar" />'));
 }
 
 //=== added a function to get all user info and print them up with link to userdetails page, class color, user icons... pdq's idea \o/

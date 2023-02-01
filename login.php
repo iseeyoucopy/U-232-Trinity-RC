@@ -61,7 +61,7 @@ $HTMLOUT .= "<div class='grid-container'>
 			<img src='" . url( 'pic/logo.png' ) . "'>";
 unset($returnto);
 if (!empty($_GET["returnto"])) {
-    $returnto = htmlspecialchars($_GET["returnto"]);
+    $returnto = htmlsafechars($_GET["returnto"]);
     $HTMLOUT .= "<div class='callout alert-callout-border warning'><p class='text-center'>{$lang['login_error']}</p></div>";
 }
 $HTMLOUT .= "".($TRINITY20['captcha_on'] ? "<script>
@@ -84,7 +84,7 @@ $HTMLOUT .= "".($TRINITY20['captcha_on'] ? "<script>
 $HTMLOUT .= "<input name='submitme' type='submit' value='Login' class='button'>";
 
 if (isset($returnto)) {
-    $HTMLOUT .= "<input type='hidden' name='returnto' value='".htmlspecialchars($returnto)."'></form>";
+    $HTMLOUT .= "<input type='hidden' name='returnto' value='".htmlsafechars($returnto)."'></form>";
 }
 $HTMLOUT .= "
 <div class='clearfix'>

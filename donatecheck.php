@@ -233,7 +233,7 @@ if ($hand = fsockopen('ssl://www.paypal.com', 443, $errno, $errstr, 30)) {
     }
     $vars['uid'] = isset($_POST['custom']) ? (int)$_POST['custom'] : 0;
     $vars['amount'] = isset($_POST['mc_gross']) ? (int)$_POST['mc_gross'] : 0;
-    $vars['memo'] = isset($_POST['memo']) ? htmlspecialchars($_POST['memo']) : '';
+    $vars['memo'] = isset($_POST['memo']) ? htmlsafechars($_POST['memo']) : '';
     if (stripos($paypal_data, 'VERIFIED') !== false) {
         ($user_query = sql_query(sprintf('SELECT COUNT(id) FROM users WHERE id = %d', $vars['uid']))) || paypallog($mysqli->error);
         if ($user_query->num_rows == 1) {

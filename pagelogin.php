@@ -26,7 +26,7 @@ function failedloginscheck()
     if ($total >= $TRINITY20['failedlogins']) {
         sql_query("UPDATE failedlogins SET banned = 'yes' WHERE ip=".sqlesc($ip)) || sqlerr(__FILE__, __LINE__);
         stderr("Login Locked!",
-            "You have <b>Exceeded</b> the allowed maximum login attempts without successful login, therefore your ip address <b>(".htmlspecialchars($ip).")</b> has been locked out for 24 hours.");
+            "You have <b>Exceeded</b> the allowed maximum login attempts without successful login, therefore your ip address <b>(".htmlsafechars($ip).")</b> has been locked out for 24 hours.");
     }
 }
 
@@ -88,7 +88,7 @@ $HTMLOUT .= "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN'
 <p><br /></p>
 <p><br /></p>
 <p></p>
-<p align='center'><strong>Welcome Back - ".htmlspecialchars($row['username']).".</strong></p><br />
+<p align='center'><strong>Welcome Back - ".htmlsafechars($row['username']).".</strong></p><br />
 <p align='center'><strong>Click <a href='index.php'>here</a> if you are not redirected automatically.</strong></p><br />
 </body>
 </html>";

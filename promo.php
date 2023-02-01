@@ -23,12 +23,12 @@ if (!$CURUSER) {
 $lang = array_merge(load_language('global'));
 $HTMLOUT = '';
 //==Promo mod by putyn 24/2/2009
-$do = (isset($_GET["do"]) ? htmlspecialchars($_GET["do"]) : (isset($_POST["do"]) ? htmlspecialchars($_POST["do"]) : ""));
+$do = (isset($_GET["do"]) ? htmlsafechars($_GET["do"]) : (isset($_POST["do"]) ? htmlsafechars($_POST["do"]) : ""));
 $id = (isset($_GET["id"]) ? (int)$_GET["id"] : (isset($_POST["id"]) ? (int)$_POST["id"] : "0"));
-$link = (isset($_GET["link"]) ? htmlspecialchars($_GET["link"]) : (isset($_POST["link"]) ? htmlspecialchars($_POST["link"]) : ""));
-$sure = (isset($_GET["sure"]) && htmlspecialchars($_GET["sure"]) == "yes" ? "yes" : "no");
+$link = (isset($_GET["link"]) ? htmlsafechars($_GET["link"]) : (isset($_POST["link"]) ? htmlsafechars($_POST["link"]) : ""));
+$sure = (isset($_GET["sure"]) && htmlsafechars($_GET["sure"]) == "yes" ? "yes" : "no");
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
-    $promoname = (isset($_POST["promoname"]) ? htmlspecialchars($_POST["promoname"]) : "");
+    $promoname = (isset($_POST["promoname"]) ? htmlsafechars($_POST["promoname"]) : "");
     if (empty($promoname)) {
         stderr("Error", "No name for the promo");
     }
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
         stderr("Error", "Something wrong happned, please retry");
     } else {
         stderr("Success",
-            "The promo link <b>".htmlspecialchars($promoname)."</b> was added! here is the link <br /><input type=\"text\" name=\"promo-link\" value=\"".$TRINITY20['baseurl'].$_SERVER["PHP_SELF"]."?do=signup&amp;link=".$link."\" size=\"80\" onclick=\"select();\"  /><br/><a href=\"".$_SERVER["PHP_SELF"]."\"><input type=\"button\" value=\"Back to Promos\" /></a>");
+            "The promo link <b>".htmlsafechars($promoname)."</b> was added! here is the link <br /><input type=\"text\" name=\"promo-link\" value=\"".$TRINITY20['baseurl'].$_SERVER["PHP_SELF"]."?do=signup&amp;link=".$link."\" size=\"80\" onclick=\"select();\"  /><br/><a href=\"".$_SERVER["PHP_SELF"]."\"><input type=\"button\" value=\"Back to Promos\" /></a>");
     }
 } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "signup") {
     //==err("w00t");
@@ -73,21 +73,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
     } else {
         $ar_check = $r_check->fetch_assoc();
         if ($ar_check["max_users"] == $ar_check["accounts_made"]) {
-            stderr("Error", "Sorry account limit (".htmlspecialchars($ar_check["max_users"]).") on this link has been reached ");
+            stderr("Error", "Sorry account limit (".htmlsafechars($ar_check["max_users"]).") on this link has been reached ");
         }
         if (($ar_check["added"] + (86400 * $ar_check["days_valid"])) < TIME_NOW) {
             stderr("Error", "This link was valid only till ".date("d/M-Y", ($ar_check["added"] + (86400 * $ar_check["days_valid"]))));
         }
         //==Some variables for the new user :)
-        $username = (isset($_POST["username"]) ? htmlspecialchars($_POST["username"]) : "");
+        $username = (isset($_POST["username"]) ? htmlsafechars($_POST["username"]) : "");
         if (empty($username)) {
             stderr("Error", "You must pick a an username");
         }
         if (strlen($username) < 6 || strlen($username) > 64) {
             stderr("Error", "Your username is to long or to short (min 6 char , max 64 char)");
         }
-        $password = (isset($_POST["password"]) ? htmlspecialchars($_POST["password"]) : "");
-        $passwordagain = (isset($_POST["passwordagain"]) ? htmlspecialchars($_POST["passwordagain"]) : "");
+        $password = (isset($_POST["password"]) ? htmlsafechars($_POST["password"]) : "");
+        $passwordagain = (isset($_POST["passwordagain"]) ? htmlsafechars($_POST["passwordagain"]) : "");
         if (empty($password) || empty($passwordagain)) {
             stderr("Error", "You have to type your passwords twice");
         }
@@ -97,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
         if (strlen($password) < 6) {
             stderr("Error", "Password must be min 6 char");
         }
-        $email = (isset($_POST["mail"]) ? htmlspecialchars($_POST["mail"]) : "");
+        $email = (isset($_POST["mail"]) ? htmlsafechars($_POST["mail"]) : "");
         if (empty($email)) {
             stderr("Error", "No email adress, you forgot about that?");
         }
@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
             $sec = $editsecret;
             $subject = $TRINITY20['site_name']." user registration confirmation";
             $message = "Hi!
-						You used the link from promo ".htmlspecialchars($ar_check["name"])." and registred a new account at {$TRINITY20['site_name']}
+						You used the link from promo ".htmlsafechars($ar_check["name"])." and registred a new account at {$TRINITY20['site_name']}
 							
 						To confirm your account click the link below
 						{$TRINITY20['baseurl']}/confirm.php?id=".(int)$userid."&secret=$sec
@@ -155,7 +155,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
             $headers = 'From: '.$TRINITY20['site_email']."\r\n".'Reply-To:'.$TRINITY20['site_email']."\r\n".'X-Mailer: PHP/'.phpversion();
             $mail = @mail($email, $subject, $message, $headers);
             stderr("Success!",
-                "Account was created! and an email was sent to <b>".htmlspecialchars($email)."</b>, you can use your account once you confirm the email!");
+                "Account was created! and an email was sent to <b>".htmlsafechars($email)."</b>, you can use your account once you confirm the email!");
         } else {
             stderr("Error", "Something odd happned please retry");
         }
@@ -165,7 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
     if ($sure == "no") {
         $a = $r->fetch_assoc();
         stderr("Sanity check...",
-            "You are about to delete promo <b>".htmlspecialchars($a["name"])."</b>, if you are sure click <a href=\"".$_SERVER["PHP_SELF"]."?do=delete&amp;id=".$id."&amp;sure=yes\">here</a>");
+            "You are about to delete promo <b>".htmlsafechars($a["name"])."</b>, if you are sure click <a href=\"".$_SERVER["PHP_SELF"]."?do=delete&amp;id=".$id."&amp;sure=yes\">here</a>");
     } elseif ($sure == "yes") {
         if (sql_query("DELETE FROM promo where id=".sqlesc($id)) || sqlerr(__FILE__, __LINE__)) {
             header("Refresh: 2; url=".$_SERVER["PHP_SELF"]);
@@ -220,7 +220,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
         } else {
             $ar = $r_promo->fetch_assoc();
             if ($ar["max_users"] == $ar["accounts_made"]) {
-                stderr("Error", "Sorry account limit (".htmlspecialchars($ar["max_users"]).") on this link has been reached ");
+                stderr("Error", "Sorry account limit (".htmlsafechars($ar["max_users"]).") on this link has been reached ");
             }
             if (($ar["added"] + (86400 * $ar["days_valid"])) < TIME_NOW) {
                 stderr("Error", "This link was valid only till ".date("d/M-Y", ($ar["added"] + (86400 * $ar["days_valid"]))));
@@ -228,7 +228,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
             $HTMLOUT .= "<div class='row'><div class='col-md-12'>";
             $HTMLOUT .= "<form action='".($_SERVER["PHP_SELF"])."' method='post'>
 						  <table class='table table-bordered'>
-						  <tr><td class='colhead' align='center' colspan='2'>Promo : ".htmlspecialchars($ar["name"])." </td></tr>
+						  <tr><td class='colhead' align='center' colspan='2'>Promo : ".htmlsafechars($ar["name"])." </td></tr>
 						  <tr><td nowrap='nowrap' align='right'>Bonuses</td>
 							  <td align='left' width='100%'>
 								".($ar["bonus_upload"] > 0 ? "<b>upload</b>:&nbsp;".mksize($ar["bonus_upload"] * 1_073_741_824)."<br />" : "")."
@@ -246,7 +246,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
 						  </table> 
 						</form>";
             $HTMLOUT .= "</div></div><br>";
-            echo stdhead("Signup for promo :".htmlspecialchars($ar["name"])."").$HTMLOUT.stdfoot();
+            echo stdhead("Signup for promo :".htmlsafechars($ar["name"])."").$HTMLOUT.stdfoot();
         }
     }
 } elseif ($do == "accounts") {
@@ -267,7 +267,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
       <html xmlns='http://www.w3.org/1999/xhtml'>
       <head>
                 <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
-                <title>Users list for promo : ".htmlspecialchars($a1["name"])."</title>
+                <title>Users list for promo : ".htmlsafechars($a1["name"])."</title>
                 <style type=\"text/css\">
                 body { background-color:#999999;
                 color:#333333;
@@ -286,7 +286,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
                 <table class='table table-bordered'>
                     <tr><td class='rowhead' align='left' width='100'> User</td><td class='rowhead' align='left' nowrap='nowrap'>Added</td></tr>";
             while ($ap = $q2->fetch_assoc()) {
-                $HTMLOUT .= "<tr><td align='left' width='100'><a href='userdetails.php?id=".(int)$ap["id"]."'>".htmlspecialchars($ap["username"])."</a></td><td  align='left' nowrap='nowrap' >".get_date($ap["added"],
+                $HTMLOUT .= "<tr><td align='left' width='100'><a href='userdetails.php?id=".(int)$ap["id"]."'>".htmlsafechars($ap["username"])."</a></td><td  align='left' nowrap='nowrap' >".get_date($ap["added"],
                         'LONG', 0, 1)."</td></tr>";
             }
             $HTMLOUT .= "</table></div></div>
@@ -341,7 +341,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
         while ($ar = $r->fetch_assoc()) {
             $active = (($ar["max_users"] == $ar["accounts_made"]) || (($ar["added"] + (86400 * $ar["days_valid"])) < TIME_NOW)) ? false : true;
             $HTMLOUT .= "<tr ".($active ? "" : "title=\"This promo has ended\"").">
-				<td nowrap='nowrap' align='center'>".(htmlspecialchars($ar["name"]))."<br /><input type='text' ".($active ? "" : "disabled=\"disabled\"")." value='".($TRINITY20['baseurl'].$_SERVER["PHP_SELF"]."?do=signup&amp;link=".$ar["link"])."' size='60' name='".(htmlspecialchars($ar["name"]))."' onclick='select();' /></td>
+				<td nowrap='nowrap' align='center'>".(htmlsafechars($ar["name"]))."<br /><input type='text' ".($active ? "" : "disabled=\"disabled\"")." value='".($TRINITY20['baseurl'].$_SERVER["PHP_SELF"]."?do=signup&amp;link=".$ar["link"])."' size='60' name='".(htmlsafechars($ar["name"]))."' onclick='select();' /></td>
 				<td nowrap='nowrap' align='center'>".(date("d/M-Y", $ar["added"]))."</td>
 				<td nowrap='nowrap' align='center'>".(date("d/M-Y", ($ar["added"] + (86400 * $ar["days_valid"]))))."</td>
 				<td nowrap='nowrap' align='center'>".((int)$ar["max_users"])."</td>
@@ -349,7 +349,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
 				<td nowrap='nowrap' align='center'>".(mksize($ar["bonus_upload"] * 1_073_741_824))."</td>
 				<td nowrap='nowrap' align='center'>".((int)$ar["bonus_invites"])."</td>
 				<td nowrap='nowrap' align='center'>".((int)$ar["bonus_karma"])."</td>
-				<td nowrap='nowrap' align='center'><a href='userdetails.php?id=".(int)$ar["creator"]."'>".htmlspecialchars($ar["username"])."</a></td>
+				<td nowrap='nowrap' align='center'><a href='userdetails.php?id=".(int)$ar["creator"]."'>".htmlsafechars($ar["username"])."</a></td>
 				<td nowrap='nowrap' align='center'><a href='".$_SERVER["PHP_SELF"]."?do=delete&amp;id=".(int)$ar["id"]."'><img src='pic/del.png' border='0' alt='Drop' /></a></td>
 			</tr>";
         }

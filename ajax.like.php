@@ -19,7 +19,7 @@ $lang = array_merge(load_language('global'), load_language('ajax_like'));
 $banned_users = [
     0,
 ]; // Please insert single or nultiple user id's with a comma  EG: 1,50,114,556   etc
-$check = isset($_POST['type']) ? htmlspecialchars($_POST['type']) : '';
+$check = isset($_POST['type']) ? htmlsafechars($_POST['type']) : '';
 $disabled_time = (isset($_POST['time']) && isset($check)) ? (int)$_POST['time'] : 0;
 if ($check == 'disabled') {
     ($res = sql_query("INSERT INTO manage_likes (user_id,disabled_time) VALUES (".$CURUSER['id'].",".TIME_NOW."+$disabled_time) ON DUPLICATE KEY UPDATE disabled_time=".TIME_NOW."")) || sqlerr(__FILE__,
@@ -32,7 +32,7 @@ $tb_fields = [
     'forum' => 'posts',
     'details' => 'torrents',
 ];
-$agent = isset($_POST['agent']) ? htmlspecialchars($_POST['agent']) : die('hell no');
+$agent = isset($_POST['agent']) ? htmlsafechars($_POST['agent']) : die('hell no');
 //$ip =                isset($_POST['i']) ? md5(getips()) == $_POST['i'] ? getips() : die('No Proper data') : die('hell no');
 $user_ag_chk = isset($_POST['ua']) ? (md5($agent) == $_POST['ua'] ? true : die('Wrong User Agent')) : die('No User Agent');
 $the_id = isset($_POST['one']) ? (int)$_POST['one'] : die('false');
