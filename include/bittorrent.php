@@ -871,6 +871,9 @@ function sqlesc($x)
     if (is_integer($x)) {
         return (int)$x;
     }
+    if (is_float($x)) {
+        return (float)$x;
+    }
     return sprintf('\'%s\'', $mysqli->real_escape_string($x ?? ''));
 }
 
@@ -1168,7 +1171,7 @@ function get_date($date, $method, $norelative = 0, $full_relative = 0)
         }
     } else {
         if ($TRINITY20['time_use_relative'] and ($norelative != 1)) {
-            $this_time = gmdate('d,m,Y', ($date + $GLOBALS['offset']));
+            $this_time = gmdate('d,m,Y', $date + $GLOBALS['offset'] ?? '');
             if ($TRINITY20['time_use_relative'] == 2) {
                 $diff = TIME_NOW - $date;
                 if ($diff < 3600) {
