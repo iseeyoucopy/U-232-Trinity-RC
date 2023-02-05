@@ -2,33 +2,35 @@ $subnav-hero-bg: #375a7f;
 $subnav-hero-link-padding: 0.9rem 1rem;
 $subnav-hero-font-size: 0.8rem;
 $subnav-hero-link-opacity: 0.25;
-$subnav-hero-height: 180px;
+$subnav-hero-height: 150px;
 $subnav-hero-transition: all 0.35s ease-in-out;
 
 .subnav-hero-section {
-  text-align: center;
-  position: relative;
-  overflow: visible;
+  //text-align: center;
+  //position: relative;
+  //overflow: visible;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   height: $subnav-hero-height;
+  flex-direction: column;
 
   .subnav-hero-headline {
     color: $white;
   }
 
   .subnav-hero-img {
-    height: 90px;
-    width: 280px;
-    margin-bottom: 2rem;
+    max-height: 75px;
+    //height: 90px;
+    //width: 280px;
+    //argin-bottom: 2rem;
   }
 }
 
 .subnav-hero-subnav {
   background: $subnav-hero-bg;
-  float: none;
-  position: absolute;
+  //float: none;
+  //position: absolute;
   text-align: center;
   margin: 0 auto;
   bottom: 0;

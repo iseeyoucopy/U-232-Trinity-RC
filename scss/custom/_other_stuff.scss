@@ -1,6 +1,7 @@
 $alert-callout-border-left-width: rem-calc(5);
 $alert-callout-border-padding: 1.3rem;
 $alert-callout-border-radius: 0.6rem;
+$alert-callout-color: #1c1919;
 
 .alert-callout-border {
   width: 100%;
@@ -37,10 +38,10 @@ $alert-callout-border-radius: 0.6rem;
   }
 
   &.alert {
-    border-left-color: $alert-color;
+    border-left-color: $alert-callout-color;
 
     strong {
-      color: $alert-color;
+      color: $alert-callout-color;
     }
   }
 
