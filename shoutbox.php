@@ -348,7 +348,7 @@ if (isset($_GET['sent']) && ($_GET['sent'] == "yes")) {
 }
 //== cache the data
 if (($shouts = $cache->get('shoutbox_')) === false) {
-    $res = sql_query("SELECT s.id, s.userid, s.date, s.text, s.to_user, s.staff_shout, s.autoshout, u.username, u.pirate, u.perms, u.king, u.class, u.donor, u.warned, u.leechwarn, u.enabled, u.chatpost FROM shoutbox AS s LEFT JOIN users AS u ON s.userid=u.id WHERE s.staff_shout ='no' AND s.autoshout='no' ORDER BY s.id DESC LIMIT 150") or sqlerr(__FILE__, __LINE__);
+    $res = sql_query("SELECT s.id, s.userid, s.date, s.text, s.to_user, s.staff_shout, s.autoshout, u.username, u.pirate, u.perms, u.king, u.class, u.donor, u.warned, u.leechwarn, u.enabled, u.chatpost FROM shoutbox AS s LEFT JOIN users AS u ON s.userid=u.id WHERE s.staff_shout ='no' ORDER BY s.id DESC LIMIT 150") or sqlerr(__FILE__, __LINE__);
     $shouts = [];
     while ($shout = $res->fetch_assoc())
         /*

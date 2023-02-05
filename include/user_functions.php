@@ -30,7 +30,7 @@ function autoshout($msg)
     global $TRINITY20, $cache, $cache_keys;
     require_once (INCL_DIR . 'bbcode_functions.php');
     sql_query('INSERT INTO shoutbox(userid,date,text,text_parsed,autoshout)VALUES (' . $TRINITY20['bot_id'] . ',' . TIME_NOW . ',' . sqlesc($msg) . ',' . sqlesc(format_comment($msg)) . ', "yes")');
-    $cache->delete_value('auto_shoutbox_');
+    $cache->delete('auto_shoutbox_');
 }
 
 //== Parked function ==//

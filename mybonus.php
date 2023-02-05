@@ -1025,7 +1025,7 @@ if (isset($_GET['exchange'])) {
                 $cache->delete($cache_keys['freecontribution_datas_alerts']);
                 write_bonus_log($CURUSER["id"], $donation, $type = "freeleech");
                 $msg = $CURUSER['username']." Donated ".$donation." karma point".($donation > 1 ? 's' : '')." into the freeleech contribution pot and has activated freeleech for 3 days ".$donation."/".$points.'';
-                $cache->value('shoutbox_');
+                $cache->delete('shoutbox_');
                 if ($TRINITY20['autoshout_on'] == 1) {
                     autoshout($message);
                 }
