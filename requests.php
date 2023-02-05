@@ -293,8 +293,11 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
             if ($TRINITY20['autoshout_on'] == 1) {
                 autoshout($msg);
             }
-            header('Location: requests.php?action=request_details&new=1&id='.$new_request_id);
-            die();
+            redirect('requests.php', [
+                'action' => 'request_details',
+                'new'    => 1,
+                'id'     => $new_request_id
+            ]);
         }
         //=== start page
         $HTMLOUT .= '<table class="table table-hover table-bordered">
