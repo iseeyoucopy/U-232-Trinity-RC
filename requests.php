@@ -40,8 +40,9 @@ $requested_by_id = isset($_GET['requested_by_id']) ? (int)$_GET['requested_by_id
 $vote = isset($_POST['vote']) ? (int)$_POST['vote'] : 0;
 $posted_action = strip_tags((isset($_GET['action']) ? htmlsafechars($_GET['action']) : (isset($_POST['action']) ? htmlsafechars($_POST['action']) : '')));
 //===========================================================================================//
-//==================================    let them vote on it!    ==========================================//
+//============================   let them vote on it!    ====================================//
 //===========================================================================================//
+
 //=== add all possible actions here and check them to be sure they are ok
 $valid_actions = [
     'add_new_request',
@@ -83,7 +84,7 @@ switch ($action) {
         stderr($lang['req_add_err3'], $lang['req_add_err5']);
         break;
     //===========================================================================================//
-    //=======================    the default page listing all the requests w/ pager         ===============================//
+    //============== the default page listing all the requests w/ pager  ========================//
     //===========================================================================================//
 
     case 'default':
@@ -102,43 +103,49 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
         if (($count = 0) !== 0) {
             stderr($lang['error_error'], $lang['req_add_err6']);
         }
-        $HTMLOUT .= (isset($_GET['new']) ? '<h1>'.$lang['req_add_adr'].'</h1>' : '').(isset($_GET['request_deleted']) ? '<h1>'.$lang['req_add_delr'].'</h1>' : '').$top_menu.''.$menu.'<br />';
-        $HTMLOUT .= '<div class="table-scroll">
-    <table class="striped">
-    <tr>
-        <td align="center">'.$lang['req_type'].'</td>
-        <td align="left">'.$lang['req_name'].'</td>
-        <td align="center">'.$lang['req_added'].'</td>
-        <td align="center">'.$lang['req_add_comm'].'</td>  
-        <td align="center">'.$lang['req_votes'].'</td>
-        <td align="center">'.$lang['req_req_by'].'</td>
-        <td align="center">'.$lang['req_filled'].'</td>
-    </tr>';
+        $HTMLOUT .= '<div class="card">
+            <div class="card-section">'. (isset($_GET['new']) ? '<div class="callout alert-callout-border success">'.$lang['req_add_adr'].'</div>' : '') . (isset($_GET['request_deleted']) ? '<div class="callout alert-callout-border success">'.$lang['req_add_delr'].'</div>' : '').$top_menu.'
+        <div class="table-scroll">
+        <div class="rows">
+            <div class="columns">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>'.$lang['req_type'].'</th>
+                            <th>'.$lang['req_name'].'</th>
+                            <th>'.$lang['req_added'].'</th>
+                            <th>'.$lang['req_add_comm'].'</th>  
+                            <th>'.$lang['req_votes'].'</th>
+                            <th>'.$lang['req_req_by'].'</th>
+                            <th>'.$lang['req_filled'].'</th>
+                        </tr>
+                    </thead>';
         while ($main_query_arr = $main_query_res->fetch_assoc()) {
             $HTMLOUT .= '
-    <tr>
-        <td>
-            <img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlsafechars($main_query_arr['cat_image'],
-                    ENT_QUOTES).'" alt="'.htmlsafechars($main_query_arr['cat_name'], ENT_QUOTES).'">
-        </td>
-        <td>
-            <a href="requests.php?action=request_details&amp;id='.(int)$main_query_arr['request_id'].'"><span>'.htmlsafechars($main_query_arr['request_name'],
-                    ENT_QUOTES).'</span></a>
-        </td>
-        <td align="center">'.get_date($main_query_arr['added'], 'LONG').'</td>
-        <td align="center">'.number_format($main_query_arr['comments']).'</td>  
-        <td align="center">yes: '.number_format($main_query_arr['vote_yes_count']).'<br />
-        no: '.number_format($main_query_arr['vote_no_count']).'</td> 
-        <td align="center">'.print_user_stuff($main_query_arr).'</td>
-        <td align="center">'.($main_query_arr['filled_by_user_id'] > 0 ? '<a href="details.php?id='.(int)$main_query_arr['filled_torrent_id'].'" title="'.$lang['req_mouse_go'].'"><span style="color: limegreen;font-weight: bold;">'.$lang['req_det_yes1'].'</span></a>' : '<span style="color: red;font-weight: bold;">'.$lang['req_det_no1'].'</span>').'</td>
-    </tr>';
+            <tbody>
+            <tr>
+                <td>
+                    <img src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlsafechars($main_query_arr['cat_image']).'" alt="'.htmlsafechars($main_query_arr['cat_name']).'">
+                </td>
+                <td>
+                    <a href="requests.php?action=request_details&amp;id='.(int)$main_query_arr['request_id'].'"><span>'.htmlsafechars($main_query_arr['request_name']).'</span></a>
+                </td>
+                <td>'.get_date($main_query_arr['added'], 'LONG').'</td>
+                <td>'.number_format($main_query_arr['comments']).'</td>  
+                <td>yes: '.number_format($main_query_arr['vote_yes_count']).'<br>
+                no: '.number_format($main_query_arr['vote_no_count']).'</td> 
+                <td>'.print_user_stuff($main_query_arr).'</td>
+                <td>'.($main_query_arr['filled_by_user_id'] > 0 ? '<a href="details.php?id='.(int)$main_query_arr['filled_torrent_id'].'" title="'.$lang['req_mouse_go'].'"><span style="color: limegreen;font-weight: bold;">'.$lang['req_det_yes1'].'</span></a>' : '<span style="color: red;font-weight: bold;">'.$lang['req_det_no1'].'</span>').'</td>
+            </tr>
+            </tbody>';
         }
-        $HTMLOUT .= '</table></div>';
-        $HTMLOUT .= ''.$menu.'<br />';
+        $HTMLOUT .= '</table>
+            </div></div></div></div></div>';
+        $HTMLOUT .= $menu;
         echo stdhead($lang['gl_requests'], true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
         break;
     //===========================================================================================//
-    //==============================the details page for the request! ========================================//
+    //====================  the details page for the request!  ==================================//
     //===========================================================================================//
     case 'request_details':
         require_once INCL_DIR.'bbcode_functions.php';
@@ -252,7 +259,7 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
         echo stdhead($lang['details_details'].htmlsafechars($arr['request_name'], ENT_QUOTES), true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
         break;
     //===========================================================================================//
-    //====================================    add new request      ========================================//
+    //==========================    add new request      ========================================//
     //===========================================================================================//
 
     case 'add_new_request':
@@ -281,6 +288,11 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
                     ('.sqlesc($request_name).', '.sqlesc($image).', '.sqlesc($body).', '.sqlesc($category).', '.TIME_NOW.', '.sqlesc($CURUSER['id']).',  '.sqlesc($link).');') || sqlerr(__FILE__,
                 __LINE__);
             $new_request_id = $mysqli->insert_id;
+            $msg = $CURUSER['username']." Added a new request [url=".$TRINITY20['baseurl']."/requests.php?action=request_details&new=1&id=". $new_request_id ."]". $request_name ."[/url] in category " .$cat_arr['cat_name'];
+            $cache->delete('shoutbox_');
+            if ($TRINITY20['autoshout_on'] == 1) {
+                autoshout($msg);
+            }
             header('Location: requests.php?action=request_details&new=1&id='.$new_request_id);
             die();
         }
@@ -393,7 +405,7 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
         echo stdhead($lang['details_delete'], true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
         break;
     //===========================================================================================//
-    //====================================          edit request      ========================================//
+    //==================================== edit request  ========================================//
     //===========================================================================================//
 
     case 'edit_request':
@@ -571,7 +583,7 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
         echo stdhead($lang['req_det_adco'].$arr['request_name'].'"', true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
         break;
     //===========================================================================================//
-    //==================================    edit comment    =============================================//
+    //==================================    edit comment    =====================================//
     //===========================================================================================//
 
     case 'edit_comment':
@@ -664,7 +676,8 @@ function comment_table($rows)
 {
     $count2 = '';
     global $CURUSER, $TRINITY20, $mysqli;
-    $comment_table = '<table class="table table-hover table-bordered">
+    $comment_table = '<div class="table-scroll">
+    <table class="stack">
     <tr>
     <td class="three" align="center">';
     foreach ($rows as $row) {
@@ -683,7 +696,8 @@ function comment_table($rows)
      - [<a href="comment.php?action=vieworiginal&amp;cid='.(int)$row['id'].'">View original</a>]' : '').' 
     - [<a href="report.php?type=Request_Comment&amp;id_2='.(int)$row['request'].'&amp;id='.(int)$row['comment_id'].'">Report</a>]';
         $comment_table .= '
-    <table class="table table-hover table-bordered">
+        <div class="table-scroll">
+    <table class="table>
     <tr>
     <td align="left" colspan="2" class="colhead"># '.$top_comment_stuff.'</td>
     </tr>
@@ -691,9 +705,10 @@ function comment_table($rows)
     <td align="center">'.avatar_stuff($row).'</td>
     <td>'.$text.'</td>
     </tr>
-    </table><br />';
+    </table>
+    </div><br />';
     }
-    return $comment_table.'</td></tr></table>';
+    return $comment_table.'</td></tr></table></div>';
 }
 
 ?>
