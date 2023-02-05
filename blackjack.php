@@ -31,8 +31,7 @@ if ($game) {
     function cheater_check($arg)
     {
         if ($arg) {
-            header('Location: '.$_SERVER['PHP_SELF']);
-            exit;
+            redirect( $_SERVER['PHP_SELF'] );
         }
     }
 

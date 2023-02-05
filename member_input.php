@@ -26,7 +26,7 @@ $valid_actions = [
 $action = (in_array($posted_action, $valid_actions) ? $posted_action : '');
 if ($action == '') {
     //=== redirect to index if they try to access the page directly ... perhaps add some hacker dork thingie here as well...
-    header('Location: index.php');
+    redirect( 'index.php' );
 } else {
     //=== add all new actions to this case switch thingie
     switch ($action) {
@@ -76,7 +76,10 @@ if ($action == '') {
                         -1) == 's' ? '\'' : '\'s').' staff notes"><b>'.htmlsafechars($staff_notes_arr['username']).(substr($staff_notes_arr['username'],
                         -1) == 's' ? '\'' : '\'s').'</b></a> staff notes. Changes made:<br />Was:<br />'.htmlsafechars($staff_notes_arr['staff_notes']).'<br />is now:<br />'.htmlsafechars($_POST['new_staff_note']).'');
             }
-            header('Location: userdetails.php?id='.$id.'&sn=1');
+            redirect( 'userdetails.php', [
+                'id' => $id,
+                'sn' => 1
+            ] );
             break;
 
         case 'watched_user':
@@ -130,7 +133,10 @@ if ($action == '') {
                             -1) == 's' ? '\'' : '\'s').' page">'.htmlsafechars($watched_arr['username']).'</a>  Changes made:<br />Text was:<br />'.htmlsafechars($watched_arr['watched_user_reason']).'<br />Is now:<br />'.htmlsafechars($_POST['watched_reason']).'');
                 }
             }
-            header('Location: userdetails.php?id='.$id.'&wu=1');
+            redirect( 'userdetails.php', [
+                'id' => $id,
+                'wu' => 1
+            ] );
             break;
     } //=== end switch
 }

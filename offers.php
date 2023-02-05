@@ -71,8 +71,11 @@ switch ($action) {
             $yes_or_no = ($vote == 1 ? 'yes' : 'no');
             sql_query('INSERT INTO offer_votes (offer_id, user_id, vote) VALUES ('.sqlesc($id).', '.sqlesc($CURUSER['id']).', \''.$yes_or_no.'\')');
             sql_query('UPDATE offers SET '.($yes_or_no == 'yes' ? 'vote_yes_count = vote_yes_count + 1' : 'vote_no_count = vote_no_count + 1').' WHERE id = '.sqlesc($id));
-            header('Location: /offers.php?action=offer_details&voted=1&id='.$id);
-            die();
+            redirect( 'offers.php', [
+                'action' => 'offer_details',
+                'voted' => 1,
+                'id' => $id
+            ] );
         }
 
         stderr('USER ERROR', 'You have voted on this offer before.');
@@ -287,8 +290,11 @@ switch ($action) {
             sql_query('INSERT INTO offers (offer_name, image, description, category, added, offered_by_user_id, link) VALUES 
                     ('.sqlesc($offer_name).', '.sqlesc($image).', '.sqlesc($body).', '.sqlesc($category).', '.TIME_NOW.', '.sqlesc($CURUSER['id']).',  '.sqlesc($link).');');
             $new_offer_id = $mysqli->insert_id;
-            header('Location: offers.php?action=offer_details&new=1&id='.$new_offer_id);
-            die();
+            redirect( 'offers.php', [
+                'action' => 'offer_details',
+                'new' => 1,
+                'id' => $new_offer_id
+            ] );
         }
         //=== start page
         $HTMLOUT .= '<table class="table table-hover table-bordered">
@@ -396,8 +402,9 @@ switch ($action) {
             sql_query('DELETE FROM offers WHERE id='.sqlesc($id));
             sql_query('DELETE FROM offer_votes WHERE offer_id ='.sqlesc($id));
             sql_query('DELETE FROM comments WHERE offer ='.sqlesc($id));
-            header('Location: /offers.php?offer_deleted=1');
-            die();
+            redirect( 'offers.php', [
+                'offer_deleted' => 1
+            ] );
         }
         echo stdhead('Delete Offer.', true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
         break;
@@ -437,8 +444,12 @@ switch ($action) {
         if (isset($_POST['button']) && $_POST['button'] == 'Edit') {
             sql_query('UPDATE offers SET offer_name = '.sqlesc($offer_name).', image = '.sqlesc($image).', description = '.sqlesc($body).', 
                     category = '.sqlesc($category).', link = '.sqlesc($link).' WHERE id = '.sqlesc($id));
-            header('Location: offers.php?action=offer_details&edited=1&id='.$id);
-            die();
+                    $new_offer_id = $mysqli->insert_id;
+            redirect('offers.php', [
+                'action' => 'offer_details',
+                'edited' => 1,
+                'id' => $id
+            ]);
         }
         //=== start page
         $HTMLOUT .= '<table class="table table-hover table-bordered">
@@ -539,8 +550,12 @@ switch ($action) {
             sql_query("INSERT INTO comments (user, offer, added, text, ori_text) VALUES (".sqlesc($CURUSER['id']).", ".sqlesc($id).", ".TIME_NOW.", ".sqlesc($body).",".sqlesc($body).")");
             $newid = $mysqli->insert_id;
             sql_query('UPDATE offers SET comments = comments + 1 WHERE id = '.sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-            header('Location: /offers.php?action=offer_details&id='.$id.'&viewcomm='.$newid.'#comm'.$newid);
-            die();
+            redirect('offers.php', [
+                'action' => 'offer_details',
+                'id' => $id,
+                'viewcomm' => $newid,
+                '#comm' => $newid
+            ]);
         }
         $body = htmlsafechars(($_POST['descr'] ?? ''));
         $HTMLOUT .= $top_menu.'<form method="post" action="offers.php?action=add_comment">

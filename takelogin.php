@@ -20,8 +20,7 @@ global $CURUSER, $TRINITY20;
 if (!$CURUSER) {
     get_template();
 } else {
-    header("Location: {$TRINITY20['baseurl']}/index.php");
-    exit();
+    redirect( 'index.php' );
 }
 session_start();
 //smth putyn

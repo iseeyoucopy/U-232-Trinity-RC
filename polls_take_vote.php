@@ -14,8 +14,7 @@ require_once(__DIR__.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'bittorre
 require_once(INCL_DIR.'user_functions.php');
 dbconn(true);
 loggedinorreturn();
-//print_r($_POST);
-//print_r($_GET); exit;
+
 $lang = array_merge(load_language('global'));
 $poll_id = isset($_GET['pollid']) ? (int)$_GET['pollid'] : false;
 if (!is_valid_id($poll_id)) {

@@ -18,8 +18,7 @@ global $CURUSER;
 if (!$CURUSER) {
     get_template();
 } else {
-    header("Location: {$TRINITY20['baseurl']}/index.php");
-    exit();
+    redirect( 'index.php' );
 }
 ini_set('session.use_trans_sid', '0');
 if ($TRINITY20['captcha_on'] === true) {

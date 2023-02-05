@@ -234,8 +234,7 @@ switch ($action) {
     case 'catchup':
         require_once FORUM_DIR."/functions.php";
         catch_up();
-        header('Location: forums.php');
-        exit();
+        redirect( 'forums.php' );
         break;
     case 'preview':
         require_once INCL_DIR."/html_functions.php";
