@@ -102,7 +102,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'Send') {
         __LINE__);
     $cache->delete($cache_keys['inbox_new'].$receiver);
     $cache->delete($cache_keys['inbox_new_sb'].$receiver);
-
+    $cache->delete('shoutbox_');
     //=== make sure it worked then...
     if ($mysqli->affected_rows === 0) {
         stderr($lang['pm_error'], $lang['pm_send_wasnt']);

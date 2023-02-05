@@ -1,0 +1,52 @@
+$color_1: #bbb;
+$color_2: #fff;
+$shout_color :#2a2a2a;
+.shout-table {
+	width: 100%;
+	max-width: 100%;
+	margin-bottom: 3px;
+	overflow: hidden;
+	border: none;
+	height: 300px;
+}
+.shout-m-top{
+	margin-top: -2px;
+ }
+.shout {
+
+	margin: 1px;
+	list-style-type: none;
+	border: 1px solid #303030;
+    border-radius: 0.25rem;
+	li {
+		padding-left: 1rem;
+		padding-right: 1rem;
+		padding-bottom: 1rem;
+	}
+	h2 {
+		display: inline-block;
+		font-size: 13px;
+		font-weight: normal;
+	}
+	h3 {
+		display: inline-block;
+		font-size: 13px;
+		font-weight: normal;
+		color: $color_1;
+	}
+	.entete {
+		margin-bottom: 1px;
+	}
+	.message {
+		padding: 0.25rem;
+		color: $color_2;
+		line-height: 25px;
+		text-align: left;
+		border-radius: 5px;
+	}
+	.user_msg {
+		.message {
+			background-color: $shout_color;
+		}
+	}
+}

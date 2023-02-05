@@ -20976,6 +20976,11 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
     //load() method fetch data from fetch.php page
   }, 1000);
 });
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('.title-bar').on('sticky.zf.stuckto:top', function () {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).addClass('shrink');
+}).on('sticky.zf.unstuckfrom:top', function () {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).removeClass('shrink');
+});
 })();
 
 /******/ })()

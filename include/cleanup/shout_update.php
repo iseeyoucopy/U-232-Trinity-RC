@@ -19,8 +19,9 @@ function docleanup($data)
     $secs = 2 * 8_640_000;
     $dt = sqlesc(TIME_NOW - $secs);
     sql_query("DELETE FROM shoutbox WHERE ".TIME_NOW." - date > $secs") || sqlerr(__FILE__, __LINE__);
-
-
+    $cache->delete('shoutbox_');
+    $cache->delete('staff_shoutbox_');
+    
     if ($queries > 0) {
         write_log("Shout Clean -------------------- Shout Clean Complete using $queries queries--------------------");
     }

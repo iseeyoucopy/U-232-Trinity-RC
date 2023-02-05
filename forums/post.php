@@ -98,7 +98,7 @@ if ($newtopic) {
         }
         if (!in_array($forumid, $TRINITY20['staff_forums'])) {
             autoshout($message);
-
+            $cache->delete('shoutbox_');
         }
     }
     if ($TRINITY20['seedbonus_on'] == 1) {
@@ -159,7 +159,7 @@ if ($newtopic) {
             $cache->delete($cache_keys['last_posts_b'].$CURUSER['class']);
             if (!in_array($forumid, $TRINITY20['staff_forums'])) {
                 autoshout($message);
-
+                $cache->delete('shoutbox_');
             }
         }
         if ($TRINITY20['seedbonus_on'] == 1) {

@@ -151,8 +151,6 @@ if ($TRINITY20['dupeaccount_check_on'] == 1) {
                 __LINE__);
             sql_query("UPDATE users SET ip = ".sqlesc($u_ip).", last_access = ".TIME_NOW.", warned = '1', warn_reason = ".sqlesc($lang['takesignup_warn'])." WHERE id = ".sqlesc($row['id'])) || sqlerr(__FILE__,
                 __LINE__);
-            sql_query("INSERT INTO ajax_chat_messages (userID, userName, userRole, channel, dateTime, ip, text) VALUES (".sqlesc($TRINITY20['bot_id']).",".sqlesc($TRINITY20['bot_name']).",".sqlesc($TRINITY20['bot_role']).",'4',".sqlesc(TIME_DATE).",".sqlesc($_SERVER['REMOTE_ADDR']).",".sqlesc($msg).")") || sqlerr(__FILE__,
-                __LINE__);
             stderr($lang['takesignup_user_error'], $lang['takesignup_msg_dupe3']);
         }
     }
@@ -247,7 +245,7 @@ write_log("User account ".(int)$id." (".htmlsafechars($wantusername).") was succ
 
 if ($TRINITY20['autoshout_on'] == 1) {
     autoshout($message);
-
+    $cache->delete('shoutbox_');
 }
 
 $body = str_replace([

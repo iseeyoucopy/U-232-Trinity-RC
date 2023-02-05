@@ -30,3 +30,9 @@ $(function(){
           //load() method fetch data from fetch.php page
           }, 1000);    
   });
+
+$('.title-bar').on('sticky.zf.stuckto:top', function(){
+  $(this).addClass('shrink');
+}).on('sticky.zf.unstuckfrom:top', function(){
+  $(this).removeClass('shrink');
+})

@@ -82,6 +82,7 @@ function get_cache_array()
         'active_birthday_users_on' => 1,
         'disclaimer_on' => 1,
         'shoutbox_on' => 1,
+        'staff_shoutbox_on' => 1,
         'news_on' => 1,
         'stats_on' => 1,
         'latest_user_on' => 1,
@@ -159,6 +160,7 @@ $HTMLOUT .= "
     <tr><td width='60%'>{$lang['block_iealert']}<br />{$lang['block_iealert_set']}</td><td width='40%'><div style='width: auto;' align='right'><#ie_user_alert#></div></td></tr>
     <tr><td width='60%'>{$lang['block_news']}<br />{$lang['block_news_set']}</td><td width='40%'><div style='width: auto;' align='right'><#news_on#></div></td></tr>
     <tr><td width='60%'>{$lang['block_shout']}<br />{$lang['block_shout_set']}</td><td width='40%'><div style='width: auto;' align='right'><#shoutbox_on#></div></td></tr>
+    <tr><td width='60%'>{$lang['block_staff_shout']}<br />{$lang['block_staff_shout_set']}</td><td width='40%'><div style='width: auto;' align='right'><#staff_shoutbox_on#></div></td></tr>take
     <tr><td width='60%'>{$lang['block_active_user']}<br />{$lang['block_active_user_set']}</td><td width='40%'><div style='width: auto;' align='right'><#active_users_on#></div></td></tr>
     <tr><td width='60%'>{$lang['block_active_user24']}<br />{$lang['block_active_user24_set']}</td><td width='40%'><div style='width: auto;' align='right'><#active_24h_users_on#></div></td></tr>
     <tr><td width='60%'>{$lang['block_birthday']}<br />{$lang['block_birthday_set']}</td><td width='40%'><div style='width: auto;' align='right'><#active_birthday_users_on#></div></td></tr>

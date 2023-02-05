@@ -268,6 +268,7 @@ if ($hand = fsockopen('ssl://www.paypal.com', 443, $errno, $errstr, 30)) {
     //and for the user that donated
     $cache->delete($cache_keys['inbox_new'].$vars['uid']);
     $cache->delete($cache_keys['inbox_new_sb'].$vars['uid']);
+    $cache->delete('shoutbox_');
     fclose($hand);
 } else {
     paypallog('Can\'t open hand');

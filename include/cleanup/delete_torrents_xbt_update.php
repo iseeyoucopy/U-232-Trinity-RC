@@ -22,7 +22,7 @@ function docleanup($data)
     ($res = sql_query("SELECT id, name FROM torrents WHERE mtime < $dt AND seeders='0' AND leechers='0' AND flags='1'")) || sqlerr(__FILE__,
         __LINE__);
     while ($arr = $res->fetch_assoc()) {
-        sql_query("DELETE files.*, comments.*, thankyou.*, thanks.*, thumbsup.*, bookmarks.*, coins.*, rating.*, ajax_chat_messages.*, xbt_peers.* FROM xbt_peers
+        sql_query("DELETE files.*, comments.*, thankyou.*, thanks.*, thumbsup.*, bookmarks.*, coins.*, rating.*, xbt_peers.* FROM xbt_peers
                                  LEFT JOIN files ON files.torrent = xbt_peers.tid
                                  LEFT JOIN comments ON comments.torrent = xbt_peers.tid
                                  LEFT JOIN thankyou ON thankyou.torid = xbt_peers.tid
@@ -31,7 +31,6 @@ function docleanup($data)
                                  LEFT JOIN coins ON coins.torrentid = xbt_peers.tid
                                  LEFT JOIN rating ON rating.torrent = xbt_peers.tid
                                  LEFT JOIN thumbsup ON thumbsup.torrentid = xbt_peers.tid
-								 LEFT JOIN ajax_chat_messages ON ajax_chat_messages.torrent_id = xbt_peers.tid
                                  WHERE xbt_peers.tid =".sqlesc($arr['id'])) || sqlerr(__FILE__, __LINE__);
 
         @unlink("{$TRINITY20['torrent_dir']}/{$arr['id']}.torrent");

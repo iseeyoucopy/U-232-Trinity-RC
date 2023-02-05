@@ -32,6 +32,7 @@ $stdfoot = [
     /** include js **/
     'js' => [
         /*'gallery',*/
+        'shout'
     ],
 ];
 
@@ -51,7 +52,14 @@ if (curuser::$blocks['index_page'] & block_index::ANNOUNCEMENT && $BLOCKS['annou
     require_once(BLOCK_DIR.'index/announcement.php');
     $HTMLOUT .= "</div>";
 }
+if (curuser::$blocks['index_page'] & block_index::SHOUTBOX && $BLOCKS['shoutbox_on']) {
 
+    $HTMLOUT .= "<div id='SHOUTBOX'>";
+    require_once(BLOCK_DIR.'index/shoutbox.php');
+    $HTMLOUT .= "</div>";
+
+}
+/*
 if (curuser::$blocks['index_page'] & block_index::SHOUTBOX && $BLOCKS['shoutbox_on']) {
 
     $HTMLOUT .= "<div id='SHOUTBOX'>";
@@ -63,7 +71,7 @@ if (curuser::$blocks['index_page'] & block_index::SHOUTBOX && $BLOCKS['shoutbox_
     $HTMLOUT .= "</div>";
 
 }
-
+*/
 if (curuser::$blocks['index_page'] & block_index::NEWS && $BLOCKS['news_on']) {
     $HTMLOUT .= "<div id='NEWS'>";
     require_once(BLOCK_DIR.'index/news.php');

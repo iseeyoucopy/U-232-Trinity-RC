@@ -16,7 +16,6 @@ $TRINITY20['ratio_free'] = false;
 $TRINITY20['captcha_on'] = false;
 $TRINITY20['dupeip_check_on'] = 0;
 $TRINITY20['dupeaccount_check_on'] = 0;
-$TRINITY20['ajax_chat_on'] = 1;
 $TRINITY20['totalneeded'] = 60;
 $TRINITY20['bonus_per_duration'] = 0.225;
 $TRINITY20['bonus_per_download'] = 20;

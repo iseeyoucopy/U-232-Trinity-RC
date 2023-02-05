@@ -102,16 +102,12 @@ if ($TRINITY20['dupeaccount_check_on'] == 1 && !empty(get_mycookie('log_uid'))) 
             if ($r = $a->fetch_assoc()) {
                 $message = "User ".$r['username']." has logged in on another account. Has logged with User: ".$username." credentials.";
                 write_log("User ".$r['username']." has logged in on another account. Has logged with User: ".$username." credentials.");
-                sql_query("INSERT INTO ajax_chat_messages (userID, userName, userRole, channel, dateTime, ip, text) VALUES (".sqlesc($TRINITY20['bot_id']).",".sqlesc($TRINITY20['bot_name']).",".sqlesc($TRINITY20['bot_role']).",'4',".sqlesc(TIME_DATE).",".sqlesc($_SERVER['REMOTE_ADDR']).",".sqlesc($message).")") || sqlerr(__FILE__,
-                    __LINE__);
             }
         } elseif ((!empty($row['loginhash'])) && (get_mycookie('log_uid') != $row['loginhash']) && (!$pass_hash || !$tri_hash)) {
             $b = sql_query("SELECT * FROM users WHERE loginhash=".sqlesc(get_mycookie('log_uid')));
             if ($s = $b->fetch_assoc()) {
                 $message = "User ".$s['username']." has tried to login on another account. Has tried to login with User: ".$username." credentials.";
                 write_log("User ".$s['username']." has tried to login on another account. Has tried to login with User: ".$username." credentials.");
-                sql_query("INSERT INTO ajax_chat_messages (userID, userName, userRole, channel, dateTime, ip, text) VALUES (".sqlesc($TRINITY20['bot_id']).",".sqlesc($TRINITY20['bot_name']).",".sqlesc($TRINITY20['bot_role']).",'4',".sqlesc(TIME_DATE).",".sqlesc($_SERVER['REMOTE_ADDR']).",".sqlesc($message).")") || sqlerr(__FILE__,
-                    __LINE__);
             }
         }
     }

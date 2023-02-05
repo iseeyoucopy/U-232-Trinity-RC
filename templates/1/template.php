@@ -29,10 +29,8 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         $TRINITY20['categorie_icon'] = isset($CURUSER['categorie_icon']) ? "{$CURUSER['categorie_icon']}" : $TRINITY20['categorie_icon'];
         $TRINITY20['language'] = isset($CURUSER['language']) ? "{$CURUSER['language']}" : $TRINITY20['language'];
     }
-    $salty_username = isset($CURUSER['username']) ? "{$CURUSER['username']}" : '';
-    $salty = HashIt($TRINITY20['site']['salt'], $salty_username);
     $torrent_pass = isset($CURUSER['torrent_pass']) ? "{$CURUSER['torrent_pass']}" : '';
-    //if (!isset($_NO_COMPRESS)) if (!ob_start('ob_gzhandler')) ob_start();
+    if (!isset($_NO_COMPRESS)) if (!ob_start('ob_gzhandler')) ob_start();
     $htmlout = '';
     //== Include js files needed only for the page being used by pdq
     $js_incl = '';
@@ -64,12 +62,12 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>' . $title . '</title>
-		<!-- favicon  -->
-    	<link rel="shortcut icon" href="/favicon.ico" />
-<!-- Template CSS-->
-        <link rel="stylesheet" href="templates/1/1.css">
-        <link rel="stylesheet" href="dist/css/app.css">
-        <script src="scripts/jquery.min.js"></script>';
+	<!-- favicon  -->
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <!-- Template CSS-->
+    <link rel="stylesheet" href="templates/1/1.css">
+    <link rel="stylesheet" href="dist/css/app.css">
+    <script src="scripts/jquery.min.js"></script>';
     if ($CURUSER) {
         $htmlout .= '<script type="application/rss+xml" title="Latest Torrents" src="/rss.php?torrent_pass=' . $torrent_pass . '"></script>';
         $htmlout .= "<style type='text/css'>#mlike{cursor:pointer;}</style>
@@ -79,7 +77,9 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         $htmlout .= quickStaffTools();
         $htmlout .= "<!--Start main grid-container-->
         <div class='grid-container'>";
-        $htmlout .= statusBar();
+        $htmlout .= "<div data-sticky-container>
+        <div class='sticky' data-sticky data-margin-top='0'><span class='label secondary'>" . statusBar(). "</label></div>
+        </div>";
         $htmlout .= hero_header();
         $htmlout .= global_alerts();
     }
@@ -298,16 +298,18 @@ function StatusBar()
 		<span style='color: #f10917;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_downloaded']}'><i class='fas fa-download'></i></span> {$downed} | 
 		{$connectable} | ";
     }
-    $htmlout .= "{$lang['gl_hnr']}: <a href='" . $TRINITY20['baseurl'] . "/hnr.php?id=" . $CURUSER['id'] . "'>{$hitnruns}</a>";
+    //$htmlout .= "{$lang['gl_hnr']}: <a href='" . $TRINITY20['baseurl'] . "/hnr.php?id=" . $CURUSER['id'] . "'>{$hitnruns}</a>";
     return $htmlout;
 }
 function hero_header() {
     global $TRINITY20, $CURUSER, $lang, $salty, $htmlout;
+    $salty_username = isset($CURUSER['username']) ? "{$CURUSER['username']}" : '';
+    $salty = HashIt($TRINITY20['site']['salt'], $salty_username);
     $htmlout = '';
     $htmlout .= "<header class='subnav-hero-section'>
-    <a href='" . $TRINITY20['baseurl'] . "/index.php'><img src='" . $TRINITY20['pic_base_url']. "logo.png'></a>
+    <a href='" . $TRINITY20['baseurl'] . "/index.php'>
+        <img class='subnav-hero-img' src='" . $TRINITY20['pic_base_url']. "logo.png'></a>
         <ul class='subnav-hero-subnav'>
-        <div class='button-group align-center'>
             <li><a href='" . $TRINITY20['baseurl'] . "/index.php'>{$lang['gl_home']}</a></li>
             <li><a href='" . $TRINITY20['baseurl'] . "/tv_guide.php'>Tv Guide</a></li>
             <li><a href='" . $TRINITY20['baseurl'] . "/forums.php'>{$lang['gl_forums']}</a></li>
@@ -315,7 +317,6 @@ function hero_header() {
             " . (isset($CURUSER) && $CURUSER['class'] >= UC_STAFF ? "<li><a data-toggle='StaffPanel'>Staff Links</a></li>" : "");
                 $htmlout.="<li><a href='" . $TRINITY20['baseurl'] . "/pm_system.php'><i class='fas fa-envelope fa-lg'></i>{$lang['gl_pms']}<span id='unread_m'></span></a></li>
                 <li><a href='" . $TRINITY20['baseurl'] . "/logout.php?hash_please={$salty}'><i class='fas fa-power-off'></i>{$lang['gl_logout']}</a></li>
-            </div>
         </ul>
     </header>";
     return $htmlout;
@@ -366,11 +367,12 @@ function global_alerts() {
 function TitleBar() {
 
     global $TRINITY20, $lang, $CURUSER, $htmlout; 
-    $htmlout .= "<div class='title-bar' data-responsive-toggle='example-animated-menu' data-hide-for='medium'>
+    $htmlout .= "
+    <div class='title-bar' data-sticky data-options='marginTop:0;' data-responsive-toggle='topbar-nav' data-hide-for='medium'>
         <button class='menu-icon' type='button' data-toggle></button>
         <div class='title-bar-title'>Menu</div>
     </div>
-    <div class='top-bar' stacked-for-medium style='width:100%; z-index: 100;' data-margin-top='0' id='example-animated-menu'>
+    <div class='top-bar' stacked-for-medium style='width:100%; z-index: 100;' data-margin-top='0' id='topbar-nav'>
         <div class='top-bar-left'>
 
         </div>

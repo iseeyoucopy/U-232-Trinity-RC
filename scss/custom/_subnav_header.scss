@@ -1,13 +1,12 @@
-$subnav-hero-bg: $primary-color;
+$subnav-hero-bg: #375a7f;
 $subnav-hero-link-padding: 0.9rem 1rem;
-$subnav-hero-font-size: 0.75rem;
-$subnav-hero-link-opacity: 0.15;
-$subnav-hero-height: 300px;
+$subnav-hero-font-size: 0.8rem;
+$subnav-hero-link-opacity: 0.25;
+$subnav-hero-height: 180px;
 $subnav-hero-transition: all 0.35s ease-in-out;
 
 .subnav-hero-section {
   text-align: center;
-  background-size: cover;
   position: relative;
   overflow: visible;
   display: flex;
@@ -18,18 +17,24 @@ $subnav-hero-transition: all 0.35s ease-in-out;
   .subnav-hero-headline {
     color: $white;
   }
+
+  .subnav-hero-img {
+    height: 90px;
+    width: 280px;
+    margin-bottom: 2rem;
+  }
 }
 
 .subnav-hero-subnav {
-  background: #303030;
+  background: $subnav-hero-bg;
   float: none;
   position: absolute;
   text-align: center;
   margin: 0 auto;
   bottom: 0;
   width: 100%;
-  border-top-left-radius : 0.75rem;
-  border-top-right-radius : 0.75rem;
+  border-radius : 0.25rem;
+  //border-top-right-radius : 0.75rem;
 
   li {
     float: none;

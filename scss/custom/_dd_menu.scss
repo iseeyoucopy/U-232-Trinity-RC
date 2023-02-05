@@ -1,0 +1,76 @@
+$background-color_1: #ffffff;
+$background-color_2: #eeeeee;
+$background-color_3: #f6f6f6;
+
+.dropdown {
+	display: inline-block;
+	position: relative;
+}
+.dd-button {
+	display: inline-block;
+	border: 1px solid gray;
+	border-radius: 4px;
+	background-color: $primary-color;
+	cursor: pointer;
+	white-space: nowrap;
+	&:after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		right: 15px;
+		transform: translateY(-50%);
+		width: 0;
+		height: 0;
+		border-left: 5px solid transparent;
+		border-right: 5px solid transparent;
+		border-top: 5px solid black;
+	}
+	&:hover {
+		background-color: $button-background-hover;
+	}
+}
+.dd-input {
+	display: none;
+	+ {
+		.dd-menu {
+			display: none;
+		}
+	}
+	&:checked {
+		+ {
+			.dd-menu {
+				display: block;
+			}
+		}
+	}
+}
+.dd-menu {
+    position: absolute;  /* <-- added declarations */
+    left: 0; top: 100%;  /*     here               */
+    width: 100%;         /*     and here...        */
+	top: 100%;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	padding: 0;
+	margin: 2px 0 0 0;
+	box-shadow: 0 0 6px 0 rgba(0,0,0,0.1);
+	background-color: $primary-color;
+	list-style-type: none;
+	li {
+		padding: 10px 20px;
+		cursor: pointer;
+		white-space: nowrap;
+		&:hover {
+			background-color: $button-background-hover;
+		}
+		a {
+			display: block;
+			margin: -10px -20px;
+			padding: 10px 20px;
+		}
+	}
+	li.divider {
+		padding: 0;
+		border-bottom: 1px solid #cccccc;
+	}
+}

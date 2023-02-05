@@ -171,6 +171,19 @@ Vous agréez en totalité ce qui a été énoncé ci-avant et avez donc l'entiè
     'index_news_txt' => "&nbsp;-&nbsp;",
     //shoutbox
     'index_shoutbox_general' => "ShoutBox - Clavardage général",
+    'index_shoutbox_refresh' => "[ Rafraîchir ]",
+    'index_shoutbox_commands' => "[ Commandes ]",
+    'index_shoutbox_csmilies' => "[ Custom Smiley ]",
+    'index_shoutbox_ssmilies' => "[ Staff Smiley ]",
+    'index_shoutbox_smilies' => "[ Plus de Smiley ]",
+    'index_shout' => "Shoutbox",
+    'index_shoutbox' => "ShoutBox",
+    'index_shoutbox_shout' => "Shout",
+    'index_shoutbox_send' => "Envoyer",
+    'index_shoutbox_close' => "Fermer",
+    'index_shoutbox_history' => "Historique",
+    'index_shoutbox_open' => "Ouvrir",
+    'index_staff_shoutbox' => "Staff Shoutbox",
     //torrent freak
     'index_torr_freak' => " News de la scène Torrent",
     //polls 

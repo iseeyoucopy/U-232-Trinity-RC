@@ -146,9 +146,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         //IF ADDING NEW CLASS ABOVE UC_MAXX CLASS WE NEED TO PUT CURRENT MAX CLASS USERS INTO IT
         if ($value > UC_MAX) {
             sql_query("UPDATE users SET class = class +1 where class = $old_max") || sqlerr(__FILE__, __LINE__);
-            ($result = sql_query("SELECT id, class FROM users")) || sqlerr(__FILE__, __LINE__);
-
-
+            ($result = sql_query("SELECT id, class FROM users")) || sqlerr(__FILE__, __LINE__);$cache->delete('shoutbox_');
+            $cache->delete('staff_shoutbox_');
             ($result = sql_query("SELECT id, class FROM users")) || sqlerr(__FILE__, __LINE__);
             while ($row = $result->fetch_assoc()) {
                 $row1 = [];
@@ -168,8 +167,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 sql_query("UPDATE staffpanel SET av_class = av_class +1 where av_class = $i") || sqlerr(__FILE__, __LINE__);
                 $i--;
             }
-
-
+            $cache->delete('shoutbox_');
+            $cache->delete('staff_shoutbox_');
             ($result = sql_query("SELECT id, class FROM users")) || sqlerr(__FILE__, __LINE__);
             while ($row = $result->fetch_assoc()) {
                 $row1 = [];
@@ -250,8 +249,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $cache->delete($cache_keys['is_staffs']);
             $i++;
         }
-
-
+        $cache->delete('shoutbox_');
+        $cache->delete('staff_shoutbox_');
         ($result = sql_query("SELECT id, class FROM users")) || sqlerr(__FILE__, __LINE__);
         while ($row = $result->fetch_assoc()) {
             $row1 = [];

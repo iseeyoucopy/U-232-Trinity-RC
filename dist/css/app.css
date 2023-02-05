@@ -6959,33 +6959,58 @@ readers do not read off random characters that represent icons */
     margin-bottom: 0; }
 
 .subnav-hero-section {
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	height: 150px;
+	flex-direction: column;
+}
+
+.subnav-hero-subnav {
+    background: #375a7f;
+    text-align: center;
+    margin: 0 auto;
+    bottom: 0;
+    width: 100%;
+    border-radius: 0.25rem;
+}
+
+.subnav-hero-section .subnav-hero-img {
+	max-height: 75px;
+}
+/* 
+.subnav-hero-section {
   text-align: center;
-  background-size: cover;
   position: relative;
   overflow: visible;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 300px; }
+  height: 180px;
+}
   .subnav-hero-section .subnav-hero-headline {
     color: #fff; }
+  .subnav-hero-section .subnav-hero-img {
+    height: 90px;
+    width: 280px;
+    margin-bottom: 2rem; }
 
 .subnav-hero-subnav {
-  background: #303030;
+  background: #375a7f;
   float: none;
   position: absolute;
   text-align: center;
   margin: 0 auto;
   bottom: 0;
   width: 100%;
-  border-top-left-radius: 0.75rem;
-  border-top-right-radius: 0.75rem; }
+  border-radius: 0.25rem; }
+   */
   .subnav-hero-subnav li {
     float: none;
     display: inline-block; }
     .subnav-hero-subnav li a {
       padding: 0.9rem 1rem;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       color: #fff;
       text-transform: uppercase;
       display: block;
@@ -6993,9 +7018,9 @@ readers do not read off random characters that represent icons */
       letter-spacing: 1px;
       transition: all 0.35s ease-in-out; }
       .subnav-hero-subnav li a.is-active {
-        background: rgba(255, 255, 255, 0.15); }
+        background: rgba(255, 255, 255, 0.25); }
       .subnav-hero-subnav li a:hover {
-        background: rgba(255, 255, 255, 0.15); }
+        background: rgba(255, 255, 255, 0.25); }
 
 .divTable {
   display: table;
@@ -7571,6 +7596,108 @@ ul.quickbuttons li span.amt a {
           left: 1px;
           top: 1px;
           z-index: 0; } }
+
+.dropdown {
+  display: inline-block;
+  position: relative; }
+
+.dd-button {
+  display: inline-block;
+  border: 1px solid gray;
+  border-radius: 4px;
+  background-color: #375a7f;
+  cursor: pointer;
+  white-space: nowrap; }
+  .dd-button:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid black; }
+  .dd-button:hover {
+    background-color: #2c4866; }
+
+.dd-input {
+  display: none; }
+  .dd-input + .dd-menu {
+    display: none; }
+  .dd-input:checked + .dd-menu {
+    display: block; }
+
+.dd-menu {
+  position: absolute;
+  /* <-- added declarations */
+  left: 0;
+  top: 100%;
+  /*     here               */
+  width: 100%;
+  /*     and here...        */
+  top: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0;
+  margin: 2px 0 0 0;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
+  background-color: #375a7f;
+  list-style-type: none; }
+  .dd-menu li {
+    padding: 10px 20px;
+    cursor: pointer;
+    white-space: nowrap; }
+    .dd-menu li:hover {
+      background-color: #2c4866; }
+    .dd-menu li a {
+      display: block;
+      margin: -10px -20px;
+      padding: 10px 20px; }
+  .dd-menu li.divider {
+    padding: 0;
+    border-bottom: 1px solid #cccccc; }
+
+.shout-table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 3px;
+  overflow: hidden;
+  border: none;
+  height: 300px; }
+
+.shout-m-top {
+  margin-top: -2px; }
+
+.shout {
+  margin: 1px;
+  list-style-type: none;
+  border: 1px solid #303030;
+  border-radius: 0.25rem; }
+  .shout li {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem; }
+  .shout h2 {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: normal; }
+  .shout h3 {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: normal;
+    color: #bbb; }
+  .shout .entete {
+    margin-bottom: 1px; }
+  .shout .message {
+    padding: 0.25rem;
+    color: #fff;
+    line-height: 25px;
+    text-align: left;
+    border-radius: 5px; }
+  .shout .user_msg .message {
+    background-color: #2a2a2a; }
 
 /*! normalize.css v8.0.0 | MIT License | github.com/necolas/normalize.css */
 html {

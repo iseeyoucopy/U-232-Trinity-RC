@@ -20,7 +20,7 @@ function docleanup($data)
     $dt = (TIME_NOW - ($days * 86400));
     $res = sql_query("SELECT id, name FROM torrents WHERE last_action < $dt AND seeders='0' AND leechers='0'");
     while ($arr = $res->fetch_assoc()) {
-        sql_query("DELETE peers.*, files.*, comments.*, snatched.*, thankyou.*, thanks.*,thumbsup.*, bookmarks.*, coins.*, rating.*, ajax_chat_messages.*, torrents.* FROM torrents 
+        sql_query("DELETE peers.*, files.*, comments.*, snatched.*, thankyou.*, thanks.*,thumbsup.*, bookmarks.*, coins.*, rating.*, torrents.* FROM torrents 
 				 LEFT JOIN peers ON peers.torrent = torrents.id
 				 LEFT JOIN files ON files.torrent = torrents.id
 				 LEFT JOIN comments ON comments.torrent = torrents.id
@@ -31,7 +31,6 @@ function docleanup($data)
 				 LEFT JOIN rating ON rating.torrent = torrents.id
                                  LEFT JOIN thumbsup ON thumbsup.torrentid = torrents.id
 				 LEFT JOIN snatched ON snatched.torrentid = torrents.id
-				 LEFT JOIN ajax_chat_messages ON ajax_chat_messages.torrent_id = torrents.id
 				 WHERE torrents.id = ".sqlesc($arr['id'])) || sqlerr(__FILE__, __LINE__);
         @unlink("{$TRINITY20['torrent_dir']}/{$arr['id']}.torrent");
         $cache->delete($cache_keys['torrent_details'].$arr['id']);

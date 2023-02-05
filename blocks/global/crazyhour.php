@@ -48,7 +48,7 @@ if (!XBT_TRACKER && $TRINITY20['crazy_hour']) {
                         'LONG');
                 sql_query('INSERT INTO shoutbox (userid, date, text, text_parsed) '.' VALUES (2, '.TIME_NOW.', '.sqlesc($text).', '.sqlesc($text_parsed).')') || sqlerr(__FILE__,
                     __LINE__);
-
+                $cache->delete('shoutbox_');
             }
         } elseif (($crazyhour['crazyhour']['var'] < $crazy_hour) && ($crazyhour['crazyhour']['var'] >= TIME_NOW)) { // if crazyhour
             if ($crazyhour['crazyhour']['amount'] !== 1) {
@@ -61,7 +61,8 @@ if (!XBT_TRACKER && $TRINITY20['crazy_hour']) {
                     write_log('w00t! It\'s [color=#FFCC00][b]Crazyhour[/b][/color]!');
                     $text = 'w00t! It\'s [color=orange][b]Crazyhour[/b][/color] :w00t:';
                     $message = 'w00t! It\'s <span style="font-weight:bold;color:orange;">Crazyhour</span> <img src="pic/smilies/w00t.gif" alt=":w00t:">';
-                    //sql_query('INSERT INTO shoutbox (userid, date, text, text_parsed) ' . 'VALUES (2, ' . TIME_NOW . ', ' . sqlesc($text) . ', ' . sqlesc($text_parsed) . ')') or sqlerr(__FILE__, __LINE__);
+                    sql_query('INSERT INTO shoutbox (userid, date, text, text_parsed) ' . 'VALUES (2, ' . TIME_NOW . ', ' . sqlesc($text) . ', ' . sqlesc($text_parsed) . ')') or sqlerr(__FILE__, __LINE__);
+                    $cache->delete('shoutbox_');
                     if ($TRINITY20['autoshout_on'] == 1) {
                         autoshout($message);
 

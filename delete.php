@@ -27,7 +27,7 @@ if (!is_valid_id($id)) {
 function deletetorrent($id)
 {
     global $TRINITY20, $cache, $CURUSER, $lang, $cache_keys;
-    sql_query("DELETE peers.*, files.*, comments.*, snatched.*, thanks.*, bookmarks.*, coins.*, rating.*, thumbsup.*, ajax_chat_messages.*, torrents.* FROM torrents 
+    sql_query("DELETE peers.*, files.*, comments.*, snatched.*, thanks.*, bookmarks.*, coins.*, rating.*, thumbsup.*, torrents.* FROM torrents 
 				 LEFT JOIN peers ON peers.torrent = torrents.id
 				 LEFT JOIN files ON files.torrent = torrents.id
 				 LEFT JOIN comments ON comments.torrent = torrents.id
@@ -37,7 +37,6 @@ function deletetorrent($id)
 				 LEFT JOIN rating ON rating.torrent = torrents.id
                                  LEFT JOIN thumbsup ON thumbsup.torrentid = torrents.id
 				 LEFT JOIN snatched ON snatched.torrentid = torrents.id
-				 LEFT JOIN ajax_chat_messages ON ajax_chat_messages.torrent_id = torrents.id
 				 WHERE torrents.id =".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
     $cache->delete($cache_keys['my_peers'].$CURUSER['id']);
@@ -47,7 +46,7 @@ function deletetorrent_xbt($id)
 {
     global $TRINITY20, $cache, $CURUSER, $lang, $cache_keys;
     sql_query("UPDATE torrents SET flags = 1 WHERE id = ".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-    sql_query("DELETE files.*, comments.*, thankyou.*, thanks.*, thumbsup.*, bookmarks.*, coins.*, rating.*, ajax_chat_messages.*, xbt_files_users.* FROM xbt_files_users
+    sql_query("DELETE files.*, comments.*, thankyou.*, thanks.*, thumbsup.*, bookmarks.*, coins.*, rating.*, xbt_files_users.* FROM xbt_files_users
                                      LEFT JOIN files ON files.torrent = xbt_files_users.fid
                                      LEFT JOIN comments ON comments.torrent = xbt_files_users.fid
                                      LEFT JOIN thankyou ON thankyou.torid = xbt_files_users.fid
@@ -56,7 +55,6 @@ function deletetorrent_xbt($id)
                                      LEFT JOIN coins ON coins.torrentid = xbt_files_users.fid
                                      LEFT JOIN rating ON rating.torrent = xbt_files_users.fid
                                      LEFT JOIN thumbsup ON thumbsup.torrentid = xbt_files_users.fid
-									 LEFT JOIN ajax_chat_messages ON ajax_chat_messages.torrent_id = xbt_files_users.fid
                                      WHERE xbt_files_users.fid =".sqlesc($id)) || sqlerr(__FILE__, __LINE__);
     unlink("{$TRINITY20['torrent_dir']}/$id.torrent");
     $cache->delete($cache_keys['my_xbt_peers'].$CURUSER['id']);

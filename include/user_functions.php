@@ -25,23 +25,12 @@ function get_parked()
 }
 
 //== Auto Shout Function ==//
-
 function autoshout($msg)
 {
     global $TRINITY20, $cache, $cache_keys;
-    require_once(INCL_DIR.'bbcode_functions.php');
-    sql_query('INSERT INTO ajax_chat_messages(userID,userName,userRole,channel,dateTime,ip,text) VALUES ('.$TRINITY20['bot_id'].','.sqlesc($TRINITY20['bot_name']).','.$TRINITY20['bot_role'].',"3",'.sqlesc(TIME_DATE).','.sqlesc($_SERVER['REMOTE_ADDR']).','.sqlesc($msg).')') || sqlerr(__FILE__,
-        __LINE__);
-    $cache->delete($cache_keys['auto_shoutbox']);
-}
-
-function shout2($msg, $tid)
-{
-    global $TRINITY20, $cache, $cache_keys;
-    require_once(INCL_DIR.'bbcode_functions.php');
-    sql_query('INSERT INTO ajax_chat_messages(userID,userName,userRole,channel,dateTime,ip,text) VALUES ('.$TRINITY20['bot_id'].','.sqlesc($TRINITY20['bot_name']).','.$TRINITY20['bot_role'].',"2",'.sqlesc(TIME_DATE).','.sqlesc($_SERVER['REMOTE_ADDR']).','.sqlesc($msg).','.sqlesc($tid).')') || sqlerr(__FILE__,
-        __LINE__);
-    $cache->delete($cache_keys['auto_shoutbox']);
+    require_once (INCL_DIR . 'bbcode_functions.php');
+    sql_query('INSERT INTO shoutbox(userid,date,text,text_parsed,autoshout)VALUES (' . $TRINITY20['bot_id'] . ',' . TIME_NOW . ',' . sqlesc($msg) . ',' . sqlesc(format_comment($msg)) . ', "yes")');
+    $cache->delete_value('auto_shoutbox_');
 }
 
 //== Parked function ==//

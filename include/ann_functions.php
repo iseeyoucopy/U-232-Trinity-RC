@@ -101,6 +101,7 @@ function crazyhour_announce()
                 __LINE__);
             ann_sql_query('INSERT LOW_PRIORITY INTO shoutbox (userid, date, text, text_parsed) '.'VALUES (2, '.TIME_NOW.', '.ann_sqlesc($text).', '.ann_sqlesc($text_parsed).')') || ann_sqlerr(__FILE__,
                 __LINE__);
+            $cache->delete('shoutbox_');
 
         }
         return false;
@@ -120,7 +121,7 @@ function crazyhour_announce()
             VALUES('.TIME_NOW.', '.ann_sqlesc($text_parsed).')') || ann_sqlerr(__FILE__, __LINE__);
                 ann_sql_query('INSERT LOW_PRIORITY INTO shoutbox (userid, date, text, text_parsed) '.'VALUES (2, '.TIME_NOW.', '.ann_sqlesc($text).', '.ann_sqlesc($text_parsed).')') || ann_sqlerr(__FILE__,
                     __LINE__);
-
+                $cache->delete('shoutbox_');
             }
         }
         return true;

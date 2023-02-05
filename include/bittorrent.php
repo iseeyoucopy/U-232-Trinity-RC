@@ -10,7 +10,7 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-declare(strict_types=1);
+//declare(strict_types=1);
 use U232\Cache;
 
 //==Start execution time
@@ -299,6 +299,7 @@ function userlogin()
             'donor',
             'deletepms',
             'savepms',
+            'shoutboxbg',
             'show_shout',
             'show_staffshout',
             'vip_added',
