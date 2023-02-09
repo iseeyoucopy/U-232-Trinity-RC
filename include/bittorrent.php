@@ -75,18 +75,18 @@ if (preg_match('/(?:\< *(?:java|script)|script\:|\+document\.)/i', serialize($_C
 
 function htmlsafechars($txt = '')
 {
-    $txt = preg_replace("/&(?!#[0-9]+;)(?:amp;)?/s", '&amp;', $txt);
+    $txt = preg_replace('/&(?!#[0-9]+;)(?:amp;)?/s', '&amp;', $txt ?? '');
     return str_replace([
-        "<",
-        ">",
+        '<',
+        '>',
         '"',
         "'"
     ], [
-        "&lt;",
-        "&gt;",
-        "&quot;",
+        '&lt;',
+        '&gt;',
+        '&quot;',
         '&#039;'
-    ], $txt);
+    ], $txt ?? '');
 }
 
 function PostKey($ids = [])
@@ -880,7 +880,6 @@ function validemail($email)
     return preg_match('/^[\w.-]+@([\w.-]+\.)+[a-z]{2,6}$/i', $email);
 }
 
-//putyn  08/08/2011
 function sqlesc($x)
 {
     global $mysqli;
