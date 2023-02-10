@@ -48,21 +48,24 @@ function insert_quick_jump_menu($currentforum = 0)
 {
     global $CURUSER, $TRINITY20;
     $htmlout = '';
-    $htmlout .= "
-	<form method='get' action='{$TRINITY20['baseurl']}/forums.php' name='jump'>
-	<input type='hidden' name='action' value='viewforum' />
-	<div align='right'>Quick jump:
-	<font color='black'><select  name='forumid' onchange=\"if(this.options[this.selectedIndex].value != -1){ forms['jump'].submit() }\">";
-    ($res = sql_query("SELECT id, name, min_class_read FROM forums ORDER BY name")) || sqlerr(__FILE__, __LINE__);
-    while ($arr = $res->fetch_assoc()) {
-        if ($CURUSER['class'] >= $arr["min_class_read"]) {
-            $htmlout .= "<option value='".(int)$arr["id"].($currentforum == $arr["id"] ? " selected='selected'" : "")."'>".htmlsafechars($arr["name"])."</option>";
-        }
-    }
-    return $htmlout."</select></font>
-	<input type='submit' value='Go!' class='btn btn-default btn-sm dropdown-toggle' />
-	</div>
-	</form>";
+    $htmlout .= "<form method='get' class='float-center' action='{$TRINITY20['baseurl']}/forums.php' name='jump'>
+        <input type='hidden' name='action' value='viewforum'>
+        <div class='input-group'>
+            <span class='input-group-label'>Quick jump:</span>
+	        <select  class='input-group-field' name='forumid' onchange=\"if(this.options[this.selectedIndex].value != -1){ forms['jump'].submit() }\">";
+            ($res = sql_query("SELECT id, name, min_class_read FROM forums ORDER BY name")) || sqlerr(__FILE__, __LINE__);
+            while ($arr = $res->fetch_assoc()) {
+                if ($CURUSER['class'] >= $arr["min_class_read"]) {
+                    $htmlout .= "<option value='".(int)$arr["id"].($currentforum == $arr["id"] ? " selected='selected'" : "")."'>".htmlsafechars($arr["name"])."</option>";
+                }
+            }
+            $htmlout .= "</select>
+            <div class='input-group-button'>
+                <input type='submit' class='button' value='Submit'>
+            </div>
+        </div>
+    </form>";
+    return $htmlout;
 }
 
 // -------- Inserts a compose frame
@@ -202,11 +205,6 @@ function insert_compose_frame($id, $newtopic = true, $quote = false, $attachment
         $htmlout .= "Anonymous Post<input type='checkbox' name='anonymous' value='yes'/>\n";
     }
     $htmlout .= "</td></tr></form>\n";
-    $htmlout .= "<tr>
-				<td colspan='2' align='right' class='tfoot'>
-				".insert_quick_jump_menu()."
-				</td>
-			</tr>";
     $htmlout .= end_table();
     $htmlout .= "<br />";
     // $htmlout .= end_frame();

@@ -1,0 +1,873 @@
+$color_1: #ffffff;
+$color_2: inherit;
+$color_3: #fff;
+$color_4: #DBDBDB;
+$color_5: #444;
+$color_6: #333;
+$color_7: #666;
+$color_8: #999;
+$color_9: #777;
+$color_10: #F1F1F1;
+$color_11: #DB1304;
+$color_12: #FFF;
+$font-family_1: FontAwesome;
+$font-family_2: Source Sans Pro, Tahoma, Helvetica Neue, Arial, sans-serif;
+$background-color_1: #292C2F;
+$border-color_1: #dddddd;
+$border-color_2: #bbb;
+
+/* thread */
+/* viewtopic.php */
+/* code and quote */
+/* navigation */
+/* new tops, post reply */
+/* polls */
+.tborder {
+	width: 100%;
+	margin: auto auto;
+	padding: 1px;
+}
+.tfixed {
+	table-layout: fixed;
+	word-wrap: break-word;
+}
+.thead {
+	border-color: $border-color_1;
+	color: $color_1;
+	border-bottom: 1px solid rgba(56, 56, 56, 0.81);
+	padding: 13px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	a {
+		&:link {
+			color: $color_2;
+			text-decoration: none;
+		}
+		&:visited {
+			color: $color_1;
+			text-decoration: none;
+		}
+		&:hover {
+			color: $color_1;
+			text-decoration: underline;
+		}
+		&:active {
+			color: $color_1;
+			text-decoration: underline;
+		}
+	}
+}
+.tcat {
+	background: #222427;
+	color: $color_3;
+	border-top: 1px solid #3D3D3D;
+	border-bottom: 1px solid #3D3D3D;
+	padding: 6px;
+	font-size: 12px;
+	a {
+		&:link {
+			color: $color_3;
+		}
+		&:visited {
+			color: $color_3;
+		}
+		&:hover {
+			color: $color_3;
+		}
+		&:active {
+			color: $color_3;
+		}
+	}
+}
+.trow1 {
+	background: #1A1A1A;
+	padding: 10px 3px;
+	border-bottom: 1px solid #2D2D2D;
+}
+.trowqr {
+	background: #26292C;
+	padding: 10px 3px;
+	border-bottom: 1px solid #2D2D2D;
+}
+.trow2 {
+	background: #26292c;
+	padding: 10px 3px;
+	border-bottom: 1px solid #222427;
+}
+.expcolimage {
+	float: right;
+	width: auto;
+	vertical-align: middle;
+	opacity: 0.7;
+	-webkit-transition: all 250ms ease-in-out;
+	-moz-transition: all 250ms ease-in-out;
+	-o-transition: all 250ms ease-in-out;
+	transition: all 250ms ease-in-out;
+	&:hover {
+		opacity: 1;
+	}
+}
+.tcat_menu {
+	>.expcolimage {
+		margin-top: 0;
+	}
+}
+.smalltext {
+	font-size: 11px;
+}
+.tfootf {
+	border-color: $border-color_1;
+	color: $color_1;
+	border-top: 1px solid rgba(56, 56, 56, 0.81);
+	padding: 2px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+.tfoot {
+	border-color: $border-color_1;
+	color: $color_1;
+	border-top: 1px solid rgba(56, 56, 56, 0.81);
+	padding: 2px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	a {
+		&:link {
+			color: $color_4;
+			text-decoration: none;
+		}
+		&:visited {
+			color: $color_5;
+			text-decoration: none;
+		}
+		&:hover {
+			color: $color_5;
+			text-decoration: underline;
+		}
+		&:active {
+			color: $color_5;
+			text-decoration: underline;
+		}
+	}
+}
+.scaleimages {
+	img {
+		max-width: 100%;
+	}
+}
+.forum_status {
+	height: 30px;
+	width: 30px;
+	background: url(../pic/carbon/forum_icon_sprite.png) no-repeat 0 0;
+	display: inline-block;
+}
+.forum_on {
+	background-position: 0 0;
+}
+.forum_off {
+	background-position: 0 -30px;
+}
+.forum_offlock {
+	background-position: 0 -60px;
+}
+.forum_offlink {
+	background-position: 0 -90px;
+}
+.subforumicon {
+	height: 10px;
+	width: 10px;
+	display: inline-block;
+	margin: 0 5px;
+	background: url(images/mini_status_sprite.png) no-repeat 0 0;
+}
+.subforum_minion {
+	background-position: 0 0;
+}
+.subforum_minioff {
+	background-position: 0 -10px;
+}
+.subforum_miniofflock {
+	background-position: 0 -20px;
+}
+.subforum_miniofflink {
+	background-position: 0 -30px;
+}
+.float_left {
+	float: left;
+}
+.float_right {
+	float: right;
+}
+.thread_status {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	background-repeat: no-repeat;
+}
+.thread_status.dot_folder {
+	position: relative;
+	&:before {
+		position: absolute;
+		background-position: 0 0;
+		content: "\f0e6";
+		font-family: $font-family_1;
+		font-size: 16px;
+	}
+}
+.thread_status.dot_hotfolder {
+	position: relative;
+	&:before {
+		color: $color_6;
+		position: absolute;
+		background-position: 0 -20px;
+		content: "\f114";
+		text-shadow: 1px 1px 0px #fff;
+		font-family: $font-family_1;
+		font-size: 14px;
+	}
+}
+.thread_status.dot_hotlockfolder {
+	position: relative;
+	&:before {
+		color: $color_6;
+		position: absolute;
+		background-position: 0 -40px;
+		content: "\f114";
+		text-shadow: 1px 1px 0px #fff;
+		font-family: $font-family_1;
+		font-size: 14px;
+	}
+}
+.thread_status.dot_lockfolder {
+	position: relative;
+	&:before {
+		color: $color_6;
+		position: absolute;
+		background-position: 0 -60px;
+		content: "\f114";
+		text-shadow: 1px 1px 0px #fff;
+		font-family: $font-family_1;
+		font-size: 14px;
+	}
+}
+.thread_status.dot_newfolder {
+	position: relative;
+	&:before {
+		color: $color_6;
+		position: absolute;
+		background-position: 0 -80px;
+		content: "\f086";
+		text-shadow: 1px 1px 0px #fff;
+		font-family: $font-family_1;
+		font-size: 14px;
+	}
+}
+.thread_status.dot_newhotfolder {
+	position: relative;
+	&:before {
+		color: $color_6;
+		position: absolute;
+		background-position: 0 -100px;
+		content: "\f114";
+		text-shadow: 1px 1px 0px #fff;
+		font-family: $font-family_1;
+		font-size: 14px;
+	}
+}
+.thread_status.dot_newhotlockfolder {
+	position: relative;
+	&:before {
+		color: $color_6;
+		position: absolute;
+		background-position: 0 -120px;
+		content: "\f114";
+		text-shadow: 1px 1px 0px #fff;
+		font-family: $font-family_1;
+		font-size: 14px;
+	}
+}
+.thread_status.dot_newlockfolder {
+	position: relative;
+	&:before {
+		color: $color_6;
+		position: absolute;
+		background-position: 0 -140px;
+		content: "\f114";
+		text-shadow: 1px 1px 0px #fff;
+		font-family: $font-family_1;
+		font-size: 14px;
+	}
+}
+.thread_status.folder {
+	position: relative;
+	&:before {
+		color: $color_6;
+		position: absolute;
+		background-position: 0 -160px;
+		content: "\f114";
+		text-shadow: 1px 1px 0px #fff;
+		font-family: $font-family_1;
+		font-size: 14px;
+	}
+}
+.thread_status.hotfolder {
+	position: relative;
+	&:before {
+		color: $color_6;
+		position: absolute;
+		background-position: 0 -180px;
+		content: "\f114";
+		text-shadow: 1px 1px 0px #fff;
+		font-family: $font-family_1;
+		font-size: 14px;
+	}
+}
+.thread_status.hotlockfolder {
+	position: relative;
+	&:before {
+		color: $color_6;
+		position: absolute;
+		background-position: 0 -200px;
+		content: "\f114";
+		text-shadow: 1px 1px 0px #fff;
+		font-family: $font-family_1;
+		font-size: 14px;
+	}
+}
+.thread_status.lockfolder {
+	position: relative;
+	&:before {
+		color: $color_6;
+		position: absolute;
+		background-position: 0 -220px;
+		content: "\f114";
+		text-shadow: 1px 1px 0px #fff;
+		font-family: $font-family_1;
+		font-size: 14px;
+	}
+}
+.thread_status.movefolder {
+	position: relative;
+	&:before {
+		color: $color_6;
+		position: absolute;
+		background-position: 0 -240px;
+		content: "\f114";
+		text-shadow: 1px 1px 0px #fff;
+		font-family: $font-family_1;
+		font-size: 14px;
+	}
+}
+.thread_status.newfolder {
+	position: relative;
+	&:before {
+		position: absolute;
+		background-position: 0 -260px;
+		content: "\f086";
+		font-family: $font-family_1;
+		font-size: 16px;
+	}
+}
+.thread_status.newhotfolder {
+	position: relative;
+	&:before {
+		color: $color_6;
+		position: absolute;
+		background-position: 0 -280px;
+		content: "\f114";
+		text-shadow: 1px 1px 0px #fff;
+		font-family: $font-family_1;
+		font-size: 14px;
+	}
+}
+.thread_status.newhotlockfolder {
+	position: relative;
+	&:before {
+		color: $color_6;
+		position: absolute;
+		background-position: 0 -300px;
+		content: "\f114";
+		text-shadow: 1px 1px 0px #fff;
+		font-family: $font-family_1;
+		font-size: 14px;
+	}
+}
+.thread_status.newlockfolder {
+	position: relative;
+	&:before {
+		position: absolute;
+		background-position: 0 -320px;
+		content: "\f023";
+		font-family: $font-family_1;
+		font-size: 16px;
+	}
+}
+#posts_container {
+	padding: 0;
+	border: 1px solid #242424;
+}
+.ignored_post {
+	border-top: 3px solid #333;
+	padding: 15px;
+	.show_ignored_post {
+		margin-top: -15px;
+		a.button {
+			span {
+				background-position: 0 -400px;
+			}
+		}
+	}
+}
+.post {
+	overflow: hidden;
+	padding: 5px;
+	.post_author {
+		border-bottom: 1px solid #242424;
+		border-top: 2px solid #242424;
+		background: #26292c;
+		padding: 5px;
+		overflow: hidden;
+		.buddy_status {
+			vertical-align: middle;
+			margin-top: -4px;
+		}
+		.post_avatar {
+			float: left;
+			margin-right: 3px;
+			img {
+                max-width: 65px !important;
+                max-height: 65px !important;
+				padding: 5px;
+				border: 1px solid #ddd;
+				background: #fff;
+			}
+		}
+		.post_information {
+			float: left;
+			padding: 6px 8px;
+		}
+		.post_statistics {
+			float: right;
+			font-size: 11px;
+			padding: 3px 10px 3px 5px;
+			color: $color_7;
+			line-height: 1.3;
+		}
+	}
+	.post_head {
+		background-color: $background-color_1;
+		font-size: 11px;
+		padding-bottom: 4px;
+		border-bottom: 1px solid #242424;
+		margin-bottom: 4px;
+		span.post_date {
+			color: $color_7;
+		}
+		span.edited_post {
+			font-size: 10px;
+			color: $color_8;
+			a {
+				color: $color_7;
+			}
+		}
+	}
+	.post_meta {
+		margin: 4px 0;
+		font-size: 11px;
+		color: $color_8;
+		a {
+			&:link {
+				color: $color_9;
+			}
+			&:visited {
+				color: $color_9;
+			}
+			&:hover {
+				color: $color_9;
+			}
+			&:active {
+				color: $color_9;
+			}
+		}
+	}
+}
+.post.classic {
+	padding-top: 15px;
+	.post_author {
+		border: 1px solid #242424;
+		float: left;
+		width: 15%;
+		margin: 0 1% 15px 0;
+		border-left: 0;
+		padding: 5px 1%;
+		div.author_avatar {
+			float: none;
+			text-align: center;
+			margin-bottom: 8px;
+		}
+		div.author_information {
+			float: none;
+			padding: 0;
+			text-align: center;
+		}
+		div.author_statistics {
+			border-top: 1px dotted #464646;
+			margin: 6px 0 0 0;
+			padding: 6px 6px 3px 6px;
+			float: none;
+		}
+	}
+	.post_content {
+		float: left;
+		width: 79%;
+		padding: 0 1% 5px 1%;
+		background-color: $background-color_1;
+	}
+}
+.post_body {
+	font-size: 14px;
+	padding: 12px 0;
+}
+.post_content {
+	padding: 9px 10px 5px 10px;
+	background-color: $background-color_1;
+	.signature {
+		margin-top: 5px;
+		border-top: 1px dotted #ddd;
+		padding: 10px 0 4px 0;
+	}
+}
+.post_controls {
+	clear: both;
+	background: #26292c;
+	border-bottom: 1px solid #2B2B2B;
+	overflow: hidden;
+}
+.postbit_buttons {
+	>a {
+		&:link {
+			display: inline-block;
+			padding: 3px 5px;
+			margin: 2px;
+			font-size: 11px;
+			background: #202020;
+			border: 1px solid #4D4D4D;
+			color: $color_10;
+			border-radius: 2px;
+		}
+		&:hover {
+			display: inline-block;
+			padding: 3px 5px;
+			margin: 2px;
+			font-size: 11px;
+			background: #202020;
+			border: 1px solid #4D4D4D;
+			color: $color_10;
+			border-radius: 2px;
+			border-color: $border-color_2;
+		}
+		&:visited {
+			display: inline-block;
+			padding: 3px 5px;
+			margin: 2px;
+			font-size: 11px;
+			background: #202020;
+			border: 1px solid #4D4D4D;
+			color: $color_10;
+			border-radius: 2px;
+		}
+		&:active {
+			display: inline-block;
+			padding: 3px 5px;
+			margin: 2px;
+			font-size: 11px;
+			background: #202020;
+			border: 1px solid #4D4D4D;
+			color: $color_10;
+			border-radius: 2px;
+		}
+	}
+	a {
+		span {
+			&:before {
+				content: "";
+				display: inline-block;
+				font-family: $font-family_1;
+				font-weight: normal;
+				font-size: inherit;
+				text-rendering: auto;
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+				margin-right: 5px;
+				font-size: 13px;
+			}
+		}
+	}
+	a.postbit_find {
+		span {
+			&:before {
+				content: "\f002";
+			}
+		}
+	}
+	a.postbit_goup {
+		span {
+			&:before {
+				content: "\f077";
+			}
+		}
+	}
+	a.postbit_reputation_add {
+		span {
+			&:before {
+				content: "\f067";
+			}
+		}
+	}
+	a.postbit_email {
+		span {
+			&:before {
+				content: "\f0e0";
+			}
+		}
+	}
+	a.postbit_website {
+		span {
+			&:before {
+				content: "\f0ac";
+			}
+		}
+	}
+	a.postbit_pm {
+		span {
+			&:before {
+				content: "\f199";
+			}
+		}
+	}
+	a.postbit_quote {
+		span {
+			&:before {
+				content: "\f10e";
+			}
+		}
+	}
+	a.postbit_multiquote {
+		span {
+			&:before {
+				content: "\f055";
+			}
+		}
+	}
+	a.postbit_multiquote_on {
+		span {
+			&:before {
+				content: "\f056";
+				color: $color_11;
+			}
+		}
+	}
+	a.postbit_edit {
+		span {
+			&:before {
+				content: "\f044";
+			}
+		}
+	}
+	a.postbit_qdelete {
+		span {
+			&:before {
+				content: "\f00d";
+			}
+		}
+	}
+	a.postbit_qrestore {
+		span {
+			&:before {
+				content: "\f067";
+			}
+		}
+	}
+	a.postbit_report {
+		span {
+			&:before {
+				content: "\f0a1";
+			}
+		}
+	}
+	a.postbit_warn {
+		span {
+			&:before {
+				content: "\f0e3";
+			}
+		}
+	}
+	a.postbit_purgespammer {
+		span {
+			&:before {
+				content: "\f071";
+			}
+		}
+	}
+	a.postbit_reply_pm {
+		span {
+			&:before {
+				content: "\f112";
+			}
+		}
+	}
+	a.postbit_reply_all {
+		span {
+			&:before {
+				content: "\f122";
+			}
+		}
+	}
+	a.postbit_forward_pm {
+		span {
+			&:before {
+				content: "\f064";
+			}
+		}
+	}
+	a.postbit_delete_pm {
+		span {
+			&:before {
+				content: "\f00d";
+			}
+		}
+	}
+}
+blockquote {
+	background: #292C2F;
+	border: 1px solid #5B5B5B;
+	margin: 0;
+	padding: 15px;
+	-webkit-box-shadow: inset 0 0 2px 0px #fff;
+	-moz-box-shadow: inset 0 0 2px 0px #fff;
+	box-shadow: inset 0 0 2px 0px #fff;
+	-moz-border-top-left-radius: 3px;
+	-webkit-border-top-left-radius: 3px;
+	border-top-left-radius: 3px;
+	border-left: 2px solid #9e2635;
+	font-size: 14px;
+	-moz-box-shadow: inset 0 0 10px #1A1A1A;
+	-webkit-box-shadow: inset 0 0 10px #1A1A1A;
+	box-shadow: inset 0 0 10px #1A1A1A;
+	cite {
+		font-weight: bold;
+		border-bottom: 1px dashed #5B5B5B;
+		font-style: normal;
+		display: block;
+		padding-bottom: 3px;
+		margin: 0 0 10px 0;
+		span {
+			float: right;
+			font-weight: normal;
+			font-size: 12px;
+			color: $color_7;
+		}
+		span.highlight {
+			float: none;
+			font-weight: bold;
+			padding-bottom: 0;
+		}
+	}
+}
+.codeblock {
+	background: #292C2F;
+	border: 1px solid #5B5B5B;
+	border-left: 2px solid #324e66;
+	border-top-left-radius: 3px;
+	padding: 14px;
+	font-size: 14px;
+	-moz-border-top-left-radius: 3px;
+	-webkit-border-top-left-radius: 3px;
+	border-top-left-radius: 3px;
+	-moz-box-shadow: inset 0 0 10px #26292C;
+	-webkit-box-shadow: inset 0 0 10px #26292C;
+	box-shadow: inset 0 0 10px #26292C;
+	.title {
+		color: $color_12;
+		border-bottom: 1px dashed #5B5B5B;
+		font-style: normal;
+		font-weight: bold;
+		margin: -15px -15px 5px -15px;
+		padding: 10px;
+		-moz-border-top-left-radius: 3px;
+		-webkit-border-top-left-radius: 3px;
+		border-top-left-radius: 3px;
+		padding-bottom: 3px;
+		-moz-border-top-right-radius: 3px;
+		-webkit-border-top-right-radius: 3px;
+		border-top-right-radius: 3px;
+		font-size: 14px;
+	}
+	code {
+		overflow: auto;
+		height: auto;
+		max-height: 200px;
+		display: block;
+		background: #D6D6D6;
+		font-size: 14px;
+	}
+	phpcodeblock {
+		overflow: auto;
+		height: auto;
+		max-height: 200px;
+		display: block;
+		background: #439E4C;
+		font-size: 14px;
+	}
+}
+.navigation {
+	color: $color_12;
+	font-size: 12px;
+	a {
+		&:link {
+			text-decoration: none;
+		}
+		&:visited {
+			text-decoration: none;
+		}
+		&:hover {
+			text-decoration: underline;
+		}
+		&:active {
+			text-decoration: underline;
+		}
+	}
+	.active {
+		color: $color_12;
+		font-size: small;
+		font-weight: bold;
+	}
+}
+#clickableAwesomeFont {
+	cursor: pointer;
+}
+.theadtop {
+	background: #26292C;
+	padding: 5px;
+	font-size: 15px;
+	font-family: $font-family_2;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+.theadbottom {
+	background: #26292C;
+	padding: 5px;
+	font-size: 15px;
+	font-family: $font-family_2;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+.pollbar {
+	border: 1px solid #3f3f3f;
+	height: 10px;
+	.percent {
+		display: none;
+	}
+}
+.posticons_label {
+	white-space: nowrap;
+}

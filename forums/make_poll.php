@@ -126,47 +126,116 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !$topicid) {
     header("Location: {$TRINITY20['baseurl']}/forums.php?action=viewtopic&topicid=$topicid");
     exit();
 }
-$HTMLOUT .= begin_main_frame();
+$HTMLOUT .= '<div class="card">
+<div class="card-divider">Add Polls in Forums</div>
+<div class="card-section">';
 if ($subaction == "edit") {
     $HTMLOUT .= "<h1>Edit poll</h1>";
 }
 $HTMLOUT .= "<form method='post' action='forums.php'>
-   <input type='hidden' name='action' value='".$action."' />
-	<input type='hidden' name='subaction' value='".$subaction."' />
-	<input type='hidden' name='updatetopicid' value='".$topicid."' />
-	<table border='1' cellspacing='0' cellpadding='5' width='100%'>";
+   <input type='hidden' name='action' value='".$action."'>
+	<input type='hidden' name='subaction' value='".$subaction."'>
+	<input type='hidden' name='updatetopicid' value='".$topicid."'>";
 if ($subaction == "edit") {
     $HTMLOUT .= "<input type='hidden' name='pollid' value='".(int)$poll["id"]."'>";
 }
-$HTMLOUT .= "
-	<tr><td class='rowhead'>Question <font color='red'>*</font></td><td align='left'><textarea name='question' cols='70' rows='4'>".($subaction == "edit" ? htmlsafechars($poll['question']) : '')."</textarea></td></tr>
-	<tr><td class='rowhead'>Option 1 <font color='red'>*</font></td><td align='left'><input name='option0' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option0']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Option 2 <font color='red'>*</font></td><td align='left'><input name='option1' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option1']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Option 3</td><td align='left'><input name='option2' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option2']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Option 4</td><td align='left'><input name='option3' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option3']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Option 5</td><td align='left'><input name='option4' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option4']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Option 6</td><td align='left'><input name='option5' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option5']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Option 7</td><td align='left'><input name='option6' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option6']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Option 8</td><td align='left'><input name='option7' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option7']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Option 9</td><td align='left'><input name='option8' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option8']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Option 10</td><td align='left'><input name='option9' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option9']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Option 11</td><td align='left'><input name='option10' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option10']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Option 12</td><td align='left'><input name='option11' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option11']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Option 13</td><td align='left'><input name='option12' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option12']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Option 14</td><td align='left'><input name='option13' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option13']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Option 15</td><td align='left'><input name='option14' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option14']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Option 16</td><td align='left'><input name='option15' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option15']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Option 17</td><td align='left'><input name='option16' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option16']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Option 18</td><td align='left'><input name='option17' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option17']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Option 19</td><td align='left'><input name='option18' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option18']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Option 20</td><td align='left'><input name='option19' size='80' maxlength='40' value='".($subaction == "edit" ? htmlsafechars($poll['option19']) : '')."' /><br /></td></tr>
-	<tr><td class='rowhead'>Sort</td><td>
-	<input type='radio' name='sort' value='yes' ".($subaction == "edit" ? ($poll["sort"] != "no" ? " checked='checked'" : "") : '')." />Yes
-	<input type='radio' name='sort' value='no' ".($subaction == "edit" ? ($poll["sort"] == "no" ? " checked='checked'" : "") : '')." />No
-	</td></tr>
-	<tr><td colspan='2' align='center'><input type='submit' value='".($pollid !== 0 ? 'Edit poll' : 'Create poll')."' style='height: 20pt' /></td></tr>
-	</table>
-	<p align='center'><font color='red'>*</font> required</p>
-	</form>";
-$HTMLOUT .= end_main_frame();
+$HTMLOUT .= '
+<div class="input-group">
+    <span class="input-group-label">Question </span>
+    <textarea class="input-group-field" name="question">'.($subaction == 'edit' ? htmlsafechars($poll['question']) : '').'</textarea>
+</div>
+<div class="grid-x grid-margin-x">
+    <div class="cell large-6">
+        <div class="input-group">
+            <span class="input-group-label">Option 1</span>
+            <input  class="input-group-field" name="option0" value="'.($subaction == 'edit' ? htmlsafechars($poll['option0']) : '').'">
+        </div>
+        <div class="input-group">
+            <span class="input-group-label">Option 2</span>
+            <input  class="input-group-field" name="option1" value="'.($subaction == 'edit' ? htmlsafechars($poll['option1']) : '').'">
+        </div>
+        <div class="input-group">
+            <span class="input-group-label">Option 3</span>
+            <input  class="input-group-field" name="option2" value="'.($subaction == 'edit' ? htmlsafechars($poll['option2']) : '').'">
+        </div>
+        <div class="input-group">
+            <span class="input-group-label">Option 4</span>
+            <input  class="input-group-field" name="option3" value="'.($subaction == 'edit' ? htmlsafechars($poll['option3']) : '').'">
+        </div>
+        <div class="input-group">
+            <span class="input-group-label">Option 5</span>
+            <input  class="input-group-field" name="option4" value="'.($subaction == 'edit' ? htmlsafechars($poll['option4']) : '').'">
+        </div>
+        <div class="input-group">
+            <span class="input-group-label">Option 6</span>
+            <input  class="input-group-field" name="option5" value="'.($subaction == 'edit' ? htmlsafechars($poll['option5']) : '').'">
+        </div>
+        <div class="input-group">
+            <span class="input-group-label">Option 7</span>
+            <input  class="input-group-field" name="option6" value="'.($subaction == 'edit' ? htmlsafechars($poll['option6']) : '').'">
+        </div>
+        <div class="input-group">
+            <span class="input-group-label">Option 8</span>
+            <input  class="input-group-field" name="option7" value="'.($subaction == 'edit' ? htmlsafechars($poll['option7']) : '').'">
+        </div>
+        <div class="input-group">
+            <span class="input-group-label">Option 9</span>
+            <input  class="input-group-field" name="option8" value="'.($subaction == 'edit' ? htmlsafechars($poll['option8']) : '').'">
+        </div>
+        <div class="input-group">
+            <span class="input-group-label">Option 10</span>
+            <input  class="input-group-field" name="option9" value="'.($subaction == 'edit' ? htmlsafechars($poll['option9']) : '').'">
+        </div>
+    </div>
+    <div class="cell large-6">
+        <div class="input-group">
+            <span class="input-group-label">Option 11</span>
+            <input  class="input-group-field" name="option10" value="'.($subaction == 'edit' ? htmlsafechars($poll['option10']) : '').'">
+        </div>
+        <div class="input-group">
+            <span class="input-group-label">Option 12</span>
+            <input  class="input-group-field" name="option11" value="'.($subaction == 'edit' ? htmlsafechars($poll['option11']) : '').'">
+        </div>
+        <div class="input-group">
+            <span class="input-group-label">Option 13</span>
+            <input  class="input-group-field" name="option12" value="'.($subaction == 'edit' ? htmlsafechars($poll['option12']) : '').'">
+        </div>
+        <div class="input-group">
+            <span class="input-group-label">Option 14</span>
+            <input  class="input-group-field" name="option13" value="'.($subaction == 'edit' ? htmlsafechars($poll['option13']) : '').'">
+        </div>
+        <div class="input-group">
+            <span class="input-group-label">Option 15</span>
+            <input  class="input-group-field" name="option14" value="'.($subaction == 'edit' ? htmlsafechars($poll['option14']) : '').'">
+        </div>
+        <div class="input-group">
+            <span class="input-group-label">Option 16</span>
+            <input  class="input-group-field" name="option15" value="'.($subaction == 'edit' ? htmlsafechars($poll['option15']) : '').'">
+        </div>
+        <div class="input-group">
+            <span class="input-group-label">Option 17</span>
+            <input  class="input-group-field" name="option16" value="'.($subaction == 'edit' ? htmlsafechars($poll['option16']) : '').'">
+        </div>
+        <div class="input-group">
+            <span class="input-group-label">Option 18</span>
+            <input  class="input-group-field" name="option17" value="'.($subaction == 'edit' ? htmlsafechars($poll['option17']) : '').'">
+        </div>
+        <div class="input-group">
+            <span class="input-group-label">Option 19</span>
+            <input  class="input-group-field" name="option18" value="'.($subaction == 'edit' ? htmlsafechars($poll['option18']) : '').'">
+        </div>
+        <div class="input-group">
+            <span class="input-group-label">Option 20</span>
+            <input  class="input-group-field" name="option19" value="'.($subaction == 'edit' ? htmlsafechars($poll['option19']) : '').'">
+        </div>
+    </div>
+    <fieldset class="large-12 cell">
+        <legend>Sort</legend>
+        <input type="radio" name="sort" value="yes" '.($subaction == 'edit' ? ($poll['sort'] != 'no' ? ' checked="checked"' : '') : '').'> Yes
+        <input type="radio" name="sort" value="no" '.($subaction == 'edit' ? ($poll['sort'] != 'no' ? ' checked="checked"' : '') : '').'> No
+    </fieldset>
+    <input class="button float-center" type="submit" value="'.($pollid !== 0 ? 'Edit poll' : 'Create poll').'">
+    </form>
+</div>
+</div></div>';
 echo stdhead("Polls").$HTMLOUT.stdfoot($stdfoot);

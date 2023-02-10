@@ -39,7 +39,7 @@ if ($res->num_rows == 0) {
 $HTMLOUT = "<!DOCTYPE html>
 <html xmlns='http://www.w3.org/1999/xhtml' lang='en'>
 <head>
-<meta name='generator' content='u-232.servebeer.com' />
+<meta name='generator' content='u-232.duckdns.org' />
 <meta name='MSSmartTagsPreventParsing' content='TRUE' />
 <title>Who Downloaded</title>
 <link rel='stylesheet' href='{$TRINITY20['baseurl']}/templates/{$CURUSER['stylesheet']}/{$CURUSER['stylesheet']}.css' type='text/css' />

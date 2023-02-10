@@ -29,7 +29,7 @@ $forumid = isset($_GET['forumid']) ? (int)$_GET['forumid'] : 0;
 if (!is_valid_id($forumid)) {
     stderr('Error', 'Invalid ID!');
 }
-$page = (isset($_GET["page"]) ? (int)$_GET["page"] : 0);
+$page = (isset($_GET['page']) && is_numeric($_GET['page']) ) ? $_GET['page'] : 0;
 $userid = (int)$CURUSER["id"];
 // ------ Get forum details
 ($res = sql_query("SELECT
@@ -44,48 +44,10 @@ $userid = (int)$CURUSER["id"];
 if ($CURUSER['class'] < $arr["min_class_read"]) {
     stderr('Error', 'Access Denied!');
 }
-$perpage = (empty($CURUSER['topicsperpage']) ? 20 : (int)$CURUSER['topicsperpage']);
-$num = (int)$arr['t_count'];
-if ($page == 0) {
-    $page = 1;
-}
-$first = ($page * $perpage) - $perpage + 1;
-$last = $first + $perpage - 1;
-if ($last > $num) {
-    $last = $num;
-}
-$pages = floor($num / $perpage);
-if ($perpage * $pages < $num) {
-    ++$pages;
-}
-// ------ Build menu
-$menu1 = "<ul class='pagination'>
-	<span class='button small'>
-		<i style='font-size: 14px;' class='fa fa-paperclip'></i>&nbsp;&nbsp;Pages&nbsp;
-	</span> ";
-$menu2 = '';
-$lastspace = false;
-for ($i = 1; $i <= $pages; ++$i) {
-    if ($i === $page) {
-        $menu2 .= "<span class='sr-only'>$i</span>&nbsp;";
-    } elseif ($i > 3 && ($i < $pages - 2) && ($page - $i > 3 || $i - $page > 3)) {
-        if ($lastspace) {
-            continue;
-        }
-        $menu2 .= "... \n";
-        $lastspace = true;
-    } else {
-        $menu2 .= "<a class='page-link' href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=$forumid&amp;page=$i'>$i</a>";
-        $lastspace = false;
-    }
-    if ($i < $pages) {
-        $menu2 .= "|";
-    }
-}
-$menu1 .= ($page == 1 ? "" : "<a class='page-link' href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=$forumid&amp;page=".($page - 1)."'>&lt;&lt;&nbsp;Prev</a>");
-$mlb = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-$menu3 = ($last === $num ? "" : "<a class='page-link' href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=$forumid&amp;page=".($page + 1)."'>Next&nbsp;&gt;&gt;</a></ul>");
-$offset = $first - 1;
+// pagination
+$count = (int)$arr['t_count'];
+$perpage = (empty($CURUSER['topicsperpage']) ? 4 : (int)$CURUSER['topicsperpage']);
+[$pager_menu, $LIMIT] = pager_new($count, $perpage, $page, 'forums.php?action=viewforum&amp;forumid='.$forumid . ($perpage == 20 ? '' : '&amp;perpage='.$perpage));
 ($topics_res = sql_query("SELECT 
 							t.id, 
 							t.user_id, 
@@ -137,8 +99,7 @@ $offset = $first - 1;
 						ORDER BY 
 							t.sticky, 
 							t.last_post 
-						DESC LIMIT 
-							$offset, $perpage")) || sqlerr(__FILE__, __LINE__);
+						DESC " . $LIMIT)) || sqlerr(__FILE__, __LINE__);
 // subforums
 ($r_subforums = sql_query("SELECT 
 							id 
@@ -173,31 +134,32 @@ if ($subforums > 0) {
 				<div class='card-section'>".show_forums($forumid, true)."</div>
 			</div>";
 }
+$HTMLOUT .= '<div class="clearfix">';
 if ($Multi_forum['configs']['use_forum_stats_mod']) {
-    $HTMLOUT .= "<div class='clearfix'>
-		<div class='float-left'>".$menu1.$mlb.$menu2.$mlb.$menu3."</div>";
+    $HTMLOUT .= '<div class="float-left">'.$pager_menu.'</div>';
 }
 $newtopicarr = get_forum_access_levels($forumid);
 $maypost = ($CURUSER['class'] >= $newtopicarr["write"] && $CURUSER['class'] >= $newtopicarr["create"]);
-if (!$maypost) {
-    $HTMLOUT .= "<a class='button small float-right'><i class='fa fa-check-square'></i> No Permissions</a>";
+$HTMLOUT .= '<div class="float-right primary button-group small">';
+$HTMLOUT .= "<a class='button' href='forums.php?action=viewunread'>View Unread</a>";
+if ($maypost) {
+	$HTMLOUT .= '<a class="button" href="forums.php?action=newtopic&forumid='.$forumid.'"><i class="fa fa-check-square"></i> Start new topic</a>';
 } else {
-    $HTMLOUT .= "<a class='button small float-right' href='forums.php?action=newtopic&forumid=".$forumid."'><i class='fa fa-check-square'></i> Start new topic</a>";
+	$HTMLOUT .= '<a class="button"><i class="fa fa-check-square"></i> No Permissions</a>';
 }
-$HTMLOUT .= "<a class='button small float-right' href='forums.php?action=viewunread'>View Unread</a>
-		</div>";
+$HTMLOUT .='</div></div>';
 if ($topics_res->num_rows > 0) {
     $HTMLOUT .= "
 		  <div class='card'>
-			<div class='card-divider'><strong>".htmlsafechars($arr["forum_name"])." </strong></div>
+			<div class='card-divider'>".htmlsafechars($arr["forum_name"])."</div>
 			<div class='card-section'>
 			".forum_stats()."
 				<div class='divTable'>
     				<div class='divTableHeading'>
-        				<div class='divTableCell'><strong>Thread / Author</strong></div>
-						<div class='divTableCell hide-for-small-only'><strong>Rating</strong></div>
-						<div class='divTableCell hide-for-small-only'><strong>Replies / Views</strong></div>
-						<div class='divTableCell hide-for-small-only'><strong>Last&nbsp;post</strong></div>
+        				<div class='divTableCell'>Thread / Author</div>
+						<div class='divTableCell hide-for-small-only'>Rating</div>
+						<div class='divTableCell hide-for-small-only'>Replies / Views</div>
+						<div class='divTableCell hide-for-small-only'>Last&nbsp;post</div>
 					</div>";
     while ($topic_arr = $topics_res->fetch_assoc()) {
         $user_stuff = $topic_arr;
@@ -255,14 +217,14 @@ if ($topics_res->num_rows > 0) {
                     true)."</a>" : "unknown[$topic_userid]");
         }
         $new = ($topic_arr["p_added"] > (TIME_NOW - $TRINITY20['readpost_expiry'])) ? ((int)$topic_arr['p_id'] > $topic_arr['last_post_read']) : 0;
-        $topicpic = ($topic_arr['locked'] == "yes" ? ($new ? "<i class='row-icon-font far fa-file-excel'></i>" : "<i class='far fa-file-excel'>") : ($new ? "<i class='row-icon-font fas fa-file-alt'></i>" : "<i class='row-icon-font far fa-file'></i>"));
-        $post_icon = ($sticky ? "<i class='row-icon-font fas fa-thumbtack fa-rotate-90'></i>" : ($topic_arr["icon"] > 0 ? "<img src=\"".$TRINITY20['pic_base_url']."post_icons/icon".htmlsafechars($topic_arr["icon"]).".gif\" alt=\"post icon\" title=\"post icon\" />" : "&nbsp;"));
+		$topicpic = ($topic_arr['locked'] == "yes" ? ($new ? "<span class='thread_status newlockfolder' title='Topic locked, new posts.'>&nbsp;</span>" : "<span class='thread_status newlockfolder' title='Topic Locked.'>&nbsp;</span>") : ($new ? "<span class='thread_status newfolder' title='New posts.'>&nbsp;</span>" : "<span class='thread_status dot_folder' title='No new posts.'>&nbsp;</span>"));
+		$post_icon = ($sticky ? "<img src=\"".$TRINITY20['pic_base_url']."sticky.gif\" alt=\"Sticky topic\" title=\"Sticky topic\"/>" : ($topic_arr["icon"] > 0 ? "<img src=\"".$TRINITY20['pic_base_url']."post_icons/icon".htmlsafechars($topic_arr["icon"]).".gif\" alt=\"post icon\" title=\"post icon\" />" : "&nbsp;"));
         $HTMLOUT .= "<div class='divTableBody'>
 				  	<div class='divTableRow'>
 						<div class='divTableCell'>
 						  	<span class='icon-wrapper'>	".$topicpic."</span>
 							<a class='topictitle' href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$topicid."'>
-								<strong>".htmlsafechars($topic_arr['topic_name'])."</strong>
+								".htmlsafechars($topic_arr['topic_name'])."
 							</a>
 							<span class='float-right'>".$post_icon."</span>
 							<span class='float-right'>".($pollim ? "<i class='fas fa-poll'></i>" : '')."</span><br>
@@ -289,13 +251,19 @@ if ($topics_res->num_rows > 0) {
 			</div>
 		</div>";
 }
-$HTMLOUT .= "<div class='clearfix'>
-		<div class='float-left'>".$menu1.$mlb.$menu2.$mlb.$menu3."</div>
-		".($maypost ? "<a class='button small float-right' href='forums.php?action=newtopic&forumid=".$forumid."'><i class='fa fa-check-square'></i> Start new topic</a>" : "<a class='button small float-right'><i class='fa fa-check-square'></i> No Permissions</a>")."
-		<a class='button small float-right' href='forums.php?action=viewunread'>View Unread</a>
+$HTMLOUT .= '<div class="clearfix">
+	<div class="float-left">'.$pager_menu.'</div>
+	<div class="float-right primary button-group small">
+	<a class="button" href="forums.php?action=viewunread">View Unread</a>';
+	if ($maypost) {
+		$HTMLOUT .= '<a class="button" href="forums.php?action=newtopic&forumid='.$forumid.'"><i class="fa fa-check-square"></i> Start new topic</a>';
+	} else {
+		$HTMLOUT .= '<a class="button"><i class="fa fa-check-square"></i> No Permissions</a>';
+	}
+	$HTMLOUT .= '</div>
 	</div>
-	<div class='float_right'>".insert_quick_jump_menu($forumid)."</div>";
-$HTMLOUT .= "</div>";
+	<div class="callout">'.insert_quick_jump_menu($forumid).'</div>
+</div>';
 echo stdhead("View Forums", true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
 exit();
 ?>

@@ -192,7 +192,7 @@ function show_forums($forid, $subforums = false, $sfa = "", $mods_array = "", $s
                     $lastpost1 = "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$sfa[$forumid]['last_post']['userid']."'><b>".htmlsafechars($sfa[$forumid]['last_post']['user'])."</b></a><br />";
                 }
                 $lastpost = "".get_date($sfa[$forumid]['last_post']['added'], 'LONG', 1,
-                        0)."<br />"."by $lastpost1"."in <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".(int)$sfa[$forumid]['last_post']['topic']."&amp;page=p".(int)$sfa[$forumid]['last_post']['post_id']."#p".(int)$sfa[$forumid]['last_post']['post_id']."'><b>".htmlsafechars($sfa[$forumid]['last_post']['tname'])."</b></a>";
+                        0)."<br />"."by $lastpost1"."in <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".(int)$sfa[$forumid]['last_post']['topic']."&amp;page=p".(int)$sfa[$forumid]['last_post']."#p".(int)$sfa[$forumid]['last_post']."'><b>".htmlsafechars($sfa[$forumid]['last_post']['tname'])."</b></a>";
             } elseif (($sfa[$forumid]['last_post']['postid'] < $forums_arr['pid'])) {
                 if ($forums_arr["anonymous"] == "yes") {
                     if ($CURUSER['class'] < UC_STAFF && $forums_arr["user_id"] != $CURUSER["id"]) {
@@ -248,7 +248,7 @@ function show_forums($forid, $subforums = false, $sfa = "", $mods_array = "", $s
             <div class='divTableCell'>".$img."</div>
             <div class='divTableCell'>
                 <a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".$forumid."'>
-                    <strong>".htmlsafechars($forums_arr["name"])."</strong>
+                    ".htmlsafechars($forums_arr["name"])."
                 </a>
                 <br>".((empty($forums_arr["description"])) ? '' : htmlsafechars($forums_arr["description"]))."<br>
                 ".(($subforums == false && !empty($sfa[$forumid])) ? subforums($sfa[$forumid]["topics"]) : '')."

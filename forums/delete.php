@@ -62,8 +62,9 @@ if ($CURUSER['class'] >= MAX_CLASS || isMod($forumid, "forum")) {
                 ($Multi_forum['configs']['use_poll_mod'] ? $polls = $arr['polls'] : null);
             }
         }
-        stderr("** WARNING! **",
-            "Deleting forum with id=$forumid (".$forumid.") will also delete ".$posts." post".($posts != 1 ? 's' : '').($Multi_forum['configs']['use_attachment_mod'] ? ", ".$attachments." attachment".($attachments != 1 ? 's' : '') : "").($Multi_forum['configs']['use_poll_mod'] ? " and ".($polls - $attachments)." poll".($polls - $attachments != 1 ? 's' : '') : "")." in ".$topics." topic".($topics != 1 ? 's' : '').". [<a href='{$TRINITY20['baseurl']}/forums.php?action=deleteforum&amp;forumid=$forumid&amp;confirmed=1'>Accept</a>] [<a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=$forumid>Cancel</a>]");
+        stderr("<h3 class='float-center'>***WARNING!***</h3>",
+            "<hr>Deleting this forum will also delete ".$posts." post".($posts != 1 ? 's' : '').($Multi_forum['configs']['use_attachment_mod'] ? ", ".$attachments." attachment".($attachments != 1 ? 's' : '') : "").($Multi_forum['configs']['use_poll_mod'] ? " and ".($polls - $attachments)." poll".($polls - $attachments != 1 ? 's' : '') : "")." in ".$topics." topic".($topics != 1 ? 's' : '').".<hr><div class='float-center primary button-group small'><a class='small button' href=".$TRINITY20['baseurl']."/forums.php?action=deleteforum&amp;forumid=".$forumid."&amp;confirmed=1'>Accept</a> 
+            <a class='small button' href=".$TRINITY20['baseurl']."/forums.php?action=viewforum&amp;forumid=".$forumid.">Decline</a></div>");
     }
     ($rt = sql_query("SELECT topics.id ".($Multi_forum['configs']['use_attachment_mod'] ? ", attachments.file_name " : "")." FROM topics "."LEFT JOIN posts ON topics.id = posts.topic_id ".($Multi_forum['configs']['use_attachment_mod'] ? "LEFT JOIN attachments ON attachments.post_id = posts.id " : "")." WHERE topics.forum_id=".sqlesc($forumid))) || sqlerr(__FILE__,
         __LINE__);

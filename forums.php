@@ -17,7 +17,8 @@ require_once(INCL_DIR.'user_functions.php');
 require_once(INCL_DIR.'pager_functions.php');
 require_once(INCL_DIR.'html_functions.php');
 require_once(INCL_DIR.'function_rating.php');
-dbconn(false);
+require_once(INCL_DIR.'pager_new.php');
+dbconn();
 loggedinorreturn();
 flood_limit('posts');
 require_once(TEMPLATE_DIR.''.$CURUSER['stylesheet'].''.DIRECTORY_SEPARATOR.'html_functions'.DIRECTORY_SEPARATOR.'forums_html_functions.php');
@@ -66,11 +67,9 @@ $HTMLOUT = '';
 $stdhead = [
     /** include css **/
     'css' => [
-        'style2',
         'bbcode',
-        'rating_style',
-        'forums',
-    ],
+        'rating_style'
+    ]
 ];
 $stdfoot = [
     /** include js **/
@@ -234,7 +233,9 @@ switch ($action) {
     case 'catchup':
         require_once FORUM_DIR."/functions.php";
         catch_up();
-        redirect( 'forums.php' );
+        header('Location: forums.php');
+        exit();
+        //redirect('forums.php');
         break;
     case 'preview':
         require_once INCL_DIR."/html_functions.php";

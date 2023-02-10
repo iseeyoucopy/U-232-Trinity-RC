@@ -63,7 +63,7 @@ $HTMLOUT .= "<div class='container'>
 	</div>
 </div>
 <div class='card'>
-    <div class='card-divider'><strong>Today Posts (Last 24 Hours)</strong></div>
+    <div class='card-divider'>Today Posts (Last 24 Hours)</div>
 		<div class='card-section'>
 			<div class='divTable'>
 				<div class='divTableHeading'>

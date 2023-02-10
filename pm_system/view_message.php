@@ -32,11 +32,14 @@ if (!defined('BUNNY_PM_SYSTEM')) {
                             LEFT JOIN blocks AS b ON b.userid = '.sqlesc($CURUSER['id']).' AND b.blockid = m.sender WHERE m.id = '.sqlesc($pm_id).' AND (receiver='.sqlesc($CURUSER['id']).' OR (sender='.sqlesc($CURUSER['id']).' AND (saved = \'yes\' || unread= \'yes\'))) LIMIT 1')) || sqlerr(__FILE__,
     __LINE__);
 $message = $res->fetch_assoc();
+//Condition is always 'false' because '$res->fetch_assoc()' is evaluated at this point 
+/*
 if (!$res) {
     stderr($lang['pm_error'], $lang['pm_viewmsg_err']);
 }
+*/
 //=== get user stuff ===//
-($res_user_stuff = sql_query('SELECT id, username, uploaded, warned, suspended, enabled, donor, class, avatar, leechwarn, chatpost, pirate, king, opt1, opt2 FROM users WHERE id='.($message['sender'] === $CURUSER['id'] ? sqlesc($message['receiver']) : sqlesc($message['sender'])))) || sqlerr(__FILE__,
+($res_user_stuff = sql_query('SELECT id, username, uploaded, warned, suspended, enabled, donor, class, avatar, leechwarn, chatpost, pirate, king, opt1, opt2 FROM users WHERE id='.($message['sender'] ?? '' === $CURUSER['id'] ? sqlesc($message['receiver'] ?? '') : sqlesc($message['sender'] ?? '')))) || sqlerr(__FILE__,
     __LINE__);
 $arr_user_stuff = $res_user_stuff->fetch_assoc();
 $id = isset($arr_user_stuff['id']) ? (int)$arr_user_stuff['id'] : '';
@@ -95,7 +98,7 @@ $HTMLOUT .= '<div class="cell large-3 secondary"><ul class="vertical menu">
 		<div class="callout success margin-0">'.format_comment($message['msg']).'</div>
 		<div class="clearfix">
 		 <div class="float-left">'.$friends.'</div>
-		<div class="float-right">'.get_date($message['added'], '').'</div></div> 
+		<div class="float-right">'.get_date($message['added'] ?? '', '').'</div></div> 
 	</div>
 </div>
 <form role="form" action="pm_system.php" method="post"> 

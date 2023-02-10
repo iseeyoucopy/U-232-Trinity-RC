@@ -40,7 +40,7 @@ $HTMLOUT .= "
         <div class='card-section'>
             <nav aria-label='You are here:' role='navigation'>
                 <ul class='breadcrumbs'>
-                    <li><a href='index.php'>".$TRINITY20["site_name"]."</a></li>
+                    <li>".$TRINITY20["site_name"]."</li>
                     <li><a href='forums.php'>Forums</a></li>
                     <li>
                         <span class='show-for-sr'>Current: </span> ".htmlsafechars($arr["name"])."
