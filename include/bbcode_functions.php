@@ -104,7 +104,7 @@ function validate_imgs($s)
 {
     $start = "(http|https)://";
     $end = "+\.(?:jpe?g|png|gif)";
-    preg_match_all("!".$start."(.*)".$end."!Ui", $s, $result);
+    preg_match_all("!".$start."(.*)".$end."!Ui", $s ?? '', $result);
     $array = $result[0];
     foreach ($array as $i => $array) {
         $headers = @get_headers($array);
