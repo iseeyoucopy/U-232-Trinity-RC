@@ -434,7 +434,7 @@ function TitleBar() {
                     <li><a href='mytorrents.php'>{$lang['gl_mytorrents']}</a></li>
                     <li><a href='friends.php'>{$lang['gl_myfriends']}</a></li>
                     <li><a href='users.php'>{$lang['gl_search_members']}</a></li>
-                    <li><a href='invite.php'>{$lang['gl_lnk_inv']}</a>
+                    <li><a href='invite.php'>{$lang['gl_lnk_inv']}</a></li>
                     <li><a href='tenpercent.php'>{$lang['gl_lnk_life']}</a></li>
                     <li><a href='topmoods.php'>{$lang['gl_lnk_top']}</a></li>
                 </ul>
