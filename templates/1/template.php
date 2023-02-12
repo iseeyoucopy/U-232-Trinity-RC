@@ -16,7 +16,7 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
 {
     global $CURUSER, $TRINITY20, $lang, $mysqli, $BLOCKS;
     if (!$TRINITY20['site_online']) {
-        die("Site is down for maintenance, please check back again later... thanks<br />");
+        die("Site is down for maintenance, please check back again later... thanks<br >");
     }
     if ($title == "") {
         $title = $TRINITY20['site_name'].(isset($_GET['tbv']) ? " (".TBVERSION.")" : '');
@@ -46,7 +46,7 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
     $css_incl .= '<!-- css goes in header -->';
     if (!empty($stdhead['css'])) {
         foreach ($stdhead['css'] as $CSS) {
-            $css_incl .= "<link type='text/css' rel='stylesheet' href='{$TRINITY20['baseurl']}/templates/{$stylez}/css/".$CSS.".css' />";
+            $css_incl .= "<link type='text/css' rel='stylesheet' href='{$TRINITY20['baseurl']}/templates/{$stylez}/css/".$CSS.".css'>";
         }
     }
     $htmlout .= '<!doctype html>
@@ -58,12 +58,12 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         <!-- #   Template Modded by U-232 Dev Team                 # -->
         <!-- ####################################################### -->
   <head>
-    <meta charset="' . charset() . '" />
+    <meta charset="' . charset() . '">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>' . $title . '</title>
 	<!-- favicon  -->
-    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="shortcut icon" href="/favicon.ico">
     <!-- Template CSS-->
     <link rel="stylesheet" href="templates/1/1.css">
     <link rel="stylesheet" href="dist/css/app.css">
@@ -78,7 +78,7 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         $htmlout .= "<!--Start main grid-container-->
         <div class='grid-container'>";
         $htmlout .= "<div data-sticky-container>
-        <div class='sticky' data-sticky data-margin-top='0'><span class='label secondary'>" . statusBar(). "</label></div>
+        <div class='sticky' data-sticky data-margin-top='0'><span class='label secondary'>" . statusBar(). "</span></div>
         </div>";
         $htmlout .= hero_header();
         $htmlout .= global_alerts();
@@ -148,13 +148,13 @@ function stdfoot($stdfoot = false)
     }
                 $htmlfoot .= "
 				<div class='callout primary float-left'>
-				    " . $TRINITY20['site_name'] . " {$lang['gl_stdfoot_querys_page']}" . $r_seconds . " {$lang['gl_stdfoot_querys_seconds']}<br />" . "
+				    " . $TRINITY20['site_name'] . " {$lang['gl_stdfoot_querys_page']}" . $r_seconds . " {$lang['gl_stdfoot_querys_seconds']}<br >" . "
 				    {$lang['gl_stdfoot_querys_server']}" . $queries . " {$lang['gl_stdfoot_querys_time']} " . ($queries != 1 ? "{$lang['gl_stdfoot_querys_times']}" : "") . "</br>
 				    " . ($debug ? "{$lang['gl_stdfoot_uptime']} " . $uptime . "" : " ") . "
 				</div>
 				<div class='callout primary float-right text-right'>
-				    {$lang['gl_stdfoot_powered']}" . TBVERSION . "<br />
-				    {$lang['gl_stdfoot_using']}{$lang['gl_stdfoot_using1']}<br />
+				    {$lang['gl_stdfoot_powered']}" . TBVERSION . "<br >
+				    {$lang['gl_stdfoot_using']}{$lang['gl_stdfoot_using1']}<br >
                     {$lang['gl_stdfoot_support']}<a href='https://u-232-forum.duckdns.org'>{$lang['gl_stdfoot_here']}</a>
                 </div><!-- Ends Footer -->
             </div><!--  End main outer container -->
@@ -254,13 +254,13 @@ function StatusBar()
     if (!empty($seed['conn'])) {
         switch ($seed['conn']) {
             case 1:
-                $connectable = "<span style='color: #82c115;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_connectable']}'><i class='fas fa-times'></i></span>";
+                $connectable = "<span style='color: #82c115;' title='{$lang['gl_connectable']}'><i class='fas fa-times'></i></span>";
                 break;
             case 2:
-                $connectable = "<span style='color: #f10917;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_connectable']}'><i class='fas fa-check-circle'></i></span>";
+                $connectable = "<span style='color: #f10917;' title='{$lang['gl_connectable']}'><i class='fas fa-check-circle'></i></span>";
                 break;
             default:
-                $connectable = "<span data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='Connectable - Unknown'><i class='fas fa-question'></i></span>";
+                $connectable = "<span title='Connectable - Unknown'><i class='fas fa-question'></i></span>";
         }
     } else {
         $connectable = 'N/A';
@@ -285,17 +285,17 @@ function StatusBar()
     }
     $htmlout .= "Welcome " . format_username($CURUSER) . "" . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "[" . get_user_class_name($CURUSER['class']) . "]" : $usrclass) . " | 
     {$lang['gl_act_torrents']} : | 
-    " . ($TRINITY20['achieve_sys_on'] ? "<span style='color: #82c115;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_achpoints']}'><i class='fas fa-award'></i></span> <a href='./achievementhistory.php?id={$CURUSER['id']}'>" . (int) $Achievement_Points['achpoints'] . "</a>&nbsp;" : "") . " | 
-    " . ($TRINITY20['seedbonus_on'] ? "<span style='color: #82c115;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_karma']}'><i class='fas fa-coins'></i></span> : <a href='" . $TRINITY20['baseurl'] . "/mybonus.php'>{$CURUSER['seedbonus']}</a>" : "") . " | <span style='color: Tomato;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_invites']}'><i class='fas fa-user-plus'></i></span> : <a href='" . $TRINITY20['baseurl'] . "/invite.php'>{$CURUSER['invites']}</a> | 
+    " . ($TRINITY20['achieve_sys_on'] ? "<span style='color: #82c115;' title='{$lang['gl_achpoints']}'><i class='fas fa-award'></i></span> <a href='./achievementhistory.php?id={$CURUSER['id']}'>" . (int) $Achievement_Points['achpoints'] . "</a>&nbsp;" : "") . " | 
+    " . ($TRINITY20['seedbonus_on'] ? "<span style='color: #82c115;' title='{$lang['gl_karma']}'><i class='fas fa-coins'></i></span> : <a href='" . $TRINITY20['baseurl'] . "/mybonus.php'>{$CURUSER['seedbonus']}</a>" : "") . " | <span style='color: Tomato;' title='{$lang['gl_invites']}'><i class='fas fa-user-plus'></i></span> : <a href='" . $TRINITY20['baseurl'] . "/invite.php'>{$CURUSER['invites']}</a> | 
     Free Slots: " . $CURUSER['freeslots'] . " | 
     " . ($TRINITY20['rep_sys_on'] ? "{$lang['gl_rep']}:{$member_reputation}" : "") . " | 
-    <span style='color: Tomato;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_shareratio']}'><i class='fas fa-chart-pie'></i></span> " . member_ratio($CURUSER['uploaded'], $TRINITY20['ratio_free'] ? '0' : $CURUSER['downloaded']) . " | ";
+    <span style='color: Tomato;' title='{$lang['gl_shareratio']}'><i class='fas fa-chart-pie'></i></span> " . member_ratio($CURUSER['uploaded'], $TRINITY20['ratio_free'] ? '0' : $CURUSER['downloaded']) . " | ";
 
     if ($TRINITY20['ratio_free']) {
-        $htmlout .= "<span style='color: #82c115;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_uploaded']}'><i class='fas fa-upload'></i></span> " . $upped . " | ";
+        $htmlout .= "<span style='color: #82c115;' title='{$lang['gl_uploaded']}'><i class='fas fa-upload'></i></span> " . $upped . " | ";
     } else {
-        $htmlout .= "<span style='color: #82c115;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_uploaded']}'><i class='fas fa-upload'></i></span> {$upped} | 
-		<span style='color: #f10917;' data-tooltip aria-haspopup='true' class='has-tip' data-disable-hover='false' tabindex='1' title='{$lang['gl_downloaded']}'><i class='fas fa-download'></i></span> {$downed} | 
+        $htmlout .= "<span style='color: #82c115;' title='{$lang['gl_uploaded']}'><i class='fas fa-upload'></i></span> {$upped} | 
+		<span style='color: #f10917;' title='{$lang['gl_downloaded']}'><i class='fas fa-download'></i></span> {$downed} | 
 		{$connectable} | ";
     }
     //$htmlout .= "{$lang['gl_hnr']}: <a href='" . $TRINITY20['baseurl'] . "/hnr.php?id=" . $CURUSER['id'] . "'>{$hitnruns}</a>";
@@ -372,7 +372,7 @@ function TitleBar() {
         <button class='menu-icon' type='button' data-toggle></button>
         <div class='title-bar-title'>Menu</div>
     </div>
-    <div class='top-bar' stacked-for-medium style='width:100%; z-index: 100;' data-margin-top='0' id='topbar-nav'>
+    <div class='top-bar stacked-for-medium' style='width:100%; z-index: 100;' data-margin-top='0' id='topbar-nav'>
         <div class='top-bar-left'>
 
         </div>
