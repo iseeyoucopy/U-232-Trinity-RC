@@ -73,7 +73,7 @@ $count = (int)$arr['p_count'];
 $perpage = $Multi_forum['configs']['postsperpage'];
 [$pager_menu, $LIMIT] = pager_new($count, $perpage, $page, 'forums.php?action=viewtopic&amp;topicid='.$topicid .($perpage == 20 ? '' : '&amp;perpage='.$perpage));
 
-$HTMLOUT .= '<nav aria-label="You are here:" role="navigation">
+$HTMLOUT .= '
 <ul class="breadcrumbs">
   <li class="disabled">'.$TRINITY20['site_name'].'</li>
   <li><a href="forums.php">Forums</a></li>
@@ -81,8 +81,7 @@ $HTMLOUT .= '<nav aria-label="You are here:" role="navigation">
   <li>
     <span class="show-for-sr">Current: </span> '.htmlsafechars($subject).'
   </li>
-</ul>
-</nav>';
+</ul>';
 if ($Multi_forum['configs']['use_poll_mod'] && is_valid_id($pollid)) {
     ($res = sql_query("SELECT p.*, pa.id AS pa_id, pa.selection FROM postpolls AS p LEFT JOIN postpollanswers AS pa ON pa.pollid = p.id AND pa.userid = ".sqlesc($CURUSER['id'])." WHERE p.id=".sqlesc($pollid))) || sqlerr(__FILE__,
         __LINE__);
@@ -286,7 +285,7 @@ function popitup(url) {
     <div class='card-section'>
         <div class='callout'>{$topic_users}
         <span class='float-right'>". (getRate($topicid, "topic"))."</span></div>";
-    $HTMLOUT .= "<a name='top'></a>";
+    $HTMLOUT .= "<a id='top'></a>";
     $HTMLOUT .= '<div class="card-section">';
     ($res = sql_query("SELECT p.id, p.added, p.user_id, p.added, p.body, p.edited_by, p.edit_date, p.icon, p.anonymous as p_anon, p.user_likes, u.id AS uid, u.username as uusername, u.class, u.avatar, u.offensive_avatar, u.donor, u.title, u.username, u.reputation, u.mood, u.anonymous, u.country, u.enabled, u.warned, u.chatpost, u.leechwarn, u.pirate, u.king, u.uploaded, u.downloaded, u.signature, u.last_access, (SELECT COUNT(id)  FROM posts WHERE user_id = u.id) AS posts_count, u2.username as u2_username ".($Multi_forum['configs']['use_attachment_mod'] ? ", at.id as at_id, at.file_name as at_filename, at.post_id as at_postid, at.size as at_size, at.times_downloaded as at_downloads, at.user_id as at_owner " : "").", (SELECT last_post_read FROM read_posts WHERE user_id = ".sqlesc((int)$CURUSER['id'])." AND topic_id = p.topic_id LIMIT 1) AS last_post_read "."FROM posts AS p "."LEFT JOIN users AS u ON p.user_id = u.id ".($Multi_forum['configs']['use_attachment_mod'] ? "LEFT JOIN attachments AS at ON at.post_id = p.id " : "")."LEFT JOIN users AS u2 ON u2.id = p.edited_by "."WHERE p.topic_id = ".sqlesc($topicid)." ORDER BY id " . $LIMIT)) || sqlerr(__FILE__,
     __LINE__);
@@ -351,47 +350,46 @@ function popitup(url) {
             $by = (empty($postername) ? "unknown[".$posterid."]" : "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$posterid'>".$postername."</a>".($arr['enabled'] == 'no' ? "<img src='".$TRINITY20['pic_base_url']."disabled.gif' alt='This account is disabled' style='margin-left: 2px' />" : ''))."";
         }
         if (empty($avatar)) {
-            $avatar = "<img class='post_avatar' src='".$TRINITY20['pic_base_url'].$Multi_forum['configs']['forum_pics']['default_avatar']."' alt='Avatar' title='Avatar' />";
+            $avatar = "<img class='user-image' src='".$TRINITY20['pic_base_url'].$Multi_forum['configs']['forum_pics']['default_avatar']."'>";
         }
-        $HTMLOUT .= ($pn == $pc ? '<a name="last"></a>' : '');
-            $HTMLOUT .= "<div id='posts'>
-                <a name='".$postid."' id='".$postid."'></a>
-                <div class='post' style='' id='post_".$postid."'>
-                    <div class='grid-x grid-margin-x'>
-                    <div class='cell large-2 post_author'>
-                        <div class='post_avatar'>{$avatar}</div>
-                        <div class='post_information'>
-                            <strong>
-                                <button class='button' type='button' data-toggle='author-stats'>".$by."</button>
-                            </strong> 
-                            <img src='".$TRINITY20['pic_base_url'].$Multi_forum['configs']['forum_pics'][($last_access > (TIME_NOW - 360) || $posterid == $CURUSER['id'] ? 'on' : 'off').'line_btn']."' border='0' alt='' />
-                            <div class='dropdown-pane' id='author-stats' data-dropdown data-hover='true' data-hover-pane='true'>
-                                <span class='smalltext'>".$class_name."</span>";
-                                if ($TRINITY20['mood_sys_on']) {
-                                    $HTMLOUT .= '<!-- Mood -->
-                                        <span class="smalltext"><a href="javascript:;" onclick="PopUp("usermood.php","Mood",530,500,1,1);"><img src="'.$TRINITY20['pic_base_url'].'smilies/'.$moodpic.'" alt="'.$moodname.'" border="0" /></a>
-                                        <span class="tip">'.(($arr['p_anon'] == 'yes' && $CURUSER['class'] < UC_STAFF) ? '<i>Anonymous</i>' : htmlsafechars($arr['username'])).' '.$moodname.' !</span>&nbsp;</span>';
-                                }
-                                //' . (getRate($topicid, "topic")) . '
-                                if (($arr["p_anon"] == "yes") && $CURUSER['class'] < UC_STAFF && $posterid != $CURUSER["id"]) {
-                                    $HTMLOUT .= "";
-                                } else {
-                                    $HTMLOUT .= "
-                                      Posts:&nbsp;{$forumposts}<br>
-                                      Ratio:&nbsp;{$Ratio}<br>
-                                      Uploaded:&nbsp;{$uploaded}<br>
-                                      Downloaded:&nbsp;{$downloaded}<br>
-                                      ".($TRINITY20['rep_sys_on'] ? $member_reputation : "")."";
-                                }
+        $HTMLOUT .= ($pn == $pc ? '<a id="last"></a>' : '');
+            $HTMLOUT .= '<div id="posts">
+                <a id="'.$postid.'" id="'.$postid.'"></a>
+                <div class="post" style="" id="post_'.$postid.'">
+                    <div class="grid-x grid-margin-x">
+                        <div class="cell large-2">
+                            <div class="card-user-container">
+                                <div class="card-user-avatar hide-on-medium">'.$avatar.'</div>
+                                <div class="user-tabs">
+                                <div class="user-tab">
+                                    <input type="checkbox" hidden id="chck_'.$posterid.'_'.$postid.'">
+                                    <label class="user-tab-label float-center" for="chck_'.$posterid.'_'.$postid.'">'.$by.'</label>
+                                    <div class="user-tab-content">';
+                                    if ($TRINITY20['mood_sys_on']) {
+                                        $HTMLOUT .= '<!-- Mood -->
+                                            <span class="smalltext"><a href="javascript:;" onclick="PopUp("usermood.php","Mood",530,500,1,1);"><img src="'.$TRINITY20['pic_base_url'].'smilies/'.$moodpic.'" alt="'.$moodname.'" border="0" /></a>
+                                            <span class="tip">'.(($arr['p_anon'] == 'yes' && $CURUSER['class'] < UC_STAFF) ? '<i>Anonymous</i>' : htmlsafechars($arr['username'])).' '.$moodname.' !</span>&nbsp;</span>';
+                                    }
+                                    if (($arr["p_anon"] == "yes") && $CURUSER['class'] < UC_STAFF &&        $posterid != $CURUSER["id"]) {
+                                        $HTMLOUT .= "";
+                                    } else {
+                                        $HTMLOUT .= "<span class='smalltext'>Posts:{$forumposts}</span><br>
+                                        <span class='smalltext'>Ratio:&nbsp;{$Ratio}</span><br>
+                                        <span class='smalltext'>Uploaded:&nbsp;{$uploaded}</span><br>
+                                        <span class='smalltext'>Downloaded:&nbsp;{$downloaded}</span><br>
+                                        ".($TRINITY20['rep_sys_on'] ? $member_reputation : "")."";
+                                    }
+                                    $HTMLOUT .= '</div>
+                                </div>
+                            </div>';
                             $HTMLOUT .= "</div>
-                        </div>
                     </div>
                     <div class='cell large-10'>
                     <div class='card'>
                         <div class='card-divider'>
                             <div class='float-right'>
                                 <strong><a id='p".$postid."' name='p{$postid}' href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$topicid."&amp;page=p".$postid."#".$postid."'>#".$postid."</a></strong>
-                            </div>
+                                </div>
                             {$posticon}&nbsp;
                             <span class='post_date'>".$added."&nbsp;
                                 <span id='mlike' data-com='".(int)$arr["id"]."' class='forum {$wht}'>[".ucfirst($wht)."]</span>
@@ -405,7 +403,6 @@ function popitup(url) {
                         if (isset($newp)) {
                             $HTMLOUT .= $newp;
                         }
-                        $HTMLOUT .="<a href='#top'><img align='right' src='{$TRINITY20['pic_base_url']}".$Multi_forum['configs']['forum_pics']['arrow_up']."' alt='Top' /></a>";
                         $highlight = (isset($_GET['highlight']) ? htmlsafechars($_GET['highlight']) : '');
                         $body = (empty($highlight) ? format_comment($arr['body']) : highlight(htmlsafechars(trim($highlight)), format_comment($arr['body'])));
                         if ($Multi_forum['configs']['use_attachment_mod'] && ((!empty($arr['at_filename']) && is_valid_id($arr['at_id'])) && $arr['at_postid'] == $postid)) {
@@ -414,23 +411,23 @@ function popitup(url) {
                                     $aimg = $allowed_file_extension;
                                 }
                             }
-                            $body .= "<div style='padding:6px'>
+                            $body .= "<div>
                                     <fieldset class='fieldset'>
                                         <legend>Attached Files</legend>
                                         <table cellpadding='0' cellspacing='3' border='0'>
-                                        <tr>
-                                        <td><img class='inlineimg' src='{$TRINITY20['pic_base_url']}$aimg.gif' alt='' width='16' height='16' border='0' style='vertical-align:baseline' />&nbsp;</td>
-                                        <td><a href='{$TRINITY20['baseurl']}/forums.php?action=attachment&amp;attachmentid=".(int)$arr['at_id']."' target='_blank'>".htmlsafechars($arr['at_filename'])."</a> [".mksize($arr['at_size']).", ".(int)$arr['at_downloads']." downloads]</td>
-                                        <td>&nbsp;&nbsp;<input type='button' class='none' value='See who downloaded' tabindex='1' onclick='window.open('{$TRINITY20['baseurl']}/forums.php?action=whodownloaded&amp;fileid=".(int)$arr['at_id']."','whodownloaded','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50'); return false;' />".($CURUSER['class'] >= UC_STAFF ? "&nbsp;&nbsp;<input type='button' class='gobutton' value='Delete' tabindex='2' onclick='window.open('{$TRINITY20['baseurl']}/forums.php?action=attachment&amp;subaction=delete&amp;attachmentid=".(int)$arr['at_id']."','attachment','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50'); return false;' />" : "")."</td>
-                                        </tr>
+                                            <tr>
+                                            <td><img class='inlineimg' src='{$TRINITY20['pic_base_url']}$aimg.gif' alt='' width='16' height='16' border='0' style='vertical-align:baseline' />&nbsp;</td>
+                                            <td><a href='{$TRINITY20['baseurl']}/forums.php?action=attachment&amp;attachmentid=".(int)$arr['at_id']."' target='_blank'>".htmlsafechars($arr['at_filename'])."</a> [".mksize($arr['at_size']).", ".(int)$arr['at_downloads']." downloads]</td>
+                                            <td>&nbsp;&nbsp;<input type='button' class='none' value='See who downloaded' tabindex='1' onclick='window.open('{$TRINITY20['baseurl']}/forums.php?action=whodownloaded&amp;fileid=".(int)$arr['at_id']."','whodownloaded','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50'); return false;' />".($CURUSER['class'] >= UC_STAFF ? "&nbsp;&nbsp;<input type='button' class='gobutton' value='Delete' tabindex='2' onclick='window.open('{$TRINITY20['baseurl']}/forums.php?action=attachment&amp;subaction=delete&amp;attachmentid=".(int)$arr['at_id']."','attachment','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50'); return false;' />" : "")."</td>
+                                            </tr>
                                         </table>
-                                        </fieldset>
-                                        </div>";
+                                    </fieldset>
+                                </div>";
                         }
                         if (!empty($signature) && $arr["p_anon"] == "no") {
                             $body .= "<p style='vertical-align:bottom'><br />____________________<br />".$signature."</p>";
                         }
-                        $HTMLOUT .= "<div class='card-section'>{$body}</div>
+                        $HTMLOUT .= "<div>{$body}</div>
                     </div>
                     <div class='clearfix'>
                     <div class='button-group small float-left'>";
@@ -459,6 +456,7 @@ function popitup(url) {
                         if (($CURUSER["id"] == $posterid && !$locked) || $CURUSER['class'] >= UC_STAFF || isMod($forumid, "forum")) {
                             $HTMLOUT .= "<a href='{$TRINITY20['baseurl']}/forums.php?action=editpost&amp;postid=".$postid."' class='button'><span>Edit</span></a>";
                         }
+                        $HTMLOUT .= "<a class='button' href='#top'><i class='fas fa-arrow-up float-right'></i></a>";
                     $HTMLOUT .= '</div>
                 </div>
                 </div>

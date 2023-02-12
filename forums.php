@@ -67,6 +67,7 @@ $HTMLOUT = '';
 $stdhead = [
     /** include css **/
     'css' => [
+        'style2',
         'bbcode',
         'rating_style'
     ]
@@ -75,9 +76,11 @@ $stdfoot = [
     /** include js **/
     'js' => [
         'popup',
+        'shout',
         'sack',
     ],
 ];
+
 //=== Post/Get actions - so we know what to do :P
 $posted_action = (isset($_GET["action"]) ? htmlsafechars($_GET["action"]) : (isset($_POST["action"]) ? htmlsafechars($_POST["action"]) : ''));
 //=== Add all possible actions here and check them to be sure they are allowed :)
