@@ -14,7 +14,7 @@
 $HTMLOUT .= "<div class='card'>
 <div class='card-divider'>{$lang['index_advertise_t']}</div>
 <div class='card-section'>
-<a href='https://github.com/Bigjoos'><img class='img-thumbnail' src='pic/logo.png' alt='{$lang['index_advertise_t']}' title='{$lang['index_advertise_t']}' /></a>
+<a href='https://github.com/Bigjoos'><img class='img-thumbnail' src='pic/logo.png' alt='{$lang['index_advertise_t']}' title='{$lang['index_advertise_t']}'></a>
 </div></div>";
 //==End
 // End Class

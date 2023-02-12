@@ -16,7 +16,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     $HTMLOUT .= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
         <head>
-        <meta charset="'.charset().'" />
+        <meta charset="'.charset().'">
         <title>ERROR</title>
         </head><body>
         <h1 style="text-align:center;">Error</h1>
@@ -150,7 +150,7 @@ if ($Multi_forum['configs']['use_poll_mod'] && is_valid_id($pollid)) {
             if ($arr1["sort"] == "yes") {
                 usort($os, "srt");
             }
-            $HTMLOUT .= "<br />
+            $HTMLOUT .= "<br>
               ";
             foreach ($os as $a) {
                 if ($i === $uservote) {
@@ -317,7 +317,7 @@ function popitup(url) {
         $postid = (int)$arr["id"];
         $postadd = (int)$arr['added'];
         $posterid = (int)$arr['user_id'];
-        $posticon = ($arr["icon"] > 0 ? "<img src='{$TRINITY20['pic_base_url']}post_icons/icon".htmlsafechars($arr["icon"]).".gif' style='padding-left:3px;' alt='post icon' title='post icon' />" : "&nbsp;");
+        $posticon = ($arr["icon"] > 0 ? "<img src='{$TRINITY20['pic_base_url']}post_icons/icon".htmlsafechars($arr["icon"]).".gif' style='padding-left:3px;' alt='post icon' title='post icon'>" : "&nbsp;");
         $added = get_date($arr['added'], 'DATE', 1, 0)." GMT <font class='small'>(".(get_date($arr['added'], 'LONG', 1, 0)).")</font>";
         // ---- Get poster details
         $uploaded = mksize($arr['uploaded']);
@@ -344,10 +344,10 @@ function popitup(url) {
             if ($CURUSER['class'] < UC_STAFF) {
                 $by = "<i>Anonymous</i>";
             } else {
-                $by = "<i>Anonymous</i> [<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$posterid'> ".$postername."</a>]".($arr['enabled'] == 'no' ? "<img src='".$TRINITY20['pic_base_url']."disabled.gif' alt='This account is disabled' style='margin-left: 2px' />" : '')."$title";
+                $by = "<i>Anonymous</i> [<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$posterid'> ".$postername."</a>]".($arr['enabled'] == 'no' ? "<img src='".$TRINITY20['pic_base_url']."disabled.gif' alt='This account is disabled' style='margin-left: 2px'>" : '')."$title";
             }
         } else {
-            $by = (empty($postername) ? "unknown[".$posterid."]" : "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$posterid'>".$postername."</a>".($arr['enabled'] == 'no' ? "<img src='".$TRINITY20['pic_base_url']."disabled.gif' alt='This account is disabled' style='margin-left: 2px' />" : ''))."";
+            $by = (empty($postername) ? "unknown[".$posterid."]" : "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=$posterid'>".$postername."</a>".($arr['enabled'] == 'no' ? "<img src='".$TRINITY20['pic_base_url']."disabled.gif' alt='This account is disabled' style='margin-left: 2px'>" : ''))."";
         }
         if (empty($avatar)) {
             $avatar = "<img class='user-image' src='".$TRINITY20['pic_base_url'].$Multi_forum['configs']['forum_pics']['default_avatar']."'>";
@@ -367,7 +367,7 @@ function popitup(url) {
                                     <div class="user-tab-content">';
                                     if ($TRINITY20['mood_sys_on']) {
                                         $HTMLOUT .= '<!-- Mood -->
-                                            <span class="smalltext"><a href="javascript:;" onclick="PopUp("usermood.php","Mood",530,500,1,1);"><img src="'.$TRINITY20['pic_base_url'].'smilies/'.$moodpic.'" alt="'.$moodname.'" border="0" /></a>
+                                            <span class="smalltext"><a href="javascript:;" onclick="PopUp("usermood.php","Mood",530,500,1,1);"><img src="'.$TRINITY20['pic_base_url'].'smilies/'.$moodpic.'" alt="'.$moodname.'" border="0"></a>
                                             <span class="tip">'.(($arr['p_anon'] == 'yes' && $CURUSER['class'] < UC_STAFF) ? '<i>Anonymous</i>' : htmlsafechars($arr['username'])).' '.$moodname.' !</span>&nbsp;</span>';
                                     }
                                     if (($arr["p_anon"] == "yes") && $CURUSER['class'] < UC_STAFF &&        $posterid != $CURUSER["id"]) {
@@ -416,16 +416,16 @@ function popitup(url) {
                                         <legend>Attached Files</legend>
                                         <table cellpadding='0' cellspacing='3' border='0'>
                                             <tr>
-                                            <td><img class='inlineimg' src='{$TRINITY20['pic_base_url']}$aimg.gif' alt='' width='16' height='16' border='0' style='vertical-align:baseline' />&nbsp;</td>
+                                            <td><img class='inlineimg' src='{$TRINITY20['pic_base_url']}$aimg.gif' alt='' width='16' height='16' border='0' style='vertical-align:baseline'>&nbsp;</td>
                                             <td><a href='{$TRINITY20['baseurl']}/forums.php?action=attachment&amp;attachmentid=".(int)$arr['at_id']."' target='_blank'>".htmlsafechars($arr['at_filename'])."</a> [".mksize($arr['at_size']).", ".(int)$arr['at_downloads']." downloads]</td>
-                                            <td>&nbsp;&nbsp;<input type='button' class='none' value='See who downloaded' tabindex='1' onclick='window.open('{$TRINITY20['baseurl']}/forums.php?action=whodownloaded&amp;fileid=".(int)$arr['at_id']."','whodownloaded','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50'); return false;' />".($CURUSER['class'] >= UC_STAFF ? "&nbsp;&nbsp;<input type='button' class='gobutton' value='Delete' tabindex='2' onclick='window.open('{$TRINITY20['baseurl']}/forums.php?action=attachment&amp;subaction=delete&amp;attachmentid=".(int)$arr['at_id']."','attachment','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50'); return false;' />" : "")."</td>
+                                            <td>&nbsp;&nbsp;<input type='button' class='none' value='See who downloaded' tabindex='1' onclick='window.open('{$TRINITY20['baseurl']}/forums.php?action=whodownloaded&amp;fileid=".(int)$arr['at_id']."','whodownloaded','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50'); return false;'>".($CURUSER['class'] >= UC_STAFF ? "&nbsp;&nbsp;<input type='button' class='gobutton' value='Delete' tabindex='2' onclick='window.open('{$TRINITY20['baseurl']}/forums.php?action=attachment&amp;subaction=delete&amp;attachmentid=".(int)$arr['at_id']."','attachment','toolbar=no, scrollbars=yes, resizable=yes, width=600, height=250, top=50, left=50'); return false;'>" : "")."</td>
                                             </tr>
                                         </table>
                                     </fieldset>
                                 </div>";
                         }
                         if (!empty($signature) && $arr["p_anon"] == "no") {
-                            $body .= "<p style='vertical-align:bottom'><br />____________________<br />".$signature."</p>";
+                            $body .= "<p style='vertical-align:bottom'><br>____________________<br>".$signature."</p>";
                         }
                         $HTMLOUT .= "<div>{$body}</div>
                     </div>

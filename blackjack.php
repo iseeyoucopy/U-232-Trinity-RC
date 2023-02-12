@@ -59,7 +59,7 @@ if ($game) {
         foreach ($arr as $card_id) {
             $used_card = sql_query("SELECT * FROM cards WHERE id=".sqlesc($card_id));
             $used_cards = $used_card->fetch_assoc();
-            $showcards .= "<img src='{$TRINITY20['pic_base_url']}cards/".htmlsafechars($used_cards["pic"])."' width='71' height='96' border='0' alt='{$lang['bj_cards']}' title='{$lang['bj_cards']}' />";
+            $showcards .= "<img src='{$TRINITY20['pic_base_url']}cards/".htmlsafechars($used_cards["pic"])."' width='71' height='96' border='0' alt='{$lang['bj_cards']}' title='{$lang['bj_cards']}'>";
             if ($used_cards["points"] > 1) {
                 $points += $used_cards['points'];
             } else {
@@ -89,7 +89,7 @@ if ($game) {
                 stderr($lang['bj_sorry'], $lang['bj_you_will_have_to_wait_til_complete']);
             } elseif ($arr['status'] == 'playing') {
                 stderr($lang['bj_sorry'],
-                    "{$lang['bj_you_most_finish_current']}<div class='col-sm-4 col-sm-offset-4'><form method='post' action='".$_SERVER['PHP_SELF']."'><input type='hidden' name='game' value='hit' readonly='readonly' /><input type='hidden' name='continue' value='yes' readonly='readonly' /><input class='form-control btn btn-default' type='submit' value='{$lang['bj_continue_old_game']}' /></form></div>");
+                    "{$lang['bj_you_most_finish_current']}<div class='col-sm-4 col-sm-offset-4'><form method='post' action='".$_SERVER['PHP_SELF']."'><input type='hidden' name='game' value='hit' readonly='readonly'><input type='hidden' name='continue' value='yes' readonly='readonly'><input class='form-control btn btn-default' type='submit' value='{$lang['bj_continue_old_game']}'></form></div>");
             }
             cheater_check($arr['gameover'] == 'yes');
             $cardids = [];
@@ -107,7 +107,7 @@ if ($game) {
                 } else {
                     $aces++;
                 }
-                $showcards .= "<img src='{$TRINITY20['pic_base_url']}cards/".htmlsafechars($cardarr['pic'])."' width='71' height='96' border='0' alt='{$lang['bj_cards']}' title='{$lang['bj_cards']}' />";
+                $showcards .= "<img src='{$TRINITY20['pic_base_url']}cards/".htmlsafechars($cardarr['pic'])."' width='71' height='96' border='0' alt='{$lang['bj_cards']}' title='{$lang['bj_cards']}'>";
                 $cardids2[] = $cardid;
             }
             for ($i = 0; $i < $aces; $i++) {
@@ -123,11 +123,11 @@ if ($game) {
                 <tr><td align='center'>".trim($showcards)."</td></tr>
                 <tr><td align='center'><b>{$lang['bj_points']} = {$points}</b></td></tr>
                 <tr><td align='center'>
-                <div class='col-sm-4 col-sm-offset-4'><form class='form-horizontal' method='post' action='".$_SERVER['PHP_SELF']."'><input type='hidden' name='game' value='hit' readonly='readonly' /><input class='form-control btn btn-default' type='submit' value='Hitme' /></form></div>
+                <div class='col-sm-4 col-sm-offset-4'><form class='form-horizontal' method='post' action='".$_SERVER['PHP_SELF']."'><input type='hidden' name='game' value='hit' readonly='readonly'><input class='form-control btn btn-default' type='submit' value='Hitme'></form></div>
                 </td></tr>";
                 if ($points >= 10) {
                     $HTMLOUT .= "<tr><td align='center'>
-                <div class='col-sm-4 col-sm-offset-4'><form class='form-horizontal' method='post' action='".$_SERVER['PHP_SELF']."'><input type='hidden' name='game' value='stop' readonly='readonly' /><input class='form-control btn btn-default' type='submit' value='{$lang['bj_stay']}' /></form></div>
+                <div class='col-sm-4 col-sm-offset-4'><form class='form-horizontal' method='post' action='".$_SERVER['PHP_SELF']."'><input type='hidden' name='game' value='stop' readonly='readonly'><input class='form-control btn btn-default' type='submit' value='{$lang['bj_stay']}'></form></div>
                 </td></tr>";
                 }
                 $HTMLOUT .= "</table></td></tr></table></div></div>";
@@ -142,7 +142,7 @@ if ($game) {
             }
             $cardres = sql_query("SELECT points, pic FROM cards WHERE id='$cardid'");
             $cardarr = $cardres->fetch_assoc();
-            $showcards .= "<img src='{$TRINITY20['pic_base_url']}cards/".$cardarr['pic']."' width='71' height='96' border='0' alt='{$lang['bj_cards']}' title='{$lang['bj_cards']}' />";
+            $showcards .= "<img src='{$TRINITY20['pic_base_url']}cards/".$cardarr['pic']."' width='71' height='96' border='0' alt='{$lang['bj_cards']}' title='{$lang['bj_cards']}'>";
             if ($cardarr["points"] > 1) {
                 $points += $cardarr["points"];
             } else {
@@ -212,12 +212,12 @@ if ($game) {
                 $cache->delete($cache_keys['inbox_new'].$a['userid']);
                 $cache->delete($cache_keys['inbox_new_sb'].$a['userid']);
                 sql_query("DELETE FROM blackjack WHERE userid IN (".sqlesc($CURUSER['id']).", ".sqlesc($a['userid']).")");
-                $HTMLOUT .= "<tr><td align='center'>{$lang['bj_your_opp_was']} ".htmlsafechars($a["username"]).", {$lang['bj_he_she_had']} ".htmlsafechars($a['points'])." {$lang['bj_points2']}, $winorlose.<br /><br /><b><a href='/blackjack.php'>{$lang['bj_play_again']}</a></b></td></tr>";
+                $HTMLOUT .= "<tr><td align='center'>{$lang['bj_your_opp_was']} ".htmlsafechars($a["username"]).", {$lang['bj_he_she_had']} ".htmlsafechars($a['points'])." {$lang['bj_points2']}, $winorlose.<br><br><b><a href='/blackjack.php'>{$lang['bj_play_again']}</a></b></td></tr>";
             } else {
                 sql_query("UPDATE blackjack SET status = 'waiting', date=".$now.", gameover = 'yes' WHERE userid = ".sqlesc($CURUSER['id']));
-                $HTMLOUT .= "<tr><td align='center'>{$lang['bj_there_are_no_other_players']}<br /><br /><b><a href='/blackjack.php'>{$lang['bj_back']}</a></b><br /></td></tr>";
+                $HTMLOUT .= "<tr><td align='center'>{$lang['bj_there_are_no_other_players']}<br><br><b><a href='/blackjack.php'>{$lang['bj_back']}</a></b><br></td></tr>";
             }
-            $HTMLOUT .= "</table></td></tr></table></div></div><br />";
+            $HTMLOUT .= "</table></td></tr></table></div></div><br>";
             echo stdhead($lang['bj_title']).$HTMLOUT.stdfoot();
         } elseif ($points > 21) {
             if ($waitarr['c'] > 0) {
@@ -268,12 +268,12 @@ if ($game) {
                 $cache->delete($cache_keys['inbox_new'].$a['userid']);
                 $cache->delete($cache_keys['inbox_new_sb'].$a['userid']);
                 sql_query("DELETE FROM blackjack WHERE userid IN (".sqlesc($CURUSER['id']).", ".sqlesc($a['userid']).")");
-                $HTMLOUT .= "<tr><td align='center'>{$lang['bj_your_opp_was']} ".htmlsafechars($a["username"]).", {$lang['bj_he_she_had']} ".htmlsafechars($a['points'])." {$lang['bj_points2']}, $winorlose.<br /><br /><b><a href='blackjack.php'>{$lang['bj_play_again']}</a></b></td></tr>";
+                $HTMLOUT .= "<tr><td align='center'>{$lang['bj_your_opp_was']} ".htmlsafechars($a["username"]).", {$lang['bj_he_she_had']} ".htmlsafechars($a['points'])." {$lang['bj_points2']}, $winorlose.<br><br><b><a href='blackjack.php'>{$lang['bj_play_again']}</a></b></td></tr>";
             } else {
                 sql_query("UPDATE blackjack SET status = 'waiting', date=".$now.", gameover='yes' WHERE userid = ".sqlesc($CURUSER['id']));
-                $HTMLOUT .= "<tr><td align='center'>{$lang['bj_there_are_no_other_players']}<br /><br /><b><a href='/blackjack.php'>{$lang['bj_back']}</a></b><br /></td></tr>";
+                $HTMLOUT .= "<tr><td align='center'>{$lang['bj_there_are_no_other_players']}<br><br><b><a href='/blackjack.php'>{$lang['bj_back']}</a></b><br></td></tr>";
             }
-            $HTMLOUT .= "</table></td></tr></table></div></div><br />";
+            $HTMLOUT .= "</table></td></tr></table></div></div><br>";
             echo stdhead($lang['bj_title']).$HTMLOUT.stdfoot();
         } else {
             cheater_check(empty($playerarr));
@@ -285,13 +285,13 @@ if ($game) {
             <tr><td align='center'><b>{$lang['bj_points']} = {$points}</b></td></tr>";
             $HTMLOUT .= "<tr>
       <td align='center'>
-<div class='col-sm-4 col-sm-offset-4'><form class='form-horizontal' method='post' action='".$_SERVER['PHP_SELF']."'><input type='hidden' name='game' value='hit' readonly='readonly' /><input class='form-control' type='submit' value='{$lang['bj_hitme']}' /></form></div></td>
+<div class='col-sm-4 col-sm-offset-4'><form class='form-horizontal' method='post' action='".$_SERVER['PHP_SELF']."'><input type='hidden' name='game' value='hit' readonly='readonly'><input class='form-control' type='submit' value='{$lang['bj_hitme']}'></form></div></td>
       </tr>";
             $HTMLOUT .= "<tr>
       <td align='center'>
-<div class='col-sm-4 col-sm-offset-4'><form class='form-horizontal'  method='post' action='".$_SERVER['PHP_SELF']."'><input type='hidden' name='game' value='stop' readonly='readonly' /><input class='form-control'  type='submit' value='{$lang['bj_stay']}' /></form></div></td>
+<div class='col-sm-4 col-sm-offset-4'><form class='form-horizontal'  method='post' action='".$_SERVER['PHP_SELF']."'><input type='hidden' name='game' value='stop' readonly='readonly'><input class='form-control'  type='submit' value='{$lang['bj_stay']}'></form></div></td>
       </tr>";
-            $HTMLOUT .= "</table></td></tr></table></div></div><br />";
+            $HTMLOUT .= "</table></td></tr></table></div></div><br>";
             echo stdhead($lang['bj_title']).$HTMLOUT.stdfoot();
         }
     } elseif ($_POST["game"] == 'stop') {
@@ -362,12 +362,12 @@ if ($game) {
             $cache->delete($cache_keys['inbox_new'].$a['userid']);
             $cache->delete($cache_keys['inbox_new_sb'].$a['userid']);
             sql_query("DELETE FROM blackjack WHERE userid IN (".sqlesc($CURUSER['id']).", ".sqlesc($a['userid']).")");
-            $HTMLOUT .= "<tr><td align='center'>{$lang['bj_your_opp_was']} ".htmlsafechars($a["username"]).", {$lang['bj_he_she_had']} ".htmlsafechars($a['points'])." {$lang['bj_points2']}, $winorlose.<br /><br /><b><a href='/blackjack.php'>{$lang['bj_play_again']}</a></b></td></tr>";
+            $HTMLOUT .= "<tr><td align='center'>{$lang['bj_your_opp_was']} ".htmlsafechars($a["username"]).", {$lang['bj_he_she_had']} ".htmlsafechars($a['points'])." {$lang['bj_points2']}, $winorlose.<br><br><b><a href='/blackjack.php'>{$lang['bj_play_again']}</a></b></td></tr>";
         } else {
             sql_query("UPDATE blackjack SET status = 'waiting', date=".$now.", gameover='yes' WHERE userid = ".sqlesc($CURUSER['id']));
-            $HTMLOUT .= "<tr><td align='center'>{$lang['bj_there_are_no_other_players']}<br /><br /><b><a href='/blackjack.php'>{$lang['bj_back']}</a></b><br /></td></tr>";
+            $HTMLOUT .= "<tr><td align='center'>{$lang['bj_there_are_no_other_players']}<br><br><b><a href='/blackjack.php'>{$lang['bj_back']}</a></b><br></td></tr>";
         }
-        $HTMLOUT .= "</table></td></tr></table></div></div><br />";
+        $HTMLOUT .= "</table></td></tr></table></div></div><br>";
         echo stdhead($lang['bj_title']).$HTMLOUT.stdfoot();
     }
 } else {
@@ -385,14 +385,14 @@ if ($game) {
     <div class='row'><div class='col-sm-6 col-sm-offset-3'><table class='table'>
     <tr><td colspan='2' align='center'>
     <table class='message table'>
-    <tr><td align='center'><img src='{$TRINITY20['pic_base_url']}cards/tp.bmp' width='71' height='96' border='0' alt='' />&nbsp;<img src='{$TRINITY20['pic_base_url']}cards/vp.bmp' width='71' height='96' border='0' alt='' /></td></tr>
-    <tr><td align='left'>{$lang['bj_you_most_collect_21']}<br /><br />
+    <tr><td align='center'><img src='{$TRINITY20['pic_base_url']}cards/tp.bmp' width='71' height='96' border='0' alt=''>&nbsp;<img src='{$TRINITY20['pic_base_url']}cards/vp.bmp' width='71' height='96' border='0' alt=''></td></tr>
+    <tr><td align='left'>{$lang['bj_you_most_collect_21']}<br><br>
     <b>{$lang['bj_note']}</b> ".$lang['bj_bj_note_cost'].mksize($mb).$lang['bj_bj_note_cost2']."</td></tr>
     <tr><td align='center'>
-    <div class='col-sm-2 col-sm-offset-5'><form class='form-horizontal' method='post' action='".$_SERVER['PHP_SELF']."'><input type='hidden' name='game' value='hit' readonly='readonly' /><input type='hidden' name='start_' value='yes' readonly='readonly' /><input class='form-control btn btn-default input-small'type='submit' value='Start!' /></form></div>
+    <div class='col-sm-2 col-sm-offset-5'><form class='form-horizontal' method='post' action='".$_SERVER['PHP_SELF']."'><input type='hidden' name='game' value='hit' readonly='readonly'><input type='hidden' name='start_' value='yes' readonly='readonly'><input class='form-control btn btn-default input-small'type='submit' value='Start!'></form></div>
     </td></tr></table>
     </td></tr></table></div></div>
-    <br /><br /><br />
+    <br><br><br>
   <div class='row'><div class='col-sm-6 col-sm-offset-3'><table class='table'>
     <tr><td colspan='2' align='center'>
     <h1>{$lang['bj_personal_stats']}</h1></td></tr>

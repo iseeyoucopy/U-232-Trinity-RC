@@ -21,7 +21,7 @@ function begin_f_head_label($x){    return "<span class='nav navbar-nav navbar-r
 // head lebel with no image
 function begin_f_head_label_noimage($x){    return "<label for='checkbox_4' class='text-left'>";}
 // image to use to collapse
-function collapse_image(){    return "<img src='templates/1/pic/carbon/collapse.png' alt='[-]' title='[-/+]' />";}
+function collapse_image(){    return "<img src='templates/1/pic/carbon/collapse.png' alt='[-]' title='[-/+]'>";}
 // end head label with image on right
 function end_f_head_label(){    return "</label></span>";}
 // end head label with no image

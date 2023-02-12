@@ -16,8 +16,8 @@ if (!defined('BUNNY_PM_SYSTEM')) {
     $HTMLOUT .= '<!doctype html>
 <html class="no-js" lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ERROR</title>
     <link rel="stylesheet" href="/../../foundation/dist/assets/css/app.css">
   </head>
@@ -127,7 +127,7 @@ while ($i <= ($maxbox > 200 ? 200 : $maxbox)) {
     $per_page_drop_down .= '<option value="'.$link.'&amp;change_pm_number='.$i.'"  '.($CURUSER['pms_per_page'] == $i ? ' selected="selected"' : '').'>'.$i.''.$lang['pm_edmail_perpage'].'</option>';
     $i = ($i < 100 ? $i += 10 : ($i += 25));
 }
-$per_page_drop_down .= '</select><input type="hidden" name="box" value="'.$mailbox.'" /></form>';
+$per_page_drop_down .= '</select><input type="hidden" name="box" value="'.$mailbox.'"></form>';
 //=== the bottom
 if ($res->num_rows > 0) {
     $HTMLOUT .= '<a href="javascript:SetChecked(1,\'pm[]\')">'.$lang['pm_search_selall'].'</a>

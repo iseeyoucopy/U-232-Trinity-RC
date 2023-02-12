@@ -275,7 +275,7 @@ switch ($action) {
             $HTMLOUT .= stdmsg($lang['forum_pg_warn1'], $lang['forum_pg_warn2']);
         }
         $HTMLOUT .= "<div class='navigation'><a href='index.php'>".$TRINITY20["site_name"]."</a>
-          <br><span class='active'></span></div> <br />";
+          <br><span class='active'></span></div> <br>";
         ($ovf_res = sql_query("SELECT id, name, min_class_view FROM over_forums ORDER BY sort ASC")) || sqlerr(__FILE__, __LINE__);
         while ($ovf_arr = $ovf_res->fetch_assoc()) {
             if ($CURUSER['class'] < $ovf_arr["min_class_view"]) {

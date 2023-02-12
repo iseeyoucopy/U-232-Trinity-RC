@@ -62,8 +62,8 @@ if (isset($open) && $open == 1) {
                     'gotgift' => 'yes',
                 ], $TRINITY20['expires']['curuser']);
                 header('Refresh: 5; url='.$TRINITY20['baseurl'].'/index.php');
-                stderr("Congratulations!", "<img src=\"{$TRINITY20['pic_base_url']}gift.png\" style=\"float: left; padding-right:10px;\" alt=\"Xmas Gift\" title=\"Xmas Gift\" /> <h2> You just got  1 invite 10 GB upload and bonus 1 freeslot !</h2>
-Thanks for your support and sharing through year ".date('Y')." ! <br /> Merry Christmas and a happy New Year from {$TRINITY20['site_name']}  Crew ! Redirecting in 5..4..3..2..1");
+                stderr("Congratulations!", "<img src=\"{$TRINITY20['pic_base_url']}gift.png\" style=\"float: left; padding-right:10px;\" alt=\"Xmas Gift\" title=\"Xmas Gift\"> <h2> You just got  1 invite 10 GB upload and bonus 1 freeslot !</h2>
+Thanks for your support and sharing through year ".date('Y')." ! <br> Merry Christmas and a happy New Year from {$TRINITY20['site_name']}  Crew ! Redirecting in 5..4..3..2..1");
             }
             if ($gift == "bonus") {
                 sql_query("UPDATE users SET invites=invites+3,  seedbonus = seedbonus + 1750, gotgift='yes' WHERE id=".sqlesc($userid)) || sqlerr(__FILE__,
@@ -85,8 +85,8 @@ Thanks for your support and sharing through year ".date('Y')." ! <br /> Merry Ch
                     'gotgift' => 'yes',
                 ], $TRINITY20['expires']['curuser']);
                 header('Refresh: 5; url='.$TRINITY20['baseurl'].'/index.php');
-                stderr("Congratulations!", "<img src=\"{$TRINITY20['pic_base_url']}gift.png\" style=\"float: left; padding-right:10px;\" alt=\"Xmas Gift\" title=\"Xmas Gift\" /> <h2> You just got 3 invites 1750 karma bonus points !</h2>
-Thanks for your support and sharing through year ".date('Y')." ! <br /> Merry Christmas and a happy New Year from {$TRINITY20['site_name']}  Crew ! Redirecting in 5..4..3..2..1");
+                stderr("Congratulations!", "<img src=\"{$TRINITY20['pic_base_url']}gift.png\" style=\"float: left; padding-right:10px;\" alt=\"Xmas Gift\" title=\"Xmas Gift\"> <h2> You just got 3 invites 1750 karma bonus points !</h2>
+Thanks for your support and sharing through year ".date('Y')." ! <br> Merry Christmas and a happy New Year from {$TRINITY20['site_name']}  Crew ! Redirecting in 5..4..3..2..1");
             }
             if ($gift == "invites") {
                 sql_query("UPDATE users SET invites=invites+2, seedbonus = seedbonus + 2000, freeslots=freeslots+3, gotgift='yes' WHERE id=".sqlesc($userid)) || sqlerr(__FILE__,
@@ -111,8 +111,8 @@ Thanks for your support and sharing through year ".date('Y')." ! <br /> Merry Ch
                     'gotgift' => 'yes',
                 ], $TRINITY20['expires']['curuser']);
                 header('Refresh: 5; url='.$TRINITY20['baseurl'].'/index.php');
-                stderr("Congratulations!", "<img src=\"{$TRINITY20['pic_base_url']}gift.png\" style=\"float: left; padding-right:10px;\" alt=\"Xmas Gift\" title=\"Xmas Gift\" /> <h2> You just got 2 invites and 2000 bonus points and a bonus 3 freeslots !</h2>
-Thanks for your support and sharing through year ".date('Y')." ! <br /> Merry Christmas and a happy New Year from {$TRINITY20['site_name']} Crew ! Redirecting in 5..4..3..2..1");
+                stderr("Congratulations!", "<img src=\"{$TRINITY20['pic_base_url']}gift.png\" style=\"float: left; padding-right:10px;\" alt=\"Xmas Gift\" title=\"Xmas Gift\"> <h2> You just got 2 invites and 2000 bonus points and a bonus 3 freeslots !</h2>
+Thanks for your support and sharing through year ".date('Y')." ! <br> Merry Christmas and a happy New Year from {$TRINITY20['site_name']} Crew ! Redirecting in 5..4..3..2..1");
             }
             if ($gift == "bonus2") {
                 sql_query("UPDATE users SET invites=invites+3, uploaded=uploaded+1024*1024*1024*20, seedbonus = seedbonus + 2500, freeslots=freeslots+5, gotgift='yes' WHERE id=".sqlesc($userid)) || sqlerr(__FILE__,
@@ -140,16 +140,16 @@ Thanks for your support and sharing through year ".date('Y')." ! <br /> Merry Ch
                     'gotgift' => 'yes',
                 ], $TRINITY20['expires']['curuser']);
                 header('Refresh: 5; url='.$TRINITY20['baseurl'].'/index.php');
-                stderr("Congratulations!", "<img src=\"{$TRINITY20['pic_base_url']}gift.png\" style=\"float: left; padding-right:10px;\" alt=\"Xmas Gift\" title=\"Xmas Gift\" /> <h2> You just got 3 invites 1750 karma bonus points !</h2>
-Thanks for your support and sharing through year ".date('Y')." ! <br /> Merry Christmas and a happy New Year from {$TRINITY20['site_name']} Crew ! Redirecting in 5..4..3..2..1");
+                stderr("Congratulations!", "<img src=\"{$TRINITY20['pic_base_url']}gift.png\" style=\"float: left; padding-right:10px;\" alt=\"Xmas Gift\" title=\"Xmas Gift\"> <h2> You just got 3 invites 1750 karma bonus points !</h2>
+Thanks for your support and sharing through year ".date('Y')." ! <br> Merry Christmas and a happy New Year from {$TRINITY20['site_name']} Crew ! Redirecting in 5..4..3..2..1");
             }
         } else {
             stderr("Sorry...", "You already got your gift !");
         }
     } else {
         stderr("Doh...", "Be patient!  You can't open your present until Christmas day ! <b>".date("z",
-                ($xmasday - $today))."</b> day(s) to go. <br /> Today : <b><span style='color:red'>".date('l dS \of F Y h:i:s A',
-                $today)."</span></b><br />Christmas day : <b><span style='color:green'>".date('l dS \of F Y h:i:s A', $xmasday)."</span></b>");
+                ($xmasday - $today))."</b> day(s) to go. <br> Today : <b><span style='color:red'>".date('l dS \of F Y h:i:s A',
+                $today)."</span></b><br>Christmas day : <b><span style='color:green'>".date('l dS \of F Y h:i:s A', $xmasday)."</span></b>");
     }
 }
 ?>

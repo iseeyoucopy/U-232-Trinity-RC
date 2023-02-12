@@ -16,7 +16,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     $HTMLOUT .= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
         <head>
-        <meta charset="'.charset().'" />
+        <meta charset="'.charset().'">
         <title>ERROR</title>
         </head><body>
         <h1 style="text-align:center;">Error</h1>
@@ -69,7 +69,7 @@ if ($count > 0) {
             <a href='forums.php'>Forums</a>
             <br><img src='templates/1/pic/carbon/nav_bit.png' alt=''>
             <span class='active'>Catch Up</span>
-            </div> <br />";
+            </div> <br>";
     $HTMLOUT .= $pager['pagertop'];
 
     $HTMLOUT .= "	<script type='text/javascript'>
@@ -97,8 +97,8 @@ if ($count > 0) {
         </script>";
 
     $HTMLOUT .= "<form method='post' action='{$TRINITY20['baseurl']}/forums.php?action=viewunread'>
-        <input type='hidden' name='viewunread' value='clear' />";
-    $HTMLOUT .= "<br /><table class='table table-bordered'>
+        <input type='hidden' name='viewunread' value='clear'>";
+    $HTMLOUT .= "<br><table class='table table-bordered'>
           <tr>
     <td class='thead' colspan='8'>
         <div>
@@ -122,10 +122,10 @@ if ($count > 0) {
                     <span class='thread_status newfolder' title='New posts.'>&nbsp;</span>
                 </td>
                 <td class=row align='left'>
-                    <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".(int)$arr['id']."&amp;page=last#last'>".htmlsafechars($arr['topic_name'])."</a><br />in&nbsp;<font class='small'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$arr['forum_id']."'>".htmlsafechars($arr['name'])."</a></font>
+                    <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".(int)$arr['id']."&amp;page=last#last'>".htmlsafechars($arr['topic_name'])."</a><br>in&nbsp;<font class='small'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$arr['forum_id']."'>".htmlsafechars($arr['name'])."</a></font>
                  </td>
                 <td class=row align='center'>
-                    <input type='checkbox' name='topic_id[]' value='".htmlsafechars($arr['id'])."' />
+                    <input type='checkbox' name='topic_id[]' value='".htmlsafechars($arr['id'])."'>
                 </td>
             </tr>";
     }
@@ -133,7 +133,7 @@ if ($count > 0) {
     $mysqli->next_result();
     $HTMLOUT .= "<tr>
             <td class='tfoot' align='right' colspan='3'>
-                <input class='btn btn-primary dropdown-toggle' type='button' value='Check All' onclick=\"this.value = check(form);\" />&nbsp;<input class='btn btn-primary dropdown-toggle' type='submit' value='Clear selected' />
+                <input class='btn btn-primary dropdown-toggle' type='button' value='Check All' onclick=\"this.value = check(form);\">&nbsp;<input class='btn btn-primary dropdown-toggle' type='submit' value='Clear selected'>
             </td>
         </tr>";
 
@@ -147,4 +147,4 @@ if ($count > 0) {
 }
 
 stderr("Sorry...",
-    "There are no unread posts.<br /><br />Click <a href='{$TRINITY20['baseurl']}/forums.php?action=getdaily'>here</a> to get today's posts (last 24h).")."<br>";
+    "There are no unread posts.<br><br>Click <a href='{$TRINITY20['baseurl']}/forums.php?action=getdaily'>here</a> to get today's posts (last 24h).")."<br>";

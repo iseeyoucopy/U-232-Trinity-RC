@@ -204,12 +204,12 @@ class PHPZip
         }
         // Security checks
         if ($archiveName == "") {
-            echo "<html><title>Public Photo Directory - Download </title><body><br /><b>ERROR:</b> The download file was NOT SPECIFIED.</body></html>";
+            echo "<html><title>Public Photo Directory - Download </title><body><br><b>ERROR:</b> The download file was NOT SPECIFIED.</body></html>";
             exit;
         }
 
         if (!file_exists($archiveName)) {
-            echo "<html><title>Public Photo Directory - Download </title><body><br /><b>ERROR:</b> File not found.</body></html>";
+            echo "<html><title>Public Photo Directory - Download </title><body><br><b>ERROR:</b> File not found.</body></html>";
             exit;
         }
         header("Pragma: public");

@@ -29,7 +29,7 @@ if (!XBT_TRACKER && $TRINITY20['crazy_hour']) {
             }
             $cache->set($cache_keys['crazyhour'], $crazyhour['crazyhour'], 0);
         }
-        $cimg = '<img src="'.$TRINITY20['pic_base_url'].'cat_free.gif" alt="FREE!" />';
+        $cimg = '<img src="'.$TRINITY20['pic_base_url'].'cat_free.gif" alt="FREE!">';
         if ($crazyhour['crazyhour']['var'] < TIME_NOW) { // if crazyhour over
             $cz_lock = $cache->set($cache_keys['crazyhour_lock'], 1, 10);
             if ($cz_lock !== false) {

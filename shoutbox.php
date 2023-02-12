@@ -73,9 +73,9 @@ if (isset($_GET['edit']) && $CURUSER['class'] >= UC_STAFF && is_valid_id($_GET['
 </head>
 <body bgcolor='#F5F4EA' class='date'>
 <form method='post' action='./shoutbox.php'>
-<input type='hidden' name='id' value='" . (int)$res['id'] . "' />
+<input type='hidden' name='id' value='" . (int)$res['id'] . "'>
 <textarea name='text' rows='3' id='specialbox'>" . htmlsafechars($res['text']) . "</textarea>
-<input type='submit' name='save' value='{$lang['shoutbox_edit_save']}' class='btn' />
+<input type='submit' name='save' value='{$lang['shoutbox_edit_save']}' class='btn'>
 </form></body></html>";
     echo $HTMLOUT;
     die;
@@ -91,10 +91,10 @@ if (isset($_GET['edit']) && ($_GET['user'] == $CURUSER['id']) && ($CURUSER['clas
 </head>
 <body bgcolor='#F5F4EA' class='date'>
 <form method='post' action='./shoutbox.php'>
-<input type='hidden' name='id' value='" . (int)$res['id'] . "' />
-<input type='hidden' name='user' value='" . (int)$res['userid'] . "' />
+<input type='hidden' name='id' value='" . (int)$res['id'] . "'>
+<input type='hidden' name='user' value='" . (int)$res['userid'] . "'>
 <textarea name='text' rows='3' id='specialbox'>" . htmlsafechars($res['text']) . "</textarea>
-<input type='submit' name='save' value='{$lang['shoutbox_edit_save']}' class='btn' />
+<input type='submit' name='save' value='{$lang['shoutbox_edit_save']}' class='btn'>
 </form></body></html>";
     echo $HTMLOUT;
     die;
@@ -123,13 +123,13 @@ if (isset($_POST['text']) && (isset($_POST['user']) == $CURUSER['id']) && ($CURU
 $HTMLOUT.= "<!DOCTYPE html>
 <head>
 <title>ShoutBox</title>
-<meta http-equiv='refresh' content='60; url=./shoutbox.php' />
+<meta http-equiv='refresh' content='60; url=./shoutbox.php'>
 <script type='text/javascript' src='./scripts/shout.js'></script>
 <link rel='stylesheet' href='./dist/css/app.css'>
 </head><body>";
 //== Banned from shout ??
 if ($CURUSER['chatpost'] == 0 || $CURUSER['chatpost'] > 1) {
-    $HTMLOUT.= "<div class='error' align='center'><br /><font color='red'>{$lang['shoutbox_banned']}</font>  (<a href=\"./rules.php\" target=\"_blank\"><font color='red'>{$lang['shoutbox_banned_why']}</font></a>)<br /><br /></div></body></html>";
+    $HTMLOUT.= "<div class='error' align='center'><br><font color='red'>{$lang['shoutbox_banned']}</font>  (<a href=\"./rules.php\" target=\"_blank\"><font color='red'>{$lang['shoutbox_banned_why']}</font></a>)<br><br></div></body></html>";
     echo $HTMLOUT;
     exit;
 }
@@ -370,7 +370,7 @@ if ($shouts && count($shouts) > 0) {
     }
     if ($shouts) {
         if ($CURUSER['perms'] & bt_options::NOFKNBEEP) {
-            if (preg_match(sprintf("/%s/iU", $CURUSER['username']) , $shouts[0]['text']) && ($shouts[0]['date'] - TIME_NOW) < 60) $HTMLOUT.= "<audio autoplay=\"autoplay\"><source src=\"templates/{$CURUSER['stylesheet']}/beep.mp3\" type=\"audio/mp3\" /><source src=\"templates/{$CURUSER['stylesheet']}/beep.ogg\" type=\"audio/ogg\" /></audio>";
+            if (preg_match(sprintf("/%s/iU", $CURUSER['username']) , $shouts[0]['text']) && ($shouts[0]['date'] - TIME_NOW) < 60) $HTMLOUT.= "<audio autoplay=\"autoplay\"><source src=\"templates/{$CURUSER['stylesheet']}/beep.mp3\" type=\"audio/mp3\"><source src=\"templates/{$CURUSER['stylesheet']}/beep.ogg\" type=\"audio/ogg\"></audio>";
         }
         $i = 0;
         foreach ($shouts as $arr) {
@@ -378,11 +378,11 @@ if ($shouts && count($shouts) > 0) {
             if ($TRINITY20['shouts_to_show'] == $i) break;
             $private = '';
             if ($arr['to_user'] == $CURUSER['id'] && $arr['to_user'] > 0) {
-                $private = "<a href=\"javascript:window.top.private_reply('" . htmlsafechars($arr['username']) . "','shbox','shbox_text')\"><img src=\"{$TRINITY20['pic_base_url']}private-shout.png\" alt=\"Private shout\" title=\"Private shout! click to reply to " . htmlsafechars($arr['username']) . "\" width=\"16\" style=\"padding-left:2px;padding-right:2px;\" border=\"0\" /></a>";
+                $private = "<a href=\"javascript:window.top.private_reply('" . htmlsafechars($arr['username']) . "','shbox','shbox_text')\"><img src=\"{$TRINITY20['pic_base_url']}private-shout.png\" alt=\"Private shout\" title=\"Private shout! click to reply to " . htmlsafechars($arr['username']) . "\" width=\"16\" style=\"padding-left:2px;padding-right:2px;\" border=\"0\"></a>";
             }
             $edit = ($CURUSER['class'] >= UC_STAFF || ($arr['userid'] == $CURUSER['id']) && ($CURUSER['class'] >= UC_POWER_USER && $CURUSER['class'] <= UC_STAFF) ? "<a href='{$TRINITY20['baseurl']}/shoutbox.php?edit=" . (int)$arr['id'] . "&amp;user=" . (int)$arr['userid'] . "'><i class='fas fa-pen'></i></a> " : "");
             $del = ($CURUSER['class'] >= UC_STAFF ? "<a href='./shoutbox.php?del=" . (int)$arr['id'] . "'><i class='fas fa-trash'></i></a> " : "");
-            $delall = ($CURUSER['class'] == UC_MAX ? "<a href='./shoutbox.php?delall' onclick=\"confirm_delete(); return false;\"><img src='{$TRINITY20['pic_base_url']}del.png' alt=\"Empty Shout\" title=\"Empty Shout\" /></a> " : "");
+            $delall = ($CURUSER['class'] == UC_MAX ? "<a href='./shoutbox.php?delall' onclick=\"confirm_delete(); return false;\"><img src='{$TRINITY20['pic_base_url']}del.png' alt=\"Empty Shout\" title=\"Empty Shout\"></a> " : "");
             //$delall
             $pm = ($CURUSER['id'] != $arr['userid'] ? "<a target='_blank' href='./pm_system.php?action=send_message&amp;receiver=" . (int)$arr['userid'] . "'><i class='fas fa-envelope'></i></a>" : "");
             $date = get_date($arr["date"], 'LONG', 1);

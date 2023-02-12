@@ -15,7 +15,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     $HTMLOUT .= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
         <head>
-        <meta charset="'.charset().'" />
+        <meta charset="'.charset().'">
         <title>ERROR</title>
         </head><body>
         <h1 style="text-align:center;">Error</h1>
@@ -33,12 +33,12 @@ function post_icons($s = 0)
 				 <font class=\"small\">(Optional)</font></td>\n";
     $body .= "<td width=\"80%\" align=\"left\">\n";
     for ($i = 1; $i < 15; $i++) {
-        $body .= "<input type=\"radio\" value=\"{$i}\" name=\"iconid\" ".($s == $i ? "checked=\"checked\"" : "")." />\n<img align=\"middle\" alt=\"Post icon\" src=\"{$TRINITY20['pic_base_url']}post_icons/icon{$i}.gif\"/>\n";
+        $body .= "<input type=\"radio\" value=\"{$i}\" name=\"iconid\" ".($s == $i ? "checked=\"checked\"" : "").">\n<img align=\"middle\" alt=\"Post icon\" src=\"{$TRINITY20['pic_base_url']}post_icons/icon{$i}.gif\"/>\n";
         if ($i == 14) {
             $body .= "";
         }
     }
-    $body .= "<br /><input type=\"radio\" value=\"0\" name=\"iconid\"  ".($s == 0 ? "checked=\"checked\"" : "")." />[Use None]\n";
+    $body .= "<br><input type=\"radio\" value=\"0\" name=\"iconid\"  ".($s == 0 ? "checked=\"checked\"" : "").">[Use None]\n";
     $body .= "</td></tr></table>\n";
     return $body;
 }
@@ -85,7 +85,7 @@ function insert_compose_frame($id, $newtopic = true, $quote = false, $attachment
 				<a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".$id."'>".htmlsafechars($arr["name"])."</a>
 				<br><img src='templates/1/pic/carbon/nav_bit.png' alt=''>
 				<span class='active'>New Topic</span>
-				</div><br />-->";
+				</div><br>-->";
     } else {
         ($res = sql_query("SELECT t.forum_id, t.topic_name, t.locked, f.min_class_read, f.name AS forum_name FROM topics AS t LEFT JOIN forums AS f ON f.id = t.forum_id WHERE t.id=".sqlesc($id))) || sqlerr(__FILE__,
             __LINE__);
@@ -116,7 +116,7 @@ function insert_compose_frame($id, $newtopic = true, $quote = false, $attachment
 				<a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$id."'>".htmlsafechars($arr["topic_name"])."</a>
 				<br><img src='templates/1/pic/carbon/nav_bit.png' alt=''>
 				<span class='active'>Post Reply</span>
-				</div><br />-->";
+				</div><br>-->";
         // $htmlout .="<h3 align='center'>Reply to topic:<a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$id."'>".htmlsafechars($arr["topic_name"])."</a></h3>";
     }
     $htmlout .= "
@@ -135,8 +135,8 @@ function insert_compose_frame($id, $newtopic = true, $quote = false, $attachment
     </script>";
     //$htmlout .= begin_frame("Compose", true);
     $htmlout .= "<form method='post' name='compose' action='{$TRINITY20['baseurl']}/forums.php' enctype='multipart/form-data'>
-	  <input type='hidden' name='action' value='post' />
-	  <input type='hidden' name='".($newtopic ? 'forumid' : 'topicid')."' value='".$id."' />";
+	  <input type='hidden' name='action' value='post'>
+	  <input type='hidden' name='".($newtopic ? 'forumid' : 'topicid')."' value='".$id."'>";
     //$htmlout .= begin_table(true);
     $htmlout .= "<table border='0' cellspacing='0' cellpadding='5' class='table tborder'>
 	<tr>
@@ -147,7 +147,7 @@ function insert_compose_frame($id, $newtopic = true, $quote = false, $attachment
         $htmlout .= "<tr>
 			<td class=row width='10%'>Subject</td>
 			<td class=row align='left'>
-				<input type='text' class='form-control col-md-12' size='100' maxlength='{$Multi_forum['configs']['maxsubjectlength']}' name='topic_name'  />
+				<input type='text' class='form-control col-md-12' size='100' maxlength='{$Multi_forum['configs']['maxsubjectlength']}' name='topic_name' >
 			</td>
 		</tr>";
     }
@@ -188,9 +188,9 @@ function insert_compose_frame($id, $newtopic = true, $quote = false, $attachment
     if ($Multi_forum['configs']['use_attachment_mod'] && $attachment) {
         $htmlout .= "<tr>
 				<td colspan='2'><fieldset class='fieldset'><legend>Add Attachment</legend>
-				<input type='checkbox' name='uploadattachment' value='yes' />
-				<input type='file' name='file' size='60' />
-        <div class='error'>Allowed Files: rar, zip<br />Size Limit ".mksize($Multi_forum['configs']['maxfilesize'])."</div></fieldset>
+				<input type='checkbox' name='uploadattachment' value='yes'>
+				<input type='file' name='file' size='60'>
+        <div class='error'>Allowed Files: rar, zip<br>Size Limit ".mksize($Multi_forum['configs']['maxfilesize'])."</div></fieldset>
 				</td>
 			</tr>";
     }
@@ -198,7 +198,7 @@ function insert_compose_frame($id, $newtopic = true, $quote = false, $attachment
    	  <td class=row align='center' colspan='2'>".(post_icons())."</td>
  	     </tr><tr class=row>
  		  <td colspan='2' align='center'>
- 	     <input class='btn btn-primary dropdown-toggle' type='submit' value='Submit' /><input class='btn btn-primary dropdown-toggle' type='button' value='Preview' name='button2' onclick='return Preview();' />\n";
+ 	     <input class='btn btn-primary dropdown-toggle' type='submit' value='Submit'><input class='btn btn-primary dropdown-toggle' type='button' value='Preview' name='button2' onclick='return Preview();'>\n";
     if ($newtopic) {
         $htmlout .= "Anonymous Topic<input type='checkbox' name='anonymous' value='yes'/>\n";
     } else {
@@ -206,14 +206,14 @@ function insert_compose_frame($id, $newtopic = true, $quote = false, $attachment
     }
     $htmlout .= "</td></tr></form>\n";
     $htmlout .= end_table();
-    $htmlout .= "<br />";
+    $htmlout .= "<br>";
     // $htmlout .= end_frame();
     // ------ Get 10 last posts if this is a reply
     if (!$newtopic && $TRINITY20['show_last_10']) {
         ($postres = sql_query("SELECT p.id, p.added, p.body, p.anonymous, u.id AS uid, u.enabled, u.class, u.donor, u.warned, u.chatpost, u.leechwarn, u.pirate, u.king, u.username, u.avatar, u.offensive_avatar "."FROM posts AS p "."LEFT JOIN users AS u ON u.id = p.user_id "."WHERE p.topic_id=".sqlesc($id)." "."ORDER BY p.id DESC LIMIT 10")) || sqlerr(__FILE__,
             __LINE__);
         if ($postres->num_rows > 0) {
-            $htmlout .= "<br />";
+            $htmlout .= "<br>";
             $htmlout .= begin_frame("10 last posts, in reverse order");
             while ($post = $postres->fetch_assoc()) {
                 //$avatar = ($CURUSER["avatars"] == "all" ? htmlsafechars($post["avatar"]) : ($CURUSER["avatars"] == "some" && $post["offavatar"] == "no" ? htmlsafechars($post["avatar"]) : ""));
@@ -241,7 +241,7 @@ function insert_compose_frame($id, $newtopic = true, $quote = false, $attachment
                 }
                 $htmlout .= begin_table(true);
                 $htmlout .= "<tr>
-				 <td height='100' width='100' align='center' style='padding: 0px' valign='top'><img height='100' width='100' src='".$avatar."' alt='User avvy' /></td>
+				 <td height='100' width='100' align='center' style='padding: 0px' valign='top'><img height='100' width='100' src='".$avatar."' alt='User avvy'></td>
 				 <td class='comment' valign='top'>".format_comment($post["body"])."</td>
 				 </tr>";
                 $htmlout .= end_table();

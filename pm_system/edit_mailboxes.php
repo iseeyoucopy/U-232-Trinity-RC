@@ -17,8 +17,8 @@ if (!defined('BUNNY_PM_SYSTEM')) {
     $HTMLOUT .= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
         <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
         <title>ERROR</title>
         </head><body>
         <h1 class="text-center">ERROR</h1>
@@ -189,15 +189,15 @@ if ($res->num_rows > 0) {
                     <tr>
                         <td>
                         <form action="pm_system.php" method="post">
-                        <input type="hidden" name="action" value="edit_mailboxes" />
-                        <input type="hidden" name="action2" value="edit_boxes" />'.$lang['pm_edmail_box'].''.((int)$row['boxnumber'] - 1).'<span style="font-weight: bold;">'.htmlsafechars($row['name']).':</span></td>
-                        <td class="text-left" colspan="2"><input type="text" name="edit'.(0 + $row['id']).'" value="'.htmlsafechars($row['name']).'" style="text_default" />'.$lang['pm_edmail_contain'].''.htmlsafechars($messages).''.$lang['pm_edmail_messages'].'</td>
+                        <input type="hidden" name="action" value="edit_mailboxes">
+                        <input type="hidden" name="action2" value="edit_boxes">'.$lang['pm_edmail_box'].''.((int)$row['boxnumber'] - 1).'<span style="font-weight: bold;">'.htmlsafechars($row['name']).':</span></td>
+                        <td class="text-left" colspan="2"><input type="text" name="edit'.(0 + $row['id']).'" value="'.htmlsafechars($row['name']).'" style="text_default">'.$lang['pm_edmail_contain'].''.htmlsafechars($messages).''.$lang['pm_edmail_messages'].'</td>
                     </tr>';
     }
     $all_my_boxes .= '
                     <tr>
                         <td></td>
-                        <td class="text-left" colspan="2">'.$lang['pm_edmail_names'].'<br />
+                        <td class="text-left" colspan="2">'.$lang['pm_edmail_names'].'<br>
                         '.$lang['pm_edmail_if'].'</td>
                     </tr>
                     <tr>
@@ -216,7 +216,7 @@ if ($res->num_rows > 0) {
     $all_my_boxes .= '
                     <tr>
                         <td></td>
-                        <td class="text-center" colspan="2"><span style="font-weight: bold;">'.$lang['pm_edmail_nobox'].'</span><br /></td>
+                        <td class="text-center" colspan="2"><span style="font-weight: bold;">'.$lang['pm_edmail_nobox'].'</span><br></td>
                     </tr>';
 }
 //=== per page drop down
@@ -236,7 +236,7 @@ if ($r->num_rows > 0) {
     while ($a = $r->fetch_assoc()) {
         $categories .= ($i && $i % 2 == 0) ? "</tr><tr>" : "";
         $categories .= "<td class='bottom' style='padding-right: 5px'><input name='cat".(int)$a['id']."' type='checkbox' ".(strpos($CURUSER['notifs'],
-                (string)"[cat{$a['id']}]") !== false ? " checked='checked'" : "")." value='yes' />&nbsp;<a class='catlink' href='browse.php?cat=".(int)$a['id']."'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($a['image'])."' alt='".htmlsafechars($a['name'])."' title='".htmlsafechars($a['name'])."' /></a>&nbsp;".htmlsafechars($a["name"])."</td>\n";
+                (string)"[cat{$a['id']}]") !== false ? " checked='checked'" : "")." value='yes'>&nbsp;<a class='catlink' href='browse.php?cat=".(int)$a['id']."'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($a['image'])."' alt='".htmlsafechars($a['name'])."' title='".htmlsafechars($a['name'])."'></a>&nbsp;".htmlsafechars($a["name"])."</td>\n";
         ++$i;
     }
     $categories .= "</tr></table>";
@@ -260,8 +260,8 @@ $HTMLOUT .= '<h1>'.$lang['pm_edmail_title'].'</h1>'.$h1_thingie.'
 <div class="cell large-9 callout">
 <div class="card-section">'.$lang['pm_edmail_add_mbox'].'<a data-toggle="info-message-box"><i class="fas fa-info-circle text-right"></i></a></div>
 <div class="dropdown-pane" id="info-message-box" data-dropdown data-hover="true" data-hover-pane="true">
-  '.$lang['pm_edmail_as_a'].''.get_user_class_name($CURUSER['class']).$lang['pm_edmail_you_may'].$maxboxes.$lang['pm_edmail_pm_box'].($maxboxes !== 1 ? $lang['pm_edmail_pm_boxes'] : '').''.$lang['pm_edmail_other'].'<br />'.$lang['pm_edmail_currently'].''.$res->num_rows.$lang['pm_edmail_custom'].($res->num_rows !== 1 ? $lang['pm_edmail_custom_es'] : '').$lang['pm_edmail_may_add'].($maxboxes - $res->num_rows).''.$lang['pm_edmail_more_extra'].'<br /><br />
-        <span style="font-weight: bold;">'.$lang['pm_edmail_following'].'</span>'.$lang['pm_edmail_chars'].'<br />
+  '.$lang['pm_edmail_as_a'].''.get_user_class_name($CURUSER['class']).$lang['pm_edmail_you_may'].$maxboxes.$lang['pm_edmail_pm_box'].($maxboxes !== 1 ? $lang['pm_edmail_pm_boxes'] : '').''.$lang['pm_edmail_other'].'<br>'.$lang['pm_edmail_currently'].''.$res->num_rows.$lang['pm_edmail_custom'].($res->num_rows !== 1 ? $lang['pm_edmail_custom_es'] : '').$lang['pm_edmail_may_add'].($maxboxes - $res->num_rows).''.$lang['pm_edmail_more_extra'].'<br><br>
+        <span style="font-weight: bold;">'.$lang['pm_edmail_following'].'</span>'.$lang['pm_edmail_chars'].'<br>
 </div>';
 $HTMLOUT .= '<form action="pm_system.php" method="post">
         <input type="hidden" name="action2" value="add">';

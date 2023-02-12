@@ -243,7 +243,7 @@ else {
                     $postrep['reason'] = htmlsafechars($postrep['reason'])." <span class='desc'>{$lang["rep_left_by"]} <a href=\"{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$postrep['leftby_id']."\" target='_blank'>".htmlsafechars($postrep['leftby_name'])."</a></span>";
                 }
                 $reasonbits .= "<tr>
-	<td class='row2' width='1%'><img src='./pic/rep/reputation_$posneg.gif' border='0' alt='' /></td>
+	<td class='row2' width='1%'><img src='./pic/rep/reputation_$posneg.gif' border='0' alt=''></td>
 	<td class='row2'>".htmlsafechars($postrep['reason'])."</td>
 </tr>";
             }
@@ -274,22 +274,22 @@ else {
         }
         switch ($rep_locale) {
             case 'comments':
-                $rep_info = sprintf("Your reputation on <a href='{$TRINITY20['baseurl']}/details.php?id=%d&amp;viewcomm=%d#comm%d' target='_blank'>this Comment</a> is %s<br />Total: %s points.",
+                $rep_info = sprintf("Your reputation on <a href='{$TRINITY20['baseurl']}/details.php?id=%d&amp;viewcomm=%d#comm%d' target='_blank'>this Comment</a> is %s<br>Total: %s points.",
                     $res['locale'], $input['pid'], $input['pid'], $rep, $total);
                 break;
 
             case 'torrents':
-                $rep_info = sprintf("Your reputation on <a href='{$TRINITY20['baseurl']}/details.php?id=%d' target='_blank'>this Torrent</a> is %s<br />Total: %s points.",
+                $rep_info = sprintf("Your reputation on <a href='{$TRINITY20['baseurl']}/details.php?id=%d' target='_blank'>this Torrent</a> is %s<br>Total: %s points.",
                     $input['pid'], $rep, $total);
                 break;
 
             case 'users':
-                $rep_info = sprintf("Your reputation on <a href='{$TRINITY20['baseurl']}/userdetails.php?id=%d' target='_blank'>your profile</a> is %s<br />Total: %s points.",
+                $rep_info = sprintf("Your reputation on <a href='{$TRINITY20['baseurl']}/userdetails.php?id=%d' target='_blank'>your profile</a> is %s<br>Total: %s points.",
                     $input['pid'], $rep, $total);
                 break;
 
             default:
-                $rep_info = sprintf("Your reputation on <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=%d&amp;page=p%d#%d' target='_blank'>this Post</a> is %s<br />Total: %s points.",
+                $rep_info = sprintf("Your reputation on <a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=%d&amp;page=p%d#%d' target='_blank'>this Post</a> is %s<br>Total: %s points.",
                     $res['locale'], $input['pid'], $input['pid'], $rep, $total);
         }
         ///////////////////////////////////////////////
@@ -308,7 +308,7 @@ else {
 								<table class='ipbtable' cellpadding='0'>
 								$reasonbits
 								</table>
-							</fieldset><br />";
+							</fieldset><br>";
         }
         $html .= "<div class='formsubtitle' align='center'><strong>{$rep_points}</strong></div>
 						</div>
@@ -334,28 +334,28 @@ else {
 									<tr>
 										<td>
 											<div><label for='rb_reputation_pos'>
-											<input type='radio' name='reputation' value='pos' id='rb_reputation_pos' checked='checked' class='radiobutton' style='margin:0px;' /> &nbsp;{$lang["rep_i_approve"]}</label></div>";
+											<input type='radio' name='reputation' value='pos' id='rb_reputation_pos' checked='checked' class='radiobutton' style='margin:0px;'> &nbsp;{$lang["rep_i_approve"]}</label></div>";
         if ($negativerep) {
-            $html .= "<div><label for='rb_reputation_neg'><input type='radio' name='reputation' value='neg' id='rb_reputation_neg' class='radiobutton' style='margin:0px;' /> &nbsp;{$lang["rep_i_disapprove"]}</label></div>";
+            $html .= "<div><label for='rb_reputation_neg'><input type='radio' name='reputation' value='neg' id='rb_reputation_neg' class='radiobutton' style='margin:0px;'> &nbsp;{$lang["rep_i_disapprove"]}</label></div>";
         }
         $html .= "</td>
 							</tr>
 							<tr>
 								<td>
-									{$lang["rep_your_comm_on_this_post"]} ".$this_rep."<br />
-									<input type='text' size='40' maxlength='250' name='reason' style='margin:0px;' />
+									{$lang["rep_your_comm_on_this_post"]} ".$this_rep."<br>
+									<input type='text' size='40' maxlength='250' name='reason' style='margin:0px;'>
 								</td>
 							</tr>
 							</table>
 						</fieldset>
 					</div>
 					<div align='center' style='margin-top:3px;'>
-						<input type='hidden' name='act' value='reputation' />
-						<input type='hidden' name='do' value='addrep' />
-						<input type='hidden' name='pid' value='".(int)$input['pid']."' />
-						<input type='hidden' name='locale' value='".htmlsafechars($input['locale'])."' />
-						<input type='submit' value='".$lang["info_add_rep"]."' class='button' accesskey='s' />
-						<input type='button' value='Close Window' class='button' accesskey='c' onclick='self.close()' />
+						<input type='hidden' name='act' value='reputation'>
+						<input type='hidden' name='do' value='addrep'>
+						<input type='hidden' name='pid' value='".(int)$input['pid']."'>
+						<input type='hidden' name='locale' value='".htmlsafechars($input['locale'])."'>
+						<input type='submit' value='".$lang["info_add_rep"]."' class='button' accesskey='s'>
+						<input type='button' value='Close Window' class='button' accesskey='c' onclick='self.close()'>
 					</div>	
 					</form>	
 					</td>

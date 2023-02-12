@@ -123,18 +123,18 @@ if ($r->num_rows > 0) {
         $color = ($minus_ratio > 0 ? get_ratio_color($minus_ratio) : 'limegreen');
         //=== mark of cain / hit and run
         $checkbox_for_delete = ($CURUSER['class'] >= UC_STAFF ? " [<a class='altlink' href='".$TRINITY20['baseurl']."/hnr.php?id=".$id."&amp;delete_hit_and_run=".(int)$a['id']."'>Remove</a>]" : '');
-        $mark_of_cain = ($a['mark_of_cain'] == 'yes' ? "<img src='{$TRINITY20['pic_base_url']}moc.gif' width='40px' alt='Mark Of Cain' title='the mark of Cain!' />" : '');
-        $hit_n_run = ($a['hit_and_run'] > 0 ? "<img src='{$TRINITY20['pic_base_url']}hnr.gif' width='40px' alt='hit and run' title='hit and run!' />" : '');
+        $mark_of_cain = ($a['mark_of_cain'] == 'yes' ? "<img src='{$TRINITY20['pic_base_url']}moc.gif' width='40px' alt='Mark Of Cain' title='the mark of Cain!'>" : '');
+        $hit_n_run = ($a['hit_and_run'] > 0 ? "<img src='{$TRINITY20['pic_base_url']}hnr.gif' width='40px' alt='hit and run' title='hit and run!'>" : '');
 
         $HTMLOUT .= "<tr>
-      <td style='padding: 0px'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($a['image'])."' alt='".htmlsafechars($a['name'])."' title='".htmlsafechars($a['name'])."' /></td>
+      <td style='padding: 0px'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($a['image'])."' alt='".htmlsafechars($a['name'])."' title='".htmlsafechars($a['name'])."'></td>
         <td><a class='altlink' href='{$TRINITY20['baseurl']}/details.php?id=".$a['tid']."&amp;hit=1'><b>".CutName($a['name'], 25)."</b></a></td>
         <td align='center'>".mksize($a['uploaded'])."</td>
         <td align='center'>".mksize($a['downloaded'])."</td>
         <td align='center'>".($a['downloaded'] > 0 ? "<font color='".get_ratio_color(number_format($a['uploaded'] / $a['downloaded'],
-                    3))."'>".number_format($a['uploaded'] / $a['downloaded'], 3)."</font>" : ($a['uploaded'] > 0 ? 'Inf.' : '---'))."<br /></td>
-        <td align='center'>  ".(($CURUSER['class'] >= UC_MODERATOR || $arr['id'] == $CURUSER['id']) ? "".mkprettytime($a['seedtime']).(($minus_ratio != '0:00' && $a['uploaded'] < $a['downloaded']) ? "<br /><b>Remaining:</b><br />".mkprettytime($minus_ratio)."&nbsp;&nbsp;" : '').($a['seeder'] == 'yes' ? "<br /><font color='green'>[<b>seeding</b>]</font>" : $hit_n_run."&nbsp;".$mark_of_cain) : '')."</td>
-        <td align='center'>".get_date($a['complete_date'], 'DATE')."<br /><b>Last Action:</b><br />".get_date($a['last_action'],
+                    3))."'>".number_format($a['uploaded'] / $a['downloaded'], 3)."</font>" : ($a['uploaded'] > 0 ? 'Inf.' : '---'))."<br></td>
+        <td align='center'>  ".(($CURUSER['class'] >= UC_MODERATOR || $arr['id'] == $CURUSER['id']) ? "".mkprettytime($a['seedtime']).(($minus_ratio != '0:00' && $a['uploaded'] < $a['downloaded']) ? "<br><b>Remaining:</b><br>".mkprettytime($minus_ratio)."&nbsp;&nbsp;" : '').($a['seeder'] == 'yes' ? "<br><font color='green'>[<b>seeding</b>]</font>" : $hit_n_run."&nbsp;".$mark_of_cain) : '')."</td>
+        <td align='center'>".get_date($a['complete_date'], 'DATE')."<br><b>Last Action:</b><br>".get_date($a['last_action'],
                 'DATE')."</td></tr>\n";
     }
     $HTMLOUT .= "</table>\n";

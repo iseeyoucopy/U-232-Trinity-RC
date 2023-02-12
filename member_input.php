@@ -74,7 +74,7 @@ if ($action == '') {
                 //=== add it to the log
                 write_log('<b>'.$CURUSER['username'].'</b> edited member <a href="userdetails.php?id='.$id.'" title="go to '.htmlsafechars($staff_notes_arr['username']).(substr($staff_notes_arr['username'],
                         -1) == 's' ? '\'' : '\'s').' staff notes"><b>'.htmlsafechars($staff_notes_arr['username']).(substr($staff_notes_arr['username'],
-                        -1) == 's' ? '\'' : '\'s').'</b></a> staff notes. Changes made:<br />Was:<br />'.htmlsafechars($staff_notes_arr['staff_notes']).'<br />is now:<br />'.htmlsafechars($_POST['new_staff_note']).'');
+                        -1) == 's' ? '\'' : '\'s').'</b></a> staff notes. Changes made:<br>Was:<br>'.htmlsafechars($staff_notes_arr['staff_notes']).'<br>is now:<br>'.htmlsafechars($_POST['new_staff_note']).'');
             }
             redirect( 'userdetails.php', [
                 'id' => $id,
@@ -118,7 +118,7 @@ if ($action == '') {
                     ], $TRINITY20['expires']['user_cache']);
                     //=== add it to the log
                     write_log('<b>'.$CURUSER['username'].'</b> removed member <a href="userdetails.php?id='.$id.'" title="go to '.htmlsafechars($watched_arr['username']).(substr($watched_arr['username'],
-                            -1) == 's' ? '\'' : '\'s').' page">'.htmlsafechars($watched_arr['username']).'</a> from watched users. <br />'.htmlsafechars($watched_arr['username']).' had been on the list since '.get_date($watched_arr['watched_user'],
+                            -1) == 's' ? '\'' : '\'s').' page">'.htmlsafechars($watched_arr['username']).'</a> from watched users. <br>'.htmlsafechars($watched_arr['username']).' had been on the list since '.get_date($watched_arr['watched_user'],
                             '').'.', $CURUSER['id']);
                 }
                 //=== only change if different
@@ -130,7 +130,7 @@ if ($action == '') {
                     ], $TRINITY20['expires']['user_cache']);
                     //=== add it to the log
                     write_log('<b>'.$CURUSER['username'].'</b> changed watched user text for: <a href="userdetails.php?id='.$id.'" title="go to '.htmlsafechars($watched_arr['username']).(substr($watched_arr['username'],
-                            -1) == 's' ? '\'' : '\'s').' page">'.htmlsafechars($watched_arr['username']).'</a>  Changes made:<br />Text was:<br />'.htmlsafechars($watched_arr['watched_user_reason']).'<br />Is now:<br />'.htmlsafechars($_POST['watched_reason']).'');
+                            -1) == 's' ? '\'' : '\'s').' page">'.htmlsafechars($watched_arr['username']).'</a>  Changes made:<br>Text was:<br>'.htmlsafechars($watched_arr['watched_user_reason']).'<br>Is now:<br>'.htmlsafechars($_POST['watched_reason']).'');
                 }
             }
             redirect( 'userdetails.php', [

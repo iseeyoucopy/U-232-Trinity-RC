@@ -272,7 +272,7 @@ if (($CURUSER['opt1'] & user_options::VIEWSCLOUD) !== 0) {
     $HTMLOUT .= cloud()."
     </div>";
 }
-$HTMLOUT .= "<br /><br />
+$HTMLOUT .= "<br><br>
     <form method='get' action='torrents-today.php'>
     <table class='bottom'>
     <tr>
@@ -284,7 +284,7 @@ foreach ($cats as $cat) {
     $HTMLOUT .= ($i && $i % $TRINITY20['catsperrow'] == 0) ? "</tr><tr>" : "";
     $HTMLOUT .= "<td class='bottom' style=\"padding-bottom: 2px;padding-left: 7px\">
       <input name='c".(int)$cat['id']."' class=\"styled\" type=\"checkbox\" ".(in_array($cat['id'],
-            $wherecatina) ? "checked='checked' " : "")."value='1' /><a class='catlink' href='torrents-today.php?cat=".(int)$cat['id']."'> ".((($CURUSER['opt2'] & user_options_2::BROWSE_ICONS) !== 0) ? "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($cat['image'])."' alt='".htmlsafechars($cat['name'])."' title='".htmlsafechars($cat['name'])."' />" : "".htmlsafechars($cat['name'])."")."</a></td>\n";
+            $wherecatina) ? "checked='checked' " : "")."value='1'><a class='catlink' href='torrents-today.php?cat=".(int)$cat['id']."'> ".((($CURUSER['opt2'] & user_options_2::BROWSE_ICONS) !== 0) ? "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($cat['image'])."' alt='".htmlsafechars($cat['name'])."' title='".htmlsafechars($cat['name'])."'>" : "".htmlsafechars($cat['name'])."")."</a></td>\n";
     $i++;
 }
 $alllink = "<div align='left'>&nbsp;</div>";
@@ -310,11 +310,11 @@ $HTMLOUT .= "</tr>
     </table>
     </td>
     </tr>
-    </table><br />";
+    </table><br>";
 
 //== clear new tag manually
 if (($CURUSER['opt1'] & user_options::CLEAR_NEW_TAG_MANUALLY) !== 0) {
-    $HTMLOUT .= "<a href='?clear_new=1'><input type='submit' value='clear new tag' class='button' /></a><br />";
+    $HTMLOUT .= "<a href='?clear_new=1'><input type='submit' value='clear new tag' class='button'></a><br>";
 } else {
 
     //== clear new tag automatically
@@ -322,15 +322,15 @@ if (($CURUSER['opt1'] & user_options::CLEAR_NEW_TAG_MANUALLY) !== 0) {
     $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], ['last_browse' => TIME_NOW], $TRINITY20['expires']['curuser']);
     $cache->update_row($cache_keys['user'].$CURUSER['id'], ['last_browse' => TIME_NOW], $TRINITY20['expires']['user_cache']);
 }
-$HTMLOUT .= "<br />
+$HTMLOUT .= "<br>
     <table width='1000' class='main' border='0' cellspacing='0' cellpadding='0'><tr><td class='embedded'>
-    <input type='text' name='search' size='40' value='' />";
+    <input type='text' name='search' size='40' value=''>";
 
 //=== only free option :o)
 $only_free = ((isset($_GET['only_free'])) ? (int)$_GET['only_free'] : '');
 
 //=== checkbox for only free torrents
-$only_free_box = '<input type="checkbox" name="only_free" value="1"'.(isset($_GET['only_free']) ? ' checked="checked"' : '').' /> Only Free Torrents ';
+$only_free_box = '<input type="checkbox" name="only_free" value="1"'.(isset($_GET['only_free']) ? ' checked="checked"' : '').'> Only Free Torrents ';
 $selected = (isset($_GET["incldead"])) ? (int)$_GET["incldead"] : "";
 $deadcheck = "";
 $deadcheck .= " in: <select name='incldead'>
@@ -344,15 +344,15 @@ foreach (['title' => 'Name', 'descr' => 'Description', 'genre' => 'Genre', 'all'
 }
 $searchin .= '</select>';
 $HTMLOUT .= $searchin.'&nbsp;'.$deadcheck.'&nbsp;'.$only_free_box;
-$HTMLOUT .= "<input type='submit' value='{$lang['search_search_btn']}' class='btn' />
-            </td></tr></table></form><br />";
+$HTMLOUT .= "<input type='submit' value='{$lang['search_search_btn']}' class='btn'>
+            </td></tr></table></form><br>";
 $HTMLOUT .= "{$new_button}";
 if (isset($cleansearchstr)) {
     $HTMLOUT .= "<h2>{$lang['browse_search']} ".htmlsafechars($searchstr, ENT_QUOTES)."</h2>\n";
 }
 if ($count) {
     $HTMLOUT .= $pager['pagertop'];
-    $HTMLOUT .= "<br />";
+    $HTMLOUT .= "<br>";
     $HTMLOUT .= torrenttable($res);
     $HTMLOUT .= $pager['pagerbottom'];
 } elseif (isset($cleansearchstr)) {

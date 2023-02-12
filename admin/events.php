@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -120,9 +120,9 @@ if (!is_array($scheduled_events)) {
                 $sql = "DELETE FROM `events` WHERE `id` = $id LIMIT 1;";
                 $res = sql_query($sql);
                 if ($mysqli->error != 0) {
-                    $HTMLOUT .= "<p>{$lang['events_err_del']}".$mysqli->error."<br />{$lang['events_click']} <a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
+                    $HTMLOUT .= "<p>{$lang['events_err_del']}".$mysqli->error."<br>{$lang['events_click']} <a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br></p>\n";
                 } elseif ($mysqli->affected_rows == 0) {
-                    $HTMLOUT .= "<p>{$lang['events_err_del']}".$mysqli->error."<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a> {$lang['events_goback']}<br /></p>\n";
+                    $HTMLOUT .= "<p>{$lang['events_err_del']}".$mysqli->error."<br>{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a> {$lang['events_goback']}<br></p>\n";
                 } else {
                     $HTMLOUT .= "<p>{$lang['events_deleted']}</p>\n";
                     header("Refresh: 2; url=staffpanel.php?tool=events");
@@ -172,9 +172,9 @@ if (!is_array($scheduled_events)) {
                 }
                 $res = sql_query($sql);
                 if ($mysqli->error != 0) {
-                    $HTMLOUT .= "<p>{$lang['events_err_save']}".$mysqli->error."<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
+                    $HTMLOUT .= "<p>{$lang['events_err_save']}".$mysqli->error."<br>{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br></p>\n";
                 } elseif ($mysqli->affected_rows == 0) {
-                    $HTMLOUT .= "<p>{$lang['events_err_nochange']}<br />{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br /></p>\n";
+                    $HTMLOUT .= "<p>{$lang['events_err_nochange']}<br>{$lang['events_click']}<a class='altlink' href='{$TRINITY20['baseurl']}/staffpanel.php?tool=events'>{$lang['events_here']}</a>{$lang['events_goback']}<br></p>\n";
                 } else {
                     $HTMLOUT .= "<p>{$lang['events_saved']}</p>\n";
                     header("Refresh: 2; url=staffpanel.php?tool=events");
@@ -203,44 +203,44 @@ if (!is_array($scheduled_events)) {
         $doubleUpload = (bool)(int)$scheduled_event['duploadEnabled'];
         $halfdownload = (bool)(int)$scheduled_event['hdownEnabled'];
         if ($freeleech) {
-            $freeleech = "<img src=\"{$TRINITY20['pic_base_url']}on.gif\" alt=\"{$lang['events_fenable']}\" title=\"{$lang['events_enable']}\" />";
+            $freeleech = "<img src=\"{$TRINITY20['pic_base_url']}on.gif\" alt=\"{$lang['events_fenable']}\" title=\"{$lang['events_enable']}\">";
         } else {
-            $freeleech = "<img src=\"{$TRINITY20['pic_base_url']}off.gif\" alt=\"{$lang['events_fdisable']}\" title=\"{$lang['events_disable']}\" />";
+            $freeleech = "<img src=\"{$TRINITY20['pic_base_url']}off.gif\" alt=\"{$lang['events_fdisable']}\" title=\"{$lang['events_disable']}\">";
         }
         if ($doubleUpload) {
-            $doubleUpload = "<img src=\"{$TRINITY20['pic_base_url']}on.gif\" alt=\"{$lang['events_duenable']}\" title=\"{$lang['events_enable']}\" />";
+            $doubleUpload = "<img src=\"{$TRINITY20['pic_base_url']}on.gif\" alt=\"{$lang['events_duenable']}\" title=\"{$lang['events_enable']}\">";
         } else {
-            $doubleUpload = "<img src=\"{$TRINITY20['pic_base_url']}off.gif\" alt=\"{$lang['events_dudisable']}\" title=\"{$lang['events_disable']}\" />";
+            $doubleUpload = "<img src=\"{$TRINITY20['pic_base_url']}off.gif\" alt=\"{$lang['events_dudisable']}\" title=\"{$lang['events_disable']}\">";
         }
         if ($halfdownload) {
-            $halfdownload = "<img src=\"{$TRINITY20['pic_base_url']}on.gif\" alt=\"{$lang['events_henable']}\" title=\"{$lang['events_enable']}\" />";
+            $halfdownload = "<img src=\"{$TRINITY20['pic_base_url']}on.gif\" alt=\"{$lang['events_henable']}\" title=\"{$lang['events_enable']}\">";
         } else {
-            $halfdownload = "<img src=\"{$TRINITY20['pic_base_url']}off.gif\" alt=\"{$lang['events_hdisable']}\" title=\"{$lang['events_disable']}\" />";
+            $halfdownload = "<img src=\"{$TRINITY20['pic_base_url']}off.gif\" alt=\"{$lang['events_hdisable']}\" title=\"{$lang['events_disable']}\">";
         }
         $showdates = (bool)(int)$scheduled_event['displayDates'];
         if ($showdates) {
-            $showdates = "<img src=\"{$TRINITY20['pic_base_url']}on.gif\" alt=\"{$lang['events_daenable']}\" title=\"{$lang['events_enable']}\" />";
+            $showdates = "<img src=\"{$TRINITY20['pic_base_url']}on.gif\" alt=\"{$lang['events_daenable']}\" title=\"{$lang['events_enable']}\">";
         } else {
-            $showdates = "<img src=\"{$TRINITY20['pic_base_url']}off.gif\" alt=\"{$lang['events_dadisable']}\" title=\"{$lang['events_disable']}\" />";
+            $showdates = "<img src=\"{$TRINITY20['pic_base_url']}off.gif\" alt=\"{$lang['events_dadisable']}\" title=\"{$lang['events_disable']}\">";
         }
-        $HTMLOUT .= "<tr><td align=\"center\">{$username}</td><td align=\"center\">{$text}</td><td align=\"center\">{$start}</td><td align=\"center\">{$end}</td><td align=\"center\">{$freeleech}</td><td align=\"center\">{$doubleUpload}</td><td align=\"center\">{$halfdownload}</td><td align=\"center\">{$showdates}</td><td align=\"center\"><input type=\"submit\" name=\"editEvent_$id\" value=\"{$lang['events_edit']}\" /> <input type=\"submit\" onclick=\"return checkAllGood('$text')\" name=\"removeEvent_$id\" value=\"{$lang['events_remove']}\" /></td></tr>";
+        $HTMLOUT .= "<tr><td align=\"center\">{$username}</td><td align=\"center\">{$text}</td><td align=\"center\">{$start}</td><td align=\"center\">{$end}</td><td align=\"center\">{$freeleech}</td><td align=\"center\">{$doubleUpload}</td><td align=\"center\">{$halfdownload}</td><td align=\"center\">{$showdates}</td><td align=\"center\"><input type=\"submit\" name=\"editEvent_$id\" value=\"{$lang['events_edit']}\"> <input type=\"submit\" onclick=\"return checkAllGood('$text')\" name=\"removeEvent_$id\" value=\"{$lang['events_remove']}\"></td></tr>";
     }
-    $HTMLOUT .= "<tr><td colspan='9' align='right'><input type='submit' name='editEvent_-1' value='{$lang['events_add']}'' /></td></tr></table>";
+    $HTMLOUT .= "<tr><td colspan='9' align='right'><input type='submit' name='editEvent_-1' value='{$lang['events_add']}''></td></tr></table>";
     foreach (array_keys($_POST) as $key) {
         if (gettype($pos = strpos($key, "_")) != 'boolean') {
             $id = (int)substr($key, $pos + 1);
             if (gettype(strpos($key, "editEvent_")) != 'boolean') {
                 if ($id == -1) {
                     $HTMLOUT .= "<table class='table table-bordered'>
-<tr><th>{$lang['events_userid']}</th><td><input type='text' name='userid' value='{$CURUSER["id"]}' /></td></tr>
-<tr><th>{$lang['events_txt']}</th><td><input type='text' name='editText' /></td></tr>
-<tr><th>{$lang['events_starttime']}</th><td><input type='text' name='editStartTime' /></td></tr>
-<tr><th>{$lang['events_endtime']}</th><td><input type='text' name='editEndTime' /></td></tr>
-<tr><th>{$lang['events_freel']}</th><td><input type='checkbox' name='editFreeleech' /></td></tr>
-<tr><th>{$lang['events_double']}</th><td><input type='checkbox' name='editDoubleupload' /></td></tr>
-<tr><th>{$lang['events_half']}</th><td><input type='checkbox' name='editHalfdownload' /></td></tr>
-<tr><th>{$lang['events_showd']}</th><td><input type='checkbox' name='editShowDates' /></td></tr>
-<tr><td colspan='2' align='center'><input type='submit' name='saveEvent_-1' value='{$lang['events_save']}' /></td></tr>
+<tr><th>{$lang['events_userid']}</th><td><input type='text' name='userid' value='{$CURUSER["id"]}'></td></tr>
+<tr><th>{$lang['events_txt']}</th><td><input type='text' name='editText'></td></tr>
+<tr><th>{$lang['events_starttime']}</th><td><input type='text' name='editStartTime'></td></tr>
+<tr><th>{$lang['events_endtime']}</th><td><input type='text' name='editEndTime'></td></tr>
+<tr><th>{$lang['events_freel']}</th><td><input type='checkbox' name='editFreeleech'></td></tr>
+<tr><th>{$lang['events_double']}</th><td><input type='checkbox' name='editDoubleupload'></td></tr>
+<tr><th>{$lang['events_half']}</th><td><input type='checkbox' name='editHalfdownload'></td></tr>
+<tr><th>{$lang['events_showd']}</th><td><input type='checkbox' name='editShowDates'></td></tr>
+<tr><td colspan='2' align='center'><input type='submit' name='saveEvent_-1' value='{$lang['events_save']}'></td></tr>
 </table>";
                 } else {
                     foreach ($scheduled_events as $scheduled_event) {
@@ -257,15 +257,15 @@ if (!is_array($scheduled_events)) {
                             $showdates = (bool)(int)$scheduled_event['displayDates'];
                             $showdates = $showdates ? "checked=\"checked\"" : "";
                             $HTMLOUT .= "<table class='table table-bordered'>
-<tr><th>{$lang['events_userid']}</th><td><input type='text' name='userid' value='{$CURUSER["id"]}' /></td></tr>
-<tr><th>{$lang['events_txt']}</th><td><input type='text' name='editText' value='{$text}' /></td></tr>
-<tr><th>{$lang['events_starttime']}</th><td><input type='text' name='editStartTime' value='{$start}' /></td></tr>
-<tr><th>{$lang['events_endtime']}</th><td><input type='text' name='editEndTime' value='{$end}' /></td></tr>
-<tr><th>{$lang['events_freel']}</th><td><input type='checkbox' name='editFreeleech' value='{$freeleech}' /></td></tr>
-<tr><th>{$lang['events_double']}</th><td><input type='checkbox' name='editDoubleupload' value='{$doubleUpload}' /></td></tr>
-<tr><th>{$lang['events_half']}</th><td><input type='checkbox' name='editHalfdownload' value='{$halfdownload}' /></td></tr>
-<tr><th>{$lang['events_showd']}</th><td><input type='checkbox' name='editShowDates' value='{$showdates}' /></td></tr>
-<tr><td colspan='2' align='center'><input type='submit' name='saveEvent_{$id}' value='{$lang['events_save']}' /></td></tr>
+<tr><th>{$lang['events_userid']}</th><td><input type='text' name='userid' value='{$CURUSER["id"]}'></td></tr>
+<tr><th>{$lang['events_txt']}</th><td><input type='text' name='editText' value='{$text}'></td></tr>
+<tr><th>{$lang['events_starttime']}</th><td><input type='text' name='editStartTime' value='{$start}'></td></tr>
+<tr><th>{$lang['events_endtime']}</th><td><input type='text' name='editEndTime' value='{$end}'></td></tr>
+<tr><th>{$lang['events_freel']}</th><td><input type='checkbox' name='editFreeleech' value='{$freeleech}'></td></tr>
+<tr><th>{$lang['events_double']}</th><td><input type='checkbox' name='editDoubleupload' value='{$doubleUpload}'></td></tr>
+<tr><th>{$lang['events_half']}</th><td><input type='checkbox' name='editHalfdownload' value='{$halfdownload}'></td></tr>
+<tr><th>{$lang['events_showd']}</th><td><input type='checkbox' name='editShowDates' value='{$showdates}'></td></tr>
+<tr><td colspan='2' align='center'><input type='submit' name='saveEvent_{$id}' value='{$lang['events_save']}'></td></tr>
 </table>";
                             break;
                         }

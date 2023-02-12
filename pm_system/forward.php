@@ -17,8 +17,8 @@ if (!defined('BUNNY_PM_SYSTEM')) {
     $HTMLOUT .= '<!doctype html>
 <html class="no-js" lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ERROR</title>
     <link rel="stylesheet" href="/../../foundation/dist/assets/css/app.css">
   </head>
@@ -53,16 +53,16 @@ if ($message['sender'] !== $CURUSER['id']) {
 //=== print out the forwarding page
 $HTMLOUT .= '<h1>'.$lang['pm_forward_fwd'].''.htmlsafechars($message['subject']).'</h1>
         <form name="compose" action="pm_system.php" method="post">
-        <input type="hidden" name="id" value="'.$pm_id.'" />
-        <input type="hidden" name="action" value="forward_pm" />
+        <input type="hidden" name="id" value="'.$pm_id.'">
+        <input type="hidden" name="action" value="forward_pm">
     <table class="table table-striped">
     <tr>
         <td colspan="2" class="text-left" valign="top"><h1>'.$lang['pm_forward_fwd_msg'].'
-        <img src="pic/arrow_next.gif" alt=":" />'.$lang['pm_forward_fwd'].''.htmlsafechars($message['subject']).'</h1></td>
+        <img src="pic/arrow_next.gif" alt=":">'.$lang['pm_forward_fwd'].''.htmlsafechars($message['subject']).'</h1></td>
     </tr>
     <tr>
         <td class="text-rigt" valign="top"><span style="font-weight: bold;">'.$lang['pm_forward_to'].'</span></td>
-        <td class="text-left" valign="top"><input type="text" name="to" value="'.$lang['pm_forward_user'].'" class="member" onfocus="this.value=\'\';" /></td>
+        <td class="text-left" valign="top"><input type="text" name="to" value="'.$lang['pm_forward_user'].'" class="member" onfocus="this.value=\'\';"></td>
     </tr>
     <tr>
         <td class="text-right" valign="top"><span style="font-weight: bold;">'.$lang['pm_forward_original'].'</span></td>
@@ -74,11 +74,11 @@ $HTMLOUT .= '<h1>'.$lang['pm_forward_fwd'].''.htmlsafechars($message['subject'])
     </tr>
     <tr>
         <td class="text-right" valign="top"><span style="font-weight: bold;">'.$lang['pm_forward_subject'].'</span></td>
-        <td class="text-left" valign="top"><input type="text" class="text_default" name="subject" value="'.$lang['pm_forward_fwd'].''.htmlsafechars($message['subject']).'" /></td>
+        <td class="text-left" valign="top"><input type="text" class="text_default" name="subject" value="'.$lang['pm_forward_fwd'].''.htmlsafechars($message['subject']).'"></td>
     </tr>
     <tr>
         <td class="text-center"></td>
-        <td class="text-left">'.$lang['pm_forward_org_msg'].''.$forwarded_username.''.$lang['pm_forward_org_msg1'].'<br />'.format_comment($message['msg']).'</td>
+        <td class="text-left">'.$lang['pm_forward_org_msg'].''.$forwarded_username.''.$lang['pm_forward_org_msg1'].'<br>'.format_comment($message['msg']).'</td>
     </tr>
     <tr>
         <td class="text-right" valign="top"></td>
@@ -90,10 +90,10 @@ $HTMLOUT .= '<h1>'.$lang['pm_forward_fwd'].''.htmlsafechars($message['subject'])
     </tr>
     <tr>
         <td colspan="2" class="text-center">'.($CURUSER['class'] >= UC_STAFF ? '<span class="label label-danger">'.$lang['pm_forward_mark'].'</span>
-        <input type="checkbox" name="urgent" value="yes" />&nbsp' : '').''.$lang['pm_forward_save'].'
-        <input type="checkbox" name="save" value="1" />
-        <input type="hidden" name="first_from" value="'.$forwarded_username.'" /> 
-        <input type="submit" class="btn btn-primary" name="move" value="Foward" /></td>
+        <input type="checkbox" name="urgent" value="yes">&nbsp' : '').''.$lang['pm_forward_save'].'
+        <input type="checkbox" name="save" value="1">
+        <input type="hidden" name="first_from" value="'.$forwarded_username.'"> 
+        <input type="submit" class="btn btn-primary" name="move" value="Foward"></td>
     </tr>
     </table></form>';
 ?>

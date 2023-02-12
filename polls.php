@@ -202,7 +202,7 @@ function poll_show_rendered_choice($choice_id = "", $votes = "", $id = "", $answ
       <td style='width=25% colspan=2'>$answer</td>
       <td style='width=10% nowrap'> [ <b>$votes</b> ] </td>
       <td style='width=70% nowrap'>
-      <img src='{$TRINITY20['pic_base_url']}polls/bar.gif' width='$width' height='11' style='vertical-align:center' alt='' />
+      <img src='{$TRINITY20['pic_base_url']}polls/bar.gif' width='$width' height='11' style='vertical-align:center' alt=''>
       &nbsp;[$percentage%]
       </td>
       </tr></table>";
@@ -231,13 +231,13 @@ function show_total_votes($total_votes = "")
 function poll_show_form_choice_multi($choice_id = "", $votes = "", $id = "", $answer = "")
 {
     return "
-    <tr><td style='colspan=3'><input type='checkbox' name='choice_{$id}_{$choice_id}' value='1'  />&nbsp;<b>$answer</b></td></tr>";
+    <tr><td style='colspan=3'><input type='checkbox' name='choice_{$id}_{$choice_id}' value='1' >&nbsp;<b>$answer</b></td></tr>";
 }
 
 function poll_show_form_choice($choice_id = "", $votes = "", $id = "", $answer = "")
 {
     return "
-    <tr><td style='nowrap=nowrap'><input type='radio' name='choice[{$id}]' value='$choice_id'  />&nbsp;<strong>$answer</strong></td></tr>";
+    <tr><td style='nowrap=nowrap'><input type='radio' name='choice[{$id}]' value='$choice_id' >&nbsp;<strong>$answer</strong></td></tr>";
 }
 
 function poll_show_form_question($id = "", $question = "", $choice_html = "")
@@ -251,22 +251,22 @@ function poll_show_form_question($id = "", $question = "", $choice_html = "")
 
 function button_show_voteable()
 {
-    return "<input class='btn btn-default' type='button' name='viewresult' value='Show Votes'  title='Goto poll voting' onclick=\"go_gadget_vote()\" />";
+    return "<input class='btn btn-default' type='button' name='viewresult' value='Show Votes'  title='Goto poll voting' onclick=\"go_gadget_vote()\">";
 }
 
 function button_show_results()
 {
-    return "<input class='btn btn-default' type='button' value='Results' title='Show all poll rsults' onclick=\"go_gadget_show()\" />";
+    return "<input class='btn btn-default' type='button' value='Results' title='Show all poll rsults' onclick=\"go_gadget_show()\">";
 }
 
 function button_vote()
 {
-    return "<input class='btn btn-default' type='submit' name='submit' value='Vote' title='Poll Vote' />";
+    return "<input class='btn btn-default' type='submit' name='submit' value='Vote' title='Poll Vote'>";
 }
 
 function button_null_vote()
 {
-    return "<input class='btn btn-default' type='submit' name='nullvote' value='View Results (Null Vote)' title='View results, but forfeit your vote in this poll' />";
+    return "<input class='btn btn-default' type='submit' name='nullvote' value='View Results (Null Vote)' title='View results, but forfeit your vote in this poll'>";
 }
 
 ?>

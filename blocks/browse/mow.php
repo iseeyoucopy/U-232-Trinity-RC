@@ -47,7 +47,7 @@ if ($motw_cached) {
             $HTMLOUT .= "
                         <tbody>
                             <tr>
-                                <td class='text-center'><img src='pic/caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($mw["cat_pic"])."' alt='".htmlsafechars($mw["cat_name"])."' title='".htmlsafechars($mw["cat_name"])."' /></td>
+                                <td class='text-center'><img src='pic/caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($mw["cat_pic"])."' alt='".htmlsafechars($mw["cat_name"])."' title='".htmlsafechars($mw["cat_name"])."'></td>
                                 <td><a href='{$TRINITY20['baseurl']}/details.php?id=".(int)$m_w["id"]."'><b>".htmlsafechars($m_w["name"])."</b></a></td>
                                 <td class='text-center'><span class='badge'>".(int)$m_w["times_completed"]."</span></td>
                                 <td class='text-center'><span class='badge'>".(int)$m_w["seeders"]."</span></td>

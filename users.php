@@ -46,7 +46,7 @@ $HTMLOUT = '';
 $HTMLOUT .= "<fieldset class='header panel panel-default'><h2 class='text-center'>{$lang['head_users']}</h2>\n";
 $HTMLOUT .= "<div class='row'><div class='col-md-12'>";
 $HTMLOUT .= "<form class='text-center' method='get' action='users.php?'>\n";
-$HTMLOUT .= "{$lang['form_search']} <input type='text' size='30' name='search' />\n";
+$HTMLOUT .= "{$lang['form_search']} <input type='text' size='30' name='search'>\n";
 $HTMLOUT .= "<select name='class'>\n";
 $HTMLOUT .= "<option value='-'>(any class)</option>\n";
 for ($i = 0; ; ++$i) {
@@ -57,9 +57,9 @@ for ($i = 0; ; ++$i) {
     }
 }
 $HTMLOUT .= "</select>\n";
-$HTMLOUT .= "<input type='submit' value='{$lang['form_btn']}' class='btn' />\n";
+$HTMLOUT .= "<input type='submit' value='{$lang['form_btn']}' class='btn'>\n";
 $HTMLOUT .= "</form>\n";
-$HTMLOUT .= "<br />\n";
+$HTMLOUT .= "<br>\n";
 $aa = range('0', '9');
 $bb = range('a', 'z');
 $cc = array_merge($aa, $bb);
@@ -67,7 +67,7 @@ unset($aa, $bb);
 $HTMLOUT .= "<div class='text-center'>";
 $count = 0;
 foreach ($cc as $L) {
-    $HTMLOUT .= ($count == 10) ? "<br /><br />" : '';
+    $HTMLOUT .= ($count == 10) ? "<br><br>" : '';
     if (strcmp($L, $letter) === 0) {
         $HTMLOUT .= "<span class='btn' style='background:orange;'>".strtoupper($L)."</span>\n";
     } else {
@@ -77,7 +77,7 @@ foreach ($cc as $L) {
 }
 $HTMLOUT .= "</div>";
 $HTMLOUT .= "</div></div>";
-$HTMLOUT .= "<br />\n";
+$HTMLOUT .= "<br>\n";
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $perpage = 25;
 $browsemenu = '';
@@ -127,14 +127,14 @@ if ($arr[0] > 0) {
     $HTMLOUT .= "<table class='table table-condensed'>\n";
     $HTMLOUT .= "<tr><td class='colhead' align='left'>{$lang['users_username']}</td><td class='colhead'>{$lang['users_regd']}</td><td class='colhead'>{$lang['users_la']}</td><td class='colhead' align='left'>{$lang['users_class']}</td><td class='colhead'>{$lang['users_country']}</td></tr>\n";
     while ($row = $res->fetch_assoc()) {
-        $country = ($row['name'] != null) ? "<td style='padding: 0px' align='center'><img src='{$TRINITY20['pic_base_url']}flag/".htmlsafechars($row['flagpic'])."' alt='".htmlsafechars($row['name'])."' /></td>" : "<td align='center'>---</td>";
-        $HTMLOUT .= "<tr><td align='left'><a href='userdetails.php?id=".(int)$row['id']."'><b>".htmlsafechars($row['username'])."</b></a>".($row["donor"] > 0 ? "<img src='{$TRINITY20['pic_base_url']}star.png' border='0' alt='{$lang['users_donor']}' />" : "")."</td>"."<td>".get_date($row['added'],
+        $country = ($row['name'] != null) ? "<td style='padding: 0px' align='center'><img src='{$TRINITY20['pic_base_url']}flag/".htmlsafechars($row['flagpic'])."' alt='".htmlsafechars($row['name'])."'></td>" : "<td align='center'>---</td>";
+        $HTMLOUT .= "<tr><td align='left'><a href='userdetails.php?id=".(int)$row['id']."'><b>".htmlsafechars($row['username'])."</b></a>".($row["donor"] > 0 ? "<img src='{$TRINITY20['pic_base_url']}star.png' border='0' alt='{$lang['users_donor']}'>" : "")."</td>"."<td>".get_date($row['added'],
                 '')."</td><td>".get_date($row['last_access'],
                 '')."</td>"."<td align='left'>".get_user_class_name($row["class"])."</td>$country</tr>\n";
     }
     $HTMLOUT .= "</table></div>\n";
 }
-$HTMLOUT .= ($arr[0] > $perpage) ? "<div align='center'><p>$browsemenu</p></div>" : '<br />';
+$HTMLOUT .= ($arr[0] > $perpage) ? "<div align='center'><p>$browsemenu</p></div>" : '<br>';
 $HTMLOUT .= "</fieldset>";
 echo stdhead($lang['head_users']).$HTMLOUT.stdfoot();
 die;

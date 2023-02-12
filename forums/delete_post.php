@@ -15,7 +15,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     $HTMLOUT .= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
         <head>
-        <meta charset="'.charset().'" />
+        <meta charset="'.charset().'">
         <title>ERROR</title>
         </head><body>
         <h1 style="text-align:center;">Error</h1>
@@ -36,7 +36,7 @@ if (isMod($arr["forumid"], "forum") || $CURUSER['class'] >= UC_STAFF) {
     $topicid = (int)$arr['topic_id'];
     if ($arr['posts_count'] < 2) {
         stderr("Error",
-            "Can't delete post; it is the only post of the topic. You should<br /><a href='{$TRINITY20['baseurl']}/forums.php?action=deletetopic&amp;topicid=$topicid'>delete the topic</a> instead.");
+            "Can't delete post; it is the only post of the topic. You should<br><a href='{$TRINITY20['baseurl']}/forums.php?action=deletetopic&amp;topicid=$topicid'>delete the topic</a> instead.");
     }
     $redirtopost = (is_valid_id($arr['p_id']) ? "&page=p".$arr['p_id']."#p".$arr['p_id'] : '');
     $sure = (int)isset($_GET['sure']) && (int)$_GET['sure'];

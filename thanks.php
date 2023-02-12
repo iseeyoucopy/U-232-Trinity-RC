@@ -44,7 +44,7 @@ function print_list()
         ], JSON_THROW_ON_ERROR);
     }
 
-    $form = $hadTh ? "" : "<br/><form action='thanks.php' method='post'><input type='submit' class='btn' name='submit' value='Say thanks' /><input type='hidden' name='torrentid' value='{$tid}' /><input type='hidden' name='action' value='add' /></form>";
+    $form = $hadTh ? "" : "<br/><form action='thanks.php' method='post'><input type='submit' class='btn' name='submit' value='Say thanks'><input type='hidden' name='torrentid' value='{$tid}'><input type='hidden' name='action' value='add'></form>";
     $out = (count($list) > 0 ? implode(', ', $list) : 'Not yet');
 
     return <<<IFRAME

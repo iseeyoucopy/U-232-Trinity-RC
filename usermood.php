@@ -38,13 +38,13 @@ if (isset($_GET['id'])) {
             'mood' => $moodid,
         ], $TRINITY20['expires']['user_cache']);
         $cache->delete($cache_keys['topmoods']);
-        write_log('<b>'.$lang['user_mood_change'].'</b> '.$CURUSER['username'].' '.htmlsafechars($rmood['name']).'<img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlsafechars($rmood['image']).'" alt="" />');
+        write_log('<b>'.$lang['user_mood_change'].'</b> '.$CURUSER['username'].' '.htmlsafechars($rmood['name']).'<img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlsafechars($rmood['image']).'" alt="">');
         $HTMLOUT .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">		
       <html xmlns="http://www.w3.org/1999/xhtml">
       <head>
-         <meta http-equiv="Content-Language" content="en-us" />
-         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+         <meta http-equiv="Content-Language" content="en-us">
+         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
          <title>'.$lang['user_mood_title'].'</title>
       <script type="text/javascript">	 
       <!--
@@ -60,10 +60,10 @@ $HTMLOUT .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">		
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-   <meta http-equiv="Content-Language" content="en-us" />
-   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+   <meta http-equiv="Content-Language" content="en-us">
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
    <title>'.$lang['user_mood_title'].'</title>
-   <link rel="stylesheet" href="./templates/'.$CURUSER['stylesheet'].'/'.$CURUSER['stylesheet'].'.css" type="text/css" />
+   <link rel="stylesheet" href="./templates/'.$CURUSER['stylesheet'].'/'.$CURUSER['stylesheet'].'.css" type="text/css">
 </head>
 <body>
 <h3 align="center">'.$CURUSER['username'].'\''.$lang['user_mood_s'].'</h3>
@@ -76,7 +76,7 @@ while ($arr = $res->fetch_assoc()) {
     }
     $HTMLOUT .= '<td>
          <a href="?id='.(int)$arr['id'].'">
-         <img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlsafechars($arr['image']).'" alt="" />'.htmlsafechars($arr['name']).'
+         <img src="'.$TRINITY20['pic_base_url'].'smilies/'.htmlsafechars($arr['image']).'" alt="">'.htmlsafechars($arr['name']).'
          </a>
          </td>';
     $count++;
@@ -85,7 +85,7 @@ while ($arr = $res->fetch_assoc()) {
     }
 }
 $HTMLOUT .= '</table>
-      <p><br /></p>
+      <p><br></p>
       <a href="javascript:self.close();"><font color="#FF0000">'.$lang['user_mood_close'].'</font></a>
       <noscript><a href="/index.php">'.$lang['user_mood_back'].'</a></noscript>
       </body>

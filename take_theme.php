@@ -35,9 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $HTMLOUT .= "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
 <html xmlns='http://www.w3.org/1999/xhtml'>
 <head>
-<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
 <title>Choose theme</title>
-<link rel='stylesheet' href='./templates/{$CURUSER['stylesheet']}/{$CURUSER['stylesheet']}.css' type='text/css' />
+<link rel='stylesheet' href='./templates/{$CURUSER['stylesheet']}/{$CURUSER['stylesheet']}.css' type='text/css'>
 </head>
 <body>
   <div align='center' style='width:200px'><fieldset>
@@ -52,7 +52,7 @@ while ($ar = $ss_r->fetch_assoc()) {
 $HTMLOUT .= $out;
 //$HTMLOUT .= getTplOption();
 $HTMLOUT .= "</select>
-   <input type='button' value='Close' onclick='self.close()' /></p></form>
+   <input type='button' value='Close' onclick='self.close()'></p></form>
 
 </fieldset></div></body></html>";
 echo $HTMLOUT;

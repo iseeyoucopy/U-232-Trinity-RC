@@ -264,8 +264,8 @@ $HTMLOUT .= "<p>{$lang['upload_anonymous']}</p>
 </div>
 <p class='help-text' id='annonHelpText'>{$lang['upload_anonymous1']}</p>";
 /*
-$HTMLOUT.= "<div class='col-sm-3'>{$lang['upload_anonymous']}<br /><input type='checkbox' name='uplver' value='yes' id='chk1'>
-<br />{$lang['upload_anonymous1']}</div>";
+$HTMLOUT.= "<div class='col-sm-3'>{$lang['upload_anonymous']}<br><input type='checkbox' name='uplver' value='yes' id='chk1'>
+<br>{$lang['upload_anonymous1']}</div>";
 */
 if ($CURUSER['class'] == UC_MAX) {
     $HTMLOUT .= "<p>{$lang['upload_comment']}</p>
@@ -279,7 +279,7 @@ if ($CURUSER['class'] == UC_MAX) {
     </div>
     <p class='help-text' id='discomHelpText'>{$lang['upload_discom1']}</p>";
     /*
-    $HTMLOUT.= "<div class='col-sm-3'>{$lang['upload_comment']}<br /><input type='checkbox' name='allow_commentd' value='yes' id='chk2'><br />{$lang['upload_discom1']}</div>";
+    $HTMLOUT.= "<div class='col-sm-3'>{$lang['upload_comment']}<br><input type='checkbox' name='allow_commentd' value='yes' id='chk2'><br>{$lang['upload_discom1']}</div>";
     */
 }
 $HTMLOUT .= "<p>{$lang['upload_add_ascii']}</p>
@@ -293,7 +293,7 @@ $HTMLOUT .= "<p>{$lang['upload_add_ascii']}</p>
 </div>
 <p class='help-text' id='asciiHelpText'><a href='http://en.wikipedia.org/wiki/ASCII_art' target='_blank'>{$lang['upload_add_wascii']}</a></p>";
 /*
-$HTMLOUT.= "<div class='col-sm-3'>{$lang['upload_add_ascii']}<br /><input type='checkbox' name='strip' value='strip' checked='checked' id='chk3'><br /><a href='http://en.wikipedia.org/wiki/ASCII_art' target='_blank'>{$lang['upload_add_wascii']}</a></div>";
+$HTMLOUT.= "<div class='col-sm-3'>{$lang['upload_add_ascii']}<br><input type='checkbox' name='strip' value='strip' checked='checked' id='chk3'><br><a href='http://en.wikipedia.org/wiki/ASCII_art' target='_blank'>{$lang['upload_add_wascii']}</a></div>";
 */
 if (XBT_TRACKER == true) {
     $HTMLOUT .= "<p>{$lang['upload_add_free']}</p>
@@ -307,8 +307,8 @@ if (XBT_TRACKER == true) {
     </div>
     <p class='help-text' id='freeHelpText'>{$lang['upload_add_freeinf']}</p>";
     /*
-    $HTMLOUT.= "<div class='col-sm-3'>{$lang['upload_add_free']}<br />
-    <input type='checkbox' name='freetorrent' value='1'><br /></div>";
+    $HTMLOUT.= "<div class='col-sm-3'>{$lang['upload_add_free']}<br>
+    <input type='checkbox' name='freetorrent' value='1'><br></div>";
     */
 }
 $HTMLOUT .= "</div></div>";

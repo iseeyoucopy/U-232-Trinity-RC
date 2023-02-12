@@ -20,10 +20,10 @@ $htmlout = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
-    <meta name='generator' content='U-232' />
-	  <meta name='MSSmartTagsPreventParsing' content='TRUE' />
+    <meta name='generator' content='U-232'>
+	  <meta name='MSSmartTagsPreventParsing' content='TRUE'>
 		<title>More Smilies</title>
-    <link rel='stylesheet' href='./templates/".$CURUSER['stylesheet']."/".$CURUSER['stylesheet'].".css' type='text/css' />
+    <link rel='stylesheet' href='./templates/".$CURUSER['stylesheet']."/".$CURUSER['stylesheet'].".css' type='text/css'>
     </head>
     <body>
     <script type='text/javascript'>
@@ -40,7 +40,7 @@ foreach ($smilies as $code => $url) {
         $htmlout .= " \n<tr>";
     }
     $htmlout .= "\n\t<td class=\"list\" align=\"center\"><a href=\"javascript: SmileIT('".str_replace("'", "\'",
-            $code)."','".htmlsafechars($_GET["form"])."','".htmlsafechars($_GET["text"])."')\"><img border='0' src='./pic/smilies/".$url."' alt='' /></a></td>";
+            $code)."','".htmlsafechars($_GET["form"])."','".htmlsafechars($_GET["text"])."')\"><img border='0' src='./pic/smilies/".$url."' alt=''></a></td>";
     $count++;
     if ($count % 3 == 0) {
         $htmlout .= "\n</tr>";

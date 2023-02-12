@@ -87,8 +87,8 @@ function radioinfo($radio)
         return $html.'</ul></fieldset>';
     } else {
         $html .= '<fieldset><legend>'.$TRINITY20['site_name'].' radio</legend>
-    <font size="3" color="red"><img src="'.$TRINITY20['pic_base_url'].'off1.gif" alt="Off" title="Off" border="0" /><br />
-    <b>Sorry '.$CURUSER['username'].' Radio is currently Offline</b></font></fieldset><br />';
+    <font size="3" color="red"><img src="'.$TRINITY20['pic_base_url'].'off1.gif" alt="Off" title="Off" border="0"><br>
+    <b>Sorry '.$CURUSER['username'].' Radio is currently Offline</b></font></fieldset><br>';
     }
     //echo strval ($STREAMSTATUS);
     return $html;

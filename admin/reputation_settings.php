@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -108,7 +108,7 @@ $HTMLOUT = '<div>
 								 </tr>
 								 </table>
 </div>
-<br />
+<br>
 <div style="border: 1px solid rgb(0, 0, 0); padding: 5px;">
 
 	<form action="staffpanel.php?tool=reputation_settings" name="repoptions" method="post">
@@ -119,7 +119,7 @@ $HTMLOUT = '<div>
 							
 							<table width="100%" border="0" cellpadding="5" cellspacing="0">
 							 <tr>
-							 <td width="70%"><b>'.$lang['repset_enable'].'</b><div><hr style="color:#A83838;" size="1" /></div><div style="color: lightgray;">'.$lang['repset_setop'].'</div></td>
+							 <td width="70%"><b>'.$lang['repset_enable'].'</b><div><hr style="color:#A83838;" size="1"></div><div style="color: lightgray;">'.$lang['repset_setop'].'</div></td>
 
 							 <td width="23%"><div style="width: auto;" align="left"><#rep_is_online#></div></td>
 							 </tr>
@@ -131,21 +131,21 @@ $HTMLOUT = '<div>
 						<div>
 							<table width="100%" border="0" cellpadding="5" cellspacing="0">
 							 <tr>
-							 <td width="70%"><b>'.$lang['repset_defaultrep'].'</b><div><hr style="color:#A83838;" size="1" /></div><div style="color: lightgrey;">'.$lang['repset_msg'].'</div></td>
+							 <td width="70%"><b>'.$lang['repset_defaultrep'].'</b><div><hr style="color:#A83838;" size="1"></div><div style="color: lightgrey;">'.$lang['repset_msg'].'</div></td>
 							 <td width="20%"><div style="width: auto;" align="left"><input name="rep_default" value="<#rep_default#>" size="30" type="text" class="form-control"></div></td>
 							 </tr>
 				  </table>
 
 				  <table width="100%" border="0" cellpadding="5" cellspacing="0">
 							 <tr>
-							 <td width="70%"><b>'.$lang['repset_defaultphrase'].'</b><div><hr style="color:#A83838;" size="1" /></div><div style="color: lightgrey;">'.$lang['repset_msg1'].'</div></td>
+							 <td width="70%"><b>'.$lang['repset_defaultphrase'].'</b><div><hr style="color:#A83838;" size="1"></div><div style="color: lightgrey;">'.$lang['repset_msg1'].'</div></td>
 							 <td width="20%"><div style="width: auto;" align="left"><input name="rep_undefined" value="<#rep_undefined#>" size="30" type="text" class="form-control"></div></td>
 							 </tr>
 				  </table>
 
 					<table width="100%" border="0" cellpadding="5" cellspacing="0">
 							 <tr>
-							 <td width="70%"><b>'.$lang['repset_display'].'</b><div><hr style="color:#A83838;" size="1" /></div><div style="color: lightgrey;">'.$lang['repset_cont'].'</div></td>
+							 <td width="70%"><b>'.$lang['repset_display'].'</b><div><hr style="color:#A83838;" size="1"></div><div style="color: lightgrey;">'.$lang['repset_cont'].'</div></td>
 							 <td width="20%"><div style="width: auto;" align="left"><input name="rep_userrates" value="<#rep_userrates#>" size="30" type="text" class="form-control"></div></td>
 							 </tr>
 
@@ -158,7 +158,7 @@ $HTMLOUT = '<div>
 							
 							<table width="100%" border="0" cellpadding="5" cellspacing="0">
 							 <tr>
-							 <td width="70%"><b>'.$lang['repset_admin'].'</b><div><hr style="color:#A83838;" size="1" /></div><div style="color: lightgrey;">'.$lang['repset_adminmsg'].'<br />'.$lang['repset_adminmsg1'].'</div></td>
+							 <td width="70%"><b>'.$lang['repset_admin'].'</b><div><hr style="color:#A83838;" size="1"></div><div style="color: lightgrey;">'.$lang['repset_adminmsg'].'<br>'.$lang['repset_adminmsg1'].'</div></td>
 							 <td class="tablerow2" width="20%"><div style="width: auto;" align="left"><input name="rep_adminpower" value="<#rep_adminpower#>" size="30" type="text" class="form-control"></div></td>
 
 							 </tr>
@@ -166,7 +166,7 @@ $HTMLOUT = '<div>
 				  
 				  <table width="100%" border="0" cellpadding="5" cellspacing="0">
 							 <tr>
-							 <td width="70%"><b>'.$lang['repset_regdate'].'</b><div><hr style="color:#A83838;" size="1" /></div><div style="color: lightgrey;">'.$lang['repset_regdatemsg'].'</div></td>
+							 <td width="70%"><b>'.$lang['repset_regdate'].'</b><div><hr style="color:#A83838;" size="1"></div><div style="color: lightgrey;">'.$lang['repset_regdatemsg'].'</div></td>
 
 							 <td width="20%"><div style="width: auto;" align="left"><input name="rep_rdpower" value="<#rep_rdpower#>" size="30" type="text" class="form-control">
 
@@ -177,7 +177,7 @@ $HTMLOUT = '<div>
 				  
 				  <table width="100%" border="0" cellpadding="5" cellspacing="0">
 							 <tr>
-							 <td width="70%"><b>'.$lang['repset_post'].'</b><div><hr style="color:#A83838;" size="1" /></div><div style="color: lightgrey;">'.$lang['repset_postmsg'].'</div></td>
+							 <td width="70%"><b>'.$lang['repset_post'].'</b><div><hr style="color:#A83838;" size="1"></div><div style="color: lightgrey;">'.$lang['repset_postmsg'].'</div></td>
 
 							 <td width="20%"><div style="width: auto;" align="left"><input name="rep_pcpower" value="<#rep_pcpower#>" size="30" type="text" class="form-control"></div></td>
 							 </tr>
@@ -185,7 +185,7 @@ $HTMLOUT = '<div>
 				  
 				  <table width="100%" border="0" cellpadding="5" cellspacing="0">
 							 <tr>
-							 <td width="70%"><b>'.$lang['repset_point'].'</b><div><hr style="color:#A83838;" size="1" /></div><div style="color: lightgrey;">'.$lang['repset_pointmsg'].'</div></td>
+							 <td width="70%"><b>'.$lang['repset_point'].'</b><div><hr style="color:#A83838;" size="1"></div><div style="color: lightgrey;">'.$lang['repset_pointmsg'].'</div></td>
 
 							 <td width="20%"><div style="width: auto;" align="left"><input name="rep_kppower" value="<#rep_kppower#>" size="30" type="text" class="form-control"></div></td>
 							 </tr>
@@ -198,7 +198,7 @@ $HTMLOUT = '<div>
 						
 							<table width="100%" border="0" cellpadding="5" cellspacing="0">
 							 <tr>
-							 <td width="70%"><b>'.$lang['repset_minpost'].'</b><div><hr style="color:#A83838;" size="1" /></div><div style="color: lightgrey;">'.$lang['repset_minpostmsg'].'</div></td>
+							 <td width="70%"><b>'.$lang['repset_minpost'].'</b><div><hr style="color:#A83838;" size="1"></div><div style="color: lightgrey;">'.$lang['repset_minpostmsg'].'</div></td>
 
 							 <td width="20%"><div style="width: auto;" align="left"><input name="rep_minpost" value="<#rep_minpost#>" size="30" type="text" class="form-control"></div></td>
 							 </tr>
@@ -206,7 +206,7 @@ $HTMLOUT = '<div>
 				  
 				  <table width="100%" border="0" cellpadding="5" cellspacing="0">
 							 <tr>
-							 <td width="70%"><b>'.$lang['repset_minrep'].'</b><div><hr style="color:#A83838;" size="1" /></div><div style="color: lightgrey;">'.$lang['repset_minrepmsg'].'</div></td>
+							 <td width="70%"><b>'.$lang['repset_minrep'].'</b><div><hr style="color:#A83838;" size="1"></div><div style="color: lightgrey;">'.$lang['repset_minrepmsg'].'</div></td>
 
 							 <td width="20%"><div style="width: auto;" align="left"><input name="rep_minrep" value="<#rep_minrep#>" size="30" type="text" class="form-control"></div></td>
 							 </tr>
@@ -214,7 +214,7 @@ $HTMLOUT = '<div>
 				  
 				  <table width="100%" border="0" cellpadding="5" cellspacing="0">
 							 <tr>
-							 <td width="70%"><b>'.$lang['repset_daily'].'</b><div><hr style="color:#A83838;" size="1" /></div><div style="color: lightgrey;">'.$lang['repset_dailymsg'].'</div></td>
+							 <td width="70%"><b>'.$lang['repset_daily'].'</b><div><hr style="color:#A83838;" size="1"></div><div style="color: lightgrey;">'.$lang['repset_dailymsg'].'</div></td>
 
 							 <td width="20%"><div style="width: auto;" align="left"><input name="rep_maxperday" value="<#rep_maxperday#>" size="30" type="text" class="form-control"></div></td>
 							 </tr>
@@ -222,14 +222,14 @@ $HTMLOUT = '<div>
 				  
 				  <table width="100%" border="0" cellpadding="5" cellspacing="0">
 							 <tr>
-							 <td width="70%"><b>'.$lang['repset_userspread'].'</b><div><hr style="color:#A83838;" size="1" /></div><div style="color: lightgrey;">'.$lang['repset_userspreadmsg'].'</div></td>
+							 <td width="70%"><b>'.$lang['repset_userspread'].'</b><div><hr style="color:#A83838;" size="1"></div><div style="color: lightgrey;">'.$lang['repset_userspreadmsg'].'</div></td>
 
 							 <td width="20%"><div style="width: auto;" align="left"><input name="rep_repeat" value="<#rep_repeat#>" size="30" type="text" class="form-control"></div></td>
 							 </tr>
 				  </table>
 				  </div></div>
 
-<input type="submit" class="btn btn-default" name="submit" value="'.$lang['repset_submit'].'" class="btn" tabindex="2" accesskey="s" />
+<input type="submit" class="btn btn-default" name="submit" value="'.$lang['repset_submit'].'" class="btn" tabindex="2" accesskey="s">
 </form>
 </div>';
 $HTMLOUT = preg_replace_callback("|<#(.*?)#>|", "template_out", $HTMLOUT);
@@ -253,17 +253,17 @@ function redirect($url, $text, $time = 2)
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
-		<meta http-equiv='refresh' content=\"{$time}; url={$TRINITY20['baseurl']}/{$url}\" />
+		<meta http-equiv='refresh' content=\"{$time}; url={$TRINITY20['baseurl']}/{$url}\">
 		<title>{$lang['repset_block']}</title>
-    <link rel='stylesheet' href='./templates/1/1.css' type='text/css' />
+    <link rel='stylesheet' href='./templates/1/1.css' type='text/css'>
     </head>
     <body>
 						    <div>
 							<div>{$lang['repset_redirecting']}</div>
 							<div style='padding:8px'>
 							 <div style='font-size:12px'>$text
-							 <br />
-							 <br />
+							 <br>
+							 <br>
 							 <center><a href='{$TRINITY20['baseurl']}/{$url}'>{$lang['repset_clickredirect']}</a></center>
 							 </div>
 							</div>

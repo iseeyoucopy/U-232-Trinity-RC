@@ -73,11 +73,11 @@ if ($action == 'edit' && $CURUSER['class'] >= UC_SYSOP) {
         $HTMLOUT .= "<form method='post' action='".$_SERVER['PHP_SELF']."?action=update&amp;id=".$id."'>
 <table width='50%' cellpadding='10' cellspacing='1' border='1'>
   <tr><td class='rowhead'>{$lang['credits_mod']}</td>".
-            "<td align='left' style='padding: 0px'><input type='text' size='60' maxlength='120' name='name' "."value='".htmlsafechars($mod['name'])."' /></td></tr>\n".
+            "<td align='left' style='padding: 0px'><input type='text' size='60' maxlength='120' name='name' "."value='".htmlsafechars($mod['name'])."'></td></tr>\n".
             "<tr>
   <td class='rowhead'>{$lang['credits_description']}</td>".
             "<td align='left' style='padding: 0px'>
-  <input type='text' size='60' maxlength='120' name='description' value='".htmlsafechars($mod['description'])."' /></td></tr>\n".
+  <input type='text' size='60' maxlength='120' name='description' value='".htmlsafechars($mod['description'])."'></td></tr>\n".
             "<tr>
   <td class='rowhead'>{$lang['credits_category']}</td>
 <td align='left' style='padding: 0px'>
@@ -93,7 +93,7 @@ if ($action == 'edit' && $CURUSER['class'] >= UC_SYSOP) {
         $HTMLOUT .= "</select></td></tr>";
 
         $HTMLOUT .= "<tr><td class='rowhead'>{$lang['credits_link']}</td>".
-            "<td align='left' style='padding: 0px'><input type='text' size='60' maxlength='120' name='link' "."value='".htmlsafechars($mod['u232lnk'])."' /></td></tr>\n".
+            "<td align='left' style='padding: 0px'><input type='text' size='60' maxlength='120' name='link' "."value='".htmlsafechars($mod['u232lnk'])."'></td></tr>\n".
             "<tr>
 <td class='rowhead'>{$lang['credits_status']}</td>
 <td align='left' style='padding: 0px'>
@@ -109,8 +109,8 @@ if ($action == 'edit' && $CURUSER['class'] >= UC_SYSOP) {
         $HTMLOUT .= "</select></td></tr>";
 
         $HTMLOUT .= "<tr><td class='rowhead'>{$lang['credits_credits']}</td><td align='left' style='padding: 0px'>
-<input type='text' size='60' maxlength='120' name='credits' value='".htmlsafechars($mod['credit'])."' /></td></tr>\n";
-        $HTMLOUT .= "<tr><td colspan='2' align='center'><input type='submit' value='Submit' /></td></tr>\n";
+<input type='text' size='60' maxlength='120' name='credits' value='".htmlsafechars($mod['credit'])."'></td></tr>\n";
+        $HTMLOUT .= "<tr><td colspan='2' align='center'><input type='submit' value='Submit'></td></tr>\n";
         $HTMLOUT .= "</table></form>";
     }
     print stdhead($lang['credits_editmod']).$HTMLOUT.stdfoot();
@@ -196,7 +196,7 @@ if ($row = $res->fetch_array(MYSQLI_BOTH)) {
 
         }
 
-        $HTMLOUT .= "<br /><font class='small'>".htmlsafechars($descr)."</font></td>";
+        $HTMLOUT .= "<br><font class='small'>".htmlsafechars($descr)."</font></td>";
         $HTMLOUT .= "<td><b>".htmlsafechars($category)."</b></td>";
         $HTMLOUT .= "<td><b>".format_comment($status)."</b></td>";
         $HTMLOUT .= "<td>".htmlsafechars($credit)."</td></tr>";
@@ -215,15 +215,15 @@ if ($CURUSER['class'] >= UC_SYSOP) //I recommend a higher class like UC_CODER
     <tr>
 		<td colspan='2' class='colhead'>
     {$lang['credits_add']}
-		<input type='hidden' name='action' value='add' /></td>
+		<input type='hidden' name='action' value='add'></td>
 	  </tr>
   	
   	<tr>
 		<td>{$lang['credits_name1']}</td>
-		<td><input name='name' type='text' size='120' /></td>
+		<td><input name='name' type='text' size='120'></td>
 		</tr>
 		<tr>
-		<td>{$lang['credits_description1']}</td><td><input name='description' type='text' size='120' maxlength='120' /></td>
+		<td>{$lang['credits_description1']}</td><td><input name='description' type='text' size='120' maxlength='120'></td>
 		</tr>
 				
 		<tr>
@@ -242,7 +242,7 @@ if ($CURUSER['class'] >= UC_SYSOP) //I recommend a higher class like UC_CODER
 	  </td>
 		</tr>
 		<tr>
-		<td>{$lang['credits_link1']}</td><td><input name='link' type='text' size='50' /></td>
+		<td>{$lang['credits_link1']}</td><td><input name='link' type='text' size='50'></td>
 		</tr>
 		<tr>
 		<td>{$lang['credits_status1']}</td><td>
@@ -254,11 +254,11 @@ if ($CURUSER['class'] >= UC_SYSOP) //I recommend a higher class like UC_CODER
 		</td>
 		</tr>
 	  <tr>
-	  <td>{$lang['credits_credits1']}</td><td><input name='credit' type='text' size='120' maxlength='120' /><br  /><font class='small'>{$lang['credits_val']}</font></td>
+	  <td>{$lang['credits_credits1']}</td><td><input name='credit' type='text' size='120' maxlength='120'><br ><font class='small'>{$lang['credits_val']}</font></td>
 	  </tr>
 	  <tr>
 		<td colspan='2'>
-		<input type='submit' value='{$lang['credits_addc']}' />
+		<input type='submit' value='{$lang['credits_addc']}'>
 		</td>
 	  </tr>
 	  </table></form>";

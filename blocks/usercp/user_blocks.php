@@ -273,7 +273,7 @@ $HTMLOUT .= '
         </td>
         </tr>       
         <tr><td><b>'.$lang['user_b_xmas1'].'</b></td><td>
-        <div class="switch tiny"><input onchange="this.form.submit()" class="switch-input" type="checkbox" id="xmas_gift" name="xmas_gift" value="yes"'.$checkbox_index_xmasgift.' />
+        <div class="switch tiny"><input onchange="this.form.submit()" class="switch-input" type="checkbox" id="xmas_gift" name="xmas_gift" value="yes"'.$checkbox_index_xmasgift.'>
         <label class="switch-paddle" for="xmas_gift">
         <span class="switch-active" aria-hidden="true">Yes</span>
         <span class="switch-inactive" aria-hidden="true">No</span>

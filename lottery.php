@@ -64,7 +64,7 @@ switch (true) {
         if ($lottery_config['end_date'] > TIME_NOW) {
             $html .= "<div class='row'><div class='col-md-12'><h2>Lottery in progress. Lottery started on <b>".get_date($lottery_config['start_date'],
                     'LONG')."</b> and ends on <b>".get_date($lottery_config['end_date'],
-                    'LONG')."</b> remaining <span style='color:#ff0000;'>".mkprettytime($lottery_config['end_date'] - TIME_NOW)."</span><br />
+                    'LONG')."</b> remaining <span style='color:#ff0000;'>".mkprettytime($lottery_config['end_date'] - TIME_NOW)."</span><br>
        <p style='text-align:center'>".($CURUSER['class'] >= $valid['viewtickets']['minclass'] ? "<a href='lottery.php?do=viewtickets'>[View bought tickets]</a>&nbsp;&nbsp;" : "")."<a href='lottery.php?do=tickets'>[Buy tickets]</a></p></h2>";
         }
 
@@ -81,7 +81,7 @@ switch (true) {
             }
 
             $html .= stdmsg("Lottery Winners Info", "<ul style='text-align:left;'><li>Last winners: ".implode(', ',
-                    $last_winners)."</li><li>Amount won	(each): ".$lottery_config['lottery_winners_amount']."</li></ul><br />
+                    $last_winners)."</li><li>Amount won	(each): ".$lottery_config['lottery_winners_amount']."</li></ul><br>
         <p style='text-align:center'>".($CURUSER['class'] >= $valid['config']['minclass'] ? "<a href='lottery.php?do=config'>[Lottery configuration]</a>&nbsp;&nbsp;" : "Nothing Configured Atm Sorry")."</p>");
         } else {
             $html .= "<div class='row'><div class='col-md-12'>";

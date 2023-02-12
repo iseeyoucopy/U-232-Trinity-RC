@@ -38,7 +38,7 @@ if (!defined('TBVERSION')) { //cannot access this file directly
     $HTMLOUT .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
         <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
         <head>
-        <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+        <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
         <title>ERROR</title>
         </head><body>
         <h1>ERROR</h1>Cannot Access this file directly.
@@ -90,7 +90,7 @@ function class_check($class = 0, $staff = true, $pin = false)
                 $HTMLOUT .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                       <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
                       <head>
-                      <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+                      <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
                       <title>ERROR</title>
                       </head><body>
                       <h1 align="center">ERROR</h1><p align="center">Sorry! Access denied!</p>
@@ -161,7 +161,7 @@ function class_check($class = 0, $staff = true, $pin = false)
 		            <title>Error!</title>
 		            </head>
 		            <body>
-	              <div style='font-size:18px;color:black;background-color:red;text-align:center;'>Incorrect access<br />Silly Rabbit - Trix are for kids.. You dont have the correct credentials to be here !</div>
+	              <div style='font-size:18px;color:black;background-color:red;text-align:center;'>Incorrect access<br>Silly Rabbit - Trix are for kids.. You dont have the correct credentials to be here !</div>
 	              </body></html>";
             echo $HTMLOUT;
             exit();

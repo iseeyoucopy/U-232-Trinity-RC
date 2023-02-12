@@ -26,7 +26,7 @@ if (empty($_GET['id'])) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:18px;color:black;background-color:red;text-align:center;'>Incorrect access<br />Silly Rabbit - Trix are for kids.. Snatches must be accessed using a valid id !</div>
+	<div style='font-size:18px;color:black;background-color:red;text-align:center;'>Incorrect access<br>Silly Rabbit - Trix are for kids.. Snatches must be accessed using a valid id !</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -71,8 +71,8 @@ $HTMLOUT .= "<table class='table table-bordered'>
     __LINE__);
 while ($arr = $res->fetch_assoc()) {
     $ratio = ($arr["downloaded"] > 0 ? number_format($arr["uploaded"] / $arr["downloaded"], 3) : ($arr["uploaded"] > 0 ? "Inf." : "---"));
-    $active = ($arr['active'] == 1 ? $active = "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='Yes' title='Yes' />" : $active = "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='No' title='No' />");
-    $completed = ($arr['completed'] >= 1 ? $completed = "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='Yes' title='Yes' />" : $completed = "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='No' title='No' />");
+    $active = ($arr['active'] == 1 ? $active = "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='Yes' title='Yes'>" : $active = "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='No' title='No'>");
+    $completed = ($arr['completed'] >= 1 ? $completed = "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='Yes' title='Yes'>" : $completed = "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='No' title='No'>");
     $snatchuser = (isset($arr['username2']) ? ("<a href='userdetails.php?id=".(int)$arr['uid']."'><b>".htmlsafechars($arr['username2'])."</b></a>") : "{$lang['snatches_unknown']}");
     $username = (($arr['anonymous2'] == 'yes') ? ($CURUSER['class'] < UC_STAFF && $arr['uid'] != $CURUSER['id'] ? '' : $snatchuser.' - ')."<i>{$lang['snatches_anon']}</i>" : $snatchuser);
     $HTMLOUT .= "<tr>

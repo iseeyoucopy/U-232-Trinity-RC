@@ -169,16 +169,16 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
         $row_did_they_vote = $res_did_they_vote->fetch_row();
         if (empty($row_did_they_vote)) {
             $vote_yes = '<form method="post" action="requests.php">
-                    <input type="hidden" name="action" value="vote" />
-                    <input type="hidden" name="id" value="'.$id.'" />
-                    <input type="hidden" name="vote" value="1" />
-                    <input type="submit" class="button small" value='.$lang['req_det_voty'].'" onmouseout="this.className=\'button\'" />
+                    <input type="hidden" name="action" value="vote">
+                    <input type="hidden" name="id" value="'.$id.'">
+                    <input type="hidden" name="vote" value="1">
+                    <input type="submit" class="button small" value='.$lang['req_det_voty'].'" onmouseout="this.className=\'button\'">
                     </form>'.$lang['req_det_phr1'].'';
             $vote_no = '<form method="post" action="requests.php">
-                    <input type="hidden" name="action" value="vote" />
-                    <input type="hidden" name="id" value="'.$id.'" />
-                    <input type="hidden" name="vote" value="2" />
-                    <input type="submit" class="button small" value='.$lang['req_det_votn'].'" onmouseout="this.className=\'button\'" />
+                    <input type="hidden" name="action" value="vote">
+                    <input type="hidden" name="id" value="'.$id.'">
+                    <input type="hidden" name="vote" value="2">
+                    <input type="submit" class="button small" value='.$lang['req_det_votn'].'" onmouseout="this.className=\'button\'">
                     </form>'.$lang['req_det_phr2'].'';
             $your_vote_was = '';
         } else {
@@ -196,7 +196,7 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
   </tr>
   <tr>
   <td>'.$lang['add_image'].'</td>
-  <td><img src="'.strip_tags($arr['image']).'" alt="image" style="max-width:600px;" /></td>
+  <td><img src="'.strip_tags($arr['image']).'" alt="image" style="max-width:600px;"></td>
   </tr>
   <tr>
   <td>'.$lang['add_description'].'</td>
@@ -205,7 +205,7 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
   <tr>
   <td>'.$lang['add_cat'].'</td>
   <td><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlsafechars($arr['cat_image'],
-                ENT_QUOTES).'" alt="'.htmlsafechars($arr['cat_name'], ENT_QUOTES).'" /></td>
+                ENT_QUOTES).'" alt="'.htmlsafechars($arr['cat_name'], ENT_QUOTES).'"></td>
   </tr>
   <tr>
   <td>'.$lang['req_det_link'].'</td>
@@ -214,8 +214,8 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
   <tr>
   <td>'.$lang['req_votes'].'</td>
   <td>
-  <span style="font-weight:bold;color: green;">'.$lang['req_det_yes'].' '.number_format($arr['vote_yes_count']).'</span> '.$vote_yes.'<br />
-  <span style="font-weight:bold;color: red;">'.$lang['req_det_no'].' '.number_format($arr['vote_no_count']).'</span> '.$vote_no.'<br /> '.$your_vote_was.'</td>
+  <span style="font-weight:bold;color: green;">'.$lang['req_det_yes'].' '.number_format($arr['vote_yes_count']).'</span> '.$vote_yes.'<br>
+  <span style="font-weight:bold;color: red;">'.$lang['req_det_no'].' '.number_format($arr['vote_no_count']).'</span> '.$vote_no.'<br> '.$your_vote_was.'</td>
   </tr>
   <tr>
   <td>'.$lang['req_req_by'].'</td>
@@ -229,7 +229,7 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
   <tr>
   <td>'.$lang['details_report'].'</td>
   <td><form action="report.php?type=Request&amp;id='.$id.'" method="post">
-  <input type="submit" class="button_med" value='.$lang['req_det_repthis'].' onmouseover="this.className=\'button_med_hover\'" onmouseout="this.className=\'button_med\'" />
+  <input type="submit" class="button_med" value='.$lang['req_det_repthis'].' onmouseover="this.className=\'button_med_hover\'" onmouseout="this.className=\'button_med\'">
   '.$lang['req_det_brk'].' <a class="altlink" href="rules.php">'.$lang['gl_rules'].'</a></form></td>
   </tr>
   </table>';
@@ -251,9 +251,9 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
                 $allrows[] = $subrow;
             }
             $HTMLOUT .= $commentbar.'<a name="comments"></a>';
-            $HTMLOUT .= ($count > $perpage) ? ''.$menu.'<br />' : '<br />';
+            $HTMLOUT .= ($count > $perpage) ? ''.$menu.'<br>' : '<br>';
             $HTMLOUT .= comment_table($allrows);
-            $HTMLOUT .= ($count > $perpage) ? ''.$menu.'<br />' : '<br />';
+            $HTMLOUT .= ($count > $perpage) ? ''.$menu.'<br>' : '<br>';
         }
         $HTMLOUT .= $commentbar;
         echo stdhead($lang['details_details'].htmlsafechars($arr['request_name'], ENT_QUOTES), true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
@@ -304,14 +304,14 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
    <tr>
    <td class="embedded" align="center"><h1 style="text-align: center;">'.$lang['req_add_new'].'</h1>'.$top_menu.'
    <form method="post" action="requests.php?action=add_new_request" name="request_form" id="request_form">
-   '.(isset($_POST['button']) && $_POST['button'] == $lang['req_det_prvw'] ? '<br />
+   '.(isset($_POST['button']) && $_POST['button'] == $lang['req_det_prvw'] ? '<br>
 	<table border="0" cellspacing="0" cellpadding="5" align="center" width="700px">
    <tr>
    <td class="colhead" align="center" colspan="2"><h1>'.htmlsafechars($request_name, ENT_QUOTES).'</h1></td>
    </tr>
    <tr>
    <td>'.$lang['add_image'].'</td>
-   <td><img src="'.htmlsafechars($image, ENT_QUOTES).'" alt="image" style="max-width:600px;" /></td>
+   <td><img src="'.htmlsafechars($image, ENT_QUOTES).'" alt="image" style="max-width:600px;"></td>
    </tr>
    <tr>
    <td>'.$lang['add_description'].'</td>
@@ -320,7 +320,7 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
    <tr>
    <td>'.$lang['add_cat'].'</td>
    <td><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlsafechars($cat_image, ENT_QUOTES).'" alt="'.htmlsafechars($cat_name,
-                    ENT_QUOTES).'" /></td>
+                    ENT_QUOTES).'"></td>
     </tr>
     <tr>
     <td>'.$lang['req_det_link'].'</td>
@@ -333,26 +333,26 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
                     ($TRINITY20['ratio_free'] ? "1" : $CURUSER['downloaded'])).'</td>
     </tr>
     </table>
-    <br />' : '').'
+    <br>' : '').'
     <table class="table table-hover table-bordered">
     <tr>
     <td class="colhead" align="center" colspan="2"><h1>'.$lang['req_make_req'].'</h1></td>
     </tr>
     <tr>
     <td align="center" colspan="2" class="two">'.$lang['req_add_att1'].'<a class="altlink" href="search.php">'.$lang['req_add_att2'].'</a>
-    '.$lang['req_add_att3'].'<br /><br />'.$lang['req_add_att4'].'</td>
+    '.$lang['req_add_att3'].'<br><br>'.$lang['req_add_att4'].'</td>
     </tr>
     <tr>
     <td>'.$lang['req_name'].'</td>
-    <td><input type="text" size="80"  name="request_name" value="'.htmlsafechars($request_name, ENT_QUOTES).'" class="required" /></td>
+    <td><input type="text" size="80"  name="request_name" value="'.htmlsafechars($request_name, ENT_QUOTES).'" class="required"></td>
     </tr>
     <tr>
     <td>'.$lang['add_image'].'</td>
-    <td><input type="text" size="80"  name="image" value="'.htmlsafechars($image, ENT_QUOTES).'" class="required" /></td>
+    <td><input type="text" size="80"  name="image" value="'.htmlsafechars($image, ENT_QUOTES).'" class="required"></td>
     </tr>
     <tr>
     <td>'.$lang['req_det_link'].'</td>
-    <td><input type="text" size="80"  name="link" value="'.htmlsafechars($link, ENT_QUOTES).'" class="required" /></td>
+    <td><input type="text" size="80"  name="link" value="'.htmlsafechars($link, ENT_QUOTES).'" class="required"></td>
     </tr>
     <tr>
     <td>'.$lang['add_cat'].'</td>
@@ -364,11 +364,11 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
     </tr>
     <tr>
     <td colspan="2" align="center" class="two">
-    <input type="submit" name="button" class="button" value="'.$lang['req_det_prvw'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" />
-    <input type="submit" name="button" class="button" value="'.$lang['req_det_sbmt'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" /></td>
+    <input type="submit" name="button" class="button" value="'.$lang['req_det_prvw'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'">
+    <input type="submit" name="button" class="button" value="'.$lang['req_det_sbmt'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'"></td>
     </tr>
     </table></form>
-	 </td></tr></table><br />
+	 </td></tr></table><br>
     <script type="text/javascript">
     /*<![CDATA[*/
     $(document).ready(function()	{
@@ -461,15 +461,15 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
    <td class="embedded" align="center">
    <h1 style="text-align: center;">'.$lang['details_edit'].'</h1>'.$top_menu.'
    <form method="post" action="requests.php?action=edit_request" name="request_form" id="request_form">
-   <input type="hidden" name="id" value="'.$id.'" />
-   '.(isset($_POST['button']) && $_POST['button'] == $lang['req_det_prvw'] ? '<br />
+   <input type="hidden" name="id" value="'.$id.'">
+   '.(isset($_POST['button']) && $_POST['button'] == $lang['req_det_prvw'] ? '<br>
 	<table class="table table-hover table-bordered">
    <tr>
    <td class="colhead" align="center" colspan="2"><h1>'.htmlsafechars($request_name, ENT_QUOTES).'</h1></td>
    </tr>
    <tr>
    <td>'.$lang['add_image'].'</td>
-   <td><img src="'.htmlsafechars($image, ENT_QUOTES).'" alt="image" style="max-width:600px;" /></td>
+   <td><img src="'.htmlsafechars($image, ENT_QUOTES).'" alt="image" style="max-width:600px;"></td>
    </tr>
    <tr>
    <td>'.$lang['add_description'].'</td>
@@ -478,14 +478,14 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
    <tr>
    <td>'.$lang['add_cat'].'</td>
    <td><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlsafechars($cat_image, ENT_QUOTES).'" alt="'.htmlsafechars($cat_name,
-                    ENT_QUOTES).'" /></td>
+                    ENT_QUOTES).'"></td>
    </tr>
    <tr>
    <td>'.$lang['req_det_link'].'</td>
    <td><a class="altlink" href="'.htmlsafechars($link, ENT_QUOTES).'" target="_blank">'.htmlsafechars($link, ENT_QUOTES).'</a></td>
    </tr>
    </table>
-   <br />' : '').'
+   <br>' : '').'
    <table class="table table-hover table-bordered">
    <tr>
    <td class="colhead" align="center" colspan="2"><h1>'.$lang['details_edit'].'</h1></td>
@@ -495,15 +495,15 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
    </tr>
    <tr>
    <td>'.$lang['req_name'].'</td>
-   <td><input type="text" size="80"  name="request_name" value="'.htmlsafechars($request_name, ENT_QUOTES).'" class="required" /></td>
+   <td><input type="text" size="80"  name="request_name" value="'.htmlsafechars($request_name, ENT_QUOTES).'" class="required"></td>
    </tr>
    <tr>
    <td>'.$lang['add_image'].'</td>
-   <td><input type="text" size="80"  name="image" value="'.htmlsafechars($image, ENT_QUOTES).'" class="required" /></td>
+   <td><input type="text" size="80"  name="image" value="'.htmlsafechars($image, ENT_QUOTES).'" class="required"></td>
    </tr>
    <tr>
    <td>'.$lang['req_det_link'].'</td>
-   <td><input type="text" size="80"  name="link" value="'.htmlsafechars($link, ENT_QUOTES).'" class="required" /></td>
+   <td><input type="text" size="80"  name="link" value="'.htmlsafechars($link, ENT_QUOTES).'" class="required"></td>
    </tr>
    <tr>
    <td>'.$lang['add_cat'].'</td>
@@ -515,15 +515,15 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
    </tr>'.($edit_arr['filled_by_user_id'] == 0 ? '' : '
    <tr>
    <td>'.$lang['req_filled'].'</td>
-   <td>'.$filled_by.' <input type="checkbox" name="filled_by" value="1"'.(isset($_POST['filled_by']) ? ' "checked"' : '').' />'.$lang['req_fil_chk'].'</td>
+   <td>'.$filled_by.' <input type="checkbox" name="filled_by" value="1"'.(isset($_POST['filled_by']) ? ' "checked"' : '').'>'.$lang['req_fil_chk'].'</td>
    </tr>').'
    <tr>
    <td colspan="2" align="center" class="two">
-   <input type="submit" name="button" class="button" value="'.$lang['req_det_prvw'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" />
-   <input type="submit" name="button" class="button" value="'.$lang['req_det_edit'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" /></td>
+   <input type="submit" name="button" class="button" value="'.$lang['req_det_prvw'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'">
+   <input type="submit" name="button" class="button" value="'.$lang['req_det_edit'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'"></td>
    </tr>
    </table></form>
-	</td></tr></table><br />
+	</td></tr></table><br>
    <script type="text/javascript">
    /*<![CDATA[*/
    $(document).ready(function()	{
@@ -631,7 +631,7 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
 	 <tr>
     <td>'.$avatar.'</td>
     <td>'.format_comment($body).'</td>
-    </tr></table><br />' : '').'
+    </tr></table><br>' : '').'
     <table class="table table-hover table-bordered">
 	 <tr>
     <td>h1>'.$lang['req_det_edco'].''.htmlsafechars($arr['request_name'], ENT_QUOTES).'"</h1></td>
@@ -641,8 +641,8 @@ c.id AS cat_id, c.name AS cat_name, c.image AS cat_image FROM requests AS r LEFT
     </tr>
 	 <tr>
     <td align="center" colspan="2" class="two">
-    <input name="button" type="submit" class="button" value="'.$lang['req_det_prvw'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" /> 
-    <input name="button" type="submit" class="button" value="'.$lang['req_det_edit'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" /></td>
+    <input name="button" type="submit" class="button" value="'.$lang['req_det_prvw'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'"> 
+    <input name="button" type="submit" class="button" value="'.$lang['req_det_edit'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'"></td>
     </tr>
 	 </table></form>';
         echo stdhead($arr['req_det_edco'].$arr['request_name'].'"', true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
@@ -709,7 +709,7 @@ function comment_table($rows)
     <td>'.$text.'</td>
     </tr>
     </table>
-    </div><br />';
+    </div><br>';
     }
     return $comment_table.'</td></tr></table></div>';
 }

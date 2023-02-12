@@ -27,7 +27,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -64,7 +64,7 @@ function make_nice_address($ip)
         return $ip;
     }
 
-    return $ip.'<br />'.$dom;
+    return $ip.'<br>'.$dom;
 }
 
 $msg_to_analyze = (isset($_POST['msg_to_analyze']) ? htmlsafechars($_POST['msg_to_analyze']) : '');
@@ -87,7 +87,7 @@ $HTMLOUT .= '
     <textarea name="msg_to_analyze" rows="20" cols="70">'.$msg_to_analyze.'</textarea></td>
     </tr>
     <tr>
-    <td align="left"><input type="submit" class="button" value="'.$lang['mega_search_btn'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" /></td>
+    <td align="left"><input type="submit" class="button" value="'.$lang['mega_search_btn'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'"></td>
     </tr>
     </table>
     </form>
@@ -98,10 +98,10 @@ $HTMLOUT .= '
     '.bubble('<b>'.$lang['mega_invite'].'</b>', $lang['mega_invite_1']).'</td>
     </tr>
     <tr>
-    <td align="left"><input type="text" name="invite_code" size="70" value="'.$invite_code.'" /></td>
+    <td align="left"><input type="text" name="invite_code" size="70" value="'.$invite_code.'"></td>
     </tr>
     <tr>
-    <td align="left"><input type="submit" class="button" value="'.$lang['mega_search_btn'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" /></td>
+    <td align="left"><input type="submit" class="button" value="'.$lang['mega_search_btn'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'"></td>
     </tr>
     </table>
     </form>
@@ -115,7 +115,7 @@ $HTMLOUT .= '
     <td align="left"><textarea name="user_names" rows="4" cols="70">'.$user_names.'</textarea></td>
     </tr>
     <tr>
-    <td align="left"><input type="submit" class="button" value="'.$lang['mega_search_btn'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" /></td>
+    <td align="left"><input type="submit" class="button" value="'.$lang['mega_search_btn'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'"></td>
     </tr>
     </table>
     </form>';
@@ -129,7 +129,7 @@ if (isset($_POST['user_names'])) {
         $search_users = trim($search_users);
         $res_search_usernames = sql_query('SELECT id, username, class, donor, suspended, leechwarn, chatpost, pirate, king, warned, enabled, uploaded, downloaded, invitedby, email, ip, added, last_access FROM users WHERE username LIKE \'%'.$search_users.'%\'');
         if ($res_search_usernames->num_rows == 0) {
-            $not_found .= '<span style="color: blue;">'.$search_users.'</span><br />';
+            $not_found .= '<span style="color: blue;">'.$search_users.'</span><br>';
         } else {
             $arr = $res_search_usernames->fetch_array(MYSQLI_BOTH);
             $number = 1;
@@ -142,15 +142,15 @@ if (isset($_POST['user_names'])) {
     <td align="left" class="'.$class2.'">'.print_user_stuff($arr).'</td>
     <td align="center" class="'.$class2.'">'.htmlsafechars($arr['email']).'</td>
     <td align="center" class="'.$class2.'">
-    <span style="color: blue;" title="added">'.get_date($arr['added'], '').'</span><br />
+    <span style="color: blue;" title="added">'.get_date($arr['added'], '').'</span><br>
     <span style="color: green;" title="last access">'.get_date($arr['last_access'], '').'</span></td>
-    <td align="center" class="'.$class2.'"><img src="pic/up.png" alt="'.$lang['mega_up'].'" title="'.$lang['mega_uploaded'].'" /> 
+    <td align="center" class="'.$class2.'"><img src="pic/up.png" alt="'.$lang['mega_up'].'" title="'.$lang['mega_uploaded'].'"> 
     <span style="color: green;">'.mksize($arr['uploaded']).'</span>
-    '.($TRINITY20['ratio_free'] ? '' : '<br />
-    <img src="pic/dl.png" alt="'.$lang['mega_down'].'" title="'.$lang['mega_downloaded'].'" />  
+    '.($TRINITY20['ratio_free'] ? '' : '<br>
+    <img src="pic/dl.png" alt="'.$lang['mega_down'].'" title="'.$lang['mega_downloaded'].'">  
     <span style="color: red;">'.mksize($arr['downloaded']).'</span></td>').'
     <td align="center" class="'.$class2.'">'.member_ratio($arr['uploaded'], $TRINITY20['ratio_free'] ? '0' : $arr['downloaded']).'</td>
-    <td align="center" class="'.$class2.'">'.make_nice_address($arr['ip']).'<br /></td>
+    <td align="center" class="'.$class2.'">'.make_nice_address($arr['ip']).'<br></td>
     </tr>';
         }
     }
@@ -159,11 +159,11 @@ if (isset($_POST['user_names'])) {
     <td class="colhead" align="center">'.$lang['mega_searched'].'</td>
     <td class="colhead" align="left">'.$lang['mega_member'].'</td>
     <td class="colhead" align="center">'.$lang['mega_email'].'</td>
-    <td class="colhead" align="center">'.$lang['mega_registered'].'<br />'.$lang['mega_last_acc'].'</td>
+    <td class="colhead" align="center">'.$lang['mega_registered'].'<br>'.$lang['mega_last_acc'].'</td>
     <td class="colhead" align="center">'.$lang['mega_stats'].'</td>
     <td class="colhead" align="center">'.$lang['mega_ratio'].'</td>
     <td class="colhead" align="center">'.$lang['mega_ip'].'</td>
-    </tr>'.$found : '').'</table><br />';
+    </tr>'.$found : '').'</table><br>';
     $HTMLOUT .= '<h1>'.$lang['mega_searched_2'].'</h1>'.$print_if_any_username_matches.($not_found !== '' ? '
     <table class="table table-bordered">
     <tr>
@@ -184,7 +184,7 @@ if (isset($_POST['msg_to_analyze'])) {
     foreach ($email_to_test[0] as $tested_email) {
         $res_search_others = sql_query('SELECT id, username, class, donor, suspended, leechwarn, chatpost, pirate, king, warned, enabled, uploaded, downloaded, invitedby, email, ip, added, last_access FROM users WHERE email LIKE \''.$tested_email.'\'');
         if ($res_search_others->num_rows == 0) {
-            $no_matches_for_this_email .= '<span style="color: blue;">'.$lang['mega_no_exact'].'<span style="color: blue;">'.$tested_email.'</span><br />';
+            $no_matches_for_this_email .= '<span style="color: blue;">'.$lang['mega_no_exact'].'<span style="color: blue;">'.$tested_email.'</span><br>';
         } else {
             $number = 1;
             while ($arr = $res_search_others->fetch_array(MYSQLI_BOTH)) {
@@ -205,16 +205,16 @@ if (isset($_POST['msg_to_analyze'])) {
     <td align="left" class="'.$class2.'">'.print_user_stuff($arr).'</td>
     <td align="center" class="'.$class2.'">'.htmlsafechars($arr['email']).'</td>
     <td align="center" class="'.$class2.'">
-    <span style="color: blue;" title="added">'.get_date($arr['added'], '').'</span><br />
+    <span style="color: blue;" title="added">'.get_date($arr['added'], '').'</span><br>
     <span style="color: green;" title="last access">'.get_date($arr['last_access'], '').'</span></td>
     <td align="center" class="'.$class2.'">
-    <img src="pic/up.png" alt="'.$lang['mega_up'].'" title="'.$lang['mega_uploaded'].'" /> 
+    <img src="pic/up.png" alt="'.$lang['mega_up'].'" title="'.$lang['mega_uploaded'].'"> 
     <span style="color: green;">'.mksize($arr['uploaded']).'</span>
-    '.($TRINITY20['ratio_free'] ? '' : '<br />
-    <img src="pic/dl.png" alt="'.$lang['mega_down'].'" title="'.$lang['mega_downloaded'].'" />  
+    '.($TRINITY20['ratio_free'] ? '' : '<br>
+    <img src="pic/dl.png" alt="'.$lang['mega_down'].'" title="'.$lang['mega_downloaded'].'">  
     <span style="color: red;">'.mksize($arr['downloaded']).'</span></td>').'
     <td align="center" class="'.$class2.'">'.member_ratio($arr['uploaded'], $TRINITY20['ratio_free'] ? '0' : $arr['downloaded']).'</td>
-    <td align="center" class="'.$class2.'">'.make_nice_address($arr['ip']).'<br /></td>
+    <td align="center" class="'.$class2.'">'.make_nice_address($arr['ip']).'<br></td>
     <td align="left" class="'.$class2.'">'.$inviter.'</td>
     </tr>';
                 }
@@ -225,12 +225,12 @@ if (isset($_POST['msg_to_analyze'])) {
    <tr>
    <td class="colhead" align="left">'.$lang['mega_member'].'</td>
    <td class="colhead" align="center">'.$lang['mega_matched_email'].'</td>
-   <td class="colhead" align="center">'.$lang['mega_registered'].'<br />'.$lang['mega_last_acc'].'</td>
+   <td class="colhead" align="center">'.$lang['mega_registered'].'<br>'.$lang['mega_last_acc'].'</td>
    <td class="colhead" align="center">'.$lang['mega_stats'].'</td>
    <td class="colhead" align="center">'.$lang['mega_ratio'].'</td>
    <td class="colhead" align="center">'.$lang['mega_ip'].'</td>
    <td class="colhead" align="left">'.$lang['mega_invited_by'].'</td>
-   </tr>'.$matches_for_email : '').'</table><br />';
+   </tr>'.$matches_for_email : '').'</table><br>';
     $HTMLOUT .= $print_if_any_matches.($no_matches_for_this_email !== '' ? '<table align="center" width="100%" border="1" cellspacing="0" cellpadding="5">
    <tr><td class="colhead" align="left"><h1>'.$lang['mega_not_found_email'].'</h1></td></tr>
    <tr><td align="left">'.$no_matches_for_this_email.'</td></tr></table>' : '');
@@ -248,13 +248,13 @@ if (isset($_POST['msg_to_analyze'])) {
             $number = 1;
             while ($arr = $res_search_others_like->fetch_array()) {
                 $similar_emails .= str_ireplace($email, '<span style="color: red; font-weight: bold;">'.$email.'</span>',
-                        $arr['email']).$lang['mega_used_by'].print_user_stuff($arr).'<br />';
+                        $arr['email']).$lang['mega_used_by'].print_user_stuff($arr).'<br>';
             }
         }
     } //=== end emails like XXX
-    $HTMLOUT .= ($number === 1 ? '<br /><table align="center" width="100%" border="1" cellspacing="0" cellpadding="5">
+    $HTMLOUT .= ($number === 1 ? '<br><table align="center" width="100%" border="1" cellspacing="0" cellpadding="5">
     <tr><td class="colhead" align="left"><h1>'.$lang['mega_search_sim'].'</h1></td></tr>
-    <tr><td align="left">'.$similar_emails.'</td></tr></table><br />' : '');
+    <tr><td align="left">'.$similar_emails.'</td></tr></table><br>' : '');
     //=== now let's do the IP search!
     $ip_history = $_POST['msg_to_analyze'];
     $regex = '/([\d]{1,3}\.){3}[\d]{1,3}/';
@@ -263,7 +263,7 @@ if (isset($_POST['msg_to_analyze'])) {
     foreach ($ip_to_test[0] as $tested_ip) {
         $res_search_others = sql_query('SELECT id, username, class, donor, suspended, leechwarn, chatpost, pirate, king, warned, enabled, uploaded, downloaded, invitedby, email, ip, added, last_access FROM users WHERE ip LIKE \'%'.$tested_ip.'%\'');
         if ($res_search_others->num_rows == 0) {
-            $no_matches_for_this_ip .= '<span style="color: blue;">No matches for IP: '.$tested_ip.'</span><br />';
+            $no_matches_for_this_ip .= '<span style="color: blue;">No matches for IP: '.$tested_ip.'</span><br>';
         } else {
             $matches_for_ip .= '<h1>'.$lang['mega_used_ip'].' '.$tested_ip.'</h1>
     <table class="table table-bordered">
@@ -271,7 +271,7 @@ if (isset($_POST['msg_to_analyze'])) {
     <td class="colhead" align="left">'.$lang['mega_member'].'</td>
     <td class="colhead" align="center">'.$lang['mega_matched_ip'].'</td>
     <td class="colhead" align="center">'.$lang['mega_email'].'</td>
-    <td class="colhead" align="center">'.$lang['mega_registered'].'<br />'.$lang['mega_last_acc'].'</td>
+    <td class="colhead" align="center">'.$lang['mega_registered'].'<br>'.$lang['mega_last_acc'].'</td>
     <td class="colhead" align="center">'.$lang['mega_stats'].'</td>
     <td class="colhead" align="center">'.$lang['mega_ratio'].'</td>
     <td class="colhead" align="center">'.$lang['mega_ip'].'</td>
@@ -298,24 +298,24 @@ if (isset($_POST['msg_to_analyze'])) {
                             <td align="center" class="'.$class2.'"><span style="color: red; font-weight: bold;">'.$tested_ip.' </span></td>
                             <td align="center" class="'.$class2.'">'.htmlsafechars($arr['email']).'</td>
                             <td align="center" class="'.$class2.'">
-                            <span style="color: blue;" title="added">'.get_date($arr['added'], '').'</span><br />
+                            <span style="color: blue;" title="added">'.get_date($arr['added'], '').'</span><br>
                             <span style="color: green;" title="last access">'.get_date($arr['last_access'], '').'</span>
                             </td>
                             <td align="center" class="'.$class2.'">
-                            <img src="pic/up.png" alt="'.$lang['mega_up'].'" title="'.$lang['mega_uploaded'].'" /> 
+                            <img src="pic/up.png" alt="'.$lang['mega_up'].'" title="'.$lang['mega_uploaded'].'"> 
                             <span style="color: green;">'.mksize($arr['uploaded']).'</span>
-                            '.($TRINITY20['ratio_free'] ? '' : '<br />
-                            <img src="pic/dl.png" alt="'.$lang['mega_down'].'" title="'.$lang['mega_downloaded'].'" />  
+                            '.($TRINITY20['ratio_free'] ? '' : '<br>
+                            <img src="pic/dl.png" alt="'.$lang['mega_down'].'" title="'.$lang['mega_downloaded'].'">  
                             <span style="color: red;">'.mksize($arr['downloaded']).'</span></td>').'
                             <td align="center" class="'.$class2.'">'.member_ratio($arr['uploaded'],
                             $TRINITY20['ratio_free'] ? '0' : $arr['downloaded']).'</td>
-                            <td align="center" class="'.$class2.'">'.make_nice_address($arr['ip']).'<br />
+                            <td align="center" class="'.$class2.'">'.make_nice_address($arr['ip']).'<br>
                             </td>
                             <td align="left" class="'.$class2.'">'.$inviter.'</td>
                               </tr>';
                 }
             }
-            $matches_for_ip .= '</td></tr></table><br />';
+            $matches_for_ip .= '</td></tr></table><br>';
         }
     }
     $HTMLOUT .= (($matches_for_ip != '' || $no_matches_for_this_ip !== '') ? '<h1>'.$lang['mega_searched_ip'].'</h1>' : '').$matches_for_ip.($no_matches_for_this_ip !== '' ? '<table align="center" width="100%" border="1" cellspacing="0" cellpadding="5">
@@ -351,9 +351,9 @@ if (isset($_POST['invite_code'])) {
                 <td align="center">'.htmlsafechars($user['ip']).'</td>
                 <td align="center">'.get_date($user['last_access'], '').'</td>
                 <td align="center">'.get_date($user['added'], '').'</td>
-                <td align="center"><img src="pic/up.png" alt="'.$lang['mega_up'].'" title="'.$lang['mega_uploaded'].'" /> <span style="color: green;">'.mksize($user['uploaded']).'</span>
-                '.($TRINITY20['ratio_free'] ? '' : '<br />
-                <img src="pic/dl.png" alt="'.$lang['mega_down'].'" title="'.$lang['mega_downloaded'].'" />  
+                <td align="center"><img src="pic/up.png" alt="'.$lang['mega_up'].'" title="'.$lang['mega_uploaded'].'"> <span style="color: green;">'.mksize($user['uploaded']).'</span>
+                '.($TRINITY20['ratio_free'] ? '' : '<br>
+                <img src="pic/dl.png" alt="'.$lang['mega_down'].'" title="'.$lang['mega_downloaded'].'">  
                 <span style="color: red;">'.mksize($user['downloaded']).'</span></td>').'
                 <td align="center" class="'.$class2.'">'.member_ratio($user['uploaded'], $TRINITY20['ratio_free'] ? '0' : $user['downloaded']).'</td>
                 <td align="center">'.($user['invitedby'] == 0 ? $lang['mega_open'] : print_user_stuff($user1)).'</td>
@@ -386,9 +386,9 @@ if (isset($_POST['invite_code'])) {
                 <td align="center">'.htmlsafechars($user_invited['ip']).'</td>
                 <td align="center">'.get_date($user_invited['last_access'], '').'</td>
                 <td align="center">'.get_date($user_invited['added'], '').'</td>
-                <td align="center"><img src="pic/up.png" alt="'.$lang['mega_up'].'" title="'.$lang['mega_uploaded'].'" /> <span style="color: green;">'.mksize($user_invited['uploaded']).'</span>
-                '.($TRINITY20['ratio_free'] ? '' : '<br />
-                <img src="pic/dl.png" alt="'.$lang['mega_down'].'" title="'.$lang['mega_downloaded'].'" />  
+                <td align="center"><img src="pic/up.png" alt="'.$lang['mega_up'].'" title="'.$lang['mega_uploaded'].'"> <span style="color: green;">'.mksize($user_invited['uploaded']).'</span>
+                '.($TRINITY20['ratio_free'] ? '' : '<br>
+                <img src="pic/dl.png" alt="'.$lang['mega_down'].'" title="'.$lang['mega_downloaded'].'">  
                 <span style="color: red;">'.mksize($user_invited['downloaded']).'</span></td>').'
                 <td align="center" class="'.$class2.'">'.member_ratio($user_invited['uploaded'],
                     $TRINITY20['ratio_free'] ? '0' : $user_invited['downloaded']).'</td>

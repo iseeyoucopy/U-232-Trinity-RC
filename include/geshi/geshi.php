@@ -644,7 +644,7 @@ class GeSHi
                 array_values($debug_tpl_vars),
                 $this->error_messages[$this->error]);
 
-            return "<br /><strong>GeSHi Error:</strong> $msg (code {$this->error})<br />";
+            return "<br><strong>GeSHi Error:</strong> $msg (code {$this->error})<br>";
         }
         return false;
     }

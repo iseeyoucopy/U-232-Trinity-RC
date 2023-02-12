@@ -144,18 +144,18 @@ if ($action == 'add') {
     $HTMLOUT = '';
     $body = htmlsafechars(($_POST['body'] ?? ''));
     $HTMLOUT .= "<h1>{$lang['comment_add']}'".htmlsafechars($arr[$name])."'</h1>
-      <br /><form name='compose' method='post' action='comment.php?action=add'>
+      <br><form name='compose' method='post' action='comment.php?action=add'>
       <input type='hidden' name='tid' value='{$id}'/>
-      <input type='hidden' name='locale' value='$name' />";
+      <input type='hidden' name='locale' value='$name'>";
     if ($TRINITY20['BBcode'] && function_exists('textbbcode')) {
         $HTMLOUT .= textbbcode('comments', 'body');
     } else {
         $HTMLOUT .= "<textarea name='text' rows='10' cols='60'></textarea>";
     }
-    $HTMLOUT .= "<br />
+    $HTMLOUT .= "<br>
       <label for='anonymous'>Tick this to post anonymously</label>
-      <input id='anonymous' type='checkbox' name='anonymous' value='yes' />
-      <br /><input type='submit' class='btn' value='{$lang['comment_doit']}' /></form>";
+      <input id='anonymous' type='checkbox' name='anonymous' value='yes'>
+      <br><input type='submit' class='btn' value='{$lang['comment_doit']}'></form>";
     $res = sql_query("SELECT comments.id, text, comments.added, comments.$locale, comments.anonymous, comments.editedby, comments.editedat, comments.edit_name, username, users.id as user, users.title, users.avatar, users.offavatar, users.av_w, users.av_h, users.class, users.reputation, users.mood, users.donor, users.warned FROM comments LEFT JOIN users ON comments.user = users.id WHERE $locale = ".sqlesc($id)." ORDER BY comments.id DESC LIMIT 5");
     $allrows = [];
     while ($row = $res->fetch_assoc()) {
@@ -207,16 +207,16 @@ if ($action == "edit") {
     $HTMLOUT = '';
     $HTMLOUT .= "<h1>{$lang['comment_edit']}'".htmlsafechars($arr[$name])."'</h1>
       <form method='post' action='comment.php?action=edit&amp;cid=$commentid'>
-      <input type='hidden' name='locale' value='$name' />
-       <input type='hidden' name='tid' value='".(int)$arr['tid']."' />
-      <input type='hidden' name='cid' value='$commentid' />";
+      <input type='hidden' name='locale' value='$name'>
+       <input type='hidden' name='tid' value='".(int)$arr['tid']."'>
+      <input type='hidden' name='cid' value='$commentid'>";
     if ($TRINITY20['BBcode'] && function_exists('textbbcode')) {
         $HTMLOUT .= textbbcode('comments', 'body', $arr["text"]);
     } else {
         $HTMLOUT .= "<textarea name='text' rows='10' cols='60'>".htmlsafechars($arr["text"])."</textarea>";
     }
     $HTMLOUT .= '
-      <br />'.($CURUSER['class'] >= UC_STAFF ? '<input type="checkbox" value="lasteditedby" checked="checked" name="lasteditedby" id="lasteditedby" /> Show Last Edited By<br /><br />' : '').' <input type="submit" class="btn" value="'.$lang['comment_doit'].'" /></form>';
+      <br>'.($CURUSER['class'] >= UC_STAFF ? '<input type="checkbox" value="lasteditedby" checked="checked" name="lasteditedby" id="lasteditedby"> Show Last Edited By<br><br>' : '').' <input type="submit" class="btn" value="'.$lang['comment_doit'].'"></form>';
     echo stdhead("{$lang['comment_edit']}'".$arr[$name]."'", true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
     die;
 } elseif ($action == "delete") {

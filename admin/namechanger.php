@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 <title>Error!</title>
 </head>
 <body>
-<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 </body></html>";
     echo $HTMLOUT;
     exit();
@@ -66,9 +66,9 @@ $HTMLOUT .= "<div class='row'><div class='col-md-12'>
     <h1>{$lang['namechanger_change_u']}</h1>
     <form method='post' action='staffpanel.php?tool=namechanger&amp;mode=change'>
     <table class=table table-bordered'>
-    <tr><td class='rowhead'>{$lang['namechanger_id']}</td><td><input type='text' name='uid' size='10' /></td></tr>
-    <tr><td class='rowhead'>{$lang['namechanger_new_user']}</td><td><input type='text' name='uname' size='20' /></td></tr>
-    <tr><td colspan='2' align='center'>{$lang['namechanger_if']}<input type='submit' value='{$lang['namechanger_change_name']}' class='btn' /></td></tr>
+    <tr><td class='rowhead'>{$lang['namechanger_id']}</td><td><input type='text' name='uid' size='10'></td></tr>
+    <tr><td class='rowhead'>{$lang['namechanger_new_user']}</td><td><input type='text' name='uname' size='20'></td></tr>
+    <tr><td colspan='2' align='center'>{$lang['namechanger_if']}<input type='submit' value='{$lang['namechanger_change_name']}' class='btn'></td></tr>
     </table>
     </form></div></div>";
 echo stdhead($lang['namechanger_stdhead']).$HTMLOUT.stdfoot();

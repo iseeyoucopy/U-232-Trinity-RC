@@ -112,7 +112,7 @@ switch ($do) {
 			    <option value='delete'>{$lang['staffbox_pm_delete']}</option>
 									</select>
 			<input type='hidden' name='reply' value='1'/>
-			<input type='hidden' name='id[]' value='".(int)$a['id']."'/><input type='submit' value='{$lang['staffbox_confirm']}' /></td></tr>
+			<input type='hidden' name='id[]' value='".(int)$a['id']."'/><input type='submit' value='{$lang['staffbox_confirm']}'></td></tr>
 								</table>
 								</form>";
                 $HTMLOUT .= "</div></div>";
@@ -154,7 +154,7 @@ switch ($do) {
                  <td style='text-align:center;'><h4>{$lang['staffbox_sender']}</h4></td>
                  <td style='text-align:center;'><h4>{$lang['staffbox_added']}</h4></td>
                  <td style='text-align:center;'><h4>{$lang['staffbox_answered']}</h4></td>
-                 <td><h4><input type='checkbox' name='t' onclick=\"checkbox('staffbox')\" /></h4></td>
+                 <td><h4><input type='checkbox' name='t' onclick=\"checkbox('staffbox')\"></h4></td>
                 </tr>";
             ($r = sql_query('SELECT s.id, s.added, s.subject, s.answered, s.answeredby, s.sender, s.answer, u.username, u2.username as username2 FROM staffmessages as s LEFT JOIN users as u ON s.sender = u.id LEFT JOIN users as u2 ON s.answeredby = u2.id ORDER BY id desc '.$pager['limit'])) || sqlerr(__FILE__,
                 __LINE__);
@@ -164,7 +164,7 @@ switch ($do) {
                    <td ><b>".($a['username'] ? "<a href='userdetails.php?id=".(int)$a['sender']."'>".htmlsafechars($a['username'])."</a>" : "Unknown[".(int)$a['sender']."]")."</b></td>
                    <td nowrap='nowrap'>".get_date($a['added'], 'DATE', 1)."<br/><span class='small'>".get_date($a['added'], 0, 1)."</span></td>
 				   <td ><b>".($a['answeredby'] > 0 ? "by <a href='userdetails.php?id=".(int)$a['answeredby']."'>".htmlsafechars($a['username2'])."</a>" : "<span style='color:#ff0000'>No</span>")."</b></td>
-                   <td><input type='checkbox' name='id[]' value='".(int)$a['id']."' /></td>
+                   <td><input type='checkbox' name='id[]' value='".(int)$a['id']."'></td>
                   </tr>\n";
             }
             $HTMLOUT .= "<tr><td>
@@ -172,7 +172,7 @@ switch ($do) {
 						<option value='delete'>{$lang['staffbox_do_delete']}</option>
 						<option value='setanswered'>{$lang['staffbox_do_set']}</option>
 					</select>
-					<input type='submit' value='{$lang['staffbox_confirm']}' /></td></tr>
+					<input type='submit' value='{$lang['staffbox_confirm']}'></td></tr>
 				</table></form>";
             $HTMLOUT .= $pager['pagerbottom']."<br>";
             $HTMLOUT .= "</div></div>";

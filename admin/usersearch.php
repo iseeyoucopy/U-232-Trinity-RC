@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -65,7 +65,7 @@ $highlight = " bgcolor='lightgrey'";
                         echo $lang['usersearch_name'] ?></td>
                     <td <?php
                     echo (isset($_POST['n']) && !empty($_POST['n'])) ? $highlight : "" ?>><input name="n" type="text" value=""<?php
-                        echo isset($_POST['n']) ? htmlsafechars($_POST['n']) : "" ?>" size='25' />
+                        echo isset($_POST['n']) ? htmlsafechars($_POST['n']) : "" ?>" size='25'>
                     </td>
 
                     <td valign="middle" class='rowhead'><?php
@@ -85,9 +85,9 @@ $highlight = " bgcolor='lightgrey'";
                             ?>
                         </select>
                         <input name="r" type="text" value=""<?php
-                        echo $_POST['r'] ?? '' ?>" size="5" maxlength="4" />
+                        echo $_POST['r'] ?? '' ?>" size="5" maxlength="4">
                         <input name="r2" type="text" value=""<?php
-                        echo $_POST['r2'] ?? '' ?>" size="5" maxlength="4" />
+                        echo $_POST['r2'] ?? '' ?>" size="5" maxlength="4">
                     </td>
 
                     <td valign="middle" class='rowhead'><?php
@@ -111,13 +111,13 @@ $highlight = " bgcolor='lightgrey'";
                         echo $lang['usersearch_email'] ?></td>
                     <td <?php
                     echo (isset($_POST['em']) && !empty($_POST['em'])) ? $highlight : "" ?>><input name="em" type="text" value=""<?php
-                        echo $_POST['em'] ?? '' ?>" size="25" />
+                        echo $_POST['em'] ?? '' ?>" size="25">
                     </td>
                     <td valign="middle" class='rowhead'><?php
                         echo $lang['usersearch_ip'] ?></td>
                     <td <?php
                     echo (isset($_POST['ip']) && !empty($_POST['ip'])) ? $highlight : "" ?>><input name="ip" type="text" value=""<?php
-                        echo $_POST['ip'] ?? '' ?>" maxlength="17" />
+                        echo $_POST['ip'] ?? '' ?>" maxlength="17">
                     </td>
 
                     <td valign="middle" class='rowhead'><?php
@@ -141,13 +141,13 @@ $highlight = " bgcolor='lightgrey'";
                         echo $lang['usersearch_comments'] ?></td>
                     <td <?php
                     echo (isset($_POST['co']) && !empty($_POST['co'])) ? $highlight : "" ?>><input name="co" type="text" value=""<?php
-                        echo $_POST['co'] ?? "" ?>" size="25" />
+                        echo $_POST['co'] ?? "" ?>" size="25">
                     </td>
                     <td valign="middle" class='rowhead'><?php
                         echo $lang['usersearch_mask'] ?></td>
                     <td <?php
                     echo (isset($_POST['ma']) && !empty($_POST['ma'])) ? $highlight : "" ?>><input name="ma" type="text" value=""<?php
-                        echo $_POST['ma'] ?? "" ?>" maxlength="17" />
+                        echo $_POST['ma'] ?? "" ?>" maxlength="17">
                     </td>
                     <td valign="middle" class='rowhead'><?php
                         echo $lang['usersearch_class'] ?></td>
@@ -190,10 +190,10 @@ $highlight = " bgcolor='lightgrey'";
                         </select>
 
                         <input name="d" type="text" value=""<?php
-                        echo $_POST['d'] ?? '' ?>" size="12" maxlength="10" />
+                        echo $_POST['d'] ?? '' ?>" size="12" maxlength="10">
 
                         <input name="d2" type="text" value=""<?php
-                        echo $_POST['d2'] ?? '' ?>" size="12" maxlength="10" />
+                        echo $_POST['d2'] ?? '' ?>" size="12" maxlength="10">
                     </td>
 
 
@@ -216,10 +216,10 @@ $highlight = " bgcolor='lightgrey'";
                         </select>
 
                         <input name="ul" type="text" id="ul" size="8" maxlength="7" value=""<?php
-                        echo $_POST['ul'] ?? '' ?>" />
+                        echo $_POST['ul'] ?? '' ?>">
 
                         <input name="ul2" type="text" id="ul2" size="8" maxlength="7" value=""<?php
-                        echo $_POST['ul2'] ?? '' ?>" />
+                        echo $_POST['ul2'] ?? '' ?>">
                     </td>
                     <td valign="middle" class="rowhead"><?php
                         echo $lang['usersearch_donor'] ?></td>
@@ -259,10 +259,10 @@ $highlight = " bgcolor='lightgrey'";
                         </select>
 
                         <input name="ls" type="text" value=""<?php
-                        echo $_POST['ls'] ?? '' ?>" size="12" maxlength="10" />
+                        echo $_POST['ls'] ?? '' ?>" size="12" maxlength="10">
 
                         <input name="ls2" type="text" value=""<?php
-                        echo $_POST['ls2'] ?? '' ?>" size="12" maxlength="10" />
+                        echo $_POST['ls2'] ?? '' ?>" size="12" maxlength="10">
                     </td>
                     <td valign="middle" class='rowhead'><?php
                         echo $lang['usersearch_downloaded'] ?></td>
@@ -283,10 +283,10 @@ $highlight = " bgcolor='lightgrey'";
                         </select>
 
                         <input name="dl" type="text" id="dl" size="8" maxlength="7" value=""<?php
-                        echo $_POST['dl'] ?? '' ?>" />
+                        echo $_POST['dl'] ?? '' ?>">
 
                         <input name="dl2" type="text" id="dl2" size="8" maxlength="7" value=""<?php
-                        echo $_POST['dl2'] ?? '' ?>" />
+                        echo $_POST['dl2'] ?? '' ?>">
                     </td>
 
                     <td valign="middle" class='rowhead'><?php
@@ -314,12 +314,12 @@ $highlight = " bgcolor='lightgrey'";
                         echo $lang['usersearch_active'] ?></td>
                     <td <?php
                     echo (isset($_POST['ac']) && !empty($_POST['ac'])) ? $highlight : "" ?>><input name="ac" type="checkbox" value="1" <?php
-                        echo (isset($_POST['ac'])) ? "checked='checked'" : "" ?> /></td>
+                        echo (isset($_POST['ac'])) ? "checked='checked'" : "" ?>></td>
                     <td valign="middle" class='rowhead'><?php
                         echo $lang['usersearch_banned'] ?></td>
                     <td <?php
                     echo (isset($_POST['dip']) && !empty($_POST['dip'])) ? $highlight : "" ?>><input name="dip" type="checkbox" value="1" <?php
-                        echo (isset($_POST['dip'])) ? "checked='checked'" : "" ?> /></td>
+                        echo (isset($_POST['dip'])) ? "checked='checked'" : "" ?>></td>
                 </tr>
                 <tr>
                     <td colspan="6" align='center'><input name="submit" type='submit' class='btn'/></td>
@@ -810,12 +810,12 @@ if (count($_POST) > 0) {
     //    <temporary>    /////////////////////////////////////////////////////
     if ($DEBUG_MODE > 0) {
         stdmsg($lang['usersearch_count'], $queryc);
-        echo "<br /><br />";
+        echo "<br><br>";
         stdmsg($lang['usersearch_query'], $query1);
-        echo "<br /><br />";
+        echo "<br><br>";
         stdmsg($lang['usersearch_url'], $q1);
         stdmsg("Announce Query", $announcement_query);
-        echo "<br /><br />";
+        echo "<br><br>";
         if ($DEBUG_MODE == 2) {
             stdfoot();
         }
@@ -881,7 +881,7 @@ if (count($_POST) > 0) {
             $n = $auxres->fetch_row();
             $n_comments = $n[0];
             $ids .= (int)$user['id'].':';
-            $HTMLOUT .= "<tr><td><b><a href='userdetails.php?id=".(int)$user['id']."'>".htmlsafechars($user['username'])."</a></b>".($user["donor"] == "yes" ? "<img src='pic/star.gif' alt=\"{$lang['usersearch_donor']}\" />" : "").($user["warned"] == "yes" ? "<img src=\"pic/warned.gif\" alt=\"{$lang['usersearch_warned']}\" />" : "")."</td>
+            $HTMLOUT .= "<tr><td><b><a href='userdetails.php?id=".(int)$user['id']."'>".htmlsafechars($user['username'])."</a></b>".($user["donor"] == "yes" ? "<img src='pic/star.gif' alt=\"{$lang['usersearch_donor']}\">" : "").($user["warned"] == "yes" ? "<img src=\"pic/warned.gif\" alt=\"{$lang['usersearch_warned']}\">" : "")."</td>
           <td>".ratios($user['uploaded'], $user['downloaded'])."</td>
           <td>".$ipstr."</td><td>".htmlsafechars($user['email'])."</td>
           <td><div align='center'>".get_date($user['added'], '')."</div></td>
@@ -898,16 +898,16 @@ if (count($_POST) > 0) {
             $HTMLOUT .= $pager['pagerbottom'];
         }
         $HTMLOUT .= "
-<br />
+<br>
 
 <form method='post' action='./new_announcement.php'>
 <table class='table table-bordered'>
 <tr>
 <td>
 <div align='center'>
-<input name='n_pms' type='hidden' value='".$count."' />
-<input name='ann_query' type='hidden' value='".rawurlencode($announcement_query)."' />
-<input name='ann_hash' type='hidden' value ='".(HashIt($announcement_query, $count))."' />
+<input name='n_pms' type='hidden' value='".$count."'>
+<input name='ann_query' type='hidden' value='".rawurlencode($announcement_query)."'>
+<input name='ann_hash' type='hidden' value ='".(HashIt($announcement_query, $count))."'>
 <button type='submit'>{$lang['usersearch_create_ann']}</button>
 </div></td>
 </tr>
@@ -916,7 +916,7 @@ if (count($_POST) > 0) {
     }
 }
 if (isset($pagemenu)) {
-    $HTMLOUT .= ("<p>$pagemenu<br />$browsemenu</p>");
+    $HTMLOUT .= ("<p>$pagemenu<br>$browsemenu</p>");
 }
 echo $HTMLOUT.stdfoot();
 die;

@@ -407,7 +407,7 @@ elseif ($action == "personal") {
         }
         if (!checkdate($month, $day, $year)) {
             stderr($lang['takeeditcp_err'],
-                "<br /><div id='error' align='center'><font color='red' size='+1'>{$lang['takeeditcp_birth_not']}</font></div><br />");
+                "<br><div id='error' align='center'><font color='red' size='+1'>{$lang['takeeditcp_birth_not']}</font></div><br>");
         }
         $updateset[] = "birthday = ".sqlesc($birthday);
         $curuser_cache['birthday'] = $birthday;

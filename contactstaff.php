@@ -55,12 +55,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				  </td></tr>
 		<tr><td align='center' colspan='2'>";
     if (isset($_GET['returnto'])) {
-        $HTMLOUT .= "<input type='hidden' name='returnto' value='".urlencode($_GET['returnto'])."' />";
+        $HTMLOUT .= "<input type='hidden' name='returnto' value='".urlencode($_GET['returnto'])."'>";
     }
     $HTMLOUT .= "<textarea class='form-control' name='msg' rows='10'></textarea>
                        </td>
                      </tr>
-                    <tr><td class='text-center'><input type='submit' value='{$lang['contactstaff_sendit']}' class='btn btn-default' /></td></tr>
+                    <tr><td class='text-center'><input type='submit' value='{$lang['contactstaff_sendit']}' class='btn btn-default'></td></tr>
                     </table>
         </form></div><br>";
     echo stdhead($lang['contactstaff_header'], true, $stdhead).$HTMLOUT.stdfoot();

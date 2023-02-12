@@ -16,8 +16,8 @@ if (!defined('BUNNY_PM_SYSTEM')) {
     $HTMLOUT .= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
         <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
         <title>ERROR</title>
         </head><body>
         <h1 class="text-center">ERROR</h1>
@@ -57,7 +57,7 @@ if ($message['friend'] > 0) {
 <a class="tiny button" href="friends.php?action=add&amp;type=block&amp;targetid='.$id.'">'.$lang['pm_mailbox_addb'].'</a>';
 }
 $avatar = ((!$CURUSER['opt1'] & user_options::AVATARS) !== 0 ? '' : (empty($arr_user_stuff['avatar']) ? '
-    <img width="80" src="pic/default_avatar.gif" alt="no avatar" />' : (($arr_user_stuff['opt1'] & user_options::OFFENSIVE_AVATAR && !$CURUSER['opt1'] & user_options::VIEW_OFFENSIVE_AVATAR) ? '<img width="80" src="pic/fuzzybunny.gif" alt="fuzzy!" />' : '<a href="'.htmlsafechars($arr_user_stuff['avatar']).'"><img width="80" src="'.htmlsafechars($arr_user_stuff['avatar']).'" alt="avatar" /></a>')));
+    <img width="80" src="pic/default_avatar.gif" alt="no avatar">' : (($arr_user_stuff['opt1'] & user_options::OFFENSIVE_AVATAR && !$CURUSER['opt1'] & user_options::VIEW_OFFENSIVE_AVATAR) ? '<img width="80" src="pic/fuzzybunny.gif" alt="fuzzy!">' : '<a href="'.htmlsafechars($arr_user_stuff['avatar']).'"><img width="80" src="'.htmlsafechars($arr_user_stuff['avatar']).'" alt="avatar"></a>')));
 //=== get mailbox name ===//
 if ($message['location'] > 1) {
     //=== get name of PM box if not in or out ===//

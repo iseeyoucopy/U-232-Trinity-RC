@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -178,7 +178,7 @@ function show_views()
             $img_width .= '%';
             $htmlout .= "<tr>
     			<td valign='middle'>$data</td>
-    			<td valign='middle'><img src='{$TRINITY20['pic_base_url']}/bar_left.gif' border='0' width='4' height='11' align='middle' alt='' /><img src='{$TRINITY20['pic_base_url']}/bar.gif' border='0' width='$img_width' height='11' align='middle' alt='' /><img src='{$TRINITY20['pic_base_url']}/bar_right.gif' border='0' width='4' height='11' align='middle' alt='' /></td>
+    			<td valign='middle'><img src='{$TRINITY20['pic_base_url']}/bar_left.gif' border='0' width='4' height='11' align='middle' alt=''><img src='{$TRINITY20['pic_base_url']}/bar.gif' border='0' width='$img_width' height='11' align='middle' alt=''><img src='{$TRINITY20['pic_base_url']}/bar_right.gif' border='0' width='4' height='11' align='middle' alt=''></td>
 					<td valign='middle'><center>{$data['result_count']}</center></td>
 					</tr>";
         }
@@ -289,7 +289,7 @@ function result_screen($mode = 'reg')
       <div class='row'><div class='col-md-12'>{$menu}</div></div><br>
       <div class='row'><div class='col-md-12'><table class='table table-bordered'>
 		<tr>
-    <td colspan='3' align='left'>{$heading}<br />{$page_detail}</td>
+    <td colspan='3' align='left'>{$heading}<br>{$page_detail}</td>
     </tr><tr>
     <td>{$lang['stats_ex_date']}</td>
     <td>{$lang['stats_ex_result']}</td>
@@ -320,7 +320,7 @@ function result_screen($mode = 'reg')
             }
             $htmlout .= "<tr>
     			<td>$date</td>
-    			<td><img src='{$TRINITY20['pic_base_url']}/bar_left.gif' border='0' width='4' height='11' align='middle' alt='' /><img src='{$TRINITY20['pic_base_url']}/bar.gif' border='0' width='$img_width' height='11' align='middle' alt='' /><img src='{$TRINITY20['pic_base_url']}/bar_right.gif' border='0' width='4' height='11' align='middle' alt='' /></td>
+    			<td><img src='{$TRINITY20['pic_base_url']}/bar_left.gif' border='0' width='4' height='11' align='middle' alt=''><img src='{$TRINITY20['pic_base_url']}/bar.gif' border='0' width='$img_width' height='11' align='middle' alt=''><img src='{$TRINITY20['pic_base_url']}/bar_right.gif' border='0' width='4' height='11' align='middle' alt=''></td>
 					<td>{$data['result_count']}</td>
 					</tr>";
         }
@@ -340,7 +340,7 @@ function main_screen($mode = 'reg')
 {
     global $TRINITY20, $lang;
     $page_title = $lang['stats_ex_center'];
-    $page_detail = "{$lang['stats_ex_details_main']}<br />{$lang['stats_ex_details_main1']}";
+    $page_detail = "{$lang['stats_ex_details_main']}<br>{$lang['stats_ex_details_main1']}";
     if ($mode == 'reg') {
         $form_code = 'show_reg';
         $table = "<div class='row'><div class='col-md-12'>{$lang['stats_ex_registr']}</div></div>";

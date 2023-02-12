@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -97,7 +97,7 @@ function show_level()
 {
     global $lang;
     $title = $lang['rep_ad_show_title'];
-    $html = "<p>{$lang['rep_ad_show_html1']}<br />{$lang['rep_ad_show_html2']}</p><br />";
+    $html = "<p>{$lang['rep_ad_show_html1']}<br>{$lang['rep_ad_show_html2']}</p><br>";
     $query = sql_query('SELECT * FROM reputationlevel ORDER BY minimumreputation ASC');
     if (!$query->num_rows) {
         do_update('new');
@@ -106,20 +106,20 @@ function show_level()
     $css = "style='font-weight: bold;color: #ffffff;background-color: #1E1E1E; padding: 5px;'";
     $html .= "<div class='row'><div class='col-md-12'>";
     $html .= "<h2>{$lang['rep_ad_show_head']}</h2>";
-    $html .= "<p><span class='btn'><a href='staffpanel.php?tool=reputation_ad&amp;mode=list'>{$lang['rep_ad_show_comments']}</a></span></p><br />";
+    $html .= "<p><span class='btn'><a href='staffpanel.php?tool=reputation_ad&amp;mode=list'>{$lang['rep_ad_show_comments']}</a></span></p><br>";
     $html .= "<form action='staffpanel.php?tool=reputation_ad' name='show_rep_form' method='post'>
-				<input name='mode' value='doupdate' type='hidden' />";
+				<input name='mode' value='doupdate' type='hidden'>";
     $html .= "<table class='table table-bordered'><tr>
 		<td width='5%' $css>{$lang['rep_ad_show_id']}</td>
 		<td width='60%'$css>{$lang['rep_ad_show_level']}</td>
 		<td width='20%' $css>{$lang['rep_ad_show_min']}</td>
 		<td width='15%' $css>{$lang['rep_ad_show_controls']}</td></tr>";
     while ($res = $query->fetch_assoc()) {
-        $html .= "<tr>\n"."	<td>#".$res['reputationlevelid']."</td>\n"."	<td>{$lang['rep_ad_show_user']} <b>".htmlsafechars($res['level'])."</b></td>\n"."	<td align='center'><input type='text' name='reputation[".$res['reputationlevelid']."]' value='".$res['minimumreputation']."' size='12' /></td>\n"."	<td align='center'><span class='btn'><a href='staffpanel.php?tool=reputation_ad&amp;mode=edit&amp;reputationlevelid=".$res['reputationlevelid']."'>{$lang['rep_ad_show_edit']}</a></span>&nbsp;<span class='btn'><a href='staffpanel.php?tool=reputation_ad&amp;mode=dodelete&amp;reputationlevelid=".$res['reputationlevelid']."'>{$lang['rep_ad_show_del']}</a></span></td>\n"."</tr>\n";
+        $html .= "<tr>\n"."	<td>#".$res['reputationlevelid']."</td>\n"."	<td>{$lang['rep_ad_show_user']} <b>".htmlsafechars($res['level'])."</b></td>\n"."	<td align='center'><input type='text' name='reputation[".$res['reputationlevelid']."]' value='".$res['minimumreputation']."' size='12'></td>\n"."	<td align='center'><span class='btn'><a href='staffpanel.php?tool=reputation_ad&amp;mode=edit&amp;reputationlevelid=".$res['reputationlevelid']."'>{$lang['rep_ad_show_edit']}</a></span>&nbsp;<span class='btn'><a href='staffpanel.php?tool=reputation_ad&amp;mode=dodelete&amp;reputationlevelid=".$res['reputationlevelid']."'>{$lang['rep_ad_show_del']}</a></span></td>\n"."</tr>\n";
     }
     $html .= "<tr><td colspan='3' align='center'>
-					<input type='submit' value='{$lang['rep_ad_show_update']}' accesskey='s' class='btn' /> 
-					<input type='reset' value='{$lang['rep_ad_show_reset']}' accesskey='r' class='btn' /></td>
+					<input type='submit' value='{$lang['rep_ad_show_update']}' accesskey='s' class='btn'> 
+					<input type='reset' value='{$lang['rep_ad_show_reset']}' accesskey='r' class='btn'></td>
 					<td align='center'><span class='btn'><a href='staffpanel.php?tool=reputation_ad&amp;mode=add'>{$lang['rep_ad_show_add']}</a></span>
 					</td></tr>";
     $html .= "</table>";
@@ -138,15 +138,15 @@ function show_form($type = 'edit')
             stderr($lang['rep_ad_form_error'], $lang['rep_ad_form_error_msg']);
         }
         $title = $lang['rep_ad_form_title'];
-        $html .= "<br /><span style='font-weight:normal;'>".htmlsafechars($res['level'])." ({$lang['rep_ad_form_id']}{$res['reputationlevelid']})</span><br />";
+        $html .= "<br><span style='font-weight:normal;'>".htmlsafechars($res['level'])." ({$lang['rep_ad_form_id']}{$res['reputationlevelid']})</span><br>";
         $button = $lang['rep_ad_form_btn'];
-        $extra = "<input type='button' class='button' value='{$lang['rep_ad_form_back']}' accesskey='b' class='btn' onclick='history.back(1)' />";
+        $extra = "<input type='button' class='button' value='{$lang['rep_ad_form_back']}' accesskey='b' class='btn' onclick='history.back(1)'>";
         $mode = 'doedit';
     } else {
         $title = $lang['rep_ad_form_add_title'];
         $button = $lang['rep_ad_form_add_btn'];
         $mode = 'doadd';
-        $extra = "<input type='button' value='{$lang['rep_ad_form_back']}' accesskey='b' class='btn' onclick='history.back(1)' />";
+        $extra = "<input type='button' value='{$lang['rep_ad_form_back']}' accesskey='b' class='btn' onclick='history.back(1)'>";
     }
     $css = "style='font-weight: bold;color: #ffffff;background-color: #0055A4;padding: 5px;'";
     $replevid = $res['reputationlevelid'] ?? '';
@@ -154,16 +154,16 @@ function show_form($type = 'edit')
     $minrep = $res['minimumreputation'] ?? '';
     $html .= "<div class='row'><div class='col-md-12'>";
     $html .= "<form action='staffpanel.php?tool=reputation_ad' name='show_rep_form' method='post'>
-				<input name='reputationlevelid' value='{$replevid}' type='hidden' />
-				<input name='mode' value='{$mode}' type='hidden' />";
+				<input name='reputationlevelid' value='{$replevid}' type='hidden'>
+				<input name='mode' value='{$mode}' type='hidden'>";
     $html .= "<h2>$title</h2><table class='table table-bordered'><tr>
 		<td width='67%' $css>&nbsp;</td>
 		<td width='33%' $css>&nbsp;</td></tr>";
     $html .= "<tr><td>{$lang['rep_ad_form_desc']}<div class='desctext'>{$lang['rep_ad_form_descr']}</div></td>";
-    $html .= "<td><input type='text' name='level' value=\"{$replevel}\" size='35' maxlength='250' /></td></tr>";
+    $html .= "<td><input type='text' name='level' value=\"{$replevel}\" size='35' maxlength='250'></td></tr>";
     $html .= "<tr><td>{$lang['rep_ad_form_min']}<div>{$lang['rep_ad_form_option']}</div></td>";
-    $html .= "<td><input type='text' name='minimumreputation' value=\"{$minrep}\" size='35' maxlength='10' /></td></tr>";
-    $html .= "<tr><td colspan='2' align='center'><input type='submit' value='$button' accesskey='s' class='btn' /> <input type='reset' value='{$lang['rep_ad_show_reset']}' accesskey='r' class='btn' /><br>$extra</td></tr>";
+    $html .= "<td><input type='text' name='minimumreputation' value=\"{$minrep}\" size='35' maxlength='10'></td></tr>";
+    $html .= "<tr><td colspan='2' align='center'><input type='submit' value='$button' accesskey='s' class='btn'> <input type='reset' value='{$lang['rep_ad_show_reset']}' accesskey='r' class='btn'><br>$extra</td></tr>";
     $html .= "</table>";
     $html .= "</form>";
     $html .= "</div></div>";
@@ -264,17 +264,17 @@ function show_form_rep()
         stderr('', $lang['rep_ad_rep_form_erm']);
     }
     $html = "<div class='row'><div class='col-md-12'><form action='staffpanel.php?tool=reputation_ad' name='show_rep_form' method='post'>
-				<input name='reputationid' value='{$res['reputationid']}' type='hidden' />
-				<input name='oldreputation' value='{$res['reputation']}' type='hidden' />
-				<input name='mode' value='doeditrep' type='hidden' />";
+				<input name='reputationid' value='{$res['reputationid']}' type='hidden'>
+				<input name='oldreputation' value='{$res['reputation']}' type='hidden'>
+				<input name='mode' value='doeditrep' type='hidden'>";
     $html .= "<h2>{$lang['rep_ad_rep_form_head']}</h2>";
     $html .= "<table class='table table-bordered'>";
     $html .= "<tr><td width='37%'>{$lang['rep_ad_rep_form_topic']}</td><td width='63%'><a href='forums.php?action=viewtopic&amp;topicid={$res['topic_id']}&amp;page=p{$res['postid']}#{$res['postid']}' target='_blank'>".htmlsafechars($res['topic_name'])."</a></td></tr>";
     $html .= "<tr><td>{$lang['rep_ad_rep_form_left_by']}</td><td>{$res['leftby_name']}</td></tr>";
     $html .= "<tr><td>{$lang['rep_ad_rep_form_left_for']}</td><td width='63%'>{$res['leftfor_name']}</td></tr>";
-    $html .= "<tr><td>{$lang['rep_ad_rep_form_comment']}</td><td width='63%'><input type='text' name='reason' value='".htmlsafechars($res['reason'])."' size='35' maxlength='250' /></td></tr>";
-    $html .= "<tr><td>{$lang['rep_ad_rep_form_rep']}</td><td><input type='text' name='reputation' value='{$res['reputation']}' size='35' maxlength='10' /></td></tr>";
-    $html .= "<tr><td colspan='2' align='center'><input type='submit' value='{$lang['rep_ad_rep_form_save']}' accesskey='s' class='btn' /> <input type='reset' tabindex='1' value='{$lang['rep_ad_rep_form_reset']}' accesskey='r' class='btn' /></td></tr>";
+    $html .= "<tr><td>{$lang['rep_ad_rep_form_comment']}</td><td width='63%'><input type='text' name='reason' value='".htmlsafechars($res['reason'])."' size='35' maxlength='250'></td></tr>";
+    $html .= "<tr><td>{$lang['rep_ad_rep_form_rep']}</td><td><input type='text' name='reputation' value='{$res['reputation']}' size='35' maxlength='10'></td></tr>";
+    $html .= "<tr><td colspan='2' align='center'><input type='submit' value='{$lang['rep_ad_rep_form_save']}' accesskey='s' class='btn'> <input type='reset' tabindex='1' value='{$lang['rep_ad_rep_form_reset']}' accesskey='r' class='btn'></td></tr>";
     $html .= "</table></form></div></div>";
     html_out($html, $title);
 }
@@ -290,28 +290,28 @@ function view_list()
     $html = "<h2>{$lang['rep_ad_view_view']}</h2>";
     $html .= "<p>{$lang['rep_ad_view_page']}</p>";
     $html .= "<form action='staffpanel.php?tool=reputation_ad' name='list_form' method='post'>
-				<input name='mode' value='list' type='hidden' />
-				<input name='dolist' value='1' type='hidden' />";
+				<input name='mode' value='list' type='hidden'>
+				<input name='dolist' value='1' type='hidden'>";
     $html .= "<table class='table table-bordered'>";
-    $html .= "<tr><td width='20%'>{$lang['rep_ad_view_for']}</td><td width='80%'><input type='text' name='leftfor' value='' size='35' maxlength='250' tabindex='1' /></td></tr>";
+    $html .= "<tr><td width='20%'>{$lang['rep_ad_view_for']}</td><td width='80%'><input type='text' name='leftfor' value='' size='35' maxlength='250' tabindex='1'></td></tr>";
     $html .= "<tr><td colspan='2'><div>{$lang['rep_ad_view_for_txt']}</div></td></tr>";
-    $html .= "<tr><td>{$lang['rep_ad_view_by']}</td><td><input type='text' name='leftby' value='' size='35' maxlength='250' tabindex='2' /></td></tr>";
+    $html .= "<tr><td>{$lang['rep_ad_view_by']}</td><td><input type='text' name='leftby' value='' size='35' maxlength='250' tabindex='2'></td></tr>";
     $html .= "<tr><td colspan='2'><div>{$lang['rep_ad_view_by_txt']}</div></td></tr>";
     $html .= "<tr><td>{$lang['rep_ad_view_start']}</td><td>
 		<div>
-				<span style='padding-right:5px; float:left;'>{$lang['rep_ad_view_month']}<br /><select name='start[month]' tabindex='3'>".get_month_dropdown(1)."</select></span>
-				<span style='padding-right:5px; float:left;'>{$lang['rep_ad_view_day']}<br /><input type='text' name='start[day]' value='".($now_date['mday'] + 1)."' size='4' maxlength='2' tabindex='3' /></span>
-				<span>{{$lang['rep_ad_view_year']}}<br /><input type='text' name='start[year]' value='".$now_date['year']."' size='4' maxlength='4' tabindex='3' /></span>
+				<span style='padding-right:5px; float:left;'>{$lang['rep_ad_view_month']}<br><select name='start[month]' tabindex='3'>".get_month_dropdown(1)."</select></span>
+				<span style='padding-right:5px; float:left;'>{$lang['rep_ad_view_day']}<br><input type='text' name='start[day]' value='".($now_date['mday'] + 1)."' size='4' maxlength='2' tabindex='3'></span>
+				<span>{{$lang['rep_ad_view_year']}}<br><input type='text' name='start[year]' value='".$now_date['year']."' size='4' maxlength='4' tabindex='3'></span>
 			</div></td></tr>";
     $html .= "<tr><td class='tdrow2' colspan='2'><div class='desctext'>{{$lang['rep_ad_view_start_select']}}</div></td></tr>";
     $html .= "<tr><td>{$lang['rep_ad_view_end']}</td><td>
 			<div>
-				<span style='padding-right:5px; float:left;'>{$lang['rep_ad_view_month']}<br /><select name='end[month]' class='textinput' tabindex='4'>".get_month_dropdown()."</select></span>
-				<span style='padding-right:5px; float:left;'>{$lang['rep_ad_view_day']}<br /><input type='text' class='textinput' name='end[day]' value='".$now_date['mday']."' size='4' maxlength='2' tabindex='4' /></span>
-				<span>{$lang['rep_ad_view_year']}<br /><input type='text' class='textinput' name='end[year]' value='".$now_date['year']."' size='4' maxlength='4' tabindex='4' /></span>
+				<span style='padding-right:5px; float:left;'>{$lang['rep_ad_view_month']}<br><select name='end[month]' class='textinput' tabindex='4'>".get_month_dropdown()."</select></span>
+				<span style='padding-right:5px; float:left;'>{$lang['rep_ad_view_day']}<br><input type='text' class='textinput' name='end[day]' value='".$now_date['mday']."' size='4' maxlength='2' tabindex='4'></span>
+				<span>{$lang['rep_ad_view_year']}<br><input type='text' class='textinput' name='end[year]' value='".$now_date['year']."' size='4' maxlength='4' tabindex='4'></span>
 			</div></td></tr>";
     $html .= "<tr><td class='tdrow2' colspan='2'><div class='desctext'>{$lang['rep_ad_view_end_select']}</div></td></tr>";
-    $html .= "<tr><td colspan='2' align='center'><input type='submit' value='{$lang['rep_ad_view_search']}' accesskey='s' class='btn' tabindex='5' /> <input type='reset' value='{$lang['rep_ad_view_reset']}' accesskey='r' class='btn' tabindex='6' /></td></tr>";
+    $html .= "<tr><td colspan='2' align='center'><input type='submit' value='{$lang['rep_ad_view_search']}' accesskey='s' class='btn' tabindex='5'> <input type='reset' value='{$lang['rep_ad_view_reset']}' accesskey='r' class='btn' tabindex='6'></td></tr>";
     $html .= "</table></form>";
     $html .= "</div></div>";
     //echo $html; exit;
@@ -429,7 +429,7 @@ function view_list()
             $html .= "<td><a href='staffpanel.php?tool=reputation_ad&amp;mode=editrep&amp;reputationid={$r['reputationid']}'><span class='btn'>{$lang['rep_ad_view_edit']}</span></a>&nbsp;<a href='reputation_ad.php?mode=dodelrep&amp;reputationid={$r['reputationid']}'><span class='btn'>{$lang['rep_ad_view_delete']}</span></a></td></tr>";
         }
         $html .= "</table>";
-        $html .= "<br /><div>$links</div>";
+        $html .= "<br><div>$links</div>";
         $html .= "</div></div>";
     }
     html_out($html, $title);
@@ -471,7 +471,7 @@ function do_edit_rep()
 {
     global $input, $lang, $cache, $cache_keys, $TRINITY20;
     if (isset($input['reason']) && !empty($input['reason'])) {
-        $reason = str_replace("<br />", "", $input['reason']);
+        $reason = str_replace("<br>", "", $input['reason']);
         $reason = trim($reason);
         if ((strlen(trim($reason)) < 2) || ($reason == "")) {
             stderr($lang['rep_ad_edit_txt'], $lang['rep_ad_edit_short']);
@@ -533,17 +533,17 @@ function redirect($url, $text, $time = 2)
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
-		<meta http-equiv='refresh' content=\"{$time}; url={$TRINITY20['baseurl']}/{$url}\" />
+		<meta http-equiv='refresh' content=\"{$time}; url={$TRINITY20['baseurl']}/{$url}\">
 		<title>{$lang['rep_ad_redirect_block']}</title>
-    <link rel='stylesheet' href='./templates/1/1.css' type='text/css' />
+    <link rel='stylesheet' href='./templates/1/1.css' type='text/css'>
     </head>
     <body>
 						  <div>
 							<div>{$lang['rep_ad_redirect_redirect']}</div>
 							<div style='padding:8px'>
 							 <div style='font-size:12px'>$text
-							 <br />
-							 <br />
+							 <br>
+							 <br>
 							 <center><a href='{$TRINITY20['baseurl']}/{$url}'>{$lang['rep_ad_redirect_not']}</a></center>
 							 </div>
 							</div>

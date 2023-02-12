@@ -61,14 +61,14 @@ function commenttable($rows, $variant = 'torrent')
                 $title = $row["title"];
                 $title = $title == "" ? get_user_class_name($row["class"]) : htmlsafechars($title);
                 $username = htmlsafechars($row['username']);
-                $avatar1 = ($row['anonymous'] == 'yes' ? "<img src=\'pic/anonymous_1.jpg\' width=\'150\' height=\'150\' border=\'0\' alt=\'Avatar\' title=\'Avatar\' />" : "<img src=\'".htmlsafechars($row['avatar'])."\' width=\'150\' height=\'150\' border=\'0\' alt=\'Avatar\' title=\'Avatar\' />");
+                $avatar1 = ($row['anonymous'] == 'yes' ? "<img src=\'pic/anonymous_1.jpg\' width=\'150\' height=\'150\' border=\'0\' alt=\'Avatar\' title=\'Avatar\'>" : "<img src=\'".htmlsafechars($row['avatar'])."\' width=\'150\' height=\'150\' border=\'0\' alt=\'Avatar\' title=\'Avatar\'>");
                 if ($avatar1 === '') {
                     $avatar1 = "{$TRINITY20['pic_base_url']}default_avatar.gif";
                 }
-                $htmlout .= "<a name='comm".(int)$row["id"]."' onmouseover=\"Tip('<b>$username</b><br />$avatar1');\" onmouseout=\"UnTip();\" href='userdetails.php?id=".(int)$row["user"]."'><b>".htmlsafechars($row["username"])."</b></a>".($row["donor"] == "yes" ? "<img src='pic/star.gif' alt='".$lang["commenttable_donor_alt"]."' />" : "").($row["warned"] == "yes" ? "<img src='pic/warned.gif' alt='".$lang["commenttable_warned_alt"]."' />" : "")." ($title)\n";
+                $htmlout .= "<a name='comm".(int)$row["id"]."' onmouseover=\"Tip('<b>$username</b><br>$avatar1');\" onmouseout=\"UnTip();\" href='userdetails.php?id=".(int)$row["user"]."'><b>".htmlsafechars($row["username"])."</b></a>".($row["donor"] == "yes" ? "<img src='pic/star.gif' alt='".$lang["commenttable_donor_alt"]."'>" : "").($row["warned"] == "yes" ? "<img src='pic/warned.gif' alt='".$lang["commenttable_warned_alt"]."'>" : "")." ($title)\n";
                 if ($TRINITY20['mood_sys_on']) {
                     $htmlout .= '<a href="javascript:;" onclick="PopUp(\'usermood.php\',\'Mood\',530,500,1,1);">
-    <span class="tool"><img src="'.$TRINITY20['pic_base_url'].'smilies/'.$moodpic.'" alt="'.$moodname.'" border="0" />
+    <span class="tool"><img src="'.$TRINITY20['pic_base_url'].'smilies/'.$moodpic.'" alt="'.$moodname.'" border="0">
     <span class="tip">'.($row['anonymous'] == 'yes' ? '<i>Anonymous</i>' : htmlsafechars($row['username'])).' '.$moodname.' !</span></span></a>';
                 }
             }
@@ -89,7 +89,7 @@ function commenttable($rows, $variant = 'torrent')
         }
         $htmlout .= begin_table(true);
         $htmlout .= "<tr valign='top'>\n";
-        $htmlout .= "<td align='center' width='150' style='padding: 0px'><img width='150' height='150' src='{$avatar}' alt='' /><br />".($TRINITY20['rep_sys_on'] ? get_reputation($row,
+        $htmlout .= "<td align='center' width='150' style='padding: 0px'><img width='150' height='150' src='{$avatar}' alt=''><br>".($TRINITY20['rep_sys_on'] ? get_reputation($row,
                 'comments') : '')."</td>\n";
         $htmlout .= "<td class='text'>$text</td>\n";
         $htmlout .= "</tr>\n";
@@ -134,7 +134,7 @@ function usercommenttable($rows)
         if (isset($row["username"])) {
             $title = $row["title"];
             $title = $title == "" ? get_user_class_name($row["class"]) : htmlsafechars($title);
-            $htmlout .= "<a name='comm".(int)$row['id']."' href='userdetails.php?id=".(int)$row['user']."'><b>".htmlsafechars($row['username'])."</b></a>".($row["donor"] == "yes" ? "<img src=\"{$TRINITY20['pic_base_url']}star.gif\" alt='{$lang['userdetails_donor']}' />" : "").($row["warned"] >= "1" ? "<img src="."\"{$TRINITY20['pic_base_url']}warned.gif\" alt=\"{$lang['userdetails_warned']}\" />" : "")." ($title)\n";
+            $htmlout .= "<a name='comm".(int)$row['id']."' href='userdetails.php?id=".(int)$row['user']."'><b>".htmlsafechars($row['username'])."</b></a>".($row["donor"] == "yes" ? "<img src=\"{$TRINITY20['pic_base_url']}star.gif\" alt='{$lang['userdetails_donor']}'>" : "").($row["warned"] >= "1" ? "<img src="."\"{$TRINITY20['pic_base_url']}warned.gif\" alt=\"{$lang['userdetails_warned']}\">" : "")." ($title)\n";
         } else {
             $htmlout .= "<a name=\"comm".(int)$row["id"]."\"><i>{$lang['userdetails_orphaned']}</i></a>\n";
         }
@@ -146,12 +146,12 @@ function usercommenttable($rows)
         }
         $text = format_comment($row["text"]);
         if ($row["editedby"]) {
-            $text .= "<font size='1' class='small'><br /><br />{$lang['userdetails_comm_ledited']}<a href='userdetails.php?id=".(int)$row['editedby']."'><b>".htmlsafechars($row['username'])."</b></a> ".get_date($row['editedat'],
+            $text .= "<font size='1' class='small'><br><br>{$lang['userdetails_comm_ledited']}<a href='userdetails.php?id=".(int)$row['editedby']."'><b>".htmlsafechars($row['username'])."</b></a> ".get_date($row['editedat'],
                     'DATE', 0, 1)."</font>\n";
         }
         $htmlout .= "<table width='100%' border='1' cellspacing='0' cellpadding='5'>";
         $htmlout .= "<tr valign='top'>\n";
-        $htmlout .= "<td align='center' width='150' style='padding:0px'><img width='150' src=\"{$avatar}\" alt=\"Avatar\" /></td>\n";
+        $htmlout .= "<td align='center' width='150' style='padding:0px'><img width='150' src=\"{$avatar}\" alt=\"Avatar\"></td>\n";
         $htmlout .= "<td class='text'>$text</td>\n";
         $htmlout .= "</tr>\n";
         $htmlout .= "</table>";

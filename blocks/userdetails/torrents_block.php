@@ -120,10 +120,10 @@ function maketable($res_tb)
         }
         $catimage = "{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$arr['image']}";
         $catname = "&nbsp;&nbsp;".htmlsafechars($arr["catname"]);
-        $catimage = "<img src=\"".htmlsafechars($catimage)."\" title=\"$catname\" alt=\"$catname\" width='42' height='42' />";
-        $size = str_replace(" ", "<br />", mksize($arr["size"]));
-        $uploaded = str_replace(" ", "<br />", mksize($arr["uploaded"]));
-        $downloaded = str_replace(" ", "<br />", mksize($arr["downloaded"]));
+        $catimage = "<img src=\"".htmlsafechars($catimage)."\" title=\"$catname\" alt=\"$catname\" width='42' height='42'>";
+        $size = str_replace(" ", "<br>", mksize($arr["size"]));
+        $uploaded = str_replace(" ", "<br>", mksize($arr["uploaded"]));
+        $downloaded = str_replace(" ", "<br>", mksize($arr["downloaded"]));
         $seeders = number_format($arr["seeders"]);
         $leechers = number_format($arr["leechers"]);
         $XBT_or_PHP = (XBT_TRACKER == true ? $arr['tid'] : $arr['torrent']);

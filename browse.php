@@ -322,7 +322,7 @@ $HTMLOUT .= '<div class="cell">
 </div>';
 //== clear new tag manually
 if (curuser::$blocks['browse_page'] & block_browse::CLEAR_NEW_TAG_MANUALLY && $BLOCKS['browse_clear_tags_on']) {
-    $new_button = "<a href='?clear_new=1'><input type='submit' value='clear new tag' class='button' /></a><br />";
+    $new_button = "<a href='?clear_new=1'><input type='submit' value='clear new tag' class='button'></a><br>";
 } else {
     //== clear new tag automatically
     sql_query("UPDATE users SET last_browse=".TIME_NOW." where id=".$CURUSER['id']);
@@ -379,9 +379,9 @@ if (isset($cleansearchstr)) {
             ENT_QUOTES)."</h2></div></div>\n";
 }
 if ($count) {
-    $HTMLOUT .= "<!--<br /><div class='row'><div class='col-md-3 col-md-offset-5'><div style='display:inline-block;width:4px';></div><a href='{$TRINITY20["baseurl"]}/catalogue.php' class='btn btn-default btn-default'>Search our Catalogue</a></div></div><br /><br />-->";
+    $HTMLOUT .= "<!--<br><div class='row'><div class='col-md-3 col-md-offset-5'><div style='display:inline-block;width:4px';></div><a href='{$TRINITY20["baseurl"]}/catalogue.php' class='btn btn-default btn-default'>Search our Catalogue</a></div></div><br><br>-->";
     $HTMLOUT .= torrenttable($res);
-    $HTMLOUT .= $pager['pagerbottom']."<br />";
+    $HTMLOUT .= $pager['pagerbottom']."<br>";
 } elseif (isset($cleansearchstr)) {
     $HTMLOUT .= "<div class='row'><div class='col-md-6 col-md-offset-4'><h2>{$lang['browse_not_found']}</h2>";
     $HTMLOUT .= "{$lang['browse_tryagain']}</div></div>\n";

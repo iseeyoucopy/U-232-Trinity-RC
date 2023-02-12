@@ -307,7 +307,7 @@ foreach ($cats as $cat) {
         $HTMLOUT .= ($i && $i % $TRINITY20['catsperrow'] == 0) ? "</tr><tr>" : "";
         $HTMLOUT .= "<td style=\"padding-bottom: 2px;padding-left: 7px\">
              <input name='c".(int)$cat['id']."' class=\"styled\" type=\"checkbox\" ".(in_array($cat['id'],
-                $wherecatina) ? "checked='checked' " : "")."value='1' /><a class='catlink' href='browse_catalogue.php?cat=".(int)$cat['id']."'> ".((($CURUSER['opt2'] & user_options_2::BROWSE_ICONS) !== 0) ? "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($cat['image'])."' alt='".htmlsafechars($cat['name'])."' title='".htmlsafechars($cat['name'])."' />" : "".htmlsafechars($cat['name'])."")."</a></td>\n";
+                $wherecatina) ? "checked='checked' " : "")."value='1'><a class='catlink' href='browse_catalogue.php?cat=".(int)$cat['id']."'> ".((($CURUSER['opt2'] & user_options_2::BROWSE_ICONS) !== 0) ? "<img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($cat['image'])."' alt='".htmlsafechars($cat['name'])."' title='".htmlsafechars($cat['name'])."'>" : "".htmlsafechars($cat['name'])."")."</a></td>\n";
         $i++;
     }
 }
@@ -337,7 +337,7 @@ $HTMLOUT .= "</tr>
     </table><br>";
 //== clear new tag manually
 if (($CURUSER['opt1'] & user_options::CLEAR_NEW_TAG_MANUALLY) !== 0) {
-    $new_button = "<a href='?clear_new=1'><input type='submit' value='clear new tag' class='button' /></a><br>";
+    $new_button = "<a href='?clear_new=1'><input type='submit' value='clear new tag' class='button'></a><br>";
 } else {
     //== clear new tag automatically
     sql_query("UPDATE users SET last_browse=".TIME_NOW." where id=".$CURUSER['id']);
@@ -366,13 +366,13 @@ $HTMLOUT .= "</div></div><br>
 <div class='row'>
 <div class='form-group'>
 
-<!--<div class='col-md-4 input-group input-group-md text-center'><span class='input-group-addon'><i class='fa fa-search-plus'></i></span><input  class='form-control' placeholder='{$lang['search_fct_01']}' type='text' name='search' value='' /></div>-->
-<div class='col-md-4'><i class='fa fa-search-plus'></i><input  class='form-control' placeholder='{$lang['search_fct_01']}' type='text' name='search' value='' /></div>";
+<!--<div class='col-md-4 input-group input-group-md text-center'><span class='input-group-addon'><i class='fa fa-search-plus'></i></span><input  class='form-control' placeholder='{$lang['search_fct_01']}' type='text' name='search' value=''></div>-->
+<div class='col-md-4'><i class='fa fa-search-plus'></i><input  class='form-control' placeholder='{$lang['search_fct_01']}' type='text' name='search' value=''></div>";
 
 //=== only free option :o)
 $only_free = ((isset($_GET['only_free'])) ? (int)$_GET['only_free'] : '');
 //=== checkbox for only free torrents
-$only_free_box = '<input type="checkbox" name="only_free" value="1"'.(isset($_GET['only_free']) ? ' checked="checked"' : '').' />'.$lang['search_inf_02'].'';
+$only_free_box = '<input type="checkbox" name="only_free" value="1"'.(isset($_GET['only_free']) ? ' checked="checked"' : '').'>'.$lang['search_inf_02'].'';
 
 $selected = (isset($_GET["incldead"])) ? (int)$_GET["incldead"] : "";
 $deadcheck = "";

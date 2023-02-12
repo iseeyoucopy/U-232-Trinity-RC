@@ -20,7 +20,7 @@ function source_highlighter($source, $lang2geshi)
         "&lt;",
         "&quot;",
         "&amp;",
-        "<br />",
+        "<br>",
     ], [
         "'",
         ">",
@@ -38,7 +38,7 @@ function source_highlighter($source, $lang2geshi)
     $geshi->enable_classes(false);
     $geshi->set_link_styles(GESHI_LINK, 'color: #000060;');
     $geshi->set_link_styles(GESHI_HOVER, 'background-color: #f0f000;');
-    $return = "<div class=\"codeblock phpcodeblock\"><div class=\"title\">PHP Code:<br /></div><div class=\"body\"><div dir=\"ltr\"><code>\n";
+    $return = "<div class=\"codeblock phpcodeblock\"><div class=\"title\">PHP Code:<br></div><div class=\"body\"><div dir=\"ltr\"><code>\n";
     $return .= $geshi->parse_code();
     $return .= "\n</code></div></div></div>\n";
     return $return;
@@ -58,12 +58,12 @@ function _MediaTag($content, $type)
             break;
         case 'liveleak':
             $return = preg_replace("#^http://(?:|www\.)liveleak\.com/view\?i=([_a-zA-Z0-9\-]+)+?$#i",
-                "<object type='application/x-shockwave-flash' height='355' width='425' data='http://www.liveleak.com/e/\\1'><param name='movie' value='http://www.liveleak.com/e/\\1' /><param name='allowScriptAccess' value='sameDomain' /><param name='quality' value='best' /><param name='bgcolor' value='#FFFFFF' /><param name='scale' value='noScale' /><param name='salign' value='TL' /><param name='FlashVars' value='playerMode=embedded' /><param name='wmode' value='transparent' /></object>",
+                "<object type='application/x-shockwave-flash' height='355' width='425' data='http://www.liveleak.com/e/\\1'><param name='movie' value='http://www.liveleak.com/e/\\1'><param name='allowScriptAccess' value='sameDomain'><param name='quality' value='best'><param name='bgcolor' value='#FFFFFF'><param name='scale' value='noScale'><param name='salign' value='TL'><param name='FlashVars' value='playerMode=embedded'><param name='wmode' value='transparent'></object>",
                 $content);
             break;
         case 'GameTrailers':
             $return = preg_replace("#^http://(?:|www\\.)gametrailers\\.com/video/([\\-_a-zA-Z0-9\\-]+)+?/(\\d+)+?\$#i",
-                "<object type='application/x-shockwave-flash' height='355' width='425' data='http://www.gametrailers.com/remote_wrap.php?mid=\\2'><param name='movie' value='http://www.gametrailers.com/remote_wrap.php?mid=\\2' /><param name='allowScriptAccess' value='sameDomain' /> <param name='allowFullScreen' value='true' /><param name='quality' value='high' /></object>",
+                "<object type='application/x-shockwave-flash' height='355' width='425' data='http://www.gametrailers.com/remote_wrap.php?mid=\\2'><param name='movie' value='http://www.gametrailers.com/remote_wrap.php?mid=\\2'><param name='allowScriptAccess' value='sameDomain'> <param name='allowFullScreen' value='true'><param name='quality' value='high'></object>",
                 $content);
             break;
         case 'imdb':
@@ -73,10 +73,10 @@ function _MediaTag($content, $type)
             break;
         case 'vimeo':
             $return = preg_replace("#^http://(?:|www\\.)vimeo\\.com/(\\d+)+?\$#i", "<object type='application/x-shockwave-flash' width='425' height='355' data='http://vimeo.com/moogaloop.swf?clip_id=\\1&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1'>
-    <param name='allowFullScreen' value='true' />
-    <param name='allowScriptAccess' value='sameDomain' />
-    <param name='movie' value='http://vimeo.com/moogaloop.swf?clip_id=\\1&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1' />
-    <param name='quality' value='high' />
+    <param name='allowFullScreen' value='true'>
+    <param name='allowScriptAccess' value='sameDomain'>
+    <param name='movie' value='http://vimeo.com/moogaloop.swf?clip_id=\\1&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1'>
+    <param name='quality' value='high'>
     </object>", $content);
             break;
         default:
@@ -167,7 +167,7 @@ function format_quotes($s)
     } // Cannot close before opening. Return raw string...
     $s = str_replace("[quote]", "<blockquote><cite>Quote:</cite>", $s);
     $s = preg_replace("/\\[quote=(.+?)\\]/", "<blockquote><cite>\\1 wrote:</cite>", $s);
-    return str_replace("[/quote]", "<br /></blockquote>", $s);
+    return str_replace("[/quote]", "<br></blockquote>", $s);
 }
 
 function islocal($link)
@@ -187,7 +187,7 @@ function islocal($link)
         $title = trim($link[2]);
         if (stripos($link[2], '[img]') !== false) {
             $flag = true;
-            $title = preg_replace("/\[img]((http|https):\/\/[^\s'\"<>]+(\.(jpg|gif|png)))\[\/img\]/i", "<img src=\"\\1\" alt=\"\" border=\"0\" />",
+            $title = preg_replace("/\[img]((http|https):\/\/[^\s'\"<>]+(\.(jpg|gif|png)))\[\/img\]/i", "<img src=\"\\1\" alt=\"\" border=\"0\">",
                 $title);
         }
     } elseif (stripos($link[0], '[url]') !== false) {
@@ -281,15 +281,15 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
         '<span style="color:\1;">\2</span>',
         '<span style="color:\1;">\2</span>',
         '<span style="font-family:\'\1\';">\2</span>',
-        '<table cellspacing="0" cellpadding="10"><tr><td class="forum_head_dark" style="padding:5px">Spoiler! to view, roll over the spoiler box.</td></tr><tr><td class="spoiler"><a href="#">\\1</a></td></tr></table><br />',
+        '<table cellspacing="0" cellpadding="10"><tr><td class="forum_head_dark" style="padding:5px">Spoiler! to view, roll over the spoiler box.</td></tr><tr><td class="spoiler"><a href="#">\\1</a></td></tr></table><br>',
         '<iframe width="500" height="410" src="https://www.youtube.com/embed/\\1" frameborder="0" allowfullscreen></iframe>',
         "<embed style=\"width:500px; height:410px;\" id=\"VideoPlayback\" align=\"middle\" type=\"application/x-shockwave-flash\" src=\"http://video.google.com/googleplayer.swf?docId=\\1\" allowScriptAccess=\"sameDomain\" quality=\"best\" bgcolor=\"#ffffff\" scale=\"noScale\" wmode=\"window\" salign=\"TL\"  FlashVars=\"playerMode=embedded\"> </embed>",
-        '<span style="text-align: center;"><p>Audio From: \1</p><embed type="application/x-shockwave-flash" src="http://www.google.com/reader/ui/3247397568-audio-player.swf?audioUrl=\\1" width="400" height="27" allowscriptaccess="never" quality="best" bgcolor="#ffffff" wmode="window" flashvars="playerMode=embedded" /></span>',
+        '<span style="text-align: center;"><p>Audio From: \1</p><embed type="application/x-shockwave-flash" src="http://www.google.com/reader/ui/3247397568-audio-player.swf?audioUrl=\\1" width="400" height="27" allowscriptaccess="never" quality="best" bgcolor="#ffffff" wmode="window" flashvars="playerMode=embedded"></span>',
         '<ol class="style" start="\1">\2</ol>',
         '<ul class="style">\1</ul>',
         '<li>\1</li>',
         '<li>\1</li>',
-        '<hr />',
+        '<hr>',
     ];
     $s = preg_replace($bb_code_in, $bb_code_out, $s);
     if ($urls) {
@@ -324,10 +324,10 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
     if (stripos($s, '[img') !== false && $images) {
         // [img=http://www/image.gif]
         $s = preg_replace("/\[img\]((http|https):\/\/[^\s'\"<>]+(\.(jpg|gif|png|bmp)))\[\/img\]/i",
-            "<a href=\"\\1\" rel=\"lightbox\"><img src=\"\\1\" border=\"0\" alt=\"\" style=\"max-width: 150px;\" /></a>", $s);
+            "<a href=\"\\1\" rel=\"lightbox\"><img src=\"\\1\" border=\"0\" alt=\"\" style=\"max-width: 150px;\"></a>", $s);
         // [img=http://www/image.gif]
         $s = preg_replace("/\[img=((http|https):\/\/[^\s'\"<>]+(\.(gif|jpg|png|bmp)))\]/i",
-            "<a href=\"\\1\" rel=\"lightbox\"><img src=\"\\1\" border=\"0\" alt=\"\" style=\"max-width: 150px;\" /></a>", $s);
+            "<a href=\"\\1\" rel=\"lightbox\"><img src=\"\\1\" border=\"0\" alt=\"\" style=\"max-width: 150px;\"></a>", $s);
     }
     // [mcom]Text[/mcom]
     if (stripos($s, '[mcom]') !== false) {
@@ -350,19 +350,19 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
     $s = str_replace('  ', ' &nbsp;', $s);
     if (isset($smilies)) {
         foreach ($smilies as $code => $url) {
-            $s = str_replace($code, "<img border='0' src=\"{$TRINITY20['pic_base_url']}smilies/{$url}\" alt=\"\" />", $s);
+            $s = str_replace($code, "<img border='0' src=\"{$TRINITY20['pic_base_url']}smilies/{$url}\" alt=\"\">", $s);
             //$s = str_replace($code, '<span id="'.$attr.'"></span>', $s);
         }
     }
     if (isset($staff_smilies)) {
         foreach ($staff_smilies as $code => $url) {
-            $s = str_replace($code, "<img border='0' src=\"{$TRINITY20['pic_base_url']}smilies/{$url}\" alt=\"\" />", $s);
+            $s = str_replace($code, "<img border='0' src=\"{$TRINITY20['pic_base_url']}smilies/{$url}\" alt=\"\">", $s);
             //$s = str_replace($code, '<span id="'.$attr.'"></span>', $s);
         }
     }
     if (isset($customsmilies)) {
         foreach ($customsmilies as $code => $url) {
-            $s = str_replace($code, "<img border='0' src=\"{$TRINITY20['pic_base_url']}smilies/{$url}\" alt=\"\" />", $s);
+            $s = str_replace($code, "<img border='0' src=\"{$TRINITY20['pic_base_url']}smilies/{$url}\" alt=\"\">", $s);
             //$s = str_replace($code, '<span id="'.$attr.'"></span>', $s);
         }
     }
@@ -467,7 +467,7 @@ HTML;
 		  </a><a href="javascript:em(':cool:');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/cool2.gif" width="20" height="20"></a>
 		  <a href="javascript:em(':thumbsdown:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/thumbsdown.gif" width="27" height="18"></a>
 		  <a href="javascript:em(':blush:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/blush.gif" width="20" height="20"></a>
-		  <a href="javascript:em(':yes:');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/yes.gif" width="20" height="20" /></a><a href="javascript:em(':no:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/no.gif" width="20" height="20"></a>
+		  <a href="javascript:em(':yes:');"><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/yes.gif" width="20" height="20"></a><a href="javascript:em(':no:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/no.gif" width="20" height="20"></a>
           <a href="javascript:em(':love:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/love.gif" width="19" height="19"></a>
 		  <a href="javascript:em(':?:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/question.gif" width="19" height="19"></a>
 		  <a href="javascript:em(':!:');" ><img border="0" alt="Smilies" src="{$TRINITY20['pic_base_url']}smilies/excl.gif" width="20" height="20"></a>

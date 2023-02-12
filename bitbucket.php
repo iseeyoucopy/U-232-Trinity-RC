@@ -98,7 +98,7 @@ if (!isset($_FILES['file'])) {
         header("Refresh: 0; url={$TRINITY20['baseurl']}/bitbucket.php?images=$type&updated=avatar");
     }
     if (isset($_GET["updated"]) && $_GET["updated"] == 'avatar') {
-        $HTMLOUT .= "<h3>{$lang['bitbucket_updated']}<img src='".htmlsafechars($CURUSER['avatar'])."' border='0' alt='' /></h3>";
+        $HTMLOUT .= "<h3>{$lang['bitbucket_updated']}<img src='".htmlsafechars($CURUSER['avatar'])."' border='0' alt=''></h3>";
     }
     $HTMLOUT .= "<form action=\"".$_SERVER['PHP_SELF']."\" method=\"post\" enctype=\"multipart/form-data\">
 <table width=\"300\" align=\"center\">
@@ -108,11 +108,11 @@ if (!isset($_FILES['file'])) {
 <p>{$lang['bitbucket_disclaimer']}</p></td>
 </tr>
 <tr>
-<td align=\"center\"><input type=\"file\" name=\"file\" /></td>
+<td align=\"center\"><input type=\"file\" name=\"file\"></td>
 </tr>
-<tr><td align=\"center\"> <input type=\"checkbox\" name=\"avy\" value=\"1\" />{$lang['bitbucket_tick']}</td> </tr>
+<tr><td align=\"center\"> <input type=\"checkbox\" name=\"avy\" value=\"1\">{$lang['bitbucket_tick']}</td> </tr>
 <tr>
-<td align=\"center\"><input class=\"btn\" type=\"submit\" value=\"{$lang['bitbucket_upload']}\" /></td>
+<td align=\"center\"><input class=\"btn\" type=\"submit\" value=\"{$lang['bitbucket_upload']}\"></td>
 </tr>
 </table>
 </form>";
@@ -130,7 +130,7 @@ document.getElementById(id).select();
         $year = (isset($_GET['year']) ? '&amp;year='.(int)$_GET['year'] : '&amp;year='.date('Y'));
         $HTMLOUT .= '<p align="center"><a href="bitbucket.php?images=2">'.$lang['bitbucket_viewmya'].'</a></p>
 <p align="center"><a href="bitbucket.php">'.$lang['bitbucket_hideimgs'].'</a></p>
-<p align="center"><b>'.$lang['bitbucket_previosimg'].'</b><br />
+<p align="center"><b>'.$lang['bitbucket_previosimg'].'</b><br>
 <a href="bitbucket.php?images=1&amp;month='.$folder_month.'&amp;year='.(isset($_GET['year']) && $_GET['year'] != date('Y') ? date('Y').'">This' : (date('Y') - 1).'">'.$lang['bitbucket_last'].'').''.$lang['bitbucket_year'].'</a> &nbsp;
 <a href="bitbucket.php?images=1&amp;month=01'.$year.'">'.$lang['bitbucket_jan'].'</a> &nbsp;
 <a href="bitbucket.php?images=1&amp;month=02'.$year.'">'.$lang['bitbucket_feb'].'</a> &nbsp;
@@ -162,13 +162,13 @@ document.getElementById(id).select();
                 $filename = $bucketlink2.$filename;
                 $encryptedfilename = urlencode(encrypt_decrypt('encrypt', $filename));
                 $eid = h_store($filename);
-                $HTMLOUT .= "<a href=\"{$address}img.php/{$filename}\"><img src=\"{$address}img.php/{$filename}\" width=\"200\" alt=\"\" /><br />{$address}img.php/{$filename}</a><br />";
-                $HTMLOUT .= "<p>{$lang['bitbucket_directlink']}<br /><input style=\"font-size: 9pt;text-align: center;\" id=\"d".$eid."d\" onclick=\"SelectAll('d".$eid."d');\" type=\"text\" size=\"70\" value=\"{$address}img.php/{$filename}\" readonly=\"readonly\" /></p>";
-                $HTMLOUT .= "<p align=\"center\">{$lang['bitbucket_tags']}<br /><input style=\"font-size: 9pt;text-align: center;\" id=\"t".$eid."t\" onclick=\"SelectAll('t".$eid."t');\" type=\"text\" size=\"70\" value=\"[img]{$address}img.php/{$filename}[/img]\" readonly=\"readonly\" /></p>";
+                $HTMLOUT .= "<a href=\"{$address}img.php/{$filename}\"><img src=\"{$address}img.php/{$filename}\" width=\"200\" alt=\"\"><br>{$address}img.php/{$filename}</a><br>";
+                $HTMLOUT .= "<p>{$lang['bitbucket_directlink']}<br><input style=\"font-size: 9pt;text-align: center;\" id=\"d".$eid."d\" onclick=\"SelectAll('d".$eid."d');\" type=\"text\" size=\"70\" value=\"{$address}img.php/{$filename}\" readonly=\"readonly\"></p>";
+                $HTMLOUT .= "<p align=\"center\">{$lang['bitbucket_tags']}<br><input style=\"font-size: 9pt;text-align: center;\" id=\"t".$eid."t\" onclick=\"SelectAll('t".$eid."t');\" type=\"text\" size=\"70\" value=\"[img]{$address}img.php/{$filename}[/img]\" readonly=\"readonly\"></p>";
                 $HTMLOUT .= "<p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?type=".((isset($_GET['images']) && $_GET['images'] == 2) ? '2' : '1')."&amp;avatar={$address}img.php/{$filename}\">{$lang['bitbucket_maketma']}</a></p>";
                 $HTMLOUT .= "<p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?type=".((isset($_GET['images']) && $_GET['images'] == 2) ? '2' : '1')."&amp;delete=".$encryptedfilename."&amp;delhash=".t_Hash($filename,
                         $USERSALT,
-                        $SaLt)."&amp;month=".(isset($_GET['month']) ? ($_GET['month'] < 10 ? '0' : '').(int)$_GET['month'] : date('m'))."&amp;year=".(isset($_GET['year']) ? (int)$_GET['year'] : date('Y'))."\">{$lang['bitbucket_delete']}</a></p><br />";
+                        $SaLt)."&amp;month=".(isset($_GET['month']) ? ($_GET['month'] < 10 ? '0' : '').(int)$_GET['month'] : date('m'))."&amp;year=".(isset($_GET['year']) ? (int)$_GET['year'] : date('Y'))."\">{$lang['bitbucket_delete']}</a></p><br>";
             } else {
                 $HTMLOUT .= "{$lang['bitbucket_noimages']}";
             }
@@ -199,7 +199,7 @@ if (!function_exists('exif_imagetype')) {
 }
 $it1 = exif_imagetype($_FILES['file']['tmp_name']);
 if ($it1 != IMAGETYPE_GIF && $it1 != IMAGETYPE_JPEG && $it1 != IMAGETYPE_PNG) {
-    $HTMLOUT .= "<h1>{$lang['bitbucket_upfail']}<br />{$lang['bitbucket_sorry']}";
+    $HTMLOUT .= "<h1>{$lang['bitbucket_upfail']}<br>{$lang['bitbucket_sorry']}";
     exit;
 }
 $file = strtolower($file);
@@ -241,10 +241,10 @@ document.getElementById(id).select();
 }
 /*]]>*/
 </script>";
-$HTMLOUT .= "<p>{$lang['bitbucket_directlink']}<br />
-<input style=\"font-size: 9pt;text-align: center;\" id=\"direct\" onclick=\"SelectAll('direct');\" type=\"text\" size=\"70\" value=\"".$address."img.php/".$pathlink."\" readonly=\"readonly\" /></p>
+$HTMLOUT .= "<p>{$lang['bitbucket_directlink']}<br>
+<input style=\"font-size: 9pt;text-align: center;\" id=\"direct\" onclick=\"SelectAll('direct');\" type=\"text\" size=\"70\" value=\"".$address."img.php/".$pathlink."\" readonly=\"readonly\"></p>
 <p align=\"center\">{$lang['bitbucket_tags']}
-<input style=\"font-size: 9pt;text-align: center;\" id=\"tag\" onclick=\"SelectAll('tag');\" type=\"text\" size=\"70\" value=\"[img]".$address."img.php/".$pathlink."[/img]\" readonly=\"readonly\" /></p>
+<input style=\"font-size: 9pt;text-align: center;\" id=\"tag\" onclick=\"SelectAll('tag');\" type=\"text\" size=\"70\" value=\"[img]".$address."img.php/".$pathlink."[/img]\" readonly=\"readonly\"></p>
 <p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?images=1\">{$lang['bitbucket_viewmyi']}</a></p>
 <p align=\"center\"><a href=\"{$TRINITY20['baseurl']}/bitbucket.php?images=2\">{$lang['bitbucket_viewmya']}</a></p>
 </td>

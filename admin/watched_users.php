@@ -96,7 +96,7 @@ if (isset($_GET['remove'])) {
     if ($mysqli->affected_rows == 0) {
         stderr($lang['watched_stderr'], ''.$lang['watched_stderr2'].'!');
     } else {
-        write_log('[b]'.$CURUSER['username'].'[/b] '.$lang['watched_removed1'].'<br />'.$removed_log.' <br />'.$lang['watched_removedfrom'].'');
+        write_log('[b]'.$CURUSER['username'].'[/b] '.$lang['watched_removed1'].'<br>'.$removed_log.' <br>'.$lang['watched_removedfrom'].'');
     }
     $H1_thingie = '<h1>'.$count.' '.$lang['watched_member'].''.($count == 1 ? '' : 's').' '.$lang['watched_removelist'].'</h1>';
 }
@@ -122,12 +122,12 @@ if (isset($_GET['add'])) {
  <td class="colhead">'.$lang['watched_add'].' '.$user['username'].''.$lang['watched_towu'].'</td>
  </tr>
  <tr>
- <td align="center"><b>'.$lang['watched_pleasefil'].''.htmlsafechars($user['username']).' '.$lang['watched_userlist'].'</b><br />
- <textarea cols="60" rows="6" name="reason">'.htmlsafechars($user['watched_user_reason']).'</textarea><br /></td>
+ <td align="center"><b>'.$lang['watched_pleasefil'].''.htmlsafechars($user['username']).' '.$lang['watched_userlist'].'</b><br>
+ <textarea cols="60" rows="6" name="reason">'.htmlsafechars($user['watched_user_reason']).'</textarea><br></td>
  </tr>
  <tr>
  <td class="colhead">
- <input type="submit" class="button_big" value="'.$lang['watched_addtowu'].'!"" onmouseover="this.className=\'button_big_hover\'" onmouseout="this.className=\'button_big\'" /><form><td>
+ <input type="submit" class="button_big" value="'.$lang['watched_addtowu'].'!"" onmouseover="this.className=\'button_big_hover\'" onmouseout="this.className=\'button_big\'"><form><td>
     </tr>
     </table></div></div>';
             stderr('watched Users', $naughty_box);
@@ -165,7 +165,7 @@ $good_stuff = [
 $ORDER_BY = ((isset($_GET['sort']) && in_array($_GET['sort'], $good_stuff, true)) ? $_GET['sort'].' ' : 'watched_user ');
 $ASC = (isset($_GET['ASC']) ? ($_GET['ASC'] == 'ASC' ? 'DESC' : 'ASC') : 'DESC');
 $i = 1;
-$HTMLOUT .= '<div class="row"><div class="col-md-12"> '.$H1_thingie.'<br />
+$HTMLOUT .= '<div class="row"><div class="col-md-12"> '.$H1_thingie.'<br>
         <form action="staffpanel.php?tool=watched_users&amp;action=watched_users&amp;remove=1" method="post"  name="checkme" onsubmit="return ValidateForm(this,\'wu\')">
         <h1>'.$lang['watched_users'].'[ '.$watched_users.' ]</h1>
     <table class="table table-bordered">';
@@ -202,7 +202,7 @@ if ($how_many > 0) {
         <td align="center" class="'.$class.'">'.member_ratio($arr['uploaded'], $TRINITY20['ratio_free'] ? '0' : $arr['downloaded']).'</td>
         <td align="center" class="'.$class.'">'.(($invitor_arr['username'] ?? '') ? print_user_stuff($invitor_arr) : $lang['watched_open_sign-ups']).'</td>
         '.($CURUSER['class'] >= UC_STAFF ? '
-        <td align="center" class="'.$class.'"><input type="checkbox" name="wu[]" value="'.(int)$arr['id'].'" /></td>' : '').'
+        <td align="center" class="'.$class.'"><input type="checkbox" name="wu[]" value="'.(int)$arr['id'].'"></td>' : '').'
     </tr>';
         $div_link_number++;
     }
@@ -214,7 +214,7 @@ if ($how_many > 0) {
 $HTMLOUT .= '
 <tr>
 <td align="center" colspan="6" class="colhead"><a class="altlink" href="javascript:SetChecked(1,\'wu[]\')"> '.$lang['watched_selall'].'</a> - <a class="altlink" href="javascript:SetChecked(0,\'wu[]\')">un-'.$lang['watched_selall'].'</a>
-        <input type="submit" class="button_big" value="remove selected'.$lang['watched_removedfrom'].'" onmouseover="this.className=\'button_big_hover\'" onmouseout="this.className=\'button_big\'" /></td></tr></table></form></div></div>
+        <input type="submit" class="button_big" value="remove selected'.$lang['watched_removedfrom'].'" onmouseover="this.className=\'button_big_hover\'" onmouseout="this.className=\'button_big\'"></td></tr></table></form></div></div>
 <script type="text/javascript" src="scripts/check_selected.js"></script>';
 $HTMLOUT .= '
 <script type="text/javascript">

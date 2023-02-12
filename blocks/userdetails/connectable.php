@@ -29,9 +29,9 @@ if ($CURUSER['id'] == $id || $CURUSER['class'] >= UC_STAFF) {
         $Ident_Client = (XBT_TRACKER == true ? $portdat1 : $port_data[2]);
         $XBT_or_PHP = (XBT_TRACKER == true ? '1' : 'yes');
         if ($connect == $XBT_or_PHP) {
-            $connectable = "<img src='{$TRINITY20['pic_base_url']}tick.png' alt='{$lang['userdetails_yes']}' title='{$lang['userdetails_conn_sort']}' style='border:none;padding:2px;' /><font color='green'><b>{$lang['userdetails_yes']}</b></font>";
+            $connectable = "<img src='{$TRINITY20['pic_base_url']}tick.png' alt='{$lang['userdetails_yes']}' title='{$lang['userdetails_conn_sort']}' style='border:none;padding:2px;'><font color='green'><b>{$lang['userdetails_yes']}</b></font>";
         } else {
-            $connectable = "<img src='{$TRINITY20['pic_base_url']}cross.png' alt='{$lang['userdetails_no']}' title='{$lang['userdetails_conn_staff']}' style='border:none;padding:2px;' /><font color='red'><b>{$lang['userdetails_no']}</b></font>";
+            $connectable = "<img src='{$TRINITY20['pic_base_url']}cross.png' alt='{$lang['userdetails_no']}' title='{$lang['userdetails_conn_staff']}' style='border:none;padding:2px;'><font color='red'><b>{$lang['userdetails_no']}</b></font>";
         }
     } else {
         $connectable = "<font color='orange'><b>{$lang['userdetails_unknown']}</b></font>";

@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -36,7 +36,7 @@ if (isset($_GET["action1"]) && htmlsafechars($_GET["action1"]) == "list") {
     $HTMLOUT .= "<h3><a href='staffpanel.php?tool=findnotconnectable&amp;action=findnotconnectable&amp;action1=sendpm'>{$lang['non_con_sendall']}</a></h3>
 	<h3><a href='staffpanel.php?tool=findnotconnectable&amp;action=findnotconnectable'>{$lang['non_con_view']}</a></h3>
 	<h1>{$lang['non_con_peers']}</h1>
-	{$lang['non_con_this']}<br /><p><font color='red'>*</font> {$lang['non_con_means']}<br />";
+	{$lang['non_con_this']}<br><p><font color='red'>*</font> {$lang['non_con_means']}<br>";
     $result = sql_query("select distinct userid from peers where connectable = 'no'");
     $count = $result->num_rows;
     $HTMLOUT .= "$count {$lang['non_con_unique']}</p>";
@@ -80,14 +80,14 @@ if (isset($_GET["action1"]) && htmlsafechars($_GET["action1"]) == "sendpm") {
 <h1>{$lang['non_con_mass']}</h1>
 <form method='post' action='staffpanel.php?tool=findnotconnectable&amp;action=findnotconnectable'>";
     if (isset($_GET["returnto"]) || isset($_SERVER["HTTP_REFERER"])) {
-        $HTMLOUT .= "<input type='hidden' name='returnto' value='".(isset($_GET["returnto"]) ? htmlsafechars($_GET["returnto"]) : htmlsafechars($_SERVER["HTTP_REFERER"]))."' />";
+        $HTMLOUT .= "<input type='hidden' name='returnto' value='".(isset($_GET["returnto"]) ? htmlsafechars($_GET["returnto"]) : htmlsafechars($_SERVER["HTTP_REFERER"]))."'>";
     }
     $receiver = '';
     // default message
     $body = "{$lang['non_con_body']}";
     $HTMLOUT .= "<table class='table table-bordered'>
 <tr>
-<td>{$lang['non_con_sendall']}<br />
+<td>{$lang['non_con_sendall']}<br>
 <table class='table table-bordered'>
 <tr>
 <td style='border: 0'>&nbsp;</td>
@@ -103,7 +103,7 @@ if (isset($_GET["action1"]) && htmlsafechars($_GET["action1"]) == "sendpm") {
 <input type='hidden' name='receiver' value='$receiver'/>
 </form>
 </div></td></tr></table></div></div>
-<br />
+<br>
 NOTE: No HTML Code Allowed. (NO HTML)
 ";
 }
@@ -112,7 +112,7 @@ if (isset($_GET["action1"]) == "") {
     $HTMLOUT .= "<div class='row'><div class='col-md-12'><h1>{$lang['non_con_uncon']}</h1>
 	<h3><a href='staffpanel.php?tool=findnotconnectable&amp;action=findnotconnectable&amp;action1=sendpm'>{$lang['non_con_sendall']}</a></h3>
 	<h3><a href='staffpanel.php?tool=findnotconnectable&amp;action=findnotconnectable&amp;action1=list'>{$lang['non_con_list']}</a></h3><p>
-	<br />{$lang['non_con_please1']}<br /></p>
+	<br>{$lang['non_con_please1']}<br></p>
 	<table class='table table-bordered'>\n
 	<tr><td class='colhead'>{$lang['non_con_by']}</td>
 	<td class='colhead'>{$lang['non_con_date']}</td><td class='colhead'>{$lang['non_con_elapsed']}</td></tr>";

@@ -28,11 +28,11 @@ function rsstfreakinfo()
                 '<![CDATA[',
                 ']]>',
             ], '',
-                $item->getElementsByTagName('creator')->item(0)->nodeValue).' on '.$item->getElementsByTagName('pubDate')->item(0)->nodeValue.'</font><br />'.str_replace([
+                $item->getElementsByTagName('creator')->item(0)->nodeValue).' on '.$item->getElementsByTagName('pubDate')->item(0)->nodeValue.'</font><br>'.str_replace([
                 '<![CDATA[',
                 ']]>',
             ], '',
-                $item->getElementsByTagName('description')->item(0)->nodeValue).'<br /><a href="'.$item->getElementsByTagName('link')->item(0)->nodeValue.'" target="_blank"><span class=" btn btn-primary">Read more</span></a>';
+                $item->getElementsByTagName('description')->item(0)->nodeValue).'<br><a href="'.$item->getElementsByTagName('link')->item(0)->nodeValue.'" target="_blank"><span class=" btn btn-primary">Read more</span></a>';
         if ($use_limit && $icount == $limit) {
             break;
         }

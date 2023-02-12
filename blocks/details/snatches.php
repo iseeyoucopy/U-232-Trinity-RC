@@ -171,8 +171,8 @@ if ($CURUSER['class'] >= UC_POWER_USER) {
                         //== \\0//
                         $ratio = ($D_S["downloaded"] > 0 ? number_format($D_S["uploaded"] / $D_S["downloaded"],
                             3) : ($D_S["uploaded"] > 0 ? "Inf." : "---"));
-                        $active = ($D_S['active'] == 1 ? $active = "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='Yes' title='Yes' />" : $active = "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='No' title='No' />");
-                        $completed = ($D_S['completed'] >= 1 ? $completed = "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='Yes' title='Yes' />" : $completed = "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='No' title='No' />");
+                        $active = ($D_S['active'] == 1 ? $active = "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='Yes' title='Yes'>" : $active = "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='No' title='No'>");
+                        $completed = ($D_S['completed'] >= 1 ? $completed = "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='Yes' title='Yes'>" : $completed = "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='No' title='No'>");
                         $snatchuserxbt = (isset($D_S['username2']) ? ("<a href='userdetails.php?id=".(int)$D_S['uid']."'><strong>".htmlsafechars($D_S['username2'])."</strong></a>") : "{$lang['details_snatches_unknown']}");
                         $username_xbt = (($D_S['anonymous2'] == 'yes') ? ($CURUSER['class'] < UC_STAFF && $D_S['uid'] != $CURUSER['id'] ? '' : $snatchuserxbt.' - ')."<i>{$lang['details_snatches_anon']}</i>" : $snatchuserxbt);
                         $snatched_torrent .= "<tbody>

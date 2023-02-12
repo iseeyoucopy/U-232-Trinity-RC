@@ -65,10 +65,10 @@ if ($action == "add") {
     }
     $HTMLOUT .= "<h1>{$lang['usercomment_add_a_comment_for']} '".htmlsafechars($arr["username"])."'</h1>
     <form method='post' action='usercomment.php?action=add'>
-    <input type='hidden' name='userid' value='$userid' />
+    <input type='hidden' name='userid' value='$userid'>
     <div>".textbbcode('usercomment', 'body')."</div>
-    <br /><br />
-    <input type='submit' class='btn' value='{$lang['usercomment_do_it']}' /></form>\n";
+    <br><br>
+    <input type='submit' class='btn' value='{$lang['usercomment_do_it']}'></form>\n";
     $res = sql_query("SELECT usercomments.id, usercomments.text, usercomments.editedby, usercomments.editedat, usercomments.added, usercomments.edit_name, username, users.id as user, users.avatar, users.title, users.anonymous, users.class, users.donor, users.warned, users.leechwarn, users.chatpost FROM usercomments LEFT JOIN users ON usercomments.user = users.id WHERE user = ".sqlesc($userid)." ORDER BY usercomments.id DESC LIMIT 5");
     $allrows = [];
     while ($row = $res->fetch_assoc()) {
@@ -114,10 +114,10 @@ if ($action == "edit") {
     }
     $HTMLOUT .= "<h1>Edit comment for \"".htmlsafechars($arr["username"])."\"</h1>
     <form method='post' action='usercomment.php?action=edit&amp;cid={$commentid}'>
-    <input type='hidden' name='returnto' value='{$_SERVER["HTTP_REFERER"]}' />
-    <input type=\"hidden\" name=\"cid\" value='".(int)$commentid."' />
+    <input type='hidden' name='returnto' value='{$_SERVER["HTTP_REFERER"]}'>
+    <input type=\"hidden\" name=\"cid\" value='".(int)$commentid."'>
     ".textbbcode('usercomment', 'body', $arr["text"])."
-    <input type='submit' class='btn' value='{$lang['usercomment_do_it']}' /></form>";
+    <input type='submit' class='btn' value='{$lang['usercomment_do_it']}'></form>";
     echo stdhead("Edit comment for \"".htmlsafechars($arr["username"])."\"", true, $stdhead).$HTMLOUT.stdfoot();
     die;
 } elseif ($action == "delete") {

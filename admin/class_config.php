@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 <title>Error!</title>
 </head>
 <body>
-<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 </body></html>";
     echo $HTMLOUT;
     exit();
@@ -310,14 +310,14 @@ while ($arr = $res->fetch_assoc()) {
     $HTMLOUT .= "
 <tr>
 <td>".htmlsafechars($arr['name'])."</td>
-<td><input type='text' class='form-control' name='".htmlsafechars($arr['name'])."[]' size='2' value='".(int)$arr['value']." 'readonly='readonly' /></td>
-<td><input type='text' class='form-control' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['classname'])."' /></td>
-<td><input type='text' class='form-control' name='".htmlsafechars($arr['name'])."[]' size='8' value='#".htmlsafechars($arr['classcolor'])."' /></td>
-<td><input type='text' class='form-control' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['classpic'])."' /></td>
-<td><form name='remove' action='staffpanel.php?tool=class_config&amp;mode=remove' method='post'><input type='hidden' name='remove' value='".htmlsafechars($arr['name'])."' /><input class='btn btn-default' type='submit' value='{$lang['classcfg_class_remove']}' /></form></td>
+<td><input type='text' class='form-control' name='".htmlsafechars($arr['name'])."[]' size='2' value='".(int)$arr['value']." 'readonly='readonly'></td>
+<td><input type='text' class='form-control' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['classname'])."'></td>
+<td><input type='text' class='form-control' name='".htmlsafechars($arr['name'])."[]' size='8' value='#".htmlsafechars($arr['classcolor'])."'></td>
+<td><input type='text' class='form-control' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['classpic'])."'></td>
+<td><form name='remove' action='staffpanel.php?tool=class_config&amp;mode=remove' method='post'><input type='hidden' name='remove' value='".htmlsafechars($arr['name'])."'><input class='btn btn-default' type='submit' value='{$lang['classcfg_class_remove']}'></form></td>
 </tr>";
 }
-$HTMLOUT .= "</table><br /><br /> ";
+$HTMLOUT .= "</table><br><br> ";
 
 
 $HTMLOUT .= "<h3>{$lang['classcfg_class_security']}</h3>
@@ -331,11 +331,11 @@ while ($arr1 = $res1->fetch_assoc()) {
     $HTMLOUT .= "
 <tr>
 <td>".htmlsafechars($arr1['name'])."</td>
-<td><input type='text' class='form-control' name='".htmlsafechars($arr1['name'])."[]' size='2' value='".(int)$arr1['value']."' /></td>
+<td><input type='text' class='form-control' name='".htmlsafechars($arr1['name'])."[]' size='2' value='".(int)$arr1['value']."'></td>
 <td><form name='remove' action='staffpanel.php?tool=class_config&amp;mode=remove' method='post'></form></td>
 </tr>";
 }
-$HTMLOUT .= "<tr><td colspan='7' class='table' align='center'><input class='btn btn-default' type='submit' value='{$lang['classcfg_class_apply']}' /></td></tr></table></form>";
+$HTMLOUT .= "<tr><td colspan='7' class='table' align='center'><input class='btn btn-default' type='submit' value='{$lang['classcfg_class_apply']}'></td></tr></table></form>";
 
 
 $HTMLOUT .= "<h3>{$lang['classcfg_class_add']}</h3>
@@ -348,13 +348,13 @@ $HTMLOUT .= "<h3>{$lang['classcfg_class_add']}</h3>
 <th>{$lang['classcfg_class_pic']}</th>
 </tr>
 <tr>
-				<td><input type='text' class='form-control' name='name' size='20' value='' /></td>
-				<td><input type='text' class='form-control' name='value' size='20' value='' /></td>
-				<td><input type='text' class='form-control' name='cname' size='20' value='' /></td>
-				<td><input type='text' class='form-control' name='color' size='20' value='#ff0000' /></td>
-				<td><input type='text' class='form-control' name='pic' size='20' value='' /></td>
+				<td><input type='text' class='form-control' name='name' size='20' value=''></td>
+				<td><input type='text' class='form-control' name='value' size='20' value=''></td>
+				<td><input type='text' class='form-control' name='cname' size='20' value=''></td>
+				<td><input type='text' class='form-control' name='color' size='20' value='#ff0000'></td>
+				<td><input type='text' class='form-control' name='pic' size='20' value=''></td>
 				</tr>
-<tr><td colspan='5' class='table' align='center'><input class='btn btn-default' type='submit' value='{$lang['classcfg_add_new']}' /></td></tr>
+<tr><td colspan='5' class='table' align='center'><input class='btn btn-default' type='submit' value='{$lang['classcfg_add_new']}'></td></tr>
 </table></form></div></div>";
 echo stdhead($lang['classcfg_stdhead']).$HTMLOUT.stdfoot();
 ?>

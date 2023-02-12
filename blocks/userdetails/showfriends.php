@@ -26,16 +26,16 @@ if ($users_friends && (is_countable($users_friends) ? count($users_friends) : 0)
     if ($users_friends) {
         foreach ($users_friends as $a) {
             if (is_array($a)) {
-                $avatar = ((($user['opt1'] & user_options::AVATARS) !== 0) ? ($a['avatar'] == '' ? '<img src="'.$TRINITY20['pic_base_url'].'default_avatar.gif"  width="40" alt="default avatar" />' : '<img src="'.htmlsafechars($a['avatar']).'" alt="avatar"  width="40" />') : '');
-                $status = "<img style='vertical-align: middle;' src='{$TRINITY20['pic_base_url']}".($a['last_access'] > $dt && $a['perms'] < bt_options::PERMS_STEALTH ? "online.png" : "offline.png")."' border='0' alt='' />";
+                $avatar = ((($user['opt1'] & user_options::AVATARS) !== 0) ? ($a['avatar'] == '' ? '<img src="'.$TRINITY20['pic_base_url'].'default_avatar.gif"  width="40" alt="default avatar">' : '<img src="'.htmlsafechars($a['avatar']).'" alt="avatar"  width="40">') : '');
+                $status = "<img style='vertical-align: middle;' src='{$TRINITY20['pic_base_url']}".($a['last_access'] > $dt && $a['perms'] < bt_options::PERMS_STEALTH ? "online.png" : "offline.png")."' border='0' alt=''>";
                 $user_stuff = $a;
                 $user_stuff['id'] = (int)$a['id'];
-                $user_friends .= "<tr><td class='one' style='padding: 0px; border: none' width='40px'>".$avatar."</td><td class='one'>".format_username($user_stuff)."<br />".($CURUSER['class'] >= UC_STAFF ? "".htmlsafechars($a['ip'])."" : "")."</td><td class='one' style='padding: 1px' align='center'>".mksize($a['uploaded'])."</td>".($TRINITY20['ratio_free'] ? "" : "<td class='one' style='padding: 1px' align='center'>".mksize($a['downloaded'])."</td>")."<td class='one' style='padding: 1px' align='center'>".member_ratio($a['uploaded'],
+                $user_friends .= "<tr><td class='one' style='padding: 0px; border: none' width='40px'>".$avatar."</td><td class='one'>".format_username($user_stuff)."<br>".($CURUSER['class'] >= UC_STAFF ? "".htmlsafechars($a['ip'])."" : "")."</td><td class='one' style='padding: 1px' align='center'>".mksize($a['uploaded'])."</td>".($TRINITY20['ratio_free'] ? "" : "<td class='one' style='padding: 1px' align='center'>".mksize($a['downloaded'])."</td>")."<td class='one' style='padding: 1px' align='center'>".member_ratio($a['uploaded'],
                         $TRINITY20['ratio_free'] ? '0' : $a['downloaded'])."</td><td class='one' style='padding: 1px' align='center'>".$status."</td></tr>\n";
             }
         }
         $user_friends .= "</table>";
-        $HTMLOUT .= "<tr><td class='rowhead' width='1%'>{$lang['userdetails_friends']}</td><td align='left' width='99%'><a href=\"javascript: klappe_news('a6')\"><img border=\"0\" src=\"pic/plus.png\" id=\"pica6".(int)$a['uid']."\" alt=\"{$lang['userdetails_hide_show']}\" title=\"{$lang['userdetails_hide_show']}\" /></a><div id=\"ka6\" style=\"display: none;\"><br />$user_friends</div></td></tr>";
+        $HTMLOUT .= "<tr><td class='rowhead' width='1%'>{$lang['userdetails_friends']}</td><td align='left' width='99%'><a href=\"javascript: klappe_news('a6')\"><img border=\"0\" src=\"pic/plus.png\" id=\"pica6".(int)$a['uid']."\" alt=\"{$lang['userdetails_hide_show']}\" title=\"{$lang['userdetails_hide_show']}\"></a><div id=\"ka6\" style=\"display: none;\"><br>$user_friends</div></td></tr>";
     } elseif (empty($users_friends)) {
         $HTMLOUT .= "<tr><td colspan='2'>{$lang['userdetails_no_friends']}</td></tr>";
     }

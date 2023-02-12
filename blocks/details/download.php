@@ -100,15 +100,15 @@ $HTMLOUT .= "<div class='table-scroll'>
         </tr>";
 $HTMLOUT .= '<tr>
         <td>'.$lang['details_add_karma1'].'</td>
-        <td><b>'.$lang['details_add_karma2'].''.(int)$torrents['points'].''.$lang['details_add_karma3'].''.$my_points.''.$lang['details_add_karma4'].'<br /><br />
-        <a href="coins.php?id='.$id.'&amp;points=10"><img src="'.$TRINITY20['pic_base_url'].'10coin.png" alt="10" title="'.$lang['details_add_kar10'].'" /></a>&nbsp;&nbsp;
-        <a href="coins.php?id='.$id.'&amp;points=20"><img src="'.$TRINITY20['pic_base_url'].'20coin.png" alt="20" title="'.$lang['details_add_kar20'].'" /></a>&nbsp;&nbsp;
-        <a href="coins.php?id='.$id.'&amp;points=50"><img src="'.$TRINITY20['pic_base_url'].'50coin.png" alt="50" title="'.$lang['details_add_kar50'].'" /></a>&nbsp;&nbsp;
-        <a href="coins.php?id='.$id.'&amp;points=100"><img src="'.$TRINITY20['pic_base_url'].'100coin.png" alt="100" title="'.$lang['details_add_kar100'].'" /></a>&nbsp;&nbsp;
-        <a href="coins.php?id='.$id.'&amp;points=200"><img src="'.$TRINITY20['pic_base_url'].'200coin.png" alt="200" title="'.$lang['details_add_kar200'].'" /></a>&nbsp;&nbsp;
-        <a href="coins.php?id='.$id.'&amp;points=500"><img src="'.$TRINITY20['pic_base_url'].'500coin.png" alt="500" title="'.$lang['details_add_kar500'].'" /></a>&nbsp;&nbsp;
-        <a href="coins.php?id='.$id.'&amp;points=1000"><img src="'.$TRINITY20['pic_base_url'].'1000coin.png" alt="1000" title="'.$lang['details_add_kar1000'].'" /></a></b>&nbsp;&nbsp;
-        <br />'.$lang['details_add_karma'].'</td></tr>';
+        <td><b>'.$lang['details_add_karma2'].''.(int)$torrents['points'].''.$lang['details_add_karma3'].''.$my_points.''.$lang['details_add_karma4'].'<br><br>
+        <a href="coins.php?id='.$id.'&amp;points=10"><img src="'.$TRINITY20['pic_base_url'].'10coin.png" alt="10" title="'.$lang['details_add_kar10'].'"></a>&nbsp;&nbsp;
+        <a href="coins.php?id='.$id.'&amp;points=20"><img src="'.$TRINITY20['pic_base_url'].'20coin.png" alt="20" title="'.$lang['details_add_kar20'].'"></a>&nbsp;&nbsp;
+        <a href="coins.php?id='.$id.'&amp;points=50"><img src="'.$TRINITY20['pic_base_url'].'50coin.png" alt="50" title="'.$lang['details_add_kar50'].'"></a>&nbsp;&nbsp;
+        <a href="coins.php?id='.$id.'&amp;points=100"><img src="'.$TRINITY20['pic_base_url'].'100coin.png" alt="100" title="'.$lang['details_add_kar100'].'"></a>&nbsp;&nbsp;
+        <a href="coins.php?id='.$id.'&amp;points=200"><img src="'.$TRINITY20['pic_base_url'].'200coin.png" alt="200" title="'.$lang['details_add_kar200'].'"></a>&nbsp;&nbsp;
+        <a href="coins.php?id='.$id.'&amp;points=500"><img src="'.$TRINITY20['pic_base_url'].'500coin.png" alt="500" title="'.$lang['details_add_kar500'].'"></a>&nbsp;&nbsp;
+        <a href="coins.php?id='.$id.'&amp;points=1000"><img src="'.$TRINITY20['pic_base_url'].'1000coin.png" alt="1000" title="'.$lang['details_add_kar1000'].'"></a></b>&nbsp;&nbsp;
+        <br>'.$lang['details_add_karma'].'</td></tr>';
 /** pdq's ratio afer d/load **/
 $downl = ($CURUSER["downloaded"] + $torrents["size"]);
 $sr = $CURUSER["uploaded"] / $downl;
@@ -142,7 +142,7 @@ switch (true) {
         break;
 }
 $sr = floor($sr * 1000) / 1000;
-$sr = "<font color='".get_ratio_color($sr)."'>".number_format($sr, 3)."</font>&nbsp;&nbsp;<img src='pic/smilies/{$s}.gif' alt='' />";
+$sr = "<font color='".get_ratio_color($sr)."'>".number_format($sr, 3)."</font>&nbsp;&nbsp;<img src='pic/smilies/{$s}.gif' alt=''>";
 if ($torrents['free'] >= 1 || $torrents['freetorrent'] >= 1 || $isfree['yep'] || ($free_slot || $double_slot == 'yes') || $CURUSER['free_switch'] != 0) {
     $HTMLOUT .= "<tr>
         <td>{$lang['details_add_ratio1']}</td>

@@ -104,9 +104,9 @@ $HTMLOUT .= '<div class="container"><form action="" method="post">
 	<tr>
         <td>
         <b>'.$lang['uunlk_enable_bonus_moods'].'?</b>
-        <div class="slideThree"> <input type="checkbox" id="unlock_user_moods" name="unlock_user_moods" value="yes"'.$checkbox_unlock_moods.' />
+        <div class="slideThree"> <input type="checkbox" id="unlock_user_moods" name="unlock_user_moods" value="yes"'.$checkbox_unlock_moods.'>
         <label for="unlock_user_moods"></label></div>
-        <div><hr style="color:#A83838;" size="1" /></div>
+        <div><hr style="color:#A83838;" size="1"></div>
         <span>'.$lang['uunlk_check_this_option_to_unlock'].' '.$lang['uunlk_bonus_mood_smilies'].'.</span>
 	</td>
 	</tr>
@@ -118,7 +118,7 @@ $HTMLOUT .= '<div class="container"><form action="" method="post">
         <b>'.$lang['uunlk_enable_bonus_moods'].'?</b>
         <div style="color: gray;">'.$lang['uunlk_check_this_option_to_unlock'].' '.$lang['uunlk_bonus_mood_smilies'].'.</div></td>
         <td width="30%"><div style="width: auto;" align="right">
-        <input class="styled" type="checkbox" name="unlock_user_moods" value="yes"'.$checkbox_unlock_moods.' />
+        <input class="styled" type="checkbox" name="unlock_user_moods" value="yes"'.$checkbox_unlock_moods.'>
         </div></td>
         </tr></table>-->
         <div class="span3 offset1">
@@ -126,9 +126,9 @@ $HTMLOUT .= '<div class="container"><form action="" method="post">
 	<tr>
         <td>
         <b>'.$lang['uunlk_enable_username_shout_alert'].'?</b>
-        <div class="slideThree"> <input type="checkbox" id="disable_beep" name="disable_beep" value="yes"'.$checkbox_unlock_nofknbeep.' />
+        <div class="slideThree"> <input type="checkbox" id="disable_beep" name="disable_beep" value="yes"'.$checkbox_unlock_nofknbeep.'>
         <label for="disable_beep"></label></div>
-        <div><hr style="color:#A83838;" size="1" /></div>
+        <div><hr style="color:#A83838;" size="1"></div>
         <span>'.$lang['uunlk_check_this_option_to_unlock'].' '.$lang['uunlk_shout_beep_option'].'.</span>
 	</td>
 	</tr>
@@ -140,7 +140,7 @@ $HTMLOUT .= '<div class="container"><form action="" method="post">
         <b>'.$lang['uunlk_enable_username_shout_alert'].'?</b>
         <div style="color: gray;">'.$lang['uunlk_check_this_option_to_unlock'].' '.$lang['uunlk_shout_beep_option'].'.</div></td>
         <td width="30%"><div style="width: auto;" align="right">
-        <input class="styled" type="checkbox" name="disable_beep" value="yes"'.$checkbox_unlock_nofknbeep.' />
+        <input class="styled" type="checkbox" name="disable_beep" value="yes"'.$checkbox_unlock_nofknbeep.'>
         </div></td>
         </tr></table>-->
         <!--
@@ -150,23 +150,23 @@ $HTMLOUT .= '<div class="container"><form action="" method="post">
         <b>'.$lang['uunlk_enable_stealth'].'?</b>
         <div style="color: gray;">'.$lang['uunlk_check_this_option_to_unlock'].' '.$lang['uunlk_stealth_mode'].'.</div></td>
         <td width="30%"><div style="width: auto;" align="right">
-        <input class="styled" type="checkbox" name="perms_stealth" value="yes"'.$checkbox_unlock_stealth.' /></div></td>
+        <input class="styled" type="checkbox" name="perms_stealth" value="yes"'.$checkbox_unlock_stealth.'></div></td>
         </tr></table>-->
         <div class="span3 offset1">
         <table class="table table-bordered">
 	<tr>
         <td>
         <b>'.$lang['uunlk_enable_stealth'].'?</b>
-        <div class="slideThree"><input type="checkbox" name="perms_stealth" value="yes"'.$checkbox_unlock_stealth.' />
+        <div class="slideThree"><input type="checkbox" name="perms_stealth" value="yes"'.$checkbox_unlock_stealth.'>
         <label for="perms_stealth"></label></div>
-        <div><hr style="color:#A83838;" size="1" /></div>
+        <div><hr style="color:#A83838;" size="1"></div>
         <span>'.$lang['uunlk_check_this_option_to_unlock'].' '.$lang['uunlk_stealth_mode'].'.</span>
 	</td>
 	</tr>
 	</table>
 	</div>';
 $HTMLOUT .= '<div class="span7 offset1">
-<input class="btn btn-primary" type="submit" name="submit" value="'.$lang['uunlk_submit'].'" tabindex="2" accesskey="s" /></div></div></form></div>';
+<input class="btn btn-primary" type="submit" name="submit" value="'.$lang['uunlk_submit'].'" tabindex="2" accesskey="s"></div></div></form></div>';
 
 $HTMLOUT .= end_frame();
 echo stdhead($lang['uunlk_std_head'], true, $stdhead).$HTMLOUT.stdfoot($stdfoot);

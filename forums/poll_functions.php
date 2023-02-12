@@ -15,7 +15,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     $HTMLOUT .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
         <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
         <head>
-        <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+        <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
         <title>ERROR</title>
         </head><body>
         <h1 style="text-align:center;">Error</h1>
@@ -96,7 +96,7 @@ if ($res->num_rows > 0) {
         if ($arr1["sort"] == "yes") {
             usort($os, "srt");
         }
-        $HTMLOUT .= "<br />
+        $HTMLOUT .= "<br>
 			  <table width='100%' style='border:none;' cellpadding='5'>";
         foreach ($os as $a) {
             if ($i === $uservote) {
@@ -109,20 +109,20 @@ if ($res->num_rows > 0) {
             $HTMLOUT .= "<tr>";
             $HTMLOUT .= "<td width='1%' style='padding:3px;white-space:nowrap;' class='embedded".$c."'>".htmlsafechars($a[1])."</td>
 					<td width='99%' class='embedded".$c."' align='center'>
-					<img src='{$TRINITY20['pic_base_url']}bar_left.gif' alt='bar_left.gif' />
-					<img src='{$TRINITY20['pic_base_url']}bar.gif' alt='bar.gif'  height='9' width='".($p * 3)."' />
-					<img src='{$TRINITY20['pic_base_url']}bar_right.gif'  alt='bar_right.gif' />&nbsp;".$p."%</td>
+					<img src='{$TRINITY20['pic_base_url']}bar_left.gif' alt='bar_left.gif'>
+					<img src='{$TRINITY20['pic_base_url']}bar.gif' alt='bar.gif'  height='9' width='".($p * 3)."'>
+					<img src='{$TRINITY20['pic_base_url']}bar_right.gif'  alt='bar_right.gif'>&nbsp;".$p."%</td>
 					</tr>";
         }
         $HTMLOUT .= "</table>
 				  <p align='center'>Votes: <b>".number_format($tvotes)."</b></p>";
     } else {
         $HTMLOUT .= "<form method='post' action='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=".$topicid."'>
-				  <input type='hidden' name='pollid' value='".$pollid."' />";
+				  <input type='hidden' name='pollid' value='".$pollid."'>";
         for ($i = 0; $a = $o[$i]; ++$i) {
-            $HTMLOUT .= "<input type='radio' name='choice' value='$i' />".htmlsafechars($a)."<br />
-				  <br />
-				  <p align='center'><input type='submit' value='Vote!' /></p>";
+            $HTMLOUT .= "<input type='radio' name='choice' value='$i'>".htmlsafechars($a)."<br>
+				  <br>
+				  <p align='center'><input type='submit' value='Vote!'></p>";
         }
     }
     $HTMLOUT .= "</form></td></tr></table>";
@@ -148,12 +148,12 @@ if ($res->num_rows > 0) {
                     $voters .= "<a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr_vv['userid']."'><b>".htmlsafechars($arr_vv['username'])."</b></a>";
                 }
             }
-            $HTMLOUT .= $voters."<br />[<font class='small'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid'>hide</a></font>]";
+            $HTMLOUT .= $voters."<br>[<font class='small'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid'>hide</a></font>]";
         }
     }
     $HTMLOUT .= "</td></tr></table>";
 } else {
-    $HTMLOUT .= "<br />";
+    $HTMLOUT .= "<br>";
     stderr('Sorry', "Poll doesn't exist");
 }
-$HTMLOUT .= "<br />";
+$HTMLOUT .= "<br>";

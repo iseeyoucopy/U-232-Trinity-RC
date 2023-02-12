@@ -133,7 +133,7 @@ if ($lottery['current_user']['can_buy'] > 0) {
         <td>Amount to Purchase</td>
         <td align='center'> 
           <form action='lottery.php?do=tickets' method='post'>
-              <input type='text' class='form-control' size='2' name='tickets' /><input class='btn btn-default' type='submit' value='Buy tickets' />
+              <input type='text' class='form-control' size='2' name='tickets'><input class='btn btn-default' type='submit' value='Buy tickets'>
           </form>
         </td>
       </tr>";

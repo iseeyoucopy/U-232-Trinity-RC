@@ -21,11 +21,11 @@ if (!defined('IN_TRINITY20_ADMIN')) {
     $HTMLOUT.= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
         <head>
-        <meta charset="'.charset().'" />
+        <meta charset="'.charset().'">
         <title>ERROR</title>
         </head><body>
         <h1 style="text-align:center;">Error</h1>
-	<div style="font-size:33px;color:white;background-color:red;text-align:center;">Incorrect access<br />You cannot access this file directly.</div>
+	<div style="font-size:33px;color:white;background-color:red;text-align:center;">Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>';
     echo $HTMLOUT;
     exit();
@@ -51,8 +51,8 @@ else {
     $HTMLOUT.= "<table class='table table-bordered'>\n";
     while ($arr = mysqli_fetch_assoc($res)) {
         if (($arr['to_user'] != $CURUSER['id'] && $arr['to_user'] != 0) && $arr['userid'] != $CURUSER['id']) continue;
-        if ($arr['to_user'] == $CURUSER['id'] || ($arr['userid'] == $CURUSER['id'] && $arr['to_user'] != 0)) $private = "<img src='{$TRINITY20['pic_base_url']}private-shout.png' alt='{$lang['shistory_private1']}' title='{$lang['shistory_private2']}' width='16' style='padding-left:2px;padding-right:2px;' border='0' />";
-        else $private = "<img src='{$TRINITY20['pic_base_url']}group.png' alt='{$lang['shistory_public1']}' title='{$lang['shistory_public2']}' width='16' style='padding-left:2px;padding-right:2px;' border='0' />";
+        if ($arr['to_user'] == $CURUSER['id'] || ($arr['userid'] == $CURUSER['id'] && $arr['to_user'] != 0)) $private = "<img src='{$TRINITY20['pic_base_url']}private-shout.png' alt='{$lang['shistory_private1']}' title='{$lang['shistory_private2']}' width='16' style='padding-left:2px;padding-right:2px;' border='0'>";
+        else $private = "<img src='{$TRINITY20['pic_base_url']}group.png' alt='{$lang['shistory_public1']}' title='{$lang['shistory_public2']}' width='16' style='padding-left:2px;padding-right:2px;' border='0'>";
         $date = get_date($arr["date"], 0, 1);
         $user_stuff = $arr;
         $user_stuff['id'] = (int)$arr['userid'];

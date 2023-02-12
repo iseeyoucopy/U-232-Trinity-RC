@@ -81,23 +81,23 @@ $lang = [
     'usersearch_create_ann' => "Créer une Nouvelle Annonce",
     //instructions
     'usersearch_instructions' => "<table border='0' align='center'><tr><td class='embedded' bgcolor='#F5F4EA'><div align='left'>\n
-	    Les champs laissés vides seront ignorés.\n <br /><br />
+	    Les champs laissés vides seront ignorés.\n <br><br>
 	    Des jockers * et ? peuvent être utilisés pour le Nom, l'Email ou les Commentaires, tout comme de multiples valeurs\n
 	    séparées par des espaces (ex. 'wyz Max*' dans le champ Nom listera tous les membres nommés\n
 	    'wyz' et ceux dont le nom commence par 'Max'. De la même manière  '~' peut être employé pour la\n
 	    négation, ex. '~alfiest' dans le champ Commentaires restreindra la recherche aux membres\n
-	    qui ne comportent pas 'alfiest' dans leurs commentaires).<br /><br />\n
-       Le champ Ratio accepte 'Inf' and '---' à côté d'une valeur numérique.<br /><br />\n
+	    qui ne comportent pas 'alfiest' dans leurs commentaires).<br><br>\n
+       Le champ Ratio accepte 'Inf' and '---' à côté d'une valeur numérique.<br><br>\n
 	    Le masque de sous-réseau peut-être entré à la fois en valeur décimale ou en notation CIDR\n
-	    (ex. 255.255.255.0 est identique à /24).<br /><br />\n
-       Le champ Uploadé et Downloadé doivent être renseigné en GB.<br /><br />\n
+	    (ex. 255.255.255.0 est identique à /24).<br><br>\n
+       Le champ Uploadé et Downloadé doivent être renseigné en GB.<br><br>\n
 	    Pour les paramètres de recherche avec de multiples champs de textes, le second sera ignoré\n
-	    sauf s'il est adéquat au type de recherche choisi. <br /><br />\n
+	    sauf s'il est adéquat au type de recherche choisi. <br><br>\n
 	    'Seulement Actif' restreint la recherche aux membres qui actuellement sont en seed ou en leech,\n
-	    'IP désactivé' pour ceux dont l'IP est visible dans des comptes désactivés.<br /><br />\n
-	    La colonne 'p' des résultats montrent des stats partielles, liées aux torrents en activité. <br /><br />\n
+	    'IP désactivé' pour ceux dont l'IP est visible dans des comptes désactivés.<br><br>\n
+	    La colonne 'p' des résultats montrent des stats partielles, liées aux torrents en activité. <br><br>\n
 	    La colonne historique liste le nombre de publications forum et de commentaires torrents,\n
 	    respectivement, et propose un lien direct aux pages d'historiques correspondantes.\n
-	    </div></td></tr></table><br /><br />\n",
+	    </div></td></tr></table><br><br>\n",
 ];
 ?>

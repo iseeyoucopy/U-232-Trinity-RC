@@ -16,7 +16,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     $HTMLOUT .= '<!DOCTYPE html>
     <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
     <head>
-    <meta charset="'.charset().'" />
+    <meta charset="'.charset().'">
     <title>ERROR</title>
     </head><body>
     <h1 style="text-align:center;">Error</h1>

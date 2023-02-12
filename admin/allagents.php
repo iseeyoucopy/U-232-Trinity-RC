@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -48,7 +48,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
                          '<style type="text/css">div#error{font-size:33px;color:white;background-color:red;text-align:center;}</style>'.
                          '<title>ERROR</title>'.
                  '</head><body>'.
-             '<div id="error">Incorrect access<br />You cannot access this file directly.</div>'.
+             '<div id="error">Incorrect access<br>You cannot access this file directly.</div>'.
              '</body></html>';
         
         exit();

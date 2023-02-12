@@ -50,7 +50,7 @@ if (isset($_POST["form"]) != 1) {
         }
         $HTMLOUT .= "<tr>
         <td class='rowhead'>{$lang['uploadapp_username']}</td>
-        <td><input name='userid' type='hidden' value='".(int)$CURUSER['id']."' />".$CURUSER['username']."</td>
+        <td><input name='userid' type='hidden' value='".(int)$CURUSER['id']."'>".$CURUSER['username']."</td>
         </tr>
         <tr>
         <td class='rowhead'>{$lang['uploadapp_joined']}</td><td>".get_date($CURUSER['added'], '', 0, 1)."</td>
@@ -59,10 +59,10 @@ if (isset($_POST["form"]) != 1) {
         <td class='rowhead'>{$lang['uploadapp_ratio']}</td><td>".($ratio >= 1 ? 'No' : 'Yes')."</td>
         </tr>
         <tr>
-        <td class='rowhead'>{$lang['uploadapp_connectable']}</td><td><input name='connectable' type='hidden' value='$connectable' />$connectable</td>
+        <td class='rowhead'>{$lang['uploadapp_connectable']}</td><td><input name='connectable' type='hidden' value='$connectable'>$connectable</td>
         </tr>
         <tr>
-        <td class='rowhead'>{$lang['uploadapp_upspeed']}</td><td><input type='text' name='speed' size='19' /></td>
+        <td class='rowhead'>{$lang['uploadapp_upspeed']}</td><td><input type='text' name='speed' size='19'></td>
         </tr>
         <tr>
         <td class='rowhead'>{$lang['uploadapp_offer']}</td><td><textarea name='offer' cols='80' rows='1'></textarea></td>
@@ -71,31 +71,31 @@ if (isset($_POST["form"]) != 1) {
         <td class='rowhead'>{$lang['uploadapp_why']}</td><td><textarea name='reason' cols='80' rows='2'></textarea></td>
         </tr>
         <tr>
-        <td class='rowhead'>{$lang['uploadapp_uploader']}</td><td><input type='radio' name='sites' value='yes' />{$lang['uploadapp_yes']}
-        <input name='sites' type='radio' value='no' checked='checked' />{$lang['uploadapp_no']}</td>
+        <td class='rowhead'>{$lang['uploadapp_uploader']}</td><td><input type='radio' name='sites' value='yes'>{$lang['uploadapp_yes']}
+        <input name='sites' type='radio' value='no' checked='checked'>{$lang['uploadapp_no']}</td>
         </tr>
         <tr>
         <td class='rowhead'>{$lang['uploadapp_sites']}</td><td><textarea name='sitenames' cols='80' rows='1'></textarea></td>
         </tr>
         <tr>
-        <td class='rowhead'>{$lang['uploadapp_scene']}</td><td><input type='radio' name='scene' value='yes' />{$lang['uploadapp_yes']}
-	     <input name='scene' type='radio' value='no' checked='checked' />{$lang['uploadapp_no']}</td>
+        <td class='rowhead'>{$lang['uploadapp_scene']}</td><td><input type='radio' name='scene' value='yes'>{$lang['uploadapp_yes']}
+	     <input name='scene' type='radio' value='no' checked='checked'>{$lang['uploadapp_no']}</td>
         </tr>
         <tr>
         <td colspan='2'>
-        <br />
+        <br>
         &nbsp;&nbsp;{$lang['uploadapp_create']}
-        <br />
-        <input type='radio' name='creating' value='yes' />{$lang['uploadapp_yes']}
-    	  <input name='creating' type='radio' value='no' checked='checked' />{$lang['uploadapp_no']}
-        <br /><br />
+        <br>
+        <input type='radio' name='creating' value='yes'>{$lang['uploadapp_yes']}
+    	  <input name='creating' type='radio' value='no' checked='checked'>{$lang['uploadapp_no']}
+        <br><br>
         &nbsp;&nbsp;{$lang['uploadapp_seeding']}
-        <br />
-        <input type='radio' name='seeding' value='yes' />{$lang['uploadapp_yes']}
-     	  <input name='seeding' type='radio' value='no' checked='checked' />{$lang['uploadapp_no']}
-        <br /><br />
-        <input name='form' type='hidden' value='1' />
-        <div align='center'><input type='submit' name='Submit' value='{$lang['uploadapp_send']}' /></div></td>
+        <br>
+        <input type='radio' name='seeding' value='yes'>{$lang['uploadapp_yes']}
+     	  <input name='seeding' type='radio' value='no' checked='checked'>{$lang['uploadapp_no']}
+        <br><br>
+        <input name='form' type='hidden' value='1'>
+        <div align='center'><input type='submit' name='Submit' value='{$lang['uploadapp_send']}'></div></td>
         </tr>
         </table></form>
         </td></tr></table>";

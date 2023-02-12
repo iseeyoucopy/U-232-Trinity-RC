@@ -67,7 +67,7 @@ function tr($x, $y, $noesc = 0)
         $a = $y;
     } else {
         $a = htmlsafechars($y);
-        $a = str_replace("\n", "<br />\n", $a);
+        $a = str_replace("\n", "<br>\n", $a);
     }
     return "<tr>
 				<td>$x</td>
@@ -84,7 +84,7 @@ function insert_smilies_frame()
     $htmlout .= begin_table(false, 5);
     $htmlout .= "<tr><td>Type...</td><td>To make a...</td></tr>";
     foreach ($smilies as $code => $url) {
-        $htmlout .= "<tr><td>$code</td><td><img src=\"{$TRINITY20['pic_base_url']}smilies/{$url}\" alt='' /></td></tr>";
+        $htmlout .= "<tr><td>$code</td><td><img src=\"{$TRINITY20['pic_base_url']}smilies/{$url}\" alt=''></td></tr>";
     }
     $htmlout .= end_table();
     $htmlout .= end_frame();

@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -147,7 +147,7 @@ switch ($do) {
         $htmlout .= "<form action='".$this_url."' method='post'>
 	<table class='table table-bordered'>
 	<tr><td colspan='2' align='center' class='colhead'>".($edit_action ? ''.$lang['fm_mp_edit2'].' <u>'.htmlsafechars($a3['f_name']).'</u>' : $lang['fm_mp_addfo'])."</td></tr>
-	<tr><td align='right' valign='top'>{$lang['fm_mp_fname']}</td><td align='left'><input type='text' value='".($edit_action ? htmlsafechars($a3['f_name']) : '')."'name='forumname' size='40' /></td></tr>
+	<tr><td align='right' valign='top'>{$lang['fm_mp_fname']}</td><td align='left'><input type='text' value='".($edit_action ? htmlsafechars($a3['f_name']) : '')."'name='forumname' size='40'></td></tr>
 	<tr><td align='right' valign='top'>{$lang['fm_mp_description']}</td><td align='left'><textarea rows='3' cols='38' name='forumdescr'>".($edit_action ? htmlsafechars($a3['description']) : '')."</textarea></td></tr>";
         $htmlout .= "<tr><td align='right' valign='top'>{$lang['fm_mp_over2']}</td><td align='left'><select name='overforum'>";
         ($r2 = sql_query('SELECT id,name FROM over_forums ORDER BY name')) || sqlerr(__FILE__, __LINE__);
@@ -179,7 +179,7 @@ switch ($do) {
             $htmlout .= "<option value='".$i."' ".($edit_action && $a3['sort'] == $i ? 'selected=\'selected\'' : '').">".$i."</option>";
         }
         $htmlout .= "</select></td></tr>
-	<tr><td align='center' class='colhead' colspan='2'>".($edit_action ? "<input type='hidden' name='do' value='process_edit' /><input type='hidden' name='id' value='".(int)$a3['fid']."'/><input type='submit' value='{$lang['fm_mp_edit']}' />" : "<input type='hidden' name='do' value='process_add' /><input type='submit' value='{$lang['fm_mp_adfo']}' />")."</td></tr>
+	<tr><td align='center' class='colhead' colspan='2'>".($edit_action ? "<input type='hidden' name='do' value='process_edit'><input type='hidden' name='id' value='".(int)$a3['fid']."'/><input type='submit' value='{$lang['fm_mp_edit']}'>" : "<input type='hidden' name='do' value='process_add'><input type='submit' value='{$lang['fm_mp_adfo']}'>")."</td></tr>
 	</table></form>";
         $htmlout .= "</div></div>";
 

@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -154,7 +154,7 @@ if ($count_inactive > 0) {
         <td style='max-width:130px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;'><a href='mailto:".htmlsafechars($arr["email"])."'>".htmlsafechars($arr["email"])."</a></td>
         <td>".$ratio."</td>
         <td>".$last_seen."</td>
-        <td align='center' bgcolor='#FF0000'><input type='checkbox' name='userid[]' value='".(int)$arr["id"]."' /></td></tr>
+        <td align='center' bgcolor='#FF0000'><input type='checkbox' name='userid[]' value='".(int)$arr["id"]."'></td></tr>
         ";
     }
     $HTMLOUT .= "<tr>
@@ -163,7 +163,7 @@ if ($count_inactive > 0) {
     <option value='mail'>{$lang['inactive_sendmail']}</option>
     <option value='deluser' ".($CURUSER["class"] < UC_ADMINISTRATOR ? "disabled" : "").">{$lang['inactive_deleteusers']}</option>
     <option value='disable'>{$lang['inactive_disaccounts']}</option>
-    </select>&nbsp;&nbsp;<input type='submit' name='submit' value='{$lang['inactive_apchanges']}' />&nbsp;&nbsp;<input type='button' value='{$lang['inactive_chkall']}' onclick='this.value=check(form)' /></td></tr>";
+    </select>&nbsp;&nbsp;<input type='submit' name='submit' value='{$lang['inactive_apchanges']}'>&nbsp;&nbsp;<input type='button' value='{$lang['inactive_chkall']}' onclick='this.value=check(form)'></td></tr>";
     if ($record_mail) {
         $ress = sql_query("SELECT avps.value_s AS userid, avps.value_i AS last_mail, avps.value_u AS mails, users.username FROM avps LEFT JOIN users ON avps.value_s=users.id WHERE avps.arg='inactivemail' LIMIT 1");
         $date = $ress->fetch_assoc();

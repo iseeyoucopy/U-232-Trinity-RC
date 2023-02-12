@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -141,7 +141,7 @@ $HTMLOUT .= "<table class='table table-bordered'>
 
         </td>
       </tr>
-      </table><br />";
+      </table><br>";
 $res->free_result();
 unset($res);
 unset($row);
@@ -206,7 +206,7 @@ $TRAFFIC_STATS2 = "<table class='table table-bordered'>
     </table>";
 $QUERY_STATS = '';
 $QUERY_STATS .= "<!-- Queries -->
-    <b>{$lang['mysql_stats_query']}</b>{$lang['mysql_stats_since']}".number_format($serverStatus['Questions'], 0, '.', ',')."{$lang['mysql_stats_querys']}<br />
+    <b>{$lang['mysql_stats_query']}</b>{$lang['mysql_stats_since']}".number_format($serverStatus['Questions'], 0, '.', ',')."{$lang['mysql_stats_querys']}<br>
 
     <table class='table table-bordered'>
         <tr>
@@ -221,7 +221,7 @@ $QUERY_STATS .= "<!-- Queries -->
             <td  align='right'>&nbsp;".number_format(($serverStatus['Questions'] * 60 / $serverStatus['Uptime']), 2, '.', ',')."&nbsp;</td>
             <td  align='right'>&nbsp;".number_format(($serverStatus['Questions'] / $serverStatus['Uptime']), 2, '.', ',')."&nbsp;</td>
         </tr>
-    </table><br />";
+    </table><br>";
 $QUERY_STATS .= "<table class='table table-bordered'>
         <tr>
             <td colspan='2' bgcolor='grey'>{$lang['mysql_stats_query_type']}</td>
@@ -255,7 +255,7 @@ unset($serverStatus['Uptime']);
 $STATUS_TABLE = '';
 if (!empty($serverStatus)) {
     $STATUS_TABLE .= "<!-- Other status variables -->
-          <b>{$lang['mysql_stats_more']}</b><br />
+          <b>{$lang['mysql_stats_more']}</b><br>
           
       <table class='table table-bordered'>
           <tr>

@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -104,9 +104,9 @@ while ($arr = $res->fetch_assoc()) {
     $torrname = htmlsafechars(CutName($arr["tname"], 80));
     $users = $arr;
     $users['id'] = (int)$arr['userid'];
-    $cheater = "<b><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['id']."'>".format_username($users)."</a></b>{$lang['cheaters_hbcc']}<br />
+    $cheater = "<b><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$arr['id']."'>".format_username($users)."</a></b>{$lang['cheaters_hbcc']}<br>
     <b>{$lang['cheaters_torrent']} <a href='{$TRINITY20['baseurl']}/details.php?id=".(int)$arr['tid']."' title='{$torrname}'>{$torrname}</a></b>
-<br />{$lang['cheaters_upped']} <b>".mksize((int)$arr['upthis'])."</b><br />{$lang['cheaters_speed']} <b>".mksize((int)$arr['rate'])."/s</b><br />{$lang['cheaters_within']} <b>".(int)$arr['timediff']." {$lang['cheaters_sec']}</b><br />{$lang['cheaters_uc']} <b>".htmlsafechars($arr['client'])."</b><br />{$lang['cheaters_ipa']} <b>".htmlsafechars($arr['userip'])."</b>";
+<br>{$lang['cheaters_upped']} <b>".mksize((int)$arr['upthis'])."</b><br>{$lang['cheaters_speed']} <b>".mksize((int)$arr['rate'])."/s</b><br>{$lang['cheaters_within']} <b>".(int)$arr['timediff']." {$lang['cheaters_sec']}</b><br>{$lang['cheaters_uc']} <b>".htmlsafechars($arr['client'])."</b><br>{$lang['cheaters_ipa']} <b>".htmlsafechars($arr['userip'])."</b>";
     $HTMLOUT .= "<tr><td>".(int)$arr['cid']."</td>
     <td>".format_username($users)."<a href=\"javascript:klappe('a1".(int)$arr['cid']."')\"> {$lang['cheaters_added']}".get_date($arr['added'],
             'DATE')."</a>
@@ -116,7 +116,7 @@ while ($arr = $res->fetch_assoc()) {
 }
 $HTMLOUT .= "<tr>
 <td>
-<input type=\"button\" value=\"{$lang['cheaters_cad']}\" onclick=\"this.value=check(this.form.elements['desact[]'])\"/> <input type=\"button\" value=\"{$lang['cheaters_car']}\" onclick=\"this.value=check(this.form.elements['remove[]'])\"/> <input type=\"hidden\" name=\"nowarned\" value=\"nowarned\" /><input type=\"submit\" name=\"submit\" value=\"{$lang['cheaters_ac']}\" />
+<input type=\"button\" value=\"{$lang['cheaters_cad']}\" onclick=\"this.value=check(this.form.elements['desact[]'])\"/> <input type=\"button\" value=\"{$lang['cheaters_car']}\" onclick=\"this.value=check(this.form.elements['remove[]'])\"/> <input type=\"hidden\" name=\"nowarned\" value=\"nowarned\"><input type=\"submit\" name=\"submit\" value=\"{$lang['cheaters_ac']}\">
 </td>
 </tr>
 </table></form>";

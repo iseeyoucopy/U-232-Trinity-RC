@@ -32,7 +32,7 @@ if ($sim_torrents && (is_countable($sim_torrents) ? count($sim_torrents) : 0) > 
             if (is_array($a)) {
                 $sim_tor['cat_name'] = htmlsafechars($change[$a['category']]['name']);
                 $sim_tor['cat_pic'] = htmlsafechars($change[$a['category']]['image']);
-                $cat = "<img src=\"pic/caticons/{$CURUSER['categorie_icon']}/{$sim_tor['cat_pic']}\" alt=\"{$sim_tor['cat_name']}\" title=\"{$sim_tor['cat_name']}\" />";
+                $cat = "<img src=\"pic/caticons/{$CURUSER['categorie_icon']}/{$sim_tor['cat_pic']}\" alt=\"{$sim_tor['cat_name']}\" title=\"{$sim_tor['cat_name']}\">";
                 $name = htmlsafechars(CutName($a["name"]));
                 $seeders = (int)$a["seeders"];
                 $leechers = (int)$a["leechers"];
@@ -47,7 +47,7 @@ if ($sim_torrents && (is_countable($sim_torrents) ? count($sim_torrents) : 0) > 
             }
         }
         $sim_torrent .= "</table><div>";
-        $HTMLOUT .= "<table class='striped'><tr><td align='right' class='heading'>{$lang['details_similiar']}<a href=\"javascript: klappe_news('a5')\"><img border=\"0\" src=\"pic/plus.png\" id=\"pica5".(int)$a['id']."\" alt=\"[Hide/Show]\" title=\"[Hide/Show]\" /></a><div id=\"ka5\" style=\"display: none;\"><br />$sim_torrent</div></td></tr></table>";
+        $HTMLOUT .= "<table class='striped'><tr><td align='right' class='heading'>{$lang['details_similiar']}<a href=\"javascript: klappe_news('a5')\"><img border=\"0\" src=\"pic/plus.png\" id=\"pica5".(int)$a['id']."\" alt=\"[Hide/Show]\" title=\"[Hide/Show]\"></a><div id=\"ka5\" style=\"display: none;\"><br>$sim_torrent</div></td></tr></table>";
     } elseif (empty($sim_torrents)) {
         $HTMLOUT .= "
         <table class='striped'>\n

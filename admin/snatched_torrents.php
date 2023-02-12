@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -47,32 +47,32 @@ function get_snatched_color($st)
         $hours_elapsed = floor(($st - ($days * 24 * 60 * 60)) / (60 * 60));
         $mins_elapsed = floor(($st - ($hours * 60 * 60)) / 60);
         $secs_elapsed = floor($st - $mins * 60);
-        return "<font color='lime'><b>$month months.<br />$week_elapsed W. $days_elapsed D.</b></font>";
+        return "<font color='lime'><b>$month months.<br>$week_elapsed W. $days_elapsed D.</b></font>";
     }
     if ($week > 0) {
         $days_elapsed = floor(($st - ($week * 7 * 24 * 60 * 60)) / (24 * 60 * 60));
         $hours_elapsed = floor(($st - ($days * 24 * 60 * 60)) / (60 * 60));
         $mins_elapsed = floor(($st - ($hours * 60 * 60)) / 60);
         $secs_elapsed = floor($st - $mins * 60);
-        return "<font color='lime'><b>$week W. $days_elapsed D.<br />$hours_elapsed:$mins_elapsed:$secs_elapsed</b></font>";
+        return "<font color='lime'><b>$week W. $days_elapsed D.<br>$hours_elapsed:$mins_elapsed:$secs_elapsed</b></font>";
     }
     if ($days > 2) {
         $hours_elapsed = floor(($st - ($days * 24 * 60 * 60)) / (60 * 60));
         $mins_elapsed = floor(($st - ($hours * 60 * 60)) / 60);
         $secs_elapsed = floor($st - $mins * 60);
-        return "<font color='lime'><b>$days D.<br />$hours_elapsed:$mins_elapsed:$secs_elapsed</b></font>";
+        return "<font color='lime'><b>$days D.<br>$hours_elapsed:$mins_elapsed:$secs_elapsed</b></font>";
     }
     if ($days > 1) {
         $hours_elapsed = floor(($st - ($days * 24 * 60 * 60)) / (60 * 60));
         $mins_elapsed = floor(($st - ($hours * 60 * 60)) / 60);
         $secs_elapsed = floor($st - $mins * 60);
-        return "<font color='green'><b>$days D.<br />$hours_elapsed:$mins_elapsed:$secs_elapsed</b></font>";
+        return "<font color='green'><b>$days D.<br>$hours_elapsed:$mins_elapsed:$secs_elapsed</b></font>";
     }
     if ($days > 0) {
         $hours_elapsed = floor(($st - ($days * 24 * 60 * 60)) / (60 * 60));
         $mins_elapsed = floor(($st - ($hours * 60 * 60)) / 60);
         $secs_elapsed = floor($st - $mins * 60);
-        return "<font color='#CCFFCC'><b>$days D.<br />$hours_elapsed:$mins_elapsed:$secs_elapsed</b></font>";
+        return "<font color='#CCFFCC'><b>$days D.<br>$hours_elapsed:$mins_elapsed:$secs_elapsed</b></font>";
     }
     if ($hours > 12) {
         $mins_elapsed = floor(($st - ($hours * 60 * 60)) / 60);
@@ -91,7 +91,7 @@ function get_snatched_color($st)
     if ($secs > 0) {
         return "<font color='red'><b>0:0:$secs</b></font>";
     }
-    return "<font color='red'><b>{$lang['ad_snatched_torrents_none']}<br />{$lang['ad_snatched_torrents_reported']}</b></font>";
+    return "<font color='red'><b>{$lang['ad_snatched_torrents_none']}<br>{$lang['ad_snatched_torrents_reported']}</b></font>";
 }
 
 $What_Table = (XBT_TRACKER == true ? 'xbt_files_users' : 'snatched');
@@ -166,7 +166,7 @@ if ($result->num_rows != 0) {
             } else {
                 $HTMLOUT .= "<td align='center'><b><font color='red'>{$lang['ad_snatched_torrents_ncomplete']}</font></b></td>";
             }
-            $HTMLOUT .= "<td align='center'>".($row['seeders'] >= 1 ? "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='{$lang['ad_snatched_torrents_yes']}' title='{$lang['ad_snatched_torrents_yes']}' />" : "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='{$lang['ad_snatched_torrents_no']}' title='{$lang['ad_snatched_torrents_no']}' />")."</td></tr>";
+            $HTMLOUT .= "<td align='center'>".($row['seeders'] >= 1 ? "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='{$lang['ad_snatched_torrents_yes']}' title='{$lang['ad_snatched_torrents_yes']}'>" : "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='{$lang['ad_snatched_torrents_no']}' title='{$lang['ad_snatched_torrents_no']}'>")."</td></tr>";
         } else {
             $HTMLOUT .= "<tr><td><a href='/userdetails.php?id=".(int)$row['userid']."'><b>".htmlsafechars($row['username'])."</b></a></td>
 <td align='center'><a href='/details.php?id=".(int)$row['torrentid']."'><b>".$smallname."</b></a></td>
@@ -183,7 +183,7 @@ if ($result->num_rows != 0) {
             } else {
                 $HTMLOUT .= "<td align='center'><b><font color='red'>{$lang['ad_snatched_torrents_ncomplete']}</font></b></td></tr>";
             }
-            $HTMLOUT .= "<td align='center'><b>".($row['seeder'] == 'yes' ? "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='{$lang['ad_snatched_torrents_yes']}' title='{$lang['ad_snatched_torrents_yes']}' />" : "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='{$lang['ad_snatched_torrents_no']}' title='{$lang['ad_snatched_torrents_no']}' />")."</b></td></tr>";
+            $HTMLOUT .= "<td align='center'><b>".($row['seeder'] == 'yes' ? "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='{$lang['ad_snatched_torrents_yes']}' title='{$lang['ad_snatched_torrents_yes']}'>" : "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='{$lang['ad_snatched_torrents_no']}' title='{$lang['ad_snatched_torrents_no']}'>")."</b></td></tr>";
         }
     }
     $HTMLOUT .= "</table>";

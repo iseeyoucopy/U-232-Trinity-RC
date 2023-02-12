@@ -17,8 +17,8 @@ if (!defined('BUNNY_PM_SYSTEM')) {
     $HTMLOUT .= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
         <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
         <title>ERROR</title>
         </head><body>
         <h1 class="text-center">ERROR</h1>
@@ -192,7 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 //=== and finally print the basic page  :D
 $avatar = (($CURUSER['avatars'] === 'no') ? '' : (empty($CURUSER['avatar']) ? '
-        <img width="80" src="pic/default_avatar.gif" alt="no avatar" />' : (($CURUSER['offensive_avatar'] === 'yes' && $CURUSER['view_offensive_avatar'] === 'no') ? '<img width="80" src="pic/fuzzybunny.gif" alt="fuzzy!" />' : '<img width="80" src="'.htmlsafechars($CURUSER['avatar']).'" alt="avatar" />')));
+        <img width="80" src="pic/default_avatar.gif" alt="no avatar">' : (($CURUSER['offensive_avatar'] === 'yes' && $CURUSER['view_offensive_avatar'] === 'no') ? '<img width="80" src="pic/fuzzybunny.gif" alt="fuzzy!">' : '<img width="80" src="'.htmlsafechars($CURUSER['avatar']).'" alt="avatar">')));
 //=== Code for preview Retros code
 if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'preview') {
     $HTMLOUT .= '<legend>'.$lang['pm_send_previewpm'].'</legend>

@@ -14,7 +14,7 @@ $HTMLOUT .= "<div class='card'>
 while ($arr = $res->fetch_assoc()) {
     $HTMLOUT .= "
 						<tr>
-							<td><img src='pic/achievements/".htmlsafechars($arr['icon'])."' alt='".htmlsafechars($arr['achievement'])."' title='".htmlsafechars($arr['achievement'])."' /></td>
+							<td><img src='pic/achievements/".htmlsafechars($arr['icon'])."' alt='".htmlsafechars($arr['achievement'])."' title='".htmlsafechars($arr['achievement'])."'></td>
 							<td>".htmlsafechars($arr['description'])."</td>
 							<td>".get_date($arr['date'], '')."</td>
 						</tr>

@@ -41,9 +41,9 @@ while ($subrow = $subres->fetch_assoc()) {
     }
     $HTMLOUT .= "<tbody><tr>";
     if ($counter !== 0 && $counter % 10 == 0) {
-        $HTMLOUT .= "<td><a href='#top'><img src='{$TRINITY20['pic_base_url']}/top.gif' alt='' /></a></td>";
+        $HTMLOUT .= "<td><a href='#top'><img src='{$TRINITY20['pic_base_url']}/top.gif' alt=''></a></td>";
     }
-    $HTMLOUT .= "<td><img src='pic/icons/".htmlsafechars($ext).".png' alt='".htmlsafechars($ext)." file' title='".htmlsafechars($ext)." file' /></td><td>".htmlsafechars($subrow["filename"])."</td><td>".mksize($subrow["size"])."</td>";
+    $HTMLOUT .= "<td><img src='pic/icons/".htmlsafechars($ext).".png' alt='".htmlsafechars($ext)." file' title='".htmlsafechars($ext)." file'></td><td>".htmlsafechars($subrow["filename"])."</td><td>".mksize($subrow["size"])."</td>";
     $HTMLOUT .= "</tr></tbody>";
     $counter++;
 }

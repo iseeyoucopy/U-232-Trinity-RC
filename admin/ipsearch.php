@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -76,7 +76,7 @@ if ($ip) {
     $row = $res->fetch_array(MYSQLI_BOTH);
     $count = $row[0];
     if ($count == 0) {
-        $HTMLOUT .= "<br /><b>No users found</b>\n";
+        $HTMLOUT .= "<br><b>No users found</b>\n";
         $HTMLOUT .= "</div></div>";
         echo stdhead("IP SEARCH").$HTMLOUT.stdfoot();
         die;
@@ -117,7 +117,7 @@ if ($ip) {
     }
     $HTMLOUT .= "<table class='table table-bordered'>\n";
     $HTMLOUT .= "<tr>
-	  <td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=username'>{$lang['ipsearch_username']}</a></td>"."<td class='colhead'>{$lang['ipsearch_ratio']}</td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=email'>{$lang['ipsearch_email']}</a></td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=last_ip'>{$lang['ipsearch_ip']}</a></td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=last_access'>{$lang['ipsearch_access']}</a></td>"."<td class='colhead'>{$lang['ipsearch_num']}</td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask'>{$lang['ipsearch_access']} on <br />".htmlsafechars($ip)."</a></td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=added'>{$lang['ipsearch_added']}</a></td>"."<td class='colhead'>{$lang['ipsearch_invited']}</td></tr>";
+	  <td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=username'>{$lang['ipsearch_username']}</a></td>"."<td class='colhead'>{$lang['ipsearch_ratio']}</td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=email'>{$lang['ipsearch_email']}</a></td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=last_ip'>{$lang['ipsearch_ip']}</a></td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=last_access'>{$lang['ipsearch_access']}</a></td>"."<td class='colhead'>{$lang['ipsearch_num']}</td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask'>{$lang['ipsearch_access']} on <br>".htmlsafechars($ip)."</a></td>"."<td class='colhead'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=ipsearch&amp;action=ipsearch&amp;ip=$ip&amp;mask=$mask&amp;order=added'>{$lang['ipsearch_added']}</a></td>"."<td class='colhead'>{$lang['ipsearch_invited']}</td></tr>";
     while ($user = $res->fetch_assoc()) {
         if ($user['added'] == '0') {
             $user['added'] = '---';

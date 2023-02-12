@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -107,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("Refresh: 2; url=".$r);
                 stderr($lang['hnrwarn_success'], count($pms).$lang['hnrwarn_user'].(count($pms) > 1 ? "s" : "").$lang['hnrwarn_rem_suc']);
             } else {
-                stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_q1'].$q_err."<br />{$lang['hnrwarn_q2']}".$q1_err);
+                stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_q1'].$q_err."<br>{$lang['hnrwarn_q2']}".$q1_err);
             }
         }
     }
@@ -141,17 +141,17 @@ if ($count == 0) {
 			<td class='colhead' align='center' nowrap='nowrap'>{$lang['hnrwarn_form_class']}</td>
 			<td class='colhead' align='center' nowrap='nowrap'>{$lang['hnrwarn_form_access']}</td>
 			<td class='colhead' align='center' nowrap='nowrap'>{$lang['hnrwarn_form_join']}</td>
-			<td class='colhead' align='center' nowrap='nowrap'><input type='checkbox' name='checkall' /></td>
+			<td class='colhead' align='center' nowrap='nowrap'><input type='checkbox' name='checkall'></td>
 		</tr>";
     while ($a = $g->fetch_assoc()) {
-        $tip = ($do == "hnrwarn" ? $lang['hnrwarn_tip1'].htmlsafechars($a["warn_reason"])."<br />" : $lang['hnrwarn_tip2'].htmlsafechars($a["disable_reason"]));
+        $tip = ($do == "hnrwarn" ? $lang['hnrwarn_tip1'].htmlsafechars($a["warn_reason"])."<br>" : $lang['hnrwarn_tip2'].htmlsafechars($a["disable_reason"]));
         $HTMLOUT .= "<tr>
 				  <td align='left' width='100%'><a href='userdetails.php?id=".(int)$a["id"]."' onmouseover=\"Tip('($tip)')\" onmouseout=\"UnTip()\">".htmlsafechars($a["username"])."</a></td>
-				  <td align='left' nowrap='nowrap'>".(float)$a["ratio"]."<br /><font class='small'><b>{$lang['hnrwarn_d']}</b>".mksize($a["downloaded"])."&nbsp;<b>{$lang['hnrwarn_u']}</b> ".mksize($a["uploaded"])."</font></td>
+				  <td align='left' nowrap='nowrap'>".(float)$a["ratio"]."<br><font class='small'><b>{$lang['hnrwarn_d']}</b>".mksize($a["downloaded"])."&nbsp;<b>{$lang['hnrwarn_u']}</b> ".mksize($a["uploaded"])."</font></td>
 				  <td align='center' nowrap='nowrap'>".get_user_class_name($a["class"])."</td>
 				  <td align='center' nowrap='nowrap'>".get_date($a["last_access"], 'LONG', 0, 1)."</td>
 				  <td align='center' nowrap='nowrap'>".get_date($a["added"], 'DATE', 1)."</td>
-				  <td align='center' nowrap='nowrap'><input type='checkbox' name='users[]' value='".(int)$a["id"]."' /></td>
+				  <td align='center' nowrap='nowrap'><input type='checkbox' name='users[]' value='".(int)$a["id"]."'></td>
 				</tr>";
     }
     $HTMLOUT .= "<tr>
@@ -162,8 +162,8 @@ if ($count == 0) {
 					<option value='delete'>{$lang['hnrwarn_delete']}</option>
 				</select>
 				&raquo;
-				<input type='submit' value='{$lang['hnrwarn_apply']}' />
-				<input type='hidden' value='".htmlsafechars($_SERVER["REQUEST_URI"])."' name='ref' />
+				<input type='submit' value='{$lang['hnrwarn_apply']}'>
+				<input type='hidden' value='".htmlsafechars($_SERVER["REQUEST_URI"])."' name='ref'>
 			</td>
 			</tr>
 			</table>

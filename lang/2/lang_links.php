@@ -73,22 +73,22 @@ $lang = [
     <li><a class='altlink' href='http://www.litezone.com/'>Link2U</a> -
       BitTorrent link site.</li>",
     'links_tbdev_header' => "<h2>Link to U-232</h2",
-    'links_tbdev_body' => "Do you want a link to U-232 on your homepage?<br />
-    Copy the following and paste it into your homepage code.<br />
-    <br />
+    'links_tbdev_body' => "Do you want a link to U-232 on your homepage?<br>
+    Copy the following and paste it into your homepage code.<br>
+    <br>
     <font color='#004E98'>
-    &lt;!-- U-232 Link --&gt;<br />
-    <br />
-    &lt;a href='https://u-232.com'&gt;<br />
-    &lt;img src='{$TRINITY20['pic_base_url']}u232.gif' border='0' alt='U-232 - The best!'&gt;&lt;/a&gt;<br />
-    <br />
-    &lt;!-- End of U-232 Link --&gt;</font><br />
-    <br />
-    <br />
-    It will look like this:<br />
-    <br />
+    &lt;!-- U-232 Link --&gt;<br>
+    <br>
+    &lt;a href='https://u-232.com'&gt;<br>
+    &lt;img src='{$TRINITY20['pic_base_url']}u232.gif' border='0' alt='U-232 - The best!'&gt;&lt;/a&gt;<br>
+    <br>
+    &lt;!-- End of U-232 Link --&gt;</font><br>
+    <br>
+    <br>
+    It will look like this:<br>
+    <br>
     <a href='{$TRINITY20['baseurl']}'>
-    <img src='./pic/u232.gif' border='0' alt='U-232 - The best!' /></a>
-    <br />",
+    <img src='./pic/u232.gif' border='0' alt='U-232 - The best!'></a>
+    <br>",
 ];
 ?>

@@ -210,7 +210,7 @@ if ($action == 'add') {
                 if (isset($row["cat_name"])) {
                     $HTMLOUT .= '<a href="browse.php?cat='.(int)$row['category'].'">';
                     if (isset($row["cat_pic"]) && $row["cat_pic"] != "") {
-                        $HTMLOUT .= "<img border='0' src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($row['cat_pic'])."' alt='".htmlsafechars($row['cat_name'])."' />";
+                        $HTMLOUT .= "<img border='0' src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($row['cat_pic'])."' alt='".htmlsafechars($row['cat_name'])."'>";
                     } else {
                         $HTMLOUT .= htmlsafechars($row["cat_name"]);
                     }
@@ -243,9 +243,9 @@ if ($action == 'add') {
                     }
                     $elapsed = floor((TIME_NOW - $row["added"]) / 3600);
                     if ($elapsed < $wait) {
-                        $ttl = $elapsed == 1 ? "<br />".$lang["torrenttable_hour_singular"] : "<br />".$lang["torrenttable_hour_plural"];
+                        $ttl = $elapsed == 1 ? "<br>".$lang["torrenttable_hour_singular"] : "<br>".$lang["torrenttable_hour_plural"];
                         $color = dechex(floor(127 * ($wait - $elapsed) / 48 + 128) * 65536);
-                        $HTMLOUT .= "<td class='text-center'><font color='$color'>".number_format($wait - $elapsed)."<br />".$ttl."</font></td>";
+                        $HTMLOUT .= "<td class='text-center'><font color='$color'>".number_format($wait - $elapsed)."<br>".$ttl."</font></td>";
                     } else {
                         $HTMLOUT .= "<td class='text-center'>{$lang["torrenttable_wait_none"]}</td>";
                     }
@@ -265,7 +265,7 @@ if ($action == 'add') {
                 //COMMENTS
                 $HTMLOUT .= ($row["comments"]) ? "<td align='right'><b><a href='details.php?id=$id&amp;hit=1&amp;tocomm=1'>".(int)$row['comments']."</a></b></td>" : "<td class='text-center'>".(int)$row['comments']."</td>";
                 //ADDED
-                $HTMLOUT .= "<td class='text-center'><span style='white-space: nowrap;'>".str_replace(",", "<br />",
+                $HTMLOUT .= "<td class='text-center'><span style='white-space: nowrap;'>".str_replace(",", "<br>",
                         get_date($row['added'], ''))."</span></td>";
                 //SIZE
                 $HTMLOUT .= "<td class='text-center'>".str_replace(" ", "&nbsp;", mksize($row["size"]))."</td>";
@@ -379,7 +379,7 @@ if ($action == 'add') {
                     if (isset($row["cat_name"])) {
                         $HTMLOUT .= "<a href='browse.php?cat=".(int)$row['category']."'>";
                         if (isset($row["cat_pic"]) && $row["cat_pic"] != "") {
-                            $HTMLOUT .= "<img border='0' src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$row['cat_pic']}' alt='{$row['cat_name']}' />";
+                            $HTMLOUT .= "<img border='0' src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/{$row['cat_pic']}' alt='{$row['cat_name']}'>";
                         } else {
                             $HTMLOUT .= $row["cat_name"];
                         }
@@ -398,10 +398,10 @@ if ($action == 'add') {
                         $HTMLOUT .= "&amp;hit=1";
                     }
                     $HTMLOUT .= "'><b>$dispname</b></a>&nbsp;</td>";
-                    $HTMLOUT .= ($variant == "index" ? "<td align='center'><a href=\"download.php?torrent={$id}\"><img src='{$TRINITY20['pic_base_url']}zip.gif' border='0' alt='Download Bookmark!' title='Download Bookmark!' /></a></td>" : "");
+                    $HTMLOUT .= ($variant == "index" ? "<td align='center'><a href=\"download.php?torrent={$id}\"><img src='{$TRINITY20['pic_base_url']}zip.gif' border='0' alt='Download Bookmark!' title='Download Bookmark!'></a></td>" : "");
                     $bm = sql_query("SELECT * FROM bookmarks WHERE torrentid=".sqlesc($id)." AND userid=".sqlesc($CURUSER['id']));
                     $bms = $bm->fetch_assoc();
-                    $bookmarked = (empty($bms) ? '<a href=\'bookmarks.php?torrent='.$id.'&amp;action=add\'><img src=\''.$TRINITY20['pic_base_url'].'bookmark.gif\' border=\'0\' alt=\'Bookmark it!\' title=\'Bookmark it!\'></a>' : '<a href="bookmarks.php?torrent='.$id.'&amp;action=delete"><img src=\''.$TRINITY20['pic_base_url'].'aff_cross.gif\' border=\'0\' alt=\'Delete Bookmark!\' title=\'Delete Bookmark!\' /></a>');
+                    $bookmarked = (empty($bms) ? '<a href=\'bookmarks.php?torrent='.$id.'&amp;action=add\'><img src=\''.$TRINITY20['pic_base_url'].'bookmark.gif\' border=\'0\' alt=\'Bookmark it!\' title=\'Bookmark it!\'></a>' : '<a href="bookmarks.php?torrent='.$id.'&amp;action=delete"><img src=\''.$TRINITY20['pic_base_url'].'aff_cross.gif\' border=\'0\' alt=\'Delete Bookmark!\' title=\'Delete Bookmark!\'></a>');
                     $HTMLOUT .= ($variant == "index" ? "<td align='center'>{$bookmarked}</td>" : "");
                     if ($variant == "mytorrents") {
                         $HTMLOUT .= "</td><td align='center'><a href='edit.php?returnto=".urlencode($_SERVER["REQUEST_URI"])."&amp;id=".(int)$row['id']."'>{$lang["torrenttable_edit"]}</a>\n";
@@ -429,16 +429,16 @@ if ($action == 'add') {
                     } else {
                         $HTMLOUT .= "<td align='right'><b><a href='details.php?id=$id&amp;page=0#startcomments'>".(int)$row["comments"]."</a></b></td>\n";
                     }
-                    $HTMLOUT .= "<td align='center'><span style='white-space: nowrap;'>".str_replace(",", "<br />",
+                    $HTMLOUT .= "<td align='center'><span style='white-space: nowrap;'>".str_replace(",", "<br>",
                             get_date($row['added'], ''))."</span></td>\n";
                     $HTMLOUT .= "
-    <td align='center'>".str_replace(" ", "<br />", mksize($row["size"]))."</td>\n";
+    <td align='center'>".str_replace(" ", "<br>", mksize($row["size"]))."</td>\n";
                     if ($row["times_completed"] != 1) {
                         $_s = "".$lang["torrenttable_time_plural"]."";
                     } else {
                         $_s = "".$lang["torrenttable_time_singular"]."";
                     }
-                    $HTMLOUT .= "<td align='center'><a href='snatches.php?id=$id'>".number_format($row["times_completed"])."<br />$_s</a></td>\n";
+                    $HTMLOUT .= "<td align='center'><a href='snatches.php?id=$id'>".number_format($row["times_completed"])."<br>$_s</a></td>\n";
                     if ($row["seeders"]) {
                         if ($variant == "index") {
                             $ratio = $row["leechers"] ? $row["seeders"] / $row["leechers"] : 1;

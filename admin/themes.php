@@ -20,7 +20,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -53,19 +53,19 @@ if (isset($_GET['act'])) {
         $TEM = $TEMPLATE->fetch_array();
         $HTML .= "<div class='row'><div class='col-md-12'>
 			<form action='{$TRINITY20['baseurl']}/staffpanel.php?tool=themes&amp;action=themes&amp;act=4' method='post'>
-         <input type='hidden' value='".(int)$TEM['id']."' name='uri' />
+         <input type='hidden' value='".(int)$TEM['id']."' name='uri'>
          <table class='table table-bordered'>
 			<tr><td colspan='2' class='colhead' align='center'>{$lang['themes_edit_tem']} ".htmlsafechars($TEM['name'])."</td></tr>
 			<tr><td class='rowhead'>{$lang['themes_id']}<br/>{$lang['themes_explain_id']}</td>
-         <td><input type='text' value='".(int)$TEM['id']."' name='id' /></td></tr>
+         <td><input type='text' value='".(int)$TEM['id']."' name='id'></td></tr>
 			<tr><td class='rowhead'>{$lang['themes_uri']}</td>
-         <td><input type='text' value='".(int)$TEM['uri']."' name='uri' /></td></tr>
+         <td><input type='text' value='".(int)$TEM['uri']."' name='uri'></td></tr>
 			<tr><td class='rowhead'>{$lang['themes_name']}</td>
-         <td><input type='text' value='".htmlsafechars($TEM['name'])."' name='title' /></td></tr>
+         <td><input type='text' value='".htmlsafechars($TEM['name'])."' name='title'></td></tr>
 			<tr><td class='rowhead'>{$lang['themes_is_folder']}</td><td>
 			<b>".(file_exists("templates/".(int)$TEM['id']."/template.php") ? "{$lang['themes_file_exists']}" : "{$lang['themes_not_exists']}")."</b>
 			</td></tr>
-			<tr><td class='colhead' colspan='2' align='center'><input type='submit' value='{$lang['themes_save']}' /></td></tr></table></form></div></div><br>
+			<tr><td class='colhead' colspan='2' align='center'><input type='submit' value='{$lang['themes_save']}'></td></tr></table></form></div></div><br>
 			";
     }
     if ($ACT == 2) { //--DELETE
@@ -92,12 +92,12 @@ if (isset($_GET['act'])) {
 			<form action='staffpanel.php?tool=themes&amp;action=themes&amp;act=6' method='post'>
 			<table class='table table-bordered'>
 			<tr><td class='colhead' colspan='2' align='center'>{$lang['themes_addnew']}</td></tr>
-			<tr valign='middle'><td class='rowhead'>{$lang['themes_id']}</td><td><input type='text' value='' name='id' /><br />
+			<tr valign='middle'><td class='rowhead'>{$lang['themes_id']}</td><td><input type='text' value='' name='id'><br>
 			{$lang['themes_takenids']}<b>".implode(", ", $TAKEN)."</b></td></tr>
-			<tr valign='middle'><td class='rowhead'>{$lang['themes_uri']}</td><td><input type='text' value='' name='uri' /></td></tr>
-			<tr valign='middle'><td class='rowhead'>{$lang['themes_name']}</td><td><input type='text' value='' name='name' /></td></tr>
+			<tr valign='middle'><td class='rowhead'>{$lang['themes_uri']}</td><td><input type='text' value='' name='uri'></td></tr>
+			<tr valign='middle'><td class='rowhead'>{$lang['themes_name']}</td><td><input type='text' value='' name='name'></td></tr>
 			<tr><td colspan='2'>{$lang['themes_guide']}</td></tr>
-			<tr><td class='colhead' colspan='2' align='center'><input type='submit' value='{$lang['themes_add']}' /></td></tr>
+			<tr><td class='colhead' colspan='2' align='center'><input type='submit' value='{$lang['themes_add']}'></td></tr>
 			</table>
 			</form></div></div><br>
 			";

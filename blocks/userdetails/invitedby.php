@@ -34,7 +34,7 @@ if ($rez_invited->num_rows < 1) {
 		<td class="colhead"><b>'.$lang['userdetails_ratio'].'</b></td>
 		<td class="colhead"><b>'.$lang['userdetails_status'].'</b></td></tr>';
     while ($arr_invited = $rez_invited->fetch_assoc()) {
-        $inviteted_by_this_member .= '<tr><td>'.($arr_invited['status'] == 'pending' ? htmlsafechars($arr_invited['username']) : format_username($arr_invited).'<br />'.$arr_invited['ip']).'</td>
+        $inviteted_by_this_member .= '<tr><td>'.($arr_invited['status'] == 'pending' ? htmlsafechars($arr_invited['username']) : format_username($arr_invited).'<br>'.$arr_invited['ip']).'</td>
 		<td>'.htmlsafechars($arr_invited['email']).'</td>
 		<td>'.mksize($arr_invited['uploaded']).'</td>
 		'.($TRINITY20['ratio_free'] ? '' : '<td>'.mksize($arr_invited['downloaded']).'</td>').'
@@ -43,8 +43,8 @@ if ($rez_invited->num_rows < 1) {
     }
     $inviteted_by_this_member .= '</table>';
 }
-$the_flip_box_5 = '[ <a name="invites"></a><a class="altlink" href="#invites" onclick="javascript:flipBox(\'5\')" name="b_5" title="'.$lang['userdetails_open_close_inv'].'">'.$lang['userdetails_inv_view'].')" src="pic/panel_on.gif" name="b_5" style="vertical-align:middle;"  width="8" height="8" alt="'.$lang['userdetails_open_close_inv1'].'" title="'.$lang['userdetails_open_close_inv1'].'" /></a> ] [ <a class="altlink" href="staffpanel.php?tool=invite_tree&amp;action=invite_tree&amp;id='.(int)$user['id'].'" title="'.$lang['userdetails_inv_click'].'">'.$lang['userdetails_inv_viewt'].'</a> ]';
+$the_flip_box_5 = '[ <a name="invites"></a><a class="altlink" href="#invites" onclick="javascript:flipBox(\'5\')" name="b_5" title="'.$lang['userdetails_open_close_inv'].'">'.$lang['userdetails_inv_view'].')" src="pic/panel_on.gif" name="b_5" style="vertical-align:middle;"  width="8" height="8" alt="'.$lang['userdetails_open_close_inv1'].'" title="'.$lang['userdetails_open_close_inv1'].'"></a> ] [ <a class="altlink" href="staffpanel.php?tool=invite_tree&amp;action=invite_tree&amp;id='.(int)$user['id'].'" title="'.$lang['userdetails_inv_click'].'">'.$lang['userdetails_inv_viewt'].'</a> ]';
 $HTMLOUT .= '<tr><td class="rowhead">'.$lang['userdetails_invitees'].'</td><td align="left">'.($rez_invited->num_rows > 0 ? $the_flip_box_5.'<div align="left" id="box_5" style="display:none">
-    <br />'.$inviteted_by_this_member.'</div>' : $lang['userdetails_no_invitees']).'</td></tr>';
+    <br>'.$inviteted_by_this_member.'</div>' : $lang['userdetails_no_invitees']).'</td></tr>';
 // End Class
 // End File

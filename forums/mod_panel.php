@@ -15,7 +15,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     $HTMLOUT .= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
         <head>
-        <meta charset="'.charset().'" />
+        <meta charset="'.charset().'">
         <title>ERROR</title>
         </head><body>
         <h1 style="text-align:center;">Error</h1>
@@ -28,8 +28,8 @@ $lang = array_merge($lang, load_language('ad_modpanel'));
 
 if ($CURUSER['class'] >= UC_STAFF || isMod($forumid, "forum")) {
     $HTMLOUT .= "<form method='post' action='forums.php'>
-	 <input type='hidden' name='action' value='updatetopic' />
-	 <input type='hidden' name='topicid' value='{$topicid}' />";
+	 <input type='hidden' name='action' value='updatetopic'>
+	 <input type='hidden' name='topicid' value='{$topicid}'>";
     /*$HTMLOUT .= begin_table();*/
     $HTMLOUT .= "<table class='table table-hover table-bordered'>
 	 <tr>
@@ -56,7 +56,7 @@ if ($CURUSER['class'] >= UC_STAFF || isMod($forumid, "forum")) {
 	 <tr>
 	 <td class='rowhead'>{$lang['mod_mp_name']}</td>
 	 <td>
-	 <input type='text' name='topic_name' size='60' maxlength='{$Multi_forum['configs']['maxsubjectlength']}' value='".htmlsafechars($subject)."' />
+	 <input type='text' name='topic_name' size='60' maxlength='{$Multi_forum['configs']['maxsubjectlength']}' value='".htmlsafechars($subject)."'>
 	 </td>
 	 </tr>
 	 <tr>
@@ -78,13 +78,13 @@ if ($CURUSER['class'] >= UC_STAFF || isMod($forumid, "forum")) {
 	 <option value='no' selected='selected'>{$lang['mod_mp_no']}</option>
 	 <option value='yes'>{$lang['mod_mp_yes']}</option>
 	 </select>
-	 <br />
+	 <br>
 	 {$lang['mod_mp_note']}
 	 </td>
 	 </tr>
 	 <tr>
 	 <td colspan='2' align='center'>
-	 <input type='submit' class='btn btn-primary' value='{$lang['mod_mp_uptop']}' />
+	 <input type='submit' class='btn btn-primary' value='{$lang['mod_mp_uptop']}'>
 	 </td>
 	 </tr>";
     $HTMLOUT .= "</table>";

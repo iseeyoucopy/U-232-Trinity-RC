@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -94,8 +94,8 @@ $HTMLOUT .= "<div class='row'><div class'col-md-8'><table class='table table-bor
              <tr>
 			 <td class='table' align='left'>\n
 			 <form method='post' action='staffpanel.php?tool=failedlogins&amp;action=failedlogins'>\n
-			 <input type='text' name='search' size='40' value='' />\n
-			 <input type='submit' value='{$lang['failed_main_search_btn']}' style='height: 20px' />\n
+			 <input type='text' name='search' size='40' value=''>\n
+			 <input type='submit' value='{$lang['failed_main_search_btn']}' style='height: 20px'>\n
 			 </form></td></tr></table></div></div>";
 if ($count > $perpage) {
     $HTMLOUT .= $pager['pagertop'];

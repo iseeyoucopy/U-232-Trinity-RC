@@ -24,10 +24,10 @@ if (isset($showpmbtn)) {
     $HTMLOUT .= "<tr>
       <td colspan='2' align='center'>
       <form method='get' action='pm_system.php?'>
-        <input type='hidden' name='action' value='send_message' />
-        <input type='hidden' name='receiver' value='".(int)$user["id"]."' />
-        <input type='hidden' name='returnto' value='".urlencode($_SERVER['REQUEST_URI'])."' />
-        <input type='submit' value='{$lang['userdetails_msg_btn']}' class='btn' />
+        <input type='hidden' name='action' value='send_message'>
+        <input type='hidden' name='receiver' value='".(int)$user["id"]."'>
+        <input type='hidden' name='returnto' value='".urlencode($_SERVER['REQUEST_URI'])."'>
+        <input type='submit' value='{$lang['userdetails_msg_btn']}' class='btn'>
       </form>
       </td></tr>";
 }

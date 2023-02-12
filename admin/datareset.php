@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -112,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<fieldset>
 	<legend>{$lang['datareset_reset']}</legend>
  <table class=table table-bordered'>
-    	<tr><td align='right' nowrap='nowrap'>{$lang['datareset_tid']}</td><td align='left' width='100%'><input type='text' name='tid' size='20' /></td></tr>
+    	<tr><td align='right' nowrap='nowrap'>{$lang['datareset_tid']}</td><td align='left' width='100%'><input type='text' name='tid' size='20'></td></tr>
         <tr><td style='background:#990033; color:#CCCCCC;' colspan='2'>
         	<ul>
 					<li>{$lang['datareset_tid_info']}</li>
@@ -120,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					<li>{$lang['datareset_info1']}</b></li>
 				</ul>
 			</td></tr>
-			<tr><td colspan='2' align='center'><input type='submit' value='{$lang['datareset_repay']}' /></td></tr>
+			<tr><td colspan='2' align='center'><input type='submit' value='{$lang['datareset_repay']}'></td></tr>
 		</table>
 	</fieldset>
 	</form>";

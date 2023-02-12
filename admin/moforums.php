@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -133,7 +133,7 @@ switch ($do) {
         $htmlout .= "<form action='".$this_url."' method='post'>
 	<table class='table table-bordered' id='edit'>
 	<tr><td colspan='2' align='center' class='colhead'> ".($edit_action ? ''.$lang['forum_mngr_edt1'].' <u>'.htmlsafechars($a3['name']).'</u>' : $lang['forum_mngr_adn'])."</td></tr>
-	<tr><td align='right' valign='top'>{$lang['forum_mngr_name2']}</td><td align='left'><input type='text' value='".($edit_action ? htmlsafechars($a3['name']) : '')."'name='name' size='40' /></td></tr>
+	<tr><td align='right' valign='top'>{$lang['forum_mngr_name2']}</td><td align='left'><input type='text' value='".($edit_action ? htmlsafechars($a3['name']) : '')."'name='name' size='40'></td></tr>
 	<tr><td align='right' valign='top'>{$lang['forum_mngr_desc']}</td><td align='left'><textarea rows='3' cols='38' name='description'>".($edit_action ? htmlsafechars($a3['description']) : '')."</textarea></td></tr>";
 
         $classes = "<select name='#name'>";
@@ -158,7 +158,7 @@ switch ($do) {
             $htmlout .= "<option value='".$i."' ".($edit_action && $a3['sort'] == $i ? 'selected=\'selected\'' : '').">".(int)$i."</option>";
         }
         $htmlout .= "</select></td></tr>
-	<tr><td align='center' class='colhead' colspan='2'>".($edit_action ? "<input type='hidden' name='do' value='process_edit' /><input type='hidden' name='id' value='".(int)$a3['id']."'/><input type='submit' value='{$lang['forum_mngr_edt2']}' />" : "<input type='hidden' name='do' value='process_add' /><input type='submit' value='{$lang['forum_mngr_add']}' />")."</td></tr>
+	<tr><td align='center' class='colhead' colspan='2'>".($edit_action ? "<input type='hidden' name='do' value='process_edit'><input type='hidden' name='id' value='".(int)$a3['id']."'/><input type='submit' value='{$lang['forum_mngr_edt2']}'>" : "<input type='hidden' name='do' value='process_add'><input type='submit' value='{$lang['forum_mngr_add']}'>")."</td></tr>
 	</table></form>";
         $htmlout .= "</div></div>";
         echo(stdhead($lang['forum_mngr_title']).$htmlout.stdfoot());

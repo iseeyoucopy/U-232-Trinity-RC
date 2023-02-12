@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -92,8 +92,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <td nowrap='nowrap'>".(get_user_class_name($a['min_class_write']))."</td>
     <td nowrap='nowrap'>".(get_user_class_name($a['min_class_create']))."</td>
 		<td align='center' nowrap='nowrap' ><a href='{$TRINITY20['baseurl']}/forums.php?action=deleteforum&amp;forumid=".(int)($a['subid'])."'>
-		<img src='{$TRINITY20['pic_base_url']}del.png' alt='Delete Forum' title='Delete Forum' style='border:none;padding:2px;' /></a>
-		<a href='{$TRINITY20['baseurl']}/forums.php?action=editforum&amp;forumid=".(int)($a['subid'])."'><img src='{$TRINITY20['pic_base_url']}edit.png' alt='Edit Forum' title='Edit Forum' style='border:none;padding:2px;' /></a></td>
+		<img src='{$TRINITY20['pic_base_url']}del.png' alt='Delete Forum' title='Delete Forum' style='border:none;padding:2px;'></a>
+		<a href='{$TRINITY20['baseurl']}/forums.php?action=editforum&amp;forumid=".(int)($a['subid'])."'><img src='{$TRINITY20['pic_base_url']}edit.png' alt='Edit Forum' title='Edit Forum' style='border:none;padding:2px;'></a></td>
     </tr>";
     }
 
@@ -121,7 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	  <tr>
 		<td align='right' class='colhead'>{$lang['forum_sub_sub1']}</td>
 		<td nowrap='nowrap' colspan='3' align='left' >
-		<input type='text' name='subforum' size='60' /></td>
+		<input type='text' name='subforum' size='60'></td>
 	  </tr>
 	  <tr>
 		<td align='right' class='colhead'>{$lang['forum_sub_desc']}</td>

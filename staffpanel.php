@@ -280,7 +280,7 @@ if (in_array($tool, $staff_tools) && file_exists(ADMIN_DIR.$staff_tools[$tool].'
     $HTMLOUT .= "<div class='callout'>";
     if (!empty($errors)) {
         $HTMLOUT .= stdmsg($lang['spanel_there'].' '.((is_countable($errors) ? count($errors) : 0) > 1 ? 'are' : 'is').' '.(is_countable($errors) ? count($errors) : 0).' error'.((is_countable($errors) ? count($errors) : 0) > 1 ? 's' : '').' '.$lang['spanel_in_the_form'].'.',
-            '<b>'.implode('<br />', $errors).'</b>');
+            '<b>'.implode('<br>', $errors).'</b>');
         $HTMLOUT .= "<br>";
     }
     $HTMLOUT .= "<form class='form-horizontal' method='post' action='{$_SERVER['PHP_SELF']}'>
@@ -294,13 +294,13 @@ if (in_array($tool, $staff_tools) && file_exists(ADMIN_DIR.$staff_tools[$tool].'
      ".($action == 'edit' ? $lang['spanel_edit'].' "'.$page_name.'"' : $lang['spanel_add_a_new']).' page'."</td>
     </tr>
     <tr>
-    <td>{$lang['spanel_pg_name']}</td><td align='left'><input type='text' size='50' name='page_name' value='{$page_name}' /></td>
+    <td>{$lang['spanel_pg_name']}</td><td align='left'><input type='text' size='50' name='page_name' value='{$page_name}'></td>
     </tr>
     <tr>
-    <td>{$lang['spanel_filename']}</td><td align='left'><input type='text' size='50' name='file_name' value='{$file_name}' /><b></b></td>
+    <td>{$lang['spanel_filename']}</td><td align='left'><input type='text' size='50' name='file_name' value='{$file_name}'><b></b></td>
     </tr>
     <tr>
-    <td>{$lang['spanel_description']}</td><td align='left'><input type='text' size='50' name='description' value='{$description}' /></td>
+    <td>{$lang['spanel_description']}</td><td align='left'><input type='text' size='50' name='description' value='{$description}'></td>
     </tr>";
     $types = [
         'user',
@@ -326,9 +326,9 @@ if (in_array($tool, $staff_tools) && file_exists(ADMIN_DIR.$staff_tools[$tool].'
     $HTMLOUT .= "</tr></table>  
      <table class='table table-striped table-bordered'>
      <tr>
-     <td style='border:none;' align='center'><input type='submit' value='{$lang['spanel_submit']}' /></td>
+     <td style='border:none;' align='center'><input type='submit' value='{$lang['spanel_submit']}'></td>
      <td colspan='2' style='border:none;'>
-     <form method='post' action='{$_SERVER['PHP_SELF']}'><input type='submit' value='{$lang['spanel_cancel']}' /></form>
+     <form method='post' action='{$_SERVER['PHP_SELF']}'><input type='submit' value='{$lang['spanel_cancel']}'></form>
          </td>
      </tr>
      </table></form>";
@@ -372,18 +372,18 @@ if (in_array($tool, $staff_tools) && file_exists(ADMIN_DIR.$staff_tools[$tool].'
                 $HTMLOUT .= "</tr>";
             }
             $HTMLOUT .= "<tr align='center'><td align='left'><a href='".htmlsafechars($arr['file_name'])."' title='".htmlsafechars($arr['page_name'])."'>
-      ".htmlsafechars($arr['page_name'])."</a><br /><font class='small'>".htmlsafechars($arr['description'])."</font></td>
+      ".htmlsafechars($arr['page_name'])."</a><br><font class='small'>".htmlsafechars($arr['description'])."</font></td>
 <td><a href='userdetails.php?id=".(int)$arr['added_by']."'>".htmlsafechars($arr['username'])."</a></td>
       <td>
-      <span style='white-space: nowrap;'>".get_date($arr['added'], 'LONG', 0, 1)."<br /></span>
+      <span style='white-space: nowrap;'>".get_date($arr['added'], 'LONG', 0, 1)."<br></span>
       </td>";
             if ($CURUSER['class'] == UC_MAX) {
                 $HTMLOUT .= "<td><span style='white-space: nowrap;'>";
                 if ($CURUSER['class'] == UC_MAX) {
-                    $HTMLOUT .= "<a href='staffpanel.php?action=edit&amp;id=".(int)$arr['id']."' title='".$lang['spanel_edit']."'><img src='{$TRINITY20['pic_base_url']}button_edit2.gif' height='15px' width='14px' alt='".$lang['spanel_edit']."' style='padding-right:3px' /></a>";
+                    $HTMLOUT .= "<a href='staffpanel.php?action=edit&amp;id=".(int)$arr['id']."' title='".$lang['spanel_edit']."'><img src='{$TRINITY20['pic_base_url']}button_edit2.gif' height='15px' width='14px' alt='".$lang['spanel_edit']."' style='padding-right:3px'></a>";
                 }
                 if ($CURUSER['class'] == UC_MAX) {
-                    $HTMLOUT .= "<a href='staffpanel.php?action=delete&amp;id=".(int)$arr['id']."' title='".$lang['spanel_delete']."'><img src='{$TRINITY20['pic_base_url']}button_delete2.gif' height='13px' width='13px' alt='".$lang['spanel_delete']."' style='padding-left:3px' /></a>";
+                    $HTMLOUT .= "<a href='staffpanel.php?action=delete&amp;id=".(int)$arr['id']."' title='".$lang['spanel_delete']."'><img src='{$TRINITY20['pic_base_url']}button_delete2.gif' height='13px' width='13px' alt='".$lang['spanel_delete']."' style='padding-left:3px'></a>";
                 }
                 $HTMLOUT .= "</span>
             </td>";

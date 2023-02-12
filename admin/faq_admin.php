@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
         <title>Error!</title>
         </head>
         <body>
-    <div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+    <div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
     </body></html>";
     echo $HTMLOUT;
     exit();
@@ -77,7 +77,7 @@ function Do_show()
     global $TRINITY20, $lang;
     ($sql = sql_query("SELECT * FROM faq_cat")) || sqlerr(__FILE__, __LINE__);
     if (!$sql->num_rows) {
-        stderr("Error", "There Are No Categories. <br /><br />
+        stderr("Error", "There Are No Categories. <br><br>
         <span class='btn'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_new'>Add Category</a></span>");
     }
     $htmlout = '';
@@ -105,8 +105,8 @@ function Do_show()
      <td><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=faq_edit&amp;catid=".(int)$arr['id']."'>".htmlsafechars($arr['name'])."</a></td>
      <td>".htmlsafechars($arr['shortcut'])."</td>
      <td>".htmlsafechars($arr['min_view'])."</td>
-     <td><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_edit&amp;catid=".(int)$arr['id']."'><img src='{$TRINITY20['pic_base_url']}button_edit2.gif' height='15px' width='14px' alt='{$lang['faq_edit']}' style='padding-right:3px' /></a>
-     <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_delete&amp;catid=".(int)$arr['id']."'><img src='{$TRINITY20['pic_base_url']}button_delete2.gif' height='13px' width='13px' alt='{$lang['faq_delete']}' style='padding-left:3px' /></a></td>
+     <td><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_edit&amp;catid=".(int)$arr['id']."'><img src='{$TRINITY20['pic_base_url']}button_edit2.gif' height='15px' width='14px' alt='{$lang['faq_edit']}' style='padding-right:3px'></a>
+     <a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_delete&amp;catid=".(int)$arr['id']."'><img src='{$TRINITY20['pic_base_url']}button_delete2.gif' height='13px' width='13px' alt='{$lang['faq_delete']}' style='padding-left:3px'></a></td>
      </tr>";
     }
     $htmlout .= "</table></div></div></div>";
@@ -144,7 +144,7 @@ function Cat_Delete($chk = false)
         stderr("Error", "Bad ID!");
     }
     if (!$chk) {
-        stderr("Sanity Check!", "You're about to delete a faq category, this will delete ALL content within that category! <br />
+        stderr("Sanity Check!", "You're about to delete a faq category, this will delete ALL content within that category! <br>
 <a href='staffpanel.php?tool=faq_admin&amp;catid={$id}&amp;mode=cat_delete_chk'><span style='font-weight: bold; color: green'>Continue?</span></a>
 or <a href='staffpanel.php?tool=faq_admin'><span style='font-weight: bold; color: red'>Cancel?</span></a>");
     }
@@ -175,16 +175,16 @@ function Show_Cat_Edit_Form()
     while ($row = $sql->fetch_assoc()) {
         $htmlout .= "<h2>Faq category No.".(int)$row['id']."</h2>
                     <form  class='form-inline' name='inputform' method='post' action='staffpanel.php?tool=faq_admin'>
-                    <input type='hidden' name='mode' value='takeedit_cat' />
-                    <input type='hidden' name='cat' value='".(int)$row['id']."' />
-                    <tr><td><!--<input type='text' value='".htmlsafechars($row['name'])."' class='form-control' placeholder='Name'/>--><input type='text' value='".htmlsafechars($row['name'])."' name='name' style='width:380px;' /></td>
-                    <td><input type='text' value='".htmlsafechars($row['shortcut'])."' name='shortcut' style='width:380px;' /></td>
+                    <input type='hidden' name='mode' value='takeedit_cat'>
+                    <input type='hidden' name='cat' value='".(int)$row['id']."'>
+                    <tr><td><!--<input type='text' value='".htmlsafechars($row['name'])."' class='form-control' placeholder='Name'/>--><input type='text' value='".htmlsafechars($row['name'])."' name='name' style='width:380px;'></td>
+                    <td><input type='text' value='".htmlsafechars($row['shortcut'])."' name='shortcut' style='width:380px;'></td>
                     <td><select name='min_view'>";
         for ($i = 0; $i <= $maxclass; ++$i) {
             $htmlout .= '<option value="'.$i.'"'.($row['min_view'] == $i ? " selected='selected'" : "").'">'.get_user_class_name($i).'</option>';
         }
         $htmlout .= "</select></td>
-                     <td colspan='3'><input type='submit' name='submit' value='Edit' class='button' /></td>
+                     <td colspan='3'><input type='submit' name='submit' value='Edit' class='button'></td>
                      </tr></form>";
     }
     $htmlout .= "</table>";
@@ -209,18 +209,18 @@ function Show_Faq_Edit()
 
     while ($row = $sql->fetch_assoc()) {
         $htmlout .= "<strong>Faq No.".(int)$row['id']."</strong>";
-        $htmlout .= "<br />
+        $htmlout .= "<br>
     <div style='text-align: left; width: 70%; border: 1px solid;'>
-    <input type='text' value='".htmlsafechars($row['title'])."' name='fdata[{$row['id']}][title]' style='width:650px;' />
+    <input type='text' value='".htmlsafechars($row['title'])."' name='fdata[{$row['id']}][title]' style='width:650px;'>
     <span style='float:right;'>
-    <input type='checkbox' name='fdata[{$row['id']}][faq_id]' value='".(int)$row['id']."' />
+    <input type='checkbox' name='fdata[{$row['id']}][faq_id]' value='".(int)$row['id']."'>
     </span>
-    <br />
+    <br>
     <textarea name='fdata[{$row['id']}][text]' rows='10' cols='20' style='width:650px;'>".htmlsafechars($row['text'])."</textarea>
     </div>
-    <br />";
+    <br>";
     }
-    $htmlout .= "<input type='submit' name='submit' value='With Selected' class='button' />&nbsp;
+    $htmlout .= "<input type='submit' name='submit' value='With Selected' class='button'>&nbsp;
     <select name='mode'>
     <option value=''>--- Select One ---</option>
     <option value='takeedit_faq'>Update Faq</option>
@@ -345,7 +345,7 @@ function New_Cat_Form()
     <form class='form-inline' name='inputform' method='post' action='staffpanel.php?tool=faq_admin'>
     <table class='table table-bordered table-striped'>
                 <tr>
-                <input type='hidden' name='mode' value='cat_add' />
+                <input type='hidden' name='mode' value='cat_add'>
     <td align='left'><input class='form-control' placeholder='NAME' type='text' value='' name='name'></td>
     <td><input class='form-control' placeholder='SHORTCUT' type='text' value='' name='shortcut'></td>
     <td>Min class
@@ -366,7 +366,7 @@ function New_Faq_Form()
     $htmlout = '';
     ($sql = sql_query("SELECT * FROM faq_cat")) || sqlerr(__FILE__, __LINE__);
     if (!$sql->num_rows) {
-        stderr("Error", "There Are No Categories. <br /><br />
+        stderr("Error", "There Are No Categories. <br><br>
         <span class='btn'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=faq_admin&amp;mode=cat_add'>Add Category</a></span>");
     }
     $htmlout .= "
@@ -374,17 +374,17 @@ function New_Faq_Form()
 <div class='row'>
 <div class='col-sm-10 col-sm-offset-1 panel'><h2>Add A New Section</h2>
        <form  class='form-inline' name='inputform' method='post' action='staffpanel.php?tool=faq_admin'>
-       <input class='form-control' type='hidden' name='mode' value='takeadd_faq' />
-       <input class='form-control' placeholder='TITLE' type='text' value='' name='title'><br /><br>
+       <input class='form-control' type='hidden' name='mode' value='takeadd_faq'>
+       <input class='form-control' placeholder='TITLE' type='text' value='' name='title'><br><br>
        <select class='form-control' name='cat'>
        <option value=''>--Select--</option>";
     while ($v = $sql->fetch_assoc()) {
         $htmlout .= "<option value='{$v['id']}'>{$v['name']}</option>";
     }
-    $htmlout .= "</select><br /><br>
+    $htmlout .= "</select><br><br>
        <textarea name='text' rows='15' cols='20' class='textbox' style='width:650px;'>
        </textarea><br>
-       <input class='form-control' type='submit' name='save_cat' value='Add' class='btn btn-default' />
+       <input class='form-control' type='submit' name='save_cat' value='Add' class='btn btn-default'>
        </form></div></div></div>";
     echo stdhead("Add New Faq").$htmlout.stdfoot();
     exit();
@@ -393,7 +393,7 @@ function New_Faq_Form()
 function Do_Info($text)
 {
     global $TRINITY20;
-    $info = "<div class='infohead'><img src='{$TRINITY20['pic_base_url']}warned0.gif' alt='Info' title='Info' /> Info</div><div class='infobody'>\n";
+    $info = "<div class='infohead'><img src='{$TRINITY20['pic_base_url']}warned0.gif' alt='Info' title='Info'> Info</div><div class='infobody'>\n";
     $info .= $text;
     $info .= "</div>";
     $info .= "<a href='staffpanel.php?tool=faq_admin'>Go Back To Admin</a> Or Add another?";
@@ -404,7 +404,7 @@ function Do_Error($heading, $text)
 {
     global $TRINITY20;
     $htmlout = '';
-    $htmlout .= "<div class='errorhead'><img src='{$TRINITY20['pic_base_url']}warned.gif' alt='Warned' /> $heading</div><div class='errorbody'>\n";
+    $htmlout .= "<div class='errorhead'><img src='{$TRINITY20['pic_base_url']}warned.gif' alt='Warned'> $heading</div><div class='errorbody'>\n";
     $htmlout .= "$text\n";
     $htmlout .= "</div>";
     return $htmlout;

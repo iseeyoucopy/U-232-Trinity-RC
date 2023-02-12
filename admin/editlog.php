@@ -33,7 +33,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -167,7 +167,7 @@ if ($count === 0) {
 }
 $HTMLOUT .= "
 </table>
-<br /><br /><br />
+<br><br><br>
 <table class='table table-bordered'>
 <tr>
 <td align='center' width='70%' bgcolor='orange'><strong>{$lang['editlog_modified']}</strong></td>
@@ -196,7 +196,7 @@ if ($count === 0) {
 }
 $HTMLOUT .= "
 </table>
-<br /><br /><br />
+<br><br><br>
 <table class='table table-bordered'>
 <tr>
 <td align='center' width='70%' bgcolor='orange'><strong>{$lang['editlog_deleted']}</strong></td>
@@ -225,12 +225,12 @@ if ($count === 0) {
 }
 $HTMLOUT .= "
 </table>
-<br /><br /><br />
+<br><br><br>
 <form method='post' action='staffpanel.php?tool=editlog&amp;action=editlog'>
 <table class='table table-bordered'>
 <tr>
 <td align='center' bgcolor='orange'>
-<input name='update' type='submit' value='{$lang['editlog_update']}' />
+<input name='update' type='submit' value='{$lang['editlog_update']}'>
 </td>
 </tr>
 </table>

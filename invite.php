@@ -75,7 +75,7 @@ if ($do == 'view_page') {
             }
             $HTMLOUT .= "<tr class='one'>".$user."<td align='center'>".mksize($arr['uploaded'])."</td>".($TRINITY20['ratio_free'] ? "" : "<td align='center'>".mksize($arr['downloaded'])."</td>")."<td align='center'>".$ratio."</td><td align='center'>".$status."</td>";
             if ($arr['status'] == 'pending') {
-                $HTMLOUT .= "<td align='center'><a href='?do=confirm_account&amp;userid=".(int)$arr['id']."&amp;sender=".(int)$CURUSER['id']."'><img src='{$TRINITY20['pic_base_url']}confirm.png' alt='confirm' title='{$lang['invites_confirm']}' border='0' /></a></td></tr>";
+                $HTMLOUT .= "<td align='center'><a href='?do=confirm_account&amp;userid=".(int)$arr['id']."&amp;sender=".(int)$CURUSER['id']."'><img src='{$TRINITY20['pic_base_url']}confirm.png' alt='confirm' title='{$lang['invites_confirm']}' border='0'></a></td></tr>";
             } else {
                 $HTMLOUT .= "<td align='center'>---</td></tr>";
             }
@@ -93,7 +93,7 @@ if ($do == 'view_page') {
         for ($i = 0; $i < $num_row; ++$i) {
             $fetch_assoc = $select->fetch_assoc();
             $HTMLOUT .= "<tr class='one'>
-<td>".htmlsafechars($fetch_assoc['code'])." <a href='?do=send_email&amp;id=".(int)$fetch_assoc['id']."'><img src='{$TRINITY20['pic_base_url']}email.gif' border='0' alt='Email' title='Send Email' /></a></td>
+<td>".htmlsafechars($fetch_assoc['code'])." <a href='?do=send_email&amp;id=".(int)$fetch_assoc['id']."'><img src='{$TRINITY20['pic_base_url']}email.gif' border='0' alt='Email' title='Send Email'></a></td>
 <td>".get_date($fetch_assoc['invite_added'], '', 0, 1)."</td>";
             $HTMLOUT .= "<td><a href='?do=delete_invite&amp;id=".(int)$fetch_assoc['id']."&amp;sender=".(int)$CURUSER['id']."'><img src='{$TRINITY20['pic_base_url']}del.png' border='0' alt='Delete'/></a></td>
 <td>".htmlsafechars($fetch_assoc['status'])."</td></tr>";
@@ -168,7 +168,7 @@ elseif ($do == 'send_email') {
         __LINE__);
     ($fetch = $query->fetch_assoc()) || stderr($lang['invites_error'], $lang['invites_noexsist']);
     $HTMLOUT .= "<form method='post' action='?do=send_email'><table border='1' cellspacing='0' cellpadding='10'>
-<tr><td class='rowhead'>{$lang['invites_mail_email']}</td><td><input type='text' size='40' name='email' /></td></tr><tr><td colspan='2' align='center'><input type='hidden' name='code' value='".htmlsafechars($fetch['code'])."' /></td></tr><tr><td colspan='2' align='center'><input type='submit' value='".$lang['invites_mail_send']."' class='btn' /></td></tr></table></form>";
+<tr><td class='rowhead'>{$lang['invites_mail_email']}</td><td><input type='text' size='40' name='email'></td></tr><tr><td colspan='2' align='center'><input type='hidden' name='code' value='".htmlsafechars($fetch['code'])."'></td></tr><tr><td colspan='2' align='center'><input type='submit' value='".$lang['invites_mail_send']."' class='btn'></td></tr></table></form>";
     echo stdhead('Invites').$HTMLOUT.stdfoot();
 } /**
  * @action Delete Invites

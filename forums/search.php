@@ -15,7 +15,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     $HTMLOUT .= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
         <head>
-        <meta charset="'.charset().'" />
+        <meta charset="'.charset().'">
         <title>ERROR</title>
         </head><body>
         <h1 style="text-align:center;">Error</h1>
@@ -64,7 +64,7 @@ if (!empty($keywords)) {
                 "<td align='center'>".(int)$post['id']."</td>".
                 "<td align=left width='100%'><a href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;highlight=$keywords&amp;topicid=".(int)$post['topic_id']."&amp;page=p".(int)$post['id']."#".(int)$post['id']."'><b>".htmlsafechars($post['topic_name'])."</b></a></td>".
                 "<td align=left style='white-space: nowrap;'>".(empty($post['name']) ? 'unknown['.(int)$post['forum_id'].']' : "<a href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=".(int)$post['forum_id']."'><b>".htmlsafechars($post['name'])."</b></a>")."</td>".
-                "<td align=left style='white-space: nowrap;'>".(empty($post['username']) ? 'unknown['.(int)$post['user_id'].']' : "<b><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$post['user_id']."'>".htmlsafechars($post['username'])."</a></b>")."<br />at ".get_date($post['added'],
+                "<td align=left style='white-space: nowrap;'>".(empty($post['username']) ? 'unknown['.(int)$post['user_id'].']' : "<b><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$post['user_id']."'>".htmlsafechars($post['username'])."</a></b>")."<br>at ".get_date($post['added'],
                     'DATE', 1, 0)."</td>".
                 "</tr>";
         }
@@ -77,7 +77,7 @@ if (!empty($keywords)) {
 $HTMLOUT .= "<div class='row'><div class='col-md-12'>
 	  <div align='center'><h1>Search on Forums</h1> ".($error ? "[<b><font color='red'> Nothing Found</font></b> ]" : $found)."</div>
 	<form method='get' action='{$TRINITY20['baseurl']}/forums.php' id='search_form' style='margin: 0pt; padding: 0pt; font-family: Tahoma,Arial,Helvetica,sans-serif; font-size: 11px;'>
-	<input type='hidden' name='action' value='search' />
+	<input type='hidden' name='action' value='search'>
 	<table class='table'>
 	<tbody>
 	<tr>
@@ -85,10 +85,10 @@ $HTMLOUT .= "<div class='row'><div class='col-md-12'>
 	</tr>
 	<tr>
 	<td valign='top'>			
-  <input name='keywords' type='text' value='".$keywords."' size='65' /><br />
+  <input name='keywords' type='text' value='".$keywords."' size='65'><br>
   <font class='small'><b>Note:</b> Searches <u>only</u> in posts.</font></td>
 	<td valign='top'>
-	<input type='submit' value='search' /></td>
+	<input type='submit' value='search'></td>
 	</tr>
 	</tbody>
 	</table>

@@ -77,7 +77,7 @@ if ($step == '1') {
             $question[6] = "{$lang['main_question6']}";
             $passhint = preg_replace($id, $question, (int)$assoc['passhint']);
             $HTMLOUT .= "<div class='callout alert-callout-border warning'>{$passhint} ?
-				<input type='hidden' name='id' value='".(int)$assoc['id']."' /></div>
+				<input type='hidden' name='id' value='".(int)$assoc['id']."'></div>
 				<input type='text' placeholder='{$lang['main_sec_answer']}' name='answer'>
 				<input type='submit' value='{$lang['main_next']}' class='button float-right'>
 				</form>

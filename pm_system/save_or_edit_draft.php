@@ -16,8 +16,8 @@ if (!defined('BUNNY_PM_SYSTEM')) {
     $HTMLOUT .= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
         <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
         <title>ERROR</title>
         </head><body>
         <h1 class="text-center">ERROR</h1>
@@ -67,7 +67,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'preview') {
         <td valign="top" class="text-center" width="80px" id="photocol">'.avatar_stuff($CURUSER).'</td>
         <td class="text-left" style="min-width:400px;padding:10px;vertical-align: top;">'.format_comment($draft).'</td>
     </tr>
-    </table><br />';
+    </table><br>';
 } else {
     //=== Get the info
     ($res = sql_query('SELECT * FROM messages WHERE id='.sqlesc($pm_id))) || sqlerr(__FILE__, __LINE__);
@@ -79,16 +79,16 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'preview') {
 //echo stdhead('Save / Edit Draft');
 $HTMLOUT .= '<legend>'.$lang['pm_draft_save_edit'].''.$subject.'</legend>'.$top_links.$preview.'
         <form name="compose" action="pm_system.php" method="post">
-        <input type="hidden" name="id" value="'.$pm_id.'" />
-        <input type="hidden" name="'.$save_or_edit.'" value="1" />
-        <input type="hidden" name="action" value="save_or_edit_draft" />
+        <input type="hidden" name="id" value="'.$pm_id.'">
+        <input type="hidden" name="'.$save_or_edit.'" value="1">
+        <input type="hidden" name="action" value="save_or_edit_draft">
     <table class="table table-striped">
     <tr>
         <td class="text-left" colspan="2">'.$lang['pm_edmail_edit'].'</td>
     </tr>
     <tr>
         <td class="text-right" valign="top"><span style="font-weight: bold;">'.$lang['pm_draft_subject'].'</span></td>
-        <td class="text-left" valign="top"><input type="text" class="text_default" name="subject" value="'.$subject.'" /></td>
+        <td class="text-left" valign="top"><input type="text" class="text_default" name="subject" value="'.$subject.'"></td>
     </tr>
     <tr>
         <td class="text-right" valign="top"><span style="font-weight: bold;">'.$lang['pm_draft_body'].'</span></td>
@@ -97,7 +97,7 @@ $HTMLOUT .= '<legend>'.$lang['pm_draft_save_edit'].''.$subject.'</legend>'.$top_
     <tr>
         <td colspan="2" class="text-center">
         <input type="submit" class="btn btn-primary" name="buttonval" value="preview"/>
-        <input type="submit" class="btn btn-primary" name="buttonval" value="save as draft" /></td>
+        <input type="submit" class="btn btn-primary" name="buttonval" value="save as draft"></td>
     </tr>
     </table></form>';
 ?>

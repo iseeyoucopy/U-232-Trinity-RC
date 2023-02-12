@@ -16,8 +16,8 @@ if (!defined('BUNNY_PM_SYSTEM')) {
     $HTMLOUT .= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
         <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
         <title>ERROR</title>
         </head><body>
         <h1 class="text-center">ERROR</h1>
@@ -85,14 +85,14 @@ $get_all_boxes .= '</select>';
 //echo stdhead('Search Messages');
 $HTMLOUT .= '<h1>'.$lang['pm_search_title'].'</h1>'.$top_links.'
         <form action="pm_system.php" method="post">
-        <input type="hidden" name="action"  value="'.$lang['pm_search_btn'].'" />
+        <input type="hidden" name="action"  value="'.$lang['pm_search_btn'].'">
     <table class="table table-striped">
     <tr>
         <td class="text-left" colspan="2">'.$lang['pm_search_s'].'</td>
     </tr>
     <tr>
         <td class="text-right" valign="middle"><span style="font-weight: bold;">'.$lang['pm_search_terms'].'</span></td>
-        <td class="text-left"><input type="text" class="search" name="keywords" value="'.$keywords.'" />'.$lang['pm_search_common'].'</td>
+        <td class="text-left"><input type="text" class="search" name="keywords" value="'.$keywords.'">'.$lang['pm_search_common'].'</td>
     </tr>
     <tr>
         <td class="text-right" valign="middle"><span style="font-weight: bold;">'.$lang['pm_search_box'].'</span></td>
@@ -100,20 +100,20 @@ $HTMLOUT .= '<h1>'.$lang['pm_search_title'].'</h1>'.$top_links.'
     </tr>
     <tr>
         <td class="text-right" valign="middle"><span style="font-weight: bold;">'.$lang['pm_search_allbox'].'</span></td>
-        <td class="text-left"><input name="all_boxes" type="checkbox" value="1" '.($all_boxes == 1 ? ' checked="checked"' : '').' />'.$lang['pm_search_ignored'].'</td>
+        <td class="text-left"><input name="all_boxes" type="checkbox" value="1" '.($all_boxes == 1 ? ' checked="checked"' : '').'>'.$lang['pm_search_ignored'].'</td>
     </tr>
     <tr>
         <td class="text-right" valign="middle"><span style="font-weight: bold;">'.$lang['pm_search_member_by'].'</span></td>
-        <td class="text-left"><input type="text" class="member" name="member" value="'.$member.'" />'.$lang['pm_search_member_only'].'</td>
+        <td class="text-left"><input type="text" class="member" name="member" value="'.$member.'">'.$lang['pm_search_member_only'].'</td>
     </tr>
     <tr>
         <td class="text-right" valign="middle"><span style="font-weight: bold;">'.$lang['pm_search_system'].'</span></td>
-        <td class="text-left"><input name="system" type="checkbox" value="system" '.($member_sys == 'system' ? ' checked="checked"' : '').' />'.$lang['pm_search_system_only'].'</td>
+        <td class="text-left"><input name="system" type="checkbox" value="system" '.($member_sys == 'system' ? ' checked="checked"' : '').'>'.$lang['pm_search_system_only'].'</td>
     </tr>
     <tr>
         <td class="text-right" valign="middle"><span style="font-weight: bold;">'.$lang['pm_search_in'].'</span></td>
-        <td class="text-left"><input name="subject" type="checkbox" value="1" '.($subject == 1 ? ' checked="checked"' : '').' />'.$lang['pm_search_subject'].'
-        <input name="text" type="checkbox" value="1" '.($text === 1 ? ' checked="checked"' : '').' />'.$lang['pm_search_msgtext'].'</td>
+        <td class="text-left"><input name="subject" type="checkbox" value="1" '.($subject == 1 ? ' checked="checked"' : '').'>'.$lang['pm_search_subject'].'
+        <input name="text" type="checkbox" value="1" '.($text === 1 ? ' checked="checked"' : '').'>'.$lang['pm_search_msgtext'].'</td>
     </tr>
     <tr>
         <td class="text-right" valign="middle"><span style="font-weight: bold;">'.$lang['pm_search_sortby'].'</span></td>
@@ -124,8 +124,8 @@ $HTMLOUT .= '<h1>'.$lang['pm_search_title'].'</h1>'.$top_links.'
             <option value="added" '.($sort === 'added' ? ' selected="selected"' : '').'>'.$lang['pm_search_added'].'</option>
             <option value="'.$sender_reciever.'" '.($sort === $sender_reciever ? ' selected="selected' : '').'>'.$lang['pm_search_member'].'</option>
         </select>
-            <input name="ASC" type="radio" value="1" '.((isset($_POST['ASC']) && $_POST['ASC'] == 1) ? ' checked="checked"' : '').' />'.$lang['pm_search_asc'].'
-            <input name="ASC" type="radio" value="2" '.((isset($_POST['ASC']) && $_POST['ASC'] == 2 || !isset($_POST['ASC'])) ? ' checked="checked"' : '').' />'.$lang['pm_search_desc'].'</td>
+            <input name="ASC" type="radio" value="1" '.((isset($_POST['ASC']) && $_POST['ASC'] == 1) ? ' checked="checked"' : '').'>'.$lang['pm_search_asc'].'
+            <input name="ASC" type="radio" value="2" '.((isset($_POST['ASC']) && $_POST['ASC'] == 2 || !isset($_POST['ASC'])) ? ' checked="checked"' : '').'>'.$lang['pm_search_desc'].'</td>
     </tr>
     <tr>
         <td class="text-right" valign="middle"><span style="font-weight: bold;">'.$lang['pm_search_show'].'</span></td>
@@ -142,12 +142,12 @@ $HTMLOUT .= '<h1>'.$lang['pm_search_title'].'</h1>'.$top_links.'
     </tr>'.($limit < 100 ? '
     <tr>
         <td class="text-right" valign="middle"><span style="font-weight: bold;">'.$lang['pm_search_display'].'</span></td>
-        <td class="text-left"><input name="as_list_post" type="radio" value="1" '.($as_list_post == 1 ? ' checked="checked"' : '').' /> <span style="font-weight: bold;">'.$lang['pm_search_list'].'</span>
-        <input name="as_list_post" type="radio" value="2" '.($as_list_post == 2 ? ' checked="checked"' : '').' /> <span style="font-weight: bold;"> '.$lang['pm_search_message'].'</span></td>
+        <td class="text-left"><input name="as_list_post" type="radio" value="1" '.($as_list_post == 1 ? ' checked="checked"' : '').'> <span style="font-weight: bold;">'.$lang['pm_search_list'].'</span>
+        <input name="as_list_post" type="radio" value="2" '.($as_list_post == 2 ? ' checked="checked"' : '').'> <span style="font-weight: bold;"> '.$lang['pm_search_message'].'</span></td>
     </tr>' : '').'
     <tr>
         <td colspan="2" class="text-center">
-        <input type="submit" class="button" name="change" value="'.$lang['pm_search_btn'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" /></td>
+        <input type="submit" class="button" name="change" value="'.$lang['pm_search_btn'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'"></td>
     </tr>
     </table></form>';
 //=== do the search and print page :)
@@ -203,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //=== let's make the table
     $HTMLOUT .= ($num_result > 0 ? '
         <form action="pm_system.php" method="post"  name="messages" onsubmit="return ValidateForm(this,\'pm\')">
-        <input type="hidden" name="action" value="move_or_delete_multi" />
+        <input type="hidden" name="action" value="move_or_delete_multi">
     <table border="0" cellspacing="0" cellpadding="5" class="text-center" style="max-width:800px">
         '.($as_list_post == 2 ? '' : '
     <tr>
@@ -254,11 +254,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <td colspan="4">'.$body.'</td>
     </tr>' : '
     <tr>
-        <td><img src="pic/readpm.gif" title="'.$lang['pm_search_messg'].'" alt="'.$lang['pm_search_read'].'" /></td>
+        <td><img src="pic/readpm.gif" title="'.$lang['pm_search_messg'].'" alt="'.$lang['pm_search_read'].'"></td>
         <td><a class="altlink" href="pm_system.php?action=view_message&amp;id='.$row['id'].'">'.($row['subject'] !== '' ? $subject : $lang['pm_search_nosubject']).'</a> '.($all_boxes ? $lang['pm_search_foundin'].$arr_box.$lang['pm_search_sign'] : '').'</td>
         <td>'.($row[$sender_reciever] == 0 ? $lang['pm_search_sysbot'] : $the_username).'</td>
         <td>'.get_date($row['added'], '').$lang['pm_search_gmt'].get_date($row['added'], '', 0, 1).'] </td>
-        <td><input type="checkbox" name="pm[]" value="'.(int)$row['id'].'" /></td>
+        <td><input type="checkbox" name="pm[]" value="'.(int)$row['id'].'"></td>
     </tr>');
     }
 }
@@ -268,8 +268,8 @@ $HTMLOUT .= ($num_result > 0 ? '
         <td colspan="4" class="text-right">
         <a class="altlink" href="javascript:SetChecked(1,\'pm[]\')">'.$lang['pm_search_selall'].'</a> - 
         <a class="altlink" href="javascript:SetChecked(0,\'pm[]\')">'.$lang['pm_search_unselall'].'</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="submit" class="button" name="move" value="'.$lang['pm_search_move_to'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" /> '.get_all_boxes().' or  
-        <input type="submit" class="button" name="delete" value="'.$lang['pm_search_delete'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" />'.$lang['pm_search_selected'].'</td>
+        <input type="submit" class="button" name="move" value="'.$lang['pm_search_move_to'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'"> '.get_all_boxes().' or  
+        <input type="submit" class="button" name="delete" value="'.$lang['pm_search_delete'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'">'.$lang['pm_search_selected'].'</td>
     </tr>
-    </table></form>' : '').'<br />';
+    </table></form>' : '').'<br>';
 ?>

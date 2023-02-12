@@ -12,14 +12,14 @@
  */
 $lang = [
     'mega_heading' => "Recherche Approfondie",
-    'mega_analyze' => "Analyse le texte, auto-détecte adresses IP / Email,<br />et les recherche dans la base de données.",
+    'mega_analyze' => "Analyse le texte, auto-détecte adresses IP / Email,<br>et les recherche dans la base de données.",
     'mega_text' => "Texte:",
-    'mega_text_1' => "Utilisez cette section pour rechercher des e-mails et adresses IP au sein d'un bloc de texte. Le reste sera ignoré!<br />",
+    'mega_text_1' => "Utilisez cette section pour rechercher des e-mails et adresses IP au sein d'un bloc de texte. Le reste sera ignoré!<br>",
     'mega_search_btn' => "Rechercher!",
     'mega_invite' => "Code d'invitation:",
-    'mega_invite_1' => "Pour rechercher un code invitation, utiliser cette boîte. Cela vous indiquera qui a généré le code , et qui l'a utilisé!<br />",
+    'mega_invite_1' => "Pour rechercher un code invitation, utiliser cette boîte. Cela vous indiquera qui a généré le code , et qui l'a utilisé!<br>",
     'mega_names' => "Pseudo:",
-    'mega_names_1' => "Utilisez cette section pour rechercher des pseudos multiples. La recherche est insensible à la casse, mais vous devez séparer tous les noms avec un espace!<br />Les retours ligne sont ignorés comme le sont les caractères non alphanumériques ( à l'exception des tirets _ et - )...<br />",
+    'mega_names_1' => "Utilisez cette section pour rechercher des pseudos multiples. La recherche est insensible à la casse, mais vous devez séparer tous les noms avec un espace!<br>Les retours ligne sont ignorés comme le sont les caractères non alphanumériques ( à l'exception des tirets _ et - )...<br>",
     'mega_searched' => "Nom d'utilisateur recherché",
     'mega_member' => "Membre",
     'mega_email' => "Email",

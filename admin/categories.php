@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -119,8 +119,8 @@ function move_cat_form()
     $htmlout = '';
     $htmlout .= "<div class='row'><div class='col-md-12'>";
     $htmlout .= "<form action='staffpanel.php?tool=categories&amp;action=categories' method='post'>
-      <input type='hidden' name='mode' value='takemove_cat' />
-      <input type='hidden' name='id' value='".(int)$r['id']."' />
+      <input type='hidden' name='mode' value='takemove_cat'>
+      <input type='hidden' name='id' value='".(int)$r['id']."'>
     
       <table class='table table-bordered'>
       <tr>
@@ -136,7 +136,7 @@ function move_cat_form()
       {$check}
       <tr>
         <td colspan='2' align='center'>
-         <input type='submit' class='btn' value='{$lang['categories_move']}' /><input type='button' class='btn' value={$lang['categories_cancel']}' onclick=\"history.go(-1)\" /></td>
+         <input type='submit' class='btn' value='{$lang['categories_move']}'><input type='button' class='btn' value={$lang['categories_cancel']}' onclick=\"history.go(-1)\"></td>
       </tr>
       </table>
       </form>";
@@ -230,15 +230,15 @@ function delete_cat_form()
         }
         $select .= "</select>\n";
         $check .= "<tr>
-        <td align='right' width='50%'>{$lang['categories_select_new']}<br /><span style='color:red;font-weight:bold;'>{$lang['categories_del_warning']}</span></td>
+        <td align='right' width='50%'>{$lang['categories_select_new']}<br><span style='color:red;font-weight:bold;'>{$lang['categories_del_warning']}</span></td>
         <td>$select</td>
       </tr>";
     }
     $htmlout = '';
     $htmlout .= "<div class='row'><div class='col-md-12'>";
     $htmlout .= "<form action='staffpanel.php?tool=categories&amp;action=categories' method='post'>
-      <input type='hidden' name='mode' value='takedel_cat' />
-      <input type='hidden' name='id' value='".(int)$r['id']."' />
+      <input type='hidden' name='mode' value='takedel_cat'>
+      <input type='hidden' name='id' value='".(int)$r['id']."'>
     
       <table class='torrenttable' align='center' width='80%' bgcolor='#555555' cellspacing='2' cellpadding='2'>
       <tr>
@@ -263,7 +263,7 @@ function delete_cat_form()
       {$check}
       <tr>
         <td colspan='2' align='center'>
-         <input type='submit' class='btn' value='{$lang['categories_del_delete']}' /><input type='button' class='btn' value='{$lang['categories_cancel']}' onclick=\"history.go(-1)\" /></td>
+         <input type='submit' class='btn' value='{$lang['categories_del_delete']}'><input type='button' class='btn' value='{$lang['categories_cancel']}' onclick=\"history.go(-1)\"></td>
       </tr>
       </table>
       </form>";
@@ -332,7 +332,7 @@ function edit_cat_form()
         }
         $select .= "</select>\n";
         $check = "<tr>
-        <td align='right' width='50%'>{$lang['categories_edit_select_new']}<br /><span style='color:limegreen;font-weight:bold;'>{$lang['categories_edit_info']}</span></td>
+        <td align='right' width='50%'>{$lang['categories_edit_select_new']}<br><span style='color:limegreen;font-weight:bold;'>{$lang['categories_edit_info']}</span></td>
         <td>$select</td>
       </tr>";
     } else {
@@ -347,13 +347,13 @@ function edit_cat_form()
     }
     $minclass .= "</select>\n";
     $htmlout .= "<div class='row'><div class='col-md-12'><form action='staffpanel.php?tool=categories&amp;action=categories' method='post'>
-      <input type='hidden' name='mode' value='takeedit_cat' />
-      <input type='hidden' name='id' value='".(int)$r['id']."' />
+      <input type='hidden' name='mode' value='takeedit_cat'>
+      <input type='hidden' name='id' value='".(int)$r['id']."'>
     
       <table class='torrenttable' align='center' width='80%' bgcolor='#555555' cellspacing='2' cellpadding='2'>
       <tr>
         <td align='right'>{$lang['categories_edit_name']}</td>
-        <td><input type='text' name='cat_name' class='option' size='50' value='".htmlsafechars($r['name'], ENT_QUOTES)."' /></td>
+        <td><input type='text' name='cat_name' class='option' size='50' value='".htmlsafechars($r['name'], ENT_QUOTES)."'></td>
       </tr>
       <tr>
         <td align='right'>{$lang['categories_del_description']}</td>
@@ -366,7 +366,7 @@ function edit_cat_form()
       {$check}
       <tr>
         <td colspan='2' align='center'>
-         <input type='submit' class='btn' value='{$lang['categories_edit_edit']}' /><input type='button' class='btn' value='{$lang['categories_cancel']}' onclick=\"history.go(-1)\" /></td>
+         <input type='submit' class='btn' value='{$lang['categories_edit_edit']}'><input type='button' class='btn' value='{$lang['categories_cancel']}' onclick=\"history.go(-1)\"></td>
       </tr>
       </table>
       </form></div></div>";
@@ -394,7 +394,7 @@ function show_categories()
         }
         $select .= "</select>\n";
         $check = "<tr>
-        <td align='right' width='50%'>{$lang['categories_edit_select_new']}<br /><span style='color:limegreen;font-weight:bold;'>{$lang['categories_edit_warning1']}</span></td>
+        <td align='right' width='50%'>{$lang['categories_edit_select_new']}<br><span style='color:limegreen;font-weight:bold;'>{$lang['categories_edit_warning1']}</span></td>
         <td>$select</td>
       </tr>";
     } else {
@@ -410,7 +410,7 @@ function show_categories()
     $minclass .= "</select>\n";
     $htmlout .= "<div class='row'><div class='col-md-12'>
 <form action='staffpanel.php?tool=categories&amp;action=categories' method='post'>
-    <input type='hidden' name='mode' value='takeadd_cat' />
+    <input type='hidden' name='mode' value='takeadd_cat'>
     
     <table class='table table-bordered'>
     <tr>
@@ -420,7 +420,7 @@ function show_categories()
     </tr>
     <tr>
       <td align='right'>{$lang['categories_edit_name']}</td>
-      <td align='left'><input type='text' name='new_cat_name' size='50' maxlength='50' /></td>
+      <td align='left'><input type='text' name='new_cat_name' size='50' maxlength='50'></td>
     </tr>
     <tr>
       <td align='right'>{$lang['categories_del_description']}</td>
@@ -432,13 +432,13 @@ function show_categories()
         </tr>
     <!--<tr>
       <td align='right'>{$lang['categories_show_file']}</td>
-      <td align='left'><input type='text' name='new_cat_image' class='option' size='50' /></td>
+      <td align='left'><input type='text' name='new_cat_image' class='option' size='50'></td>
     </tr>-->
     {$check}
     <tr>
       <td colspan='2' align='center'>
-        <input type='submit' value='{$lang['categories_show_add']}' class='btn' />
-        <input type='reset' value='{$lang['categories_show_reset']}' class='btn' />
+        <input type='submit' value='{$lang['categories_show_add']}' class='btn'>
+        <input type='reset' value='{$lang['categories_show_reset']}' class='btn'>
       </td>
     </tr>
     </table>
@@ -462,7 +462,7 @@ function show_categories()
         $htmlout = '<h1>'.$lang['categories_show_oops'].'</h1>';
     } else {
         while ($row = $query->fetch_assoc()) {
-            $cat_image = file_exists($TRINITY20['pic_base_url'].'caticons/1/'.$row['image']) ? "<img border='0' src='{$TRINITY20['pic_base_url']}caticons/1/".htmlsafechars($row['image'])."' alt='".(int)$row['id']."' />" : "{$lang['categories_show_no_image']}";
+            $cat_image = file_exists($TRINITY20['pic_base_url'].'caticons/1/'.$row['image']) ? "<img border='0' src='{$TRINITY20['pic_base_url']}caticons/1/".htmlsafechars($row['image'])."' alt='".(int)$row['id']."'>" : "{$lang['categories_show_no_image']}";
             $htmlout .= "<tr>
           <td><b>{$lang['categories_show_id2']} (".(int)$row['id'].")</b></td>	
           <td>".htmlsafechars($row['name'])."</td>
@@ -470,11 +470,11 @@ function show_categories()
           <td>".htmlsafechars(get_user_class_name($row['min_class']))."</td>
           <td>$cat_image</td>
           <td ><a href='staffpanel.php?tool=categories&amp;action=categories&amp;mode=edit_cat&amp;id=".(int)$row['id']."'>
-            <img src='{$TRINITY20['pic_base_url']}aff_tick.gif' alt='{$lang['categories_show_edit2']}' title='{$lang['categories_show_edit']}' width='12' height='12' border='0' /></a></td>
+            <img src='{$TRINITY20['pic_base_url']}aff_tick.gif' alt='{$lang['categories_show_edit2']}' title='{$lang['categories_show_edit']}' width='12' height='12' border='0'></a></td>
           <td><a href='staffpanel.php?tool=categories&amp;action=categories&amp;mode=del_cat&amp;id=".(int)$row['id']."'>
-            <img src='{$TRINITY20['pic_base_url']}aff_cross.gif' alt='{$lang['categories_show_delete2']}' title='{$lang['categories_show_delete']}' width='12' height='12' border='0' /></a></td>
+            <img src='{$TRINITY20['pic_base_url']}aff_cross.gif' alt='{$lang['categories_show_delete2']}' title='{$lang['categories_show_delete']}' width='12' height='12' border='0'></a></td>
           <td><a href='staffpanel.php?tool=categories&amp;action=categories&amp;mode=move_cat&amp;id=".(int)$row['id']."'>
-            <img src='{$TRINITY20['pic_base_url']}plus.gif' alt='{$lang['categories_show_move2']}' title='{$lang['categories_show_move']}' width='12' height='12' border='0' /></a></td>
+            <img src='{$TRINITY20['pic_base_url']}plus.gif' alt='{$lang['categories_show_move2']}' title='{$lang['categories_show_move']}' width='12' height='12' border='0'></a></td>
         </tr>";
         }
     } //endif

@@ -20,7 +20,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -205,7 +205,7 @@ $HTMLOUT .= "<fieldset style='border:1px solid #333333; padding:5px;'>
 		  <td width='100%' >".dropdown()."</td>
 		</tr>
 		<tr>
-		 <td align='left'><label for='sys'>{$lang['grouppm_sendas']}</label><input id='sys' type='checkbox' name='system' value='yes' /></td><td align='right' ><input class='btn btn-default' type='submit' value='{$lang['grouppm_send']}' /></td>
+		 <td align='left'><label for='sys'>{$lang['grouppm_sendas']}</label><input id='sys' type='checkbox' name='system' value='yes'></td><td align='right' ><input class='btn btn-default' type='submit' value='{$lang['grouppm_send']}'></td>
 		</tr>
 	  </table>
 	</form>

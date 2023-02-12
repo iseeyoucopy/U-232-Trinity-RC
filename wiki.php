@@ -34,7 +34,7 @@ function newmsg($heading = '', $text = '', $div = 'success', $htmlstrip = false)
     }
     $htmlout = '';
     $htmlout .= "<table class=\"table table-bordered\"><tr><td class=\"embedded\">\n";
-    $htmlout .= "<div class=\"row\"><div class=\"col-md-12\">".($heading ? "<b>$heading</b><br />" : "")."$text</div></div></td></tr></table>\n";
+    $htmlout .= "<div class=\"row\"><div class=\"col-md-12\">".($heading ? "<b>$heading</b><br>" : "")."$text</div></div></td></tr></table>\n";
     return $htmlout;
 }
 
@@ -85,7 +85,7 @@ function navmenu()
     for ($i = 0; $i < 25; $i++) {
         $ret .= "\n- ".'<a href="wiki.php?action=sort&amp;letter='.chr($i + 98).'">'.chr($i + 66).'</a>';
     }
-    return $ret.("\n".'<input type="text" name="article" /> <input type="submit" value="'.$lang['wiki_search'].'" name="wiki" /></form></div></div>');
+    return $ret.("\n".'<input type="text" name="article"> <input type="submit" value="'.$lang['wiki_search'].'" name="wiki"></form></div></div>');
 }
 
 function articlereplace($input)
@@ -126,8 +126,8 @@ function wikimenu()
 					<div id=\"details\">
 						<ul>
 							<li><b>{$lang['wiki_permissions']}</b></li></ul>
-							{$lang['wiki_read_user']}<br />
-							{$lang['wiki_write_user']}<br />
+							{$lang['wiki_read_user']}<br>
+							{$lang['wiki_write_user']}<br>
 							{$lang['wiki_edit_staff']}
 							<ul><li><b>{$lang['wiki_latest_article']}</b></li></ul>
 							<a href=\"wiki.php?action=article&amp;name=$latestarticle\">".htmlsafechars($latest['name'])."</a>
@@ -202,7 +202,7 @@ if ($action == "article") {
             $HTMLOUT .= "
 				<div id=\"wiki-content-left\" align=\"right\">
 					<div id=\"name\"><b><a href=\"wiki.php?action=article&amp;name=".htmlsafechars($wiki['name'])."\">".htmlsafechars($wiki['name'])."</a></b></div>
-					<div id=\"content\">".($wiki['userid'] > 0 ? "<i>{$lang['wiki_added_by_art']}<a href=\"userdetails.php?id=".(int)$wiki['userid']."\"><b>".htmlsafechars($author['username'])."</b></a></i><br /><br />" : "").wikireplace(format_comment($wiki["body"]))."";
+					<div id=\"content\">".($wiki['userid'] > 0 ? "<i>{$lang['wiki_added_by_art']}<a href=\"userdetails.php?id=".(int)$wiki['userid']."\"><b>".htmlsafechars($author['username'])."</b></a></i><br><br>" : "").wikireplace(format_comment($wiki["body"]))."";
             $HTMLOUT .= "<div align=\"right\">".($edit !== '' ? "$edit" : "").($CURUSER['class'] >= UC_STAFF || $CURUSER["id"] == $wiki["userid"] ? " - <a href=\"wiki.php?action=edit&amp;id=".(int)$wiki['id']."\">{$lang['wiki_edit']}</a>" : "")."</div>";
             $HTMLOUT .= "</div></div>";
         }
@@ -232,9 +232,9 @@ if ($action == "add") {
     $HTMLOUT .= "<div id=\"wiki-container\"><div id=\"wiki-row\">";
     $HTMLOUT .= "<div id=\"wiki-content-left\">
 					<form method=\"post\" action=\"wiki.php\">
-					<div><input type=\"text\" name=\"article-name\" id=\"name\" /></div>
+					<div><input type=\"text\" name=\"article-name\" id=\"name\"></div>
 					<div id=\"content-add\"><textarea name=\"article-body\" rows=\"70\" cols=\"90\" id=\"body\">".htmlsafechars($wiki['body'])."</textarea>
-					<div align=\"center\"><input type=\"submit\" name=\"article-add\" value=\"{$lang['wiki_ok']}\" /></div>
+					<div align=\"center\"><input type=\"submit\" name=\"article-add\" value=\"{$lang['wiki_ok']}\"></div>
 	</div></form></div>";
     $HTMLOUT .= wikimenu();
     $HTMLOUT .= "</div>";
@@ -252,10 +252,10 @@ if ($action == "edit") {
             $HTMLOUT .= "
 				<div id=\"wiki-content-left\" align=\"right\">
 					<form method=\"post\" action=\"wiki.php\">
-					<div><input type=\"hidden\" name=\"article-id\" value=\"".(int)$wiki['id']."\" />
-					<input type=\"text\" name=\"article-name\" id=\"name\" value=\"".htmlsafechars($wiki['name'])."\" /></div>
+					<div><input type=\"hidden\" name=\"article-id\" value=\"".(int)$wiki['id']."\">
+					<input type=\"text\" name=\"article-name\" id=\"name\" value=\"".htmlsafechars($wiki['name'])."\"></div>
 					<div id=\"content-add\"><table class=\"table table bordered\"><tr><td><textarea name=\"article-body\" rows=\"70\" cols=\"10\" id=\"body\">".htmlsafechars($wiki['body'])."</textarea>
-					<div align=\"center\"><input type=\"submit\" name=\"article-edit\" value=\"{$lang['wiki_edit']}\" /></div></td></tr></table>";
+					<div align=\"center\"><input type=\"submit\" name=\"article-edit\" value=\"{$lang['wiki_edit']}\"></div></td></tr></table>";
             $HTMLOUT .= "</div></form></div>";
         }
         $HTMLOUT .= wikimenu();

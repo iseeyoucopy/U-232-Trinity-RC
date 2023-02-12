@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -54,7 +54,7 @@ if ($register_globals) {
 if ($action == 'do') {
     $host = preg_replace('/[^A-Za-z0-9.]/', '', $host);
     $HTMLOUT .= '<div class="error">';
-    $HTMLOUT .= ''.$lang['trace_out'].'<br />';
+    $HTMLOUT .= ''.$lang['trace_out'].'<br>';
     $HTMLOUT .= '<pre>';
     if ($unix) {
         system(''.'traceroute '.$host);
@@ -67,10 +67,10 @@ if ($action == 'do') {
 } else {
     $HTMLOUT .= '<body bgcolor="#FFFFFF" text="#000000"></body>
     <p><font size="2">'.$lang['trace_ip'].''.$ip.'</font></p>
-    <form method="post" action="'.$_this_script_.'">'.$lang['trace_host'].'<input type="text" class="form-control" name="host" value="'.$ip.'" />
-    <input type="hidden" name="action" value="do"><input type="submit" value="'.$lang['trace_submit'].'" class="btn btn-default" />
+    <form method="post" action="'.$_this_script_.'">'.$lang['trace_host'].'<input type="text" class="form-control" name="host" value="'.$ip.'">
+    <input type="hidden" name="action" value="do"><input type="submit" value="'.$lang['trace_submit'].'" class="btn btn-default">
    </form>';
-    $HTMLOUT .= '<br /><b>'.$system.'</b>';
+    $HTMLOUT .= '<br><b>'.$system.'</b>';
     $HTMLOUT .= '</body></html>';
 }
 echo stdhead($lang['trace_stdhead']).$HTMLOUT.stdfoot();

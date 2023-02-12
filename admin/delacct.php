@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -75,16 +75,16 @@ function deleteConfirm(){
     <table class='table table-bordered'>
       <tr>
         <td class='rowhead'>{$lang['table_username']}</td>
-        <td><input size='40' name='username' /></td>
+        <td><input size='40' name='username'></td>
       </tr>
       <tr>
         <td class='rowhead'>{$lang['table_password']}</td>
-        <td><input type='password' size='40' name='password' /></td>
+        <td><input type='password' size='40' name='password'></td>
       </tr>
       <tr>
-        <td colspan='2'><input type='submit' class='btn btn-default' value='{$lang['btn_delete']}' /></td>
+        <td colspan='2'><input type='submit' class='btn btn-default' value='{$lang['btn_delete']}'></td>
       </tr>
     </table>
-    </form></div></div><br />";
+    </form></div></div><br>";
 echo stdhead("{$lang['stdhead_delete']}").$HTMLOUT.stdfoot();
 ?>

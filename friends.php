@@ -60,7 +60,7 @@ if ($action == 'add') {
         }
         sql_query("INSERT INTO $table_is VALUES (0, ".sqlesc($userid).", ".sqlesc($targetid).", 'no')") || sqlerr(__FILE__, __LINE__);
         stderr("Request Added!",
-            "The user will be informed of your Friend Request, you will be informed via PM upon confirmation.<br /><br /><a href='friends.php?id=$userid#$frag'><b>Go to your Friends List</b></a>",
+            "The user will be informed of your Friend Request, you will be informed via PM upon confirmation.<br><br><a href='friends.php?id=$userid#$frag'><b>Go to your Friends List</b></a>",
             false);
         die;
     }
@@ -199,21 +199,21 @@ if ($res->num_rows == 0) {
 } else {
     while ($friendp = $res->fetch_assoc()) {
         $dt = TIME_NOW - 180;
-        $online = ($friendp["last_access"] >= $dt && $friendp['perms'] < bt_options::PERMS_STEALTH ? '&nbsp;<img src="'.$TRINITY20['baseurl'].'/images/staff/online.png" border="0" alt="Online" title="Online" />' : '<img src="'.$TRINITY20['baseurl'].'/images/staff/offline.png" border="0" alt="Offline" title="Offline" />');
+        $online = ($friendp["last_access"] >= $dt && $friendp['perms'] < bt_options::PERMS_STEALTH ? '&nbsp;<img src="'.$TRINITY20['baseurl'].'/images/staff/online.png" border="0" alt="Online" title="Online">' : '<img src="'.$TRINITY20['baseurl'].'/images/staff/offline.png" border="0" alt="Offline" title="Offline">');
         $title = htmlsafechars($friendp["title"]);
         if (!$title) {
             $title = get_user_class_name($friendp["class"]);
         }
-        $linktouser = "<a href='userdetails.php?id=".(int)$friendp['id']."'><b>".format_username($friendp)."</b></a>[$title]<br />{$lang['friends_last_seen']} ".($friendp['perms'] < bt_options::PERMS_STEALTH ? get_date($friendp['last_access'],
+        $linktouser = "<a href='userdetails.php?id=".(int)$friendp['id']."'><b>".format_username($friendp)."</b></a>[$title]<br>{$lang['friends_last_seen']} ".($friendp['perms'] < bt_options::PERMS_STEALTH ? get_date($friendp['last_access'],
                 '') : "Never");
-        $confirm = "<br /><span class='btn'><a href='{$TRINITY20['baseurl']}/friends.php?id=$userid&amp;action=confirm&amp;type=friend&amp;targetid=".(int)$friendp['id']."'>Confirm</a></span>";
+        $confirm = "<br><span class='btn'><a href='{$TRINITY20['baseurl']}/friends.php?id=$userid&amp;action=confirm&amp;type=friend&amp;targetid=".(int)$friendp['id']."'>Confirm</a></span>";
         $block = "&nbsp;<span class='btn'><a href='{$TRINITY20['baseurl']}/friends.php?action=add&amp;type=block&amp;targetid=".(int)$friendp['id']."'>Block</a></span>";
         $avatar = ($CURUSER["avatars"] == "yes" ? htmlsafechars($friendp["avatar"]) : "");
         if (!$avatar) {
             $avatar = "{$TRINITY20['pic_base_url']}default_avatar.gif";
         }
         $reject = "&nbsp;<span class='btn'><a href='{$TRINITY20['baseurl']}/friends.php?id=$userid&amp;action=delpending&amp;type=friend&amp;targetid=".(int)$friendp['id']."'>{$lang['friends_reject']}</a></span>";
-        $friendsp .= "<div style='border: 1px solid black;padding:5px;'>".($avatar ? "<img width='50px' src='$avatar' style='float:right;' alt='Avatar' />" : "")."<p >{$linktouser}<br /><br />{$confirm}{$block}{$reject}</p></div><br />";
+        $friendsp .= "<div style='border: 1px solid black;padding:5px;'>".($avatar ? "<img width='50px' src='$avatar' style='float:right;' alt='Avatar'>" : "")."<p >{$linktouser}<br><br>{$confirm}{$block}{$reject}</p></div><br>";
     }
 }
 //== Pending ends
@@ -249,13 +249,13 @@ if ($res->num_rows == 0) {
 } else {
     while ($friend = $res->fetch_assoc()) {
         $dt = TIME_NOW - 180;
-        $online = ($friend["last_access"] >= $dt && $friend['perms'] < bt_options::PERMS_STEALTH ? '&nbsp;<img src="'.$TRINITY20['baseurl'].'/images/staff/online.png" border="0" alt="Online" title="Online" />' : '<img src="'.$TRINITY20['baseurl'].'/images/staff/offline.png" border="0" alt="Offline" title="Offline" />');
+        $online = ($friend["last_access"] >= $dt && $friend['perms'] < bt_options::PERMS_STEALTH ? '&nbsp;<img src="'.$TRINITY20['baseurl'].'/images/staff/online.png" border="0" alt="Online" title="Online">' : '<img src="'.$TRINITY20['baseurl'].'/images/staff/offline.png" border="0" alt="Offline" title="Offline">');
         $title = htmlsafechars($friend["title"]);
         if (!$title) {
             $title = get_user_class_name($friend["class"]);
         }
         $ratio = member_ratio($friend['uploaded'], $TRINITY20['ratio_free'] ? '0' : $friend['downloaded']);
-        $linktouser = "<a href='userdetails.php?id=".(int)$friend['id']."'><b>".format_username($friend)."</b></a>[$title]&nbsp;[$ratio]<br />{$lang['friends_last_seen']} ".($friend['perms'] < bt_options::PERMS_STEALTH ? get_date($friend['last_access'],
+        $linktouser = "<a href='userdetails.php?id=".(int)$friend['id']."'><b>".format_username($friend)."</b></a>[$title]&nbsp;[$ratio]<br>{$lang['friends_last_seen']} ".($friend['perms'] < bt_options::PERMS_STEALTH ? get_date($friend['last_access'],
                 '') : "Never");
         $delete = "<span class='btn'><a href='{$TRINITY20['baseurl']}/friends.php?id=$userid&amp;action=delete&amp;type=friend&amp;targetid=".(int)$friend['id']."'>{$lang['friends_remove']}</a></span>";
         $pm_link = "&nbsp;<span class='btn'><a href='{$TRINITY20['baseurl']}/pm_system.php?action=send_message&amp;receiver=".(int)$friend['id']."'>{$lang['friends_pm']}</a></span>";
@@ -263,7 +263,7 @@ if ($res->num_rows == 0) {
         if (!$avatar) {
             $avatar = "{$TRINITY20['pic_base_url']}default_avatar.gif";
         }
-        $friends .= "<div style='border: 1px solid black;padding:5px;'>".($avatar ? "<img width='50px' src='$avatar' style='float:right;' alt='' />" : "")."<p >{$linktouser}&nbsp;{$online}<br /><br />{$delete}{$pm_link}</p></div><br />";
+        $friends .= "<div style='border: 1px solid black;padding:5px;'>".($avatar ? "<img width='50px' src='$avatar' style='float:right;' alt=''>" : "")."<p >{$linktouser}&nbsp;{$online}<br><br>{$delete}{$pm_link}</p></div><br>";
     }
 }
 //== Friends block end
@@ -276,8 +276,8 @@ if ($res->num_rows == 0) {
 } else {
     while ($block = $res->fetch_assoc()) {
         $blocks .= "<div style='border: 1px solid black;padding:5px;'>";
-        $blocks .= "<span class='btn' style='float:right;'><a href='{$TRINITY20['baseurl']}/friends.php?id=$userid&amp;action=delete&amp;type=block&amp;targetid=".(int)$block['id']."'>{$lang['friends_delete']}</a></span><br />";
-        $blocks .= "<p><a href='userdetails.php?id=".(int)$block['id']."'><b>".format_username($block)."</b></a></p></div><br />";
+        $blocks .= "<span class='btn' style='float:right;'><a href='{$TRINITY20['baseurl']}/friends.php?id=$userid&amp;action=delete&amp;type=block&amp;targetid=".(int)$block['id']."'>{$lang['friends_delete']}</a></span><br>";
+        $blocks .= "<p><a href='userdetails.php?id=".(int)$block['id']."'><b>".format_username($block)."</b></a></p></div><br>";
     }
 }
 // Enemies block end
@@ -303,15 +303,15 @@ $user_country = isset($CURUSER['country']) ? "{$CURUSER['country']}" : '';
 foreach ($countries as $cntry) {
     if (($cntry['id'] ?? '') == $user_country) {
         if (is_array($cntry)) {
-            $country = "<img src=\"{$TRINITY20['pic_base_url']}flag/{$cntry['flagpic']}\" alt=\"".htmlsafechars($cntry['name'])."\" style='margin-left: 8pt' />";
+            $country = "<img src=\"{$TRINITY20['pic_base_url']}flag/{$cntry['flagpic']}\" alt=\"".htmlsafechars($cntry['name'])."\" style='margin-left: 8pt'>";
             break;
         }
     }
 }
-$HTMLOUT .= "<br />
+$HTMLOUT .= "<br>
   <table class='table table-bordered'>
   <tr><td class='embedded'><h1 style='margin:0px'>&nbsp;{$lang['friends_personal']}&nbsp;".htmlsafechars($user['username'], ENT_QUOTES)."&nbsp;$country</h1></td></tr></table>
-  <br /><table class='main' width='750' border='0' cellspacing='0' cellpadding='0'>
+  <br><table class='main' width='750' border='0' cellspacing='0' cellpadding='0'>
   <tr>
   <td class='colhead'><h2 align='left' style='width:50%;'><a name='friends'>&nbsp;{$lang['friends_friends_list']}</a></h2></td>
   <td class='colhead'><h2 align='left' style='width:50%;vertical-align:top;'><a name='blocks'>&nbsp;{$lang['friends_blocks_list']}</a></h2></td>
@@ -321,7 +321,7 @@ $HTMLOUT .= "<br />
   <td style='padding:10px;background-color:#777777;' valign='top'>$blocks</td>
   </tr>
   </table>
-  <br /><br />
+  <br><br>
   <table class='main' width='750' border='0' cellspacing='0' cellpadding='0'>
   <tr>
   <td class='colhead'><h2 align='left' style='width:50%;'><a name='friendsp'>&nbsp;{$lang['friends_pending_list']}</a></h2></td>

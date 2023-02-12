@@ -62,7 +62,7 @@ require_once(BLOCK_DIR.'usercp/navs.php');
 $HTMLOUT .= '
       <div class="tabs-content" data-tabs-content="usercp-tabs">';
 if (isset($_GET["edited"])) {
-    $HTMLOUT .= "<div class='callout success'>{$lang['usercp_updated']}!</div><br />";
+    $HTMLOUT .= "<div class='callout success'>{$lang['usercp_updated']}!</div><br>";
     if (isset($_GET["mailsent"])) {
         $HTMLOUT .= "<h2>{$lang['usercp_mail_sent']}!</h2>\n";
     }

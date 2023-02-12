@@ -23,7 +23,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -71,13 +71,13 @@ switch ($action2) {
             $i++;
         }
         $level_of_shittyness .= '</select>';
-        $HTMLOUT .= '<h1><img src="pic/smilies/shit.gif" alt="*" />'.$lang['shitlist_add1'].''.htmlsafechars($arr_name['username']).''.$lang['shitlist_add2'].'<img src="pic/smilies/shit.gif" alt="*" /></h1>
+        $HTMLOUT .= '<h1><img src="pic/smilies/shit.gif" alt="*">'.$lang['shitlist_add1'].''.htmlsafechars($arr_name['username']).''.$lang['shitlist_add2'].'<img src="pic/smilies/shit.gif" alt="*"></h1>
       <form method="post" action="staffpanel.php?tool=shit_list&amp;action=shit_list&amp;action2=add">
    <table border="0" cellspacing="0" cellpadding="5" align="center">
    <tr>
-      <td class="colhead" colspan="2">new <img src="pic/smilies/shit.gif" alt="*" /><img src="pic/smilies/shit.gif" alt="*" /><img src="pic/smilies/shit.gif" alt="*" />
-      <img src="pic/smilies/shit.gif" alt="*" /><img src="pic/smilies/shit.gif" alt="*" /><img src="pic/smilies/shit.gif" alt="*" />
-      <img src="pic/smilies/shit.gif" alt="*" /><img src="pic/smilies/shit.gif" alt="*" /><img src="pic/smilies/shit.gif" alt="*" /><img src="pic/smilies/shit.gif" alt="*" />'.$lang['shitlist_outof2'].'</td>
+      <td class="colhead" colspan="2">new <img src="pic/smilies/shit.gif" alt="*"><img src="pic/smilies/shit.gif" alt="*"><img src="pic/smilies/shit.gif" alt="*">
+      <img src="pic/smilies/shit.gif" alt="*"><img src="pic/smilies/shit.gif" alt="*"><img src="pic/smilies/shit.gif" alt="*">
+      <img src="pic/smilies/shit.gif" alt="*"><img src="pic/smilies/shit.gif" alt="*"><img src="pic/smilies/shit.gif" alt="*"><img src="pic/smilies/shit.gif" alt="*">'.$lang['shitlist_outof2'].'</td>
    </tr>
    <tr>
       <td align="right" valign="top"><b>'.$lang['shitlist_shittyness'].'</b></td>
@@ -89,10 +89,10 @@ switch ($action2) {
    </tr>
    <tr>
     <td align="center" colspan="2">
-      <input type="hidden" name="shit_list_id" value="'.$shit_list_id.'" />
-      <input type="hidden" name="return_to" value="'.$return_to.'" />
+      <input type="hidden" name="shit_list_id" value="'.$shit_list_id.'">
+      <input type="hidden" name="return_to" value="'.$return_to.'">
      
-      <input type="submit" class="button" value="'.$lang['shitlist_addthis'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" /></td>
+      <input type="submit" class="button" value="'.$lang['shitlist_addthis'].'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'"></td>
    </tr>
    </table></form>';
         break;
@@ -149,27 +149,27 @@ $HTMLOUT .= $message.'
    <table width="950" class="table table-bordered" cellpadding="5" align="center">
    <tr>
      <td class="colhead" align="center" valign="top" colspan="4">
-     <img src="pic/smilies/shit.gif" alt="*" />'.$lang['shitlist_message2'].'<img src="pic/smilies/shit.gif" alt="*" /></td>
+     <img src="pic/smilies/shit.gif" alt="*">'.$lang['shitlist_message2'].'<img src="pic/smilies/shit.gif" alt="*"></td>
    </tr>';
 $i = 1;
 if ($res->num_rows == 0) {
     $HTMLOUT .= '
    <tr>
       <td class="one" align="center" valign="top" colspan="4">
-      <img src="pic/smilies/shit.gif" alt="*" />'.$lang['shitlist_empty'].'<img src="pic/smilies/shit.gif" alt="*" /></td>
+      <img src="pic/smilies/shit.gif" alt="*">'.$lang['shitlist_empty'].'<img src="pic/smilies/shit.gif" alt="*"></td>
    </tr>';
 } else {
     while ($shit_list = $res->fetch_array(MYSQLI_BOTH)) {
         $shit = '';
         for ($poop = 1; $poop <= $shit_list['shittyness']; $poop++) {
-            $shit .= ' <img src="pic/smilies/shit.gif" title="'.(int)$shit_list['shittyness'].''.$lang['shitlist_scale'].'" alt="*" />';
+            $shit .= ' <img src="pic/smilies/shit.gif" title="'.(int)$shit_list['shittyness'].''.$lang['shitlist_scale'].'" alt="*">';
         }
         $HTMLOUT .= (($i % 2 == 1) ? '<tr>' : '').'
-      <td class="'.(($i % 2 == 0) ? 'one' : 'two').'" align="center" valign="top" width="80">'.avatar_stuff($shit_list).'<br />
+      <td class="'.(($i % 2 == 0) ? 'one' : 'two').'" align="center" valign="top" width="80">'.avatar_stuff($shit_list).'<br>
 
-      '.print_user_stuff($shit_list).'<br />
+      '.print_user_stuff($shit_list).'<br>
 
-      <b> [ '.get_user_class_name($shit_list['class']).' ]</b><br />
+      <b> [ '.get_user_class_name($shit_list['class']).' ]</b><br>
 
       <a class="altlink" href="staffpanel.php?tool=shit_list&amp;action=shit_list&amp;action2=delete&amp;shit_list_id='.(int)$shit_list['suspect_id'].'" title="'.$lang['shitlist_remove1'].'"><span class="btn" style="padding:1px;"><img style="vertical-align:middle;" src="'.$TRINITY20['pic_base_url'].'/polls/p_delete.gif">'.$lang['shitlist_remove2'].'</span></a>
       <a class="altlink" href="pm_system.php?action=send_message&receiver='.(int)$shit_list['suspect_id'].'" title="'.$lang['shitlist_send1'].'"><span class="btn" style="padding:1px;"><img style="vertical-align:middle;" src="'.$TRINITY20['pic_base_url'].'/message.gif">'.$lang['shitlist_send2'].'</span></a></td>
@@ -179,12 +179,12 @@ if ($res->num_rows == 0) {
       <b>'.$lang['shitlist_added'].'</b> '.get_date($shit_list['shit_list_added'], '').'
       [ '.get_date($shit_list['shit_list_added'], '', 0, 1).' ]
       <b>last seen:</b> '.get_date($shit_list['last_access'], '').' 
-      [ '.get_date($shit_list['last_access'], '', 0, 1).' ]<hr />
+      [ '.get_date($shit_list['last_access'], '', 0, 1).' ]<hr>
       '.format_comment($shit_list['text']).'</td>'.(($i % 2 == 0) ? '</tr><tr><td class="colhead" align="center" colspan="4"></td></tr>' : '');
         $i++;
     }
 } //=== end while
 $HTMLOUT .= (($i % 2 == 0) ? '<td class="one" align="center" colspan="2"></td></tr>' : '');
-$HTMLOUT .= '</table><p align="center"><span class="btn" style="padding:3px;"><img style="vertical-align:middle;" src="'.$TRINITY20['pic_base_url'].'/btn_search.gif" /><a class="altlink" href="users.php">'.$lang['shitlist_find'].'</span></a></p>';
+$HTMLOUT .= '</table><p align="center"><span class="btn" style="padding:3px;"><img style="vertical-align:middle;" src="'.$TRINITY20['pic_base_url'].'/btn_search.gif"><a class="altlink" href="users.php">'.$lang['shitlist_find'].'</span></a></p>';
 echo stdhead($lang['shitlist_stdhead'].htmlsafechars($CURUSER['username'])).$HTMLOUT.stdfoot();
 ?>

@@ -91,9 +91,9 @@ $HTMLOUT .= "<h1 class='text-center'>10&#37;</h1>
 <td style='padding-bottom: 0px'>
 <p><b>How it works:</b></p>
 <p class='sub'>From this page you can <b>add 10&#37;</b> of your current upload amount to your upload amount bringing it it to <b>110%</b> of its current amount. More details about how this would work out for you can be found in the tables below.</p>
-<br /><p><b>However, there are some things you should know first:</b></p><b>
-&#8226;&nbsp;This can only be done <b>once</b>, so chose your moment wisely.<br />
-&#8226;&nbsp;The staff will <b>not</b> reset your 10&#37; addition for any reason.<br /><br />
+<br><p><b>However, there are some things you should know first:</b></p><b>
+&#8226;&nbsp;This can only be done <b>once</b>, so chose your moment wisely.<br>
+&#8226;&nbsp;The staff will <b>not</b> reset your 10&#37; addition for any reason.<br><br>
 </b></td></tr></table>
 <table class='table table-bordered'>
 <tr><td class='normalrowhead'>Current&nbsp;upload&nbsp;amount:</td><td class='normal'>".str_replace(" ", "&nbsp;",
@@ -110,8 +110,8 @@ $HTMLOUT .= "<h1 class='text-center'>10&#37;</h1>
 </table>
 <form name='tenpercent' method='post' action='tenpercent.php'>
 <table class='table table-bordered'>
-<tr><td align='center'><b>Yes please </b><input type='checkbox' name='sure' value='1' onclick='if (this.checked) enablesubmit(); else disablesubmit();' /></td></tr>
-<tr><td align='center'><input type='submit' name='submit' value='Add 10%' class='btn' disabled='disabled' /></td></tr>
+<tr><td align='center'><b>Yes please </b><input type='checkbox' name='sure' value='1' onclick='if (this.checked) enablesubmit(); else disablesubmit();'></td></tr>
+<tr><td align='center'><input type='submit' name='submit' value='Add 10%' class='btn' disabled='disabled'></td></tr>
 </table></form>\n";
 $HTMLOUT .= "</div></div>";
 echo stdhead("Ten Percent").$HTMLOUT.stdfoot();

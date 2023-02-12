@@ -98,7 +98,7 @@ $lang = [
     'forum_search_found' => "Trouvé %d discussion(s)",
     'forum_search_again' => "Chercher à nouveau",
     'forum_search_words' => "Mots clefs",
-    'forum_search_3chars' => "Entrez un ou plusieurs mots à rechercher.<br />Les mots de moins de 3 caractères seront ingnorés.",
+    'forum_search_3chars' => "Entrez un ou plusieurs mots à rechercher.<br>Les mots de moins de 3 caractères seront ingnorés.",
     'forum_search_search_btn' => "Chercher",
     'forum_search_forum_search' => "Recherche Forum",
     //FORUM TOPIC VIEW

@@ -137,19 +137,19 @@ while ($arr = $res->fetch_assoc()) {
     // =======end
     $HTMLOUT .= "
     <table class='table table-bordered'>
-    <tr><td class='colhead' width='100%'>".($newposts ? " <b><font color='red'>New Reply !</font></b>" : "")."<br /><b>Forum: </b>
+    <tr><td class='colhead' width='100%'>".($newposts ? " <b><font color='red'>New Reply !</font></b>" : "")."<br><b>Forum: </b>
 <a class='altlink' href='{$TRINITY20['baseurl']}/forums.php?action=viewforum&amp;forumid=$forumid'>{$forumname}</a>
 <b>Topic: </b>
 <a class='altlink' href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid'>{$topicname}</a>
 <b>Post: </b>
-#<a class='altlink' href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid&amp;page=p$postid#$postid'>{$postid}</a><br />
+#<a class='altlink' href='{$TRINITY20['baseurl']}/forums.php?action=viewtopic&amp;topicid=$topicid&amp;page=p$postid#$postid'>{$postid}</a><br>
 <b>Last Post By:</b><a class='altlink' href='{$TRINITY20['baseurl']}/userdetails.php?id=$posterid'><b>".htmlsafechars($res3['username'])."</b></a> added:{$added}</td>
 <td class='colhead' align='right' width='20%'>";
     // === delete subscription
     if (isset($_GET["check"]) == "yes") {
-        $HTMLOUT .= "<input type='checkbox' checked='checked' name='deletesubscription[]' value='{$topicid}' />";
+        $HTMLOUT .= "<input type='checkbox' checked='checked' name='deletesubscription[]' value='{$topicid}'>";
     } else {
-        $HTMLOUT .= "<input type='checkbox' name='deletesubscription[]' value='{$topicid}' />";
+        $HTMLOUT .= "<input type='checkbox' name='deletesubscription[]' value='{$topicid}'>";
     }
     // === end
     $HTMLOUT .= "<b>un-subscribe</b></td></tr></table>\n";
@@ -170,7 +170,7 @@ $HTMLOUT .= "<form action=\"".$_SERVER["PHP_SELF"]."\" method=\"post\">
 <td class='colhead text-center'>
 <a class='altlink' href='{$TRINITY20['baseurl']}/subscriptions.php?action=".(isset($_GET["action"]) ? (htmlsafechars($_GET["action"])) : "")."&amp;box=".(isset($_GET["box"]) ? ((int)$_GET["box"]) : "")."&amp;check=yes'>select all</a> -
 <a class='altlink' href='{$TRINITY20['baseurl']}/subscriptions.php?action=".(isset($_GET["action"]) ? (htmlsafechars($_GET["action"])) : '')."&amp;box=".(isset($_GET["box"]) ? ((int)$_GET["box"]) : '')."&amp;uncheck=yes'>un-select all</a>
-<input class='button' type='submit' name='delete' value='Delete' /> selected</td></tr></table></form>";
+<input class='button' type='submit' name='delete' value='Delete'> selected</td></tr></table></form>";
 $HTMLOUT .= "</div></div>";
 echo stdhead('Subscriptions').$HTMLOUT.stdfoot();
 die;

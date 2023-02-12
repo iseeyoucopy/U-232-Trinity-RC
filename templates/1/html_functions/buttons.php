@@ -6,7 +6,7 @@ function tr($x, $y, $noesc = 0)
     }
     else {
         $a = htmlsafechars($y);
-        $a = str_replace("\n", "<br />\n", $a);
+        $a = str_replace("\n", "<br>\n", $a);
     }
     return "<tr>
 				<td>$x</td>

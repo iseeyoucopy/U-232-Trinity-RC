@@ -116,7 +116,7 @@ function crazyhour_announce()
                 $cache->set($cache_keys['crazyhour'], $cz['crazyhour']);
                 // log, shoutbot
                 $text = 'w00t! It\'s [color=orange][b]Crazyhour[/b][/color] :w00t:';
-                $text_parsed = 'w00t! It\'s <span style="font-weight:bold;color:orange;">Crazyhour</span> <img src="pic/smilies/w00t.gif" alt=":w00t:" />';
+                $text_parsed = 'w00t! It\'s <span style="font-weight:bold;color:orange;">Crazyhour</span> <img src="pic/smilies/w00t.gif" alt=":w00t:">';
                 ann_sql_query('INSERT LOW_PRIORITY INTO sitelog (added, txt) 
             VALUES('.TIME_NOW.', '.ann_sqlesc($text_parsed).')') || ann_sqlerr(__FILE__, __LINE__);
                 ann_sql_query('INSERT LOW_PRIORITY INTO shoutbox (userid, date, text, text_parsed) '.'VALUES (2, '.TIME_NOW.', '.ann_sqlesc($text).', '.ann_sqlesc($text_parsed).')') || ann_sqlerr(__FILE__,

@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -109,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 stderr($lang['leechwarn_success'],
                     count($pms).$lang['leechwarn_user'].(count($pms) > 1 ? $lang['leechwarn_s'] : "").$lang['leechwarn_removed_success']);
             } else {
-                stderr($lang['leechwarn_stderror'], $lang['leechwarn_q1'].$q_err."<br />{$lang['leechwarn_q2']}".$q2_err);
+                stderr($lang['leechwarn_stderror'], $lang['leechwarn_q1'].$q_err."<br>{$lang['leechwarn_q2']}".$q2_err);
             }
         }
     }
@@ -143,18 +143,18 @@ if ($count == 0) {
 			<td class='colhead' align='center' nowrap='nowrap'>{$lang['leechwarn_class']}</td>
 			<td class='colhead' align='center' nowrap='nowrap'>{$lang['leechwarn_access']}</td>
 			<td class='colhead' align='center' nowrap='nowrap'>{$lang['leechwarn_joined']}</td>
-			<td class='colhead' align='center' nowrap='nowrap'><input type='checkbox' name='checkall' /></td>
+			<td class='colhead' align='center' nowrap='nowrap'><input type='checkbox' name='checkall'></td>
 		</tr>";
     while ($a = $g->fetch_assoc()) {
-        $tip = ($do == "leechwarn" ? $lang['leechwarn_warned_for'].htmlsafechars($a["warn_reason"])."<br />".$lang['leechwarn_warned_till'].get_date($a["leechwarn"],
+        $tip = ($do == "leechwarn" ? $lang['leechwarn_warned_for'].htmlsafechars($a["warn_reason"])."<br>".$lang['leechwarn_warned_till'].get_date($a["leechwarn"],
                 'DATE', 1)." - ".mkprettytime($a['leechwarn'] - TIME_NOW) : $lang['leechwarn_disabled_for'].htmlsafechars($a["disable_reason"]));
         $HTMLOUT .= "<tr>
 				  <td align='left' width='100%'><a href='userdetails.php?id=".(int)$a["id"]."' onmouseover=\"Tip('($tip)')\" onmouseout=\"UnTip()\">".htmlsafechars($a["username"])."</a></td>
-				  <td align='left' nowrap='nowrap'>".(float)$a["ratio"]."<br /><font class='small'><b>{$lang['leechwarn_d']}</b>".mksize($a["downloaded"])."&nbsp;<b>{$lang['leechwarn_u']}</b> ".mksize($a["uploaded"])."</font></td>
+				  <td align='left' nowrap='nowrap'>".(float)$a["ratio"]."<br><font class='small'><b>{$lang['leechwarn_d']}</b>".mksize($a["downloaded"])."&nbsp;<b>{$lang['leechwarn_u']}</b> ".mksize($a["uploaded"])."</font></td>
 				  <td align='center' nowrap='nowrap'>".get_user_class_name($a["class"])."</td>
 				  <td align='center' nowrap='nowrap'>".get_date($a["last_access"], 'LONG', 0, 1)."</td>
 				  <td align='center' nowrap='nowrap'>".get_date($a["added"], 'DATE', 1)."</td>
-				  <td align='center' nowrap='nowrap'><input type='checkbox' name='users[]' value='".(int)$a["id"]."' /></td>
+				  <td align='center' nowrap='nowrap'><input type='checkbox' name='users[]' value='".(int)$a["id"]."'></td>
 				</tr>";
     }
     $HTMLOUT .= "<tr>
@@ -165,8 +165,8 @@ if ($count == 0) {
 					<option value='delete'>{$lang['leechwarn_delete']}</option>
 				</select>
 				&raquo;
-				<input type='submit' value='{$lang['leechwarn_apply']}' />
-				<input type='hidden' value='".htmlsafechars($_SERVER["REQUEST_URI"])."' name='ref' />
+				<input type='submit' value='{$lang['leechwarn_apply']}'>
+				<input type='hidden' value='".htmlsafechars($_SERVER["REQUEST_URI"])."' name='ref'>
 			</td>
 			</tr>
 			</table>

@@ -92,7 +92,7 @@ $HTMLOUT .= "<tr>
 if ($pretime['time'] == '0') {
     $prestatement = "{$lang['details_add_pre1']}";
 } else {
-    $prestatement = get_pretime(time() - $pretime['time'])."{$lang['details_add_pre2']}<br />{$lang['details_add_pre3']}".get_pretime($torrents['added'] - $pretime['time'])."{$lang['details_add_pre4']}";
+    $prestatement = get_pretime(time() - $pretime['time'])."{$lang['details_add_pre2']}<br>{$lang['details_add_pre3']}".get_pretime($torrents['added'] - $pretime['time'])."{$lang['details_add_pre4']}";
 }
 $HTMLOUT .= "<tr>
         <td>{$lang['details_add_pre5']}</td>
@@ -204,9 +204,9 @@ $reseed = "<form method=\"post\" action=\"./takereseed.php\">
       <option value=\"last10\">{$lang['details_add_reseed1']}</option>
       <option value=\"owner\">{$lang['details_add_reseed2']}</option>
       </select>
-      <input type=\"submit\"  ".(($next_reseed > TIME_NOW) ? "disabled='disabled'" : "")." value=\"{$lang['details_add_reseed3']}\" />
-      <input type=\"hidden\" name=\"uploader\" value=\"".(int)$torrents["owner"]."\" />
-      <input type=\"hidden\" name=\"reseedid\" value=\"$id\" />
+      <input type=\"submit\"  ".(($next_reseed > TIME_NOW) ? "disabled='disabled'" : "")." value=\"{$lang['details_add_reseed3']}\">
+      <input type=\"hidden\" name=\"uploader\" value=\"".(int)$torrents["owner"]."\">
+      <input type=\"hidden\" name=\"reseedid\" value=\"$id\">
       </form>";
 $HTMLOUT .= tr($lang['details_add_reseed4'], $reseed, 1);
 //==End

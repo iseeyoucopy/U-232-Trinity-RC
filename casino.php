@@ -406,9 +406,9 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
     //== Place bet table
     if ($openbet < $maxusrbet) {
         if ($totbets >= $maxtotbet) {
-            $HTMLOUT .= "<br />{$lang['casino_there_are_already']} ".htmlsafechars($maxtotbet)." {$lang['casino_bets_open_take_an_open_bet']} !<br />";
+            $HTMLOUT .= "<br>{$lang['casino_there_are_already']} ".htmlsafechars($maxtotbet)." {$lang['casino_bets_open_take_an_open_bet']} !<br>";
         } else {
-            $HTMLOUT .= "<br />
+            $HTMLOUT .= "<br>
             <form class=\"form-horizontal\" name=\"p2p\" method=\"post\" action=\"casino.php\">
         <div class='card'>
 	<div class='card-divider'>
@@ -419,17 +419,17 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
             $HTMLOUT .= "<tr><td align=\"center\" colspan=\"2\" class=\"colhead\">{$lang['casino_place_bet']}</td></tr>";
             $HTMLOUT .= "<tr><td align=\"center\"><b>{$lang['casino_amount_to_bet']}</b>
 
-            <div class='row'><div class='col-sm-3 col-sm-offset-3'><input class=\"form-control input-small\" type=\"text\" name=\"amnt\" size=\"5\" value=\"1\" /></div>
+            <div class='row'><div class='col-sm-3 col-sm-offset-3'><input class=\"form-control input-small\" type=\"text\" name=\"amnt\" size=\"5\" value=\"1\"></div>
             <div class='col-sm-3'><select class=\"form-control\" name=\"unit\">
 
             <option value=\"1\">MB</option>
             <option value=\"2\">GB</option>
             </select></div></div></td></tr>";
-            $HTMLOUT .= "<tr><td align=\"center\" colspan=\"2\"><input class='btn btn-default' type=\"submit\" value=\"{$lang['casino_gamble']}!\" />";
-            $HTMLOUT .= "</td></tr></table></div></form></div></div></div></div><br />";
+            $HTMLOUT .= "<tr><td align=\"center\" colspan=\"2\"><input class='btn btn-default' type=\"submit\" value=\"{$lang['casino_gamble']}!\">";
+            $HTMLOUT .= "</td></tr></table></div></form></div></div></div></div><br>";
         }
     } else {
-        $HTMLOUT .= "<b>{$lang['casino_you_already_have']} ".htmlsafechars($maxusrbet)." {$lang['casino_open_bets_wait_until_they_are_comp']}.</b><br /><br />";
+        $HTMLOUT .= "<b>{$lang['casino_you_already_have']} ".htmlsafechars($maxusrbet)." {$lang['casino_open_bets_wait_until_they_are_comp']}.</b><br><br>";
     }
     //== Open Bets table
     $HTMLOUT .= "<div class='card'>	
@@ -451,7 +451,7 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
     if ($abcdefgh == false) {
         $HTMLOUT .= "<tr><td align='center' colspan='4'>{$lang['casino_sorry_no_bets_currently']}.</td></tr>";
     }
-    $HTMLOUT .= "</table></div><br />";
+    $HTMLOUT .= "</table></div><br>";
 
     //== Bet on color table
     $HTMLOUT .= "<div class='row'>
@@ -460,8 +460,8 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
 		<form class=\"form-horizontal\" name=\"casino\" method=\"post\" action=\"casino.php\">
             <table class=\"message table table-bordered\" cellspacing=\"0\">\n";
     $HTMLOUT .= "<tr><td align=\"center\" class=\"colhead\" colspan=\"2\">{$lang['casino_bet_on_a_colour']}</td></tr>";
-    $HTMLOUT .= tr($lang['casino_black'], "<input name=\"color\" type=\"radio\" checked=\"checked\" value=\"black\" />", 1);
-    $HTMLOUT .= tr($lang['casino_red'], "<input name=\"color\" type=\"radio\" checked=\"checked\" value=\"red\" />", 1);
+    $HTMLOUT .= tr($lang['casino_black'], "<input name=\"color\" type=\"radio\" checked=\"checked\" value=\"black\">", 1);
+    $HTMLOUT .= tr($lang['casino_red'], "<input name=\"color\" type=\"radio\" checked=\"checked\" value=\"red\">", 1);
     $HTMLOUT .= tr($lang['casino_how_much'], "
             <select class-\"form-control\" name=\"betmb\">
             <option value=\"{$bet_value1}\">".mksize($bet_value1)."</option>
@@ -475,7 +475,7 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
     $real_chance = $show_real_chance ? $cheat_value + 1 : 2;
     $HTMLOUT .= tr($lang['casino_your_chance'], "1 : ".$real_chance, 1);
     $HTMLOUT .= tr($lang['casino_you_can_win'], $win_amount." * stake", 1);
-    $HTMLOUT .= tr($lang['casino_bet_on_color'], "<input class='btn btn-default'  type=\"submit\" value=\"{$lang['casino_do_it']}!\" />", 1);
+    $HTMLOUT .= tr($lang['casino_bet_on_color'], "<input class='btn btn-default'  type=\"submit\" value=\"{$lang['casino_do_it']}!\">", 1);
     $HTMLOUT .= "</table></form></div></div>";
     //== Bet on number table
     $HTMLOUT .= "<div class='col-sm-6'>";
@@ -484,10 +484,10 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
             <table class=\"message table table-bordered\"  cellspacing=\"0\">\n";
     $HTMLOUT .= "<tr><td align=\"center\" class=\"colhead\" colspan=\"2\">{$lang['casino_bet_on_a_number']}</td></tr>";
     $HTMLOUT .= tr($lang['casino_number'],
-        '<input name="number" type="radio" checked="checked" value="1" />1&nbsp;&nbsp;<input name="number" type="radio" value="2" />2&nbsp;&nbsp;<input name="number" type="radio" value="3" />3',
+        '<input name="number" type="radio" checked="checked" value="1">1&nbsp;&nbsp;<input name="number" type="radio" value="2">2&nbsp;&nbsp;<input name="number" type="radio" value="3">3',
         1);
     $HTMLOUT .= tr("",
-        '<input name="number" type="radio" value="4" />4&nbsp;&nbsp;<input name="number" type="radio" value="5" />5&nbsp;&nbsp;<input name="number" type="radio" value="6" />6',
+        '<input name="number" type="radio" value="4">4&nbsp;&nbsp;<input name="number" type="radio" value="5">5&nbsp;&nbsp;<input name="number" type="radio" value="6">6',
         1);
     $HTMLOUT .= tr($lang['casino_how_much'], "
             <select class=\"form-control\" name=\"betmb\">
@@ -502,7 +502,7 @@ if (isset($color_options[$post_color], $number_options[$post_number]) || isset($
     $real_chance = $show_real_chance ? $cheat_value + 5 : 6;
     $HTMLOUT .= tr($lang['casino_your_chance'], "1 : ".$real_chance, 1);
     $HTMLOUT .= tr($lang['casino_you_can_win'], $win_amount_on_number." * stake", 1);
-    $HTMLOUT .= tr($lang['casino_bet_on_a_number'], "<input class='btn btn-default'  type=\"submit\" value=\"{$lang['casino_do_it']}!\" />", 1);
+    $HTMLOUT .= tr($lang['casino_bet_on_a_number'], "<input class='btn btn-default'  type=\"submit\" value=\"{$lang['casino_do_it']}!\">", 1);
     $HTMLOUT .= "</table></form></div></div></div>";
     //== User stats table
     $HTMLOUT .= "<div class='card'><table class='table table-bordered'>";

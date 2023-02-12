@@ -65,11 +65,11 @@ if (!empty($requests)) {
                     $torrname = substr($torrname, 0, 50)."...";
                 }
                 $HTMLOUT .= " <tbody><tr>
-                <td class='text-center'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($requestarr["cat_pic"])."' alt='".htmlsafechars($requestarr["cat_name"])."' title='".htmlsafechars($requestarr["cat_name"])."' /></td>
+                <td class='text-center'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($requestarr["cat_pic"])."' alt='".htmlsafechars($requestarr["cat_name"])."' title='".htmlsafechars($requestarr["cat_name"])."'></td>
                     <td class='text-left'><a href=\"{$TRINITY20['baseurl']}/requests.php?action=request_details&amp;id=".(int)$requestarr['request_id']."&amp;hit=1\" >{$torrname}</a></td>
             <td class='text-center'>".get_date($requestarr['added'], 'LONG')."</td>
                 <td class='text-center'>".number_format($requestarr['comments'])."</td>  
-                <td class='text-center'>{$lang['req_off_yes2']}".number_format($requestarr['vote_yes_count'])."<br />
+                <td class='text-center'>{$lang['req_off_yes2']}".number_format($requestarr['vote_yes_count'])."<br>
                             {$lang['req_off_no2']}".number_format($requestarr['vote_no_count'])."</td> 
                 <td class='text-center'>".print_user_stuff($requestarr)."</td>
             <td class='text-center'>".$request_f."</td>
@@ -123,11 +123,11 @@ if ((is_countable($offers) ? count($offers) : 0) > 0) {
                     $torrname = substr($torrname, 0, 50)."...";
                 }
                 $HTMLOUT .= " <tbody><tr>
-                <td class='text-center'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($offerarr["cat_pic"])."' alt='".htmlsafechars($offerarr["cat_name"])."' title='".htmlsafechars($offerarr["cat_name"])."' /></td>
+                <td class='text-center'><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($offerarr["cat_pic"])."' alt='".htmlsafechars($offerarr["cat_name"])."' title='".htmlsafechars($offerarr["cat_name"])."'></td>
                     <td class='text-left'><a href=\"{$TRINITY20['baseurl']}/offers.php?action=offer_details&amp;id=".(int)$offerarr['offer_id']."&amp;hit=1\" >{$torrname}</a></td>
             <td class='text-center'>".get_date($offerarr['added'], 'LONG')."</td>
                 <td class='text-center'>".number_format($offerarr['comments'])."</td>  
-                <td class='text-center'>{$lang['req_off_yes2']}".number_format($offerarr['vote_yes_count'])."<br />
+                <td class='text-center'>{$lang['req_off_yes2']}".number_format($offerarr['vote_yes_count'])."<br>
                             {$lang['req_off_no2']}".number_format($offerarr['vote_no_count'])."</td> 
                 <td class='text-center'>".print_user_stuff($offerarr)."</td>
             <td class='text-center'>".$status."</td>

@@ -20,7 +20,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     for ($i = UC_MIN; $i <= UC_MAX; $i++) {
         $out .= '<tr><td>'.get_user_class_name($i).'</td><td><input name=\'limit['.$i.']\' type=\'text\' size=\'10\' value=\''.($limit[$i] ?? 0).'\'/></td></tr>';
     }
-    $out .= '<tr><td>'.$lang['floodlimit_note'].'</td></tr><tr><td><input type=\'submit\' value=\''.$lang['floodlimit_save'].'\' /></td></tr>';
+    $out .= '<tr><td>'.$lang['floodlimit_note'].'</td></tr><tr><td><input type=\'submit\' value=\''.$lang['floodlimit_save'].'\'></td></tr>';
     $out .= '</table></form>';
     $out .= '</div></div>';
     //$out.= '</table></form>' . end_frame() . end_main_frame();

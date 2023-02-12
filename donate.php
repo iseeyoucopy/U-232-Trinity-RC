@@ -21,18 +21,18 @@ $lang = array_merge(load_language('global'));
 $nick = ($CURUSER ? $CURUSER["username"] : ("Guest".random_int(1000, 9999)));
 $form_template = <<<PAYPAL
 <form action='https://www.{$TRINITY20['paypal_config']['sandbox']}paypal.com/cgi-bin/webscr' method='post'>
-<input type='hidden' name='business' value='{$TRINITY20['paypal_config']['email']}' />
-<input type='hidden' name='cmd' value='_xclick' />
-<input type='hidden' name='amount' value='#amount' />
-<input type='hidden' name='item_name' value='#item_name' />
-<input type='hidden' name='item_number' value='#item_number' />
-<input type='hidden' name='currency_code' value='{$TRINITY20['paypal_config']['currency']}' />
-<input type='hidden' name='no_shipping' value='1' />
-<input type='hidden' name='notify_url' value='{$TRINITY20['baseurl']}/donatecheck.php' />
-<input type='hidden' name='rm' value='2' />
-<input type='hidden' name='custom' value='#id' />
-<input type='hidden' name='return' value='{$TRINITY20['baseurl']}/donate.php?done=1' />
-<input type='submit' value='Donate #amount {$TRINITY20['paypal_config']['currency']}' />
+<input type='hidden' name='business' value='{$TRINITY20['paypal_config']['email']}'>
+<input type='hidden' name='cmd' value='_xclick'>
+<input type='hidden' name='amount' value='#amount'>
+<input type='hidden' name='item_name' value='#item_name'>
+<input type='hidden' name='item_number' value='#item_number'>
+<input type='hidden' name='currency_code' value='{$TRINITY20['paypal_config']['currency']}'>
+<input type='hidden' name='no_shipping' value='1'>
+<input type='hidden' name='notify_url' value='{$TRINITY20['baseurl']}/donatecheck.php'>
+<input type='hidden' name='rm' value='2'>
+<input type='hidden' name='custom' value='#id'>
+<input type='hidden' name='return' value='{$TRINITY20['baseurl']}/donate.php?done=1'>
+<input type='submit' value='Donate #amount {$TRINITY20['paypal_config']['currency']}'>
 </form>
 PAYPAL;
 //this shows what they get

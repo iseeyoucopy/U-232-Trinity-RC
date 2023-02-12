@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -157,7 +157,7 @@ if ($result->num_rows != 0) {
 <td align="center">'.htmlsafechars(mksize($row['uploaded'])).'</td>
 '.($TRINITY20['ratio_free'] == true ? '' : '<td align="center">'.htmlsafechars(mksize($row['downloaded'])).'</td>').'
 <td align="center">'.htmlsafechars($row['torrent_pass']).'</td>
-<td align="center">'.($row['active'] >= 1 ? "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='{$lang['wpeers_yes']}' title='{$lang['wpeers_yes']}' />" : "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='{$lang['wpeers_no']}' title='{$lang['wpeers_no']}' />").'</td>
+<td align="center">'.($row['active'] >= 1 ? "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='{$lang['wpeers_yes']}' title='{$lang['wpeers_yes']}'>" : "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='{$lang['wpeers_no']}' title='{$lang['wpeers_no']}'>").'</td>
 <td align="center">'.get_date($row['mtime'], 'DATE', 0, 1).'</td>
 <td align="center">'.htmlsafechars(mksize($row['upspeed'])).'/s</td>
 '.($TRINITY20['ratio_free'] == true ? '' : '<td align="center">'.htmlsafechars(mksize($row['downspeed'])).'/s</td>').'
@@ -172,8 +172,8 @@ if ($result->num_rows != 0) {
 <td align="center">'.htmlsafechars(mksize($row['uploaded'])).'</td>
 '.($TRINITY20['ratio_free'] == true ? '' : '<td align="center">'.htmlsafechars(mksize($row['downloaded'])).'</td>').'
 <td align="center">'.htmlsafechars($row['torrent_pass']).'</td>
-<td align="center">'.($row['connectable'] == 'yes' ? "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='{$lang['wpeers_yes']}' title='{$lang['wpeers_yes']}' />" : "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='{$lang['wpeers_no']}' title='{$lang['wpeers_no']}' />").'</td>
-<td align="center">'.($row['seeder'] == 'yes' ? "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='{$lang['wpeers_yes']}' title='{$lang['wpeers_yes']}' />" : "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='{$lang['wpeers_no']}' title='{$lang['wpeers_no']}' />").'</td>
+<td align="center">'.($row['connectable'] == 'yes' ? "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='{$lang['wpeers_yes']}' title='{$lang['wpeers_yes']}'>" : "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='{$lang['wpeers_no']}' title='{$lang['wpeers_no']}'>").'</td>
+<td align="center">'.($row['seeder'] == 'yes' ? "<img src='".$TRINITY20['pic_base_url']."aff_tick.gif' alt='{$lang['wpeers_yes']}' title='{$lang['wpeers_yes']}'>" : "<img src='".$TRINITY20['pic_base_url']."aff_cross.gif' alt='{$lang['wpeers_no']}' title='{$lang['wpeers_no']}'>").'</td>
 <td align="center">'.get_date($row['started'], 'DATE').'</td>
 <td align="center">'.get_date($row['last_action'], 'DATE', 0, 1).'</td>
 <td align="center">'.htmlsafechars(mksize($row['uploadoffset'])).'</td>

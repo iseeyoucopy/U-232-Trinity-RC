@@ -12,12 +12,12 @@ while ($arr = $res->fetch_assoc()) {
     $notes = htmlsafechars($arr["notes"]);
     $clienticon = '';
     if ($arr["clienticon"] != "") {
-        $clienticon = "<img src='".$TRINITY20['pic_base_url']."achievements/".htmlsafechars($arr["clienticon"])."' title='".htmlsafechars($arr['achievname'])."' alt='".htmlsafechars($arr['achievname'])."' />";
+        $clienticon = "<img src='".$TRINITY20['pic_base_url']."achievements/".htmlsafechars($arr["clienticon"])."' title='".htmlsafechars($arr['achievname'])."' alt='".htmlsafechars($arr['achievname'])."'>";
     }
     $HTMLOUT .= "<tr>
 			<td>$clienticon</td>
 			<td>$notes</td>
-			<td>".htmlsafechars($arr['count'])."<br />times</td>
+			<td>".htmlsafechars($arr['count'])."<br>times</td>
 			</tr>\n";
 }
 $HTMLOUT .= "</table></div>";

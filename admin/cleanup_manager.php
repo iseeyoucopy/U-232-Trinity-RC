@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -127,16 +127,16 @@ function cleanup_show_main()
         $row['_title'] = $row['clean_on'] != 1 ? " {$lang['cleanup_lock']}" : '';
         $row['_clean_time'] = $row['clean_on'] != 1 ? "<span style='color:red'>{$row['_clean_time']}</span>" : $row['_clean_time'];
         $htmlout .= "<tr>
-          <td{$row['_class']}><strong>{$row['clean_title']}{$row['_title']}</strong><br />{$row['clean_desc']}</td>
+          <td{$row['_class']}><strong>{$row['clean_title']}{$row['_title']}</strong><br>{$row['clean_desc']}</td>
           <td>".mkprettytime($row['clean_increment'])."</td>
           <td>{$row['_clean_time']}</td>
           <td align='center'><a href='staffpanel.php?tool=cleanup_manager&amp;action=cleanup_manager&amp;mode=edit&amp;cid={$row['clean_id']}'>
-            <img src='./pic/aff_tick.gif' alt='{$lang['cleanup_edit2']}' title='{$lang['cleanup_edit']}' border='0' height='12' width='12' /></a></td>
+            <img src='./pic/aff_tick.gif' alt='{$lang['cleanup_edit2']}' title='{$lang['cleanup_edit']}' border='0' height='12' width='12'></a></td>
 
           <td align='center'><a href='staffpanel.php?tool=cleanup_manager&amp;action=cleanup_manager&amp;mode=delete&amp;cid={$row['clean_id']}'>
-            <img src='./pic/aff_cross.gif' alt='{$lang['cleanup_delete2']}' title='{$lang['cleanup_delete1']}' border='0' height='12' width='12' /></a></td>
+            <img src='./pic/aff_cross.gif' alt='{$lang['cleanup_delete2']}' title='{$lang['cleanup_delete1']}' border='0' height='12' width='12'></a></td>
           <td align='center'><a href='staffpanel.php?tool=cleanup_manager&amp;action=cleanup_manager&amp;mode=unlock&amp;cid={$row['clean_id']}&amp;clean_on={$row['clean_on']}'>
-            <img src='./pic/warned.png' alt='{$lang['cleanup_off_on2']}' title='{$lang['cleanup_off_on']}' border='0' height='12' width='12' /></a></td>
+            <img src='./pic/warned.png' alt='{$lang['cleanup_off_on2']}' title='{$lang['cleanup_off_on']}' border='0' height='12' width='12'></a></td>
 <td align='center'><a href='staffpanel.php?tool=cleanup_manager&amp;action=cleanup_manager&amp;mode=run&amp;cid={$row['clean_id']}'>{$lang['cleanup_run_now2']}</a></td>
  </tr>";
     }
@@ -144,7 +144,7 @@ function cleanup_show_main()
     if ($count1 > $perpage) {
         $htmlout .= $pager['pagerbottom'];
     }
-    $htmlout .= "<br />
+    $htmlout .= "<br>
                 <span class='button'><a href='./staffpanel.php?tool=cleanup_manager&amp;action=cleanup_manager&amp;mode=new'>{$lang['cleanup_add_new']}</a></span>";
     echo stdhead($lang['cleanup_stdhead']).$htmlout.stdfoot();
 }
@@ -174,38 +174,38 @@ function cleanup_show_edit()
     $htmlout = "<h2>{$lang['cleanup_show_head']} {$row['clean_title']}</h2>
     <div style='width: 800px; text-align: left; padding: 10px; margin: 0 auto;border-style: solid; border-color: #333333; border-width: 5px 2px;'>
     <form name='inputform' method='post' action='staffpanel.php?tool=cleanup_manager&amp;action=cleanup_manager'>
-    <input type='hidden' name='mode' value='takeedit' />
-    <input type='hidden' name='cid' value='{$row['clean_id']}' />
+    <input type='hidden' name='mode' value='takeedit'>
+    <input type='hidden' name='cid' value='{$row['clean_id']}'>
     
     <div style='margin-bottom:5px;'>
     <label style='float:left;width:200px;'>{$lang['cleanup_show_title']}</label>
-    <input type='text' value='{$row['clean_title']}' name='clean_title' style='width:250px;' /></div>
+    <input type='text' value='{$row['clean_title']}' name='clean_title' style='width:250px;'></div>
     <div style='margin-bottom:5px;'>
     <label style='float:left;width:200px;'>{$lang['cleanup_show_descr']}</label>
-    <input type='text' value='{$row['clean_desc']}' name='clean_desc' style='width:380px;' />
+    <input type='text' value='{$row['clean_desc']}' name='clean_desc' style='width:380px;'>
     </div>
     
     <div style='margin-bottom:5px;'>
     <label style='float:left;width:200px;'>{$lang['cleanup_show_file']}</label>
-    <input type='text' value='{$row['clean_file']}' name='clean_file' style='width:380px;' />
+    <input type='text' value='{$row['clean_file']}' name='clean_file' style='width:380px;'>
     
     </div>
     
     
     <div style='margin-bottom:5px;'>
     <label style='float:left;width:200px;'>{$lang['cleanup_show_interval']}</label>
-    <input type='text' value='{$row['clean_increment']}' name='clean_increment' style='width:380px;' />
+    <input type='text' value='{$row['clean_increment']}' name='clean_increment' style='width:380px;'>
     </div>
     
     <div style='margin-bottom:5px;'>
-    <label style='float:left;width:200px;'>{$lang['cleanup_show_log']}</label>{$lang['cleanup_show_yes']}<input name='clean_log' value='1' $logyes type='radio' />&nbsp;&nbsp;&nbsp;<input name='clean_log' value='0' $logno type='radio' />{$lang['cleanup_show_no']}</div>
+    <label style='float:left;width:200px;'>{$lang['cleanup_show_log']}</label>{$lang['cleanup_show_yes']}<input name='clean_log' value='1' $logyes type='radio'>&nbsp;&nbsp;&nbsp;<input name='clean_log' value='0' $logno type='radio'>{$lang['cleanup_show_no']}</div>
     
     <div style='margin-bottom:5px;'>
     <label style='float:left;width:200px;'>{$lang['cleanup_show_on']}</label>
-    {$lang['cleanup_show_yes']} <input name='clean_on' value='1' $cleanon type='radio' />&nbsp;&nbsp;&nbsp;<input name='clean_on' value='0' $cleanoff type='radio' /> {$lang['cleanup_show_no']}
+    {$lang['cleanup_show_yes']} <input name='clean_on' value='1' $cleanon type='radio'>&nbsp;&nbsp;&nbsp;<input name='clean_on' value='0' $cleanoff type='radio'> {$lang['cleanup_show_no']}
     </div>
     
-    <div style='text-align:center;'><input type='submit' name='submit' value='{$lang['cleanup_show_edit']}' class='button' />&nbsp;<input type='button' value='{$lang['cleanup_show_cancel']}' onclick='history.back()' /></div>
+    <div style='text-align:center;'><input type='submit' name='submit' value='{$lang['cleanup_show_edit']}' class='button'>&nbsp;<input type='button' value='{$lang['cleanup_show_cancel']}' onclick='history.back()'></div>
     </form>
     </div>";
     echo stdhead($lang['cleanup_show_stdhead']).$htmlout.stdfoot();
@@ -278,40 +278,40 @@ function cleanup_show_new()
     $htmlout = "<h2>{$lang['cleanup_new_head']}</h2>
     <div style='width: 800px; text-align: left; padding: 10px; margin: 0 auto;border-style: solid; border-color: #333333; border-width: 5px 2px;'>
     <form name='inputform' method='post' action='staffpanel.php?tool=cleanup_manager&amp;action=cleanup_manager'>
-    <input type='hidden' name='mode' value='takenew' />
+    <input type='hidden' name='mode' value='takenew'>
     
     <div style='margin-bottom:5px;'>
     <label style='float:left;width:200px;'>{$lang['cleanup_show_title']}</label>
-    <input type='text' value='' name='clean_title' style='width:350px;' />
+    <input type='text' value='' name='clean_title' style='width:350px;'>
     </div>
     
     <div style='margin-bottom:5px;'>
     <label style='float:left;width:200px;'>{$lang['cleanup_show_descr']}</label>
-    <input type='text' value='' name='clean_desc' style='width:350px;' />
+    <input type='text' value='' name='clean_desc' style='width:350px;'>
     </div>
     
     <div style='margin-bottom:5px;'>
     <label style='float:left;width:200px;'>{$lang['cleanup_show_file']}</label>
-    <input type='text' value='' name='clean_file' style='width:350px;' />
+    <input type='text' value='' name='clean_file' style='width:350px;'>
     </div>
     
     
     <div style='margin-bottom:5px;'>
     <label style='float:left;width:200px;'>{$lang['cleanup_show_interval']}</label>
-    <input type='text' value='' name='clean_increment' style='width:350px;' />
+    <input type='text' value='' name='clean_increment' style='width:350px;'>
     </div>
     
     <div style='margin-bottom:5px;'>
     <label style='float:left;width:200px;'>{$lang['cleanup_show_log']}</label>
-    {$lang['cleanup_show_yes']} <input name='clean_log' value='1' type='radio' />&nbsp;&nbsp;&nbsp;<input name='clean_log' value='0' checked='checked' type='radio' /> {$lang['cleanup_show_no']}
+    {$lang['cleanup_show_yes']} <input name='clean_log' value='1' type='radio'>&nbsp;&nbsp;&nbsp;<input name='clean_log' value='0' checked='checked' type='radio'> {$lang['cleanup_show_no']}
     </div>
     
     <div style='margin-bottom:5px;'>
     <label style='float:left;width:200px;'>{$lang['cleanup_show_on']}</label>
-    {$lang['cleanup_show_yes']} <input name='clean_on' value='1' type='radio' />&nbsp;&nbsp;&nbsp;<input name='clean_on' value='0' checked='checked' type='radio' /> {$lang['cleanup_show_no']}
+    {$lang['cleanup_show_yes']} <input name='clean_on' value='1' type='radio'>&nbsp;&nbsp;&nbsp;<input name='clean_on' value='0' checked='checked' type='radio'> {$lang['cleanup_show_no']}
     </div>
     
-    <div style='text-align:center;'><input type='submit' name='submit' value='{$lang['cleanup_new_add']}' class='button' />&nbsp;<input type='button' value='{$lang['cleanup_new_cancel']}' onclick='history.back()' /></div>
+    <div style='text-align:center;'><input type='submit' name='submit' value='{$lang['cleanup_new_add']}' class='button'>&nbsp;<input type='button' value='{$lang['cleanup_new_cancel']}' onclick='history.back()'></div>
     </form>
     </div>";
     echo stdhead($lang['cleanup_new_stdhead']).$htmlout.stdfoot();

@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -208,21 +208,21 @@ $HTMLOUT .= "
     <div class='control-group'>
     <label class='control-label' >".$lang['mtor_username']."</label>
     <div class='controls'>
-      <input type='text' placeholder='".$lang['mtor_username']."' name='username' />
+      <input type='text' placeholder='".$lang['mtor_username']."' name='username'>
     </div>
   </div>
 
   <div class='control-group'>
     <label class='control-label' >".$lang['mtor_from']." ".$lang['mtor_numbers_of_days_ago']."</label>
     <div class='controls'>
-      <input type='text' placeholder='".$lang['mtor_day']."' name='time' />
+      <input type='text' placeholder='".$lang['mtor_day']."' name='time'>
     </div>
   </div>
 <div class='control-group'>
     <label class='control-label' >".$lang['mtor_on_which_day']."</label>
     <div class='controls'>
-      <input type='text' placeholder='".$lang['mtor_day']."' class='input-small' name='day' />
-	  <input type='text' class='input-small' placeholder='".$lang['mtor_month']."' name='month' />
+      <input type='text' placeholder='".$lang['mtor_day']."' class='input-small' name='day'>
+	  <input type='text' class='input-small' placeholder='".$lang['mtor_month']."' name='month'>
 	  <input type='text' class='input-small' placeholder='".$lang['mtor_year']."' name='year' value='".date("Y", time())."'/><br/><br/>
 	  <button type='submit' class='btn btn-default'>".$lang['mtor_search']."</button>
 

@@ -73,7 +73,7 @@ if ((isset($_GET["do_it"])) || (isset($_POST["do_it"]))) {
         __LINE__);
     $cache->delete($cache_keys['new_report']);
     $HTMLOUT .= "<table width='650'><tr><td class='colhead'><h1>{$lang['report_success']}</h1></td></tr>"."<tr><td class='two' align='center'>{$lang['report_success1']} <b>".str_replace("_",
-            " ", $type)."</b> {$lang['report_id']} <b>{$id}</b>!<br /><b>{$lang['report_reason']}</b> {$reason}</td></tr></table>";
+            " ", $type)."</b> {$lang['report_id']} <b>{$id}</b>!<br><b>{$lang['report_reason']}</b> {$reason}</td></tr></table>";
     echo stdhead("Reports", true, $stdhead).$HTMLOUT.stdfoot();
     die();
 } //=== end do_it
@@ -83,11 +83,11 @@ $HTMLOUT .= "<form method='post' action='report.php?type=$type$id_2b&amp;id=$id&
     <tr><td class='colhead' colspan='2'>
     <h1 class='text-center'>Report: ".str_replace("_", " ", $type)."</h1></td></tr>"."
     <tr><td class='one text-center' colspan='2' >
-    <img src='{$TRINITY20['pic_base_url']}warned.png' alt='warned' title='Warned' border='0' /> {$lang['report_report']} <b>".str_replace("_", " ",
+    <img src='{$TRINITY20['pic_base_url']}warned.png' alt='warned' title='Warned' border='0'> {$lang['report_report']} <b>".str_replace("_", " ",
         $type)."</b> {$lang['report_id']} <b>$id</b>"."
-    <img src='{$TRINITY20['pic_base_url']}warned.png' alt='warned' title='Warned' border='0' /><br />{$lang['report_report1']} <a class='altlink' href='rules.php' target='_blank'>{$lang['report_rules']}</a>?</td></tr>"."
-    <tr><td class='two text-right'><b>{$lang['report_reason']}</b></td><td class='two'><textarea name='reason' cols='70' rows='5'></textarea><br /> [ {$lang['report_req']} ]<br /></td></tr>"."
-    <tr><td class='one text-center' colspan='2'><input type='submit' class='button' value='{$lang['report_confirm']}' /></td></tr></table></form>";
+    <img src='{$TRINITY20['pic_base_url']}warned.png' alt='warned' title='Warned' border='0'><br>{$lang['report_report1']} <a class='altlink' href='rules.php' target='_blank'>{$lang['report_rules']}</a>?</td></tr>"."
+    <tr><td class='two text-right'><b>{$lang['report_reason']}</b></td><td class='two'><textarea name='reason' cols='70' rows='5'></textarea><br> [ {$lang['report_req']} ]<br></td></tr>"."
+    <tr><td class='one text-center' colspan='2'><input type='submit' class='button' value='{$lang['report_confirm']}'></td></tr></table></form>";
 echo stdhead("Report", true, $stdhead).$HTMLOUT.stdfoot();
 die;
 ?>

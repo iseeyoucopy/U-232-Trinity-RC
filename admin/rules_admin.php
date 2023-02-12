@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
         <title>Error!</title>
         </head>
         <body>
-    <div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+    <div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
     </body></html>";
     echo $HTMLOUT;
     exit();
@@ -426,7 +426,7 @@ function New_Rules_Form()
     }
     $htmlout .= "</select>
                 </div>
-                <textarea name='text' rows='15' cols='20' class='textbox'></textarea><br />
+                <textarea name='text' rows='15' cols='20' class='textbox'></textarea><br>
                 <input type='submit' name='save_cat' value='Add' class='button'>
             </form>
         </div>
@@ -438,7 +438,7 @@ function New_Rules_Form()
 function Do_Info($text)
 {
     global $TRINITY20;
-    $info = "<div class='infohead'><img src='{$TRINITY20['pic_base_url']}warned0.gif' alt='Info' title='Info' /> Info</div><div class='infobody'>\n";
+    $info = "<div class='infohead'><img src='{$TRINITY20['pic_base_url']}warned0.gif' alt='Info' title='Info'> Info</div><div class='infobody'>\n";
     $info .= $text;
     $info .= "</div>";
     $info .= "<a href='staffpanel.php?tool=rules_admin'>Go Back To Admin</a> Or Add another?";
@@ -449,7 +449,7 @@ function Do_Error($heading, $text)
 {
     global $TRINITY20, $HTMLOUT;
     $htmlout = '';
-    $htmlout .= "<div class='errorhead'><img src='{$TRINITY20['pic_base_url']}warned.gif' alt='Warned' /> $heading</div><div class='errorbody'>\n";
+    $htmlout .= "<div class='errorhead'><img src='{$TRINITY20['pic_base_url']}warned.gif' alt='Warned'> $heading</div><div class='errorbody'>\n";
     $htmlout .= "$text\n";
     $htmlout .= "</div>";
     return $htmlout;

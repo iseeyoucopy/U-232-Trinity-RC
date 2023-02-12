@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -57,8 +57,8 @@ $HTMLOUT .= "<table class='table table-bordered'>\n
              <tr>
 			 <td class='table' align='left'>\n
 			 <form method='post' action='staffpanel.php?tool=sysoplog&amp;action=sysoplog'>\n
-			 <input type='text' name='search' size='40' value='' />\n
-			 <input type='submit' value='{$lang['sysoplog_search']}' style='height: 20px' />\n
+			 <input type='text' name='search' size='40' value=''>\n
+			 <input type='submit' value='{$lang['sysoplog_search']}' style='height: 20px'>\n
 			 </form></td></tr></table>";
 if ($count > $perpage) {
     $HTMLOUT .= $pager['pagertop'];

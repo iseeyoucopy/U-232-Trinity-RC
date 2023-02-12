@@ -55,7 +55,7 @@ if ($needed == "leechers") {
             if ($change[$arr['category']]['min_class'] < $CURUSER['class']) {
                 $needseed['cat_name'] = htmlsafechars($change[$arr['category']]['name']);
                 $needseed['cat_pic'] = htmlsafechars($change[$arr['category']]['image']);
-                $cat = "<img src=\"pic/caticons/{$CURUSER['categorie_icon']}/{$needseed['cat_pic']}\" alt=\"{$needseed['cat_name']}\" title=\"{$needseed['cat_name']}\" />";
+                $cat = "<img src=\"pic/caticons/{$CURUSER['categorie_icon']}/{$needseed['cat_pic']}\" alt=\"{$needseed['cat_name']}\" title=\"{$needseed['cat_name']}\">";
                 $torrname = htmlsafechars(CutName($arr["name"], 80));
                 $peers = (int)$arr['seeders']." seeder".((int)$arr['seeders'] > 1 ? "s" : "").", ".(int)$arr['leechers']." leecher".((int)$arr['leechers'] > 1 ? "s" : "");
                 $HTMLOUT .= "<tr><td><a href='{$TRINITY20['baseurl']}/userdetails.php?id=".(int)$What_User_ID."'>".htmlsafechars($arr['username'])."</a>&nbsp;(".member_ratio($arr['uploaded'],
@@ -79,7 +79,7 @@ if ($needed == "leechers") {
         while ($arr = $res->fetch_assoc()) {
             $needseed['cat_name'] = htmlsafechars($change[$arr['category']]['name']);
             $needseed['cat_pic'] = htmlsafechars($change[$arr['category']]['image']);
-            $cat = "<img src=\"pic/caticons/{$CURUSER['categorie_icon']}/{$needseed['cat_pic']}\" alt=\"{$needseed['cat_name']}\" title=\"{$needseed['cat_name']}\" />";
+            $cat = "<img src=\"pic/caticons/{$CURUSER['categorie_icon']}/{$needseed['cat_pic']}\" alt=\"{$needseed['cat_name']}\" title=\"{$needseed['cat_name']}\">";
             $torrname = htmlsafechars(CutName($arr['name'], 80));
             $HTMLOUT .= "<tr><td>{$cat}</td><td><a href='{$TRINITY20['baseurl']}/details.php?id=".(int)$arr['id']."&amp;hit=1' title='{$torrname}'>{$torrname}</a></td><td align='center'><span style='color: red'>".(int)$arr['seeders']."</span></td><td align='center'>".(int)$arr['leechers']."</td></tr>\n";
         }

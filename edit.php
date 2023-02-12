@@ -73,27 +73,27 @@ if ($CURUSER['class'] >= UC_STAFF) {
     $HTMLOUT .= '<div class="row"><div class="col-sm-4 col-sm-offset-1"><h1><font size="+1"><font color="#FF0000">'.$mod_cache_name.'</font>'.$lang['edit_curr'].'</font></h1></div></div>';
 }
 $ismodd = '<div class="row"><div class="col-sm-12"><b>'.$lang['edit_stdhead'].'</b> '.(($CURUSER['class'] > UC_UPLOADER) ? '<small><a href="edit.php?id='.$id.'&amp;unedit=1">'.$lang['edit_clkhere'].'</a>'.$lang['edit_clktemp'].'</small>' : '').'</div></div>';
-$HTMLOUT .= "<form method='post' name='edit' action='takeedit.php' enctype='multipart/form-data'><input type='hidden' name='id' value='$id' />";
+$HTMLOUT .= "<form method='post' name='edit' action='takeedit.php' enctype='multipart/form-data'><input type='hidden' name='id' value='$id'>";
 if (isset($_GET["returnto"])) {
-    $HTMLOUT .= "<input type='hidden' name='returnto' value='".htmlsafechars($_GET["returnto"])."' />";
+    $HTMLOUT .= "<input type='hidden' name='returnto' value='".htmlsafechars($_GET["returnto"])."'>";
 }
 $HTMLOUT .= "<div class='panel inverse' style='width:82%; margin-left:9%;'>
 <div class='row'><div class='col-sm-12'>$ismodd</div></div>
 <div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_imdb_url']}' type='text' name='url' value='".htmlsafechars($row["url"])."'></div></div><br>
-<div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_poster']}' type='text' name='poster' value='".htmlsafechars($row["poster"])."'><br />{$lang['edit_poster1']}\n</div></div><br>
-<div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_tube']}' type='text' name='youtube' value='".htmlsafechars($row["youtube"])."'><br />{$lang['edit_youtube_info']}\n</div></div><br>
+<div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_poster']}' type='text' name='poster' value='".htmlsafechars($row["poster"])."'><br>{$lang['edit_poster1']}\n</div></div><br>
+<div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_tube']}' type='text' name='youtube' value='".htmlsafechars($row["youtube"])."'><br>{$lang['edit_youtube_info']}\n</div></div><br>
 <div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_torrent_name']}' type='text' name='name' value='".htmlsafechars($row["name"])."'></div>
 </div><br>
-<div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_torrent_tags']}' type='text' name='tags' value='".htmlsafechars($row["tags"])."'><br />({$lang['edit_tags_info']})\n</div>
+<div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_torrent_tags']}' type='text' name='tags' value='".htmlsafechars($row["tags"])."'><br>({$lang['edit_tags_info']})\n</div>
 </div><br>
 <div class='row'><div class='col-sm-12'><input class='form-control' placeholder='{$lang['edit_torrent_description']}' type='text' name='description' value='".htmlsafechars($row["description"])."'></div>
 </div><br>
-<div class='row'><div class='col-sm-12'>{$lang["edit_nfo"]}<br /><input type='radio' name='nfoaction' value='keep' checked='checked' />{$lang['edit_keep_current']}<br /><input type='radio' name='nfoaction' value='update' />{$lang['edit_update']}<br /><input type='file' name='nfo' size='80' /> </div>
+<div class='row'><div class='col-sm-12'>{$lang["edit_nfo"]}<br><input type='radio' name='nfoaction' value='keep' checked='checked'>{$lang['edit_keep_current']}<br><input type='radio' name='nfoaction' value='update'>{$lang['edit_update']}<br><input type='file' name='nfo' size='80'> </div>
 </div><br>";
 $c = (strpos($row["ori_descr"], "<") === false) || (strpos($row["ori_descr"], "&lt;") !== false) ? "" : " checked";
 $HTMLOUT .= "
 <div class='row'><div class='col-sm-12'>{$lang['edit_description']} ".textbbcode("edit", "descr",
-        "".htmlsafechars($row['ori_descr'])."")."<br />{$lang['edit_tags']}</div></div><br>";
+        "".htmlsafechars($row['ori_descr'])."")."<br>{$lang['edit_tags']}</div></div><br>";
 $s = "<br><select class='form-control' name='type'>";
 $cats = genrelist();
 foreach ($cats as $subrow) {
@@ -113,7 +113,7 @@ $i = 0;
 foreach ($subs as $s) {
     $subs_list .= ($i && $i % 4 == 0) ? "" : "";
     $subs_list .= "<label class='checkbox-inline'><input name=\"subs[]\" ".(strpos($row["subs"],
-            (string)$s["id"]) !== false ? " checked='checked'" : "")."  type=\"checkbox\" value=\"".(int)$s["id"]."\" />".htmlsafechars($s["name"])."</label>\n";
+            (string)$s["id"]) !== false ? " checked='checked'" : "")."  type=\"checkbox\" value=\"".(int)$s["id"]."\">".htmlsafechars($s["name"])."</label>\n";
     ++$i;
 }
 $subs_list .= "";
@@ -124,24 +124,24 @@ $HTMLOUT .= "<br><div class='row'><div class='col-sm-12'></div></div>";
 $HTMLOUT .= "<br><div class='row'>
 <div class='col-sm-6'>";
 $HTMLOUT .= tr($lang['edit_visible'],
-    "<input type='checkbox' name='visible'".(($row["visible"] == "yes") ? " checked='checked'" : "")." value='1' /> {$lang['edit_visible_mainpage']}<br /><table border='0' cellspacing='0' cellpadding='0' width='420'><tr><td class='embedded'><font class='small'>{$lang['edit_visible_info']}</font></td></tr></table>",
+    "<input type='checkbox' name='visible'".(($row["visible"] == "yes") ? " checked='checked'" : "")." value='1'> {$lang['edit_visible_mainpage']}<br><table border='0' cellspacing='0' cellpadding='0' width='420'><tr><td class='embedded'><font class='small'>{$lang['edit_visible_info']}</font></td></tr></table>",
     1);
 $HTMLOUT .= "</div>";
 if ($CURUSER['class'] >= UC_STAFF) {
-    $HTMLOUT .= "<div class='col-sm-3'>{$lang['edit_banned2']}<input type='checkbox' name='banned'".(($row["banned"] == "yes") ? " checked='checked'" : "")." value='1' />{$lang['edit_banned']}</div>";
+    $HTMLOUT .= "<div class='col-sm-3'>{$lang['edit_banned2']}<input type='checkbox' name='banned'".(($row["banned"] == "yes") ? " checked='checked'" : "")." value='1'>{$lang['edit_banned']}</div>";
 }
-$HTMLOUT .= "<div class='col-sm-3'>{$lang['edit_recommend_torrent']}<input type='radio' name='recommended' ".(($row["recommended"] == "yes") ? "checked='checked'" : "")." value='yes' />{$lang['edit_yes']}<input type='radio' name='recommended' ".($row["recommended"] == "no" ? "checked='checked'" : "")." value='no' />{$lang['edit_no']}<br/><font class='small'>{$lang['edit_recommend']}</font></div>";
+$HTMLOUT .= "<div class='col-sm-3'>{$lang['edit_recommend_torrent']}<input type='radio' name='recommended' ".(($row["recommended"] == "yes") ? "checked='checked'" : "")." value='yes'>{$lang['edit_yes']}<input type='radio' name='recommended' ".($row["recommended"] == "no" ? "checked='checked'" : "")." value='no'>{$lang['edit_no']}<br/><font class='small'>{$lang['edit_recommend']}</font></div>";
 $HTMLOUT .= "</div>";
 $HTMLOUT .= "<br><div class='row'><div class='col-sm-12'></div></div>";
 if ($CURUSER['class'] >= UC_UPLOADER) {
-    $HTMLOUT .= "<div class='row'><div class='col-sm-2'>{$lang['edit_nuked']}<input type='radio' name='nuked'".($row["nuked"] == "yes" ? " checked='checked'" : "")." value='yes' />{$lang['edit_yes']}<input type='radio' name='nuked'".($row["nuked"] == "no" ? " checked='checked'" : "")." value='no' />{$lang['edit_no']}</div>";
-    $HTMLOUT .= "<div class='col-sm-10'><input class='form-control' placeholder='{$lang['edit_nukr']}' type='text' name='nukereason' value='".htmlsafechars($row["nukereason"])."' /></div></div>";
+    $HTMLOUT .= "<div class='row'><div class='col-sm-2'>{$lang['edit_nuked']}<input type='radio' name='nuked'".($row["nuked"] == "yes" ? " checked='checked'" : "")." value='yes'>{$lang['edit_yes']}<input type='radio' name='nuked'".($row["nuked"] == "no" ? " checked='checked'" : "")." value='no'>{$lang['edit_no']}</div>";
+    $HTMLOUT .= "<div class='col-sm-10'><input class='form-control' placeholder='{$lang['edit_nukr']}' type='text' name='nukereason' value='".htmlsafechars($row["nukereason"])."'></div></div>";
 }
 $HTMLOUT .= "<br><div class='row'><div class='col-sm-12'></div></div>";
 $HTMLOUT .= "<br><div class='row'>
 <div class='col-sm-4'>";
 if ($CURUSER['class'] >= UC_STAFF && XBT_TRACKER == false) {
-    $HTMLOUT .= tr("{$lang['edit_add_free']}", ($row['free'] != 0 ? "<input type='checkbox' name='fl' value='1' />{$lang['edit_add_nofree']}" : "
+    $HTMLOUT .= tr("{$lang['edit_add_free']}", ($row['free'] != 0 ? "<input type='checkbox' name='fl' value='1'>{$lang['edit_add_nofree']}" : "
     <select name='free_length'>
     <option value='0'>------</option>
     <option value='42'>{$lang['edit_add_day1']}</option>
@@ -161,7 +161,7 @@ if ($CURUSER['class'] >= UC_STAFF && XBT_TRACKER == false) {
     $HTMLOUT .= "<div class='col-sm-4'>";
 
     $HTMLOUT .= tr("{$lang['edit_add_silver']}",
-        ($row['silver'] != 0 ? "<input type='checkbox' name='slvr' value='1' />{$lang['edit_add_nosilver']}" : "
+        ($row['silver'] != 0 ? "<input type='checkbox' name='slvr' value='1'>{$lang['edit_add_nosilver']}" : "
     <select name='half_length'>
     <option value='0'>------</option>
     <option value='42'>{$lang['edit_add_sday1']}</option>
@@ -193,23 +193,23 @@ $HTMLOUT .= "<div class='row'>";
 if ($CURUSER['class'] >= UC_STAFF) {
     $HTMLOUT .= "<div class='col-sm-4'>";
     $HTMLOUT .= tr($lang['edit_stick1'],
-        "<input type='checkbox' name='sticky'".(($row["sticky"] == "yes") ? " checked='checked'" : "")." value='yes' />{$lang['edit_stick2']}", 1);
+        "<input type='checkbox' name='sticky'".(($row["sticky"] == "yes") ? " checked='checked'" : "")." value='yes'>{$lang['edit_stick2']}", 1);
     $HTMLOUT .= "</div>";
     $HTMLOUT .= "<div class='col-sm-4'>";
     $HTMLOUT .= tr($lang['edit_anonymous'],
-        "<input type='checkbox' name='anonymous'".(($row["anonymous"] == "yes") ? " checked='checked'" : "")." value='1' />{$lang['edit_anonymous1']}",
+        "<input type='checkbox' name='anonymous'".(($row["anonymous"] == "yes") ? " checked='checked'" : "")." value='1'>{$lang['edit_anonymous1']}",
         1);
     $HTMLOUT .= "</div>";
     $HTMLOUT .= "<div class='col-sm-4'> ";
     if (XBT_TRACKER == false) {
         $HTMLOUT .= tr($lang['edit_vip1'],
-            "<input type='checkbox' name='vip'".(($row["vip"] == 1) ? " checked='checked'" : "")." value='1' />{$lang['edit_vip2']}", 1);
+            "<input type='checkbox' name='vip'".(($row["vip"] == 1) ? " checked='checked'" : "")." value='1'>{$lang['edit_vip2']}", 1);
         $HTMLOUT .= "</div>";
     }
     $HTMLOUT .= "<div class='col-sm-4'>";
     if (XBT_TRACKER == true) {
         $HTMLOUT .= tr($lang['edit_add_free'],
-            "<input type='checkbox' name='freetorrent'".(($row["freetorrent"] == 1) ? " checked='checked'" : "")." value='1' />{$lang['edit_makefree']}",
+            "<input type='checkbox' name='freetorrent'".(($row["freetorrent"] == 1) ? " checked='checked'" : "")." value='1'>{$lang['edit_makefree']}",
             1);
         $HTMLOUT .= "</div>";
     }
@@ -222,19 +222,19 @@ $HTMLOUT .= "<br><div class='row'>
         <table>
     <tr>
     <td align='left'>
-    <input type='radio' name='genre' value='keep' checked='checked' />{$lang['edit_touch1']} [ <b>{$lang['edit_touch2']}<font color='lightblue'>".htmlsafechars($row['newgenre'])."</font></b> ] <br /></td>
-    <td style='border:none'><input type='radio' name='genre' value='movie' />{$lang['upload_add_movie']}</td>
-    <td style='border:none'><input type='radio' name='genre' value='music' />{$lang['upload_add_music']}</td>
-    <td style='border:none'><input type='radio' name='genre' value='game' />{$lang['upload_add_game']}</td>
-    <td style='border:none'><input type='radio' name='genre' value='apps' />{$lang['upload_add_apps']}</td>
-    <td style='border:none'><input type='radio' name='genre' value='none' />{$lang['upload_add_none']}</td>
+    <input type='radio' name='genre' value='keep' checked='checked'>{$lang['edit_touch1']} [ <b>{$lang['edit_touch2']}<font color='lightblue'>".htmlsafechars($row['newgenre'])."</font></b> ] <br></td>
+    <td style='border:none'><input type='radio' name='genre' value='movie'>{$lang['upload_add_movie']}</td>
+    <td style='border:none'><input type='radio' name='genre' value='music'>{$lang['upload_add_music']}</td>
+    <td style='border:none'><input type='radio' name='genre' value='game'>{$lang['upload_add_game']}</td>
+    <td style='border:none'><input type='radio' name='genre' value='apps'>{$lang['upload_add_apps']}</td>
+    <td style='border:none'><input type='radio' name='genre' value='none'>{$lang['upload_add_none']}</td>
     </tr>
     </table> 
     <table> 
     <tr>
     <td colspan='4' style='border:none'>
     <label style='margin-bottom: 1em; padding-bottom: 1em; border-bottom: 3px silver groove;'>
-    <input type='hidden' class='Depends on genre being movie or genre being music' /></label>";
+    <input type='hidden' class='Depends on genre being movie or genre being music'></label>";
 $movie = [
     $lang['movie_mv1'],
     $lang['movie_mv2'],
@@ -245,7 +245,7 @@ $movie = [
     $lang['movie_mv7'],
 ];
 foreach ($movie as $x => $movie) {
-    $HTMLOUT .= "<label><input type=\"checkbox\" value=\"{$movie}\"  name=\"movie[]\" class=\"DEPENDS ON genre BEING movie\" />{$movie}</label>";
+    $HTMLOUT .= "<label><input type=\"checkbox\" value=\"{$movie}\"  name=\"movie[]\" class=\"DEPENDS ON genre BEING movie\">{$movie}</label>";
 }
 $music = [
     $lang['music_m1'],
@@ -256,7 +256,7 @@ $music = [
     $lang['music_m6'],
 ];
 foreach ($music as $x => $music) {
-    $HTMLOUT .= "<label><input type=\"checkbox\" value=\"{$music}\" name=\"music[]\" class=\"DEPENDS ON genre BEING music\" />{$music}</label>";
+    $HTMLOUT .= "<label><input type=\"checkbox\" value=\"{$music}\" name=\"music[]\" class=\"DEPENDS ON genre BEING music\">{$music}</label>";
 }
 $game = [
     $lang['game_g1'],
@@ -266,7 +266,7 @@ $game = [
     $lang['game_g5'],
 ];
 foreach ($game as $x => $game) {
-    $HTMLOUT .= "<label><input type=\"checkbox\" value=\"{$game}\" name=\"game[]\" class=\"DEPENDS ON genre BEING game\" />{$game}</label>";
+    $HTMLOUT .= "<label><input type=\"checkbox\" value=\"{$game}\" name=\"game[]\" class=\"DEPENDS ON genre BEING game\">{$game}</label>";
 }
 $apps = [
     $lang['app_mv1'],
@@ -278,13 +278,13 @@ $apps = [
     $lang['app_mv7'],
 ];
 foreach ($apps as $x => $app) {
-    $HTMLOUT .= "<label><input type=\"checkbox\" value=\"{$app}\" name=\"apps[]\" class=\"DEPENDS ON genre BEING apps\" />{$app}</label>";
+    $HTMLOUT .= "<label><input type=\"checkbox\" value=\"{$app}\" name=\"apps[]\" class=\"DEPENDS ON genre BEING apps\">{$app}</label>";
 }
 $HTMLOUT .= "</table></div></div>";
-$HTMLOUT .= "<div class='row'><div class='col-sm-4 col-sm-offset-4'><input type='submit' value='{$lang['edit_submit']}' class='button' /> <input type='reset' value='{$lang['edit_revert']}' class='button' /></div></div>";
+$HTMLOUT .= "<div class='row'><div class='col-sm-4 col-sm-offset-4'><input type='submit' value='{$lang['edit_submit']}' class='button'> <input type='reset' value='{$lang['edit_revert']}' class='button'></div></div>";
 $HTMLOUT .= "<br></div></div></form>";
 $HTMLOUT .= "
-    <br />
+    <br>
 <div class='row'><div class='col-sm-12'>
     <form method='post' action='delete.php'>
     <table class='table table-bordered'>
@@ -292,19 +292,19 @@ $HTMLOUT .= "
       <td class='colhead' style='background-color: #F5F4EA;padding-bottom: 5px' colspan='2'><b>{$lang['edit_delete_torrent']}.</b> {$lang['edit_reason']}</td>
     </tr>
     <tr>
-      <td><input name='reasontype' type='radio' value='1' />&nbsp;{$lang['edit_dead']} </td><td> {$lang['edit_peers']}</td>
+      <td><input name='reasontype' type='radio' value='1'>&nbsp;{$lang['edit_dead']} </td><td> {$lang['edit_peers']}</td>
     </tr>
     <tr>
-      <td><input name='reasontype' type='radio' value='2' />&nbsp;{$lang['edit_dupe']}</td><td><input type='text' size='40' name='reason[]' /></td>
+      <td><input name='reasontype' type='radio' value='2'>&nbsp;{$lang['edit_dupe']}</td><td><input type='text' size='40' name='reason[]'></td>
     </tr>
     <tr>
-      <td><input name='reasontype' type='radio' value='3' />&nbsp;{$lang['edit_nuked']}</td><td><input type='text' size='40' name='reason[]' /></td>
+      <td><input name='reasontype' type='radio' value='3'>&nbsp;{$lang['edit_nuked']}</td><td><input type='text' size='40' name='reason[]'></td>
     </tr>
     <tr>
-      <td><input name='reasontype' type='radio' value='4' />&nbsp;{$lang['edit_rules']}</td><td><input type='text' size='40' name='reason[]' />({$lang['edit_req']})</td>
+      <td><input name='reasontype' type='radio' value='4'>&nbsp;{$lang['edit_rules']}</td><td><input type='text' size='40' name='reason[]'>({$lang['edit_req']})</td>
     </tr>
     <tr>
-      <td><input name='reasontype' type='radio' value='5' checked='checked' />&nbsp;{$lang['edit_other']}</td><td><input type='text' size='40' name='reason[]' />({$lang['edit_req']})<input type='hidden' name='id' value='$id' /></td>
+      <td><input name='reasontype' type='radio' value='5' checked='checked'>&nbsp;{$lang['edit_other']}</td><td><input type='text' size='40' name='reason[]'>({$lang['edit_req']})<input type='hidden' name='id' value='$id'></td>
     </tr>";
 if (isset($_GET["returnto"])) {
     $HTMLOUT .= "<input type='hidden' name='returnto' value='".htmlsafechars($_GET["returnto"])."'>";

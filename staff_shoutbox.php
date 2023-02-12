@@ -108,9 +108,9 @@ background: #000000 repeat-x left top;
 </head>
 <body bgcolor='#F5F4EA' class='date'>
 <form method='post' action='./staff_shoutbox.php'>
-<input type='hidden' name='id' value='" . (int)$res['id'] . "' />
+<input type='hidden' name='id' value='" . (int)$res['id'] . "'>
 <textarea name='text' rows='3' id='specialbox'>" . htmlsafechars($res['text']) . "</textarea>
-<input type='submit' name='save' value='save' class='btn' />
+<input type='submit' name='save' value='save' class='btn'>
 </form></body></html>";
     echo $HTMLOUT;
     die;
@@ -146,10 +146,10 @@ background: #000000 repeat-x left top;
 </head>
 <body bgcolor='#F5F4EA' class='date'>
 <form method='post' action='./staff_shoutbox.php'>
-<input type='hidden' name='id' value='" . (int)$res['id'] . "' />
-<input type='hidden' name='user' value='" . (int)$res['userid'] . "' />
+<input type='hidden' name='id' value='" . (int)$res['id'] . "'>
+<input type='hidden' name='user' value='" . (int)$res['userid'] . "'>
 <textarea name='text' rows='3' id='specialbox'>" . htmlsafechars($res['text']) . "</textarea>
-<input type='submit' name='save' value='save' class='btn' />
+<input type='submit' name='save' value='save' class='btn'>
 </form></body></html>";
     echo $HTMLOUT;
     die;
@@ -177,7 +177,7 @@ if (isset($_POST['text']) && (isset($_POST['user']) == $CURUSER['id']) && ($CURU
 //== begin main output
 $HTMLOUT.= "<!DOCTYPE html><head>
 <title>ShoutBox</title>
-<meta http-equiv='REFRESH' content='60; URL=./staff_shoutbox.php' />
+<meta http-equiv='REFRESH' content='60; URL=./staff_shoutbox.php'>
 <script type='text/javascript' src='./scripts/shout.js'></script>
 <style type='text/css'>
 A {color: #356AA0; font-weight: bold; font-size: 9pt; }
@@ -245,7 +245,7 @@ A:hover {color: #FFFFFF;}
 $HTMLOUT.= "</head><body>";
 //== Banned from shout ??
 if ($CURUSER['chatpost'] == 0 || $CURUSER['chatpost'] > 1) {
-    $HTMLOUT.= "<div class='error' align='center'><br /><font color='red'>Sorry, you are not authorized to Shout.</font>  (<a href=\"./rules.php\" target=\"_blank\"><font color='red'>Contact Site Admin For The Reason Why</font></a>)<br /><br /></div></body></html>";
+    $HTMLOUT.= "<div class='error' align='center'><br><font color='red'>Sorry, you are not authorized to Shout.</font>  (<a href=\"./rules.php\" target=\"_blank\"><font color='red'>Contact Site Admin For The Reason Why</font></a>)<br><br></div></body></html>";
     echo $HTMLOUT;
     exit;
 }
@@ -512,21 +512,21 @@ if (count($shouts) > 0) {
     }
     if ($shouts) {
         if ($CURUSER['perms'] & bt_options::NOFKNBEEP) {
-            if (preg_match(sprintf("/%s/iU", $CURUSER['username']) , $shouts[0]['text']) && ($shouts[0]['date'] - TIME_NOW) < 60) $HTMLOUT.= "<audio autoplay=\"autoplay\"><source src=\"templates/{$CURUSER['stylesheet']}/beep.mp3\" type=\"audio/mp3\" /><source src=\"templates/{$CURUSER['stylesheet']}/beep.ogg\" type=\"audio/ogg\" /></audio>";
+            if (preg_match(sprintf("/%s/iU", $CURUSER['username']) , $shouts[0]['text']) && ($shouts[0]['date'] - TIME_NOW) < 60) $HTMLOUT.= "<audio autoplay=\"autoplay\"><source src=\"templates/{$CURUSER['stylesheet']}/beep.mp3\" type=\"audio/mp3\"><source src=\"templates/{$CURUSER['stylesheet']}/beep.ogg\" type=\"audio/ogg\"></audio>";
         }
         $i = 0;
         foreach ($shouts as $arr) {
             if (($arr['to_user'] != $CURUSER['id'] && $arr['to_user'] != 0) && $arr['userid'] != $CURUSER['id']) continue;
             if ($TRINITY20['shouts_to_show'] == $i) break;
             $private = '';
-            if ($arr['to_user'] == $CURUSER['id'] && $arr['to_user'] > 0) $private = "<a href=\"javascript:window.top.private_reply('" . htmlsafechars($arr['username']) . "','staff_shbox','staff_shbox_text')\"><img src=\"{$TRINITY20['pic_base_url']}private-shout.png\" alt=\"Private shout\" title=\"Private shout! click to reply to " . htmlsafechars($arr['username']) . "\" width=\"16\" style=\"padding-left:2px;padding-right:2px;\" border=\"0\" /></a>";
-            $edit = ($CURUSER['class'] >= UC_STAFF || ($arr['userid'] == $CURUSER['id']) && ($CURUSER['class'] >= UC_POWER_USER && $CURUSER['class'] <= UC_STAFF) ? "<a href='{$TRINITY20['baseurl']}/staff_shoutbox.php?edit=" . (int)$arr['id'] . "&amp;user=" . (int)$arr['userid'] . "'><img src='{$TRINITY20['pic_base_url']}button_edit2.gif' alt=\"Edit Shout\"  title=\"Edit Shout\" /></a> " : "");
-            $del = ($CURUSER['class'] >= UC_STAFF ? "<a href='./staff_shoutbox.php?del=" . (int)$arr['id'] . "'><img src='{$TRINITY20['pic_base_url']}button_delete2.gif' alt=\"Delete Single Shout\" title=\"Delete Single Shout\" /></a> " : "");
-            $delall = ($CURUSER['class'] == UC_MAX ? "<a href='./staff_shoutbox.php?delall' onclick=\"confirm_delete(); return false;\"><img src='{$TRINITY20['pic_base_url']}del.png' alt=\"Empty Shout\" title=\"Empty Shout\" /></a> " : "");
+            if ($arr['to_user'] == $CURUSER['id'] && $arr['to_user'] > 0) $private = "<a href=\"javascript:window.top.private_reply('" . htmlsafechars($arr['username']) . "','staff_shbox','staff_shbox_text')\"><img src=\"{$TRINITY20['pic_base_url']}private-shout.png\" alt=\"Private shout\" title=\"Private shout! click to reply to " . htmlsafechars($arr['username']) . "\" width=\"16\" style=\"padding-left:2px;padding-right:2px;\" border=\"0\"></a>";
+            $edit = ($CURUSER['class'] >= UC_STAFF || ($arr['userid'] == $CURUSER['id']) && ($CURUSER['class'] >= UC_POWER_USER && $CURUSER['class'] <= UC_STAFF) ? "<a href='{$TRINITY20['baseurl']}/staff_shoutbox.php?edit=" . (int)$arr['id'] . "&amp;user=" . (int)$arr['userid'] . "'><img src='{$TRINITY20['pic_base_url']}button_edit2.gif' alt=\"Edit Shout\"  title=\"Edit Shout\"></a> " : "");
+            $del = ($CURUSER['class'] >= UC_STAFF ? "<a href='./staff_shoutbox.php?del=" . (int)$arr['id'] . "'><img src='{$TRINITY20['pic_base_url']}button_delete2.gif' alt=\"Delete Single Shout\" title=\"Delete Single Shout\"></a> " : "");
+            $delall = ($CURUSER['class'] == UC_MAX ? "<a href='./staff_shoutbox.php?delall' onclick=\"confirm_delete(); return false;\"><img src='{$TRINITY20['pic_base_url']}del.png' alt=\"Empty Shout\" title=\"Empty Shout\"></a> " : "");
             //$delall
-            $pm = ($CURUSER['id'] != $arr['userid'] ? "<span class='date' style=\"color:$dtcolor\"><a target='_blank' href='./pm_system.php?action=send_message&amp;receiver=" . (int)$arr['userid'] . "'><img src='{$TRINITY20['pic_base_url']}button_pm2.gif' alt=\"Pm User\" title=\"Pm User\" /></a></span>\n" : "");
+            $pm = ($CURUSER['id'] != $arr['userid'] ? "<span class='date' style=\"color:$dtcolor\"><a target='_blank' href='./pm_system.php?action=send_message&amp;receiver=" . (int)$arr['userid'] . "'><img src='{$TRINITY20['pic_base_url']}button_pm2.gif' alt=\"Pm User\" title=\"Pm User\"></a></span>\n" : "");
             $date = get_date($arr["date"], 0, 1);
-            $reply = ($CURUSER['id'] != $arr['userid'] ? "<a href=\"javascript:window.top.SmileIT('[b][i]=>&nbsp;[color=#" . get_user_class_color($arr['class']) . "]" . ($arr['perms'] & bt_options::PERMS_STEALTH ? "UnKnown" : htmlsafechars($arr['username'])) . "[/color]&nbsp;-[/i][/b]','staff_shbox','staff_shbox_text')\"><img height='10' src='{$TRINITY20['pic_base_url']}reply.gif' title='Reply' alt='Reply' style='border:none;' /></a>" : "");
+            $reply = ($CURUSER['id'] != $arr['userid'] ? "<a href=\"javascript:window.top.SmileIT('[b][i]=>&nbsp;[color=#" . get_user_class_color($arr['class']) . "]" . ($arr['perms'] & bt_options::PERMS_STEALTH ? "UnKnown" : htmlsafechars($arr['username'])) . "[/color]&nbsp;-[/i][/b]','staff_shbox','staff_shbox_text')\"><img height='10' src='{$TRINITY20['pic_base_url']}reply.gif' title='Reply' alt='Reply' style='border:none;'></a>" : "");
             $user_stuff = $arr;
             $user_stuff['id'] = ($arr['perms'] & bt_options::PERMS_STEALTH ? "" . $user_stuff['id'] = $TRINITY20['bot_id'] . "" : "" . $user_stuff['id'] = (int)$arr['userid'] . "");
             $user_stuff['username'] = ($arr['perms'] & bt_options::PERMS_STEALTH ? "" . $user_stuff['username'] = 'UnKn0wn' . "" : "" . $user_stuff['username'] = htmlsafechars($arr['username']) . "");

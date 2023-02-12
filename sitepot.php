@@ -40,28 +40,28 @@ if (($site_pot_counter = $cache->get($cache_keys['site_pot_counter'])) === false
 
 switch ($percent) {
     case $percent >= 100:
-        $image_to_use = '<img src="/pic/bar_12.png" alt="'.$percent.'% so far!" title="Site Pot-0-Meter '.$percent.'% full!!!" align="middle" />';
+        $image_to_use = '<img src="/pic/bar_12.png" alt="'.$percent.'% so far!" title="Site Pot-0-Meter '.$percent.'% full!!!" align="middle">';
         break;
     case $percent >= 80:
-        $image_to_use = '<img src="/pic/bar_10.png" alt="'.$percent.'% so far!" title="Site Pot-0-Meter '.$percent.'% full!!!" align="middle" />';
+        $image_to_use = '<img src="/pic/bar_10.png" alt="'.$percent.'% so far!" title="Site Pot-0-Meter '.$percent.'% full!!!" align="middle">';
         break;
     case $percent >= 70:
-        $image_to_use = '<img src="/pic/bar_8.png" alt="'.$percent.'% so far!" title="Site Pot-0-Meter '.$percent.'% full!!!" align="middle" />';
+        $image_to_use = '<img src="/pic/bar_8.png" alt="'.$percent.'% so far!" title="Site Pot-0-Meter '.$percent.'% full!!!" align="middle">';
         break;
     case $percent >= 50:
-        $image_to_use = '<img src="/pic/bar_6.png" alt="'.$percent.'% so far!" title="Site Pot-0-Meter '.$percent.'% full!!!" align="middle" />';
+        $image_to_use = '<img src="/pic/bar_6.png" alt="'.$percent.'% so far!" title="Site Pot-0-Meter '.$percent.'% full!!!" align="middle">';
         break;
     case $percent >= 40:
-        $image_to_use = '<img src="/pic/bar_5.png" alt="'.$percent.'% so far!" title="Site Pot-0-Meter '.$percent.'% full!!!" align="middle" />';
+        $image_to_use = '<img src="/pic/bar_5.png" alt="'.$percent.'% so far!" title="Site Pot-0-Meter '.$percent.'% full!!!" align="middle">';
         break;
     case $percent >= 30:
-        $image_to_use = '<img src="/pic/bar_4.png" alt="'.$percent.'% so far!" title="Site Pot-0-Meter '.$percent.'% full!!!" align="middle" />';
+        $image_to_use = '<img src="/pic/bar_4.png" alt="'.$percent.'% so far!" title="Site Pot-0-Meter '.$percent.'% full!!!" align="middle">';
         break;
     case $percent >= 20:
-        $image_to_use = '<img src="/pic/bar_3.png" alt="'.$percent.'% so far!" title="Site Pot-0-Meter '.$percent.'% full!!!" align="middle" />';
+        $image_to_use = '<img src="/pic/bar_3.png" alt="'.$percent.'% so far!" title="Site Pot-0-Meter '.$percent.'% full!!!" align="middle">';
         break;
     case $percent < 20:
-        $image_to_use = '<img src="/pic/bar_2.png" alt="'.$percent.'% so far!" title="Site Pot-0-Meter '.$percent.'% full!!!" align="middle" />';
+        $image_to_use = '<img src="/pic/bar_2.png" alt="'.$percent.'% so far!" title="Site Pot-0-Meter '.$percent.'% full!!!" align="middle">';
         break;
 }
 
@@ -157,26 +157,26 @@ $HTMLOUT = '';
 $HTMLOUT .= "<table class='table table-bordered'>
 
     
- <tr><td align='center' colspan='3'><br />
-      {$image_to_use}<br /></td></tr>
+ <tr><td align='center' colspan='3'><br>
+      {$image_to_use}<br></td></tr>
       <tr><td align='center' colspan='3'>Once the Site Pot has <b>".$potsize."</b> karma points, 
       Freeleech will be turned on for everybody for 24 hours. 
       <p align='center'><font size='+1'>
       <b>Site Pot: ".$SitePot['value_i']."/".$potsize."</b>
-      </font></p>You have <b>".round($CURUSER['seedbonus'], 1)."</b> karma points.<br />
+      </font></p>You have <b>".round($CURUSER['seedbonus'], 1)."</b> karma points.<br>
       </td></tr>";
 $HTMLOUT .= '<tr><td><b>Description</b></td><td><b>Amount</b></td><td><b>Exchange</b></td></tr>';
 foreach ($pot_options as $Pot_option) {
     $disabled = $CURUSER['seedbonus'] < $Pot_option ? 'true' : 'false';
-    $HTMLOUT .= "<tr><td><b>Contribute ".$Pot_option." Karma Points</b><br /></td>
+    $HTMLOUT .= "<tr><td><b>Contribute ".$Pot_option." Karma Points</b><br></td>
           <td><strong>".$Pot_option."</strong></td>
           <td>
           <form action='' method='post'>
     
    	      <div class=\"buttons\">
-	      <input name='want_pot' type='hidden' value='".$Pot_option."' />
+	      <input name='want_pot' type='hidden' value='".$Pot_option."'>
           <button value='Exchange!' ".($disabled == 'true' ? "disabled='disabled'" : '')." type=\"submit\" class=\"positive\">
-          <img src=\"pic/aff_tick.gif\" alt=\"\" /> Exchange!
+          <img src=\"pic/aff_tick.gif\" alt=\"\"> Exchange!
           </button>
           </div>
 

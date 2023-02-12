@@ -24,7 +24,7 @@ function readMore($text, $char, $link)
 {
     global $TRINITY20, $lang;
     return (strlen($text) > $char ? substr(htmlsafechars($text), 0,
-            $char - 1)."...<br /><a href='$link'>{$lang['catol_read_more']}</a>" : htmlsafechars($text));
+            $char - 1)."...<br><a href='$link'>{$lang['catol_read_more']}</a>" : htmlsafechars($text));
 }
 
 function peer_list($array)
@@ -88,7 +88,7 @@ $htmlout .= "<div class='row'><div class='col-md-12'>
         <fieldset style='border:2px solid #333333;'>
             <div class='row'><div class='col-md-8 col-md-push-2'><h4 class='text-center'>{$lang['catol_search']}</h4>
                 <form  action='".$_SERVER["PHP_SELF"]."' method='get' style='margin:10px;'>
-                    <input type='text' size='100' name='search' value='".($search ? $search : "{$lang['catol_search_for_tor']}")."' onblur=\"if (this.value == '') this.value='{$lang['catol_search_for_tor']}';\" onfocus=\"if (this.value == '{$lang['catol_search_for_tor']}') this.value='';\" />&nbsp;<input type='submit' value='search!' />
+                    <input type='text' size='100' name='search' value='".($search ? $search : "{$lang['catol_search_for_tor']}")."' onblur=\"if (this.value == '') this.value='{$lang['catol_search_for_tor']}';\" onfocus=\"if (this.value == '{$lang['catol_search_for_tor']}') this.value='';\">&nbsp;<input type='submit' value='search!'>
                 </form></div></div>";
 $htmlout .= "<div class='row'><div class='col-md-8 col-md-push-4'>";
 for ($i = 97; $i < 123; ++$i) {
@@ -114,7 +114,7 @@ if (count($rows) > 0) {
 
   	<p class='browsed text-center'><b><font color='rgb(67,158,76)'>{$lang['catol_upper']} :</font></b>&nbsp;<a href='userdetails.php?id=".(int)$row["owner"]."'>".($row["user"] ? htmlsafechars($row["user"]) : "{$lang['catol_unknown']}[".(int)$row["owner"]."]")."</a></p>
 
-	<p class='browsepd text-center'>".($row["poster"] ? "<a href=\"".htmlsafechars($row["poster"])."\"><img src=\"".htmlsafechars($row["poster"])."\" border=\"0\" width=\"150\" height=\"225\" alt=\"{$lang['catol_no_poster']}\" title=\"{$lang['catol_no_poster']}\" /></a>" : "<img src=\"pic/noposter.png\" border=\"0\" width=\"150\" alt=\"{$lang['catol_no_poster']}\" title=\"{$lang['catol_no_poster']}\" />")."</p>
+	<p class='browsepd text-center'>".($row["poster"] ? "<a href=\"".htmlsafechars($row["poster"])."\"><img src=\"".htmlsafechars($row["poster"])."\" border=\"0\" width=\"150\" height=\"225\" alt=\"{$lang['catol_no_poster']}\" title=\"{$lang['catol_no_poster']}\"></a>" : "<img src=\"pic/noposter.png\" border=\"0\" width=\"150\" alt=\"{$lang['catol_no_poster']}\" title=\"{$lang['catol_no_poster']}\">")."</p>
   
 <p  class='squashp browsepd text-center'><b><font color='rgb(67,158,76)'>Torrent:</font></b>&nbsp;<a href='details.php?id=".(int)$row["id"]."&amp;hit=1'><b>".substr(htmlsafechars($row["name"]),
                 0, 60)."</b></a></p>

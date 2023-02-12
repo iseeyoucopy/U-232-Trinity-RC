@@ -20,7 +20,7 @@ if ($CURUSER['class'] >= UC_STAFF && $id == $CURUSER['id']) {
     }
     $arr = $hash1;
     if ($arr['hash1'] != '') {
-        $HTMLOUT .= "<tr><td class='rowhead'>{$lang['userdetails_login_link']}<br /><a href='createlink.php?action=reset&amp;id=".(int)$CURUSER['id']."' target='_blank'>{$lang['userdetails_login_reset']}</a></td><td align='left'>{$TRINITY20['baseurl']}/pagelogin.php?qlogin=".htmlsafechars($arr['hash1'])."</td></tr>";
+        $HTMLOUT .= "<tr><td class='rowhead'>{$lang['userdetails_login_link']}<br><a href='createlink.php?action=reset&amp;id=".(int)$CURUSER['id']."' target='_blank'>{$lang['userdetails_login_reset']}</a></td><td align='left'>{$TRINITY20['baseurl']}/pagelogin.php?qlogin=".htmlsafechars($arr['hash1'])."</td></tr>";
     } else {
         $HTMLOUT .= "<tr><td class='rowhead'>{$lang['userdetails_login_link']}</td><td align='left'><a href='createlink.php?id=".(int)$CURUSER['id']."' target='_blank'>{$lang['userdetails_login_create']}</a></td></tr>";
     }

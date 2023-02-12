@@ -690,7 +690,7 @@ function get_template()
         echo "stdmgs function missing";
         function stdmsg($title, $message)
         {
-            return "<b>".$title."</b><br />$message";
+            return "<b>".$title."</b><br>$message";
         }
     }
     if (!function_exists("StatusBar")) {
@@ -1038,7 +1038,7 @@ function sqlerr($file = '', $line = '')
         }
         echo "<html><head><title>MySQLI Error</title>
 					<style>P,BODY{ font-family:arial,sans-serif; font-size:11px; }</style></head><body>
-		    		   <blockquote><h1>MySQLI Error</h1><b>There appears to be an error with the database.</b><br />
+		    		   <blockquote><h1>MySQLI Error</h1><b>There appears to be an error with the database.</b><br>
 		    		   You can try to refresh the page by clicking <a href=\"javascript:window.location=window.location;\">here</a>
 				  </body></html>";
     } else {
@@ -1047,9 +1047,9 @@ function sqlerr($file = '', $line = '')
         $the_error .= "Date: ".date("l dS \of F Y h:i:s A");
         $out = "<html>\n<head>\n<title>MySQLI Error</title>\n
 	    		   <style>P,BODY{ font-family:arial,sans-serif; font-size:11px; }</style>\n</head>\n<body>\n
-	    		   <blockquote>\n<h1>MySQLI Error</h1><b>There appears to be an error with the database.</b><br />
+	    		   <blockquote>\n<h1>MySQLI Error</h1><b>There appears to be an error with the database.</b><br>
 	    		   You can try to refresh the page by clicking <a href=\"javascript:window.location=window.location;\">here</a>.
-	    		   <br /><br /><b>Error Returned</b><br />
+	    		   <br><br><b>Error Returned</b><br>
 	    		   <form name='mysql'><textarea rows=\"15\" cols=\"60\">".htmlsafechars($the_error,
                 ENT_QUOTES)."</textarea></form><br>We apologise for any inconvenience</blockquote></body></html>";
         echo $out;
@@ -1218,7 +1218,7 @@ function ratingpic($num)
     if ($r < 1 || $r > 5) {
         return;
     }
-    return "<img src=\"pic/ratings/$r.gif\" border=\"0\" alt=\"Rating: $num / 5\" title=\"Rating: $num / 5\" />";
+    return "<img src=\"pic/ratings/$r.gif\" border=\"0\" alt=\"Rating: $num / 5\" title=\"Rating: $num / 5\">";
 }
 
 function hash_pad($hash)

@@ -38,9 +38,9 @@ $htmlout = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 		<html xmlns='http://www.w3.org/1999/xhtml'>
 		<head>
-    <meta http-equiv='refresh' content='5; url=http://".$domain."' />
-    <meta name='generator' content='u-232.servebeer.com' />
-	  <meta name='MSSmartTagsPreventParsing' content='TRUE' />
+    <meta http-equiv='refresh' content='5; url=http://".$domain."'>
+    <meta name='generator' content='u-232.servebeer.com'>
+	  <meta name='MSSmartTagsPreventParsing' content='TRUE'>
 		<title>{$page}</title>
     <style type='text/css'>
     <!--
@@ -71,16 +71,16 @@ $htmlout = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
     <td width='300' height='50' valign='top'><!--Error 404 EmptyCell-->&nbsp;</td>
     </tr>
     <tr>
-    <td height='520' valign='top'><img src='{$TRINITY20['pic_base_url']}error404.png' alt='Error Not Found' width='300' height='520' border='0' usemap='#Map' /></td>
+    <td height='520' valign='top'><img src='{$TRINITY20['pic_base_url']}error404.png' alt='Error Not Found' width='300' height='520' border='0' usemap='#Map'></td>
     </tr>
     <tr>
     <td height='14' valign='top'><div align='center'><span class='style1'>&copy; U-232 V3</span></div></td>
     </tr>
     </table></div><map name='Map' id='map'>
-    <area shape='rect' coords='99,425,203,481' alt='Error Not Found' />
+    <area shape='rect' coords='99,425,203,481' alt='Error Not Found'>
     </map>
     <p align='center'><b>{$page}</b></p>
-    <p align='center'>{$text}</p><br />
+    <p align='center'>{$text}</p><br>
     <p align='center'>You will be redirected back to {$domain} in 5 seconds</p>
     </body>
     </html>";

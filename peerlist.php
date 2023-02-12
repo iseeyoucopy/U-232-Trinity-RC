@@ -54,7 +54,7 @@ function dltable($name, $arr, $torrent)
     foreach ($arr as $e) {
         $htmlout .= "<tr>";
         $htmlout .= (($e['tanonymous'] == 'yes' && $e['owner'] == $e['userid'] || $e['anonymous'] == 'yes' && $CURUSER['id'] != $e['userid']) && $CURUSER['class'] < UC_STAFF) ? "
-        <td  data-label=''><b>Kezer Soze</b></td>" : "<td  data-label=''><a href='userdetails.php?id=".(int)$e['userid']."'><b>".htmlsafechars($e['username'])."</b></a>".($mod ? "<br />({$e["ip"]})" : "<br />(".preg_replace('~(\d+)\.(\d+)\.(\d+)\.(\d+)~',
+        <td  data-label=''><b>Kezer Soze</b></td>" : "<td  data-label=''><a href='userdetails.php?id=".(int)$e['userid']."'><b>".htmlsafechars($e['username'])."</b></a>".($mod ? "<br>({$e["ip"]})" : "<br>(".preg_replace('~(\d+)\.(\d+)\.(\d+)\.(\d+)~',
                     "$1.xxx.$3.xxx", $e["ip"]).")")."</td>";
         $secs = max(1, ($now - $e["st"]) - ($now - $e["la"]));
         $htmlout .= "<td  data-label=''>".($e['connectable'] == "yes" ? "{$lang['peerslist_yes']}" : "<font color='red'>{$lang['peerslist_no']}</font>")."</td>";

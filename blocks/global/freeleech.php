@@ -24,8 +24,8 @@ if ($CURUSER && (isset($free) && is_array($free) && (count($free) >= 1))) {
      <li>
      <a class="sa-tooltip" href="#"><b class="button small">'.$lang['gl_freeleech'].'</b>
 	 <span class="custom info alert alert-info"><em>'.$fl['title'].'</em>
-     '.$mode.'<br />
-     '.$fl['message'].' '.$lang['gl_freeleech_sb'].' '.$fl['setby'].'<br />'.($fl['expires'] != 1 ? ''.$lang['gl_freeleech_u'].' '.get_date($fl['expires'],
+     '.$mode.'<br>
+     '.$fl['message'].' '.$lang['gl_freeleech_sb'].' '.$fl['setby'].'<br>'.($fl['expires'] != 1 ? ''.$lang['gl_freeleech_u'].' '.get_date($fl['expires'],
                     'DATE').' ('.mkprettytime($fl['expires'] - TIME_NOW).' '.$lang['gl_freeleech_tg'].')' : '').'  
      </span></a></li>' : '');
     }

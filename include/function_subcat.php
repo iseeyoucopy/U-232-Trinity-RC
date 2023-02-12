@@ -54,9 +54,9 @@ function categories_table($cats, $wherecatina, $linkpage = '', $display = 'block
     foreach ($cats as $cat) {
         $html .= ($i && $i % $catsperrow == 0) ? "</tr><tr>" : "";
         $html .= "<td>
-    <input id=\"checkAll{$cat['tabletype']}\" type=\"checkbox\" onclick=\"checkAllFields(1,{$cat['tabletype']});\" ".(isset($cat['checked']) && $cat['checked'] ? "checked='checked'" : "")." />
+    <input id=\"checkAll{$cat['tabletype']}\" type=\"checkbox\" onclick=\"checkAllFields(1,{$cat['tabletype']});\" ".(isset($cat['checked']) && $cat['checked'] ? "checked='checked'" : "").">
     <a href=\"javascript: ShowHideMainSubCats({$cat['tabletype']},{$ncats})\">
-    <img border=\"0\" src=\"pic/aff_tick.gif\" id=\"pic{$cat['tabletype']}\" alt=\"Show/Hide\" />&nbsp;".htmlsafechars($cat['name'])."</a>&nbsp;".(($linkpage != '') ? "<a class=\"catlink\" href=\"{$linkpage}?{$cat['categories']}\">(All)</a>" : "")."</td>\n";
+    <img border=\"0\" src=\"pic/aff_tick.gif\" id=\"pic{$cat['tabletype']}\" alt=\"Show/Hide\">&nbsp;".htmlsafechars($cat['name'])."</a>&nbsp;".(($linkpage != '') ? "<a class=\"catlink\" href=\"{$linkpage}?{$cat['categories']}\">(All)</a>" : "")."</td>\n";
         $i++;
     }
     $nrows = ceil($ncats / $catsperrow);
@@ -95,8 +95,8 @@ function subcategories_table($cats, $wherecatina = [], $linkpage = '', $ncats)
         foreach ($subcats as $cat) {
             $html .= ($i && $i % $catsperrow == 0) ? "</tr><tr>" : "";
             $html .= " ".(in_array($cat['id'],
-                    $wherecatina) ? "checked='checked'" : "")." />
-    ".(($linkpage != '') ? "<a href=\"{$linkpage}?cats{$cats['tabletype']}[]={$cat['id']}\"><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($cat['image'])."' alt='".htmlsafechars($cat['name'])."' title='".htmlsafechars($cat['name'])."' /></a>" : htmlsafechars($cat['name']))."</td>\n";
+                    $wherecatina) ? "checked='checked'" : "").">
+    ".(($linkpage != '') ? "<a href=\"{$linkpage}?cats{$cats['tabletype']}[]={$cat['id']}\"><img src='{$TRINITY20['pic_base_url']}caticons/{$CURUSER['categorie_icon']}/".htmlsafechars($cat['image'])."' alt='".htmlsafechars($cat['name'])."' title='".htmlsafechars($cat['name'])."'></a>" : htmlsafechars($cat['name']))."</td>\n";
             $i++;
         }
     }

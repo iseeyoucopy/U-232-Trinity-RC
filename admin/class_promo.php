@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 <title>Error!</title>
 </head>
 <body>
-<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 </body></html>";
     echo $HTMLOUT;
     exit();
@@ -142,29 +142,29 @@ while ($arr = $res->fetch_assoc()) {
 <tr>
 
 <td class='table' align='center'><input type='text' name='".htmlsafechars($arr['name'])."[]' size='25' value='".get_user_class_name(htmlsafechars($arr['name']))." ' readonly='readonly'/> (".htmlsafechars($arr['name']).")</td>
-<td class='table' align='center'>&nbsp;<input type='hidden' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['id'])."' /></td>
-<td class='table' align='center'><input type='text' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['min_ratio'])."'  /></td>
-<td class='table' align='center'><input type='text' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['uploaded'])."' /></td>
-<td class='table' align='center'><input type='text' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['time'])."'  /></td>
-<td class='table' align='center'><input type='text' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['low_ratio'])."'  /></td>
+<td class='table' align='center'>&nbsp;<input type='hidden' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['id'])."'></td>
+<td class='table' align='center'><input type='text' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['min_ratio'])."' ></td>
+<td class='table' align='center'><input type='text' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['uploaded'])."'></td>
+<td class='table' align='center'><input type='text' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['time'])."' ></td>
+<td class='table' align='center'><input type='text' name='".htmlsafechars($arr['name'])."[]' size='8' value='".htmlsafechars($arr['low_ratio'])."' ></td>
 
 <td class='table' align='center'>
-<form name='remove' action='staffpanel.php?tool=class_promo&amp;mode=remove' method='post'><input type='hidden' name='remove' value='".htmlsafechars($arr['name'])."' /><input type='submit' value='{$lang['classpromo_remove']}' /></form></td>
+<form name='remove' action='staffpanel.php?tool=class_promo&amp;mode=remove' method='post'><input type='hidden' name='remove' value='".htmlsafechars($arr['name'])."'><input type='submit' value='{$lang['classpromo_remove']}'></form></td>
 </tr>";
 }
-//$HTMLOUT.= "<br /><br /> ";
+//$HTMLOUT.= "<br><br> ";
 
 
-$HTMLOUT .= "<tr><td colspan='7' class='table' align='center'><input type='submit' value='{$lang['classpromo_apply']}' /></td></tr></table></form>";
+$HTMLOUT .= "<tr><td colspan='7' class='table' align='center'><input type='submit' value='{$lang['classpromo_apply']}'></td></tr></table></form>";
 
 
 $HTMLOUT .= "<div class='usage'>
-{$lang['classpromo_info_minratio']}<br />
-{$lang['classpromo_info_minupl']}<br />
+{$lang['classpromo_info_minratio']}<br>
+{$lang['classpromo_info_minupl']}<br>
 
-{$lang['classpromo_info_mintime']}<br />
+{$lang['classpromo_info_mintime']}<br>
 
-{$lang['classpromo_info_lowratio']}<br />
+{$lang['classpromo_info_lowratio']}<br>
 
 </div>";
 
@@ -186,12 +186,12 @@ for ($i = 1; $i < $maxclass; ++$i) {
 }
 $HTMLOUT .= "</select></td>
 
-                <td><input type='text' name='min_ratio' size='20' value=''  /></td>
-                <td><input type='text' name='uploaded' size='20' value=''  /></td>
-                <td><input type='text' name='time' size='20' value='' /></td>
-                <td><input type='text' name='low_ratio' size='20' value=''  /></td>
+                <td><input type='text' name='min_ratio' size='20' value='' ></td>
+                <td><input type='text' name='uploaded' size='20' value='' ></td>
+                <td><input type='text' name='time' size='20' value=''></td>
+                <td><input type='text' name='low_ratio' size='20' value='' ></td>
                 </tr>
-<tr><td colspan='5' class='table' align='center'><input type='submit' value='{$lang['classpromo_add_new']}' /></td></tr>
+<tr><td colspan='5' class='table' align='center'><input type='submit' value='{$lang['classpromo_add_new']}'></td></tr>
 </table></form></div></div>";
 echo stdhead($lang['classpromo_stdhead']).$HTMLOUT.stdfoot();
 ?>

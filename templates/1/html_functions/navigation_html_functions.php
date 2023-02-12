@@ -27,7 +27,7 @@ function navigation_active($x)
 }
 function navigation_end()
 {
-    return "</div> <br />";
+    return "</div> <br>";
 }
 /// end navigation site > forums > etc
 ?>

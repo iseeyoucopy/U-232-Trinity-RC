@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -138,9 +138,9 @@ while ($row = $res->fetch_array(MYSQLI_BOTH)) {
         </tr>
         <tr>
           <td colspan='7' align='right'><i><b>{$lang['mysql_over_rf']}</b></i> {$row['Row_format']}
-          <br /><i><b>{$lang['mysql_over_ct']}</b></i> {$row['Create_time']}
-          <br /><i><b>{$lang['mysql_over_ut']}</b></i> {$row['Update_time']}
-          <br /><i><b>{$lang['mysql_over_chkt']}</b></i> {$row['Check_time']}</td>
+          <br><i><b>{$lang['mysql_over_ct']}</b></i> {$row['Create_time']}
+          <br><i><b>{$lang['mysql_over_ut']}</b></i> {$row['Update_time']}
+          <br><i><b>{$lang['mysql_over_chkt']}</b></i> {$row['Check_time']}</td>
         </tr>";
     //do sums
     $count++;

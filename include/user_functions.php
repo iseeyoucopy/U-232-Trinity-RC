@@ -126,7 +126,7 @@ function get_reputation($user, $mode = '', $rep_is_on = true, $post_id = 0)
         }
         // now decide the locale
         if ($mode != '') {
-            return "Rep: ".$posneg."<br /><br /><a href='javascript:;' onclick=\"PopUp('{$TRINITY20['baseurl']}/reputation.php?pid=".($post_id != 0 ? (int)$post_id : (int)$user['id'])."&amp;locale=".$mode."','Reputation',400,241,1,1);\"><button type='button' class='tiny button' style='margin-top:-9px;' alt='Add reputation:: ".htmlsafechars($user['username'])."' title='Add reputation:: ".htmlsafechars($user['username'])."'><i class='fa fa-check'></i> Add Rep</button></a>";
+            return "Rep: ".$posneg."<br><br><a href='javascript:;' onclick=\"PopUp('{$TRINITY20['baseurl']}/reputation.php?pid=".($post_id != 0 ? (int)$post_id : (int)$user['id'])."&amp;locale=".$mode."','Reputation',400,241,1,1);\"><button type='button' class='tiny button' style='margin-top:-9px;' alt='Add reputation:: ".htmlsafechars($user['username'])."' title='Add reputation:: ".htmlsafechars($user['username'])."'><i class='fa fa-check'></i> Add Rep</button></a>";
         }
 
         return " ".$posneg;
@@ -322,31 +322,31 @@ function ratio_image_machine($ratio_to_check)
     global $TRINITY20;
     switch ($ratio_to_check) {
         case $ratio_to_check >= 5:
-            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/yay.gif" alt="Yay" title="Yay" />';
+            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/yay.gif" alt="Yay" title="Yay">';
             break;
         case $ratio_to_check >= 4:
-            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/pimp.gif" alt="Pimp" title="Pimp" />';
+            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/pimp.gif" alt="Pimp" title="Pimp">';
             break;
         case $ratio_to_check >= 3:
-            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/w00t.gif" alt="W00t" title="W00t" />';
+            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/w00t.gif" alt="W00t" title="W00t">';
             break;
         case $ratio_to_check >= 2:
-            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/grin.gif" alt="Grin" title="Grin" />';
+            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/grin.gif" alt="Grin" title="Grin">';
             break;
         case $ratio_to_check >= 1.5:
-            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/evo.gif" alt="Evo" title="Evo" />';
+            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/evo.gif" alt="Evo" title="Evo">';
             break;
         case $ratio_to_check >= 1:
-            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/smile1.gif" alt="Smile" title="Smile" />';
+            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/smile1.gif" alt="Smile" title="Smile">';
             break;
         case $ratio_to_check >= 0.5:
-            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/noexpression.gif" alt="Blank" title="Blank" />';
+            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/noexpression.gif" alt="Blank" title="Blank">';
             break;
         case $ratio_to_check >= 0.25:
-            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/cry.gif" alt="Cry" title="Cry" />';
+            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/cry.gif" alt="Cry" title="Cry">';
             break;
         case $ratio_to_check < 0.25:
-            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/shit.gif" alt="Shit" title="Shit" />';
+            return '<img src="'.$TRINITY20['pic_base_url'].'smilies/shit.gif" alt="Shit" title="Shit">';
             break;
     }
 }
@@ -432,13 +432,13 @@ function format_username($user, $icons = true)
     $username = '<span style="color:#'.get_user_class_color($userf_class).';"><strong>'.htmlsafechars($user['username']).'</strong></span>';
     $str = '<span style="white-space: nowrap;"><a class="user_'.$userf_id.'" href="'.$TRINITY20['baseurl'].'/userdetails.php?id='.$userf_id.'" target="_blank">'.$username.'</a>';
     if ($icons != false) {
-        $str .= ($user['donor'] == 'yes' ? '<img src="'.$TRINITY20['pic_base_url'].'star.png" alt="Donor" title="Donor" />' : '');
-        $str .= ($user['warned'] >= 1 ? '<img src="'.$TRINITY20['pic_base_url'].'alertred.png" alt="Warned" title="Warned" />' : '');
-        $str .= ($user['leechwarn'] >= 1 ? '<img src="'.$TRINITY20['pic_base_url'].'alertblue.png" alt="Leech Warned" title="Leech Warned" />' : '');
-        $str .= ($user['enabled'] != 'yes' ? '<img src="'.$TRINITY20['pic_base_url'].'disabled.gif" alt="Disabled" title="Disabled" />' : '');
-        $str .= ($user['chatpost'] == 0 ? '<img src="'.$TRINITY20['pic_base_url'].'warned.png" alt="No Chat" title="Shout disabled" />' : '');
-        $str .= ($user['pirate'] != 0 ? '<img src="'.$TRINITY20['pic_base_url'].'pirate.png" alt="Pirate" title="Pirate" />' : '');
-        $str .= ($user['king'] != 0 ? '<img src="'.$TRINITY20['pic_base_url'].'king.png" alt="King" title="King" />' : '');
+        $str .= ($user['donor'] == 'yes' ? '<img src="'.$TRINITY20['pic_base_url'].'star.png" alt="Donor" title="Donor">' : '');
+        $str .= ($user['warned'] >= 1 ? '<img src="'.$TRINITY20['pic_base_url'].'alertred.png" alt="Warned" title="Warned">' : '');
+        $str .= ($user['leechwarn'] >= 1 ? '<img src="'.$TRINITY20['pic_base_url'].'alertblue.png" alt="Leech Warned" title="Leech Warned">' : '');
+        $str .= ($user['enabled'] != 'yes' ? '<img src="'.$TRINITY20['pic_base_url'].'disabled.gif" alt="Disabled" title="Disabled">' : '');
+        $str .= ($user['chatpost'] == 0 ? '<img src="'.$TRINITY20['pic_base_url'].'warned.png" alt="No Chat" title="Shout disabled">' : '');
+        $str .= ($user['pirate'] != 0 ? '<img src="'.$TRINITY20['pic_base_url'].'pirate.png" alt="Pirate" title="Pirate">' : '');
+        $str .= ($user['king'] != 0 ? '<img src="'.$TRINITY20['pic_base_url'].'king.png" alt="King" title="King">' : '');
     }
     return $str."</span>\n";
 }
@@ -478,25 +478,25 @@ function get_user_ratio_image($ratio)
             return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/shit.gif" alt=" Bad ratio :("  title=" Bad ratio :("/>';
             break;
         case ($ratio <= 0.7):
-            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/weep.gif" alt=" Could be better"  title=" Could be better" />';
+            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/weep.gif" alt=" Could be better"  title=" Could be better">';
             break;
         case ($ratio <= 0.8):
-            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/cry.gif" alt=" Getting there!" title=" Getting there!" />';
+            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/cry.gif" alt=" Getting there!" title=" Getting there!">';
             break;
         case ($ratio <= 1.5):
-            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/smile1.gif" alt=" Good Ratio :)" title=" Good Ratio :)" />';
+            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/smile1.gif" alt=" Good Ratio :)" title=" Good Ratio :)">';
             break;
         case ($ratio <= 2.0):
-            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/grin.gif" alt=" Great Ratio :)" title=" Great Ratio :)" />';
+            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/grin.gif" alt=" Great Ratio :)" title=" Great Ratio :)">';
             break;
         case ($ratio <= 3.0):
-            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/w00t.gif" alt=" Wow! :D" title=" Wow! :D" />';
+            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/w00t.gif" alt=" Wow! :D" title=" Wow! :D">';
             break;
         case ($ratio <= 4.0):
-            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/pimp.gif" alt=" Fa-boo Ratio!" title=" Fa-boo Ratio!" />';
+            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/pimp.gif" alt=" Fa-boo Ratio!" title=" Fa-boo Ratio!">';
             break;
         case ($ratio > 4.0):
-            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/yahoo.gif" alt=" Great ratio :-D" title=" Great ratio :-D" />';
+            return ' <img src="'.$TRINITY20['pic_base_url'].'smilies/yahoo.gif" alt=" Great ratio :-D" title=" Great ratio :-D">';
             break;
     }
     return '';
@@ -508,7 +508,7 @@ function avatar_stuff($avatar, $width = 80)
 {
     global $CURUSER, $TRINITY20;
     require_once (CLASS_DIR . 'class_user_options.php');
-    $avatar_show = (!($CURUSER['opt1'] & user_options::AVATARS) ? '' : (!$avatar['avatar'] ? '<img style="max-width:' . $width . 'px;" src="' . $TRINITY20['pic_base_url'] . 'default_avatar.gif" alt="avatar" />' : (($CURUSER['opt1'] & user_options::OFFENSIVE_AVATAR && $CURUSER['opt2'] & user_options::VIEW_OFFENSIVE_AVATAR) ? '<img style="max-width:' . $width . 'px;" src="' . $TRINITY20['pic_base_url'] . 'fuzzybunny.gif" alt="avatar" />' : '<img style="max-width:' . $width . 'px;" src="' . htmlsafechars($avatar['avatar']) . '" alt="avatar" />')));
+    $avatar_show = (!($CURUSER['opt1'] & user_options::AVATARS) ? '' : (!$avatar['avatar'] ? '<img style="max-width:' . $width . 'px;" src="' . $TRINITY20['pic_base_url'] . 'default_avatar.gif" alt="avatar">' : (($CURUSER['opt1'] & user_options::OFFENSIVE_AVATAR && $CURUSER['opt2'] & user_options::VIEW_OFFENSIVE_AVATAR) ? '<img style="max-width:' . $width . 'px;" src="' . $TRINITY20['pic_base_url'] . 'fuzzybunny.gif" alt="avatar">' : '<img style="max-width:' . $width . 'px;" src="' . htmlsafechars($avatar['avatar']) . '" alt="avatar">')));
     return $avatar_show;
 }
 */
@@ -516,7 +516,7 @@ function avatar_stuff($avatar, $width = 80)
 function avatar_stuff($avatar, $width = 80)
 {
     global $CURUSER, $TRINITY20;
-    return $CURUSER['avatars'] == 'no' ? '' : ($avatar['avatar'] ? ($avatar['offensive_avatar'] === 'yes' && $CURUSER['view_offensive_avatar'] === 'no') ? '<img style="max-width:'.$width.'px;" src="'.$TRINITY20['pic_base_url'].'fuzzybunny.gif" alt="avatar" />' : '<img style="max-width:'.$width.'px;" src="'.htmlsafechars($avatar['avatar']).'" alt="avatar" />' : ('<img style="max-width:'.$width.'px;" src="'.$TRINITY20['pic_base_url'].'default_avatar.gif" alt="avatar" />'));
+    return $CURUSER['avatars'] == 'no' ? '' : ($avatar['avatar'] ? ($avatar['offensive_avatar'] === 'yes' && $CURUSER['view_offensive_avatar'] === 'no') ? '<img style="max-width:'.$width.'px;" src="'.$TRINITY20['pic_base_url'].'fuzzybunny.gif" alt="avatar">' : '<img style="max-width:'.$width.'px;" src="'.htmlsafechars($avatar['avatar']).'" alt="avatar">' : ('<img style="max-width:'.$width.'px;" src="'.$TRINITY20['pic_base_url'].'default_avatar.gif" alt="avatar">'));
 }
 
 //=== added a function to get all user info and print them up with link to userdetails page, class color, user icons... pdq's idea \o/

@@ -38,8 +38,8 @@ $HTMLOUT .= "<div class='row'><div class='col-md-12'>
 <h2 class'text-center'><b>{$lang['set_class_allow']}</b></h2>
 <br>
 <form method='get' action='{$TRINITY20['baseurl']}/setclass.php'>
-	<input type='hidden' name='action' value='editclass' />
-	<input type='hidden' name='returnto' value='userdetails.php?id=".(int)$CURUSER['id']."' />
+	<input type='hidden' name='action' value='editclass'>
+	<input type='hidden' name='returnto' value='userdetails.php?id=".(int)$CURUSER['id']."'>
 	<table class='table table-bordered'>
 	<tr>
 	<td class='text-right'>Class</td>
@@ -52,7 +52,7 @@ for ($i = 0; $i <= $maxclass; ++$i) {
     }
 }
 $HTMLOUT .= "</select></td></tr>
-		<tr><td class='text-center'colspan='3'><input type='submit' class='btn' value='{$lang['set_class_ok']}' /></td></tr>
+		<tr><td class='text-center'colspan='3'><input type='submit' class='btn' value='{$lang['set_class_ok']}'></td></tr>
 	</table>
 </form>
 <br>";

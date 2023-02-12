@@ -20,8 +20,8 @@ if (!empty($slot)) {
 $torrent['addup'] = get_date($torrent['addedup'], 'DATE');
 $torrent['addfree'] = get_date($torrent['addedfree'], 'DATE');
 $torrent['idk'] = (TIME_NOW + 14 * 86400);
-$torrent['freeimg'] = '<img src="'.$TRINITY20['pic_base_url'].'freedownload.gif" alt="" />';
-$torrent['doubleimg'] = '<img src="'.$TRINITY20['pic_base_url'].'doubleseed.gif" alt="" />';
+$torrent['freeimg'] = '<img src="'.$TRINITY20['pic_base_url'].'freedownload.gif" alt="">';
+$torrent['doubleimg'] = '<img src="'.$TRINITY20['pic_base_url'].'doubleseed.gif" alt="">';
 $torrent['free_color'] = 'alert';
 $torrent['silver_color'] = 'secondary';
 //== Display when freeleech and double slot will expire

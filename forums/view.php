@@ -15,7 +15,7 @@ if (!defined('IN_TRINITY20_FORUM')) {
     $HTMLOUT .= '<!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
         <head>
-        <meta charset="'.charset().'" />
+        <meta charset="'.charset().'">
         <title>ERROR</title>
         </head><body>
         <h1 style="text-align:center;">Error</h1>
@@ -177,7 +177,7 @@ if ($topics_res->num_rows > 0) {
             ++$tpages;
         }
         if ($tpages > 1) {
-            $topicpages = "&nbsp;(<img src='".$TRINITY20['pic_base_url']."multipage.gif' alt='Multiple pages' title='Multiple pages' />";
+            $topicpages = "&nbsp;(<img src='".$TRINITY20['pic_base_url']."multipage.gif' alt='Multiple pages' title='Multiple pages'>";
             $split = $tpages > 10;
             $flag = false;
             for ($i = 1; $i <= $tpages; ++$i) {
@@ -218,7 +218,7 @@ if ($topics_res->num_rows > 0) {
         }
         $new = ($topic_arr["p_added"] > (TIME_NOW - $TRINITY20['readpost_expiry'])) ? ((int)$topic_arr['p_id'] > $topic_arr['last_post_read']) : 0;
 		$topicpic = ($topic_arr['locked'] == "yes" ? ($new ? "<span class='thread_status newlockfolder' title='Topic locked, new posts.'>&nbsp;</span>" : "<span class='thread_status newlockfolder' title='Topic Locked.'>&nbsp;</span>") : ($new ? "<span class='thread_status newfolder' title='New posts.'>&nbsp;</span>" : "<span class='thread_status dot_folder' title='No new posts.'>&nbsp;</span>"));
-		$post_icon = ($sticky ? "<img src=\"".$TRINITY20['pic_base_url']."sticky.gif\" alt=\"Sticky topic\" title=\"Sticky topic\"/>" : ($topic_arr["icon"] > 0 ? "<img src=\"".$TRINITY20['pic_base_url']."post_icons/icon".htmlsafechars($topic_arr["icon"]).".gif\" alt=\"post icon\" title=\"post icon\" />" : "&nbsp;"));
+		$post_icon = ($sticky ? "<img src=\"".$TRINITY20['pic_base_url']."sticky.gif\" alt=\"Sticky topic\" title=\"Sticky topic\"/>" : ($topic_arr["icon"] > 0 ? "<img src=\"".$TRINITY20['pic_base_url']."post_icons/icon".htmlsafechars($topic_arr["icon"]).".gif\" alt=\"post icon\" title=\"post icon\">" : "&nbsp;"));
         $HTMLOUT .= "<div class='divTableBody'>
 				  	<div class='divTableRow'>
 						<div class='divTableCell'>
@@ -234,7 +234,7 @@ if ($topics_res->num_rows > 0) {
 						<div class='divTableCell hide-for-small-only'>Replies : ".max(0, $topic_arr['p_count'] - 1)."<br>
 						Views : ".number_format($topic_arr['views'])."
 						</div>
-						<div class='divTableCell hide-for-small-only'>".get_date($topic_arr["p_added"], 'DATE', 1, 0)."<br />by&nbsp;".$lpusername."</div>
+						<div class='divTableCell hide-for-small-only'>".get_date($topic_arr["p_added"], 'DATE', 1, 0)."<br>by&nbsp;".$lpusername."</div>
 					</div>
 				</div>";
     }

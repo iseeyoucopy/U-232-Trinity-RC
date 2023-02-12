@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -148,11 +148,11 @@ if ($count == '0') {
             $res_who = sql_query("SELECT username FROM users WHERE id=".sqlesc($arr_info['who_delt_with_it']));
             $arr_who = $res_who->fetch_assoc();
             $who_delt = isset($arr_who["username"]) ? "<a class='altlink' href='userdetails.php?id=".(int)$arr_info['who_delt_with_it']."'><b>".htmlsafechars($arr_who['username'])."</b></a>" : "<b>Deleted User</b>";
-            $dealtwith = "<font color='{$solved_color}'><b>{$lang['reports_yes']}</b> </font> {$lang['reports_by']} {$who_delt} <br /> {$lang['reports_in']} <font color='{$solved_color}'>{$solved_in}</font>";
-            $checkbox = "<input type='radio' name='id' value='".(int)$arr_info['id']."' disabled='disabled' />";
+            $dealtwith = "<font color='{$solved_color}'><b>{$lang['reports_yes']}</b> </font> {$lang['reports_by']} {$who_delt} <br> {$lang['reports_in']} <font color='{$solved_color}'>{$solved_in}</font>";
+            $checkbox = "<input type='radio' name='id' value='".(int)$arr_info['id']."' disabled='disabled'>";
         } else {
             $dealtwith = "<font color='red'><b>{$lang['reports_no']}</b></font>";
-            $checkbox = "<input type='radio' name='id' value='".(int)$arr_info['id']."' />";
+            $checkbox = "<input type='radio' name='id' value='".(int)$arr_info['id']."'>";
         }
         // === make a link to the reported thing
         if ($arr_info["reporting_type"] != "") {
@@ -202,7 +202,7 @@ if ($count == '0') {
                 case "Hit_And_Run":
                     $res_who2 = sql_query("SELECT users.username, torrents.name, r.2nd_value FROM users, torrents LEFT JOIN reports AS r ON r.2nd_value = torrents.id WHERE users.id=".sqlesc($arr_info['reporting_what']));
                     $arr_who2 = $res_who2->fetch_assoc();
-                    $link_to_thing = isset($arr_who2) ? "<b>{$lang['reports_user']}</b> <a class='altlink' href='userdetails.php?id=".(int)$arr_info['reporting_what']."&amp;completed=1'><b>{$arr_who2['username']}</b></a><br />{$lang['reports_hit']}<br /> <a class='altlink' href='details.php?id=".(int)$arr_info['2nd_value']."&amp;page=0#snatched'><b>".htmlsafechars($arr_who2['name'])."</b></a>" : "<b>HnR Deleted</b>";
+                    $link_to_thing = isset($arr_who2) ? "<b>{$lang['reports_user']}</b> <a class='altlink' href='userdetails.php?id=".(int)$arr_info['reporting_what']."&amp;completed=1'><b>{$arr_who2['username']}</b></a><br>{$lang['reports_hit']}<br> <a class='altlink' href='details.php?id=".(int)$arr_info['2nd_value']."&amp;page=0#snatched'><b>".htmlsafechars($arr_who2['name'])."</b></a>" : "<b>HnR Deleted</b>";
                     break;
 
                 case "Post":
@@ -225,15 +225,15 @@ if ($count == '0') {
             $HTMLOUT .= "<tr>
         <td colspan='".($CURUSER["class"] == UC_MAX ? "8" : "7")."' class='$class' align='left'><b>{$lang['reports_with']} ".(isset($arr_who['username']) ? htmlsafechars($arr_who['username']) : 'Deleted User').":</b> ".get_date($arr_info['when_delt_with'],
                     'LONG', 0, 1)."</td></tr>
-        <tr><td colspan='".($CURUSER["class"] == UC_MAX ? "8" : "7")."' class='$class' align='left'>".htmlsafechars($arr_info['how_delt_with'])."<br /><br /></td></tr>";
+        <tr><td colspan='".($CURUSER["class"] == UC_MAX ? "8" : "7")."' class='$class' align='left'>".htmlsafechars($arr_info['how_delt_with'])."<br><br></td></tr>";
         }
     }
 }
 $HTMLOUT .= "</table></div></div>";
 if ($count > '0') {
     // === deal with it
-    $HTMLOUT .= "<br /><br /><p align='center'><b>{$lang['reports_how']} {$CURUSER['username']} {$lang['reports_dealt1']}</br></b>{$lang['reports_please']} [ {$lang['reports_req']} ] </p><br />
-<textarea name='how_delt_with' cols='70' rows='5'></textarea><br /><br />"."<input type='submit' class='button' value='{$lang['reports_confirm']}' /><br /><br /></form></td></tr></table>";
+    $HTMLOUT .= "<br><br><p align='center'><b>{$lang['reports_how']} {$CURUSER['username']} {$lang['reports_dealt1']}</br></b>{$lang['reports_please']} [ {$lang['reports_req']} ] </p><br>
+<textarea name='how_delt_with' cols='70' rows='5'></textarea><br><br>"."<input type='submit' class='button' value='{$lang['reports_confirm']}'><br><br></form></td></tr></table>";
 } //=== end if count
 
 //$HTMLOUT .="";

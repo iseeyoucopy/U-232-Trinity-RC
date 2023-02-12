@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -106,11 +106,11 @@ if ($action == "app" || $action == "show") {
             <td>".mksize($arr["uploaded"])."</td>
             <td>".member_ratio($arr['uploaded'], $TRINITY20['ratio_free'] ? '0' : $arr['downloaded'])."</td>
             <td>{$status}</td>
-            <td><input type=\"checkbox\" name=\"deleteapp[]\" value=\"".(int)$arr['id']."\" /></td>
+            <td><input type=\"checkbox\" name=\"deleteapp[]\" value=\"".(int)$arr['id']."\"></td>
             </tr>\n";
         }
         $HTMLOUT .= "</table>
-        <div align='right'><input type='submit' value='Delete' /></div>
+        <div align='right'><input type='submit' value='Delete'></div>
         </td></tr></table></form></div></div>\n";
         if ($count > $perpage) {
             $HTMLOUT .= $pager['pagerbottom'];
@@ -166,12 +166,12 @@ if ($action == "viewapp") {
     if ($arr["sitenames"] != "") {
         $HTMLOUT .= "<tr><td class='rowhead'>{$lang['uploadapps_sites']} </td><td>".htmlsafechars($arr["sitenames"])."</td></tr>
     <tr><td class='rowhead'>{$lang['uploadapps_axx']} </td><td>".htmlsafechars($arr["scene"])."</td></tr>
-    <tr><td colspan='2'>{$lang['uploadapps_create']} <b>".htmlsafechars($arr["creating"])."</b><br />{$lang['uploadapps_seeding']} <b>".htmlsafechars($arr["seeding"])."</b></td></tr>";
+    <tr><td colspan='2'>{$lang['uploadapps_create']} <b>".htmlsafechars($arr["creating"])."</b><br>{$lang['uploadapps_seeding']} <b>".htmlsafechars($arr["seeding"])."</b></td></tr>";
     }
     if ($arr["status"] == "pending") {
-        $HTMLOUT .= "<tr><td align='center' colspan='2'><form method='post' action='staffpanel.php?tool=uploadapps&amp;action=acceptapp'><input name='id' type='hidden' value='".(int)$arr["id"]."' /><b>{$lang['uploadapps_note']}</b><br /><input type='text' name='note' size='40' /> <input type='submit' value='{$lang['uploadapps_accept']}' style='height: 20px' /></form><br /><form method='post' action='staffpanel.php?tool=uploadapps&amp;action=rejectapp'><input name='id' type='hidden' value='".(int)$arr["id"]."' /><b>{$lang['uploadapps_reason']}</b><br /><input type='text' name='reason' size='40' /> <input type='submit' value='{$lang['uploadapps_reject']}' style='height: 20px' /></form></td></tr></table></div></div>";
+        $HTMLOUT .= "<tr><td align='center' colspan='2'><form method='post' action='staffpanel.php?tool=uploadapps&amp;action=acceptapp'><input name='id' type='hidden' value='".(int)$arr["id"]."'><b>{$lang['uploadapps_note']}</b><br><input type='text' name='note' size='40'> <input type='submit' value='{$lang['uploadapps_accept']}' style='height: 20px'></form><br><form method='post' action='staffpanel.php?tool=uploadapps&amp;action=rejectapp'><input name='id' type='hidden' value='".(int)$arr["id"]."'><b>{$lang['uploadapps_reason']}</b><br><input type='text' name='reason' size='40'> <input type='submit' value='{$lang['uploadapps_reject']}' style='height: 20px'></form></td></tr></table></div></div>";
     } else {
-        $HTMLOUT .= "<tr><td colspan='2' align='center'>{$lang['uploadapps_application']} ".($arr["status"] == "accepted" ? "accepted" : "rejected")." by <b>".htmlsafechars($arr["moderator"])."</b><br />{$lang['uploadapps_comm']}".htmlsafechars($arr["comment"])."</td></tr></table>
+        $HTMLOUT .= "<tr><td colspan='2' align='center'>{$lang['uploadapps_application']} ".($arr["status"] == "accepted" ? "accepted" : "rejected")." by <b>".htmlsafechars($arr["moderator"])."</b><br>{$lang['uploadapps_comm']}".htmlsafechars($arr["comment"])."</td></tr></table>
     <div align='center'><a href='{$TRINITY20['baseurl']}/staffpanel.php?tool=uploadapps&amp;action=app'>{$lang['uploadapps_return']}</a></div></div></div>";
     }
 }

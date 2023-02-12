@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -83,11 +83,11 @@ while ($arr = $search_q->fetch_assoc()) {
 <td class='one' align='left'>$search_phrase</td>
 <td class='two' align='left'>$hits</td>
 <td class='two' align='left'>$ip</td>
-<td class='one' align='center'><input type='checkbox' name='delcloud[]' title='{$lang['cloudview_mark']}' value='".(int)$arr['id']."' /></td></tr>\n";
+<td class='one' align='center'><input type='checkbox' name='delcloud[]' title='{$lang['cloudview_mark']}' value='".(int)$arr['id']."'></td></tr>\n";
 }
 $HTMLOUT .= "<tr>
-<td colspan='4' class='colhead' align='right'>{$lang['cloudview_markall_search']}<input type='checkbox' title='{$lang['cloudview_markall']}' value='{$lang['cloudview_markall']}' onclick=\"this.value=check(form.elements);\" /></td></tr>
-<tr><td colspan='4' class='colhead' align='center'><input type='submit' value='{$lang['cloudview_del_terms']}' /></td></tr>";
+<td colspan='4' class='colhead' align='right'>{$lang['cloudview_markall_search']}<input type='checkbox' title='{$lang['cloudview_markall']}' value='{$lang['cloudview_markall']}' onclick=\"this.value=check(form.elements);\"></td></tr>
+<tr><td colspan='4' class='colhead' align='center'><input type='submit' value='{$lang['cloudview_del_terms']}'></td></tr>";
 $HTMLOUT .= "</table></form>";
 $HTMLOUT .= "</div></div>";
 if ($count > $perpage) {

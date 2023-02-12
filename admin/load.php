@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -117,7 +117,7 @@ function loadavg($return_all = false)
     //==Windows Server Load
     $HTMLOUT .="
     <div class='row'><div class='col-md-12'><h2>{$lang['index_serverload']}</h2>
-    <br />
+    <br>
     <table class='table table-bordered'>
 		<tr><td align='center'>
 		<table class='table table-bordered'>
@@ -128,13 +128,13 @@ function loadavg($return_all = false)
     elseif ($percent <= 90) $pic = "loadbaryellow.gif";
     else $pic = "loadbarred.gif";
     $width = $percent * 4;
-    $HTMLOUT .="<img height='15' width='$width' src=\"{$TRINITY20['pic_base_url']}{$pic}\" alt='$percent&#37;' /><br />{$lang['index_load_curr']}{$percent}{$lang['index_load_cpu']}<br /></td></tr></table></td></tr></table></div><br />";
+    $HTMLOUT .="<img height='15' width='$width' src=\"{$TRINITY20['pic_base_url']}{$pic}\" alt='$percent&#37;'><br>{$lang['index_load_curr']}{$percent}{$lang['index_load_cpu']}<br></td></tr></table></td></tr></table></div><br>";
     //==End
 */
 //==Server Load linux
 $HTMLOUT .= "
      <div class='row'><div class='col-md-12'><h2>{$lang['index_serverload']}</h2>
-    <br />
+    <br>
     <table class='table table-bordered'>
 			<tr><td align='center'>
 		    <table class='table table-bordered'>
@@ -148,18 +148,18 @@ if ($percent <= 70) {
     $pic = "loadbarred.gif";
 }
 $width = $percent * 4;
-$HTMLOUT .= "<img height='15' width='$width' src=\"{$TRINITY20['pic_base_url']}{$pic}\" alt='$percent&#37;' /><br />{$lang['index_load_curr']}{$percent}{$lang['index_load_cpu']}<br />";
+$HTMLOUT .= "<img height='15' width='$width' src=\"{$TRINITY20['pic_base_url']}{$pic}\" alt='$percent&#37;'><br>{$lang['index_load_curr']}{$percent}{$lang['index_load_cpu']}<br>";
 //==End graphic
 $HTMLOUT .= "{$lang['index_load_uptime1']}".uptime()."";
 $loadinfo = loadavg(true);
-$HTMLOUT .= "<br />
-    {$lang['index_load_pastmin']}".$loadinfo["last1"]."<br />
-    {$lang['index_load_pastmin5']}".$loadinfo["last5"]."<br />
-    {$lang['index_load_pastmin15']}".$loadinfo["last15"]."<br />
-    {$lang['index_load_numtsk']}".$loadinfo["tasks"]."<br />
-    {$lang['index_load_numproc']}".$loadinfo["processes"]."<br />
-   {$lang['index_load_pid']}".$loadinfo["lastpid"]."<br />
-    </td></tr></table></td></tr></table></div></div><br />";
+$HTMLOUT .= "<br>
+    {$lang['index_load_pastmin']}".$loadinfo["last1"]."<br>
+    {$lang['index_load_pastmin5']}".$loadinfo["last5"]."<br>
+    {$lang['index_load_pastmin15']}".$loadinfo["last15"]."<br>
+    {$lang['index_load_numtsk']}".$loadinfo["tasks"]."<br>
+    {$lang['index_load_numproc']}".$loadinfo["processes"]."<br>
+   {$lang['index_load_pid']}".$loadinfo["lastpid"]."<br>
+    </td></tr></table></td></tr></table></div></div><br>";
 //==End
 
 echo stdhead($lang['index_serverload']).$HTMLOUT.stdfoot();

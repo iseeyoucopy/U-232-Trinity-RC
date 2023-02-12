@@ -56,25 +56,25 @@ if ($lottery_config['enable']) {
   <table class='table table-bordered'>
 	<tr>
     <td width='50%' align='left'>Enable The Lottery</td>
-    <td align='left'>Yes <input type='radio' name='enable' value='1' ".($lottery_config['enable'] ? 'checked=\'checked\'' : '')." /> No <input type='radio' name='enable' value='0' ".($lottery_config['enable'] ? '' : 'checked=\'checked\'')." />
+    <td align='left'>Yes <input type='radio' name='enable' value='1' ".($lottery_config['enable'] ? 'checked=\'checked\'' : '')."> No <input type='radio' name='enable' value='0' ".($lottery_config['enable'] ? '' : 'checked=\'checked\'').">
     </td>
   </tr>
 	<tr>
-    <td width='50%' align='left'>Use Prize Fund (No, uses default pot of all users)</td><td align='left'>Yes <input type='radio' name='use_prize_fund' value='1' ".($lottery_config['use_prize_fund'] ? 'checked=\'checked\'' : '')." /> No <input type='radio' name='use_prize_fund' value='0' ".($lottery_config['use_prize_fund'] ? '' : 'checked=\'checked\'')." /></td>
+    <td width='50%' align='left'>Use Prize Fund (No, uses default pot of all users)</td><td align='left'>Yes <input type='radio' name='use_prize_fund' value='1' ".($lottery_config['use_prize_fund'] ? 'checked=\'checked\'' : '')."> No <input type='radio' name='use_prize_fund' value='0' ".($lottery_config['use_prize_fund'] ? '' : 'checked=\'checked\'')."></td>
   </tr>
 	<tr>
    <td width='50%' align='left'>Prize Fund</td>
-   <td align='left'><input type='text' class='form-control' name='prize_fund' value='{$lottery_config['prize_fund']}' /></td>
+   <td align='left'><input type='text' class='form-control' name='prize_fund' value='{$lottery_config['prize_fund']}'></td>
   </tr>
 	<tr>
    <td width='50%' align='left'>Ticket Amount</td>
-   <td align='left'><input type='text' class='form-control' name='ticket_amount' value='{$lottery_config['ticket_amount']}' /></td>
+   <td align='left'><input type='text' class='form-control' name='ticket_amount' value='{$lottery_config['ticket_amount']}'></td>
   </tr>
 	<tr>
     <td width='50%' align='left'>Ticket Amount Type</td>
     <td align='left'><select class='form-control' name='ticket_amount_type'><option value='seedbonus' selected='selected'>seedbonus</option></select></td>
   </tr>
-	<tr><td width='50%' align='left'>Amount Of Tickets Allowed</td><td align='left'><input type='text' class='form-control' name='user_tickets' value='{$lottery_config['user_tickets']}' /></td>
+	<tr><td width='50%' align='left'>Amount Of Tickets Allowed</td><td align='left'><input type='text' class='form-control' name='user_tickets' value='{$lottery_config['user_tickets']}'></td>
   </tr>
 	<tr><td width='50%' align='left' valign='top'>Classes Allowed</td><td align='left'>";
     for ($i = UC_USER; $i <= UC_SYSOP; $i++) {
@@ -84,7 +84,7 @@ if ($lottery_config['enable']) {
     $html .= "
    <tr>
     <td width='50%' align='left'>Total Winners</td>
-    <td align='left'><input type='text' class='form-control' name='total_winners' value='{$lottery_config['total_winners']}' /></td>
+    <td align='left'><input type='text' class='form-control' name='total_winners' value='{$lottery_config['total_winners']}'></td>
   </tr>
 	<tr>
     <td width='50%' align='left'>Start Date</td>
@@ -104,7 +104,7 @@ if ($lottery_config['enable']) {
     $html .= "</select></td>
     </tr>
     <tr>
-      <td colspan='2' align='center'><input class='btn btn-default' type='submit' value='Apply changes' /></td>
+      <td colspan='2' align='center'><input class='btn btn-default' type='submit' value='Apply changes'></td>
     </tr>";
     $html .= "</table></form>";
     $html .= "</div></div>";

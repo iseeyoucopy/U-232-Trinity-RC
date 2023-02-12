@@ -104,7 +104,7 @@ switch ($action) {
         if (($count = 0) !== 0) {
             stderr('Error!', 'Sorry, there are no current offers!');
         }
-        $HTMLOUT .= (isset($_GET['new']) ? '<h1>Offer Added!</h1>' : '').(isset($_GET['offer_deleted']) ? '<h1>Offer Deleted!</h1>' : '').$top_menu.''.$menu.'<br />';
+        $HTMLOUT .= (isset($_GET['new']) ? '<h1>Offer Added!</h1>' : '').(isset($_GET['offer_deleted']) ? '<h1>Offer Deleted!</h1>' : '').$top_menu.''.$menu.'<br>';
         $HTMLOUT .= '<table class="table table-hover table-bordered">
        <tr>
         <td class="colhead" align="center">Type</td>
@@ -123,19 +123,19 @@ switch ($action) {
             $HTMLOUT .= '
     <tr>
         <td class="'.$class.'" align="center" style="margin: 0; padding: 1;"><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlsafechars($main_query_arr['cat_image'],
-                    ENT_QUOTES).'" alt="'.htmlsafechars($main_query_arr['cat_name'], ENT_QUOTES).'" /></td>
+                    ENT_QUOTES).'" alt="'.htmlsafechars($main_query_arr['cat_name'], ENT_QUOTES).'"></td>
         <td class="'.$class.'" align="left"><a class="altlink" href="offers.php?action=offer_details&amp;id='.$main_query_arr['offer_id'].'">'.htmlsafechars($main_query_arr['offer_name'],
                     ENT_QUOTES).'</a></td>
         <td class="'.$class.'" align="center">'.get_date($main_query_arr['added'], 'LONG').'</td>
         <td class="'.$class.'" align="center">'.number_format($main_query_arr['comments']).'</td>  
-        <td class="'.$class.'" align="center">yes: '.number_format($main_query_arr['vote_yes_count']).'<br />
+        <td class="'.$class.'" align="center">yes: '.number_format($main_query_arr['vote_yes_count']).'<br>
         no: '.number_format($main_query_arr['vote_no_count']).'</td> 
         <td class="'.$class.'" align="center">'.print_user_stuff($main_query_arr).'</td>
         <td class="'.$class.'" align="center">'.$status.'</td>
     </tr>';
         }
         $HTMLOUT .= '</table>';
-        $HTMLOUT .= ''.$menu.'<br /></div>';
+        $HTMLOUT .= ''.$menu.'<br></div>';
         echo stdhead('Offers', true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
         break;
     //===========================================================================================//
@@ -163,16 +163,16 @@ switch ($action) {
         $row_did_they_vote = $res_did_they_vote->fetch_row();
         if (isset($row_did_they_vote[0]) == '') {
             $vote_yes = '<form method="post" action="offers.php">
-                    <input type="hidden" name="action" value="vote" />
-                    <input type="hidden" name="id" value="'.$id.'" />
-                    <input type="hidden" name="vote" value="1" />
-                    <input type="submit" class="button" value="vote yes!" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" />
+                    <input type="hidden" name="action" value="vote">
+                    <input type="hidden" name="id" value="'.$id.'">
+                    <input type="hidden" name="vote" value="1">
+                    <input type="submit" class="button" value="vote yes!" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'">
                     </form> ~ you will be notified when this offer is filled.';
             $vote_no = '<form method="post" action="offers.php">
-                    <input type="hidden" name="action" value="vote" />
-                    <input type="hidden" name="id" value="'.$id.'" />
-                    <input type="hidden" name="vote" value="2" />
-                    <input type="submit" class="button" value="vote no!" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" />
+                    <input type="hidden" name="action" value="vote">
+                    <input type="hidden" name="id" value="'.$id.'">
+                    <input type="hidden" name="vote" value="2">
+                    <input type="submit" class="button" value="vote no!" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'">
                     </form> ~ you are being a stick in the mud.';
             $your_vote_was = '';
         } else {
@@ -180,18 +180,18 @@ switch ($action) {
             $vote_no = '';
             $your_vote_was = ' your vote: '.$row_did_they_vote[0].' ';
         }
-        $status_drop_down = ($CURUSER['class'] < UC_STAFF ? '' : '<br /><form method="post" action="offers.php">
-                    <input type="hidden" name="action" value="alter_status" />
-                    <input type="hidden" name="id" value="'.$id.'" />
+        $status_drop_down = ($CURUSER['class'] < UC_STAFF ? '' : '<br><form method="post" action="offers.php">
+                    <input type="hidden" name="action" value="alter_status">
+                    <input type="hidden" name="id" value="'.$id.'">
                     <select name="set_status">
                     <option class="body" value="pending"'.($arr['status'] == 'pending' ? ' selected="selected"' : '').'>Status: pending</option>
                     <option class="body" value="approved"'.($arr['status'] == 'approved' ? ' selected="selected"' : '').'>Status: approved</option>
                     <option class="body" value="denied"'.($arr['status'] == 'denied' ? ' selected="selected"' : '').'>Status: denied</option>
                     </select>
-                    <input type="submit" class="button" value="change status!" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" />
+                    <input type="submit" class="button" value="change status!" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'">
                     </form> ');
         //=== start page
-        $HTMLOUT .= (isset($_GET['status_changed']) ? '<h1>Offer Status Updated!</h1>' : '').(isset($_GET['voted']) ? '<h1>vote added</h1>' : '').(isset($_GET['comment_deleted']) ? '<h1>comment deleted</h1>' : '').$top_menu.($arr['status'] == 'approved' ? '<span style="color: limegreen;font-weight: bold;">status: approved!</span>' : ($arr['status'] == 'pending' ? '<span style="color: skyblue;font-weight: bold;">status: pending...</span>' : '<span style="color: red;font-weight: bold;">status: denied</span>')).$status_drop_down.'<br /><br />
+        $HTMLOUT .= (isset($_GET['status_changed']) ? '<h1>Offer Status Updated!</h1>' : '').(isset($_GET['voted']) ? '<h1>vote added</h1>' : '').(isset($_GET['comment_deleted']) ? '<h1>comment deleted</h1>' : '').$top_menu.($arr['status'] == 'approved' ? '<span style="color: limegreen;font-weight: bold;">status: approved!</span>' : ($arr['status'] == 'pending' ? '<span style="color: skyblue;font-weight: bold;">status: pending...</span>' : '<span style="color: red;font-weight: bold;">status: denied</span>')).$status_drop_down.'<br><br>
     <table class="table table-hover table-bordered">
     <tr>
     <td class="colhead" align="center" colspan="2"><h1>'.htmlsafechars($arr['offer_name'],
@@ -200,7 +200,7 @@ switch ($action) {
     </tr>
     <tr>
     <td class="two" align="right">image:</td>
-    <td align="left" class="two"><img src="'.strip_tags($arr['image']).'" alt="image" style="max-width:600px;" /></td>
+    <td align="left" class="two"><img src="'.strip_tags($arr['image']).'" alt="image" style="max-width:600px;"></td>
     </tr>
     <tr>
     <td class="two" align="right">description:</td>
@@ -209,7 +209,7 @@ switch ($action) {
     <tr>
     <td class="two" align="right">category:</td>
     <td align="left" class="two"><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlsafechars($arr['cat_image'],
-                ENT_QUOTES).'" alt="'.htmlsafechars($arr['cat_name'], ENT_QUOTES).'" /></td>
+                ENT_QUOTES).'" alt="'.htmlsafechars($arr['cat_name'], ENT_QUOTES).'"></td>
     </tr>
     <tr>
     <td class="two" align="right">link:</td>
@@ -219,8 +219,8 @@ switch ($action) {
     <tr>
     <td class="two" align="right">votes:</td>
     <td align="left" class="two">
-    <span style="font-weight:bold;color: green;">yes: '.number_format($arr['vote_yes_count']).'</span> '.$vote_yes.'<br />
-    <span style="font-weight:bold;color: red;">no: '.number_format($arr['vote_no_count']).'</span> '.$vote_no.'<br /> '.$your_vote_was.'</td>
+    <span style="font-weight:bold;color: green;">yes: '.number_format($arr['vote_yes_count']).'</span> '.$vote_yes.'<br>
+    <span style="font-weight:bold;color: red;">no: '.number_format($arr['vote_no_count']).'</span> '.$vote_no.'<br> '.$your_vote_was.'</td>
     </tr>
     <tr>
     <td class="two" align="right">offered by:</td>
@@ -231,7 +231,7 @@ switch ($action) {
     <tr>
     <td class="two" align="right">Report Offer</td>
     <td class="two" align="left"><form action="report.php?type=Offer&amp;id='.$id.'" method="post">
-    <input type="submit" class="button_med" value="Report This Offer" onmouseover="this.className=\'button_med_hover\'" onmouseout="this.className=\'button_med\'" />
+    <input type="submit" class="button_med" value="Report This Offer" onmouseover="this.className=\'button_med_hover\'" onmouseout="this.className=\'button_med\'">
     For breaking the <a class="altlink" href="rules.php">rules</a></form></td>
     </tr>
     </table>';
@@ -254,9 +254,9 @@ switch ($action) {
                 $allrows[] = $subrow;
             }
             $HTMLOUT .= $commentbar.'<a name="comments"></a>';
-            $HTMLOUT .= ($count > $perpage) ? '<p>'.$menu.'<br /></p>' : '<br />';
+            $HTMLOUT .= ($count > $perpage) ? '<p>'.$menu.'<br></p>' : '<br>';
             $HTMLOUT .= comment_table($allrows);
-            $HTMLOUT .= ($count > $perpage) ? '<p>'.$menu.'<br /></p>' : '<br />';
+            $HTMLOUT .= ($count > $perpage) ? '<p>'.$menu.'<br></p>' : '<br>';
         }
         $HTMLOUT .= $commentbar;
         echo stdhead('Offer details for: '.htmlsafechars($arr['offer_name'], ENT_QUOTES), true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
@@ -302,14 +302,14 @@ switch ($action) {
     <td class="embedded" align="center">
     <h1 style="text-align: center;">New Offer</h1>'.$top_menu.'
     <form method="post" action="offers.php?action=add_new_offer" name="offer_form" id="offer_form">
-   '.(isset($_POST['button']) && $_POST['button'] == 'Preview' ? '<br />
+   '.(isset($_POST['button']) && $_POST['button'] == 'Preview' ? '<br>
 	 <table class="table table-hover table-bordered">
     <tr>
     <td class="colhead" align="center" colspan="2"><h1>'.htmlsafechars($offer_name, ENT_QUOTES).'</h1></td>
     </tr>
     <tr>
     <td align="right" class="two">image:</td>
-    <td align="left" class="two"><img src="'.htmlsafechars($image, ENT_QUOTES).'" alt="image" style="max-width:600px;" /></td>
+    <td align="left" class="two"><img src="'.htmlsafechars($image, ENT_QUOTES).'" alt="image" style="max-width:600px;"></td>
     </tr>
     <tr>
     <td  class="two" align="right">description:</td>
@@ -318,7 +318,7 @@ switch ($action) {
     <tr>
     <td class="two" align="right">category:</td>
     <td align="left" class="two"><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlsafechars($cat_image,
-                    ENT_QUOTES).'" alt="'.htmlsafechars($cat_name, ENT_QUOTES).'" /></td>
+                    ENT_QUOTES).'" alt="'.htmlsafechars($cat_name, ENT_QUOTES).'"></td>
     </tr>
     <tr>
     <td class="two" align="right">link:</td>
@@ -331,27 +331,27 @@ switch ($action) {
                     ($TRINITY20['ratio_free'] ? "1" : $CURUSER['downloaded'])).'</td>
     </tr>
     </table>
-    <br />' : '').'
+    <br>' : '').'
     <table class="table table-hover table-bordered">
     <tr>
     <td class="colhead" align="center" colspan="2"><h1>Making a Offer</h1></td>
     </tr>
     <tr>
     <td align="center" colspan="2" class="two">Before you make an offer, <a class="altlink" href="search.php">Search</a> 
-    to be sure it has not yet been requested, offered, or uploaded!<br /><br />
+    to be sure it has not yet been requested, offered, or uploaded!<br><br>
     Be sure to fill in all fields!</td>
     </tr>
     <tr>
     <td class="two" align="right">name:</td>
-    <td align="left" class="two"><input type="text" size="80"  name="offer_name" value="'.htmlsafechars($offer_name, ENT_QUOTES).'" class="required" /></td>
+    <td align="left" class="two"><input type="text" size="80"  name="offer_name" value="'.htmlsafechars($offer_name, ENT_QUOTES).'" class="required"></td>
     </tr>
     <tr>
     <td class="two" align="right">image:</td>
-    <td align="left" class="two"><input type="text" size="80"  name="image" value="'.htmlsafechars($image, ENT_QUOTES).'" class="required" /></td>
+    <td align="left" class="two"><input type="text" size="80"  name="image" value="'.htmlsafechars($image, ENT_QUOTES).'" class="required"></td>
     </tr>
     <tr>
     <td class="two" align="right">link:</td>
-    <td align="left" class="two"><input type="text" size="80"  name="link" value="'.htmlsafechars($link, ENT_QUOTES).'" class="required" /></td>
+    <td align="left" class="two"><input type="text" size="80"  name="link" value="'.htmlsafechars($link, ENT_QUOTES).'" class="required"></td>
     </tr>
     <tr>
     <td class="two" align="right">category:</td>
@@ -363,11 +363,11 @@ switch ($action) {
     </tr>
     <tr>
     <td colspan="2" align="center" class="two">
-    <input type="submit" name="button" class="button" value="Preview" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" />
-    <input type="submit" name="button" class="button" value="Submit" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" /></td>
+    <input type="submit" name="button" class="button" value="Preview" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'">
+    <input type="submit" name="button" class="button" value="Submit" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'"></td>
     </tr>
     </table></form>
-	 </td></tr></table><br />
+	 </td></tr></table><br>
     <script type="text/javascript">
     /*<![CDATA[*/
     $(document).ready(function()	{
@@ -457,15 +457,15 @@ switch ($action) {
     <td class="embedded" align="center">
     <h1 style="text-align: center;">Edit Offer</h1>'.$top_menu.'
     <form method="post" action="offers.php?action=edit_offer" name="offer_form" id="offer_form">
-    <input type="hidden" name="id" value="'.$id.'" />
-    '.(isset($_POST['button']) && $_POST['button'] == 'Preview' ? '<br />
+    <input type="hidden" name="id" value="'.$id.'">
+    '.(isset($_POST['button']) && $_POST['button'] == 'Preview' ? '<br>
 	 <table class="table table-hover table-bordered">
     <tr>
     <td class="colhead" align="center" colspan="2"><h1>'.htmlsafechars($offer_name, ENT_QUOTES).'</h1></td>
     </tr>
     <tr>
     <td class="two" align="right">image:</td>
-    <td class="two" align="left"><img src="'.htmlsafechars($image, ENT_QUOTES).'" alt="image" style="max-width:600px;" /></td>
+    <td class="two" align="left"><img src="'.htmlsafechars($image, ENT_QUOTES).'" alt="image" style="max-width:600px;"></td>
     </tr>
     <tr>
     <td class="two" align="right">description:</td>
@@ -474,14 +474,14 @@ switch ($action) {
     <tr>
     <td class="two" align="right">category:</td>
     <td class="two" align="left"><img border="0" src="pic/caticons/'.$CURUSER['categorie_icon'].'/'.htmlsafechars($cat_image,
-                    ENT_QUOTES).'" alt="'.htmlsafechars($cat_name, ENT_QUOTES).'" /></td>
+                    ENT_QUOTES).'" alt="'.htmlsafechars($cat_name, ENT_QUOTES).'"></td>
     </tr>
     <tr>
     <td class="two" align="right">link:</td>
     <td class="two" align="left"><a class="altlink" href="'.htmlsafechars($link, ENT_QUOTES).'" target="_blank">'.htmlsafechars($link, ENT_QUOTES).'</a></td>
     </tr>
     </table>
-    <br />' : '').'
+    <br>' : '').'
     <table class="table table-hover table-bordered">
     <tr>
     <td class="colhead" align="center" colspan="2"><h1>Edit Offer</h1></td>
@@ -491,15 +491,15 @@ switch ($action) {
     </tr>
     <tr>
     <td class="two" align="right">name:</td>
-    <td class="two" align="left"><input type="text" size="80"  name="offer_name" value="'.htmlsafechars($offer_name, ENT_QUOTES).'" class="required" /></td>
+    <td class="two" align="left"><input type="text" size="80"  name="offer_name" value="'.htmlsafechars($offer_name, ENT_QUOTES).'" class="required"></td>
     </tr>
     <tr>
     <td class="rowhead" align="right">image:</td>
-    <td align="left"><input type="text" size="80"  name="image" value="'.htmlsafechars($image, ENT_QUOTES).'" class="required" /></td>
+    <td align="left"><input type="text" size="80"  name="image" value="'.htmlsafechars($image, ENT_QUOTES).'" class="required"></td>
     </tr>
     <tr>
     <td class="two" align="right">link:</td>
-    <td class="two" align="left"><input type="text" size="80"  name="link" value="'.htmlsafechars($link, ENT_QUOTES).'" class="required" /></td>
+    <td class="two" align="left"><input type="text" size="80"  name="link" value="'.htmlsafechars($link, ENT_QUOTES).'" class="required"></td>
     </tr>
     <tr>
     <td class="two" align="right">category:</td>
@@ -511,11 +511,11 @@ switch ($action) {
     </tr>
     <tr>
     <td colspan="2" align="center" class="two">
-    <input type="submit" name="button" class="button" value="Preview" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" />
-    <input type="submit" name="button" class="button" value="Edit" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" /></td>
+    <input type="submit" name="button" class="button" value="Preview" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'">
+    <input type="submit" name="button" class="button" value="Edit" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'"></td>
     </tr>
     </table></form>
-	 </td></tr></table><br />
+	 </td></tr></table><br>
     <script type="text/javascript">
     /*<![CDATA[*/
     $(document).ready(function()	{
@@ -567,7 +567,7 @@ switch ($action) {
 	 <tr>
     <td width="80" valign="top" class="two">'.avatar_stuff($CURUSER).'</td>
     <td valign="top" align="left" class="two">'.format_comment($body).'</td>
-    </tr></table><br />' : '').'
+    </tr></table><br>' : '').'
 	 <table class="table table-hover table-bordered">
 	 <tr>
     <td align="center" class="colhead" colspan="2"><h1>Add a comment to "'.htmlsafechars($arr['offer_name'], ENT_QUOTES).'"</h1></td>
@@ -578,8 +578,8 @@ switch ($action) {
     </tr>
 	 <tr>
     <td align="center" colspan="2" class="two"> 
-    <input name="button" type="submit" class="button" value="Preview" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" /> 
-    <input name="button" type="submit" class="button" value="Save" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" /></td>
+    <input name="button" type="submit" class="button" value="Preview" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'"> 
+    <input name="button" type="submit" class="button" value="Save" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'"></td>
     </tr>
 	 </table></form>';
         $res = sql_query('SELECT c.offer, c.id AS comment_id, c.text, c.added, c.editedby, c.editedat, u.id, u.username, u.warned, u.suspended, u.enabled, u.donor, u.class, u.avatar, u.offensive_avatar, u.title, u.leechwarn, u.chatpost, u.pirate, u.king FROM comments AS c LEFT JOIN users AS u ON c.user = u.id WHERE offer = '.sqlesc($id).' ORDER BY c.id DESC LIMIT 5');
@@ -639,7 +639,7 @@ switch ($action) {
 	 <tr>
     <td width="80" valign="top" class="two">'.$avatar.'</td>
     <td valign="top" align="left" class="two">'.format_comment($body).'</td>
-    </tr></table><br />' : '').'
+    </tr></table><br>' : '').'
     <table class="table table-hover table-bordered">
 	 <tr>
     <td align="center" class="colhead" colspan="2"><h1>Edit comment to "'.htmlsafechars($arr['offer_name'], ENT_QUOTES).'"</h1></td>
@@ -650,8 +650,8 @@ switch ($action) {
     </tr>
 	 <tr>
     <td align="center" colspan="2" class="two">
-    <input name="button" type="submit" class="button" value="Preview" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" /> 
-    <input name="button" type="submit" class="button" value="Edit" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" /></td>
+    <input name="button" type="submit" class="button" value="Preview" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'"> 
+    <input name="button" type="submit" class="button" value="Edit" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'"></td>
     </tr>
 	 </table></form>';
         echo stdhead('Edit comment to "'.htmlsafechars($arr['offer_name'], ENT_QUOTES).'"', true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
@@ -762,7 +762,7 @@ function comment_table($rows)
     <td align="center" width="80" class="'.$class.'" style="padding: 0px;">'.avatar_stuff($row).'</td>
     <td class="'.$class.'">'.$text.'</td>
     </tr>
-    </table><br />';
+    </table><br>';
     }
     return $comment_table.'</td></tr></table>';
 }

@@ -21,7 +21,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 </head><body>
 <h1>Not Found</h1>
 <p>The requested URL '.htmlsafechars($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], '/') + 1).' was not found on this server.</p>
-<hr />
+<hr>
 <address>'.$_SERVER['SERVER_SOFTWARE'].' Server at '.$TRINITY20['baseurl'].' Port 80</address>
 </body></html>';
     echo $HTMLOUT;
@@ -497,7 +497,7 @@ $count = 1;
 $all_classes_check_boxes = '<table class="table table-bordered"><tr>';
 for ($i = UC_MIN; $i <= UC_MAX; ++$i) {
     $all_classes_check_boxes .= '<td class="one">
-		<input type="checkbox" name="free_for_classes[]" value="'.$i.'" checked="checked" /> <span style="font-weight: bold;color:#'.get_user_class_color($i).';">'.get_user_class_name($i).'</span></td>';
+		<input type="checkbox" name="free_for_classes[]" value="'.$i.'" checked="checked"> <span style="font-weight: bold;color:#'.get_user_class_color($i).';">'.get_user_class_name($i).'</span></td>';
     if ($count == 6) {
         $all_classes_check_boxes .= '</tr>'.($i < UC_MAX ? '<tr>' : '');
         $count = 0;
@@ -554,14 +554,14 @@ $invites_drop_down .= '</select>'.$lang['bonusmanager_invite_amount'].'';
 $subject = isset($_POST['subject']) ? htmlsafechars($_POST['subject']) : $lang['bonusmanager_pm_masspm'];
 $body = isset($_POST['body']) ? htmlsafechars($_POST['body']) : $lang['bonusmanager_pm_texthere'];
 $pm_drop_down = '<form name="pm" method="post" action="mass_bonus_for_members.php">
-                 <input type="hidden" name="pm" value="pm" />
+                 <input type="hidden" name="pm" value="pm">
                  <table class="table table-bordered">
                  <tr>
                  <td align="left" colspan="2" class="colhead">'.$lang['bonusmanager_pm_send'].'</td>
                  </tr>
                  <tr>
                  <td align="right" class="one"><span style="font-weight: bold;">'.$lang['bonusmanager_pm_subject'].'</span></td>
-                 <td align="left" class="one"><input name="subject" type="text" class="text_default" value="'.$subject.'" /></td>
+                 <td align="left" class="one"><input name="subject" type="text" class="text_default" value="'.$subject.'"></td>
                  </tr>
                  <tr>
                  <td align="right" class="one"><span style="font-weight: bold;">'.$lang['bonusmanager_pm_body'].'</span></td>
@@ -586,7 +586,7 @@ $h1_thingie .= (isset($_GET['invites']) ? ($_GET['invites'] === 1 ? '<h2>'.$lang
 $h1_thingie .= (isset($_GET['pm']) ? ($_GET['pm'] === 1 ? '<h2>'.$lang['bonusmanager_h1_pm'].'</h2>' : '<h2>'.$lang['bonusmanager_h1_pm1'].'</h2>') : '');
 $HTMLOUT .= '<h1>'.$TRINITY20['site_name'].' '.$lang['bonusmanager_mass_bonus'].'</h1>'.$h1_thingie;
 $HTMLOUT .= '<form name="inputform" method="post" action="staffpanel.php?tool=mass_bonus_for_members&amp;action=mass_bonus_for_members" enctype="multipart/form-data">
-        <input type="hidden" id="action_2" name="action_2" value="" />
+        <input type="hidden" id="action_2" name="action_2" value="">
     <table class="table table-bordered">
     <tr>
         <td align="center" class="colhead" colspan="2">'.$lang['bonusmanager_mass_bonus_selected'].'</td>
@@ -594,27 +594,27 @@ $HTMLOUT .= '<form name="inputform" method="post" action="staffpanel.php?tool=ma
     <tr>
         <td align="right" class="one" width="160px" valign="top"><span style="font-weight: bold;">'.$lang['bonusmanager_bonus_type'].'</span></td>
         <td align="left" class="one">'.$drop_down.'
-        <div id="div_upload_credit" class="select_me"><br />'.$bonus_GB.'<hr /></div>
-        <div id="div_karma" class="select_me"><br />'.$karma_drop_down.'<hr /></div>
-        <div id="div_freeslots" class="select_me"><br />'.$free_leech_slot_drop_down.'<hr /></div>
-        <div id="div_invite" class="select_me"><br />'.$invites_drop_down.'<hr /></div>
-        <div id="div_pm" class="select_me"><br />'.$pm_drop_down.'<hr /></div>
+        <div id="div_upload_credit" class="select_me"><br>'.$bonus_GB.'<hr></div>
+        <div id="div_karma" class="select_me"><br>'.$karma_drop_down.'<hr></div>
+        <div id="div_freeslots" class="select_me"><br>'.$free_leech_slot_drop_down.'<hr></div>
+        <div id="div_invite" class="select_me"><br>'.$invites_drop_down.'<hr></div>
+        <div id="div_pm" class="select_me"><br>'.$pm_drop_down.'<hr></div>
         </td>
     </tr>                
 	<tr>
 		<td class="one" valign="top" align="right"><span style="font-weight: bold;">'.$lang['bonusmanager_apply_bonus'].'</span></td>
         <td valign="top" align="left" class="one">
-        <input type="checkbox" id="all_or_selected_classes" name="all_or_selected_classes" value="1"  checked="checked" /> 
+        <input type="checkbox" id="all_or_selected_classes" name="all_or_selected_classes" value="1"  checked="checked"> 
         <span style="font-weight: bold;">'.$lang['bonusmanager_all_classes'].'</span>'.$lang['bonusmanager_uncheck'].'
-        <div id="classes_open" style="display:none;"><br />'.$all_classes_check_boxes.'</div></td>
+        <div id="classes_open" style="display:none;"><br>'.$all_classes_check_boxes.'</div></td>
 	</tr>            
 	<tr>
 		<td class="one" valign="top" align="right"></td>
-        <td valign="top" align="left" class="one">'.$lang['bonusmanager_note'].'<br /></td>
+        <td valign="top" align="left" class="one">'.$lang['bonusmanager_note'].'<br></td>
 	</tr>        
     <tr>
         <td align="center" class="one" colspan="2">
-        <input type="submit" class="btn btn-default" class="btn" name="button" value="'.$lang['bonusmanager_doit'].'"  /></td>
+        <input type="submit" class="btn btn-default" class="btn" name="button" value="'.$lang['bonusmanager_doit'].'" ></td>
     </tr>
     </table></form>
 <script type="text/javascript">

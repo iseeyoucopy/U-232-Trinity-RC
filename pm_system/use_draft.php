@@ -17,8 +17,8 @@ if (!defined('BUNNY_PM_SYSTEM')) {
     $HTMLOUT .= '<!doctype html>
 <html class="no-js" lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ERROR</title>
     <link rel="stylesheet" href="/../../foundation/dist/assets/css/app.css">
   </head>
@@ -160,7 +160,7 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'preview') {
         <td valign="top" class="text-center" width="80px" id="photocol">'.avatar_stuff($CURUSER).'</td>
         <td class="text-left" style="min-width:400px;padding:10px;vertical-align: top;">'.format_comment($draft).'</td>
     </tr>
-    </table><br />';
+    </table><br>';
 } else {
     //=== Get the info
     ($res = sql_query('SELECT * FROM messages WHERE id='.sqlesc($pm_id))) || sqlerr(__FILE__, __LINE__);
@@ -172,9 +172,9 @@ if (isset($_POST['buttonval']) && $_POST['buttonval'] == 'preview') {
 //echo stdhead('Use Draft');
 $HTMLOUT .= '<h1>'.$lang['pm_usedraft'].''.$subject.'</h1>'.$top_links.$preview.'
         <form name="compose" action="pm_system.php" method="post">
-        <input type="hidden" name="id" value="'.$pm_id.'" />
-        <input type="hidden" name="'.$save_or_edit.'" value="1" />
-        <input type="hidden" name="action" value="use_draft" />
+        <input type="hidden" name="id" value="'.$pm_id.'">
+        <input type="hidden" name="'.$save_or_edit.'" value="1">
+        <input type="hidden" name="action" value="use_draft">
     33333333<table class="table table-striped">
     <tr>
         <td class="colhead" align="left" colspan="2">'.$lang['pm_usedraft1'].'</td>
@@ -182,12 +182,12 @@ $HTMLOUT .= '<h1>'.$lang['pm_usedraft'].''.$subject.'</h1>'.$top_links.$preview.
     <tr>
         <td class="text-right" valign="top"><span style="font-weight: bold;">'.$lang['pm_forward_to'].'</span></td>
         <td class="text-left" valign="top"><input type="text" name="to" value="'.((isset($_POST['to']) && validusername($_POST['to'],
-            false)) ? htmlsafechars($_POST['to']) : $lang['pm_forward_user']).'" class="member" onfocus="this.value=\'\';" />
+            false)) ? htmlsafechars($_POST['to']) : $lang['pm_forward_user']).'" class="member" onfocus="this.value=\'\';">
          '.$lang['pm_usedraft_usr'].'</td>
     </tr>
     <tr>
         <td class="text-right" valign="top"><span style="font-weight: bold;">'.$lang['pm_send_subject'].'</span></td>
-        <td class="text-left" valign="top"><input type="text" class="text_default" name="subject" value="'.$subject.'" /></td>
+        <td class="text-left" valign="top"><input type="text" class="text_default" name="subject" value="'.$subject.'"></td>
     </tr>
     <tr>
         <td class="text-right" valign="top"><span style="font-weight: bold;">'.$lang['pm_send_body'].'</span></td>
@@ -195,10 +195,10 @@ $HTMLOUT .= '<h1>'.$lang['pm_usedraft'].''.$subject.'</h1>'.$top_links.$preview.
     </tr>
     <tr>
         <td colspan="2" class="text-center">'.($CURUSER['class'] >= UC_STAFF ? '
-        <input type="checkbox" name="urgent" value="yes" '.((isset($_POST['urgent']) && $_POST['urgent'] === 'yes') ? ' checked="checked"' : '').' />
+        <input type="checkbox" name="urgent" value="yes" '.((isset($_POST['urgent']) && $_POST['urgent'] === 'yes') ? ' checked="checked"' : '').'>
         <span style="font-weight: bold;color:red;">'.$lang['pm_send_mark'].'</span>' : '').'
-        <input type="submit" class="button" name="buttonval" value="preview" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" />
-        <input type="submit" class="button" name="buttonval" value="'.$save_or_edit.'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'" /></td>
+        <input type="submit" class="button" name="buttonval" value="preview" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'">
+        <input type="submit" class="button" name="buttonval" value="'.$save_or_edit.'" onmouseover="this.className=\'button_hover\'" onmouseout="this.className=\'button\'"></td>
     </tr>
     </table></form>';
 ?>

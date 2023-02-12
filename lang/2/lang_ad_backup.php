@@ -19,7 +19,7 @@ $lang = [
     'backup_unknow' => "Action inconnue!",
     'backup_succes' => "Succés",
     'backup_nofound' => "Rien trouvé",
-    'backup_welcome' => "<br /><h1 align='center'>Bienvenue {$CURUSER['username']} sur le gestionnaire de sauvegarde de base de données.</h1>",
+    'backup_welcome' => "<br><h1 align='center'>Bienvenue {$CURUSER['username']} sur le gestionnaire de sauvegarde de base de données.</h1>",
     'backup_name' => "Nom",
     'backup_addedon' => "Ajouté le",
     'backup_addedby' => "Ajouté par",

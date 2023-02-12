@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
                 <title>Error!</title>
                 </head>
                 <body>
-        <div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+        <div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
         </body></html>";
     echo $HTMLOUT;
     exit();
@@ -145,18 +145,18 @@ if ($count == 0) {
                         <td class='colhead' align='center' nowrap='nowrap'>{$lang["warn_class"]}</td>
                         <td class='colhead' align='center' nowrap='nowrap'>{$lang["warn_ltacces"]}</td>
                         <td class='colhead' align='center' nowrap='nowrap'>{$lang["warn_joined"]}</td>
-                        <td class='colhead' align='center' nowrap='nowrap'><input type='checkbox' name='checkall' /></td>
+                        <td class='colhead' align='center' nowrap='nowrap'><input type='checkbox' name='checkall'></td>
                 </tr>";
     while ($a = $g->fetch_assoc()) {
-        $tip = ($do == "warned" ? $lang['warn_for'].$a["warn_reason"]."<br />".$lang['warn_till'].get_date($a["warned"], 'DATE',
+        $tip = ($do == "warned" ? $lang['warn_for'].$a["warn_reason"]."<br>".$lang['warn_till'].get_date($a["warned"], 'DATE',
                 1)." - ".mkprettytime($a['warned'] - TIME_NOW) : $lang['warn_disabled_for'].$a["disable_reason"]);
         $HTMLOUT .= "<tr>
                                   <td align='left' width='100%'><a href='userdetails.php?id=".(int)$a["id"]."' onmouseover=\"Tip('($tip)')\" onmouseout=\"UnTip()\">".htmlsafechars($a["username"])."</a></td>
-                                  <td align='left' nowrap='nowrap'>".(float)$a["ratio"]."<br /><font class='small'><b>{$lang["warn_down"]}</b>".mksize($a["downloaded"])."&nbsp;<b>{$lang["warn_upl"]}</b> ".mksize($a["uploaded"])."</font></td>
+                                  <td align='left' nowrap='nowrap'>".(float)$a["ratio"]."<br><font class='small'><b>{$lang["warn_down"]}</b>".mksize($a["downloaded"])."&nbsp;<b>{$lang["warn_upl"]}</b> ".mksize($a["uploaded"])."</font></td>
                                   <td align='center' nowrap='nowrap'>".get_user_class_name($a["class"])."</td>
                                   <td align='center' nowrap='nowrap'>".get_date($a["last_access"], 'LONG', 0, 1)."</td>
                                   <td align='center' nowrap='nowrap'>".get_date($a["added"], 'DATE', 1)."</td>
-                                  <td align='center' nowrap='nowrap'><input type='checkbox' name='users[]' value='".(int)$a["id"]."' /></td>
+                                  <td align='center' nowrap='nowrap'><input type='checkbox' name='users[]' value='".(int)$a["id"]."'></td>
                                 </tr>";
     }
     $HTMLOUT .= "<tr>
@@ -167,8 +167,8 @@ if ($count == 0) {
                                         <option value='delete'>{$lang["warn_delete"]}</option>
                                 </select>
                                 &raquo;
-                                <input type='submit' value='Apply' />
-                                <input type='hidden' value='".htmlsafechars($_SERVER["REQUEST_URI"])."' name='ref' />
+                                <input type='submit' value='Apply'>
+                                <input type='hidden' value='".htmlsafechars($_SERVER["REQUEST_URI"])."' name='ref'>
                         </td>
                         </tr>
                         </table>

@@ -39,9 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $HTMLOUT .= "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
 <html xmlns='http://www.w3.org/1999/xhtml'>
 <head>
-<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
 <title>{$lang['language_choice']}</title>
-<link rel='stylesheet' href='./templates/{$CURUSER['stylesheet']}/{$CURUSER['stylesheet']}.css' type='text/css' />
+<link rel='stylesheet' href='./templates/{$CURUSER['stylesheet']}/{$CURUSER['stylesheet']}.css' type='text/css'>
 </head>
 <body>
   <div align='center' style='width:200px'><fieldset>
@@ -54,7 +54,7 @@ $out .= "<option value='1'".($CURUSER['language'] == '1' ? " selected='selected'
 //<option value='3'" . ($CURUSER['language'] == '3' ? " selected='selected'" : "") . ">Rm</option>";
 $HTMLOUT .= $out;
 $HTMLOUT .= "</select>
-   <input type='button' value='".$lang['language_close']."' onclick='self.close()' /></p></form>
+   <input type='button' value='".$lang['language_close']."' onclick='self.close()'></p></form>
 </fieldset></div></body></html>";
 echo $HTMLOUT;
 exit();

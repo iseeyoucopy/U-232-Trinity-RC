@@ -20,7 +20,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -79,7 +79,7 @@ if (isset($free) && ((is_countable($free) ? count($free) : 0) < 1)) {
                  <p align="center"><b>'.$lang['freelech_nofound'].'</b></p>';
 } else {
     $HTMLOUT .= "<div class='row'><div class='col-md-12'>";
-    $HTMLOUT .= "<br /><table class='table table-bordered'>
+    $HTMLOUT .= "<br><table class='table table-bordered'>
         <tr><td class='colhead' align='left'>{$lang['freelech_free_all']}</td>
 		<td class='colhead' align='left'>{$lang['freelech_expires']}</td>
         <td class='colhead' align='left'>{$lang['freelech_setby']}</td>
@@ -131,18 +131,18 @@ $HTMLOUT .= "<h2>{$lang['freelech_set_free']}</h2>
 	<td><table class='table table-bordered'>
  <tr>
  <td align='left'>{$lang['freelech_torr_free']}</td>
- <td><input name=\"modifier\" type=\"radio\" $checked1 value=\"1\" /></td>
+ <td><input name=\"modifier\" type=\"radio\" $checked1 value=\"1\"></td>
  </tr>
  <tr>
  <td>{$lang['freelech_double_up']}</td>
- <td><input name=\"modifier\" type=\"radio\" $checked2 value=\"2\" /></td>
+ <td><input name=\"modifier\" type=\"radio\" $checked2 value=\"2\"></td>
  </tr>
  <tr>
  <td >{$lang['freelech_free_double']}</td>
- <td><input name=\"modifier\" type=\"radio\" $checked3 value=\"3\" /></td></tr>
+ <td><input name=\"modifier\" type=\"radio\" $checked3 value=\"3\"></td></tr>
  <tr>
  <td >{$lang['freelech_torr_silver']}</td>
- <td><input name=\"modifier\" type=\"radio\" $checked4 value=\"4\" /></td></tr>
+ <td><input name=\"modifier\" type=\"radio\" $checked4 value=\"4\"></td></tr>
  </table>
     </td></tr>
 	<tr><td class='rowhead'>{$lang['freelech_expire']}
@@ -155,19 +155,19 @@ $HTMLOUT .= "<h2>{$lang['freelech_set_free']}</h2>
     <option value='255'>{$lang['freelech_unlimited']}</option>
     </select></td></tr>
 	<tr><td class='rowhead'>{$lang['freelech_title']}</td>
-	<td><input type='text' size='40' name='title' value='{$fl['title']}' />
+	<td><input type='text' size='40' name='title' value='{$fl['title']}'>
 	</td></tr>
 		<tr><td class='rowhead'>{$lang['freelech_message']}</td>
-	<td><input type='text' size='40' name='message' value='{$fl['message']}' />
+	<td><input type='text' size='40' name='message' value='{$fl['message']}'>
 	</td></tr>
 			<tr><td class='rowhead'>{$lang['freelech_setby']}</td>
-	<td><input type='text' size='40' value ='".$CURUSER['username']."' name='setby' />
+	<td><input type='text' size='40' value ='".$CURUSER['username']."' name='setby'>
 	</td></tr>
 	<tr><td colspan='2' align='center'>
-	<input type='submit' name='okay' value='{$lang['freelech_doit']}' class='btn' />
+	<input type='submit' name='okay' value='{$lang['freelech_doit']}' class='btn'>
 	</td></tr>
 	<tr><td colspan='2' align='center'>
-	<input type='hidden' name='cacheit' value='{$lang['freelech_cache']}' class='btn' />
+	<input type='hidden' name='cacheit' value='{$lang['freelech_cache']}' class='btn'>
 	</td></tr>
 	</table></form>";
 $HTMLOUT .= "</div></div>";

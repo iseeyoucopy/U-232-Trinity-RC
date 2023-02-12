@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -58,7 +58,7 @@ if ($ip) {
         }
         $HTMLOUT .= "</table>\n";
         stderr($lang['testip_result'],
-            "<table border='0' cellspacing='0' cellpadding='0'><tr><td class='embedded' style='padding-right: 5px'><img src='{$TRINITY20['pic_base_url']}smilies/excl.gif' alt='' /></td><td class='embedded'>".sprintf($lang['testip_notice2'],
+            "<table border='0' cellspacing='0' cellpadding='0'><tr><td class='embedded' style='padding-right: 5px'><img src='{$TRINITY20['pic_base_url']}smilies/excl.gif' alt=''></td><td class='embedded'>".sprintf($lang['testip_notice2'],
                 $ip)."</td></tr></table><p>$HTMLOUT</p>");
     }
 }
@@ -66,8 +66,8 @@ $HTMLOUT .= "
     <h1>{$lang['testip_title']}</h1>
     <form method='post' action='staffpanel.php?tool=testip&amp;action=testip'>
     <table border='1' cellspacing='0' cellpadding='5'>
-    <tr><td class='rowhead'>{$lang['testip_address']}</td><td><input type='text' class='form-control' name='ip' /></td></tr>
-    <tr><td colspan='2' align='center'><input type='submit' class='btn btn-default' value='{$lang['testip_ok']}' /></td></tr>
+    <tr><td class='rowhead'>{$lang['testip_address']}</td><td><input type='text' class='form-control' name='ip'></td></tr>
+    <tr><td colspan='2' align='center'><input type='submit' class='btn btn-default' value='{$lang['testip_ok']}'></td></tr>
     </table>
     </form>";
 echo stdhead($lang['testip_windows_title']).$HTMLOUT.stdfoot();

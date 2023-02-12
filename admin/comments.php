@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -50,8 +50,8 @@ switch ($view) {
             " - <a href='staffpanel.php?tool=comments&amp;view=allComments'>{$lang['text_all']}</a>".
             " - <a href='staffpanel.php?tool=comments&amp;view=search'>{$lang['text_search']}</a>".
             "</h3>".
-            "<hr class='separator' />".
-            "<br />".
+            "<hr class='separator'>".
+            "<br>".
             "<table class='table table-bordered'>".
             "<tr><td align='center' colspan='9'><strong><em>{$lang['text_all_comm']}</em></strong></td></tr>".
             "<tr>".
@@ -120,8 +120,8 @@ switch ($view) {
             "<tr>".
             "<td align='center' class='colhead' colspan='2'>{$lang['text_search']}</td>".
             "</tr>".
-            "<tr><td align='right'>{$lang['text_keywords']}</td><td><input type='text' name='keywords' size='40' /></td></tr>".
-            "<tr><td align='center' colspan='2'><input type='submit' value='{$lang['text_submit']}' /></td></tr>".
+            "<tr><td align='right'>{$lang['text_keywords']}</td><td><input type='text' name='keywords' size='40'></td></tr>".
+            "<tr><td align='center' colspan='2'><input type='submit' value='{$lang['text_submit']}'></td></tr>".
             "</table>".
             "</form>";
         $HTMLOUT .= "</div></div>";
@@ -212,8 +212,8 @@ $HTMLOUT = "<div class='row'><div class='col-md-12'><h3><a href='staffpanel.php?
     " - <a href='staffpanel.php?tool=comments&amp;view=allComments'>{$lang['text_all']}</a>".
     " - <a href='staffpanel.php?tool=comments&amp;view=search'>{$lang['text_search']}</a>".
     "</h3>".
-    "<hr class='separator' />".
-    "<br />".
+    "<hr class='separator'>".
+    "<br>".
     "<table class='table table-bordered'>".
     "<tr><td align='center' colspan='9'><strong><em>{$lang['text_recent']}</em></strong></td></tr>".
     "<tr>".

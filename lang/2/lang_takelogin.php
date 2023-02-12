@@ -31,7 +31,7 @@ $lang = [
     'tlogin_mess3' => " !) tried to login but failed!",
     'tlogin_mess4' => "\n If this wasn't you please report this event to a {$TRINITY20['site_name']} staff member\n - Thank you.\n",
     'gl_error' => "Error",
-    'tlogin_forgot' => ": Username or password entry incorrect <br />Have you forgotten your password? <a href='{$TRINITY20['baseurl']}/resetpw.php'><b>Recover</b></a> your password !",
+    'tlogin_forgot' => ": Username or password entry incorrect <br>Have you forgotten your password? <a href='{$TRINITY20['baseurl']}/resetpw.php'><b>Recover</b></a> your password !",
     'tlogin_header' => "Location: {$TRINITY20['baseurl']}/index.php",
 ];
 ?>

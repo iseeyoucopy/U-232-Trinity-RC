@@ -19,7 +19,7 @@ if (!defined('IN_TRINITY20_ADMIN')) {
 		<title>Error!</title>
 		</head>
 		<body>
-	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br />You cannot access this file directly.</div>
+	<div style='font-size:33px;color:white;background-color:red;text-align:center;'>Incorrect access<br>You cannot access this file directly.</div>
 	</body></html>";
     echo $HTMLOUT;
     exit();
@@ -82,17 +82,17 @@ $HTMLOUT .= "<div class='row'><div class='col-md-12'><h1>{$lang['reset_title']}<
 <table class='table table-bordered'>
 <tr>
 <td class='rowhead'>{$lang['reset_id']}</td><td>
-<input type='text' name='uid' size='10' /></td></tr>
+<input type='text' name='uid' size='10'></td></tr>
 <tr>
 <td class='rowhead'>{$lang['reset_username']}</td><td>
-<input size='40' name='username' /></td></tr>
+<input size='40' name='username'></td></tr>
 <tr>
 <tr>
 <td class='rowhead'>Password</td><td>
-<input size='40' name='password' /></td></tr>
+<input size='40' name='password'></td></tr>
 <tr>
 <td colspan='2'>
-<input type='submit' class='btn' value='reset' />
+<input type='submit' class='btn' value='reset'>
 </td>
 </tr>
 </table></form></div></div>";

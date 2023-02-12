@@ -59,7 +59,7 @@ if ($id > 0 && $rate >= 1 && $rate <= 5) {
                 __LINE__);
             $a = $qy->fetch_assoc();
             echo "<ul class=\"star-rating\" title=\"Your rated this ".$what." ".htmlsafechars($a["rate"])." star".(htmlsafechars($a["rate"]) > 1 ? "s" : "")."\"  ><li style=\"width: ".(round((($a["sum"] / $a["count"]) * 20),
-                    2))."%;\" class=\"current-rating\" />.</ul>";
+                    2))."%;\" class=\"current-rating\">.</ul>";
         } else {
             header("Refresh: 2; url=".$ref);
             stderr("Success", "Your rate has been added, wait while redirecting! ");
