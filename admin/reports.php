@@ -232,7 +232,7 @@ if ($count == '0') {
 $HTMLOUT .= "</table></div></div>";
 if ($count > '0') {
     // === deal with it
-    $HTMLOUT .= "<br><br><p align='center'><b>{$lang['reports_how']} {$CURUSER['username']} {$lang['reports_dealt1']}</br></b>{$lang['reports_please']} [ {$lang['reports_req']} ] </p><br>
+    $HTMLOUT .= "<br><br><p align='center'><b>{$lang['reports_how']} {$CURUSER['username']} {$lang['reports_dealt1']}<br></b>{$lang['reports_please']} [ {$lang['reports_req']} ] </p><br>
 <textarea name='how_delt_with' cols='70' rows='5'></textarea><br><br>"."<input type='submit' class='button' value='{$lang['reports_confirm']}'><br><br></form></td></tr></table>";
 } //=== end if count
 

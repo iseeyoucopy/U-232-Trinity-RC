@@ -149,7 +149,7 @@ function stdfoot($stdfoot = false)
                 $htmlfoot .= "
 				<div class='callout primary float-left'>
 				    " . $TRINITY20['site_name'] . " {$lang['gl_stdfoot_querys_page']}" . $r_seconds . " {$lang['gl_stdfoot_querys_seconds']}<br >" . "
-				    {$lang['gl_stdfoot_querys_server']}" . $queries . " {$lang['gl_stdfoot_querys_time']} " . ($queries != 1 ? "{$lang['gl_stdfoot_querys_times']}" : "") . "</br>
+				    {$lang['gl_stdfoot_querys_server']}" . $queries . " {$lang['gl_stdfoot_querys_time']} " . ($queries != 1 ? "{$lang['gl_stdfoot_querys_times']}" : "") . "<br>
 				    " . ($debug ? "{$lang['gl_stdfoot_uptime']} " . $uptime . "" : " ") . "
 				</div>
 				<div class='callout primary float-right text-right'>
