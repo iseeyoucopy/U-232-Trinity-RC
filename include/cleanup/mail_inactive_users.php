@@ -37,18 +37,18 @@ function docleanup($data)
             Login at : {$TRINITY20['baseurl']}/login.php\n
             If you have forgotten your password you can retrieve it at : {$TRINITY20['baseurl']}/resetpw.php\n
             Welcome back! {$TRINITY20['baseurl']}";
-            $headers = 'From: '.$TRINITY20['site_email']."\r\n".'Reply-To:'.$TRINITY20['site_email']."\r\n".'X-Mailer: PHP/'.phpversion();
+            $headers = 'From: ' . $TRINITY20['site_email'] . "\r\n" . 'Reply-To:' . $TRINITY20['site_email'] . "\r\n" . 'X-Mailer: PHP/' . phpversion();
             mail($email, $subject, $body, $headers);
         }
 
     }
-    sql_query("UPDATE users SET mail_notified = 'yes', last_notified = ".TIME_NOW." WHERE enabled='yes' AND parked='no' AND status='confirmed' AND class < $maxclass AND last_access < $dt AND mail_notified='no' AND last_notified='0' ORDER BY last_access ASC") || sqlerr(__FILE__,
+    sql_query("UPDATE users SET mail_notified = 'yes', last_notified = " . TIME_NOW . " WHERE enabled='yes' AND parked='no' AND status='confirmed' AND class < $maxclass AND last_access < $dt AND mail_notified='no' AND last_notified='0' ORDER BY last_access ASC") || sqlerr(__FILE__,
         __LINE__);
     if ($queries > 0) {
         write_log("Mail Inactive -------------------- Mail Inactive Users Complete using $queries queries--------------------");
     }
     if (false !== $mysqli->affected_rows) {
-        $data['clean_desc'] = $mysqli->affected_rows." users mailed.";
+        $data['clean_desc'] = $mysqli->affected_rows . " users mailed.";
     }
     if ($data['clean_log']) {
         cleanup_log($data);

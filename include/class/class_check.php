@@ -54,10 +54,10 @@ if (!defined('TBVERSION')) { //cannot access this file directly
 function class_check($class = 0, $staff = true, $pin = false)
 {
     global $CURUSER, $TRINITY20, $cache, $cache_keys;
-    require_once(CACHE_DIR.'staff_settings2.php');
+    require_once(CACHE_DIR . 'staff_settings2.php');
     /** basic checking **/
     if (!$CURUSER) {
-        require_once __DIR__.'/404.html';
+        require_once __DIR__ . '/404.html';
         //die('404');
         exit();
     }
@@ -67,7 +67,7 @@ function class_check($class = 0, $staff = true, $pin = false)
         if ($pin) {
             // not allowed staff!
             if (!isset($TRINITY20['staff']['allowed'][$CURUSER['username']])) {
-                require_once __DIR__.'/404.html';
+                require_once __DIR__ . '/404.html';
                 //die('404 - Kiss my aRse !!');
                 exit();
             }
@@ -75,9 +75,9 @@ function class_check($class = 0, $staff = true, $pin = false)
             // have sent a username/pass and are using their own username
             if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) && $_SERVER['PHP_AUTH_USER'] === ($CURUSER['username'])) {
                 // generate a passhash from the sent password
-                $hash = md5($TRINITY20['site']['salt2'].$_SERVER['PHP_AUTH_PW'].$CURUSER['secret']);
+                $hash = md5($TRINITY20['site']['salt2'] . $_SERVER['PHP_AUTH_PW'] . $CURUSER['secret']);
                 // if the password is correct, exit this function
-                if (md5($TRINITY20['site']['salt2'].$TRINITY20['staff']['staff_pin'].$CURUSER['secret']) === $hash) {
+                if (md5($TRINITY20['site']['salt2'] . $TRINITY20['staff']['staff_pin'] . $CURUSER['secret']) === $hash) {
                     $passed = true;
                 }
             }
@@ -113,7 +113,7 @@ function class_check($class = 0, $staff = true, $pin = false)
             //require_once(INCL_DIR.'bans.php');
             //make_bans($ip, $_SERVER['REMOTE_ADDR'], 'Bad Class. Join IRC for assistance.');
             /** auto post to forums**/
-            $body = sqlesc("User ".$CURUSER['username']." - ".$ip."\n Class ".$CURUSER['class']."\n Current page: ".$_SERVER['PHP_SELF'].", Previous page: ".($_SERVER['HTTP_REFERER'] ?? 'no referer').", Action: ".$_SERVER['REQUEST_URI']."\n Member has been disabled and demoted by class check system.");
+            $body = sqlesc("User " . $CURUSER['username'] . " - " . $ip . "\n Class " . $CURUSER['class'] . "\n Current page: " . $_SERVER['PHP_SELF'] . ", Previous page: " . ($_SERVER['HTTP_REFERER'] ?? 'no referer') . ", Action: " . $_SERVER['REQUEST_URI'] . "\n Member has been disabled and demoted by class check system.");
             /*
             $body2 = sqlesc("User ".$CURUSER['username']." - ".$ip.
                            " Class ".$CURUSER['class'].
@@ -125,32 +125,32 @@ function class_check($class = 0, $staff = true, $pin = false)
             $topicid = (int)$TRINITY20['staff']['forumid'];
             $added = TIME_NOW;
             $icon = 1;
-            sql_query("INSERT INTO posts (topic_id, user_id, added, body, icon) "."VALUES(".sqlesc($topicid)." , ".$TRINITY20['bot_id'].", $added, $body, ".sqlesc($icon).")") || sqlerr(__file__,
+            sql_query("INSERT INTO posts (topic_id, user_id, added, body, icon) " . "VALUES(" . sqlesc($topicid) . " , " . $TRINITY20['bot_id'] . ", $added, $body, " . sqlesc($icon) . ")") || sqlerr(__file__,
                 __line__);
             /** get mysql_insert_id(); **/
-            ($res = sql_query("SELECT id FROM posts WHERE topic_id = ".sqlesc($topicid)." 
+            ($res = sql_query("SELECT id FROM posts WHERE topic_id = " . sqlesc($topicid) . " 
                                   ORDER BY id DESC LIMIT 1")) || sqlerr(__file__, __line__);
             ($arr = $res->fetch_row()) || die('No staff post found');
             $postid = (int)$arr[0];
-            sql_query("UPDATE topics SET last_post = ".sqlesc($postid)." WHERE id = ".sqlesc($topicid)) || sqlerr(__file__, __line__);
+            sql_query("UPDATE topics SET last_post = " . sqlesc($postid) . " WHERE id = " . sqlesc($topicid)) || sqlerr(__file__, __line__);
             /** PM Owner **/
             $subject = sqlesc('Warning Class Check System!');
             sql_query("INSERT INTO messages (sender, receiver, added, subject, msg) 
-                VALUES (0, ".$TRINITY20['site']['owner'].", $added, $subject, $body)") || sqlerr(__file__, __line__);
+                VALUES (0, " . $TRINITY20['site']['owner'] . ", $added, $subject, $body)") || sqlerr(__file__, __line__);
             /** punishments **/
             //sql_query("UPDATE users SET enabled = 'no', class = 1 WHERE id = {$CURUSER['id']}") or sqlerr(__file__, __line__);
             sql_query("UPDATE users SET class = 1 WHERE id = {$CURUSER['id']}") || sqlerr(__file__, __line__);
             /** remove caches **/
-            $cache->update_row($cache_keys['user'].$CURUSER['id'], [
+            $cache->update_row($cache_keys['user'] . $CURUSER['id'], [
                 'class' => 1,
             ], $TRINITY20['expires']['user_cache']);
-            $cache->update_row($cache_keys['my_userid'].$CURUSER['id'], [
+            $cache->update_row($cache_keys['my_userid'] . $CURUSER['id'], [
                 'class' => 1,
             ], $TRINITY20['expires']['curuser']);
             //==
             /** log **/
             //write_log("<span style='color:#FA0606;'>Class Check System Initialized</span><a href='forums.php?action=viewtopic&amp;topicid=$topicid&amp;page=last#$postid'>VIEW</a>", UC_SYSOP, false);
-            write_log('Class Check System Initialized [url='.$TRINITY20['baseurl'].'/forums.php?action=view_topic&amp;topic_id='.$topicid.'&amp;page=last#'.$postid.']VIEW[/url]');
+            write_log('Class Check System Initialized [url=' . $TRINITY20['baseurl'] . '/forums.php?action=view_topic&amp;topic_id=' . $topicid . '&amp;page=last#' . $postid . ']VIEW[/url]');
             //require_once(INCL_DIR.'user_functions.php');
             //autoshout($body2);
             $HTMLOUT = '';
@@ -169,9 +169,9 @@ function class_check($class = 0, $staff = true, $pin = false)
         }
     } elseif (!$staff) {
         // if not staff page :P
-        stderr('ERROR', 'No Permission. Page is for '.get_user_class_name($class).'s and above. Read FAQ.');
+        stderr('ERROR', 'No Permission. Page is for ' . get_user_class_name($class) . 's and above. Read FAQ.');
     } else { // if staff page
-        require_once __DIR__.'/404.html';
+        require_once __DIR__ . '/404.html';
         //die('404');
         exit();
     }
@@ -191,11 +191,11 @@ function get_access($script)
         }
         $i++;
     }
-    if (($class = $cache->get($cache_keys['av_class'].$ending)) == false) {
+    if (($class = $cache->get($cache_keys['av_class'] . $ending)) == false) {
         ($classid = sql_query("SELECT av_class FROM staffpanel WHERE file_name LIKE '%$ending%'")) || sqlerr(__file__, __line__);
         $classid = $classid->fetch_assoc();
         $class = isset($classid['av_class']) ? (int)$classid['av_class'] : '';
-        $cache->set($cache_keys['av_class'].$ending, $class, 900); //== test values 15 minutes to 0 once delete key in place //==
+        $cache->set($cache_keys['av_class'] . $ending, $class, 900); //== test values 15 minutes to 0 once delete key in place //==
     }
     return $class;
 }

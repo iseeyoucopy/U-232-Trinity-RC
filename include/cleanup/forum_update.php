@@ -16,7 +16,7 @@ function docleanup($data)
     set_time_limit(0);
     ignore_user_abort(1);
     //=== delete from now viewing after 15 minutes
-    sql_query('DELETE FROM now_viewing WHERE added < '.(TIME_NOW - 900));
+    sql_query('DELETE FROM now_viewing WHERE added < ' . (TIME_NOW - 900));
     //=== fix any messed up counts
     $forums = sql_query('SELECT f.id, count( DISTINCT t.id ) AS topics, count(p.id) AS posts
                           FROM forums f
@@ -25,12 +25,12 @@ function docleanup($data)
                           GROUP BY f.id');
     while ($forum = $forums->fetch_assoc()) {
         $forum['posts'] = $forum['topics'] > 0 ? $forum['posts'] : 0;
-        sql_query('UPDATE forums SET post_count = '.sqlesc($forum['posts']).', topic_count = '.sqlesc($forum['topics']).' WHERE id='.sqlesc($forum['id']));
+        sql_query('UPDATE forums SET post_count = ' . sqlesc($forum['posts']) . ', topic_count = ' . sqlesc($forum['topics']) . ' WHERE id=' . sqlesc($forum['id']));
     }
     if ($queries > 0) {
         write_log("Forum clean-------------------- Forum cleanup Complete using $queries queries --------------------");
     }
-    if ($mysqli->affected_rows) $data['clean_desc'] = $mysqli->affected_rows." items updated";
+    if ($mysqli->affected_rows) $data['clean_desc'] = $mysqli->affected_rows . " items updated";
     if ($data['clean_log']) {
         cleanup_log($data);
     }

@@ -10,46 +10,47 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
+
 //declare(strict_types=1);
 use U232\Cache;
 
 //==Start execution time
 $start = microtime(true);
-if (!file_exists(__DIR__.DIRECTORY_SEPARATOR.'config.php')) {
+if (!file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'config.php')) {
     header('Location: /install');
     die();
 }
-require_once(__DIR__.DIRECTORY_SEPARATOR.'config.php');
-require_once(CLASS_DIR.'class_url_builder.php');
-require_once(INCL_DIR.'user_functions.php');
-require_once(CACHE_DIR.'free_cache.php');
-require_once(CACHE_DIR.'site_settings.php');
-require_once(CACHE_DIR.'cache_keys.php');
-require_once(CACHE_DIR.'staff_settings.php');
-require_once(CACHE_DIR.'class_config.php');
-require_once(CLASS_DIR.'class.crypt.php');
-require_once(INCL_DIR.'password_functions.php');
+require_once(__DIR__ . DIRECTORY_SEPARATOR . 'config.php');
+require_once(CLASS_DIR . 'class_url_builder.php');
+require_once(INCL_DIR . 'user_functions.php');
+require_once(CACHE_DIR . 'free_cache.php');
+require_once(CACHE_DIR . 'site_settings.php');
+require_once(CACHE_DIR . 'cache_keys.php');
+require_once(CACHE_DIR . 'staff_settings.php');
+require_once(CACHE_DIR . 'class_config.php');
+require_once(CLASS_DIR . 'class.crypt.php');
+require_once(INCL_DIR . 'password_functions.php');
 //==Start Cache
-require_once(VENDOR_DIR.'autoload.php');
-require_once(INCL_DIR.'cache_config.php');
-require_once(CLASS_DIR.'class_cacheM.php');
+require_once(VENDOR_DIR . 'autoload.php');
+require_once(INCL_DIR . 'cache_config.php');
+require_once(CLASS_DIR . 'class_cacheM.php');
 global $TRINITY20;
 $cache = new Cache($TRINITY20);
 
 //==Block class
 class curuser
 {
-    public static $blocks = [];
+    public static array $blocks = [];
 }
 
 $CURBLOCK = &curuser::$blocks;
-require_once CLASS_DIR.'class_blocks_index.php';
-require_once CLASS_DIR.'class_blocks_stdhead.php';
-require_once CLASS_DIR.'class_blocks_userdetails.php';
-require_once CLASS_DIR.'class_blocks_usercp.php';
-require_once CLASS_DIR.'class_blocks_browse.php';
-require_once CLASS_DIR.'class_bt_options.php';
-require_once CACHE_DIR.'block_settings_cache.php';
+require_once CLASS_DIR . 'class_blocks_index.php';
+require_once CLASS_DIR . 'class_blocks_stdhead.php';
+require_once CLASS_DIR . 'class_blocks_userdetails.php';
+require_once CLASS_DIR . 'class_blocks_usercp.php';
+require_once CLASS_DIR . 'class_blocks_browse.php';
+require_once CLASS_DIR . 'class_bt_options.php';
+require_once CACHE_DIR . 'block_settings_cache.php';
 $cores = $cache->get($cache_keys['cores']);
 if (!$cores) {
     $cores = `grep -c processor /proc/cpuinfo`;
@@ -95,7 +96,7 @@ function PostKey($ids = [])
     if (!is_array($ids)) {
         return false;
     }
-    return hash("sha3-512", "".$TRINITY20['tracker_post_key'].join('', $ids).$TRINITY20['tracker_post_key']);
+    return hash("sha3-512", "" . $TRINITY20['tracker_post_key'] . join('', $ids) . $TRINITY20['tracker_post_key']);
 }
 
 function CheckPostKey($ids, $key)
@@ -104,14 +105,14 @@ function CheckPostKey($ids, $key)
     if (!is_array($ids) or !$key) {
         return false;
     }
-    return $key == hash("sha3-512", "".$TRINITY20['tracker_post_key'].join('', $ids).$TRINITY20['tracker_post_key']);
+    return $key == hash("sha3-512", "" . $TRINITY20['tracker_post_key'] . join('', $ids) . $TRINITY20['tracker_post_key']);
 }
 
 /**** validip/getip courtesy of manolete <manolete@myway.com> ****/
 //== IP Validation
 function validip($ip)
 {
-    return (bool)filter_var ($ip, FILTER_VALIDATE_IP,
+    return (bool)filter_var($ip, FILTER_VALIDATE_IP,
         ['flags' => FILTER_FLAG_NO_PRIV_RANGE, FILTER_FLAG_NO_RES_RANGE]
     );
 }
@@ -143,7 +144,7 @@ function dbconn($autoclean = false)
     global $TRINITY20, $mysqli;
     $mysqli = new mysqli($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass'], $TRINITY20['mysql_db']);
     if ($mysqli->connect_errno) {
-        printf("Connection Problems" .PHP_EOL. "Sorry, U-232 was unable to connect to the database. This may be caused by the server being busy. Please try again later. ".$mysqli->connect_error);
+        printf("Connection Problems" . PHP_EOL . "Sorry, U-232 was unable to connect to the database. This may be caused by the server being busy. Please try again later. " . $mysqli->connect_error);
         exit();
     }
     userlogin();
@@ -155,25 +156,25 @@ function dbconn($autoclean = false)
 
 function status_change($id)
 {
-    sql_query('UPDATE announcement_process SET status = 0 WHERE user_id = '.sqlesc($id).' AND status = 1') || sqlerr(__FILE__, __LINE__);
+    sql_query('UPDATE announcement_process SET status = 0 WHERE user_id = ' . sqlesc($id) . ' AND status = 1') || sqlerr(__FILE__, __LINE__);
 }
 
 //== check bans by djGrrr <3 pdq
 function check_bans($ip)
 {
     global $cache, $mysqli, $cache_keys;
-    if (($ban = $cache->get($cache_keys['bans'].$ip)) === false && $ip != '127.0.0.1') {
+    if (($ban = $cache->get($cache_keys['bans'] . $ip)) === false && $ip != '127.0.0.1') {
         $nip = ip2long($ip);
-        ($ban_sql = sql_query('SELECT comment FROM bans WHERE (first <= '.sqlesc($nip).' AND last >= '.sqlesc($nip).') LIMIT 1')) || sqlerr(__FILE__, __LINE__);
+        ($ban_sql = sql_query('SELECT comment FROM bans WHERE (first <= ' . sqlesc($nip) . ' AND last >= ' . sqlesc($nip) . ') LIMIT 1')) || sqlerr(__FILE__, __LINE__);
         if ($ban_sql->num_rows) {
             $comment = $ban_sql->fetch_row();
-            $reason = 'Manual Ban ('.$comment[0].')';
-            $cache->set($cache_keys['bans'].$ip, $reason, 86400); // 86400 // banned
+            $reason = 'Manual Ban (' . $comment[0] . ')';
+            $cache->set($cache_keys['bans'] . $ip, $reason, 86400); // 86400 // banned
             return true;
         }
         $ban_sql->free();
         $mysqli->next_result();
-        $cache->set($cache_keys['bans'].$ip, 0, 86400); // 86400 // not banned
+        $cache->set($cache_keys['bans'] . $ip, 0, 86400); // 86400 // not banned
         return false;
     }
 
@@ -203,7 +204,7 @@ function userlogin()
         return;
     }
     // let's cache $CURUSER - pdq - *Updated*
-    if (($row = $cache->get($cache_keys['my_userid'].$id)) === false) { // $row not found
+    if (($row = $cache->get($cache_keys['my_userid'] . $id)) === false) { // $row not found
         $user_fields_ar_int = [
             'id',
             'added',
@@ -355,7 +356,7 @@ function userlogin()
             'pin_code',
         ];
         $user_fields = implode(', ', array_merge($user_fields_ar_int, $user_fields_ar_float, $user_fields_ar_str));
-        $res = "SELECT $user_fields, ann_main.subject AS curr_ann_subject, ann_main.body AS curr_ann_body "."FROM users AS u "."LEFT JOIN announcement_main AS ann_main "."ON ann_main.main_id = u.curr_ann_id "."WHERE u.id = ".sqlesc($id)." AND u.enabled='yes' AND u.status = 'confirmed'" or sqlerr(__FILE__,
+        $res = "SELECT $user_fields, ann_main.subject AS curr_ann_subject, ann_main.body AS curr_ann_body " . "FROM users AS u " . "LEFT JOIN announcement_main AS ann_main " . "ON ann_main.main_id = u.curr_ann_id " . "WHERE u.id = " . sqlesc($id) . " AND u.enabled='yes' AND u.status = 'confirmed'" or sqlerr(__FILE__,
             __LINE__);
         $result = sql_query($res);
         if ($result->num_rows == 0) {
@@ -374,7 +375,7 @@ function userlogin()
         foreach ($user_fields_ar_str as $i) {
             $row[$i] = $row[$i];
         }
-        $cache->set($cache_keys['my_userid'].$id, $row, $TRINITY20['expires']['curuser']);
+        $cache->set($cache_keys['my_userid'] . $id, $row, $TRINITY20['expires']['curuser']);
         unset($result);
     }
     //==
@@ -383,86 +384,55 @@ function userlogin()
         header("Location: {$TRINITY20['baseurl']}/logout.php?hash_please=$salty");
         return;
     }
-        //If curr_ann_id > 0 but curr_ann_body IS NULL, then force a refresh
-        if (($row['curr_ann_id'] > 0) AND ($row['curr_ann_body'] == NULL)) {
+    //If curr_ann_id > 0 but curr_ann_body IS NULL, then force a refresh
+    if (($row['curr_ann_id'] > 0) and ($row['curr_ann_body'] == NULL)) {
         $row['curr_ann_id'] = 0;
         $row['curr_ann_last_check'] = 0;
-        }
-        // If elapsed > 10 minutes, force a announcement refresh.
-        if (($row['curr_ann_last_check'] != 0) AND ($row['curr_ann_last_check'] < $dt - 900))
+    }
+    // If elapsed > 10 minutes, force an announcement refresh.
+    if (($row['curr_ann_last_check'] != 0) and ($row['curr_ann_last_check'] < $dt - 900))
         $row['curr_ann_last_check'] = 0;
 
-        if (($row['curr_ann_id'] == 0) and ($row['curr_ann_last_check'] == 0)) { // Force an immediate check...
-            $query = sprintf(
-                'SELECT m.*,p.process_id FROM announcement_main AS m ' .
-                'LEFT JOIN announcement_process AS p ON m.main_id = p.main_id ' .
-                'AND p.user_id = %s ' .
-                'WHERE p.process_id IS NULL ' .
-                'OR p.status = 0 ' .
-                'ORDER BY m.main_id ASC ' .
-                'LIMIT 1',
-                sqlesc($row['id']) or sqlerr(__FILE__, __LINE__)
-            );
+    if (($row['curr_ann_id'] == 0) and ($row['curr_ann_last_check'] == 0)) { // Force an immediate check...
+        $query = sprintf(
+            'SELECT m.*,p.process_id FROM announcement_main AS m ' .
+            'LEFT JOIN announcement_process AS p ON m.main_id = p.main_id ' .
+            'AND p.user_id = %s ' .
+            'WHERE p.process_id IS NULL ' .
+            'OR p.status = 0 ' .
+            'ORDER BY m.main_id ASC ' .
+            'LIMIT 1',
+            sqlesc($row['id']) or sqlerr(__FILE__, __LINE__)
+        );
+        $result = sql_query($query);
+        if ($result->num_rows) { // Main Result set exists
+            $ann_row = $result->fetch_assoc();
+            $query = sqlesc($ann_row['sql_query']);
+            // Ensure it only selects...
+            if (!preg_match('/\\ASELECT.+?FROM.+?WHERE.+?\\z/', $query)) {
+                die('Oops, Query error');
+            }
+            // The following line modifies the query to only return the current user
+            // row if the existing query matches any attributes.
+            $query .= ' AND u.id = ' . sqlesc($row['id']) . ' LIMIT 1';
             $result = sql_query($query);
-            if ($result->num_rows) { // Main Result set exists
-                $ann_row = $result->fetch_assoc();
-                $query = sqlesc($ann_row['sql_query']);
-                // Ensure it only selects...
-                if (!preg_match('/\\ASELECT.+?FROM.+?WHERE.+?\\z/', $query)) {
-                    die('Oops, Query error');
-                }
-                // The following line modifies the query to only return the current user
-                // row if the existing query matches any attributes.
-                $query .= ' AND u.id = ' . sqlesc($row['id']) . ' LIMIT 1';
-                $result = sql_query($query);
-                if ($result->num_rows) { // Announcement valid for member
-                    $row['curr_ann_id'] = (int) $ann_row['main_id'];
-                    // Create two row elements to hold announcement subject and body.
-                    $row['curr_ann_subject'] = htmlsafechars($ann_row['subject']);
-                    $row['curr_ann_body'] = htmlsafechars($ann_row['body']);
-                    // Create additional set for main UPDATE query.
-                    $add_set = ', curr_ann_id = ' . sqlesc($ann_row['main_id']);
-                    $cache->update_row($cache_keys['user'] . $id, [
-                        'curr_ann_id' => $ann_row['main_id']
-                    ], $TRINITY20['expires']['user_cache']);
-                    $cache->update_row($cache_keys['my_userid'] . $id, [
-                        'curr_ann_id' => $ann_row['main_id']
-                    ], $TRINITY20['expires']['curuser']);
-                    $status = 2;
+            if ($result->num_rows) { // Announcement valid for member
+                $row['curr_ann_id'] = (int)$ann_row['main_id'];
+                // Create two row elements to hold announcement subject and body.
+                $row['curr_ann_subject'] = htmlsafechars($ann_row['subject']);
+                $row['curr_ann_body'] = htmlsafechars($ann_row['body']);
+                // Create additional set for main UPDATE query.
+                $add_set = ', curr_ann_id = ' . sqlesc($ann_row['main_id']);
+                $cache->update_row($cache_keys['user'] . $id, [
+                    'curr_ann_id' => $ann_row['main_id']
+                ], $TRINITY20['expires']['user_cache']);
+                $cache->update_row($cache_keys['my_userid'] . $id, [
+                    'curr_ann_id' => $ann_row['main_id']
+                ], $TRINITY20['expires']['curuser']);
+                $status = 2;
                 //$status = 0;
-                } else {
-                    // Announcement not valid for member...
-                    $add_set = ', curr_ann_last_check = ' . sqlesc($dt);
-                    $cache->update_row($cache_keys['user'] . $id, [
-                        'curr_ann_last_check' => $dt
-                    ], $TRINITY20['expires']['user_cache']);
-                    $cache->update_row($cache_keys['my_userid'] . $id, [
-                        'curr_ann_last_check' => $dt
-                    ], $TRINITY20['expires']['curuser']);
-                    $status = 1;
-                }
-                // Create or set status of process
-                if ($ann_row['process_id'] === null) {
-                    // Insert Process result set status = 1 (Ignore)
-                    $query = sprintf(
-                        'INSERT INTO announcement_process (main_id, ' .
-                        'user_id, status) VALUES (%s, %s, %s)',
-                        sqlesc($ann_row['main_id']),
-                        sqlesc($row['id']),
-                        sqlesc($status)
-                    );
-                } else {
-                    // Update Process result set status = 2 (Read)
-                    $query = sprintf(
-                        'UPDATE announcement_process SET status = %s ' .
-                        'WHERE process_id = %s',
-                        sqlesc($status),
-                        sqlesc($ann_row['process_id'])
-                    );
-                }
-                sql_query($query);
             } else {
-                // No Main Result Set. Set last update to now...
+                // Announcement not valid for member...
                 $add_set = ', curr_ann_last_check = ' . sqlesc($dt);
                 $cache->update_row($cache_keys['user'] . $id, [
                     'curr_ann_last_check' => $dt
@@ -470,9 +440,40 @@ function userlogin()
                 $cache->update_row($cache_keys['my_userid'] . $id, [
                     'curr_ann_last_check' => $dt
                 ], $TRINITY20['expires']['curuser']);
+                $status = 1;
             }
-            unset($result, $ann_row);
+            // Create or set status of process
+            if ($ann_row['process_id'] === null) {
+                // Insert Process result set status = 1 (Ignore)
+                $query = sprintf(
+                    'INSERT INTO announcement_process (main_id, ' .
+                    'user_id, status) VALUES (%s, %s, %s)',
+                    sqlesc($ann_row['main_id']),
+                    sqlesc($row['id']),
+                    sqlesc($status)
+                );
+            } else {
+                // Update Process result set status = 2 (Read)
+                $query = sprintf(
+                    'UPDATE announcement_process SET status = %s ' .
+                    'WHERE process_id = %s',
+                    sqlesc($status),
+                    sqlesc($ann_row['process_id'])
+                );
+            }
+            sql_query($query);
+        } else {
+            // No Main Result Set. Set last update to now...
+            $add_set = ', curr_ann_last_check = ' . sqlesc($dt);
+            $cache->update_row($cache_keys['user'] . $id, [
+                'curr_ann_last_check' => $dt
+            ], $TRINITY20['expires']['user_cache']);
+            $cache->update_row($cache_keys['my_userid'] . $id, [
+                'curr_ann_last_check' => $dt
+            ], $TRINITY20['expires']['curuser']);
         }
+        unset($result, $ann_row);
+    }
     // bans by djGrrr <3 pdq
     if (!isset($row['perms']) || (!($row['perms'] & bt_options::PERMS_BYPASS_BAN))) {
         $banned = false;
@@ -490,7 +491,7 @@ function userlogin()
       <title>Forbidden</title>
       </head><body>
       <h1>403 Forbidden</h1>Unauthorized IP address!
-      <p>Reason: <strong>'.htmlsafechars($reason).'</strong></p>
+      <p>Reason: <strong>' . htmlsafechars($reason) . '</strong></p>
       </body></html>';
             die;
         }
@@ -499,14 +500,14 @@ function userlogin()
     if ($row["class"] >= UC_STAFF) {
         $allowed_ID = $TRINITY20['allowed_staff']['id'];
         if (!in_array(((int)$row["id"]), $allowed_ID, true)) {
-            $msg = "Fake Account Detected: Username: ".htmlsafechars($row["username"])." - UserID: ".(int)$row["id"]." - UserIP : ".getip();
+            $msg = "Fake Account Detected: Username: " . htmlsafechars($row["username"]) . " - UserID: " . (int)$row["id"] . " - UserIP : " . getip();
             // Demote and disable
-            sql_query("UPDATE users SET enabled = 'no', class = 0 WHERE id =".sqlesc($row["id"])) or sqlerr(__file__, __line__);
-            $cache->update_row($cache_keys['my_userid'].$row['id'], [
+            sql_query("UPDATE users SET enabled = 'no', class = 0 WHERE id =" . sqlesc($row["id"])) or sqlerr(__file__, __line__);
+            $cache->update_row($cache_keys['my_userid'] . $row['id'], [
                 'enabled' => 'no',
                 'class' => 0,
             ], $TRINITY20['expires']['curuser']);
-            $cache->update_row($cache_keys['user'].$row['id'], [
+            $cache->update_row($cache_keys['user'] . $row['id'], [
                 'enabled' => 'no',
                 'class' => 0,
             ], $TRINITY20['expires']['user_cache']);
@@ -518,7 +519,7 @@ function userlogin()
     }
     // user stats - *Updated*
     $What_Cache = (XBT_TRACKER ? $cache_keys['userstats_xbt'] : $cache_keys['user_stats']);
-    if (($stats = $cache->get($What_Cache.$id)) === false) {
+    if (($stats = $cache->get($What_Cache . $id)) === false) {
         $What_Expire = (XBT_TRACKER ? $TRINITY20['expires']['u_stats_xbt'] : $TRINITY20['expires']['u_stats']);
         $stats_fields_ar_int = [
             'uploaded',
@@ -532,7 +533,7 @@ function userlogin()
             'bonuscomment',
         ];
         $stats_fields = implode(', ', array_merge($stats_fields_ar_int, $stats_fields_ar_float, $stats_fields_ar_str));
-        $s = sql_query("SELECT ".$stats_fields." FROM users WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+        $s = sql_query("SELECT " . $stats_fields . " FROM users WHERE id=" . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         $stats = $s->fetch_assoc();
         foreach ($stats_fields_ar_int as $i) {
             $stats[$i] = (int)$stats[$i];
@@ -543,14 +544,14 @@ function userlogin()
         foreach ($stats_fields_ar_str as $i) {
             $stats[$i] = $stats[$i];
         }
-        $cache->set($What_Cache.$id, $stats, $What_Expire);
+        $cache->set($What_Cache . $id, $stats, $What_Expire);
     }
     $row['seedbonus'] = $stats['seedbonus'];
     $row['uploaded'] = $stats['uploaded'];
     $row['downloaded'] = $stats['downloaded'];
     //==
-    if (($ustatus = $cache->get($cache_keys['userstatus'].$id)) === false) {
-        $sql2 = sql_query('SELECT * FROM ustatus WHERE userid = '.sqlesc($id));
+    if (($ustatus = $cache->get($cache_keys['userstatus'] . $id)) === false) {
+        $sql2 = sql_query('SELECT * FROM ustatus WHERE userid = ' . sqlesc($id));
         if ($sql2->num_rows) {
             $ustatus = $sql2->fetch_assoc();
         } else {
@@ -560,16 +561,16 @@ function userlogin()
                 'archive' => '',
             ];
         }
-        $cache->set($cache_keys['userstatus'].$id, $ustatus, $TRINITY20['expires']['u_status']); // 30 days
+        $cache->set($cache_keys['userstatus'] . $id, $ustatus, $TRINITY20['expires']['u_status']); // 30 days
     }
     $row['last_status'] = $ustatus['last_status'];
     $row['last_update'] = $ustatus['last_update'];
     $row['archive'] = $ustatus['archive'];
     // bitwise curuser bloks by pdq
-    if (($CURBLOCK = $cache->get($cache_keys['blocks'].$row['id'])) === false) {
-        $c_sql = sql_query('SELECT * FROM user_blocks WHERE userid = '.sqlesc($row['id'])) or sqlerr(__FILE__, __LINE__);
+    if (($CURBLOCK = $cache->get($cache_keys['blocks'] . $row['id'])) === false) {
+        $c_sql = sql_query('SELECT * FROM user_blocks WHERE userid = ' . sqlesc($row['id'])) or sqlerr(__FILE__, __LINE__);
         if ($c_sql->num_rows == 0) {
-            sql_query('INSERT INTO user_blocks(userid) VALUES('.sqlesc($row['id']).')');
+            sql_query('INSERT INTO user_blocks(userid) VALUES(' . sqlesc($row['id']) . ')');
             header('Location: index.php');
             die();
         }
@@ -579,30 +580,30 @@ function userlogin()
         $CURBLOCK['userdetails_page'] = (int)$CURBLOCK['userdetails_page'];
         $CURBLOCK['browse_page'] = (int)$CURBLOCK['browse_page'];
         //$CURBLOCK['usercp_page'] = (int)$CURBLOCK['usercp_page'];
-        $cache->set($cache_keys['blocks'].$row['id'], $CURBLOCK);
+        $cache->set($cache_keys['blocks'] . $row['id'], $CURBLOCK);
     }
     //== online time pdq, original code by superman
     $userupdate0 = 'onlinetime = onlinetime + 0';
     $new_time = TIME_NOW - $row['last_access_numb'];
     $update_time = 0;
     if ($new_time < 300) {
-        $userupdate0 = "onlinetime = onlinetime + ".$new_time;
+        $userupdate0 = "onlinetime = onlinetime + " . $new_time;
         $update_time = $new_time;
     }
-    $userupdate1 = "last_access_numb = ".TIME_NOW;
+    $userupdate1 = "last_access_numb = " . TIME_NOW;
     //end online-time
     $update_time = ($row['onlinetime'] + $update_time);
     $add_set = $add_set ?? '';
     if (($row['last_access'] != '0') and (($row['last_access']) < ($dt - 180)) /** 3 mins **/ || ($row['ip'] !== $ip)) {
-        sql_query("UPDATE users SET where_is =".sqlesc($whereis).", ip=".sqlesc($ip).$add_set.", last_access=".TIME_NOW.", $userupdate0, $userupdate1 WHERE id=".sqlesc($row['id']));
-        $cache->update_row($cache_keys['my_userid'].$row['id'], [
+        sql_query("UPDATE users SET where_is =" . sqlesc($whereis) . ", ip=" . sqlesc($ip) . $add_set . ", last_access=" . TIME_NOW . ", $userupdate0, $userupdate1 WHERE id=" . sqlesc($row['id']));
+        $cache->update_row($cache_keys['my_userid'] . $row['id'], [
             'last_access' => TIME_NOW,
             'onlinetime' => $update_time,
             'last_access_numb' => TIME_NOW,
             'where_is' => $whereis,
             'ip' => $ip,
         ], $TRINITY20['expires']['curuser']);
-        $cache->update_row($cache_keys['user'].$row['id'], [
+        $cache->update_row($cache_keys['user'] . $row['id'], [
             'last_access' => TIME_NOW,
             'onlinetime' => $update_time,
             'last_access_numb' => TIME_NOW,
@@ -638,10 +639,10 @@ function autoclean()
     $cleanfile = $row['clean_file'] ?? '';
     if ($cleanid) {
         $next_clean = intval($now + ($row['clean_increment'] ?? (15 * 60)));
-        sql_query("UPDATE cleanup SET clean_time = ".sqlesc($next_clean)." WHERE clean_id = ".sqlesc($cleanid));
-        if (file_exists(CLEAN_DIR.''.$cleanfile)) {
-            require_once(CLEAN_DIR.'clean_log.php');
-            require_once(CLEAN_DIR.''.$cleanfile);
+        sql_query("UPDATE cleanup SET clean_time = " . sqlesc($next_clean) . " WHERE clean_id = " . sqlesc($cleanid));
+        if (file_exists(CLEAN_DIR . '' . $cleanfile)) {
+            require_once(CLEAN_DIR . 'clean_log.php');
+            require_once(CLEAN_DIR . '' . $cleanfile);
             if (function_exists('docleanup')) {
                 register_shutdown_function('docleanup', $row);
             }
@@ -653,21 +654,21 @@ function get_template()
 {
     global $CURUSER, $TRINITY20;
     if (isset($CURUSER)) {
-        if (file_exists(TEMPLATE_DIR."{$CURUSER['stylesheet']}/template.php")) {
-            require_once(TEMPLATE_DIR."{$CURUSER['stylesheet']}/template.php");
+        if (file_exists(TEMPLATE_DIR . "{$CURUSER['stylesheet']}/template.php")) {
+            require_once(TEMPLATE_DIR . "{$CURUSER['stylesheet']}/template.php");
         } elseif (isset($TRINITY20)) {
-            if (file_exists(TEMPLATE_DIR."{$TRINITY20['stylesheet']}/template.php")) {
-                require_once(TEMPLATE_DIR."{$TRINITY20['stylesheet']}/template.php");
+            if (file_exists(TEMPLATE_DIR . "{$TRINITY20['stylesheet']}/template.php")) {
+                require_once(TEMPLATE_DIR . "{$TRINITY20['stylesheet']}/template.php");
             } else {
                 echo "Sorry, Templates do not seem to be working properly and missing some code. Please report this to the programmers/owners.";
             }
-        } elseif (file_exists(TEMPLATE_DIR."1/template.php")) {
-            require_once(TEMPLATE_DIR."1/template.php");
+        } elseif (file_exists(TEMPLATE_DIR . "1/template.php")) {
+            require_once(TEMPLATE_DIR . "1/template.php");
         } else {
             echo "Sorry, Templates do not seem to be working properly and missing some code. Please report this to the programmers/owners.";
         }
-    } elseif (file_exists(TEMPLATE_DIR."{$TRINITY20['stylesheet']}/template.php")) {
-        require_once(TEMPLATE_DIR."{$TRINITY20['stylesheet']}/template.php");
+    } elseif (file_exists(TEMPLATE_DIR . "{$TRINITY20['stylesheet']}/template.php")) {
+        require_once(TEMPLATE_DIR . "{$TRINITY20['stylesheet']}/template.php");
     } else {
         echo "Sorry, Templates do not seem to be working properly and missing some code. Please report this to the programmers/owners.";
     }
@@ -690,7 +691,7 @@ function get_template()
         echo "stdmgs function missing";
         function stdmsg($title, $message)
         {
-            return "<b>".$title."</b><br>$message";
+            return "<b>" . $title . "</b><br>$message";
         }
     }
     if (!function_exists("StatusBar")) {
@@ -707,15 +708,15 @@ function get_template()
 function make_freeslots($userid, $key)
 {
     global $cache;
-    if (($slot = $cache->get($key.$userid)) === false) {
-        $res_slots = sql_query('SELECT * FROM freeslots WHERE userid = '.sqlesc($userid)) or sqlerr(__file__, __line__);
+    if (($slot = $cache->get($key . $userid)) === false) {
+        $res_slots = sql_query('SELECT * FROM freeslots WHERE userid = ' . sqlesc($userid)) or sqlerr(__file__, __line__);
         $slot = [];
         if ($res_slots->num_rows) {
             while ($rowslot = $res_slots->fetch_assoc()) {
                 $slot[] = $rowslot;
             }
         }
-        $cache->set($key.$userid, $slot, 86400 * 7);
+        $cache->set($key . $userid, $slot, 86400 * 7);
     }
     return $slot;
 }
@@ -724,15 +725,15 @@ function make_freeslots($userid, $key)
 function make_bookmarks($userid, $key)
 {
     global $cache;
-    if (($book = $cache->get($key.$userid)) === false) {
-        $res_books = sql_query('SELECT * FROM bookmarks WHERE userid = '.sqlesc($userid)) or sqlerr(__file__, __line__);
+    if (($book = $cache->get($key . $userid)) === false) {
+        $res_books = sql_query('SELECT * FROM bookmarks WHERE userid = ' . sqlesc($userid)) or sqlerr(__file__, __line__);
         $book = [];
         if ($res_books->num_rows) {
             while ($rowbook = $res_books->fetch_assoc()) {
                 $book[] = $rowbook;
             }
         }
-        $cache->set($key.$userid, $book, 86400 * 7); // 7 days
+        $cache->set($key . $userid, $book, 86400 * 7); // 7 days
     }
     return $book;
 }
@@ -741,7 +742,7 @@ function make_bookmarks($userid, $key)
 function genrelist()
 {
     global $cache, $TRINITY20, $cache_keys;
-    if (!($ret = $cache->get ($cache_keys['genrelist']))) {
+    if (!($ret = $cache->get($cache_keys['genrelist']))) {
         $ret = [];
         $res = sql_query("SELECT id, image, name, min_class FROM categories ORDER BY name");
         while ($row = $res->fetch_assoc()) {
@@ -782,7 +783,7 @@ function delete_id_keys($keys, $keyname = false)
 
     foreach ($keys as $id) // proceed
     {
-        $cache->delete($keyname.$id);
+        $cache->delete($keyname . $id);
     }
     return true;
 }
@@ -796,30 +797,30 @@ function mksize($bytes)
 {
     $bytes = max(0, (int)$bytes);
     if ($bytes < 1024000) {
-        return number_format($bytes / 1024, 2).' KB';
+        return number_format($bytes / 1024, 2) . ' KB';
     }
 
     if ($bytes < 1048576000) {
-        return number_format($bytes / 1048576, 2).' MB';
+        return number_format($bytes / 1048576, 2) . ' MB';
     } #Kilobyte
     #Megabyte
     elseif ($bytes < 1073741824000) {
-        return number_format($bytes / 1073741824, 2).' GB';
+        return number_format($bytes / 1073741824, 2) . ' GB';
     } #Gigebyte
     elseif ($bytes < 1099511627776000) {
-        return number_format($bytes / 1099511627776, 3).' TB';
+        return number_format($bytes / 1099511627776, 3) . ' TB';
     } #Terabyte
     elseif ($bytes < 1125899906842624000) {
-        return number_format($bytes / 1125899906842624, 3).' PB';
+        return number_format($bytes / 1125899906842624, 3) . ' PB';
     } #Petabyte
     elseif ($bytes < 1152921504606846976000) {
-        return number_format($bytes / 1152921504606846976, 3).' EB';
+        return number_format($bytes / 1152921504606846976, 3) . ' EB';
     } #Exabyte
     elseif ($bytes < 1180591620717411303424000) {
-        return number_format($bytes / 1180591620717411303424, 3).' ZB';
+        return number_format($bytes / 1180591620717411303424, 3) . ' ZB';
     } #Zettabyte
     else {
-        return number_format($bytes / 1208925819614629174706176, 3).' YB';
+        return number_format($bytes / 1208925819614629174706176, 3) . ' YB';
     } #Yottabyte
 }
 
@@ -845,7 +846,7 @@ function mkprettytime($s)
         $t[$y[1]] = $v;
     }
     if ($t["day"]) {
-        return $t["day"]."d ".sprintf("%02d:%02d:%02d", $t["hour"], $t["min"], $t["sec"]);
+        return $t["day"] . "d " . sprintf("%02d:%02d:%02d", $t["hour"], $t["min"], $t["sec"]);
     }
     if ($t["hour"]) {
         return sprintf("%d:%02d:%02d", $t["hour"], $t["min"], $t["sec"]);
@@ -913,7 +914,7 @@ function logincookie($id, $passhash, $updatedb = 1, $expires = 0x7fffffff)
     set_mycookie("hashv", HashIt($id, $passhash), $expires);
     set_mycookie("log_uid", make_hash_log($id, $passhash), $expires);
     if ($updatedb) {
-        sql_query("UPDATE users SET last_login = ".TIME_NOW." WHERE id = ".sqlesc($id)) or sqlerr(__file__, __line__);
+        sql_query("UPDATE users SET last_login = " . TIME_NOW . " WHERE id = " . sqlesc($id)) or sqlerr(__file__, __line__);
     }
 }
 
@@ -933,9 +934,9 @@ function set_mycookie($name, $value = "", $expires_in = 0, $sticky = 1)
     $TRINITY20['cookie_path'] = $TRINITY20['cookie_path'] == "" ? "/" : $TRINITY20['cookie_path'];
     if (PHP_VERSION < 5.2) {
         if ($TRINITY20['cookie_domain']) {
-            @setcookie($TRINITY20['cookie_prefix'].$name, $value, $expires, $TRINITY20['cookie_path'], $TRINITY20['cookie_domain'].'; HttpOnly');
+            @setcookie($TRINITY20['cookie_prefix'] . $name, $value, $expires, $TRINITY20['cookie_path'], $TRINITY20['cookie_domain'] . '; HttpOnly');
         } else {
-            @setcookie($TRINITY20['cookie_prefix'].$name, $value, $expires, $TRINITY20['cookie_path']);
+            @setcookie($TRINITY20['cookie_prefix'] . $name, $value, $expires, $TRINITY20['cookie_path']);
         }
     } elseif (PHP_VERSION > 7.3) {
         @setcookie($name, $value, [
@@ -947,15 +948,15 @@ function set_mycookie($name, $value = "", $expires_in = 0, $sticky = 1)
             'samesite' => 'Strict',
         ]);
     } else {
-        @setcookie($TRINITY20['cookie_prefix'].$name, $value, $expires, $TRINITY20['cookie_path'], $TRINITY20['cookie_domain'], null, true);
+        @setcookie($TRINITY20['cookie_prefix'] . $name, $value, $expires, $TRINITY20['cookie_path'], $TRINITY20['cookie_domain'], null, true);
     }
 }
 
 function get_mycookie($name)
 {
     global $TRINITY20;
-    if (isset($_COOKIE[$TRINITY20['cookie_prefix'].$name]) and !empty($_COOKIE[$TRINITY20['cookie_prefix'].$name])) {
-        return urldecode($_COOKIE[$TRINITY20['cookie_prefix'].$name]);
+    if (isset($_COOKIE[$TRINITY20['cookie_prefix'] . $name]) and !empty($_COOKIE[$TRINITY20['cookie_prefix'] . $name])) {
+        return urldecode($_COOKIE[$TRINITY20['cookie_prefix'] . $name]);
     }
 
     return false;
@@ -972,7 +973,7 @@ function loggedinorreturn()
 {
     global $CURUSER, $TRINITY20;
     if (!$CURUSER) {
-        header("Location: {$TRINITY20['baseurl']}/login.php?returnto=".urlencode($_SERVER["REQUEST_URI"]));
+        header("Location: {$TRINITY20['baseurl']}/login.php?returnto=" . urlencode($_SERVER["REQUEST_URI"]));
         exit();
     }
 }
@@ -1023,12 +1024,12 @@ function sqlerr($file = '', $line = '')
 
     if ($TRINITY20['sql_error_log'] and SQL_DEBUG == 1) {
         $_error_string = "\n===================================================";
-        $_error_string .= "\n Date: ".date('r');
-        $_error_string .= "\n Error Number: ".$the_error_no;
-        $_error_string .= "\n Error: ".$the_error;
-        $_error_string .= "\n IP Address: ".$_SERVER['REMOTE_ADDR'];
-        $_error_string .= "\n in file ".$file." on line ".$line;
-        $_error_string .= "\n URL:".$_SERVER['REQUEST_URI'];
+        $_error_string .= "\n Date: " . date('r');
+        $_error_string .= "\n Error Number: " . $the_error_no;
+        $_error_string .= "\n Error: " . $the_error;
+        $_error_string .= "\n IP Address: " . $_SERVER['REMOTE_ADDR'];
+        $_error_string .= "\n in file " . $file . " on line " . $line;
+        $_error_string .= "\n URL:" . $_SERVER['REQUEST_URI'];
         $error_username = $CURUSER['username'] ?? '';
         $error_userid = $CURUSER['id'] ?? '';
         $_error_string .= "\n Username: $error_username[$error_userid]";
@@ -1042,16 +1043,16 @@ function sqlerr($file = '', $line = '')
 		    		   You can try to refresh the page by clicking <a href=\"javascript:window.location=window.location;\">here</a>
 				  </body></html>";
     } else {
-        $the_error = "\nSQL error: ".$the_error."\n";
-        $the_error .= "SQL error code: ".$the_error_no."\n";
-        $the_error .= "Date: ".date("l dS \of F Y h:i:s A");
+        $the_error = "\nSQL error: " . $the_error . "\n";
+        $the_error .= "SQL error code: " . $the_error_no . "\n";
+        $the_error .= "Date: " . date("l dS \of F Y h:i:s A");
         $out = "<html>\n<head>\n<title>MySQLI Error</title>\n
 	    		   <style>P,BODY{ font-family:arial,sans-serif; font-size:11px; }</style>\n</head>\n<body>\n
 	    		   <blockquote>\n<h1>MySQLI Error</h1><b>There appears to be an error with the database.</b><br>
 	    		   You can try to refresh the page by clicking <a href=\"javascript:window.location=window.location;\">here</a>.
 	    		   <br><br><b>Error Returned</b><br>
-	    		   <form name='mysql'><textarea rows=\"15\" cols=\"60\">".htmlsafechars($the_error,
-                ENT_QUOTES)."</textarea></form><br>We apologise for any inconvenience</blockquote></body></html>";
+	    		   <form name='mysql'><textarea rows=\"15\" cols=\"60\">" . htmlsafechars($the_error,
+                ENT_QUOTES) . "</textarea></form><br>We apologise for any inconvenience</blockquote></body></html>";
         echo $out;
     }
     exit();
@@ -1229,28 +1230,28 @@ function hash_pad($hash)
 //== cutname = Laffin
 function CutName($txt, $len = 40)
 {
-    return (strlen($txt) > $len ? substr($txt, 0, $len - 1).'...' : $txt);
+    return (strlen($txt) > $len ? substr($txt, 0, $len - 1) . '...' : $txt);
 }
 
 function CutName_B($txt, $len = 20)
 {
-    return (strlen($txt) > $len ? substr($txt, 0, $len - 1).'...' : $txt);
+    return (strlen($txt) > $len ? substr($txt, 0, $len - 1) . '...' : $txt);
 }
 
 function load_language($file = '')
 {
     global $TRINITY20, $CURUSER;
     if (!isset($GLOBALS['CURUSER']) or empty($GLOBALS['CURUSER']['language'])) {
-        if (!file_exists(LANG_DIR."{$TRINITY20['language']}/lang_$file.php")) {
+        if (!file_exists(LANG_DIR . "{$TRINITY20['language']}/lang_$file.php")) {
             stderr('System Error', 'Can\'t find language files');
         }
-        require_once(LANG_DIR."{$TRINITY20['language']}/lang_$file.php");
+        require_once(LANG_DIR . "{$TRINITY20['language']}/lang_$file.php");
         return $lang;
     }
-    if (!file_exists(LANG_DIR."{$CURUSER['language']}/lang_$file.php")) {
+    if (!file_exists(LANG_DIR . "{$CURUSER['language']}/lang_$file.php")) {
         stderr('System Error', 'Can\'t find language files');
     } else {
-        require_once LANG_DIR."{$CURUSER['language']}/lang_$file.php";
+        require_once LANG_DIR . "{$CURUSER['language']}/lang_$file.php";
     }
     return $lang;
 }
@@ -1269,11 +1270,11 @@ function flood_limit($table)
         'comments' => 'comments.user',
         'messages' => 'messages.sender',
     ];
-    $q = sql_query('SELECT min('.$table.'.added) as first_post, count('.$table.'.id) as how_many FROM '.$table.' WHERE '.$tb[$table].' = '.$CURUSER['id'].' AND '.TIME_NOW.' - '.$table.'.added < '.$TRINITY20['flood_time']);
+    $q = sql_query('SELECT min(' . $table . '.added) as first_post, count(' . $table . '.id) as how_many FROM ' . $table . ' WHERE ' . $tb[$table] . ' = ' . $CURUSER['id'] . ' AND ' . TIME_NOW . ' - ' . $table . '.added < ' . $TRINITY20['flood_time']);
     $a = $q->fetch_assoc();
     if ($a['how_many'] > $max[$CURUSER['class']]) {
         stderr($lang['gl_sorry'],
-            $lang['gl_flood_msg'].''.mkprettytime($TRINITY20['flood_time'] - (TIME_NOW - $a['first_post'])));
+            $lang['gl_flood_msg'] . '' . mkprettytime($TRINITY20['flood_time'] - (TIME_NOW - $a['first_post'])));
     }
 }
 
@@ -1312,11 +1313,11 @@ function referer()
     if ((strpos($http_referer, $host) === false) && ($http_referer != "")) {
         $ip = $_SERVER['REMOTE_ADDR'];
         $http_agent = $_SERVER["HTTP_USER_AGENT"];
-        $http_page = "http://".$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'];
+        $http_page = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
         if (!empty($_SERVER["QUERY_STRING"])) {
-            $http_page .= "?".$_SERVER['QUERY_STRING'];
+            $http_page .= "?" . $_SERVER['QUERY_STRING'];
         }
-        sql_query("INSERT INTO referrers (browser, ip, referer, page, date) VALUES (".sqlesc($http_agent).", ".sqlesc($ip).", ".sqlesc($http_referer).", ".sqlesc($http_page).", ".sqlesc(TIME_NOW).")");
+        sql_query("INSERT INTO referrers (browser, ip, referer, page, date) VALUES (" . sqlesc($http_agent) . ", " . sqlesc($ip) . ", " . sqlesc($http_referer) . ", " . sqlesc($http_page) . ", " . sqlesc(TIME_NOW) . ")");
     }
 }
 
@@ -1343,7 +1344,7 @@ function mysql_fetch_all($query, $default_value = [])
         return $err;
     }
     if (@$r->num_rows) {
-        while ($row = $r->fetch_array(MYSQLI_BOTH)) {
+        while ($row = $r->fetch_array()) {
             $result[] = $row;
         }
     }
@@ -1357,13 +1358,12 @@ function write_bonus_log($userid, $amount, $type)
 {
     $added = TIME_NOW;
     $donation_type = $type;
-    sql_query("INSERT INTO bonuslog (id, donation, type, added_at) VALUES(".sqlesc($userid).", ".sqlesc($amount).", ".sqlesc($donation_type).", $added)") or sqlerr(__FILE__,
+    sql_query("INSERT INTO bonuslog (id, donation, type, added_at) VALUES(" . sqlesc($userid) . ", " . sqlesc($amount) . ", " . sqlesc($donation_type) . ", $added)") or sqlerr(__FILE__,
         __LINE__);
 }
 
 function get_script_access($script)
 {
-    global $CURUSER, $TRINITY20, $cache;
     $ending = parse_url($script, PHP_URL_QUERY);
     $count = substr_count($ending, "&");
     $i = 0;

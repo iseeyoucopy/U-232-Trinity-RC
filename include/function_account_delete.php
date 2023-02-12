@@ -53,8 +53,8 @@ function account_delete($userid)
             $ctr++;
         }
     }
-    return 'DELETE '.implode(', ', $tables)." FROM ".implode(' ',
-            $joins)." WHERE t1.id='".sqlesc($userid)."' AND t1.class < '".sqlesc($maxclass)."';";
+    return 'DELETE ' . implode(', ', $tables) . " FROM " . implode(' ',
+            $joins) . " WHERE t1.id='" . sqlesc($userid) . "' AND t1.class < '" . sqlesc($maxclass) . "';";
 }
 
 ?>

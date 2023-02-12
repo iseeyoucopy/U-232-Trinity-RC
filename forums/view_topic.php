@@ -488,7 +488,8 @@ if ($locked) {
         } else {
             $HTMLOUT .= '<a class="button"><i class="fa fa-check-square"></i> No Permissions</a>';
         }
-        $HTMLOUT .= "</div></div>
+        $HTMLOUT .= "</div>
+        </div>
         <div class='card'>
             <div class='card-divider'>Quick Reply</div>
             <div class='card-section'>".insert_compose_frame($topicid, false, false, true)."</div>
@@ -513,6 +514,6 @@ if (isMod($topicid)) {
 echo stdhead("Forums :: View Topic: $subject", true, $stdhead).$HTMLOUT.stdfoot($stdfoot);
 $uploaderror = (isset($_GET['uploaderror']) ? htmlsafechars($_GET['uploaderror']) : '');
 if (!empty($uploaderror)) {
-    $HTMLOUT .= "<script>alert('Upload Failed: {$uploaderror}\nHowever your post was successful saved!\n\nClick 'OK' to continue.');</script>";
+    $HTMLOUT .= "<script>alert('Upload Failed: ".$uploaderror." However your post was successful saved! Click \'OK\' to continue.');</script>";
 }
 exit();

@@ -17,8 +17,8 @@ function docleanup($data)
     ignore_user_abort(1);
     //== Delete snatched
     $dt = (TIME_NOW - (30 * 86400));
-    sql_query("DELETE FROM snatched WHERE complete_date < ".sqlesc($dt)) || sqlerr(__FILE__, __LINE__);
-    if ($mysqli->affected_rows) $data['clean_desc'] = $mysqli->affected_rows." items deleted/updated";
+    sql_query("DELETE FROM snatched WHERE complete_date < " . sqlesc($dt)) || sqlerr(__FILE__, __LINE__);
+    if ($mysqli->affected_rows) $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
 
     $snatchedcounts = [];
     $snatchedres = sql_query("SELECT torrentid, COUNT(*) AS count FROM snatched WHERE complete_date > 0 GROUP BY torrentid");
@@ -28,7 +28,7 @@ function docleanup($data)
     $tcompletedres = sql_query("SELECT id, times_completed FROM torrents");
     while ($row2 = $tcompletedres->fetch_assoc()) {
         if (array_key_exists($row2['id'], $snatchedcounts) && $row2['times_completed'] != $snatchedcounts[$row2['id']]) {
-            sql_query("UPDATE torrents SET times_completed = ".$snatchedcounts[$row2['id']]." WHERE id = ".$row2['id']);
+            sql_query("UPDATE torrents SET times_completed = " . $snatchedcounts[$row2['id']] . " WHERE id = " . $row2['id']);
         }
     }
 

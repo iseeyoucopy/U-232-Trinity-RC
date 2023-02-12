@@ -13,7 +13,7 @@
 //-------- Begins a main frame
 function begin_main_frame()
 {
-    return "<table class='table' width='750' border='0' cellspacing='0' cellpadding='0'>"."<tr><td class='embedded'>\n";
+    return "<table class='table' width='750' border='0' cellspacing='0' cellpadding='0'>" . "<tr><td class='embedded'>\n";
 }
 
 //-------- Ends a main frame
@@ -32,13 +32,13 @@ function begin_frame($caption = "", $center = false, $padding = 10)
     if ($center) {
         $tdextra .= " align='center'";
     }
-    return $htmlout."<table class='table'><tr><td$tdextra>\n";
+    return $htmlout . "<table class='table'><tr><td$tdextra>\n";
 }
 
 function attach_frame($padding = 10)
 {
     $htmlout = '';
-    return $htmlout."</td></tr><tr><td style='border-top: 0px'>\n";
+    return $htmlout . "</td></tr><tr><td style='border-top: 0px'>\n";
 }
 
 function end_frame()
@@ -53,7 +53,7 @@ function begin_table($fullwidth = false, $padding = 5)
     if ($fullwidth) {
         $width .= " width='100%'";
     }
-    return $htmlout."<table class='table table-bordered'>";
+    return $htmlout . "<table class='table table-bordered'>";
 }
 
 function end_table()

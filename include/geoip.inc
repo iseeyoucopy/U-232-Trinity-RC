@@ -1493,7 +1493,7 @@ if (!function_exists('_setup_segments')) {
             for ($i = 0; $i < STRUCTURE_INFO_MAX_SIZE; $i++) {
                 $delim = @shmop_read($gi->shmid, $offset, 3);
                 $offset += 3;
-                if ($delim == (chr(255).chr(255).chr(255))) {
+                if ($delim == (chr(255) . chr(255) . chr(255))) {
                     $gi->databaseType = ord(@shmop_read($gi->shmid, $offset, 1));
                     if ($gi->databaseType >= 106) {
                         $gi->databaseType -= 105;
@@ -1526,7 +1526,7 @@ if (!function_exists('_setup_segments')) {
             fseek($gi->filehandle, -3, SEEK_END);
             for ($i = 0; $i < STRUCTURE_INFO_MAX_SIZE; $i++) {
                 $delim = fread($gi->filehandle, 3);
-                if ($delim == (chr(255).chr(255).chr(255))) {
+                if ($delim == (chr(255) . chr(255) . chr(255))) {
                     $gi->databaseType = ord(fread($gi->filehandle, 1));
                     if ($gi->databaseType >= 106) {
                         $gi->databaseType -= 105;
@@ -1859,7 +1859,7 @@ if (!function_exists('_get_region')) {
             $seek_region = _geoip_seek_country($gi, $ipnum) - GEOIP_STATE_BEGIN_REV0;
             if ($seek_region >= 1000) {
                 $country_code = "US";
-                $region = chr(($seek_region - 1000) / 26 + 65).chr(($seek_region - 1000) % 26 + 65);
+                $region = chr(($seek_region - 1000) / 26 + 65) . chr(($seek_region - 1000) % 26 + 65);
             } else {
                 $country_code = $gi->GEOIP_COUNTRY_CODES[$seek_region];
                 $region = "";
@@ -1874,10 +1874,10 @@ if (!function_exists('_get_region')) {
                 $region = "";
             } elseif ($seek_region < CANADA_OFFSET) {
                 $country_code = "US";
-                $region = chr(($seek_region - US_OFFSET) / 26 + 65).chr(($seek_region - US_OFFSET) % 26 + 65);
+                $region = chr(($seek_region - US_OFFSET) / 26 + 65) . chr(($seek_region - US_OFFSET) % 26 + 65);
             } elseif ($seek_region < WORLD_OFFSET) {
                 $country_code = "CA";
-                $region = chr(($seek_region - CANADA_OFFSET) / 26 + 65).chr(($seek_region - CANADA_OFFSET) % 26 + 65);
+                $region = chr(($seek_region - CANADA_OFFSET) / 26 + 65) . chr(($seek_region - CANADA_OFFSET) % 26 + 65);
             } else {
                 $country_code = $gi->GEOIP_COUNTRY_CODES[($seek_region - WORLD_OFFSET) / FIPS_RANGE];
                 $region = "";

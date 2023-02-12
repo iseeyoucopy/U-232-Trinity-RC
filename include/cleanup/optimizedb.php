@@ -19,7 +19,7 @@ function docleanup($data)
     $oht = '';
     while ($row = $sql->fetch_assoc()) {
         if ($row['Data_free'] > 100) {
-            $oht .= $row['Data_free'].',';
+            $oht .= $row['Data_free'] . ',';
         }
     }
     $oht = rtrim($oht, ',');

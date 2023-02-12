@@ -10,10 +10,10 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once(__DIR__.'/emoticons.php');
+require_once(__DIR__ . '/emoticons.php');
 function source_highlighter($source, $lang2geshi)
 {
-    require_once(__DIR__.'/geshi/geshi.php');
+    require_once(__DIR__ . '/geshi/geshi.php');
     $source = str_replace([
         "&#039;",
         "&gt;",
@@ -104,13 +104,13 @@ function validate_imgs($s)
 {
     $start = "(http|https)://";
     $end = "+\.(?:jpe?g|png|gif)";
-    preg_match_all("!".$start."(.*)".$end."!Ui", $s ?? '', $result);
+    preg_match_all("!" . $start . "(.*)" . $end . "!Ui", $s ?? '', $result);
     $array = $result[0];
     foreach ($array as $i => $array) {
         $headers = @get_headers($array);
         $headers0 = $headers[0] ?? '';
         if (strpos($headers0, "200") === false) {
-            $s = str_replace(["[img]".$array."[/img]", "[img=".$array."]"], "", $s);
+            $s = str_replace(["[img]" . $array . "[/img]", "[img=" . $array . "]"], "", $s);
         }
     }
     return $s;
@@ -130,7 +130,7 @@ function check_BBcode($html)
     $openedtags = array_reverse($openedtags);
     for ($i = 0; $i < $len_opened; $i++) {
         if (!in_array($openedtags[$i], $closedtags)) {
-            $html .= '</'.$openedtags[$i].'>';
+            $html .= '</' . $openedtags[$i] . '>';
         } else {
             unset($closedtags[array_search($openedtags[$i], $closedtags)]);
         }
@@ -198,12 +198,12 @@ function islocal($link)
     if (strlen($title) > $limit && $flag == false) {
         $l[0] = substr($title, 0, ($limit / 2));
         $l[1] = substr($title, strlen($title) - round($limit / 3));
-        $lshort = $l[0]."...".$l[1];
+        $lshort = $l[0] . "..." . $l[1];
     } else {
         $lshort = $title;
     }
-    return "&nbsp;<a href=\"".((stripos($url,
-                (string)$TRINITY20['url']) !== false) ? "" : "https://anonym.to/?").$url."\" target=\"_blank\">".$lshort."</a>";
+    return "&nbsp;<a href=\"" . ((stripos($url,
+                (string)$TRINITY20['url']) !== false) ? "" : "https://anonym.to/?") . $url . "\" target=\"_blank\">" . $lshort . "</a>";
 }
 
 function format_urls($s)
@@ -219,9 +219,9 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
     $s = validate_imgs($s);
     $TRINITY20['url'] = str_replace(['http://', 'www', 'http://www', 'https://', 'https://www'], '', $TRINITY20['baseurl']);
     if (isset($_SERVER['HTTPS']) && (bool)$_SERVER['HTTPS'] == true) {
-        $s = preg_replace('/http:\/\/((?:www\.)?'.$TRINITY20['url'].')/i', 'https://$1', $s);
+        $s = preg_replace('/http:\/\/((?:www\.)?' . $TRINITY20['url'] . ')/i', 'https://$1', $s);
     } else {
-        $s = preg_replace('/https:\/\/((?:www\.)?'.$TRINITY20['url'].')/i', 'http://$1', $s);
+        $s = preg_replace('/https:\/\/((?:www\.)?' . $TRINITY20['url'] . ')/i', 'http://$1', $s);
     }
     // This fixes the extraneous ;) smilies problem. When there was an html escaped
     // char before a closing bracket - like >), "), ... - this would be encoded
@@ -311,7 +311,7 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
     // [nfo]NFO-preformatted[/nfo]
     if (stripos($s, '[nfo]') !== false) {
         $s = preg_replace("/\[nfo\]((\s|.)+?)\[\/nfo\]/i",
-            "<tt><span style=\"white-space: nowrap;\"><font face='MS Linedraw' size='2' style='font-size: 10pt; line-height:"."10pt'>\\1</font></span></tt>",
+            "<tt><span style=\"white-space: nowrap;\"><font face='MS Linedraw' size='2' style='font-size: 10pt; line-height:" . "10pt'>\\1</font></span></tt>",
             $s);
     }
     //==Media tag
@@ -383,9 +383,9 @@ function textbbcode($form, $text, $content = "")
     global $CURUSER, $TRINITY20;
     $custombutton = '';
     if (get_smile() != '0') {
-        $custombutton .= " <span style='font-weight:bold;font-size:8pt;'><a href=\"javascript:PopCustomSmiles('".$form."','".$text."')\">[ Custom Smilies ]</a></span>";
+        $custombutton .= " <span style='font-weight:bold;font-size:8pt;'><a href=\"javascript:PopCustomSmiles('" . $form . "','" . $text . "')\">[ Custom Smilies ]</a></span>";
     }
-    $smilebutton = "<a href=\"javascript:PopMoreSmiles('".$form."','".$text."')\">[ More Smilies ]</a>";
+    $smilebutton = "<a href=\"javascript:PopMoreSmiles('" . $form . "','" . $text . "')\">[ More Smilies ]</a>";
     $bbcodebody = <<<HTML
 <script type="text/javascript">
 	var textBBcode = "{$text}";
@@ -417,7 +417,7 @@ HTML;
 		<span id="clickableAwesomeFont"><i class="fas fa-comment-alt" onclick="tag('mcom')" title="Mod comment" alt="Mod comment"></i></span>
 HTML;
     }
-    return $bbcodebody.<<<HTML
+    return $bbcodebody . <<<HTML
 	<select class="input-group-field" name="fontfont" id="fontfont" onchange="font('font',this.value);" title="Font face">
           <option value="0">Font</option>
           <option value="Arial" style="font-family: Arial;">Arial</option>

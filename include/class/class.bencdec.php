@@ -241,19 +241,6 @@ class bencdec
     private static $bdata_depth = 0;
     private static $ext_valid = false;
 
-    private static function decode_error($msg = '')
-    {
-        trigger_error('Badly B-Encoded data at position '.self::$bdata_position.($msg != '' ? ': '.$msg : ''), E_USER_WARNING);
-        self::$bdata_position = 0;
-        self::$bdata_length = 0;
-        self::$bdata = '';
-        self::$bdata_depth = 0;
-        self::$ext_valid = false;
-        return false;
-    }
-    //////////////////////////////////////////////////////////
-    // Decoding Functions //
-    //////////////////////////////////////////////////////////
     public static function decode_file($fn, $maxsize = 1048576, $options = 0)
     {
         if (!is_string($fn) || !is_int($maxsize)) {
@@ -265,11 +252,14 @@ class bencdec
         $data = file_get_contents($fn, false, null, 0, $maxsize);
         return self::decode($data, $options);
     }
+    //////////////////////////////////////////////////////////
+    // Decoding Functions //
+    //////////////////////////////////////////////////////////
 
     public static function decode($str, $options = 0)
     {
         if (!is_string($str)) {
-            return self::decode_error('Input data must be string in order to decode, "'.gettype($str).'" given');
+            return self::decode_error('Input data must be string in order to decode, "' . gettype($str) . '" given');
         }
         if (strlen($str) == 0) {
             return self::decode_error('Input string empty');
@@ -295,15 +285,17 @@ class bencdec
         return $data;
     }
 
-    private static function char()
+    private static function decode_error($msg = '')
     {
-        if (self::$bdata_position >= self::$bdata_length) {
-            return false;
-        }
-        return self::$bdata[self::$bdata_position];
+        trigger_error('Badly B-Encoded data at position ' . self::$bdata_position . ($msg != '' ? ': ' . $msg : ''), E_USER_WARNING);
+        self::$bdata_position = 0;
+        self::$bdata_length = 0;
+        self::$bdata = '';
+        self::$bdata_depth = 0;
+        self::$ext_valid = false;
+        return false;
     }
 
-    // Internal decoding function
     private static function bdecode()
     {
         $char = self::char();
@@ -343,9 +335,19 @@ class bencdec
             case 57: // 9
                 return self::dec_str();
             default:
-                return self::decode_error('Invalid data type ('.$ord.')'); // invalid
+                return self::decode_error('Invalid data type (' . $ord . ')'); // invalid
 
         }
+    }
+
+    // Internal decoding function
+
+    private static function char()
+    {
+        if (self::$bdata_position >= self::$bdata_length) {
+            return false;
+        }
+        return self::$bdata[self::$bdata_position];
     }
 
     private static function dec_int()
@@ -372,6 +374,49 @@ class bencdec
         $int = 0 + $idata;
         self::$bdata_position += $lenuptoep;
         return $int;
+    }
+
+    private static function dec_dict()
+    {
+        $dict = [];
+        if (self::$bdata_depth >= self::MAX_DEPTH) {
+            return self::decode_error('B-Encoded data has exceeded the maximum recursion depth of ' . self::MAX_DEPTH);
+        }
+        $last_name = '';
+        self::$bdata_depth++;
+        self::$bdata_position++;
+        while (true) {
+            $char = self::char();
+            if ($char === false) {
+                return self::decode_error('Data ended before dictionary terminated');
+            }
+            if ($char === 'e') {
+                break;
+            }
+
+            $name = self::dec_str(true);
+            if ($name === false) {
+                return false;
+            }
+            if (self::$ext_valid) {
+                if (isset($dict[$name])) {
+                    return self::decode_error('Duplicate key "' . $name . '" in dictionary');
+                }
+                if (strcmp($name, $last_name) < 1) {
+                    return self::decode_error('Incorrect sort order in dictionary');
+                }
+            }
+            $data = self::bdecode();
+            if ($data === false) {
+                return false;
+            }
+            $dict[$name] = $data;
+            $last_key = $name;
+            unset($name, $data);
+        }
+        self::$bdata_position++;
+        self::$bdata_depth--;
+        return empty($dict) ? null : $dict;
     }
 
     private static function dec_str($atleastone = false)
@@ -409,7 +454,7 @@ class bencdec
     private static function dec_list()
     {
         if (self::$bdata_depth >= self::MAX_DEPTH) {
-            return self::decode_error('B-Encoded data has exceeded the maximum recursion depth of '.self::MAX_DEPTH);
+            return self::decode_error('B-Encoded data has exceeded the maximum recursion depth of ' . self::MAX_DEPTH);
         }
         $list = [];
         self::$bdata_depth++;
@@ -434,52 +479,10 @@ class bencdec
         self::$bdata_depth--;
         return $list;
     }
-
-    private static function dec_dict()
-    {
-        $dict = [];
-        if (self::$bdata_depth >= self::MAX_DEPTH) {
-            return self::decode_error('B-Encoded data has exceeded the maximum recursion depth of '.self::MAX_DEPTH);
-        }
-        $last_name = '';
-        self::$bdata_depth++;
-        self::$bdata_position++;
-        while (true) {
-            $char = self::char();
-            if ($char === false) {
-                return self::decode_error('Data ended before dictionary terminated');
-            }
-            if ($char === 'e') {
-                break;
-            }
-
-            $name = self::dec_str(true);
-            if ($name === false) {
-                return false;
-            }
-            if (self::$ext_valid) {
-                if (isset($dict[$name])) {
-                    return self::decode_error('Duplicate key "'.$name.'" in dictionary');
-                }
-                if (strcmp($name, $last_name) < 1) {
-                    return self::decode_error('Incorrect sort order in dictionary');
-                }
-            }
-            $data = self::bdecode();
-            if ($data === false) {
-                return false;
-            }
-            $dict[$name] = $data;
-            $last_key = $name;
-            unset($name, $data);
-        }
-        self::$bdata_position++;
-        self::$bdata_depth--;
-        return empty($dict) ? null : $dict;
-    }
     //////////////////////////////////////////////////////////
     // Encoding Functions //
     //////////////////////////////////////////////////////////
+
     public static function encode_file($fn, $array)
     {
         if (!is_array($array) || !is_string($fn)) {
@@ -511,49 +514,6 @@ class bencdec
         }
     }
 
-    private static function enc_list($val)
-    {
-        ksort($val, SORT_NUMERIC);
-        $list = 'l';
-        foreach ($val as $value) {
-            $data = self::encode($value);
-            if ($data === false) {
-                return false;
-            }
-            $list .= $data;
-            unset($data);
-        }
-        $list .= 'e';
-        return $list;
-    }
-
-    private static function enc_dict($val)
-    {
-        ksort($val, SORT_STRING);
-        $dict = 'd';
-        foreach ($val as $name => $value) {
-            $data = self::encode($value);
-            if ($data === false) {
-                return false;
-            }
-            $dict .= self::enc_str((string)$name).$data;
-            unset($data);
-        }
-        $dict .= 'e';
-        return $dict;
-    }
-
-    private static function enc_int($val)
-    {
-        return 'i'.$val.'e';
-    }
-
-    private static function enc_str($val)
-    {
-        return strlen($val).':'.$val;
-    }
-
-    // internal function to determine type of encoding to use
     private static function benc_type(&$val)
     {
         if (is_array($val)) {
@@ -584,8 +544,52 @@ class bencdec
             $val = [];
             return self::TYPE_DICT;
         }
-        trigger_error('Bad input type for B-Encoding: '.gettype($val), E_USER_WARNING);
+        trigger_error('Bad input type for B-Encoding: ' . gettype($val), E_USER_WARNING);
         return false;
+    }
+
+    private static function enc_int($val)
+    {
+        return 'i' . $val . 'e';
+    }
+
+    private static function enc_str($val)
+    {
+        return strlen($val) . ':' . $val;
+    }
+
+    private static function enc_list($val)
+    {
+        ksort($val, SORT_NUMERIC);
+        $list = 'l';
+        foreach ($val as $value) {
+            $data = self::encode($value);
+            if ($data === false) {
+                return false;
+            }
+            $list .= $data;
+            unset($data);
+        }
+        $list .= 'e';
+        return $list;
+    }
+
+    // internal function to determine type of encoding to use
+
+    private static function enc_dict($val)
+    {
+        ksort($val, SORT_STRING);
+        $dict = 'd';
+        foreach ($val as $name => $value) {
+            $data = self::encode($value);
+            if ($data === false) {
+                return false;
+            }
+            $dict .= self::enc_str((string)$name) . $data;
+            unset($data);
+        }
+        $dict .= 'e';
+        return $dict;
     }
 
     public static function get_type($val)

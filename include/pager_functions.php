@@ -35,12 +35,12 @@ function pager($rpp, $count, $href, $opts = []) // thx yuna or whoever wrote it
     $mp = $pages - 1;
     $as = '<li class="pagination-previous">Previous <span class="show-for-sr">page</span></li>';
     if ($page >= 1) {
-        $pager .= '<li><a href="'.$href.'page='.($page - 1).'" aria-label="'.$href.'pagh">'.$as.'</a></li>';
+        $pager .= '<li><a href="' . $href . 'page=' . ($page - 1) . '" aria-label="' . $href . 'pagh">' . $as . '</a></li>';
     }
     $as = '<li class="pagination-next">Next <span class="show-for-sr">page</span></li>';
     $pager2 = $bregs = '';
     if ($page < $mp && $mp >= 0) {
-        $pager2 .= '<li><a href="'.$href.'page='.($page + 1).'"aria-label="'.$href.'pagh">'.$as.'</a></li>';
+        $pager2 .= '<li><a href="' . $href . 'page=' . ($page + 1) . '"aria-label="' . $href . 'pagh">' . $as . '</a></li>';
         $pager2 .= "$bregs";
     } else {
         $pager2 .= $bregs;
@@ -71,13 +71,13 @@ function pager($rpp, $count, $href, $opts = []) // thx yuna or whoever wrote it
                 $pagerarr[] = "<li><a title=\"$start&nbsp;-&nbsp;$end\" href=\"{$href}page=$i\"><b>$text</b></a></li>
 			<td>&nbsp;</td>";
             } else {
-                $pagerarr[] = '<li class="current"><span class="show-for-sr"></span>'.$text.'</li>';
+                $pagerarr[] = '<li class="current"><span class="show-for-sr"></span>' . $text . '</li>';
             }
         }
 
         $pagerstr = implode("", $pagerarr);
         $pagertop = "<nav aria-label='Pagination'><ul class='pagination text-center'>$pager $pagerstr $pager2</ul></nav>";
-        $pagerbottom = "<div class='callout secondary text-center'>Overall $count items in ".($i)." page".($i > 1 ? '\'s' : '').", showing $rpp per page.</div>
+        $pagerbottom = "<div class='callout secondary text-center'>Overall $count items in " . ($i) . " page" . ($i > 1 ? '\'s' : '') . ", showing $rpp per page.</div>
 		<nav aria-label='Pagination'><ul class='pagination text-center'>$pager $pagerstr $pager2</ul></nav>";
     } else {
         $pagertop = $pager;
@@ -136,7 +136,7 @@ function pager_rep($data)
                     continue;
                 }
                 if ($PageNo > ($pager['current_page'] + $section)) {
-                    $pager['end'] = "&nbsp;<a href='{$data['url']}&amp;$parameter=".(($pager['pages'] - 1) * $data['perpage'])."' title='Go To Last'><span class='{$mini}pagelinklast'>&raquo;</span></a>&nbsp;";
+                    $pager['end'] = "&nbsp;<a href='{$data['url']}&amp;$parameter=" . (($pager['pages'] - 1) * $data['perpage']) . "' title='Go To Last'><span class='{$mini}pagelinklast'>&raquo;</span></a>&nbsp;";
                     break;
                 }
                 $pager['page_span'] .= "&nbsp;<a href='{$data['url']}&amp;$parameter={$RealNo}' title='$PageNo'><span  class='{$mini}pagelink'>$PageNo</span></a>";

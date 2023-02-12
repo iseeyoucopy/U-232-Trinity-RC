@@ -20,11 +20,11 @@ function happyHour($action)
         $nextDay = date("Y-m-d", TIME_NOW + 86400);
         $nextHoura = random_int(0, 2);
         $nextHourb = $nextHoura == 2 ? random_int(0, 3) : random_int(0, 9);
-        $nextHour = $nextHoura.$nextHourb;
+        $nextHour = $nextHoura . $nextHourb;
         $nextMina = random_int(0, 5);
         $nextMinb = random_int(0, 9);
-        $nextMin = $nextMina.$nextMinb;
-        return $nextDay." ".$nextHour.":".$nextMin."";
+        $nextMin = $nextMina . $nextMinb;
+        return $nextDay . " " . $nextHour . ":" . $nextMin . "";
     }
     $file = $TRINITY20['happyhour'];
     $happy = unserialize(file_get_contents($file));
@@ -40,7 +40,7 @@ function happyHour($action)
     if ($action == "time") {
         $timeLeft = mkprettytime(($happyHour + 3600) - TIME_NOW);
         $timeLeft = explode(":", $timeLeft);
-        return $timeLeft[0]." min : ".$timeLeft[1]." sec";
+        return $timeLeft[0] . " min : " . $timeLeft[1] . " sec";
     }
     //this will set all torrent free or just one category
     if ($action == "todo") {
@@ -103,7 +103,7 @@ function happyFile($act)
 function happyLog($userid, $torrentid, $multi)
 {
     $time = sqlesc(TIME_NOW);
-    sql_query("INSERT INTO happylog (userid, torrentid,multi, date) VALUES(".sqlesc($userid).", ".sqlesc($torrentid).", ".sqlesc($multi).", $time)") || sqlerr(__FILE__,
+    sql_query("INSERT INTO happylog (userid, torrentid,multi, date) VALUES(" . sqlesc($userid) . ", " . sqlesc($torrentid) . ", " . sqlesc($multi) . ", $time)") || sqlerr(__FILE__,
         __LINE__);
 }
 

@@ -38,21 +38,6 @@ class Chmod
         $this->_modes['owner'] = $this->setMode($read, $write, $execute);
     }
 
-    private function setGroupModes($read, $write, $execute)
-    {
-        $this->_modes['group'] = $this->setMode($read, $write, $execute);
-    }
-
-    private function setPublicModes($read, $write, $execute)
-    {
-        $this->_modes['public'] = $this->setMode($read, $write, $execute);
-    }
-
-    private function getMode()
-    {
-        return $this->_modes['owner'].$this->_modes['group'].$this->_modes['public'];
-    }
-
     private function setMode($read, $write, $execute)
     {
         $mode = 0;
@@ -66,6 +51,29 @@ class Chmod
             $mode += 1;
         }
         return $mode;
+    }
+
+    private function setGroupModes($read, $write, $execute)
+    {
+        $this->_modes['group'] = $this->setMode($read, $write, $execute);
+    }
+
+    private function setPublicModes($read, $write, $execute)
+    {
+        $this->_modes['public'] = $this->setMode($read, $write, $execute);
+    }
+
+    public function setChmod()
+    {
+        if (is_array($this->_dir)) {
+            $return = [];
+            foreach ($this->_dir as $dir) {
+                $return[] = $this->returnValue($dir);
+            }
+            return $return;
+        }
+
+        return $this->returnValue($this->_dir);
     }
 
     private function returnValue($dir)
@@ -83,17 +91,9 @@ class Chmod
         ]);
     }
 
-    public function setChmod()
+    private function getMode()
     {
-        if (is_array($this->_dir)) {
-            $return = [];
-            foreach ($this->_dir as $dir) {
-                $return[] = $this->returnValue($dir);
-            }
-            return $return;
-        }
-
-        return $this->returnValue($this->_dir);
+        return $this->_modes['owner'] . $this->_modes['group'] . $this->_modes['public'];
     }
 }
 

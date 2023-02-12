@@ -70,32 +70,32 @@ if (!function_exists('geshi_langfile_algol68_vars')) {
         $_ = "\s*";
 
         $srad = "Rr";
-        $rrad = "[".$srad."]";  # either one digit, OR opt-space in digits #
+        $rrad = "[" . $srad . "]";  # either one digit, OR opt-space in digits #
         $sbin = "0-1";
-        $rbin = "[".$sbin."]";
-        $_bin = $rbin."(?:[".$sbin."\s]*".$rbin."|)";
+        $rbin = "[" . $sbin . "]";
+        $_bin = $rbin . "(?:[" . $sbin . "\s]*" . $rbin . "|)";
         $snib = "0-3";
-        $rnib = "[".$snib."]";
-        $_nib = $rnib."(?:[".$snib."\s]*".$rnib."|)";
+        $rnib = "[" . $snib . "]";
+        $_nib = $rnib . "(?:[" . $snib . "\s]*" . $rnib . "|)";
         $soct = "0-7";
-        $roct = "[".$soct."]";
-        $_oct = $roct."(?:[".$soct."\s]*".$roct."|)";
+        $roct = "[" . $soct . "]";
+        $_oct = $roct . "(?:[" . $soct . "\s]*" . $roct . "|)";
         $sdec = "0-9";
-        $rdec = "[".$sdec."]";
-        $_dec = $rdec."(?:[".$sdec."\s]*".$rdec."|)";
+        $rdec = "[" . $sdec . "]";
+        $_dec = $rdec . "(?:[" . $sdec . "\s]*" . $rdec . "|)";
         $shex = "0-9A-Fa-f";
-        $rhex = "[".$shex."]";
-        $_hex = $rhex."(?:[".$shex."\s]*".$rhex."|)";
+        $rhex = "[" . $shex . "]";
+        $_hex = $rhex . "(?:[" . $shex . "\s]*" . $rhex . "|)";
 
         # Define BITS: #
         $prebits = $pre;
         $postbits = $post;
-        $bl = "2".$_.$rrad.$_.$_bin;
-        $bl = $bl."|"."2".$_.$rrad.$_.$_bin;
-        $bl = $bl."|"."4".$_.$rrad.$_.$_nib;
-        $bl = $bl."|"."8".$_.$rrad.$_.$_oct;
-        $bl = $bl."|"."1".$_."0".$_.$rrad.$_.$_dec;
-        $bl = $bl."|"."1".$_."6".$_.$rrad.$_.$_hex;
+        $bl = "2" . $_ . $rrad . $_ . $_bin;
+        $bl = $bl . "|" . "2" . $_ . $rrad . $_ . $_bin;
+        $bl = $bl . "|" . "4" . $_ . $rrad . $_ . $_nib;
+        $bl = $bl . "|" . "8" . $_ . $rrad . $_ . $_oct;
+        $bl = $bl . "|" . "1" . $_ . "0" . $_ . $rrad . $_ . $_dec;
+        $bl = $bl . "|" . "1" . $_ . "6" . $_ . $rrad . $_ . $_hex;
 
         # Define INT: #
         $preint = $pre;
@@ -107,7 +107,7 @@ if (!function_exists('geshi_langfile_algol68_vars')) {
 
         $sign_ = "(?:-\s*|\+\s*|)"; # n.b. sign is followed by white space #
 
-        $_int = $sign_.$_dec;
+        $_int = $sign_ . $_dec;
         $il = $_int;                      # +_9           #
 
         //$GESHI_NUMBER_INT_BASIC='(?:(?<![0-9a-z_\.%])|(?<=\.\.))(?<![\d\.]e[+\-])([1-9]\d*?|0)(?![0-9a-z]|\.(?:[eE][+\-]?)?\d)';
@@ -116,17 +116,17 @@ if (!function_exists('geshi_langfile_algol68_vars')) {
         $prereal = $pre;
         $postreal = $post;
         $sexp = "Ee\\\\";
-        $_exp = "(?:⏨|[".$sexp."])".$_.$_int;
-        $_decimal = "[.]".$_.$_dec;
+        $_exp = "(?:⏨|[" . $sexp . "])" . $_ . $_int;
+        $_decimal = "[.]" . $_ . $_dec;
 
         # Add permitted permutations of various parts #
-        $rl = $_int.$_.$_decimal.$_.$_exp; # +_9_._9_e_+_9 #
-        $rl = $rl."|".$_int.$_."[.]".$_.$_exp;     # +_9_.___e_+_9 #
-        $rl = $rl."|".$_int.$_.$_exp;              # +_9_____e_+_9 #
-        $rl = $rl."|".$sign_.$_decimal.$_.$_exp;   # +___._9_e_+_9 #
+        $rl = $_int . $_ . $_decimal . $_ . $_exp; # +_9_._9_e_+_9 #
+        $rl = $rl . "|" . $_int . $_ . "[.]" . $_ . $_exp;     # +_9_.___e_+_9 #
+        $rl = $rl . "|" . $_int . $_ . $_exp;              # +_9_____e_+_9 #
+        $rl = $rl . "|" . $sign_ . $_decimal . $_ . $_exp;   # +___._9_e_+_9 #
 
-        $rl = $rl."|".$_int.$_.$_decimal;          # +_9_._9       #
-        $rl = $rl."|".$sign_.$_decimal;            # +___._9       #
+        $rl = $rl . "|" . $_int . $_ . $_decimal;          # +_9_._9       #
+        $rl = $rl . "|" . $sign_ . $_decimal;            # +___._9       #
 
         # The following line damaged formatting...
         #$rl=$rl."|".$_int;                       # +_9           #
@@ -138,9 +138,9 @@ if (!function_exists('geshi_langfile_algol68_vars')) {
         $LONGS = "(?:(?:(LONG\s+)*|(SHORT\s+))*|)";
 
         return [
-            "BITS" => $prebits.$LONGS."(?:".$bl.")".$postbits,
-            "INT" => $preint.$LONGS."(?:".$il.")".$postint,
-            "REAL" => $prereal.$LONGS."(?:".$rl.")".$postreal,
+            "BITS" => $prebits . $LONGS . "(?:" . $bl . ")" . $postbits,
+            "INT" => $preint . $LONGS . "(?:" . $il . ")" . $postint,
+            "REAL" => $prereal . $LONGS . "(?:" . $rl . ")" . $postreal,
 
             "BOLD" => 'color: #b1b100; font-weight: bold;',
             "ITALIC" => 'color: #b1b100;', # procedures traditionally italic #

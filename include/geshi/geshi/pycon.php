@@ -44,7 +44,7 @@
  ************************************************************************************/
 
 //This
-require(dirname(__FILE__).'/python.php');
+require(dirname(__FILE__) . '/python.php');
 
 $language_data['LANG_NAME'] = 'Python (console mode)';
 

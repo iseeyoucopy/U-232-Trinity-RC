@@ -82,7 +82,7 @@ class Cache extends TransactionalStore
                 break;
 
             default:
-                die('Invalid Adaptor: '.$this->config['sitecache']['driver'].'<br>Valid choices: memory, file, apcu, memcached, redis, couchbase');
+                die('Invalid Adaptor: ' . $this->config['sitecache']['driver'] . '<br>Valid choices: memory, file, apcu, memcached, redis, couchbase');
         }
         $this->cache = new PrefixKeys($this->cache, $this->config['sitecache']['prefix']);
         $this->cache = new BufferedStore($this->cache);
@@ -114,8 +114,8 @@ class Cache extends TransactionalStore
      */
     public function flushDB()
     {
-        if (file_exists($this->config['files']['path'].'CompiledContainer.php')) {
-            unlink($this->config['files']['path'].'CompiledContainer.php');
+        if (file_exists($this->config['files']['path'] . 'CompiledContainer.php')) {
+            unlink($this->config['files']['path'] . 'CompiledContainer.php');
         }
         if ($this->config['sitecache']['driver'] === 'redis') {
             $client = new \Redis();

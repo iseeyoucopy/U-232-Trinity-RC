@@ -31,21 +31,21 @@ function docleanup($data)
 				 LEFT JOIN rating ON rating.torrent = torrents.id
                                  LEFT JOIN thumbsup ON thumbsup.torrentid = torrents.id
 				 LEFT JOIN snatched ON snatched.torrentid = torrents.id
-				 WHERE torrents.id = ".sqlesc($arr['id'])) || sqlerr(__FILE__, __LINE__);
+				 WHERE torrents.id = " . sqlesc($arr['id'])) || sqlerr(__FILE__, __LINE__);
         @unlink("{$TRINITY20['torrent_dir']}/{$arr['id']}.torrent");
-        $cache->delete($cache_keys['torrent_details'].$arr['id']);
-        $cache->delete($cache_keys['torrent_pretime'].$arr['id']);
-        $cache->delete($cache_keys['last_action'].$arr['id']);
-        $cache->delete($cache_keys['last_action'].$arr['id']);
-        $cache->delete($cache_keys['thumbs_up'].$arr['id']);
-        $cache->delete($cache_keys['torrent_details_txt'].$arr['id']);
-        
-        write_log("Torrent ".(int)$arr['id']." (".htmlsafechars($arr['name']).") was deleted by system (older than $days days and no seeders)");
+        $cache->delete($cache_keys['torrent_details'] . $arr['id']);
+        $cache->delete($cache_keys['torrent_pretime'] . $arr['id']);
+        $cache->delete($cache_keys['last_action'] . $arr['id']);
+        $cache->delete($cache_keys['last_action'] . $arr['id']);
+        $cache->delete($cache_keys['thumbs_up'] . $arr['id']);
+        $cache->delete($cache_keys['torrent_details_txt'] . $arr['id']);
+
+        write_log("Torrent " . (int)$arr['id'] . " (" . htmlsafechars($arr['name']) . ") was deleted by system (older than $days days and no seeders)");
     }
     if ($queries > 0) {
         write_log("Delete Old Torrents Clean -------------------- Delete Old Torrents cleanup Complete using $queries queries --------------------");
     }
-    if ($mysqli->affected_rows) $data['clean_desc'] = $mysqli->affected_rows." items deleted/updated";
+    if ($mysqli->affected_rows) $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     if ($data['clean_log']) {
         cleanup_log($data);
     }

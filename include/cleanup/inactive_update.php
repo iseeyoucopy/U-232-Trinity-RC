@@ -15,7 +15,7 @@ function docleanup($data)
     global $TRINITY20, $queries, $cache, $mysqli, $cache_keys;
     set_time_limit(1200);
     ignore_user_abort(1);
-    require_once(INCL_DIR.'function_account_delete.php');
+    require_once(INCL_DIR . 'function_account_delete.php');
     //== Delete inactive user accounts
     $days = 350 * 86400;
     $sec = 21 * 86400;
@@ -28,15 +28,15 @@ function docleanup($data)
             $userid = isset($arr['id']) ? (int)$arr['id'] : "";
             sql_query(account_delete($userid)) || sqlerr(__FILE__, __LINE__);
             if ($mysqli->affected_rows !== false) {
-                $cache->delete($cache_keys['my_userid'].$userid);
-                $cache->delete($cache_keys['user'].$userid);
+                $cache->delete($cache_keys['my_userid'] . $userid);
+                $cache->delete($cache_keys['user'] . $userid);
             }
         }
     }
     if ($queries > 0) {
         write_log("Inactive Clean -------------------- Inactive Clean Complete using $queries queries--------------------");
     }
-    if ($mysqli->affected_rows) $data['clean_desc'] = $mysqli->affected_rows." items deleted/updated";
+    if ($mysqli->affected_rows) $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     if ($data['clean_log']) {
         cleanup_log($data);
     }

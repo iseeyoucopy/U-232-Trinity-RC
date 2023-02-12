@@ -60,29 +60,29 @@ function docleanup($data)
                 $modcomment = $arr['modcomment'];
                 $userid = $arr['id'];
                 $modcomment = get_date(TIME_NOW, 'DATE',
-                        1)." - Demoted To ".$prev_class_name." by System (UL=".mksize($arr['uploaded']).", DL=".mksize($arr['downloaded']).", R=".$ratio.").\n".$modcomment;
+                        1) . " - Demoted To " . $prev_class_name . " by System (UL=" . mksize($arr['uploaded']) . ", DL=" . mksize($arr['downloaded']) . ", R=" . $ratio . ").\n" . $modcomment;
                 $modcom = sqlesc($modcomment);
-                $msgs_buffer[] = '(0,'.$userid.', '.TIME_NOW.', '.sqlesc($msg).', '.sqlesc($subject).')';
-                $users_buffer[] = '('.$userid.', '.$prev_class.', '.$modcom.')';
-                $cache->update_row($cache_keys['user'].$userid, [
+                $msgs_buffer[] = '(0,' . $userid . ', ' . TIME_NOW . ', ' . sqlesc($msg) . ', ' . sqlesc($subject) . ')';
+                $users_buffer[] = '(' . $userid . ', ' . $prev_class . ', ' . $modcom . ')';
+                $cache->update_row($cache_keys['user'] . $userid, [
                     'class' => $prev_class,
                 ], $TRINITY20['expires']['user_cache']);
-                $cache->update_row($cache_keys['user_statss'].$userid, [
+                $cache->update_row($cache_keys['user_statss'] . $userid, [
                     'modcomment' => $modcomment,
                 ], $TRINITY20['expires']['user_stats']);
-                $cache->update_row($cache_keys['my_userid'].$userid, [
+                $cache->update_row($cache_keys['my_userid'] . $userid, [
                     'class' => $prev_class,
                 ], $TRINITY20['expires']['curuser']);
-                $cache->delete($cache_keys['inbox_new'].$userid);
-                $cache->delete($cache_keys['inbox_new_sb'].$userid);
+                $cache->delete($cache_keys['inbox_new'] . $userid);
+                $cache->delete($cache_keys['inbox_new_sb'] . $userid);
             }
             $count = count($users_buffer);
             if ($count > 0) {
-                sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES ".implode(', ', $msgs_buffer)) || sqlerr(__FILE__,
+                sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) || sqlerr(__FILE__,
                     __LINE__);
-                sql_query("INSERT INTO users (id, class, modcomment) VALUES ".implode(', ',
-                        $users_buffer)." ON DUPLICATE key UPDATE class=values(class),modcomment=values(modcomment)") || sqlerr(__FILE__, __LINE__);
-                write_log("Cleanup: Demoted ".$count." member(s) from $class_name to $prev_class_name");
+                sql_query("INSERT INTO users (id, class, modcomment) VALUES " . implode(', ',
+                        $users_buffer) . " ON DUPLICATE key UPDATE class=values(class),modcomment=values(modcomment)") || sqlerr(__FILE__, __LINE__);
+                write_log("Cleanup: Demoted " . $count . " member(s) from $class_name to $prev_class_name");
                 status_change($userid); //== For Retros announcement mod
             }
             unset($users_buffer, $msgs_buffer, $count);
@@ -93,7 +93,7 @@ function docleanup($data)
             write_log("$prev_class_name Updates -------------------- Power User Demote Updates Clean Complete using $queries queries--------------------");
         }
         if (false !== $mysqli->affected_rows) {
-            $data['clean_desc'] = $mysqli->affected_rows." items deleted/updated";
+            $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
         }
         if ($data['clean_log']) {
             cleanup_log($data);

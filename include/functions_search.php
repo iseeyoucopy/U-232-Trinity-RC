@@ -111,7 +111,7 @@ function search_text_in_db($searchstr, $base_sql, $where_search, $add_where = []
         'not',
         'and',
     ];
-    $add_where = ((is_countable($add_where) ? count($add_where) : 0) !== 0 ? ' AND '.implode(' AND ', $add_where) : '');
+    $add_where = ((is_countable($add_where) ? count($add_where) : 0) !== 0 ? ' AND ' . implode(' AND ', $add_where) : '');
     $cleansearchstr = searchfield($searchstr);
     $lower_searchstr = utf_strtolower($searchstr);
     if ($strict) {
@@ -160,13 +160,13 @@ function search_text_in_db($searchstr, $base_sql, $where_search, $add_where = []
                     $current_match_type = 'and';
                 }
                 if ($strict) {
-                    $search = $where_search.' = \''.sqlesc($split_search[$i]).'\''.$add_where;
+                    $search = $where_search . ' = \'' . sqlesc($split_search[$i]) . '\'' . $add_where;
                 } else {
                     $match_word = str_replace('*', '%', $split_search[$i]);
-                    $search = $where_search.' LIKE \'%'.sqlesc($match_word).'%\''.$add_where;
+                    $search = $where_search . ' LIKE \'%' . sqlesc($match_word) . '%\'' . $add_where;
                     //$search = $where_search . ' REGEXP \'[[:<:]]' . $db->sql_escape($match_word) . '[[:>:]]\'' . $add_where;
                 }
-                $sql = $base_sql.' WHERE '.$search;
+                $sql = $base_sql . ' WHERE ' . $search;
                 $result = sql_query($sql);
                 $row = [];
                 while ($temp_row = $result->fetch_row()) {

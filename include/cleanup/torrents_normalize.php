@@ -41,7 +41,7 @@ function docleanup($data)
             if (isset($ar[$id]) && $ar[$id]) {
                 continue;
             }
-            $ff = $TRINITY20['torrent_dir']."/$file";
+            $ff = $TRINITY20['torrent_dir'] . "/$file";
             unlink($ff);
         }
         closedir($dp);
@@ -70,7 +70,7 @@ function docleanup($data)
     if ($queries > 0) {
         write_log("Normalize clean-------------------- Normalize cleanup Complete using $queries queries --------------------");
     }
-    if ($mysqli->affected_rows) $data['clean_desc'] = $mysqli->affected_rows." items deleted/updated";
+    if ($mysqli->affected_rows) $data['clean_desc'] = $mysqli->affected_rows . " items deleted/updated";
     if ($data['clean_log']) {
         cleanup_log($data);
     }

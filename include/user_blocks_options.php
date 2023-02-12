@@ -2,7 +2,7 @@
 
 
 ///User Blocks without Bitwise by iseeyoucopy
-if (($user_row = $cache->get($key['blocks'].$row['id'])) === false) {
+if (($user_row = $cache->get($key['blocks'] . $row['id'])) === false) {
     $user_opt_int = [
         'id',
         'userid',
@@ -71,9 +71,9 @@ if (($user_row = $cache->get($key['blocks'].$row['id'])) === false) {
         'userdetails_showfriends_on',
     ];
     $user_opt_fields = implode(', ', array_merge($user_opt_str));
-    ($c1_sql = sql_query("SELECT {$user_opt_fields} FROM user_options WHERE userid = ".sqlesc($row['id']))) || sqlerr(__FILE__, __LINE__);
+    ($c1_sql = sql_query("SELECT {$user_opt_fields} FROM user_options WHERE userid = " . sqlesc($row['id']))) || sqlerr(__FILE__, __LINE__);
     if ($c1_sql->num_rows == 0) {
-        sql_query('INSERT INTO user_options(userid) VALUES('.sqlesc($row['id']).')') || sqlerr(__FILE__, __LINE__);
+        sql_query('INSERT INTO user_options(userid) VALUES(' . sqlesc($row['id']) . ')') || sqlerr(__FILE__, __LINE__);
         header('Location: index.php');
         die();
     }
@@ -84,7 +84,7 @@ if (($user_row = $cache->get($key['blocks'].$row['id'])) === false) {
     foreach ($user_opt_str as $ii) {
         $user_row[$ii] = $user_row[$ii];
     }
-    $cache->set($key['blocks'].$row['id'], $user_row, $TRINITY20['expires']['curuser']);
+    $cache->set($key['blocks'] . $row['id'], $user_row, $TRINITY20['expires']['curuser']);
     unset($c1_sql);
 }
 ?>
