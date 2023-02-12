@@ -1,0 +1,96 @@
+
+.bb_holder {
+	border: 1px solid #222;
+	border-collapse: collapse;
+	background: #808080;
+	textarea {
+		background: #CCC;
+		border: 1px solid #333333;
+		padding: 2px;
+		font-size: 12px;
+		&:hover {
+			background: #CCC;
+			border: 1px solid #333333;
+			padding: 2px;
+			font-size: 12px;
+			background: #FFF8C6;
+		}
+		&:focus {
+			background: #CCC;
+			border: 1px solid #333333;
+			padding: 2px;
+			font-size: 12px;
+			background: #FFF8C6;
+		}
+	}
+}
+.em_holder {
+	td {
+		border: 1px solid #333333;
+		border-collapse: separate;
+		&:hover {
+			border: 1px solid #333333;
+			border-collapse: separate;
+			background: #ddd;
+			border: 1px solid #2B60DE;
+		}
+	}
+	border: 1px solid #333333;
+	border-collapse: separate;
+}
+.bb_icon {
+	background: #ddd;
+	border: 1px solid #222;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	padding: 1px;
+	min-width: 18px;
+	cursor: pointer;
+	margin-bottom: 4px;
+	&:hover {
+		background: #ddd;
+		border: 1px solid #222;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		padding: 1px;
+		min-width: 18px;
+		cursor: pointer;
+		margin-bottom: 4px;
+		border: 1px solid #2B60DE;
+	}
+}
+.color_pick {
+	td {
+		padding: 0;
+		margin: 0;
+		width: 10px;
+		height: 10px;
+		cursor: pointer;
+		border: 1px solid #333333;
+	}
+	background: #ddd;
+	border-collapse: separate;
+	position: absolute;
+	border: 1px solid #333333;
+}
+.size1 {
+	font-size: 8px;
+}
+.size2 {
+	font-size: 12px;
+}
+.size3 {
+	font-size: 16px;
+}
+.size4 {
+	font-size: 20px;
+}
+.size5 {
+	font-size: 24px;
+}
+.size6 {
+	font-size: 28px;
+}
+.size7 {
+	font-size: 32px;
+}
