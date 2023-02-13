@@ -61,7 +61,7 @@ $opcache_status = opcache_get_status();
 $opcache_funcs = get_extension_funcs('Zend OPcache');
 
 if (!empty($opcache_status['scripts'])) {
-    uasort($opcache_status['scripts'], fn($a, $b) => $a['hits'] < $b['hits']);
+    uasort($opcache_status['scripts'], fn($a, $b) => $a['hits'] <=> $b['hits']);
 }
 
 function memsize($size, $precision = 3, $space = false)
