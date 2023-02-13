@@ -10,6 +10,7 @@ use MatthiasMullie\Scrapbook\Adapters\Apc;
 use MatthiasMullie\Scrapbook\Adapters\Collections\Utils\PrefixKeys;
 use MatthiasMullie\Scrapbook\Adapters\Flysystem;
 use MatthiasMullie\Scrapbook\Adapters\Memcached;
+use MatthiasMullie\Scrapbook\Adapters\MySQL;
 use MatthiasMullie\Scrapbook\Adapters\MemoryStore;
 use MatthiasMullie\Scrapbook\Adapters\Redis;
 use MatthiasMullie\Scrapbook\Buffered\BufferedStore;
@@ -74,7 +75,15 @@ class Cache extends TransactionalStore
             case 'memory':
                 $this->cache = new MemoryStore();
                 break;
-
+            case 'mysql':
+                if (extension_loaded('mysqli')) {
+                    $cache = new \PDO('mysql:dbname='.$this->config['mysql']['db'].';host='.$this->config['mysql']['host'].'', $this->config['mysql']['user'] , $this->config['mysql']['pass']);
+                   // $cache->select($this->config['Mysql']['database']);
+                    $this->cache = new MySQL($cache);
+                } else {
+                    die('<h1>Error</h1><p>php-MYSQLI is not available</p>');
+                }
+            break;
             case 'file':
                 $adapter = new Local($this->config['files']['path'], LOCK_EX);
                 $filesystem = new Filesystem($adapter);

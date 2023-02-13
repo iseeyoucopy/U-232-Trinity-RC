@@ -19,4 +19,10 @@ $TRINITY20['memcached']['port'] = 11211;
 $TRINITY20['memcached']['socket'] = '';
 $TRINITY20['memcached']['use_socket'] = false;
 
-$TRINITY20['files']['path'] = '';
+// Mysqli Settings
+$TRINITY20['mysql']['host'] = "";
+$TRINITY20['mysql']['user'] = "";
+$TRINITY20['mysql']['pass'] = "";
+$TRINITY20['mysql']['db'] = "";
+
+$TRINITY20['files']['path'] = ROOT_DIR . 'cache' . DIRECTORY_SEPARATOR;
