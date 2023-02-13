@@ -40,7 +40,7 @@ $cache = new Cache($TRINITY20);
 //==Block class
 class curuser
 {
-    public static array $blocks = [];
+    public static $blocks = [];
 }
 
 $CURBLOCK = &curuser::$blocks;
@@ -1011,53 +1011,46 @@ function stderr($heading, $text)
     echo $htmlout;
     exit();
 }
-
 // Basic MySQL error handler
 function sqlerr($file = '', $line = '')
 {
-    global $TRINITY20, $CURUSER, $mysqli;
-    $the_error = $mysqli->error;
-    $the_error_no = $mysqli->errno;
+    global $TRINITY20, $CURUSER;
+    $the_error = ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
+    $the_error_no = ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false));
     if (SQL_DEBUG == 0) {
         exit();
-    }
-
-    if ($TRINITY20['sql_error_log'] and SQL_DEBUG == 1) {
+    } else if ($TRINITY20['sql_error_log'] AND SQL_DEBUG == 1) {
         $_error_string = "\n===================================================";
-        $_error_string .= "\n Date: " . date('r');
-        $_error_string .= "\n Error Number: " . $the_error_no;
-        $_error_string .= "\n Error: " . $the_error;
-        $_error_string .= "\n IP Address: " . $_SERVER['REMOTE_ADDR'];
-        $_error_string .= "\n in file " . $file . " on line " . $line;
-        $_error_string .= "\n URL:" . $_SERVER['REQUEST_URI'];
-        $error_username = $CURUSER['username'] ?? '';
-        $error_userid = $CURUSER['id'] ?? '';
-        $_error_string .= "\n Username: $error_username[$error_userid]";
+        $_error_string.= "\n Date: " . date('r');
+        $_error_string.= "\n Error Number: " . $the_error_no;
+        $_error_string.= "\n Error: " . $the_error;
+        $_error_string.= "\n IP Address: " . $_SERVER['REMOTE_ADDR'];
+        $_error_string.= "\n in file " . $file . " on line " . $line;
+        $_error_string.= "\n URL:" . $_SERVER['REQUEST_URI'];
+        $_error_string.= "\n Username: {$CURUSER['username']}[{$CURUSER['id']}]";
         if ($FH = @fopen($TRINITY20['sql_error_log'], 'a')) {
             @fwrite($FH, $_error_string);
             @fclose($FH);
         }
         echo "<html><head><title>MySQLI Error</title>
 					<style>P,BODY{ font-family:arial,sans-serif; font-size:11px; }</style></head><body>
-		    		   <blockquote><h1>MySQLI Error</h1><b>There appears to be an error with the database.</b><br>
+		    		   <blockquote><h1>MySQLI Error</h1><b>There appears to be an error with the database.</b><br />
 		    		   You can try to refresh the page by clicking <a href=\"javascript:window.location=window.location;\">here</a>
 				  </body></html>";
     } else {
         $the_error = "\nSQL error: " . $the_error . "\n";
-        $the_error .= "SQL error code: " . $the_error_no . "\n";
-        $the_error .= "Date: " . date("l dS \of F Y h:i:s A");
+        $the_error.= "SQL error code: " . $the_error_no . "\n";
+        $the_error.= "Date: " . date("l dS \of F Y h:i:s A");
         $out = "<html>\n<head>\n<title>MySQLI Error</title>\n
 	    		   <style>P,BODY{ font-family:arial,sans-serif; font-size:11px; }</style>\n</head>\n<body>\n
-	    		   <blockquote>\n<h1>MySQLI Error</h1><b>There appears to be an error with the database.</b><br>
+	    		   <blockquote>\n<h1>MySQLI Error</h1><b>There appears to be an error with the database.</b><br />
 	    		   You can try to refresh the page by clicking <a href=\"javascript:window.location=window.location;\">here</a>.
-	    		   <br><br><b>Error Returned</b><br>
-	    		   <form name='mysql'><textarea rows=\"15\" cols=\"60\">" . htmlsafechars($the_error,
-                ENT_QUOTES) . "</textarea></form><br>We apologise for any inconvenience</blockquote></body></html>";
+	    		   <br /><br /><b>Error Returned</b><br />
+	    		   <form name='mysql'><textarea rows=\"15\" cols=\"60\">" . htmlsafechars($the_error, ENT_QUOTES) . "</textarea></form><br>We apologise for any inconvenience</blockquote></body></html>";
         echo $out;
     }
     exit();
 }
-
 function get_dt_num()
 {
     return gmdate("YmdHis");
