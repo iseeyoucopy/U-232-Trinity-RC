@@ -320,7 +320,7 @@ if (!isset($self)) {
             $cache->set($cache_keys['sitepot'], $Pot_query, $TRINITY20['expires']['sitepot']);
         }
     }
-    if ($Pot_query['value_s'] == 1 && $Pot_query['value_i'] >= 10000) {
+    if (isset($Pot_query['value_s']) && isset($Pot_query['value_i']) && $Pot_query['value_s'] == 1 && $Pot_query['value_i'] >= 10000) {
         $downthis = 0;
     }
     //== happyhour
