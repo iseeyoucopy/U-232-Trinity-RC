@@ -313,10 +313,12 @@ if (!isset($self)) {
         $Pot_query_fields = implode(', ', array_merge($Pot_query_fields_ar_int));
         ($Pq = ann_sql_query('SELECT  ' .$Pot_query_fields." FROM avps WHERE arg = 'sitepot'")) || ann_sqlerr(__FILE__, __LINE__);
         $Pot_query = $Pq->fetch_assoc();
-        foreach ($Pot_query_fields_ar_int as $i) {
-            $Pot_query[$i] = (int)$Pot_query[$i] ?? '';
+        if ($Pot_query !== null) {
+            foreach ($Pot_query_fields_ar_int as $i) {
+                $Pot_query[$i] = (int)$Pot_query[$i] ?? '';
+            }
+            $cache->set($cache_keys['sitepot'], $Pot_query, $TRINITY20['expires']['sitepot']);
         }
-        $cache->set($cache_keys['sitepot'], $Pot_query, $TRINITY20['expires']['sitepot']);
     }
     if ($Pot_query['value_s'] == 1 && $Pot_query['value_i'] >= 10000) {
         $downthis = 0;
@@ -579,7 +581,8 @@ if ((is_countable($user_updateset) ? count($user_updateset) : 0) > 0) {
 }
 if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && $_SERVER['HTTP_ACCEPT_ENCODING'] == 'gzip') {
     header('Content-Encoding: gzip');
-    echo gzencode(benc_resp_raw($resp ?? ''), 9);
+    $resp_raw = benc_resp_raw($resp);
+    echo gzencode((string) $resp_raw, 9);
 } else {
     benc_resp_raw($resp);
 }
