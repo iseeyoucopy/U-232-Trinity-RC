@@ -10,11 +10,12 @@
  * ---------------------------------------------*
  * ------------  @version V6  ------------------*
  */
-require_once(CACHE_DIR . 'cache_keys.php');
-
 use U232\Cache;
 
 $cache = new Cache($TRINITY20);
+
+require_once(CACHE_DIR . 'cache_keys.php');
+
 $mysqli = new mysqli($TRINITY20['mysql_host'], $TRINITY20['mysql_user'], $TRINITY20['mysql_pass'], $TRINITY20['mysql_db']);
 if ($mysqli->connect_errno !== 0) {
     err('Please call back later');
@@ -27,15 +28,15 @@ function ann_sqlerr($file = '', $line = '')
     $error_no = $mysqli->errno;
     if ($TRINITY20['ann_sql_error_log'] && ANN_SQL_DEBUG == 1) {
         $_ann_sql_err = "\n===================================================";
-        $_ann_sql_err .= "\n Date: " . date('r');
-        $_ann_sql_err .= "\n Error Number: " . $error_no;
-        $_ann_sql_err .= "\n Error: " . $error;
-        $_ann_sql_err .= "\n IP Address: " . $_SERVER['REMOTE_ADDR'];
-        $_ann_sql_err .= "\n in file " . $file . " on line " . $line;
-        $_ann_sql_err .= "\n URL:" . $_SERVER['REQUEST_URI'];
+        $_ann_sql_err .= "\n Date: ".date('r');
+        $_ann_sql_err .= "\n Error Number: ".$error_no;
+        $_ann_sql_err .= "\n Error: ".$error;
+        $_ann_sql_err .= "\n IP Address: ".$_SERVER['REMOTE_ADDR'];
+        $_ann_sql_err .= "\n in file ".$file." on line ".$line;
+        $_ann_sql_err .= "\n URL:".$_SERVER['REQUEST_URI'];
         $error_username = $CURUSER['username'] ?? '';
         $error_userid = $CURUSER['id'] ?? '';
-        $_ann_sql_err .= "\n Username: $error_username[$error_userid]";
+        $_ann_sql_err .= "\n Username: {$error_username}[{$error_userid}]";
         if ($FH = @fopen($TRINITY20['ann_sql_error_log'], 'a')) {
             @fwrite($FH, $_ann_sql_err);
             @fclose($FH);
@@ -50,6 +51,7 @@ function ann_sql_query($a_query)
     $a_query_start_time = microtime(true); // Start time
     $result = $mysqli->query($a_query);
     $a_query_end_time = microtime(true); // End time
+    $a_querytime = ($a_query_end_time - $a_query_start_time);
     $a_query_stat[] = [
         'seconds' => number_format($a_query_end_time - $a_query_start_time, 6),
         'query' => $a_query,
@@ -57,9 +59,9 @@ function ann_sql_query($a_query)
     if (((is_countable($a_query_stat) ? count($a_query_stat) : 0) > 0) && (ANN_SQL_LOGGING == 1)) {
         foreach ($a_query_stat as $key => $value) {
             $_ann_sql = "\n=============U-232 V5 Announce query logging=========";
-            $_ann_sql .= "\n Query no : " . $key . "+1";
-            $_ann_sql .= "\n Executed in  : " . $value['seconds'];
-            $_ann_sql .= "\n query ran : " . $value['query'];
+            $_ann_sql .= "\n Query no : ".$key."+1";
+            $_ann_sql .= "\n Executed in  : ".$value['seconds'];
+            $_ann_sql .= "\n query ran : ".$value['query'];
         }
         if ($FH = @fopen($TRINITY20['ann_sql_log'], 'a')) {
             @fwrite($FH, $_ann_sql);
@@ -72,7 +74,7 @@ function ann_sql_query($a_query)
 //== Crazyhour by pdq
 function crazyhour_announce()
 {
-    global $cache, $cache_keys;
+    global $cache, $TRINITY20, $mysqli, $cache_keys;
     $crazy_hour = (TIME_NOW + 3600);
     if (($cz['crazyhour'] = $cache->get($cache_keys['crazyhour'])) === false) {
         ($cz['sql'] = ann_sql_query('SELECT var, amount FROM freeleech WHERE type = "crazyhour"')) || ann_sqlerr(__FILE__, __LINE__);
@@ -82,10 +84,10 @@ function crazyhour_announce()
         } else {
             $cz['crazyhour']['var'] = random_int(TIME_NOW, (TIME_NOW + 86400));
             $cz['crazyhour']['amount'] = 0;
-            ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = ' . $cz['crazyhour']['var'] . ', amount = ' . $cz['crazyhour']['amount'] . ' 
+            ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = '.$cz['crazyhour']['var'].', amount = '.$cz['crazyhour']['amount'].' 
          WHERE type = "crazyhour"') || ann_sqlerr(__FILE__, __LINE__);
         }
-        $cache->set($cache_keys['crazyhour'], $cz['crazyhour']);
+        $cache->set($cache_keys['crazyhour'], $cz['crazyhour'], 0);
     }
     if ($cz['crazyhour']['var'] < TIME_NOW) { // if crazyhour over
         if (($cache->set($cache_keys['crazyhour_lock'], 1, 10)) !== false) {
@@ -93,37 +95,36 @@ function crazyhour_announce()
             $cz['crazyhour']['var'] = random_int($cz['crazyhour_new'], ($cz['crazyhour_new'] + 86400));
             $cz['crazyhour']['amount'] = 0;
             $cz['remaining'] = ($cz['crazyhour']['var'] - TIME_NOW);
-            ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = ' . $cz['crazyhour']['var'] . ', amount = ' . $cz['crazyhour']['amount'] . ' ' . 'WHERE type = "crazyhour"') || ann_sqlerr(__FILE__,
+            ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = '.$cz['crazyhour']['var'].', amount = '.$cz['crazyhour']['amount'].' '.'WHERE type = "crazyhour"') || ann_sqlerr(__FILE__,
                 __LINE__);
-            $cache->set($cache_keys['crazyhour'], $cz['crazyhour']);
+            $cache->set($cache_keys['crazyhour'], $cz['crazyhour'], 0);
             // log, shoutbot
-            $text = 'Next [color=orange][b]Crazyhour[/b][/color] is at ' . date('F j, g:i a', $cz['crazyhour']['var']);
-            $text_parsed = 'Next <span style="font-weight:bold;color:orange;">Crazyhour</span> is at ' . date('F j, g:i a', $cz['crazyhour']['var']);
-            ann_sql_query('INSERT LOW_PRIORITY INTO sitelog (added, txt) ' . 'VALUES(' . TIME_NOW . ', ' . ann_sqlesc($text_parsed) . ')') || ann_sqlerr(__FILE__,
+            $text = 'Next [color=orange][b]Crazyhour[/b][/color] is at '.date('F j, g:i a', $cz['crazyhour']['var']);
+            $text_parsed = 'Next <span style="font-weight:bold;color:orange;">Crazyhour</span> is at '.date('F j, g:i a', $cz['crazyhour']['var']);
+            ann_sql_query('INSERT LOW_PRIORITY INTO sitelog (added, txt) '.'VALUES('.TIME_NOW.', '.ann_sqlesc($text_parsed).')') || ann_sqlerr(__FILE__,
                 __LINE__);
-            ann_sql_query('INSERT LOW_PRIORITY INTO shoutbox (userid, date, text, text_parsed) ' . 'VALUES (2, ' . TIME_NOW . ', ' . ann_sqlesc($text) . ', ' . ann_sqlesc($text_parsed) . ')') || ann_sqlerr(__FILE__,
+            ann_sql_query('INSERT LOW_PRIORITY INTO shoutbox (userid, date, text, text_parsed) '.'VALUES (2, '.TIME_NOW.', '.ann_sqlesc($text).', '.ann_sqlesc($text_parsed).')') || ann_sqlerr(__FILE__,
                 __LINE__);
-            $cache->delete('shoutbox_');
 
         }
         return false;
     }
 
-    if (($cz['crazyhour']['var'] < $crazy_hour)) { // if crazyhour
+    if (($cz['crazyhour']['var'] < $crazy_hour) && ($cz['crazyhour']['var'] >= TIME_NOW)) { // if crazyhour
         if ($cz['crazyhour']['amount'] !== 1) {
             $cz['crazyhour']['amount'] = 1;
             if (($cache->set($cache_keys['crazyhour_lock'], 1, 10)) !== false) {
-                ann_sql_query('UPDATE LOW_PRIORITY freeleech SET amount = ' . $cz['crazyhour']['amount'] . ' 
+                ann_sql_query('UPDATE LOW_PRIORITY freeleech SET amount = '.$cz['crazyhour']['amount'].' 
             WHERE type = "crazyhour"') || ann_sqlerr(__FILE__, __LINE__);
-                $cache->set($cache_keys['crazyhour'], $cz['crazyhour']);
+                $cache->set($cache_keys['crazyhour'], $cz['crazyhour'], 0);
                 // log, shoutbot
                 $text = 'w00t! It\'s [color=orange][b]Crazyhour[/b][/color] :w00t:';
-                $text_parsed = 'w00t! It\'s <span style="font-weight:bold;color:orange;">Crazyhour</span> <img src="pic/smilies/w00t.gif" alt=":w00t:">';
+                $text_parsed = 'w00t! It\'s <span style="font-weight:bold;color:orange;">Crazyhour</span> <img src="pic/smilies/w00t.gif" alt=":w00t:" />';
                 ann_sql_query('INSERT LOW_PRIORITY INTO sitelog (added, txt) 
-            VALUES(' . TIME_NOW . ', ' . ann_sqlesc($text_parsed) . ')') || ann_sqlerr(__FILE__, __LINE__);
-                ann_sql_query('INSERT LOW_PRIORITY INTO shoutbox (userid, date, text, text_parsed) ' . 'VALUES (2, ' . TIME_NOW . ', ' . ann_sqlesc($text) . ', ' . ann_sqlesc($text_parsed) . ')') || ann_sqlerr(__FILE__,
+            VALUES('.TIME_NOW.', '.ann_sqlesc($text_parsed).')') || ann_sqlerr(__FILE__, __LINE__);
+                ann_sql_query('INSERT LOW_PRIORITY INTO shoutbox (userid, date, text, text_parsed) '.'VALUES (2, '.TIME_NOW.', '.ann_sqlesc($text).', '.ann_sqlesc($text_parsed).')') || ann_sqlerr(__FILE__,
                     __LINE__);
-                $cache->delete('shoutbox_');
+
             }
         }
         return true;
@@ -134,7 +135,7 @@ function crazyhour_announce()
 
 function freeleech_announce()
 {
-    global $cache, $cache_keys;
+    global $cache, $TRINITY20, $cache_keys;
     if (($fl['countdown'] = $cache->get($cache_keys['freeleech_countdown'])) === false) { // pot_of_gold
         ($fl['sql'] = ann_sql_query('SELECT var, amount FROM freeleech WHERE type = "countdown"')) || ann_sqlerr(__FILE__, __LINE__);
         $fl['countdown'] = [];
@@ -144,41 +145,41 @@ function freeleech_announce()
             $fl['countdown']['var'] = 0;
             //$fl['countdown']['amount'] = strtotime('next Monday');  // timestamp sunday
             $fl['countdown']['amount'] = 43200;  // timestamp test
-            ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = ' . ann_sqlesc($fl['freeleech']['var']) . ', amount = ' . ann_sqlesc($fl['countdown']['amount']) . ' ' .
+            ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = '.ann_sqlesc($fl['freeleech']['var']).', amount = '.ann_sqlesc($fl['countdown']['amount']).' '.
                 'WHERE type = "countdown"') || ann_sqlerr(__FILE__, __LINE__);
         }
-        $cache->set($cache_keys['freeleech_countdown'], $fl['countdown']);
+        $cache->set($cache_keys['freeleech_countdown'], $fl['countdown'], 0);
     }
 
     if (($fl['countdown']['var'] !== 0) && (TIME_NOW > ($fl['countdown']['var']))) { // end of freeleech sunday
-        if (($cache->set($cache_keys['freeleech_countdown_lock'], 1, 10)) !== false) {
+        if (($fc_lock = $cache->set($cache_keys['freeleech_countdown_lock'], 1, 10)) !== false) {
             $fl['countdown']['var'] = 0;
             //$fl['countdown']['amount'] = strtotime('next Monday');  // timestamp sunday
             $fl['countdown']['amount'] = 43200;  // timestamp test
-            ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = ' . ann_sqlesc($fl['countdown']['var']) . ', amount = ' . ann_sqlesc($fl['countdown']['amount']) . ' ' .
+            ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = '.ann_sqlesc($fl['countdown']['var']).', amount = '.ann_sqlesc($fl['countdown']['amount']).' '.
                 'WHERE type = "countdown"') || ann_sqlerr(__FILE__, __LINE__);
-            $cache->update_row($cache_keys['freeleech_countdown'], ['var' => $fl['countdown']['var'], 'amount' => $fl['countdown']['amount']]);
+            $cache->update_row($cache_keys['freeleech_countdown'], ['var' => $fl['countdown']['var'], 'amount' => $fl['countdown']['amount']], 0);
         }
         return false;
     }
 
     if (TIME_NOW > ($fl['countdown']['amount'])) {
-        if ($fl['countdown']['var'] == 0 && ($cache->set($cache_keys['crazyhour_lock'], 1, 10)) !== false) {
+        if ($fl['countdown']['var'] == 0 && ($cz_lock = $cache->set($cache_keys['crazyhour_lock'], 1, 10)) !== false) {
             //$fl['countdown']['var'] = strtotime('next Monday');
             $fl['countdown']['var'] = 43200;
             //'.$ahead_by.'
             //$ahead_by = readable_time(($fl['countdown']['var'] - 86400) - $fl['countdown']['amount']);
-            ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = ' . ann_sqlesc($fl['countdown']['var']) . ' ' .
+            ann_sql_query('UPDATE LOW_PRIORITY freeleech SET var = '.ann_sqlesc($fl['countdown']['var']).' '.
                 'WHERE type = "countdown"') || ann_sqlerr(__FILE__, __LINE__);
-            $cache->update_row($cache_keys['freeleech_countdown'], ['var' => $fl['countdown']['var']]);
+            $cache->update_row($cache_keys['freeleech_countdown'], ['var' => $fl['countdown']['var']], 0);
             $free_message = 'It will last for xx ending on Monday 12:00 am GMT.';
-            $text = '[color=#33CCCC][b]Freeleech Activated![/b][/color]' . "\n" . $free_message;
-            $text_parsed = '<span style="color:#33CCCC;font-weight:bold;">Freeleech Activated!</span>' . "\n" . $free_message;
+            $text = '[color=#33CCCC][b]Freeleech Activated![/b][/color]'."\n".$free_message;
+            $text_parsed = '<span style="color:#33CCCC;font-weight:bold;">Freeleech Activated!</span>'."\n".$free_message;
             // log, shoutbot
-            ann_sql_query('INSERT LOW_PRIORITY INTO sitelog (added, txt) ' .
-                'VALUES(' . ann_sqlesc(TIME_NOW) . ', ' . ann_sqlesc($text_parsed) . ')') || ann_sqlerr(__FILE__, __LINE__);
-            ann_sql_query('INSERT LOW_PRIORITY INTO shoutbox (userid, date, text, text_parsed) ' .
-                'VALUES (2, ' . TIME_NOW . ', ' . ann_sqlesc($text) . ', ' . ann_sqlesc($text_parsed) . ')') || ann_sqlerr(__FILE__, __LINE__);
+            ann_sql_query('INSERT LOW_PRIORITY INTO sitelog (added, txt) '.
+                'VALUES('.ann_sqlesc(TIME_NOW).', '.ann_sqlesc($text_parsed).')') || ann_sqlerr(__FILE__, __LINE__);
+            ann_sql_query('INSERT LOW_PRIORITY INTO shoutbox (userid, date, text, text_parsed) '.
+                'VALUES (2, '.TIME_NOW.', '.ann_sqlesc($text).', '.ann_sqlesc($text_parsed).')') || ann_sqlerr(__FILE__, __LINE__);
 
         }
         return true;
@@ -193,7 +194,7 @@ function get_user_from_torrent_pass($torrent_pass)
     if (strlen($torrent_pass) != 32 || !bin2hex($torrent_pass)) {
         return false;
     }
-    if (($user = $cache->get($cache_keys['user_torrent_pass'] . $torrent_pass)) === false) {
+    if (($user = $cache->get($cache_keys['user_torrent_pass'])) === false) {
         $user_fields_ar_int = [
             'id',
             'uploaded',
@@ -211,8 +212,8 @@ function get_user_from_torrent_pass($torrent_pass)
             'parked',
         ];
         $user_fields = implode(', ', array_merge($user_fields_ar_int, $user_fields_ar_str));
-        ($user_query = ann_sql_query("SELECT " . $user_fields . " FROM users WHERE torrent_pass=" . ann_sqlesc($torrent_pass) . " AND enabled = 'yes'")) || ann_sqlerr(__FILE__,
-            __LINE__);
+        ($user_query = ann_sql_query("SELECT ".$user_fields." FROM users WHERE torrent_pass=".ann_sqlesc($torrent_pass)." AND enabled = 'yes'")) || ann_sqlerr(__FILE__,
+        __LINE__);
         $user = $user_query->fetch_assoc();
         foreach ($user_fields_ar_int as $i) {
             $user[$i] = (int)$user[$i];
@@ -220,7 +221,7 @@ function get_user_from_torrent_pass($torrent_pass)
         foreach ($user_fields_ar_str as $i) {
             $user[$i] = $user[$i];
         }
-        $cache->set($cache_keys['user_torrent_pass'] . $torrent_pass, $user, $TRINITY20['expires']['user_passkey']);
+        $cache->set($cache_keys['user_torrent_pass'], $user, $TRINITY20['expires']['user_passkey']);
     } elseif (!$user) {
         return false;
     }
@@ -233,7 +234,7 @@ function get_torrent_from_hash($info_hash)
     global $cache, $cache_keys;
     $ttll = 21600; // 21600;
     if (($torrent = $cache->get($cache_keys['torrent_hash'] . md5($info_hash))) === false) {
-        ($res = ann_sql_query('SELECT id, category, banned, free, silver, vip, seeders, leechers, times_completed, seeders + leechers AS numpeers, added AS ts, visible FROM torrents WHERE info_hash = ' . ann_sqlesc($info_hash))) || ann_sqlerr(__FILE__,
+        ($res = ann_sql_query('SELECT id, category, banned, free, silver, vip, seeders, leechers, times_completed, seeders + leechers AS numpeers, added AS ts, visible FROM torrents WHERE info_hash = '.ann_sqlesc($info_hash))) || ann_sqlerr(__FILE__,
             __LINE__);
         if ($res->num_rows) {
             $torrent = $res->fetch_assoc();
@@ -261,7 +262,7 @@ function get_torrent_from_hash($info_hash)
         $torrent['leechers'] = $cache->get($cache_keys['torrents_leechs'] . $torrent['id']);
         $torrent['times_completed'] = $cache->get($cache_keys['torrents_comps'] . $torrent['id']);
         if ($torrent['seeders'] === false || $torrent['leechers'] === false || $torrent['times_completed'] === false) {
-            ($res = ann_sql_query('SELECT seeders, leechers, times_completed FROM torrents WHERE id = ' . ann_sqlesc($torrent['id']))) || ann_sqlerr(__FILE__,
+            ($res = ann_sql_query('SELECT seeders, leechers, times_completed FROM torrents WHERE id = '.ann_sqlesc($torrent['id']))) || ann_sqlerr(__FILE__,
                 __LINE__);
             if ($res->num_rows) {
                 $torrentq = $res->fetch_assoc();
@@ -294,25 +295,24 @@ function adjust_torrent_peers($id, $seeds = 0, $leechers = 0, $completed = 0)
     if ($seeds > 0) {
         $adjust += (bool)$cache->increment($cache_keys['torrents_seeds'] . $id, $seeds);
     } elseif ($seeds < 0) {
-        $adjust += (bool)$cache->decrement($cache_keys['torrents_seeds'] . $id, -$seeds);
+        $adjust += (bool)$cache->decrement($cache_keys['torrents_leechs'] . $id, $leechers);
     }
     if ($leechers > 0) {
-        $adjust += (bool)$cache->increment($cache_keys['torrents_leechs'] . $id, $leechers);
+        $adjust += (bool)$cache->increment($cache_keys['torrents_leechs'], $leechers);
     } elseif ($leechers < 0) {
-        $adjust += (bool)$cache->decrement($cache_keys['torrents_leechs'] . $id, -$leechers);
+        $adjust += (bool)$cache->decrement($cache_keys['torrents_leechs'], -$leechers);
     }
     if ($completed > 0) {
         $adjust += (bool)$cache->increment($cache_keys['torrents_comps'], $completed);
     }
     return (bool)$adjust;
 }
-
 // happyhour by putyn
 function get_happy($torrentid, $userid)
 {
     global $cache, $cache_keys;
     if (($happy = $cache->get($userid . $cache_keys['happyhour'])) === false) {
-        ($res_happy = ann_sql_query("SELECT id, userid, torrentid, multiplier from happyhour where userid=" . ann_sqlesc($userid))) || ann_sqlerr(__FILE__,
+        ($res_happy = ann_sql_query("SELECT id, userid, torrentid, multiplier from happyhour where userid=".ann_sqlesc($userid))) || ann_sqlerr(__FILE__,
             __LINE__);
         $happy = [];
         if ($res_happy->num_rows) {
@@ -320,7 +320,7 @@ function get_happy($torrentid, $userid)
                 $happy[$rowhappy['torrentid']] = $rowhappy['multiplier'];
             }
         }
-        $cache->set($userid . $cache_keys['happyhour'], $happy);
+        $cache->set($userid . $cache_keys['happyhour'], $happy, 0);
     }
     if (!empty($happy) && isset($happy[$torrentid])) {
         return $happy[$torrentid];
@@ -334,15 +334,15 @@ function get_slots($torrentid, $userid)
     global $cache, $cache_keys;
     $ttl_slot = 86400;
     $torrent['freeslot'] = $torrent['doubleslot'] = 0;
-    if (($slot = $cache->get($cache_keys['fllslot'] . $userid)) === false) {
-        ($res_slots = ann_sql_query('SELECT * FROM freeslots WHERE userid = ' . ann_sqlesc($userid))) || ann_sqlerr(__FILE__, __LINE__);
+    if (($slot = $cache->get($cache_keys['fllslot'].$userid)) === false) {
+        ($res_slots = ann_sql_query('SELECT * FROM freeslots WHERE userid = '.ann_sqlesc($userid))) || ann_sqlerr(__FILE__, __LINE__);
         $slot = [];
         if ($res_slots->num_rows) {
             while ($rowslot = $res_slots->fetch_assoc()) {
                 $slot[] = $rowslot;
             }
         }
-        $cache->set($cache_keys['fllslot'] . $userid, $slot, $ttl_slot);
+        $cache->set($cache_keys['fllslot'].$userid, $slot, $ttl_slot);
     }
     if (!empty($slot)) {
         foreach ($slot as $sl) {
@@ -360,7 +360,7 @@ function get_slots($torrentid, $userid)
 //=== detect abnormal uploads
 function auto_enter_abnormal_upload($userid, $rate, $upthis, $diff, $torrentid, $client, $realip, $last_up)
 {
-    ann_sql_query('INSERT LOW_PRIORITY INTO cheaters (added, userid, client, rate, beforeup, upthis, timediff, userip, torrentid) VALUES(' . ann_sqlesc(TIME_NOW) . ', ' . ann_sqlesc($userid) . ', ' . ann_sqlesc($client) . ', ' . ann_sqlesc($rate) . ', ' . ann_sqlesc($last_up) . ', ' . ann_sqlesc($upthis) . ', ' . ann_sqlesc($diff) . ', ' . ann_sqlesc($realip) . ', ' . ann_sqlesc($torrentid) . ')') || ann_sqlerr(__FILE__,
+    ann_sql_query('INSERT LOW_PRIORITY INTO cheaters (added, userid, client, rate, beforeup, upthis, timediff, userip, torrentid) VALUES('.ann_sqlesc(TIME_NOW).', '.ann_sqlesc($userid).', '.ann_sqlesc($client).', '.ann_sqlesc($rate).', '.ann_sqlesc($last_up).', '.ann_sqlesc($upthis).', '.ann_sqlesc($diff).', '.ann_sqlesc($realip).', '.ann_sqlesc($torrentid).')') || ann_sqlerr(__FILE__,
         __LINE__);
 }
 
@@ -390,15 +390,11 @@ function gzip()
     }
 }
 
-function benc_resp_raw($x): void
+function benc_resp_raw($x)
 {
     header("Content-Type: text/plain");
     header("Pragma: no-cache");
-    if ($_SERVER['HTTP_ACCEPT_ENCODING'] == 'gzip') {
-        header("Content-Encoding: gzip");
-        echo gzencode($x, 9, FORCE_GZIP);
-    } else
-        echo $x;
+    echo($x);
 }
 
 function benc($obj)
@@ -407,23 +403,28 @@ function benc($obj)
         return;
     }
     $c = $obj["value"];
-    return match ($obj["type"]) {
-        "string" => benc_str($c),
-        "integer" => benc_int($c),
-        "list" => benc_list($c),
-        "dictionary" => benc_dict($c),
-        default => null,
-    };
+    switch ($obj["type"]) {
+        case "string":
+            return benc_str($c);
+        case "integer":
+            return benc_int($c);
+        case "list":
+            return benc_list($c);
+        case "dictionary":
+            return benc_dict($c);
+        default:
+            return;
+    }
 }
 
 function benc_str($s)
 {
-    return strlen($s) . ":$s";
+    return strlen($s).":$s";
 }
 
 function benc_int($i)
 {
-    return "i" . $i . "e";
+    return "i".$i."e";
 }
 
 function benc_list($a)
@@ -432,7 +433,7 @@ function benc_list($a)
     foreach ($a as $e) {
         $s .= benc($e);
     }
-    return $s . "e";
+    return $s."e";
 }
 
 function benc_dict($d)
@@ -445,13 +446,13 @@ function benc_dict($d)
         $s .= benc_str($k);
         $s .= benc($v);
     }
-    return $s . "e";
+    return $s."e";
 }
 
 function hash_where($name, $hash)
 {
     $shhash = rtrim($hash, ' ');
-    return "($name = " . ann_sqlesc($hash) . " OR $name = " . ann_sqlesc($shhash) . ")";
+    return "($name = ".ann_sqlesc($hash)." OR $name = ".ann_sqlesc($shhash).")";
 }
 
 function portblacklisted($port)
@@ -487,3 +488,5 @@ function ann_sqlesc($x)
     }
     return sprintf('\'%s\'', $mysqli->real_escape_string($x));
 }
+
+?>
