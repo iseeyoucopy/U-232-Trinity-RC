@@ -38,7 +38,7 @@ if ($action == '') {
                 sql_query('UPDATE snatched SET seeder=\'no\' WHERE userid = '.sqlesc($CURUSER['id']));
                 //=== flush dem torrents!!! \o/
                 sql_query('DELETE FROM peers WHERE userid = '.sqlesc($CURUSER['id'])) || sqlerr(__FILE__, __LINE__);
-                $number_of_torrents_flushed = $mysqli->affected_rows();
+                $number_of_torrents_flushed = mysqli_affected_rows($mysqli);
                 //=== add it to the log
                 sql_query('INSERT INTO `sitelog` (`id`, `added`, `txt`) VALUES (NULL , '.TIME_NOW.', '.sqlesc('<a class="altlink" href="userdetails.php?id='.$CURUSER['id'].'">'.$CURUSER['username'].'</a> flushed <b>'.$number_of_torrents_flushed.'</b> torrents.').')');
             } //=== if it's staff flushing for a member
@@ -50,7 +50,7 @@ if ($action == '') {
                 sql_query('UPDATE snatched SET seeder=\'no\' WHERE userid = '.sqlesc($id));
                 //=== flush dem torrents!!! \o/
                 sql_query('DELETE FROM peers WHERE userid = '.sqlesc($id)) || sqlerr(__FILE__, __LINE__);
-                $number_of_torrents_flushed = $mysqli->affected_rows();
+                $number_of_torrents_flushed = mysqli_affected_rows($mysqli);
                 //=== add it to the log
                 sql_query('INSERT INTO `sitelog` (`id`, `added`, `txt`) VALUES (NULL , '.TIME_NOW.', '.sqlesc('<b>Staff Flush</b> <a class="altlink" href="userdetails.php?id='.$CURUSER['id'].'">'.$CURUSER['username'].'</a> flushed <b>'.$number_of_torrents_flushed.'</b> torrents for <a class="altlink" href="userdetails.php?id='.$id.'">'.$user_get_info['username'].'</a>.').')');
             }
